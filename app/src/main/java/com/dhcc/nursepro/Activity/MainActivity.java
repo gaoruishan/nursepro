@@ -1,7 +1,9 @@
-package com.dhcc.nursepro;
+package com.dhcc.nursepro.Activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.dhcc.nursepro.R;
 
 public class MainActivity extends AppCompatActivity {
 

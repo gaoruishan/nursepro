@@ -1,4 +1,4 @@
-package com.dhcc.nurse_pro.Utils;
+package com.dhcc.nursepro.Utils;
 
 /**
  * 通用接口
@@ -35,7 +35,6 @@ public class GetDataByWS {
 	public void ThreadServHttp(final String Cls, final String mth,
                                final String Param, final String Typ, final Context context, final Handler handler,
                                final int whatmsg) {
-		//qq判断网络是否连接
 //		if (MobileCom.isConnect(context) == false) {
 //			Toast.makeText(context, "检查网路！", Toast.LENGTH_LONG).show();
 //			return;
@@ -58,19 +57,18 @@ public class GetDataByWS {
 			para.put(code,value );
 			j++;
 		}
-		String json=JSONObject.toJSONString(para);
+		String json= JSONObject.toJSONString(para);
 		//String json=JSON.toJSONString(para);
 		Parrm.put("clsName",Cls);
 		Parrm.put("methodName",mth);
 
 		
 		Parrm.put("parameters",json);
-		//qq获取服务器地址
+		
 //		if (LoginUser.WebUrl.equals(""))
 //			LoginUser.WebUrl = "http://10.3.1.121/dthealth/web/";
-		//qq写入服务器地址
-//		final String serviceUrl=LoginUser.WebUrl+"Nur.WebService.GetData.cls";
-		final String serviceUrl="http://10.3.1.121/dthealth/web/"+"Nur.WebService.GetData.cls";
+		
+		final String serviceUrl="http://10.1.5.87/dthealth/web/Nur.WebService.GetData.cls";
 		Thread thread = new Thread() {
 			public void run() {
 				try {
@@ -121,15 +119,15 @@ public class GetDataByWS {
 		Element[] header = new Element[1];
 		header[0] = new Element().createElement("", "Security");
 		header[0].setAttribute("","xmlns", "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd");
-		Element UsernameToken = new Element().createElement("", "UsernameToken"); 
+		Element UsernameToken = new Element().createElement("", "UsernameToken");
 		Element userName = new Element().createElement("", "Username");
 		userName.addChild(Node.TEXT, userNamestr);
-		Element passWord = new Element().createElement("", "Password"); 
+		Element passWord = new Element().createElement("", "Password");
 		passWord.addChild(Node.TEXT, passWordstr);
 		passWord.setAttribute("","Type", "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText");
 		UsernameToken.addChild(Node.ELEMENT, userName);
 		UsernameToken.addChild(Node.ELEMENT, passWord);
-        header[0].addChild(Node.ELEMENT, UsernameToken);  
+        header[0].addChild(Node.ELEMENT, UsernameToken);
         serializationEnvelope.headerOut=header;
 
 		try {
