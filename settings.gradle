@@ -1,1 +1,1 @@
-include ':NursePro', ':nurse_pro'
+include ':app'
