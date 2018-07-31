@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/NursePro/NursePro.iml" filepath="$PROJECT_DIR$/NursePro/NursePro.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nurse_pro/nurse_pro.iml" filepath="$PROJECT_DIR$/nurse_pro/nurse_pro.iml" />
       <module fileurl="file://$PROJECT_DIR$/nursepro.iml" filepath="$PROJECT_DIR$/nursepro.iml" />
     </modules>
   </component>

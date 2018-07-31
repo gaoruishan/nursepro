@@ -1,4 +1,4 @@
-package com.example.administrator.nurse_pro;
+package com.dhcc.nurse_pro;
 
 import org.junit.Test;
 

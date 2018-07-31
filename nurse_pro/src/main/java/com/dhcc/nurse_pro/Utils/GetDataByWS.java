@@ -1,4 +1,4 @@
-package com.example.administrator.nurse_pro.utils;
+package com.dhcc.nurse_pro.Utils;
 
 /**
  * 通用接口
@@ -7,7 +7,6 @@ package com.example.administrator.nurse_pro.utils;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;

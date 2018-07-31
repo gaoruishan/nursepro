@@ -1,4 +1,4 @@
-package com.example.administrator.nurse_pro;
+package com.dhcc.nurse_pro;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.administrator.nurse_pro", appContext.getPackageName());
+        assertEquals("com.dhcc.nurse_pro", appContext.getPackageName());
     }
 }
