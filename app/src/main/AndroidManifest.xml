@@ -16,6 +16,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Activity.NurseSetActivity"></activity>
+        <activity android:name=".WsTest.MainActivity1"></activity>
     </application>
 
 </manifest>
