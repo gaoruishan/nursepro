@@ -15,7 +15,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 
-import com.dhcc.nursepro.Utils.CommonUtil;
+import com.dhcc.nursepro.utils.CommonUtil;
 
 
 /**
@@ -48,7 +48,9 @@ public class CircularProgressBar extends View {
         @Override
         public void set(CircularProgressBar object, Float value) {
             object.setCurrentGlobalAngle(value);
-        }        @Override
+        }
+
+        @Override
         public Float get(CircularProgressBar object) {
             return object.getCurrentGlobalAngle();
         }

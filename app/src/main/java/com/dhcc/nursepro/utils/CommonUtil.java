@@ -112,13 +112,14 @@ public class CommonUtil {
         return (int) (dip * scale + 0.5f);
     }
 
-    public static String longTimeToDay(long time){
+    public static String longTimeToDay(long time) {
         SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return sDateFormat.format(new Date(time));
     }
 
     /**
-     *  sha1 加密方式
+     * sha1 加密方式
+     *
      * @param strSrc
      * @return
      */
@@ -152,6 +153,7 @@ public class CommonUtil {
 
     /**
      * 比较版本号的大小,前者大则返回一个正数,后者大返回一个负数,相等则返回0
+     *
      * @param version1
      * @param version2
      * @return

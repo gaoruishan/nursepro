@@ -21,10 +21,10 @@ public class PreferenceDataHelper {
 
     /**
      * 获取当前Url设置
+     *
      * @return
      */
-    public static int getCurrentUrlSetting()
-    {
+    public static int getCurrentUrlSetting() {
         //COORDINATE_URL_SETTING
         return settingPref.getInt("current_url", Value.COORDINATE_URL_SETTING);
         //return settingPref.getInt("current_url", Value.RELEASE_URL_SETTING);
@@ -32,26 +32,27 @@ public class PreferenceDataHelper {
 
     /**
      * 获取当前保存在本地的登录错误码。如果错误码为9999，说明当前是已登录状态
+     *
      * @return
      */
-    public static String getLoginErrorCode()
-    {
+    public static String getLoginErrorCode() {
         String errorCode = settingPref.getString("login_error_code", "");
         return errorCode;
     }
 
     /**
      * 保存当前登录失败状态码
+     *
      * @param errorCode 9001或9003
      */
-    public static void saveLoginErrorCode(String errorCode)
-    {
+    public static void saveLoginErrorCode(String errorCode) {
         editor.putString("login_error_code", errorCode);
         editor.commit();
     }
 
     /**
      * 保存完善信息code
+     *
      * @param code
      */
     public static void saveUserInfoNeedAddCode(int code) {
