@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">NursePro</string>
+    <string name="load_fail_label">加载失败，请点击屏幕重新加载</string>
+    <string name="str_base_network_fail_tip">网络不给力，请检查网络设置</string>
+    <string name="next">继续</string>
 </resources>
