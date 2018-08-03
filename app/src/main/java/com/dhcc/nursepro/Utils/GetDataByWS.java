@@ -72,6 +72,7 @@ public class GetDataByWS {
         //			LoginUser.WebUrl = "http://10.3.1.121/dthealth/web/";
 
         final String serviceUrl = "http://10.1.5.87/dthealth/web/Nur.WebService.GetData.cls";
+
         Thread thread = new Thread() {
             @Override
             public void run() {

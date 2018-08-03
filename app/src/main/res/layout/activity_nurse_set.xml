@@ -28,7 +28,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="医嘱查询时间设置"
-            android:textColor="@color/result_view"
             android:textSize="22.0dip" />
     </LinearLayout>
 
@@ -43,7 +42,6 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:text="2013-03-20 18:00:00"
-            android:textColor="@color/result_view"
             android:textSize="22.0dip" />
     </RelativeLayout>
 
@@ -56,7 +54,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="2013-03-20 18:00:00"
-            android:textColor="@color/result_view"
             android:textSize="22.0dip" />
     </LinearLayout>
 
@@ -71,7 +68,6 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:text="床位设置"
-            android:textColor="@color/result_view"
             android:textSize="22.0dip" />
     </RelativeLayout>
 
@@ -80,7 +76,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="新医嘱提示方式"
-        android:textColor="@color/result_view"
         android:textSize="22.0dip" />
 
     <CheckBox
@@ -89,7 +84,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:text="灯光提示"
-        android:textColor="@color/result_view"
         android:textSize="22.0dip" />
 
     <CheckBox
@@ -98,7 +92,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:text="振动提示"
-        android:textColor="@color/result_view"
         android:textSize="22.0dip" />
 
     <CheckBox
@@ -107,7 +100,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:text="声音提示"
-        android:textColor="@color/result_view"
         android:textSize="22.0dip" />
 
     <CheckBox
@@ -116,7 +108,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:text="病区所有病人提示"
-        android:textColor="@color/result_view"
         android:textSize="22.0dip" />
 </LinearLayout>
 </android.support.constraint.ConstraintLayout>
