@@ -21,12 +21,13 @@ public class MainActivity1 extends AppCompatActivity {
 
     private List<String> provinceList = new ArrayList<String>();
     private List<String> cityStringList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main1);
-//        Intent i = new Intent(MainActivity1.this, MainActivityWeather.class);
-//        startActivity(i);
+        //        Intent i = new Intent(MainActivity1.this, MainActivityWeather.class);
+        //        startActivity(i);
 
         init2();
         init2();
@@ -38,71 +39,18 @@ public class MainActivity1 extends AppCompatActivity {
         ListView mProvinceList2 = (ListView) findViewById(R.id.province_list2);
         ListView mProvinceList3 = (ListView) findViewById(R.id.province_list3);
         ListView mProvinceList4 = (ListView) findViewById(R.id.province_list4);
-        init1("欧洲",mProvinceList);
-        init1("黑龙江",mProvinceList1);
-        init1("山东",mProvinceList2);
-        init1("江苏",mProvinceList3);
-        init1("广东",mProvinceList4);
-    }
-    private void init() {
-        final ListView mProvinceList = (ListView) findViewById(R.id.province_list);
-
-        //显示进度条
-//        ProgressDialogUtils.showProgressDialog(this, "数据加载中...");
-
-        //通过工具类调用WebService接口
-        WebServiceUtils.callWebService(WebServiceUtils.WEB_SERVER_URL, "getSupportProvince", null, new WebServiceUtils.WebServiceCallBack() {
-
-            //WebService接口返回的数据回调到这个方法中
-            @Override
-            public void callBack(SoapObject result) {
-                //关闭进度条
-//                ProgressDialogUtils.dismissProgressDialog();
-                if(result != null){
-                    provinceList = parseSoapObject(result);
-                    mProvinceList.setAdapter(new ArrayAdapter<String>(MainActivity1.this, android.R.layout.simple_list_item_1, provinceList));
-                }else{
-                    Toast.makeText(MainActivity1.this, "获取WebService数据错误", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        mProvinceList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-//                Intent intent = new Intent(MainActivity1.this, CityActivity.class);
-//                intent.putExtra("province", provinceList.get(position));
-//                startActivity(intent);
-                Log.v("1111111122222",provinceList.get(position));
-//                    init1(provinceList.get(position));
-            }
-        });
-
-
-    }
-    private List<String> parseSoapObject(SoapObject result){
-        List<String> list = new ArrayList<String>();
-        SoapObject provinceSoapObject = (SoapObject) result.getProperty("getSupportProvinceResult");
-        if(provinceSoapObject == null) {
-            return null;
-        }
-        for(int i=0; i<provinceSoapObject.getPropertyCount(); i++){
-            list.add(provinceSoapObject.getProperty(i).toString());
-        }
-
-        return list;
+        init1("欧洲", mProvinceList);
+        init1("黑龙江", mProvinceList1);
+        init1("山东", mProvinceList2);
+        init1("江苏", mProvinceList3);
+        init1("广东", mProvinceList4);
     }
 
-
-
-
-    private void init1(String str,ListView view) {
+    private void init1(String str, ListView view) {
         final ListView mCityList = view;
 
         //显示进度条
-//        ProgressDialogUtils.showProgressDialog(this, "数据加载中...");
+        //        ProgressDialogUtils.showProgressDialog(this, "数据加载中...");
 
         //添加参数
         HashMap<String, String> properties = new HashMap<String, String>();
@@ -112,12 +60,12 @@ public class MainActivity1 extends AppCompatActivity {
 
             @Override
             public void callBack(SoapObject result) {
-//                ProgressDialogUtils.dismissProgressDialog();
-                if(result != null){
+                //                ProgressDialogUtils.dismissProgressDialog();
+                if (result != null) {
                     cityStringList = parseSoapObject1(result);
                     mCityList.setAdapter(new ArrayAdapter<String>(MainActivity1.this, android.R.layout.simple_list_item_1, cityStringList));
-                    Toast.makeText(MainActivity1.this, "获取"+cityStringList, Toast.LENGTH_SHORT).show();
-                }else{
+                    Toast.makeText(MainActivity1.this, "获取" + cityStringList, Toast.LENGTH_SHORT).show();
+                } else {
                     Toast.makeText(MainActivity1.this, "获取WebService数据错误", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -128,20 +76,71 @@ public class MainActivity1 extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-//                Intent intent = new Intent(CityActivity.this, WeatherActivity.class);
-//                intent.putExtra("city", cityStringList.get(position));
-//                startActivity(intent);
+                //                Intent intent = new Intent(CityActivity.this, WeatherActivity.class);
+                //                intent.putExtra("city", cityStringList.get(position));
+                //                startActivity(intent);
             }
         });
     }
 
-
-    private List<String> parseSoapObject1(SoapObject result){
+    private List<String> parseSoapObject1(SoapObject result) {
         List<String> list = new ArrayList<String>();
         SoapObject provinceSoapObject = (SoapObject) result.getProperty("getSupportCityResult");
-        for(int i=0; i<provinceSoapObject.getPropertyCount(); i++){
+        for (int i = 0; i < provinceSoapObject.getPropertyCount(); i++) {
             String cityString = provinceSoapObject.getProperty(i).toString();
             list.add(cityString.substring(0, cityString.indexOf("(")).trim());
+        }
+
+        return list;
+    }
+
+    private void init() {
+        final ListView mProvinceList = (ListView) findViewById(R.id.province_list);
+
+        //显示进度条
+        //        ProgressDialogUtils.showProgressDialog(this, "数据加载中...");
+
+        //通过工具类调用WebService接口
+        WebServiceUtils.callWebService(WebServiceUtils.WEB_SERVER_URL, "getSupportProvince", null, new WebServiceUtils.WebServiceCallBack() {
+
+            //WebService接口返回的数据回调到这个方法中
+            @Override
+            public void callBack(SoapObject result) {
+                //关闭进度条
+                //                ProgressDialogUtils.dismissProgressDialog();
+                if (result != null) {
+                    provinceList = parseSoapObject(result);
+                    mProvinceList.setAdapter(new ArrayAdapter<String>(MainActivity1.this, android.R.layout.simple_list_item_1, provinceList));
+                } else {
+                    Toast.makeText(MainActivity1.this, "获取WebService数据错误", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        mProvinceList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                //                Intent intent = new Intent(MainActivity1.this, CityActivity.class);
+                //                intent.putExtra("province", provinceList.get(position));
+                //                startActivity(intent);
+                Log.v("1111111122222", provinceList.get(position));
+                //                    init1(provinceList.get(position));
+            }
+        });
+
+
+    }
+
+    private List<String> parseSoapObject(SoapObject result) {
+        List<String> list = new ArrayList<String>();
+        SoapObject provinceSoapObject = (SoapObject) result.getProperty("getSupportProvinceResult");
+        if (provinceSoapObject == null) {
+            return null;
+        }
+        for (int i = 0; i < provinceSoapObject.getPropertyCount(); i++) {
+            list.add(provinceSoapObject.getProperty(i).toString());
         }
 
         return list;

@@ -29,6 +29,11 @@ public class BaseFullLoadingView extends ViewGroup implements View.OnClickListen
         init();
     }
 
+    private void init() {
+        setOnClickListener(this);
+        mChildOnlyRect = new Rect();
+    }
+
     public BaseFullLoadingView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
@@ -37,11 +42,6 @@ public class BaseFullLoadingView extends ViewGroup implements View.OnClickListen
     public BaseFullLoadingView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
-    }
-
-    private void init() {
-        setOnClickListener(this);
-        mChildOnlyRect = new Rect();
     }
 
     @Override
@@ -77,23 +77,6 @@ public class BaseFullLoadingView extends ViewGroup implements View.OnClickListen
                 show(mShowedCallback);
             }
         }
-    }
-
-    /**
-     * 设置点击是否可以关闭
-     * @param cancelable
-     */
-    public void setCancelable(boolean cancelable, Runnable hidedCallback) {
-        mCancelable = cancelable;
-        mHidedCallback = hidedCallback;
-    }
-
-    /**
-     * 判断是否正在显示
-     * @return
-     */
-    public boolean isShowing() {
-        return isShowing;
     }
 
     /**
@@ -166,6 +149,25 @@ public class BaseFullLoadingView extends ViewGroup implements View.OnClickListen
             clearAnimation();
             startAnimation(anim);
         }
+    }
+
+    /**
+     * 设置点击是否可以关闭
+     *
+     * @param cancelable
+     */
+    public void setCancelable(boolean cancelable, Runnable hidedCallback) {
+        mCancelable = cancelable;
+        mHidedCallback = hidedCallback;
+    }
+
+    /**
+     * 判断是否正在显示
+     *
+     * @return
+     */
+    public boolean isShowing() {
+        return isShowing;
     }
 
     @Override

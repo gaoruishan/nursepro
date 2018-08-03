@@ -9,7 +9,7 @@ import android.view.MenuItem;
  * Created by levis on 2018/6/5.
  */
 
-public class UniversalActivity extends BaseActivity{
+public class UniversalActivity extends BaseActivity {
 
 
     public static final String RootFragmentClassName = "__RootFragmentClassName__";

@@ -13,7 +13,8 @@ import java.util.List;
  */
 
 public class Permission {
-    private Permission() {}
+    private Permission() {
+    }
 
     /**
      * 请求权限

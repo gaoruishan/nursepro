@@ -61,6 +61,32 @@ public class BasePushDialog extends DialogFragment
         mContainer = (FrameLayout) view.findViewById(R.id.container);
     }
 
+    /**
+     * 关闭对话框
+     */
+    @Override
+    public void dismiss() {
+        dismissAnimation(new Runnable() {
+            @Override
+            public void run() {
+                BasePushDialog.super.dismiss();
+            }
+        });
+    }
+
+    /**
+     * 关闭对话框
+     */
+    @Override
+    public void dismissAllowingStateLoss() {
+        dismissAnimation(new Runnable() {
+            @Override
+            public void run() {
+                BasePushDialog.super.dismissAllowingStateLoss();
+            }
+        });
+    }
+
     @Override
     public void onStart() {
         Dialog dialog = getDialog();
@@ -126,68 +152,6 @@ public class BasePushDialog extends DialogFragment
         }
     }
 
-    @Override
-    public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-        if (event.getAction() == KeyEvent.ACTION_UP &&
-                keyCode == KeyEvent.KEYCODE_BACK) {
-            dismiss();
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * 显示给定的对话框
-     * @param manager
-     * @param tag
-     * @param contentFragment 内容Fragment
-     */
-    public void show(FragmentManager manager, String tag, BaseFragment contentFragment) {
-        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.BaseDialog);
-        mContentFragment = contentFragment;
-        try {
-            show(manager, tag);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * 关闭对话框
-     */
-    @Override
-    public void dismiss() {
-        dismissAnimation(new Runnable() {
-            @Override
-            public void run() {
-                BasePushDialog.super.dismiss();
-            }
-        });
-    }
-
-    /**
-     * 关闭对话框
-     */
-    @Override
-    public void dismissAllowingStateLoss() {
-        dismissAnimation(new Runnable() {
-            @Override
-            public void run() {
-                BasePushDialog.super.dismissAllowingStateLoss();
-            }
-        });
-    }
-
-    /**
-     * 设置OnDismissListener
-     */
-    public void setOnDismissListener(DialogInterface.OnDismissListener listener) {
-        Dialog dialog = getDialog();
-        if (dialog != null) {
-            dialog.setOnDismissListener(listener);
-        }
-    }
-
     private void dismissAnimation(final Runnable callback) {
         if (mContentFragment == null) {
             callback.run();
@@ -214,6 +178,43 @@ public class BasePushDialog extends DialogFragment
             });
             mContainer.clearAnimation();
             mContainer.startAnimation(anim);
+        }
+    }
+
+    @Override
+    public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+        if (event.getAction() == KeyEvent.ACTION_UP &&
+                keyCode == KeyEvent.KEYCODE_BACK) {
+            dismiss();
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 显示给定的对话框
+     *
+     * @param manager
+     * @param tag
+     * @param contentFragment 内容Fragment
+     */
+    public void show(FragmentManager manager, String tag, BaseFragment contentFragment) {
+        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.BaseDialog);
+        mContentFragment = contentFragment;
+        try {
+            show(manager, tag);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 设置OnDismissListener
+     */
+    public void setOnDismissListener(DialogInterface.OnDismissListener listener) {
+        Dialog dialog = getDialog();
+        if (dialog != null) {
+            dialog.setOnDismissListener(listener);
         }
     }
 }

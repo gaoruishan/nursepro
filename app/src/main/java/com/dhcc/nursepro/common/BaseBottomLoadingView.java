@@ -28,6 +28,10 @@ public class BaseBottomLoadingView extends ViewGroup {
         init();
     }
 
+    private void init() {
+        mChildOnlyRect = new Rect();
+    }
+
     public BaseBottomLoadingView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
@@ -36,10 +40,6 @@ public class BaseBottomLoadingView extends ViewGroup {
     public BaseBottomLoadingView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
-    }
-
-    private void init() {
-        mChildOnlyRect = new Rect();
     }
 
     @Override
@@ -65,6 +65,11 @@ public class BaseBottomLoadingView extends ViewGroup {
         setMeasuredDimension(width, height);
     }
 
+    public int dp2px(float dp) {
+        final float scale = getResources().getDisplayMetrics().density;
+        return (int) (dp * scale + 0.5f);
+    }
+
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         if (mChildOnly != null) {
@@ -74,14 +79,6 @@ public class BaseBottomLoadingView extends ViewGroup {
                 show(mShowedCallback);
             }
         }
-    }
-
-    /**
-     * 判断是否正在显示
-     * @return
-     */
-    public boolean isShowing() {
-        return isShowing;
     }
 
     /**
@@ -160,9 +157,13 @@ public class BaseBottomLoadingView extends ViewGroup {
         }
     }
 
-    public int dp2px(float dp) {
-        final float scale = getResources().getDisplayMetrics().density;
-        return (int) (dp * scale + 0.5f);
+    /**
+     * 判断是否正在显示
+     *
+     * @return
+     */
+    public boolean isShowing() {
+        return isShowing;
     }
 }
 

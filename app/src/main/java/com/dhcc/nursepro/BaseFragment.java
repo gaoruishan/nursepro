@@ -22,7 +22,9 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import java.util.UUID;
+
 import com.dhcc.nursepro.common.BaseBottomLoadingView;
 import com.dhcc.nursepro.common.BaseFullLoadingView;
 import com.dhcc.nursepro.common.BasePushDialog;
@@ -37,41 +39,40 @@ public class BaseFragment extends Fragment {
     protected FrameLayout mContainer;
     protected View mContainerChild;
     protected FrameLayout mContainerMaskContainer;
-    // 用于发起数据请求时的标记
-    private String mRequestTag;
-
-    // 加载LoadingDialog的类型
-    private BaseActivity.LoadingType mLoadingType = BaseActivity.LoadingType.FULL;
     // 加载FullLoadingView
     protected BaseFullLoadingView mFullLoadingView;
     // 加载TopLoadingTip
     protected BaseTopLoadingView mTopLoadingView;
     // 加载BottomLoadingTip
     protected BaseBottomLoadingView mBottomLoadingView;
+    // 用于发起数据请求时的标记
+    private String mRequestTag;
+    // 加载LoadingDialog的类型
+    private BaseActivity.LoadingType mLoadingType = BaseActivity.LoadingType.FULL;
     // 记录是否显示了LoadingTip
     private boolean isLoadingTipShowing;
     // 记录是否显示了LoadFailTip
     private boolean isLoadFailTipShowing;
 
-
-    /**
-     * 所属Activity中onCreate之前调用(只适用于UniversalActivity及其子类)
-     * @param activity 所属Activity(只适用于UniversalActivity及其子类)
-     * @param savedInstanceState onCreate中的savedInstanceState
-     */
-    protected void onPreActivityCreate(@NonNull UniversalActivity activity,
-                                       @Nullable Bundle savedInstanceState) {
-        // 所属UniversalActivity中onCreate之前调用
-    }
-
     /**
      * 判断是否大于等于LOLLIPOP
+     *
      * @return true，表示大于等于LOLLIPOP
      */
     public static boolean isAboveLollipop() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     }
 
+    /**
+     * 所属Activity中onCreate之前调用(只适用于UniversalActivity及其子类)
+     *
+     * @param activity           所属Activity(只适用于UniversalActivity及其子类)
+     * @param savedInstanceState onCreate中的savedInstanceState
+     */
+    protected void onPreActivityCreate(@NonNull UniversalActivity activity,
+                                       @Nullable Bundle savedInstanceState) {
+        // 所属UniversalActivity中onCreate之前调用
+    }
 
     /**
      * 显示Toolbar的导航按钮
@@ -95,6 +96,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 设置为给定的ToolbarType
+     *
      * @param type
      */
     public void setToolbarType(BaseActivity.ToolbarType type) {
@@ -106,6 +108,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 设置Toolbar的右边操作动作按钮
+     *
      * @param menuId
      */
     public void setToolbarMenu(@MenuRes int menuId) {
@@ -117,6 +120,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 设置Toolbar居中的标题
+     *
      * @param title
      */
     public void setToolbarCenterTitle(CharSequence title) {
@@ -128,9 +132,10 @@ public class BaseFragment extends Fragment {
 
     /**
      * 设置Toolbar居中的标题
+     *
      * @param title
      * @param color 如:0xffcccccc
-     * @param size 单位:DIP
+     * @param size  单位:DIP
      */
     public void setToolbarCenterTitle(CharSequence title, int color, int size) {
         Activity activity = getActivity();
@@ -141,6 +146,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 设置Toolbar居中的自定义视图
+     *
      * @param view
      */
     public void setToolbarCenterCustomView(View view) {
@@ -152,6 +158,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 设置Toolbar左边自定义视图
+     *
      * @param view
      */
     public void setToolbarLeftCustomView(View view) {
@@ -163,6 +170,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 设置Toolbar右边自定义视图
+     *
      * @param view
      */
     public void setToolbarRightCustomView(View view) {
@@ -174,6 +182,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 设置Toolbar-BottomLine是否显示
+     *
      * @param show true:显示BottomLine;false:不显示
      */
     public void setToolbarBottomLineVisibility(boolean show) {
@@ -194,6 +203,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * Toolbar右边动作按钮回调
+     *
      * @param item
      * @return
      */
@@ -211,10 +221,11 @@ public class BaseFragment extends Fragment {
 
     /**
      * 每当网络连接后,回调到这里
+     *
      * @param type 连接后的网络类型  one of {@link ConnectivityManager#TYPE_MOBILE}, {@link
-     * ConnectivityManager#TYPE_WIFI}, {@link ConnectivityManager#TYPE_WIMAX}, {@link
-     * ConnectivityManager#TYPE_ETHERNET},  {@link ConnectivityManager#TYPE_BLUETOOTH}, or other
-     * types defined by {@link ConnectivityManager}
+     *             ConnectivityManager#TYPE_WIFI}, {@link ConnectivityManager#TYPE_WIMAX}, {@link
+     *             ConnectivityManager#TYPE_ETHERNET},  {@link ConnectivityManager#TYPE_BLUETOOTH}, or other
+     *             types defined by {@link ConnectivityManager}
      */
     public void onNetworkConnected(int type) {
         //Logger.d(getClass().getName() + ": NetworkConnected Type: " + type);
@@ -222,19 +233,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 安全方式调用getString
-     * @param resId
-     * @return
-     */
-    public String getStringSafe(@StringRes int resId) {
-        if (getActivity() == null) {
-            return "";
-        } else {
-            return getString(resId);
-        }
-    }
-
-    /**
-     * 安全方式调用getString
+     *
      * @param resId
      * @return
      */
@@ -246,8 +245,11 @@ public class BaseFragment extends Fragment {
         }
     }
 
-    public void onKeyBoardOpen(int heightDiff){}
-    public void onKeyBoardClose(){}
+    public void onKeyBoardOpen(int heightDiff) {
+    }
+
+    public void onKeyBoardClose() {
+    }
 
     @Nullable
     @Override
@@ -264,8 +266,10 @@ public class BaseFragment extends Fragment {
         }
         return mContainer;
     }
+
     /**
      * 替代原有的onCreateView方法,子类必须用这个方法设置其View
+     *
      * @param inflater
      * @param container
      * @param savedInstanceState
@@ -279,6 +283,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 显示Toast提示框
+     *
      * @param text 显示的文本
      */
     public void showToast(CharSequence text) {
@@ -290,8 +295,9 @@ public class BaseFragment extends Fragment {
 
     /**
      * 显示Toast提示框
+     *
      * @param iconId 图标资源ID,Drawable Resource ID
-     * @param text 显示的文本
+     * @param text   显示的文本
      */
     public void showToast(@DrawableRes int iconId, CharSequence text) {
         Activity activity = getActivity();
@@ -302,6 +308,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 使用UniversalActivity启动给定的Fragment
+     *
      * @param fragCls 待启动Fragment
      */
     public void startFragment(@NonNull Class<? extends BaseFragment> fragCls) {
@@ -310,28 +317,9 @@ public class BaseFragment extends Fragment {
 
     /**
      * 使用UniversalActivity启动给定的Fragment
-     * @param fragCls 待启动Fragment
-     * @param args 传递给Fragment的参数,可空
-     */
-    public void startFragment(@NonNull Class<? extends BaseFragment> fragCls,
-                              @Nullable Bundle args) {
-        startFragment(fragCls, args, -1);
-    }
-
-    /**
-     * 使用UniversalActivity启动给定的Fragment
-     * @param fragCls 待启动Fragment
-     * @param requestCode -1表示不使用ForResult
-     */
-    public void startFragment(@NonNull Class<? extends BaseFragment> fragCls,
-                              int requestCode) {
-        startFragment(fragCls, null, requestCode);
-    }
-
-    /**
-     * 使用UniversalActivity启动给定的Fragment
-     * @param fragCls 待启动Fragment
-     * @param args 传递给Fragment的参数,可空
+     *
+     * @param fragCls     待启动Fragment
+     * @param args        传递给Fragment的参数,可空
      * @param requestCode -1表示不使用ForResult
      */
     public void startFragment(@NonNull Class<? extends BaseFragment> fragCls,
@@ -350,9 +338,32 @@ public class BaseFragment extends Fragment {
     }
 
     /**
-     * 使用UniversalActivity及其子类启动给定的Fragment
-     * @param containerCls UniversalActivity及其子类
+     * 使用UniversalActivity启动给定的Fragment
+     *
      * @param fragCls 待启动Fragment
+     * @param args    传递给Fragment的参数,可空
+     */
+    public void startFragment(@NonNull Class<? extends BaseFragment> fragCls,
+                              @Nullable Bundle args) {
+        startFragment(fragCls, args, -1);
+    }
+
+    /**
+     * 使用UniversalActivity启动给定的Fragment
+     *
+     * @param fragCls     待启动Fragment
+     * @param requestCode -1表示不使用ForResult
+     */
+    public void startFragment(@NonNull Class<? extends BaseFragment> fragCls,
+                              int requestCode) {
+        startFragment(fragCls, null, requestCode);
+    }
+
+    /**
+     * 使用UniversalActivity及其子类启动给定的Fragment
+     *
+     * @param containerCls UniversalActivity及其子类
+     * @param fragCls      待启动Fragment
      */
     public void startFragment(@NonNull Class<? extends UniversalActivity> containerCls,
                               @NonNull Class<? extends BaseFragment> fragCls) {
@@ -361,22 +372,11 @@ public class BaseFragment extends Fragment {
 
     /**
      * 使用UniversalActivity及其子类启动给定的Fragment
+     *
      * @param containerCls UniversalActivity及其子类
-     * @param fragCls 待启动Fragment
-     * @param args 传递给Fragment的参数,可空
-     */
-    public void startFragment(@NonNull Class<? extends UniversalActivity> containerCls,
-                              @NonNull Class<? extends BaseFragment> fragCls,
-                              @Nullable Bundle args) {
-        startFragment(containerCls, fragCls, args, -1);
-    }
-
-    /**
-     * 使用UniversalActivity及其子类启动给定的Fragment
-     * @param containerCls UniversalActivity及其子类
-     * @param fragCls 待启动Fragment
-     * @param args 传递给Fragment的参数,可空
-     * @param requestCode -1表示不使用ForResult
+     * @param fragCls      待启动Fragment
+     * @param args         传递给Fragment的参数,可空
+     * @param requestCode  -1表示不使用ForResult
      */
     public void startFragment(@NonNull Class<? extends UniversalActivity> containerCls,
                               @NonNull Class<? extends BaseFragment> fragCls,
@@ -395,9 +395,23 @@ public class BaseFragment extends Fragment {
     }
 
     /**
+     * 使用UniversalActivity及其子类启动给定的Fragment
+     *
+     * @param containerCls UniversalActivity及其子类
+     * @param fragCls      待启动Fragment
+     * @param args         传递给Fragment的参数,可空
+     */
+    public void startFragment(@NonNull Class<? extends UniversalActivity> containerCls,
+                              @NonNull Class<? extends BaseFragment> fragCls,
+                              @Nullable Bundle args) {
+        startFragment(containerCls, fragCls, args, -1);
+    }
+
+    /**
      * 显示一个从底部动画推上来的对话框
+     *
      * @param contentFragment 要显示的内容Fragment
-     * @return 如果返回null,说明没有正常显示对话框
+     * @return 如果返回null, 说明没有正常显示对话框
      */
     public BasePushDialog showPushDialog(BaseFragment contentFragment) {
         Activity activity = getActivity();
@@ -415,8 +429,9 @@ public class BaseFragment extends Fragment {
 
     /**
      * 权限请求结果回调
+     *
      * @param permission 权限名称
-     * @param granted 是否请求成功
+     * @param granted    是否请求成功
      */
     public void onRequestPermissionsResult(String permission, boolean granted) {
         // nothing
@@ -424,6 +439,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 显示LoadingTip
+     *
      * @param type 显示加载提示框的样式类型
      */
     public void showLoadingTip(BaseActivity.LoadingType type) {
@@ -431,47 +447,19 @@ public class BaseFragment extends Fragment {
     }
 
     /**
-     * 创建一个FullLoadingView
-     * @return 返回创建的FullLoadingView
-     */
-    protected BaseFullLoadingView onCreateFullLoadingView() {
-        BaseFullLoadingView fullLoadingView = (BaseFullLoadingView) LayoutInflater.from(getActivity())
-                .inflate(R.layout.view_base_full_loading, null);
-        return fullLoadingView;
-    }
-
-    /**
-     * 创建一个TopLoadingView
-     * @return
-     */
-    protected BaseTopLoadingView onCreateTopLoadingView() {
-        BaseTopLoadingView topLoadingView = (BaseTopLoadingView) LayoutInflater.from(getActivity())
-                .inflate(R.layout.view_base_top_loading, null);
-        return topLoadingView;
-    }
-
-    /**
-     * 创建一个TopLoadingView
-     * @return
-     */
-    protected BaseBottomLoadingView onCreateBottomLoadingView() {
-        BaseBottomLoadingView bottomLoadingView = (BaseBottomLoadingView) LayoutInflater.from(getActivity())
-                .inflate(R.layout.view_base_bottom_loading, null);
-        return bottomLoadingView;
-    }
-
-    /**
      * 显示LoadingTip
-     * @param type 显示加载提示框的样式类型
+     *
+     * @param type       显示加载提示框的样式类型
      * @param cancelable 是否可以点击后隐藏;TOP类型时无效
      */
     public void showLoadingTip(final BaseActivity.LoadingType type, final boolean cancelable) {
 
-//        return;
+        //        return;
 
 
         hideLoadingTip();
-        if (getActivity() == null) return;
+        if (getActivity() == null)
+            return;
         ((BaseActivity) getActivity()).getUIHandler().post(new Runnable() {
             @Override
             public void run() {
@@ -480,7 +468,8 @@ public class BaseFragment extends Fragment {
                     mContainer.removeView(mContainerMaskContainer);
                     mContainerMaskContainer = null;
                 }
-                if (getActivity() == null) return;
+                if (getActivity() == null)
+                    return;
                 mContainerMaskContainer = new FrameLayout(getActivity());
                 mContainerMaskContainer.setId(R.id.base_container_mask_container);
                 mContainer.addView(mContainerMaskContainer);
@@ -533,36 +522,11 @@ public class BaseFragment extends Fragment {
     }
 
     /**
-     * 关闭所属的Activity
-     */
-    public void finish() {
-        finish(null);
-    }
-
-    /**
-     * 关闭所属的Activity
-     * @param data setResult中的返回数据
-     */
-    public void finish(Bundle data) {
-        Intent intent = null;
-        if (data != null) {
-            intent = new Intent();
-            intent.putExtras(data);
-        }
-        BaseActivity activity = (BaseActivity) getActivity();
-        if (activity != null) {
-            if (intent != null) {
-                activity.setResult(Activity.RESULT_OK, intent);
-            }
-            activity.finish();
-        }
-    }
-
-    /**
      * 隐藏LoadingTip
      */
     public void hideLoadingTip() {
-        if (getActivity() == null) return;
+        if (getActivity() == null)
+            return;
         ((BaseActivity) getActivity()).getUIHandler().post(new Runnable() {
             @Override
             public void run() {
@@ -620,41 +584,83 @@ public class BaseFragment extends Fragment {
     }
 
     /**
-     * 加载失败提示中【点击重试】后,回调到这里
+     * 创建一个FullLoadingView
+     *
+     * @return 返回创建的FullLoadingView
      */
-    protected void onLoadFailRetryClicked() {
-//        Logger.d(getClass().getName() + ": LoadFailRetryClicked");
+    protected BaseFullLoadingView onCreateFullLoadingView() {
+        BaseFullLoadingView fullLoadingView = (BaseFullLoadingView) LayoutInflater.from(getActivity())
+                .inflate(R.layout.view_base_full_loading, null);
+        return fullLoadingView;
     }
 
     /**
-     * 隐藏LoadFailTip
+     * 创建一个TopLoadingView
+     *
+     * @return
      */
-    public void hideLoadFailTip() {
-        if (getActivity() == null) return;
-        ((BaseActivity) getActivity()).getUIHandler().post(new Runnable() {
-            @Override
-            public void run() {
-                if (mContainerChild != null) {
-                    mContainer.setBackgroundResource(android.R.color.transparent);
-                    mContainerChild.setVisibility(View.VISIBLE);
-                }
-                if (mContainerMaskContainer != null) {
-                    mContainer.removeView(mContainerMaskContainer);
-                    mContainerMaskContainer = null;
-                }
-                isLoadFailTipShowing = false;
+    protected BaseTopLoadingView onCreateTopLoadingView() {
+        BaseTopLoadingView topLoadingView = (BaseTopLoadingView) LayoutInflater.from(getActivity())
+                .inflate(R.layout.view_base_top_loading, null);
+        return topLoadingView;
+    }
+
+    /**
+     * 创建一个TopLoadingView
+     *
+     * @return
+     */
+    protected BaseBottomLoadingView onCreateBottomLoadingView() {
+        BaseBottomLoadingView bottomLoadingView = (BaseBottomLoadingView) LayoutInflater.from(getActivity())
+                .inflate(R.layout.view_base_bottom_loading, null);
+        return bottomLoadingView;
+    }
+
+    /**
+     * 关闭所属的Activity
+     */
+    public void finish() {
+        finish(null);
+    }
+
+    /**
+     * 关闭所属的Activity
+     *
+     * @param data setResult中的返回数据
+     */
+    public void finish(Bundle data) {
+        Intent intent = null;
+        if (data != null) {
+            intent = new Intent();
+            intent.putExtras(data);
+        }
+        BaseActivity activity = (BaseActivity) getActivity();
+        if (activity != null) {
+            if (intent != null) {
+                activity.setResult(Activity.RESULT_OK, intent);
             }
-        });
+            activity.finish();
+        }
+    }
+
+    /**
+     * 显示网络加载失败的提示
+     */
+    public void showNetworkFailTip() {
+        if (getActivity() == null)
+            return;
+        showLoadFailTip(R.drawable.wuwangluo_ico, getStringSafe(R.string.str_base_network_fail_tip));
     }
 
     /**
      * 显示LoadFailTip
+     *
      * @param iconResId 提示图标DrawableResID
-     * @param tip 错误提示信息
+     * @param tip       错误提示信息
      */
     public void showLoadFailTip(final @DrawableRes int iconResId, final CharSequence tip) {
         hideLoadFailTip();
-        if (getActivity()==null){
+        if (getActivity() == null) {
             return;
         }
         ((BaseActivity) getActivity()).getUIHandler().post(new Runnable() {
@@ -664,7 +670,8 @@ public class BaseFragment extends Fragment {
                     mContainer.removeView(mContainerMaskContainer);
                     mContainerMaskContainer = null;
                 }
-                if (getActivity() == null) return;
+                if (getActivity() == null)
+                    return;
                 mContainerMaskContainer = new FrameLayout(getActivity());
                 mContainerMaskContainer.setId(R.id.base_container_mask_container);
                 mContainerMaskContainer.addView(
@@ -672,7 +679,7 @@ public class BaseFragment extends Fragment {
                                 R.layout.no_net_show_layout, mContainerMaskContainer, false),
                         new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
                                 FrameLayout.LayoutParams.MATCH_PARENT));
-                ImageView imageView = (ImageView)  mContainerMaskContainer
+                ImageView imageView = (ImageView) mContainerMaskContainer
                         .findViewById(R.id.noNet_showView_imageView);
                 imageView.setImageResource(iconResId);
                 imageView.setOnClickListener(new View.OnClickListener() {
@@ -701,13 +708,47 @@ public class BaseFragment extends Fragment {
         });
     }
 
+    /**
+     * 安全方式调用getString
+     *
+     * @param resId
+     * @return
+     */
+    public String getStringSafe(@StringRes int resId) {
+        if (getActivity() == null) {
+            return "";
+        } else {
+            return getString(resId);
+        }
+    }
 
     /**
-     * 显示网络加载失败的提示
+     * 隐藏LoadFailTip
      */
-    public void showNetworkFailTip() {
-        if (getActivity() == null) return;
-        showLoadFailTip(R.drawable.wuwangluo_ico, getStringSafe(R.string.str_base_network_fail_tip));
+    public void hideLoadFailTip() {
+        if (getActivity() == null)
+            return;
+        ((BaseActivity) getActivity()).getUIHandler().post(new Runnable() {
+            @Override
+            public void run() {
+                if (mContainerChild != null) {
+                    mContainer.setBackgroundResource(android.R.color.transparent);
+                    mContainerChild.setVisibility(View.VISIBLE);
+                }
+                if (mContainerMaskContainer != null) {
+                    mContainer.removeView(mContainerMaskContainer);
+                    mContainerMaskContainer = null;
+                }
+                isLoadFailTipShowing = false;
+            }
+        });
+    }
+
+    /**
+     * 加载失败提示中【点击重试】后,回调到这里
+     */
+    protected void onLoadFailRetryClicked() {
+        //        Logger.d(getClass().getName() + ": LoadFailRetryClicked");
     }
 
 

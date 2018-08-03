@@ -9,27 +9,25 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 public class NApplication extends BaseApplication {
 
-    private static NApplication ymApp = null;
-
     public static int screenPixelWidth = 0;
     public static int screenPixelHeight = 0;
     public static float displayDensity = 0;
-
+    private static NApplication ymApp = null;
     private static ThreadPoolExecutor threadPoolExecutor;//线程池，用作全局的异步执行
 
     private static Handler uiHandler; //主线程Handler
 
 
-    private static synchronized void setDelegateApp(NApplication app) {
-        ymApp = app;
+    public NApplication() {
+        super();
     }
 
     public static synchronized NApplication getDelegateApp() {
         return ymApp;
     }
 
-    public NApplication(){
-        super();
+    private static synchronized void setDelegateApp(NApplication app) {
+        ymApp = app;
     }
 
     @Override
@@ -37,7 +35,6 @@ public class NApplication extends BaseApplication {
         super.onCreate();
 
         setDelegateApp(this);
-
 
 
         screenPixelWidth = getApp().getResources().getDisplayMetrics().widthPixels;

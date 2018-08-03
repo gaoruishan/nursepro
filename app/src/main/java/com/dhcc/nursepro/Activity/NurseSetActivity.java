@@ -14,13 +14,14 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class NurseSetActivity extends AppCompatActivity implements View.OnClickListener,OnDateSetListener {
+public class NurseSetActivity extends AppCompatActivity implements View.OnClickListener, OnDateSetListener {
 
     private Button btn3;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //        requestWindowFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_nurse_set);
         btn3 = findViewById(R.id.button3);
@@ -29,7 +30,7 @@ public class NurseSetActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.button3:
                 initAll();
                 break;

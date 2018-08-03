@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 26
     defaultConfig {
         applicationId "com.dhcc.nursepro"
         minSdkVersion 19
-        targetSdkVersion 28
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -31,16 +31,15 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation files('libs/ksoap2-android-assembly-2.5.2-jar-with-dependencies.jar')
     implementation files('libs/fastjson-1.2.7.jar')
-    implementation 'org.greenrobot:eventbus:3.0.0'
+    implementation 'org.greenrobot:eventbus:3.1.1'
     implementation('com.facebook.fresco:fresco:0.12.0') {
         exclude group: 'com.parse.bolts',
                 module: 'bolts-tasks'
         exclude group: 'com.parse.bolts',
                 module: 'bolts-android'
         exclude group: 'com.parse.bolts',
-                module: 'bolts-applinks';
+                module: 'bolts-applinks'
     }
     implementation 'com.facebook.fresco:animated-gif:0.12.0'
     implementation 'com.facebook.fresco:animated-webp:0.12.0'

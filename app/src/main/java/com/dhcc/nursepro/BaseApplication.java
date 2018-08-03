@@ -25,17 +25,55 @@ public class BaseApplication extends Application implements Application.Activity
     private static Application sMe;
 
 
-    public static Context getContext() {
-        return context;
-    }
-
-
-    public BaseApplication(){
+    public BaseApplication() {
         super();
         sMe = this;
         sActivities = new ArrayList<>();
     }
 
+    public static Context getContext() {
+        return context;
+    }
+
+    /**
+     * 请求权限
+     *
+     * @param permission 申请的权限名称
+     */
+    public static void requestPermission(final String permission) {
+        updatePermissionActivity();
+        if (sPermissionActivity != null) {
+            sPermissionActivity.requestPermission(permission);
+        }
+    }
+
+    // 更新sPermissionActivity
+    private static void updatePermissionActivity() {
+        for (int i = sActivities.size() - 1; i >= 0; i--) {
+            BaseActivity activity = sActivities.get(i);
+            if (activity.isResume) {
+                sPermissionActivity = activity;
+                break;
+            }
+        }
+    }
+
+    /**
+     * 请求权限
+     *
+     * @param permission     申请的权限名称
+     * @param requestMessage 申请权限提示框中提示文本
+     */
+    public static void requestPermission(final String permission, final String requestMessage) {
+        updatePermissionActivity();
+        if (sPermissionActivity != null) {
+            sPermissionActivity.requestPermission(permission, requestMessage);
+        }
+    }
+
+    public static int getActivityCount() {
+        return activityCount;
+    }
 
     @Override
     public void onCreate() {
@@ -60,60 +98,31 @@ public class BaseApplication extends Application implements Application.Activity
     }
 
     @Override
+    public void onActivityStarted(Activity activity) {
+        activityCount++;
+    }
+
+    @Override
+    public void onActivityResumed(Activity activity) {
+    }
+
+    @Override
+    public void onActivityPaused(Activity activity) {
+    }
+
+    @Override
+    public void onActivityStopped(Activity activity) {
+        activityCount--;
+    }
+
+    @Override
+    public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+    }
+
+    @Override
     public void onActivityDestroyed(Activity activity) {
         if (activity instanceof BaseActivity) {
             sActivities.remove(activity);
-        }
-    }
-
-    @Override
-    public void onActivityStarted(Activity activity) {activityCount++;}
-
-    @Override
-    public void onActivityResumed(Activity activity) {}
-
-    @Override
-    public void onActivityPaused(Activity activity) {}
-
-    @Override
-    public void onActivityStopped(Activity activity) {activityCount--;}
-
-    @Override
-    public void onActivitySaveInstanceState(Activity activity, Bundle outState) {}
-
-
-
-    /**
-     * 请求权限
-     * @param permission 申请的权限名称
-     */
-    public static void requestPermission(final String permission) {
-        updatePermissionActivity();
-        if (sPermissionActivity != null) {
-            sPermissionActivity.requestPermission(permission);
-        }
-    }
-
-    /**
-     * 请求权限
-     * @param permission 申请的权限名称
-     * @param requestMessage 申请权限提示框中提示文本
-     */
-    public static void requestPermission(final String permission, final String requestMessage) {
-        updatePermissionActivity();
-        if (sPermissionActivity != null) {
-            sPermissionActivity.requestPermission(permission, requestMessage);
-        }
-    }
-
-    // 更新sPermissionActivity
-    private static void updatePermissionActivity() {
-        for (int i = sActivities.size() - 1; i >= 0; i--) {
-            BaseActivity activity = sActivities.get(i);
-            if (activity.isResume) {
-                sPermissionActivity = activity;
-                break;
-            }
         }
     }
 
@@ -128,9 +137,5 @@ public class BaseApplication extends Application implements Application.Activity
                 activity.requestPermissionsResult(permissions, grantResults);
             }
         }
-    }
-
-    public static int getActivityCount(){
-        return activityCount;
     }
 }

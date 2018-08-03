@@ -21,7 +21,6 @@ import java.util.concurrent.Executors;
  * 访问WebService的工具类,
  *
  * @author xiaanming
- *
  */
 public class WebServiceUtils {
     public static final String WEB_SERVER_URL = "http://www.webxml.com.cn/WebServices/WeatherWebService.asmx";
@@ -35,15 +34,10 @@ public class WebServiceUtils {
     private static final String NAMESPACE = "http://WebXml.com.cn/";
 
     /**
-     *
-     * @param url
-     *            WebService服务器地址
-     * @param methodName
-     *            WebService的调用方法名
-     * @param properties
-     *            WebService的参数
-     * @param webServiceCallBack
-     *            回调接口
+     * @param url                WebService服务器地址
+     * @param methodName         WebService的调用方法名
+     * @param properties         WebService的参数
+     * @param webServiceCallBack 回调接口
      */
     public static void callWebService(String url, final String methodName,
                                       HashMap<String, String> properties,
@@ -56,7 +50,7 @@ public class WebServiceUtils {
         // SoapObject添加参数
         if (properties != null) {
             for (Iterator<Map.Entry<String, String>> it = properties.entrySet()
-                    .iterator(); it.hasNext();) {
+                    .iterator(); it.hasNext(); ) {
                 Map.Entry<String, String> entry = it.next();
                 soapObject.addProperty(entry.getKey(), entry.getValue());
             }
@@ -110,10 +104,7 @@ public class WebServiceUtils {
     }
 
     /**
-     *
-     *
      * @author xiaanming
-     *
      */
     public interface WebServiceCallBack {
         public void callBack(SoapObject result);
