@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.NurseSetActivity">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="设置"
+        android:textSize="25sp"
+        android:gravity="center"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="医嘱查询时间设置"
+            android:textSize="22.0dip" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="319dp"
+        android:layout_height="60dp" >
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="2013-03-20 18:00:00"
+            android:textSize="22.0dip" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="318dp"
+        android:layout_height="60dp" >
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2013-03-20 18:00:00"
+            android:textSize="22.0dip" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="319dp"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/btnbedset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="床位设置"
+            android:textSize="22.0dip" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="新医嘱提示方式"
+        android:textSize="22.0dip" />
+
+    <CheckBox
+        android:id="@+id/checkLight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:text="灯光提示"
+        android:textSize="22.0dip" />
+
+    <CheckBox
+        android:id="@+id/checkVibrate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:text="振动提示"
+        android:textSize="22.0dip" />
+
+    <CheckBox
+        android:id="@+id/checkSound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:text="声音提示"
+        android:textSize="22.0dip" />
+
+    <CheckBox
+        android:id="@+id/allAlarm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:text="病区所有病人提示"
+        android:textSize="22.0dip" />
+</LinearLayout>
+</android.support.constraint.ConstraintLayout>
