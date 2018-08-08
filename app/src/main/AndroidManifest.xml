@@ -11,18 +11,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.MainActivity"></activity>
-        <activity android:name=".Activity.NurseSetActivity" />
-        <activity android:name=".WsTest.MainActivity1">
-
-        </activity>
-        <activity android:name=".WsTest.ClassificationActivity">
+        <activity android:name=".Activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Activity.NurseSetActivity" />
+        <activity android:name=".WsTest.MainActivity1" />
+        <activity android:name=".WsTest.ClassificationActivity" />
+        <activity android:name=".WsTest.SectionActivity"></activity>
     </application>
 
 </manifest>

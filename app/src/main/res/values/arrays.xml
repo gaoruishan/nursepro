@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="patient_list">
+        <item>选择病人</item>
+    </string-array>
+    <string-array name="medical_order_priority">
+        <item>全部</item>
+        <item>长期</item>
+        <item>临时</item>
+    </string-array>
+    <string-array name="medical_order_status">
+        <item>全部</item>
+        <item>有效</item>
+        <item>变更</item>
+        <item>停止</item>
+    </string-array>
+    <string-array name="medical_order_category">
+        <item>全部</item>
+        <item>药品</item>
+        <item>检验</item>
+        <item>一般</item>
+    </string-array>
+
+</resources>
