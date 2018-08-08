@@ -43,8 +43,9 @@ dependencies {
     }
     implementation 'com.facebook.fresco:animated-gif:0.12.0'
     implementation 'com.facebook.fresco:animated-webp:0.12.0'
-    implementation('com.jzxiang.pickerview:TimePickerDialog:1.0.1') {
-        exclude group: 'com.android.support'
-    }
+    implementation 'com.jzxiang.pickerview:TimePickerDialog:1.0.1'
+//    implementation('com.jzxiang.pickerview:TimePickerDialog:1.0.1') {
+//        exclude group: 'com.android.support'
+//    }
     implementation files('libs/ksoap2-android-assembly-3.6.2-jar-with-dependencies.jar')
 }
