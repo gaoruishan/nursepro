@@ -22,24 +22,19 @@ import java.util.concurrent.Executors;
 
 
 public class WebServiceUtils {
-//    public static final String WEB_SERVER_URL = "http://www.webxml.com.cn/WebServices/WeatherWebService.asmx";
-//public static final String WEB_SERVER_URL = "http://10.1.5.87/dthealth/web/Nur.Mobile.WsInterface.cls";
+
     public static final String WEB_SERVER_URL = "http://10.1.5.87/dthealth/web/Nur.PDA.WebService.cls";
 
 
     // 含有3个线程的线程池
     private static final ExecutorService executorService = Executors
-            .newFixedThreadPool(3);
+            .newFixedThreadPool(5);
 
     // 命名空间
-//    private static final String NAMESPACE = "http://WebXml.com.cn/";
     private static final String NAMESPACE = "http://www.dhcc.com.cn";
-
-    private  static String jsonstr ;
 
     /**
      *
-     * @param url
      *            WebService服务器地址
      * @param methodName
      *            WebService的调用方法名
@@ -48,11 +43,11 @@ public class WebServiceUtils {
      * @param webServiceCallBack
      *            回调接口
      */
-    public static void callWebService(String url, final String methodName,
+    public static void callWebService(final String methodName,
                                       HashMap<String, String> properties,
                                       final WebServiceCallBack webServiceCallBack) {
         // 创建HttpTransportSE对象，传递WebService服务器地址
-        final HttpTransportSE httpTransportSE = new HttpTransportSE(url);
+        final HttpTransportSE httpTransportSE = new HttpTransportSE(WEB_SERVER_URL);
 
 
         // 创建SoapObject对象
@@ -67,16 +62,10 @@ public class WebServiceUtils {
             }
         }
 
-
-
         // 实例化SoapSerializationEnvelope，传入WebService的SOAP协议的版本号
         final SoapSerializationEnvelope soapEnvelope = new SoapSerializationEnvelope(
                 SoapEnvelope.VER11);
         soapEnvelope.bodyOut = soapObject;
-        // 设置是否调用的是.Net开发的WebService
-//        soapEnvelope.setOutputSoapObject(soapObject);
-//        soapEnvelope.dotNet = true;
-//        httpTransportSE.debug = true;
 
 
         String userNamestr = "dhwebservice";
@@ -113,13 +102,12 @@ public class WebServiceUtils {
             @Override
             public void run() {
                 SoapObject resultSoapObject = null;
+                String jsonstr = "";
                 try {
                     httpTransportSE.call(NAMESPACE + "/" + methodName, soapEnvelope);
-//                    httpTransportSE.call(NAMESPACE + methodName, soapEnvelope);
                     if (soapEnvelope.getResponse() != null) {
                         // 获取服务器响应返回的SoapObject
                         resultSoapObject = (SoapObject) soapEnvelope.bodyIn;
-                        Log.v("111122222rels",resultSoapObject.toString()+"kjfldkj");
                         Object obj = resultSoapObject.getProperty(methodName + "Result");
 
                         jsonstr = obj.toString();
@@ -127,13 +115,10 @@ public class WebServiceUtils {
                         Log.v("json result",jsonstr);
                     }
                 } catch (HttpResponseException e) {
-                    Log.v("111122222rels","1");
                     e.printStackTrace();
                 } catch (IOException e) {
-                    Log.v("111122222rels","2");
                     e.printStackTrace();
                 } catch (XmlPullParserException e) {
-                    Log.v("111122222rels","3");
                     e.printStackTrace();
                 } finally {
                     // 将获取的消息利用Handler发送到主线程
