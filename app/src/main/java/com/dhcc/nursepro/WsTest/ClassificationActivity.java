@@ -17,13 +17,21 @@ import com.dhcc.nursepro.WsTest.bean.RightItemBean;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * ClassificationActivity
+ * 分类筛选列表
+ *
+ * @author DevLix126
+ * @date 2018/8/8
+ */
 public class ClassificationActivity extends AppCompatActivity {
-
+    //左右列表
     private RecyclerView classificationRecyleft;
     private RecyclerView classificationRecyright;
-
+    //左右数据源
     private List<LeftItemBean> leftList;
     private List<RightItemBean> rightList;
+    //左右adapter
     private LeftAdapter leftAdapter;
     private RightAdapter rightAdapter;
 
@@ -57,8 +65,10 @@ public class ClassificationActivity extends AppCompatActivity {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 if (view.getId() == R.id.itemleft_textview) {
+                    //左侧刷新分类选中状态显示
                     leftAdapter.setSelectedPostion(position);
                     leftAdapter.notifyDataSetChanged();
+                    //点击左侧分类 右侧筛选数据显示
                     switch (position) {
                         case 0:
                             rightAdapter.setNewData(rightList);
@@ -108,6 +118,7 @@ public class ClassificationActivity extends AppCompatActivity {
         classificationRecyright.setAdapter(rightAdapter);
     }
 
+    //获取数据源，更新adapter数据
     private void initData() {
         leftList = new ArrayList<>();
         rightList = new ArrayList<>();

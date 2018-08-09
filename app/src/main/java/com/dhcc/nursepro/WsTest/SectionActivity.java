@@ -1,11 +1,10 @@
 package com.dhcc.nursepro.WsTest;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,11 +18,19 @@ import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
 import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection;
 
+/**
+ * SectionActivity
+ * 分段列表显示
+ *
+ * @author DevLix126
+ * @date 2018/8/8
+ */
 public class SectionActivity extends AppCompatActivity {
 
     private RecyclerView sectionRecyleft;
     private RecyclerView sectionRecyright;
 
+    //特定adapter
     private SectionedRecyclerViewAdapter sectionAdapter;
 
     @Override
@@ -53,6 +60,7 @@ public class SectionActivity extends AppCompatActivity {
     private void initAdapter() {
         sectionAdapter = new SectionedRecyclerViewAdapter();
 
+        //以NewsSection为item
         sectionAdapter.addSection(new NewsSection(NewsSection.PATIENT));
         sectionAdapter.addSection(new NewsSection(NewsSection.RIORITY));
         sectionAdapter.addSection(new NewsSection(NewsSection.STATUS));
@@ -63,6 +71,14 @@ public class SectionActivity extends AppCompatActivity {
     private void initData() {
 
     }
+
+    /**
+     * list item
+     * <p>
+     * header
+     * item
+     * footer
+     */
 
     public class NewsSection extends StatelessSection {
 
@@ -132,12 +148,12 @@ public class SectionActivity extends AppCompatActivity {
             itemHolder.rootView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    Toast.makeText(SectionActivity.this,
-//                            String.format("Clicked on position #%s of Section %s",
-//                                    sectionAdapter.getPositionInSection(itemHolder.getAdapterPosition()),
-//                                    title),
-//                            Toast.LENGTH_SHORT).show();
-                    Toast.makeText(SectionActivity.this, title+"---"+content, Toast.LENGTH_SHORT).show();
+                    //                    Toast.makeText(SectionActivity.this,
+                    //                            String.format("Clicked on position #%s of Section %s",
+                    //                                    sectionAdapter.getPositionInSection(itemHolder.getAdapterPosition()),
+                    //                                    title),
+                    //                            Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SectionActivity.this, title + "---" + content, Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -154,22 +170,22 @@ public class SectionActivity extends AppCompatActivity {
             headerHolder.tvSectionTitle.setText(title);
         }
 
-//        @Override
-//        public RecyclerView.ViewHolder getFooterViewHolder(View view) {
-//            return new FooterViewHolder(view);
-//        }
+        //        @Override
+        //        public RecyclerView.ViewHolder getFooterViewHolder(View view) {
+        //            return new FooterViewHolder(view);
+        //        }
 
-//        @Override
-//        public void onBindFooterViewHolder(RecyclerView.ViewHolder holder) {
-//            FooterViewHolder footerHolder = (FooterViewHolder) holder;
-//
-//            footerHolder.rootView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Toast.makeText(getContext(), String.format("Clicked on footer of Section %s", title), Toast.LENGTH_SHORT).show();
-//                }
-//            });
-//        }
+        //        @Override
+        //        public void onBindFooterViewHolder(RecyclerView.ViewHolder holder) {
+        //            FooterViewHolder footerHolder = (FooterViewHolder) holder;
+        //
+        //            footerHolder.rootView.setOnClickListener(new View.OnClickListener() {
+        //                @Override
+        //                public void onClick(View v) {
+        //                    Toast.makeText(getContext(), String.format("Clicked on footer of Section %s", title), Toast.LENGTH_SHORT).show();
+        //                }
+        //            });
+        //        }
 
 
     }
