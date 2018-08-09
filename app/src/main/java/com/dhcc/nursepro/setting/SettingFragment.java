@@ -7,12 +7,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.WsTest.ClassificationActivity;
 import com.dhcc.nursepro.WsTest.SectionActivity;
+import com.dhcc.nursepro.utils.wsutils.WebServiceUtils;
+
+import java.util.HashMap;
 
 public class SettingFragment extends BaseFragment {
     private TextView tvSettingClassification;
@@ -70,8 +74,29 @@ public class SettingFragment extends BaseFragment {
         tvgetjson.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentSection = new Intent(getActivity(), SectionActivity.class);
-                startActivity(intentSection);
+
+                initjson();
+            }
+        });
+    }
+
+    private void initjson() {
+//        final ListView mCityList = view;
+        //添加参数
+        HashMap<String, String> properties = new HashMap<String, String>();
+        properties.put("curVersion", "7.2");
+        //显示进度条
+//        ProgressDialogUtils.showProgressDialog(this, "数据加载中...");
+        WebServiceUtils.callWebService(WebServiceUtils.WEB_SERVER_URL, "GetNewVersion", properties, new WebServiceUtils.WebServiceCallBack() {
+
+            @Override
+            public void callBack(String result) {
+//                ProgressDialogUtils.dismissProgressDialog();
+                if (result != null) {
+                    tvgetjson.setText(result);
+                } else {
+                    Toast.makeText(getActivity(), "获取WebService数据错误", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
