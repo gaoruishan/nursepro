@@ -80,8 +80,6 @@ public class MessageFragment extends BaseFragment {
                 sectionAdapter.addSection(new NewsSection(NewsSection.ABNORMAL));
                 sectionAdapter.addSection(new NewsSection(NewsSection.CONSULTATION));
                 sectionAdapter.notifyDataSetChanged();
-
-                Toast.makeText(getActivity(), msgs.getAbnormalPatList().get(0).getPatName(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
