@@ -5,8 +5,8 @@ import java.util.List;
 public class MessageBean {
 
     /**
-     * abnormalPatList : [{"bedCode":"03","episodeId":"315","patName":"马亭（演示勿动）","regNo":"0000000290","sex":"M"},{"bedCode":"08","episodeId":"96","patName":" 智勇双全","regNo":"0000000133","sex":"M"},{"bedCode":"25","episodeId":"157","patName":"ly005","regNo":"0000000137","sex":"M"},{"bedCode":"29","episodeId":"189","patName":"韦丹寒","regNo":"0000000208","sex":"F"},{"bedCode":"38","episodeId":"435","patName":"tyu8901","regNo":"0000000351","sex":"F"}]
-     * conPatList : [{"bedCode":"01床","conDocdesc":"李翔","episodeId":"123456","patName":"测试患者","regNo":"0000000001","sex":"F"}]
+     * abnormalPatList : [{"bedCode":"03","episodeId":"315","patName":"马亭（演示勿动）","regNo":"0000000290","sex":"M"},{"bedCode":"08","episodeId":"96","patName":"智勇双全","regNo":"0000000133","sex":"M"},{"bedCode":"25","episodeId":"157","patName":"ly005","regNo":"0000000137","sex":"M"},{"bedCode":"29","episodeId":"189","patName":"韦丹寒","regNo":"0000000208","sex":"F"},{"bedCode":"38","episodeId":"435","patName":"tyu8901","regNo":"0000000351","sex":"F"}]
+     * conPatList : [{"bedCode":"02","conDocdesc":"","episodeId":"94","patLoc":"内分泌科","patName":"王伟测试","regNo":"0000000129","sex":"M"}]
      * msg : 成功
      * msgcode : 999999
      * newOrdPatList : [{"bedCode":"02","episodeId":"94","patName":"王伟测试","regNo":"0000000129","sex":"M"}]
@@ -126,17 +126,19 @@ public class MessageBean {
 
     public static class ConPatListBean {
         /**
-         * bedCode : 01床
-         * conDocdesc : 李翔
-         * episodeId : 123456
-         * patName : 测试患者
-         * regNo : 0000000001
-         * sex : F
+         * bedCode : 02
+         * conDocdesc :
+         * episodeId : 94
+         * patLoc : 内分泌科
+         * patName : 王伟测试
+         * regNo : 0000000129
+         * sex : M
          */
 
         private String bedCode;
         private String conDocdesc;
         private String episodeId;
+        private String patLoc;
         private String patName;
         private String regNo;
         private String sex;
@@ -163,6 +165,14 @@ public class MessageBean {
 
         public void setEpisodeId(String episodeId) {
             this.episodeId = episodeId;
+        }
+
+        public String getPatLoc() {
+            return patLoc;
+        }
+
+        public void setPatLoc(String patLoc) {
+            this.patLoc = patLoc;
         }
 
         public String getPatName() {

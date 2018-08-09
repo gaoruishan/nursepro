@@ -51,7 +51,7 @@ public class SettingFragment extends BaseFragment {
 
 
     private void initView(View view){
-        tvSettingClassification = getActivity().findViewById(R.id.setting_classification);
+        tvSettingClassification = view.findViewById(R.id.setting_classification);
         tvSettingClassification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,7 +60,7 @@ public class SettingFragment extends BaseFragment {
                 startActivity(intentClassification);
             }
         });
-        tvSettingSection = getActivity().findViewById(R.id.setting_section);
+        tvSettingSection = view.findViewById(R.id.setting_section);
         tvSettingSection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,7 +70,7 @@ public class SettingFragment extends BaseFragment {
             }
         });
 
-        tvgetjson = getActivity().findViewById(R.id.tvgetjson);
+        tvgetjson = view.findViewById(R.id.tvgetjson);
         tvgetjson.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,11 +83,11 @@ public class SettingFragment extends BaseFragment {
     private void initjson() {
 //        final ListView mCityList = view;
         //添加参数
-        HashMap<String, String> properties = new HashMap<String, String>();
+        HashMap<String, String> properties = new HashMap<>();
         properties.put("curVersion", "7.2");
         //显示进度条
 //        ProgressDialogUtils.showProgressDialog(this, "数据加载中...");
-        WebServiceUtils.callWebService(WebServiceUtils.WEB_SERVER_URL, "GetNewVersion", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService("GetNewVersion", properties, new WebServiceUtils.WebServiceCallBack() {
 
             @Override
             public void callBack(String result) {

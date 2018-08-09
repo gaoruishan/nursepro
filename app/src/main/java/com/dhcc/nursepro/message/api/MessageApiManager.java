@@ -19,7 +19,7 @@ public class MessageApiManager {
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();
                 MessageBean message = gson.fromJson(jsonStr,MessageBean.class);
-                if (message.getStatus().equals("999999")){
+                if (message.getStatus().equals("0")){
                     if (callback != null){
                         callback.onSuccess(message);
                     }

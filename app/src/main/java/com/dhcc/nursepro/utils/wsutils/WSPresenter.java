@@ -25,7 +25,7 @@ public class WSPresenter {
         HashMap<String, String> properties = new HashMap<String, String>();
         properties.put("curVersion", "7.2");
         //通过工具类调用WebService接口getSupportProvince
-        WebServiceUtils.callWebService(WebServiceUtils.WEB_SERVER_URL, "GetNewVersion", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService("GetNewVersion", properties, new WebServiceUtils.WebServiceCallBack() {
 
             //WebService接口返回的数据回调到这个方法中
             @Override
