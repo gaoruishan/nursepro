@@ -22,6 +22,7 @@
         <activity android:name=".WsTest.MainActivity1" />
         <activity android:name=".WsTest.ClassificationActivity" />
         <activity android:name=".WsTest.SectionActivity"></activity>
+        <activity android:name=".WsTest.GetJsonActivity"></activity>
     </application>
 
 </manifest>
