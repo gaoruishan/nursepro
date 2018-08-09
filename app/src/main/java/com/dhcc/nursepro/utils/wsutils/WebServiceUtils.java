@@ -23,7 +23,9 @@ import java.util.concurrent.Executors;
 
 public class WebServiceUtils {
 //    public static final String WEB_SERVER_URL = "http://www.webxml.com.cn/WebServices/WeatherWebService.asmx";
-public static final String WEB_SERVER_URL = "http://10.1.5.87/dthealth/web/Nur.Mobile.WsInterface.cls";
+//public static final String WEB_SERVER_URL = "http://10.1.5.87/dthealth/web/Nur.Mobile.WsInterface.cls";
+    public static final String WEB_SERVER_URL = "http://10.1.5.87/dthealth/web/Nur.PDA.WebService.cls";
+
 
     // 含有3个线程的线程池
     private static final ExecutorService executorService = Executors
@@ -32,6 +34,8 @@ public static final String WEB_SERVER_URL = "http://10.1.5.87/dthealth/web/Nur.M
     // 命名空间
 //    private static final String NAMESPACE = "http://WebXml.com.cn/";
     private static final String NAMESPACE = "http://www.dhcc.com.cn";
+
+    private  static String jsonstr ;
 
     /**
      *
@@ -98,7 +102,7 @@ public static final String WEB_SERVER_URL = "http://10.1.5.87/dthealth/web/Nur.M
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 // 将返回值回调到callBack的参数中
-                webServiceCallBack.callBack((SoapObject) msg.obj);
+                webServiceCallBack.callBack((String) msg.obj);
             }
 
         };
@@ -116,6 +120,11 @@ public static final String WEB_SERVER_URL = "http://10.1.5.87/dthealth/web/Nur.M
                         // 获取服务器响应返回的SoapObject
                         resultSoapObject = (SoapObject) soapEnvelope.bodyIn;
                         Log.v("111122222rels",resultSoapObject.toString()+"kjfldkj");
+                        Object obj = resultSoapObject.getProperty(methodName + "Result");
+
+                        jsonstr = obj.toString();
+
+                        Log.v("json result",jsonstr);
                     }
                 } catch (HttpResponseException e) {
                     Log.v("111122222rels","1");
@@ -129,7 +138,7 @@ public static final String WEB_SERVER_URL = "http://10.1.5.87/dthealth/web/Nur.M
                 } finally {
                     // 将获取的消息利用Handler发送到主线程
                     mHandler.sendMessage(mHandler.obtainMessage(0,
-                            resultSoapObject));
+                            jsonstr));
                 }
             }
         });
@@ -142,7 +151,7 @@ public static final String WEB_SERVER_URL = "http://10.1.5.87/dthealth/web/Nur.M
      *
      */
     public interface WebServiceCallBack {
-        public void callBack(SoapObject result);
+        public void callBack(String result);
     }
 
 

@@ -17,6 +17,7 @@ import com.dhcc.nursepro.WsTest.SectionActivity;
 public class SettingFragment extends BaseFragment {
     private TextView tvSettingClassification;
     private TextView tvSettingSection;
+    private TextView tvgetjson;
 
 
 
@@ -61,6 +62,15 @@ public class SettingFragment extends BaseFragment {
             public void onClick(View v) {
                 Intent intentSection = new Intent(getActivity(), SectionActivity.class);
                 intentSection.putExtra("settingId",2);
+                startActivity(intentSection);
+            }
+        });
+
+        tvgetjson = getActivity().findViewById(R.id.tvgetjson);
+        tvgetjson.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentSection = new Intent(getActivity(), SectionActivity.class);
                 startActivity(intentSection);
             }
         });

@@ -29,11 +29,11 @@ public class WSPresenter {
 
             //WebService接口返回的数据回调到这个方法中
             @Override
-            public void callBack(SoapObject result) {
+            public void callBack(String result) {
                 //关闭进度条
 //                ProgressDialogUtils.dismissProgressDialog();
                 if(result != null){
-                    provinceList = parseSoapObject(result);
+//                    provinceList = parseSoapObject(result);
                     Log.v("111122222re",result.toString());
                     Log.v("111122222",provinceList.toString());
                     mView.showStudents(provinceList,"getVer");

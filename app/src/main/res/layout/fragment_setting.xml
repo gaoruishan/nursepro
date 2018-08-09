@@ -18,4 +18,12 @@
         android:layout_margin="20dp"
         android:padding="6dp"
         android:text="section分类列表测试"/>
+    <TextView
+        android:id="@+id/tvgetjson"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_margin="20dp"
+        android:padding="6dp"
+        android:text="json测试"/>
 </LinearLayout>
