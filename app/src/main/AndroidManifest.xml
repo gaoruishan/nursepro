@@ -19,7 +19,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activity.NurseSetActivity" />
-        <activity android:name=".WsTest.MainActivity1" />
         <activity android:name=".WsTest.ClassificationActivity" />
         <activity android:name=".WsTest.SectionActivity"></activity>
     </application>
