@@ -38,6 +38,7 @@ dependencies {
     implementation('io.github.luizgrp.sectionedrecyclerviewadapter:sectionedrecyclerviewadapter:1.2.0') {
         exclude group: 'com.android.support'
     }
+    implementation 'com.github.anzaizai:EasySwipeMenuLayout:1.1.2'
     implementation 'org.greenrobot:eventbus:3.1.1'
     implementation('com.facebook.fresco:fresco:0.12.0') {
         exclude group: 'com.parse.bolts',

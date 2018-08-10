@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -162,7 +163,7 @@ public class MessageFragment extends BaseFragment {
         }
 
         @Override
-        public void onBindItemViewHolder(RecyclerView.ViewHolder holder, int position) {
+        public void onBindItemViewHolder(RecyclerView.ViewHolder holder, final int position) {
             ItemViewHolder itemHolder = (ItemViewHolder) holder;
 
             if (topic == 0) {
@@ -181,15 +182,17 @@ public class MessageFragment extends BaseFragment {
                 itemHolder.tvMessageDoctorName.setVisibility(View.GONE);
                 itemHolder.tvPatientLoc.setVisibility(View.GONE);
 
-                itemHolder.rootView.setOnClickListener(new View.OnClickListener() {
+                itemHolder.messageContentLl.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
                         Toast.makeText(getActivity(), title + "---1", Toast.LENGTH_SHORT).show();
                     }
                 });
+                itemHolder.messageRightMenu.setVisibility(View.GONE);
+
             } else if (topic == 1) {
-                String patientName = list2.get(position).getPatName();
+                final String patientName = list2.get(position).getPatName();
                 String bedNo = list2.get(position).getBedCode();
                 String patientSex = list2.get(position).getSex();
 
@@ -204,11 +207,21 @@ public class MessageFragment extends BaseFragment {
                 itemHolder.tvMessageDoctorName.setVisibility(View.GONE);
                 itemHolder.tvPatientLoc.setVisibility(View.GONE);
 
-                itemHolder.rootView.setOnClickListener(new View.OnClickListener() {
+                itemHolder.messageContentLl.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
-                        Toast.makeText(getActivity(), title + "---2", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), title + "--2--"+patientName, Toast.LENGTH_SHORT).show();
+                    }
+                });
+                itemHolder.messageRightMenu.setVisibility(View.VISIBLE);
+                itemHolder.messageRightMenu.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Toast.makeText(getActivity(), "read2", Toast.LENGTH_SHORT).show();
+                        list2.remove(position);
+                        sectionAdapter.notifyDataSetChanged();
                     }
                 });
             } else {
@@ -238,13 +251,15 @@ public class MessageFragment extends BaseFragment {
                 }
 
 
-                itemHolder.rootView.setOnClickListener(new View.OnClickListener() {
+                itemHolder.messageContentLl.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
                         Toast.makeText(getActivity(), title + "---3", Toast.LENGTH_SHORT).show();
                     }
                 });
+                itemHolder.messageRightMenu.setVisibility(View.GONE);
+
             }
 
         }
@@ -275,7 +290,8 @@ public class MessageFragment extends BaseFragment {
 
     private class ItemViewHolder extends RecyclerView.ViewHolder {
 
-        private View rootView;
+        private LinearLayout messageContentLl;
+        private LinearLayout messageRightMenu;
         private TextView tvMessageBedNo;
         private TextView tvMessagePatientName;
         private ImageView imgMessagePatientSex;
@@ -285,12 +301,13 @@ public class MessageFragment extends BaseFragment {
         ItemViewHolder(View view) {
             super(view);
 
-            rootView = view;
+            messageContentLl = view.findViewById(R.id.messagecontentll);
             tvMessageBedNo = view.findViewById(R.id.tv_message_bedno);
             tvMessagePatientName = view.findViewById(R.id.tv_message_patientname);
             imgMessagePatientSex = view.findViewById(R.id.img_message_patientsex);
             tvPatientLoc = view.findViewById(R.id.tv_message_patientloc);
             tvMessageDoctorName = view.findViewById(R.id.tv_message_doctorname);
+            messageRightMenu = view.findViewById(R.id.messagerightmenu);
         }
     }
 
