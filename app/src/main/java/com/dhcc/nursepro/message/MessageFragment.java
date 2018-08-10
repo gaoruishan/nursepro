@@ -22,7 +22,12 @@ import java.util.List;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
 import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection;
-
+/**
+ * MessageFragment
+ * 消息页面
+ *
+ *
+ */
 public class MessageFragment extends BaseFragment {
     private List<MessageBean.AbnormalPatListBean> abnormalPatList;
     private List<MessageBean.ConPatListBean> conPatList;
