@@ -35,4 +35,7 @@
 
     <color name="divider_line_color">#bdbdbd</color>
 
+    <color name="blue_dark">#62AAFF</color>
+    <color name="blue_light">#E9F3FF</color>
+
 </resources>

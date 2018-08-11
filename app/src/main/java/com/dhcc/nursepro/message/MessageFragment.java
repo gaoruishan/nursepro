@@ -27,7 +27,6 @@ import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection;
  * MessageFragment
  * 消息页面
  *
- *
  */
 public class MessageFragment extends BaseFragment {
     private List<MessageBean.AbnormalPatListBean> abnormalPatList;
@@ -100,7 +99,7 @@ public class MessageFragment extends BaseFragment {
      * <p>
      * header
      * item
-     * footer
+     *  //footer
      */
 
     public class NewsSection extends StatelessSection {

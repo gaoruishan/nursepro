@@ -17,13 +17,17 @@ import com.dhcc.nursepro.WsTest.SectionActivity;
 import com.dhcc.nursepro.utils.wsutils.WebServiceUtils;
 
 import java.util.HashMap;
-
+/**
+ * SettingFragment
+ * 设置
+ *
+ */
 public class SettingFragment extends BaseFragment {
+
     private TextView tvSettingClassification;
     private TextView tvSettingSection;
-    private TextView tvgetjson;
-
-
+    private TextView tvSettingGetjson;
+    private TextView tvSettingKeyboard;
 
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -51,7 +55,12 @@ public class SettingFragment extends BaseFragment {
 
 
     private void initView(View view){
-        tvSettingClassification = view.findViewById(R.id.setting_classification);
+
+        tvSettingClassification = view.findViewById(R.id.tv_setting_classification);
+        tvSettingSection = view.findViewById(R.id.tv_setting_section);
+        tvSettingGetjson = view.findViewById(R.id.tv_setting_getjson);
+        tvSettingKeyboard = view.findViewById(R.id.tv_setting_keyboard);
+
         tvSettingClassification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,7 +69,7 @@ public class SettingFragment extends BaseFragment {
                 startActivity(intentClassification);
             }
         });
-        tvSettingSection = view.findViewById(R.id.setting_section);
+
         tvSettingSection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,12 +79,18 @@ public class SettingFragment extends BaseFragment {
             }
         });
 
-        tvgetjson = view.findViewById(R.id.tvgetjson);
-        tvgetjson.setOnClickListener(new View.OnClickListener() {
+        tvSettingGetjson.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 initjson();
+            }
+        });
+
+        tvSettingKeyboard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "。。。", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -93,7 +108,7 @@ public class SettingFragment extends BaseFragment {
             public void callBack(String result) {
 //                ProgressDialogUtils.dismissProgressDialog();
                 if (result != null) {
-                    tvgetjson.setText(result);
+                    tvSettingGetjson.setText(result);
                 } else {
                     Toast.makeText(getActivity(), "获取WebService数据错误", Toast.LENGTH_SHORT).show();
                 }

@@ -1,29 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
     <TextView
-        android:id="@+id/setting_classification"
+        android:id="@+id/tv_setting_classification"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:layout_margin="20dp"
+        android:layout_margin="12dp"
         android:padding="6dp"
         android:text="分类列表测试"/>
     <TextView
-        android:id="@+id/setting_section"
+        android:id="@+id/tv_setting_section"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:layout_margin="20dp"
+        android:layout_margin="12dp"
         android:padding="6dp"
         android:text="section分类列表测试"/>
     <TextView
-        android:id="@+id/tvgetjson"
+        android:id="@+id/tv_setting_getjson"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:layout_margin="20dp"
+        android:layout_margin="12dp"
         android:padding="6dp"
         android:text="json测试"/>
+
+    <TextView
+        android:id="@+id/tv_setting_keyboard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_margin="12dp"
+        android:padding="6dp"
+        android:text="自定义键盘测试" />
 </LinearLayout>

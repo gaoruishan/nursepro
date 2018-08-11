@@ -7,11 +7,11 @@
         <!--android:color="@color/colorPrimary" />-->
     <!-- 中间渐变，角度0从左往右，正值为逆时针，270度为从上到下 -->
     <gradient
-        android:startColor="@color/blue_dark"
-        android:endColor="@color/blue_light" />
+        android:startColor="#FFFFFF"
+        android:endColor="#FFFFFF" />
     <!-- 设置四个角的角度 -->
-    <!--<corners-->
-        <!--android:radius="5dp" />-->
+    <corners
+        android:radius="6dp" />
     <!-- 设置padding -->
     <!--<padding-->
         <!--android:bottom="0dp"-->

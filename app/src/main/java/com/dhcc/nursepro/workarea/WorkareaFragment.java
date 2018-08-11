@@ -5,15 +5,20 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.workarea.bedmap.BedMapFragment;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
+/**
+ * WorkareaFragment
+ * 主页
+ *
+ */
 public class WorkareaFragment extends BaseFragment {
+    private TextView tvWorkareaBedmap;
 
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -41,7 +46,13 @@ public class WorkareaFragment extends BaseFragment {
 
 
     private void initView(View view){
-
+        tvWorkareaBedmap = view.findViewById(R.id.tv_workarea_bedmap);
+        tvWorkareaBedmap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startFragment(BedMapFragment.class);
+            }
+        });
     }
 
 }
