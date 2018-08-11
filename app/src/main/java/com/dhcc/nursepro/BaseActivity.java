@@ -54,11 +54,6 @@ import com.dhcc.nursepro.common.BaseBottomLoadingView;
 import com.dhcc.nursepro.common.BasePushDialog;
 import com.dhcc.nursepro.common.BaseTopLoadingView;
 import com.dhcc.nursepro.MessageEvent;
-//import com.jackghost.control.common.BaseBottomLoadingView;
-//import com.jackghost.control.common.BaseFullLoadingView;
-//import com.jackghost.control.common.BasePushDialog;
-//import com.jackghost.control.common.BaseTopLoadingView;
-//import com.jackghost.control.user.UserLoginFragment;
 
 import org.greenrobot.eventbus.EventBus;
 

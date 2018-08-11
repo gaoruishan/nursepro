@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.jackghost.control.common.BaseFullLoadingView
+<com.dhcc.nursepro.common.BaseFullLoadingView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -14,10 +14,10 @@
         android:paddingBottom="32dp"
         android:background="@drawable/base_full_loading_background">
 
-        <com.jackghost.control.common.CircularProgressBar
+        <com.dhcc.nursepro.common.CircularProgressBar
             android:layout_gravity="center_vertical"
             android:layout_width="60dp"
             android:layout_height="60dp" />
 
     </LinearLayout>
-</com.jackghost.control.common.BaseFullLoadingView>
+</com.dhcc.nursepro.common.BaseFullLoadingView>
