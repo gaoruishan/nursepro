@@ -3,64 +3,88 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="12dp"
+        android:paddingBottom="6dp"
         android:paddingEnd="12dp"
-        android:paddingTop="12dp"
-        android:paddingBottom="6dp">
+        android:paddingStart="12dp"
+        android:paddingTop="12dp">
+
         <TextView
             android:id="@+id/tv_bedmap_patient_bedno"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#666666"
-            tools:text="01床"/>
+            android:textColor="#B3B3B3"
+            tools:text="01床" />
+
         <View
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="1dp"/>
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
         <TextView
-            android:id="@+id/tv_bedmap_patient_ordertime"
+            android:id="@+id/tv_bedmap_patient_longorder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#666666"
-            tools:text="长期"/>
+            android:textColor="#B3B3B3"
+            android:text="长期" />
+
         <View
+            android:id="@+id/line_bedmap_patient_1"
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="6dp"
             android:layout_marginEnd="6dp"
-            android:background="#666666"/>
+            android:layout_marginStart="6dp"
+            android:background="#A8A8A8" />
+
         <TextView
-            android:id="@+id/tv_bedmap_patient_nursinglevel"
+            android:id="@+id/tv_bedmap_patient_temporder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#666666"
-            tools:text="一级"/>
+            android:textColor="#B3B3B3"
+            android:text="短期" />
+
+        <View
+            android:id="@+id/line_bedmap_patient_2"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="6dp"
+            android:layout_marginStart="6dp"
+            android:background="#A8A8A8" />
+
+        <TextView
+            android:id="@+id/tv_bedmap_patient_carelevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#B3B3B3"
+            tools:text="一级" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingStart="16dp"
+        android:paddingBottom="12dp"
         android:paddingEnd="12dp"
-        android:paddingTop="6dp"
-        android:paddingBottom="12dp">
+        android:paddingStart="16dp"
+        android:paddingTop="6dp">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <TextView
                 android:id="@+id/tv_bedmap_patient_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                android:layout_marginEnd="8dp"
-                tools:text="刘患者"/>
+                tools:text="刘患者" />
 
             <ImageView
                 android:id="@+id/img_bedmap_patient_sex"
@@ -69,29 +93,73 @@
                 android:layout_gravity="center"
                 android:layout_marginEnd="8dp"
                 tools:src="@drawable/sex_male" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
             <TextView
+                android:id="@+id/tv_bedmap_patient_operation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                />
+                android:layout_marginEnd="6dp"
+                android:textColor="#B3B3B3"
+                android:text="术" />
+
+            <TextView
+                android:id="@+id/tv_bedmap_patient_critical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:textColor="#B3B3B3"
+                android:text="危" />
+
+            <TextView
+                android:id="@+id/tv_bedmap_patient_arrears"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:textColor="#B3B3B3"
+                android:text="欠" />
+
+            <TextView
+                android:id="@+id/tv_bedmap_patient_criticalvalue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:textColor="#B3B3B3"
+                android:text="值" />
+
+            <TextView
+                android:id="@+id/tv_bedmap_patient_skintest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#B3B3B3"
+                android:text="皮" />
         </LinearLayout>
+
         <View
             android:id="@+id/line_bedmap_patient"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="4dp"
             android:layout_marginBottom="6dp"
-            android:background="#666666"/>
+            android:layout_marginTop="4dp"
+            android:background="#F6F6F6" />
+
         <LinearLayout
-            android:id="@+id/ll_bedmap_patient_skintest"
+            android:id="@+id/ll_bedmap_patient_skinorder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="皮试记录"/>
+                android:text="皮试" />
+
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/recy_bedmap_patient_skintest"
+                android:id="@+id/recy_bedmap_patient_skinorder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -101,10 +169,8 @@
 
     </LinearLayout>
 
-
-
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#f2f2f2" />
+        android:background="#f1f1f1" />
 </LinearLayout>

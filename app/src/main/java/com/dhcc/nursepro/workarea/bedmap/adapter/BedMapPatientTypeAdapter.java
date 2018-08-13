@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * BedMapPatientTypeAdapter
- *
+ * 床位图-患者类型（左侧筛选）
  * @author DevLix126
  * @date 2018/8/11
  */

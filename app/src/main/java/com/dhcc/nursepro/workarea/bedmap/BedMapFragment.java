@@ -5,9 +5,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,6 +52,7 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
     private List<BedMapBean.PatInfoListBean> patInfoListBeanList;
     private List<BedMapBean.TopFilterBean> topFilterBeanList;
 
+    private String bedno = "";
     private String topFilterStr = "inBedAll";
     private String leftFilterStr = "allPat";
 
@@ -63,7 +68,7 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
 
         setToolbarType(BaseActivity.ToolbarType.TOP);
         setToolbarBottomLineVisibility(true);
-        hideToolbarNavigationIcon();
+//        hideToolbarNavigationIcon();
         setToolbarCenterTitle(getString(R.string.title_bedmap));
 
 
@@ -74,8 +79,7 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
             public void run() {
                 asyncInitData();
             }
-        },300);
-
+        }, 300);
 
 
     }
@@ -89,6 +93,26 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
         //        Drawable drawable1 = getResources().getDrawable(R.drawable.search);
         //        drawable1.setBounds(0, 0, 4, 4);//第一0是距左边距离，第二0是距上边距离，40分别是长宽
         //        etBedmapBedno.setCompoundDrawables(drawable1, null, null, null);//只放左边
+
+        //变更即搜
+        etBedmapBedno.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                bedno = s.toString();
+                setData(bedno, topFilterStr, leftFilterStr);
+            }
+        });
+
 
         tvBedmapAllarea = view.findViewById(R.id.tv_bedmap_allarea);
         tvBedmapAllarea.setOnClickListener(this);
@@ -121,7 +145,7 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 if (view.getId() == R.id.tv_bedmap_patienttype) {
                     leftFilterStr = ((BedMapBean.LeftFilterBean) adapter.getItem(position)).getCode();
-                    setData(topFilterStr, leftFilterStr);
+                    setData(bedno, topFilterStr, leftFilterStr);
                     //左侧刷新分类选中状态显示
                     bedMapPatientTypeAdapter.setSelectedPostion(position);
                     bedMapPatientTypeAdapter.notifyDataSetChanged();
@@ -133,13 +157,13 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
 
 
         bedMapPatientAdapter = new BedMapPatientAdapter(new ArrayList<BedMapBean.PatInfoListBean>());
-//        bedMapPatientAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-//            @Override
-//            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-//                BedMapBean.PatInfoListBean patInfoListBean = (BedMapBean.PatInfoListBean) adapter.getItem(position);
-//
-//            }
-//        });
+        //        bedMapPatientAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+        //            @Override
+        //            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+        //                BedMapBean.PatInfoListBean patInfoListBean = (BedMapBean.PatInfoListBean) adapter.getItem(position);
+        //
+        //            }
+        //        });
 
         recyBedmapPatient.setAdapter(bedMapPatientAdapter);
 
@@ -185,7 +209,7 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
                 }
 
                 hideLoadFailTip();
-                setData("inBedAll", "allPat");
+                setData("", "inBedAll", "allPat");
             }
 
             @Override
@@ -197,17 +221,33 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
         });
     }
 
-    private void setData(String topFilterStr, String leftFilterStr) {
+    private void setData(String bedno, String topFilterStr, String leftFilterStr) {
         List<BedMapBean.PatInfoListBean> displayList = new ArrayList<>();
 
-        if (leftFilterStr.equals("allPat")) {
-            if (topFilterStr.equals("inBedAll")) {
-                displayList = patInfoListBeanList;
+        if ("allPat".equals(leftFilterStr)) {
+            if ("inBedAll".equals(topFilterStr)) {
+                if ("".equals(bedno)) {
+                    displayList = patInfoListBeanList;
+                } else {
+                    for (int i = 0; i < patInfoListBeanList.size(); i++) {
+                        BedMapBean.PatInfoListBean patInfoListBean = patInfoListBeanList.get(i);
+                        if (patInfoListBean.getBedCode().equals(bedno)) {
+                            displayList.add(patInfoListBean);
+                        }
+                    }
+                }
             } else {
                 for (int i = 0; i < patInfoListBeanList.size(); i++) {
                     BedMapBean.PatInfoListBean patInfoListBean = patInfoListBeanList.get(i);
 
+                    boolean bednomatch = false;
                     boolean topmatch = false;
+
+                    if (bedno.equals("")) {
+                        bednomatch = true;
+                    } else if (patInfoListBean.getBedCode().equals(bedno)) {
+                        bednomatch = true;
+                    }
 
                     // {"code":"inBedAll","desc":"全区"},
                     // {"code":"manageInBed","desc":"管辖"},
@@ -243,7 +283,7 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
                         default:
                             break;
                     }
-                    if (topmatch) {
+                    if (bednomatch && topmatch) {
                         displayList.add(patInfoListBean);
                     }
                 }
@@ -252,8 +292,15 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
             for (int i = 0; i < patInfoListBeanList.size(); i++) {
                 BedMapBean.PatInfoListBean patInfoListBean = patInfoListBeanList.get(i);
 
+                boolean bednomatch = false;
                 boolean topmatch = false;
                 boolean leftmatch = false;
+
+                if (bedno.equals("")) {
+                    bednomatch = true;
+                } else if (patInfoListBean.getBedCode().equals(bedno)) {
+                    bednomatch = true;
+                }
 
                 // {"code":"inBedAll","desc":"全区"},
                 // {"code":"manageInBed","desc":"管辖"},
@@ -319,7 +366,7 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
                         break;
                 }
 
-                if (topmatch && leftmatch) {
+                if (bednomatch && topmatch && leftmatch) {
                     displayList.add(patInfoListBean);
                 }
             }
@@ -349,23 +396,23 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
         switch (v.getId()) {
             case R.id.tv_bedmap_allarea:
                 topFilterStr = "inBedAll";
-                setData(topFilterStr, leftFilterStr);
+                setData(bedno, topFilterStr, leftFilterStr);
                 break;
             case R.id.tv_bedmap_adminarea:
                 topFilterStr = "manageInBed";
-                setData(topFilterStr, leftFilterStr);
+                setData(bedno, topFilterStr, leftFilterStr);
                 break;
             case R.id.tv_bedmap_nowoutarea:
                 topFilterStr = "todayOut";
-                setData(topFilterStr, leftFilterStr);
+                setData(bedno, topFilterStr, leftFilterStr);
                 break;
             case R.id.tv_bedmap_alloutarea:
                 topFilterStr = "allOut";
-                setData(topFilterStr, leftFilterStr);
+                setData(bedno, topFilterStr, leftFilterStr);
                 break;
             case R.id.tv_bedmap_waitarea:
                 topFilterStr = "wait";
-                setData(topFilterStr, leftFilterStr);
+                setData(bedno, topFilterStr, leftFilterStr);
                 break;
             default:
                 break;

@@ -9,9 +9,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#62AAFF"
         android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:background="#62AAFF">
+        android:focusableInTouchMode="true">
 
 
         <EditText
@@ -22,16 +22,17 @@
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:paddingTop="3dp"
-            android:paddingBottom="3dp"
-            android:paddingStart="6dp"
-            android:paddingEnd="6dp"
             android:background="@drawable/bg_bedmap_search"
-            android:drawableStart="@drawable/search"
             android:drawablePadding="12dp"
-            android:inputType="number"
-            android:imeOptions="actionSearch"
+            android:drawableStart="@drawable/search"
             android:hint="请输入病人床号或直接扫描病人腕带进行搜索"
+            android:imeOptions="actionDone"
+            android:inputType="number"
+            android:paddingBottom="3dp"
+            android:paddingEnd="6dp"
+            android:paddingStart="6dp"
+            android:paddingTop="3dp"
+            android:singleLine="true"
             android:textColorHint="#999999"
             android:textSize="12sp" />
 
@@ -49,8 +50,8 @@
             android:layout_height="32dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:textColor="@color/black"
-            android:text="全区" />
+            android:text="全区"
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/tv_bedmap_adminarea"
@@ -58,8 +59,8 @@
             android:layout_height="32dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:textColor="@color/black"
-            android:text="管辖" />
+            android:text="管辖"
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/tv_bedmap_nowoutarea"
@@ -67,8 +68,8 @@
             android:layout_height="32dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:textColor="@color/black"
-            android:text="今出区" />
+            android:text="今出区"
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/tv_bedmap_alloutarea"
@@ -76,8 +77,8 @@
             android:layout_height="32dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:textColor="@color/black"
-            android:text="全出区" />
+            android:text="全出区"
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/tv_bedmap_waitarea"
@@ -85,8 +86,8 @@
             android:layout_height="32dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:textColor="@color/black"
-            android:text="等待区" />
+            android:text="等待区"
+            android:textColor="@color/black" />
     </LinearLayout>
 
     <View
@@ -100,10 +101,10 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recy_bedmap_patienttype"
-            android:background="@color/blue_light"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:background="@color/blue_light">
 
         </android.support.v7.widget.RecyclerView>
 
@@ -111,7 +112,7 @@
             android:id="@+id/recy_bedmap_patient"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="3"
+            android:layout_weight="4"
             android:background="@color/white">
 
         </android.support.v7.widget.RecyclerView>
