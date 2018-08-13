@@ -20,25 +20,12 @@ public class BedMapApiManager {
                 Gson gson = new Gson();
                 BedMapBean bedMapBean = gson.fromJson(jsonStr,BedMapBean.class);
                 if (bedMapBean != null) {
-
                     callback.onSuccess(bedMapBean);
                 } else {
                     callback.onFail("","");
                 }
-
-
-//                if (result.getStatus().equals("0")){
-//                    if (callback != null){
-//                        callback.onSuccess(result);
-//                    }
-//                }else{
-//                    if (callback != null){
-//                        callback.onFail(result.getMsgcode(),result.getMsg());
-//                    }
-//                }
             }
         });
     }
-
 
 }
