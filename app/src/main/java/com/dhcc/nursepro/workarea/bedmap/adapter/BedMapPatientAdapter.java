@@ -66,7 +66,7 @@ public class BedMapPatientAdapter extends BaseQuickAdapter<BedMapBean.PatInfoLis
             tvTempOrd.setVisibility(View.GONE);
         }
         if ("".equals(item.getCareLevel())) {
-            tvLongOrd.setVisibility(View.GONE);
+            tvCareLevel.setVisibility(View.GONE);
 
         } else {
             tvCareLevel.setVisibility(View.VISIBLE);
