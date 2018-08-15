@@ -5,27 +5,27 @@ import com.google.gson.Gson;
 
 public class BedMapApiManager {
 
-    public interface CommonCallBack{
-        void onFail(String code, String msg);
-    }
-
-    public interface GetBedMapCallback extends CommonCallBack{
-        void onSuccess(BedMapBean bedMapBean);
-    }
-
-    public static void getBedMap(final GetBedMapCallback callback){
-        BedMapApiService.getBedMap(new BedMapApiService.ServiceCallBack() {
+    public static void getBedMap(String wardId, String userId, final GetBedMapCallback callback) {
+        BedMapApiService.getBedMap(wardId, userId, new BedMapApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();
-                BedMapBean bedMapBean = gson.fromJson(jsonStr,BedMapBean.class);
+                BedMapBean bedMapBean = gson.fromJson(jsonStr, BedMapBean.class);
                 if (bedMapBean != null) {
                     callback.onSuccess(bedMapBean);
                 } else {
-                    callback.onFail("","");
+                    callback.onFail("", "");
                 }
             }
         });
+    }
+
+    public interface CommonCallBack {
+        void onFail(String code, String msg);
+    }
+
+    public interface GetBedMapCallback extends CommonCallBack {
+        void onSuccess(BedMapBean bedMapBean);
     }
 
 }

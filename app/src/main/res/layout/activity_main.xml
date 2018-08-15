@@ -34,7 +34,7 @@
             android:drawableTop="@drawable/tabbar_item_workarea_selector"
             android:gravity="center"
             android:text="@string/tabbar_workarea"
-            android:textColor="@color/bottom_item_text_selected_color"
+            android:textColor="@drawable/tabbar_item_textcolor_selector"
             android:textSize="11sp" />
 
         <RadioButton
@@ -48,7 +48,7 @@
             android:drawableTop="@drawable/tabbar_item_message_selector"
             android:gravity="center"
             android:text="@string/tabbar_message"
-            android:textColor="@color/bottom_item_text_selected_color"
+            android:textColor="@drawable/tabbar_item_textcolor_selector"
             android:textSize="11sp" />
 
         <RadioButton
@@ -62,7 +62,7 @@
             android:drawableTop="@drawable/tabbar_item_setting_selector"
             android:gravity="center"
             android:text="@string/tabbar_setting"
-            android:textColor="@color/bottom_item_text_unselected_color"
+            android:textColor="@drawable/tabbar_item_textcolor_selector"
             android:textSize="11sp" />
 
 

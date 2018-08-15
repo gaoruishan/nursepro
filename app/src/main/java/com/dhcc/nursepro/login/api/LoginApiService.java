@@ -11,12 +11,12 @@ import java.util.HashMap;
  * @date 2018/8/13
  */
 public class LoginApiService {
-    public static void getLogin(final ServiceCallBack callback) {
+    public static void getLogin(String userCode, String password, String logonWardId, final ServiceCallBack callback) {
 
         HashMap<String, String> properties = new HashMap<String, String>();
-        properties.put("userCode", "innurse");
-        properties.put("password", "1");
-        properties.put("logonWardId", "5");
+        properties.put("userCode", userCode);
+        properties.put("password", password);
+        properties.put("logonWardId", logonWardId);
         WebServiceUtils.callWebService("Logon", properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {

@@ -1,7 +1,11 @@
 package com.dhcc.nursepro;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 
+import com.dhcc.nursepro.greendao.DaoMaster;
+import com.dhcc.nursepro.greendao.DaoSession;
+import com.dhcc.nursepro.greendao.GreenDaoHelper;
 import com.facebook.drawee.backends.pipeline.Fresco;
 
 import java.util.concurrent.Executors;
@@ -43,6 +47,9 @@ public class NApplication extends BaseApplication {
         uiHandler = new Handler(getMainLooper());
 
         initThreadPool();
+
+        //配置数据库
+        GreenDaoHelper.initDatabase(this);
 
         Fresco.initialize(getApp());
     }

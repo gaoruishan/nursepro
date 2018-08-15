@@ -11,8 +11,8 @@ import com.google.gson.Gson;
  */
 public class LoginApiManager {
 
-    public static void getLogin(final GetLoginCallback callback) {
-        LoginApiService.getLogin(new LoginApiService.ServiceCallBack() {
+    public static void getLogin(String userCode, String password, String logonWardId, final GetLoginCallback callback) {
+        LoginApiService.getLogin(userCode, password, logonWardId, new LoginApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();

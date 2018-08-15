@@ -6,15 +6,11 @@ import java.util.HashMap;
 
 public class BedMapApiService {
 
-    public interface ServiceCallBack{
-        void onResult(String jsonStr);
-    }
-
-    public static void getBedMap(final ServiceCallBack callback ){
+    public static void getBedMap(String wardId, String userId, final ServiceCallBack callback) {
 
         HashMap<String, String> properties = new HashMap<String, String>();
-        properties.put("wardId", "5");
-        properties.put("userId", "2");
+        properties.put("wardId", wardId);
+        properties.put("userId", userId);
         WebServiceUtils.callWebService("getWardPatList", properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
@@ -22,6 +18,10 @@ public class BedMapApiService {
             }
         });
 
+    }
+
+    public interface ServiceCallBack {
+        void onResult(String jsonStr);
     }
 
 }
