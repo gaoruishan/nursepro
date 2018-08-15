@@ -185,7 +185,7 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
 
                 for (int i = 0; i < topFilterBeanList.size(); i++) {
                     BedMapBean.TopFilterBean topFilterBean = topFilterBeanList.get(i);
-                    if ("".equals(topFilterBean.getCode())) {
+                    if ("".equals(topFilterBean.getDesc())) {
                         switch (topFilterBean.getCode()) {
                             case "inBedAll":
                                 tvBedmapAllarea.setVisibility(View.GONE);
