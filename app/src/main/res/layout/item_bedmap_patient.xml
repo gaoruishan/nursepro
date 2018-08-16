@@ -18,7 +18,7 @@
             android:id="@+id/tv_bedmap_patient_bedno"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#B3B3B3"
+            android:textColor="#4A4A4A"
             tools:text="01床" />
 
         <View
@@ -30,7 +30,7 @@
             android:id="@+id/tv_bedmap_patient_longorder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#B3B3B3"
+            android:textColor="#4A4A4A"
             android:text="长期" />
 
         <View
@@ -45,7 +45,7 @@
             android:id="@+id/tv_bedmap_patient_temporder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#B3B3B3"
+            android:textColor="#4A4A4A"
             android:text="短期" />
 
         <View
@@ -60,7 +60,7 @@
             android:id="@+id/tv_bedmap_patient_carelevel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#B3B3B3"
+            android:textColor="#4A4A4A"
             tools:text="一级" />
     </LinearLayout>
 
@@ -104,7 +104,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="6dp"
-                android:textColor="#B3B3B3"
+                android:textColor="#4A4A4A"
                 android:text="术" />
 
             <TextView
@@ -112,7 +112,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="6dp"
-                android:textColor="#B3B3B3"
+                android:textColor="#4A4A4A"
                 android:text="危" />
 
             <TextView
@@ -120,7 +120,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="6dp"
-                android:textColor="#B3B3B3"
+                android:textColor="#4A4A4A"
                 android:text="欠" />
 
             <TextView
@@ -128,14 +128,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="6dp"
-                android:textColor="#B3B3B3"
+                android:textColor="#4A4A4A"
                 android:text="值" />
 
             <TextView
                 android:id="@+id/tv_bedmap_patient_skintest"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#B3B3B3"
+                android:textColor="#4A4A4A"
                 android:text="皮" />
         </LinearLayout>
 

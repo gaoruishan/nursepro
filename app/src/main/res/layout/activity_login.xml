@@ -13,12 +13,16 @@
         android:id="@+id/et_login_usercode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:imeOptions="actionNext"
         android:hint="工号"/>
 
     <EditText
         android:id="@+id/et_login_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:imeOptions="actionDone"
         android:hint="密码"/>
 
     <TextView

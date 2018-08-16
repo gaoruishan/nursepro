@@ -21,6 +21,9 @@ import com.dhcc.nursepro.login.bean.NurseInfo;
 
 import java.util.List;
 
+import cn.qqtheme.framework.picker.OptionPicker;
+import cn.qqtheme.framework.widget.WheelView;
+
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     DaoSession daoSession = GreenDaoHelper.getDaoSession();
@@ -29,7 +32,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private TextView tvLoginWard;
     private TextView tvLoginLogin;
     private String version;
+
     private List<NurseInfo> nurseInfoList;
+    private NurseInfo loginNurseInfo;
+
     private boolean logincheck = false;
     private String userCode;
     private String password;
@@ -84,8 +90,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 if (nurseInfoList != null && nurseInfoList.size() > 0) {
                     for (int i = 0; i < nurseInfoList.size(); i++) {
                         NurseInfo nurseInfo = nurseInfoList.get(i);
-                        if (code.equals(nurseInfo.getUserId())) {
+                        if (code.equals(nurseInfo.getUserCode())) {
                             tvLoginWard.setText(nurseInfo.getLocDesc());
+                            logonWardId = nurseInfo.getWardId();
+                            loginNurseInfo = nurseInfo;
                         }
                     }
                 }
@@ -109,7 +117,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     Toast.makeText(this, "请输入密码", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                initData("ward");
+                initData("ward",null);
                 break;
             case R.id.tv_login_login:
                 if (TextUtils.isEmpty(userCode)) {
@@ -120,7 +128,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     Toast.makeText(this, "请输入密码", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                initData("login");
+                initData("login", null);
                 break;
 
 
@@ -129,62 +137,99 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void initData(String action) {
+    private void initData(final String action, final NurseInfo nurseInfo) {
         LoginApiManager.getLogin(userCode, password, logonWardId, new LoginApiManager.GetLoginCallback() {
             @Override
-            public void onSuccess(LoginBean loginBean) {
-                logincheck = true;
+            public void onSuccess(final LoginBean loginBean) {
 
-                //                for (int i = 0; i < nurseInfoList.size(); i++) {
-                //                    NurseInfo nurseInfo = nurseInfoList.get(i);
-                //                    if (userCode.equals(nurseInfo.getUserCode())) {
-                //
-                //                    }
-                //                }
+                //选择科室
+                if ("ward".equals(action)) {
+                    final List<LoginBean.LocsBean> locsBeanList = loginBean.getLocs();
 
-                LoginBean.LocsBean locsBean = loginBean.getLocs().get(0);
-
-                NurseInfo nurseInfo = new NurseInfo(null, loginBean.getSchEnDateTime(), loginBean.getSchStDateTime(), loginBean.getStatus(), loginBean.getUserId(), userCode, loginBean.getUserName(), locsBean.getGroupDesc(), locsBean.getGroupId(), locsBean.getHospitalRowId(), locsBean.getLinkLoc(), locsBean.getLocDesc(), locsBean.getLocId(), locsBean.getWardId());
-
-                if (nurseInfoList != null && nurseInfoList.size() > 0) {
-                    for (int j = 0; j < nurseInfoList.size(); j++) {
-                        NurseInfo nurseInfo1 = nurseInfoList.get(j);
-                        if (userCode.equals(nurseInfo1.getUserCode())) {
-                            Toast.makeText(LoginActivity.this, "已存在，更新数据", Toast.LENGTH_SHORT).show();
-                            nurseInfo.setId(nurseInfo1.getId());
-                            daoSession.getNurseInfoDao().update(nurseInfo);
-                            finish();
-                        } else {
-                            Toast.makeText(LoginActivity.this, "不存在，插入新数据", Toast.LENGTH_SHORT).show();
-                            daoSession.getNurseInfoDao().insert(nurseInfo);
-                            finish();
-                        }
+                    String[] locDesc = new String[locsBeanList.size()];
+                    for (int i = 0; i < locsBeanList.size(); i++) {
+                        locDesc[i] = locsBeanList.get(i).getLocDesc();
                     }
 
-                } else {
-                    Toast.makeText(LoginActivity.this, "不存在，插入新数据", Toast.LENGTH_SHORT).show();
-                    daoSession.getNurseInfoDao().insert(nurseInfo);
-                    finish();
+                    final OptionPicker picker = new OptionPicker(LoginActivity.this, locDesc);
+                    picker.setCanceledOnTouchOutside(false);
+                    picker.setDividerRatio(WheelView.DividerConfig.FILL);
+                    picker.setSelectedIndex(0);
+                    picker.setCycleDisable(true);
+                    picker.setTextSize(20);
+                    picker.setOnOptionPickListener(new OptionPicker.OnOptionPickListener() {
+                        @Override
+                        public void onOptionPicked(int index, String item) {
+                            LoginBean.LocsBean locsBean = locsBeanList.get(index);
+
+                            if (nurseInfo == null) {
+                                loginNurseInfo = new NurseInfo(null, loginBean.getSchEnDateTime(), loginBean.getSchStDateTime(), loginBean.getStatus(), loginBean.getUserId(), userCode, loginBean.getUserName(), locsBean.getGroupDesc(), locsBean.getGroupId(), locsBean.getHospitalRowId(), locsBean.getLinkLoc(), locsBean.getLocDesc(), locsBean.getLocId(), locsBean.getWardId());
+
+                            } else {
+                                loginNurseInfo.setGroupDesc(locsBean.getGroupDesc());
+                                loginNurseInfo.setGroupId(locsBean.getGroupId());
+                                loginNurseInfo.setHospitalRowId(locsBean.getHospitalRowId());
+                                loginNurseInfo.setLinkLoc(locsBean.getLinkLoc());
+                                loginNurseInfo.setLocDesc(locsBean.getLocDesc());
+                                loginNurseInfo.setLocId(locsBean.getLocId());
+                                loginNurseInfo.setWardId(locsBean.getWardId());
+                            }
+
+                            if (nurseInfoList != null && nurseInfoList.size() > 0) {
+                                for (int j = 0; j < nurseInfoList.size(); j++) {
+                                    NurseInfo nurseInfo1 = nurseInfoList.get(j);
+                                    if (userCode.equals(nurseInfo1.getUserCode())) {
+                                        Toast.makeText(LoginActivity.this, "ward----已存在,更新数据", Toast.LENGTH_SHORT).show();
+                                        loginNurseInfo.setId(nurseInfo1.getId());
+                                        daoSession.getNurseInfoDao().update(loginNurseInfo);
+                                        initData("login", loginNurseInfo);
+                                    } else {
+                                        Toast.makeText(LoginActivity.this, "ward----不存在，插入新数据", Toast.LENGTH_SHORT).show();
+                                        daoSession.getNurseInfoDao().insert(loginNurseInfo);
+                                        initData("login", loginNurseInfo);
+                                    }
+                                }
+
+                            } else {
+                                Toast.makeText(LoginActivity.this, "ward----不存在，插入新数据", Toast.LENGTH_SHORT).show();
+                                daoSession.getNurseInfoDao().insert(loginNurseInfo);
+                                initData("login", loginNurseInfo);
+                            }
+                        }
+                    });
+                    picker.show();
+
+
+
+                //登录
+                } else if ("login".equals(action)) {
+                    LoginBean.LocsBean locsBean = loginBean.getLocs().get(0);
+
+                    if (nurseInfo == null) {
+                        loginNurseInfo = new NurseInfo(null, loginBean.getSchEnDateTime(), loginBean.getSchStDateTime(), loginBean.getStatus(), loginBean.getUserId(), userCode, loginBean.getUserName(), locsBean.getGroupDesc(), locsBean.getGroupId(), locsBean.getHospitalRowId(), locsBean.getLinkLoc(), locsBean.getLocDesc(), locsBean.getLocId(), locsBean.getWardId());
+                    }
+                    NurseInfo nurseInfo = new NurseInfo(null, loginBean.getSchEnDateTime(), loginBean.getSchStDateTime(), loginBean.getStatus(), loginBean.getUserId(), userCode, loginBean.getUserName(), locsBean.getGroupDesc(), locsBean.getGroupId(), locsBean.getHospitalRowId(), locsBean.getLinkLoc(), locsBean.getLocDesc(), locsBean.getLocId(), locsBean.getWardId());
+
+                    if (nurseInfoList != null && nurseInfoList.size() > 0) {
+                        for (int j = 0; j < nurseInfoList.size(); j++) {
+                            NurseInfo nurseInfo1 = nurseInfoList.get(j);
+                            if (userCode.equals(nurseInfo1.getUserCode())) {
+                                Toast.makeText(LoginActivity.this, "login----已存在,使用已保存数据", Toast.LENGTH_SHORT).show();
+                                finish();
+                            } else {
+                                Toast.makeText(LoginActivity.this, "login----不存在，插入新数据", Toast.LENGTH_SHORT).show();
+                                daoSession.getNurseInfoDao().insert(nurseInfo);
+                                finish();
+                            }
+                        }
+
+                    } else {
+                        Toast.makeText(LoginActivity.this, "login----不存在，插入新数据", Toast.LENGTH_SHORT).show();
+                        daoSession.getNurseInfoDao().insert(nurseInfo);
+                        finish();
+                    }
                 }
 
-                //                Nurse nurse = new Nurse(null,loginBean.getSchEnDateTime(),loginBean.getSchStDateTime(),loginBean.getStatus(),loginBean.getUserId(),loginBean.getUserName(),"");
-                //
-                //                daoSession.getNurseDao().insert(nurse);
-                //
-                //                List<LoginBean.LocsBean> locsBeanList = loginBean.getLocs();
-                //
-                //                for (int i = 0; i < locsBeanList.size(); i++) {
-                //                    LoginBean.LocsBean locsBean = locsBeanList.get(i);
-                //                    Loc loc = new Loc(null, locsBean.getGroupDesc(), locsBean.getGroupId(), locsBean.getHospitalRowId(), locsBean.getLinkLoc(), locsBean.getLocDesc(), locsBean.getLocId(), locsBean.getWardId());
-                //                    List<Loc> locList = daoSession.getLocDao().queryBuilder().where(LocDao.Properties.WardId.eq(loc.getWardId())).list();
-                //                    if (locList.size() > 0) {
-                //                        Long id = locList.get(0).getId();
-                //                        loc.setId(id);
-                //                        daoSession.getLocDao().update(loc);
-                //                    } else {
-                //                        daoSession.getLocDao().insert(loc);
-                //                    }
-                //                }
             }
 
             @Override
