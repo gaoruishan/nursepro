@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blankj.utilcode.util.TimeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
@@ -19,18 +20,26 @@ import com.dhcc.nursepro.workarea.vitalsign.adapter.VitalSignPatientAdapter;
 import com.dhcc.nursepro.workarea.vitalsign.adapter.VitalSignTypeAdapter;
 import com.dhcc.nursepro.workarea.vitalsign.api.VitalSignApiManager;
 import com.dhcc.nursepro.workarea.vitalsign.bean.VitalSignBean;
+import com.jzxiang.pickerview.TimePickerDialog;
+import com.jzxiang.pickerview.data.Type;
+import com.jzxiang.pickerview.listener.OnDateSetListener;
 
+import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-public class VitalSignFragment extends BaseFragment implements View.OnClickListener {
+public class VitalSignFragment extends BaseFragment implements View.OnClickListener, OnDateSetListener {
 
     private TextView tvVitalSignAllarea;
     private TextView tvVitalSignAdminarea;
     private TextView tvVitalSignNowoutarea;
     private TextView tvVitalSignAlloutarea;
     private TextView tvVitalSignWaitarea;
+    private TextView tvVitalSignChooseTime;
 
     private RecyclerView recyVitalSignType;
     private RecyclerView recyVitalSignPatient;
@@ -44,11 +53,14 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
 
     private List patientList;
 
+    private List timeFilterList;
+
     private List<Map> displayList = new ArrayList<>();
 
 
     private String topFilterStr = "inBedAll";
     private String timeFilterStr = "06:00";
+    private String dateFilterStr = "";
 
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -66,6 +78,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
 
         initView(view);
         initAdapter();
+        initData();
         view.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -90,6 +103,11 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
         tvVitalSignWaitarea = view.findViewById(R.id.tv_vitalsign_waitarea);
         tvVitalSignWaitarea.setOnClickListener(this);
 
+        tvVitalSignChooseTime = view.findViewById(R.id.tv_vitalsign_time);
+        tvVitalSignChooseTime.setOnClickListener(this);
+
+        setTopFilterSelect(tvVitalSignAllarea);
+
         recyVitalSignType = view.findViewById(R.id.recy_vitalsign_type);
         recyVitalSignPatient = view.findViewById(R.id.recy_vitalsign_patient);
 
@@ -111,12 +129,16 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 if (view.getId() == R.id.tv_vitalsign_vitalsign_record){
                     //体征录入
+                    Toast.makeText(getContext(), "体征录入", Toast.LENGTH_SHORT).show();
                 }else if(view.getId() == R.id.tv_vitalsign_event_record){
                     //事件登记
+                    Toast.makeText(getContext(), "事件登记", Toast.LENGTH_SHORT).show();
                 }else if(view.getId() == R.id.tv_vitalsign_tmp_preview){
                     //体温单预览
+                    Toast.makeText(getContext(), "体温单预览", Toast.LENGTH_SHORT).show();
                 }else{
                     //普通点击
+                    Toast.makeText(getContext(), "普通点击", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -138,16 +160,24 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
 
     }
 
+    private void initData(){
+        dateFilterStr = TimeUtils.getNowString().substring(0,11);
+        tvVitalSignChooseTime.setText(dateFilterStr + "  " + timeFilterStr);
+    }
+
     private void asyncInitData() {
         showLoadingTip(BaseActivity.LoadingType.FULL);
 
-        VitalSignApiManager.getVitalSignList("2018-08-17", new VitalSignApiManager.GetVitalSignListCallback() {
+        VitalSignApiManager.getVitalSignList(dateFilterStr, new VitalSignApiManager.GetVitalSignListCallback() {
             @Override
             public void onSuccess(Map<String, Object> map) {
 
                 topFilterList = (ArrayList) map.get("topFilter");
                 leftFilterList = (ArrayList)map.get("leftFilter");
                 patientList = (ArrayList)map.get("patInfoList");
+                timeFilterList = (ArrayList)map.get("timeSelect");
+                timeFilterStr = (String)map.get("timePoint");
+                tvVitalSignChooseTime.setText(dateFilterStr + "  " + timeFilterStr);
 
                 typeAdapter.setNewData(leftFilterList);
 
@@ -196,18 +226,26 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
         switch (v.getId()) {
             case R.id.tv_vitalsign_allarea:
                 topFilterStr = "inBedAll";
+                setTopFilterSelect(tvVitalSignAllarea);
                 break;
             case R.id.tv_vitalsign_adminarea:
                 topFilterStr = "manageInBed";
+                setTopFilterSelect(tvVitalSignAdminarea);
                 break;
             case R.id.tv_vitalsign_nowoutarea:
                 topFilterStr = "todayOut";
+                setTopFilterSelect(tvVitalSignNowoutarea);
                 break;
             case R.id.tv_vitalsign_alloutarea:
                 topFilterStr = "allOut";
+                setTopFilterSelect(tvVitalSignAlloutarea);
                 break;
             case R.id.tv_vitalsign_waitarea:
                 topFilterStr = "wait";
+                setTopFilterSelect(tvVitalSignWaitarea);
+                break;
+            case R.id.tv_vitalsign_time:
+                chooseTime();
                 break;
             default:
                 break;
@@ -329,38 +367,79 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
 
         }
 
-//
-//
-//        for (int i = 0; i < tmpFilterPatientList.size(); i++){
-//
-//            VitalSignBean.PatInfoListBean patient = tmpFilterPatientList.get(i);
-//
-//            List<VitalSignBean.PatInfoListBean.NeedMeasureInfoBean> list = patient.getNeedMeasureInfo();
-//
-//            boolean needShow = false;
-//            for( int j = 0; j <  list.size(); j++){
-//                List<VitalSignBean.PatInfoListBean.NeedMeasureInfoBean.NeedItemBean> need = list.get(j).getNeedItem();
-//
-//                if (list.get(j).getNeedTimePoint().equals(timeFilterStr)){
-//
-//                }
-//
-//                for (int k = 0; k < selectedLeftFilter.size(); k++){
-//                    String code = selectedLeftFilter.get(k).getCode();
-//                    if (need.get(j).getCode() != null && need.get(j).getCode().equals(code) && need.get(j).getValue().equals("1")){
-//                        needShow = true;
-//                    }
-//                }
-//            }
-//            if (needShow){
-//                displayList.add(patient);
-//            }
-//        }
-
         patientAdapter.setNewData(displayList);
 
     }
 
+
+    private void setTopFilterSelect(View view) {
+        tvVitalSignAllarea.setSelected(view == tvVitalSignAllarea);
+        tvVitalSignAdminarea.setSelected(view == tvVitalSignAdminarea);
+        tvVitalSignNowoutarea.setSelected(view == tvVitalSignNowoutarea);
+        tvVitalSignAlloutarea.setSelected(view == tvVitalSignAlloutarea);
+        tvVitalSignWaitarea.setSelected(view == tvVitalSignWaitarea);
+    }
+
+    private void chooseTime(){
+        long tenYears = 10L * 365 * 1000 * 60 * 60 * 24L;
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+
+        TimePickerDialog mDialogAll = new TimePickerDialog.Builder()
+                .setCallBack(this)
+                .setCancelStringId("取消")
+                .setSureStringId("确认")
+                .setTitleStringId("时间")
+                .setYearText("年")
+                .setMonthText("月")
+                .setDayText("日")
+                .setHourText("：00")
+                .setMinuteText("分")
+                .setCyclic(false)
+                .setMinMillseconds(System.currentTimeMillis() - tenYears)
+                .setCurrentMillseconds(calendar.getTimeInMillis())
+                .setThemeColor(getResources().getColor(R.color.colorAccent))
+                .setType(Type.ALL)
+                .setWheelItemTextNormalColor(getResources().getColor(R.color.timetimepicker_default_text_color))
+                .setWheelItemTextSelectorColor(getResources().getColor(R.color.timepicker_toolbar_bg))
+                .setWheelItemTextSize(12)
+                .build();
+        mDialogAll.settype(1);
+        //取时间前两个字符转为int（02，06...）
+
+        List<String> hours = new ArrayList();
+        for (int i = 0; i < timeFilterList.size(); i ++){
+            String str = (String)((Map)timeFilterList.get(i)).get("time");
+            hours.add(str);
+        }
+
+        mDialogAll.setintHour(hours);
+
+        mDialogAll.show(getFragmentManager(), "ALL");
+
+    }
+
+    @Override
+    public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
+
+        String date = TimeUtils.millis2String(millseconds).substring(0,11);
+        String time = TimeUtils.millis2String(millseconds).substring(11,16);
+
+        if (!date.equals(dateFilterStr)){
+            //日期发生改变，需重新请求数据
+            dateFilterStr = date;
+            asyncInitData();
+        }
+
+        if (!time.equals(timeFilterStr)){
+            timeFilterStr = time;
+            updatePatientData();
+        }
+
+        tvVitalSignChooseTime.setText(TimeUtils.millis2String(millseconds).substring(0,16));
+    }
 
 
 }

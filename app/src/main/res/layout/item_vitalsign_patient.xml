@@ -11,6 +11,11 @@
         android:orientation="vertical"
         android:id="@+id/ll_vitalsign_content">
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="#F6F6F6" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -23,7 +28,8 @@
                 android:id="@+id/tv_vitalsign_patient_bedno"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#B3B3B3"
+                android:textStyle="bold"
+                android:textColor="@color/vital_sign_text_color"
                 tools:text="01床" />
 
             <View
@@ -35,7 +41,7 @@
                 android:id="@+id/tv_vitalsign_patient_longorder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#B3B3B3"
+                android:textColor="@color/vital_sign_text_color"
                 android:text="长期" />
 
             <View
@@ -50,7 +56,7 @@
                 android:id="@+id/tv_vitalsign_patient_temporder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#B3B3B3"
+                android:textColor="@color/vital_sign_text_color"
                 android:text="短期" />
 
             <View
@@ -59,13 +65,13 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="6dp"
                 android:layout_marginStart="6dp"
-                android:background="#A8A8A8" />
+                android:textColor="@color/vital_sign_text_color" />
 
             <TextView
                 android:id="@+id/tv_vitalsign_patient_carelevel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#B3B3B3"
+                android:textColor="@color/vital_sign_text_color"
                 tools:text="一级" />
         </LinearLayout>
 
@@ -87,8 +93,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:textColor="@color/black"
+                    android:textColor="@color/vital_sign_text_color"
                     android:textSize="18sp"
+                    android:textStyle="bold"
                     tools:text="刘患者" />
 
                 <ImageView
@@ -103,13 +110,17 @@
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_weight="1" />
-
                 <TextView
                     android:id="@+id/tv_vitalsign_patient_operation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="6dp"
-                    android:textColor="#B3B3B3"
+                    android:textColor="@color/white"
+                    android:background="@drawable/bg_rectangle_blue"
+                    android:paddingTop="1dp"
+                    android:paddingStart="3dp"
+                    android:paddingEnd="3dp"
+                    android:paddingBottom="2dp"
                     android:text="术" />
 
                 <TextView
@@ -117,7 +128,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="6dp"
-                    android:textColor="#B3B3B3"
+                    android:textColor="@color/white"
+                    android:background="@drawable/bg_rectangle_red"
+                    android:paddingTop="1dp"
+                    android:paddingStart="3dp"
+                    android:paddingEnd="3dp"
+                    android:paddingBottom="2dp"
                     android:text="危" />
 
                 <TextView
@@ -125,7 +141,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="6dp"
-                    android:textColor="#B3B3B3"
+                    android:textColor="@color/white"
+                    android:background="@drawable/bg_rectangle_yellow"
+                    android:paddingTop="1dp"
+                    android:paddingStart="3dp"
+                    android:paddingEnd="3dp"
+                    android:paddingBottom="2dp"
                     android:text="欠" />
 
                 <TextView
@@ -133,15 +154,26 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="6dp"
-                    android:textColor="#B3B3B3"
-                    android:text="值" />
+                    android:textColor="@color/white"
+                    android:background="@drawable/bg_rectangle_orange"
+                    android:paddingTop="1dp"
+                    android:paddingStart="3dp"
+                    android:paddingEnd="3dp"
+                    android:paddingBottom="2dp"
+                    android:text="急" />
 
                 <TextView
                     android:id="@+id/tv_vitalsign_patient_skintest"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#B3B3B3"
+                    android:textColor="@color/white"
+                    android:background="@drawable/bg_rectangle_green"
+                    android:paddingTop="1dp"
+                    android:paddingStart="3dp"
+                    android:paddingEnd="3dp"
+                    android:paddingBottom="2dp"
                     android:text="皮" />
+
             </LinearLayout>
 
             <View
@@ -160,12 +192,14 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#f1f1f1" />
+        android:background="#ECECEC" />
 
     <LinearLayout
         android:id="@+id/ll_vitalsign_patient_skinorder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:gravity="right">
 
         <TextView
@@ -181,7 +215,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/vital_sign_border"
-            android:text="事件等级"
+            android:text="事件登记"
             android:layout_marginRight="20dp"
             />
         <TextView
@@ -192,6 +226,11 @@
             android:text="体温单预览"
             android:layout_marginRight="24dp"
             />
+
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="#F6F6F6" />
 
 </LinearLayout>

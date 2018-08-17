@@ -31,6 +31,10 @@
     <color name="vital_sign_type_selected_bg">#DEEDFE</color>
     <color name="vital_sign_type_selected_text">#4994EA</color>
     <color name="vital_sign_type_normal_text">#000000</color>
+    <color name="vital_sign_text_color">#4A4A4A</color>
+    <color name="vital_sign_top_text_selected_color">#70AAF2</color>
+    <color name="vital_sign_top_text_normal_color">#000000</color>
+    <color name="vital_sign_filter_bottom_line_color">#D8EAFF</color>
 
 
     <color name="bottom_item_text_selected_color">#2F85FF</color>

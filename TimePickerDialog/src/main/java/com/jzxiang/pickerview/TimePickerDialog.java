@@ -21,6 +21,7 @@ import com.jzxiang.pickerview.data.WheelCalendar;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by jzxiang on 16/4/19.
@@ -41,6 +42,15 @@ public class TimePickerDialog extends DialogFragment implements View.OnClickList
         int[] a1 = new int[stringhours.length];
         for (int i = 0;i<stringhours.length;i++){
             String strNum = stringhours[i].substring(0,2);
+            a1[i] = Integer.parseInt(strNum);
+        }
+        this.a = a1;
+    }
+
+    public void setintHour(List<String> hoursList){
+        int[] a1 = new int[hoursList.size()];
+        for (int i = 0; i < hoursList.size(); i ++){
+            String strNum = hoursList.get(i).substring(0,2);
             a1[i] = Integer.parseInt(strNum);
         }
         this.a = a1;

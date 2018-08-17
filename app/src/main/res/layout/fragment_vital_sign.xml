@@ -4,64 +4,130 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/screen_bg_color"
+    android:background="@color/white"
     tools:context=".workarea.vitalsign.VitalSignFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
         <TextView
             android:id="@+id/tv_vitalsign_allarea"
             android:layout_width="0dp"
-            android:layout_height="32dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
             android:layout_weight="1"
             android:gravity="center"
             android:text="全区"
-            android:textColor="@color/black" />
+            android:textSize="15sp"
+            android:textColor="@drawable/textcolor_item_vital_sign_selector" />
 
         <TextView
             android:id="@+id/tv_vitalsign_adminarea"
             android:layout_width="0dp"
-            android:layout_height="32dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
             android:layout_weight="1"
             android:gravity="center"
+            android:textSize="15sp"
             android:text="管辖"
-            android:textColor="@color/black" />
+            android:textColor="@drawable/textcolor_item_vital_sign_selector" />
 
         <TextView
             android:id="@+id/tv_vitalsign_nowoutarea"
             android:layout_width="0dp"
-            android:layout_height="32dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
             android:layout_weight="1"
             android:gravity="center"
+            android:textSize="15sp"
             android:text="今出区"
-            android:textColor="@color/black" />
+            android:textColor="@drawable/textcolor_item_vital_sign_selector" />
 
         <TextView
             android:id="@+id/tv_vitalsign_alloutarea"
             android:layout_width="0dp"
-            android:layout_height="32dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
             android:layout_weight="1"
             android:gravity="center"
+            android:textSize="15sp"
             android:text="全出区"
-            android:textColor="@color/black" />
+            android:textColor="@drawable/textcolor_item_vital_sign_selector" />
 
         <TextView
             android:id="@+id/tv_vitalsign_waitarea"
             android:layout_width="0dp"
-            android:layout_height="32dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
             android:layout_weight="1"
             android:gravity="center"
+            android:textSize="15sp"
             android:text="等待区"
-            android:textColor="@color/black" />
-    </LinearLayout>
+            android:textColor="@drawable/textcolor_item_vital_sign_selector" />
 
+    </LinearLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#62AAFF" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="85dp"
+            android:layout_height="34dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@color/vital_sign_type_normal_bg">
+
+            <TextView
+                android:layout_width="85dp"
+                android:layout_height="32dp"
+                android:text="筛选"
+                android:gravity="center"/>
+
+            <View
+                android:layout_width="61dp"
+                android:layout_height="1dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:background="@color/vital_sign_filter_bottom_line_color"
+                />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="33dp"
+            android:layout_weight="4"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_marginRight="12dp"
+                android:src="@drawable/vital_sing_time_ico"/>
+            <TextView
+                android:id="@+id/tv_vitalsign_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2018-11-15 06:00"
+                android:textSize="12sp"/>
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
