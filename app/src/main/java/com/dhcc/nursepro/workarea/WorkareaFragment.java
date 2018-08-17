@@ -38,7 +38,6 @@ public class WorkareaFragment extends BaseFragment implements View.OnClickListen
         setToolbarBottomLineVisibility(true);
         hideToolbarNavigationIcon();
 
-
         initView(view);
 
         initData();
@@ -50,19 +49,8 @@ public class WorkareaFragment extends BaseFragment implements View.OnClickListen
         tvWorkareaLogintest.setOnClickListener(this);
         tvWorkareaBedmap = view.findViewById(R.id.tv_workarea_bedmap);
         tvWorkareaBedmap.setOnClickListener(this);
-        tvWorkareaBedmap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startFragment(BedMapFragment.class);
-            }
-        });
         tvWorkareaVitalSign = view.findViewById(R.id.tv_workarea_vitalsign);
-        tvWorkareaVitalSign.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                startFragment(VitalSignFragment.class);
-            }
-        });
+        tvWorkareaVitalSign.setOnClickListener(this);
     }
 
     private void initData() {
@@ -78,6 +66,9 @@ public class WorkareaFragment extends BaseFragment implements View.OnClickListen
                 break;
             case R.id.tv_workarea_bedmap:
                 startFragment(BedMapFragment.class);
+                break;
+            case R.id.tv_workarea_vitalsign:
+                startFragment(VitalSignFragment.class);
                 break;
             default:
                 break;

@@ -88,12 +88,13 @@
                 android:maxEms="6"
                 android:singleLine="true"
                 android:ellipsize="end"
-                tools:text="刘患者刘患者刘患者" />
+                tools:text="刘患者" />
 
             <ImageView
                 android:id="@+id/img_bedmap_patient_sex"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:padding="4dp"
                 android:layout_gravity="center"
                 android:layout_marginEnd="8dp"
                 tools:src="@drawable/sex_male" />
@@ -170,7 +171,6 @@
 
         <View
             android:id="@+id/line_bedmap_patient"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginBottom="6dp"

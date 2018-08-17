@@ -1,5 +1,6 @@
 package com.dhcc.nursepro;
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -48,6 +49,8 @@ public class UniversalActivity extends BaseActivity {
         setToolbarType(ToolbarType.TOP);
         setContentView(R.layout.activity_universal);
 
+        setStatusBarBackgroundColor(R.color.blue);
+        setToolbarBackground(new ColorDrawable(0xff4C95EF));
 
         // 装配Fragment
         if (mRootFragment != null) {

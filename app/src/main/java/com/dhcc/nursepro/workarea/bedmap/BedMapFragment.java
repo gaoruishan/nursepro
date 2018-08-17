@@ -67,7 +67,7 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
         super.onViewCreated(view, savedInstanceState);
 
         setToolbarType(BaseActivity.ToolbarType.TOP);
-        setToolbarBottomLineVisibility(true);
+        setToolbarBottomLineVisibility(false);
         //        hideToolbarNavigationIcon();
         setToolbarCenterTitle(getString(R.string.title_bedmap));
 
