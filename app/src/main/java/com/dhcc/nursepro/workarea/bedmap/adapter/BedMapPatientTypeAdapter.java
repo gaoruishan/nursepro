@@ -1,6 +1,8 @@
 package com.dhcc.nursepro.workarea.bedmap.adapter;
 
 import android.support.annotation.Nullable;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -34,16 +36,20 @@ public class BedMapPatientTypeAdapter extends BaseQuickAdapter<BedMapBean.LeftFi
     @Override
     protected void convert(BaseViewHolder helper, BedMapBean.LeftFilterBean item) {
 
-        TextView tvPatientType = helper.getView(R.id.tv_bedmap_patienttype);
+        LinearLayout llPatientType = helper.getView(R.id.ll_bedmap_patienttype);
+        View viewPatientType = helper.getView(R.id.view_bedmap_patienttype);
 
         if (selectedPostion == helper.getAdapterPosition()) {
-            tvPatientType.setSelected(true);
+            llPatientType.setSelected(true);
+            viewPatientType.setVisibility(View.VISIBLE);
+
         } else {
-            tvPatientType.setSelected(false);
+            llPatientType.setSelected(false);
+            viewPatientType.setVisibility(View.INVISIBLE);
         }
 
         helper.setText(R.id.tv_bedmap_patienttype, item.getDesc())
-                .addOnClickListener(R.id.tv_bedmap_patienttype);
+                .addOnClickListener(R.id.ll_bedmap_patienttype);
 
 
     }

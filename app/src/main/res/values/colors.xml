@@ -17,6 +17,7 @@
 
     <color name="white">#ffffffff</color>
     <color name="black">#000000</color>
+    <color name="blue">#4C95EF</color>
 
     <drawable name="checkbox">#666666</drawable>
     <drawable name="camera_back_press">#1b1b1b</drawable>
@@ -43,5 +44,11 @@
 
     <color name="blue_dark">#62AAFF</color>
     <color name="blue_light">#E9F3FF</color>
+
+
+    <color name="bedmap_text_color">#4A4A4A</color>
+    <color name="bedmap_search_hint_color">#B3B3B3</color>
+    <color name="bedmap_top_text_selected_color">#70AAF2</color>
+    <color name="bedmap_top_text_normal_color">#000000</color>
 
 </resources>

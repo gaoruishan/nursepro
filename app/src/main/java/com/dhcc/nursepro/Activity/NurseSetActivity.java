@@ -22,7 +22,7 @@ public class NurseSetActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getSupportActionBar().hide();
+        //getSupportActionBar().hide();
         setContentView(R.layout.activity_nurse_set);
         btn3 = findViewById(R.id.button3);
         btn3.setOnClickListener(this);
@@ -53,7 +53,7 @@ public class NurseSetActivity extends AppCompatActivity implements View.OnClickL
                 .setYearText("年")
                 .setMonthText("月")
                 .setDayText("日")
-                .setHourText("时")
+                .setHourText("：00")
                 .setMinuteText("分")
                 .setCyclic(false)
                 .setMinMillseconds(System.currentTimeMillis() - tenYears)
@@ -64,6 +64,10 @@ public class NurseSetActivity extends AppCompatActivity implements View.OnClickL
                 .setWheelItemTextSelectorColor(getResources().getColor(R.color.timepicker_toolbar_bg))
                 .setWheelItemTextSize(12)
                 .build();
+                mDialogAll.settype(1);
+                //取时间前两个字符转为int（02，06...）
+                String[] stringhours = {"02:00","06:00","10:00","14:00"};
+//                mDialogAll.setintHour(stringhours);
 
         mDialogAll.show(getSupportFragmentManager(), "ALL");
     }
