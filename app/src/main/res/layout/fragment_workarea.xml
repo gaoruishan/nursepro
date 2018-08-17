@@ -21,4 +21,12 @@
         android:layout_margin="12dp"
         android:padding="6dp"
         android:text="床位图"/>
+    <TextView
+        android:id="@+id/tv_workarea_vitalsign"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_margin="12dp"
+        android:padding="6dp"
+        android:text="生命体征"/>
 </LinearLayout>

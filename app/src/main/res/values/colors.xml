@@ -13,7 +13,7 @@
     <color name="information_title_color">#666666</color>
     <color name="list_bg_color">#FFF4F4F4</color>
     <color name="list_focus_color">#bdbdbd</color>
-    <color name="logoScreenBackground">#F7F7F7</color>
+    <color name="screen_bg_color">#F7F7F7</color>
 
     <color name="white">#ffffffff</color>
     <color name="black">#000000</color>
@@ -24,6 +24,12 @@
     <color name="user_attr_line_color">#ffeeeeee</color>
     <color name="color_loading_dialog_background">#66000000</color>
     <color name="color_base_content">#fff7f8f9</color>
+    
+    <color name="vital_sign_border">#A3B5C9</color>
+    <color name="vital_sign_type_normal_bg">#F5FAFF</color>
+    <color name="vital_sign_type_selected_bg">#DEEDFE</color>
+    <color name="vital_sign_type_selected_text">#4994EA</color>
+    <color name="vital_sign_type_normal_text">#000000</color>
 
 
     <color name="bottom_item_text_selected_color">#2F85FF</color>

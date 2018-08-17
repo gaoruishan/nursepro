@@ -13,6 +13,7 @@ import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.login.LoginActivity;
 import com.dhcc.nursepro.workarea.bedmap.BedMapFragment;
+import com.dhcc.nursepro.workarea.vitalsign.VitalSignFragment;
 
 /**
  * WorkareaFragment
@@ -21,6 +22,7 @@ import com.dhcc.nursepro.workarea.bedmap.BedMapFragment;
 public class WorkareaFragment extends BaseFragment implements View.OnClickListener {
     private TextView tvWorkareaLogintest;
     private TextView tvWorkareaBedmap;
+    private TextView tvWorkareaVitalSign;
 
 
     @Override
@@ -52,6 +54,13 @@ public class WorkareaFragment extends BaseFragment implements View.OnClickListen
             @Override
             public void onClick(View v) {
                 startFragment(BedMapFragment.class);
+            }
+        });
+        tvWorkareaVitalSign = view.findViewById(R.id.tv_workarea_vitalsign);
+        tvWorkareaVitalSign.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                startFragment(VitalSignFragment.class);
             }
         });
     }

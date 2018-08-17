@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/ll_vitalsign_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="6dp"
+            android:paddingEnd="12dp"
+            android:paddingStart="12dp"
+            android:paddingTop="12dp">
+
+            <TextView
+                android:id="@+id/tv_vitalsign_patient_bedno"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#B3B3B3"
+                tools:text="01床" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/tv_vitalsign_patient_longorder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#B3B3B3"
+                android:text="长期" />
+
+            <View
+                android:id="@+id/line_vitalsign_patient_1"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="6dp"
+                android:layout_marginStart="6dp"
+                android:background="#A8A8A8" />
+
+            <TextView
+                android:id="@+id/tv_vitalsign_patient_temporder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#B3B3B3"
+                android:text="短期" />
+
+            <View
+                android:id="@+id/line_vitalsign_patient_2"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="6dp"
+                android:layout_marginStart="6dp"
+                android:background="#A8A8A8" />
+
+            <TextView
+                android:id="@+id/tv_vitalsign_patient_carelevel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#B3B3B3"
+                tools:text="一级" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="12dp"
+            android:paddingEnd="12dp"
+            android:paddingStart="16dp"
+            android:paddingTop="6dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_vitalsign_patient_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    tools:text="刘患者" />
+
+                <ImageView
+                    android:id="@+id/img_vitalsign_patient_sex"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="8dp"
+                    tools:src="@drawable/sex_male" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/tv_vitalsign_patient_operation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:textColor="#B3B3B3"
+                    android:text="术" />
+
+                <TextView
+                    android:id="@+id/tv_vitalsign_patient_critical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:textColor="#B3B3B3"
+                    android:text="危" />
+
+                <TextView
+                    android:id="@+id/tv_vitalsign_patient_arrears"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:textColor="#B3B3B3"
+                    android:text="欠" />
+
+                <TextView
+                    android:id="@+id/tv_vitalsign_patient_criticalvalue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:textColor="#B3B3B3"
+                    android:text="值" />
+
+                <TextView
+                    android:id="@+id/tv_vitalsign_patient_skintest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#B3B3B3"
+                    android:text="皮" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/line_vitalsign_patient"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="6dp"
+                android:layout_marginTop="4dp"
+                android:background="#F6F6F6" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#f1f1f1" />
+
+    <LinearLayout
+        android:id="@+id/ll_vitalsign_patient_skinorder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right">
+
+        <TextView
+            android:id="@+id/tv_vitalsign_vitalsign_record"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/vital_sign_border"
+            android:text="体征录入"
+            />
+        <TextView
+            android:id="@+id/tv_vitalsign_event_record"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/vital_sign_border"
+            android:text="事件等级"
+            android:layout_marginRight="20dp"
+            />
+        <TextView
+            android:id="@+id/tv_vitalsign_tmp_preview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/vital_sign_border"
+            android:text="体温单预览"
+            android:layout_marginRight="24dp"
+            />
+    </LinearLayout>
+
+</LinearLayout>
