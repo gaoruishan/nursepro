@@ -50,6 +50,7 @@ dependencies {
     implementation 'com.github.anzaizai:EasySwipeMenuLayout:1.1.2'
     implementation 'org.greenrobot:greendao:3.2.2'
     implementation 'org.greenrobot:eventbus:3.1.1'
+    implementation 'com.blankj:utilcode:1.19.0'
     implementation('com.facebook.fresco:fresco:0.12.0') {
         exclude group: 'com.parse.bolts',
                 module: 'bolts-tasks'

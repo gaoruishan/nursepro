@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blankj.utilcode.util.SizeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
@@ -90,7 +91,7 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
         //控制登录用户名图标大小
         etBedmapBedno = view.findViewById(R.id.et_bedmap_bedno);
         Drawable drawable1 = getResources().getDrawable(R.drawable.search); //获取图片
-        drawable1.setBounds(0, 0, 36, 36);  //设置图片参数
+        drawable1.setBounds(0, 0, SizeUtils.dp2px(18), SizeUtils.dp2px(18));  //设置图片参数
         etBedmapBedno.setCompoundDrawables(drawable1, null, null, null);
 
         //变更即搜

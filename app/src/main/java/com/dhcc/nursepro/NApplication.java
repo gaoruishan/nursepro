@@ -3,6 +3,7 @@ package com.dhcc.nursepro;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 
+import com.blankj.utilcode.util.Utils;
 import com.dhcc.nursepro.greendao.DaoMaster;
 import com.dhcc.nursepro.greendao.DaoSession;
 import com.dhcc.nursepro.greendao.GreenDaoHelper;
@@ -50,6 +51,9 @@ public class NApplication extends BaseApplication {
 
         //配置数据库
         GreenDaoHelper.initDatabase(this);
+
+        //工具类
+        Utils.init(this);
 
         Fresco.initialize(getApp());
     }

@@ -24,7 +24,7 @@ public class BedMapPatientSkinOrderAdapter extends BaseQuickAdapter<BedMapBean.P
     @Override
     protected void convert(BaseViewHolder helper, BedMapBean.PatInfoListBean.SkinOrdBean item) {
 
-        helper.setText(R.id.item_skinorder_stinfo, item.getSkinTestInfo())
+        helper.setText(R.id.item_skinorder_stinfo, item.getSkinTestInfo().substring(0,1))
                 .setText(R.id.item_skinorder_arcimname, item.getArcimName())
                 .setText(R.id.item_skinorder_stdate, item.getStDate());
     }
