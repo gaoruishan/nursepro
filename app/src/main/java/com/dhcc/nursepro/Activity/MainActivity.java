@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.KeyEvent;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.R;
@@ -31,6 +33,9 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
     private RadioButton rbWorkarea;
     private RadioButton rbMessage;
     private RadioButton rbSetting;
+
+    //声明一个long类型变量：用于存放上一点击“返回键”的时刻
+    private long mExitTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,6 +169,24 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
 
     public void setRbSettingTitle() {
         setToolbarCenterTitle(getString(R.string.tabbar_setting));
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            //与上次点击返回键时刻作差
+            if ((System.currentTimeMillis() - mExitTime) > 2000) {
+                //大于2000ms则认为是误操作，使用Toast进行提示
+                Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                //并记录下本次点击“返回键”的时刻，以便下次进行判断
+                mExitTime = System.currentTimeMillis();
+            } else {
+                //小于2000ms则认为是用户确实希望退出程序
+                finish();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 }

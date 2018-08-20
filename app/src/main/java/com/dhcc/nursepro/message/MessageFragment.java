@@ -23,10 +23,10 @@ import java.util.List;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
 import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection;
+
 /**
  * MessageFragment
  * 消息页面
- *
  */
 public class MessageFragment extends BaseFragment {
     private List<MessageBean.AbnormalPatListBean> abnormalPatList;
@@ -74,7 +74,7 @@ public class MessageFragment extends BaseFragment {
     }
 
     private void initData() {
-        MessageApiManager.getMessage(new MessageApiManager.GetMessageCallback() {
+        MessageApiManager.getMessage("5", "2", new MessageApiManager.GetMessageCallback() {
             @Override
             public void onSuccess(MessageBean msgs) {
                 newOrdPatList = msgs.getNewOrdPatList();
@@ -99,7 +99,7 @@ public class MessageFragment extends BaseFragment {
      * <p>
      * header
      * item
-     *  //footer
+     * //footer
      */
 
     public class NewsSection extends StatelessSection {
@@ -172,7 +172,7 @@ public class MessageFragment extends BaseFragment {
 
                 itemHolder.tvMessageBedNo.setText(bedNo + "床");
                 itemHolder.tvMessagePatientName.setText(patientName);
-                if (patientSex.equals("M")) {
+                if ("M".equals(patientSex)) {
                     itemHolder.imgMessagePatientSex.setImageResource(R.drawable.sex_male);
                 } else {
                     itemHolder.imgMessagePatientSex.setImageResource(R.drawable.sex_female);
@@ -197,7 +197,7 @@ public class MessageFragment extends BaseFragment {
 
                 itemHolder.tvMessageBedNo.setText(bedNo + "床");
                 itemHolder.tvMessagePatientName.setText(patientName);
-                if (patientSex.equals("M")) {
+                if ("M".equals(patientSex)) {
                     itemHolder.imgMessagePatientSex.setImageResource(R.drawable.sex_male);
                 } else {
                     itemHolder.imgMessagePatientSex.setImageResource(R.drawable.sex_female);
@@ -210,7 +210,7 @@ public class MessageFragment extends BaseFragment {
                     @Override
                     public void onClick(View v) {
 
-                        Toast.makeText(getActivity(), title + "--2--"+patientName, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), title + "--2--" + patientName, Toast.LENGTH_SHORT).show();
                     }
                 });
                 itemHolder.messageRightMenu.setVisibility(View.VISIBLE);
@@ -230,7 +230,7 @@ public class MessageFragment extends BaseFragment {
 
                 itemHolder.tvMessageBedNo.setText(bedNo + "床");
                 itemHolder.tvMessagePatientName.setText(patientName);
-                if (patientSex.equals("M")) {
+                if ("M".equals(patientSex)) {
                     itemHolder.imgMessagePatientSex.setImageResource(R.drawable.sex_male);
                 } else {
                     itemHolder.imgMessagePatientSex.setImageResource(R.drawable.sex_female);

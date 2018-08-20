@@ -10,11 +10,11 @@ public class MessageApiService {
         void onResult(String jsonStr);
     }
 
-    public static void getMessage(final ServiceCallBack callback ){
+    public static void getMessage(String wardId, String userId,final ServiceCallBack callback ){
 
         HashMap<String, String> properties = new HashMap<String, String>();
-        properties.put("wardId", "5");
-        properties.put("userId", "2");
+        properties.put("wardId", wardId);
+        properties.put("userId", userId);
         WebServiceUtils.callWebService("getNotifyList", properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
