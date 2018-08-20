@@ -230,6 +230,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private void initData(final String action, final NurseInfo nurseInfo) {
+        nurseInfoList = daoSession.getNurseInfoDao().queryBuilder().list();
         LoginApiManager.getLogin(userCode, password, logonWardId, new LoginApiManager.GetLoginCallback() {
             @Override
             public void onSuccess(final LoginBean loginBean) {
