@@ -132,7 +132,7 @@ public class PatEventsDetailFragment extends BaseFragment implements View.OnClic
 
     }
 
-    void sureClicked() {
+    private void sureClicked() {
         Calendar calendar = Calendar.getInstance();
         calendar.clear();
         calendar.set(Calendar.YEAR, mTimeWheel.getCurrentYear());
@@ -179,7 +179,7 @@ public class PatEventsDetailFragment extends BaseFragment implements View.OnClic
 
     }
 
-    void  initData(){
+    private void  initData(){
 
          PatEventsApiManager.GetEventsTypes(null, new PatEventsApiManager.GetEventsTypesCallBack() {
              @Override

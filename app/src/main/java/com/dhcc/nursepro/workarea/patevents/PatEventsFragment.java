@@ -86,7 +86,7 @@ public class PatEventsFragment extends BaseFragment implements View.OnClickListe
 
     }
     //扫描或带参数过来显示
-    void showToolbarRight(){
+    private void showToolbarRight(){
         //右上角按钮
         View viewright =  View.inflate(getActivity(),R.layout.view_fratoolbar_right,null);
         TextView textView = viewright.findViewById(R.id.tv_fratoobar_right);
@@ -105,7 +105,7 @@ public class PatEventsFragment extends BaseFragment implements View.OnClickListe
     }
 
 
-    void  initData(String episodeId){
+    private void  initData(String episodeId){
         showToolbarRight();
         HashMap<String,String> map = new HashMap<String, String>();
         map.put("episodeId",episodeId);
@@ -129,7 +129,7 @@ public class PatEventsFragment extends BaseFragment implements View.OnClickListe
     }
 
     //获取病人信息并执行事件查询
-    void getUserMsg(String regNo){
+    private void getUserMsg(String regNo){
         String wardId = spUtils.getString("WARDID");
         HashMap<String,String> mapmsg = new HashMap<String, String>();
         mapmsg.put("regNo",regNo);
