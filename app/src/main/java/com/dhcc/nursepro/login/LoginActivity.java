@@ -345,7 +345,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                      * schStDateTime : 13/08/2018,00:00:00
                      */
                     spUtils.put("USERCODE", userCode);
-                    spUtils.put("USERID", loginNurseInfo.getId());
+                    spUtils.put("USERID", loginNurseInfo.getUserId());
                     spUtils.put("USERNAME", loginNurseInfo.getUserName());
                     spUtils.put("HOSPITALROWID", loginNurseInfo.getHospitalRowId());
                     spUtils.put("GROUPID", loginNurseInfo.getGroupId());
