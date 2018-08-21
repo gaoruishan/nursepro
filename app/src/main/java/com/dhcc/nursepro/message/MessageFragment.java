@@ -74,7 +74,7 @@ public class MessageFragment extends BaseFragment {
     }
 
     private void initData() {
-        MessageApiManager.getMessage("5", "2", new MessageApiManager.GetMessageCallback() {
+        MessageApiManager.getMessage(new MessageApiManager.GetMessageCallback() {
             @Override
             public void onSuccess(MessageBean msgs) {
                 newOrdPatList = msgs.getNewOrdPatList();

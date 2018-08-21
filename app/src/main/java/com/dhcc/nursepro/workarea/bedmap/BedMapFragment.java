@@ -174,7 +174,7 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
     private void asyncInitData() {
         showLoadingTip(BaseActivity.LoadingType.FULL);
 
-        BedMapApiManager.getBedMap("5", "2", new BedMapApiManager.GetBedMapCallback() {
+        BedMapApiManager.getBedMap(new BedMapApiManager.GetBedMapCallback() {
             @Override
             public void onSuccess(BedMapBean bedMapBean) {
 

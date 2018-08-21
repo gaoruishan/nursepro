@@ -5,7 +5,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -16,19 +15,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.nursepro.Activity.MainActivity;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.UniversalActivity;
 import com.dhcc.nursepro.greendao.DaoSession;
 import com.dhcc.nursepro.greendao.GreenDaoHelper;
 import com.dhcc.nursepro.login.api.LoginApiManager;
 import com.dhcc.nursepro.login.bean.LoginBean;
 import com.dhcc.nursepro.login.bean.NurseInfo;
-import com.dhcc.nursepro.utils.EditTextClearTools;
-import com.dhcc.nursepro.utils.PreferenceDataHelper;
 
 import java.util.List;
 
@@ -37,6 +32,7 @@ import cn.qqtheme.framework.widget.WheelView;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
 
+    DaoSession daoSession = GreenDaoHelper.getDaoSession();
     private EditText etLoginUsercode;
     private ImageView imgLoginUsercodeClear;
     private EditText etLoginPassword;
@@ -44,10 +40,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private TextView tvLoginWard;
     private TextView tvLoginLogin;
     private LinearLayout llLoginRememberme;
-
     private String version;
-
-    DaoSession daoSession = GreenDaoHelper.getDaoSession();
     private List<NurseInfo> nurseInfoList;
     private NurseInfo loginNurseInfo;
     private String userCode;
@@ -56,6 +49,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     private boolean remem = false;
     private String rememUserCode;
+
+    private SPUtils spUtils = SPUtils.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,10 +65,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void onResume(@Nullable Bundle args) {
         super.onResume(args);
-        remem = SPUtils.getInstance().getBoolean("REMEM");
+        remem = spUtils.getBoolean("REMEM");
         if (remem) {
             llLoginRememberme.setSelected(true);
-            rememUserCode = SPUtils.getInstance().getString("REMEM_USERCODE");
+            rememUserCode = spUtils.getString("REMEM_USERCODE");
             etLoginUsercode.setText(rememUserCode);
             etLoginPassword.requestFocus();
         } else {
@@ -196,7 +191,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     Toast.makeText(this, "请输入密码", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                initData("ward",null);
+                initData("ward", null);
                 break;
             case R.id.tv_login_login:
                 if (TextUtils.isEmpty(userCode)) {
@@ -273,7 +268,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                 for (j = 0; j < nurseInfoList.size(); j++) {
                                     NurseInfo nurseInfo1 = nurseInfoList.get(j);
                                     if (userCode.equals(nurseInfo1.getUserCode())) {
-//                                        Toast.makeText(LoginActivity.this, "ward----已存在,更新数据", Toast.LENGTH_SHORT).show();
+                                        //                                        Toast.makeText(LoginActivity.this, "ward----已存在,更新数据", Toast.LENGTH_SHORT).show();
                                         loginNurseInfo.setId(nurseInfo1.getId());
                                         daoSession.getNurseInfoDao().update(loginNurseInfo);
                                         initData("login", loginNurseInfo);
@@ -282,13 +277,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                 }
 
                                 if (j >= nurseInfoList.size()) {
-//                                    Toast.makeText(LoginActivity.this, "ward----不存在，插入新数据", Toast.LENGTH_SHORT).show();
+                                    //                                    Toast.makeText(LoginActivity.this, "ward----不存在，插入新数据", Toast.LENGTH_SHORT).show();
                                     daoSession.getNurseInfoDao().insert(loginNurseInfo);
                                     initData("login", loginNurseInfo);
                                 }
 
                             } else {
-//                                Toast.makeText(LoginActivity.this, "ward----不存在，插入新数据", Toast.LENGTH_SHORT).show();
+                                //                                Toast.makeText(LoginActivity.this, "ward----不存在，插入新数据", Toast.LENGTH_SHORT).show();
                                 daoSession.getNurseInfoDao().insert(loginNurseInfo);
                                 initData("login", loginNurseInfo);
                             }
@@ -297,8 +292,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     picker.show();
 
 
-
-                //登录
+                    //登录
                 } else if ("login".equals(action)) {
                     LoginBean.LocsBean locsBean = loginBean.getLocs().get(0);
 
@@ -311,31 +305,58 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         for (k = 0; k < nurseInfoList.size(); k++) {
                             NurseInfo nurseInfo1 = nurseInfoList.get(k);
                             if (userCode.equals(nurseInfo1.getUserCode())) {
-//                                Toast.makeText(LoginActivity.this,"login----已存在,使用已保存数据", Toast.LENGTH_SHORT).show();
+                                //                                Toast.makeText(LoginActivity.this,"login----已存在,使用已保存数据", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                 break;
                             }
                         }
 
                         if (k >= nurseInfoList.size()) {
-//                            Toast.makeText(LoginActivity.this, "login----不存在，插入新数据", Toast.LENGTH_SHORT).show();
+                            //                            Toast.makeText(LoginActivity.this, "login----不存在，插入新数据", Toast.LENGTH_SHORT).show();
                             daoSession.getNurseInfoDao().insert(loginNurseInfo);
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         }
 
                     } else {
-//                        Toast.makeText(LoginActivity.this, "login----不存在，插入新数据", Toast.LENGTH_SHORT).show();
+                        //                        Toast.makeText(LoginActivity.this, "login----不存在，插入新数据", Toast.LENGTH_SHORT).show();
                         daoSession.getNurseInfoDao().insert(loginNurseInfo);
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
 
                     }
                     if (remem) {
-                        SPUtils.getInstance().put("REMEM", true);
-                        SPUtils.getInstance().put("REMEM_USERCODE", userCode);
+                        spUtils.put("REMEM", true);
+                        spUtils.put("REMEM_USERCODE", userCode);
                     } else {
-                        SPUtils.getInstance().put("REMEM", false);
-                        SPUtils.getInstance().put("REMEM_USERCODE", "");
+                        spUtils.put("REMEM", false);
+                        spUtils.put("REMEM_USERCODE", "");
                     }
+                    /**
+                     * userCode
+                     * userId : 3
+                     * userName : innurse
+                     * hospitalRowId : 2
+                     * groupId : 132
+                     * groupDesc : Inpatient Nurse
+                     * linkLoc : 110
+                     * locId : 197
+                     * locDesc : 内分泌科护理单元
+                     * wardId : 5
+                     * schEnDateTime : 13/08/2018,23:59:59
+                     * schStDateTime : 13/08/2018,00:00:00
+                     */
+                    spUtils.put("USERCODE", userCode);
+                    spUtils.put("USERID", loginNurseInfo.getId());
+                    spUtils.put("USERNAME", loginNurseInfo.getUserName());
+                    spUtils.put("HOSPITALROWID", loginNurseInfo.getHospitalRowId());
+                    spUtils.put("GROUPID", loginNurseInfo.getGroupId());
+                    spUtils.put("GROUPDESC", loginNurseInfo.getGroupDesc());
+                    spUtils.put("LINKLOC", loginNurseInfo.getLinkLoc());
+                    spUtils.put("LOCID", loginNurseInfo.getLocId());
+                    spUtils.put("LOCDESC", loginNurseInfo.getLocDesc());
+                    spUtils.put("WARDID", loginNurseInfo.getWardId());
+                    spUtils.put("SCHSTDATETIME", loginNurseInfo.getSchStDateTime());
+                    spUtils.put("SCHENDATETIME", loginNurseInfo.getSchEnDateTime());
+
                     finish();
                 }
 

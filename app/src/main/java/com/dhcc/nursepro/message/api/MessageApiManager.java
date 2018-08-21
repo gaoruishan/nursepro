@@ -6,8 +6,8 @@ import com.google.gson.Gson;
 
 public class MessageApiManager {
 
-    public static void getMessage(String wardId, String userId, final GetMessageCallback callback) {
-        MessageApiService.getMessage(wardId, userId, new MessageApiService.ServiceCallBack() {
+    public static void getMessage(final GetMessageCallback callback) {
+        MessageApiService.getMessage(new MessageApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();

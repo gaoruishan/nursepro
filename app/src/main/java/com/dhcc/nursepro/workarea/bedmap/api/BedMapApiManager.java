@@ -6,8 +6,8 @@ import com.google.gson.Gson;
 
 public class BedMapApiManager {
 
-    public static void getBedMap(String wardId, String userId, final GetBedMapCallback callback) {
-        BedMapApiService.getBedMap(wardId, userId, new BedMapApiService.ServiceCallBack() {
+    public static void getBedMap(final GetBedMapCallback callback) {
+        BedMapApiService.getBedMap(new BedMapApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();
