@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context=".workarea.patevents.PatEventsFragment">
+
+    <RelativeLayout
+        android:id="@+id/rl_patevents_scan"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+
+
+        <TextView
+            android:id="@+id/tv_frapat_warning"
+            android:layout_width="260dp"
+            android:layout_height="55dp"
+            android:layout_centerInParent="true"
+            android:background="#FFF5FAFF"
+            android:gravity="center"
+            android:text="请您使用扫码设备，扫描病人腕带"
+            android:textColor="#FF9B9B9B"
+            android:textSize="@dimen/sp_14" />
+
+        <TextView
+            android:id="@+id/tv_frapat_warningtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:layout_centerInParent="true"
+            android:layout_above="@+id/tv_frapat_warning"
+            android:layout_marginBottom="30dp"
+            android:textStyle="bold"
+            android:text="请扫描腕带"
+            android:textColor="#FF62ABFF"
+            android:textSize="20sp" />
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="91dp"
+            android:layout_centerInParent="true"
+            android:layout_above="@+id/tv_frapat_warningtitle"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:src="@drawable/icon_patient_scan" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:background="@color/patevents_patbg_color"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="35dp"
+            android:layout_marginLeft="35dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="患者信息"
+                android:textSize="12sp"
+                android:textColor="@color/patevents_tv_unsel_color"
+                android:layout_marginBottom="@dimen/dp_4"
+                />
+            <TextView
+                android:id="@+id/tv_event_user"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/white"
+                android:gravity="center"
+                android:textSize="@dimen/sp_16"
+                android:textStyle="bold"
+                android:text="06床--苏患者"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recy_patevents"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white">
+
+        </android.support.v7.widget.RecyclerView>
+
+
+</LinearLayout>
