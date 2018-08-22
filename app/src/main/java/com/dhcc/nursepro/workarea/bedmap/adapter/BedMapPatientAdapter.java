@@ -124,13 +124,17 @@ public class BedMapPatientAdapter extends BaseQuickAdapter<BedMapBean.PatInfoLis
             tvCriticalValue.setVisibility(View.GONE);
         }
 
+        if ("1".equals(item.getGotAllergy())) {
+            tvSkinTest.setVisibility(View.VISIBLE);
+        } else {
+            tvSkinTest.setVisibility(View.GONE);
+        }
+
         List<BedMapBean.PatInfoListBean.SkinOrdBean> skinOrdBeanList = item.getSkinOrd();
         if (skinOrdBeanList == null || skinOrdBeanList.size() < 1) {
-            tvSkinTest.setVisibility(View.GONE);
             line.setVisibility(View.GONE);
             llSkinOrder.setVisibility(View.GONE);
         } else {
-            tvSkinTest.setVisibility(View.VISIBLE);
             line.setVisibility(View.VISIBLE);
             llSkinOrder.setVisibility(View.VISIBLE);
 

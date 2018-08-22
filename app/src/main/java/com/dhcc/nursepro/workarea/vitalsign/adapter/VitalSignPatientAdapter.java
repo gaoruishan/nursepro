@@ -44,7 +44,7 @@ public class VitalSignPatientAdapter extends BaseQuickAdapter<Map, BaseViewHolde
         TextView tvCritical = helper.getView(R.id.tv_vitalsign_patient_critical);
         TextView tvArrears = helper.getView(R.id.tv_vitalsign_patient_arrears);
         TextView tvCriticalValue = helper.getView(R.id.tv_vitalsign_patient_criticalvalue);
-
+        TextView tvSkinTest = helper.getView(R.id.tv_vitalsign_patient_skintest);
 
         //体征录入
         helper.addOnClickListener(R.id.tv_vitalsign_vitalsign_record);
@@ -122,6 +122,13 @@ public class VitalSignPatientAdapter extends BaseQuickAdapter<Map, BaseViewHolde
             tvCriticalValue.setVisibility(View.VISIBLE);
         } else {
             tvCriticalValue.setVisibility(View.GONE);
+        }
+
+        if ("1".equals(item.get("gotAllergy"))) {
+            tvSkinTest.setVisibility(View.VISIBLE);
+        } else {
+            tvSkinTest.setVisibility(View.GONE);
+
         }
 
     }

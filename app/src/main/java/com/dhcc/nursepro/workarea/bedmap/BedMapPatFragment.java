@@ -178,11 +178,10 @@ public class BedMapPatFragment extends BaseFragment implements View.OnClickListe
             tvBedmappatCriticalvalue.setVisibility(View.GONE);
         }
 
-        List<BedMapBean.PatInfoListBean.SkinOrdBean> skinOrdBeanList = patInfoListBean.getSkinOrd();
-        if (skinOrdBeanList == null || skinOrdBeanList.size() < 1) {
-            tvBedmappatSkintest.setVisibility(View.GONE);
-        } else {
+        if ("1".equals(patInfoListBean.getGotAllergy())) {
             tvBedmappatSkintest.setVisibility(View.VISIBLE);
+        } else {
+            tvBedmappatSkintest.setVisibility(View.GONE);
         }
     }
 
