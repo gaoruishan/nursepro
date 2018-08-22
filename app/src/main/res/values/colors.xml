@@ -60,4 +60,9 @@
     <color name="patevents_patbg_color">#F5FAFF</color>
     <color name="patevents_tv_unsel_color">#FF9B9B9B</color>
     <color name="patevents_tv_date_color">#FF4A4A4A</color>
+
+    <color name="key_sure_color">#62abff</color>
+    <color name="key_sure_color_pressed">#0174f2</color>
+    <color name="key_delete_color">#ff6ea4</color>
+    <color name="key_delete_color_pressed">#FF4081</color>
 </resources>
