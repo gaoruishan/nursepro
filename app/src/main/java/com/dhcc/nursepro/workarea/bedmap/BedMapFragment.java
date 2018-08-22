@@ -159,6 +159,15 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
 
 
         bedMapPatientAdapter = new BedMapPatientAdapter(new ArrayList<BedMapBean.PatInfoListBean>());
+        bedMapPatientAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                BedMapBean.PatInfoListBean patInfoListBean = (BedMapBean.PatInfoListBean) adapter.getItem(position);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("patinfo", patInfoListBean);
+                startFragment(BedMapPatFragment.class, bundle);
+            }
+        });
         //        bedMapPatientAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
         //            @Override
         //            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {

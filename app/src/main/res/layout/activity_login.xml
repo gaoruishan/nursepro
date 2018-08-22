@@ -65,7 +65,7 @@
                 android:imeOptions="actionNext"
                 android:singleLine="true"
                 android:textColor="#000000"
-                android:textColorHint="#a4a4a4"
+                android:textColorHint="#9b9b9b"
                 android:textSize="16sp" />
             <ImageView
                 android:id="@+id/img_login_usercode_clear"
@@ -106,7 +106,7 @@
                 android:imeOptions="actionDone"
                 android:singleLine="true"
                 android:textColor="#000000"
-                android:textColorHint="#a4a4a4"
+                android:textColorHint="#9b9b9b"
                 android:textSize="16sp" />
             <ImageView
                 android:id="@+id/img_login_password_clear"
@@ -141,7 +141,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="26dp"
                 android:text="请选择登录病区"
-                android:textColor="#a4a4a4"
+                android:textColor="#9b9b9b"
                 android:textSize="16sp" />
         </LinearLayout>
 

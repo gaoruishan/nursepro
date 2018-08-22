@@ -3,6 +3,7 @@ package com.dhcc.nursepro.login;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
@@ -138,6 +139,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         NurseInfo nurseInfo = nurseInfoList.get(i);
                         if (userCode.equals(nurseInfo.getUserCode())) {
                             tvLoginWard.setText(nurseInfo.getLocDesc());
+                            tvLoginWard.setTextColor(Color.parseColor("#000000"));
                             logonWardId = nurseInfo.getWardId();
                             loginNurseInfo = nurseInfo;
                         }
@@ -207,6 +209,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             case R.id.img_login_usercode_clear:
                 etLoginUsercode.setText("");
                 tvLoginWard.setText("请选择登录病区");
+                tvLoginWard.setTextColor(Color.parseColor("#9b9b9b"));
                 break;
             case R.id.img_login_password_clear:
                 etLoginPassword.setText("");

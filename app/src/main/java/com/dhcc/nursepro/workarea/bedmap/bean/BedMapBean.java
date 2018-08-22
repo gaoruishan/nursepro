@@ -1,5 +1,6 @@
 package com.dhcc.nursepro.workarea.bedmap.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -8,7 +9,7 @@ import java.util.List;
  * @author DevLix126
  * @date 2018/8/11
  */
-public class BedMapBean {
+public class BedMapBean implements Serializable {
 
 
     /**
@@ -101,7 +102,7 @@ public class BedMapBean {
         }
     }
 
-    public static class PatInfoListBean {
+    public static class PatInfoListBean implements Serializable {
         /**
          * age : 29岁
          * allOut : 0
@@ -356,7 +357,7 @@ public class BedMapBean {
             this.skinOrd = skinOrd;
         }
 
-        public static class PatInfoDetailBean {
+        public static class PatInfoDetailBean implements Serializable{
             /**
              * admReason : 全自费
              * age : 29岁
@@ -732,7 +733,7 @@ public class BedMapBean {
             }
         }
 
-        public static class SkinOrdBean {
+        public static class SkinOrdBean implements Serializable {
             /**
              * arcimName : 卡介菌纯蛋白衍生物
              * skinTestInfo : 阳性
@@ -769,7 +770,7 @@ public class BedMapBean {
         }
     }
 
-    public static class TopFilterBean {
+    public static class TopFilterBean implements Serializable {
         /**
          * code : inBedAll
          * desc : 全区

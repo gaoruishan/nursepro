@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f5faff"
+    android:orientation="vertical"
+    tools:context=".workarea.bedmap.BedMapPatFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:background="@color/white"
+        android:paddingBottom="25dp"
+        android:paddingEnd="12dp"
+        android:paddingStart="12dp"
+        android:paddingTop="20dp">
+
+
+        <TextView
+            android:id="@+id/tv_bedmappat_bedno"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:background="@drawable/bg_bedmap_patient_bedno"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            tools:text="01床" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/tv_bedmappat_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:ellipsize="end"
+                    android:maxEms="6"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    tools:text="刘患者" />
+
+                <ImageView
+                    android:id="@+id/img_bedmappat_sex"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="8dp"
+                    android:padding="4dp"
+                    tools:src="@drawable/sex_male" />
+
+                <TextView
+                    android:id="@+id/tv_bedmappat_longorder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="长期"
+                    android:textColor="@color/bedmap_text_color" />
+
+                <View
+                    android:id="@+id/line_bedmappat_1"
+                    android:layout_width="1dp"
+                    android:layout_height="18dp"
+                    android:layout_marginEnd="6dp"
+                    android:layout_marginStart="6dp"
+                    android:background="@color/bedmap_text_color" />
+
+                <TextView
+                    android:id="@+id/tv_bedmappat_temporder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="短期"
+                    android:textColor="@color/bedmap_text_color" />
+
+                <View
+                    android:id="@+id/line_bedmappat_2"
+                    android:layout_width="1dp"
+                    android:layout_height="18dp"
+                    android:layout_marginEnd="6dp"
+                    android:layout_marginStart="6dp"
+                    android:background="@color/bedmap_text_color" />
+
+                <TextView
+                    android:id="@+id/tv_bedmappat_carelevel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/bedmap_text_color"
+                    tools:text="一级" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/tv_bedmappat_operation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:background="@drawable/bg_rectangle_blue"
+                    android:paddingBottom="2dp"
+                    android:paddingEnd="3dp"
+                    android:paddingStart="3dp"
+                    android:paddingTop="1dp"
+                    android:text="术"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/tv_bedmappat_critical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:background="@drawable/bg_rectangle_red"
+                    android:paddingBottom="2dp"
+                    android:paddingEnd="3dp"
+                    android:paddingStart="3dp"
+                    android:paddingTop="1dp"
+                    android:text="危"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/tv_bedmappat_arrears"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:background="@drawable/bg_rectangle_yellow"
+                    android:paddingBottom="2dp"
+                    android:paddingEnd="3dp"
+                    android:paddingStart="3dp"
+                    android:paddingTop="1dp"
+                    android:text="欠"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/tv_bedmappat_criticalvalue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:background="@drawable/bg_rectangle_orange"
+                    android:paddingBottom="2dp"
+                    android:paddingEnd="3dp"
+                    android:paddingStart="3dp"
+                    android:paddingTop="1dp"
+                    android:text="急"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/tv_bedmappat_skintest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:background="@drawable/bg_rectangle_green"
+                    android:paddingBottom="2dp"
+                    android:paddingEnd="3dp"
+                    android:paddingStart="3dp"
+                    android:paddingTop="1dp"
+                    android:text="皮"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/ll_bedmappat_info"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="基本信息"
+                    android:textColor="#4a4a4a"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/right" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_bedmappat_order"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="医嘱单"
+                    android:textColor="#4a4a4a"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/right" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/white"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#ececec" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_bedmappat_ordersearch"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="医嘱查询"
+                    android:textColor="#4a4a4a"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/right" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/white"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#ececec" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_bedmappat_orderexecute"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="医嘱执行"
+                    android:textColor="#4a4a4a"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/right" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_bedmappat_testresult"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="检验结果"
+                    android:textColor="#4a4a4a"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/right" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/white"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#ececec" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_bedmappat_inspectionreport"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="检查报告"
+                    android:textColor="#4a4a4a"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/right" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_bedmappat_eventsearch"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="事件查询"
+                    android:textColor="#4a4a4a"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/right" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+</LinearLayout>

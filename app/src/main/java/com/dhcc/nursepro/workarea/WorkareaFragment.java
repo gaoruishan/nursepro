@@ -21,7 +21,7 @@ import com.dhcc.nursepro.workarea.vitalsign.VitalSignFragment;
  * 主页
  */
 public class WorkareaFragment extends BaseFragment implements View.OnClickListener {
-    private TextView tvWorkareaLogintest;
+
     private TextView tvWorkareaBedmap;
     private TextView tvWorkareaVitalSign;
     private TextView tvWorkareaEvents;
@@ -47,8 +47,6 @@ public class WorkareaFragment extends BaseFragment implements View.OnClickListen
     }
 
     private void initView(View view) {
-        tvWorkareaLogintest = view.findViewById(R.id.tv_workarea_logintest);
-        tvWorkareaLogintest.setOnClickListener(this);
         tvWorkareaBedmap = view.findViewById(R.id.tv_workarea_bedmap);
         tvWorkareaBedmap.setOnClickListener(this);
         tvWorkareaVitalSign = view.findViewById(R.id.tv_workarea_vitalsign);
@@ -65,9 +63,6 @@ public class WorkareaFragment extends BaseFragment implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
 
-            case R.id.tv_workarea_logintest:
-                startActivity(new Intent(getActivity(), LoginActivity.class));
-                break;
             case R.id.tv_workarea_bedmap:
                 startFragment(BedMapFragment.class);
                 break;

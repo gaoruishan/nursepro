@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,7 +29,8 @@ public class SettingFragment extends BaseFragment {
     private TextView tvSettingClassification;
     private TextView tvSettingSection;
     private TextView tvSettingGetjson;
-    private TextView tvSettingKeyboard;
+    private EditText etSettingSyskeyboard;
+    private EditText etSettingMykeyboard;
     private TextView tvettingTimePicker;
 
     @Override
@@ -44,7 +46,6 @@ public class SettingFragment extends BaseFragment {
         setToolbarBottomLineVisibility(true);
         hideToolbarNavigationIcon();
 
-
         initView(view);
 
         initData();
@@ -56,8 +57,10 @@ public class SettingFragment extends BaseFragment {
         tvSettingClassification = view.findViewById(R.id.tv_setting_classification);
         tvSettingSection = view.findViewById(R.id.tv_setting_section);
         tvSettingGetjson = view.findViewById(R.id.tv_setting_getjson);
-        tvSettingKeyboard = view.findViewById(R.id.tv_setting_keyboard);
+        etSettingSyskeyboard = view.findViewById(R.id.et_setting_syskeyboard);
+        etSettingMykeyboard = view.findViewById(R.id.et_setting_mykeyboard);
         tvettingTimePicker = view.findViewById(R.id.tv_setting_timepicker);
+
 
         tvSettingClassification.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,10 +88,10 @@ public class SettingFragment extends BaseFragment {
             }
         });
 
-        tvSettingKeyboard.setOnClickListener(new View.OnClickListener() {
+        etSettingMykeyboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "。。。", Toast.LENGTH_SHORT).show();
+
             }
         });
 
