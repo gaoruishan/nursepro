@@ -69,7 +69,7 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
         setToolbarType(BaseActivity.ToolbarType.TOP);
         setToolbarBottomLineVisibility(false);
         //        hideToolbarNavigationIcon();
-        setToolbarCenterTitle(getString(R.string.title_bedmap));
+        setToolbarCenterTitle(getString(R.string.title_bedmap),0xffffffff,17);
 
 
         initView(view);
@@ -168,13 +168,6 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
                 startFragment(BedMapPatFragment.class, bundle);
             }
         });
-        //        bedMapPatientAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-        //            @Override
-        //            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-        //                BedMapBean.PatInfoListBean patInfoListBean = (BedMapBean.PatInfoListBean) adapter.getItem(position);
-        //
-        //            }
-        //        });
 
         recyBedmapPatient.setAdapter(bedMapPatientAdapter);
 

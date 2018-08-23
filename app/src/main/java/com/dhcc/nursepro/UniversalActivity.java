@@ -50,7 +50,6 @@ public class UniversalActivity extends BaseActivity {
         setContentView(R.layout.activity_universal);
 
         setStatusBarBackgroundViewVisibility(true, 0xff4C95EF);
-        setStatusBarBackgroundColor(0xff4C95EF);
         setToolbarBackground(new ColorDrawable(0xff4C95EF));
 
         // 装配Fragment

@@ -1,6 +1,7 @@
 package com.dhcc.nursepro.workarea.bedmap;
 
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -63,10 +64,25 @@ public class BedMapPatFragment extends BaseFragment implements View.OnClickListe
         super.onViewCreated(view, savedInstanceState);
         Bundle bundle = getArguments();
         patInfoListBean = (BedMapBean.PatInfoListBean) bundle.getSerializable("patinfo");
+
+        //状态栏 背景 默认蓝色
+        setStatusBarBackgroundViewVisibility(true, 0xffffffff);
+        //toolbar type
         setToolbarType(BaseActivity.ToolbarType.TOP);
-        setToolbarBottomLineVisibility(false);
-        //        hideToolbarNavigationIcon();
+        //toolbar 背景 默认蓝色
+        setToolbarBackground(new ColorDrawable(0xffffffff));
+        //toolbar 导航按钮隐藏
+//        hideToolbarNavigationIcon();
+        //toolbar 导航按钮显示 默认白色返回按钮
+//        showToolbarNavigationIcon();
+        //返回按钮img设置
+        showToolbarNavigationIcon(R.drawable.icon_back_blue);
+        //toolbar 中间标题 默认黑色
         setToolbarCenterTitle("");
+        //toolbar 中间标题 内容 颜色 字号默认17
+//        setToolbarCenterTitle(getString(R.string.title_bedmap),0xffffffff,17);
+        //toolbar 分割线
+        setToolbarBottomLineVisibility(true);
 
 
         initView(view);

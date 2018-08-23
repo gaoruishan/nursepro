@@ -15,6 +15,9 @@
     <!--生命体征-->
     <string name="title_vitalsign">生命体征</string>
 
+    <!--医嘱查询-->
+    <string name="title_ordersearch">医嘱查询</string>
+
     <!--事件管理-->
     <string name="title_patevents">事件管理</string>
     <!--新建事件-->

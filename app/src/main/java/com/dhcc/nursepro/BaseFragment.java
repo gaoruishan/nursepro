@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -72,6 +74,42 @@ public class BaseFragment extends Fragment {
     protected void onPreActivityCreate(@NonNull UniversalActivity activity,
                                        @Nullable Bundle savedInstanceState) {
         // 所属UniversalActivity中onCreate之前调用
+    }
+
+    /**
+     * 设置StatusBarBackgroundView是否需要显示
+     * @param show
+     * @param color
+     */
+    public void setStatusBarBackgroundViewVisibility(boolean show, int color){
+        Activity activity = getActivity();
+        if (activity != null && activity instanceof BaseActivity) {
+            ((BaseActivity) activity).setStatusBarBackgroundViewVisibility(show,color);
+        }
+    }
+
+
+    /**
+     * 设置Toolbar的背景
+     *
+     * @param background
+     */
+    public void setToolbarBackground(Drawable background) {
+        Activity activity = getActivity();
+        if (activity != null && activity instanceof BaseActivity) {
+            ((BaseActivity) activity).setToolbarBackground(background);
+        }
+    }
+
+    /**
+     * 设置Toolbar的导航按钮
+     * @param resId
+     */
+    public void showToolbarNavigationIcon(int resId) {
+        Activity activity = getActivity();
+        if (activity != null && activity instanceof BaseActivity) {
+            ((BaseActivity) activity).showToolbarNavigationIcon(resId);
+        }
     }
 
     /**

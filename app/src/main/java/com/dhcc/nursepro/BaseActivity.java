@@ -229,6 +229,8 @@ public class BaseActivity extends AppCompatActivity
         }
     }
 
+
+
     /**
      * 设置Toolbar的背景
      *
@@ -251,7 +253,21 @@ public class BaseActivity extends AppCompatActivity
 
     // 添加默认的返回按钮图标
     private void initBackAction() {
-        mToolbar.setNavigationIcon(R.drawable.fanhui_ico);
+        mToolbar.setNavigationIcon(R.drawable.icon_back_white);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onToolbarBackPressed();
+            }
+        });
+    }
+
+    /**
+     * 设置返回按钮图标
+     * @param resId
+     */
+    private void initBackAction(int resId) {
+        mToolbar.setNavigationIcon(resId);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -542,6 +558,14 @@ public class BaseActivity extends AppCompatActivity
      */
     public void showToolbarNavigationIcon() {
         initBackAction();
+    }
+
+    /**
+     * 设置Toolbar的导航按钮
+     * @param resId
+     */
+    public void showToolbarNavigationIcon(int resId) {
+        initBackAction(resId);
     }
 
     /**

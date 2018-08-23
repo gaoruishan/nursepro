@@ -13,6 +13,7 @@ import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.login.LoginActivity;
 import com.dhcc.nursepro.workarea.bedmap.BedMapFragment;
+import com.dhcc.nursepro.workarea.ordersearch.OrderSearchFragment;
 import com.dhcc.nursepro.workarea.patevents.PatEventsFragment;
 import com.dhcc.nursepro.workarea.vitalsign.VitalSignFragment;
 
@@ -25,6 +26,7 @@ public class WorkareaFragment extends BaseFragment implements View.OnClickListen
     private TextView tvWorkareaBedmap;
     private TextView tvWorkareaVitalSign;
     private TextView tvWorkareaEvents;
+    private TextView tvWorkAreaOrderSearch;
 
 
     @Override
@@ -53,6 +55,8 @@ public class WorkareaFragment extends BaseFragment implements View.OnClickListen
         tvWorkareaVitalSign.setOnClickListener(this);
         tvWorkareaEvents = view.findViewById(R.id.tv_workarea_events);
         tvWorkareaEvents.setOnClickListener(this);
+        tvWorkAreaOrderSearch = view.findViewById(R.id.tv_workarea_ordersearch);
+        tvWorkAreaOrderSearch.setOnClickListener(this);
     }
 
     private void initData() {
@@ -75,6 +79,9 @@ public class WorkareaFragment extends BaseFragment implements View.OnClickListen
 //                bundle.putString("regNo","0000000129");
 //                startFragment(PatEventsFragment.class,bundle);
                 startFragment(PatEventsFragment.class);
+                break;
+            case R.id.tv_workarea_ordersearch:
+                startFragment(OrderSearchFragment.class);
                 break;
             default:
                 break;

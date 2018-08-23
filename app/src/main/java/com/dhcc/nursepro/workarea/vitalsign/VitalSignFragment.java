@@ -73,7 +73,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
 
         setToolbarType(BaseActivity.ToolbarType.TOP);
         setToolbarBottomLineVisibility(true);
-        setToolbarCenterTitle(getString(R.string.title_vitalsign));
+        setToolbarCenterTitle(getString(R.string.title_vitalsign),0xffffffff,17);
 
 
         initView(view);
