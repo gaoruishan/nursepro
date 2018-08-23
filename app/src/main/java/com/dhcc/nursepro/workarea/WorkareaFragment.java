@@ -13,9 +13,11 @@ import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.login.LoginActivity;
 import com.dhcc.nursepro.workarea.bedmap.BedMapFragment;
+import com.dhcc.nursepro.workarea.checkandlab.CheckLabPatsFragment;
 import com.dhcc.nursepro.workarea.ordersearch.OrderSearchFragment;
 import com.dhcc.nursepro.workarea.patevents.PatEventsFragment;
 import com.dhcc.nursepro.workarea.vitalsign.VitalSignFragment;
+import com.dhcc.nursepro.workarea.vitalsigndetail.VitalSignDetailFragment;
 
 /**
  * WorkareaFragment
@@ -26,7 +28,7 @@ public class WorkareaFragment extends BaseFragment implements View.OnClickListen
     private TextView tvWorkareaBedmap;
     private TextView tvWorkareaVitalSign;
     private TextView tvWorkareaEvents;
-    private TextView tvWorkAreaOrderSearch;
+    private TextView tvWorkAreaOrderSearch,tvWorkAreaCheck,tvWorkAreaLab;
 
 
     @Override
@@ -57,6 +59,10 @@ public class WorkareaFragment extends BaseFragment implements View.OnClickListen
         tvWorkareaEvents.setOnClickListener(this);
         tvWorkAreaOrderSearch = view.findViewById(R.id.tv_workarea_ordersearch);
         tvWorkAreaOrderSearch.setOnClickListener(this);
+        tvWorkAreaLab = view.findViewById(R.id.tv_workarea_lab);
+        tvWorkAreaLab.setOnClickListener(this);
+        tvWorkAreaCheck = view.findViewById(R.id.tv_workarea_check);
+        tvWorkAreaCheck.setOnClickListener(this);
     }
 
     private void initData() {
@@ -65,6 +71,8 @@ public class WorkareaFragment extends BaseFragment implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
+
+        Bundle bundle = new Bundle();
         switch (v.getId()) {
 
             case R.id.tv_workarea_bedmap:
@@ -74,7 +82,6 @@ public class WorkareaFragment extends BaseFragment implements View.OnClickListen
                 startFragment(VitalSignFragment.class);
                 break;
             case R.id.tv_workarea_events:
-                Bundle bundle = new Bundle();
 //                bundle.putString("recId",null);
 //                bundle.putString("regNo","0000000129");
 //                startFragment(PatEventsFragment.class,bundle);
@@ -82,6 +89,14 @@ public class WorkareaFragment extends BaseFragment implements View.OnClickListen
                 break;
             case R.id.tv_workarea_ordersearch:
                 startFragment(OrderSearchFragment.class);
+                break;
+            case R.id.tv_workarea_check:
+                bundle.putString("episodeId","94");
+                startFragment(VitalSignDetailFragment.class,bundle);
+                break;
+            case R.id.tv_workarea_lab:
+                bundle.putString("checklab","lab");
+                startFragment(CheckLabPatsFragment.class,bundle);
                 break;
             default:
                 break;

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <RelativeLayout
+            android:layout_width="23dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp">
+            <ImageView
+                android:id="@+id/img_labdetail"
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:src="@drawable/icon_highvalue"/>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_labdetail_item"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            android:text="血小板"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_vertical">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="16dp"
+                >
+                <TextView
+                    android:id="@+id/tv_labdetail_result"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:text="26.4U/L"/>
+                <TextView
+                    android:id="@+id/tv_labdetail_resultref"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_labdetail_result"
+                    android:gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:textSize="@dimen/sp_12"
+                    android:text="21.0-72"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/patevents_device_color"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"></View>
+</LinearLayout>

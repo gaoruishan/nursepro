@@ -14,7 +14,7 @@
 
     <!--生命体征-->
     <string name="title_vitalsign">生命体征</string>
-
+    <string name="title_vitalsigndetail">体征记录</string>
     <!--医嘱查询-->
     <string name="title_ordersearch">医嘱查询</string>
 
