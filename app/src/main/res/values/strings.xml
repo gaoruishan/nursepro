@@ -20,9 +20,12 @@
 
     <!--事件管理-->
     <string name="title_patevents">事件管理</string>
-    <!--新建事件-->
+       <!--新建事件-->
     <string name="title_addpatevents">新建事件</string>
     <string name="title_changepatevents">修改事件</string>
+
+    <!--检查检验-->
+    <string name="title_checklabpas">病人列表</string>
 
     <!--#################################消息文字区#################################-->
 

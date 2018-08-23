@@ -55,7 +55,7 @@ public class VitalSignDetailFragment extends BaseFragment implements View.OnClic
 
         setToolbarType(BaseActivity.ToolbarType.TOP);
         setToolbarBottomLineVisibility(true);
-        setToolbarCenterTitle(getString(R.string.title_vitalsigndetail));
+        setToolbarCenterTitle(getString(R.string.title_vitalsigndetail),0xffffffff,17);
 
         stDate = spUtils.getString("SCHSTDATETIME").substring(0,10);
         enDate = spUtils.getString("SCHENDATETIME").substring(0,10);
@@ -146,7 +146,7 @@ public class VitalSignDetailFragment extends BaseFragment implements View.OnClic
 
             @Override
             public void onFail(String code, String msg) {
-
+                showToast(code+":"+msg);
             }
         });
     }
