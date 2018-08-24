@@ -19,6 +19,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.constant.SharedPreference;
 import com.dhcc.nursepro.workarea.patevents.api.PatEventsApiManager;
 import com.dhcc.nursepro.workarea.patevents.bean.EventItemBean;
 import com.jzxiang.pickerview.TimePickerDialog;
@@ -70,7 +71,7 @@ public class PatEventsDetailFragment extends BaseFragment implements View.OnClic
 
     private void initview(View view){
 
-        userIdNow = spUtils.getString("USERID");
+        userIdNow = spUtils.getString(SharedPreference.USERID);
 
         Bundle bundle = getArguments();
         if (bundle != null) {

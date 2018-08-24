@@ -23,6 +23,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.constant.SharedPreference;
 import com.dhcc.nursepro.workarea.patevents.adapter.PatEventsAdapter;
 import com.dhcc.nursepro.workarea.patevents.api.PatEventsApiManager;
 import com.dhcc.nursepro.workarea.patevents.bean.EventItemBean;
@@ -130,7 +131,7 @@ public class PatEventsFragment extends BaseFragment implements View.OnClickListe
 
     //获取病人信息并执行事件查询
     private void getUserMsg(String regNo){
-        String wardId = spUtils.getString("WARDID");
+        String wardId = spUtils.getString(SharedPreference.WARDID);
         HashMap<String,String> mapmsg = new HashMap<String, String>();
         mapmsg.put("regNo",regNo);
         mapmsg.put("wardId",wardId);

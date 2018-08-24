@@ -20,6 +20,7 @@ import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.nursepro.Activity.MainActivity;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.constant.SharedPreference;
 import com.dhcc.nursepro.greendao.DaoSession;
 import com.dhcc.nursepro.greendao.GreenDaoHelper;
 import com.dhcc.nursepro.login.api.LoginApiManager;
@@ -66,10 +67,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void onResume(@Nullable Bundle args) {
         super.onResume(args);
-        remem = spUtils.getBoolean("REMEM");
+        remem = spUtils.getBoolean(SharedPreference.REMEM);
         if (remem) {
             llLoginRememberme.setSelected(true);
-            rememUserCode = spUtils.getString("REMEM_USERCODE");
+            rememUserCode = spUtils.getString(SharedPreference.REMEM_USERCODE);
             etLoginUsercode.setText(rememUserCode);
             etLoginPassword.requestFocus();
         } else {
@@ -327,11 +328,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
                     }
                     if (remem) {
-                        spUtils.put("REMEM", true);
-                        spUtils.put("REMEM_USERCODE", userCode);
+                        spUtils.put(SharedPreference.REMEM, true);
+                        spUtils.put(SharedPreference.REMEM_USERCODE, userCode);
                     } else {
-                        spUtils.put("REMEM", false);
-                        spUtils.put("REMEM_USERCODE", "");
+                        spUtils.put(SharedPreference.REMEM, false);
+                        spUtils.put(SharedPreference.REMEM_USERCODE, "");
                     }
                     /**
                      * userCode
@@ -347,18 +348,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                      * schEnDateTime : 13/08/2018,23:59:59
                      * schStDateTime : 13/08/2018,00:00:00
                      */
-                    spUtils.put("USERCODE", userCode);
-                    spUtils.put("USERID", loginNurseInfo.getUserId());
-                    spUtils.put("USERNAME", loginNurseInfo.getUserName());
-                    spUtils.put("HOSPITALROWID", loginNurseInfo.getHospitalRowId());
-                    spUtils.put("GROUPID", loginNurseInfo.getGroupId());
-                    spUtils.put("GROUPDESC", loginNurseInfo.getGroupDesc());
-                    spUtils.put("LINKLOC", loginNurseInfo.getLinkLoc());
-                    spUtils.put("LOCID", loginNurseInfo.getLocId());
-                    spUtils.put("LOCDESC", loginNurseInfo.getLocDesc());
-                    spUtils.put("WARDID", loginNurseInfo.getWardId());
-                    spUtils.put("SCHSTDATETIME", loginNurseInfo.getSchStDateTime());
-                    spUtils.put("SCHENDATETIME", loginNurseInfo.getSchEnDateTime());
+                    spUtils.put(SharedPreference.USERCODE, userCode);
+                    spUtils.put(SharedPreference.USERID, loginNurseInfo.getUserId());
+                    spUtils.put(SharedPreference.USERNAME, loginNurseInfo.getUserName());
+                    spUtils.put(SharedPreference.HOSPITALROWID, loginNurseInfo.getHospitalRowId());
+                    spUtils.put(SharedPreference.GROUPID, loginNurseInfo.getGroupId());
+                    spUtils.put(SharedPreference.GROUPDESC, loginNurseInfo.getGroupDesc());
+                    spUtils.put(SharedPreference.LINKLOC, loginNurseInfo.getLinkLoc());
+                    spUtils.put(SharedPreference.LOCID, loginNurseInfo.getLocId());
+                    spUtils.put(SharedPreference.LOCDESC, loginNurseInfo.getLocDesc());
+                    spUtils.put(SharedPreference.WARDID, loginNurseInfo.getWardId());
+                    spUtils.put(SharedPreference.SCHSTDATETIME, loginNurseInfo.getSchStDateTime());
+                    spUtils.put(SharedPreference.SCHENDATETIME, loginNurseInfo.getSchEnDateTime());
 
                     finish();
                 }

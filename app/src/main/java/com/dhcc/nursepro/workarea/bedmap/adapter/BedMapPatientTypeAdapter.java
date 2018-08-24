@@ -48,8 +48,7 @@ public class BedMapPatientTypeAdapter extends BaseQuickAdapter<BedMapBean.LeftFi
             viewPatientType.setVisibility(View.INVISIBLE);
         }
 
-        helper.setText(R.id.tv_bedmap_patienttype, item.getDesc())
-                .addOnClickListener(R.id.ll_bedmap_patienttype);
+        helper.setText(R.id.tv_bedmap_patienttype, item.getDesc());
 
 
     }

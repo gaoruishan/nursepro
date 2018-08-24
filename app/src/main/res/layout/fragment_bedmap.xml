@@ -22,7 +22,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="12dp"
             android:layout_marginStart="12dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
             android:background="@drawable/bg_bedmap_search"
             android:drawableStart="@drawable/search"
             android:hint="输入病人床号或直接扫描病人腕带进行搜索"
@@ -121,7 +121,7 @@
             android:id="@+id/recy_bedmap_patienttype"
             android:layout_width="85dp"
             android:layout_height="match_parent"
-            android:background="@color/blue_light">
+            android:background="@color/bedmap_left_bgcolor">
 
         </android.support.v7.widget.RecyclerView>
 

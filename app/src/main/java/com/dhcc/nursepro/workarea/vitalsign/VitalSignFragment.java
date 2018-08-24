@@ -207,14 +207,14 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                     }
                 }
 
-                hideLoadFailTip();
+                hideLoadingTip();
                 updatePatientData();
 
             }
 
             @Override
             public void onFail(String code, String msg) {
-                hideLoadFailTip();
+                hideLoadingTip();
                 Toast.makeText(getActivity(), code + ":" + msg, Toast.LENGTH_SHORT).show();
             }
         });

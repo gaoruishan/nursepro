@@ -14,6 +14,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.constant.SharedPreference;
 import com.dhcc.nursepro.workarea.vitalsigndetail.adapter.VitalSignDetailAdapter;
 import com.dhcc.nursepro.workarea.vitalsigndetail.adapter.VitalSignDetailCodeAdapter;
 import com.dhcc.nursepro.workarea.vitalsigndetail.adapter.VitalSignTitleAdapter;
@@ -57,8 +58,8 @@ public class VitalSignDetailFragment extends BaseFragment implements View.OnClic
         setToolbarBottomLineVisibility(true);
         setToolbarCenterTitle(getString(R.string.title_vitalsigndetail),0xffffffff,17);
 
-        stDate = spUtils.getString("SCHSTDATETIME").substring(0,10);
-        enDate = spUtils.getString("SCHENDATETIME").substring(0,10);
+        stDate = spUtils.getString(SharedPreference.SCHSTDATETIME).substring(0,10);
+        enDate = spUtils.getString(SharedPreference.SCHENDATETIME).substring(0,10);
 //        stDate = "2018-03-23";
 //        enDate ="2018-08-23";
         Bundle bundle = getArguments();

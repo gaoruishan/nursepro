@@ -15,11 +15,8 @@ import android.widget.Toast;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.workarea.bedmap.adapter.BedMapPatientSkinOrderAdapter;
 import com.dhcc.nursepro.workarea.bedmap.bean.BedMapBean;
 import com.dhcc.nursepro.workarea.patevents.PatEventsFragment;
-
-import java.util.List;
 
 /**
  * BedMapPatFragment
@@ -56,7 +53,7 @@ public class BedMapPatFragment extends BaseFragment implements View.OnClickListe
 
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_bed_map_pat, container, false);
+        return inflater.inflate(R.layout.fragment_bedmap_pat, container, false);
     }
 
     @Override

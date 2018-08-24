@@ -6,7 +6,64 @@
     android:background="@color/white"
     tools:context=".workarea.ordersearch.OrderSearchFragment">
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recy_ordersearch_ordertype"
+        android:layout_width="85dp"
+        android:layout_height="match_parent"
+        android:background="@color/ordersearch_left_bgcolor">
 
+    </android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/icon_time_bottom"/>
+            <TextView
+                android:id="@+id/tv_ordersearch_startdatetime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/ordersearch_text_color"
+                android:textSize="12sp"
+                tools:text="2018-08-23 10:00"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                android:textColor="#62abff"
+                android:text="至"/>
+            <TextView
+                android:id="@+id/tv_ordersearch_enddatetime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/ordersearch_text_color"
+                android:textSize="12sp"
+                tools:text="2018-08-23 10:00"/>
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="#f6f6f6"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recy_ordersearch_patorder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#f6f6f6">
+
+        </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
 
 
 </LinearLayout>

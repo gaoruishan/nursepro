@@ -46,7 +46,7 @@
 
     <color name="divider_line_color">#bdbdbd</color>
 
-    <color name="blue_dark">#62AAFF</color>
+    <color name="blue_dark">#62ABFF</color>
     <color name="blue_light">#E9F3FF</color>
 
 
@@ -55,11 +55,16 @@
     <color name="bedmap_top_text_selected_color">#70AAF2</color>
     <color name="bedmap_top_text_normal_color">#000000</color>
     <color name="bedmap_top_right_color">#ff333333</color>
+    <color name="bedmap_left_bgcolor">#F5FAFF</color>
 
     <color name="patevents_device_color">#DADADA</color>
     <color name="patevents_patbg_color">#F5FAFF</color>
     <color name="patevents_tv_unsel_color">#FF9B9B9B</color>
     <color name="patevents_tv_date_color">#FF4A4A4A</color>
+
+    <color name="ordersearch_left_bgcolor">#F5FAFF</color>
+    <color name="ordersearch_text_color">#4A4A4A</color>
+
 
     <color name="key_sure_color">#62abff</color>
     <color name="key_sure_color_pressed">#0174f2</color>

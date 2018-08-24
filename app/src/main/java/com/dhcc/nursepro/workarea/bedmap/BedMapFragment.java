@@ -59,7 +59,7 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_bed_map, container, false);
+        return inflater.inflate(R.layout.fragment_bedmap, container, false);
     }
 
     @Override
@@ -142,16 +142,14 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
 
     private void initAdapter() {
         bedMapPatientTypeAdapter = new BedMapPatientTypeAdapter(new ArrayList<BedMapBean.LeftFilterBean>());
-        bedMapPatientTypeAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+        bedMapPatientTypeAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                if (view.getId() == R.id.ll_bedmap_patienttype) {
-                    leftFilterStr = ((BedMapBean.LeftFilterBean) adapter.getItem(position)).getCode();
-                    setData(bedno, topFilterStr, leftFilterStr);
-                    //左侧刷新分类选中状态显示
-                    bedMapPatientTypeAdapter.setSelectedPostion(position);
-                    bedMapPatientTypeAdapter.notifyDataSetChanged();
-                }
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                leftFilterStr = ((BedMapBean.LeftFilterBean) adapter.getItem(position)).getCode();
+                setData(bedno, topFilterStr, leftFilterStr);
+                //左侧刷新分类选中状态显示
+                bedMapPatientTypeAdapter.setSelectedPostion(position);
+                bedMapPatientTypeAdapter.notifyDataSetChanged();
             }
         });
 
@@ -212,13 +210,13 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
                     }
                 }
 
-                hideLoadFailTip();
+                hideLoadingTip();
                 setData("", "inBedAll", "allPat");
             }
 
             @Override
             public void onFail(String code, String msg) {
-                hideLoadFailTip();
+                hideLoadingTip();
                 Toast.makeText(getActivity(), code + ":" + msg, Toast.LENGTH_SHORT).show();
 
             }
