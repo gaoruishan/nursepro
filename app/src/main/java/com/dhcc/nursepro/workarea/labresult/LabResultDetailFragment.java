@@ -1,4 +1,4 @@
-package com.dhcc.nursepro.workarea.checkandlab;
+package com.dhcc.nursepro.workarea.labresult;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,9 +11,9 @@ import android.view.ViewGroup;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.workarea.checkandlab.adapter.LabResultDetailAdapter;
-import com.dhcc.nursepro.workarea.checkandlab.api.CheckLabApiManager;
-import com.dhcc.nursepro.workarea.checkandlab.bean.LabReslutDetailBean;
+import com.dhcc.nursepro.workarea.labresult.adapter.LabResultDetailAdapter;
+import com.dhcc.nursepro.workarea.labresult.api.CheckLabApiManager;
+import com.dhcc.nursepro.workarea.labresult.bean.LabReslutDetailBean;
 
 import java.util.ArrayList;
 import java.util.HashMap;

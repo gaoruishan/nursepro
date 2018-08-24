@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
-    tools:context=".workarea.checkandlab.LabResultDetailFragment">
+    tools:context=".workarea.labresult.LabResultDetailFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recy_labdetail"

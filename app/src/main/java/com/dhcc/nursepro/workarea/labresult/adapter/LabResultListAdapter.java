@@ -1,4 +1,4 @@
-package com.dhcc.nursepro.workarea.checkandlab.adapter;
+package com.dhcc.nursepro.workarea.labresult.adapter;
 
 import android.support.annotation.Nullable;
 import android.widget.TextView;
@@ -6,7 +6,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.workarea.checkandlab.bean.LabResultListBean;
+import com.dhcc.nursepro.workarea.labresult.bean.LabResultListBean;
 
 import java.util.List;
 

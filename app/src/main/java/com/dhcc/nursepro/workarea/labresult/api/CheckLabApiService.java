@@ -1,4 +1,4 @@
-package com.dhcc.nursepro.workarea.checkandlab.api;
+package com.dhcc.nursepro.workarea.labresult.api;
 
 import com.dhcc.nursepro.utils.wsutils.WebServiceUtils;
 

@@ -1,6 +1,5 @@
 package com.dhcc.nursepro.workarea;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -11,9 +10,10 @@ import android.widget.TextView;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.login.LoginActivity;
 import com.dhcc.nursepro.workarea.bedmap.BedMapFragment;
-import com.dhcc.nursepro.workarea.checkandlab.CheckLabPatsFragment;
+import com.dhcc.nursepro.workarea.checkresult.CheckPatsFragment;
+import com.dhcc.nursepro.workarea.labresult.CheckResultListFragment;
+import com.dhcc.nursepro.workarea.labresult.LabPatsFragment;
 import com.dhcc.nursepro.workarea.ordersearch.OrderSearchFragment;
 import com.dhcc.nursepro.workarea.patevents.PatEventsFragment;
 import com.dhcc.nursepro.workarea.vitalsign.VitalSignFragment;
@@ -91,12 +91,12 @@ public class WorkareaFragment extends BaseFragment implements View.OnClickListen
                 startFragment(OrderSearchFragment.class);
                 break;
             case R.id.tv_workarea_check:
-                bundle.putString("episodeId","94");
-                startFragment(VitalSignDetailFragment.class,bundle);
+//                bundle.putString("episodeId","94");
+//                startFragment(VitalSignDetailFragment.class,bundle);
+                startFragment(CheckPatsFragment.class);
                 break;
             case R.id.tv_workarea_lab:
-                bundle.putString("checklab","lab");
-                startFragment(CheckLabPatsFragment.class,bundle);
+                startFragment(LabPatsFragment.class);
                 break;
             default:
                 break;

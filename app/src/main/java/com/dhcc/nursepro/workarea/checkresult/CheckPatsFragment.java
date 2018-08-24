@@ -1,4 +1,4 @@
-package com.dhcc.nursepro.workarea.checkandlab;
+package com.dhcc.nursepro.workarea.checkresult;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,15 +13,17 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.workarea.checkandlab.adapter.PatListAdapter;
-import com.dhcc.nursepro.workarea.checkandlab.api.CheckLabApiManager;
-import com.dhcc.nursepro.workarea.checkandlab.bean.PatsListBean;
+import com.dhcc.nursepro.workarea.labresult.CheckResultListFragment;
+import com.dhcc.nursepro.workarea.labresult.LabResultListFragment;
+import com.dhcc.nursepro.workarea.labresult.adapter.PatListAdapter;
+import com.dhcc.nursepro.workarea.labresult.api.CheckLabApiManager;
+import com.dhcc.nursepro.workarea.labresult.bean.PatsListBean;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class CheckLabPatsFragment extends BaseFragment implements View.OnClickListener,BaseQuickAdapter.OnItemClickListener{
+public class CheckPatsFragment extends BaseFragment implements View.OnClickListener,BaseQuickAdapter.OnItemClickListener{
 
     private TextView tvmanage,tvall,tvwait;
     private RecyclerView recmanage,recall,recwait;

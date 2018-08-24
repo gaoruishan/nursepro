@@ -1,9 +1,9 @@
-package com.dhcc.nursepro.workarea.checkandlab.api;
+package com.dhcc.nursepro.workarea.labresult.api;
 
 import com.blankj.utilcode.util.ObjectUtils;
-import com.dhcc.nursepro.workarea.checkandlab.bean.LabReslutDetailBean;
-import com.dhcc.nursepro.workarea.checkandlab.bean.LabResultListBean;
-import com.dhcc.nursepro.workarea.checkandlab.bean.PatsListBean;
+import com.dhcc.nursepro.workarea.labresult.bean.LabReslutDetailBean;
+import com.dhcc.nursepro.workarea.labresult.bean.LabResultListBean;
+import com.dhcc.nursepro.workarea.labresult.bean.PatsListBean;
 import com.google.gson.Gson;
 
 import java.util.HashMap;

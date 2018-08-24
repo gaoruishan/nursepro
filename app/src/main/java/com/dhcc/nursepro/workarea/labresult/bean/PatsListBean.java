@@ -1,4 +1,4 @@
-package com.dhcc.nursepro.workarea.checkandlab.bean;
+package com.dhcc.nursepro.workarea.labresult.bean;
 
 import java.util.List;
 
