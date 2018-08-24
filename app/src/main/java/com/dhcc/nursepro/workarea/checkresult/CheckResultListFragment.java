@@ -1,4 +1,4 @@
-package com.dhcc.nursepro.workarea.labresult;
+package com.dhcc.nursepro.workarea.checkresult;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,8 +12,9 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.workarea.labresult.LabResultDetailFragment;
 import com.dhcc.nursepro.workarea.labresult.adapter.LabResultListAdapter;
-import com.dhcc.nursepro.workarea.labresult.api.CheckLabApiManager;
+import com.dhcc.nursepro.workarea.labresult.api.LabApiManager;
 import com.dhcc.nursepro.workarea.labresult.bean.LabResultListBean;
 
 import java.util.ArrayList;
@@ -68,7 +69,7 @@ public class CheckResultListFragment extends BaseFragment {
         episodeId = bundle.getString("episodeId");
         HashMap<String,String> map = new HashMap<String, String>();
         map.put("episodeId",episodeId);
-        CheckLabApiManager.getLabListMsg(map, "getLabOrdList", new CheckLabApiManager.GeLabListCallback() {
+        LabApiManager.getLabListMsg(map, "getLabOrdList", new LabApiManager.GeLabListCallback() {
             @Override
             public void onSuccess(LabResultListBean labResultListBean) {
                 listBeans = labResultListBean.getLabOrderList();

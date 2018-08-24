@@ -12,7 +12,7 @@ import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.labresult.adapter.LabResultDetailAdapter;
-import com.dhcc.nursepro.workarea.labresult.api.CheckLabApiManager;
+import com.dhcc.nursepro.workarea.labresult.api.LabApiManager;
 import com.dhcc.nursepro.workarea.labresult.bean.LabReslutDetailBean;
 
 import java.util.ArrayList;
@@ -57,7 +57,7 @@ public class LabResultDetailFragment extends BaseFragment {
     private void initdata(){
         HashMap<String,String> map = new HashMap<String, String>();
         map.put("oeoreId",oeordId);
-        CheckLabApiManager.getLabDetailMsg(map, "getLabResult", new CheckLabApiManager.GeLabDetailCallback() {
+        LabApiManager.getLabDetailMsg(map, "getLabResult", new LabApiManager.GeLabDetailCallback() {
             @Override
             public void onSuccess(LabReslutDetailBean labReslutDetailBean) {
                 listbeans = labReslutDetailBean.getResultDetail();

@@ -1,6 +1,7 @@
-package com.dhcc.nursepro.workarea.labresult.api;
+package com.dhcc.nursepro.workarea.checkresult.api;
 
 import com.blankj.utilcode.util.ObjectUtils;
+import com.dhcc.nursepro.workarea.labresult.api.LabApiService;
 import com.dhcc.nursepro.workarea.labresult.bean.LabReslutDetailBean;
 import com.dhcc.nursepro.workarea.labresult.bean.LabResultListBean;
 import com.dhcc.nursepro.workarea.labresult.bean.PatsListBean;
@@ -8,7 +9,7 @@ import com.google.gson.Gson;
 
 import java.util.HashMap;
 
-public class CheckLabApiManager {
+public class CheckApiManager {
 
     public interface CommonCallBack{
         void onFail(String code, String msg);
@@ -21,7 +22,7 @@ public class CheckLabApiManager {
     //获取病人列表
     public static void getPatsList(HashMap<String,String> map,String method,final GetCheckResultCallback callback) {
 
-        CheckLabApiService.getCheckLabMsg(map,method,new CheckLabApiService.ServiceCallBack(){
+        LabApiService.getCheckLabMsg(map,method,new LabApiService.ServiceCallBack(){
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();
@@ -56,7 +57,7 @@ public class CheckLabApiManager {
 
     public static void getLabListMsg(HashMap<String,String> map,String method,final GeLabListCallback callback) {
 
-        CheckLabApiService.getCheckLabMsg(map,method,new CheckLabApiService.ServiceCallBack(){
+        LabApiService.getCheckLabMsg(map,method,new LabApiService.ServiceCallBack(){
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();
@@ -91,7 +92,7 @@ public class CheckLabApiManager {
 
     public static void getLabDetailMsg(HashMap<String,String> map,String method,final GeLabDetailCallback callback) {
 
-        CheckLabApiService.getCheckLabMsg(map,method,new CheckLabApiService.ServiceCallBack(){
+        LabApiService.getCheckLabMsg(map,method,new LabApiService.ServiceCallBack(){
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();

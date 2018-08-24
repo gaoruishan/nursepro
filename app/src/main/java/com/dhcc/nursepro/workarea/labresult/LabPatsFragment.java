@@ -14,7 +14,7 @@ import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.labresult.adapter.PatListAdapter;
-import com.dhcc.nursepro.workarea.labresult.api.CheckLabApiManager;
+import com.dhcc.nursepro.workarea.labresult.api.LabApiManager;
 import com.dhcc.nursepro.workarea.labresult.bean.PatsListBean;
 
 import java.util.ArrayList;
@@ -111,7 +111,7 @@ public class LabPatsFragment extends BaseFragment implements View.OnClickListene
         HashMap<String,String> map = new HashMap<String, String>();
         map.put("wardId","5");
         map.put("userId","3");
-        CheckLabApiManager.getPatsList(map, "getInWardPatList", new CheckLabApiManager.GetCheckResultCallback() {
+        LabApiManager.getPatsList(map, "getInWardPatList", new LabApiManager.GetCheckResultCallback() {
             @Override
             public void onSuccess(PatsListBean patsListBean) {
                 hideLoadFailTip();

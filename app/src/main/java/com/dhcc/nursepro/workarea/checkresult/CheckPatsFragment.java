@@ -13,10 +13,9 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.workarea.labresult.CheckResultListFragment;
 import com.dhcc.nursepro.workarea.labresult.LabResultListFragment;
 import com.dhcc.nursepro.workarea.labresult.adapter.PatListAdapter;
-import com.dhcc.nursepro.workarea.labresult.api.CheckLabApiManager;
+import com.dhcc.nursepro.workarea.labresult.api.LabApiManager;
 import com.dhcc.nursepro.workarea.labresult.bean.PatsListBean;
 
 import java.util.ArrayList;
@@ -31,7 +30,6 @@ public class CheckPatsFragment extends BaseFragment implements View.OnClickListe
     private List<PatsListBean.PatInfoListBean> listBeansAll,listBeansInBed,listBeansManage,listBeansWait;
     private String showListNow = "all";
     private View showview1,showview2,showview3;
-    private String checkLab = "lab";
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_patlist_check, container, false);
@@ -44,8 +42,6 @@ public class CheckPatsFragment extends BaseFragment implements View.OnClickListe
         setToolbarType(BaseActivity.ToolbarType.TOP);
         setToolbarBottomLineVisibility(true);
         setToolbarCenterTitle(getString(R.string.title_checklabpas),0xffffffff,17);
-        Bundle bundle = getArguments();
-        checkLab = bundle.getString("checklab");
         initView(view);
         view.postDelayed(new Runnable() {
             @Override
@@ -108,11 +104,7 @@ public class CheckPatsFragment extends BaseFragment implements View.OnClickListe
         Bundle bundle = new Bundle();
         bundle.putString("episodeId",episodeId);
         bundle.putString("patmsg",patmsg);
-        if (checkLab.equals("lab")) {
-            startFragment(LabResultListFragment.class, bundle);
-        }else {
-            startFragment(CheckResultListFragment.class,bundle);
-        }
+        startFragment(CheckResultListFragment.class,bundle);
     }
 
     private void iniData(){
@@ -120,7 +112,7 @@ public class CheckPatsFragment extends BaseFragment implements View.OnClickListe
         HashMap<String,String> map = new HashMap<String, String>();
         map.put("wardId","5");
         map.put("userId","3");
-        CheckLabApiManager.getPatsList(map, "getInWardPatList", new CheckLabApiManager.GetCheckResultCallback() {
+        LabApiManager.getPatsList(map, "getInWardPatList", new LabApiManager.GetCheckResultCallback() {
             @Override
             public void onSuccess(PatsListBean patsListBean) {
                 hideLoadFailTip();

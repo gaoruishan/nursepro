@@ -12,12 +12,10 @@ import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.bedmap.BedMapFragment;
 import com.dhcc.nursepro.workarea.checkresult.CheckPatsFragment;
-import com.dhcc.nursepro.workarea.labresult.CheckResultListFragment;
 import com.dhcc.nursepro.workarea.labresult.LabPatsFragment;
 import com.dhcc.nursepro.workarea.ordersearch.OrderSearchFragment;
 import com.dhcc.nursepro.workarea.patevents.PatEventsFragment;
 import com.dhcc.nursepro.workarea.vitalsign.VitalSignFragment;
-import com.dhcc.nursepro.workarea.vitalsigndetail.VitalSignDetailFragment;
 
 /**
  * WorkareaFragment
