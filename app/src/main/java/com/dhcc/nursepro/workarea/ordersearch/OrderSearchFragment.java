@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.TimeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
@@ -21,9 +22,14 @@ import com.dhcc.nursepro.constant.SharedPreference;
 import com.dhcc.nursepro.workarea.ordersearch.adapter.OrderSearchOrderTypeAdapter;
 import com.dhcc.nursepro.workarea.ordersearch.api.OrderSearchApiManager;
 import com.dhcc.nursepro.workarea.ordersearch.bean.OrderSearchBean;
+import com.jzxiang.pickerview.TimePickerDialog;
+import com.jzxiang.pickerview.data.Type;
+import com.jzxiang.pickerview.listener.OnDateSetListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 医嘱查询
@@ -31,11 +37,12 @@ import java.util.List;
  * @author DevLix126
  * created at 2018/8/23 09:00
  */
-public class OrderSearchFragment extends BaseFragment implements View.OnClickListener {
+public class OrderSearchFragment extends BaseFragment implements View.OnClickListener, OnDateSetListener {
     private RecyclerView recyOrdersearchOrdertype;
     private TextView tvOrdersearchStartdatetime;
     private TextView tvOrdersearchEnddatetime;
     private RecyclerView recyOrdersearchPatorder;
+    private String etChangeFlag;
 
     //    private List<OrderSearchBean.ButtonsBean> buttons;
     private List<OrderSearchBean.OrdersBean> orders;
@@ -102,6 +109,9 @@ public class OrderSearchFragment extends BaseFragment implements View.OnClickLis
         tvOrdersearchEnddatetime = view.findViewById(R.id.tv_ordersearch_enddatetime);
         recyOrdersearchPatorder = view.findViewById(R.id.recy_ordersearch_patorder);
 
+        tvOrdersearchStartdatetime.setText(startDate+" "+startTime);
+        tvOrdersearchEnddatetime.setText(endDate+" "+endTime);
+
         tvOrdersearchStartdatetime.setOnClickListener(this);
         tvOrdersearchEnddatetime.setOnClickListener(this);
         //提高展示效率
@@ -162,17 +172,90 @@ public class OrderSearchFragment extends BaseFragment implements View.OnClickLis
 
     }
 
+    private void chooseTime(){
+        long tenYears = 10L * 365 * 1000 * 60 * 60 * 24L;
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+
+        TimePickerDialog mDialogAll = new TimePickerDialog.Builder()
+                .setCallBack(this)
+                .setCancelStringId("取消")
+                .setSureStringId("确认")
+                .setTitleStringId("时间")
+                .setYearText("年")
+                .setMonthText("月")
+                .setDayText("日")
+                .setHourText("时")
+                .setMinuteText("分")
+                .setCyclic(false)
+                .setMinMillseconds(System.currentTimeMillis() - tenYears)
+                .setCurrentMillseconds(calendar.getTimeInMillis())
+                .setThemeColor(getResources().getColor(R.color.colorPrimary))
+                .setType(Type.ALL)
+                .setWheelItemTextNormalColor(getResources().getColor(R.color.timetimepicker_default_text_color))
+                .setWheelItemTextSelectorColor(getResources().getColor(R.color.colorPrimaryDark))
+                .setWheelItemTextSize(12)
+                .build();
+        //取时间前两个字符转为int（02，06...）
+
+//        List<String> hours = new ArrayList();
+//        for (int i = 0; i < timeFilterList.size(); i ++){
+//            String str = (String)((Map)timeFilterList.get(i)).get("time");
+//            hours.add(str);
+//        }
+//
+//        mDialogAll.setintHour(hours);
+
+        mDialogAll.show(getFragmentManager(), "ALL");
+
+    }
+
 
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_ordersearch_startdatetime:
+                etChangeFlag = "START";
+                chooseTime();
+
                 break;
             case R.id.tv_ordersearch_enddatetime:
+                etChangeFlag = "END";
+                chooseTime();
                 break;
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
+        String date = TimeUtils.millis2String(millseconds).substring(0,11);
+        String time = TimeUtils.millis2String(millseconds).substring(11,16);
+
+        if ("START".equals(etChangeFlag)) {
+            if (!date.equals(startDate) || !time.equals(startTime)) {
+                //日期时间发生改变，需重新请求数据
+                startDate = date;
+                startTime = time;
+                asyncInitData();
+            }
+
+            tvOrdersearchStartdatetime.setText(TimeUtils.millis2String(millseconds).substring(0, 16));
+        } else{
+            if (!date.equals(endDate) || !time.equals(endTime)) {
+                //日期时间发生改变，需重新请求数据
+                endDate = date;
+                endTime = time;
+                asyncInitData();
+            }
+
+            tvOrdersearchEnddatetime.setText(TimeUtils.millis2String(millseconds).substring(0, 16));
+        }
+
+
     }
 }

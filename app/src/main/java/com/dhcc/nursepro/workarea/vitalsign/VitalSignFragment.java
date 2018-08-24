@@ -400,10 +400,10 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                 .setCyclic(false)
                 .setMinMillseconds(System.currentTimeMillis() - tenYears)
                 .setCurrentMillseconds(calendar.getTimeInMillis())
-                .setThemeColor(getResources().getColor(R.color.colorAccent))
+                .setThemeColor(getResources().getColor(R.color.colorPrimary))
                 .setType(Type.ALL)
                 .setWheelItemTextNormalColor(getResources().getColor(R.color.timetimepicker_default_text_color))
-                .setWheelItemTextSelectorColor(getResources().getColor(R.color.timepicker_toolbar_bg))
+                .setWheelItemTextSelectorColor(getResources().getColor(R.color.colorPrimaryDark))
                 .setWheelItemTextSize(12)
                 .build();
         mDialogAll.settype(1);
