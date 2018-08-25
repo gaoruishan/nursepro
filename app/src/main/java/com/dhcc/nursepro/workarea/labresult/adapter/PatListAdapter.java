@@ -38,6 +38,7 @@ public class PatListAdapter extends BaseQuickAdapter <PatsListBean.PatInfoListBe
         TextView tvCritical = helper.getView(R.id.tv_bedmap_patient_critical);
         TextView tvArrears = helper.getView(R.id.tv_bedmap_patient_arrears);
         TextView tvCriticalValue = helper.getView(R.id.tv_bedmap_patient_criticalvalue);
+        TextView tvSkinTest = helper.getView(R.id.tv_bedmap_patient_skintest);
         if ("1".equals(item.getLongOrd())) {
             tvLongOrd.setVisibility(View.VISIBLE);
         } else {
@@ -104,6 +105,11 @@ public class PatListAdapter extends BaseQuickAdapter <PatsListBean.PatInfoListBe
             tvCriticalValue.setVisibility(View.VISIBLE);
         } else {
             tvCriticalValue.setVisibility(View.GONE);
+        }
+        if ("1".equals(item.getGotAllergy())) {
+            tvSkinTest.setVisibility(View.VISIBLE);
+        } else {
+            tvSkinTest.setVisibility(View.GONE);
         }
 
 

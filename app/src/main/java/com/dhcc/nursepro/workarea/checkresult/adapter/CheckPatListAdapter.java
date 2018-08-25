@@ -8,18 +8,19 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.workarea.checkresult.bean.CheckPatsListBean;
 import com.dhcc.nursepro.workarea.labresult.bean.PatsListBean;
 
 import java.util.List;
 
-public class PatListAdapter extends BaseQuickAdapter <PatsListBean.PatInfoListBean,BaseViewHolder>{
+public class CheckPatListAdapter extends BaseQuickAdapter <CheckPatsListBean.PatInfoListBean,BaseViewHolder>{
 
-    public PatListAdapter(@Nullable List<PatsListBean.PatInfoListBean> data) {
-        super(R.layout.item_pats_lab,data);
+    public CheckPatListAdapter(@Nullable List<CheckPatsListBean.PatInfoListBean> data) {
+        super(R.layout.item_pats_check,data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, PatsListBean.PatInfoListBean item) {
+    protected void convert(BaseViewHolder helper, CheckPatsListBean.PatInfoListBean item) {
 
         helper.setText(R.id.tv_pats_lab_bedno, "".equals(item.getBedCode()) ? "未分床" : item.getBedCode() + "床")
                 .setText(R.id.tv_pats_lab_name, item.getName());
@@ -38,6 +39,7 @@ public class PatListAdapter extends BaseQuickAdapter <PatsListBean.PatInfoListBe
         TextView tvCritical = helper.getView(R.id.tv_bedmap_patient_critical);
         TextView tvArrears = helper.getView(R.id.tv_bedmap_patient_arrears);
         TextView tvCriticalValue = helper.getView(R.id.tv_bedmap_patient_criticalvalue);
+        TextView tvSkinTest = helper.getView(R.id.tv_bedmap_patient_skintest);
         if ("1".equals(item.getLongOrd())) {
             tvLongOrd.setVisibility(View.VISIBLE);
         } else {
@@ -104,6 +106,11 @@ public class PatListAdapter extends BaseQuickAdapter <PatsListBean.PatInfoListBe
             tvCriticalValue.setVisibility(View.VISIBLE);
         } else {
             tvCriticalValue.setVisibility(View.GONE);
+        }
+        if ("1".equals(item.getGotAllergy())) {
+            tvSkinTest.setVisibility(View.VISIBLE);
+        } else {
+            tvSkinTest.setVisibility(View.GONE);
         }
 
 

@@ -28,10 +28,10 @@ public class LabResultListAdapter extends BaseQuickAdapter <LabResultListBean.La
         if (item.getResultStatus().equals("Y")){
             tvreport.setTextColor(mContext.getResources().getColor(R.color.blue));
             tvresult.setText("已出");
-            tvresult.setBackground(mContext.getResources().getDrawable(R.drawable.bg_eventcircle_4));
+            tvresult.setBackground(mContext.getResources().getDrawable(R.drawable.bg_cheklab_getresult));
         }else {
             tvreport.setTextColor(mContext.getResources().getColor(R.color.lab_un_report));
-            tvresult.setBackground(mContext.getResources().getDrawable(R.drawable.bg_eventcircle_8));
+            tvresult.setBackground(mContext.getResources().getDrawable(R.drawable.bg_checklab_noresult));
             tvresult.setText("未出");
         }
 

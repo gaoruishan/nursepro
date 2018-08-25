@@ -20,7 +20,7 @@
             android:layout_marginTop="@dimen/dp_10"
             >
             <TextView
-                android:id="@+id/tv_lablist_result"
+                android:id="@+id/tv_checklist_result"
                 android:layout_width="45dp"
                 android:layout_height="18dp"
                 android:textSize="@dimen/sp_12"
@@ -28,13 +28,7 @@
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:text="未出"/>
-            <TextView
-                android:id="@+id/tv_lablist_datetime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:textSize="@dimen/sp_12"
-                android:text="2018-08-22 19:00"/>
+
         </RelativeLayout>
 
         <LinearLayout
@@ -42,7 +36,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <TextView
-                android:id="@+id/tv_lablist_ordname"
+                android:id="@+id/tv_checklist_ordname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="检查项目"
@@ -53,21 +47,29 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:layout_marginLeft="30dp">
 
                 <TextView
-                    android:id="@+id/tv_lablist_labno"
+                    android:id="@+id/tv_checklist_datetime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="13sp"
                     android:layout_marginTop="5dp"
-                    android:text="标本号 1900000"/>
+                    android:text="2018-08-22 19:00"/>
+                <TextView
+                    android:id="@+id/tv_checklist_doc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="13sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:text="李医生"/>
             </LinearLayout>
 
         </LinearLayout>
         <LinearLayout
-            android:id="@+id/ll_labreport"
+            android:id="@+id/ll_checkreport"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -77,11 +79,11 @@
                 android:background="@color/patevents_device_color"
                 android:layout_margin="10dp"></View>
             <TextView
-                android:id="@+id/tv_lablist_report"
+                android:id="@+id/tv_checklist_report"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="13sp"
-                android:text="查看检验结果"
+                android:text="查看文字报告"
                 android:layout_marginBottom="12dp"
                 android:textColor="@color/lab_un_report"
                 android:gravity="center"/>

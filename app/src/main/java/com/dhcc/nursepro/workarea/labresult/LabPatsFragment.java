@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
@@ -24,11 +25,12 @@ import java.util.List;
 public class LabPatsFragment extends BaseFragment implements View.OnClickListener,BaseQuickAdapter.OnItemClickListener{
 
     private TextView tvmanage,tvall,tvwait;
-    private RecyclerView recmanage,recall,recwait;
+    private RecyclerView recall;
     private PatListAdapter patListAdapterAll,patListAdapterManage,patListAdapterWait;
     private List<PatsListBean.PatInfoListBean> listBeansAll,listBeansInBed,listBeansManage,listBeansWait;
     private String showListNow = "all";
     private View showview1,showview2,showview3;
+    private SPUtils spUtils = SPUtils.getInstance();
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_patlist_check, container, false);
@@ -68,8 +70,6 @@ public class LabPatsFragment extends BaseFragment implements View.OnClickListene
         tvmanage.setOnClickListener(this);
         tvwait.setOnClickListener(this);
         recall = view.findViewById(R.id.recy_checklab_onbedarea);
-        recmanage = view.findViewById(R.id.recy_checklab_managearea);
-        recwait = view.findViewById(R.id.recy_checklab_waitingarea);
 
         listBeansAll = new ArrayList<PatsListBean.PatInfoListBean>();
         listBeansInBed = new ArrayList<PatsListBean.PatInfoListBean>();
@@ -109,8 +109,8 @@ public class LabPatsFragment extends BaseFragment implements View.OnClickListene
     private void iniData(){
         showLoadingTip(BaseActivity.LoadingType.FULL);
         HashMap<String,String> map = new HashMap<String, String>();
-        map.put("wardId","5");
-        map.put("userId","3");
+        map.put("wardId",spUtils.getString("WARDID"));
+        map.put("userId",spUtils.getString("USERID"));
         LabApiManager.getPatsList(map, "getInWardPatList", new LabApiManager.GetCheckResultCallback() {
             @Override
             public void onSuccess(PatsListBean patsListBean) {
