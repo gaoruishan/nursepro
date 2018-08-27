@@ -20,6 +20,7 @@ import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.constant.SharedPreference;
 import com.dhcc.nursepro.workarea.ordersearch.adapter.OrderSearchOrderTypeAdapter;
+import com.dhcc.nursepro.workarea.ordersearch.adapter.OrderSearchPatientAdapter;
 import com.dhcc.nursepro.workarea.ordersearch.api.OrderSearchApiManager;
 import com.dhcc.nursepro.workarea.ordersearch.bean.OrderSearchBean;
 import com.jzxiang.pickerview.TimePickerDialog;
@@ -29,7 +30,6 @@ import com.jzxiang.pickerview.listener.OnDateSetListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 医嘱查询
@@ -37,7 +37,7 @@ import java.util.Map;
  * @author DevLix126
  * created at 2018/8/23 09:00
  */
-public class OrderSearchFragment extends BaseFragment implements View.OnClickListener, OnDateSetListener {
+public class OrderSearchFragment extends BaseFragment implements View.OnClickListener, OnDateSetListener, BaseQuickAdapter.RequestLoadMoreListener {
     private RecyclerView recyOrdersearchOrdertype;
     private TextView tvOrdersearchStartdatetime;
     private TextView tvOrdersearchEnddatetime;
@@ -49,6 +49,7 @@ public class OrderSearchFragment extends BaseFragment implements View.OnClickLis
     private List<OrderSearchBean.SheetListBean> sheetList;
 
     private OrderSearchOrderTypeAdapter orderTypeAdapter;
+    private OrderSearchPatientAdapter patientAdapter;
 
     private SPUtils spUtils = SPUtils.getInstance();
     private String bedStr = "";
@@ -98,8 +99,6 @@ public class OrderSearchFragment extends BaseFragment implements View.OnClickLis
                 asyncInitData();
             }
         }, 300);
-
-
     }
 
 
@@ -109,8 +108,8 @@ public class OrderSearchFragment extends BaseFragment implements View.OnClickLis
         tvOrdersearchEnddatetime = view.findViewById(R.id.tv_ordersearch_enddatetime);
         recyOrdersearchPatorder = view.findViewById(R.id.recy_ordersearch_patorder);
 
-        tvOrdersearchStartdatetime.setText(startDate+" "+startTime);
-        tvOrdersearchEnddatetime.setText(endDate+" "+endTime);
+        tvOrdersearchStartdatetime.setText(startDate + " " + startTime);
+        tvOrdersearchEnddatetime.setText(endDate + " " + endTime);
 
         tvOrdersearchStartdatetime.setOnClickListener(this);
         tvOrdersearchEnddatetime.setOnClickListener(this);
@@ -130,8 +129,8 @@ public class OrderSearchFragment extends BaseFragment implements View.OnClickLis
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 sheetCode = ((OrderSearchBean.SheetListBean) adapter.getItem(position)).getCode();
+                pageNo = "1";
                 asyncInitData();
-
 
                 //左侧刷新分类选中状态显示
                 orderTypeAdapter.setSelectedPostion(position);
@@ -141,7 +140,10 @@ public class OrderSearchFragment extends BaseFragment implements View.OnClickLis
         });
         recyOrdersearchOrdertype.setAdapter(orderTypeAdapter);
 
+        patientAdapter = new OrderSearchPatientAdapter(new ArrayList<OrderSearchBean.OrdersBean>());
+        patientAdapter.setOnLoadMoreListener(this, recyOrdersearchPatorder);
 
+        recyOrdersearchPatorder.setAdapter(patientAdapter);
 
     }
 
@@ -155,9 +157,19 @@ public class OrderSearchFragment extends BaseFragment implements View.OnClickLis
                 orders = orderSearchBean.getOrders();
                 if ("1".equals(pageNo)) {
                     orderTypeAdapter.setNewData(sheetList);
-
+                    patientAdapter.setNewData(orders);
+                    if (orders.size() == 0) {
+                        patientAdapter.loadMoreEnd();
+                    } else {
+                        patientAdapter.loadMoreComplete();
+                    }
                 } else {
-
+                    if (orders.size() == 0) {
+                        patientAdapter.loadMoreEnd();
+                    } else {
+                        patientAdapter.addData(orders);
+                        patientAdapter.loadMoreComplete();
+                    }
                 }
 
             }
@@ -165,14 +177,49 @@ public class OrderSearchFragment extends BaseFragment implements View.OnClickLis
             @Override
             public void onFail(String code, String msg) {
                 hideLoadingTip();
+                patientAdapter.loadMoreFail();
                 Toast.makeText(getActivity(), code + ":" + msg, Toast.LENGTH_SHORT).show();
-
             }
         });
 
     }
 
-    private void chooseTime(){
+    @Override
+    public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
+        String date = TimeUtils.millis2String(millseconds).substring(0, 10);
+        String time = TimeUtils.millis2String(millseconds).substring(11, 16);
+
+        if ("START".equals(etChangeFlag)) {
+            if (!date.equals(startDate) || !time.equals(startTime)) {
+                //日期时间发生改变，需重新请求数据
+                startDate = date;
+                startTime = time;
+                pageNo = "1";
+                asyncInitData();
+            }
+
+            tvOrdersearchStartdatetime.setText(TimeUtils.millis2String(millseconds).substring(0, 16));
+        } else {
+            if (!date.equals(endDate) || !time.equals(endTime)) {
+                //日期时间发生改变，需重新请求数据
+                endDate = date;
+                endTime = time;
+                pageNo = "1";
+                asyncInitData();
+            }
+
+            tvOrdersearchEnddatetime.setText(TimeUtils.millis2String(millseconds).substring(0, 16));
+        }
+
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+        pageNo = Integer.valueOf(pageNo) + 1 + "";
+        asyncInitData();
+    }
+
+    private void chooseTime() {
         long tenYears = 10L * 365 * 1000 * 60 * 60 * 24L;
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -198,20 +245,10 @@ public class OrderSearchFragment extends BaseFragment implements View.OnClickLis
                 .setWheelItemTextSelectorColor(getResources().getColor(R.color.colorPrimaryDark))
                 .setWheelItemTextSize(12)
                 .build();
-        //取时间前两个字符转为int（02，06...）
-
-//        List<String> hours = new ArrayList();
-//        for (int i = 0; i < timeFilterList.size(); i ++){
-//            String str = (String)((Map)timeFilterList.get(i)).get("time");
-//            hours.add(str);
-//        }
-//
-//        mDialogAll.setintHour(hours);
 
         mDialogAll.show(getFragmentManager(), "ALL");
 
     }
-
 
 
     @Override
@@ -231,31 +268,5 @@ public class OrderSearchFragment extends BaseFragment implements View.OnClickLis
         }
     }
 
-    @Override
-    public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
-        String date = TimeUtils.millis2String(millseconds).substring(0,11);
-        String time = TimeUtils.millis2String(millseconds).substring(11,16);
 
-        if ("START".equals(etChangeFlag)) {
-            if (!date.equals(startDate) || !time.equals(startTime)) {
-                //日期时间发生改变，需重新请求数据
-                startDate = date;
-                startTime = time;
-                asyncInitData();
-            }
-
-            tvOrdersearchStartdatetime.setText(TimeUtils.millis2String(millseconds).substring(0, 16));
-        } else{
-            if (!date.equals(endDate) || !time.equals(endTime)) {
-                //日期时间发生改变，需重新请求数据
-                endDate = date;
-                endTime = time;
-                asyncInitData();
-            }
-
-            tvOrdersearchEnddatetime.setText(TimeUtils.millis2String(millseconds).substring(0, 16));
-        }
-
-
-    }
 }

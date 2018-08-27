@@ -17,10 +17,11 @@
     <string name="title_vitalsigndetail">体征记录</string>
     <!--医嘱查询-->
     <string name="title_ordersearch">医嘱查询</string>
+    <string name="title_orderinfodetail">详情</string>
 
     <!--事件管理-->
     <string name="title_patevents">事件管理</string>
-       <!--新建事件-->
+    <!--新建事件-->
     <string name="title_addpatevents">新建事件</string>
     <string name="title_changepatevents">修改事件</string>
 

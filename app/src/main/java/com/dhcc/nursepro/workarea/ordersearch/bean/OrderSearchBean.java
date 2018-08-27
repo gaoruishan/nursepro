@@ -1,5 +1,6 @@
 package com.dhcc.nursepro.workarea.ordersearch.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -8,7 +9,7 @@ import java.util.List;
  * @author DevLix126
  * @date 2018/8/24
  */
-public class OrderSearchBean {
+public class OrderSearchBean implements Serializable {
 
     /**
      * buttons : [{"code":"seeOrder","desc":"处理医嘱"},{"code":"cancelSeeOrder","desc":"撤销处理医嘱"}]
@@ -74,7 +75,7 @@ public class OrderSearchBean {
         this.sheetList = sheetList;
     }
 
-    public static class ButtonsBean {
+    public static class ButtonsBean implements Serializable {
         /**
          * code : seeOrder
          * desc : 处理医嘱
@@ -100,7 +101,7 @@ public class OrderSearchBean {
         }
     }
 
-    public static class OrdersBean {
+    public static class OrdersBean implements Serializable {
         /**
          * bedCode : 04
          * name : zfm03
@@ -135,7 +136,7 @@ public class OrderSearchBean {
             this.patOrds = patOrds;
         }
 
-        public static class PatOrdsBean {
+        public static class PatOrdsBean implements Serializable {
             /**
              * orderInfo : {"DspStat":"未发","Durat":"1天","EncryptLevel":"","ID":"47||62","PatLevel":"","PreDisDateTime":"","admLoc":"内分泌科","age":"67岁","arcimDesc":"10%葡萄糖注射液(塑瓶)[100ML]","bedCode":"04","cancelReason":"","createDateTime":"2018-08-24 10:50:56","ctcpDesc":"医生01","disposeStatCode":"NeedToDeal","doseQtyUnit":"100 ml","execXDateTime":"","execXUserDesc":"","flowSpeed":"","labNo":"","medCareNo":"100023","no":"1","notes":"","notifyClinician":"N","oecprDesc":"长期医嘱","orcatDesc":"西药","ordDep":"内分泌科","ordID":"47||62","ordStatDesc":"核实","patIdentity":"全自费","patName":"zfm03","phOrdQtyUnit":"200 ml","phcfrCode":"Bid","phcinDesc":"静脉滴注","placerNo":"","prescNo":"I180824000001","price":"1.20","printFlag":"","reclocDesc":"静脉药物配置中心","regNo":"0000000070 ","seeOrderUserDateTime":"","seeOrderUserName":"","seqNo":"47||62","skinTestInfo":"","skinTestNumber":"","specCollDateTime":"","specDesc":"","sttDateTime":"2018-08-24 10:51:08","totalAmount":"2.40","tubeColor":"","tubeColorDesc":{},"xCtcpDesc":"","xDateTime":""}
              * type : main
@@ -160,7 +161,7 @@ public class OrderSearchBean {
                 this.type = type;
             }
 
-            public static class OrderInfoBean {
+            public static class OrderInfoBean implements Serializable {
                 /**
                  * DspStat : 未发
                  * Durat : 1天
@@ -685,13 +686,13 @@ public class OrderSearchBean {
                     this.xDateTime = xDateTime;
                 }
 
-                public static class TubeColorDescBean {
+                public static class TubeColorDescBean implements Serializable {
                 }
             }
         }
     }
 
-    public static class SheetListBean {
+    public static class SheetListBean implements Serializable {
         /**
          * code : DefaultSee
          * desc : 需处理医嘱
