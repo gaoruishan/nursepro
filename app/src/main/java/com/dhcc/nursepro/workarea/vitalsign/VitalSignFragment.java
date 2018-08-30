@@ -16,14 +16,17 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.workarea.patevents.PatEventsFragment;
 import com.dhcc.nursepro.workarea.vitalsign.adapter.VitalSignPatientAdapter;
 import com.dhcc.nursepro.workarea.vitalsign.adapter.VitalSignTypeAdapter;
 import com.dhcc.nursepro.workarea.vitalsign.api.VitalSignApiManager;
 import com.dhcc.nursepro.workarea.vitalsign.bean.VitalSignBean;
+
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 
+import java.io.Serializable;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -127,15 +130,29 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
         patientAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+
+                Map patientInfo = (Map) patientList.get(position);
+
                 if (view.getId() == R.id.tv_vitalsign_vitalsign_record){
                     //体征录入
-                    Toast.makeText(getContext(), "体征录入", Toast.LENGTH_SHORT).show();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("info",(Serializable)patientInfo);
+                    bundle.putString("timepoint",dateFilterStr + " "+ timeFilterStr);
+                    startFragment(VitalSignRecordFragment.class,bundle);
+
                 }else if(view.getId() == R.id.tv_vitalsign_event_record){
                     //事件登记
-                    Toast.makeText(getContext(), "事件登记", Toast.LENGTH_SHORT).show();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("regNo",(String) patientInfo.get("regNo"));
+                    startFragment(PatEventsFragment.class,bundle);
+
                 }else if(view.getId() == R.id.tv_vitalsign_tmp_preview){
                     //体温单预览
-                    Toast.makeText(getContext(), "体温单预览", Toast.LENGTH_SHORT).show();
+
+                    String episodeId = (String)patientInfo.get("episodeId");
+
+                    viewPatientTempImages("94");
+
                 }else{
                     //普通点击
                     Toast.makeText(getContext(), "普通点击", Toast.LENGTH_SHORT).show();
@@ -215,6 +232,26 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
             @Override
             public void onFail(String code, String msg) {
                 hideLoadingTip();
+                Toast.makeText(getActivity(), code + ":" + msg, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void viewPatientTempImages(String episodeId){
+
+        //
+        showLoadingTip(BaseActivity.LoadingType.FULL);
+
+        VitalSignApiManager.gePatientTempImages(episodeId, new VitalSignApiManager.GetPatientTempImagesCallback() {
+            @Override
+            public void onSuccess(Map<String, Object> map) {
+                hideLoadFailTip();
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+                hideLoadFailTip();
                 Toast.makeText(getActivity(), code + ":" + msg, Toast.LENGTH_SHORT).show();
             }
         });
