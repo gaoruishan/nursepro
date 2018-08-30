@@ -19,6 +19,7 @@ import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.constant.SharedPreference;
+import com.dhcc.nursepro.workarea.bedselect.BedSelectFragment;
 import com.dhcc.nursepro.workarea.ordersearch.adapter.OrderSearchOrderTypeAdapter;
 import com.dhcc.nursepro.workarea.ordersearch.adapter.OrderSearchPatientAdapter;
 import com.dhcc.nursepro.workarea.ordersearch.api.OrderSearchApiManager;
@@ -47,7 +48,7 @@ public class OrderSearchFragment extends BaseFragment implements View.OnClickLis
     //    private List<OrderSearchBean.ButtonsBean> buttons;
     private List<OrderSearchBean.OrdersBean> orders;
     private List<OrderSearchBean.SheetListBean> sheetList;
-
+    private List<OrderSearchBean.DetailColumsBean> detailColums;
     private OrderSearchOrderTypeAdapter orderTypeAdapter;
     private OrderSearchPatientAdapter patientAdapter;
 
@@ -81,7 +82,7 @@ public class OrderSearchFragment extends BaseFragment implements View.OnClickLis
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "床位图", Toast.LENGTH_SHORT).show();
+                startFragment(BedSelectFragment.class,1);
             }
         });
         setToolbarRightCustomView(viewright);
@@ -154,9 +155,11 @@ public class OrderSearchFragment extends BaseFragment implements View.OnClickLis
             public void onSuccess(OrderSearchBean orderSearchBean) {
                 hideLoadingTip();
                 sheetList = orderSearchBean.getSheetList();
+                detailColums = orderSearchBean.getDetailColums();
                 orders = orderSearchBean.getOrders();
                 if ("1".equals(pageNo)) {
                     orderTypeAdapter.setNewData(sheetList);
+                    patientAdapter.setDetailColums(detailColums);
                     patientAdapter.setNewData(orders);
                     if (orders.size() == 0) {
                         patientAdapter.loadMoreEnd();

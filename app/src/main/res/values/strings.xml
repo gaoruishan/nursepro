@@ -19,6 +19,7 @@
     <!--医嘱查询-->
     <string name="title_ordersearch">医嘱查询</string>
     <string name="title_orderinfodetail">详情</string>
+    <string name="title_ordersearchbedselect">选择床位</string>
 
     <!--事件管理-->
     <string name="title_patevents">事件管理</string>

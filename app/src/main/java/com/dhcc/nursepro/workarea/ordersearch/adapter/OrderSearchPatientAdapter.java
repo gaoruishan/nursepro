@@ -18,8 +18,18 @@ import java.util.List;
  * @date 2018/8/25
  */
 public class OrderSearchPatientAdapter extends BaseQuickAdapter<OrderSearchBean.OrdersBean, BaseViewHolder> {
+    private List<OrderSearchBean.DetailColumsBean> detailColums;
+
     public OrderSearchPatientAdapter(@Nullable List<OrderSearchBean.OrdersBean> data) {
         super(R.layout.item_ordersearch_patient, data);
+    }
+
+    public List<OrderSearchBean.DetailColumsBean> getDetailColums() {
+        return detailColums;
+    }
+
+    public void setDetailColums(List<OrderSearchBean.DetailColumsBean> detailColums) {
+        this.detailColums = detailColums;
     }
 
     @Override
@@ -33,7 +43,7 @@ public class OrderSearchPatientAdapter extends BaseQuickAdapter<OrderSearchBean.
         recyPatientOrder.setLayoutManager(new LinearLayoutManager(mContext));
 
         List<List<OrderSearchBean.OrdersBean.PatOrdsBean>> patOrds = item.getPatOrds();
-        OrderSearchPatientOrderAdapter patientOrderAdapter = new OrderSearchPatientOrderAdapter(patOrds, patOrds.size());
+        OrderSearchPatientOrderAdapter patientOrderAdapter = new OrderSearchPatientOrderAdapter(patOrds, patOrds.size(), detailColums);
 
         recyPatientOrder.setAdapter(patientOrderAdapter);
 

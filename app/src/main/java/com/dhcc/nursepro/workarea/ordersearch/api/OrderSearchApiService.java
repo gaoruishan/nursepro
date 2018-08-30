@@ -18,7 +18,7 @@ public class OrderSearchApiService {
 
     public static void getOrder(String bedStr, String regNo, String sheetCode, String pageNo, String startDate, String startTime, String endDate, String endTime, final ServiceCallBack callback) {
         SPUtils spUtils = SPUtils.getInstance();
-        HashMap<String, String> properties = new HashMap<String, String>();
+        HashMap<String, String> properties = new HashMap<>();
         properties.put("wardId", spUtils.getString(SharedPreference.WARDID));
         properties.put("userId", spUtils.getString(SharedPreference.USERID));
         properties.put("hospitalId", spUtils.getString(SharedPreference.HOSPITALROWID));

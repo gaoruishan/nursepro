@@ -3,11 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/white"
-    tools:context=".workarea.ordersearch.OrderInfoDetailFragment">
+    tools:context=".workarea.bedselect.BedSelectFragment">
+
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recy_orderinfodetail"
+        android:id="@+id/recy_bedselect"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

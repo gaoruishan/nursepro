@@ -19,6 +19,7 @@ import com.dhcc.nursepro.workarea.bedmap.bean.BedMapBean;
 import com.dhcc.nursepro.workarea.ordersearch.OrderInfoDetailFragment;
 import com.dhcc.nursepro.workarea.ordersearch.bean.OrderSearchBean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -29,10 +30,12 @@ import java.util.List;
  */
 public class OrderSearchPatientOrderAdapter extends BaseQuickAdapter<List<OrderSearchBean.OrdersBean.PatOrdsBean>, BaseViewHolder> {
     private int size;
+    private List<OrderSearchBean.DetailColumsBean> detailColums;
 
-    public OrderSearchPatientOrderAdapter(@Nullable List<List<OrderSearchBean.OrdersBean.PatOrdsBean>> data, int size) {
+    public OrderSearchPatientOrderAdapter(@Nullable List<List<OrderSearchBean.OrdersBean.PatOrdsBean>> data, int size, List<OrderSearchBean.DetailColumsBean> detailColums) {
         super(R.layout.item_ospatient_order, data);
         this.size = size;
+        this.detailColums = detailColums;
     }
 
     @Override
@@ -50,6 +53,7 @@ public class OrderSearchPatientOrderAdapter extends BaseQuickAdapter<List<OrderS
                 OrderSearchBean.OrdersBean.PatOrdsBean patOrdsBean = (OrderSearchBean.OrdersBean.PatOrdsBean) adapter.getItem(position);
 
                 Bundle bundle = new Bundle();
+                bundle.putSerializable("detailcolums", (Serializable) detailColums);
                 bundle.putSerializable("patorderinfo", patOrdsBean.getOrderInfo());
                 ((BaseActivity)mContext).startFragment(OrderInfoDetailFragment.class, bundle);
 
