@@ -53,7 +53,7 @@
             android:gravity="center"
             android:text="全区"
             android:textSize="15sp"
-            android:textColor="@drawable/textcolor_item_badmap_selector" />
+            android:textColor="@drawable/textcolor_item_bedmap_selector" />
 
         <TextView
             android:id="@+id/tv_bedmap_adminarea"
@@ -65,7 +65,7 @@
             android:gravity="center"
             android:textSize="15sp"
             android:text="管辖"
-            android:textColor="@drawable/textcolor_item_badmap_selector" />
+            android:textColor="@drawable/textcolor_item_bedmap_selector" />
 
         <TextView
             android:id="@+id/tv_bedmap_nowoutarea"
@@ -77,7 +77,7 @@
             android:gravity="center"
             android:textSize="15sp"
             android:text="今出区"
-            android:textColor="@drawable/textcolor_item_badmap_selector" />
+            android:textColor="@drawable/textcolor_item_bedmap_selector" />
 
         <TextView
             android:id="@+id/tv_bedmap_alloutarea"
@@ -89,7 +89,7 @@
             android:gravity="center"
             android:textSize="15sp"
             android:text="全出区"
-            android:textColor="@drawable/textcolor_item_badmap_selector" />
+            android:textColor="@drawable/textcolor_item_bedmap_selector" />
 
         <TextView
             android:id="@+id/tv_bedmap_waitarea"
@@ -101,7 +101,7 @@
             android:gravity="center"
             android:textSize="15sp"
             android:text="等待区"
-            android:textColor="@drawable/textcolor_item_badmap_selector" />
+            android:textColor="@drawable/textcolor_item_bedmap_selector" />
     </LinearLayout>
 
     <View

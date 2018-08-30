@@ -303,7 +303,6 @@ public class OrderSearchBean implements Serializable {
                 private String sttDateTime;
                 private String totalAmount;
                 private String tubeColor;
-                private TubeColorDescBean tubeColorDesc;
                 private String xCtcpDesc;
                 private String xDateTime;
 
@@ -699,14 +698,6 @@ public class OrderSearchBean implements Serializable {
                     this.tubeColor = tubeColor;
                 }
 
-                public TubeColorDescBean getTubeColorDesc() {
-                    return tubeColorDesc;
-                }
-
-                public void setTubeColorDesc(TubeColorDescBean tubeColorDesc) {
-                    this.tubeColorDesc = tubeColorDesc;
-                }
-
                 public String getXCtcpDesc() {
                     return xCtcpDesc;
                 }
@@ -723,8 +714,6 @@ public class OrderSearchBean implements Serializable {
                     this.xDateTime = xDateTime;
                 }
 
-                public static class TubeColorDescBean implements Serializable {
-                }
             }
         }
     }

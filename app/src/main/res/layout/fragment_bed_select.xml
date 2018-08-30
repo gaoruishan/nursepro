@@ -4,13 +4,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    android:orientation="vertical"
     tools:context=".workarea.bedselect.BedSelectFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recy_bedselect"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
     </android.support.v7.widget.RecyclerView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#f5faff"/>
+    <TextView
+        android:id="@+id/tv_bedselect_sure"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:background="@color/blue_dark"
+        android:text="确认"
+        android:textSize="18sp"
+        android:textColor="@color/white"/>
 
 </LinearLayout>

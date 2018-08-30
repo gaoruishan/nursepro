@@ -65,6 +65,8 @@
     <color name="ordersearch_left_bgcolor">#F5FAFF</color>
     <color name="ordersearch_text_color">#4A4A4A</color>
 
+    <color name="bed_text_color">#4A4A4A</color>
+
 
     <color name="key_sure_color">#62abff</color>
     <color name="key_sure_color_pressed">#0174f2</color>

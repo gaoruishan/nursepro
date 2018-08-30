@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.workarea.ordersearch.adapter.OrderInfoDetailAdapter;
 import com.dhcc.nursepro.workarea.ordersearch.bean.OrderSearchBean;
 
 import java.lang.reflect.Field;

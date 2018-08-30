@@ -36,7 +36,8 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recy_bedselect_bed"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="#f5faff">
 
     </android.support.v7.widget.RecyclerView>
 

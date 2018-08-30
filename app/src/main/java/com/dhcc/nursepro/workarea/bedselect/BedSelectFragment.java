@@ -31,8 +31,8 @@ import java.util.List;
  * created at 2018/8/28 10:02
  */
 public class BedSelectFragment extends BaseFragment {
-
-    private RecyclerView recyOrdersearchBedselect;
+    private RecyclerView recyBedselect;
+    private TextView tvBedselectSure;
 
     private List<BedSelectListBean.BedListBean> bedList = new ArrayList<>();
 
@@ -53,6 +53,7 @@ public class BedSelectFragment extends BaseFragment {
         setToolbarType(BaseActivity.ToolbarType.TOP);
         setToolbarBackground(new ColorDrawable(0xffffffff));
         showToolbarNavigationIcon(R.drawable.icon_back_blue);
+
         setToolbarCenterTitle(getString(R.string.title_ordersearchbedselect));
         setToolbarBottomLineVisibility(false);
         //右上角保存按钮
@@ -87,11 +88,23 @@ public class BedSelectFragment extends BaseFragment {
     }
 
     private void initView(View view) {
-        recyOrdersearchBedselect = view.findViewById(R.id.recy_bedselect);
+
+        recyBedselect = view.findViewById(R.id.recy_bedselect);
+
         //提高展示效率
-        recyOrdersearchBedselect.setHasFixedSize(true);
+        recyBedselect.setHasFixedSize(true);
         //设置的布局管理
-        recyOrdersearchBedselect.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyBedselect.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        tvBedselectSure = view.findViewById(R.id.tv_bedselect_sure);
+        tvBedselectSure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("bedselectinfoStr", getBedSelectInfoStr());
+                finish(bundle);
+            }
+        });
     }
 
     private void initAdapter() {
@@ -109,22 +122,21 @@ public class BedSelectFragment extends BaseFragment {
                     }
                     bedGroupListAdapter.notifyItemChanged(position);
 
-
                     //                    if (view.isSelected()) {
-//                        view.setSelected(false);
-//                        for (int i = 0; i < groupList.size(); i++) {
-//                            groupList.get(i).setSelect("0");
-//                        }
-//                    } else {
-//                        view.setSelected(true);
-//                        for (int i = 0; i < groupList.size(); i++) {
-//                            groupList.get(i).setSelect("1");
-//                        }
-//                    }
+                    //                        view.setSelected(false);
+                    //                        for (int i = 0; i < groupList.size(); i++) {
+                    //                            groupList.get(i).setSelect("0");
+                    //                        }
+                    //                    } else {
+                    //                        view.setSelected(true);
+                    //                        for (int i = 0; i < groupList.size(); i++) {
+                    //                            groupList.get(i).setSelect("1");
+                    //                        }
+                    //                    }
                 }
             }
         });
-        recyOrdersearchBedselect.setAdapter(bedGroupListAdapter);
+        recyBedselect.setAdapter(bedGroupListAdapter);
 
     }
 
@@ -145,6 +157,36 @@ public class BedSelectFragment extends BaseFragment {
                 Toast.makeText(getActivity(), code + ":" + msg, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private String getBedSelectInfoStr() {
+        StringBuffer bedselectinfoStr = new StringBuffer();
+
+        List<BedSelectListBean.BedListBean> bedListLocal = bedGroupListAdapter.getData();
+        for (int i = 0; i < bedListLocal.size(); i++) {
+            List<BedSelectListBean.BedListBean.GroupListBean> groupListBeanListLocal = bedListLocal.get(i).getGroupList();
+
+            for (int j = 0; j < groupListBeanListLocal.size(); j++) {
+                BedSelectListBean.BedListBean.GroupListBean groupListBean = groupListBeanListLocal.get(j);
+                if (groupListBean.getSelect().equals("1")) {
+
+                    if ("".equals(bedselectinfoStr.toString())) {
+                        bedselectinfoStr.append("{\"bedList\":{\"" + groupListBean.getBedId() + "\":\"1\"");
+                    } else {
+                        bedselectinfoStr.append(",\"" + groupListBean.getBedId() + "\":\"1\"");
+                    }
+
+                }
+            }
+
+
+
+        }
+        if (!"".equals(bedselectinfoStr.toString())&&!bedselectinfoStr.toString().endsWith("}}")) {
+            bedselectinfoStr.append("}}");
+        }
+
+        return bedselectinfoStr.toString();
     }
 
 

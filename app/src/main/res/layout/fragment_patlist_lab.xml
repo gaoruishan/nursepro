@@ -26,7 +26,7 @@
                 android:gravity="center"
                 android:text="在床"
                 android:textSize="@dimen/sp_14"
-                android:textColor="@drawable/textcolor_item_badmap_selector"/>
+                android:textColor="@drawable/textcolor_item_bedmap_selector"/>
             <TextView
                 android:id="@+id/tv_labpats_manage"
                 android:layout_width="0dp"
@@ -37,7 +37,7 @@
                 android:gravity="center"
                 android:text="所管区"
                 android:textSize="@dimen/sp_14"
-                android:textColor="@drawable/textcolor_item_badmap_selector"/>
+                android:textColor="@drawable/textcolor_item_bedmap_selector"/>
 
             <TextView
                 android:id="@+id/tv_labpats_wait"
@@ -49,7 +49,7 @@
                 android:gravity="center"
                 android:text="等待区"
                 android:textSize="@dimen/sp_14"
-                android:textColor="@drawable/textcolor_item_badmap_selector"/>
+                android:textColor="@drawable/textcolor_item_bedmap_selector"/>
 
         </LinearLayout>
         <View

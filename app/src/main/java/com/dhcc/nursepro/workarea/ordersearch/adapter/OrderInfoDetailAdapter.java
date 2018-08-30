@@ -1,4 +1,4 @@
-package com.dhcc.nursepro.workarea.ordersearch;
+package com.dhcc.nursepro.workarea.ordersearch.adapter;
 
 import android.support.annotation.Nullable;
 import android.view.View;

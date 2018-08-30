@@ -1,6 +1,8 @@
 package com.dhcc.nursepro.workarea.ordersearch;
 
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -102,6 +104,14 @@ public class OrderSearchFragment extends BaseFragment implements View.OnClickLis
         }, 300);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            bedStr = data.getStringExtra("bedselectinfoStr");
+            pageNo = "1";
+            asyncInitData();
+        }
+    }
 
     private void initView(View view) {
         recyOrdersearchOrdertype = view.findViewById(R.id.recy_ordersearch_ordertype);
