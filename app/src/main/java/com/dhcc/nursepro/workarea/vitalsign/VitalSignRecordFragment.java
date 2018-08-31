@@ -70,6 +70,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
         VitalSignApiManager.getVitalSignItems(curEpisodeId, timepoint, new VitalSignApiManager.GetVitalSignItemCallback() {
             @Override
             public void onSuccess(Map<String, Object> map) {
+                Toast.makeText(getActivity(), "体征录入项目请求成功", Toast.LENGTH_SHORT).show();
 
                 hideLoadFailTip();
 
