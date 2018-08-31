@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".workarea.orderexecute.OrderExecuteFragment">
+
+    <RelativeLayout
+        android:id="@+id/rl_orderexecute_scan"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_orderexecute_warning"
+            android:layout_width="260dp"
+            android:layout_height="55dp"
+            android:layout_centerInParent="true"
+            android:background="#FFF5FAFF"
+            android:gravity="center"
+            android:text="请您使用扫码设备，扫描病人腕带"
+            android:textColor="#FF9B9B9B"
+            android:textSize="@dimen/sp_14" />
+
+        <TextView
+            android:id="@+id/tv_orderexecute_warningtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:layout_above="@+id/tv_orderexecute_warning"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="30dp"
+            android:text="请扫描腕带"
+            android:textColor="#FF62ABFF"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="91dp"
+            android:layout_above="@+id/tv_orderexecute_warningtitle"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:src="@drawable/icon_patient_scan" />
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recy_orderexecute_ordertype"
+                android:layout_width="85dp"
+                android:layout_height="match_parent"
+                android:background="@color/ordersearch_left_bgcolor">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_orderexecute_patinfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:textColor="@color/ordersearch_text_color"
+                    tools:text="01床 张患者" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="#f6f6f6" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:background="@color/white"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginTop="1dp"
+                        android:src="@drawable/icon_time_bottom" />
+
+                    <TextView
+                        android:id="@+id/tv_orderexecute_startdatetime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/ordersearch_text_color"
+                        android:textSize="12sp"
+                        tools:text="2018-08-23 10:00" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="1dp"
+                        android:text="至"
+                        android:textColor="#62abff"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/tv_orderexecute_enddatetime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/ordersearch_text_color"
+                        android:textSize="12sp"
+                        tools:text="2018-08-23 10:00" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:background="#f6f6f6" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recy_orderexecute_patorder"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#f6f6f6">
+
+                </android.support.v7.widget.RecyclerView>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_orderexecute_noselectbottom"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:background="#9b9b9b"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp">
+
+            <TextView
+                android:id="@+id/tv_bottom_noselecttext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:text="请您选择需执行的医嘱" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_orderexecute_selectbottom"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:background="#4a4a4a"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_bottom_selecttext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:text="已选择2个" />
+            <View
+                android:layout_width="1dp"
+                android:layout_height="16dp"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                android:background="@color/white"/>
+            <TextView
+                android:id="@+id/tv_bottom_selecttype"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:text="接受"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:layout_marginStart="6dp"
+                android:src="@drawable/icon_bottom_selected"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+
+            <TextView
+                android:id="@+id/tv_bottom_undo"
+                android:layout_width="90dp"
+                android:layout_height="match_parent"
+                android:background="#4a90e2"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:text="撤销执行" />
+
+            <TextView
+                android:id="@+id/tv_bottom_todo"
+                android:layout_width="90dp"
+                android:layout_height="match_parent"
+                android:background="#62abff"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:text="执行" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -15,7 +15,7 @@ import com.dhcc.nursepro.workarea.checkresult.CheckPatsFragment;
 import com.dhcc.nursepro.workarea.labpack.LabPackFragment;
 import com.dhcc.nursepro.workarea.labresult.LabPatsFragment;
 import com.dhcc.nursepro.workarea.operation.OperationFragment;
-import com.dhcc.nursepro.workarea.orderhandle.OrderHandleFragment;
+import com.dhcc.nursepro.workarea.orderexecute.OrderExecuteFragment;
 import com.dhcc.nursepro.workarea.ordersearch.OrderSearchFragment;
 import com.dhcc.nursepro.workarea.patevents.PatEventsFragment;
 import com.dhcc.nursepro.workarea.vitalsign.VitalSignFragment;
@@ -98,7 +98,7 @@ public class WorkareaFragment extends BaseFragment implements View.OnClickListen
                 startFragment(OrderSearchFragment.class);
                 break;
             case R.id.tv_workarea_orderhandle:
-                startFragment(OrderHandleFragment.class);
+                startFragment(OrderExecuteFragment.class);
                 break;
             case R.id.tv_workarea_check:
 //                bundle.putString("episodeId","94");
