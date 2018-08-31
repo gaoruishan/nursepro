@@ -22,6 +22,7 @@ import com.dhcc.nursepro.workarea.vitalsign.adapter.VitalSignTypeAdapter;
 import com.dhcc.nursepro.workarea.vitalsign.api.VitalSignApiManager;
 import com.dhcc.nursepro.workarea.vitalsign.bean.VitalSignBean;
 
+import com.dhcc.nursepro.workarea.vitalsigndetail.VitalSignDetailFragment;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
@@ -156,6 +157,11 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                 }else{
                     //普通点击
                     Toast.makeText(getContext(), "普通点击", Toast.LENGTH_SHORT).show();
+                    String episodeId = (String)patientInfo.get("episodeId");
+                    Bundle bundle = new Bundle();
+                    bundle.putString("episodeId",episodeId);
+                    startFragment(VitalSignDetailFragment.class,bundle);
+
                 }
             }
         });
@@ -246,7 +252,9 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
         VitalSignApiManager.gePatientTempImages(episodeId, new VitalSignApiManager.GetPatientTempImagesCallback() {
             @Override
             public void onSuccess(Map<String, Object> map) {
+                
                 hideLoadFailTip();
+                Toast.makeText(getActivity(), "体温单预览图片请求成功", Toast.LENGTH_SHORT).show();
             }
 
             @Override
