@@ -4,68 +4,144 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".workarea.orderhandle.OrderHandleFragment">
+    tools:context=".workarea.orderhandle.OrderHandleFragment"
+    android:orientation="vertical">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recy_orderhandle_ordertype"
-        android:layout_width="85dp"
-        android:layout_height="match_parent"
-        android:background="@color/ordersearch_left_bgcolor">
-
-    </android.support.v7.widget.RecyclerView>
-
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/rl_patevents_scan"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:background="@color/white"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_frapat_warning"
+            android:layout_width="260dp"
+            android:layout_height="55dp"
+            android:layout_centerInParent="true"
+            android:background="#FFF5FAFF"
+            android:gravity="center"
+            android:text="请您使用扫码设备，扫描病人腕带"
+            android:textColor="#FF9B9B9B"
+            android:textSize="@dimen/sp_14" />
+
+        <TextView
+            android:id="@+id/tv_frapat_warningtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:layout_centerInParent="true"
+            android:layout_above="@+id/tv_frapat_warning"
+            android:layout_marginBottom="30dp"
+            android:textStyle="bold"
+            android:text="请扫描腕带"
+            android:textColor="#FF62ABFF"
+            android:textSize="20sp" />
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="91dp"
+            android:layout_centerInParent="true"
+            android:layout_above="@+id/tv_frapat_warningtitle"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:src="@drawable/icon_patient_scan" />
+
+    </RelativeLayout>
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="32dp"
-            android:gravity="center">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
-                android:layout_marginEnd="8dp"
-                android:src="@drawable/icon_time_bottom"/>
-            <TextView
-                android:id="@+id/tv_orderhandle_startdatetime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/ordersearch_text_color"
-                android:textSize="12sp"
-                tools:text="2018-08-23 10:00"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:textColor="#62abff"
-                android:textSize="13sp"
-                android:text="至"/>
-            <TextView
-                android:id="@+id/tv_orderhandle_enddatetime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/ordersearch_text_color"
-                android:textSize="12sp"
-                tools:text="2018-08-23 10:00"/>
-
-        </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:background="#f6f6f6"/>
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recy_orderhandle_patorder"
-            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#f6f6f6">
+            android:orientation="horizontal"
+            android:layout_above="@+id/ll_sheetbuttons"
+            >
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recy_orderhandle_ordertype"
+                android:layout_width="85dp"
+                android:layout_height="wrap_content"
+                android:background="@color/ordersearch_left_bgcolor">
 
-        </android.support.v7.widget.RecyclerView>
-    </LinearLayout>
+            </android.support.v7.widget.RecyclerView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginEnd="8dp"
+                        android:src="@drawable/icon_time_bottom"/>
+                    <TextView
+                        android:id="@+id/tv_orderhandle_startdatetime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/ordersearch_text_color"
+                        android:textSize="12sp"
+                        tools:text="2018-08-23 10:00"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:textColor="#62abff"
+                        android:textSize="13sp"
+                        android:text="至"/>
+                    <TextView
+                        android:id="@+id/tv_orderhandle_enddatetime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/ordersearch_text_color"
+                        android:textSize="12sp"
+                        tools:text="2018-08-23 10:00"/>
+
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:background="#f6f6f6"/>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recy_orderhandle_patorder"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#f6f6f6">
+
+                </android.support.v7.widget.RecyclerView>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_sheetbuttons"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            >
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="撤销执行"
+                />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="执行"
+                />
+        </LinearLayout>
+    </RelativeLayout>
+
+
 
 
 </LinearLayout>
