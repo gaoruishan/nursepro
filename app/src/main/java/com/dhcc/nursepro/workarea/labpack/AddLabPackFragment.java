@@ -53,10 +53,10 @@ public class AddLabPackFragment extends BaseFragment {
         viewright.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startFragment(PatEventsDetailFragment.class);
+//                startFragment(PatEventsDetailFragment.class);
             }
         });
-        setToolbarRightCustomView(viewright);
+//        setToolbarRightCustomView(viewright);
 
         initview(view);
 

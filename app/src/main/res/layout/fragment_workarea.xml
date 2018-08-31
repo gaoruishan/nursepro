@@ -44,7 +44,7 @@
         android:background="@color/white"
         android:layout_margin="12dp"
         android:padding="6dp"
-        android:text="医嘱处理"/>
+        android:text="医嘱执行"/>
     <TextView
         android:id="@+id/tv_workarea_check"
         android:layout_width="wrap_content"
