@@ -195,16 +195,22 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 buttons = orderExecuteBean.getButtons();
                 //                orders = orderExecuteBean.getOrders();
                 //                patientAdapter.setNewData(orders);
-                patient = orderExecuteBean.getOrders().get(0);
-                tvOrderexecutePatinfo.setText("".equals(patient.getBedCode()) ? "未分" : patient.getBedCode() + "床  " + patient.getName());
+
+
+
+
 
                 if (orderExecuteBean.getOrders().size() > 0) {
+                    patient = orderExecuteBean.getOrders().get(0);
+                    tvOrderexecutePatinfo.setText("".equals(patient.getBedCode()) ? "未分" : patient.getBedCode() + "床  " + patient.getName());
                     patOrders = patient.getPatOrds();
                 } else {
-                    patOrders = new ArrayList<>();
+                    patOrders = null;
                 }
-                patientOrderAdapter.setSize(patOrders.size());
-                patientOrderAdapter.setDetailColums(detailColums);
+                if (patOrders != null) {
+                    patientOrderAdapter.setSize(patOrders.size());
+                    patientOrderAdapter.setDetailColums(detailColums);
+                }
                 patientOrderAdapter.setNewData(patOrders);
                 patientOrderAdapter.loadMoreEnd();
                 orderTypeAdapter.setNewData(sheetList);
