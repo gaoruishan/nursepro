@@ -83,7 +83,7 @@ public class CheckResultListFragment extends BaseFragment {
                                 showDialog.dismiss();
                             }
                         });
-//                        selfDialog.setNoOnclickListener("取消", new ShowMsgDialog.onNoOnclickListener() {
+//                        selfDialog.setNoOnclickListener("取消", new ShowBedDialog.onNoOnclickListener() {
 //                            @Override
 //                            public void onNoClick() {
 //                                Toast.makeText(getActivity(),"点击了--取消--按钮",Toast.LENGTH_LONG).show();
@@ -191,17 +191,17 @@ public class CheckResultListFragment extends BaseFragment {
 //            public void onClick(View v) {
 //                showToast("------");
 ////                popupWindow.showAtLocation(view1, Gravity.CENTER,0,0);
-//                selfDialog = new ShowMsgDialog(getActivity());
+//                selfDialog = new ShowBedDialog(getActivity());
 //                selfDialog.setTitle("提示");
 //                selfDialog.setMessage("确定退出应用?");
-//                selfDialog.setYesOnclickListener("确定", new ShowMsgDialog.onYesOnclickListener() {
+//                selfDialog.setYesOnclickListener("确定", new ShowBedDialog.onYesOnclickListener() {
 //                    @Override
 //                    public void onYesClick() {
 //                        Toast.makeText(getActivity(),"点击了--确定--按钮",Toast.LENGTH_LONG).show();
 //                        selfDialog.dismiss();
 //                    }
 //                });
-//                selfDialog.setNoOnclickListener("取消", new ShowMsgDialog.onNoOnclickListener() {
+//                selfDialog.setNoOnclickListener("取消", new ShowBedDialog.onNoOnclickListener() {
 //                    @Override
 //                    public void onNoClick() {
 //                        Toast.makeText(getActivity(),"点击了--取消--按钮",Toast.LENGTH_LONG).show();

@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/rllll"
+    >
 
     <ScrollView
+        android:id="@+id/scro_set"
+        android:layout_above="@+id/keyboard_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -74,4 +78,15 @@
         </LinearLayout>
     </ScrollView>
 
+        <android.inputmethodservice.KeyboardView
+            android:id="@+id/keyboard_view"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:background="@color/black"
+            android:keyBackground="@drawable/shape_btn_sure"
+            android:keyTextColor="@color/white"
+            android:visibility="gone" />
 </RelativeLayout>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recy_ospat_handleorder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp">
+
+            </android.support.v7.widget.RecyclerView>
+
+        </LinearLayout>
+        <CheckBox
+            android:id="@+id/cb_orderhandle"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentRight="true"
+            android:checked="true"
+            style="@style/RideoStyle"
+            />
+
+    </RelativeLayout>
+    <View
+        android:id="@+id/line_ospat_handleorder"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@drawable/line_dash"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_alignParentBottom="true"
+        android:layerType="software" />
+</LinearLayout>

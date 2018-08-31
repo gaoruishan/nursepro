@@ -37,7 +37,7 @@
         android:layout_height="60dp" >
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/btn_time_start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -51,27 +51,28 @@
         android:layout_height="60dp" >
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/btn_time_end"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="2013-03-20 18:00:00"
             android:textSize="22.0dip" />
     </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="319dp"
-        android:layout_height="wrap_content" >
 
         <Button
-            android:id="@+id/btnbedset"
+            android:id="@+id/btn_bed_set"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:text="床位设置"
             android:textSize="22.0dip" />
-    </RelativeLayout>
 
+    <Button
+        android:id="@+id/btn_changeloc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="切换登陆病区"/>
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
@@ -80,7 +81,7 @@
         android:textSize="22.0dip" />
 
     <CheckBox
-        android:id="@+id/checkLight"
+        android:id="@+id/check_light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
@@ -88,7 +89,7 @@
         android:textSize="22.0dip" />
 
     <CheckBox
-        android:id="@+id/checkVibrate"
+        android:id="@+id/check_vibrate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
@@ -96,7 +97,7 @@
         android:textSize="22.0dip" />
 
     <CheckBox
-        android:id="@+id/checkSound"
+        android:id="@+id/check_sound"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
@@ -104,11 +105,17 @@
         android:textSize="22.0dip" />
 
     <CheckBox
-        android:id="@+id/allAlarm"
+        android:id="@+id/check_all_alarm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:text="病区所有病人提示"
         android:textSize="22.0dip" />
+
+    <Button
+        android:id="@+id/btn_restart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="重新登陆"/>
 </LinearLayout>
 </android.support.constraint.ConstraintLayout>

@@ -65,4 +65,8 @@
     <style name="ConfigCheckBox" parent="@android:style/Widget.CompoundButton.CheckBox">
         <item name="android:button">@drawable/config_checkbox_style</item>
     </style>
+    <style name="RideoStyle" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@null</item>
+        <item name="android:background">@drawable/btn_ordershandle</item>
+    </style>
 </resources>
