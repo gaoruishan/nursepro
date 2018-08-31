@@ -4,6 +4,7 @@ package com.dhcc.nursepro.workarea.bedselect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -31,6 +32,7 @@ import java.util.List;
  * created at 2018/8/28 10:02
  */
 public class BedSelectFragment extends BaseFragment {
+
     private RecyclerView recyBedselect;
     private TextView tvBedselectSure;
 
@@ -69,13 +71,12 @@ public class BedSelectFragment extends BaseFragment {
                     for (int i = 0; i < bedList.size(); i++) {
                         bedList.get(i).setSelect("0");
                     }
-                    selectAll = false;
                 } else {
                     for (int i = 0; i < bedList.size(); i++) {
                         bedList.get(i).setSelect("1");
                     }
-                    selectAll = true;
                 }
+                selectAll = !selectAll;
                 bedGroupListAdapter.notifyDataSetChanged();
             }
         });
@@ -88,13 +89,14 @@ public class BedSelectFragment extends BaseFragment {
     }
 
     private void initView(View view) {
-
         recyBedselect = view.findViewById(R.id.recy_bedselect);
 
         //提高展示效率
         recyBedselect.setHasFixedSize(true);
         //设置的布局管理
         recyBedselect.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        recyBedselect.setNestedScrollingEnabled(false);
 
         tvBedselectSure = view.findViewById(R.id.tv_bedselect_sure);
         tvBedselectSure.setOnClickListener(new View.OnClickListener() {
@@ -161,10 +163,8 @@ public class BedSelectFragment extends BaseFragment {
 
     private String getBedSelectInfoStr() {
         StringBuffer bedselectinfoStr = new StringBuffer();
-
-        List<BedSelectListBean.BedListBean> bedListLocal = bedGroupListAdapter.getData();
-        for (int i = 0; i < bedListLocal.size(); i++) {
-            List<BedSelectListBean.BedListBean.GroupListBean> groupListBeanListLocal = bedListLocal.get(i).getGroupList();
+        for (int i = 0; i < bedList.size(); i++) {
+            List<BedSelectListBean.BedListBean.GroupListBean> groupListBeanListLocal = bedList.get(i).getGroupList();
 
             for (int j = 0; j < groupListBeanListLocal.size(); j++) {
                 BedSelectListBean.BedListBean.GroupListBean groupListBean = groupListBeanListLocal.get(j);

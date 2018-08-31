@@ -6,14 +6,18 @@
     android:background="@color/white"
     android:orientation="vertical"
     tools:context=".workarea.bedselect.BedSelectFragment">
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recy_bedselect"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recy_bedselect"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    </android.support.v7.widget.RecyclerView>
+        </android.support.v7.widget.RecyclerView>
+    </android.support.v4.widget.NestedScrollView>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"

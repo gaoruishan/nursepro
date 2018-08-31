@@ -64,6 +64,8 @@ public class OrderSearchFragment extends BaseFragment implements View.OnClickLis
     private String endTime;
     private String pageNo = "1";
 
+    private int askCount = 0;
+
 
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -109,7 +111,10 @@ public class OrderSearchFragment extends BaseFragment implements View.OnClickLis
         if (resultCode == Activity.RESULT_OK) {
             bedStr = data.getStringExtra("bedselectinfoStr");
             pageNo = "1";
-            asyncInitData();
+            if (askCount == 0) {
+                askCount++;
+                asyncInitData();
+            }
         }
     }
 
@@ -184,6 +189,8 @@ public class OrderSearchFragment extends BaseFragment implements View.OnClickLis
                         patientAdapter.loadMoreComplete();
                     }
                 }
+
+                askCount = 0;
 
             }
 
