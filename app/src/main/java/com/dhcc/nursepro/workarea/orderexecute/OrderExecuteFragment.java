@@ -21,7 +21,6 @@ import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.constant.SharedPreference;
 import com.dhcc.nursepro.workarea.orderexecute.adapter.OrderExecuteOrderTypeAdapter;
-import com.dhcc.nursepro.workarea.orderexecute.adapter.OrderExecutePatientAdapter;
 import com.dhcc.nursepro.workarea.orderexecute.adapter.OrderExecutePatientOrderAdapter;
 import com.dhcc.nursepro.workarea.orderexecute.api.OrderExecuteApiManager;
 import com.dhcc.nursepro.workarea.orderexecute.bean.OrderExecuteBean;
@@ -32,8 +31,6 @@ import com.jzxiang.pickerview.listener.OnDateSetListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
-import javax.sql.ConnectionPoolDataSource;
 
 /**
  * OrderExecuteFragment
@@ -64,13 +61,13 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     private String etChangeFlag;
 
     private List<OrderExecuteBean.ButtonsBean> buttons;
+    private int selectCount;
     //    private List<OrderExecuteBean.OrdersBean> orders;
     private OrderExecuteBean.OrdersBean patient;
     private List<List<OrderExecuteBean.OrdersBean.PatOrdsBean>> patOrders;
     private List<OrderExecuteBean.SheetListBean> sheetList;
     private List<OrderExecuteBean.DetailColumsBean> detailColums;
     private OrderExecuteOrderTypeAdapter orderTypeAdapter;
-    private OrderExecutePatientAdapter patientAdapter;
     private OrderExecutePatientOrderAdapter patientOrderAdapter;
 
     private SPUtils spUtils = SPUtils.getInstance();
@@ -109,10 +106,6 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 asyncInitData();
             }
         }, 300);
-    }
-
-    public void refreshBottom() {
-        Toast.makeText(getActivity(), "111", Toast.LENGTH_SHORT).show();
     }
 
     private void initView(View view) {
@@ -169,7 +162,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
         patientOrderAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                OrderExecuteBean.OrdersBean.PatOrdsBean patOrdsBean = ((List<OrderExecuteBean.OrdersBean.PatOrdsBean>) adapter.getItem(position)).get(0);
+                OrderExecuteBean.OrdersBean.PatOrdsBean patOrdsBean = patOrders.get(position).get(0);
                 if (view.getId() == R.id.ll_oepat_orderselect) {
                     if (patOrdsBean.getSelect() == null || "0".equals(patOrdsBean.getSelect()) || "".equals(patOrdsBean.getSelect())) {
                         patOrdsBean.setSelect("1");
@@ -177,6 +170,9 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                         patOrdsBean.setSelect("0");
                     }
                     patientOrderAdapter.notifyItemChanged(position);
+                    if (llOrderexecuteSelectbottom.getVisibility() == View.VISIBLE || llOrderexecuteNoselectbottom.getVisibility() == View.VISIBLE) {
+                        refreshBottom();
+                    }
                 }
             }
         });
@@ -196,9 +192,19 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 //                orders = orderExecuteBean.getOrders();
                 //                patientAdapter.setNewData(orders);
 
+                if (buttons.size() == 0) {
+                    llOrderexecuteNoselectbottom.setVisibility(View.GONE);
+                    llOrderexecuteSelectbottom.setVisibility(View.GONE);
+                } else {
+                    llOrderexecuteNoselectbottom.setVisibility(View.VISIBLE);
+                    llOrderexecuteSelectbottom.setVisibility(View.GONE);
+                    if (buttons.get(0).getDesc().contains("处理")) {
+                        tvBottomNoselecttext.setText("请您选择需处理的医嘱");
+                    } else {
+                        tvBottomNoselecttext.setText("请您选择需执行的医嘱");
 
-
-
+                    }
+                }
 
                 if (orderExecuteBean.getOrders().size() > 0) {
                     patient = orderExecuteBean.getOrders().get(0);
@@ -220,10 +226,47 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
             @Override
             public void onFail(String code, String msg) {
                 hideLoadingTip();
-                patientAdapter.loadMoreFail();
+                patientOrderAdapter.loadMoreFail();
                 Toast.makeText(getActivity(), code + ":" + msg, Toast.LENGTH_SHORT).show();
             }
         });
+
+    }
+
+    public void refreshBottom() {
+        Toast.makeText(getActivity(), "111", Toast.LENGTH_SHORT).show();
+        selectCount = 0;
+        for (int i = 0; i < patOrders.size(); i++) {
+            if (patOrders.get(i) != null && patOrders.get(i).get(0) != null && patOrders.get(i).get(0).getSelect() != null && "1".equals(patOrders.get(i).get(0).getSelect())) {
+                selectCount++;
+            }
+        }
+
+        if (selectCount == 0) {
+            llOrderexecuteNoselectbottom.setVisibility(View.VISIBLE);
+            llOrderexecuteSelectbottom.setVisibility(View.GONE);
+            if (buttons.get(0).getDesc().contains("执行")) {
+                tvBottomNoselecttext.setText("请您选择需执行的医嘱");
+            } else {
+                tvBottomNoselecttext.setText("请您选择需处理的医嘱");
+            }
+        } else {
+            llOrderexecuteNoselectbottom.setVisibility(View.GONE);
+            llOrderexecuteSelectbottom.setVisibility(View.VISIBLE);
+            tvBottomSelecttext.setText("已选择" + selectCount + "个");
+            if (buttons.size() == 1) {
+                tvBottomUndo.setVisibility(View.GONE);
+                tvBottomTodo.setVisibility(View.VISIBLE);
+                tvBottomTodo.setText(buttons.get(0).getDesc().replace("医嘱",""));
+            } else {
+                tvBottomUndo.setVisibility(View.VISIBLE);
+                tvBottomUndo.setText(buttons.get(0).getDesc().replace("医嘱",""));
+                tvBottomTodo.setVisibility(View.VISIBLE);
+                tvBottomTodo.setText(buttons.get(1).getDesc().replace("医嘱",""));
+            }
+
+        }
+
 
     }
 
