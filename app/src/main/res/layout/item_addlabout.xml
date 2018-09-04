@@ -25,20 +25,25 @@ app:rightMenuView="@+id/messagerightmenu">
         android:layout_height="match_parent"
         android:orientation="vertical">
         <TextView
+            android:id="@+id/tv_laboutdetail_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_rectangle_blue"
             android:text="已发送"/>
+
         <TextView
+            android:id="@+id/tv_laboutdetail_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="B型脑纳肽检测"/>
+            android:text="B型脑纳肽检测" />
         <TextView
+            android:id="@+id/tv_laboutdetail_no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1709156472"/>
         <TextView
+            android:id="@+id/tv_laboutdetail_patinfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="7床   刘患者"/>
@@ -47,6 +52,7 @@ app:rightMenuView="@+id/messagerightmenu">
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <TextView
+            android:id="@+id/what"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"

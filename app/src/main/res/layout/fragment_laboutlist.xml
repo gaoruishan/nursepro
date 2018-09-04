@@ -17,7 +17,7 @@
             android:orientation="horizontal"
             >
              <TextView
-                android:id="@+id/tv_labpack_build"
+                android:id="@+id/tv_labout_type1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -28,7 +28,7 @@
                 android:textSize="@dimen/sp_14"
                 android:textColor="@drawable/textcolor_item_bedmap_selector"/>
             <TextView
-                android:id="@+id/tv_labpack_send"
+                android:id="@+id/tv_labout_type2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -40,7 +40,7 @@
                 android:textColor="@drawable/textcolor_item_bedmap_selector"/>
 
             <TextView
-                android:id="@+id/tv_labpack_some"
+                android:id="@+id/tv_labout_type3"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -52,7 +52,7 @@
                 android:textColor="@drawable/textcolor_item_bedmap_selector"/>
 
             <TextView
-                android:id="@+id/tv_labpack_all"
+                android:id="@+id/tv_labout_type4"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -80,7 +80,7 @@
                 android:layout_height="1dp"
                 android:layout_weight="1">
                 <View
-                    android:id="@+id/view_labpack_show1"
+                    android:id="@+id/view_labout_show1"
                     android:layout_width="45dp"
                     android:layout_height="2dp"
                     android:background="@color/blue"
@@ -91,7 +91,7 @@
                 android:layout_height="1dp"
                 android:layout_weight="1">
                 <View
-                    android:id="@+id/view_labpack_show2"
+                    android:id="@+id/view_labout_show2"
                     android:layout_width="45dp"
                     android:layout_height="2dp"
                     android:background="@color/blue"
@@ -102,7 +102,7 @@
                 android:layout_height="1dp"
                 android:layout_weight="1">
                 <View
-                    android:id="@+id/view_labpack_show3"
+                    android:id="@+id/view_labout_show3"
                     android:layout_width="45dp"
                     android:layout_height="2dp"
                     android:background="@color/blue"
@@ -113,7 +113,7 @@
                 android:layout_height="1dp"
                 android:layout_weight="1">
                 <View
-                    android:id="@+id/view_labpack_show4"
+                    android:id="@+id/view_labout_show4"
                     android:layout_width="45dp"
                     android:layout_height="2dp"
                     android:background="@color/blue"
@@ -140,12 +140,30 @@
             android:layout_marginEnd="12dp"
             android:src="@drawable/icon_time_bottom"/>
         <TextView
-            android:id="@+id/tv_labpack_date"
+            android:id="@+id/tv_labout_startdate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/ordersearch_text_color"
             android:textSize="12sp"
-            tools:text="2018-08-23"/>
+            tools:text="2018-08-23" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="1dp"
+            android:text="至"
+            android:textColor="#62abff"
+            android:textSize="13sp" />
+        <TextView
+            android:id="@+id/tv_labout_enddate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/ordersearch_text_color"
+            android:textSize="12sp"
+            tools:text="2018-08-23"
+            android:layout_marginRight="12dp"/>
 
     </LinearLayout>
     <View
@@ -159,7 +177,7 @@
         >
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recy_labpack"
+            android:id="@+id/recy_labout"
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
 

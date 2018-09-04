@@ -83,9 +83,9 @@ public class PatEventsDetailFragment extends BaseFragment implements View.OnClic
             userId = bundle.getString("userId");
         }
         if(recId == null){
-            setToolbarCenterTitle(getStringSafe(R.string.title_addpatevents));
+            setToolbarCenterTitle(getStringSafe(R.string.title_addpatevents),0xffffffff,17);
         }else {
-            setToolbarCenterTitle(getStringSafe(R.string.title_changepatevents));
+            setToolbarCenterTitle(getStringSafe(R.string.title_changepatevents),0xffffffff,17);
         }
 
 

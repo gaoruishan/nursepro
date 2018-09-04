@@ -12,7 +12,7 @@ import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.bedmap.BedMapFragment;
 import com.dhcc.nursepro.workarea.checkresult.CheckPatsFragment;
-import com.dhcc.nursepro.workarea.labpack.LabPackFragment;
+import com.dhcc.nursepro.workarea.labout.LabOutListFragment;
 import com.dhcc.nursepro.workarea.labresult.LabPatsFragment;
 import com.dhcc.nursepro.workarea.operation.OperationFragment;
 import com.dhcc.nursepro.workarea.orderexecute.OrderExecuteFragment;
@@ -29,7 +29,7 @@ public class WorkareaFragment extends BaseFragment implements View.OnClickListen
     private TextView tvWorkareaBedmap;
     private TextView tvWorkareaVitalSign;
     private TextView tvWorkareaEvents;
-    private TextView tvWorkAreaOrderSearch,tvWorkAreaOrderHandle,tvWorkAreaCheck,tvWorkAreaLab,tvOperation,tvLabPack;
+    private TextView tvWorkAreaOrderSearch,tvWorkAreaOrderHandle,tvWorkAreaCheck,tvWorkAreaLab,tvOperation,tvLabOut;
 
 
     @Override
@@ -68,8 +68,8 @@ public class WorkareaFragment extends BaseFragment implements View.OnClickListen
         tvWorkAreaCheck.setOnClickListener(this);
         tvOperation = view.findViewById(R.id.tv_workarea_operation);
         tvOperation.setOnClickListener(this);
-        tvLabPack = view.findViewById(R.id.tv_workarea_labpack);
-        tvLabPack.setOnClickListener(this);
+        tvLabOut = view.findViewById(R.id.tv_workarea_labout);
+        tvLabOut.setOnClickListener(this);
     }
 
     private void initData() {
@@ -111,8 +111,8 @@ public class WorkareaFragment extends BaseFragment implements View.OnClickListen
             case R.id.tv_workarea_operation:
                 startFragment(OperationFragment.class);
                 break;
-            case R.id.tv_workarea_labpack:
-                startFragment(LabPackFragment.class);
+            case R.id.tv_workarea_labout:
+                startFragment(LabOutListFragment.class);
                 break;
             default:
                 break;

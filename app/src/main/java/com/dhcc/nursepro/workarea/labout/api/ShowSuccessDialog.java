@@ -1,25 +1,12 @@
-package com.dhcc.nursepro.workarea.labpack.api;
+package com.dhcc.nursepro.workarea.labout.api;
 
 
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.nursepro.R;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
      * 创建自定义的dialog
@@ -49,7 +36,7 @@ import java.util.Map;
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            setContentView(R.layout.labpacksuccess_dialog_layout);
+            setContentView(R.layout.laboutsuccess_dialog_layout);
             //按空白处不能取消动画
 //            setCanceledOnTouchOutside(false);
             setCanceledOnTouchOutside(true);

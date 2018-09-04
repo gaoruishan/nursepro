@@ -312,4 +312,33 @@ public class NurseSetActivity extends AppCompatActivity implements View.OnClickL
 //        picker.show();
 
     }
+
+
+    //        List<Map> list = new ArrayList<>();
+//        Map map = new HashMap();
+//        list.add(map);list.add(map);list.add(map);list.add(map);list.add(map);list.add(map);list.add(map);list.add(map);list.add(map);list.add(map);list.add(map);list.add(map);
+//        labOutDetailAdapter.setNewData(list);
+
+//        operationAdapter = new OperationAdapter(new ArrayList<Map>());
+//        recOperation.setAdapter(operationAdapter);
+//        List<Map> list = new ArrayList<>();
+//        Map map = new HashMap();
+//        list.add(map);list.add(map);list.add(map);list.add(map);list.add(map);list.add(map);
+//        operationAdapter.setNewData(list);
+
+
+    //双选护士医生
+//        List<String> list = new ArrayList<String>();
+//        for (int i = 0; i < locsBeanList.size(); i++) {
+//            locDesc[i] = locsBeanList.get(i).getLocDesc();
+//            list.add(locsBeanList.get(i).getLocDesc())
+//        }
+//
+//        final DoublePicker picker = new DoublePicker(LoginActivity.this, list,list);
+//        picker.setCanceledOnTouchOutside(false);
+//        picker.setDividerRatio(WheelView.DividerConfig.FILL);
+//        picker.setSelectedIndex(0,0);
+//        picker.setCycleDisable(true);
+//        picker.setTextSize(20);
+//        picker.setOnPickListener
 }
