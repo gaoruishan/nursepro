@@ -158,7 +158,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:text="请您选择需执行的医嘱" />
+                tools:text="请您选择需执行的医嘱" />
         </LinearLayout>
 
         <LinearLayout
@@ -177,7 +177,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:text="已选择2个" />
+                tools:text="已选择2个" />
             <View
                 android:layout_width="1dp"
                 android:layout_height="16dp"
@@ -189,7 +189,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:text="接受"/>
+                tools:text="接受"/>
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -211,7 +211,7 @@
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:gravity="center"
-                android:text="撤销执行" />
+                tools:text="撤销执行" />
 
             <TextView
                 android:id="@+id/tv_bottom_todo"
@@ -221,7 +221,7 @@
                 android:gravity="center"
                 android:textSize="16sp"
                 android:textColor="@color/white"
-                android:text="执行" />
+                tools:text="执行" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
