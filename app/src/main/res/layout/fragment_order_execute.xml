@@ -151,7 +151,8 @@
             android:layout_alignParentBottom="true"
             android:background="#9b9b9b"
             android:gravity="center_vertical"
-            android:paddingStart="16dp">
+            android:paddingStart="16dp"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/tv_bottom_noselecttext"
@@ -169,8 +170,7 @@
             android:background="#4a4a4a"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingStart="16dp"
-            android:visibility="gone">
+            android:paddingStart="16dp">
 
             <TextView
                 android:id="@+id/tv_bottom_selecttext"
@@ -185,11 +185,11 @@
                 android:layout_marginEnd="6dp"
                 android:background="@color/white"/>
             <TextView
-                android:id="@+id/tv_bottom_selecttype"
+                android:id="@+id/tv_bottom_handletype"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                tools:text="接受"/>
+                android:text="接受"/>
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

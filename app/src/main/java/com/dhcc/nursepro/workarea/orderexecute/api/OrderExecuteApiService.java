@@ -46,6 +46,26 @@ public class OrderExecuteApiService {
 
     }
 
+    public static void execOrSeeOrder(String oeoreId,String execStatusCode, final ServiceCallBack callBack){
+        SPUtils spUtils = SPUtils.getInstance();
+        HashMap<String, String> properties = new HashMap<>();
+        properties.put("oeoreId",oeoreId);
+        properties.put("execStatusCode",execStatusCode);
+        properties.put("userId", spUtils.getString(SharedPreference.USERID));
+        properties.put("locId", spUtils.getString(SharedPreference.LOCID));
+        properties.put("wardId", spUtils.getString(SharedPreference.WARDID));
+
+
+        Log.i("OrderExecute", "execOrSeeOrder: "+properties.toString());
+
+        WebServiceUtils.callWebService("execOrSeeOrder", properties, new WebServiceUtils.WebServiceCallBack() {
+            @Override
+            public void callBack(String result) {
+                callBack.onResult(result);
+            }
+        });
+    }
+
     public interface ServiceCallBack {
         void onResult(String jsonStr);
     }

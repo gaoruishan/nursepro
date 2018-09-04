@@ -1,6 +1,10 @@
 package com.dhcc.nursepro.workarea.orderexecute;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +23,9 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.UniversalActivity;
+import com.dhcc.nursepro.common.BasePushDialog;
+import com.dhcc.nursepro.constant.Action;
 import com.dhcc.nursepro.constant.SharedPreference;
 import com.dhcc.nursepro.workarea.orderexecute.adapter.OrderExecuteOrderTypeAdapter;
 import com.dhcc.nursepro.workarea.orderexecute.adapter.OrderExecutePatientOrderAdapter;
@@ -31,6 +38,7 @@ import com.jzxiang.pickerview.listener.OnDateSetListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * OrderExecuteFragment
@@ -54,7 +62,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     private TextView tvBottomNoselecttext;
     private LinearLayout llOrderexecuteSelectbottom;
     private TextView tvBottomSelecttext;
-    private TextView tvBottomSelecttype;
+    private TextView tvBottomHandletype;
     private TextView tvBottomUndo;
     private TextView tvBottomTodo;
 
@@ -78,11 +86,46 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     private String endDate;
     private String endTime;
 
+    private BasePushDialog basePushDialog;
+    private Receiver mReceiver = new Receiver();
 
-    @Override
-    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_order_execute, container, false);
-    }
+    /**
+     * 医嘱处理/医嘱执行
+     * 0 处理
+     * 1 执行
+     */
+    private int exectype = 0;
+
+    /**
+     * 执行类型
+     * <p>
+     * A 接受
+     * R 拒绝
+     * S 完成
+     */
+    private String handleCode = "A";
+
+    /**
+     * 医嘱id
+     * 多个医嘱进行处理，接口依然调用execOrSeeOrder，第一个参数拼串，，每个医嘱的ID 用^分割
+     * 11||1^12||1
+     */
+    private StringBuffer sbOeoreId;
+    private String oeoreId = "";
+
+
+    /**
+     * 操作
+     * execStatusCode (F 执行，C 撤销执行，A 接受，S 完成，R 拒绝)
+     * <p>
+     * F 执行
+     * C 撤销执行
+     * A 接受
+     * R 拒绝
+     * S 完成
+     * ""撤销处理
+     */
+    private String execStatusCode;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -92,6 +135,12 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
         setToolbarBottomLineVisibility(false);
         //        hideToolbarNavigationIcon();
         setToolbarCenterTitle(getString(R.string.title_orderexecute), 0xffffffff, 17);
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Action.ORDER_HANDLE_ACCEPT);
+        filter.addAction(Action.ORDER_HANDLE_REFUSE);
+        filter.addAction(Action.ORDER_HANDLE_COMPLETE);
+        getActivity().registerReceiver(mReceiver, filter);
 
         startDate = spUtils.getString(SharedPreference.SCHSTDATETIME).substring(0, 10);
         startTime = spUtils.getString(SharedPreference.SCHSTDATETIME).substring(11, 16);
@@ -122,7 +171,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
         tvBottomNoselecttext = view.findViewById(R.id.tv_bottom_noselecttext);
         llOrderexecuteSelectbottom = view.findViewById(R.id.ll_orderexecute_selectbottom);
         tvBottomSelecttext = view.findViewById(R.id.tv_bottom_selecttext);
-        tvBottomSelecttype = view.findViewById(R.id.tv_bottom_selecttype);
+        tvBottomHandletype = view.findViewById(R.id.tv_bottom_handletype);
         tvBottomUndo = view.findViewById(R.id.tv_bottom_undo);
         tvBottomTodo = view.findViewById(R.id.tv_bottom_todo);
 
@@ -131,6 +180,10 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
 
         tvOrderexecuteStartdatetime.setOnClickListener(this);
         tvOrderexecuteEnddatetime.setOnClickListener(this);
+        tvBottomHandletype.setOnClickListener(this);
+        tvBottomUndo.setOnClickListener(this);
+        tvBottomTodo.setOnClickListener(this);
+
         //提高展示效率
         recyOrderexecuteOrdertype.setHasFixedSize(true);
         //设置的布局管理
@@ -200,9 +253,10 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                     llOrderexecuteSelectbottom.setVisibility(View.GONE);
                     if (buttons.get(0).getDesc().contains("处理")) {
                         tvBottomNoselecttext.setText("请您选择需处理的医嘱");
+                        exectype = 0;
                     } else {
                         tvBottomNoselecttext.setText("请您选择需执行的医嘱");
-
+                        exectype = 1;
                     }
                 }
 
@@ -235,12 +289,19 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
 
     public void refreshBottom() {
         Toast.makeText(getActivity(), "111", Toast.LENGTH_SHORT).show();
+        sbOeoreId = new StringBuffer();
         selectCount = 0;
         for (int i = 0; i < patOrders.size(); i++) {
             if (patOrders.get(i) != null && patOrders.get(i).get(0) != null && patOrders.get(i).get(0).getSelect() != null && "1".equals(patOrders.get(i).get(0).getSelect())) {
+                if (selectCount == 0) {
+                    sbOeoreId.append(patOrders.get(i).get(0).getOrderInfo().getID());
+                } else {
+                    sbOeoreId.append("^"+patOrders.get(i).get(0).getOrderInfo().getID());
+                }
                 selectCount++;
             }
         }
+        oeoreId = sbOeoreId.toString();
 
         if (selectCount == 0) {
             llOrderexecuteNoselectbottom.setVisibility(View.VISIBLE);
@@ -257,12 +318,17 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
             if (buttons.size() == 1) {
                 tvBottomUndo.setVisibility(View.GONE);
                 tvBottomTodo.setVisibility(View.VISIBLE);
-                tvBottomTodo.setText(buttons.get(0).getDesc().replace("医嘱",""));
+                tvBottomTodo.setText(buttons.get(0).getDesc().replace("医嘱", ""));
+                if (exectype == 0) {
+                    execStatusCode = "A";
+                } else {
+                    execStatusCode = "";
+                }
             } else {
                 tvBottomUndo.setVisibility(View.VISIBLE);
-                tvBottomUndo.setText(buttons.get(0).getDesc().replace("医嘱",""));
+                tvBottomUndo.setText(buttons.get(1).getDesc().replace("医嘱", ""));
                 tvBottomTodo.setVisibility(View.VISIBLE);
-                tvBottomTodo.setText(buttons.get(1).getDesc().replace("医嘱",""));
+                tvBottomTodo.setText(buttons.get(0).getDesc().replace("医嘱", ""));
             }
 
         }
@@ -309,6 +375,25 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 etChangeFlag = "END";
                 chooseTime();
                 break;
+            case R.id.tv_bottom_handletype:
+                basePushDialog = showPushDialog(new OrderHandleTypeFragment());
+                break;
+            case R.id.tv_bottom_undo:
+                if (exectype == 0) {
+                    execStatusCode = "";
+                } else {
+                    execStatusCode = "C";
+                }
+                execOrSeeOrder();
+                break;
+            case R.id.tv_bottom_todo:
+                if (exectype == 0) {
+                    execStatusCode = handleCode;
+                } else {
+                    execStatusCode = "F";
+                }
+                execOrSeeOrder();
+                break;
             default:
                 break;
         }
@@ -345,4 +430,53 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
 
     }
 
+    private void execOrSeeOrder() {
+        OrderExecuteApiManager.ExecOrSeeOrder(oeoreId, execStatusCode, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
+            @Override
+            public void onSuccess(OrderExecuteBean orderExecuteBean) {
+
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+
+            }
+        });
+    }
+
+    @Override
+    public void onPreFinish(UniversalActivity activity) {
+        super.onPreFinish(activity);
+        activity.unregisterReceiver(mReceiver);
+    }
+
+    @Override
+    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_order_execute, container, false);
+    }
+
+    private class Receiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            switch (Objects.requireNonNull(intent.getAction())) {
+                case Action.ORDER_HANDLE_ACCEPT:
+                    basePushDialog.dismiss();
+                    tvBottomHandletype.setText("接受");
+                    handleCode = "A";
+                    break;
+                case Action.ORDER_HANDLE_REFUSE:
+                    basePushDialog.dismiss();
+                    tvBottomHandletype.setText("拒绝");
+                    handleCode = "R";
+                    break;
+                case Action.ORDER_HANDLE_COMPLETE:
+                    basePushDialog.dismiss();
+                    tvBottomHandletype.setText("完成");
+                    handleCode = "S";
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 }
