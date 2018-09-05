@@ -494,7 +494,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                         execResultDialog.dismiss();
                         asyncInitData();
                     }
-                }, 2000);
+                }, 1000);
             }
 
             @Override
