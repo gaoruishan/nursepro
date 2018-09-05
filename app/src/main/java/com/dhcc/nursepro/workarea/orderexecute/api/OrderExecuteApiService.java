@@ -52,7 +52,7 @@ public class OrderExecuteApiService {
         properties.put("oeoreId",oeoreId);
         properties.put("execStatusCode",execStatusCode);
         properties.put("userId", spUtils.getString(SharedPreference.USERID));
-        properties.put("locId", spUtils.getString(SharedPreference.LOCID));
+        properties.put("userDeptId", spUtils.getString(SharedPreference.LOCID));
         properties.put("wardId", spUtils.getString(SharedPreference.WARDID));
 
 

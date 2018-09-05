@@ -1,6 +1,7 @@
 package com.dhcc.nursepro.workarea.orderexecute.api;
 
 import com.blankj.utilcode.util.ObjectUtils;
+import com.dhcc.nursepro.workarea.orderexecute.bean.OrderExecResultBean;
 import com.dhcc.nursepro.workarea.orderexecute.bean.OrderExecuteBean;
 import com.google.gson.Gson;
 
@@ -50,20 +51,20 @@ public class OrderExecuteApiManager {
                     callback.onFail("-1", "网络请求失败");
                 } else {
 
-                    //                    OrderExecuteBean orderExecuteBean = gson.fromJson(jsonStr, OrderExecuteBean.class);
-                    //                    if (ObjectUtils.isEmpty(orderExecuteBean)) {
-                    //                        callback.onFail("-1", "网络请求失败");
-                    //                    } else {
-                    //                        if (orderExecuteBean.getStatus().equals("0")) {
-                    //                            if (callback != null) {
-                    //                                callback.onSuccess(orderExecuteBean);
-                    //                            }
-                    //                        } else {
-                    //                            if (callback != null) {
-                    //                                callback.onFail(orderExecuteBean.getMsgcode(), orderExecuteBean.getMsg());
-                    //                            }
-                    //                        }
-                    //                    }
+                    OrderExecResultBean orderExecResultBean = gson.fromJson(jsonStr, OrderExecResultBean.class);
+                    if (ObjectUtils.isEmpty(orderExecResultBean)) {
+                        callback.onFail("-1", "网络请求失败");
+                    } else {
+                        if (orderExecResultBean.getStatus().equals("0")) {
+                            if (callback != null) {
+                                callback.onSuccess(orderExecResultBean);
+                            }
+                        } else {
+                            if (callback != null) {
+                                callback.onFail(orderExecResultBean.getMsgcode(), orderExecResultBean.getMsg());
+                            }
+                        }
+                    }
                 }
             }
         });
@@ -79,6 +80,6 @@ public class OrderExecuteApiManager {
     }
 
     public interface ExecOrSeeOrderCallback extends CommonCallBack {
-        void onSuccess(OrderExecuteBean orderExecuteBean);
+        void onSuccess(OrderExecResultBean orderExecResultBean);
     }
 }

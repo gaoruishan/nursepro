@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,6 +31,7 @@ import com.dhcc.nursepro.constant.SharedPreference;
 import com.dhcc.nursepro.workarea.orderexecute.adapter.OrderExecuteOrderTypeAdapter;
 import com.dhcc.nursepro.workarea.orderexecute.adapter.OrderExecutePatientOrderAdapter;
 import com.dhcc.nursepro.workarea.orderexecute.api.OrderExecuteApiManager;
+import com.dhcc.nursepro.workarea.orderexecute.bean.OrderExecResultBean;
 import com.dhcc.nursepro.workarea.orderexecute.bean.OrderExecuteBean;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.data.Type;
@@ -88,6 +90,8 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
 
     private BasePushDialog basePushDialog;
     private Receiver mReceiver = new Receiver();
+
+    private OrderExecResultDialog execResultDialog;
 
     /**
      * 医嘱处理/医嘱执行
@@ -296,7 +300,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 if (selectCount == 0) {
                     sbOeoreId.append(patOrders.get(i).get(0).getOrderInfo().getID());
                 } else {
-                    sbOeoreId.append("^"+patOrders.get(i).get(0).getOrderInfo().getID());
+                    sbOeoreId.append("^" + patOrders.get(i).get(0).getOrderInfo().getID());
                 }
                 selectCount++;
             }
@@ -433,13 +437,63 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     private void execOrSeeOrder() {
         OrderExecuteApiManager.ExecOrSeeOrder(oeoreId, execStatusCode, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
             @Override
-            public void onSuccess(OrderExecuteBean orderExecuteBean) {
-
+            public void onSuccess(OrderExecResultBean orderExecResultBean) {
+                /**
+                 * 操作
+                 * execStatusCode (F 执行，C 撤销执行，A 接受，S 完成，R 拒绝)
+                 * <p>
+                 * F 执行
+                 * C 撤销执行
+                 * A 接受
+                 * R 拒绝
+                 * S 完成
+                 * ""撤销处理
+                 */
+                execResultDialog = new OrderExecResultDialog(getActivity());
+                switch (execStatusCode) {
+                    case "F":
+                        execResultDialog.setExecresult("执行成功");
+                        break;
+                    case "C":
+                        execResultDialog.setExecresult("撤销执行成功");
+                        break;
+                    case "A":
+                    case "R":
+                    case "S":
+                        execResultDialog.setExecresult("处理成功");
+                        break;
+                    case "":
+                        execResultDialog.setExecresult("撤销处理成功");
+                        break;
+                    default:
+                        break;
+                }
+                execResultDialog.setImgId(R.drawable.icon_popup_sucess);
+                execResultDialog.setSureVisible(View.GONE);
+                execResultDialog.show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        execResultDialog.dismiss();
+                        asyncInitData();
+                    }
+                }, 2000);
             }
 
             @Override
             public void onFail(String code, String msg) {
-
+                execResultDialog = new OrderExecResultDialog(getActivity());
+                execResultDialog.setExecresult(msg);
+                execResultDialog.setImgId(R.drawable.icon_popup_error_patient);
+                execResultDialog.setSureVisible(View.VISIBLE);
+                execResultDialog.setSureOnclickListener(new OrderExecResultDialog.onSureOnclickListener() {
+                    @Override
+                    public void onSureClick() {
+                        execResultDialog.dismiss();
+                    }
+                });
+                execResultDialog.show();
+//                Toast.makeText(getActivity(), code+":"+msg, Toast.LENGTH_SHORT).show();
             }
         });
     }

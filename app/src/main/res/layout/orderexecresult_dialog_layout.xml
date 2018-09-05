@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_dialog"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingBottom="40dp"
+    android:paddingEnd="56dp"
+    android:paddingStart="56dp"
+    android:paddingTop="40dp">
+
+    <ImageView
+        android:id="@+id/img_popup_orderexecresult"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:src="@drawable/icon_popup_sucess" />
+
+    <TextView
+        android:id="@+id/tv_popup_orderexecresult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="手动执行成功"
+        android:textColor="#4a4a4a"
+        android:textStyle="bold"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tv_popup_sure"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/bg_dialog_sure"
+        android:paddingBottom="10dp"
+        android:paddingEnd="46dp"
+        android:paddingStart="46dp"
+        android:paddingTop="10dp"
+        android:text="确定"
+        android:textColor="@color/white"
+        android:textSize="17sp" />
+</LinearLayout>
