@@ -179,6 +179,7 @@
                 android:textColor="@color/white"
                 tools:text="已选择2个" />
             <View
+                android:id="@+id/view_bottom_handleline"
                 android:layout_width="1dp"
                 android:layout_height="16dp"
                 android:layout_marginStart="6dp"
@@ -191,6 +192,7 @@
                 android:textColor="@color/white"
                 android:text="接受"/>
             <ImageView
+                android:id="@+id/img_bottom_handlesure"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="1dp"

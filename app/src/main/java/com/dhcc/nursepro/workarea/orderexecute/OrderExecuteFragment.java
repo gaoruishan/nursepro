@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -65,6 +66,9 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     private LinearLayout llOrderexecuteSelectbottom;
     private TextView tvBottomSelecttext;
     private TextView tvBottomHandletype;
+    private View viewBottomHandleline;
+    private ImageView imgBottomHandlesure;
+
     private TextView tvBottomUndo;
     private TextView tvBottomTodo;
 
@@ -176,6 +180,9 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
         llOrderexecuteSelectbottom = view.findViewById(R.id.ll_orderexecute_selectbottom);
         tvBottomSelecttext = view.findViewById(R.id.tv_bottom_selecttext);
         tvBottomHandletype = view.findViewById(R.id.tv_bottom_handletype);
+        viewBottomHandleline = view.findViewById(R.id.view_bottom_handleline);
+        imgBottomHandlesure = view.findViewById(R.id.img_bottom_handlesure);
+
         tvBottomUndo = view.findViewById(R.id.tv_bottom_undo);
         tvBottomTodo = view.findViewById(R.id.tv_bottom_todo);
 
@@ -258,9 +265,15 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                     if (buttons.get(0).getDesc().contains("处理")) {
                         tvBottomNoselecttext.setText("请您选择需处理的医嘱");
                         exectype = 0;
+                        viewBottomHandleline.setVisibility(View.VISIBLE);
+                        tvBottomHandletype.setVisibility(View.VISIBLE);
+                        imgBottomHandlesure.setVisibility(View.VISIBLE);
                     } else {
                         tvBottomNoselecttext.setText("请您选择需执行的医嘱");
                         exectype = 1;
+                        viewBottomHandleline.setVisibility(View.GONE);
+                        tvBottomHandletype.setVisibility(View.GONE);
+                        imgBottomHandlesure.setVisibility(View.GONE);
                     }
                 }
 
@@ -449,21 +462,25 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                  * S 完成
                  * ""撤销处理
                  */
+                if (execResultDialog != null && execResultDialog.isShowing()) {
+                    execResultDialog.dismiss();
+                }
+
                 execResultDialog = new OrderExecResultDialog(getActivity());
                 switch (execStatusCode) {
                     case "F":
-                        execResultDialog.setExecresult("执行成功");
+                        execResultDialog.setExecresult("手动执行成功");
                         break;
                     case "C":
-                        execResultDialog.setExecresult("撤销执行成功");
+                        execResultDialog.setExecresult("手动撤销执行成功");
                         break;
                     case "A":
                     case "R":
                     case "S":
-                        execResultDialog.setExecresult("处理成功");
+                        execResultDialog.setExecresult("手动处理成功");
                         break;
                     case "":
-                        execResultDialog.setExecresult("撤销处理成功");
+                        execResultDialog.setExecresult("手动撤销处理成功");
                         break;
                     default:
                         break;
@@ -482,6 +499,9 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
 
             @Override
             public void onFail(String code, String msg) {
+                if (execResultDialog != null && execResultDialog.isShowing()) {
+                    execResultDialog.dismiss();
+                }
                 execResultDialog = new OrderExecResultDialog(getActivity());
                 execResultDialog.setExecresult(msg);
                 execResultDialog.setImgId(R.drawable.icon_popup_error_patient);
