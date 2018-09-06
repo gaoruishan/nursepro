@@ -313,7 +313,6 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     }
 
     public void refreshBottom() {
-        Toast.makeText(getActivity(), "111", Toast.LENGTH_SHORT).show();
         sbOeoreId = new StringBuffer();
         selectCount = 0;
         for (int i = 0; i < patOrders.size(); i++) {

@@ -12,6 +12,7 @@ import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.bedmap.BedMapFragment;
 import com.dhcc.nursepro.workarea.checkresult.CheckPatsFragment;
+import com.dhcc.nursepro.workarea.dosingreview.DosingReviewFragment;
 import com.dhcc.nursepro.workarea.labout.LabOutListFragment;
 import com.dhcc.nursepro.workarea.labresult.LabPatsFragment;
 import com.dhcc.nursepro.workarea.operation.OperationFragment;
@@ -29,8 +30,13 @@ public class WorkareaFragment extends BaseFragment implements View.OnClickListen
     private TextView tvWorkareaBedmap;
     private TextView tvWorkareaVitalSign;
     private TextView tvWorkareaEvents;
-    private TextView tvWorkAreaOrderSearch,tvWorkAreaOrderHandle,tvWorkAreaCheck,tvWorkAreaLab,tvOperation,tvLabOut;
-
+    private TextView tvWorkAreaOrderSearch;
+    private TextView tvWorkAreaOrderExecute;
+    private TextView tvWorkAreaCheck;
+    private TextView tvWorkAreaLab;
+    private TextView tvOperation;
+    private TextView tvLabOut;
+    private TextView tvDosingReview;
 
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -60,8 +66,8 @@ public class WorkareaFragment extends BaseFragment implements View.OnClickListen
         tvWorkareaEvents.setOnClickListener(this);
         tvWorkAreaOrderSearch = view.findViewById(R.id.tv_workarea_ordersearch);
         tvWorkAreaOrderSearch.setOnClickListener(this);
-        tvWorkAreaOrderHandle = view.findViewById(R.id.tv_workarea_orderhandle);
-        tvWorkAreaOrderHandle.setOnClickListener(this);
+        tvWorkAreaOrderExecute = view.findViewById(R.id.tv_workarea_orderexecute);
+        tvWorkAreaOrderExecute.setOnClickListener(this);
         tvWorkAreaLab = view.findViewById(R.id.tv_workarea_lab);
         tvWorkAreaLab.setOnClickListener(this);
         tvWorkAreaCheck = view.findViewById(R.id.tv_workarea_check);
@@ -70,6 +76,8 @@ public class WorkareaFragment extends BaseFragment implements View.OnClickListen
         tvOperation.setOnClickListener(this);
         tvLabOut = view.findViewById(R.id.tv_workarea_labout);
         tvLabOut.setOnClickListener(this);
+        tvDosingReview = view.findViewById(R.id.tv_workarea_dosingreview);
+        tvDosingReview.setOnClickListener(this);
     }
 
     private void initData() {
@@ -97,7 +105,7 @@ public class WorkareaFragment extends BaseFragment implements View.OnClickListen
             case R.id.tv_workarea_ordersearch:
                 startFragment(OrderSearchFragment.class);
                 break;
-            case R.id.tv_workarea_orderhandle:
+            case R.id.tv_workarea_orderexecute:
                 startFragment(OrderExecuteFragment.class);
                 break;
             case R.id.tv_workarea_check:
@@ -113,6 +121,9 @@ public class WorkareaFragment extends BaseFragment implements View.OnClickListen
                 break;
             case R.id.tv_workarea_labout:
                 startFragment(LabOutListFragment.class);
+                break;
+            case R.id.tv_workarea_dosingreview:
+                startFragment(DosingReviewFragment.class);
                 break;
             default:
                 break;

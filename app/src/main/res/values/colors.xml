@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#4C95EF</color>
-    <!--<color name="colorPrimary">#147cd5</color>-->
+    <!--<color name="colorPrimary">#147CD5</color>-->
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorFloatingActionButton">#008CEE</color>
     <color name="colorSplashBackground">#0E80C6</color>
     <color name="colorLogin">#0980C3</color>
     <color name="colorLoginButton">#004684</color>
-    <color name="colorCursor">#cccccc</color>
+    <color name="colorCursor">#CCCCCC</color>
     <color name="head_color">#836FFF</color>
     <color name="information_title_color">#666666</color>
     <color name="list_bg_color">#FFF4F4F4</color>
-    <color name="list_focus_color">#bdbdbd</color>
+    <color name="list_focus_color">#BDBDBD</color>
     <color name="screen_bg_color">#F7F7F7</color>
 
-    <color name="white">#ffffffff</color>
+    <color name="white">#FFFFFFFF</color>
     <color name="black">#000000</color>
     <color name="blue">#4C95EF</color>
 
     <drawable name="checkbox">#666666</drawable>
-    <drawable name="camera_back_press">#1b1b1b</drawable>
-    <drawable name="camera_back_default">#2f2f2f</drawable>
-    <color name="user_attr_line_color">#ffeeeeee</color>
+    <drawable name="camera_back_press">#1B1B1B</drawable>
+    <drawable name="camera_back_default">#2F2F2F</drawable>
+    <color name="user_attr_line_color">#EEEEEE</color>
     <color name="color_loading_dialog_background">#66000000</color>
-    <color name="color_base_content">#fff7f8f9</color>
+    <color name="color_base_content">#F7F8F9</color>
     
     <color name="vital_sign_border">#A3B5C9</color>
     <color name="vital_sign_type_normal_bg">#F5FAFF</color>
@@ -42,9 +42,9 @@
 
     <color name="text_view_text_color">#666666</color>
 
-    <color name="title_label_color">#1a1a1a</color>
+    <color name="title_label_color">#1A1A1A</color>
 
-    <color name="divider_line_color">#bdbdbd</color>
+    <color name="divider_line_color">#BDBDBD</color>
 
     <color name="blue_dark">#62ABFF</color>
     <color name="blue_light">#E9F3FF</color>
@@ -54,7 +54,7 @@
     <color name="bedmap_search_hint_color">#B3B3B3</color>
     <color name="bedmap_top_text_selected_color">#70AAF2</color>
     <color name="bedmap_top_text_normal_color">#000000</color>
-    <color name="bedmap_top_right_color">#ff333333</color>
+    <color name="bedmap_top_right_color">#333333</color>
     <color name="bedmap_left_bgcolor">#F5FAFF</color>
 
     <color name="patevents_device_color">#DADADA</color>
@@ -68,12 +68,19 @@
     <color name="bed_text_color">#4A4A4A</color>
 
 
-    <color name="key_sure_color">#62abff</color>
-    <color name="key_sure_color_pressed">#0174f2</color>
-    <color name="key_delete_color">#ff6ea4</color>
+    <color name="key_sure_color">#62ABFF</color>
+    <color name="key_sure_color_pressed">#0174F2</color>
+    <color name="key_delete_color">#FF6EA4</color>
     <color name="key_delete_color_pressed">#FF4081</color>
 
     <color name="vitalsign_detail_tvcolor">#FF4A4A4A</color>
     <color name="lab_un_report">#FF9B9B9B</color>
     <color name="lab_warning_red">#FFEA4300</color>
+
+    <color name="dosingreview_text_normal_color">#000000</color>
+    <color name="dosingreview_text_selected_color">#62ABFF</color>
+    <color name="dosingreview_text_color">#4A4A4A</color>
+
+
+
 </resources>
