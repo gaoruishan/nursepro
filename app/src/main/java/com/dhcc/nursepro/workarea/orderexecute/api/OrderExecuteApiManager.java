@@ -3,7 +3,10 @@ package com.dhcc.nursepro.workarea.orderexecute.api;
 import com.blankj.utilcode.util.ObjectUtils;
 import com.dhcc.nursepro.workarea.orderexecute.bean.OrderExecResultBean;
 import com.dhcc.nursepro.workarea.orderexecute.bean.OrderExecuteBean;
+import com.dhcc.nursepro.workarea.orderexecute.bean.ScanResultBean;
 import com.google.gson.Gson;
+
+import java.util.HashMap;
 
 /**
  * OrderSearchApiManager
@@ -69,6 +72,51 @@ public class OrderExecuteApiManager {
             }
         });
     }
+
+
+
+
+    //扫描腕带,医嘱码
+    public interface GetScanCallBack1 extends CommonCallBack{
+        void onSuccess(ScanResultBean scanResultBean);
+    }
+
+    public static void GetScanMsg1(HashMap<String,String> map, final GetScanCallBack1 callback) {
+
+        OrderExecuteApiService.getOrdersMsg(map, "getScanInfo", new OrderExecuteApiService.ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+
+                Gson gson = new Gson();
+
+
+                if (jsonStr.isEmpty()) {
+                    callback.onFail("-1", "网络请求失败");
+                } else {
+
+                    ScanResultBean scanResultBean= gson.fromJson(jsonStr, ScanResultBean.class);
+                    if (ObjectUtils.isEmpty(scanResultBean)) {
+                        callback.onFail("-1", "网络请求失败");
+                    } else {
+                        if (scanResultBean.getStatus().equals("0")) {
+                            if (callback != null) {
+                                callback.onSuccess(scanResultBean);
+                            }
+                        } else {
+                            if (callback != null) {
+                                callback.onFail(scanResultBean.getMsgcode(), scanResultBean.getMsg());
+                            }
+                        }
+                    }
+                }
+
+
+            }
+        });
+    }
+
+
+
 
 
     public interface CommonCallBack {
