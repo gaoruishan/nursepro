@@ -26,6 +26,7 @@ import com.dhcc.nursepro.workarea.vitalsigndetail.VitalSignDetailFragment;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
+import com.stfalcon.frescoimageviewer.ImageViewer;
 
 import java.io.Serializable;
 import java.sql.Time;
@@ -152,7 +153,8 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
 
                     String episodeId = (String)patientInfo.get("episodeId");
 
-                    viewPatientTempImages("94");
+//                    viewPatientTempImages("94");
+                    viewPatientTempImages(episodeId);
 
                 }else{
                     //普通点击
@@ -254,7 +256,23 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
             public void onSuccess(Map<String, Object> map) {
                 
                 hideLoadFailTip();
-                Toast.makeText(getActivity(), "体温单预览图片请求成功", Toast.LENGTH_SHORT).show();
+
+
+                int sum = ((ArrayList)map.get("urlList")).size();
+                if (sum == 0){
+                    Toast.makeText(getActivity(), "该病人无体温单", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                ArrayList<String> urls = new ArrayList<>();
+                for (int i = 0; i < sum; i ++){
+                    Map item = (Map)((ArrayList)map.get("urlList")).get(i);
+                    urls.add((String)item.get("url"));
+                }
+
+                new ImageViewer.Builder(getContext(), urls)
+                        .setStartPosition(0)
+                        .show();
             }
 
             @Override
