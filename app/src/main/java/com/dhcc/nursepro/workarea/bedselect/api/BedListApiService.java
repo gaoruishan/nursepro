@@ -7,7 +7,7 @@ import com.dhcc.nursepro.utils.wsutils.WebServiceUtils;
 import java.util.HashMap;
 
 /**
- * OrderSearchApiService
+ * BedListApiService
  *
  * @author DevLix126
  * @date 2018/8/24

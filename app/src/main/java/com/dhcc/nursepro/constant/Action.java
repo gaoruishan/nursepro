@@ -17,4 +17,9 @@ public class Action {
     //完成
     public static final String ORDER_HANDLE_COMPLETE = "com.dhcc.nursepro.order.handle.complete.Action";
 
+
+    //配液复核
+    public static final String DOSING_REVIEW = "com.dhcc.nursepro.dosingreview.Action";
+
+
 }

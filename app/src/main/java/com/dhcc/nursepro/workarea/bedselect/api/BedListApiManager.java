@@ -5,7 +5,7 @@ import com.dhcc.nursepro.workarea.bedselect.bean.BedSelectListBean;
 import com.google.gson.Gson;
 
 /**
- * OrderSearchApiManager
+ * BedListApiManager
  *
  * @author DevLix126
  * @date 2018/8/24

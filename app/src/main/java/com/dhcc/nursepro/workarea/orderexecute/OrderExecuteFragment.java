@@ -137,7 +137,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
 
 
     private IntentFilter filter;
-    private Receiver mReceiver = new Receiver();;
+    private Receiver mReceiver = new Receiver();
     private String episodeId = "";
 
     @Override
