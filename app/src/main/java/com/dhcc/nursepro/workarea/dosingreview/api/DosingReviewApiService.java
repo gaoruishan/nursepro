@@ -25,7 +25,6 @@ public class DosingReviewApiService {
         properties.put("groupId", spUtils.getString(SharedPreference.GROUPID));
         properties.put("locId", spUtils.getString(SharedPreference.LOCID));
 
-
         properties.put("infusionFlag", infusionFlag);
         properties.put("startDate", startDate);
         properties.put("endDate", endDate);
@@ -39,16 +38,40 @@ public class DosingReviewApiService {
                 callback.onResult(result);
             }
         });
-
     }
 
-    public static void preparedVerifyOrd(String oeorild, String flag, final ServiceCallBack callback) {
+    public static void getInfusionOrdListAfterCancel(String infusionFlag, String oeoriId, String startDate, String endDate, String pageNo, final ServiceCallBack callback) {
+        SPUtils spUtils = SPUtils.getInstance();
+        HashMap<String, String> properties = new HashMap<>();
+        properties.put("wardId", spUtils.getString(SharedPreference.WARDID));
+        properties.put("userId", spUtils.getString(SharedPreference.USERID));
+        properties.put("hospitalId", spUtils.getString(SharedPreference.HOSPITALROWID));
+        properties.put("groupId", spUtils.getString(SharedPreference.GROUPID));
+        properties.put("locId", spUtils.getString(SharedPreference.LOCID));
+
+        properties.put("infusionFlag", infusionFlag);
+        properties.put("oeoriId", oeoriId);
+        properties.put("startDate", startDate);
+        properties.put("endDate", endDate);
+        properties.put("pageNo", pageNo);
+
+        Log.i("DosingReview", "getInfusionOrdList: " + properties.toString());
+
+        WebServiceUtils.callWebService("getInfusionOrdList", properties, new WebServiceUtils.WebServiceCallBack() {
+            @Override
+            public void callBack(String result) {
+                callback.onResult(result);
+            }
+        });
+    }
+
+    public static void preparedVerifyOrd(String oeoriId, String status, final ServiceCallBack callback) {
         SPUtils spUtils = SPUtils.getInstance();
         HashMap<String, String> properties = new HashMap<>();
         properties.put("userId", spUtils.getString(SharedPreference.USERID));
 
-        properties.put("oeorild", oeorild);
-        properties.put("flag", flag);
+        properties.put("oeoriId", oeoriId);
+        properties.put("status", status);
 
         Log.i("DosingReview", "preparedVerifyOrd: " + properties.toString());
 

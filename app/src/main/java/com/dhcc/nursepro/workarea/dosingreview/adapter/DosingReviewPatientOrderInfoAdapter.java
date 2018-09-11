@@ -34,14 +34,28 @@ public class DosingReviewPatientOrderInfoAdapter extends BaseQuickAdapter<Dosing
         LinearLayout llorderinfomulti1 = helper.getView(R.id.ll_drporderinfo_multiorder1);
         View lineorderinfomulti = helper.getView(R.id.line_drporderinfo_multiorder);
         LinearLayout llorderinfomulti2 = helper.getView(R.id.ll_drporderinfo_multiorder2);
-        TextView tvOrderType = helper.getView(R.id.tv_drporderinfo_ordertype);
+        LinearLayout llOrderStatus = helper.getView(R.id.ll_drporderinfo_orderstatus);
+        TextView tvOrderPrepare = helper.getView(R.id.tv_drporderinfo_orderprepare);
+        TextView tvOrderVerify = helper.getView(R.id.tv_drporderinfo_orderverify);
+
+        if ("Y".equals(item.getOrderInfo().getPreparedFlag())) {
+            tvOrderPrepare.setText("已配液");
+        }else{
+            tvOrderPrepare.setText("未配液");
+        }
+
+        if ("Y".equals(item.getOrderInfo().getVerifyFlag())) {
+            tvOrderVerify.setText("已复核");
+        }else{
+            tvOrderVerify.setText("未复核");
+        }
+
         if (size == 1) {
             llorderinfosingle.setVisibility(View.VISIBLE);
             llorderinfomulti1.setVisibility(View.GONE);
             lineorderinfomulti.setVisibility(View.GONE);
             llorderinfomulti2.setVisibility(View.GONE);
-            helper.setText(R.id.tv_drporderinfo_ordertype, orderInfoBean.getOecprDesc())
-                    .setText(R.id.tv_drporderinfo_ordername, orderInfoBean.getArcimDesc())
+            helper.setText(R.id.tv_drporderinfo_ordername, orderInfoBean.getArcimDesc())
                     .setText(R.id.tv_drporderinfo_orderdatetime, orderInfoBean.getCreateDateTime().substring(0, 16))
                     .setText(R.id.tv_drporderinfo_orderoperate, orderInfoBean.getPhcinDesc())
                     .setText(R.id.tv_drporderinfo_orderdose, orderInfoBean.getPhOrdQtyUnit())
@@ -51,10 +65,9 @@ public class DosingReviewPatientOrderInfoAdapter extends BaseQuickAdapter<Dosing
             llorderinfosingle.setVisibility(View.GONE);
 
             if (helper.getLayoutPosition() == 0) {
-                tvOrderType.setVisibility(View.VISIBLE);
-                helper.setText(R.id.tv_drporderinfo_ordertype, orderInfoBean.getOecprDesc());
+                llOrderStatus.setVisibility(View.VISIBLE);
             } else {
-                tvOrderType.setVisibility(View.GONE);
+                llOrderStatus.setVisibility(View.GONE);
             }
             helper.setText(R.id.tv_drporderinfo_ordername, orderInfoBean.getArcimDesc());
             if (helper.getLayoutPosition() == size - 1) {
