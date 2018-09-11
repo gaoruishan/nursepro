@@ -24,16 +24,16 @@
             android:layout_marginStart="12dp"
             android:layout_marginTop="12dp"
             android:background="@drawable/bg_bedmap_search"
+            android:drawablePadding="12dp"
             android:drawableStart="@drawable/search"
             android:hint="输入病人床号或直接扫描病人腕带进行搜索"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            android:drawablePadding="12dp"
             android:imeOptions="actionDone"
             android:inputType="number"
+            android:paddingEnd="12dp"
+            android:paddingStart="12dp"
             android:singleLine="true"
             android:textColorHint="@color/bedmap_search_hint_color"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
 
     </LinearLayout>
 

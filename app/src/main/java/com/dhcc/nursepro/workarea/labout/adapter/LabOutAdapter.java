@@ -26,20 +26,20 @@ public class LabOutAdapter extends BaseQuickAdapter<LabOutListAllBean.LabOutList
                 .addOnClickListener(R.id.tv_lapack_del)
                 .addOnClickListener(R.id.messagecontentll);
         com.guanaj.easyswipemenulibrary.EasySwipeMenuLayout swipeLabout = helper.getView(R.id.swipe_labout);
-        if (item.getStatus().startsWith("建单")){
-            swipeLabout.setCanLeftSwipe(true);
-        }else {
-            swipeLabout.setCanLeftSwipe(false);
-        }
+//        if (item.getStatus().startsWith("建单")){
+//            swipeLabout.setCanLeftSwipe(true);
+//        }else {
+//            swipeLabout.setCanLeftSwipe(false);
+//        }
         LinearLayout llAccount = helper.getView(R.id.ll_labout_num);
         if (item.getStatus().equals("建单")){
-            llAccount.setBackgroundColor(Color.parseColor("#FFF5A623"));
+            llAccount.setBackgroundColor(Color.parseColor("#FF62ABFF"));
         }else if (item.getStatus().equals("已交接")){
             llAccount.setBackgroundColor(Color.parseColor("#FFF5A623"));
         }else if (item.getStatus().equals("部分处理")){
-            llAccount.setBackgroundColor(Color.parseColor("#FF75D477"));
+            llAccount.setBackgroundColor(Color.parseColor("#B8DA64"));
         }else{
-            llAccount.setBackgroundColor(Color.parseColor("#FF62ABFF"));
+            llAccount.setBackgroundColor(Color.parseColor("#16C295"));
         }
 
     }

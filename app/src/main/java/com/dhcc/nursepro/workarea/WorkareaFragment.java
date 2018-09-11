@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.workarea.allotbed.AllotBedFragment;
 import com.dhcc.nursepro.workarea.bedmap.BedMapFragment;
 import com.dhcc.nursepro.workarea.checkresult.CheckPatsFragment;
 import com.dhcc.nursepro.workarea.dosingreview.DosingReviewFragment;
@@ -37,6 +38,7 @@ public class WorkareaFragment extends BaseFragment implements View.OnClickListen
     private TextView tvOperation;
     private TextView tvLabOut;
     private TextView tvDosingReview;
+    private TextView tvWorkareaAllotBed;
 
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -78,6 +80,8 @@ public class WorkareaFragment extends BaseFragment implements View.OnClickListen
         tvLabOut.setOnClickListener(this);
         tvDosingReview = view.findViewById(R.id.tv_workarea_dosingreview);
         tvDosingReview.setOnClickListener(this);
+        tvWorkareaAllotBed = view.findViewById(R.id.tv_workarea_allotbed);
+        tvWorkareaAllotBed.setOnClickListener(this);
     }
 
     private void initData() {
@@ -124,6 +128,9 @@ public class WorkareaFragment extends BaseFragment implements View.OnClickListen
                 break;
             case R.id.tv_workarea_dosingreview:
                 startFragment(DosingReviewFragment.class);
+                break;
+            case R.id.tv_workarea_allotbed:
+                startFragment(AllotBedFragment.class);
                 break;
             default:
                 break;

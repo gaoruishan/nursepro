@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.SPUtils;
@@ -32,6 +33,9 @@ public class LabOutDetailFragment extends BaseFragment {
 
     private View viewright;
     private TextView textView;
+    private TextView tvLaboutScan;
+    private TextView tvLaboutSend;
+    private EditText etLaboutContainer;
 
     private RecyclerView recaddLabOut;
     private LabOutDetailAdapter labOutDetailAdapter;
@@ -55,26 +59,12 @@ public class LabOutDetailFragment extends BaseFragment {
 
         setToolbarType(BaseActivity.ToolbarType.TOP);
         setToolbarBottomLineVisibility(true);
-        setToolbarCenterTitle("检验打包",0xffffffff,17);
-        //右上角按钮"新建"
-        viewright =  View.inflate(getActivity(),R.layout.view_fratoolbar_right,null);
-        textView = viewright.findViewById(R.id.tv_fratoobar_right);
-        textView.setTextSize(15);
-        textView.setText("  发送   ");
-        textView.setTextColor(getResources().getColor(R.color.white));
-        viewright.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                startFragment(PatEventsDetailFragment.class);
-                delOrExchange();
 
-            }
-        });
-        setToolbarRightCustomView(viewright);
         Bundle bundle = getArguments();
         if (bundle!=null){
             carryNo = bundle.getString("CarryNo");
         }
+        setToolbarCenterTitle(carryNo,0xffffffff,17);
 
         initview(view);
         initData();
@@ -89,7 +79,15 @@ public class LabOutDetailFragment extends BaseFragment {
     }
     private void initview(View view){
 
-
+        tvLaboutScan = view.findViewById(R.id.tv_layout_scannum);
+        tvLaboutSend = view.findViewById(R.id.tv_layout_send);
+        tvLaboutSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                delOrExchange();
+            }
+        });
+        etLaboutContainer = view.findViewById(R.id.et_labout_container);
 
         recaddLabOut = view.findViewById(R.id.rec_addlabout);
         //提高展示效率
@@ -138,15 +136,18 @@ public class LabOutDetailFragment extends BaseFragment {
         LabOutApiManager.getLabOutDetailMsg(map, "getLabOutDetail", new LabOutApiManager.getLabOutDetailCallBack() {
             @Override
             public void onSuccess(LabOutDetailBean labOutDetailBean) {
+//                setToolbarCenterTitle("检验打包",0xffffffff,17);
                 saveFlag = "";
                 carryFlag = labOutDetailBean.getCarryFlag();
                 if (carryFlag.equals("1")){
-                    textView.setText("  撤销发送  ");
+                    tvLaboutSend.setText("  撤销发送  ");
                 }else {
-                    textView.setText("  发送    ");
+                    tvLaboutSend.setText("  发送    ");
                 }
+                etLaboutContainer.setText(labOutDetailBean.getTransContainer());
 
                 listBeans = labOutDetailBean.getDetailList();
+                tvLaboutScan.setText("已扫描 "+listBeans.size()+" 个");
                 labOutDetailAdapter.setNewData(listBeans);
             }
 
@@ -168,7 +169,7 @@ public class LabOutDetailFragment extends BaseFragment {
         HashMap<String,String > map = new HashMap<>();
         map.put("carryNo", carryNo);
         if (carryFlag.equals("0")) {
-            map.put("containerNo", "3222111");
+            map.put("containerNo", etLaboutContainer.getText().toString());
             map.put("transUserId","3");
         }
 //        map.put("transUserId","3");
@@ -200,10 +201,10 @@ public class LabOutDetailFragment extends BaseFragment {
                 bundle = intent.getExtras();
 //                getUserMsg(bundle.getString("data"));
                 carryLocDr = spUtils.getString(SharedPreference.LOCID);
-//                carryLabNo = bundle.getString("data");
+                carryLabNo = bundle.getString("data");
                 saveFlag = "1";
-                carryLabNo = "1000000035";
-                showToast(carryLocDr+"--"+carryLabNo);
+//                carryLabNo = "1000000035";
+//                showToast(carryLocDr+"--"+carryLabNo);
                 initData();
 
             }

@@ -28,8 +28,13 @@ app:rightMenuView="@+id/messagerightmenu">
             android:id="@+id/tv_laboutdetail_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_rectangle_blue"
-            android:text="已发送"/>
+            android:background="@drawable/bg_labout_tv1"
+            android:text="已发送"
+            android:textColor="@color/white"
+            android:paddingBottom="1dp"
+            android:paddingTop="1dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"/>
 
         <TextView
             android:id="@+id/tv_laboutdetail_desc"
@@ -52,7 +57,7 @@ app:rightMenuView="@+id/messagerightmenu">
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <TextView
-            android:id="@+id/what"
+            android:id="@+id/tv_labout_specname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"

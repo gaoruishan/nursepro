@@ -124,7 +124,7 @@ public class ScanGetUserMsgBean {
         private String totalCost;
         private String wardDesc;
         private List<String> mainDoctorID;
-        private List<?> mainNurseID;
+        private List<String> mainNurseID;
 
         public String getAdmReason() {
             return admReason;
@@ -414,11 +414,11 @@ public class ScanGetUserMsgBean {
             this.mainDoctorID = mainDoctorID;
         }
 
-        public List<?> getMainNurseID() {
+        public List<String> getMainNurseID() {
             return mainNurseID;
         }
 
-        public void setMainNurseID(List<?> mainNurseID) {
+        public void setMainNurseID(List<String> mainNurseID) {
             this.mainNurseID = mainNurseID;
         }
     }

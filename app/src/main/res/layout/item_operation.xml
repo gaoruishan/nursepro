@@ -24,6 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="18dp"
                 android:textSize="13sp"
+                android:textStyle="bold"
                 android:gravity="center"
                 android:text="01床  刘患者"
                 android:textColor="#FF4A4A4A"/>
@@ -41,15 +42,17 @@
                 android:layout_height="wrap_content"
                 android:text="手术名称"
                 android:textSize="16sp"
-                android:layout_marginTop="15dp"
-                android:layout_marginLeft="30dp"
+                android:textStyle="bold
+"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="10dp"
                 android:textColor="#FF4A4A4A"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="30dp">
+                android:layout_marginLeft="15dp">
                 <TextView
                     android:id="@+id/tv_operation_state"
                     android:layout_width="30dp"
@@ -71,7 +74,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="15dp"
                 android:layout_marginTop="@dimen/dp_10"
                 android:layout_marginBottom="20dp"
                 android:orientation="horizontal">
@@ -81,7 +84,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
-                    android:text="手术时间"
+                    android:text="申请时间"
                     android:textColor="#FF4A4A4A"/>
                 <TextView
                     android:id="@+id/tv_op_room"

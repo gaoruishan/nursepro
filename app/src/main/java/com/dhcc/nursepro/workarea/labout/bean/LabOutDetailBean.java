@@ -16,6 +16,7 @@ public class LabOutDetailBean {
     private String msgcode;
     private String status;
     private List<DetailListBean> detailList;
+    private String transContainer;
 
     public String getCarryFlag() {
         return carryFlag;
@@ -48,6 +49,16 @@ public class LabOutDetailBean {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public String getTransContainer() {
+        return transContainer;
+    }
+
+    public void setTransContainer(String transContainer) {
+        this.transContainer = transContainer;
+    }
+
+
 
     public List<DetailListBean> getDetailList() {
         return detailList;
@@ -87,6 +98,7 @@ public class LabOutDetailBean {
         private String recUserName;
         private String specName;
         private String tranStatus;
+        private String statusDesc;
 
         public String getBedNo() {
             return bedNo;
@@ -190,6 +202,13 @@ public class LabOutDetailBean {
 
         public void setTranStatus(String tranStatus) {
             this.tranStatus = tranStatus;
+        }
+        public String getStatusDesc() {
+            return statusDesc;
+        }
+
+        public void setStatusDesc(String statusDesc) {
+            this.statusDesc = statusDesc;
         }
     }
 }

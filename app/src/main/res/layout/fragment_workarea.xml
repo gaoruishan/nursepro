@@ -102,6 +102,15 @@
                 android:background="@color/white"
                 android:padding="6dp"
                 android:text="配液复核" />
+
+            <TextView
+                android:id="@+id/tv_workarea_allotbed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:background="@color/white"
+                android:padding="6dp"
+                android:text="入院分床" />
         </LinearLayout>
     </ScrollView>
 
