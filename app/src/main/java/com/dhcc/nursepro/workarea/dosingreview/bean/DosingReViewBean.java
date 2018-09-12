@@ -108,6 +108,15 @@ public class DosingReViewBean {
 
             private OrderInfoBean orderInfo;
             private String type;
+            private boolean cancelGone = false;
+
+            public boolean isCancelGone() {
+                return cancelGone;
+            }
+
+            public void setCancelGone(boolean cancelGone) {
+                this.cancelGone = cancelGone;
+            }
 
             public OrderInfoBean getOrderInfo() {
                 return orderInfo;

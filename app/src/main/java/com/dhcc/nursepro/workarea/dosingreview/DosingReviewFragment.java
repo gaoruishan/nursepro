@@ -29,7 +29,6 @@ import com.dhcc.nursepro.workarea.dosingreview.api.DosingReviewApiManager;
 import com.dhcc.nursepro.workarea.dosingreview.bean.DosingReViewBean;
 import com.dhcc.nursepro.workarea.dosingreview.bean.PreparedVerifyOrdBean;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
@@ -299,6 +298,19 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
         asyncInitData();
     }
 
+    /**
+     * Action.DOSING_REVIEW
+     * 撤销
+     * 请求ID 刷新列表
+     * <p>
+     * <p>
+     * "com.scanner.broadcast"
+     * 扫码配液/复核
+     * 请求ID current列表添加返回单条医嘱
+     *
+     * @author DevLix126
+     * created at 2018/9/12 14:51
+     */
     private class Receiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -332,6 +344,7 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
 
 
                     break;
+
                 case "com.scanner.broadcast":
 
                     showLoadingTip(BaseActivity.LoadingType.FULL);
@@ -343,6 +356,45 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
                         public void onSuccess(PreparedVerifyOrdBean preparedVerifyOrdBean) {
                             hideLoadingTip();
                             Toast.makeText(getActivity(), preparedVerifyOrdBean.getMsg(), Toast.LENGTH_SHORT).show();
+                            String bedCode = "";
+                            String name = "";
+                            String type = "";
+                            Gson gson = new Gson();
+
+                            //  pv----  返回值内容
+                            //  dr----  新建加入current列表
+
+                            PreparedVerifyOrdBean.OrdersBean pvordersBean = preparedVerifyOrdBean.getOrders();
+                            bedCode = pvordersBean.getBedCode();
+                            name = pvordersBean.getName();
+
+                            List<PreparedVerifyOrdBean.OrdersBean.PatOrdsBean> pvpatOrdsBeanList = pvordersBean.getPatOrds();
+                            List<DosingReViewBean.OrdersBean.PatOrdsBean> drpatOrdsBeanList = new ArrayList<>();
+
+                            for (int i = 0; i < pvpatOrdsBeanList.size(); i++) {
+                                PreparedVerifyOrdBean.OrdersBean.PatOrdsBean pvpatOrdsBean = pvpatOrdsBeanList.get(i);
+
+                                PreparedVerifyOrdBean.OrdersBean.PatOrdsBean.OrderInfoBean pvorderInfoBean = pvpatOrdsBean.getOrderInfo();
+                                type = pvpatOrdsBean.getType();
+
+                                DosingReViewBean.OrdersBean.PatOrdsBean drpatOrdsBean = new DosingReViewBean.OrdersBean.PatOrdsBean();
+                                drpatOrdsBean.setCancelGone(true);
+                                drpatOrdsBean.setType(type);
+                                drpatOrdsBean.setOrderInfo(gson.fromJson(gson.toJson(pvorderInfoBean), DosingReViewBean.OrdersBean.PatOrdsBean.OrderInfoBean.class));
+                                drpatOrdsBeanList.add(drpatOrdsBean);
+                            }
+
+                            List<List<DosingReViewBean.OrdersBean.PatOrdsBean>> drpatOrds = new ArrayList<>();
+
+                            drpatOrds.add(drpatOrdsBeanList);
+
+                            DosingReViewBean.OrdersBean drordersBean = new DosingReViewBean.OrdersBean();
+
+                            drordersBean.setName(name);
+                            drordersBean.setBedCode(bedCode);
+                            drordersBean.setPatOrds(drpatOrds);
+
+                            currentOrders.add(drordersBean);
 
                             setTopFilterSelect(tvDosingreviewCurrent);
                             patientAdapter.setNewData(currentOrders);

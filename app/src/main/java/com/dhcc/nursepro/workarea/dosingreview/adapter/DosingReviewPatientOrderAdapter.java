@@ -4,6 +4,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -32,7 +33,7 @@ public class DosingReviewPatientOrderAdapter extends BaseQuickAdapter<List<Dosin
         //提高展示效率
         recyOrderInfo.setHasFixedSize(true);
         //设置的布局管理
-        recyOrderInfo.setLayoutManager(new LinearLayoutManager(mContext){
+        recyOrderInfo.setLayoutManager(new LinearLayoutManager(mContext) {
             @Override
             public boolean canScrollVertically() {
                 return false;
@@ -49,7 +50,12 @@ public class DosingReviewPatientOrderAdapter extends BaseQuickAdapter<List<Dosin
         } else {
             view.setVisibility(View.GONE);
         }
-
-        helper.addOnClickListener(R.id.tv_drpat_ordercancel);
+        LinearLayout llOrderCancel = helper.getView(R.id.ll_drpat_ordercancel);
+        if (item.size() > 0 && item.get(0).isCancelGone()) {
+            llOrderCancel.setVisibility(View.GONE);
+        } else {
+            llOrderCancel.setVisibility(View.VISIBLE);
+        }
+        helper.addOnClickListener(R.id.ll_drpat_ordercancel);
     }
 }

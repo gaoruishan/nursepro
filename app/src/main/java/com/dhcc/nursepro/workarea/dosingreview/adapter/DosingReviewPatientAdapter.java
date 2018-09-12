@@ -48,7 +48,7 @@ public class DosingReviewPatientAdapter extends BaseQuickAdapter<DosingReViewBea
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 DosingReViewBean.OrdersBean.PatOrdsBean.OrderInfoBean orderInfoBean = ((List<DosingReViewBean.OrdersBean.PatOrdsBean>) adapter.getItem(position)).get(0).getOrderInfo();
-                if (view.getId() == R.id.tv_drpat_ordercancel) {
+                if (view.getId() == R.id.ll_drpat_ordercancel) {
                     String orderId = orderInfoBean.getID();
                     Intent intent = new Intent().setAction(Action.DOSING_REVIEW);
                     intent.putExtra("orderId", orderId);

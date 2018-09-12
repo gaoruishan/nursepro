@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:contentView="@+id/recy_drpat_orderinfo"
-        app:rightMenuView="@+id/tv_drpat_ordercancel">
+        app:rightMenuView="@+id/ll_drpat_ordercancel">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recy_drpat_orderinfo"
@@ -20,7 +20,7 @@
         </android.support.v7.widget.RecyclerView>
 
         <LinearLayout
-            android:id="@+id/tv_drpat_ordercancel"
+            android:id="@+id/ll_drpat_ordercancel"
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:background="@android:color/holo_red_light"
