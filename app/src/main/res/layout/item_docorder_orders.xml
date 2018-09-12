@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_item_order_priority"
+        android:layout_width="45dp"
+        android:layout_height="18dp"
+        android:background="@drawable/bg_priority_long"
+        android:gravity="center"
+        android:layout_margin="12dp"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        tools:text="长期" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rec_item_order_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </android.support.v7.widget.RecyclerView>
+    <View
+        android:id="@+id/view_docorders_namedev"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@drawable/line_dash"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layerType="software" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="5dp">
+
+
+
+
+        <TextView
+            android:id="@+id/tv_item_order_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="开始时间"/>
+        <TextView
+            android:id="@+id/tv_item_order_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text="停止时间"/>
+        <TextView
+            android:id="@+id/tv_item_order_ordphcin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="用法"/>
+        <TextView
+            android:id="@+id/tv_item_order_orddose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="用量"/>
+        <TextView
+            android:id="@+id/tv_item_order_orddoc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="医生"/>
+    </LinearLayout>
+    <View
+        android:id="@+id/line_ospat_orderinfo"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@drawable/line_dash"
+        android:layout_marginTop="10dp"
+        android:layerType="software" />
+</LinearLayout>

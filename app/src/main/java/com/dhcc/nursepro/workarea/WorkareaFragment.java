@@ -13,6 +13,7 @@ import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.allotbed.AllotBedFragment;
 import com.dhcc.nursepro.workarea.bedmap.BedMapFragment;
 import com.dhcc.nursepro.workarea.checkresult.CheckPatsFragment;
+import com.dhcc.nursepro.workarea.docorderlist.DocOrderListFragment;
 import com.dhcc.nursepro.workarea.dosingreview.DosingReviewFragment;
 import com.dhcc.nursepro.workarea.labout.LabOutListFragment;
 import com.dhcc.nursepro.workarea.labresult.LabPatsFragment;
@@ -39,6 +40,7 @@ public class WorkareaFragment extends BaseFragment implements View.OnClickListen
     private TextView tvLabOut;
     private TextView tvDosingReview;
     private TextView tvWorkareaAllotBed;
+    private TextView tvWorkareaDocOrdList;
 
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -82,6 +84,8 @@ public class WorkareaFragment extends BaseFragment implements View.OnClickListen
         tvDosingReview.setOnClickListener(this);
         tvWorkareaAllotBed = view.findViewById(R.id.tv_workarea_allotbed);
         tvWorkareaAllotBed.setOnClickListener(this);
+        tvWorkareaDocOrdList = view.findViewById(R.id.tv_workarea_docorderlist);
+        tvWorkareaDocOrdList.setOnClickListener(this);
     }
 
     private void initData() {
@@ -131,6 +135,9 @@ public class WorkareaFragment extends BaseFragment implements View.OnClickListen
                 break;
             case R.id.tv_workarea_allotbed:
                 startFragment(AllotBedFragment.class);
+                break;
+            case R.id.tv_workarea_docorderlist:
+                startFragment(DocOrderListFragment.class);
                 break;
             default:
                 break;
