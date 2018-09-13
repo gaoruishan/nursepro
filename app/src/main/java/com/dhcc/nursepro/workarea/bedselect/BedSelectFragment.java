@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,12 +33,10 @@ import java.util.List;
  * created at 2018/8/28 10:02
  */
 public class BedSelectFragment extends BaseFragment {
-
+    private LinearLayout llBedselectAllselect;
     private RecyclerView recyBedselect;
-    private TextView tvBedselectSure;
 
     private List<BedSelectListBean.BedListBean> bedList = new ArrayList<>();
-
     private BedGroupListAdapter bedGroupListAdapter;
 
     //是否全选状态，暂不关联各组变更状态
@@ -62,9 +61,28 @@ public class BedSelectFragment extends BaseFragment {
         View viewright = View.inflate(getActivity(), R.layout.view_fratoolbar_right, null);
         TextView textView = viewright.findViewById(R.id.tv_fratoobar_right);
         textView.setTextSize(15);
-        textView.setText("   全选   ");
+        textView.setText("   保存   ");
         textView.setTextColor(getResources().getColor(R.color.blue_dark));
         viewright.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("bedselectinfoStr", getBedSelectInfoStr());
+                finish(bundle);
+            }
+        });
+        setToolbarRightCustomView(viewright);
+
+        initView(view);
+        initAdapter();
+        initData();
+
+    }
+
+    private void initView(View view) {
+
+        llBedselectAllselect = view.findViewById(R.id.ll_bedselect_allselect);
+        llBedselectAllselect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (selectAll) {
@@ -77,18 +95,11 @@ public class BedSelectFragment extends BaseFragment {
                     }
                 }
                 selectAll = !selectAll;
+                llBedselectAllselect.setSelected(selectAll);
                 bedGroupListAdapter.notifyDataSetChanged();
             }
         });
-        setToolbarRightCustomView(viewright);
 
-        initView(view);
-        initAdapter();
-        initData();
-
-    }
-
-    private void initView(View view) {
         recyBedselect = view.findViewById(R.id.recy_bedselect);
 
         //提高展示效率
@@ -97,16 +108,6 @@ public class BedSelectFragment extends BaseFragment {
         recyBedselect.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         recyBedselect.setNestedScrollingEnabled(false);
-
-        tvBedselectSure = view.findViewById(R.id.tv_bedselect_sure);
-        tvBedselectSure.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putString("bedselectinfoStr", getBedSelectInfoStr());
-                finish(bundle);
-            }
-        });
     }
 
     private void initAdapter() {

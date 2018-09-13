@@ -4,6 +4,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -27,15 +28,15 @@ public class BedGroupListAdapter extends BaseQuickAdapter<BedSelectListBean.BedL
 
     @Override
     protected void convert(BaseViewHolder helper, BedSelectListBean.BedListBean item) {
-        ImageView imgBedSelectGroup = helper.getView(R.id.img_bedselect_group);
+        LinearLayout llBedSelectGroup = helper.getView(R.id.ll_bedselect_group);
 
         if ("0".equals(item.getSelect())) {
-            imgBedSelectGroup.setSelected(false);
+            llBedSelectGroup.setSelected(false);
             for (int i = 0; i < item.getGroupList().size(); i++) {
                 item.getGroupList().get(i).setSelect("0");
             }
         } else {
-            imgBedSelectGroup.setSelected(true);
+            llBedSelectGroup.setSelected(true);
             for (int i = 0; i < item.getGroupList().size(); i++) {
                 item.getGroupList().get(i).setSelect("1");
             }

@@ -49,6 +49,9 @@
     <color name="blue_dark">#62ABFF</color>
     <color name="blue_light">#E9F3FF</color>
 
+    <color name="blue_dark2">#C9E2FF</color>
+
+
 
     <color name="bedmap_text_color">#4A4A4A</color>
     <color name="bedmap_search_hint_color">#B3B3B3</color>
