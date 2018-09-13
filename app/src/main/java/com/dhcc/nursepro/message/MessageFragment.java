@@ -7,33 +7,47 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.message.adapter.MessageAbnormalAdapter;
+import com.dhcc.nursepro.message.adapter.MessageConsultationAdapter;
+import com.dhcc.nursepro.message.adapter.MessageNewOrderAdapter;
 import com.dhcc.nursepro.message.api.MessageApiManager;
 import com.dhcc.nursepro.message.bean.MessageBean;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters;
-import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
-import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection;
 
 /**
  * MessageFragment
  * 消息页面
  */
-public class MessageFragment extends BaseFragment {
+public class MessageFragment extends BaseFragment implements View.OnClickListener {
+    private LinearLayout llMessageNeworderTitle;
+    private TextView tvMessageNeworderCount;
+    private RecyclerView recyMessageNeworder;
+    private LinearLayout llMessageAbnormalTitle;
+    private TextView tvMessageAbnormalCount;
+    private RecyclerView recyMessageAbnormal;
+    private LinearLayout llMessageConsultationTitle;
+    private TextView tvMessageConsultationCount;
+    private RecyclerView recyMessageConsultation;
+
+
+    private List<MessageBean.NewOrdPatListBean> newOrdPatList;
     private List<MessageBean.AbnormalPatListBean> abnormalPatList;
     private List<MessageBean.ConPatListBean> conPatList;
-    private List<MessageBean.NewOrdPatListBean> newOrdPatList;
-    private RecyclerView messageRecy;
-    private SectionedRecyclerViewAdapter sectionAdapter;
+
+    private MessageNewOrderAdapter newOrderAdapter;
+    private MessageAbnormalAdapter abnormalAdapter;
+    private MessageConsultationAdapter consultationAdapter;
+
 
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -48,7 +62,6 @@ public class MessageFragment extends BaseFragment {
         setToolbarBottomLineVisibility(true);
         hideToolbarNavigationIcon();
 
-
         initView(view);
         initAdapter();
         initData();
@@ -56,21 +69,88 @@ public class MessageFragment extends BaseFragment {
     }
 
     private void initView(View view) {
-        messageRecy = view.findViewById(R.id.message_recy);
+
+        llMessageNeworderTitle = view.findViewById(R.id.ll_message_neworder_title);
+        llMessageNeworderTitle.setOnClickListener(this);
+        tvMessageNeworderCount = view.findViewById(R.id.tv_message_neworder_count);
+        recyMessageNeworder = view.findViewById(R.id.recy_message_neworder);
+        llMessageAbnormalTitle = view.findViewById(R.id.ll_message_abnormal_title);
+        llMessageAbnormalTitle.setOnClickListener(this);
+        tvMessageAbnormalCount = view.findViewById(R.id.tv_message_abnormal_count);
+        recyMessageAbnormal = view.findViewById(R.id.recy_message_abnormal);
+        llMessageConsultationTitle = view.findViewById(R.id.ll_message_consultation_title);
+        llMessageConsultationTitle.setOnClickListener(this);
+        tvMessageConsultationCount = view.findViewById(R.id.tv_message_consultation_count);
+        recyMessageConsultation = view.findViewById(R.id.recy_message_consultation);
+
 
         //提高展示效率
-        messageRecy.setHasFixedSize(true);
+        recyMessageNeworder.setHasFixedSize(true);
         //设置的布局管理
-        messageRecy.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyMessageNeworder.setLayoutManager(new LinearLayoutManager(getActivity()));
+        //禁止滑动
+        recyMessageNeworder.setNestedScrollingEnabled(false);
+
+        //提高展示效率
+        recyMessageAbnormal.setHasFixedSize(true);
+        //设置的布局管理
+        recyMessageAbnormal.setLayoutManager(new LinearLayoutManager(getActivity()));
+        //禁止滑动
+        recyMessageAbnormal.setNestedScrollingEnabled(false);
+
+        //提高展示效率
+        recyMessageConsultation.setHasFixedSize(true);
+        //设置的布局管理
+        recyMessageConsultation.setLayoutManager(new LinearLayoutManager(getActivity()));
+        //禁止滑动
+        recyMessageConsultation.setNestedScrollingEnabled(false);
+
 
     }
 
 
     private void initAdapter() {
-        sectionAdapter = new SectionedRecyclerViewAdapter();
+        newOrderAdapter = new MessageNewOrderAdapter(new ArrayList<MessageBean.NewOrdPatListBean>());
+        newOrderAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                if (view.getId() == R.id.ll_message_rightmenu) {
+                    MessageBean.NewOrdPatListBean newOrdPatListBean = (MessageBean.NewOrdPatListBean) adapter.getItem(position);
+                    Toast.makeText(getActivity(), "" + newOrdPatListBean.getPatName(), Toast.LENGTH_SHORT).show();
+                    newOrdPatList.remove(position);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
+        abnormalAdapter = new MessageAbnormalAdapter(new ArrayList<MessageBean.AbnormalPatListBean>());
+        abnormalAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                if (view.getId() == R.id.ll_message_rightmenu) {
+                    MessageBean.AbnormalPatListBean abnormalPatListBean = (MessageBean.AbnormalPatListBean) adapter.getItem(position);
+                    Toast.makeText(getActivity(), "" + abnormalPatListBean.getPatName(), Toast.LENGTH_SHORT).show();
+                    abnormalPatList.remove(position);
+                    adapter.notifyDataSetChanged();
 
+                }
+            }
+        });
+        consultationAdapter = new MessageConsultationAdapter(new ArrayList<MessageBean.ConPatListBean>());
+        consultationAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                if (view.getId() == R.id.ll_message_rightmenu) {
+                    MessageBean.ConPatListBean conPatListBean = (MessageBean.ConPatListBean) adapter.getItem(position);
+                    Toast.makeText(getActivity(), "" + conPatListBean.getPatName(), Toast.LENGTH_SHORT).show();
+                    conPatList.remove(position);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
 
-        messageRecy.setAdapter(sectionAdapter);
+        recyMessageNeworder.setAdapter(newOrderAdapter);
+        recyMessageAbnormal.setAdapter(abnormalAdapter);
+        recyMessageConsultation.setAdapter(consultationAdapter);
     }
 
     private void initData() {
@@ -80,11 +160,10 @@ public class MessageFragment extends BaseFragment {
                 newOrdPatList = msgs.getNewOrdPatList();
                 abnormalPatList = msgs.getAbnormalPatList();
                 conPatList = msgs.getConPatList();
-                //以NewsSection为item
-                sectionAdapter.addSection(new NewsSection(NewsSection.NEWORDER));
-                sectionAdapter.addSection(new NewsSection(NewsSection.ABNORMAL));
-                sectionAdapter.addSection(new NewsSection(NewsSection.CONSULTATION));
-                sectionAdapter.notifyDataSetChanged();
+
+                newOrderAdapter.setNewData(newOrdPatList);
+                abnormalAdapter.setNewData(abnormalPatList);
+                consultationAdapter.setNewData(conPatList);
             }
 
             @Override
@@ -94,221 +173,48 @@ public class MessageFragment extends BaseFragment {
         });
     }
 
-    /**
-     * list item
-     * <p>
-     * header
-     * item
-     * //footer
-     */
-
-    public class NewsSection extends StatelessSection {
-
-        final static int NEWORDER = 0;
-        final static int ABNORMAL = 1;
-        final static int CONSULTATION = 2;
-
-        final int topic;
-
-        String title;
-        List<MessageBean.NewOrdPatListBean> list1;
-        List<MessageBean.AbnormalPatListBean> list2;
-        List<MessageBean.ConPatListBean> list3;
-
-        NewsSection(int topic) {
-            super(SectionParameters.builder()
-                    .itemResourceId(R.layout.item_message)
-                    .headerResourceId(R.layout.item_message_header)
-                    .build());
-
-            this.topic = topic;
-
-            switch (topic) {
-                case NEWORDER:
-                    this.title = "新医嘱";
-                    this.list1 = newOrdPatList;
-                    break;
-                case ABNORMAL:
-                    this.title = "危急值";
-                    this.list2 = abnormalPatList;
-                    break;
-                case CONSULTATION:
-                    this.title = "会诊";
-                    this.list3 = conPatList;
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        //        private List<String> getNews(int arrayResource) {
-        //            return new ArrayList<>(Arrays.asList(getResources().getStringArray(arrayResource)));
-        //        }
-
-        @Override
-        public int getContentItemsTotal() {
-            if (topic == 0) {
-                return list1.size();
-            } else if (topic == 1) {
-                return list2.size();
-            } else {
-                return list3.size();
-            }
-        }
-
-        @Override
-        public RecyclerView.ViewHolder getItemViewHolder(View view) {
-            return new ItemViewHolder(view);
-        }
-
-        @Override
-        public void onBindItemViewHolder(RecyclerView.ViewHolder holder, final int position) {
-            ItemViewHolder itemHolder = (ItemViewHolder) holder;
-
-            if (topic == 0) {
-                String patientName = list1.get(position).getPatName();
-                String bedNo = list1.get(position).getBedCode();
-                String patientSex = list1.get(position).getSex();
-
-                itemHolder.tvMessageBedNo.setText(bedNo + "床");
-                itemHolder.tvMessagePatientName.setText(patientName);
-                if ("M".equals(patientSex)) {
-                    itemHolder.imgMessagePatientSex.setImageResource(R.drawable.sex_male);
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.ll_message_neworder_title:
+                if (recyMessageNeworder.getVisibility() == View.VISIBLE) {
+                    llMessageNeworderTitle.setSelected(true);
+                    recyMessageNeworder.setVisibility(View.GONE);
+                    tvMessageNeworderCount.setVisibility(View.VISIBLE);
+                    tvMessageNeworderCount.setText(newOrderAdapter.getItemCount() + "");
                 } else {
-                    itemHolder.imgMessagePatientSex.setImageResource(R.drawable.sex_female);
-
+                    llMessageNeworderTitle.setSelected(false);
+                    tvMessageNeworderCount.setVisibility(View.GONE);
+                    recyMessageNeworder.setVisibility(View.VISIBLE);
                 }
-                itemHolder.tvMessageDoctorName.setVisibility(View.GONE);
-                itemHolder.tvPatientLoc.setVisibility(View.GONE);
-
-                itemHolder.messageContentLl.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        Toast.makeText(getActivity(), title + "---1", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                itemHolder.messageRightMenu.setVisibility(View.GONE);
-
-            } else if (topic == 1) {
-                final String patientName = list2.get(position).getPatName();
-                String bedNo = list2.get(position).getBedCode();
-                String patientSex = list2.get(position).getSex();
-
-                itemHolder.tvMessageBedNo.setText(bedNo + "床");
-                itemHolder.tvMessagePatientName.setText(patientName);
-                if ("M".equals(patientSex)) {
-                    itemHolder.imgMessagePatientSex.setImageResource(R.drawable.sex_male);
+                break;
+            case R.id.ll_message_abnormal_title:
+                if (recyMessageAbnormal.getVisibility() == View.VISIBLE) {
+                    llMessageAbnormalTitle.setSelected(true);
+                    recyMessageAbnormal.setVisibility(View.GONE);
+                    tvMessageAbnormalCount.setVisibility(View.VISIBLE);
+                    tvMessageAbnormalCount.setText(abnormalAdapter.getItemCount() + "");
                 } else {
-                    itemHolder.imgMessagePatientSex.setImageResource(R.drawable.sex_female);
-
+                    llMessageAbnormalTitle.setSelected(false);
+                    tvMessageAbnormalCount.setVisibility(View.GONE);
+                    recyMessageAbnormal.setVisibility(View.VISIBLE);
                 }
-                itemHolder.tvMessageDoctorName.setVisibility(View.GONE);
-                itemHolder.tvPatientLoc.setVisibility(View.GONE);
-
-                itemHolder.messageContentLl.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        Toast.makeText(getActivity(), title + "--2--" + patientName, Toast.LENGTH_SHORT).show();
-                    }
-                });
-                itemHolder.messageRightMenu.setVisibility(View.VISIBLE);
-                itemHolder.messageRightMenu.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        Toast.makeText(getActivity(), "read2", Toast.LENGTH_SHORT).show();
-                        list2.remove(position);
-                        sectionAdapter.notifyDataSetChanged();
-                    }
-                });
-            } else {
-                String patientName = list3.get(position).getPatName();
-                String bedNo = list3.get(position).getBedCode();
-                String patientSex = list3.get(position).getSex();
-
-                itemHolder.tvMessageBedNo.setText(bedNo + "床");
-                itemHolder.tvMessagePatientName.setText(patientName);
-                if ("M".equals(patientSex)) {
-                    itemHolder.imgMessagePatientSex.setImageResource(R.drawable.sex_male);
+                break;
+            case R.id.ll_message_consultation_title:
+                if (recyMessageConsultation.getVisibility() == View.VISIBLE) {
+                    llMessageConsultationTitle.setSelected(true);
+                    recyMessageConsultation.setVisibility(View.GONE);
+                    tvMessageConsultationCount.setVisibility(View.VISIBLE);
+                    tvMessageConsultationCount.setText(consultationAdapter.getItemCount() + "");
                 } else {
-                    itemHolder.imgMessagePatientSex.setImageResource(R.drawable.sex_female);
-
+                    llMessageConsultationTitle.setSelected(false);
+                    tvMessageConsultationCount.setVisibility(View.GONE);
+                    recyMessageConsultation.setVisibility(View.VISIBLE);
                 }
+                break;
+            default:
+                break;
 
-                if (list3.get(position).getConDocdesc() != null) {
-                    itemHolder.tvMessageDoctorName.setVisibility(View.VISIBLE);
-                    String patientLoc = list3.get(position).getPatLoc();
-                    String doctorName = list3.get(position).getConDocdesc();
-                    itemHolder.tvPatientLoc.setText(patientLoc);
-                    itemHolder.tvMessageDoctorName.setText(doctorName);
-
-
-                } else {
-                    itemHolder.tvMessageDoctorName.setVisibility(View.GONE);
-                }
-
-
-                itemHolder.messageContentLl.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        Toast.makeText(getActivity(), title + "---3", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                itemHolder.messageRightMenu.setVisibility(View.GONE);
-
-            }
-
-        }
-
-        @Override
-        public RecyclerView.ViewHolder getHeaderViewHolder(View view) {
-            return new HeaderViewHolder(view);
-        }
-
-        @Override
-        public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder) {
-            HeaderViewHolder headerHolder = (HeaderViewHolder) holder;
-
-            headerHolder.tvMessageTitle.setText(title);
         }
     }
-
-    private class HeaderViewHolder extends RecyclerView.ViewHolder {
-
-        private TextView tvMessageTitle;
-
-        HeaderViewHolder(View view) {
-            super(view);
-            tvMessageTitle = view.findViewById(R.id.tv_message_title);
-        }
-    }
-
-
-    private class ItemViewHolder extends RecyclerView.ViewHolder {
-
-        private LinearLayout messageContentLl;
-        private LinearLayout messageRightMenu;
-        private TextView tvMessageBedNo;
-        private TextView tvMessagePatientName;
-        private ImageView imgMessagePatientSex;
-        private TextView tvPatientLoc;
-        private TextView tvMessageDoctorName;
-
-        ItemViewHolder(View view) {
-            super(view);
-
-            messageContentLl = view.findViewById(R.id.messagecontentll);
-            tvMessageBedNo = view.findViewById(R.id.tv_message_bedno);
-            tvMessagePatientName = view.findViewById(R.id.tv_message_patientname);
-            imgMessagePatientSex = view.findViewById(R.id.img_message_patientsex);
-            tvPatientLoc = view.findViewById(R.id.tv_message_patientloc);
-            tvMessageDoctorName = view.findViewById(R.id.tv_message_doctorname);
-            messageRightMenu = view.findViewById(R.id.messagerightmenu);
-        }
-    }
-
-
 }

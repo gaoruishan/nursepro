@@ -4,11 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:contentView="@+id/messagecontentll"
-    app:rightMenuView="@+id/messagerightmenu">
+    app:contentView="@+id/ll_message_content"
+    app:rightMenuView="@+id/ll_message_rightmenu">
 
     <LinearLayout
-        android:id="@+id/messagecontentll"
+        android:id="@+id/ll_message_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -47,7 +47,7 @@
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginEnd="8dp"
-                tools:src="@drawable/sex_male" />
+                android:src="@drawable/sex_selector" />
 
             <TextView
                 android:id="@+id/tv_message_patientloc"
@@ -70,7 +70,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/messagerightmenu"
+        android:id="@+id/ll_message_rightmenu"
         android:layout_width="100dp"
         android:layout_height="match_parent"
         android:gravity="center"
