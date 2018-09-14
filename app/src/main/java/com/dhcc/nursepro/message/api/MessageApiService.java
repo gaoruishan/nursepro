@@ -26,4 +26,18 @@ public class MessageApiService {
 
     }
 
+    public static void readMessage(String episodeId, final ServiceCallBack callback ){
+
+        HashMap<String, String> properties = new HashMap<String, String>();
+        properties.put("userId", SPUtils.getInstance().getString(SharedPreference.USERID));
+        properties.put("episodeId", episodeId);
+        WebServiceUtils.callWebService("readMessage", properties, new WebServiceUtils.WebServiceCallBack() {
+            @Override
+            public void callBack(String result) {
+                callback.onResult(result);
+            }
+        });
+
+    }
+
 }

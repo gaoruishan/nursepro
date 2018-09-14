@@ -20,6 +20,7 @@ import com.dhcc.nursepro.message.adapter.MessageConsultationAdapter;
 import com.dhcc.nursepro.message.adapter.MessageNewOrderAdapter;
 import com.dhcc.nursepro.message.api.MessageApiManager;
 import com.dhcc.nursepro.message.bean.MessageBean;
+import com.dhcc.nursepro.message.bean.ReadMessageBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -111,42 +112,34 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
 
     private void initAdapter() {
         newOrderAdapter = new MessageNewOrderAdapter(new ArrayList<MessageBean.NewOrdPatListBean>());
-        newOrderAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                if (view.getId() == R.id.ll_message_rightmenu) {
-                    MessageBean.NewOrdPatListBean newOrdPatListBean = (MessageBean.NewOrdPatListBean) adapter.getItem(position);
-                    Toast.makeText(getActivity(), "" + newOrdPatListBean.getPatName(), Toast.LENGTH_SHORT).show();
-                    newOrdPatList.remove(position);
-                    adapter.notifyDataSetChanged();
-                }
-            }
-        });
+
         abnormalAdapter = new MessageAbnormalAdapter(new ArrayList<MessageBean.AbnormalPatListBean>());
         abnormalAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+            public void onItemChildClick(final BaseQuickAdapter adapter, View view, final int position) {
                 if (view.getId() == R.id.ll_message_rightmenu) {
-                    MessageBean.AbnormalPatListBean abnormalPatListBean = (MessageBean.AbnormalPatListBean) adapter.getItem(position);
-                    Toast.makeText(getActivity(), "" + abnormalPatListBean.getPatName(), Toast.LENGTH_SHORT).show();
-                    abnormalPatList.remove(position);
-                    adapter.notifyDataSetChanged();
+                    final MessageBean.AbnormalPatListBean abnormalPatListBean = (MessageBean.AbnormalPatListBean) adapter.getItem(position);
+
+                    MessageApiManager.readMessage(abnormalPatListBean.getEpisodeId(), new MessageApiManager.ReadMessageCallback() {
+                        @Override
+                        public void onSuccess(ReadMessageBean readMessageBean) {
+                            Toast.makeText(getActivity(), "已读操作成功", Toast.LENGTH_SHORT).show();
+                            abnormalPatList.remove(position);
+                            adapter.notifyDataSetChanged();
+                        }
+                        @Override
+                        public void onFail(String code, String msg) {
+                            Toast.makeText(getActivity(), code+":"+msg, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+
+
 
                 }
             }
         });
         consultationAdapter = new MessageConsultationAdapter(new ArrayList<MessageBean.ConPatListBean>());
-        consultationAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                if (view.getId() == R.id.ll_message_rightmenu) {
-                    MessageBean.ConPatListBean conPatListBean = (MessageBean.ConPatListBean) adapter.getItem(position);
-                    Toast.makeText(getActivity(), "" + conPatListBean.getPatName(), Toast.LENGTH_SHORT).show();
-                    conPatList.remove(position);
-                    adapter.notifyDataSetChanged();
-                }
-            }
-        });
 
         recyMessageNeworder.setAdapter(newOrderAdapter);
         recyMessageAbnormal.setAdapter(abnormalAdapter);

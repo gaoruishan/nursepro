@@ -37,12 +37,11 @@ public class MessageConsultationAdapter extends BaseQuickAdapter<MessageBean.Con
             imgPatientSex.setSelected(false);
         }
 
-        llMessageRightMenu.setVisibility(View.VISIBLE);
+        llMessageRightMenu.setVisibility(View.GONE);
 
         helper.setText(R.id.tv_message_bedno, "".equals(item.getBedCode()) ? "未分" : item.getBedCode() + "床")
                 .setText(R.id.tv_message_patientname, item.getPatName())
                 .setText(R.id.tv_message_patientloc, item.getPatLoc())
-                .setText(R.id.tv_message_doctorname, item.getConDocdesc())
-                .addOnClickListener(R.id.ll_message_rightmenu);
+                .setText(R.id.tv_message_doctorname, item.getConDocdesc());
     }
 }
