@@ -13,6 +13,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.constant.SharedPreference;
 import com.dhcc.nursepro.workarea.checkresult.adapter.CheckResultListAdapter;
 import com.dhcc.nursepro.workarea.checkresult.api.CheckApiManager;
 import com.dhcc.nursepro.workarea.checkresult.api.ShowMsgDialog;
@@ -104,7 +105,7 @@ public class CheckResultListFragment extends BaseFragment {
 
         HashMap<String,String> map = new HashMap<String, String>();
         map.put("episodeId",episodeId);
-        map.put("hospitalId",spUtils.getString("HOSPITALROWID"));
+        map.put("hospitalId",spUtils.getString(SharedPreference.HOSPITALROWID));
 //        map.put("episodeId","96");
 //        map.put("hospitalId","0");
         CheckApiManager.getCheckListMsg(map, "getRisOrderList", new CheckApiManager.CheckListCallback() {

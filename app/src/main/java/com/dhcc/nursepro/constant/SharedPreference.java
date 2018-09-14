@@ -30,5 +30,13 @@ public class SharedPreference {
     public static final String SCHSTDATETIME = "SCHSTDATETIME";
     public static final String SCHENDATETIME = "SCHENDATETIME";
 
+    public static final String LOCSLISTJSON = "LOCSLISTJSON";
+
+    public static final String LIGHT = "LIGHT";
+    public static final String SOUND = "SOUND";
+    public static final String VIBRATOR = "VIBRATOR";
+
+
+
 
 }

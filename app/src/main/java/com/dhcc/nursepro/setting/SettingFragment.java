@@ -7,31 +7,60 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.nursepro.Activity.NurseSetActivity;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.WsTest.ClassificationActivity;
 import com.dhcc.nursepro.WsTest.SectionActivity;
+import com.dhcc.nursepro.constant.SharedPreference;
+import com.dhcc.nursepro.greendao.DaoSession;
+import com.dhcc.nursepro.greendao.GreenDaoHelper;
+import com.dhcc.nursepro.login.LoginActivity;
+import com.dhcc.nursepro.login.bean.NurseInfo;
 import com.dhcc.nursepro.utils.wsutils.WebServiceUtils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.jzxiang.pickerview.TimePickerDialog;
+import com.jzxiang.pickerview.data.Type;
+import com.jzxiang.pickerview.listener.OnDateSetListener;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import cn.qqtheme.framework.picker.OptionPicker;
+import cn.qqtheme.framework.widget.WheelView;
 
 /**
  * SettingFragment
  * 设置
  */
-public class SettingFragment extends BaseFragment {
+public class SettingFragment extends BaseFragment implements View.OnClickListener{
 
-    private TextView tvSettingClassification;
-    private TextView tvSettingSection;
-    private TextView tvSettingGetjson;
-    private EditText etSettingSyskeyboard;
-    private EditText etSettingMykeyboard;
-    private TextView tvettingTimePicker;
+    private SPUtils spUtils = SPUtils.getInstance();
+    private TextView tvUserName;
+    private TextView tvLoc;
+    private TextView tvRelogin;
+
+    private RelativeLayout rlDate;
+    private RelativeLayout rlBeds;
+    private RelativeLayout rlWay;
+
+    DaoSession daoSession = GreenDaoHelper.getDaoSession();
+    private NurseInfo loginNurseInfo;
+    private List<Map<String,String>> locsList;
+    private List<NurseInfo> nurseInfoList;
+
 
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -48,84 +77,132 @@ public class SettingFragment extends BaseFragment {
 
         initView(view);
 
-        initData();
+        nurseInfoList = daoSession.getNurseInfoDao().queryBuilder().list();
 
     }
 
     private void initView(View view) {
+        tvUserName = view.findViewById(R.id.tv_setting_username);
+        tvUserName.setText(spUtils.getString(SharedPreference.USERNAME));
+        tvLoc = view.findViewById(R.id.tv_setting_loc);
+        tvLoc.setOnClickListener(this);
+        tvLoc.setText(spUtils.getString(SharedPreference.LOCDESC));
 
-        tvSettingClassification = view.findViewById(R.id.tv_setting_classification);
-        tvSettingSection = view.findViewById(R.id.tv_setting_section);
-        tvSettingGetjson = view.findViewById(R.id.tv_setting_getjson);
-        etSettingSyskeyboard = view.findViewById(R.id.et_setting_syskeyboard);
-        etSettingMykeyboard = view.findViewById(R.id.et_setting_mykeyboard);
-        tvettingTimePicker = view.findViewById(R.id.tv_setting_timepicker);
+        tvRelogin =view.findViewById(R.id.tv_setting_relogin);
+        tvRelogin.setOnClickListener(this);
+        rlDate = view.findViewById(R.id.rl_setting_choosedate);
+        rlDate.setOnClickListener(this);
+        rlBeds = view.findViewById(R.id.rl_setting_choosebeds);
+        rlBeds.setOnClickListener(this);
+        rlWay = view.findViewById(R.id.rl_setting_chooseway);
+        rlWay.setOnClickListener(this);
 
-
-        tvSettingClassification.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentClassification = new Intent(getActivity(), ClassificationActivity.class);
-                intentClassification.putExtra("settingId", 1);
-                startActivity(intentClassification);
-            }
-        });
-
-        tvSettingSection.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentSection = new Intent(getActivity(), SectionActivity.class);
-                intentSection.putExtra("settingId", 2);
-                startActivity(intentSection);
-            }
-        });
-
-        tvSettingGetjson.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                initjson();
-            }
-        });
-
-        etSettingMykeyboard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-        tvettingTimePicker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentTimePicker = new Intent(getActivity(), NurseSetActivity.class);
-                startActivity(intentTimePicker);
-            }
-        });
-    }
-
-    private void initData() {
 
     }
 
-    private void initjson() {
-        //        final ListView mCityList = view;
-        //添加参数
-        HashMap<String, String> properties = new HashMap<>();
-        properties.put("curVersion", "7.2");
-        //显示进度条
-        //        ProgressDialogUtils.showProgressDialog(this, "数据加载中...");
-        WebServiceUtils.callWebService("GetNewVersion", properties, new WebServiceUtils.WebServiceCallBack() {
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.tv_setting_loc:
+                if (nurseInfoList != null && nurseInfoList.size() > 0) {
+                    String userCode = spUtils.getString(SharedPreference.USERCODE);
+                    String logonWardId = spUtils.getString(SharedPreference.WARDID);
+                    for (int i = 0; i < nurseInfoList.size(); i++) {
+                        NurseInfo nurseInfo = nurseInfoList.get(i);
+                        if (userCode.equals(nurseInfo.getUserCode())) {
+                            logonWardId = nurseInfo.getWardId();
+                            loginNurseInfo = nurseInfo;
+                            changeLoc();
+                        }
+                    }
+                    Toast.makeText(getActivity(),userCode+"---"+nurseInfoList.size(),Toast.LENGTH_LONG).show();
+                }
+            break;
+            case R.id.rl_setting_choosedate:
+                startFragment(SettingDateTimeFragment.class);
+                break;
+            case R.id.rl_setting_choosebeds:
+                startFragment(SettingBedsFragment.class);
+                break;
+            case R.id.rl_setting_chooseway:
+                startFragment(SettingWayFragment.class);
+                break;
+            case R.id.tv_setting_relogin:
+                Intent i = new Intent(getActivity(), LoginActivity.class);
+                startActivity(i);
+                finish();
+                break;
+            default:
+                break;
+        }
+    }
 
+    private void changeLoc(){
+        Gson gson = new Gson();
+        java.lang.reflect.Type type = new TypeToken<List<Map<String,String>>>(){}.getType();
+        locsList = new ArrayList<>();
+        String LocJson = spUtils.getString(SharedPreference.LOCSLISTJSON);
+        locsList =gson.fromJson(LocJson,type);
+        String[] locDesc = new String[locsList.size()];
+        for (int i = 0;i< locsList.size();i++){
+            locDesc[i] = locsList.get(i).get("LocDesc");
+        }
+//                Toast.makeText(NurseSetActivity.this,LocJson,Toast.LENGTH_LONG).show();
+
+
+        final OptionPicker picker = new OptionPicker(getActivity(), locDesc);
+        picker.setCanceledOnTouchOutside(false);
+        picker.setDividerRatio(WheelView.DividerConfig.FILL);
+        picker.setSelectedIndex(0);
+        picker.setCycleDisable(true);
+        picker.setTextSize(20);
+        picker.setOnOptionPickListener(new OptionPicker.OnOptionPickListener() {
             @Override
-            public void callBack(String result) {
-                //                ProgressDialogUtils.dismissProgressDialog();
-                if (result != null) {
-                    tvSettingGetjson.setText(result);
+            public void onOptionPicked(int index, String item) {
+                loginNurseInfo.setGroupDesc(locsList.get(index).get("GroupDesc"));
+                loginNurseInfo.setGroupId(locsList.get(index).get("GroupId"));
+                loginNurseInfo.setHospitalRowId(locsList.get(index).get("HospitalRowId"));
+                loginNurseInfo.setLinkLoc(locsList.get(index).get("LinkLoc"));
+                loginNurseInfo.setLocDesc(locsList.get(index).get("LocDesc"));
+                loginNurseInfo.setLocId(locsList.get(index).get("LocId"));
+                loginNurseInfo.setWardId(locsList.get(index).get("WardId"));
+//
+                if (nurseInfoList != null && nurseInfoList.size() > 0) {
+                    int j;
+                    String userCode = spUtils.getString(SharedPreference.USERCODE);
+                    for (j = 0; j < nurseInfoList.size(); j++) {
+                        NurseInfo nurseInfo1 = nurseInfoList.get(j);
+                        if (userCode.equals(nurseInfo1.getUserCode())) {
+                            //                                        Toast.makeText(LoginActivity.this, "ward----已存在,更新数据", Toast.LENGTH_SHORT).show();
+                            loginNurseInfo.setId(nurseInfo1.getId());
+                            daoSession.getNurseInfoDao().update(loginNurseInfo);
+
+                            spUtils.put(SharedPreference.HOSPITALROWID, loginNurseInfo.getHospitalRowId());
+                            spUtils.put(SharedPreference.GROUPID, loginNurseInfo.getGroupId());
+                            spUtils.put(SharedPreference.GROUPDESC, loginNurseInfo.getGroupDesc());
+                            spUtils.put(SharedPreference.LINKLOC, loginNurseInfo.getLinkLoc());
+                            spUtils.put(SharedPreference.LOCID, loginNurseInfo.getLocId());
+                            spUtils.put(SharedPreference.LOCDESC, loginNurseInfo.getLocDesc());
+                            spUtils.put(SharedPreference.WARDID, loginNurseInfo.getWardId());
+
+                            tvLoc.setText(loginNurseInfo.getLocDesc());
+                            break;
+                        }
+                    }
+
+                    if (j >= nurseInfoList.size()) {
+                        //                                    Toast.makeText(LoginActivity.this, "ward----不存在，插入新数据", Toast.LENGTH_SHORT).show();
+                        daoSession.getNurseInfoDao().insert(loginNurseInfo);
+                    }
+
                 } else {
-                    Toast.makeText(getActivity(), "获取WebService数据错误", Toast.LENGTH_SHORT).show();
+                    //                                Toast.makeText(LoginActivity.this, "ward----不存在，插入新数据", Toast.LENGTH_SHORT).show();
+                    daoSession.getNurseInfoDao().insert(loginNurseInfo);
                 }
             }
         });
+        picker.show();
     }
+
+
 }

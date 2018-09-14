@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/rllll"
+    >
+
+    <ScrollView
+        android:id="@+id/scro_set"
+        android:layout_above="@+id/keyboard_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_setting_classification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:background="@color/white"
+                android:padding="6dp"
+                android:text="分类列表测试" />
+
+            <TextView
+                android:id="@+id/tv_setting_section"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:background="@color/white"
+                android:padding="6dp"
+                android:text="section分类列表测试" />
+
+            <TextView
+                android:id="@+id/tv_setting_getjson"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:background="@color/white"
+                android:padding="6dp"
+                android:text="json测试" />
+
+            <EditText
+                android:id="@+id/et_setting_syskeyboard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:background="@color/white"
+                android:hint="系统键盘"
+                android:inputType="number"
+                android:padding="6dp" />
+
+            <EditText
+                android:id="@+id/et_setting_mykeyboard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:background="@color/white"
+                android:hint="自定义键盘测试"
+                android:padding="6dp" />
+
+            <TextView
+                android:id="@+id/tv_setting_timepicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:background="@color/white"
+                android:padding="6dp"
+                android:text="时间选择器" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+        </LinearLayout>
+    </ScrollView>
+
+        <android.inputmethodservice.KeyboardView
+            android:id="@+id/keyboard_view"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:background="@color/black"
+            android:keyBackground="@drawable/shape_btn_sure"
+            android:keyTextColor="@color/white"
+            android:visibility="gone" />
+</RelativeLayout>

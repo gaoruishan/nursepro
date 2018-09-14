@@ -43,6 +43,8 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
     private String dateStr,CarrayCerate="No",CarrayDel="No",CarrayNo = "",TypeStr = "Type1";
     private List<LabOutListAllBean.TypeListBean> listType;
 
+    private SPUtils spUtils = SPUtils.getInstance();
+
 
 
     @Override
@@ -101,11 +103,13 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
         tvEndDate = view.findViewById(R.id.tv_labout_enddate);
         tvEndDate.setOnClickListener(this);
 
-        Date date = new Date(System.currentTimeMillis());
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");//精确到分钟
-        String today = format.format(date);
-        tvStartDate.setText(today);
-        tvEndDate.setText(today);
+        tvStartDate.setText(spUtils.getString(SharedPreference.SCHSTDATETIME).substring(0,10));
+        tvEndDate.setText(spUtils.getString(SharedPreference.SCHENDATETIME).substring(0,10));
+//        Date date = new Date(System.currentTimeMillis());
+//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");//精确到分钟
+//        String today = format.format(date);
+//        tvStartDate.setText(today);
+//        tvEndDate.setText(today);
 
         show1 = view.findViewById(R.id.view_labout_show1);
         show2 = view.findViewById(R.id.view_labout_show2);

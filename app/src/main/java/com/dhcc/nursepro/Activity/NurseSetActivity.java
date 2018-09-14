@@ -18,9 +18,9 @@ import com.dhcc.nursepro.constant.SharedPreference;
 import com.dhcc.nursepro.greendao.DaoSession;
 import com.dhcc.nursepro.greendao.GreenDaoHelper;
 import com.dhcc.nursepro.login.LoginActivity;
-import com.dhcc.nursepro.login.api.LoginApiManager;
-import com.dhcc.nursepro.login.bean.LoginBean;
 import com.dhcc.nursepro.login.bean.NurseInfo;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
@@ -45,15 +45,20 @@ public class NurseSetActivity extends AppCompatActivity implements View.OnClickL
     private NotificationManager nm;
     private ShowBedDialog showDialog;
     private Vibrator vibrator;
-    private List<NurseInfo> nurseInfoList;
     private SPUtils spUtils = SPUtils.getInstance();
     private List<Map<String,String>> list1 = new ArrayList<Map<String, String>>();
-//    private NurseInfo loginNurseInfo;
     DaoSession daoSession = GreenDaoHelper.getDaoSession();
+
+    private NurseInfo loginNurseInfo;
+    private List<Map<String,String>> locsList;
+    private List<NurseInfo> nurseInfoList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //        requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        nurseInfoList = daoSession.getNurseInfoDao().queryBuilder().list();
 
         setContentView(R.layout.activity_nurse_set);
 
@@ -82,19 +87,17 @@ public class NurseSetActivity extends AppCompatActivity implements View.OnClickL
         btnrestart = findViewById(R.id.btn_restart);
         btnrestart.setOnClickListener(this);
 
-
-        nurseInfoList = daoSession.getNurseInfoDao().queryBuilder().list();
-        if (nurseInfoList != null && nurseInfoList.size() > 0) {
-            String locstr = "";
-            for (int i = 0; i < nurseInfoList.size(); i++) {
-                NurseInfo nurseInfo = nurseInfoList.get(i);
-                locstr = locstr+nurseInfo.getLocDesc();
-                if (spUtils.getString(SharedPreference.USERCODE).equals(nurseInfo.getUserCode())) {
-                    btnchangeLoc.setText(nurseInfo.getLocDesc());
-                }
-            }
-            Toast.makeText(this,locstr+"---"+nurseInfoList.size(),Toast.LENGTH_LONG).show();
-        }
+//        if (nurseInfoList != null && nurseInfoList.size() > 0) {
+//            String locstr = "";
+//            for (int i = 0; i < nurseInfoList.size(); i++) {
+//                NurseInfo nurseInfo = nurseInfoList.get(i);
+//                locstr = locstr+nurseInfo.getLocDesc();
+//                if (spUtils.getString(SharedPreference.USERCODE).equals(nurseInfo.getUserCode())) {
+//                    btnchangeLoc.setText(nurseInfo.getLocDesc());
+//                }
+//            }
+//            Toast.makeText(this,locstr+"---"+nurseInfoList.size(),Toast.LENGTH_LONG).show();
+//        }
     }
 
     @Override
@@ -152,6 +155,24 @@ public class NurseSetActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case R.id.btn_changeloc:
 
+//                loginNurseInfo = new NurseInfo();
+                if (nurseInfoList != null && nurseInfoList.size() > 0) {
+                    String userCode = spUtils.getString(SharedPreference.USERCODE);
+                    String logonWardId = spUtils.getString(SharedPreference.WARDID);
+                    for (int i = 0; i < nurseInfoList.size(); i++) {
+                        NurseInfo nurseInfo = nurseInfoList.get(i);
+                        if (userCode.equals(nurseInfo.getUserCode())) {
+                            logonWardId = nurseInfo.getWardId();
+                            loginNurseInfo = nurseInfo;
+                            ss();
+                        }
+                    }
+                    Toast.makeText(this,userCode+"---"+nurseInfoList.size(),Toast.LENGTH_LONG).show();
+                }
+
+
+
+
                 break;
             case R.id.btn_restart:
                 Intent i = new Intent(this,LoginActivity.class);
@@ -165,7 +186,68 @@ public class NurseSetActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void ss(){
-        Toast.makeText(this,list1.size()+"----",Toast.LENGTH_LONG).show();
+        Gson gson = new Gson();
+        java.lang.reflect.Type type = new TypeToken<List<Map<String,String>>>(){}.getType();
+        locsList = new ArrayList<>();
+        String LocJson = spUtils.getString(SharedPreference.LOCSLISTJSON);
+        locsList =gson.fromJson(LocJson,type);
+        String[] locDesc = new String[locsList.size()];
+        for (int i = 0;i< locsList.size();i++){
+            locDesc[i] = locsList.get(i).get("LocDesc");
+        }
+//                Toast.makeText(NurseSetActivity.this,LocJson,Toast.LENGTH_LONG).show();
+
+
+        final OptionPicker picker = new OptionPicker(NurseSetActivity.this, locDesc);
+        picker.setCanceledOnTouchOutside(false);
+        picker.setDividerRatio(WheelView.DividerConfig.FILL);
+        picker.setSelectedIndex(0);
+        picker.setCycleDisable(true);
+        picker.setTextSize(20);
+        picker.setOnOptionPickListener(new OptionPicker.OnOptionPickListener() {
+            @Override
+            public void onOptionPicked(int index, String item) {
+                loginNurseInfo.setGroupDesc(locsList.get(index).get("GroupDesc"));
+                loginNurseInfo.setGroupId(locsList.get(index).get("GroupId"));
+                loginNurseInfo.setHospitalRowId(locsList.get(index).get("HospitalRowId"));
+                loginNurseInfo.setLinkLoc(locsList.get(index).get("LinkLoc"));
+                loginNurseInfo.setLocDesc(locsList.get(index).get("LocDesc"));
+                loginNurseInfo.setLocId(locsList.get(index).get("LocId"));
+                loginNurseInfo.setWardId(locsList.get(index).get("WardId"));
+//
+                if (nurseInfoList != null && nurseInfoList.size() > 0) {
+                    int j;
+                    String userCode = spUtils.getString(SharedPreference.USERCODE);
+                    for (j = 0; j < nurseInfoList.size(); j++) {
+                        NurseInfo nurseInfo1 = nurseInfoList.get(j);
+                        if (userCode.equals(nurseInfo1.getUserCode())) {
+                            //                                        Toast.makeText(LoginActivity.this, "ward----已存在,更新数据", Toast.LENGTH_SHORT).show();
+                            loginNurseInfo.setId(nurseInfo1.getId());
+                            daoSession.getNurseInfoDao().update(loginNurseInfo);
+
+                            spUtils.put(SharedPreference.HOSPITALROWID, loginNurseInfo.getHospitalRowId());
+                            spUtils.put(SharedPreference.GROUPID, loginNurseInfo.getGroupId());
+                            spUtils.put(SharedPreference.GROUPDESC, loginNurseInfo.getGroupDesc());
+                            spUtils.put(SharedPreference.LINKLOC, loginNurseInfo.getLinkLoc());
+                            spUtils.put(SharedPreference.LOCID, loginNurseInfo.getLocId());
+                            spUtils.put(SharedPreference.LOCDESC, loginNurseInfo.getLocDesc());
+                            spUtils.put(SharedPreference.WARDID, loginNurseInfo.getWardId());
+                            break;
+                        }
+                    }
+
+                    if (j >= nurseInfoList.size()) {
+                        //                                    Toast.makeText(LoginActivity.this, "ward----不存在，插入新数据", Toast.LENGTH_SHORT).show();
+                        daoSession.getNurseInfoDao().insert(loginNurseInfo);
+                    }
+
+                } else {
+                    //                                Toast.makeText(LoginActivity.this, "ward----不存在，插入新数据", Toast.LENGTH_SHORT).show();
+                    daoSession.getNurseInfoDao().insert(loginNurseInfo);
+                }
+            }
+        });
+        picker.show();
     }
     private void initAll() {
         long tenYears = 10L * 365 * 1000 * 60 * 60 * 24L;

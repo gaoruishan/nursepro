@@ -26,8 +26,12 @@ import com.dhcc.nursepro.greendao.GreenDaoHelper;
 import com.dhcc.nursepro.login.api.LoginApiManager;
 import com.dhcc.nursepro.login.bean.LoginBean;
 import com.dhcc.nursepro.login.bean.NurseInfo;
+import com.google.gson.Gson;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import cn.qqtheme.framework.picker.OptionPicker;
 import cn.qqtheme.framework.widget.WheelView;
@@ -53,6 +57,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private String rememUserCode;
 
     private SPUtils spUtils = SPUtils.getInstance();
+
+    private String LocJson = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,6 +149,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             tvLoginWard.setTextColor(Color.parseColor("#000000"));
                             logonWardId = nurseInfo.getWardId();
                             loginNurseInfo = nurseInfo;
+                            break;
+                        }
+                        else {
+                            tvLoginWard.setText("请选择登录病区");
+                            tvLoginWard.setTextColor(Color.parseColor("#9b9b9b"));
                         }
                     }
                 }
@@ -205,7 +216,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     Toast.makeText(this, "请输入密码", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                initData("login", null);
+                if (tvLoginWard.getText().equals("请选择登录病区")) {
+                    initData("login", null);
+                }else {
+                    initData("login",loginNurseInfo);
+                }
                 break;
             case R.id.img_login_usercode_clear:
                 etLoginUsercode.setText("");
@@ -233,6 +248,24 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         LoginApiManager.getLogin(userCode, password, logonWardId, new LoginApiManager.GetLoginCallback() {
             @Override
             public void onSuccess(final LoginBean loginBean) {
+
+                //保存科室列表
+                List<Map<String,String>> list = new ArrayList<>();
+                for (int i = 0; i < loginBean.getLocs().size(); i++){
+                    Map<String,String> map = new HashMap<>();
+                    map.put("GroupDesc",loginBean.getLocs().get(i).getGroupDesc());
+                    map.put("GroupId",loginBean.getLocs().get(i).getGroupId());
+                    map.put("HospitalRowId",loginBean.getLocs().get(i).getHospitalRowId());
+                    map.put("LinkLoc",loginBean.getLocs().get(i).getLinkLoc());
+                    map.put("LocDesc",loginBean.getLocs().get(i).getLocDesc());
+                    map.put("LocId",loginBean.getLocs().get(i).getLocId());
+                    map.put("WardId",loginBean.getLocs().get(i).getWardId());
+                    list.add(map);
+                }
+                Gson gson = new Gson();
+                LocJson = gson.toJson(list);
+                spUtils.put(SharedPreference.LOCSLISTJSON,LocJson);
+
 
                 //选择科室
                 if ("ward".equals(action)) {

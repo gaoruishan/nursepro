@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".setting.SettingBedsFragment">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="#FFF5FAFF">
+    </View>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="起始时间"
+        android:textColor="#FF9B9B9B"
+        android:textSize="12sp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        />
+    <TextView
+        android:id="@+id/tv_setting_starttime"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp"
+        android:background="#FFF5FAFF"
+        android:gravity="center"
+        android:text="2016-11-11 12:12"
+        android:textColor="#FF4A4A4A"
+        android:textSize="@dimen/sp_16"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@drawable/line_setting_datetime"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layerType="software" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="结束时间"
+        android:textColor="#FF9B9B9B"
+        android:textSize="12sp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        />
+    <TextView
+        android:id="@+id/tv_setting_endtime"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp"
+        android:background="#FFF5FAFF"
+        android:gravity="center"
+        android:text="2016-11-11 12:12"
+        android:textColor="#FF4A4A4A"
+        android:textSize="@dimen/sp_16"
+        />
+</LinearLayout>
