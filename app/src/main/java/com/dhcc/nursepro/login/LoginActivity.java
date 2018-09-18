@@ -150,8 +150,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             logonWardId = nurseInfo.getWardId();
                             loginNurseInfo = nurseInfo;
                             break;
-                        }
-                        else {
+                        } else {
                             tvLoginWard.setText("请选择登录病区");
                             tvLoginWard.setTextColor(Color.parseColor("#9b9b9b"));
                         }
@@ -218,8 +217,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 }
                 if (tvLoginWard.getText().equals("请选择登录病区")) {
                     initData("login", null);
-                }else {
-                    initData("login",loginNurseInfo);
+                } else {
+                    initData("login", loginNurseInfo);
                 }
                 break;
             case R.id.img_login_usercode_clear:
@@ -250,22 +249,21 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             public void onSuccess(final LoginBean loginBean) {
 
                 //保存科室列表
-                List<Map<String,String>> list = new ArrayList<>();
-                for (int i = 0; i < loginBean.getLocs().size(); i++){
-                    Map<String,String> map = new HashMap<>();
-                    map.put("GroupDesc",loginBean.getLocs().get(i).getGroupDesc());
-                    map.put("GroupId",loginBean.getLocs().get(i).getGroupId());
-                    map.put("HospitalRowId",loginBean.getLocs().get(i).getHospitalRowId());
-                    map.put("LinkLoc",loginBean.getLocs().get(i).getLinkLoc());
-                    map.put("LocDesc",loginBean.getLocs().get(i).getLocDesc());
-                    map.put("LocId",loginBean.getLocs().get(i).getLocId());
-                    map.put("WardId",loginBean.getLocs().get(i).getWardId());
+                List<Map<String, String>> list = new ArrayList<>();
+                for (int i = 0; i < loginBean.getLocs().size(); i++) {
+                    Map<String, String> map = new HashMap<>();
+                    map.put("GroupDesc", loginBean.getLocs().get(i).getGroupDesc());
+                    map.put("GroupId", loginBean.getLocs().get(i).getGroupId());
+                    map.put("HospitalRowId", loginBean.getLocs().get(i).getHospitalRowId());
+                    map.put("LinkLoc", loginBean.getLocs().get(i).getLinkLoc());
+                    map.put("LocDesc", loginBean.getLocs().get(i).getLocDesc());
+                    map.put("LocId", loginBean.getLocs().get(i).getLocId());
+                    map.put("WardId", loginBean.getLocs().get(i).getWardId());
                     list.add(map);
                 }
                 Gson gson = new Gson();
                 LocJson = gson.toJson(list);
-                spUtils.put(SharedPreference.LOCSLISTJSON,LocJson);
-
+                spUtils.put(SharedPreference.LOCSLISTJSON, LocJson);
 
                 //选择科室
                 if ("ward".equals(action)) {
@@ -335,6 +333,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
                     if (nurseInfo == null) {
                         loginNurseInfo = new NurseInfo(null, loginBean.getSchEnDateTime(), loginBean.getSchStDateTime(), loginBean.getStatus(), loginBean.getUserId(), userCode, loginBean.getUserName(), locsBean.getGroupDesc(), locsBean.getGroupId(), locsBean.getHospitalRowId(), locsBean.getLinkLoc(), locsBean.getLocDesc(), locsBean.getLocId(), locsBean.getWardId());
+                    } else {
+                        loginNurseInfo.setSchStDateTime(loginBean.getSchStDateTime());
+                        loginNurseInfo.setSchEnDateTime(loginBean.getSchEnDateTime());
                     }
 
                     if (nurseInfoList != null && nurseInfoList.size() > 0) {
@@ -381,9 +382,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                      * schEnDateTime : 13/08/2018,23:59:59
                      * schStDateTime : 13/08/2018,00:00:00
                      */
-                    spUtils.put(SharedPreference.SCHSTDATETIME, loginBean.getSchEnDateTime());
-                    spUtils.put(SharedPreference.SCHENDATETIME, loginBean.getSchEnDateTime());
-                    spUtils.put(SharedPreference.USERCODE, userCode);
                     spUtils.put(SharedPreference.USERCODE, userCode);
                     spUtils.put(SharedPreference.USERID, loginNurseInfo.getUserId());
                     spUtils.put(SharedPreference.USERNAME, loginNurseInfo.getUserName());
