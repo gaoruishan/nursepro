@@ -22,9 +22,7 @@
             android:layout_centerInParent="true"
             android:background="#FFF5FAFF"
             android:gravity="center"
-            android:text="请您使用扫码设备，
-    扫描患者腕带、血袋号、血制品编号、
-    护士工牌"
+            android:text="请您使用扫码设备，\n    扫描患者腕带、血袋号、血制品编号、\n    护士工牌"
             android:textColor="#FF9B9B9B"
             android:textSize="@dimen/sp_14" />
 

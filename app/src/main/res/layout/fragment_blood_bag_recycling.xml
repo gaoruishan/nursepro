@@ -22,8 +22,7 @@
             android:layout_centerInParent="true"
             android:background="#FFF5FAFF"
             android:gravity="center"
-            android:text="请您使用扫码设备，
-扫描血袋号、血制品编号"
+            android:text="请您使用扫码设备，\n扫描血袋号、血制品编号"
             android:textColor="#FF9B9B9B"
             android:textSize="@dimen/sp_14" />
 
