@@ -132,7 +132,7 @@ public class SettingDateTimeFragment extends BaseFragment implements View.OnClic
     @Override
     public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
         Date date = new Date(millseconds);
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd,HH:mm:ss");//精确到分钟
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//精确到分钟
         String time = format.format(date);
         if (dateStr.equals("start")) {
             tvStart.setText(time);

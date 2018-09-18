@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -157,6 +158,10 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
                 newOrderAdapter.setNewData(newOrdPatList);
                 abnormalAdapter.setNewData(abnormalPatList);
                 consultationAdapter.setNewData(conPatList);
+
+                tvMessageNeworderCount.setText(newOrderAdapter.getItemCount() + "");
+                tvMessageAbnormalCount.setText(abnormalAdapter.getItemCount() + "");
+                tvMessageConsultationCount.setText(consultationAdapter.getItemCount() + "");
             }
 
             @Override
@@ -208,6 +213,17 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
             default:
                 break;
 
+        }
+    }
+
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden){
+
+        }else {
+            initData();
         }
     }
 }

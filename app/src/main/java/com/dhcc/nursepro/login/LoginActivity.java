@@ -381,6 +381,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                      * schEnDateTime : 13/08/2018,23:59:59
                      * schStDateTime : 13/08/2018,00:00:00
                      */
+                    spUtils.put(SharedPreference.SCHSTDATETIME, loginBean.getSchEnDateTime());
+                    spUtils.put(SharedPreference.SCHENDATETIME, loginBean.getSchEnDateTime());
+                    spUtils.put(SharedPreference.USERCODE, userCode);
                     spUtils.put(SharedPreference.USERCODE, userCode);
                     spUtils.put(SharedPreference.USERID, loginNurseInfo.getUserId());
                     spUtils.put(SharedPreference.USERNAME, loginNurseInfo.getUserName());
