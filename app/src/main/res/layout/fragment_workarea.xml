@@ -111,6 +111,7 @@
                 android:background="@color/white"
                 android:padding="6dp"
                 android:text="入院分床" />
+
             <TextView
                 android:id="@+id/tv_workarea_docorderlist"
                 android:layout_width="wrap_content"
@@ -119,6 +120,15 @@
                 android:background="@color/white"
                 android:padding="6dp"
                 android:text="医嘱单" />
+
+            <TextView
+                android:id="@+id/tv_workarea_bloodtransfusionsystem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:background="@color/white"
+                android:padding="6dp"
+                android:text="输血系统" />
         </LinearLayout>
     </ScrollView>
 

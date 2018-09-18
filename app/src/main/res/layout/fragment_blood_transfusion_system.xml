@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".workarea.bloodtransfusionsystem.BloodTransfusionSystemFragment">
+
+    <TextView
+        android:id="@+id/tv_bloodts_sign"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:background="@color/white"
+        android:padding="6dp"
+        android:text="签收" />
+
+    <TextView
+        android:id="@+id/tv_bloodts_trans"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:background="@color/white"
+        android:padding="6dp"
+        android:text="输注" />
+
+    <TextView
+        android:id="@+id/tv_bloodts_transtour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:background="@color/white"
+        android:padding="6dp"
+        android:text="巡视" />
+
+    <TextView
+        android:id="@+id/tv_bloodts_transend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:background="@color/white"
+        android:padding="6dp"
+        android:text="结束" />
+
+
+    <TextView
+        android:id="@+id/tv_bloodts_bagrecycling"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:background="@color/white"
+        android:padding="6dp"
+        android:text="回收" />
+</LinearLayout>

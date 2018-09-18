@@ -12,6 +12,7 @@ import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.allotbed.AllotBedFragment;
 import com.dhcc.nursepro.workarea.bedmap.BedMapFragment;
+import com.dhcc.nursepro.workarea.bloodtransfusionsystem.BloodTransfusionSystemFragment;
 import com.dhcc.nursepro.workarea.checkresult.CheckPatsFragment;
 import com.dhcc.nursepro.workarea.docorderlist.DocOrderListFragment;
 import com.dhcc.nursepro.workarea.dosingreview.DosingReviewFragment;
@@ -41,6 +42,8 @@ public class WorkareaFragment extends BaseFragment implements View.OnClickListen
     private TextView tvDosingReview;
     private TextView tvWorkareaAllotBed;
     private TextView tvWorkareaDocOrdList;
+    private TextView tvWorkareaBloodtransfusionsystem;
+
 
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -86,6 +89,8 @@ public class WorkareaFragment extends BaseFragment implements View.OnClickListen
         tvWorkareaAllotBed.setOnClickListener(this);
         tvWorkareaDocOrdList = view.findViewById(R.id.tv_workarea_docorderlist);
         tvWorkareaDocOrdList.setOnClickListener(this);
+        tvWorkareaBloodtransfusionsystem = view.findViewById(R.id.tv_workarea_bloodtransfusionsystem);
+        tvWorkareaBloodtransfusionsystem.setOnClickListener(this);
     }
 
     private void initData() {
@@ -105,9 +110,9 @@ public class WorkareaFragment extends BaseFragment implements View.OnClickListen
                 startFragment(VitalSignFragment.class);
                 break;
             case R.id.tv_workarea_events:
-//                bundle.putString("recId",null);
-//                bundle.putString("regNo","0000000129");
-//                startFragment(PatEventsFragment.class,bundle);
+                //                bundle.putString("recId",null);
+                //                bundle.putString("regNo","0000000129");
+                //                startFragment(PatEventsFragment.class,bundle);
                 startFragment(PatEventsFragment.class);
                 break;
             case R.id.tv_workarea_ordersearch:
@@ -117,8 +122,8 @@ public class WorkareaFragment extends BaseFragment implements View.OnClickListen
                 startFragment(OrderExecuteFragment.class);
                 break;
             case R.id.tv_workarea_check:
-//                bundle.putString("episodeId","94");
-//                startFragment(VitalSignDetailFragment.class,bundle);
+                //                bundle.putString("episodeId","94");
+                //                startFragment(VitalSignDetailFragment.class,bundle);
                 startFragment(CheckPatsFragment.class);
                 break;
             case R.id.tv_workarea_lab:
@@ -138,6 +143,9 @@ public class WorkareaFragment extends BaseFragment implements View.OnClickListen
                 break;
             case R.id.tv_workarea_docorderlist:
                 startFragment(DocOrderListFragment.class);
+                break;
+            case R.id.tv_workarea_bloodtransfusionsystem:
+                startFragment(BloodTransfusionSystemFragment.class);
                 break;
             default:
                 break;
