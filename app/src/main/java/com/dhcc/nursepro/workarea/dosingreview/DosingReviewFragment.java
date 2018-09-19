@@ -85,7 +85,7 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
 
         filter = new IntentFilter();
         filter.addAction(Action.DOSING_REVIEW);
-        filter.addAction("com.scanner.broadcast");
+        filter.addAction(Action.DEVICE_SCAN_CODE);
         getActivity().registerReceiver(mReceiver, filter);
 
         startDate = spUtils.getString(SharedPreference.SCHSTDATETIME).substring(0, 10);
@@ -304,7 +304,7 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
      * 请求ID 刷新列表
      * <p>
      * <p>
-     * "com.scanner.broadcast"
+     * Action.DEVICE_SCAN_CODE
      * 扫码配液/复核
      * 请求ID current列表添加返回单条医嘱
      *
@@ -345,7 +345,7 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
 
                     break;
 
-                case "com.scanner.broadcast":
+                case Action.DEVICE_SCAN_CODE:
 
                     showLoadingTip(BaseActivity.LoadingType.FULL);
                     Bundle bundle = new Bundle();

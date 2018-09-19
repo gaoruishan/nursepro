@@ -19,6 +19,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.constant.Action;
 import com.dhcc.nursepro.constant.SharedPreference;
 import com.dhcc.nursepro.workarea.labout.adapter.LabOutDetailAdapter;
 import com.dhcc.nursepro.workarea.labout.api.LabOutApiManager;
@@ -72,7 +73,7 @@ public class LabOutDetailFragment extends BaseFragment {
 
         //扫描广播
         intentFilter = new IntentFilter();
-        intentFilter.addAction("com.scanner.broadcast");
+        intentFilter.addAction(Action.DEVICE_SCAN_CODE);
         dataReceiver = new DataReceiver();
         getActivity().registerReceiver(dataReceiver,intentFilter);
 
@@ -196,7 +197,7 @@ public class LabOutDetailFragment extends BaseFragment {
     public class DataReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals("com.scanner.broadcast")){
+            if (intent.getAction().equals(Action.DEVICE_SCAN_CODE)){
                 Bundle bundle = new Bundle();
                 bundle = intent.getExtras();
 //                getUserMsg(bundle.getString("data"));

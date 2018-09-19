@@ -17,6 +17,7 @@ import android.support.v7.app.NotificationCompat;
 import android.widget.Toast;
 
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.constant.Action;
 import com.dhcc.nursepro.workarea.patevents.PatEventsFragment;
 
 public class MyService extends Service {
@@ -43,7 +44,7 @@ public class MyService extends Service {
 
         //扫描广播
         intentFilter = new IntentFilter();
-        intentFilter.addAction("com.scanner.broadcast");
+        intentFilter.addAction(Action.DEVICE_SCAN_CODE);
         dataReceiver = new DataReceiver();
         registerReceiver(dataReceiver,intentFilter);
 //        showNotification(this);
@@ -53,7 +54,7 @@ public class MyService extends Service {
     public class DataReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals("com.scanner.broadcast")){
+            if (intent.getAction().equals(Action.DEVICE_SCAN_CODE)){
                 Bundle bundle = new Bundle();
                 bundle = intent.getExtras();
 //                getUserMsg(bundle.getString("data"));

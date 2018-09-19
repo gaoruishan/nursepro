@@ -153,7 +153,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
         filter.addAction(Action.ORDER_HANDLE_ACCEPT);
         filter.addAction(Action.ORDER_HANDLE_REFUSE);
         filter.addAction(Action.ORDER_HANDLE_COMPLETE);
-        filter.addAction("com.scanner.broadcast");
+        filter.addAction(Action.DEVICE_SCAN_CODE);
         getActivity().registerReceiver(mReceiver, filter);
 
 
@@ -630,7 +630,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                     tvBottomHandletype.setText("完成");
                     handleCode = "S";
                     break;
-                case "com.scanner.broadcast":
+                case Action.DEVICE_SCAN_CODE:
                     Bundle bundle = new Bundle();
                     bundle = intent.getExtras();
                     getScanInfo(bundle.getString("data"));

@@ -9,6 +9,9 @@ package com.dhcc.nursepro.constant;
  */
 public class Action {
 
+    //扫码
+    public static final String DEVICE_SCAN_CODE = "com.scanner.broadcast";
+
     //医嘱处理
     //接受
     public static final String ORDER_HANDLE_ACCEPT = "com.dhcc.nursepro.order.handle.accept.Action";

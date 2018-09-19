@@ -23,6 +23,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.constant.Action;
 import com.dhcc.nursepro.constant.SharedPreference;
 import com.dhcc.nursepro.workarea.patevents.adapter.PatEventsAdapter;
 import com.dhcc.nursepro.workarea.patevents.api.PatEventsApiManager;
@@ -66,7 +67,7 @@ public class PatEventsFragment extends BaseFragment implements View.OnClickListe
 
         //扫描广播
         intentFilter = new IntentFilter();
-        intentFilter.addAction("com.scanner.broadcast");
+        intentFilter.addAction(Action.DEVICE_SCAN_CODE);
         dataReceiver = new DataReceiver();
         getActivity().registerReceiver(dataReceiver,intentFilter);
     }
@@ -157,7 +158,7 @@ public class PatEventsFragment extends BaseFragment implements View.OnClickListe
     public class DataReceiver extends BroadcastReceiver{
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals("com.scanner.broadcast")){
+            if (intent.getAction().equals(Action.DEVICE_SCAN_CODE)){
                 Bundle bundle = new Bundle();
                 bundle = intent.getExtras();
                 getUserMsg(bundle.getString("data"));
