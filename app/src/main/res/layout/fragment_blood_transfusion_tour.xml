@@ -13,7 +13,8 @@
         android:layout_height="match_parent"
         android:background="@color/white"
         android:focusable="true"
-        android:focusableInTouchMode="true">
+        android:focusableInTouchMode="true"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/tv_blood_warning"
@@ -47,5 +48,97 @@
             android:src="@drawable/icon_patient_scan" />
 
     </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="33dp"
+                android:layout_height="47dp"
+                android:src="@drawable/icon_patient_scan" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:text="请扫码"
+                android:textColor="#FF62ABFF"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="血袋信息"
+            android:textColor="#FF9B9B9B"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_bloodsign_bloodbaginfo"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_blood_content_selector"
+            android:gravity="center_vertical"
+            android:paddingEnd="15dp"
+            android:paddingStart="15dp"
+            android:text="请扫描血袋条码"
+            android:textColor="@drawable/textcolor_blood_content_selector"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="血制品信息"
+            android:textColor="#FF9B9B9B"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_bloodsign_bloodproductinfo"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_blood_content_selector"
+            android:gravity="center_vertical"
+            android:paddingEnd="15dp"
+            android:paddingStart="15dp"
+            android:text="请扫描血制品条码"
+            android:textColor="@drawable/textcolor_blood_content_selector"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="受血人信息"
+            android:textColor="#FF9B9B9B"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_bloodsign_bloodpatientinfo"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_blood_content_selector"
+            android:gravity="center_vertical"
+            android:paddingEnd="15dp"
+            android:paddingStart="15dp"
+            android:text="血液信息中获取"
+            android:textColor="@drawable/textcolor_blood_content_selector"
+            android:textSize="15sp" />
+    </LinearLayout>
 
 </LinearLayout>

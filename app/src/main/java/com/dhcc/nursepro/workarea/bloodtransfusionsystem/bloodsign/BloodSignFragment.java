@@ -25,7 +25,6 @@ import com.dhcc.nursepro.workarea.bloodtransfusionsystem.BloodOperationResultDia
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.api.BloodTSApiManager;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bean.BloodInfoBean;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bean.BloodOperationResultBean;
-import com.dhcc.nursepro.workarea.orderexecute.OrderExecResultDialog;
 
 import java.util.Objects;
 
@@ -52,6 +51,11 @@ public class BloodSignFragment extends BaseFragment implements View.OnClickListe
     private String bloodProductId;
     private BloodInfoBean.BlooInfoBean bloodInfo;
 
+    /**
+     * scanOrder
+     * 1    血袋
+     * 2    血制品
+     */
     private int scanOrder = 1;
 
     private BloodOperationResultDialog bloodOperationResultDialog;
@@ -191,7 +195,7 @@ public class BloodSignFragment extends BaseFragment implements View.OnClickListe
 
                         bloodOperationResultDialog = new BloodOperationResultDialog(getActivity());
 
-                        bloodOperationResultDialog.setExecresult("血液签收成功");
+                        bloodOperationResultDialog.setExecresult("血袋签收成功");
 
                         bloodOperationResultDialog.setImgId(R.drawable.icon_popup_sucess);
                         bloodOperationResultDialog.setSureVisible(View.GONE);

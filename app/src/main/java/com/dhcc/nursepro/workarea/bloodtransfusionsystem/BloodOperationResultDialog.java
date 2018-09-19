@@ -11,8 +11,11 @@ import android.widget.TextView;
 import com.dhcc.nursepro.R;
 
 /**
+ * BloodOperationResultDialog
  * 创建自定义的dialog
- * Created by Q on 2018/3/22.
+ *
+ * @author DevLix126
+ * created at 2018/9/19 11:43
  */
 public class BloodOperationResultDialog extends Dialog {
     private ImageView imgPopupBloodOperationresult;

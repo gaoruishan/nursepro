@@ -17,7 +17,13 @@ import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bloodtransfusion.BloodT
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bloodtransfusionend.BloodTransfusionEndFragment;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bloodtransfusiontour.BloodTransfusionTourFragment;
 
-
+/**
+ * BloodTransfusionSystemFragment
+ * 输血系统
+ *
+ * @author DevLix126
+ * created at 2018/9/18 09:52
+ */
 public class BloodTransfusionSystemFragment extends BaseFragment implements View.OnClickListener {
     private TextView tvBloodtsSign;
     private TextView tvBloodtsTrans;
