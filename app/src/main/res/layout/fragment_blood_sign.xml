@@ -82,28 +82,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="受血人信息"
-            android:textColor="#FF9B9B9B"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/tv_bloodsign_bloodpatientinfo"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/bg_blood_content_selector"
-            android:gravity="center_vertical"
-            android:paddingEnd="15dp"
-            android:paddingStart="15dp"
-            android:text="请扫描受血人腕带"
-            android:textColor="@drawable/textcolor_blood_content_selector"
-            android:textSize="15sp" />
-
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:text="血袋信息"
             android:textColor="#FF9B9B9B"
             android:textSize="12sp" />
@@ -143,19 +121,39 @@
             android:textSize="15sp" />
 
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="受血人信息"
+            android:textColor="#FF9B9B9B"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_bloodsign_bloodpatientinfo"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_blood_content_selector"
+            android:gravity="center_vertical"
+            android:paddingEnd="15dp"
+            android:paddingStart="15dp"
+            android:text="血液信息中获取"
+            android:textColor="@drawable/textcolor_blood_content_selector"
+            android:textSize="15sp" />
+
+        <TextView
             android:id="@+id/tv_bloodsign_sure"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="32dp"
-            android:layout_marginTop="24dp"
-            android:background="@drawable/bg_dialog_sure"
+            android:layout_marginTop="36dp"
+            android:background="@drawable/bg_bloodsign_selector"
             android:paddingBottom="10dp"
             android:paddingEnd="46dp"
             android:paddingStart="46dp"
             android:paddingTop="10dp"
             android:text="确定"
-            android:textColor="@color/white"
+            android:textColor="@drawable/textcolor_bloodsign_selector"
             android:textSize="17sp" />
 
     </LinearLayout>
