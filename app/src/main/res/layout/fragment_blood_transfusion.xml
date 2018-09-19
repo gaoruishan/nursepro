@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FF4A4A4A"
+    android:background="@color/white"
     android:orientation="vertical"
     android:gravity="center"
     tools:context=".workarea.bloodtransfusionsystem.bloodtransfusion.BloodTransfusionFragment">
@@ -52,17 +52,17 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="match_parent"
         android:background="@drawable/bg_blood"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
         android:orientation="vertical"
         >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="20dp"
             android:gravity="center">
             <ImageView
                 android:layout_width="33dp"
@@ -78,52 +78,6 @@
                 android:textColor="#FF62ABFF"
                 android:textSize="18sp" />
         </LinearLayout>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="血袋信息"
-            android:textColor="#FF9B9B9B"
-            android:textSize="12sp"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"
-            />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="5dp"
-            android:background="#FFF5FAFF"
-            android:gravity="center_vertical"
-            android:paddingStart="@dimen/dp_10"
-            android:paddingEnd="@dimen/dp_10"
-            android:text="0010116157767"
-            android:textColor="#FF4A4A4A"
-            android:textSize="15sp"
-            />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="起始时间"
-            android:textColor="#FF9B9B9B"
-            android:textSize="12sp"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"
-            />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="5dp"
-            android:background="#FFF5FAFF"
-            android:gravity="center_vertical"
-            android:paddingStart="@dimen/dp_10"
-            android:paddingEnd="@dimen/dp_10"
-            android:text="Z4167V00-悬浮红细胞2.00U-A型Rh阳性"
-            android:textColor="#FF4A4A4A"
-            android:textSize="15sp"
-            />
 
         <TextView
             android:layout_width="match_parent"
@@ -132,22 +86,64 @@
             android:textColor="#FF9B9B9B"
             android:textSize="12sp"
             android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"
+            />
+        <TextView
+            android:id="@+id/tv_bloodtransfusion_patinfo"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_blood_content_selector"
+            android:gravity="center_vertical"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:text="请扫描患者腕带条码"
+            android:textColor="@drawable/textcolor_blood_content_selector"
+            android:textSize="15sp"
             />
         <TextView
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="血袋信息"
+            android:textColor="#FF9B9B9B"
+            android:textSize="12sp"
+            android:layout_marginTop="20dp"
+            />
+        <TextView
+            android:id="@+id/tv_bloodtransfusion_bloodbag"
+            android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="5dp"
-            android:background="#FFF5FAFF"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_blood_content_selector"
             android:gravity="center_vertical"
-            android:paddingStart="@dimen/dp_10"
-            android:paddingEnd="@dimen/dp_10"
-            android:text="妇产科一病房-06床-王文君-A型Rh阳性"
-            android:textColor="#FF4A4A4A"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:text="请扫描血袋条码"
+            android:textColor="@drawable/textcolor_blood_content_selector"
             android:textSize="15sp"
             />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="血制品信息"
+            android:textColor="#FF9B9B9B"
+            android:textSize="12sp"
+            android:layout_marginTop="20dp"
+            />
+        <TextView
+            android:id="@+id/tv_bloodtransfusion_bloodinfo"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_blood_content_selector"
+            android:gravity="center_vertical"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:text="请扫描血制品条码"
+            android:textColor="@drawable/textcolor_blood_content_selector"
+            android:textSize="15sp"
+            />
+
+
 
         <TextView
             android:layout_width="match_parent"
@@ -156,20 +152,58 @@
             android:textColor="#FF9B9B9B"
             android:textSize="12sp"
             android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"
             />
-        <TextView
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="5dp"
-            android:background="#FFF5FAFF"
-            android:gravity="center_vertical"
-            android:paddingStart="@dimen/dp_10"
-            android:text="护士1111"
-            android:textColor="#FF4A4A4A"
-            android:textSize="15sp"
-            />
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+            <EditText
+                android:id="@+id/tv_bloodtransfusion_nurse1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:hint="护士1"
+                android:textColor="@drawable/textcolor_blood_content_selector"
+                android:background="@drawable/bg_blood_content_selector"
+                android:textSize="15sp"
+                />
+            <LinearLayout
+                android:id="@+id/ll_bloodtransfusion_device"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/img_device1"
+                android:orientation="horizontal"
+                />
+            <EditText
+                android:id="@+id/tv_bloodtransfusion_nurse2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:hint="护士2"
+                android:textColor="@drawable/textcolor_blood_content_selector"
+                android:background="@drawable/bg_blood_content_selector"
+                android:textSize="15sp"
+                />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_bloodTransfusion_sure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_dialog_sure"
+            android:paddingBottom="10dp"
+            android:paddingEnd="46dp"
+            android:paddingStart="46dp"
+            android:paddingTop="10dp"
+            android:text="确定"
+            android:textColor="@color/white"
+            android:textSize="17sp" />
     </LinearLayout>
 </LinearLayout>
