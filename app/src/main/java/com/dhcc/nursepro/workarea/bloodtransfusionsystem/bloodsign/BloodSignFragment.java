@@ -36,9 +36,6 @@ import java.util.Objects;
  * created at 2018/9/18 10:34
  */
 public class BloodSignFragment extends BaseFragment implements View.OnClickListener {
-    private RelativeLayout rlBloodScan;
-    private TextView tvBloodWarning;
-    private TextView tvBloodWarningtitle;
     private TextView tvBloodsignBloodbaginfo;
     private TextView tvBloodsignBloodproductinfo;
     private TextView tvBloodsignBloodpatientinfo;
@@ -92,9 +89,6 @@ public class BloodSignFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void initView(View view) {
-        rlBloodScan = view.findViewById(R.id.rl_blood_scan);
-        tvBloodWarning = view.findViewById(R.id.tv_blood_warning);
-        tvBloodWarningtitle = view.findViewById(R.id.tv_blood_warningtitle);
         tvBloodsignBloodbaginfo = view.findViewById(R.id.tv_bloodsign_bloodbaginfo);
         tvBloodsignBloodproductinfo = view.findViewById(R.id.tv_bloodsign_bloodproductinfo);
         tvBloodsignBloodpatientinfo = view.findViewById(R.id.tv_bloodsign_bloodpatientinfo);

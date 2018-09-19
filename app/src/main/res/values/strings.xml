@@ -34,6 +34,7 @@
     <!--配液复核-->
     <string name="title_dosingreview">配液复核</string>
 
+    <!--输血系统-->
     <string name="title_bloodtransfusionsystem">输血系统</string>
     <string name="title_bloodsign">签收</string>
     <string name="title_bloodtransfusion">输注</string>

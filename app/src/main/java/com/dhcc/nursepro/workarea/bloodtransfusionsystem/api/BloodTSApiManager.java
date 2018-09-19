@@ -102,6 +102,35 @@ public class BloodTSApiManager {
         });
     }
 
+    public static void bloodPatrol(String bloodRowId, String recdate,String rectime, String speed,String effect, String situation, final BloodOperationResultCallback callback) {
+        BloodTSApiService.bloodPatrol(bloodRowId, recdate,rectime,speed,effect,situation, new BloodTSApiService.ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                Gson gson = new Gson();
+
+                if (jsonStr.isEmpty()) {
+                    callback.onFail("-1", "网络请求失败");
+                } else {
+                    BloodOperationResultBean bloodOperationResult = gson.fromJson(jsonStr, BloodOperationResultBean.class);
+                    if (ObjectUtils.isEmpty( bloodOperationResult)) {
+                        callback.onFail("-1", "网络请求失败");
+                    } else {
+                        if ( bloodOperationResult.getStatus().equals("0")) {
+                            if (callback != null) {
+                                callback.onSuccess( bloodOperationResult);
+                            }
+                        } else {
+                            if (callback != null) {
+                                callback.onFail( bloodOperationResult.getMsgcode(),  bloodOperationResult.getMsg());
+                            }
+                        }
+                    }
+
+                }
+            }
+        });
+    }
+
     public interface CommonCallBack {
         void onFail(String code, String msg);
     }

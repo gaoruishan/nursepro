@@ -7,49 +7,13 @@
     android:orientation="vertical"
     tools:context=".workarea.bloodtransfusionsystem.bloodtransfusiontour.BloodTransfusionTourFragment">
 
-    <RelativeLayout
-        android:id="@+id/rl_blood_scan"
+    <View
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/tv_blood_warning"
-            android:layout_width="260dp"
-            android:layout_height="60dp"
-            android:layout_centerInParent="true"
-            android:background="#FFF5FAFF"
-            android:gravity="center"
-            android:text="请您使用扫码设备，\n扫描血袋号、血制品编号"
-            android:textColor="#FF9B9B9B"
-            android:textSize="@dimen/sp_14" />
-
-        <TextView
-            android:id="@+id/tv_blood_warningtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="22dp"
-            android:layout_above="@+id/tv_blood_warning"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="30dp"
-            android:text="请扫码"
-            android:textColor="#FF62ABFF"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <ImageView
-            android:layout_width="60dp"
-            android:layout_height="91dp"
-            android:layout_above="@+id/tv_blood_warningtitle"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="@dimen/dp_10"
-            android:src="@drawable/icon_patient_scan" />
-
-    </RelativeLayout>
+        android:layout_height="1dp"
+        android:background="#E4F0FF" />
 
     <LinearLayout
+        android:id="@+id/ll_bloodtranstour_scan"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -80,13 +44,13 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="52dp"
             android:text="血袋信息"
             android:textColor="#FF9B9B9B"
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/tv_bloodsign_bloodbaginfo"
+            android:id="@+id/tv_bloodtranstour_bloodbaginfo"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginTop="12dp"
@@ -107,7 +71,7 @@
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/tv_bloodsign_bloodproductinfo"
+            android:id="@+id/tv_bloodtranstour_bloodproductinfo"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginTop="12dp"
@@ -128,7 +92,7 @@
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/tv_bloodsign_bloodpatientinfo"
+            android:id="@+id/tv_bloodtranstour_bloodpatientinfo"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginTop="12dp"
@@ -139,6 +103,186 @@
             android:text="血液信息中获取"
             android:textColor="@drawable/textcolor_blood_content_selector"
             android:textSize="15sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_bloodtranstour_edit"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/ll_bloodtranstour_selecttime"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:gravity="center_vertical"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="时间选择"
+                android:textColor="#4A4A4A"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv_bloodtranstour_transtime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:text="请点击选择时间"
+                android:textColor="#4A4A4A"
+                android:textSize="15sp" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/right" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="#F5FAFF" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:gravity="center_vertical"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="巡视护士"
+                android:textColor="#4A4A4A"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv_bloodtranstour_nursename"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#4A4A4A"
+                android:textSize="15sp"
+                tools:text="护士1" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="#F5FAFF" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:gravity="center_vertical"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="输血速度"
+                android:textColor="#4A4A4A"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/et_bloodtranstour_bloodtransrate"
+                android:layout_width="0dp"
+                android:layout_height="33dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:background="#F5FAFF"
+                android:gravity="center"
+                android:hint="请输入输血速度"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:textColor="#4A4A4A"
+                android:textColorHint="#B3B3B3"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="滴/分"
+                android:textColor="#4A4A4A"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="#F5FAFF" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:gravity="center_vertical"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="不良反应"
+                android:textColor="#4A4A4A"
+                android:textSize="15sp" />
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/tv_bloodtranstour_isexist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="#F5FAFF" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:gravity="center_vertical"
+                android:text="反应情况"
+                android:textColor="#4A4A4A"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/et_bloodtranstour_adversereactions"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:background="#F5FAFF"
+                android:gravity="start|top"
+                android:hint="描述患者反应"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:paddingBottom="17dp"
+                android:paddingEnd="15dp"
+                android:paddingStart="15dp"
+                android:paddingTop="17dp"
+                android:textColor="#4A4A4A"
+                android:textColorHint="#B3B3B3"
+                android:textSize="15sp" />
+
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>
