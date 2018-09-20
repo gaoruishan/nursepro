@@ -342,14 +342,21 @@ public class BloodTransfusionFragment extends BaseFragment implements View.OnCli
             @Override
             public void onFail(String code, String msg) {
 
-                nurseId1 = "";
-                nurseId2 = "";
-                tvNurse1.setText("");
-                tvNurse2.setText("");
-                tvNurse1.setSelected(false);
-                tvNurse2.setSelected(false);
-                showToast(code + ":" + msg);
-                llDevice.setBackgroundResource(R.drawable.img_device1);
+                if (bloodOperationResultDialog != null && bloodOperationResultDialog.isShowing()) {
+                    bloodOperationResultDialog.dismiss();
+                }
+                bloodOperationResultDialog = new BloodOperationResultDialog(getActivity());
+                bloodOperationResultDialog.setExecresult(msg);
+                bloodOperationResultDialog.setImgId(R.drawable.icon_popup_error_patient);
+                bloodOperationResultDialog.setSureVisible(View.VISIBLE);
+                bloodOperationResultDialog.setSureOnclickListener(new BloodOperationResultDialog.onSureOnclickListener() {
+                    @Override
+                    public void onSureClick() {
+                        cleanAll();
+                        bloodOperationResultDialog.dismiss();
+                    }
+                });
+                bloodOperationResultDialog.show();
             }
         });
 

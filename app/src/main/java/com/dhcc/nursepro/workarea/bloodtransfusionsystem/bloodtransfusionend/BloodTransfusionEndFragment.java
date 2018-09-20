@@ -270,10 +270,21 @@ public class BloodTransfusionEndFragment extends BaseFragment implements View.On
             @Override
             public void onFail(String code, String msg) {
 
-                nurseId = "";
-                tvNurse.setText("");
-                tvNurse.setSelected(false);
-                showToast(code + ":" + msg);
+                if (bloodOperationResultDialog != null && bloodOperationResultDialog.isShowing()) {
+                    bloodOperationResultDialog.dismiss();
+                }
+                bloodOperationResultDialog = new BloodOperationResultDialog(getActivity());
+                bloodOperationResultDialog.setExecresult(msg);
+                bloodOperationResultDialog.setImgId(R.drawable.icon_popup_error_patient);
+                bloodOperationResultDialog.setSureVisible(View.VISIBLE);
+                bloodOperationResultDialog.setSureOnclickListener(new BloodOperationResultDialog.onSureOnclickListener() {
+                    @Override
+                    public void onSureClick() {
+                        cleanAll();
+                        bloodOperationResultDialog.dismiss();
+                    }
+                });
+                bloodOperationResultDialog.show();
             }
         });
 
