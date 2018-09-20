@@ -129,6 +129,14 @@
                 android:background="@color/white"
                 android:padding="6dp"
                 android:text="输血系统" />
+            <TextView
+                android:id="@+id/tv_workarea_milkloopsystem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:background="@color/white"
+                android:padding="6dp"
+                android:text="母乳闭环" />
         </LinearLayout>
     </ScrollView>
 

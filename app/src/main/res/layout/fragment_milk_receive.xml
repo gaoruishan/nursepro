@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_blue_light"
+    android:orientation="vertical"
+    tools:context=".workarea.milkloopsystem.milkreceive.MilkReceiveFragment">
+    <RelativeLayout
+        android:id="@+id/rl_milkreceive_scan"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <TextView
+            android:id="@+id/tv_blood_warning"
+            android:layout_width="260dp"
+            android:layout_height="100dp"
+            android:layout_centerInParent="true"
+            android:background="#FFF5FAFF"
+            android:gravity="center"
+            android:text="请您使用扫码设备，扫描奶袋条码"
+            android:textColor="#FF9B9B9B"
+            android:textSize="@dimen/sp_14" />
+
+        <TextView
+            android:id="@+id/tv_blood_warningtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:layout_above="@+id/tv_blood_warning"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="30dp"
+            android:text="请扫码"
+            android:textColor="#FF62ABFF"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="91dp"
+            android:layout_above="@+id/tv_blood_warningtitle"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:src="@drawable/icon_patient_scan" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:layout_marginTop="1dp"
+        android:background="@color/white">
+        <TextView
+            android:id="@+id/tv_milkreceive_pat"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="7床   张患者"
+            android:textColor="#FF4A4A4A"
+            android:textStyle="bold"
+            android:textSize="17sp"
+            android:gravity="center"
+            android:layout_marginLeft="20dp"
+            />
+        <TextView
+            android:id="@+id/tv_milkreceive_reg"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="10000290"
+            android:textColor="#FF4A4A4A"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:layout_marginRight="20dp"
+            android:layout_alignParentRight="true"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/white">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="时间选择"
+            android:textColor="#FF4A4A4A"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:layout_marginLeft="20dp"
+            />
+        <LinearLayout
+            android:id="@+id/ll_milkreceive_time"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="20dp"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:id="@+id/tv_milkreceive_time"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="2018-09-17 18:00"
+                android:textColor="#FF4A4A4A"
+                android:gravity="center"
+                android:textSize="15sp"
+                />
+            <ImageView
+                android:layout_width="7dp"
+                android:layout_height="13dp"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/setting_arrow"
+                />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:layout_marginTop="20dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="留取量"
+            android:textColor="#FF4A4A4A"
+            android:textSize="15sp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="20dp">
+            <EditText
+                android:id="@+id/et_milkamount"
+                android:layout_width="250dp"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:background="@color/bg_blue_light"
+                android:textColor="@color/blue"
+                android:gravity="center"
+                android:hint="输入奶量"
+                android:inputType="number|numberDecimal"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ml"
+                android:textColor="#FF9B9B9B"
+                android:textSize="12sp"
+                android:layout_toRightOf="@+id/et_milkamount"
+                android:layout_marginLeft="10dp"
+                android:layout_centerVertical="true"
+                />
+        </RelativeLayout>
+    </LinearLayout>
+
+
+</LinearLayout>
