@@ -9,11 +9,9 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,16 +23,14 @@ import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.UniversalActivity;
 import com.dhcc.nursepro.constant.Action;
-import com.dhcc.nursepro.constant.SharedPreference;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.BloodOperationResultDialog;
-import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bloodtransfusion.BloodTransfusionFragment;
-import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bloodtransfusion.api.BloodTransfusionApiManager;
-import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bloodtransfusion.bean.GetInfusionBloodInfoBean;
-import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bloodtransfusion.bean.GetPatWristInfoBean;
-import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bloodtransfusion.bean.StartTransfusionBean;
+import com.dhcc.nursepro.workarea.bloodtransfusionsystem.api.BloodTSApiManager;
+import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bean.BloodInfoBean;
+import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bean.BloodOperationResultBean;
+import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bean.PatWristInfoBean;
 
-import java.util.HashMap;
 import java.util.Objects;
 
 /**
@@ -44,8 +40,8 @@ import java.util.Objects;
  * @author DevLix126
  * created at 2018/9/18 10:35
  */
-public class BloodTransfusionEndFragment extends BaseFragment implements View.OnClickListener{
-    private TextView tvPatinfo,tvBag,tvBlood;
+public class BloodTransfusionEndFragment extends BaseFragment implements View.OnClickListener {
+    private TextView tvPatinfo, tvBag, tvBlood;
     private EditText tvNurse;
     private TextView tvSure;
 
@@ -58,23 +54,19 @@ public class BloodTransfusionEndFragment extends BaseFragment implements View.On
     private String bloodbagId = "";
     private String bloodProductId = "";
     private String nurseId = "";
-    private String bloodRowId="";
+    private String bloodRowId = "";
     private String type = "";
 
-    private String stopType = "",stopReason = "";
+    private String stopType = "", stopReason = "";
 
 
     //    private String episodeId = "";
     private SPUtils spUtils = SPUtils.getInstance();
 
-    private String patInfo;
-    private String bloodInfo;
+    private String patInfoStr;
+    private String bloodInfoStr;
 
     private BloodOperationResultDialog bloodOperationResultDialog;
-    @Override
-    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_blood_transfusion_end, container, false);
-    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -100,7 +92,7 @@ public class BloodTransfusionEndFragment extends BaseFragment implements View.On
 
         initView(view);
 
-        mReceiver  = new Receiver();
+        mReceiver = new Receiver();
         filter = new IntentFilter();
         filter.addAction(Action.DEVICE_SCAN_CODE);
         getActivity().registerReceiver(mReceiver, filter);
@@ -119,12 +111,14 @@ public class BloodTransfusionEndFragment extends BaseFragment implements View.On
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
+
             @Override
             public void afterTextChanged(Editable s) {
-                if (tvNurse.getText().toString().length()>0){
+                if (tvNurse.getText().toString().length() > 0) {
                     tvNurse.setSelected(true);
                 } else {
                     tvNurse.setSelected(false);
@@ -133,10 +127,70 @@ public class BloodTransfusionEndFragment extends BaseFragment implements View.On
         });
 
 
+    }
+
+    private void scanPatData(String reg) {
+
+        BloodTSApiManager.getPatWristInfo(reg, new BloodTSApiManager.GetPatWristInfoCallback() {
+            @Override
+            public void onSuccess(PatWristInfoBean patWristInfoBean) {
+                PatWristInfoBean.PatInfoBean patInfo = patWristInfoBean.getPatInfo();
+                episodeId = patInfo.getEpisodeID();
+                String loc = patInfo.getCtLocDesc().equals("") ? "" : patInfo.getCtLocDesc() + "-";
+                String room = patInfo.getRoomDesc().equals("") ? "" : patInfo.getRoomDesc() + "-";
+                String bedCode = patInfo.getBedCode().equals("") ? "未分床-" : patInfo.getBedCode() + "床-";
+                String name = patInfo.getName();
+                patInfoStr = loc + room + bedCode + name;
+                tvPatinfo.setText(patInfoStr);
+                tvPatinfo.setSelected(true);
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+                RegNo = "";
+                showToast(code + ":" + msg);
+                tvPatinfo.setSelected(false);
+            }
+        });
 
     }
 
+    private void scanInfusionData(String bloodbag, String bloodProduct) {
+
+        BloodTSApiManager.getInfusionBloodInfo(episodeId, bloodbagId, bloodProductId, "E", new BloodTSApiManager.GetBloodInfoCallback() {
+            @Override
+            public void onSuccess(BloodInfoBean bloodInfoBean) {
+                BloodInfoBean.BlooInfoBean blooInfo = bloodInfoBean.getBlooInfo();
+                String bloodId = blooInfo.getBloodProductId().equals("") ? "" : blooInfo.getBloodProductId() + "-";
+                String bloodDesc = blooInfo.getProductDesc().equals("") ? "" : blooInfo.getProductDesc() + "-";
+                String bloodGroup = blooInfo.getBloodGroup().equals("") ? "" : blooInfo.getBloodGroup();
+                bloodInfoStr = bloodId + bloodDesc + bloodGroup;
+                bloodProductId = bloodId + bloodDesc + bloodGroup;
+                tvBlood.setText(bloodInfoStr);
+                bloodRowId = blooInfo.getBloodRowId();
+                tvBlood.setSelected(true);
+                patInfoStr = patInfoStr + "-" + bloodGroup;
+                tvPatinfo.setText(patInfoStr);
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+                bloodbagId = "";
+                bloodProductId = "";
+                tvBag.setText("请重新扫描血袋条码");
+                tvBlood.setText("请重新扫描血制品条码");
+                tvBag.setSelected(false);
+                tvBlood.setSelected(false);
+                showToast(code + ":" + msg);
+            }
+        });
+    }
+
     @Override
+    public void onPreFinish(UniversalActivity activity) {
+        super.onPreFinish(activity);
+        activity.unregisterReceiver(mReceiver);
+    }    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_bloodend_sure:
@@ -155,6 +209,12 @@ public class BloodTransfusionEndFragment extends BaseFragment implements View.On
 
         }
     }
+
+    @Override
+    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_blood_transfusion_end, container, false);
+    }
+
     private class Receiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -186,79 +246,12 @@ public class BloodTransfusionEndFragment extends BaseFragment implements View.On
             }
         }
     }
-    private void scanPatData(String reg){
-        HashMap<String,String> map = new HashMap<>();
-        map.put("regNo",reg);
-        map.put("wardId",spUtils.getString(SharedPreference.WARDID));
-        BloodTransfusionApiManager.getScanPatsInfo(map, "getPatWristInfo", new BloodTransfusionApiManager.getScanPatsInfoCallBack() {
-            @Override
-            public void onSuccess(GetPatWristInfoBean getPatWristInfoBean) {
-                episodeId = getPatWristInfoBean.getPatInfo().getEpisodeID();
-                String loc = getPatWristInfoBean.getPatInfo().getCtLocDesc().equals("")?"": getPatWristInfoBean.getPatInfo().getCtLocDesc()+"-";
-                String room = getPatWristInfoBean.getPatInfo().getRoomDesc().equals("")?"": getPatWristInfoBean.getPatInfo().getRoomDesc()+"-";
-                String bedCode = getPatWristInfoBean.getPatInfo().getBedCode().equals("")?"未分床-": getPatWristInfoBean.getPatInfo().getBedCode()+"床-";
-                String name = getPatWristInfoBean.getPatInfo().getName();
-                patInfo = loc+room+bedCode+name;
-                tvPatinfo.setText(patInfo);
-                tvPatinfo.setSelected(true);
-            }
-            @Override
-            public void onFail(String code, String msg) {
-                RegNo = "";
-                showToast(code+":"+msg);
-                tvPatinfo.setSelected(false);
-            }
-        });
 
-    }
+    private void endTransInfusion(String stopType, String stopReason) {
 
-    private void scanInfusionData(String bloodbag,String bloodProduct){
-        HashMap<String,String> map = new HashMap<>();
-        map.put("episodeId",episodeId);
-        map.put("bloodbagId",bloodbag);
-        map.put("bloodProductId",bloodProduct);
-        map.put("type","E");
-        BloodTransfusionApiManager.getScanInfusionInfo(map, "getInfusionBloodInfo", new BloodTransfusionApiManager.getScanInfusionInfoCallBack() {
+        BloodTSApiManager.bloodTransEnd(bloodRowId, nurseId, stopReason, stopType, type, new BloodTSApiManager.BloodOperationResultCallback() {
             @Override
-            public void onSuccess(GetInfusionBloodInfoBean getInfusionBloodInfoBean) {
-//                bloodInfo = getInfusionBloodInfoBean.getBlooInfo().getBloodProductId();
-                String bloodId = getInfusionBloodInfoBean.getBlooInfo().getBloodProductId().equals("")?"": getInfusionBloodInfoBean.getBlooInfo().getBloodProductId()+"-";
-                String bloodDesc = getInfusionBloodInfoBean.getBlooInfo().getProductDesc().equals("")?"": getInfusionBloodInfoBean.getBlooInfo().getProductDesc()+"-";
-                String bloodGroup = getInfusionBloodInfoBean.getBlooInfo().getBloodGroup().equals("")?"": getInfusionBloodInfoBean.getBlooInfo().getBloodGroup();
-                bloodInfo = bloodId+bloodDesc+bloodGroup;
-                bloodProductId = bloodId+bloodDesc+bloodGroup;
-                tvBlood.setText(bloodInfo);
-                bloodRowId = getInfusionBloodInfoBean.getBlooInfo().getBloodRowId();
-                tvBlood.setSelected(true);
-                patInfo = patInfo+"-"+bloodGroup;
-                tvPatinfo.setText(patInfo);
-            }
-
-            @Override
-            public void onFail(String code, String msg) {
-                bloodbagId = "";
-                bloodProductId = "";
-                tvBag.setText("请重新扫描血袋条码");
-                tvBlood.setText("请重新扫描血制品条码");
-                tvBag.setSelected(false);
-                tvBlood.setSelected(false);
-                showToast(code+":"+msg);
-            }
-        });
-    }
-
-    private void endTransInfusion(String stopType,String stopReason){
-        HashMap<String,String> map = new HashMap<>();
-        map.put("bloodRowId",bloodRowId);
-        map.put("userId",nurseId);
-        map.put("StopReasonDesc",stopReason);
-        map.put("endType",stopType);
-        map.put("type",type);
-        BloodTransfusionApiManager.getScanStartInfo(map, "endTransfusion", new BloodTransfusionApiManager.getScanStartCallBack() {
-            @Override
-            public void onSuccess(StartTransfusionBean startTransfusionBean) {
-
-//                showToast(startTransfusionBean.getMsg());
+            public void onSuccess(BloodOperationResultBean bloodOperationResult) {
                 if (bloodOperationResultDialog != null && bloodOperationResultDialog.isShowing()) {
                     bloodOperationResultDialog.dismiss();
                 }
@@ -285,12 +278,13 @@ public class BloodTransfusionEndFragment extends BaseFragment implements View.On
                 nurseId = "";
                 tvNurse.setText("");
                 tvNurse.setSelected(false);
-                showToast(code+":"+msg);
+                showToast(code + ":" + msg);
             }
         });
 
     }
-    private void showdialog(){
+
+    private void showdialog() {
         final EndSucessDialog showDialog = new EndSucessDialog(getActivity());
         showDialog.setYesOnclickListener("确定", new EndSucessDialog.onYesOnclickListener() {
             @Override
@@ -298,14 +292,14 @@ public class BloodTransfusionEndFragment extends BaseFragment implements View.On
                 stopType = showDialog.getEndType();
                 stopReason = showDialog.getReason();
                 showDialog.dismiss();
-                endTransInfusion(stopType,stopReason);
+                endTransInfusion(stopType, stopReason);
             }
         });
         showDialog.show();
     }
 
 
-    private void cleanAll(){
+    private void cleanAll() {
         RegNo = "";
         tvPatinfo.setText("请扫描患者腕带条码");
         tvPatinfo.setSelected(false);
@@ -319,7 +313,8 @@ public class BloodTransfusionEndFragment extends BaseFragment implements View.On
         tvNurse.setText(null);
         tvNurse.setSelected(false);
         episodeId = "";
-        bloodRowId="";
+        bloodRowId = "";
     }
+
 
 }

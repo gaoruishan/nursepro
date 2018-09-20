@@ -5,10 +5,10 @@
     android:layout_height="match_parent"
     android:background="@color/blue_light"
     android:orientation="vertical"
-    tools:context=".workarea.bloodtransfusionsystem.bloodtransfusion.BloodStartedListFragment">
+    tools:context=".workarea.bloodtransfusionsystem.BloodOperationListFragment">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recy_blood_startedlist"
+        android:id="@+id/recy_blood_operationlist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

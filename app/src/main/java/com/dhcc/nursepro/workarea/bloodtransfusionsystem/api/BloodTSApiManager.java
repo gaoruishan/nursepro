@@ -71,10 +71,9 @@ public class BloodTSApiManager {
             }
         });
     }
-//
 
-    public static void bloodReceive(String bloodbagId, String bloodProductId,String bloodGroup, String patBldGroup,String episodeId, String productDesc,String rowId, final BloodOperationResultCallback callback) {
-        BloodTSApiService.bloodReceive(bloodbagId, bloodProductId,bloodGroup,patBldGroup,episodeId,productDesc,rowId, new BloodTSApiService.ServiceCallBack() {
+    public static void bloodReceive(String bloodbagId, String bloodProductId, String bloodGroup, String patBldGroup, String episodeId, String productDesc, String rowId, final BloodOperationResultCallback callback) {
+        BloodTSApiService.bloodReceive(bloodbagId, bloodProductId, bloodGroup, patBldGroup, episodeId, productDesc, rowId, new BloodTSApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();
@@ -83,16 +82,16 @@ public class BloodTSApiManager {
                     callback.onFail("-1", "网络请求失败");
                 } else {
                     BloodOperationResultBean bloodOperationResult = gson.fromJson(jsonStr, BloodOperationResultBean.class);
-                    if (ObjectUtils.isEmpty( bloodOperationResult)) {
+                    if (ObjectUtils.isEmpty(bloodOperationResult)) {
                         callback.onFail("-1", "网络请求失败");
                     } else {
-                        if ( bloodOperationResult.getStatus().equals("0")) {
+                        if (bloodOperationResult.getStatus().equals("0")) {
                             if (callback != null) {
-                                callback.onSuccess( bloodOperationResult);
+                                callback.onSuccess(bloodOperationResult);
                             }
                         } else {
                             if (callback != null) {
-                                callback.onFail( bloodOperationResult.getMsgcode(),  bloodOperationResult.getMsg());
+                                callback.onFail(bloodOperationResult.getMsgcode(), bloodOperationResult.getMsg());
                             }
                         }
                     }
@@ -102,8 +101,37 @@ public class BloodTSApiManager {
         });
     }
 
-    public static void bloodPatrol(String bloodRowId, String recdate,String rectime, String speed,String effect, String situation, final BloodOperationResultCallback callback) {
-        BloodTSApiService.bloodPatrol(bloodRowId, recdate,rectime,speed,effect,situation, new BloodTSApiService.ServiceCallBack() {
+    public static void getInfusionBloodInfo(String episodeId, String bloodbagId, String bloodProductId, String type, final GetBloodInfoCallback callback) {
+        BloodTSApiService.getInfusionBloodInfo(episodeId, bloodbagId, bloodProductId, type, new BloodTSApiService.ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                Gson gson = new Gson();
+
+                if (jsonStr.isEmpty()) {
+                    callback.onFail("-1", "网络请求失败");
+                } else {
+                    BloodInfoBean bloodInfoBean = gson.fromJson(jsonStr, BloodInfoBean.class);
+                    if (ObjectUtils.isEmpty(bloodInfoBean)) {
+                        callback.onFail("-1", "网络请求失败");
+                    } else {
+                        if (bloodInfoBean.getStatus().equals("0")) {
+                            if (callback != null) {
+                                callback.onSuccess(bloodInfoBean);
+                            }
+                        } else {
+                            if (callback != null) {
+                                callback.onFail(bloodInfoBean.getMsgcode(), bloodInfoBean.getMsg());
+                            }
+                        }
+                    }
+
+                }
+            }
+        });
+    }
+
+    public static void bloodTransStart(String bloodRowId, String userId1, String userId2, String type, final BloodOperationResultCallback callback) {
+        BloodTSApiService.bloodTransStart(bloodRowId, userId1, userId2, type, new BloodTSApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();
@@ -112,16 +140,103 @@ public class BloodTSApiManager {
                     callback.onFail("-1", "网络请求失败");
                 } else {
                     BloodOperationResultBean bloodOperationResult = gson.fromJson(jsonStr, BloodOperationResultBean.class);
-                    if (ObjectUtils.isEmpty( bloodOperationResult)) {
+                    if (ObjectUtils.isEmpty(bloodOperationResult)) {
                         callback.onFail("-1", "网络请求失败");
                     } else {
-                        if ( bloodOperationResult.getStatus().equals("0")) {
+                        if (bloodOperationResult.getStatus().equals("0")) {
                             if (callback != null) {
-                                callback.onSuccess( bloodOperationResult);
+                                callback.onSuccess(bloodOperationResult);
                             }
                         } else {
                             if (callback != null) {
-                                callback.onFail( bloodOperationResult.getMsgcode(),  bloodOperationResult.getMsg());
+                                callback.onFail(bloodOperationResult.getMsgcode(), bloodOperationResult.getMsg());
+                            }
+                        }
+                    }
+
+                }
+            }
+        });
+    }
+
+    public static void bloodPatrol(String bloodRowId, String recdate, String rectime, String speed, String effect, String situation, final BloodOperationResultCallback callback) {
+        BloodTSApiService.bloodPatrol(bloodRowId, recdate, rectime, speed, effect, situation, new BloodTSApiService.ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                Gson gson = new Gson();
+
+                if (jsonStr.isEmpty()) {
+                    callback.onFail("-1", "网络请求失败");
+                } else {
+                    BloodOperationResultBean bloodOperationResult = gson.fromJson(jsonStr, BloodOperationResultBean.class);
+                    if (ObjectUtils.isEmpty(bloodOperationResult)) {
+                        callback.onFail("-1", "网络请求失败");
+                    } else {
+                        if (bloodOperationResult.getStatus().equals("0")) {
+                            if (callback != null) {
+                                callback.onSuccess(bloodOperationResult);
+                            }
+                        } else {
+                            if (callback != null) {
+                                callback.onFail(bloodOperationResult.getMsgcode(), bloodOperationResult.getMsg());
+                            }
+                        }
+                    }
+
+                }
+            }
+        });
+    }
+
+    public static void bloodTransEnd(String bloodRowId, String userId, String StopReasonDesc, String endType, String type, final BloodOperationResultCallback callback) {
+        BloodTSApiService.bloodTransEnd(bloodRowId, userId, StopReasonDesc, endType, type, new BloodTSApiService.ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                Gson gson = new Gson();
+
+                if (jsonStr.isEmpty()) {
+                    callback.onFail("-1", "网络请求失败");
+                } else {
+                    BloodOperationResultBean bloodOperationResult = gson.fromJson(jsonStr, BloodOperationResultBean.class);
+                    if (ObjectUtils.isEmpty(bloodOperationResult)) {
+                        callback.onFail("-1", "网络请求失败");
+                    } else {
+                        if (bloodOperationResult.getStatus().equals("0")) {
+                            if (callback != null) {
+                                callback.onSuccess(bloodOperationResult);
+                            }
+                        } else {
+                            if (callback != null) {
+                                callback.onFail(bloodOperationResult.getMsgcode(), bloodOperationResult.getMsg());
+                            }
+                        }
+                    }
+
+                }
+            }
+        });
+    }
+
+    public static void recycleBloodbag(String bloodRowId, final BloodOperationResultCallback callback) {
+        BloodTSApiService.recycleBloodbag(bloodRowId, new BloodTSApiService.ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                Gson gson = new Gson();
+
+                if (jsonStr.isEmpty()) {
+                    callback.onFail("-1", "网络请求失败");
+                } else {
+                    BloodOperationResultBean bloodOperationResult = gson.fromJson(jsonStr, BloodOperationResultBean.class);
+                    if (ObjectUtils.isEmpty(bloodOperationResult)) {
+                        callback.onFail("-1", "网络请求失败");
+                    } else {
+                        if (bloodOperationResult.getStatus().equals("0")) {
+                            if (callback != null) {
+                                callback.onSuccess(bloodOperationResult);
+                            }
+                        } else {
+                            if (callback != null) {
+                                callback.onFail(bloodOperationResult.getMsgcode(), bloodOperationResult.getMsg());
                             }
                         }
                     }
