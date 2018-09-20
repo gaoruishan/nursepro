@@ -4,6 +4,7 @@ import com.blankj.utilcode.util.ObjectUtils;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bloodtransfusion.bean.GetInfusionBloodInfoBean;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bloodtransfusion.bean.GetPatWristInfoBean;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bloodtransfusion.bean.StartTransfusionBean;
+import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bloodtransfusionend.bean.EndTransfusionBean;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
@@ -121,6 +122,42 @@ public class BloodTransfusionApiManager {
                         } else {
                             if (startTransfusionBean != null) {
                                 getScanStartCallBack.onFail(startTransfusionBean.getMsgcode(), startTransfusionBean.getMsg());
+                            }
+                        }
+                    }
+                }
+
+            }
+        });
+    }
+
+    //start
+    public interface getScanEndCallBack extends CommonCallBack{
+        void onSuccess(EndTransfusionBean endTransfusionBean);
+    }
+
+    public static void getScanEndInfo(HashMap<String,String> map, String method, final getScanEndCallBack getScanEndCallBack){
+
+        BloodTransfusionApiService.getTransfusionMsg(map, method, new BloodTransfusionApiService.ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                Gson gson = new Gson();
+
+                if (jsonStr.isEmpty()) {
+                    getScanEndCallBack.onFail("-1", "网络请求失败");
+                } else {
+
+                    EndTransfusionBean endTransfusionBean = gson.fromJson(jsonStr, EndTransfusionBean.class);
+                    if (ObjectUtils.isEmpty(endTransfusionBean)) {
+                        getScanEndCallBack.onFail("-1", "网络请求失败");
+                    } else {
+                        if (endTransfusionBean.getStatus().equals("0")) {
+                            if (getScanEndCallBack != null) {
+                                getScanEndCallBack.onSuccess(endTransfusionBean);
+                            }
+                        } else {
+                            if (endTransfusionBean != null) {
+                                getScanEndCallBack.onFail(endTransfusionBean.getMsgcode(), endTransfusionBean.getMsg());
                             }
                         }
                     }

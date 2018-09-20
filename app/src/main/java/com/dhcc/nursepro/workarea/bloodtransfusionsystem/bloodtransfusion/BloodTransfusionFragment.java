@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -26,6 +27,7 @@ import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.constant.Action;
 import com.dhcc.nursepro.constant.SharedPreference;
+import com.dhcc.nursepro.workarea.bloodtransfusionsystem.BloodOperationResultDialog;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bloodtransfusion.api.BloodTransfusionApiManager;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bloodtransfusion.bean.GetInfusionBloodInfoBean;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bloodtransfusion.bean.GetPatWristInfoBean;
@@ -66,6 +68,8 @@ public class BloodTransfusionFragment extends BaseFragment implements View.OnCli
 
     private String patInfo;
     private String bloodInfo;
+
+    private BloodOperationResultDialog bloodOperationResultDialog;
 
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -144,7 +148,6 @@ public class BloodTransfusionFragment extends BaseFragment implements View.OnCli
                 }
             }
         });
-        if (!tvNurse1.getText().equals("")) {
             tvNurse2.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -173,7 +176,7 @@ public class BloodTransfusionFragment extends BaseFragment implements View.OnCli
                     }
                 }
             });
-        }
+
 
 
 
@@ -283,7 +286,7 @@ public class BloodTransfusionFragment extends BaseFragment implements View.OnCli
                 tvBloodInfo.setText(bloodInfo);
                 bloodRowId = getInfusionBloodInfoBean.getBlooInfo().getBloodRowId();
                 tvBloodInfo.setSelected(true);
-                patInfo = patInfo+bloodGroup;
+                patInfo = patInfo+"-"+bloodGroup;
                 tvPatInfo.setText(patInfo);
             }
 
@@ -310,8 +313,26 @@ public class BloodTransfusionFragment extends BaseFragment implements View.OnCli
             @Override
             public void onSuccess(StartTransfusionBean startTransfusionBean) {
 
-                showToast(startTransfusionBean.getMsg());
+//                showToast(startTransfusionBean.getMsg());
                 llDevice.setBackgroundResource(R.drawable.img_device3);
+
+                if (bloodOperationResultDialog != null && bloodOperationResultDialog.isShowing()) {
+                    bloodOperationResultDialog.dismiss();
+                }
+
+                bloodOperationResultDialog = new BloodOperationResultDialog(getActivity());
+
+                bloodOperationResultDialog.setExecresult("血液输注成功");
+
+                bloodOperationResultDialog.setImgId(R.drawable.icon_popup_sucess);
+                bloodOperationResultDialog.setSureVisible(View.GONE);
+                bloodOperationResultDialog.show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        bloodOperationResultDialog.dismiss();
+                    }
+                }, 1000);
 
                 cleanAll();
             }
@@ -321,8 +342,8 @@ public class BloodTransfusionFragment extends BaseFragment implements View.OnCli
 
                 nurseId1 = "";
                 nurseId2 = "";
-                tvNurse1.setText("护士1");
-                tvNurse2.setText("护士2");
+                tvNurse1.setText("");
+                tvNurse2.setText("");
                 tvNurse1.setSelected(false);
                 tvNurse2.setSelected(false);
                 showToast(code+":"+msg);
