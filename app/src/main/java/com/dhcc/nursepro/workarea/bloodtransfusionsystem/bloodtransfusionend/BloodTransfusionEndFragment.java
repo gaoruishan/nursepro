@@ -322,4 +322,18 @@ public class BloodTransfusionEndFragment extends BaseFragment implements View.On
         bloodRowId="";
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mReceiver != null) {
+            getActivity().registerReceiver(mReceiver, filter);
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        getActivity().unregisterReceiver(mReceiver);
+
+    }
 }

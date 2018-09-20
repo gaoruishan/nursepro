@@ -18,6 +18,7 @@ import com.dhcc.nursepro.workarea.docorderlist.DocOrderListFragment;
 import com.dhcc.nursepro.workarea.dosingreview.DosingReviewFragment;
 import com.dhcc.nursepro.workarea.labout.LabOutListFragment;
 import com.dhcc.nursepro.workarea.labresult.LabPatsFragment;
+import com.dhcc.nursepro.workarea.milkloopsystem.MilkLoopSystemFragment;
 import com.dhcc.nursepro.workarea.operation.OperationFragment;
 import com.dhcc.nursepro.workarea.orderexecute.OrderExecuteFragment;
 import com.dhcc.nursepro.workarea.ordersearch.OrderSearchFragment;
@@ -43,6 +44,7 @@ public class WorkareaFragment extends BaseFragment implements View.OnClickListen
     private TextView tvWorkareaAllotBed;
     private TextView tvWorkareaDocOrdList;
     private TextView tvWorkareaBloodtransfusionsystem;
+    private TextView tvWorkareaMilk;
 
 
     @Override
@@ -91,6 +93,8 @@ public class WorkareaFragment extends BaseFragment implements View.OnClickListen
         tvWorkareaDocOrdList.setOnClickListener(this);
         tvWorkareaBloodtransfusionsystem = view.findViewById(R.id.tv_workarea_bloodtransfusionsystem);
         tvWorkareaBloodtransfusionsystem.setOnClickListener(this);
+        tvWorkareaMilk = view.findViewById(R.id.tv_workarea_milkloopsystem);
+        tvWorkareaMilk.setOnClickListener(this);
     }
 
     private void initData() {
@@ -146,6 +150,9 @@ public class WorkareaFragment extends BaseFragment implements View.OnClickListen
                 break;
             case R.id.tv_workarea_bloodtransfusionsystem:
                 startFragment(BloodTransfusionSystemFragment.class);
+                break;
+            case R.id.tv_workarea_milkloopsystem:
+                startFragment(MilkLoopSystemFragment.class);
                 break;
             default:
                 break;

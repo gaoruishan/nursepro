@@ -42,6 +42,13 @@
     <string name="title_bloodtransfusiontour">巡视</string>
     <string name="title_bloodbagrecycling">回收</string>
 
+
+    <!--母乳闭环-->
+    <string name="title_milk_receive">母乳采集</string>
+    <string name="title_milk_freezing">母乳冷冻</string>
+    <string name="title_milk_bottling">母乳装瓶</string>
+    <string name="title_milk_coldstorage">母乳冷藏</string>
+
     <!--#################################消息文字区#################################-->
 
     <!--#################################设置文字区#################################-->
