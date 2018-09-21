@@ -91,7 +91,6 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
             }
         }, 300);
 
-
     }
 
 
@@ -139,7 +138,12 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                     //体征录入
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("info",(Serializable)patientInfo);
-                    bundle.putString("timepoint",dateFilterStr + " "+ timeFilterStr);
+                    //bundle.putString("timepoint",dateFilterStr + " "+ timeFilterStr);
+                    bundle.putString("time",timeFilterStr);
+                    bundle.putString("date",dateFilterStr);
+                    bundle.putSerializable("list", (Serializable) patientList);
+                    bundle.putSerializable("timeList", (Serializable) timeFilterList);
+
                     startFragment(VitalSignRecordFragment.class,bundle);
 
                 }else if(view.getId() == R.id.tv_vitalsign_event_record){
@@ -152,13 +156,11 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                     //体温单预览
 
                     String episodeId = (String)patientInfo.get("episodeId");
-
 //                    viewPatientTempImages("94");
                     viewPatientTempImages(episodeId);
 
                 }else{
                     //普通点击
-                    Toast.makeText(getContext(), "普通点击", Toast.LENGTH_SHORT).show();
                     String episodeId = (String)patientInfo.get("episodeId");
                     Bundle bundle = new Bundle();
                     bundle.putString("episodeId",episodeId);

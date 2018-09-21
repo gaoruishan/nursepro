@@ -35,6 +35,9 @@
     <color name="vital_sign_top_text_selected_color">#70AAF2</color>
     <color name="vital_sign_top_text_normal_color">#000000</color>
     <color name="vital_sign_filter_bottom_line_color">#D8EAFF</color>
+    <color name="vital_sign_record_pre_color">#4A90E2</color>
+    <color name="vital_sign_record_next_color">#62ABFF</color>
+    <color name="vital_sign_record_index_null_color">#ECECEC</color>
 
 
     <color name="bottom_item_text_selected_color">#2F85FF</color>
@@ -48,7 +51,6 @@
 
     <color name="blue_dark">#62ABFF</color>
     <color name="blue_light">#E9F3FF</color>
-    <color name="bg_blue_light">#FFF5FAFF</color>
 
     <color name="blue_dark2">#C9E2FF</color>
 
