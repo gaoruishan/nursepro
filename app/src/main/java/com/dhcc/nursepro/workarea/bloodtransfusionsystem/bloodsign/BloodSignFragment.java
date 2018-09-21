@@ -9,6 +9,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,11 +35,10 @@ import java.util.Objects;
  * @author DevLix126
  * created at 2018/9/18 10:34
  */
-public class BloodSignFragment extends BaseFragment implements View.OnClickListener {
+public class BloodSignFragment extends BaseFragment {
     private TextView tvBloodsignBloodbaginfo;
     private TextView tvBloodsignBloodproductinfo;
     private TextView tvBloodsignBloodpatientinfo;
-    private TextView tvBloodsignSure;
 
     private IntentFilter filter;
     private Receiver mReceiver = new Receiver();
@@ -66,16 +66,61 @@ public class BloodSignFragment extends BaseFragment implements View.OnClickListe
 
         showToolbarNavigationIcon(R.drawable.icon_back_blue);
         setToolbarCenterTitle(getString(R.string.title_bloodsign));
-        //右上角按钮
-        View viewright = View.inflate(getActivity(), R.layout.view_bloodtoolbar_right, null);
+        //右上角保存按钮
+        View viewright = View.inflate(getActivity(), R.layout.view_fratoolbar_right, null);
+        TextView textView = viewright.findViewById(R.id.tv_fratoobar_right);
+        textView.setTextSize(15);
+        textView.setText("   确定   ");
+        textView.setTextColor(getResources().getColor(R.color.blue_dark));
         viewright.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "今日列表", Toast.LENGTH_SHORT).show();
+                if (scanOrder < 3) {
+                    Toast.makeText(getActivity(), "请完成扫码再进行确认", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                BloodTSApiManager.bloodReceive(bloodInfo.getBloodbagId(), bloodInfo.getBloodProductId(), bloodInfo.getBloodGroup(), bloodInfo.getPatBldGroup(), bloodInfo.getEpisodeId(), bloodInfo.getProductDesc(), bloodInfo.getRowId(), new BloodTSApiManager.BloodOperationResultCallback() {
+                    @Override
+                    public void onSuccess(BloodOperationResultBean bloodOperationResultBean) {
+                        if (bloodOperationResultDialog != null && bloodOperationResultDialog.isShowing()) {
+                            bloodOperationResultDialog.dismiss();
+                        }
+                        bloodOperationResultDialog = new BloodOperationResultDialog(getActivity());
+                        bloodOperationResultDialog.setExecresult("血袋签收成功");
+                        bloodOperationResultDialog.setImgId(R.drawable.icon_popup_sucess);
+                        bloodOperationResultDialog.setSureVisible(View.GONE);
+                        bloodOperationResultDialog.show();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                clearScanInfo();
+                                bloodOperationResultDialog.dismiss();
+                            }
+                        }, 1000);
+                    }
+
+                    @Override
+                    public void onFail(String code, String msg) {
+                        if (bloodOperationResultDialog != null && bloodOperationResultDialog.isShowing()) {
+                            bloodOperationResultDialog.dismiss();
+                        }
+                        bloodOperationResultDialog = new BloodOperationResultDialog(getActivity());
+                        bloodOperationResultDialog.setExecresult(msg);
+                        bloodOperationResultDialog.setImgId(R.drawable.icon_popup_error_patient);
+                        bloodOperationResultDialog.setSureVisible(View.VISIBLE);
+                        bloodOperationResultDialog.setSureOnclickListener(new BloodOperationResultDialog.onSureOnclickListener() {
+                            @Override
+                            public void onSureClick() {
+                                clearScanInfo();
+                                bloodOperationResultDialog.dismiss();
+                            }
+                        });
+                        bloodOperationResultDialog.show();
+                    }
+                });
             }
         });
         setToolbarRightCustomView(viewright);
-
         setToolbarBottomLineVisibility(false);
 
         filter = new IntentFilter();
@@ -91,8 +136,6 @@ public class BloodSignFragment extends BaseFragment implements View.OnClickListe
         tvBloodsignBloodbaginfo = view.findViewById(R.id.tv_bloodsign_bloodbaginfo);
         tvBloodsignBloodproductinfo = view.findViewById(R.id.tv_bloodsign_bloodproductinfo);
         tvBloodsignBloodpatientinfo = view.findViewById(R.id.tv_bloodsign_bloodpatientinfo);
-        tvBloodsignSure = view.findViewById(R.id.tv_bloodsign_sure);
-        tvBloodsignSure.setOnClickListener(this);
     }
 
     @Override
@@ -151,7 +194,6 @@ public class BloodSignFragment extends BaseFragment implements View.OnClickListe
                                 tvBloodsignBloodpatientinfo.setText(bloodInfo.getWardDesc() + "-" + bloodInfo.getBedCode() + "-" + bloodInfo.getPatName() + "-" + bloodInfo.getBloodGroup());
                                 tvBloodsignBloodproductinfo.setSelected(true);
                                 tvBloodsignBloodpatientinfo.setSelected(true);
-                                tvBloodsignSure.setSelected(true);
                             }
 
                             @Override
@@ -169,62 +211,6 @@ public class BloodSignFragment extends BaseFragment implements View.OnClickListe
     }
 
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.tv_bloodsign_sure:
-                if (scanOrder < 3) {
-                    Toast.makeText(getActivity(), "请完成扫码再进行确认", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                BloodTSApiManager.bloodReceive(bloodInfo.getBloodbagId(), bloodInfo.getBloodProductId(), bloodInfo.getBloodGroup(), bloodInfo.getPatBldGroup(), bloodInfo.getEpisodeId(), bloodInfo.getProductDesc(), bloodInfo.getRowId(), new BloodTSApiManager.BloodOperationResultCallback() {
-                    @Override
-                    public void onSuccess(BloodOperationResultBean bloodOperationResultBean) {
-                        if (bloodOperationResultDialog != null && bloodOperationResultDialog.isShowing()) {
-                            bloodOperationResultDialog.dismiss();
-                        }
-
-                        bloodOperationResultDialog = new BloodOperationResultDialog(getActivity());
-
-                        bloodOperationResultDialog.setExecresult("血袋签收成功");
-
-                        bloodOperationResultDialog.setImgId(R.drawable.icon_popup_sucess);
-                        bloodOperationResultDialog.setSureVisible(View.GONE);
-                        bloodOperationResultDialog.show();
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                clearScanInfo();
-                                bloodOperationResultDialog.dismiss();
-                            }
-                        }, 1000);
-                    }
-
-                    @Override
-                    public void onFail(String code, String msg) {
-                        if (bloodOperationResultDialog != null && bloodOperationResultDialog.isShowing()) {
-                            bloodOperationResultDialog.dismiss();
-                        }
-                        bloodOperationResultDialog = new BloodOperationResultDialog(getActivity());
-                        bloodOperationResultDialog.setExecresult(msg);
-                        bloodOperationResultDialog.setImgId(R.drawable.icon_popup_error_patient);
-                        bloodOperationResultDialog.setSureVisible(View.VISIBLE);
-                        bloodOperationResultDialog.setSureOnclickListener(new BloodOperationResultDialog.onSureOnclickListener() {
-                            @Override
-                            public void onSureClick() {
-                                clearScanInfo();
-                                bloodOperationResultDialog.dismiss();
-                            }
-                        });
-                        bloodOperationResultDialog.show();
-                    }
-                });
-                break;
-            default:
-                break;
-        }
-    }
-
     private void clearScanInfo() {
         tvBloodsignBloodbaginfo.setText("请扫描血袋条码");
         tvBloodsignBloodbaginfo.setSelected(false);
@@ -232,7 +218,6 @@ public class BloodSignFragment extends BaseFragment implements View.OnClickListe
         tvBloodsignBloodproductinfo.setSelected(false);
         tvBloodsignBloodpatientinfo.setText("血液信息中获取");
         tvBloodsignBloodpatientinfo.setSelected(false);
-        tvBloodsignSure.setSelected(false);
         scanOrder = 1;
     }
 }

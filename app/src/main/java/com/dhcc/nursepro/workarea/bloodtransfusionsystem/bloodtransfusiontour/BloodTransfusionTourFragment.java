@@ -56,7 +56,8 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
     private TextView tvBloodtranstourTranstime;
     private TextView tvBloodtranstourNursename;
     private EditText etBloodtranstourBloodtransrate;
-    private SwitchCompat tvBloodtranstourIsexist;
+    private TextView tvBloodtranstourIsexist;
+    private SwitchCompat switchBloodtranstourIsexist;
     private EditText etBloodtranstourAdversereactions;
 
 
@@ -118,14 +119,15 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
     private void setToolbarRightView(int i) {
         if (i == 0) {
             //右上角按钮
-            View viewright = View.inflate(getActivity(), R.layout.view_bloodtoolbar_right, null);
-            viewright.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(getActivity(), "今日列表", Toast.LENGTH_SHORT).show();
-                }
-            });
-            setToolbarRightCustomView(viewright);
+//            View viewright = View.inflate(getActivity(), R.layout.view_bloodtoolbar_right, null);
+//            viewright.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Toast.makeText(getActivity(), "今日列表", Toast.LENGTH_SHORT).show();
+//                }
+//            });
+//            setToolbarRightCustomView(viewright);
+            setToolbarRightCustomView(null);
         } else {
             //右上角保存按钮
             View viewright = View.inflate(getActivity(), R.layout.view_fratoolbar_right, null);
@@ -138,6 +140,7 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
                 public void onClick(View v) {
                     speed = etBloodtranstourBloodtransrate.getText().toString();
                     situation = etBloodtranstourAdversereactions.getText().toString();
+                    effect = tvBloodtranstourIsexist.getText().toString();
                     if (TextUtils.isEmpty(recdate) || TextUtils.isEmpty(rectime)) {
                         Toast.makeText(getActivity(), "请选择输血巡视时间", Toast.LENGTH_SHORT).show();
                         return;
@@ -194,14 +197,17 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
         tvBloodtranstourNursename = view.findViewById(R.id.tv_bloodtranstour_nursename);
         etBloodtranstourBloodtransrate = view.findViewById(R.id.et_bloodtranstour_bloodtransrate);
         tvBloodtranstourIsexist = view.findViewById(R.id.tv_bloodtranstour_isexist);
-        tvBloodtranstourIsexist.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        switchBloodtranstourIsexist = view.findViewById(R.id.switch_bloodtranstour_isexist);
+        switchBloodtranstourIsexist.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    effect = "有";
+                    tvBloodtranstourIsexist.setText("有");
+                    tvBloodtranstourIsexist.setSelected(true);
                     etBloodtranstourAdversereactions.setEnabled(true);
                 } else {
-                    effect = "无";
+                    tvBloodtranstourIsexist.setText("无");
+                    tvBloodtranstourIsexist.setSelected(false);
                     etBloodtranstourAdversereactions.setEnabled(false);
                 }
             }
@@ -229,7 +235,7 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
                 .setMinuteText("分")
                 .setCyclic(false)
                 .setMinMillseconds(System.currentTimeMillis() - tenYears)
-                .setCurrentMillseconds(calendar.getTimeInMillis())
+                .setCurrentMillseconds(System.currentTimeMillis())
                 .setThemeColor(getResources().getColor(R.color.colorPrimary))
                 .setType(Type.ALL)
                 .setWheelItemTextNormalColor(getResources().getColor(R.color.timetimepicker_default_text_color))
@@ -249,6 +255,14 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
         tvBloodtranstourBloodpatientinfo.setText("血液信息中获取");
         tvBloodtranstourBloodpatientinfo.setSelected(false);
         scanOrder = 1;
+    }
+
+    private void clearEditInfo() {
+        tvBloodtranstourTranstime.setText("请点击选择时间");
+        etBloodtranstourBloodtransrate.setText("");
+        tvBloodtranstourIsexist.setSelected(false);
+        switchBloodtranstourIsexist.setChecked(false);
+        etBloodtranstourAdversereactions.setText("");
     }
 
     @Override
