@@ -51,6 +51,7 @@
 
     <color name="blue_dark">#62ABFF</color>
     <color name="blue_light">#E9F3FF</color>
+    <color name="bg_blue_light">#FFF5FAFF</color>
 
     <color name="blue_dark2">#C9E2FF</color>
 

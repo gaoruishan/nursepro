@@ -36,6 +36,21 @@
     <!--配液复核-->
     <string name="title_dosingreview">配液复核</string>
 
+    <!--输血系统-->
+    <string name="title_bloodtransfusionsystem">输血系统</string>
+    <string name="title_bloodsign">签收</string>
+    <string name="title_bloodtransfusion">输注</string>
+    <string name="title_bloodtransfusionend">结束</string>
+    <string name="title_bloodtransfusiontour">巡视</string>
+    <string name="title_bloodbagrecycling">回收</string>
+
+
+    <!--母乳闭环-->
+    <string name="title_milk_receive">母乳采集</string>
+    <string name="title_milk_freezing">母乳冷冻</string>
+    <string name="title_milk_bottling">母乳装瓶</string>
+    <string name="title_milk_coldstorage">母乳冷藏</string>
+
     <!--#################################消息文字区#################################-->
 
     <!--#################################设置文字区#################################-->
