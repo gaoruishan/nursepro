@@ -9,10 +9,10 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +36,15 @@ import java.util.Objects;
  * created at 2018/9/18 10:34
  */
 public class BloodSignFragment extends BaseFragment {
+    private TextView tvBloodSure;
+
+    private TextView tvBloodscantip;
+    private ImageView imgBloodbag;
+    private View lineBlood1;
+    private ImageView imgBloodproduct;
+    private View lineBlood2;
+    private ImageView imgBloodpatient;
+
     private TextView tvBloodsignBloodbaginfo;
     private TextView tvBloodsignBloodproductinfo;
     private TextView tvBloodsignBloodpatientinfo;
@@ -66,17 +75,14 @@ public class BloodSignFragment extends BaseFragment {
 
         showToolbarNavigationIcon(R.drawable.icon_back_blue);
         setToolbarCenterTitle(getString(R.string.title_bloodsign));
-        //右上角保存按钮
-        View viewright = View.inflate(getActivity(), R.layout.view_fratoolbar_right, null);
-        TextView textView = viewright.findViewById(R.id.tv_fratoobar_right);
-        textView.setTextSize(15);
-        textView.setText("   确定   ");
-        textView.setTextColor(getResources().getColor(R.color.blue_dark));
+        //右上角确定按钮
+        View viewright = View.inflate(getActivity(), R.layout.view_bloodtoolbar_right, null);
+        tvBloodSure = viewright.findViewById(R.id.tv_bloodtoobar_right);
         viewright.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (scanOrder < 3) {
-                    Toast.makeText(getActivity(), "请完成扫码再进行确认", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "请完成扫码再点击确定", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 BloodTSApiManager.bloodReceive(bloodInfo.getBloodbagId(), bloodInfo.getBloodProductId(), bloodInfo.getBloodGroup(), bloodInfo.getPatBldGroup(), bloodInfo.getEpisodeId(), bloodInfo.getProductDesc(), bloodInfo.getRowId(), new BloodTSApiManager.BloodOperationResultCallback() {
@@ -132,7 +138,30 @@ public class BloodSignFragment extends BaseFragment {
 
     }
 
+    private void clearScanInfo() {
+        tvBloodscantip.setText("请扫描血袋条码");
+        imgBloodbag.setSelected(false);
+        lineBlood1.setSelected(false);
+        imgBloodproduct.setSelected(false);
+        lineBlood2.setSelected(false);
+        imgBloodpatient.setSelected(false);
+        tvBloodSure.setSelected(false);
+        scanOrder = 1;
+        tvBloodsignBloodbaginfo.setText("");
+        tvBloodsignBloodproductinfo.setText("");
+        tvBloodsignBloodpatientinfo.setText("");
+    }
+
     private void initView(View view) {
+        tvBloodscantip = view.findViewById(R.id.tv_bloodscantip);
+        tvBloodscantip.setText("请扫描血袋条码");
+        imgBloodbag = view.findViewById(R.id.img_bloodbag);
+        lineBlood1 = view.findViewById(R.id.line_blood_1);
+        imgBloodproduct = view.findViewById(R.id.img_bloodproduct);
+        lineBlood2 = view.findViewById(R.id.line_blood_2);
+        imgBloodpatient = view.findViewById(R.id.img_bloodpatient);
+
+
         tvBloodsignBloodbaginfo = view.findViewById(R.id.tv_bloodsign_bloodbaginfo);
         tvBloodsignBloodproductinfo = view.findViewById(R.id.tv_bloodsign_bloodproductinfo);
         tvBloodsignBloodpatientinfo = view.findViewById(R.id.tv_bloodsign_bloodpatientinfo);
@@ -182,7 +211,11 @@ public class BloodSignFragment extends BaseFragment {
                         scanOrder++;
                         bloodbagId = scanStr;
                         tvBloodsignBloodbaginfo.setText(bloodbagId);
-                        tvBloodsignBloodbaginfo.setSelected(true);
+                        tvBloodscantip.setText("请扫描血制品条码");
+                        imgBloodbag.setSelected(true);
+                        lineBlood1.setSelected(true);
+
+
                     } else if (scanOrder == 2) {
                         scanOrder++;
                         bloodProductId = scanStr;
@@ -192,8 +225,11 @@ public class BloodSignFragment extends BaseFragment {
                                 bloodInfo = bloodInfoBean.getBlooInfo();
                                 tvBloodsignBloodproductinfo.setText(bloodProductId + "-" + bloodInfo.getProductDesc() + "-" + bloodInfo.getBloodGroup());
                                 tvBloodsignBloodpatientinfo.setText(bloodInfo.getWardDesc() + "-" + bloodInfo.getBedCode() + "-" + bloodInfo.getPatName() + "-" + bloodInfo.getBloodGroup());
-                                tvBloodsignBloodproductinfo.setSelected(true);
-                                tvBloodsignBloodpatientinfo.setSelected(true);
+                                tvBloodscantip.setText("请点击确认签收血袋");
+                                imgBloodproduct.setSelected(true);
+                                lineBlood2.setSelected(true);
+                                imgBloodpatient.setSelected(true);
+                                tvBloodSure.setSelected(true);
                             }
 
                             @Override
@@ -208,16 +244,5 @@ public class BloodSignFragment extends BaseFragment {
                     break;
             }
         }
-    }
-
-
-    private void clearScanInfo() {
-        tvBloodsignBloodbaginfo.setText("请扫描血袋条码");
-        tvBloodsignBloodbaginfo.setSelected(false);
-        tvBloodsignBloodproductinfo.setText("请扫描血制品条码");
-        tvBloodsignBloodproductinfo.setSelected(false);
-        tvBloodsignBloodpatientinfo.setText("血液信息中获取");
-        tvBloodsignBloodpatientinfo.setSelected(false);
-        scanOrder = 1;
     }
 }

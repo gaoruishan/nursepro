@@ -5,19 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:paddingEnd="8dp"
     android:orientation="vertical">
-
 
     <TextView
         android:id="@+id/tv_bloodtoobar_right"
-        android:layout_width="26dp"
-        android:layout_height="26dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:gravity="center"
-        android:background="@drawable/bg_blood_today"
-        android:text="今"
-        android:textColor="@color/white"
+        android:text="   确定   "
+        android:textColor="@drawable/textcolor_bloodsure_selector"
         android:textSize="15sp"/>
-
 
 </LinearLayout>

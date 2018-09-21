@@ -12,8 +12,8 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
@@ -35,6 +35,14 @@ import java.util.Objects;
  * created at 2018/9/18 10:28
  */
 public class BloodBagRecyclingFragment extends BaseFragment {
+
+    private TextView tvBloodscantip;
+    private ImageView imgBloodbag;
+    private View lineBlood1;
+    private ImageView imgBloodproduct;
+    private View lineBlood2;
+    private ImageView imgBloodpatient;
+
     private TextView tvBloodbagrecyclingBloodbaginfo;
     private TextView tvBloodbagrecyclingBloodproductinfo;
     private TextView tvBloodbagrecyclingBloodpatientinfo;
@@ -66,15 +74,6 @@ public class BloodBagRecyclingFragment extends BaseFragment {
 
         showToolbarNavigationIcon(R.drawable.icon_back_blue);
         setToolbarCenterTitle(getString(R.string.title_bloodbagrecycling));
-        //右上角按钮
-        View viewright = View.inflate(getActivity(), R.layout.view_bloodtoolbar_right, null);
-        viewright.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "今日列表", Toast.LENGTH_SHORT).show();
-            }
-        });
-        setToolbarRightCustomView(viewright);
 
         setToolbarBottomLineVisibility(false);
 
@@ -88,6 +87,14 @@ public class BloodBagRecyclingFragment extends BaseFragment {
     }
 
     private void initView(View view) {
+        tvBloodscantip = view.findViewById(R.id.tv_bloodscantip);
+        tvBloodscantip.setText("请扫描血袋条码");
+        imgBloodbag = view.findViewById(R.id.img_bloodbag);
+        lineBlood1 = view.findViewById(R.id.line_blood_1);
+        imgBloodproduct = view.findViewById(R.id.img_bloodproduct);
+        lineBlood2 = view.findViewById(R.id.line_blood_2);
+        imgBloodpatient = view.findViewById(R.id.img_bloodpatient);
+
         tvBloodbagrecyclingBloodbaginfo = view.findViewById(R.id.tv_bloodbagrecycling_bloodbaginfo);
         tvBloodbagrecyclingBloodproductinfo = view.findViewById(R.id.tv_bloodbagrecycling_bloodproductinfo);
         tvBloodbagrecyclingBloodpatientinfo = view.findViewById(R.id.tv_bloodbagrecycling_bloodpatientinfo);
@@ -105,13 +112,17 @@ public class BloodBagRecyclingFragment extends BaseFragment {
     }
 
     private void clearScanInfo() {
-        tvBloodbagrecyclingBloodbaginfo.setText("请扫描血袋条码");
-        tvBloodbagrecyclingBloodbaginfo.setSelected(false);
-        tvBloodbagrecyclingBloodproductinfo.setText("请扫描血制品条码");
-        tvBloodbagrecyclingBloodproductinfo.setSelected(false);
-        tvBloodbagrecyclingBloodpatientinfo.setText("血液信息中获取");
-        tvBloodbagrecyclingBloodpatientinfo.setSelected(false);
+        tvBloodscantip.setText("请扫描血袋条码");
+        imgBloodbag.setSelected(false);
+        lineBlood1.setSelected(false);
+        imgBloodproduct.setSelected(false);
+        lineBlood2.setSelected(false);
+        imgBloodpatient.setSelected(false);
         scanOrder = 1;
+
+        tvBloodbagrecyclingBloodbaginfo.setText("");
+        tvBloodbagrecyclingBloodproductinfo.setText("");
+        tvBloodbagrecyclingBloodpatientinfo.setText("");
     }
 
     private class Receiver extends BroadcastReceiver {
@@ -147,7 +158,9 @@ public class BloodBagRecyclingFragment extends BaseFragment {
                         scanOrder++;
                         bloodbagId = scanStr;
                         tvBloodbagrecyclingBloodbaginfo.setText(bloodbagId);
-                        tvBloodbagrecyclingBloodbaginfo.setSelected(true);
+                        tvBloodscantip.setText("请扫描血制品条码");
+                        imgBloodbag.setSelected(true);
+                        lineBlood1.setSelected(true);
                     } else if (scanOrder == 2) {
                         scanOrder++;
                         bloodProductId = scanStr;
@@ -157,8 +170,10 @@ public class BloodBagRecyclingFragment extends BaseFragment {
                                 bloodInfo = bloodInfoBean.getBlooInfo();
                                 tvBloodbagrecyclingBloodproductinfo.setText(bloodProductId + "-" + bloodInfo.getProductDesc() + "-" + bloodInfo.getBloodGroup());
                                 tvBloodbagrecyclingBloodpatientinfo.setText(bloodInfo.getWardDesc() + "-" + bloodInfo.getBedCode() + "-" + bloodInfo.getPatName() + "-" + bloodInfo.getBloodGroup());
-                                tvBloodbagrecyclingBloodproductinfo.setSelected(true);
-                                tvBloodbagrecyclingBloodpatientinfo.setSelected(true);
+
+                                imgBloodproduct.setSelected(true);
+                                lineBlood2.setSelected(true);
+                                imgBloodpatient.setSelected(true);
 
                                 BloodTSApiManager.recycleBloodbag(bloodInfo.getBloodRowId(), new BloodTSApiManager.BloodOperationResultCallback() {
                                     @Override
