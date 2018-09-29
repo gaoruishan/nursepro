@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +15,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.nursepro.BaseActivity;
@@ -22,9 +22,9 @@ import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.constant.Action;
 import com.dhcc.nursepro.constant.SharedPreference;
-import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bloodtransfusionend.BloodTransfusionEndFragment;
+import com.dhcc.nursepro.workarea.milkloopsystem.MilkOperateResultDialog;
 import com.dhcc.nursepro.workarea.milkloopsystem.api.MilkLoopApiManager;
-import com.dhcc.nursepro.workarea.milkloopsystem.bean.MilkReceiveBagBean;
+import com.dhcc.nursepro.workarea.milkloopsystem.bean.MilkOperatResultBean;
 import com.dhcc.nursepro.workarea.milkloopsystem.bean.MilkReceiveBagInfoBean;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.data.Type;
@@ -62,6 +62,8 @@ public class MilkReceiveFragment extends BaseFragment implements View.OnClickLis
     private String datestr;
 
     private View viewright;
+
+    private MilkOperateResultDialog milkOperateResultDialog;
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_milk_receive, container, false);
@@ -76,7 +78,6 @@ public class MilkReceiveFragment extends BaseFragment implements View.OnClickLis
         showToolbarNavigationIcon(R.drawable.icon_back_blue);
 
         setToolbarCenterTitle(getString(R.string.title_milk_receive));
-        setToolbarBottomLineVisibility(false);
 
         //右上角按钮
         viewright = View.inflate(getActivity(), R.layout.view_save_blue_right, null);
@@ -135,6 +136,7 @@ public class MilkReceiveFragment extends BaseFragment implements View.OnClickLis
                 tvPatinfo.setText(bed+"   "+name);
                 tvRegno.setText(milkReceiveBagInfoBean.getPatInfo().getRegNo());
                 rlScan.setVisibility(View.GONE);
+                etAmount.setText("");
                 setToolbarRightCustomView(viewright);
             }
 
@@ -157,14 +159,46 @@ public class MilkReceiveFragment extends BaseFragment implements View.OnClickLis
         map.put("date",datestr);
         map.put("time",timestr);
         map.put("userId",spUtils.getString(SharedPreference.USERID));
-        MilkLoopApiManager.getMilkReceiveBagResult(map, "receiveBag", new MilkLoopApiManager.MilkReceiveBagCallback() {
+        MilkLoopApiManager.getMilkOperateResult(map, "receiveBag", new MilkLoopApiManager.MilkOperateCallback() {
             @Override
-            public void onSuccess(MilkReceiveBagBean milkReceiveBagBean) {
-                showToast(milkReceiveBagBean.getMsg());
+            public void onSuccess(MilkOperatResultBean milkReceiveBagBean) {
+                if (milkOperateResultDialog != null && milkOperateResultDialog.isShowing()) {
+                    milkOperateResultDialog.dismiss();
+                }
+
+                milkOperateResultDialog = new MilkOperateResultDialog(getActivity());
+
+                milkOperateResultDialog.setExecresult("母乳采集成功");
+
+                milkOperateResultDialog.setImgId(R.drawable.icon_popup_sucess);
+                milkOperateResultDialog.setSureVisible(View.GONE);
+                milkOperateResultDialog.show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        milkOperateResultDialog.dismiss();
+                    }
+                }, 500);
+                etAmount.setText("");
+                rlScan.setVisibility(View.VISIBLE);
             }
             @Override
             public void onFail(String code, String msg) {
-                showToast(code+":"+msg);
+                if (milkOperateResultDialog != null && milkOperateResultDialog.isShowing()) {
+                    milkOperateResultDialog.dismiss();
+                }
+                milkOperateResultDialog = new MilkOperateResultDialog(getActivity());
+                milkOperateResultDialog.setExecresult(msg);
+                milkOperateResultDialog.setImgId(R.drawable.icon_popup_error_patient);
+                milkOperateResultDialog.setSureVisible(View.VISIBLE);
+                milkOperateResultDialog.setSureOnclickListener(new MilkOperateResultDialog.onSureOnclickListener() {
+                    @Override
+                    public void onSureClick() {
+                        milkOperateResultDialog.dismiss();
+                    }
+                });
+                milkOperateResultDialog.show();
             }
         });
 

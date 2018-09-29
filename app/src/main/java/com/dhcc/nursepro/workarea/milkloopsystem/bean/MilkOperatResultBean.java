@@ -7,7 +7,7 @@ package com.dhcc.nursepro.workarea.milkloopsystem.bean;
  * Date: 2018/9/20
  * Time:10:56
  */
-public class MilkReceiveBagBean {
+public class MilkOperatResultBean {
     /**
      * msg : 不存在该奶袋标签
      * msgcode : 120386
