@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".workarea.bloodtransfusionsystem.BloodTransfusionDetailFragment">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E4F0FF" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="20dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="患者信息" />
+
+                    <TextView
+                        android:id="@+id/bloodtransdetail_patinfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="33dp"
+                        android:layout_marginStart="10dp"
+                        android:background="#F5FAFF"
+                        android:gravity="center_vertical"
+                        android:paddingStart="15dp"
+                        tools:text="07床-刘患者-A型Rh阳性" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="血袋信息" />
+
+                    <TextView
+                        android:id="@+id/bloodtransdetail_bloodinfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="33dp"
+                        android:layout_marginStart="10dp"
+                        android:background="#F5FAFF"
+                        android:gravity="center_vertical"
+                        android:paddingStart="15dp"
+                        tools:text="悬浮红细胞2.00U-A型Rh阳性" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="#F5FAFF" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="12dp">
+
+
+                <LinearLayout
+                    android:id="@+id/ll_blooddetail_sign"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:background="@drawable/bg_bloodcircle_selector1"
+                        android:gravity="center"
+                        android:text="签收"
+                        android:textColor="@drawable/textcolor_blooddetail_selector"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tv_blooddetail_signdate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:textColor="#4A4A4A"
+                        android:textSize="13sp"
+                        tools:text="2015-10-20" />
+
+                    <TextView
+                        android:id="@+id/tv_blooddetail_signtime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#4A4A4A"
+                        android:textSize="13sp"
+                        tools:text="8:00:00" />
+
+                    <TextView
+                        android:id="@+id/tv_blooddetail_signnurse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:textColor="#4A4A4A"
+                        android:textSize="13sp"
+                        tools:text="严护士" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_blooddetail_trans"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:background="@drawable/bg_bloodcircle_selector2"
+                        android:gravity="center"
+                        android:text="输注"
+                        android:textColor="@drawable/textcolor_blooddetail_selector"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tv_blooddetail_transdate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:textColor="#4A4A4A"
+                        android:textSize="13sp"
+                        tools:text="2015-10-20" />
+
+                    <TextView
+                        android:id="@+id/tv_blooddetail_transtime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#4A4A4A"
+                        android:textSize="13sp"
+                        tools:text="8:00:00" />
+
+                    <TextView
+                        android:id="@+id/tv_blooddetail_transnurse1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:textColor="#4A4A4A"
+                        android:textSize="13sp"
+                        tools:text="严护士" />
+
+                    <TextView
+                        android:id="@+id/tv_blooddetail_transnurse2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:textColor="#4A4A4A"
+                        android:textSize="13sp"
+                        tools:text="严护士" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_blooddetail_transend"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:background="@drawable/bg_bloodcircle_selector3"
+                        android:gravity="center"
+                        android:text="结束"
+                        android:textColor="@drawable/textcolor_blooddetail_selector"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tv_blooddetail_transenddate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:textColor="#4A4A4A"
+                        android:textSize="13sp"
+                        tools:text="2015-10-20" />
+
+                    <TextView
+                        android:id="@+id/tv_blooddetail_transendtime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#4A4A4A"
+                        android:textSize="13sp"
+                        tools:text="8:00:00" />
+
+                    <TextView
+                        android:id="@+id/tv_blooddetail_transendnurse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:textColor="#4A4A4A"
+                        android:textSize="13sp"
+                        tools:text="严护士" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_blooddetail_transenderror"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:background="@drawable/bg_bloodcircle_selector4"
+                        android:gravity="center"
+                        android:text="终止"
+                        android:textColor="@drawable/textcolor_blooddetail_selector"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tv_blooddetail_transenderrordate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:textColor="#4A4A4A"
+                        android:textSize="13sp"
+                        tools:text="2015-10-20" />
+
+                    <TextView
+                        android:id="@+id/tv_blooddetail_transenderrortime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#4A4A4A"
+                        android:textSize="13sp"
+                        tools:text="8:00:00" />
+
+                    <TextView
+                        android:id="@+id/tv_blooddetail_transenderrornurse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:textColor="#4A4A4A"
+                        android:textSize="13sp"
+                        tools:text="严护士" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_blooddetail_recycling"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:background="@drawable/bg_bloodcircle_selector5"
+                        android:gravity="center"
+                        android:text="回收"
+                        android:textColor="@drawable/textcolor_blooddetail_selector"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tv_blooddetail_recyclingdate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:textColor="#4A4A4A"
+                        android:textSize="13sp"
+                        tools:text="2015-10-20" />
+
+                    <TextView
+                        android:id="@+id/tv_blooddetail_recyclingtime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#4A4A4A"
+                        android:textSize="13sp"
+                        tools:text="8:00:00" />
+
+                    <TextView
+                        android:id="@+id/tv_blooddetail_recyclingnurse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:textColor="#4A4A4A"
+                        android:textSize="13sp"
+                        tools:text="严护士" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_blooddetail_transenderror_reason"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="33dp"
+                android:background="#FEF5F5"
+                android:gravity="center_vertical"
+                android:textColor="#4A4A4A"
+                android:paddingStart="20dp"
+                tools:text="终止原因：过敏"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="#F5FAFF" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recy_blooddetail_tour"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </android.support.v7.widget.RecyclerView>
+
+            <LinearLayout
+                android:id="@+id/ll_blooddetail_tourempty"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+                <ImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/icon_blood_search_empty"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:textSize="16sp"
+                    android:textColor="#9B9B9B"
+                    android:text="暂无巡视"/>
+
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

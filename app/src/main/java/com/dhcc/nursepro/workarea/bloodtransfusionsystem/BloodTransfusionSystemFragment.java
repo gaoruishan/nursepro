@@ -30,6 +30,8 @@ public class BloodTransfusionSystemFragment extends BaseFragment implements View
     private TextView tvBloodtsTranstour;
     private TextView tvBloodtsTransend;
     private TextView tvBloodtsBagrecycling;
+    private TextView tvBloodtsSearch;
+
 
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -64,6 +66,8 @@ public class BloodTransfusionSystemFragment extends BaseFragment implements View
         tvBloodtsTransend.setOnClickListener(this);
         tvBloodtsBagrecycling = view.findViewById(R.id.tv_bloodts_bagrecycling);
         tvBloodtsBagrecycling.setOnClickListener(this);
+        tvBloodtsSearch = view.findViewById(R.id.tv_bloodts_search);
+        tvBloodtsSearch.setOnClickListener(this);
     }
 
     @Override
@@ -83,6 +87,9 @@ public class BloodTransfusionSystemFragment extends BaseFragment implements View
                 break;
             case R.id.tv_bloodts_bagrecycling:
                 startFragment(BloodBagRecyclingFragment.class);
+                break;
+            case R.id.tv_bloodts_search:
+                startFragment(BloodOperationListFragment.class);
                 break;
             default:
                 break;

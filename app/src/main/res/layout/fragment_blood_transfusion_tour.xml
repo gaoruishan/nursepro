@@ -16,93 +16,142 @@
         android:id="@+id/ll_bloodtranstour_scan"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingEnd="16dp"
-        android:paddingStart="16dp">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_height="180dp"
             android:gravity="center"
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="33dp"
-                android:layout_height="47dp"
+                android:layout_width="60dp"
+                android:layout_height="90dp"
                 android:src="@drawable/icon_patient_scan" />
 
             <TextView
+                android:id="@+id/tv_bloodscantip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:text="请扫码"
+                android:layout_marginStart="30dp"
                 android:textColor="#FF62ABFF"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                tools:text="请扫描血袋条码" />
         </LinearLayout>
 
-        <TextView
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="#f5faff" />
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="52dp"
-            android:text="血袋信息"
-            android:textColor="#FF9B9B9B"
-            android:textSize="12sp" />
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="18dp"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tv_bloodtranstour_bloodbaginfo"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/bg_blood_content_selector"
-            android:gravity="center_vertical"
-            android:paddingEnd="15dp"
-            android:paddingStart="15dp"
-            android:text="请扫描血袋条码"
-            android:textColor="@drawable/textcolor_blood_content_selector"
-            android:textSize="15sp" />
+            <LinearLayout
+                android:layout_width="23dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="血制品信息"
-            android:textColor="#FF9B9B9B"
-            android:textSize="12sp" />
+                <ImageView
+                    android:id="@+id/img_bloodbag"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_bloodbag_selector" />
 
-        <TextView
-            android:id="@+id/tv_bloodtranstour_bloodproductinfo"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/bg_blood_content_selector"
-            android:gravity="center_vertical"
-            android:paddingEnd="15dp"
-            android:paddingStart="15dp"
-            android:text="请扫描血制品条码"
-            android:textColor="@drawable/textcolor_blood_content_selector"
-            android:textSize="15sp" />
+                <View
+                    android:id="@+id/line_blood_1"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:background="@drawable/line_bloodts_scan_selector"
+                    android:layerType="software" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="受血人信息"
-            android:textColor="#FF9B9B9B"
-            android:textSize="12sp" />
+                <ImageView
+                    android:id="@+id/img_bloodproduct"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_bloodproduct_selector" />
 
-        <TextView
-            android:id="@+id/tv_bloodtranstour_bloodpatientinfo"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/bg_blood_content_selector"
-            android:gravity="center_vertical"
-            android:paddingEnd="15dp"
-            android:paddingStart="15dp"
-            android:text="血液信息中获取"
-            android:textColor="@drawable/textcolor_blood_content_selector"
-            android:textSize="15sp" />
+                <View
+                    android:id="@+id/line_blood_2"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:background="@drawable/line_bloodts_scan_selector"
+                    android:layerType="software" />
+
+                <ImageView
+                    android:id="@+id/img_bloodpatient"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_patient_selector" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="23dp"
+                    android:gravity="center_vertical"
+                    android:text="血袋信息"
+                    android:textColor="#4A4A4A"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_bloodtranstour_bloodbaginfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="#4A4A4A"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    tools:text="0010116157767" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="23dp"
+                    android:gravity="center_vertical"
+                    android:text="血制品信息"
+                    android:textColor="#4A4A4A"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_bloodtranstour_bloodproductinfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="#4A4A4A"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    tools:text="Z4167V00-悬浮红细胞2.00U-A型Rh阳性" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="23dp"
+                    android:gravity="center_vertical"
+                    android:text="患者信息"
+                    android:textColor="#4A4A4A"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_bloodtranstour_bloodpatientinfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="#4A4A4A"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    tools:text="妇产科一病床-7床-刘患者-A型Rh阳性" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -117,8 +166,8 @@
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:gravity="center_vertical"
-            android:paddingEnd="16dp"
-            android:paddingStart="16dp">
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
 
             <TextView
                 android:layout_width="0dp"
@@ -152,8 +201,8 @@
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:gravity="center_vertical"
-            android:paddingEnd="16dp"
-            android:paddingStart="16dp">
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
 
             <TextView
                 android:layout_width="0dp"
@@ -182,8 +231,8 @@
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:gravity="center_vertical"
-            android:paddingEnd="16dp"
-            android:paddingStart="16dp">
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -197,8 +246,8 @@
                 android:layout_width="0dp"
                 android:layout_height="33dp"
                 android:layout_gravity="center"
-                android:layout_marginEnd="10dp"
                 android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_weight="1"
                 android:background="#F5FAFF"
                 android:gravity="center"
@@ -226,8 +275,8 @@
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:gravity="center_vertical"
-            android:paddingEnd="16dp"
-            android:paddingStart="16dp">
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
 
             <TextView
                 android:layout_width="0dp"
@@ -261,8 +310,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingEnd="16dp"
-            android:paddingStart="16dp">
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
 
             <TextView
                 android:layout_width="match_parent"
@@ -281,10 +330,10 @@
                 android:hint="描述患者反应"
                 android:imeOptions="actionDone"
                 android:inputType="text"
-                android:paddingBottom="17dp"
-                android:paddingEnd="15dp"
                 android:paddingStart="15dp"
                 android:paddingTop="17dp"
+                android:paddingEnd="15dp"
+                android:paddingBottom="17dp"
                 android:textColor="#4A4A4A"
                 android:textColorHint="#B3B3B3"
                 android:textSize="15sp" />

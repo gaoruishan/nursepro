@@ -52,4 +52,13 @@
         android:background="@color/white"
         android:padding="6dp"
         android:text="回收" />
+
+    <TextView
+        android:id="@+id/tv_bloodts_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:background="@color/white"
+        android:padding="6dp"
+        android:text="查询" />
 </LinearLayout>

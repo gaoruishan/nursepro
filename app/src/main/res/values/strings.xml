@@ -43,6 +43,8 @@
     <string name="title_bloodtransfusionend">结束</string>
     <string name="title_bloodtransfusiontour">巡视</string>
     <string name="title_bloodbagrecycling">回收</string>
+    <string name="title_bloodtransfusionsearch">查询</string>
+    <string name="title_bloodtransfusiondetail">详情</string>
 
 
     <!--母乳闭环-->

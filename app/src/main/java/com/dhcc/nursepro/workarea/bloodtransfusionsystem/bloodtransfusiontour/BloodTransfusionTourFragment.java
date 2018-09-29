@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,6 +48,13 @@ import java.util.Objects;
  * created at 2018/9/18 10:36
  */
 public class BloodTransfusionTourFragment extends BaseFragment implements OnDateSetListener {
+    private TextView tvBloodscantip;
+    private ImageView imgBloodbag;
+    private View lineBlood1;
+    private ImageView imgBloodproduct;
+    private View lineBlood2;
+    private ImageView imgBloodpatient;
+
     private LinearLayout llBloodtranstourScan;
     private TextView tvBloodtranstourBloodbaginfo;
     private TextView tvBloodtranstourBloodproductinfo;
@@ -161,6 +169,7 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
                         public void onSuccess(BloodOperationResultBean bloodOperationResult) {
                             Toast.makeText(getActivity(), "输血巡视保存成功", Toast.LENGTH_SHORT).show();
                             setToolbarRightView(0);
+                            clearEditInfo();
                             llBloodtranstourScan.setVisibility(View.VISIBLE);
                             llBloodtranstourEdit.setVisibility(View.GONE);
                         }
@@ -180,6 +189,14 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
     }
 
     private void initView(View view) {
+        tvBloodscantip = view.findViewById(R.id.tv_bloodscantip);
+        tvBloodscantip.setText("请扫描血袋条码");
+        imgBloodbag = view.findViewById(R.id.img_bloodbag);
+        lineBlood1 = view.findViewById(R.id.line_blood_1);
+        imgBloodproduct = view.findViewById(R.id.img_bloodproduct);
+        lineBlood2 = view.findViewById(R.id.line_blood_2);
+        imgBloodpatient = view.findViewById(R.id.img_bloodpatient);
+
         llBloodtranstourScan = view.findViewById(R.id.ll_bloodtranstour_scan);
         tvBloodtranstourBloodbaginfo = view.findViewById(R.id.tv_bloodtranstour_bloodbaginfo);
         tvBloodtranstourBloodproductinfo = view.findViewById(R.id.tv_bloodtranstour_bloodproductinfo);
@@ -248,13 +265,16 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
     }
 
     private void clearScanInfo() {
-        tvBloodtranstourBloodbaginfo.setText("请扫描血袋条码");
-        tvBloodtranstourBloodbaginfo.setSelected(false);
-        tvBloodtranstourBloodproductinfo.setText("请扫描血制品条码");
-        tvBloodtranstourBloodproductinfo.setSelected(false);
-        tvBloodtranstourBloodpatientinfo.setText("血液信息中获取");
-        tvBloodtranstourBloodpatientinfo.setSelected(false);
+        tvBloodscantip.setText("请扫描血袋条码");
+        imgBloodbag.setSelected(false);
+        lineBlood1.setSelected(false);
+        imgBloodproduct.setSelected(false);
+        lineBlood2.setSelected(false);
+        imgBloodpatient.setSelected(false);
         scanOrder = 1;
+        tvBloodtranstourBloodbaginfo.setText("");
+        tvBloodtranstourBloodproductinfo.setText("");
+        tvBloodtranstourBloodpatientinfo.setText("");
     }
 
     private void clearEditInfo() {
@@ -281,31 +301,14 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
                     Bundle bundle = new Bundle();
                     bundle = intent.getExtras();
                     String scanStr = bundle.getString("data");
-                    //                    if (scanOrder == 0) {
-                    //                        regNo = scanStr;
-                    //
-                    //                        BloodTSApiManager.getPatWristInfo(regNo, new BloodTSApiManager.GetPatWristInfoCallback() {
-                    //                            @Override
-                    //                            public void onSuccess(PatWristInfoBean patWristInfoBean) {
-                    //                                PatWristInfoBean.PatInfoBean patInfoBean = patWristInfoBean.getPatInfo();
-                    //
-                    //                                tvBloodsignBloodpatientinfo.setText(patInfoBean.getWardDesc()+"-"+patInfoBean.getRoomDesc()+"-"+patInfoBean.getBedCode()+"床-"+patInfoBean.getName());
-                    //                                scanOrder++;
-                    //                            }
-                    //
-                    //                            @Override
-                    //                            public void onFail(String code, String msg) {
-                    //                                Toast.makeText(getActivity(), code + ":" + msg, Toast.LENGTH_SHORT).show();
-                    //                            }
-                    //                        });
-                    //
-                    //                    }
 
                     if (scanOrder == 1) {
                         scanOrder++;
                         bloodbagId = scanStr;
                         tvBloodtranstourBloodbaginfo.setText(bloodbagId);
-                        tvBloodtranstourBloodbaginfo.setSelected(true);
+                        tvBloodscantip.setText("请扫描血制品条码");
+                        imgBloodbag.setSelected(true);
+                        lineBlood1.setSelected(true);
                     } else if (scanOrder == 2) {
                         scanOrder++;
                         bloodProductId = scanStr;
@@ -315,9 +318,11 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
                                 bloodInfo = bloodInfoBean.getBlooInfo();
                                 bloodRowId = bloodInfo.getBloodRowId();
                                 tvBloodtranstourBloodproductinfo.setText(bloodProductId + "-" + bloodInfo.getProductDesc() + "-" + bloodInfo.getBloodGroup());
-                                tvBloodtranstourBloodproductinfo.setSelected(true);
                                 tvBloodtranstourBloodpatientinfo.setText(bloodInfo.getWardDesc() + "-" + bloodInfo.getBedCode() + "-" + bloodInfo.getPatName() + "-" + bloodInfo.getBloodGroup());
-                                tvBloodtranstourBloodpatientinfo.setSelected(true);
+                                tvBloodscantip.setText("请填写输血巡视内容");
+                                imgBloodproduct.setSelected(true);
+                                lineBlood2.setSelected(true);
+                                imgBloodpatient.setSelected(true);
 
                                 if (bloodOperationResultDialog != null && bloodOperationResultDialog.isShowing()) {
                                     bloodOperationResultDialog.dismiss();

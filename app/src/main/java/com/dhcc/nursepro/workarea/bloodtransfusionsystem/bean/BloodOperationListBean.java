@@ -11,7 +11,7 @@ import java.util.List;
 public class BloodOperationListBean {
 
     /**
-     * bloodList : [{"bedCode":"01","bldTyp":"AB型","bloodBagNo":"2","bloodPref":"2","bloodProducDesc":"新鲜冰冻血浆 400cc","bloodProductNo":"2","endType":"E","episodeId":"94","operateFlag":"","patBldTyp":"AB型","patName":"王伟测试","patWard":"5","reciveDate":"2018-09-19","reciveTime":"17:31:55","reciveUser":"护士01","sex":"男","status":"输血结束","stopReason":"","tStartReason":"","transEdDate":"2018-09-20","transEdTime":"09:02:34","transEdUser":"","transEndFlag":"","transFirstUser":"innurse","transRecFlag":"","transRecycleDate":"","transRecycleTime":"","transRecycleUser":"","transSecondUser":"护士01","transStFlag":"","transStartDate":"2018-09-19","transStartTime":"17:33:43"},{"bedCode":"01","bldTyp":"AB型","bloodBagNo":"6","bloodPref":"6","bloodProducDesc":"新鲜冰冻血浆 400cc","bloodProductNo":"6","endType":"Z","episodeId":"94","operateFlag":"","patBldTyp":"AB型","patName":"王伟测试","patWard":"5","reciveDate":"2018-09-20","reciveTime":"09:03:53","reciveUser":"护士01","sex":"男","status":"输血结束","stopReason":"其他","tStartReason":"","transEdDate":"2018-09-20","transEdTime":"09:04:37","transEdUser":"innurse","transEndFlag":"","transFirstUser":"护士01","transRecFlag":"","transRecycleDate":"","transRecycleTime":"","transRecycleUser":"","transSecondUser":"护士02","transStFlag":"","transStartDate":"2018-09-20","transStartTime":"09:04:19"},{"bedCode":"01","bldTyp":"AB型","bloodBagNo":"7","bloodPref":"7","bloodProducDesc":"新鲜冰冻血浆 400cc","bloodProductNo":"7","endType":"Z","episodeId":"94","operateFlag":"","patBldTyp":"AB型","patName":"王伟测试","patWard":"5","reciveDate":"2018-09-20","reciveTime":"09:11:19","reciveUser":"护士01","sex":"男","status":"输血结束","stopReason":"其他","tStartReason":"","transEdDate":"2018-09-20","transEdTime":"09:13:23","transEdUser":"innurse","transEndFlag":"","transFirstUser":"护士01","transRecFlag":"","transRecycleDate":"","transRecycleTime":"","transRecycleUser":"","transSecondUser":"innurse","transStFlag":"","transStartDate":"2018-09-20","transStartTime":"09:12:26"},{"bedCode":"01","bldTyp":"AB型","bloodBagNo":"12","bloodPref":"12","bloodProducDesc":"新鲜冰冻血浆 400cc","bloodProductNo":"12","endType":"E","episodeId":"94","operateFlag":"","patBldTyp":"AB型","patName":"王伟测试","patWard":"5","reciveDate":"2018-09-20","reciveTime":"11:47:56","reciveUser":"护士01","sex":"男","status":"输血结束","stopReason":"","tStartReason":"","transEdDate":"2018-09-20","transEdTime":"11:50:07","transEdUser":"innurse","transEndFlag":"","transFirstUser":"innurse","transRecFlag":"","transRecycleDate":"","transRecycleTime":"","transRecycleUser":"","transSecondUser":"护士01","transStFlag":"","transStartDate":"2018-09-20","transStartTime":"11:49:09"},{"bedCode":"01","bldTyp":"AB型","bloodBagNo":"13","bloodPref":"13","bloodProducDesc":"新鲜冰冻血浆 400cc","bloodProductNo":"13","endType":"Z","episodeId":"94","operateFlag":"","patBldTyp":"AB型","patName":"王伟测试","patWard":"5","reciveDate":"2018-09-20","reciveTime":"15:00:12","reciveUser":"护士01","sex":"男","status":"输血结束","stopReason":"其他","tStartReason":"","transEdDate":"2018-09-20","transEdTime":"15:01:24","transEdUser":"innurse","transEndFlag":"","transFirstUser":"innurse","transRecFlag":"","transRecycleDate":"","transRecycleTime":"","transRecycleUser":"","transSecondUser":"护士01","transStFlag":"","transStartDate":"2018-09-20","transStartTime":"15:00:30"}]
+     * bloodList : [{"bedCode":"01","bldTyp":"AB型","bloodBagNo":"6","bloodPref":"6","bloodProducDesc":"新鲜冰冻血浆 400cc","bloodProductNo":"6","bloodRowId":"6","endType":"Z","episodeId":"94","operateFlag":"","patBldTyp":"AB型","patName":"王伟测试","patWard":"5","reciveDate":"2018-09-20","reciveTime":"09:03:53","reciveUser":"护士01","sex":"男","status":"输血结束","stopReason":"其他","tStartReason":"","transEdDate":"2018-09-20","transEdTime":"09:04:37","transEdUser":"innurse","transEndFlag":"","transFirstUser":"护士01","transRecFlag":"","transRecycleDate":"","transRecycleTime":"","transRecycleUser":"","transSecondUser":"护士02","transStFlag":"","transStartDate":"2018-09-20","transStartTime":"09:04:19"},{"bedCode":"01","bldTyp":"AB型","bloodBagNo":"7","bloodPref":"7","bloodProducDesc":"新鲜冰冻血浆 400cc","bloodProductNo":"7","bloodRowId":"7","endType":"Z","episodeId":"94","operateFlag":"","patBldTyp":"AB型","patName":"王伟测试","patWard":"5","reciveDate":"2018-09-20","reciveTime":"09:11:19","reciveUser":"护士01","sex":"男","status":"输血结束","stopReason":"其他","tStartReason":"","transEdDate":"2018-09-20","transEdTime":"09:13:23","transEdUser":"innurse","transEndFlag":"","transFirstUser":"护士01","transRecFlag":"","transRecycleDate":"","transRecycleTime":"","transRecycleUser":"","transSecondUser":"innurse","transStFlag":"","transStartDate":"2018-09-20","transStartTime":"09:12:26"},{"bedCode":"01","bldTyp":"AB型","bloodBagNo":"8","bloodPref":"8","bloodProducDesc":"新鲜冰冻血浆 400cc","bloodProductNo":"8","bloodRowId":"8","endType":"","episodeId":"94","operateFlag":"","patBldTyp":"AB型","patName":"王伟测试","patWard":"5","reciveDate":"2018-09-20","reciveTime":"09:11:26","reciveUser":"护士01","sex":"男","status":"正在输血","stopReason":"","tStartReason":"","transEdDate":"","transEdTime":"","transEdUser":"","transEndFlag":"","transFirstUser":"innurse","transRecFlag":"","transRecycleDate":"","transRecycleTime":"","transRecycleUser":"","transSecondUser":"护士01","transStFlag":"","transStartDate":"2018-09-20","transStartTime":"09:12:40"},{"bedCode":"01","bldTyp":"AB型","bloodBagNo":"9","bloodPref":"9","bloodProducDesc":"新鲜冰冻血浆 400cc","bloodProductNo":"9","bloodRowId":"9","endType":"","episodeId":"94","operateFlag":"","patBldTyp":"AB型","patName":"王伟测试","patWard":"5","reciveDate":"2018-09-20","reciveTime":"09:11:31","reciveUser":"护士01","sex":"男","status":"签收","stopReason":"","tStartReason":"","transEdDate":"","transEdTime":"","transEdUser":"","transEndFlag":"","transFirstUser":"","transRecFlag":"","transRecycleDate":"","transRecycleTime":"","transRecycleUser":"","transSecondUser":"","transStFlag":"","transStartDate":"","transStartTime":""},{"bedCode":"01","bldTyp":"AB型","bloodBagNo":"10","bloodPref":"10","bloodProducDesc":"新鲜冰冻血浆 400cc","bloodProductNo":"10","bloodRowId":"10","endType":"","episodeId":"94","operateFlag":"","patBldTyp":"AB型","patName":"王伟测试","patWard":"5","reciveDate":"2018-09-20","reciveTime":"09:11:37","reciveUser":"护士01","sex":"男","status":"签收","stopReason":"","tStartReason":"","transEdDate":"","transEdTime":"","transEdUser":"","transEndFlag":"","transFirstUser":"","transRecFlag":"","transRecycleDate":"","transRecycleTime":"","transRecycleUser":"","transSecondUser":"","transStFlag":"","transStartDate":"","transStartTime":""},{"bedCode":"01","bldTyp":"AB型","bloodBagNo":"11","bloodPref":"11","bloodProducDesc":"新鲜冰冻血浆 400cc","bloodProductNo":"11","bloodRowId":"11","endType":"","episodeId":"94","operateFlag":"","patBldTyp":"AB型","patName":"王伟测试","patWard":"5","reciveDate":"2018-09-20","reciveTime":"09:11:44","reciveUser":"护士01","sex":"男","status":"签收","stopReason":"","tStartReason":"","transEdDate":"","transEdTime":"","transEdUser":"","transEndFlag":"","transFirstUser":"","transRecFlag":"","transRecycleDate":"","transRecycleTime":"","transRecycleUser":"","transSecondUser":"","transStFlag":"","transStartDate":"","transStartTime":""},{"bedCode":"01","bldTyp":"AB型","bloodBagNo":"12","bloodPref":"12","bloodProducDesc":"新鲜冰冻血浆 400cc","bloodProductNo":"12","bloodRowId":"12","endType":"E","episodeId":"94","operateFlag":"","patBldTyp":"AB型","patName":"王伟测试","patWard":"5","reciveDate":"2018-09-20","reciveTime":"11:47:56","reciveUser":"护士01","sex":"男","status":"输血结束","stopReason":"","tStartReason":"","transEdDate":"2018-09-20","transEdTime":"11:50:07","transEdUser":"innurse","transEndFlag":"","transFirstUser":"innurse","transRecFlag":"","transRecycleDate":"","transRecycleTime":"","transRecycleUser":"","transSecondUser":"护士01","transStFlag":"","transStartDate":"2018-09-20","transStartTime":"11:49:09"},{"bedCode":"01","bldTyp":"AB型","bloodBagNo":"13","bloodPref":"13","bloodProducDesc":"新鲜冰冻血浆 400cc","bloodProductNo":"13","bloodRowId":"13","endType":"Z","episodeId":"94","operateFlag":"","patBldTyp":"AB型","patName":"王伟测试","patWard":"5","reciveDate":"2018-09-20","reciveTime":"15:00:12","reciveUser":"护士01","sex":"男","status":"输血结束","stopReason":"其他","tStartReason":"","transEdDate":"2018-09-20","transEdTime":"15:01:24","transEdUser":"innurse","transEndFlag":"","transFirstUser":"innurse","transRecFlag":"","transRecycleDate":"","transRecycleTime":"","transRecycleUser":"","transSecondUser":"护士01","transStFlag":"","transStartDate":"2018-09-20","transStartTime":"15:00:30"},{"bedCode":"01","bldTyp":"AB型","bloodBagNo":"14","bloodPref":"14","bloodProducDesc":"新鲜冰冻血浆 400cc","bloodProductNo":"14","bloodRowId":"14","endType":"E","episodeId":"94","operateFlag":"","patBldTyp":"AB型","patName":"王伟测试","patWard":"5","reciveDate":"2018-09-20","reciveTime":"15:20:50","reciveUser":"护士01","sex":"男","status":"输血结束","stopReason":"","tStartReason":"","transEdDate":"2018-09-20","transEdTime":"16:21:22","transEdUser":"innurse","transEndFlag":"","transFirstUser":"","transRecFlag":"","transRecycleDate":"","transRecycleTime":"","transRecycleUser":"","transSecondUser":"","transStFlag":"","transStartDate":"","transStartTime":""},{"bedCode":"01","bldTyp":"AB型","bloodBagNo":"15","bloodPref":"15","bloodProducDesc":"新鲜冰冻血浆 400cc","bloodProductNo":"15","bloodRowId":"15","endType":"","episodeId":"94","operateFlag":"","patBldTyp":"AB型","patName":"王伟测试","patWard":"5","reciveDate":"2018-09-20","reciveTime":"15:27:21","reciveUser":"护士01","sex":"男","status":"正在输血","stopReason":"","tStartReason":"","transEdDate":"","transEdTime":"","transEdUser":"","transEndFlag":"","transFirstUser":"护士01","transRecFlag":"","transRecycleDate":"","transRecycleTime":"","transRecycleUser":"","transSecondUser":"护士02","transStFlag":"","transStartDate":"2018-09-21","transStartTime":"16:42:57"},{"bedCode":"01","bldTyp":"AB型","bloodBagNo":"16","bloodPref":"16","bloodProducDesc":"新鲜冰冻血浆 400cc","bloodProductNo":"16","bloodRowId":"16","endType":"E","episodeId":"94","operateFlag":"","patBldTyp":"AB型","patName":"王伟测试","patWard":"5","reciveDate":"2018-09-20","reciveTime":"16:29:20","reciveUser":"护士01","sex":"男","status":"已回收","stopReason":"","tStartReason":"","transEdDate":"2018-09-20","transEdTime":"16:30:27","transEdUser":"innurse","transEndFlag":"","transFirstUser":"innurse","transRecFlag":"","transRecycleDate":"2018-09-21","transRecycleTime":"16:47:01","transRecycleUser":"护士01","transSecondUser":"护士01","transStFlag":"","transStartDate":"2018-09-20","transStartTime":"16:29:38"}]
      * msg : 成功!
      * msgcode : 999999
      * status : 0
@@ -58,36 +58,37 @@ public class BloodOperationListBean {
         /**
          * bedCode : 01
          * bldTyp : AB型
-         * bloodBagNo : 2
-         * bloodPref : 2
+         * bloodBagNo : 6
+         * bloodPref : 6
          * bloodProducDesc : 新鲜冰冻血浆 400cc
-         * bloodProductNo : 2
-         * endType : E
+         * bloodProductNo : 6
+         * bloodRowId : 6
+         * endType : Z
          * episodeId : 94
          * operateFlag :
          * patBldTyp : AB型
          * patName : 王伟测试
          * patWard : 5
-         * reciveDate : 2018-09-19
-         * reciveTime : 17:31:55
+         * reciveDate : 2018-09-20
+         * reciveTime : 09:03:53
          * reciveUser : 护士01
          * sex : 男
          * status : 输血结束
-         * stopReason :
+         * stopReason : 其他
          * tStartReason :
          * transEdDate : 2018-09-20
-         * transEdTime : 09:02:34
-         * transEdUser :
+         * transEdTime : 09:04:37
+         * transEdUser : innurse
          * transEndFlag :
-         * transFirstUser : innurse
+         * transFirstUser : 护士01
          * transRecFlag :
          * transRecycleDate :
          * transRecycleTime :
          * transRecycleUser :
-         * transSecondUser : 护士01
+         * transSecondUser : 护士02
          * transStFlag :
-         * transStartDate : 2018-09-19
-         * transStartTime : 17:33:43
+         * transStartDate : 2018-09-20
+         * transStartTime : 09:04:19
          */
 
         private String bedCode;
@@ -96,6 +97,7 @@ public class BloodOperationListBean {
         private String bloodPref;
         private String bloodProducDesc;
         private String bloodProductNo;
+        private String bloodRowId;
         private String endType;
         private String episodeId;
         private String operateFlag;
@@ -169,6 +171,14 @@ public class BloodOperationListBean {
 
         public void setBloodProductNo(String bloodProductNo) {
             this.bloodProductNo = bloodProductNo;
+        }
+
+        public String getBloodRowId() {
+            return bloodRowId;
+        }
+
+        public void setBloodRowId(String bloodRowId) {
+            this.bloodRowId = bloodRowId;
         }
 
         public String getEndType() {

@@ -3,16 +3,122 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue_light"
+    android:background="@color/white"
     android:orientation="vertical"
     tools:context=".workarea.bloodtransfusionsystem.BloodOperationListFragment">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
+
+        <TextView
+            android:id="@+id/tv_bloodoplist_sign"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="签收"
+            android:textSize="15sp"
+            android:textColor="@drawable/textcolor_item_bloodoptype_selector" />
+
+        <TextView
+            android:id="@+id/tv_bloodoplist_trans"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:text="输注"
+            android:textColor="@drawable/textcolor_item_bloodoptype_selector" />
+
+        <TextView
+            android:id="@+id/tv_bloodoplist_transend"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:text="结束"
+            android:textColor="@drawable/textcolor_item_bloodoptype_selector" />
+
+        <TextView
+            android:id="@+id/tv_bloodoplist_recycling"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:text="回收"
+            android:textColor="@drawable/textcolor_item_bloodoptype_selector" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#62ABFF" />
+    <LinearLayout
+        android:id="@+id/ll_bloodoplist_searchdate"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/icon_time_bottom"/>
+        <TextView
+            android:id="@+id/tv_bloodoplist_searchdate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/ordersearch_text_color"
+            android:textSize="12sp"
+            tools:text="2018-08-23"/>
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="#ECF4FC" />
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recy_blood_operationlist"
+        android:id="@+id/recy_bloodoplist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
     </android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:id="@+id/ll_bloodoplist_empty"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/icon_blood_search_empty"/>
+
+        <TextView
+            android:id="@+id/tv_bloodoplist_empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textSize="16sp"
+            android:textColor="#9B9B9B"
+            android:text="暂无巡视"/>
+
+    </LinearLayout>
 
 
 </LinearLayout>

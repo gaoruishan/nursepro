@@ -16,9 +16,6 @@ public class BloodTSApiService {
 
     /**
      * 获取病人信息
-     *
-     * @param regNo
-     * @param callback
      */
     public static void getPatWristInfo(String regNo, final ServiceCallBack callback) {
         SPUtils spUtils = SPUtils.getInstance();
@@ -36,10 +33,6 @@ public class BloodTSApiService {
 
     /**
      * 获取血液信息---扫描 血袋号、血制品号
-     *
-     * @param bloodbagId
-     * @param bloodProductId
-     * @param callback
      */
     public static void getBloodInfo(String bloodbagId, String bloodProductId, final ServiceCallBack callback) {
         HashMap<String, String> properties = new HashMap<>();
@@ -56,15 +49,6 @@ public class BloodTSApiService {
 
     /**
      * 血袋签收
-     *
-     * @param bloodbagId
-     * @param bloodProductId
-     * @param bloodGroup
-     * @param patBldGroup
-     * @param episodeId
-     * @param productDesc
-     * @param rowId
-     * @param callback
      */
     public static void bloodReceive(String bloodbagId, String bloodProductId, String bloodGroup, String patBldGroup, String episodeId, String productDesc, String rowId, final ServiceCallBack callback) {
         HashMap<String, String> properties = new HashMap<>();
@@ -89,12 +73,6 @@ public class BloodTSApiService {
 
     /**
      * 获取已签收血液信息
-     *
-     * @param episodeId
-     * @param bloodbagId
-     * @param bloodProductId
-     * @param type
-     * @param callback
      */
     public static void getInfusionBloodInfo(String episodeId, String bloodbagId, String bloodProductId, String type, final ServiceCallBack callback) {
         HashMap<String, String> properties = new HashMap<>();
@@ -114,12 +92,6 @@ public class BloodTSApiService {
 
     /**
      * 输血开始
-     *
-     * @param bloodRowId
-     * @param userId1
-     * @param userId2
-     * @param type
-     * @param callback
      */
     public static void bloodTransStart(String bloodRowId, String userId1, String userId2, String type, final ServiceCallBack callback) {
         HashMap<String, String> properties = new HashMap<>();
@@ -140,13 +112,8 @@ public class BloodTSApiService {
     /**
      * 输血巡视
      *
-     * @param bloodRowId
-     * @param recdate
-     * @param rectime
-     * @param speed
-     * @param effect     是否存在不良反应
-     * @param situation  反应状况
-     * @param callback
+     * @param effect    是否存在不良反应
+     * @param situation 反应状况
      */
     public static void bloodPatrol(String bloodRowId, String recdate, String rectime, String speed, String effect, String situation, final ServiceCallBack callback) {
         HashMap<String, String> properties = new HashMap<>();
@@ -169,13 +136,6 @@ public class BloodTSApiService {
 
     /**
      * 输血结束
-     *
-     * @param bloodRowId
-     * @param userId
-     * @param StopReasonDesc
-     * @param endType
-     * @param type
-     * @param callback
      */
     public static void bloodTransEnd(String bloodRowId, String userId, String StopReasonDesc, String endType, String type, final ServiceCallBack callback) {
         HashMap<String, String> properties = new HashMap<>();
@@ -195,9 +155,6 @@ public class BloodTSApiService {
 
     /**
      * 血袋回收
-     *
-     * @param bloodRowId
-     * @param callback
      */
     public static void recycleBloodbag(String bloodRowId, final ServiceCallBack callback) {
         HashMap<String, String> properties = new HashMap<>();
@@ -205,6 +162,38 @@ public class BloodTSApiService {
         properties.put("userId", SPUtils.getInstance().getString(SharedPreference.USERID));
 
         WebServiceUtils.callWebService("recycleBloodbag", properties, new WebServiceUtils.WebServiceCallBack() {
+            @Override
+            public void callBack(String result) {
+                callback.onResult(result);
+            }
+        });
+    }
+
+    /**
+     * 输血查询
+     */
+    public static void getBloodList(String type, String date, final ServiceCallBack callback) {
+        HashMap<String, String> properties = new HashMap<>();
+        properties.put("wardId", SPUtils.getInstance().getString(SharedPreference.WARDID));
+        properties.put("type", type);
+        properties.put("date", date);
+
+        WebServiceUtils.callWebService("getBloodList", properties, new WebServiceUtils.WebServiceCallBack() {
+            @Override
+            public void callBack(String result) {
+                callback.onResult(result);
+            }
+        });
+    }
+
+    /**
+     * 输血详情
+     */
+    public static void getBloodPatrolRecord(String bloodRowId, final ServiceCallBack callback) {
+        HashMap<String, String> properties = new HashMap<>();
+        properties.put("bloodRowId", bloodRowId);
+
+        WebServiceUtils.callWebService("getBloodPatrolRecord", properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);

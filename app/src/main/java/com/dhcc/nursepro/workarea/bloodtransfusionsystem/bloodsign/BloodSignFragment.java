@@ -187,25 +187,6 @@ public class BloodSignFragment extends BaseFragment {
                     Bundle bundle = new Bundle();
                     bundle = intent.getExtras();
                     String scanStr = bundle.getString("data");
-                    //                    if (scanOrder == 0) {
-                    //                        regNo = scanStr;
-                    //
-                    //                        BloodTSApiManager.getPatWristInfo(regNo, new BloodTSApiManager.GetPatWristInfoCallback() {
-                    //                            @Override
-                    //                            public void onSuccess(PatWristInfoBean patWristInfoBean) {
-                    //                                PatWristInfoBean.PatInfoBean patInfoBean = patWristInfoBean.getPatInfo();
-                    //
-                    //                                tvBloodsignBloodpatientinfo.setText(patInfoBean.getWardDesc()+"-"+patInfoBean.getRoomDesc()+"-"+patInfoBean.getBedCode()+"床-"+patInfoBean.getName());
-                    //                                scanOrder++;
-                    //                            }
-                    //
-                    //                            @Override
-                    //                            public void onFail(String code, String msg) {
-                    //                                Toast.makeText(getActivity(), code + ":" + msg, Toast.LENGTH_SHORT).show();
-                    //                            }
-                    //                        });
-                    //
-                    //                    }
 
                     if (scanOrder == 1) {
                         scanOrder++;

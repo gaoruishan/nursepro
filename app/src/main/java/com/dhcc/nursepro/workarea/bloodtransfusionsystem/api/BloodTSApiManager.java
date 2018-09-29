@@ -2,7 +2,9 @@ package com.dhcc.nursepro.workarea.bloodtransfusionsystem.api;
 
 import com.blankj.utilcode.util.ObjectUtils;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bean.BloodInfoBean;
+import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bean.BloodOperationListBean;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bean.BloodOperationResultBean;
+import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bean.BloodTransDetailBean;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bean.PatWristInfoBean;
 import com.google.gson.Gson;
 
@@ -246,6 +248,64 @@ public class BloodTSApiManager {
         });
     }
 
+    public static void getBloodList(String type,String date, final BloodOperationListCallback callback) {
+        BloodTSApiService.getBloodList(type,date, new BloodTSApiService.ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                Gson gson = new Gson();
+
+                if (jsonStr.isEmpty()) {
+                    callback.onFail("-1", "网络请求失败");
+                } else {
+                    BloodOperationListBean bloodOperationListBean = gson.fromJson(jsonStr, BloodOperationListBean.class);
+                    if (ObjectUtils.isEmpty(bloodOperationListBean)) {
+                        callback.onFail("-1", "网络请求失败");
+                    } else {
+                        if (bloodOperationListBean.getStatus().equals("0")) {
+                            if (callback != null) {
+                                callback.onSuccess(bloodOperationListBean);
+                            }
+                        } else {
+                            if (callback != null) {
+                                callback.onFail(bloodOperationListBean.getMsgcode(), bloodOperationListBean.getMsg());
+                            }
+                        }
+                    }
+
+                }
+            }
+        });
+    }
+
+    public static void getBloodPatrolRecord(String bloodRowId,final BloodTransDetailCallback callback) {
+        BloodTSApiService.getBloodPatrolRecord(bloodRowId,new BloodTSApiService.ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                Gson gson = new Gson();
+
+                if (jsonStr.isEmpty()) {
+                    callback.onFail("-1", "网络请求失败");
+                } else {
+                    BloodTransDetailBean bloodTransDetailBean = gson.fromJson(jsonStr, BloodTransDetailBean.class);
+                    if (ObjectUtils.isEmpty(bloodTransDetailBean)) {
+                        callback.onFail("-1", "网络请求失败");
+                    } else {
+                        if (bloodTransDetailBean.getStatus().equals("0")) {
+                            if (callback != null) {
+                                callback.onSuccess(bloodTransDetailBean);
+                            }
+                        } else {
+                            if (callback != null) {
+                                callback.onFail(bloodTransDetailBean.getMsgcode(), bloodTransDetailBean.getMsg());
+                            }
+                        }
+                    }
+
+                }
+            }
+        });
+    }
+
     public interface CommonCallBack {
         void onFail(String code, String msg);
     }
@@ -260,5 +320,13 @@ public class BloodTSApiManager {
 
     public interface BloodOperationResultCallback extends CommonCallBack {
         void onSuccess(BloodOperationResultBean bloodOperationResult);
+    }
+
+    public interface BloodOperationListCallback extends CommonCallBack {
+        void onSuccess(BloodOperationListBean bloodOperationListBean);
+    }
+
+    public interface BloodTransDetailCallback extends CommonCallBack {
+        void onSuccess(BloodTransDetailBean bloodTransDetailBean);
     }
 }
