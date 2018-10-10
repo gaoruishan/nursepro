@@ -2,143 +2,35 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
-
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:background="@drawable/picture_workarea"
+        android:gravity="center"
+        >
+        <TextView
+            android:layout_width="290dp"
+            android:layout_height="45dp"
+            android:background="@drawable/back_tv_workarea"
+            android:text="有时是治愈；常常是帮助；总是去安慰。"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:layout_marginTop="15dp"
+            />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tv_workarea_bedmap"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="12dp"
-                android:background="@color/white"
-                android:padding="6dp"
-                android:text="床位图" />
-
-            <TextView
-                android:id="@+id/tv_workarea_vitalsign"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="12dp"
-                android:background="@color/white"
-                android:padding="6dp"
-                android:text="生命体征" />
-
-            <TextView
-                android:id="@+id/tv_workarea_events"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="12dp"
-                android:background="@color/white"
-                android:padding="6dp"
-                android:text="事件管理" />
-
-            <TextView
-                android:id="@+id/tv_workarea_ordersearch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="12dp"
-                android:background="@color/white"
-                android:padding="6dp"
-                android:text="医嘱查询" />
-
-            <TextView
-                android:id="@+id/tv_workarea_orderexecute"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="12dp"
-                android:background="@color/white"
-                android:padding="6dp"
-                android:text="医嘱执行" />
-
-            <TextView
-                android:id="@+id/tv_workarea_check"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="12dp"
-                android:background="@color/white"
-                android:padding="6dp"
-                android:text="检查结果" />
-
-            <TextView
-                android:id="@+id/tv_workarea_lab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="12dp"
-                android:background="@color/white"
-                android:padding="6dp"
-                android:text="检验结果" />
-
-            <TextView
-                android:id="@+id/tv_workarea_operation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="12dp"
-                android:background="@color/white"
-                android:padding="6dp"
-                android:text="手术申请" />
-
-            <TextView
-                android:id="@+id/tv_workarea_labout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="12dp"
-                android:background="@color/white"
-                android:padding="6dp"
-                android:text="检验打包" />
-
-            <TextView
-                android:id="@+id/tv_workarea_dosingreview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="12dp"
-                android:background="@color/white"
-                android:padding="6dp"
-                android:text="配液复核" />
-
-            <TextView
-                android:id="@+id/tv_workarea_allotbed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="12dp"
-                android:background="@color/white"
-                android:padding="6dp"
-                android:text="入院分床" />
-
-            <TextView
-                android:id="@+id/tv_workarea_docorderlist"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="12dp"
-                android:background="@color/white"
-                android:padding="6dp"
-                android:text="医嘱单" />
-
-            <TextView
-                android:id="@+id/tv_workarea_bloodtransfusionsystem"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="12dp"
-                android:background="@color/white"
-                android:padding="6dp"
-                android:text="输血系统" />
-            <TextView
-                android:id="@+id/tv_workarea_milkloopsystem"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="12dp"
-                android:background="@color/white"
-                android:padding="6dp"
-                android:text="母乳闭环" />
-        </LinearLayout>
-    </ScrollView>
-
+    </LinearLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/img_blueline"
+        />
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/recy_workarea"
+        ></android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

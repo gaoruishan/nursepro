@@ -4,43 +4,147 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#FAFAFA"
+    android:background="@color/white"
     tools:context=".workarea.milkloopsystem.MilkLoopSystemFragment">
-
-    <TextView
-        android:id="@+id/tv_milk_receive"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="12dp"
-        android:background="@color/white"
-        android:padding="6dp"
-        android:text="母乳采集" />
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/picture_milk"
+            >
+            <LinearLayout
+                android:id="@+id/ll_milk_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/icon_back_blue"
+                    />
+            </LinearLayout>
+        </RelativeLayout>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img_blueline"
+            />
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/tv_milk_freezing"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="12dp"
-        android:background="@color/white"
-        android:padding="6dp"
-        android:text="母乳冷冻" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_above="@+id/tv_bottom">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                >
+                <LinearLayout
+                    android:id="@+id/ll_milk_receive"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    >
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/icon_milk_receive"/>
+                    <TextView
+                        style="@style/iconTextStyle"
+                        android:text="母乳采集" />
+                </LinearLayout>
 
-    <TextView
-        android:id="@+id/tv_milk_bottling"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="12dp"
-        android:background="@color/white"
-        android:padding="6dp"
-        android:text="母乳装瓶" />
+                <LinearLayout
+                    android:id="@+id/ll_milk_freezing"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    >
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/icon_milk_freezing"/>
+                    <TextView
+                        style="@style/iconTextStyle"
+                        android:text="母乳冷冻" />
+                </LinearLayout>
 
-    <TextView
-        android:id="@+id/tv_milk_cold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="12dp"
-        android:background="@color/white"
-        android:padding="6dp"
-        android:text="母乳冷藏" />
+            </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/workarea_device_color"></View>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:id="@+id/ll_milk_bottling"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    >
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/icon_milk_bottling"/>
+                    <TextView
+                        style="@style/iconTextStyle"
+                        android:text="母乳装瓶" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_milk_cold"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    >
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/icon_milk_cold" />
+                    <TextView
+                        style="@style/iconTextStyle"
+                        android:text="母乳冷藏" />
+                </LinearLayout>
+            </LinearLayout>
+    </LinearLayout>
+        <TextView
+            android:id="@+id/tv_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/picture_milk_bottom"
+            android:text="世界上的一切光荣和骄傲，都来自母亲。"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:gravity="center"
+            />
+    </RelativeLayout>
 </LinearLayout>

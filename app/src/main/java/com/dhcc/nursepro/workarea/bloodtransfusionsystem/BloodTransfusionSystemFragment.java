@@ -6,6 +6,8 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dhcc.nursepro.BaseActivity;
@@ -25,12 +27,13 @@ import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bloodtransfusiontour.Bl
  * created at 2018/9/18 09:52
  */
 public class BloodTransfusionSystemFragment extends BaseFragment implements View.OnClickListener {
-    private TextView tvBloodtsSign;
-    private TextView tvBloodtsTrans;
-    private TextView tvBloodtsTranstour;
-    private TextView tvBloodtsTransend;
-    private TextView tvBloodtsBagrecycling;
-    private TextView tvBloodtsSearch;
+    private LinearLayout LLBloodtsSign;
+    private LinearLayout LLBloodtsTrans;
+    private LinearLayout LLBloodtsTranstour;
+    private LinearLayout LLBloodtsTransend;
+    private LinearLayout LLBloodtsBagrecycling;
+    private LinearLayout LLBloodtsSearch;
+    private LinearLayout LLBack;
 
 
     @Override
@@ -41,13 +44,13 @@ public class BloodTransfusionSystemFragment extends BaseFragment implements View
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setStatusBarBackgroundViewVisibility(true, 0xffffffff);
-        setToolbarType(BaseActivity.ToolbarType.TOP);
-        setToolbarBackground(new ColorDrawable(0xffffffff));
-        showToolbarNavigationIcon(R.drawable.icon_back_blue);
-
-        setToolbarCenterTitle(getString(R.string.title_bloodtransfusionsystem));
-        setToolbarBottomLineVisibility(false);
+        setStatusBarBackgroundViewVisibility(false, 0xffffffff);
+        setToolbarType(BaseActivity.ToolbarType.HIDE);
+//        setToolbarBackground(new ColorDrawable(0xffffffff));
+//        showToolbarNavigationIcon(R.drawable.icon_back_blue);
+//
+//        setToolbarCenterTitle(getString(R.string.title_bloodtransfusionsystem));
+//        setToolbarBottomLineVisibility(false);
 
 
         initView(view);
@@ -56,40 +59,45 @@ public class BloodTransfusionSystemFragment extends BaseFragment implements View
     }
 
     private void initView(View view) {
-        tvBloodtsSign = view.findViewById(R.id.tv_bloodts_sign);
-        tvBloodtsSign.setOnClickListener(this);
-        tvBloodtsTrans = view.findViewById(R.id.tv_bloodts_trans);
-        tvBloodtsTrans.setOnClickListener(this);
-        tvBloodtsTranstour = view.findViewById(R.id.tv_bloodts_transtour);
-        tvBloodtsTranstour.setOnClickListener(this);
-        tvBloodtsTransend = view.findViewById(R.id.tv_bloodts_transend);
-        tvBloodtsTransend.setOnClickListener(this);
-        tvBloodtsBagrecycling = view.findViewById(R.id.tv_bloodts_bagrecycling);
-        tvBloodtsBagrecycling.setOnClickListener(this);
-        tvBloodtsSearch = view.findViewById(R.id.tv_bloodts_search);
-        tvBloodtsSearch.setOnClickListener(this);
+        LLBloodtsSign = view.findViewById(R.id.ll_bloodts_sign);
+        LLBloodtsSign.setOnClickListener(this);
+        LLBloodtsTrans = view.findViewById(R.id.ll_bloodts_trans);
+        LLBloodtsTrans.setOnClickListener(this);
+        LLBloodtsTranstour = view.findViewById(R.id.ll_bloodts_transtour);
+        LLBloodtsTranstour.setOnClickListener(this);
+        LLBloodtsTransend = view.findViewById(R.id.ll_bloodts_transend);
+        LLBloodtsTransend.setOnClickListener(this);
+        LLBloodtsBagrecycling = view.findViewById(R.id.ll_bloodts_bagrecycling);
+        LLBloodtsBagrecycling.setOnClickListener(this);
+        LLBloodtsSearch = view.findViewById(R.id.ll_bloodts_search);
+        LLBloodtsSearch.setOnClickListener(this);
+        LLBack = view.findViewById(R.id.ll_blood_back);
+        LLBack.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_bloodts_sign:
+            case R.id.ll_bloodts_sign:
                 startFragment(BloodSignFragment.class);
                 break;
-            case R.id.tv_bloodts_trans:
+            case R.id.ll_bloodts_trans:
                 startFragment(BloodTransfusionFragment.class);
                 break;
-            case R.id.tv_bloodts_transtour:
+            case R.id.ll_bloodts_transtour:
                 startFragment(BloodTransfusionTourFragment.class);
                 break;
-            case R.id.tv_bloodts_transend:
+            case R.id.ll_bloodts_transend:
                 startFragment(BloodTransfusionEndFragment.class);
                 break;
-            case R.id.tv_bloodts_bagrecycling:
+            case R.id.ll_bloodts_bagrecycling:
                 startFragment(BloodBagRecyclingFragment.class);
                 break;
-            case R.id.tv_bloodts_search:
+            case R.id.ll_bloodts_search:
                 startFragment(BloodOperationListFragment.class);
+                break;
+            case R.id.ll_blood_back:
+                finish();
                 break;
             default:
                 break;

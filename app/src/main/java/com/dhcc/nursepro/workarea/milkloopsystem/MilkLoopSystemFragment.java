@@ -6,6 +6,8 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dhcc.nursepro.BaseActivity;
@@ -25,7 +27,7 @@ import com.dhcc.nursepro.workarea.milkloopsystem.milkreceive.MilkReceiveFragment
  */
 public class MilkLoopSystemFragment extends BaseFragment implements View.OnClickListener{
 
-    private TextView tvReceive,tvFreezing,tvBottling,tvCold;
+    private LinearLayout LLReceive,LLFreezing,LLBottling,LLCold,LLBack;
 
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -35,13 +37,16 @@ public class MilkLoopSystemFragment extends BaseFragment implements View.OnClick
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setStatusBarBackgroundViewVisibility(true, 0xffffffff);
-        setToolbarType(BaseActivity.ToolbarType.TOP);
-        setToolbarBackground(new ColorDrawable(0xffffffff));
-        showToolbarNavigationIcon(R.drawable.icon_back_blue);
+        setStatusBarBackgroundViewVisibility(false, 0xffffffff);
+        setToolbarType(BaseActivity.ToolbarType.HIDE);
 
-        setToolbarCenterTitle(getString(R.string.title_milk_receive));
-        setToolbarBottomLineVisibility(false);
+//        setStatusBarBackgroundViewVisibility(true, 0xffffffff);
+//        setToolbarType(BaseActivity.ToolbarType.TOP);
+//        setToolbarBackground(new ColorDrawable(0xffffffff));
+//        showToolbarNavigationIcon(R.drawable.icon_back_blue);
+//
+//        setToolbarCenterTitle(getString(R.string.title_milk_receive));
+//        setToolbarBottomLineVisibility(false);
 
 
         initView(view);
@@ -51,32 +56,36 @@ public class MilkLoopSystemFragment extends BaseFragment implements View.OnClick
 
     private void initView(View view){
 
-        tvReceive = view.findViewById(R.id.tv_milk_receive);
-        tvReceive.setOnClickListener(this);
-        tvFreezing = view.findViewById(R.id.tv_milk_freezing);
-        tvFreezing.setOnClickListener(this);
-        tvBottling = view.findViewById(R.id.tv_milk_bottling);
-        tvBottling.setOnClickListener(this);
-        tvCold = view.findViewById(R.id.tv_milk_cold);
-        tvCold.setOnClickListener(this);
-
+        LLReceive = view.findViewById(R.id.ll_milk_receive);
+        LLReceive.setOnClickListener(this);
+        LLFreezing = view.findViewById(R.id.ll_milk_freezing);
+        LLFreezing.setOnClickListener(this);
+        LLBottling = view.findViewById(R.id.ll_milk_bottling);
+        LLBottling.setOnClickListener(this);
+        LLCold = view.findViewById(R.id.ll_milk_cold);
+        LLCold.setOnClickListener(this);
+        LLBack = view.findViewById(R.id.ll_milk_back);
+        LLBack.setOnClickListener(this);
 
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.tv_milk_receive:
+            case R.id.ll_milk_receive:
                 startFragment(MilkReceiveFragment.class);
                 break;
-            case R.id.tv_milk_freezing:
+            case R.id.ll_milk_freezing:
                 startFragment(MilkFreezingFragment.class);
                 break;
-            case R.id.tv_milk_bottling:
+            case R.id.ll_milk_bottling:
                 startFragment(MilkBottlingFragment.class);
                 break;
-            case R.id.tv_milk_cold:
+            case R.id.ll_milk_cold:
                 startFragment(MilkColdstorageFragment.class);
+                break;
+            case R.id.ll_milk_back:
+                finish();
                 break;
             default:
                 break;

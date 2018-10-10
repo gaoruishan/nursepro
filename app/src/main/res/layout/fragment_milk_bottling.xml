@@ -69,7 +69,7 @@
                     android:id="@+id/icon_milkbottling_bag"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/icon_bloodbag_selector" />
+                    android:src="@drawable/icon_milkbag_selector" />
 
                 <View
                     android:id="@+id/line_milkbottling_2"
@@ -81,7 +81,7 @@
                     android:id="@+id/icon_milkbottling_bottle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/icon_bloodproduct_selector" />
+                    android:src="@drawable/icon_milkbottle_selector" />
 
             </LinearLayout>
 

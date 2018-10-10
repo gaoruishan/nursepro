@@ -2,11 +2,18 @@ package com.dhcc.nursepro.workarea;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
@@ -25,26 +32,15 @@ import com.dhcc.nursepro.workarea.ordersearch.OrderSearchFragment;
 import com.dhcc.nursepro.workarea.patevents.PatEventsFragment;
 import com.dhcc.nursepro.workarea.vitalsign.VitalSignFragment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * WorkareaFragment
  * 主页
  */
-public class WorkareaFragment extends BaseFragment implements View.OnClickListener {
-
-    private TextView tvWorkareaBedmap;
-    private TextView tvWorkareaVitalSign;
-    private TextView tvWorkareaEvents;
-    private TextView tvWorkAreaOrderSearch;
-    private TextView tvWorkAreaOrderExecute;
-    private TextView tvWorkAreaCheck;
-    private TextView tvWorkAreaLab;
-    private TextView tvOperation;
-    private TextView tvLabOut;
-    private TextView tvDosingReview;
-    private TextView tvWorkareaAllotBed;
-    private TextView tvWorkareaDocOrdList;
-    private TextView tvWorkareaBloodtransfusionsystem;
-    private TextView tvWorkareaMilk;
+public class WorkareaFragment extends BaseFragment {
+    private List ItemNameList = new ArrayList<String>();
 
 
     @Override
@@ -55,107 +51,170 @@ public class WorkareaFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setStatusBarBackgroundViewVisibility(false, 0xffffffff);
+        setToolbarType(BaseActivity.ToolbarType.HIDE);
+//        setToolbarType(BaseActivity.ToolbarType.TOP);
+//        setToolbarBottomLineVisibility(true);
+//        hideToolbarNavigationIcon();
 
-        setToolbarType(BaseActivity.ToolbarType.TOP);
-        setToolbarBottomLineVisibility(true);
-        hideToolbarNavigationIcon();
+        initData(view);
+    }
+    private void initData(View view) {
+
+        ItemNameList.add("BEDMAP");//床位图
+        ItemNameList.add("VITALSIGN");//生命体征
+        ItemNameList.add("EVENTS");//事件管理
+        ItemNameList.add("ORDERSEARCH");//医嘱查询
+        ItemNameList.add("ORDEREXECUTE");//医嘱执行
+        ItemNameList.add("CHECK");//检查报告
+        ItemNameList.add("LAB");//检验报告
+        ItemNameList.add("OPERATION");//手术申请
+        ItemNameList.add("LABOUT");//检验打包
+        ItemNameList.add("DOSINGREVIEW");//输液复合
+        ItemNameList.add("ALLOTBED");//入院分床
+        ItemNameList.add("DOCORDERLIST");//医嘱单
+        ItemNameList.add("BLOOD");//输血系统
+        ItemNameList.add("MILK");//母乳闭环
 
         initView(view);
-
-        initData();
-
     }
-
     private void initView(View view) {
-        tvWorkareaBedmap = view.findViewById(R.id.tv_workarea_bedmap);
-        tvWorkareaBedmap.setOnClickListener(this);
-        tvWorkareaVitalSign = view.findViewById(R.id.tv_workarea_vitalsign);
-        tvWorkareaVitalSign.setOnClickListener(this);
-        tvWorkareaEvents = view.findViewById(R.id.tv_workarea_events);
-        tvWorkareaEvents.setOnClickListener(this);
-        tvWorkAreaOrderSearch = view.findViewById(R.id.tv_workarea_ordersearch);
-        tvWorkAreaOrderSearch.setOnClickListener(this);
-        tvWorkAreaOrderExecute = view.findViewById(R.id.tv_workarea_orderexecute);
-        tvWorkAreaOrderExecute.setOnClickListener(this);
-        tvWorkAreaLab = view.findViewById(R.id.tv_workarea_lab);
-        tvWorkAreaLab.setOnClickListener(this);
-        tvWorkAreaCheck = view.findViewById(R.id.tv_workarea_check);
-        tvWorkAreaCheck.setOnClickListener(this);
-        tvOperation = view.findViewById(R.id.tv_workarea_operation);
-        tvOperation.setOnClickListener(this);
-        tvLabOut = view.findViewById(R.id.tv_workarea_labout);
-        tvLabOut.setOnClickListener(this);
-        tvDosingReview = view.findViewById(R.id.tv_workarea_dosingreview);
-        tvDosingReview.setOnClickListener(this);
-        tvWorkareaAllotBed = view.findViewById(R.id.tv_workarea_allotbed);
-        tvWorkareaAllotBed.setOnClickListener(this);
-        tvWorkareaDocOrdList = view.findViewById(R.id.tv_workarea_docorderlist);
-        tvWorkareaDocOrdList.setOnClickListener(this);
-        tvWorkareaBloodtransfusionsystem = view.findViewById(R.id.tv_workarea_bloodtransfusionsystem);
-        tvWorkareaBloodtransfusionsystem.setOnClickListener(this);
-        tvWorkareaMilk = view.findViewById(R.id.tv_workarea_milkloopsystem);
-        tvWorkareaMilk.setOnClickListener(this);
+
+        RecyclerView recyPatevents = view.findViewById(R.id.recy_workarea);
+        recyPatevents.setHasFixedSize(true);
+//        recyPatevents.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyPatevents.setLayoutManager(new GridLayoutManager(getActivity(),3));
+        WorkAreaAdapter patEventsAdapter = new WorkAreaAdapter(new ArrayList<String>());
+        recyPatevents.setAdapter(patEventsAdapter);
+        patEventsAdapter.setNewData(ItemNameList);
+        patEventsAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                itemClick(ItemNameList.get(position)+"");
+            }
+        });
     }
 
-    private void initData() {
-
-    }
-
-    @Override
-    public void onClick(View v) {
-
-        Bundle bundle = new Bundle();
-        switch (v.getId()) {
-
-            case R.id.tv_workarea_bedmap:
+    public void itemClick(String itemName){
+        switch (itemName) {
+            case "BEDMAP":
                 startFragment(BedMapFragment.class);
                 break;
-            case R.id.tv_workarea_vitalsign:
+            case "VITALSIGN":
                 startFragment(VitalSignFragment.class);
                 break;
-            case R.id.tv_workarea_events:
-                //                bundle.putString("recId",null);
-                //                bundle.putString("regNo","0000000129");
-                //                startFragment(PatEventsFragment.class,bundle);
+            case "EVENTS":
                 startFragment(PatEventsFragment.class);
                 break;
-            case R.id.tv_workarea_ordersearch:
+            case "ORDERSEARCH":
                 startFragment(OrderSearchFragment.class);
                 break;
-            case R.id.tv_workarea_orderexecute:
+            case "ORDEREXECUTE":
                 startFragment(OrderExecuteFragment.class);
                 break;
-            case R.id.tv_workarea_check:
-                //                bundle.putString("episodeId","94");
-                //                startFragment(VitalSignDetailFragment.class,bundle);
+            case "CHECK":
                 startFragment(CheckPatsFragment.class);
                 break;
-            case R.id.tv_workarea_lab:
+            case "LAB":
                 startFragment(LabPatsFragment.class);
                 break;
-            case R.id.tv_workarea_operation:
+            case "OPERATION":
                 startFragment(OperationFragment.class);
                 break;
-            case R.id.tv_workarea_labout:
+            case "LABOUT":
                 startFragment(LabOutListFragment.class);
                 break;
-            case R.id.tv_workarea_dosingreview:
+            case "DOSINGREVIEW":
                 startFragment(DosingReviewFragment.class);
                 break;
-            case R.id.tv_workarea_allotbed:
+            case "ALLOTBED":
                 startFragment(AllotBedFragment.class);
                 break;
-            case R.id.tv_workarea_docorderlist:
+            case "DOCORDERLIST":
                 startFragment(DocOrderListFragment.class);
                 break;
-            case R.id.tv_workarea_bloodtransfusionsystem:
+            case "BLOOD":
                 startFragment(BloodTransfusionSystemFragment.class);
                 break;
-            case R.id.tv_workarea_milkloopsystem:
+            case "MILK":
                 startFragment(MilkLoopSystemFragment.class);
                 break;
             default:
+//                showToast("正在开发");
                 break;
+        }
+    }
+
+    public class WorkAreaAdapter extends BaseQuickAdapter<String,BaseViewHolder> {
+        public WorkAreaAdapter(@Nullable List<String> data) {
+            super(R.layout.item_workarea,data);
+        }
+        @Override
+        protected void convert(BaseViewHolder helper, String item) {
+            TextView tvItem = helper.getView(R.id.tv_workarea);
+            ImageView imageView = helper.getView(R.id.icon_workarea);
+            switch (item) {
+                case "BEDMAP":
+//                    helper.setText(R.id.tv_workarea,item)
+//                    .setImageResource(R.id.icon_workarea,R.drawable.icon_add);
+                    tvItem.setText("床位图");
+                    imageView.setImageResource(R.drawable.icon_bedmap);
+                    break;
+                case "VITALSIGN":
+                    tvItem.setText("生命体征");
+                    imageView.setImageResource(R.drawable.icon_vitalsign);
+                    break;
+                case "EVENTS":
+                    tvItem.setText("事件管理");
+                    imageView.setImageResource(R.drawable.icon_events);
+                    break;
+                case "ORDERSEARCH":
+                    tvItem.setText("医嘱查询");
+                    imageView.setImageResource(R.drawable.icon_orderserarch);
+                    break;
+                case "ORDEREXECUTE":
+                    tvItem.setText("医嘱执行");
+                    imageView.setImageResource(R.drawable.icon_orderexcute);
+                    break;
+                case "CHECK":
+                    tvItem.setText("检查报告");
+                    imageView.setImageResource(R.drawable.icon_check);
+                    break;
+                case "LAB":
+                    tvItem.setText("检验报告");
+                    imageView.setImageResource(R.drawable.icon_lab);
+                    break;
+                case "OPERATION":
+                    tvItem.setText("手术申请");
+                    imageView.setImageResource(R.drawable.icon_operation);
+                    break;
+                case "LABOUT":
+                    tvItem.setText("检验打包");
+                    imageView.setImageResource(R.drawable.icon_labout);
+                    break;
+                case "DOSINGREVIEW":
+                    tvItem.setText("配液复合");
+                    imageView.setImageResource(R.drawable.icon_dosingreview);
+                    break;
+                case "ALLOTBED":
+                    tvItem.setText("入院分床");
+                    imageView.setImageResource(R.drawable.icon_allotbed);
+                    break;
+                case "DOCORDERLIST":
+                    tvItem.setText("医嘱单");
+                    imageView.setImageResource(R.drawable.icon_docorderlist);
+                    break;
+                case "BLOOD":
+                    tvItem.setText("输血系统");
+                    imageView.setImageResource(R.drawable.icon_blood);
+                    break;
+                case "MILK":
+                    tvItem.setText("母乳闭环");
+                    imageView.setImageResource(R.drawable.icon_milk);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

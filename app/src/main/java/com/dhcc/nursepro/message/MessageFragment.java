@@ -60,9 +60,11 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        setToolbarType(BaseActivity.ToolbarType.TOP);
-        setToolbarBottomLineVisibility(true);
-        hideToolbarNavigationIcon();
+        setStatusBarBackgroundViewVisibility(false, 0xffffffff);
+        setToolbarType(BaseActivity.ToolbarType.HIDE);
+//        setToolbarType(BaseActivity.ToolbarType.TOP);
+//        setToolbarBottomLineVisibility(true);
+//        hideToolbarNavigationIcon();
 
         initView(view);
         initAdapter();
@@ -133,9 +135,6 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
                             Toast.makeText(getActivity(), code+":"+msg, Toast.LENGTH_SHORT).show();
                         }
                     });
-
-
-
 
                 }
             }

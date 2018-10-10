@@ -112,18 +112,26 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         boolean tabMessageChecked = rbMessage.isChecked();
         boolean tabSettingChecked = rbSetting.isChecked();
 
+        setStatusBarBackgroundViewVisibility(false, 0xffffffff);
+        setToolbarType(BaseActivity.ToolbarType.HIDE);
         switch (checkedId) {
             case R.id.rbWorkarea:
+//                setStatusBarBackgroundViewVisibility(false, 0xffffffff);
+//                setToolbarType(BaseActivity.ToolbarType.HIDE);
                 switchMainTab(TAB_WORKAREA);
                 setRbWorkareaTitle();
                 break;
 
             case R.id.rbMessage:
+//                setStatusBarBackgroundViewVisibility(true, 0xffffffff);
+//                setToolbarType(ToolbarType.TOP);
                 switchMainTab(TAB_MESSAGE);
                 setRbMessageTitle();
                 break;
 
             case R.id.rbSetting:
+//                setStatusBarBackgroundViewVisibility(true, 0xffffffff);
+////                setToolbarType(ToolbarType.TOP);
                 switchMainTab(TAB_SETTING);
                 setRbSettingTitle();
                 break;
