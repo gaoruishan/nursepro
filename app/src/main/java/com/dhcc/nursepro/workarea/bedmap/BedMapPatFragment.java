@@ -16,6 +16,10 @@ import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.bedmap.bean.BedMapBean;
+import com.dhcc.nursepro.workarea.checkresult.CheckResultListFragment;
+import com.dhcc.nursepro.workarea.checkresult.adapter.CheckResultListAdapter;
+import com.dhcc.nursepro.workarea.docorderlist.DocOrderListFragment;
+import com.dhcc.nursepro.workarea.labresult.LabResultListFragment;
 import com.dhcc.nursepro.workarea.orderexecute.OrderExecuteFragment;
 import com.dhcc.nursepro.workarea.ordersearch.OrderSearchFragment;
 import com.dhcc.nursepro.workarea.patevents.PatEventsFragment;
@@ -52,6 +56,7 @@ public class BedMapPatFragment extends BaseFragment implements View.OnClickListe
 
 
     private BedMapBean.PatInfoListBean patInfoListBean;
+    private BedMapBean.PatInfoListBean.PatInfoDetailBean patInfoDetailBean;
 
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -63,6 +68,7 @@ public class BedMapPatFragment extends BaseFragment implements View.OnClickListe
         super.onViewCreated(view, savedInstanceState);
         Bundle bundle = getArguments();
         patInfoListBean = (BedMapBean.PatInfoListBean) bundle.getSerializable("patinfo");
+        patInfoDetailBean = patInfoListBean.getPatInfoDetail();
 
         //状态栏 背景 默认蓝色
         setStatusBarBackgroundViewVisibility(true, 0xffffffff);
@@ -202,34 +208,40 @@ public class BedMapPatFragment extends BaseFragment implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+        Bundle bundle = new Bundle();
         switch (v.getId()) {
-            case R.id.ll_bedmappat_info:
-                Toast.makeText(getActivity(), "基本信息", Toast.LENGTH_SHORT).show();
+            case R.id.ll_bedmappat_info://基本信息
+                bundle.putSerializable("patinfo",patInfoDetailBean);
+                startFragment(BedMapPatInfoFragment.class,bundle);
                 break;
-            case R.id.ll_bedmappat_order:
-                Toast.makeText(getActivity(), "医嘱单", Toast.LENGTH_SHORT).show();
+            case R.id.ll_bedmappat_order://医嘱单
+                bundle.putString("episodeid",patInfoListBean.getEpisodeId());
+                startFragment(DocOrderListFragment.class,bundle);
                 break;
-            case R.id.ll_bedmappat_ordersearch:
-                Bundle bundle3 = new Bundle();
-                bundle3.putString("regNo",patInfoListBean.getRegNo());
-                startFragment(OrderSearchFragment.class,bundle3);
+            case R.id.ll_bedmappat_ordersearch://医嘱查询
+                bundle.putString("regNo",patInfoListBean.getRegNo());
+                startFragment(OrderSearchFragment.class,bundle);
                 break;
-            case R.id.ll_bedmappat_orderexecute:
+            case R.id.ll_bedmappat_orderexecute://医嘱执行
                 Bundle bundle4 = new Bundle();
                 bundle4.putString("regNo",patInfoListBean.getRegNo());
                 startFragment(OrderExecuteFragment.class,bundle4);
                 break;
-            case R.id.ll_bedmappat_testresult:
-                Toast.makeText(getActivity(), "检验结果", Toast.LENGTH_SHORT).show();
+            case R.id.ll_bedmappat_testresult://检验结果
+                String bedinfolab = patInfoListBean.getBedCode().isEmpty()?"未分"+ "床  "+patInfoListBean.getName():patInfoListBean.getBedCode()+"床  "+patInfoListBean.getName();
+                bundle.putString("episodeId",patInfoListBean.getEpisodeId());
+                bundle.putString("patmsg",bedinfolab);
+                startFragment(LabResultListFragment.class, bundle);
                 break;
-            case R.id.ll_bedmappat_inspectionreport:
-                Toast.makeText(getActivity(), "检查报告", Toast.LENGTH_SHORT).show();
+            case R.id.ll_bedmappat_inspectionreport://检查报告
+                String bedinfocheck = patInfoListBean.getBedCode().isEmpty()?"未分"+ "床  "+patInfoListBean.getName():patInfoListBean.getBedCode()+"床  "+patInfoListBean.getName();
+                bundle.putString("episodeId",patInfoListBean.getEpisodeId());
+                bundle.putString("patmsg",bedinfocheck);
+                startFragment(CheckResultListFragment.class, bundle);
                 break;
-            case R.id.ll_bedmappat_eventsearch:
-                Toast.makeText(getActivity(), "事件查询", Toast.LENGTH_SHORT).show();
-                Bundle bundle7 = new Bundle();
-                bundle7.putString("regNo",patInfoListBean.getRegNo());
-                startFragment(PatEventsFragment.class, bundle7);
+            case R.id.ll_bedmappat_eventsearch://事件查询
+                bundle.putString("regNo",patInfoListBean.getRegNo());
+                startFragment(PatEventsFragment.class, bundle);
                 break;
             default:
                 break;

@@ -5,8 +5,16 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context=".workarea.bedmap.bedMapPatInfoFragment">
-
+    tools:context=".workarea.bedmap.BedMapPatInfoFragment">
+   <View
+       android:layout_width="match_parent"
+       android:layout_height="10dp"
+       android:background="@color/bg_blue_light"
+       ></View>
+   <android.support.v7.widget.RecyclerView
+       android:id="@+id/recy_bedmap_patientdetail"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
 
 
 </LinearLayout>

@@ -165,7 +165,7 @@ public class WorkareaFragment extends BaseFragment {
                     imageView.setImageResource(R.drawable.icon_vitalsign);
                     break;
                 case "EVENTS":
-                    tvItem.setText("事件管理");
+                    tvItem.setText("事件录入");
                     imageView.setImageResource(R.drawable.icon_events);
                     break;
                 case "ORDERSEARCH":

@@ -170,7 +170,6 @@ public class DocOrderListFragment extends BaseFragment {
 
         ordersAdapter = new DocOrderListOrdersAdapter(new ArrayList<List<DocOrderListBean.OrdListBean>>());
         recOrders.setAdapter(ordersAdapter);
-
     }
 
 
@@ -217,6 +216,29 @@ public class DocOrderListFragment extends BaseFragment {
                 patsAdapter.setNewData(patsListBeanList);
                 episodId = patsListBeanList.get(0).getEpisodeId();
                 initDataOrders();
+
+                Bundle bundle = getArguments();
+                String getEpisodId;
+                if (bundle != null) {
+                    getEpisodId = bundle.getString("episodeid");
+                    for (int i = 0;i<patsListBeanList.size();i++){
+                        if ( patsListBeanList.get(i).getEpisodeId().equals(getEpisodId)){
+//                    patSel = i;
+                            patsAdapter.setSelectItem(i);
+                            patsAdapter.notifyDataSetChanged();
+                            episodId = patsListBeanList.get(i).getEpisodeId();
+//                            recPats.setLayoutManager(new LinearLayoutManager(getActivity()));
+//                            recPats.smoothScrollToPosition(i);
+                            recPats.scrollToPosition(i);
+
+
+                            LinearLayoutManager mLayoutManager =
+                                    (LinearLayoutManager) recPats.getLayoutManager();
+                            mLayoutManager.scrollToPositionWithOffset(i, 0);
+                            initDataOrders();
+                        }
+                    }
+                }
             }
 
             @Override

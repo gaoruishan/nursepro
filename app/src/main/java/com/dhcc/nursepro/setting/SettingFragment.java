@@ -116,7 +116,6 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                             changeLoc();
                         }
                     }
-                    Toast.makeText(getActivity(),userCode+"---"+nurseInfoList.size(),Toast.LENGTH_LONG).show();
                 }
             break;
             case R.id.rl_setting_choosedate:
