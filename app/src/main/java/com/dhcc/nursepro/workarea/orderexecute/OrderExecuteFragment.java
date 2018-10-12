@@ -85,7 +85,8 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     private OrderExecutePatientOrderAdapter patientOrderAdapter;
 
     private SPUtils spUtils = SPUtils.getInstance();
-//    private String regNo = "0000000129";
+    private String scanInfo = "";
+    //    private String regNo = "0000000129";
     private String regNo = "";
     private String sheetCode = "";
     private String startDate;
@@ -156,6 +157,15 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
         filter.addAction(Action.DEVICE_SCAN_CODE);
         getActivity().registerReceiver(mReceiver, filter);
 
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            scanInfo = bundle.getString("regNo");
+            getScanInfo();
+            if (execResultDialog != null && execResultDialog.isShowing()) {
+                execResultDialog.dismiss();
+            }
+        }
+
 
 
         startDate = spUtils.getString(SharedPreference.SCHSTDATETIME).substring(0, 10);
@@ -167,12 +177,12 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
         initAdapter();
 
 
-//        view.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                asyncInitData();
-//            }
-//        }, 300);
+        //        view.postDelayed(new Runnable() {
+        //            @Override
+        //            public void run() {
+        //                asyncInitData();
+        //            }
+        //        }, 300);
     }
 
     private void initView(View view) {
@@ -287,7 +297,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
 
                 if (orderExecuteBean.getOrders().size() > 0) {
                     patient = orderExecuteBean.getOrders().get(0);
-//                    tvOrderexecutePatinfo.setText("".equals(patient.getBedCode()) ? "未分" : patient.getBedCode() + "床  " + patient.getName());
+                    //                    tvOrderexecutePatinfo.setText("".equals(patient.getBedCode()) ? "未分" : patient.getBedCode() + "床  " + patient.getName());
                     patOrders = patient.getPatOrds();
                 } else {
                     patOrders = null;
@@ -520,31 +530,31 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                     }
                 });
                 execResultDialog.show();
-//                Toast.makeText(getActivity(), code+":"+msg, Toast.LENGTH_SHORT).show();
+                //                Toast.makeText(getActivity(), code+":"+msg, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
 
-    private void getScanInfo(String scanInfo){
+    private void getScanInfo() {
         SPUtils spUtils = SPUtils.getInstance();
         HashMap<String, String> properties = new HashMap<>();
-        if (!episodeId.equals("")){
-            properties.put("episodeId",episodeId);
+        if (!episodeId.equals("")) {
+            properties.put("episodeId", episodeId);
         }
-        properties.put("barcode",scanInfo);
+        properties.put("barcode", scanInfo);
         properties.put("wardId", spUtils.getString(SharedPreference.WARDID));
         properties.put("userId", spUtils.getString(SharedPreference.USERID));
-        properties.put("userDeptId","");
+        properties.put("userDeptId", "");
         OrderExecuteApiManager.GetScanMsg1(properties, new OrderExecuteApiManager.GetScanCallBack1() {
             @Override
             public void onSuccess(ScanResultBean scanPatBean) {
-                if (scanPatBean.getFlag().equals("PAT")){
+                if (scanPatBean.getFlag().equals("PAT")) {
                     episodeId = scanPatBean.getPatInfo().getEpisodeID();
                     regNo = scanPatBean.getPatInfo().getRegNo();
                     rlOrderexecuteScan.setVisibility(View.GONE);
-//                    tvPat.setText(scanPatBean.getPatInfo().getBedCode()+"床   "+scanPatBean.getPatInfo().getName());
-                    tvOrderexecutePatinfo.setText("".equals(scanPatBean.getPatInfo().getBedCode()) ? "未分"+ "床  " + scanPatBean.getPatInfo().getName() : scanPatBean.getPatInfo().getBedCode() + "床  " + scanPatBean.getPatInfo().getName());
+                    //                    tvPat.setText(scanPatBean.getPatInfo().getBedCode()+"床   "+scanPatBean.getPatInfo().getName());
+                    tvOrderexecutePatinfo.setText("".equals(scanPatBean.getPatInfo().getBedCode()) ? "未分" + "床  " + scanPatBean.getPatInfo().getName() : scanPatBean.getPatInfo().getBedCode() + "床  " + scanPatBean.getPatInfo().getName());
                     getView().postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -552,7 +562,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                         }
                     }, 300);
 
-                }else {
+                } else {
                     if (execResultDialog != null && execResultDialog.isShowing()) {
                         execResultDialog.dismiss();
                     }
@@ -575,9 +585,9 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
             @Override
             public void onFail(String code, String msg) {
 
-//                if (episodeId == ""){
-//                    msg = "请先扫描病人腕带";
-//                }
+                //                if (episodeId == ""){
+                //                    msg = "请先扫描病人腕带";
+                //                }
                 if (execResultDialog != null && execResultDialog.isShowing()) {
                     execResultDialog.dismiss();
                 }
@@ -596,8 +606,6 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
         });
 
     }
-
-
 
 
     @Override
@@ -633,7 +641,8 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 case Action.DEVICE_SCAN_CODE:
                     Bundle bundle = new Bundle();
                     bundle = intent.getExtras();
-                    getScanInfo(bundle.getString("data"));
+                    scanInfo = bundle.getString("data");
+                    getScanInfo();
                     if (execResultDialog != null && execResultDialog.isShowing()) {
                         execResultDialog.dismiss();
                     }

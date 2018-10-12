@@ -16,6 +16,8 @@ import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.bedmap.bean.BedMapBean;
+import com.dhcc.nursepro.workarea.orderexecute.OrderExecuteFragment;
+import com.dhcc.nursepro.workarea.ordersearch.OrderSearchFragment;
 import com.dhcc.nursepro.workarea.patevents.PatEventsFragment;
 
 /**
@@ -208,10 +210,14 @@ public class BedMapPatFragment extends BaseFragment implements View.OnClickListe
                 Toast.makeText(getActivity(), "医嘱单", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.ll_bedmappat_ordersearch:
-                Toast.makeText(getActivity(), "医嘱查询", Toast.LENGTH_SHORT).show();
+                Bundle bundle3 = new Bundle();
+                bundle3.putString("regNo",patInfoListBean.getRegNo());
+                startFragment(OrderSearchFragment.class,bundle3);
                 break;
             case R.id.ll_bedmappat_orderexecute:
-                Toast.makeText(getActivity(), "医嘱执行", Toast.LENGTH_SHORT).show();
+                Bundle bundle4 = new Bundle();
+                bundle4.putString("regNo",patInfoListBean.getRegNo());
+                startFragment(OrderExecuteFragment.class,bundle4);
                 break;
             case R.id.ll_bedmappat_testresult:
                 Toast.makeText(getActivity(), "检验结果", Toast.LENGTH_SHORT).show();
@@ -221,9 +227,9 @@ public class BedMapPatFragment extends BaseFragment implements View.OnClickListe
                 break;
             case R.id.ll_bedmappat_eventsearch:
                 Toast.makeText(getActivity(), "事件查询", Toast.LENGTH_SHORT).show();
-                Bundle bundle = new Bundle();
-                bundle.putString("regNo",patInfoListBean.getRegNo());
-                startFragment(PatEventsFragment.class, bundle);
+                Bundle bundle7 = new Bundle();
+                bundle7.putString("regNo",patInfoListBean.getRegNo());
+                startFragment(PatEventsFragment.class, bundle7);
                 break;
             default:
                 break;

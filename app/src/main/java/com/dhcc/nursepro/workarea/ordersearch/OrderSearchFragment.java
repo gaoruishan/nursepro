@@ -21,6 +21,7 @@ import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.constant.SharedPreference;
+import com.dhcc.nursepro.workarea.bedmap.bean.BedMapBean;
 import com.dhcc.nursepro.workarea.bedselect.BedSelectFragment;
 import com.dhcc.nursepro.workarea.ordersearch.adapter.OrderSearchOrderTypeAdapter;
 import com.dhcc.nursepro.workarea.ordersearch.adapter.OrderSearchPatientAdapter;
@@ -90,6 +91,11 @@ public class OrderSearchFragment extends BaseFragment implements View.OnClickLis
             }
         });
         setToolbarRightCustomView(viewright);
+
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            regNo = bundle.getString("regNo");
+        }
 
         startDate = spUtils.getString(SharedPreference.SCHSTDATETIME).substring(0, 10);
         startTime = spUtils.getString(SharedPreference.SCHSTDATETIME).substring(11, 16);
