@@ -185,7 +185,7 @@ public class WorkareaFragment extends BaseFragment {
                     imageView.setImageResource(R.drawable.icon_lab);
                     break;
                 case "OPERATION":
-                    tvItem.setText("手术申请");
+                    tvItem.setText("手术查询");
                     imageView.setImageResource(R.drawable.icon_operation);
                     break;
                 case "LABOUT":

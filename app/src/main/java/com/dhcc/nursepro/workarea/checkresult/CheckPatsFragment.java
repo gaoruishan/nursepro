@@ -45,7 +45,7 @@ public class CheckPatsFragment extends BaseFragment implements View.OnClickListe
 
         setToolbarType(BaseActivity.ToolbarType.TOP);
         setToolbarBottomLineVisibility(true);
-        setToolbarCenterTitle(getString(R.string.title_checklabpas),0xffffffff,17);
+        setToolbarCenterTitle(getString(R.string.title_checkpats),0xffffffff,17);
         initView(view);
         view.postDelayed(new Runnable() {
             @Override

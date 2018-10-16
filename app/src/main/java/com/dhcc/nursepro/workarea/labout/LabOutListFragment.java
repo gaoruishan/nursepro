@@ -58,7 +58,7 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
 
         setToolbarType(BaseActivity.ToolbarType.TOP);
         setToolbarBottomLineVisibility(true);
-        setToolbarCenterTitle("检验打包",0xffffffff,17);
+        setToolbarCenterTitle(getString(R.string.title_labout),0xffffffff,17);
         //右上角按钮"新建"
         View viewright =  View.inflate(getActivity(),R.layout.view_fratoolbar_right,null);
         TextView textView = viewright.findViewById(R.id.tv_fratoobar_right);

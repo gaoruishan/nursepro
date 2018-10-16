@@ -25,25 +25,40 @@
     <!--医嘱执行-->
     <string name="title_orderexecute">医嘱执行</string>
     <!--事件管理-->
-    <string name="title_patevents">事件管理</string>
+    <string name="title_patevents">事件录入</string>
     <!--新建事件-->
     <string name="title_addpatevents">新建事件</string>
     <string name="title_changepatevents">修改事件</string>
 
-    <!--检查检验-->
-    <string name="title_checklabpas">病人列表</string>
+    <!--入院分床-->t
+    <string name="title_allotbeds">入院分床</string>
+    <!--检查报告-->t
+    <string name="title_checkpats">检查报告</string>
+
+    <!--检验报告-->
+    <string name="title_labpats">检验报告</string>
 
     <!--配液复核-->
     <string name="title_dosingreview">配液复核</string>
 
+
+    <!--手术查询-->
+    <string name="title_operation">手术查询</string>
+
+    <!--医嘱单-->
+    <string name="title_docorderlist">医嘱单</string>
+
+    <!--检验打包-->
+    <string name="title_labout">检验打包</string>
+
     <!--输血系统-->
     <string name="title_bloodtransfusionsystem">输血系统</string>
-    <string name="title_bloodsign">签收</string>
-    <string name="title_bloodtransfusion">输注</string>
-    <string name="title_bloodtransfusionend">结束</string>
-    <string name="title_bloodtransfusiontour">巡视</string>
-    <string name="title_bloodbagrecycling">回收</string>
-    <string name="title_bloodtransfusionsearch">查询</string>
+    <string name="title_bloodsign">血液签收</string>
+    <string name="title_bloodtransfusion">血液输注</string>
+    <string name="title_bloodtransfusionend">血液结束</string>
+    <string name="title_bloodtransfusiontour">血液巡视</string>
+    <string name="title_bloodbagrecycling">血液回收</string>
+    <string name="title_bloodtransfusionsearch">血液查询</string>
     <string name="title_bloodtransfusiondetail">详情</string>
 
 

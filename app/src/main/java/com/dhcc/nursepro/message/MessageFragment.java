@@ -158,6 +158,40 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
                 abnormalAdapter.setNewData(abnormalPatList);
                 consultationAdapter.setNewData(conPatList);
 
+                if (newOrdPatList.size()==0){
+                    llMessageNeworderTitle.setSelected(true);
+                    recyMessageNeworder.setVisibility(View.GONE);
+                    tvMessageNeworderCount.setVisibility(View.VISIBLE);
+                    tvMessageNeworderCount.setText(newOrderAdapter.getItemCount() + "");
+                }else {
+                    llMessageNeworderTitle.setSelected(false);
+                    tvMessageNeworderCount.setVisibility(View.GONE);
+                    recyMessageNeworder.setVisibility(View.VISIBLE);
+                }
+
+                if (abnormalPatList.size()==0){
+                    llMessageAbnormalTitle.setSelected(true);
+                    recyMessageAbnormal.setVisibility(View.GONE);
+                    tvMessageAbnormalCount.setVisibility(View.VISIBLE);
+                    tvMessageAbnormalCount.setText(abnormalAdapter.getItemCount() + "");
+                }else {
+                    llMessageAbnormalTitle.setSelected(false);
+                    tvMessageAbnormalCount.setVisibility(View.GONE);
+                    recyMessageAbnormal.setVisibility(View.VISIBLE);
+                }
+
+                if (conPatList.size()==0){
+                    llMessageConsultationTitle.setSelected(true);
+                    recyMessageConsultation.setVisibility(View.GONE);
+                    tvMessageConsultationCount.setVisibility(View.VISIBLE);
+                    tvMessageConsultationCount.setText(consultationAdapter.getItemCount() + "");
+                }else {
+                    llMessageConsultationTitle.setSelected(false);
+                    tvMessageConsultationCount.setVisibility(View.GONE);
+                    recyMessageConsultation.setVisibility(View.VISIBLE);
+                }
+
+
                 tvMessageNeworderCount.setText(newOrderAdapter.getItemCount() + "");
                 tvMessageAbnormalCount.setText(abnormalAdapter.getItemCount() + "");
                 tvMessageConsultationCount.setText(consultationAdapter.getItemCount() + "");

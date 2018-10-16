@@ -10,16 +10,18 @@ android:layout_width="match_parent"
 android:layout_height="wrap_content"
 xmlns:app="http://schemas.android.com/apk/res-auto"
 app:contentView="@+id/messagecontentll"
-app:rightMenuView="@+id/messagerightmenu">
+app:rightMenuView="@+id/messagerightmenu"
+android:background="@color/bg_blue_light">
 
 <LinearLayout
     android:id="@+id/messagecontentll"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="12dp"
+    android:paddingBottom="20dp"
     android:paddingEnd="12dp"
     android:paddingStart="12dp"
-    android:paddingTop="12dp">
+    android:paddingTop="12dp"
+    android:background="@drawable/bg_labout_white">
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -41,16 +43,22 @@ app:rightMenuView="@+id/messagerightmenu">
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:textSize="15sp"
+            android:textColor="@color/black"
             android:text="B型脑纳肽检测" />
         <TextView
             android:id="@+id/tv_laboutdetail_no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:layout_marginTop="5dp"
             android:text="1709156472"/>
         <TextView
             android:id="@+id/tv_laboutdetail_patinfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textSize="12sp"
             android:text="7床   刘患者"/>
     </LinearLayout>
     <RelativeLayout
@@ -62,6 +70,7 @@ app:rightMenuView="@+id/messagerightmenu">
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
+            android:textSize="12sp"
             android:text="血浆"/>
     </RelativeLayout>
 </LinearLayout>
@@ -87,6 +96,6 @@ app:rightMenuView="@+id/messagerightmenu">
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:background="@color/blue_light"></View>
+        android:layout_height="7dp"
+        android:background="@color/bg_blue_light"></View>
 </LinearLayout>

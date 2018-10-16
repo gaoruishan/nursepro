@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/blue_light"
+    android:background="@color/bg_blue_light"
     tools:context=".workarea.labout.LabOutDetailFragment">
 
     <LinearLayout
@@ -38,13 +38,16 @@
             android:lines="1"
             />
     </LinearLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/ll_labout_container"
-        android:layout_above="@+id/ll_labout_send">
-
+        android:layout_above="@+id/ll_labout_send"
+        android:orientation="vertical">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="7dp"
+            android:background="@color/bg_blue_light"></View>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rec_addlabout"
             android:layout_width="match_parent"

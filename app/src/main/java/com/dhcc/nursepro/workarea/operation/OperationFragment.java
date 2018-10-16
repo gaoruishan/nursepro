@@ -41,7 +41,7 @@ public class OperationFragment extends BaseFragment {
 
         setToolbarType(BaseActivity.ToolbarType.TOP);
         setToolbarBottomLineVisibility(true);
-        setToolbarCenterTitle("手术查询",0xffffffff,17);
+        setToolbarCenterTitle(getString(R.string.title_operation),0xffffffff,17);
 
         initView(view);
         initData();

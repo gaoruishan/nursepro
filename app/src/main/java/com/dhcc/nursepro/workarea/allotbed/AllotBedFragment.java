@@ -86,7 +86,7 @@ public class AllotBedFragment extends BaseFragment implements View.OnClickListen
         setToolbarType(BaseActivity.ToolbarType.TOP);
         setToolbarBackground(new ColorDrawable(0xffffffff));
         showToolbarNavigationIcon(R.drawable.icon_back_blue);
-        setToolbarCenterTitle("入院分床");
+        setToolbarCenterTitle(getString(R.string.title_allotbeds));
         setToolbarBottomLineVisibility(false);
         //右上角保存按钮
         viewright = View.inflate(getActivity(), R.layout.view_fratoolbar_right, null);

@@ -42,7 +42,7 @@ public class LabPatsFragment extends BaseFragment implements View.OnClickListene
 
         setToolbarType(BaseActivity.ToolbarType.TOP);
         setToolbarBottomLineVisibility(true);
-        setToolbarCenterTitle(getString(R.string.title_checklabpas),0xffffffff,17);
+        setToolbarCenterTitle(getString(R.string.title_labpats),0xffffffff,17);
         initView(view);
         view.postDelayed(new Runnable() {
             @Override

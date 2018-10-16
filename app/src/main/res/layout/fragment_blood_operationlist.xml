@@ -6,6 +6,10 @@
     android:background="@color/white"
     android:orientation="vertical"
     tools:context=".workarea.bloodtransfusionsystem.BloodOperationListFragment">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E4F0FF" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -64,6 +68,10 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#62ABFF" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="#ECF4FC" />
     <LinearLayout
         android:id="@+id/ll_bloodoplist_searchdate"
         android:layout_width="match_parent"

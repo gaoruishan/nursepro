@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/blue_light"
+    android:background="@color/bg_blue_light"
     tools:context=".workarea.operation.OperationFragment">
 
 

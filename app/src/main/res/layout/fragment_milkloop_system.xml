@@ -62,9 +62,10 @@
                     android:gravity="center"
                     >
                     <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/icon_milk_receive"/>
+                        android:layout_width="65dp"
+                        android:layout_height="65dp"
+                        android:src="@drawable/icon_milk_receive"
+                        android:layout_marginLeft="4dp"/>
                     <TextView
                         style="@style/iconTextStyle"
                         android:text="母乳采集" />
@@ -79,9 +80,10 @@
                     android:gravity="center"
                     >
                     <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/icon_milk_freezing"/>
+                        android:layout_width="65dp"
+                        android:layout_height="65dp"
+                        android:src="@drawable/icon_milk_freezing"
+                        android:layout_marginLeft="4dp"/>
                     <TextView
                         style="@style/iconTextStyle"
                         android:text="母乳冷冻" />
@@ -108,9 +110,10 @@
                     android:gravity="center"
                     >
                     <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/icon_milk_bottling"/>
+                        android:layout_width="65dp"
+                        android:layout_height="65dp"
+                        android:src="@drawable/icon_milk_bottling"
+                        android:layout_marginLeft="4dp"/>
                     <TextView
                         style="@style/iconTextStyle"
                         android:text="母乳装瓶" />
@@ -126,9 +129,10 @@
                     >
 
                     <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/icon_milk_cold" />
+                        android:layout_width="65dp"
+                        android:layout_height="65dp"
+                        android:src="@drawable/icon_milk_cold"
+                        android:layout_marginLeft="4dp"/>
                     <TextView
                         style="@style/iconTextStyle"
                         android:text="母乳冷藏" />

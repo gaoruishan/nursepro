@@ -116,8 +116,8 @@ public class MilkReceiveFragment extends BaseFragment implements View.OnClickLis
 //        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//精确到分钟
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat format1 = new SimpleDateFormat("HH:mm");
-         timestr = format1.format(date);
-         datestr = format.format(date);
+        timestr = format1.format(date);
+        datestr = format.format(date);
 
         tvTime.setText(datestr+" "+timestr);
 
@@ -263,7 +263,7 @@ public class MilkReceiveFragment extends BaseFragment implements View.OnClickLis
         SimpleDateFormat formattime = new SimpleDateFormat("HH:mm");
         datestr = formatdate.format(date);
         timestr = formattime.format(date);
-        showToast(datestr+"--"+timestr);
+//        showToast(datestr+"--"+timestr);
         tvTime.setText(time);
     }
 
