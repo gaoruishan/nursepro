@@ -18,22 +18,25 @@ public class OrderSearchApiManager {
                 Gson gson = new Gson();
 
                 if (jsonStr.isEmpty()) {
-                    callback.onFail("-1", "网络请求失败");
+                    callback.onFail("-1", "网络错误，请求数据为空");
                 } else {
-
-                    OrderSearchBean orderSearchBean = gson.fromJson(jsonStr, OrderSearchBean.class);
-                    if (ObjectUtils.isEmpty(orderSearchBean)) {
-                        callback.onFail("-1", "网络请求失败");
-                    } else {
-                        if (orderSearchBean.getStatus().equals("0")) {
-                            if (callback != null) {
-                                callback.onSuccess(orderSearchBean);
-                            }
+                    try {
+                        OrderSearchBean orderSearchBean = gson.fromJson(jsonStr, OrderSearchBean.class);
+                        if (ObjectUtils.isEmpty(orderSearchBean)) {
+                            callback.onFail("-3", "网络错误，数据解析为空");
                         } else {
-                            if (callback != null) {
-                                callback.onFail(orderSearchBean.getMsgcode(), orderSearchBean.getMsg());
+                            if ("0".equals(orderSearchBean.getStatus())) {
+                                if (callback != null) {
+                                    callback.onSuccess(orderSearchBean);
+                                }
+                            } else {
+                                if (callback != null) {
+                                    callback.onFail(orderSearchBean.getMsgcode(), orderSearchBean.getMsg());
+                                }
                             }
                         }
+                    } catch (Exception e) {
+                        callback.onFail("-2", "网络错误，数据解析失败");
                     }
                 }
             }

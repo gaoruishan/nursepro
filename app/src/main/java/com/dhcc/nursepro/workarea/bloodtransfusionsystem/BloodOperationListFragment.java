@@ -156,7 +156,7 @@ public class BloodOperationListFragment extends BaseFragment implements View.OnC
             @Override
             public void onFail(String code, String msg) {
                 hideLoadingTip();
-                Toast.makeText(getActivity(), code + ":" + msg, Toast.LENGTH_SHORT).show();
+                showToast("error" + code + ":" + msg);
             }
         });
     }

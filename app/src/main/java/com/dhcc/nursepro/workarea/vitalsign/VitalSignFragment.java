@@ -242,7 +242,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
             @Override
             public void onFail(String code, String msg) {
                 hideLoadingTip();
-                Toast.makeText(getActivity(), code + ":" + msg, Toast.LENGTH_SHORT).show();
+                showToast("error" + code + ":" + msg);
             }
         });
 
@@ -262,7 +262,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
 
                 int sum = ((ArrayList)map.get("urlList")).size();
                 if (sum == 0){
-                    Toast.makeText(getActivity(), "该病人无体温单", Toast.LENGTH_SHORT).show();
+                    showToast("该病人无体温单");
                     return;
                 }
 
@@ -280,7 +280,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
             @Override
             public void onFail(String code, String msg) {
                 hideLoadFailTip();
-                Toast.makeText(getActivity(), code + ":" + msg, Toast.LENGTH_SHORT).show();
+                showToast("error" + code + ":" + msg);
             }
         });
 

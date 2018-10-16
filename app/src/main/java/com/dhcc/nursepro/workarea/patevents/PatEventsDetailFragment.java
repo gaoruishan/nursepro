@@ -163,7 +163,7 @@ public class PatEventsDetailFragment extends BaseFragment implements View.OnClic
         map.put("userId",userIdNow);
 
         String methodName = "saveEvent";
-        PatEventsApiManager.GetEventsResultMsg(map,methodName, new PatEventsApiManager.GetEventsResultMsgCallBack() {
+        PatEventsApiManager.getEventsResultMsg(map,methodName, new PatEventsApiManager.GetEventsResultMsgCallBack() {
             @Override
             public void onSuccess(String msgs) {
                 showToast(msgs);
@@ -182,7 +182,7 @@ public class PatEventsDetailFragment extends BaseFragment implements View.OnClic
 
     private void  initData(){
 
-         PatEventsApiManager.GetEventsTypes(null, new PatEventsApiManager.GetEventsTypesCallBack() {
+         PatEventsApiManager.getEventsTypes(null, new PatEventsApiManager.GetEventsTypesCallBack() {
              @Override
              public void onSuccess(EventItemBean eventItemBean) {
                  listItem = eventItemBean.getEventItemList();

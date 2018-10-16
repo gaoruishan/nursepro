@@ -12,44 +12,48 @@ import java.util.HashMap;
 
 public class OperationApiManager {
 
-    public interface CommonCallBack{
-        void onFail(String code, String msg);
-    }
-
-    public interface GetOperationCallback extends CommonCallBack{
-        void onSuccess(OperationBean operationBean);
-    }
-
     //获取病人列表
-    public static void getOperationList(HashMap<String,String> map,String method,final GetOperationCallback callback) {
+    public static void getOperationList(HashMap<String, String> map, String method, final GetOperationCallback callback) {
 
-        OperationApiService.getOperationList(map,method,new OperationApiService.ServiceCallBack(){
+        OperationApiService.getOperationList(map, method, new OperationApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();
 
                 if (jsonStr.isEmpty()) {
-                    callback.onFail("-1", "网络请求失败1");
+                    callback.onFail("-1", "网络错误，请求数据为空");
                 } else {
-
-                    OperationBean operationBean = gson.fromJson(jsonStr, OperationBean.class);
-                    if (ObjectUtils.isEmpty(operationBean)) {
-                        callback.onFail("-1", "网络请求失败2");
-                    } else {
-                        if (operationBean.getStatus().equals("0")) {
-                            if (callback != null) {
-                                callback.onSuccess(operationBean);
-                            }
+                    try {
+                        OperationBean operationBean = gson.fromJson(jsonStr, OperationBean.class);
+                        if (ObjectUtils.isEmpty(operationBean)) {
+                            callback.onFail("-3", "网络错误，数据解析为空");
                         } else {
-                            if (callback != null) {
-                                callback.onFail(operationBean.getMsgcode(), operationBean.getMsg());
+                            if ("0".equals(operationBean.getStatus())) {
+                                if (callback != null) {
+                                    callback.onSuccess(operationBean);
+                                }
+                            } else {
+                                if (callback != null) {
+                                    callback.onFail(operationBean.getMsgcode(), operationBean.getMsg());
+                                }
                             }
                         }
+                    } catch (Exception e) {
+                        callback.onFail("-2", "网络错误，数据解析失败");
                     }
+
                 }
 
             }
         });
+    }
+
+    public interface CommonCallBack {
+        void onFail(String code, String msg);
+    }
+
+    public interface GetOperationCallback extends CommonCallBack {
+        void onSuccess(OperationBean operationBean);
     }
 
 

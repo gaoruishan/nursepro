@@ -156,7 +156,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
             public void onFail(String code, String msg) {
                 hideLoadFailTip();
                 waiting = false;
-                Toast.makeText(getActivity(), code + ":" + msg, Toast.LENGTH_SHORT).show();
+                showToast("error" + code + ":" + msg);
             }
         });
     }
@@ -184,7 +184,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
     private void nextPatient(){
 
         if (waiting){
-            Toast.makeText(getActivity(), "正在获取数据，请稍后", Toast.LENGTH_SHORT).show();
+            showToast("正在获取数据，请稍后");
             return;
         }
 
@@ -196,7 +196,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
     private void prePatient(){
 
         if (waiting){
-            Toast.makeText(getActivity(), "正在获取数据，请稍后", Toast.LENGTH_SHORT).show();
+            showToast("正在获取数据，请稍后");
             return;
         }
 
@@ -424,14 +424,14 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
             public void onSuccess(VitalSignSaveBean bean) {
                 hideLoadFailTip();
                 waiting = false;
-                Toast.makeText(getActivity(), "保存成功 ", Toast.LENGTH_SHORT).show();
+                showToast("保存成功 ");
             }
 
             @Override
             public void onFail(String code, String msg) {
                 hideLoadFailTip();
                 waiting = false;
-                Toast.makeText(getActivity(), code + ":" + msg, Toast.LENGTH_SHORT).show();
+                showToast("error" + code + ":" + msg);
             }
         });
 

@@ -111,7 +111,7 @@ public class PatEventsFragment extends BaseFragment implements View.OnClickListe
         showToolbarRight();
         HashMap<String,String> map = new HashMap<String, String>();
         map.put("episodeId",episodeId);
-        PatEventsApiManager.GetPatEventsList(map, new PatEventsApiManager.GetEventsSelectCallBack() {
+        PatEventsApiManager.getPatEventsList(map, new PatEventsApiManager.GetEventsSelectCallBack() {
             @Override
             public void onSuccess(PatEventsBean patEventsBean) {
 
@@ -136,7 +136,7 @@ public class PatEventsFragment extends BaseFragment implements View.OnClickListe
         HashMap<String,String> mapmsg = new HashMap<String, String>();
         mapmsg.put("regNo",regNo);
         mapmsg.put("wardId",wardId);
-        PatEventsApiManager.GetUserMsg(mapmsg, new PatEventsApiManager.GetUserMsgCallBack() {
+        PatEventsApiManager.getUserMsg(mapmsg, new PatEventsApiManager.GetUserMsgCallBack() {
             @Override
             public void onSuccess(ScanGetUserMsgBean scanGetUserMsgBean) {
                 ScanGetUserMsgBean.PatInfoBean patInfoBean = scanGetUserMsgBean.getPatInfo();
@@ -237,7 +237,7 @@ public class PatEventsFragment extends BaseFragment implements View.OnClickListe
                     HashMap<String,String> mapDel = new HashMap<String, String>();
                     mapDel.put("recId",recID);
                     String methodName = "DelEvent";
-                    PatEventsApiManager.GetEventsResultMsg(mapDel,methodName, new PatEventsApiManager.GetEventsResultMsgCallBack() {
+                    PatEventsApiManager.getEventsResultMsg(mapDel,methodName, new PatEventsApiManager.GetEventsResultMsgCallBack() {
                         @Override
                         public void onSuccess(String msgs) {
                             showToast(msgs);

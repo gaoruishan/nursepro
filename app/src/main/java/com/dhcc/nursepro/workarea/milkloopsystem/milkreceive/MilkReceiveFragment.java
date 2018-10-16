@@ -84,7 +84,7 @@ public class MilkReceiveFragment extends BaseFragment implements View.OnClickLis
         viewright.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Toast.makeText(getActivity(), "保存", Toast.LENGTH_SHORT).show();
+//                showToast("保存");
                 saveData();
             }
         });

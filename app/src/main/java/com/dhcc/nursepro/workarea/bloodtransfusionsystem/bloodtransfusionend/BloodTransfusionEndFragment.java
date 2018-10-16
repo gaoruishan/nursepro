@@ -280,7 +280,7 @@ public class BloodTransfusionEndFragment extends BaseFragment {
             @Override
             public void onFail(String code, String msg) {
                 RegNo = "";
-                showToast(code + ":" + msg);
+                showToast("error" + code + ":" + msg);
             }
         });
 
@@ -313,7 +313,7 @@ public class BloodTransfusionEndFragment extends BaseFragment {
                 bloodProductId = "";
                 tvBag.setText("");
                 tvBlood.setText("");
-                showToast(code + ":" + msg);
+                showToast("error" + code + ":" + msg);
 
                 tvBloodscantip.setText("请扫描血袋编号");
                 imgBloodbag.setSelected(false);

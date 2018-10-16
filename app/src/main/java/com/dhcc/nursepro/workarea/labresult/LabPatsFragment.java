@@ -22,15 +22,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class LabPatsFragment extends BaseFragment implements View.OnClickListener,BaseQuickAdapter.OnItemClickListener{
+public class LabPatsFragment extends BaseFragment implements View.OnClickListener, BaseQuickAdapter.OnItemClickListener {
 
-    private TextView tvmanage,tvall,tvwait;
+    private TextView tvmanage, tvall, tvwait;
     private RecyclerView recall;
-    private PatListAdapter patListAdapterAll,patListAdapterManage,patListAdapterWait;
-    private List<PatsListBean.PatInfoListBean> listBeansAll,listBeansInBed,listBeansManage,listBeansWait;
+    private PatListAdapter patListAdapterAll, patListAdapterManage, patListAdapterWait;
+    private List<PatsListBean.PatInfoListBean> listBeansAll, listBeansInBed, listBeansManage, listBeansWait;
     private String showListNow = "all";
-    private View showview1,showview2,showview3;
+    private View showview1, showview2, showview3;
     private SPUtils spUtils = SPUtils.getInstance();
+
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_patlist_check, container, false);
@@ -42,7 +43,7 @@ public class LabPatsFragment extends BaseFragment implements View.OnClickListene
 
         setToolbarType(BaseActivity.ToolbarType.TOP);
         setToolbarBottomLineVisibility(true);
-        setToolbarCenterTitle(getString(R.string.title_labpats),0xffffffff,17);
+        setToolbarCenterTitle(getString(R.string.title_labpats), 0xffffffff, 17);
         initView(view);
         view.postDelayed(new Runnable() {
             @Override
@@ -54,7 +55,7 @@ public class LabPatsFragment extends BaseFragment implements View.OnClickListene
 
     }
 
-    private void initView(View view){
+    private void initView(View view) {
 
 
         showview1 = view.findViewById(R.id.view_pats_show1);
@@ -85,46 +86,25 @@ public class LabPatsFragment extends BaseFragment implements View.OnClickListene
 
     }
 
-    @Override
-    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        String episodeId = null;
-        String patmsg = null;
-        if (showListNow.equals("all")){
-            episodeId = listBeansInBed.get(position).getEpisodeId();
-            patmsg = listBeansInBed.get(position).getBedCode()+ "床  "+listBeansInBed.get(position).getName();
-        }else if (showListNow.equals("wait")){
-            episodeId = listBeansWait.get(position).getEpisodeId();
-            patmsg =  "未分床  "+listBeansWait.get(position).getName();
-        }else if (showListNow.equals("manage")){
-            episodeId = listBeansManage.get(position).getEpisodeId();
-            patmsg = listBeansManage.get(position).getBedCode()+ "床  "+listBeansManage.get(position).getName();
-        }
-
-        Bundle bundle = new Bundle();
-        bundle.putString("episodeId",episodeId);
-        bundle.putString("patmsg",patmsg);
-        startFragment(LabResultListFragment.class, bundle);
-    }
-
-    private void iniData(){
+    private void iniData() {
         showLoadingTip(BaseActivity.LoadingType.FULL);
-        HashMap<String,String> map = new HashMap<String, String>();
-        map.put("wardId",spUtils.getString("WARDID"));
-        map.put("userId",spUtils.getString("USERID"));
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("wardId", spUtils.getString("WARDID"));
+        map.put("userId", spUtils.getString("USERID"));
         LabApiManager.getPatsList(map, "getInWardPatList", new LabApiManager.GetCheckResultCallback() {
             @Override
             public void onSuccess(PatsListBean patsListBean) {
                 hideLoadFailTip();
                 //获取所有病人，再分类
                 listBeansAll = patsListBean.getPatInfoList();
-                for (int i=0;i<listBeansAll.size();i++){
-                    if (listBeansAll.get(i).getWait().equals("1")){
+                for (int i = 0; i < listBeansAll.size(); i++) {
+                    if (listBeansAll.get(i).getWait().equals("1")) {
                         listBeansWait.add(listBeansAll.get(i));
                     }
-                    if (listBeansAll.get(i).getInBedAll().equals("1")){
+                    if (listBeansAll.get(i).getInBedAll().equals("1")) {
                         listBeansInBed.add(listBeansAll.get(i));
                     }
-                    if (listBeansAll.get(i).getManageInBed().equals("1")){
+                    if (listBeansAll.get(i).getManageInBed().equals("1")) {
                         listBeansManage.add(listBeansAll.get(i));
                     }
                 }
@@ -136,14 +116,42 @@ public class LabPatsFragment extends BaseFragment implements View.OnClickListene
             @Override
             public void onFail(String code, String msg) {
                 hideLoadFailTip();
-                showToast(code+":"+msg);
+                showToast("error" + code + ":" + msg);
             }
         });
     }
 
+    private void showgone(View view) {
+        showview1.setBackgroundColor(getResources().getColor(R.color.white));
+        showview2.setBackgroundColor(getResources().getColor(R.color.white));
+        showview3.setBackgroundColor(getResources().getColor(R.color.white));
+        view.setBackgroundColor(getResources().getColor(R.color.blue));
+    }
+
+    @Override
+    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        String episodeId = null;
+        String patmsg = null;
+        if (showListNow.equals("all")) {
+            episodeId = listBeansInBed.get(position).getEpisodeId();
+            patmsg = listBeansInBed.get(position).getBedCode() + "床  " + listBeansInBed.get(position).getName();
+        } else if (showListNow.equals("wait")) {
+            episodeId = listBeansWait.get(position).getEpisodeId();
+            patmsg = "未分床  " + listBeansWait.get(position).getName();
+        } else if (showListNow.equals("manage")) {
+            episodeId = listBeansManage.get(position).getEpisodeId();
+            patmsg = listBeansManage.get(position).getBedCode() + "床  " + listBeansManage.get(position).getName();
+        }
+
+        Bundle bundle = new Bundle();
+        bundle.putString("episodeId", episodeId);
+        bundle.putString("patmsg", patmsg);
+        startFragment(LabResultListFragment.class, bundle);
+    }
+
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.tv_labpats_all:
                 patListAdapterAll.setNewData(listBeansInBed);
                 patListAdapterAll.notifyDataSetChanged();
@@ -165,18 +173,15 @@ public class LabPatsFragment extends BaseFragment implements View.OnClickListene
                 setTopFilterSelect(tvwait);
                 showgone(showview3);
                 break;
+            default:
+                break;
         }
 
     }
+
     private void setTopFilterSelect(View view) {
         tvall.setSelected(view == tvall);
         tvmanage.setSelected(view == tvmanage);
         tvwait.setSelected(view == tvwait);
-    }
-    private void showgone(View view){
-        showview1.setBackgroundColor(getResources().getColor(R.color.white));
-        showview2.setBackgroundColor(getResources().getColor(R.color.white));
-        showview3.setBackgroundColor(getResources().getColor(R.color.white));
-        view.setBackgroundColor(getResources().getColor(R.color.blue));
     }
 }

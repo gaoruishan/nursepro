@@ -131,7 +131,7 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
 //            viewright.setOnClickListener(new View.OnClickListener() {
 //                @Override
 //                public void onClick(View v) {
-//                    Toast.makeText(getActivity(), "今日列表", Toast.LENGTH_SHORT).show();
+//                    showToast("今日列表");
 //                }
 //            });
 //            setToolbarRightCustomView(viewright);
@@ -150,24 +150,24 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
                     situation = etBloodtranstourAdversereactions.getText().toString();
                     effect = tvBloodtranstourIsexist.getText().toString();
                     if (TextUtils.isEmpty(recdate) || TextUtils.isEmpty(rectime)) {
-                        Toast.makeText(getActivity(), "请选择输血巡视时间", Toast.LENGTH_SHORT).show();
+                        showToast("请选择输血巡视时间");
                         return;
                     }
 
                     if (TextUtils.isEmpty(speed)) {
-                        Toast.makeText(getActivity(), "请输入输血速度", Toast.LENGTH_SHORT).show();
+                        showToast("请输入输血速度");
                         return;
                     }
 
                     if ("有".equals(effect) && TextUtils.isEmpty(situation)) {
-                        Toast.makeText(getActivity(), "请填写患者不良反应状况", Toast.LENGTH_SHORT).show();
+                        showToast("请填写患者不良反应状况");
                         return;
                     }
 
                     BloodTSApiManager.bloodPatrol(bloodRowId, recdate, rectime, speed, effect, situation, new BloodTSApiManager.BloodOperationResultCallback() {
                         @Override
                         public void onSuccess(BloodOperationResultBean bloodOperationResult) {
-                            Toast.makeText(getActivity(), "输血巡视保存成功", Toast.LENGTH_SHORT).show();
+                            showToast("输血巡视保存成功");
                             setToolbarRightView(0);
                             clearEditInfo();
                             llBloodtranstourScan.setVisibility(View.VISIBLE);
@@ -176,7 +176,7 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
 
                         @Override
                         public void onFail(String code, String msg) {
-                            Toast.makeText(getActivity(), code + ":" + msg, Toast.LENGTH_SHORT).show();
+                            showToast("error" + code + ":" + msg);
 
                         }
                     });

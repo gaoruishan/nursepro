@@ -40,7 +40,7 @@ import java.util.Map;
  * Date: 2018/9/13
  * Time:14:36
  */
-public class SettingBedsFragment extends  BaseFragment {
+public class SettingBedsFragment extends BaseFragment {
     private LinearLayout llBedselectAllselect;
     private RecyclerView recyBedselect;
 
@@ -51,23 +51,23 @@ public class SettingBedsFragment extends  BaseFragment {
     private boolean selectAll;
 
 
-//    private IntentFilter intentFilter;
-//    private DataReceiver dataReceiver = null;
-//    //扫描腕带获取regNo、wardId
-//    public class DataReceiver extends BroadcastReceiver {
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            if (intent.getAction().equals("SURETHIS")){
-//                int i = intent.getIntExtra("postion",-1);
-//
-//                showToast("---"+i);
-//
-//                bedGroupListAdapter.setPostion(i);
-//                bedGroupListAdapter.notifyItemChanged(i);
-//
-//            }
-//        }
-//    }
+    //    private IntentFilter intentFilter;
+    //    private DataReceiver dataReceiver = null;
+    //    //扫描腕带获取regNo、wardId
+    //    public class DataReceiver extends BroadcastReceiver {
+    //        @Override
+    //        public void onReceive(Context context, Intent intent) {
+    //            if (intent.getAction().equals("SURETHIS")){
+    //                int i = intent.getIntExtra("postion",-1);
+    //
+    //                showToast("---"+i);
+    //
+    //                bedGroupListAdapter.setPostion(i);
+    //                bedGroupListAdapter.notifyItemChanged(i);
+    //
+    //            }
+    //        }
+    //    }
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_setting_beds, container, false);
@@ -92,10 +92,10 @@ public class SettingBedsFragment extends  BaseFragment {
         viewright.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Bundle bundle = new Bundle();
-//                bundle.putString("bedselectinfoStr", getBedSelectInfoStr());
-//                showToast(getBedSelectInfoStr());
-//                finish(bundle);
+                //                Bundle bundle = new Bundle();
+                //                bundle.putString("bedselectinfoStr", getBedSelectInfoStr());
+                //                showToast(getBedSelectInfoStr());
+                //                finish(bundle);
                 settingBeds();
             }
         });
@@ -105,11 +105,11 @@ public class SettingBedsFragment extends  BaseFragment {
         initAdapter();
         initData();
 
-//        //扫描广播
-//        intentFilter = new IntentFilter();
-//        intentFilter.addAction("SURETHIS");
-//        dataReceiver = new DataReceiver();
-//        getActivity().registerReceiver(dataReceiver,intentFilter);
+        //        //扫描广播
+        //        intentFilter = new IntentFilter();
+        //        intentFilter.addAction("SURETHIS");
+        //        dataReceiver = new DataReceiver();
+        //        getActivity().registerReceiver(dataReceiver,intentFilter);
     }
 
     private void initView(View view) {
@@ -196,13 +196,13 @@ public class SettingBedsFragment extends  BaseFragment {
 
             @Override
             public void onFail(String code, String msg) {
-                Toast.makeText(getActivity(), code + ":" + msg, Toast.LENGTH_SHORT).show();
+                showToast("error" + code + ":" + msg);
             }
         });
 
     }
 
-    private void settingBeds(){
+    private void settingBeds() {
         SPUtils spUtils = SPUtils.getInstance();
         HashMap<String, String> properties = getBedSelectInfoStrs();
         properties.put("wardId", spUtils.getString(SharedPreference.WARDID));
@@ -218,7 +218,7 @@ public class SettingBedsFragment extends  BaseFragment {
 
             @Override
             public void onFail(String code, String msg) {
-                showToast(code+""+msg);
+                showToast(code + "" + msg);
             }
         });
 
@@ -226,9 +226,9 @@ public class SettingBedsFragment extends  BaseFragment {
     }
 
 
-    private HashMap<String,String> getBedSelectInfoStrs() {
+    private HashMap<String, String> getBedSelectInfoStrs() {
 
-        HashMap<String,String> mapSelect = new HashMap<>();
+        HashMap<String, String> mapSelect = new HashMap<>();
         String bedIdStr = "";
         String statusStr = "";
 
@@ -239,35 +239,35 @@ public class SettingBedsFragment extends  BaseFragment {
             for (int j = 0; j < groupListBeanListLocal.size(); j++) {
                 SettingBedListBean.BedListBean.GroupListBean groupListBean = groupListBeanListLocal.get(j);
                 if (groupListBean.getSelect().equals("1")) {
-                    if (bedIdStr.equals("")){
+                    if (bedIdStr.equals("")) {
                         bedIdStr = groupListBean.getBedId();
-                    }else {
-                        bedIdStr = bedIdStr+"^"+groupListBean.getBedId();
+                    } else {
+                        bedIdStr = bedIdStr + "^" + groupListBean.getBedId();
                     }
-                    if (statusStr.equals("")){
+                    if (statusStr.equals("")) {
                         statusStr = "1";
-                    }else {
-                        statusStr = statusStr+"^1";
+                    } else {
+                        statusStr = statusStr + "^1";
                     }
-                }else {
-                    if (bedIdStr.equals("")){
+                } else {
+                    if (bedIdStr.equals("")) {
                         bedIdStr = groupListBean.getBedId();
-                    }else {
-                        bedIdStr = bedIdStr+"^"+groupListBean.getBedId();
+                    } else {
+                        bedIdStr = bedIdStr + "^" + groupListBean.getBedId();
                     }
-                    if (statusStr.equals("")){
+                    if (statusStr.equals("")) {
                         statusStr = "0";
-                    }else {
-                        statusStr = statusStr+"^0";
+                    } else {
+                        statusStr = statusStr + "^0";
                     }
                 }
             }
 
         }
-        mapSelect.put("bedIdStr",bedIdStr);
-        mapSelect.put("statusStr",statusStr);
-        Log.v("11111bed",bedIdStr);
-        Log.v("11111stat",statusStr);
+        mapSelect.put("bedIdStr", bedIdStr);
+        mapSelect.put("statusStr", statusStr);
+        Log.v("11111bed", bedIdStr);
+        Log.v("11111stat", statusStr);
         return mapSelect;
     }
 

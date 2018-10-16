@@ -19,23 +19,28 @@ public class LoginApiManager {
 
                 Gson gson = new Gson();
                 if (jsonStr.isEmpty()) {
-                    callback.onFail("-1", "网络请求失败");
+                    callback.onFail("-1", "网络错误，请求数据为空");
                 } else {
-
-                    LoginBean loginBean = gson.fromJson(jsonStr, LoginBean.class);
-                    if (ObjectUtils.isEmpty(loginBean)) {
-                        callback.onFail("-1", "网络请求失败");
-                    } else {
-                        if ("0".equals(loginBean.getStatus())) {
-                            if (callback != null) {
-                                callback.onSuccess(loginBean);
-                            }
+                    try {
+                        LoginBean loginBean = gson.fromJson(jsonStr, LoginBean.class);
+                        if (ObjectUtils.isEmpty(loginBean)) {
+                            callback.onFail("-3", "网络错误，数据解析为空");
                         } else {
-                            if (callback != null) {
-                                callback.onFail(loginBean.getMsgcode(), loginBean.getMsg());
+                            if ("0".equals(loginBean.getStatus())) {
+                                if (callback != null) {
+                                    callback.onSuccess(loginBean);
+                                }
+                            } else {
+                                if (callback != null) {
+                                    callback.onFail(loginBean.getMsgcode(), loginBean.getMsg());
+                                }
                             }
                         }
+                    } catch (Exception e) {
+                        callback.onFail("-2", "网络错误，数据解析失败");
                     }
+
+
                 }
             }
         });

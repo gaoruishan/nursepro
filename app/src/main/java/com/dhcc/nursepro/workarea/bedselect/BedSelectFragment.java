@@ -157,7 +157,7 @@ public class BedSelectFragment extends BaseFragment {
 
             @Override
             public void onFail(String code, String msg) {
-                Toast.makeText(getActivity(), code + ":" + msg, Toast.LENGTH_SHORT).show();
+                showToast("error" + code + ":" + msg);
             }
         });
     }
@@ -181,9 +181,8 @@ public class BedSelectFragment extends BaseFragment {
             }
 
 
-
         }
-        if (!"".equals(bedselectinfoStr.toString())&&!bedselectinfoStr.toString().endsWith("}}")) {
+        if (!"".equals(bedselectinfoStr.toString()) && !bedselectinfoStr.toString().endsWith("}}")) {
             bedselectinfoStr.append("}}");
         }
 

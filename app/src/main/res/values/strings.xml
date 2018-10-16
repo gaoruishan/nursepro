@@ -30,17 +30,17 @@
     <string name="title_addpatevents">新建事件</string>
     <string name="title_changepatevents">修改事件</string>
 
-    <!--入院分床-->t
+    <!--入院分床-->
     <string name="title_allotbeds">入院分床</string>
-    <!--检查报告-->t
+
+    <!--检查报告-->
     <string name="title_checkpats">检查报告</string>
 
     <!--检验报告-->
-    <string name="title_labpats">检验报告</string>
+    <string name="title_labpats">检验结果</string>
 
     <!--配液复核-->
     <string name="title_dosingreview">配液复核</string>
-
 
     <!--手术查询-->
     <string name="title_operation">手术查询</string>

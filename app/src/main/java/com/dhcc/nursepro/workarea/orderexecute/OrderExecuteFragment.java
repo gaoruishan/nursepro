@@ -316,7 +316,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
             public void onFail(String code, String msg) {
                 hideLoadingTip();
                 patientOrderAdapter.loadMoreFail();
-                Toast.makeText(getActivity(), code + ":" + msg, Toast.LENGTH_SHORT).show();
+                showToast("error" + code + ":" + msg);
             }
         });
 
@@ -530,7 +530,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                     }
                 });
                 execResultDialog.show();
-                //                Toast.makeText(getActivity(), code+":"+msg, Toast.LENGTH_SHORT).show();
+                //                showToast(code+":"+msg);
             }
         });
     }

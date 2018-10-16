@@ -22,23 +22,27 @@ public class OrderExecuteApiManager {
                 Gson gson = new Gson();
 
                 if (jsonStr.isEmpty()) {
-                    callback.onFail("-1", "网络请求失败");
+                    callback.onFail("-1", "网络错误，请求数据为空");
                 } else {
-
-                    OrderExecuteBean orderExecuteBean = gson.fromJson(jsonStr, OrderExecuteBean.class);
-                    if (ObjectUtils.isEmpty(orderExecuteBean)) {
-                        callback.onFail("-1", "网络请求失败");
-                    } else {
-                        if (orderExecuteBean.getStatus().equals("0")) {
-                            if (callback != null) {
-                                callback.onSuccess(orderExecuteBean);
-                            }
+                    try {
+                        OrderExecuteBean orderExecuteBean = gson.fromJson(jsonStr, OrderExecuteBean.class);
+                        if (ObjectUtils.isEmpty(orderExecuteBean)) {
+                            callback.onFail("-3", "网络错误，数据解析为空");
                         } else {
-                            if (callback != null) {
-                                callback.onFail(orderExecuteBean.getMsgcode(), orderExecuteBean.getMsg());
+                            if ("0".equals(orderExecuteBean.getStatus())) {
+                                if (callback != null) {
+                                    callback.onSuccess(orderExecuteBean);
+                                }
+                            } else {
+                                if (callback != null) {
+                                    callback.onFail(orderExecuteBean.getMsgcode(), orderExecuteBean.getMsg());
+                                }
                             }
                         }
+                    } catch (Exception e) {
+                        callback.onFail("-2", "网络错误，数据解析失败");
                     }
+
                 }
             }
         });
@@ -51,73 +55,69 @@ public class OrderExecuteApiManager {
                 Gson gson = new Gson();
 
                 if (jsonStr.isEmpty()) {
-                    callback.onFail("-1", "网络请求失败");
+                    callback.onFail("-1", "网络错误，请求数据为空");
                 } else {
-
-                    OrderExecResultBean orderExecResultBean = gson.fromJson(jsonStr, OrderExecResultBean.class);
-                    if (ObjectUtils.isEmpty(orderExecResultBean)) {
-                        callback.onFail("-1", "网络请求失败");
-                    } else {
-                        if (orderExecResultBean.getStatus().equals("0")) {
-                            if (callback != null) {
-                                callback.onSuccess(orderExecResultBean);
-                            }
+                    try {
+                        OrderExecResultBean orderExecResultBean = gson.fromJson(jsonStr, OrderExecResultBean.class);
+                        if (ObjectUtils.isEmpty(orderExecResultBean)) {
+                            callback.onFail("-3", "网络错误，数据解析为空");
                         } else {
-                            if (callback != null) {
-                                callback.onFail(orderExecResultBean.getMsgcode(), orderExecResultBean.getMsg());
+                            if ("0".equals(orderExecResultBean.getStatus())) {
+                                if (callback != null) {
+                                    callback.onSuccess(orderExecResultBean);
+                                }
+                            } else {
+                                if (callback != null) {
+                                    callback.onFail(orderExecResultBean.getMsgcode(), orderExecResultBean.getMsg());
+                                }
                             }
                         }
+                    } catch (Exception e) {
+                        callback.onFail("-2", "网络错误，数据解析失败");
                     }
                 }
             }
         });
     }
 
-
-
-
-    //扫描腕带,医嘱码
-    public interface GetScanCallBack1 extends CommonCallBack{
-        void onSuccess(ScanResultBean scanResultBean);
-    }
-
-    public static void GetScanMsg1(HashMap<String,String> map, final GetScanCallBack1 callback) {
+    public static void GetScanMsg1(HashMap<String, String> map, final GetScanCallBack1 callback) {
 
         OrderExecuteApiService.getOrdersMsg(map, "getScanInfo", new OrderExecuteApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
-
                 Gson gson = new Gson();
 
-
                 if (jsonStr.isEmpty()) {
-                    callback.onFail("-1", "网络请求失败");
+                    callback.onFail("-1", "网络错误，请求数据为空");
                 } else {
-
-                    ScanResultBean scanResultBean= gson.fromJson(jsonStr, ScanResultBean.class);
-                    if (ObjectUtils.isEmpty(scanResultBean)) {
-                        callback.onFail("-1", "网络请求失败");
-                    } else {
-                        if (scanResultBean.getStatus().equals("0")) {
-                            if (callback != null) {
-                                callback.onSuccess(scanResultBean);
-                            }
+                    try {
+                        ScanResultBean scanResultBean = gson.fromJson(jsonStr, ScanResultBean.class);
+                        if (ObjectUtils.isEmpty(scanResultBean)) {
+                            callback.onFail("-3", "网络错误，数据解析为空");
                         } else {
-                            if (callback != null) {
-                                callback.onFail(scanResultBean.getMsgcode(), scanResultBean.getMsg());
+                            if ("0".equals(scanResultBean.getStatus())) {
+                                if (callback != null) {
+                                    callback.onSuccess(scanResultBean);
+                                }
+                            } else {
+                                if (callback != null) {
+                                    callback.onFail(scanResultBean.getMsgcode(), scanResultBean.getMsg());
+                                }
                             }
                         }
+                    } catch (Exception e) {
+                        callback.onFail("-2", "网络错误，数据解析失败");
                     }
                 }
-
 
             }
         });
     }
 
-
-
-
+    //扫描腕带,医嘱码
+    public interface GetScanCallBack1 extends CommonCallBack {
+        void onSuccess(ScanResultBean scanResultBean);
+    }
 
     public interface CommonCallBack {
         void onFail(String code, String msg);

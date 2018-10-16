@@ -204,7 +204,7 @@ public class OrderSearchFragment extends BaseFragment implements View.OnClickLis
             public void onFail(String code, String msg) {
                 hideLoadingTip();
                 patientAdapter.loadMoreFail();
-                Toast.makeText(getActivity(), code + ":" + msg, Toast.LENGTH_SHORT).show();
+                showToast("error" + code + ":" + msg);
             }
         });
 

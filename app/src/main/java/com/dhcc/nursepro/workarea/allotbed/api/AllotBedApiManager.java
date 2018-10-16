@@ -17,17 +17,7 @@ import java.util.HashMap;
 public class AllotBedApiManager {
 
 
-    public interface CommonCallBack{
-        void onFail(String code,String msg);
-    }
-
-
-    //查询空床 主治医生 主管护士
-    public interface getAllotBedCallBack extends CommonCallBack{
-        void onSuccess(AllotBedInfoBean allotBedInfoBean);
-    }
-
-    public static void getAllotBed(HashMap<String,String> map, String method, final getAllotBedCallBack getAllotBedCallBack){
+    public static void getAllotBed(HashMap<String, String> map, String method, final getAllotBedCallBack callback) {
 
         AllotBedApiService.getAllotBedMsg(map, method, new AllotBedApiService.ServiceCallBack() {
             @Override
@@ -35,35 +25,34 @@ public class AllotBedApiManager {
                 Gson gson = new Gson();
 
                 if (jsonStr.isEmpty()) {
-                    getAllotBedCallBack.onFail("-1", "网络请求失败");
+                    callback.onFail("-1", "网络错误，请求数据为空");
                 } else {
-
-                    AllotBedInfoBean allotBedInfoBean = gson.fromJson(jsonStr, AllotBedInfoBean.class);
-                    if (ObjectUtils.isEmpty(allotBedInfoBean)) {
-                        getAllotBedCallBack.onFail("-1", "网络请求失败");
-                    } else {
-                        if (allotBedInfoBean.getStatus().equals("0")) {
-                            if (getAllotBedCallBack != null) {
-                                getAllotBedCallBack.onSuccess(allotBedInfoBean);
-                            }
+                    try {
+                        AllotBedInfoBean allotBedInfoBean = gson.fromJson(jsonStr, AllotBedInfoBean.class);
+                        if (ObjectUtils.isEmpty(allotBedInfoBean)) {
+                            callback.onFail("-3", "网络错误，数据解析为空");
                         } else {
-                            if (allotBedInfoBean != null) {
-                                getAllotBedCallBack.onFail(allotBedInfoBean.getMsgcode(), allotBedInfoBean.getMsg());
+                            if ("0".equals(allotBedInfoBean.getStatus())) {
+                                if (callback != null) {
+                                    callback.onSuccess(allotBedInfoBean);
+                                }
+                            } else {
+                                if (callback != null) {
+                                    callback.onFail(allotBedInfoBean.getMsgcode(), allotBedInfoBean.getMsg());
+                                }
                             }
                         }
+                    } catch (Exception e) {
+                        callback.onFail("-2", "网络错误，数据解析失败");
                     }
+
                 }
 
             }
         });
     }
 
-    //分床并返回空床 主治医生 主管护士
-    public interface getAllotBedResultCallBack extends CommonCallBack{
-        void onSuccess(AllotBedInfoBean allotBedResultBean);
-    }
-
-    public static void getAllotBedResult(HashMap<String,String> map, String method, final getAllotBedResultCallBack getAllotBedResultCallBack){
+    public static void getAllotBedResult(HashMap<String, String> map, String method, final getAllotBedResultCallBack callback) {
 
         AllotBedApiService.getAllotBedMsg(map, method, new AllotBedApiService.ServiceCallBack() {
             @Override
@@ -71,70 +60,88 @@ public class AllotBedApiManager {
                 Gson gson = new Gson();
 
                 if (jsonStr.isEmpty()) {
-                    getAllotBedResultCallBack.onFail("-1", "网络请求失败");
+                    callback.onFail("-1", "网络错误，请求数据为空");
                 } else {
-
-                    AllotBedInfoBean allotBedInfoBean = gson.fromJson(jsonStr, AllotBedInfoBean.class);
-                    if (ObjectUtils.isEmpty(allotBedInfoBean)) {
-                        getAllotBedResultCallBack.onFail("-1", "网络请求失败");
-                    } else {
-                        if (allotBedInfoBean.getStatus().equals("0")) {
-                            if (getAllotBedResultCallBack != null) {
-                                getAllotBedResultCallBack.onSuccess(allotBedInfoBean);
-                            }
+                    try {
+                        AllotBedInfoBean allotBedInfoBean = gson.fromJson(jsonStr, AllotBedInfoBean.class);
+                        if (ObjectUtils.isEmpty(allotBedInfoBean)) {
+                            callback.onFail("-3", "网络错误，数据解析为空");
                         } else {
-                            if (allotBedInfoBean != null) {
-                                getAllotBedResultCallBack.onFail(allotBedInfoBean.getMsgcode(), allotBedInfoBean.getMsg());
+                            if ("0".equals(allotBedInfoBean.getStatus())) {
+                                if (callback != null) {
+                                    callback.onSuccess(allotBedInfoBean);
+                                }
+                            } else {
+                                if (callback != null) {
+                                    callback.onFail(allotBedInfoBean.getMsgcode(), allotBedInfoBean.getMsg());
+                                }
                             }
                         }
+                    } catch (Exception e) {
+                        callback.onFail("-2", "网络错误，数据解析失败");
                     }
+
+
                 }
 
             }
         });
     }
 
+    public static void getUserMsg(HashMap<String, String> map, String method, final GetUserMsgCallBack callback) {
+
+        AllotBedApiService.getAllotBedMsg(map, method, new AllotBedApiService.ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                Gson gson = new Gson();
+
+                if (jsonStr.isEmpty()) {
+                    callback.onFail("-1", "网络错误，请求数据为空");
+                } else {
+                    try {
+                        GetScanPatsBean getScanPatsBean = gson.fromJson(jsonStr, GetScanPatsBean.class);
+                        if (ObjectUtils.isEmpty(getScanPatsBean)) {
+                            callback.onFail("-3", "网络错误，数据解析为空");
+                        } else {
+                            if ("0".equals(getScanPatsBean.getStatus())) {
+                                if (callback != null) {
+                                    callback.onSuccess(getScanPatsBean);
+                                }
+                            } else {
+                                if (callback != null) {
+                                    callback.onFail(getScanPatsBean.getMsgcode(), getScanPatsBean.getMsg());
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        callback.onFail("-2", "网络错误，数据解析失败");
+                    }
 
 
+                }
 
+
+            }
+        });
+    }
+
+
+    public interface CommonCallBack {
+        void onFail(String code, String msg);
+    }
 
     //用户信息
-    public interface GetUserMsgCallBack extends CommonCallBack{
+    public interface GetUserMsgCallBack extends CommonCallBack {
         void onSuccess(GetScanPatsBean getScanPatsBean);
     }
 
-    public static void GetUserMsg(HashMap<String,String> map,String method, final GetUserMsgCallBack callback) {
-
-        AllotBedApiService.getAllotBedMsg(map, method, new AllotBedApiService.ServiceCallBack() {
-            @Override
-            public void onResult(String jsonStr) {
-
-                Gson gson = new Gson();
-
-
-                if (jsonStr.isEmpty()) {
-                    callback.onFail("-1", "网络请求失败");
-                } else {
-
-                    GetScanPatsBean getScanPatsBean = gson.fromJson(jsonStr, GetScanPatsBean.class);
-                    if (ObjectUtils.isEmpty(getScanPatsBean)) {
-                        callback.onFail("-1", "网络请求失败");
-                    } else {
-                        if (getScanPatsBean.getStatus().equals("0")) {
-                            if (callback != null) {
-                                callback.onSuccess(getScanPatsBean);
-                            }
-                        } else {
-                            if (callback != null) {
-                                callback.onFail(getScanPatsBean.getMsgcode(), getScanPatsBean.getMsg());
-                            }
-                        }
-                    }
-                }
-
-
-            }
-        });
+    //查询空床 主治医生 主管护士
+    public interface getAllotBedCallBack extends CommonCallBack {
+        void onSuccess(AllotBedInfoBean allotBedInfoBean);
     }
 
+    //分床并返回空床 主治医生 主管护士
+    public interface getAllotBedResultCallBack extends CommonCallBack {
+        void onSuccess(AllotBedInfoBean allotBedResultBean);
+    }
 }

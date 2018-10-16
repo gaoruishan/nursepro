@@ -402,7 +402,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
             @Override
             public void onFail(String code, String msg) {
-                Toast.makeText(LoginActivity.this, code + ":" + msg, Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "error" + code + ":" + msg, Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -19,22 +19,27 @@ public class BedListApiManager {
                 Gson gson = new Gson();
 
                 if (jsonStr.isEmpty()) {
-                    callback.onFail("-1", "网络请求失败");
+                    callback.onFail("-1", "网络错误，请求数据为空");
                 } else {
-                    BedSelectListBean bedSelectListBean = gson.fromJson(jsonStr, BedSelectListBean.class);
-                    if (ObjectUtils.isEmpty(bedSelectListBean)) {
-                        callback.onFail("-1", "网络请求失败");
-                    } else {
-                        if (bedSelectListBean.getStatus().equals("0")) {
-                            if (callback != null) {
-                                callback.onSuccess(bedSelectListBean);
-                            }
+                    try {
+                        BedSelectListBean bedSelectListBean = gson.fromJson(jsonStr, BedSelectListBean.class);
+                        if (ObjectUtils.isEmpty(bedSelectListBean)) {
+                            callback.onFail("-3", "网络错误，数据解析为空");
                         } else {
-                            if (callback != null) {
-                                callback.onFail(bedSelectListBean.getMsgcode(), bedSelectListBean.getMsg());
+                            if ("0".equals(bedSelectListBean.getStatus())) {
+                                if (callback != null) {
+                                    callback.onSuccess(bedSelectListBean);
+                                }
+                            } else {
+                                if (callback != null) {
+                                    callback.onFail(bedSelectListBean.getMsgcode(), bedSelectListBean.getMsg());
+                                }
                             }
                         }
+                    } catch (Exception e) {
+                        callback.onFail("-2", "网络错误，数据解析失败");
                     }
+
 
                 }
             }

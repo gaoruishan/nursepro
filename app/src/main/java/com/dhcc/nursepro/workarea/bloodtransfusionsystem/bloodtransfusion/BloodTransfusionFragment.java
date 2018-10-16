@@ -326,7 +326,7 @@ public class BloodTransfusionFragment extends BaseFragment {
             @Override
             public void onFail(String code, String msg) {
                 RegNo = "";
-                showToast(code + ":" + msg);
+                showToast("error" + code + ":" + msg);
             }
         });
 
@@ -356,7 +356,7 @@ public class BloodTransfusionFragment extends BaseFragment {
 
             @Override
             public void onFail(String code, String msg) {
-                showToast(code + ":" + msg);
+                showToast("error" + code + ":" + msg);
 
                 bloodbagId = "";
                 bloodProductId = "";

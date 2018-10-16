@@ -13,23 +13,28 @@ public class MessageApiManager {
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();
                 if (jsonStr.isEmpty()) {
-                    callback.onFail("-1", "网络请求失败");
+                    callback.onFail("-1", "网络错误，请求数据为空");
                 } else {
-
-                    MessageBean message = gson.fromJson(jsonStr, MessageBean.class);
-                    if (ObjectUtils.isEmpty(message)) {
-                        callback.onFail("-1", "网络请求失败");
-                    } else {
-                        if (message.getStatus().equals("0")) {
-                            if (callback != null) {
-                                callback.onSuccess(message);
-                            }
+                    try {
+                        MessageBean message = gson.fromJson(jsonStr, MessageBean.class);
+                        if (ObjectUtils.isEmpty(message)) {
+                            callback.onFail("-3", "网络错误，数据解析为空");
                         } else {
-                            if (callback != null) {
-                                callback.onFail(message.getMsgcode(), message.getMsg());
+                            if ("0".equals(message.getStatus())) {
+                                if (callback != null) {
+                                    callback.onSuccess(message);
+                                }
+                            } else {
+                                if (callback != null) {
+                                    callback.onFail(message.getMsgcode(), message.getMsg());
+                                }
                             }
                         }
+                    } catch (Exception e) {
+                        callback.onFail("-2","网络错误，数据解析失败");
                     }
+
+
                 }
 
 
@@ -43,23 +48,28 @@ public class MessageApiManager {
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();
                 if (jsonStr.isEmpty()) {
-                    callback.onFail("-1", "网络请求失败");
+                    callback.onFail("-1", "网络错误，请求数据为空");
                 } else {
-
-                    ReadMessageBean readMessageBean = gson.fromJson(jsonStr, ReadMessageBean.class);
-                    if (ObjectUtils.isEmpty(readMessageBean)) {
-                        callback.onFail("-1", "网络请求失败");
-                    } else {
-                        if (readMessageBean.getStatus().equals("0")) {
-                            if (callback != null) {
-                                callback.onSuccess(readMessageBean);
-                            }
+                    try {
+                        ReadMessageBean readMessageBean = gson.fromJson(jsonStr, ReadMessageBean.class);
+                        if (ObjectUtils.isEmpty(readMessageBean)) {
+                            callback.onFail("-3", "网络错误，数据解析为空");
                         } else {
-                            if (callback != null) {
-                                callback.onFail(readMessageBean.getMsgcode(), readMessageBean.getMsg());
+                            if ("0".equals(readMessageBean.getStatus())) {
+                                if (callback != null) {
+                                    callback.onSuccess(readMessageBean);
+                                }
+                            } else {
+                                if (callback != null) {
+                                    callback.onFail(readMessageBean.getMsgcode(), readMessageBean.getMsg());
+                                }
                             }
                         }
+                    } catch (Exception e) {
+                        callback.onFail("-2","网络错误，数据解析失败");
                     }
+
+
                 }
 
 

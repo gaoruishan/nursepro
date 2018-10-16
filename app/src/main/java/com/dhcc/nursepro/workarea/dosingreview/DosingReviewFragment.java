@@ -167,7 +167,7 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
             @Override
             public void onFail(String code, String msg) {
                 hideLoadingTip();
-                Toast.makeText(getActivity(), code + ":" + msg, Toast.LENGTH_SHORT).show();
+                showToast("error" + code + ":" + msg);
             }
         });
     }
@@ -323,7 +323,7 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
                         @Override
                         public void onSuccess(DosingReViewBean dosingReViewBean) {
                             hideLoadingTip();
-                            Toast.makeText(getActivity(), dosingReViewBean.getMsg(), Toast.LENGTH_SHORT).show();
+                            showToast(dosingReViewBean.getMsg());
                             orders = dosingReViewBean.getOrders();
                             patientAdapter.setNewData(orders);
                             if (orders.size() == 0) {
@@ -336,7 +336,7 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
                         @Override
                         public void onFail(String code, String msg) {
                             hideLoadingTip();
-                            Toast.makeText(getActivity(), code + ":" + msg, Toast.LENGTH_SHORT).show();
+                            showToast("error" + code + ":" + msg);
                         }
                     });
 
@@ -355,7 +355,7 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
                         @Override
                         public void onSuccess(PreparedVerifyOrdBean preparedVerifyOrdBean) {
                             hideLoadingTip();
-                            Toast.makeText(getActivity(), preparedVerifyOrdBean.getMsg(), Toast.LENGTH_SHORT).show();
+                            showToast(preparedVerifyOrdBean.getMsg());
                             String bedCode = "";
                             String name = "";
                             String type = "";
@@ -403,7 +403,7 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
                         @Override
                         public void onFail(String code, String msg) {
                             hideLoadingTip();
-                            Toast.makeText(getActivity(), code + ":" + msg, Toast.LENGTH_SHORT).show();
+                            showToast("error" + code + ":" + msg);
                         }
                     });
                     break;

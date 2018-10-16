@@ -203,7 +203,7 @@ public class BloodTransfusionDetailFragment extends BaseFragment {
 
             @Override
             public void onFail(String code, String msg) {
-                Toast.makeText(getActivity(), code + ":" + msg, Toast.LENGTH_SHORT).show();
+                showToast("error" + code + ":" + msg);
             }
         });
     }

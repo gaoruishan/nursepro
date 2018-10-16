@@ -17,26 +17,26 @@ public class BedMapApiManager {
                 if (jsonStr.isEmpty()) {
                     callback.onFail("-1", "网络错误，请求数据为空");
                 } else {
-                    BedMapBean bedMapBean = new BedMapBean();
                     try {
-                        bedMapBean = gson.fromJson(jsonStr, BedMapBean.class);
-                    } catch (Exception e) {
-                        callback.onFail("-2","网络错误，数据解析失败");
-                    }
-
-                    if (ObjectUtils.isEmpty(bedMapBean)) {
-                        callback.onFail("-3", "网络错误，数据解析为空");
-                    } else {
-                        if (bedMapBean.getStatus().equals("0")) {
-                            if (callback != null) {
-                                callback.onSuccess(bedMapBean);
-                            }
+                        BedMapBean bedMapBean = gson.fromJson(jsonStr, BedMapBean.class);
+                        if (ObjectUtils.isEmpty(bedMapBean)) {
+                            callback.onFail("-3", "网络错误，数据解析为空");
                         } else {
-                            if (callback != null) {
-                                callback.onFail(bedMapBean.getMsgcode(), bedMapBean.getMsg());
+                            if ("0".equals(bedMapBean.getStatus())) {
+                                if (callback != null) {
+                                    callback.onSuccess(bedMapBean);
+                                }
+                            } else {
+                                if (callback != null) {
+                                    callback.onFail(bedMapBean.getMsgcode(), bedMapBean.getMsg());
+                                }
                             }
                         }
+                    } catch (Exception e) {
+                        callback.onFail("-2", "网络错误，数据解析失败");
                     }
+
+
                 }
 
             }

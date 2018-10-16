@@ -19,21 +19,25 @@ public class DosingReviewApiManager {
                 Gson gson = new Gson();
 
                 if (jsonStr.isEmpty()) {
-                    callback.onFail("-1", "网络请求失败");
+                    callback.onFail("-1", "网络错误，请求数据为空");
                 } else {
-                    DosingReViewBean dosingReViewBean = gson.fromJson(jsonStr, DosingReViewBean.class);
-                    if (ObjectUtils.isEmpty(dosingReViewBean)) {
-                        callback.onFail("-1", "网络请求失败");
-                    } else {
-                        if (dosingReViewBean.getStatus().equals("0")) {
-                            if (callback != null) {
-                                callback.onSuccess(dosingReViewBean);
-                            }
+                    try {
+                        DosingReViewBean dosingReViewBean = gson.fromJson(jsonStr, DosingReViewBean.class);
+                        if (ObjectUtils.isEmpty(dosingReViewBean)) {
+                            callback.onFail("-3", "网络错误，数据解析为空");
                         } else {
-                            if (callback != null) {
-                                callback.onFail(dosingReViewBean.getMsgcode(), dosingReViewBean.getMsg());
+                            if ("0".equals(dosingReViewBean.getStatus())) {
+                                if (callback != null) {
+                                    callback.onSuccess(dosingReViewBean);
+                                }
+                            } else {
+                                if (callback != null) {
+                                    callback.onFail(dosingReViewBean.getMsgcode(), dosingReViewBean.getMsg());
+                                }
                             }
                         }
+                    } catch (Exception e) {
+                        callback.onFail("-2", "网络错误，数据解析失败");
                     }
 
                 }
@@ -48,21 +52,25 @@ public class DosingReviewApiManager {
                 Gson gson = new Gson();
 
                 if (jsonStr.isEmpty()) {
-                    callback.onFail("-1", "网络请求失败");
+                    callback.onFail("-1", "网络错误，请求数据为空");
                 } else {
-                    DosingReViewBean dosingReViewBean = gson.fromJson(jsonStr, DosingReViewBean.class);
-                    if (ObjectUtils.isEmpty(dosingReViewBean)) {
-                        callback.onFail("-1", "网络请求失败");
-                    } else {
-                        if (dosingReViewBean.getStatus().equals("0")) {
-                            if (callback != null) {
-                                callback.onSuccess(dosingReViewBean);
-                            }
+                    try {
+                        DosingReViewBean dosingReViewBean = gson.fromJson(jsonStr, DosingReViewBean.class);
+                        if (ObjectUtils.isEmpty(dosingReViewBean)) {
+                            callback.onFail("-3", "网络错误，数据解析为空");
                         } else {
-                            if (callback != null) {
-                                callback.onFail(dosingReViewBean.getMsgcode(), dosingReViewBean.getMsg());
+                            if ("0".equals(dosingReViewBean.getStatus())) {
+                                if (callback != null) {
+                                    callback.onSuccess(dosingReViewBean);
+                                }
+                            } else {
+                                if (callback != null) {
+                                    callback.onFail(dosingReViewBean.getMsgcode(), dosingReViewBean.getMsg());
+                                }
                             }
                         }
+                    } catch (Exception e) {
+                        callback.onFail("-2", "网络错误，数据解析失败");
                     }
 
                 }
@@ -77,21 +85,25 @@ public class DosingReviewApiManager {
                 Gson gson = new Gson();
 
                 if (jsonStr.isEmpty()) {
-                    callback.onFail("-1", "网络请求失败");
+                    callback.onFail("-1", "网络错误，请求数据为空");
                 } else {
-                    PreparedVerifyOrdBean preparedVerifyOrdBean = gson.fromJson(jsonStr, PreparedVerifyOrdBean.class);
-                    if (ObjectUtils.isEmpty(preparedVerifyOrdBean)) {
-                        callback.onFail("-1", "网络请求失败");
-                    } else {
-                        if (preparedVerifyOrdBean.getStatus().equals("0")) {
-                            if (callback != null) {
-                                callback.onSuccess(preparedVerifyOrdBean);
-                            }
+                    try {
+                        PreparedVerifyOrdBean preparedVerifyOrdBean = gson.fromJson(jsonStr, PreparedVerifyOrdBean.class);
+                        if (ObjectUtils.isEmpty(preparedVerifyOrdBean)) {
+                            callback.onFail("-3", "网络错误，数据解析为空");
                         } else {
-                            if (callback != null) {
-                                callback.onFail(preparedVerifyOrdBean.getMsgcode(), preparedVerifyOrdBean.getMsg());
+                            if ("0".equals(preparedVerifyOrdBean.getStatus())) {
+                                if (callback != null) {
+                                    callback.onSuccess(preparedVerifyOrdBean);
+                                }
+                            } else {
+                                if (callback != null) {
+                                    callback.onFail(preparedVerifyOrdBean.getMsgcode(), preparedVerifyOrdBean.getMsg());
+                                }
                             }
                         }
+                    } catch (Exception e) {
+                        callback.onFail("-2", "网络错误，数据解析失败");
                     }
 
                 }

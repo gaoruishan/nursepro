@@ -82,7 +82,7 @@ public class BloodSignFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 if (scanOrder < 3) {
-                    Toast.makeText(getActivity(), "请完成扫码再点击确定", Toast.LENGTH_SHORT).show();
+                    showToast("请完成扫码再点击确定");
                     return;
                 }
                 BloodTSApiManager.bloodReceive(bloodInfo.getBloodbagId(), bloodInfo.getBloodProductId(), bloodInfo.getBloodGroup(), bloodInfo.getPatBldGroup(), bloodInfo.getEpisodeId(), bloodInfo.getProductDesc(), bloodInfo.getRowId(), new BloodTSApiManager.BloodOperationResultCallback() {
@@ -215,7 +215,7 @@ public class BloodSignFragment extends BaseFragment {
 
                             @Override
                             public void onFail(String code, String msg) {
-                                Toast.makeText(getActivity(), code + ":" + msg, Toast.LENGTH_SHORT).show();
+                                showToast("error" + code + ":" + msg);
                             }
                         });
                     }

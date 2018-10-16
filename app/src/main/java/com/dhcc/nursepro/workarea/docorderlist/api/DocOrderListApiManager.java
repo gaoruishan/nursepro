@@ -16,16 +16,7 @@ import java.util.HashMap;
  */
 public class DocOrderListApiManager {
 
-    public interface CommonCallBack{
-        void onFail(String code,String msg);
-    }
-
-
-    public interface getDocOrderListCallBack extends CommonCallBack{
-        void onSuccess(DocOrderListBean docOrderListBean);
-    }
-
-    public static void getDocOrderList(HashMap<String,String> map, String method, final getDocOrderListCallBack getAllotBedCallBack){
+    public static void getDocOrderList(HashMap<String, String> map, String method, final getDocOrderListCallBack callback) {
 
         DocOrderListApiService.getDocOrderListMsg(map, method, new DocOrderListApiService.ServiceCallBack() {
             @Override
@@ -33,64 +24,77 @@ public class DocOrderListApiManager {
                 Gson gson = new Gson();
 
                 if (jsonStr.isEmpty()) {
-                    getAllotBedCallBack.onFail("-1", "网络请求失败");
+                    callback.onFail("-1", "网络错误，请求数据为空");
                 } else {
-
-                    DocOrderListBean docOrderListBean = gson.fromJson(jsonStr, DocOrderListBean.class);
-                    if (ObjectUtils.isEmpty(docOrderListBean)) {
-                        getAllotBedCallBack.onFail("-1", "网络请求失败");
-                    } else {
-                        if (docOrderListBean.getStatus().equals("0")) {
-                            if (getAllotBedCallBack != null) {
-                                getAllotBedCallBack.onSuccess(docOrderListBean);
-                            }
+                    try {
+                        DocOrderListBean docOrderListBean = gson.fromJson(jsonStr, DocOrderListBean.class);
+                        if (ObjectUtils.isEmpty(docOrderListBean)) {
+                            callback.onFail("-3", "网络错误，数据解析为空");
                         } else {
-                            if (docOrderListBean != null) {
-                                getAllotBedCallBack.onFail(docOrderListBean.getMsgcode(), docOrderListBean.getMsg());
+                            if ("0".equals(docOrderListBean.getStatus())) {
+                                if (callback != null) {
+                                    callback.onSuccess(docOrderListBean);
+                                }
+                            } else {
+                                if (callback != null) {
+                                    callback.onFail(docOrderListBean.getMsgcode(), docOrderListBean.getMsg());
+                                }
                             }
                         }
+                    } catch (Exception e) {
+                        callback.onFail("-2", "网络错误，数据解析失败");
                     }
+
                 }
 
             }
         });
     }
 
-
-
-    public interface getPatsListCallback extends CommonCallBack{
-        void onSuccess(DocOrdersPatsListBean docOrdersPatsListBean);
-    }
-
     //获取病人列表
-    public static void getPatsList(HashMap<String,String> map,String method,final getPatsListCallback callback) {
+    public static void getPatsList(HashMap<String, String> map, String method, final getPatsListCallback callback) {
 
-        DocOrderListApiService.getDocOrderListMsg(map,method,new DocOrderListApiService.ServiceCallBack(){
+        DocOrderListApiService.getDocOrderListMsg(map, method, new DocOrderListApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();
 
                 if (jsonStr.isEmpty()) {
-                    callback.onFail("-1", "网络请求失败");
+                    callback.onFail("-1", "网络错误，请求数据为空");
                 } else {
-
-                    DocOrdersPatsListBean docOrdersPatsListBean = gson.fromJson(jsonStr, DocOrdersPatsListBean.class);
-                    if (ObjectUtils.isEmpty(docOrdersPatsListBean)) {
-                        callback.onFail("-1", "网络请求失败");
-                    } else {
-                        if (docOrdersPatsListBean.getStatus().equals("0")) {
-                            if (callback != null) {
-                                callback.onSuccess(docOrdersPatsListBean);
-                            }
+                    try {
+                        DocOrdersPatsListBean docOrdersPatsListBean = gson.fromJson(jsonStr, DocOrdersPatsListBean.class);
+                        if (ObjectUtils.isEmpty(docOrdersPatsListBean)) {
+                            callback.onFail("-3", "网络错误，数据解析为空");
                         } else {
-                            if (callback != null) {
-                                callback.onFail(docOrdersPatsListBean.getMsgcode(), docOrdersPatsListBean.getMsg());
+                            if ("0".equals(docOrdersPatsListBean.getStatus())) {
+                                if (callback != null) {
+                                    callback.onSuccess(docOrdersPatsListBean);
+                                }
+                            } else {
+                                if (callback != null) {
+                                    callback.onFail(docOrdersPatsListBean.getMsgcode(), docOrdersPatsListBean.getMsg());
+                                }
                             }
                         }
+                    } catch (Exception e) {
+                        callback.onFail("-2", "网络错误，数据解析失败");
                     }
-                }
 
+                }
             }
         });
+    }
+
+    public interface CommonCallBack {
+        void onFail(String code, String msg);
+    }
+
+    public interface getDocOrderListCallBack extends CommonCallBack {
+        void onSuccess(DocOrderListBean docOrderListBean);
+    }
+
+    public interface getPatsListCallback extends CommonCallBack {
+        void onSuccess(DocOrdersPatsListBean docOrdersPatsListBean);
     }
 }

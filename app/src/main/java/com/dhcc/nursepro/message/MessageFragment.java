@@ -62,9 +62,9 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
 
         setStatusBarBackgroundViewVisibility(false, 0xffffffff);
         setToolbarType(BaseActivity.ToolbarType.HIDE);
-//        setToolbarType(BaseActivity.ToolbarType.TOP);
-//        setToolbarBottomLineVisibility(true);
-//        hideToolbarNavigationIcon();
+        //        setToolbarType(BaseActivity.ToolbarType.TOP);
+        //        setToolbarBottomLineVisibility(true);
+        //        hideToolbarNavigationIcon();
 
         initView(view);
         initAdapter();
@@ -126,13 +126,14 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
                     MessageApiManager.readMessage(abnormalPatListBean.getEpisodeId(), new MessageApiManager.ReadMessageCallback() {
                         @Override
                         public void onSuccess(ReadMessageBean readMessageBean) {
-                            Toast.makeText(getActivity(), "已读操作成功", Toast.LENGTH_SHORT).show();
+                            showToast("已读操作成功");
                             abnormalPatList.remove(position);
                             adapter.notifyDataSetChanged();
                         }
+
                         @Override
                         public void onFail(String code, String msg) {
-                            Toast.makeText(getActivity(), code+":"+msg, Toast.LENGTH_SHORT).show();
+                            showToast("error" + code + ":" + msg);
                         }
                     });
 
@@ -199,7 +200,7 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
 
             @Override
             public void onFail(String code, String msg) {
-                Toast.makeText(getActivity(), code + ":" + msg, Toast.LENGTH_SHORT).show();
+                showToast("error" + code + ":" + msg);
             }
         });
     }
@@ -253,9 +254,9 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (hidden){
+        if (hidden) {
 
-        }else {
+        } else {
             initData();
         }
     }
