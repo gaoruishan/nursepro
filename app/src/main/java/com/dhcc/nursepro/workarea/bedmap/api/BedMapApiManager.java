@@ -1,5 +1,7 @@
 package com.dhcc.nursepro.workarea.bedmap.api;
 
+import android.widget.Toast;
+
 import com.blankj.utilcode.util.ObjectUtils;
 import com.dhcc.nursepro.workarea.bedmap.bean.BedMapBean;
 import com.google.gson.Gson;
@@ -13,12 +15,17 @@ public class BedMapApiManager {
                 Gson gson = new Gson();
 
                 if (jsonStr.isEmpty()) {
-                    callback.onFail("-1", "网络请求失败");
+                    callback.onFail("-1", "网络错误，请求数据为空");
                 } else {
+                    BedMapBean bedMapBean = new BedMapBean();
+                    try {
+                        bedMapBean = gson.fromJson(jsonStr, BedMapBean.class);
+                    } catch (Exception e) {
+                        callback.onFail("-2","网络错误，数据解析失败");
+                    }
 
-                    BedMapBean bedMapBean = gson.fromJson(jsonStr, BedMapBean.class);
                     if (ObjectUtils.isEmpty(bedMapBean)) {
-                        callback.onFail("-1", "网络请求失败");
+                        callback.onFail("-3", "网络错误，数据解析为空");
                     } else {
                         if (bedMapBean.getStatus().equals("0")) {
                             if (callback != null) {

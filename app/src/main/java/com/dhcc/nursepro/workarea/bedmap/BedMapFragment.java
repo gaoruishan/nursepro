@@ -217,8 +217,7 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
             @Override
             public void onFail(String code, String msg) {
                 hideLoadingTip();
-                Toast.makeText(getActivity(), code + ":" + msg, Toast.LENGTH_SHORT).show();
-
+                Toast.makeText(getActivity(), "error"+code + ":" + msg, Toast.LENGTH_SHORT).show();
             }
         });
     }
