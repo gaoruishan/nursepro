@@ -3,6 +3,7 @@
     android:layout_width="85dp"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:background="@color/vital_sign_type_normal_bg"
     xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
