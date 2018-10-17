@@ -790,4 +790,15 @@ public class BaseFragment extends Fragment {
     }
 
 
+
+    /**
+     * 设置Toolbar的背景
+     *
+     */
+    public void setMessage(int messageNum) {
+        Activity activity = getActivity();
+        if (activity != null && activity instanceof BaseActivity) {
+            ((BaseActivity) activity).setmessage(messageNum);
+        }
+    }
 }

@@ -129,6 +129,7 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
                             showToast("已读操作成功");
                             abnormalPatList.remove(position);
                             adapter.notifyDataSetChanged();
+                            notifyMessage();
                         }
 
                         @Override
@@ -192,10 +193,12 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
                     recyMessageConsultation.setVisibility(View.VISIBLE);
                 }
 
-
                 tvMessageNeworderCount.setText(newOrderAdapter.getItemCount() + "");
                 tvMessageAbnormalCount.setText(abnormalAdapter.getItemCount() + "");
                 tvMessageConsultationCount.setText(consultationAdapter.getItemCount() + "");
+
+                int messageNum =  msgs.getNewOrdPatList().size()+msgs.getAbnormalPatList().size()+msgs.getConPatList().size();
+                setMessage(messageNum);
             }
 
             @Override
@@ -249,7 +252,22 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
 
         }
     }
+    public void notifyMessage(){
+        {
+            MessageApiManager.getMessage(new MessageApiManager.GetMessageCallback() {
+                @Override
+                public void onSuccess(MessageBean msgs) {
+                    int messageNum =  msgs.getNewOrdPatList().size()+msgs.getAbnormalPatList().size()+msgs.getConPatList().size();
+                    setMessage(messageNum);
+                }
 
+                @Override
+                public void onFail(String code, String msg) {
+                    Toast.makeText(getActivity(), code + "-消息获取失败：" + msg, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
 
     @Override
     public void onHiddenChanged(boolean hidden) {

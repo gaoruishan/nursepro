@@ -2,6 +2,7 @@ package com.dhcc.nursepro.Activity;
 
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -90,8 +91,23 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         rbWorkarea.setOnCheckedChangeListener(this);
         rbMessage.setOnCheckedChangeListener(this);
         rbSetting.setOnCheckedChangeListener(this);
-
         rbWorkarea.setChecked(true);
+    }
+
+
+
+    @Override
+    public void setmessage(int messageNum) {
+        super.setmessage(messageNum);
+        Drawable drawable;
+        if (messageNum <1){
+            drawable = getResources().getDrawable(R.drawable.tabbar_item_message_selector);
+            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        }else {
+            drawable= getResources().getDrawable(R.drawable.tabbar_item_havemessage_selector);
+            drawable.setBounds(7, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        }
+        rbMessage.setCompoundDrawables(null,drawable,null,null);
     }
 
     /**

@@ -1551,4 +1551,6 @@ public class BaseActivity extends AppCompatActivity
             }
         }
     }
+
+    public void setmessage(int messageNum){}
 }

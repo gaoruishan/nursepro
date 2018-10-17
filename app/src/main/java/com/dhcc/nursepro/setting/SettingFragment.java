@@ -23,6 +23,8 @@ import com.dhcc.nursepro.greendao.DaoSession;
 import com.dhcc.nursepro.greendao.GreenDaoHelper;
 import com.dhcc.nursepro.login.LoginActivity;
 import com.dhcc.nursepro.login.bean.NurseInfo;
+import com.dhcc.nursepro.message.api.MessageApiManager;
+import com.dhcc.nursepro.message.bean.MessageBean;
 import com.dhcc.nursepro.utils.wsutils.WebServiceUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -186,6 +188,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                             spUtils.put(SharedPreference.WARDID, loginNurseInfo.getWardId());
 
                             tvLoc.setText(loginNurseInfo.getLocDesc());
+                            notifyMessage();
                             break;
                         }
                     }
@@ -204,5 +207,20 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         picker.show();
     }
 
+    public void notifyMessage(){
+        {
+            MessageApiManager.getMessage(new MessageApiManager.GetMessageCallback() {
+                @Override
+                public void onSuccess(MessageBean msgs) {
+                    int messageNum =  msgs.getNewOrdPatList().size()+msgs.getAbnormalPatList().size()+msgs.getConPatList().size();
+                    setMessage(messageNum);
+                }
 
+                @Override
+                public void onFail(String code, String msg) {
+                    Toast.makeText(getActivity(), code + "-消息获取失败：" + msg, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
 }

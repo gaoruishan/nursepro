@@ -13,7 +13,8 @@
         android:layout_height="match_parent"
         android:background="@color/white"
         android:focusable="true"
-        android:focusableInTouchMode="true">
+        android:focusableInTouchMode="true"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/tv_orderexecute_warning"
@@ -187,8 +188,9 @@
             <TextView
                 android:id="@+id/tv_bottom_handletype"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:textColor="@color/white"
+                android:gravity="center"
                 android:text="接受"/>
             <ImageView
                 android:id="@+id/img_bottom_handlesure"
