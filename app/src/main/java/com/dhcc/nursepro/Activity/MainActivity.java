@@ -105,7 +105,7 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
             drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
         }else {
             drawable= getResources().getDrawable(R.drawable.tabbar_item_havemessage_selector);
-            drawable.setBounds(7, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+            drawable.setBounds(8, 0, drawable.getIntrinsicWidth()+8, drawable.getIntrinsicHeight());
         }
         rbMessage.setCompoundDrawables(null,drawable,null,null);
     }

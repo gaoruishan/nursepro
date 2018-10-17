@@ -26,6 +26,7 @@ import com.dhcc.nursepro.workarea.dosingreview.DosingReviewFragment;
 import com.dhcc.nursepro.workarea.labout.LabOutListFragment;
 import com.dhcc.nursepro.workarea.labresult.LabPatsFragment;
 import com.dhcc.nursepro.workarea.milkloopsystem.MilkLoopSystemFragment;
+import com.dhcc.nursepro.workarea.motherbabylink.MotherBabyLinkFragment;
 import com.dhcc.nursepro.workarea.operation.OperationFragment;
 import com.dhcc.nursepro.workarea.orderexecute.OrderExecuteFragment;
 import com.dhcc.nursepro.workarea.ordersearch.OrderSearchFragment;
@@ -75,6 +76,7 @@ public class WorkareaFragment extends BaseFragment {
         ItemNameList.add("DOCORDERLIST");//医嘱单
         ItemNameList.add("BLOOD");//输血系统
         ItemNameList.add("MILK");//母乳闭环
+        ItemNameList.add("MOTHERBABYLINK");//母婴关联
 
         initView(view);
     }
@@ -138,6 +140,9 @@ public class WorkareaFragment extends BaseFragment {
                 break;
             case "MILK":
                 startFragment(MilkLoopSystemFragment.class);
+                break;
+            case "MOTHERBABYLINK":
+                startFragment(MotherBabyLinkFragment.class);
                 break;
             default:
 //                showToast("正在开发");
@@ -211,6 +216,10 @@ public class WorkareaFragment extends BaseFragment {
                 case "MILK":
                     tvItem.setText("母乳闭环");
                     imageView.setImageResource(R.drawable.icon_milk);
+                    break;
+                case "MOTHERBABYLINK":
+                    tvItem.setText("母婴关联");
+                    imageView.setImageResource(R.drawable.icon_motherbabylink);
                     break;
                 default:
                     break;

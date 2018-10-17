@@ -68,6 +68,9 @@
     <string name="title_milk_bottling">母乳装瓶</string>
     <string name="title_milk_coldstorage">母乳冷藏</string>
 
+    <!--母婴关联-->
+    <string name="title_motherbaby_link">母婴关联</string>
+
     <!--#################################消息文字区#################################-->
 
     <!--#################################设置文字区#################################-->

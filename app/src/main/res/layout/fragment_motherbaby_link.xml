@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".workarea.motherbabylink.MotherBabyLinkFragment">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#E4F0FF" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="90dp"
+                    android:src="@drawable/icon_patient_scan" />
+
+                <TextView
+                    android:id="@+id/tv_motherbabylink_scantips"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:text="请扫描母亲腕带"
+                    android:textColor="#FF62ABFF"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="#f5faff" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="18dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="50dp"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="23dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/icon_motherbabylink_mother"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_motherlink_selector" />
+
+                <View
+                    android:id="@+id/view_motherbabylink_mother"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:background="@drawable/line_bloodts_scan_selector" />
+
+                <ImageView
+                    android:id="@+id/icon_motherbabylink_baby"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_babylink_selector" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="23dp"
+                    android:gravity="center_vertical"
+                    android:text="母亲信息"
+                    android:textColor="#4A4A4A"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_motherbabylink_mother"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="#4A4A4A"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    tools:text="" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="23dp"
+                    android:gravity="center_vertical"
+                    android:text="婴儿信息"
+                    android:textColor="#4A4A4A"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_motherbabylink_baby"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="#4A4A4A"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    tools:text="" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
