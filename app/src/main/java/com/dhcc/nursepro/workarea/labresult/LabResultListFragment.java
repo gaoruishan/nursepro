@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.nursepro.BaseActivity;
@@ -23,6 +24,7 @@ import java.util.List;
 public class LabResultListFragment extends BaseFragment {
 
     private RecyclerView recLabList;
+    private LinearLayout llEmtpy;
     private LabResultListAdapter resultListAdapter;
     private List<LabResultListBean.LabOrderListBean> listBeans;
     private String episodeId,patmsg;
@@ -43,20 +45,21 @@ public class LabResultListFragment extends BaseFragment {
         setToolbarCenterTitle(patmsg,0xffffffff,17);
 
         initview(view);
+        initAdapter();
         initData();
-
     }
 
     private void initview(View view){
 
-
+        llEmtpy = view.findViewById(R.id.ll_lablist_empty);
         recLabList = view.findViewById(R.id.recy_lablist);
         recLabList.setHasFixedSize(true);
         recLabList.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+    }
+    private void initAdapter(){
         resultListAdapter = new LabResultListAdapter(new ArrayList<LabResultListBean.LabOrderListBean>());
-
         recLabList.setAdapter(resultListAdapter);
-
         resultListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -70,12 +73,9 @@ public class LabResultListFragment extends BaseFragment {
                 }
             }
         });
-
-
     }
 
     private void initData(){
-
 
         HashMap<String,String> map = new HashMap<String, String>();
         map.put("episodeId",episodeId);
@@ -84,7 +84,9 @@ public class LabResultListFragment extends BaseFragment {
             public void onSuccess(LabResultListBean labResultListBean) {
                 listBeans = labResultListBean.getLabOrderList();
                 if (listBeans.size() == 0){
-                    showToast("该患者未进行任何检验项目");
+                    llEmtpy.setVisibility(View.VISIBLE);
+                }else {
+                    llEmtpy.setVisibility(View.GONE);
                 }
                 resultListAdapter.setNewData(listBeans);
                 resultListAdapter.notifyDataSetChanged();

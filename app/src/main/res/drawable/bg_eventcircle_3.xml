@@ -9,8 +9,8 @@
         <!--android:color="@color/colorPrimary" />-->
     <!-- 中间渐变，角度0从左往右，正值为逆时针，270度为从上到下 -->
     <gradient
-        android:startColor="#FF16C295"
-        android:endColor="#FF16C295" />
+        android:startColor="#16C295"
+        android:endColor="#16C295" />
     <!-- 设置四个角的角度 -->
     <!--<corners-->
         <!--android:radius="180dp" />-->

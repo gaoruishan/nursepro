@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.SPUtils;
@@ -37,6 +38,7 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
 
     private RecyclerView recLabOut;
     private TextView tvType1,tvType2,tvType3,tvType4,tvStartDate,tvEndDate;
+    private LinearLayout llEmpty;
     private View show1,show2,show3,show4;
     private LabOutAdapter labOutAdapter;
     private List<LabOutListAllBean.LabOutListBean> listLabAll,listLabNow;
@@ -44,8 +46,6 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
     private List<LabOutListAllBean.TypeListBean> listType;
 
     private SPUtils spUtils = SPUtils.getInstance();
-
-
 
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -79,17 +79,13 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
         });
         setToolbarRightCustomView(viewright);
         initview(view);
+        initAdapter();
         initData();
-
-
 
     }
     private void initview(View view){
 
-        listType = new ArrayList<LabOutListAllBean.TypeListBean>();
-
-
-
+        llEmpty = view.findViewById(R.id.ll_laboout_empty);
         tvType1 = view.findViewById(R.id.tv_labout_type1);
         tvType1.setOnClickListener(this);
         tvType2 = view.findViewById(R.id.tv_labout_type2);
@@ -105,11 +101,6 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
 
         tvStartDate.setText(spUtils.getString(SharedPreference.SCHSTDATETIME).substring(0,10));
         tvEndDate.setText(spUtils.getString(SharedPreference.SCHENDATETIME).substring(0,10));
-//        Date date = new Date(System.currentTimeMillis());
-//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");//精确到分钟
-//        String today = format.format(date);
-//        tvStartDate.setText(today);
-//        tvEndDate.setText(today);
 
         show1 = view.findViewById(R.id.view_labout_show1);
         show2 = view.findViewById(R.id.view_labout_show2);
@@ -119,17 +110,16 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
         setTopFilterSelect(tvType1);
         showgone(show1);
 
-
         recLabOut = view.findViewById(R.id.recy_labout);
         //提高展示效率
         recLabOut.setHasFixedSize(true);
         //设置的布局管理
         recLabOut.setLayoutManager(new LinearLayoutManager(getActivity()));
-        //提高展示效率
-        recLabOut.setHasFixedSize(true);
-        //设置的布局管理
-        recLabOut.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
 
+    private void initAdapter(){
+
+        listType = new ArrayList<LabOutListAllBean.TypeListBean>();
         labOutAdapter = new LabOutAdapter(new ArrayList<LabOutListAllBean.LabOutListBean>());
         recLabOut.setAdapter(labOutAdapter);
 
@@ -155,7 +145,6 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
 
     private void initData(){
         showLoadingTip(BaseActivity.LoadingType.FULL);
-
         SPUtils spUtils = SPUtils.getInstance();
         HashMap<String,String> map = new HashMap<>();
         map.put("stdate",tvStartDate.getText().toString());
@@ -167,8 +156,6 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
                 map.put("carryNo",CarrayNo);
             }
         }
-//        map.put("carryNo","");
-
         LabOutApiManager.getLabOutListMsg(map, "getLabOutList", new LabOutApiManager.getLabOutCallBack() {
             @Override
             public void onSuccess(LabOutListAllBean labOutListAllBean) {
@@ -226,6 +213,11 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
             }
         }
         labOutAdapter.setNewData(listLabNow);
+        if (listLabNow.size()<1){
+            llEmpty.setVisibility(View.VISIBLE);
+        }else {
+            llEmpty.setVisibility(View.GONE);
+        }
         labOutAdapter.notifyDataSetChanged();
     }
 
@@ -271,15 +263,13 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
 
     }
 
-
-
-
     private void setTopFilterSelect(View view) {
         tvType1.setSelected(view == tvType1);
         tvType2.setSelected(view == tvType2);
         tvType3.setSelected(view == tvType3);
         tvType4.setSelected(view == tvType4);
     }
+
     private void showgone(View view){
         show1.setBackgroundColor(getResources().getColor(R.color.blue_light));
         show2.setBackgroundColor(getResources().getColor(R.color.blue_light));
@@ -287,7 +277,6 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
         show4.setBackgroundColor(getResources().getColor(R.color.blue_light));
         view.setBackgroundColor(getResources().getColor(R.color.blue));
     }
-
 
     private void chooseTime(){
         long tenYears = 3L * 365 * 1000 * 60 * 60 * 24L;
@@ -313,7 +302,6 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
                 .setWheelItemTextSelectorColor(getResources().getColor(R.color.blue))
                 .setWheelItemTextSize(12)
                 .build();
-
                  mDialogAll.show(getFragmentManager(), "ALL");
 
     }
@@ -321,7 +309,7 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
     @Override
     public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
         Date date = new Date(millseconds);
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");//精确到分钟
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         String time = format.format(date);
         if (dateStr.equals("start")) {
             tvStartDate.setText(time);
@@ -330,7 +318,6 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
         }
         initData();
     }
-
 
     @Override
     public void onResume() {

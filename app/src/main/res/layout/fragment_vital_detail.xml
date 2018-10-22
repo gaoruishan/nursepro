@@ -56,8 +56,8 @@
 
 
         <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -81,50 +81,73 @@
                         android:background="@color/white">
                     </android.support.v7.widget.RecyclerView>
                 </LinearLayout>
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-                <LinearLayout
+                <HorizontalScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:background="@color/blue_light">
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/recy_vitalsign_title"
+                    android:layout_height="wrap_content">
+
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/white">
-
-                        </android.support.v7.widget.RecyclerView>
-                    </LinearLayout>
-
-                        <RelativeLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:descendantFocusability="blocksDescendants">
-                            <ScrollView
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+                            <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent">
-                            <android.support.v7.widget.RecyclerView
-                                android:id="@+id/recy_vitalsign_detail"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:background="@color/white">
-                            </android.support.v7.widget.RecyclerView>
-                            </ScrollView>
-                        </RelativeLayout>
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:background="@color/blue_light">
+                                <android.support.v7.widget.RecyclerView
+                                    android:id="@+id/recy_vitalsign_title"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@color/white">
+
+                                </android.support.v7.widget.RecyclerView>
+                            </LinearLayout>
+
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:descendantFocusability="blocksDescendants">
+                                    <ScrollView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent">
+                                    <android.support.v7.widget.RecyclerView
+                                        android:id="@+id/recy_vitalsign_detail"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/white">
+                                    </android.support.v7.widget.RecyclerView>
+                                    </ScrollView>
+                                </RelativeLayout>
 
 
-                </LinearLayout>
-        </HorizontalScrollView>
-
+                        </LinearLayout>
+                </HorizontalScrollView>
             </LinearLayout>
         </ScrollView>
+        <LinearLayout
+            android:id="@+id/ll_vital_empty"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/icon_blood_search_empty"/>
+
+            <TextView
+                android:id="@+id/tv_vital_empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textSize="16sp"
+                android:textColor="#9B9B9B"
+                android:text="暂无体征记录"/>
+
+        </LinearLayout>
+
     </LinearLayout>
 
 

@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.SPUtils;
@@ -36,6 +37,7 @@ public class VitalSignDetailFragment extends BaseFragment implements View.OnClic
 
     private RecyclerView recyclerView, recyclertitleView, recyclercodeView;
     private TextView tvEndate, tvStdate, tvcodetitle;
+    private LinearLayout llEmpty;
     private List<VitalSignDetailBean.TempDataListBean> listBeans;
     private List<VitalSignDetailBean.TempConfigBean> listBeansTitle;
     private List<String> listcode;
@@ -73,6 +75,8 @@ public class VitalSignDetailFragment extends BaseFragment implements View.OnClic
     }
 
     private void initView(View view) {
+
+        llEmpty = view.findViewById(R.id.ll_vital_empty);
         tvStdate = view.findViewById(R.id.tv_stdate);
         tvEndate = view.findViewById(R.id.tv_endate);
         tvStdate.setOnClickListener(this);
@@ -123,9 +127,10 @@ public class VitalSignDetailFragment extends BaseFragment implements View.OnClic
                 listBeansTitle = vitalSignDetailBean.getTempConfig();
                 if (listBeans.size() == 0) {
                     tvcodetitle.setVisibility(View.GONE);
-                    showToast("该时间段内没有体征记录");
+                    llEmpty.setVisibility(View.VISIBLE);
                 } else {
                     tvcodetitle.setVisibility(View.VISIBLE);
+                    llEmpty.setVisibility(View.GONE);
                 }
 
                 vitalSignDetailAdapter.setNewData(listBeans);
@@ -213,10 +218,10 @@ public class VitalSignDetailFragment extends BaseFragment implements View.OnClic
                 .setCyclic(false)
                 .setMinMillseconds(System.currentTimeMillis() - tenYears)
                 .setCurrentMillseconds(calendar.getTimeInMillis())
-                .setThemeColor(getResources().getColor(R.color.colorAccent))
+                .setThemeColor(getResources().getColor(R.color.blue))
                 .setType(Type.YEAR_MONTH_DAY)
                 .setWheelItemTextNormalColor(getResources().getColor(R.color.timetimepicker_default_text_color))
-                .setWheelItemTextSelectorColor(getResources().getColor(R.color.timepicker_toolbar_bg))
+                .setWheelItemTextSelectorColor(getResources().getColor(R.color.blue))
                 .setWheelItemTextSize(12)
                 .build();
         mDialogAll.settype(1);

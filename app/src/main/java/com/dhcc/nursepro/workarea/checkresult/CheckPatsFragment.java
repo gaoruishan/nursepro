@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.SPUtils;
@@ -29,6 +30,7 @@ public class CheckPatsFragment extends BaseFragment implements View.OnClickListe
 
     private TextView tvmanage, tvall, tvwait;
     private RecyclerView recall;
+    private LinearLayout llEmpty;
     private CheckPatListAdapter patListAdapterAll, patListAdapterManage, patListAdapterWait;
     private List<CheckPatsListBean.PatInfoListBean> listBeansAll, listBeansInBed, listBeansManage, listBeansWait;
     private String showListNow = "all";
@@ -48,6 +50,7 @@ public class CheckPatsFragment extends BaseFragment implements View.OnClickListe
         setToolbarBottomLineVisibility(true);
         setToolbarCenterTitle(getString(R.string.title_checkpats), 0xffffffff, 17);
         initView(view);
+        initAdapter();
         view.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -61,6 +64,7 @@ public class CheckPatsFragment extends BaseFragment implements View.OnClickListe
     private void initView(View view) {
 
 
+        llEmpty = view.findViewById(R.id.ll_check_empty);
         showview1 = view.findViewById(R.id.view_pats_show1);
         showview2 = view.findViewById(R.id.view_pats_show2);
         showview3 = view.findViewById(R.id.view_pats_show3);
@@ -75,18 +79,19 @@ public class CheckPatsFragment extends BaseFragment implements View.OnClickListe
         tvwait.setOnClickListener(this);
         recall = view.findViewById(R.id.recy_checklab_onbedarea);
 
+        recall.setHasFixedSize(true);
+        recall.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+    }
+    private void  initAdapter(){
         listBeansAll = new ArrayList<CheckPatsListBean.PatInfoListBean>();
         listBeansInBed = new ArrayList<CheckPatsListBean.PatInfoListBean>();
         listBeansManage = new ArrayList<CheckPatsListBean.PatInfoListBean>();
         listBeansWait = new ArrayList<CheckPatsListBean.PatInfoListBean>();
 
-        recall.setHasFixedSize(true);
-        recall.setLayoutManager(new LinearLayoutManager(getActivity()));
         patListAdapterAll = new CheckPatListAdapter(new ArrayList<CheckPatsListBean.PatInfoListBean>());
         patListAdapterAll.setOnItemClickListener(this);
         recall.setAdapter(patListAdapterAll);
-
-
     }
 
     private void iniData() {
@@ -111,8 +116,8 @@ public class CheckPatsFragment extends BaseFragment implements View.OnClickListe
                         listBeansManage.add(listBeansAll.get(i));
                     }
                 }
-                patListAdapterAll.setNewData(listBeansInBed);
-                patListAdapterAll.notifyDataSetChanged();
+
+                showSelectedPats(listBeansInBed);
 
             }
 
@@ -156,22 +161,19 @@ public class CheckPatsFragment extends BaseFragment implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_labpats_all:
-                patListAdapterAll.setNewData(listBeansInBed);
-                patListAdapterAll.notifyDataSetChanged();
+                showSelectedPats(listBeansInBed);
                 showListNow = "all";
                 setTopFilterSelect(tvall);
                 showgone(showview1);
                 break;
             case R.id.tv_labpats_manage:
-                patListAdapterAll.setNewData(listBeansManage);
-                patListAdapterAll.notifyDataSetChanged();
+                showSelectedPats(listBeansManage);
                 showListNow = "manage";
                 setTopFilterSelect(tvmanage);
                 showgone(showview2);
                 break;
-            case R.id.tv_labpats_wait:
-                patListAdapterAll.setNewData(listBeansWait);
-                patListAdapterAll.notifyDataSetChanged();
+            case R.id.tv_labpats_wait:;
+                showSelectedPats(listBeansWait);
                 showListNow = "wait";
                 setTopFilterSelect(tvwait);
                 showgone(showview3);
@@ -181,6 +183,18 @@ public class CheckPatsFragment extends BaseFragment implements View.OnClickListe
         }
 
     }
+
+    private void showSelectedPats(List<CheckPatsListBean.PatInfoListBean> listShow){
+        patListAdapterAll.setNewData(listShow);
+        patListAdapterAll.notifyDataSetChanged();
+        if (listShow.size()<1){
+            llEmpty.setVisibility(View.VISIBLE);
+        }else {
+            llEmpty.setVisibility(View.GONE);
+        }
+    }
+
+
 
     private void setTopFilterSelect(View view) {
         tvall.setSelected(view == tvall);

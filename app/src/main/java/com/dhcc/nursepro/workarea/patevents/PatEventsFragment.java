@@ -63,7 +63,8 @@ public class PatEventsFragment extends BaseFragment implements View.OnClickListe
         setToolbarBottomLineVisibility(true);
         setToolbarCenterTitle(getString(R.string.title_patevents),0xffffffff,17);
 
-        init(view);
+        initView(view);
+        initAdapter();
 
         //扫描广播
         intentFilter = new IntentFilter();
@@ -72,7 +73,7 @@ public class PatEventsFragment extends BaseFragment implements View.OnClickListe
         getActivity().registerReceiver(dataReceiver,intentFilter);
     }
 
-    private void init(View view){
+    private void initView(View view){
         rlscan = view.findViewById(R.id.rl_patevents_scan);
         tveventuser = view.findViewById(R.id.tv_event_user);
         Bundle bundle = getArguments();
@@ -87,6 +88,46 @@ public class PatEventsFragment extends BaseFragment implements View.OnClickListe
         recyPatevents.setLayoutManager(new LinearLayoutManager(getActivity()));
 
     }
+    private void initAdapter() {
+        patEventsAdapter = new PatEventsAdapter(new ArrayList<PatEventsBean.EventListBean>());
+        recyPatevents.setAdapter(patEventsAdapter);
+        patEventsAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                if (view.getId()==R.id.messagecontentll){
+                    Bundle bundle = new Bundle();
+                    bundle.putString("recId",listItem.get(position).getRecId());
+                    bundle.putString("episodeId",episodeIdNow);
+                    bundle.putString("eventDate",listItem.get(position).getEventDate());
+                    bundle.putString("eventTime",listItem.get(position).getEventTime());
+                    bundle.putString("eventId",listItem.get(position).getEventId());
+                    bundle.putString("userId",listItem.get(position).getAddUser());
+                    startFragment(PatEventsDetailFragment.class,bundle);
+                }else if (view.getId()==R.id.tv_patevents_eventdel){
+                    HashMap<String,String> mapDel = new HashMap<String, String>();
+                    mapDel.put("recId",listItem.get(position).getRecId());
+                    String methodName = "DelEvent";
+                    PatEventsApiManager.getEventsResultMsg(mapDel,methodName, new PatEventsApiManager.GetEventsResultMsgCallBack() {
+                        @Override
+                        public void onSuccess(String msgs) {
+                            showToast(msgs);
+                        }
+
+                        @Override
+                        public void onFail(String code, String msg) {
+                            showToast(code+":"+msg);
+                        }
+                    });
+                    if(listItem.size()>= position) {
+                        listItem.remove(position);
+                    }
+                    patEventsAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+
+    }
+
     //扫描或带参数过来显示
     private void showToolbarRight(){
         //右上角按钮
@@ -114,12 +155,10 @@ public class PatEventsFragment extends BaseFragment implements View.OnClickListe
         PatEventsApiManager.getPatEventsList(map, new PatEventsApiManager.GetEventsSelectCallBack() {
             @Override
             public void onSuccess(PatEventsBean patEventsBean) {
-
                 rlscan.setVisibility(View.GONE);
                 listItem = patEventsBean.getEventList();
-                patEventsAdapter = new PatEventsAdapter(new ArrayList<PatEventsBean.EventListBean>());
-                recyPatevents.setAdapter(patEventsAdapter);
                 patEventsAdapter.setNewData(listItem);
+                patEventsAdapter.notifyDataSetChanged();
 
             }
             @Override
@@ -166,99 +205,6 @@ public class PatEventsFragment extends BaseFragment implements View.OnClickListe
             }
         }
     }
-
-    public class PatEventsAdapter extends BaseQuickAdapter<PatEventsBean.EventListBean,BaseViewHolder> {
-
-        public PatEventsAdapter(@Nullable List<PatEventsBean.EventListBean> data) {
-            super(R.layout.item_patevents,data);
-        }
-
-        @Override
-        protected void convert(final BaseViewHolder helper, final PatEventsBean.EventListBean item) {
-
-            helper.setText(R.id.tv_patevents_eventtype,item.getEventDesc())
-                    .setText(R.id.tv_patevents_eventmaker,item.getAddUser())
-                    .setText(R.id.tv_patevents_eventdate,item.getEventDate())
-                    .setText(R.id.tv_patevents_eventtime,item.getEventTime());
-            LinearLayout lltoDetail = helper.getView(R.id.messagecontentll);
-            lltoDetail.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-//                    Bundle bundle = getArguments();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("recId",item.getRecId());
-                    bundle.putString("episodeId",episodeIdNow);
-                    bundle.putString("eventDate",item.getEventDate());
-                    bundle.putString("eventTime",item.getEventTime());
-                    bundle.putString("eventId",item.getEventId());
-                    bundle.putString("userId",item.getAddUser());
-
-                    startFragment(PatEventsDetailFragment.class,bundle);
-                }
-            });
-
-            TextView tvdesc = helper.getView(R.id.tv_patevents_eventtype);
-            switch (item.getEventDesc()){
-                case "外出":
-                    tvdesc.setBackground(getResources().getDrawable(R.drawable.bg_eventcircle_1));
-                    break;
-                case "死亡":
-                    tvdesc.setBackground(getResources().getDrawable(R.drawable.bg_eventcircle_2));
-                    break;
-                case "转出":
-                    tvdesc.setBackground(getResources().getDrawable(R.drawable.bg_eventcircle_3));
-                    break;
-                case "出院":
-                    tvdesc.setBackground(getResources().getDrawable(R.drawable.bg_eventcircle_4));
-                    break;
-                case "分娩":
-                    tvdesc.setBackground(getResources().getDrawable(R.drawable.bg_eventcircle_5));
-                    break;
-                case "手术":
-                    tvdesc.setBackground(getResources().getDrawable(R.drawable.bg_eventcircle_6));
-                    break;
-                case "转入":
-                    tvdesc.setBackground(getResources().getDrawable(R.drawable.bg_eventcircle_7));
-                    break;
-                case "入院":
-                    tvdesc.setBackground(getResources().getDrawable(R.drawable.bg_eventcircle_8));
-                    break;
-                default:
-                    tvdesc.setBackground(getResources().getDrawable(R.drawable.bg_eventcircle_default));
-                    break;
-
-            }
-
-            final String recID = item.getRecId();
-            TextView tvdel = helper.getView(R.id.tv_patevents_eventdel);
-            tvdel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    HashMap<String,String> mapDel = new HashMap<String, String>();
-                    mapDel.put("recId",recID);
-                    String methodName = "DelEvent";
-                    PatEventsApiManager.getEventsResultMsg(mapDel,methodName, new PatEventsApiManager.GetEventsResultMsgCallBack() {
-                        @Override
-                        public void onSuccess(String msgs) {
-                            showToast(msgs);
-                        }
-
-                        @Override
-                        public void onFail(String code, String msg) {
-                            showToast(code+":"+msg);
-                        }
-                    });
-                    if(listItem.size()>= helper.getAdapterPosition()) {
-                        listItem.remove(helper.getAdapterPosition());
-                    }
-                    patEventsAdapter.notifyDataSetChanged();
-                }
-            });
-        }
-    }
-
-
-
 
     @Override
     public void onClick(View v) {

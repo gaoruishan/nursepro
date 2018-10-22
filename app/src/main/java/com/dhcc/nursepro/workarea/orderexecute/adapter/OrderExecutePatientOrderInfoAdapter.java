@@ -1,6 +1,7 @@
 package com.dhcc.nursepro.workarea.orderexecute.adapter;
 
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -82,6 +83,42 @@ public class OrderExecutePatientOrderInfoAdapter extends BaseQuickAdapter<OrderE
                 llorderinfomulti1.setVisibility(View.VISIBLE);
                 helper.setText(R.id.tv_oeporderinfo_orderdose1, orderInfoBean.getPhOrdQtyUnit());
             }
+        }
+
+        switch (tvOrderType.getText().toString()){
+            case "临时医嘱":
+                tvOrderType.setBackground(ContextCompat.getDrawable(mContext,R.drawable.bg_ordertype_1));
+                break;
+            case "长期医嘱":
+                tvOrderType.setBackground(ContextCompat.getDrawable(mContext,R.drawable.bg_ordertype_2));
+                break;
+            case "临时嘱托":
+                tvOrderType.setBackground(ContextCompat.getDrawable(mContext,R.drawable.bg_ordertype_3));
+                break;
+            case "长期嘱托":
+                tvOrderType.setBackground(ContextCompat.getDrawable(mContext,R.drawable.bg_ordertype_4));
+                break;
+            case "即刻医嘱":
+                tvOrderType.setBackground(ContextCompat.getDrawable(mContext,R.drawable.bg_ordertype_5));
+                break;
+            case "PRN":
+                tvOrderType.setBackground(ContextCompat.getDrawable(mContext,R.drawable.bg_ordertype_6));
+                break;
+            case "取药医嘱":
+                tvOrderType.setBackground(ContextCompat.getDrawable(mContext,R.drawable.bg_ordertype_7));
+                break;
+            case "自备药即刻":
+                tvOrderType.setBackground(ContextCompat.getDrawable(mContext,R.drawable.bg_ordertype_8));
+                break;
+            case "自备药长期":
+                tvOrderType.setBackground(ContextCompat.getDrawable(mContext,R.drawable.bg_ordertype_9));
+                break;
+            case "出院带药":
+                tvOrderType.setBackground(ContextCompat.getDrawable(mContext,R.drawable.bg_ordertype_10));
+                break;
+            default:
+                tvOrderType.setBackground(ContextCompat.getDrawable(mContext,R.drawable.bg_oval_green));
+                break;
         }
     }
 }

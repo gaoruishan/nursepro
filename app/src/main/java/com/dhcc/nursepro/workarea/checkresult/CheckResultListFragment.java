@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -25,6 +26,7 @@ import java.util.List;
 
 public class CheckResultListFragment extends BaseFragment {
     private RecyclerView recCheckList;
+    private LinearLayout llEmpty;
     private CheckResultListAdapter checkResultListAdapter;
     private List<CheckResultListBean.RisOrdListBean> listBeans;
     private String episodeId, patmsg;
@@ -48,6 +50,7 @@ public class CheckResultListFragment extends BaseFragment {
         setToolbarCenterTitle(patmsg, 0xffffffff, 17);
 
         initview(view);
+        initAdapter();
         initData();
 
     }
@@ -55,13 +58,17 @@ public class CheckResultListFragment extends BaseFragment {
     private void initview(View view) {
 
 
+        llEmpty = view.findViewById(R.id.ll_checklist_empty);
         recCheckList = view.findViewById(R.id.recy_checklist);
         recCheckList.setHasFixedSize(true);
         recCheckList.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+    }
+
+    private void initAdapter(){
+
         checkResultListAdapter = new CheckResultListAdapter(new ArrayList<CheckResultListBean.RisOrdListBean>());
-
         recCheckList.setAdapter(checkResultListAdapter);
-
         checkResultListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -85,11 +92,8 @@ public class CheckResultListFragment extends BaseFragment {
             }
         });
 
-
     }
-
     private void initData() {
-
 
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("episodeId", episodeId);
@@ -101,7 +105,9 @@ public class CheckResultListFragment extends BaseFragment {
             public void onSuccess(CheckResultListBean checkResultListBean) {
                 listBeans = checkResultListBean.getRisOrdList();
                 if (listBeans.size() == 0) {
-                    showToast("该患者未进行任何检查项目");
+                    llEmpty.setVisibility(View.VISIBLE);
+                }else {
+                    llEmpty.setVisibility(View.GONE);
                 }
                 checkResultListAdapter.setNewData(listBeans);
                 checkResultListAdapter.notifyDataSetChanged();

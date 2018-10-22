@@ -20,6 +20,7 @@ import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.constant.SharedPreference;
+import com.dhcc.nursepro.workarea.patevents.adapter.PatEventsDetailAdapter;
 import com.dhcc.nursepro.workarea.patevents.api.PatEventsApiManager;
 import com.dhcc.nursepro.workarea.patevents.bean.EventItemBean;
 import com.jzxiang.pickerview.TimePickerDialog;
@@ -41,7 +42,7 @@ public class PatEventsDetailFragment extends BaseFragment implements View.OnClic
 
     private RecyclerView recyPatevents;
     private List<String> list;
-    private PatEventsAdapter patEventsAdapter;
+    private PatEventsDetailAdapter patEventsDetailAdapter;
     private List<EventItemBean.EventItemListBean> listItem;
     private int isel = 0;
     private String eventId;
@@ -62,16 +63,19 @@ public class PatEventsDetailFragment extends BaseFragment implements View.OnClic
         setToolbarType(BaseActivity.ToolbarType.TOP);
         setToolbarBottomLineVisibility(true);
 
-        initview(view);
-        initData();
-
-
-    }
-
-
-    private void initview(View view){
-
-        userIdNow = spUtils.getString(SharedPreference.USERID);
+        //右上角保存按钮
+        View viewright =  View.inflate(getActivity(),R.layout.view_fratoolbar_right,null);
+        TextView textView = viewright.findViewById(R.id.tv_fratoobar_right);
+        textView.setTextSize(15);
+        textView.setText("   保存   ");
+        textView.setTextColor(getResources().getColor(R.color.white));
+        viewright.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sureClicked();
+            }
+        });
+        setToolbarRightCustomView(viewright);
 
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -88,24 +92,24 @@ public class PatEventsDetailFragment extends BaseFragment implements View.OnClic
             setToolbarCenterTitle(getStringSafe(R.string.title_changepatevents),0xffffffff,17);
         }
 
+        initview(view);
+        initAdapter();
+        initData();
+
+
+    }
+
+
+    private void initview(View view){
+
+        userIdNow = spUtils.getString(SharedPreference.USERID);
+
 
         recyPatevents = view.findViewById(R.id.recy_pateventsdetail);
         recyPatevents.setHasFixedSize(true);
         recyPatevents.setLayoutManager(new GridLayoutManager(getActivity(),4));
 
-        //右上角保存按钮
-        View viewright =  View.inflate(getActivity(),R.layout.view_fratoolbar_right,null);
-        TextView textView = viewright.findViewById(R.id.tv_fratoobar_right);
-        textView.setTextSize(15);
-        textView.setText("   保存   ");
-        textView.setTextColor(getResources().getColor(R.color.white));
-        viewright.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sureClicked();
-            }
-        });
-        setToolbarRightCustomView(viewright);
+
         //时间控件
         View viewtime = view.findViewById(R.id.ll_timepicker);
         TextView cancel = (TextView) view.findViewById(com.jzxiang.pickerview.R.id.tv_cancel);
@@ -131,6 +135,23 @@ public class PatEventsDetailFragment extends BaseFragment implements View.OnClic
         toolbar.setBackgroundColor(getResources().getColor(R.color.blue));
         mTimeWheel = new TimeWheel(viewtime, mPickerConfig);
 
+    }
+    private void initAdapter(){
+        patEventsDetailAdapter = new PatEventsDetailAdapter(new ArrayList<EventItemBean.EventItemListBean>());
+        patEventsDetailAdapter.setEventId(eventId);
+        patEventsDetailAdapter.setRecId(recId);
+        recyPatevents.setAdapter(patEventsDetailAdapter);
+        patEventsDetailAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                if (view.getId() == R.id.tv_patevents_eventtype){
+                eventId = listItem.get(position).getId();
+                patEventsDetailAdapter.setEventId(eventId);
+                patEventsDetailAdapter.setIsel(position);
+                patEventsDetailAdapter.notifyDataSetChanged();
+                }
+            }
+        });
     }
 
     private void sureClicked() {
@@ -186,9 +207,12 @@ public class PatEventsDetailFragment extends BaseFragment implements View.OnClic
              @Override
              public void onSuccess(EventItemBean eventItemBean) {
                  listItem = eventItemBean.getEventItemList();
-                 patEventsAdapter = new PatEventsAdapter(new ArrayList<EventItemBean.EventItemListBean>());
-                 recyPatevents.setAdapter(patEventsAdapter);
-                 patEventsAdapter.setNewData(listItem);
+                 patEventsDetailAdapter.setNewData(listItem);
+                 patEventsDetailAdapter.notifyDataSetChanged();
+                 if (eventId == null){
+                     eventId = listItem.get(0).getId();
+                     patEventsDetailAdapter.setEventId(eventId);
+                 }
              }
 
              @Override
@@ -198,9 +222,9 @@ public class PatEventsDetailFragment extends BaseFragment implements View.OnClic
          });
     }
 
-    public class PatEventsAdapter extends BaseQuickAdapter<EventItemBean.EventItemListBean,BaseViewHolder> {
+    public class PatEventsAdapter1 extends BaseQuickAdapter<EventItemBean.EventItemListBean,BaseViewHolder> {
 
-        public PatEventsAdapter(@Nullable List<EventItemBean.EventItemListBean> data) {
+        public PatEventsAdapter1(@Nullable List<EventItemBean.EventItemListBean> data) {
             super(R.layout.item_pateventsdetail,data);
         }
 
@@ -265,7 +289,7 @@ public class PatEventsDetailFragment extends BaseFragment implements View.OnClic
 
                     eventId = item.getId();
                     isel = helper.getAdapterPosition();
-                    patEventsAdapter.notifyDataSetChanged();
+                    patEventsDetailAdapter.notifyDataSetChanged();
                 }
             });
         }

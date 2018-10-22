@@ -4,13 +4,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/blue_light"
+    android:background="@color/white"
     tools:context=".workarea.labresult.LabResultListFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recy_lablist"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
     </android.support.v7.widget.RecyclerView>
+    <LinearLayout
+        android:id="@+id/ll_lablist_empty"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/icon_blood_search_empty"/>
+
+        <TextView
+            android:id="@+id/tv_lablist_empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textSize="16sp"
+            android:textColor="#9B9B9B"
+            android:text="暂无检验项目"/>
+    </LinearLayout>
 </LinearLayout>

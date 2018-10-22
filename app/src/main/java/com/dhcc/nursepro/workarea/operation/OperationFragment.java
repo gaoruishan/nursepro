@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.blankj.utilcode.util.SPUtils;
@@ -27,6 +28,7 @@ import java.util.Map;
 public class OperationFragment extends BaseFragment {
 
     private RecyclerView recOperation;
+    private LinearLayout llEmtpy;
     private OperationAdapter operationAdapter;
     private List<OperationBean.OpListBean> listOp;
 
@@ -44,29 +46,26 @@ public class OperationFragment extends BaseFragment {
         setToolbarCenterTitle(getString(R.string.title_operation),0xffffffff,17);
 
         initView(view);
+        initAdapter();
         initData();
 
     }
     private void initView(View view){
+        llEmtpy = view.findViewById(R.id.ll_operation_empty);
         recOperation = view.findViewById(R.id.rec_operation);
 
         //提高展示效率
         recOperation.setHasFixedSize(true);
         //设置的布局管理
         recOperation.setLayoutManager(new LinearLayoutManager(getActivity()));
-        //提高展示效率
-        recOperation.setHasFixedSize(true);
-        //设置的布局管理
-        recOperation.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+    }
+
+    private void initAdapter(){
 
         operationAdapter = new OperationAdapter(new ArrayList<OperationBean.OpListBean>());
         recOperation.setAdapter(operationAdapter);
-//        List<Map> list = new ArrayList<>();
-//        Map map = new HashMap();
-//        list.add(map);list.add(map);list.add(map);list.add(map);list.add(map);list.add(map);
-//        operationAdapter.setNewData(list);
     }
-
     private void initData(){
         showLoadingTip(BaseActivity.LoadingType.FULL);
         SPUtils spUtils = SPUtils.getInstance();
@@ -78,6 +77,12 @@ public class OperationFragment extends BaseFragment {
                 hideLoadFailTip();
                 listOp = operationBean.getOpList();
                 operationAdapter.setNewData(listOp);
+                operationAdapter.notifyDataSetChanged();
+                if (listOp.size()<1){
+                    llEmtpy.setVisibility(View.VISIBLE);
+                }else {
+                    llEmtpy.setVisibility(View.GONE);
+                }
 
             }
 

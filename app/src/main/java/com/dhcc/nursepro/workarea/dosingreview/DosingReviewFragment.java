@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,6 +55,7 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
     private TextView tvDosingreviewStartdate;
     private TextView tvDosingreviewEnddate;
     private RecyclerView recyDosingreview;
+    private LinearLayout llEmpty;
 
     private List<DosingReViewBean> dosingReViewBeanList;
     private List<DosingReViewBean.OrdersBean> orders;
@@ -104,6 +106,7 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
     }
 
     private void initView(View view) {
+        llEmpty = view.findViewById(R.id.ll_dosingreview_empty);
         tvDosingreviewCurrent = view.findViewById(R.id.tv_dosingreview_current);
         tvDosingreviewCurrent.setOnClickListener(this);
         tvDosingreviewUndosing = view.findViewById(R.id.tv_dosingreview_undosing);
@@ -151,8 +154,10 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
                     patientAdapter.setNewData(orders);
                     if (orders.size() == 0) {
                         patientAdapter.loadMoreEnd();
+                        llEmpty.setVisibility(View.VISIBLE);
                     } else {
                         patientAdapter.loadMoreComplete();
+                        llEmpty.setVisibility(View.GONE);
                     }
                 } else {
                     if (orders.size() == 0) {
@@ -198,6 +203,11 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
                 setTopFilterSelect(tvDosingreviewCurrent);
                 patientAdapter.setNewData(currentOrders);
                 patientAdapter.loadMoreEnd();
+                if (currentOrders.size()<1){
+                    llEmpty.setVisibility(View.VISIBLE);
+                }else {
+                    llEmpty.setVisibility(View.GONE);
+                }
                 break;
             case R.id.tv_dosingreview_undosing:
                 setTopFilterSelect(tvDosingreviewUndosing);
@@ -398,6 +408,11 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
 
                             setTopFilterSelect(tvDosingreviewCurrent);
                             patientAdapter.setNewData(currentOrders);
+                            if (currentOrders.size()<1){
+                                llEmpty.setVisibility(View.VISIBLE);
+                            }else {
+                                llEmpty.setVisibility(View.GONE);
+                            }
                         }
 
                         @Override

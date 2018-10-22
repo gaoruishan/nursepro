@@ -105,10 +105,9 @@ public class AllotBedFragment extends BaseFragment implements View.OnClickListen
             }
         });
 
-
         initView(view);
-        getEmptyBed();
-
+        initAdapter();
+        initData();
 
         //扫描广播
         intentFilter = new IntentFilter();
@@ -128,14 +127,15 @@ public class AllotBedFragment extends BaseFragment implements View.OnClickListen
         tvRegNo = view.findViewById(R.id.tv_allotbed_regno);
         rlAllotBedScan = view.findViewById(R.id.rl_allotbed_scan);
 
-
         recAllotBed = view.findViewById(R.id.recy_allotbed);
         //提高展示效率
         recAllotBed.setHasFixedSize(true);
         //设置的布局管理
-        //        recAllotBed.setLayoutManager(new LinearLayoutManager(getActivity()));
         recAllotBed.setLayoutManager(new GridLayoutManager(getActivity(), 3));
 
+    }
+
+    private void initAdapter(){
         emptyBedListAdapter = new EmptyBedListAdapter(new ArrayList<AllotBedInfoBean.EmptyBedListBean>());
         emptyBedListAdapter.setSelectItem(-1);
         recAllotBed.setAdapter(emptyBedListAdapter);
@@ -172,7 +172,8 @@ public class AllotBedFragment extends BaseFragment implements View.OnClickListen
 
     }
 
-    private void getEmptyBed() {
+    //获取展示空床
+    private void initData() {
         HashMap<String, String> map = new HashMap<>();
         map.put("wardId", spUtils.getString(SharedPreference.WARDID));
         map.put("locId", spUtils.getString(SharedPreference.LOCID));
@@ -208,8 +209,6 @@ public class AllotBedFragment extends BaseFragment implements View.OnClickListen
         map.put("userId", spUtils.getString(SharedPreference.USERID));
         map.put("mainDoc", selectDoc);
         map.put("mainNurse", selectNur);
-
-
         AllotBedApiManager.getAllotBedResult(map, "allotBed", new AllotBedApiManager.getAllotBedResultCallBack() {
             @Override
             public void onSuccess(AllotBedInfoBean allotBedResultBean) {

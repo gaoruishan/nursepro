@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.SPUtils;
@@ -26,6 +27,7 @@ public class LabPatsFragment extends BaseFragment implements View.OnClickListene
 
     private TextView tvmanage, tvall, tvwait;
     private RecyclerView recall;
+    private LinearLayout llEmpty;
     private PatListAdapter patListAdapterAll, patListAdapterManage, patListAdapterWait;
     private List<PatsListBean.PatInfoListBean> listBeansAll, listBeansInBed, listBeansManage, listBeansWait;
     private String showListNow = "all";
@@ -34,7 +36,7 @@ public class LabPatsFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_patlist_check, container, false);
+        return inflater.inflate(R.layout.fragment_patlist_lab, container, false);
     }
 
     @Override
@@ -45,6 +47,7 @@ public class LabPatsFragment extends BaseFragment implements View.OnClickListene
         setToolbarBottomLineVisibility(true);
         setToolbarCenterTitle(getString(R.string.title_labpats), 0xffffffff, 17);
         initView(view);
+        initAdapter();
         view.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -62,6 +65,7 @@ public class LabPatsFragment extends BaseFragment implements View.OnClickListene
         showview2 = view.findViewById(R.id.view_pats_show2);
         showview3 = view.findViewById(R.id.view_pats_show3);
         showgone(showview1);
+        llEmpty = view.findViewById(R.id.ll_lab_empty);
 
         tvall = view.findViewById(R.id.tv_labpats_all);
         tvmanage = view.findViewById(R.id.tv_labpats_manage);
@@ -72,18 +76,18 @@ public class LabPatsFragment extends BaseFragment implements View.OnClickListene
         tvwait.setOnClickListener(this);
         recall = view.findViewById(R.id.recy_checklab_onbedarea);
 
+        recall.setHasFixedSize(true);
+        recall.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+    private void initAdapter(){
         listBeansAll = new ArrayList<PatsListBean.PatInfoListBean>();
         listBeansInBed = new ArrayList<PatsListBean.PatInfoListBean>();
         listBeansManage = new ArrayList<PatsListBean.PatInfoListBean>();
         listBeansWait = new ArrayList<PatsListBean.PatInfoListBean>();
 
-        recall.setHasFixedSize(true);
-        recall.setLayoutManager(new LinearLayoutManager(getActivity()));
         patListAdapterAll = new PatListAdapter(new ArrayList<PatsListBean.PatInfoListBean>());
         patListAdapterAll.setOnItemClickListener(this);
         recall.setAdapter(patListAdapterAll);
-
-
     }
 
     private void iniData() {
@@ -108,8 +112,7 @@ public class LabPatsFragment extends BaseFragment implements View.OnClickListene
                         listBeansManage.add(listBeansAll.get(i));
                     }
                 }
-                patListAdapterAll.setNewData(listBeansInBed);
-                patListAdapterAll.notifyDataSetChanged();
+                showSelectedPats(listBeansInBed);
 
             }
 
@@ -153,22 +156,19 @@ public class LabPatsFragment extends BaseFragment implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_labpats_all:
-                patListAdapterAll.setNewData(listBeansInBed);
-                patListAdapterAll.notifyDataSetChanged();
+                showSelectedPats(listBeansInBed);
                 showListNow = "all";
                 setTopFilterSelect(tvall);
                 showgone(showview1);
                 break;
             case R.id.tv_labpats_manage:
-                patListAdapterAll.setNewData(listBeansManage);
-                patListAdapterAll.notifyDataSetChanged();
+                showSelectedPats(listBeansManage);
                 showListNow = "manage";
                 setTopFilterSelect(tvmanage);
                 showgone(showview2);
                 break;
             case R.id.tv_labpats_wait:
-                patListAdapterAll.setNewData(listBeansWait);
-                patListAdapterAll.notifyDataSetChanged();
+                showSelectedPats(listBeansWait);
                 showListNow = "wait";
                 setTopFilterSelect(tvwait);
                 showgone(showview3);
@@ -177,6 +177,16 @@ public class LabPatsFragment extends BaseFragment implements View.OnClickListene
                 break;
         }
 
+    }
+
+    private void showSelectedPats(List<PatsListBean.PatInfoListBean> listPats){
+        patListAdapterAll.setNewData(listPats);
+        patListAdapterAll.notifyDataSetChanged();
+        if (listPats.size()<1){
+            llEmpty.setVisibility(View.VISIBLE);
+        }else {
+            llEmpty.setVisibility(View.GONE);
+        }
     }
 
     private void setTopFilterSelect(View view) {

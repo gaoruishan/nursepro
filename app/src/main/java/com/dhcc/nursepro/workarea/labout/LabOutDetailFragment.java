@@ -68,6 +68,7 @@ public class LabOutDetailFragment extends BaseFragment {
         setToolbarCenterTitle(carryNo,0xffffffff,17);
 
         initview(view);
+        initAdapter();
         initData();
 
 
@@ -100,9 +101,12 @@ public class LabOutDetailFragment extends BaseFragment {
         //设置的布局管理
         recaddLabOut.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+    }
+
+    private void initAdapter(){
+
         labOutDetailAdapter = new LabOutDetailAdapter(new ArrayList<LabOutDetailBean.DetailListBean>());
         recaddLabOut.setAdapter(labOutDetailAdapter);
-
         labOutDetailAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -115,15 +119,9 @@ public class LabOutDetailFragment extends BaseFragment {
                 }
             }
         });
-
-
-
-
-
     }
 
     private void initData(){
-
 
         HashMap<String,String > map = new HashMap<>();
         map.put("carryNo",carryNo);
@@ -132,8 +130,6 @@ public class LabOutDetailFragment extends BaseFragment {
             map.put("locDr",carryLocDr);
             map.put("saveFlag",saveFlag);
         }
-
-
         LabOutApiManager.getLabOutDetailMsg(map, "getLabOutDetail", new LabOutApiManager.getLabOutDetailCallBack() {
             @Override
             public void onSuccess(LabOutDetailBean labOutDetailBean) {
@@ -173,9 +169,6 @@ public class LabOutDetailFragment extends BaseFragment {
             map.put("containerNo", etLaboutContainer.getText().toString());
             map.put("transUserId","3");
         }
-//        map.put("transUserId","3");
-//        map.put("transUserId", spUtils.getString(SharedPreference.USERID));
-
         LabOutApiManager.delOrdMsg(map, "delOrExchange", new LabOutApiManager.delOrdCallBack() {
             @Override
             public void onSuccess(DelOrderBean delOrderBean) {
@@ -200,12 +193,9 @@ public class LabOutDetailFragment extends BaseFragment {
             if (intent.getAction().equals(Action.DEVICE_SCAN_CODE)){
                 Bundle bundle = new Bundle();
                 bundle = intent.getExtras();
-//                getUserMsg(bundle.getString("data"));
                 carryLocDr = spUtils.getString(SharedPreference.LOCID);
                 carryLabNo = bundle.getString("data");
                 saveFlag = "1";
-//                carryLabNo = "1000000035";
-//                showToast(carryLocDr+"--"+carryLabNo);
                 initData();
 
             }

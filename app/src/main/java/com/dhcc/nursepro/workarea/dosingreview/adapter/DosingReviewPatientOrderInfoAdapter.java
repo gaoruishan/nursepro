@@ -1,6 +1,7 @@
 package com.dhcc.nursepro.workarea.dosingreview.adapter;
 
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -40,14 +41,18 @@ public class DosingReviewPatientOrderInfoAdapter extends BaseQuickAdapter<Dosing
 
         if ("Y".equals(item.getOrderInfo().getPreparedFlag())) {
             tvOrderPrepare.setText("已配液");
+            tvOrderPrepare.setBackground(ContextCompat.getDrawable(mContext,R.drawable.bg_dosingreview_4));
         }else{
             tvOrderPrepare.setText("未配液");
+            tvOrderPrepare.setBackground(ContextCompat.getDrawable(mContext,R.drawable.bg_dosingreview_2));
         }
 
         if ("Y".equals(item.getOrderInfo().getVerifyFlag())) {
             tvOrderVerify.setText("已复核");
+            tvOrderVerify.setBackground(ContextCompat.getDrawable(mContext,R.drawable.bg_dosingreview_3));
         }else{
             tvOrderVerify.setText("未复核");
+            tvOrderVerify.setBackground(ContextCompat.getDrawable(mContext,R.drawable.bg_dosingreview_1));
         }
 
         if (size == 1) {
