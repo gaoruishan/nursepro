@@ -6,20 +6,16 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
@@ -27,14 +23,12 @@ import com.dhcc.nursepro.constant.Action;
 import com.dhcc.nursepro.constant.SharedPreference;
 import com.dhcc.nursepro.workarea.patevents.adapter.PatEventsAdapter;
 import com.dhcc.nursepro.workarea.patevents.api.PatEventsApiManager;
-import com.dhcc.nursepro.workarea.patevents.bean.EventItemBean;
 import com.dhcc.nursepro.workarea.patevents.bean.PatEventsBean;
 import com.dhcc.nursepro.workarea.patevents.bean.ScanGetUserMsgBean;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class PatEventsFragment extends BaseFragment implements View.OnClickListener {
 
