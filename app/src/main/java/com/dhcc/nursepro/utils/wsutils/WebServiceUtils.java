@@ -25,7 +25,7 @@ import java.util.concurrent.Executors;
 
 public class WebServiceUtils {
 
-//    public static final String WEB_SERVER_URL = "http://10.1.5.87/dthealth/web/Nur.PDA.WebService.cls";
+    //    public static final String WEB_SERVER_URL = "http://10.1.5.87/dthealth/web/Nur.PDA.WebService.cls";
 
 
     // 含有3个线程的线程池
@@ -36,21 +36,18 @@ public class WebServiceUtils {
     private static final String NAMESPACE = "http://www.dhcc.com.cn";
 
     /**
+     * WebService服务器地址
      *
-     *            WebService服务器地址
-     * @param methodName
-     *            WebService的调用方法名
-     * @param properties
-     *            WebService的参数
-     * @param webServiceCallBack
-     *            回调接口
+     * @param methodName         WebService的调用方法名
+     * @param properties         WebService的参数
+     * @param webServiceCallBack 回调接口
      */
     public static void callWebService(final String methodName,
                                       HashMap<String, String> properties,
                                       final WebServiceCallBack webServiceCallBack) {
         // 创建HttpTransportSE对象，传递WebService服务器地址
 
-        final HttpTransportSE httpTransportSE = new HttpTransportSE("http://"+SPUtils.getInstance().getString("IP")+"/dthealth/web/Nur.PDA.WebService.cls");
+        final HttpTransportSE httpTransportSE = new HttpTransportSE("http://" + SPUtils.getInstance().getString("IP") + "/dthealth/web/Nur.PDA.WebService.cls");
 
 
         // 创建SoapObject对象
@@ -59,7 +56,7 @@ public class WebServiceUtils {
         // SoapObject添加参数
         if (properties != null) {
             for (Iterator<Map.Entry<String, String>> it = properties.entrySet()
-                    .iterator(); it.hasNext();) {
+                    .iterator(); it.hasNext(); ) {
                 Map.Entry<String, String> entry = it.next();
                 soapObject.addProperty(entry.getKey(), entry.getValue());
             }
@@ -115,7 +112,7 @@ public class WebServiceUtils {
 
                         jsonstr = obj.toString();
 
-                        Log.v("json result",jsonstr);
+                        Log.v("json result", jsonstr);
                     }
                 } catch (HttpResponseException e) {
                     e.printStackTrace();
@@ -131,18 +128,6 @@ public class WebServiceUtils {
             }
         });
     }
-
-    /**
-     *
-     *
-     * @author xiaanming
-     *
-     */
-    public interface WebServiceCallBack {
-        public void callBack(String result);
-    }
-
-
 
     public static String loadSoapObject(String serviceUrl, String methodName, Map Parrm) throws Exception {
         String retData = null;
@@ -166,21 +151,21 @@ public class WebServiceUtils {
         // 创建HttpTransportSE对象,并且确定wsdl网络地址
         HttpTransportSE httpTransportSE = new HttpTransportSE(serviceUrl);//
 
-        String userNamestr="dhwebservice";
-        String passWordstr="dhwebservice";
+        String userNamestr = "dhwebservice";
+        String passWordstr = "dhwebservice";
         Element[] header = new Element[1];
         header[0] = new Element().createElement("", "Security");
-        header[0].setAttribute("","xmlns", "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd");
+        header[0].setAttribute("", "xmlns", "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd");
         Element UsernameToken = new Element().createElement("", "UsernameToken");
         Element userName = new Element().createElement("", "Username");
         userName.addChild(Node.TEXT, userNamestr);
         Element passWord = new Element().createElement("", "Password");
         passWord.addChild(Node.TEXT, passWordstr);
-        passWord.setAttribute("","Type", "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText");
+        passWord.setAttribute("", "Type", "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText");
         UsernameToken.addChild(Node.ELEMENT, userName);
         UsernameToken.addChild(Node.ELEMENT, passWord);
         header[0].addChild(Node.ELEMENT, UsernameToken);
-        serializationEnvelope.headerOut=header;
+        serializationEnvelope.headerOut = header;
         try {
             // httpTransportSE调用Call方法
             httpTransportSE.call(NAMESPACE + "/" + methodName, serializationEnvelope);
@@ -193,7 +178,7 @@ public class WebServiceUtils {
                 // <Response><ResultCode>0</ResultCode><ResultDesc></ResultDesc><ResultList><Patinfo><name>张三</name><sex>男</sex><age>20</age></Patinfo><Patinfo><name>李四</name><sex>女</sex><age>22</age></Patinfo></ResultList></Response>
 
                 retData = obj.toString();
-                Log.v("1112222ret",retData.toString()+"1211");
+                Log.v("1112222ret", retData.toString() + "1211");
 
             }
 
@@ -206,6 +191,14 @@ public class WebServiceUtils {
         }
 
         return retData;
+    }
+
+
+    /**
+     * @author xiaanming
+     */
+    public interface WebServiceCallBack {
+        public void callBack(String result);
     }
 
 

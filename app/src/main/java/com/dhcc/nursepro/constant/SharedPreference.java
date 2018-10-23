@@ -37,6 +37,4 @@ public class SharedPreference {
     public static final String VIBRATOR = "VIBRATOR";
 
 
-
-
 }

@@ -67,13 +67,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private TextView tvIp;
     private String IpStr;
     private SetIPDialog showDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         setToolbarType(ToolbarType.HIDE);
-        IpStr = spUtils.getString("IP","noIp");
-        if (IpStr == "noIp"){
+        IpStr = spUtils.getString("IP", "noIp");
+        if ("noIp".equals(IpStr)) {
             spUtils.put("IP", "10.1.5.87");
         }
         nurseInfoList = daoSession.getNurseInfoDao().queryBuilder().list();
@@ -207,35 +208,36 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     public boolean isIP(String addr) {
-        if(addr.length() < 7 || addr.length() > 15 || "".equals(addr))
-        {
-        return false;
-        }
-        /*** 判断IP格式和范  */
-            String rexp = "([1-9]|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])(\\.(\\d|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])){3}";
-            Pattern pat = Pattern.compile(rexp);
-            Matcher mat = pat.matcher(addr);
-            boolean ipAddress = mat.find();
-            //============对之前的ip判断的bug在进行判断
-                if (ipAddress==true){
-                String ips[] = addr.split("\\.");
-                if(ips.length==4){
-                    try{
-                            for(String ip : ips){
-                                if(Integer.parseInt(ip)<0||Integer.parseInt(ip)>255){
-                                return false;
-                                }
-                             }
-                        }catch (Exception e){
-                        return false;
-                    }
-                    return true;
-                }else{
+        if (addr.length() < 7 || addr.length() > 15 || "".equals(addr)) {
             return false;
-         }
+        }
+        // 判断IP格式是否规范
+        String rexp = "([1-9]|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])(\\.(\\d|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])){3}";
+        Pattern pat = Pattern.compile(rexp);
+        Matcher mat = pat.matcher(addr);
+        boolean ipAddress = mat.find();
+        //============对之前的ip判断的bug在进行判断
+        if (ipAddress) {
+            String ips[] = addr.split("\\.");
+            if (ips.length == 4) {
+                try {
+                    for (String ip : ips) {
+                        if (Integer.parseInt(ip) < 0 || Integer.parseInt(ip) > 255) {
+                            return false;
+                        }
+                    }
+                } catch (Exception e) {
+                    return false;
+                }
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
-    return ipAddress;
-    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -246,10 +248,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 showDialog.setYesOnclickListener("确定", new SetIPDialog.onYesOnclickListener() {
                     @Override
                     public void onYesClick() {
-                        if (isIP(showDialog.getIp())){
-                            spUtils.put("IP",showDialog.getIp());
+                        if (isIP(showDialog.getIp())) {
+                            spUtils.put("IP", showDialog.getIp());
                             showDialog.dismiss();
-                        }else {
+                        } else {
                             showToast("IP格式不正确，请重新输入");
                         }
                     }
