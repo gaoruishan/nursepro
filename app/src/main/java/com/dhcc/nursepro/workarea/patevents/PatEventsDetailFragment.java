@@ -47,14 +47,15 @@ public class PatEventsDetailFragment extends BaseFragment implements View.OnClic
     private int isel = 0;
     private String eventId;
     private TimeWheel mTimeWheel;
-    private String recId,episodeId,eventDate,eventTime,buneventId,userId;
+    private String recId, episodeId, eventDate, eventTime, buneventId, userId;
     private Calendar calendar;
 
     private String userIdNow;
     private SPUtils spUtils = SPUtils.getInstance();
+
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_pateventdetail,container,false);
+        return inflater.inflate(R.layout.fragment_pateventdetail, container, false);
     }
 
     @Override
@@ -64,7 +65,7 @@ public class PatEventsDetailFragment extends BaseFragment implements View.OnClic
         setToolbarBottomLineVisibility(true);
 
         //右上角保存按钮
-        View viewright =  View.inflate(getActivity(),R.layout.view_fratoolbar_right,null);
+        View viewright = View.inflate(getActivity(), R.layout.view_fratoolbar_right, null);
         TextView textView = viewright.findViewById(R.id.tv_fratoobar_right);
         textView.setTextSize(15);
         textView.setText("   保存   ");
@@ -86,10 +87,10 @@ public class PatEventsDetailFragment extends BaseFragment implements View.OnClic
             eventId = bundle.getString("eventId");
             userId = bundle.getString("userId");
         }
-        if(recId == null){
-            setToolbarCenterTitle(getStringSafe(R.string.title_addpatevents),0xffffffff,17);
-        }else {
-            setToolbarCenterTitle(getStringSafe(R.string.title_changepatevents),0xffffffff,17);
+        if (recId == null) {
+            setToolbarCenterTitle(getStringSafe(R.string.title_addpatevents), 0xffffffff, 17);
+        } else {
+            setToolbarCenterTitle(getStringSafe(R.string.title_changepatevents), 0xffffffff, 17);
         }
 
         initview(view);
@@ -99,15 +100,60 @@ public class PatEventsDetailFragment extends BaseFragment implements View.OnClic
 
     }
 
+    private void sureClicked() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.clear();
+        calendar.set(Calendar.YEAR, mTimeWheel.getCurrentYear());
+        calendar.set(Calendar.MONTH, mTimeWheel.getCurrentMonth() - 1);
+        calendar.set(Calendar.DAY_OF_MONTH, mTimeWheel.getCurrentDay());
+        calendar.set(Calendar.HOUR_OF_DAY, mTimeWheel.getCurrentHour());
+        calendar.set(Calendar.MINUTE, mTimeWheel.getCurrentMinute());
 
-    private void initview(View view){
+        //时间
+        long mCurrentMillSeconds = calendar.getTimeInMillis();
+        Date date = new Date(mCurrentMillSeconds);
+        //        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//精确到分钟
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat format1 = new SimpleDateFormat("HH:mm");
+        String timestr = format1.format(date);
+        String datestr = format.format(date);
+
+
+        HashMap<String, String> map = new HashMap<String, String>();
+        if (recId != null) {
+            map.put("recId", recId);
+        }
+        map.put("episodeId", episodeId);
+        map.put("eventDate", datestr);
+        map.put("eventTime", timestr);
+        map.put("eventId", eventId);
+        map.put("userId", userIdNow);
+
+        String methodName = "saveEvent";
+        PatEventsApiManager.getEventsResultMsg(map, methodName, new PatEventsApiManager.GetEventsResultMsgCallBack() {
+            @Override
+            public void onSuccess(String msgs) {
+                showToast(msgs);
+                finish();
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+                showToast("error" + code + ":" + msg);
+            }
+        });
+
+
+    }
+
+    private void initview(View view) {
 
         userIdNow = spUtils.getString(SharedPreference.USERID);
 
 
         recyPatevents = view.findViewById(R.id.recy_pateventsdetail);
         recyPatevents.setHasFixedSize(true);
-        recyPatevents.setLayoutManager(new GridLayoutManager(getActivity(),4));
+        recyPatevents.setLayoutManager(new GridLayoutManager(getActivity(), 4));
 
 
         //时间控件
@@ -136,7 +182,8 @@ public class PatEventsDetailFragment extends BaseFragment implements View.OnClic
         mTimeWheel = new TimeWheel(viewtime, mPickerConfig);
 
     }
-    private void initAdapter(){
+
+    private void initAdapter() {
         patEventsDetailAdapter = new PatEventsDetailAdapter(new ArrayList<EventItemBean.EventItemListBean>());
         patEventsDetailAdapter.setEventId(eventId);
         patEventsDetailAdapter.setRecId(recId);
@@ -144,110 +191,63 @@ public class PatEventsDetailFragment extends BaseFragment implements View.OnClic
         patEventsDetailAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                if (view.getId() == R.id.tv_patevents_eventtype){
-                eventId = listItem.get(position).getId();
-                patEventsDetailAdapter.setEventId(eventId);
-                patEventsDetailAdapter.setIsel(position);
-                patEventsDetailAdapter.notifyDataSetChanged();
+                if (view.getId() == R.id.tv_patevents_eventtype) {
+                    eventId = listItem.get(position).getId();
+                    patEventsDetailAdapter.setEventId(eventId);
+                    patEventsDetailAdapter.setIsel(position);
+                    patEventsDetailAdapter.notifyDataSetChanged();
                 }
             }
         });
     }
 
-    private void sureClicked() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.clear();
-        calendar.set(Calendar.YEAR, mTimeWheel.getCurrentYear());
-        calendar.set(Calendar.MONTH, mTimeWheel.getCurrentMonth() - 1);
-        calendar.set(Calendar.DAY_OF_MONTH, mTimeWheel.getCurrentDay());
-        calendar.set(Calendar.HOUR_OF_DAY, mTimeWheel.getCurrentHour());
-        calendar.set(Calendar.MINUTE, mTimeWheel.getCurrentMinute());
+    private void initData() {
 
-        //时间
-        long mCurrentMillSeconds = calendar.getTimeInMillis();
-        Date date = new Date(mCurrentMillSeconds);
-//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//精确到分钟
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat format1 = new SimpleDateFormat("HH:mm");
-        String timestr = format1.format(date);
-        String datestr = format.format(date);
-
-
-        HashMap<String,String> map = new HashMap<String, String>();
-        if (recId != null){
-        map.put("recId",recId);
-        }
-        map.put("episodeId",episodeId);
-        map.put("eventDate",datestr);
-        map.put("eventTime",timestr);
-        map.put("eventId",eventId);
-        map.put("userId",userIdNow);
-
-        String methodName = "saveEvent";
-        PatEventsApiManager.getEventsResultMsg(map,methodName, new PatEventsApiManager.GetEventsResultMsgCallBack() {
+        PatEventsApiManager.getEventsTypes(null, new PatEventsApiManager.GetEventsTypesCallBack() {
             @Override
-            public void onSuccess(String msgs) {
-                showToast(msgs);
-                finish();
+            public void onSuccess(EventItemBean eventItemBean) {
+                listItem = eventItemBean.getEventItemList();
+                patEventsDetailAdapter.setNewData(listItem);
+                patEventsDetailAdapter.notifyDataSetChanged();
+                if (eventId == null) {
+                    eventId = listItem.get(0).getId();
+                    patEventsDetailAdapter.setEventId(eventId);
+                }
             }
 
             @Override
             public void onFail(String code, String msg) {
-                showToast(code+":"+msg);
+                showToast("error" + code + ":" + msg);
             }
         });
-
-
-
     }
 
-    private void  initData(){
-
-         PatEventsApiManager.getEventsTypes(null, new PatEventsApiManager.GetEventsTypesCallBack() {
-             @Override
-             public void onSuccess(EventItemBean eventItemBean) {
-                 listItem = eventItemBean.getEventItemList();
-                 patEventsDetailAdapter.setNewData(listItem);
-                 patEventsDetailAdapter.notifyDataSetChanged();
-                 if (eventId == null){
-                     eventId = listItem.get(0).getId();
-                     patEventsDetailAdapter.setEventId(eventId);
-                 }
-             }
-
-             @Override
-             public void onFail(String code, String msg) {
-                 showToast(code+":"+msg);
-             }
-         });
-    }
-
-    public class PatEventsAdapter1 extends BaseQuickAdapter<EventItemBean.EventItemListBean,BaseViewHolder> {
+    public class PatEventsAdapter1 extends BaseQuickAdapter<EventItemBean.EventItemListBean, BaseViewHolder> {
 
         public PatEventsAdapter1(@Nullable List<EventItemBean.EventItemListBean> data) {
-            super(R.layout.item_pateventsdetail,data);
+            super(R.layout.item_pateventsdetail, data);
         }
 
         @Override
         protected void convert(final BaseViewHolder helper, final EventItemBean.EventItemListBean item) {
 
-            helper.setText(R.id.tv_patevents_eventtype,item.getDesc());
+            helper.setText(R.id.tv_patevents_eventtype, item.getDesc());
             //修改事件，判断原有type
             //默认选中第一个
-            if (eventId == null){
+            if (eventId == null) {
                 eventId = item.getId();
             }
-            if (recId != null){
-//                isel = Integer.parseInt(eventId);
-                if (item.getId().equals(eventId)){
+            if (recId != null) {
+                //                isel = Integer.parseInt(eventId);
+                if (item.getId().equals(eventId)) {
                     isel = helper.getAdapterPosition();
-                }else {
+                } else {
                     isel = -1;
                 }
             }
             final TextView tvsel = helper.getView(R.id.tv_patevents_eventtype);
-            if (isel ==helper.getAdapterPosition()){
-                switch (item.getDesc()){
+            if (isel == helper.getAdapterPosition()) {
+                switch (item.getDesc()) {
                     case "外出":
                         tvsel.setBackground(getResources().getDrawable(R.drawable.bg_eventcircle_1));
                         break;
@@ -278,14 +278,14 @@ public class PatEventsDetailFragment extends BaseFragment implements View.OnClic
 
                 }
                 tvsel.setTextColor(getResources().getColor(R.color.white));
-            }else {
+            } else {
                 tvsel.setBackground(getResources().getDrawable(R.drawable.bg_eventcircle_unselect));
                 tvsel.setTextColor(getResources().getColor(R.color.patevents_tv_unsel_color));
             }
             tvsel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    Toast.makeText(getActivity(),helper.getAdapterPosition()+"---"+helper.getPosition()+"---"+helper.getLayoutPosition()+"---"+helper.getOldPosition(),Toast.LENGTH_LONG).show();
+                    //                    Toast.makeText(getActivity(),helper.getAdapterPosition()+"---"+helper.getPosition()+"---"+helper.getLayoutPosition()+"---"+helper.getOldPosition(),Toast.LENGTH_LONG).show();
 
                     eventId = item.getId();
                     isel = helper.getAdapterPosition();

@@ -156,7 +156,7 @@ public class MilkColdstorageFragment extends BaseFragment implements View.OnClic
 
             @Override
             public void onFail(String code, String msg) {
-                showToast(code+":"+msg);
+                showToast("error" + code + ":" + msg);
             }
         });
 

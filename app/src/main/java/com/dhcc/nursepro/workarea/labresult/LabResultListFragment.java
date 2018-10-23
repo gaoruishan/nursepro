@@ -27,7 +27,8 @@ public class LabResultListFragment extends BaseFragment {
     private LinearLayout llEmtpy;
     private LabResultListAdapter resultListAdapter;
     private List<LabResultListBean.LabOrderListBean> listBeans;
-    private String episodeId,patmsg;
+    private String episodeId, patmsg;
+
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_lablist, container, false);
@@ -42,14 +43,14 @@ public class LabResultListFragment extends BaseFragment {
         Bundle bundle = getArguments();
         episodeId = bundle.getString("episodeId");
         patmsg = bundle.getString("patmsg");
-        setToolbarCenterTitle(patmsg,0xffffffff,17);
+        setToolbarCenterTitle(patmsg, 0xffffffff, 17);
 
         initview(view);
         initAdapter();
         initData();
     }
 
-    private void initview(View view){
+    private void initview(View view) {
 
         llEmtpy = view.findViewById(R.id.ll_lablist_empty);
         recLabList = view.findViewById(R.id.recy_lablist);
@@ -57,17 +58,18 @@ public class LabResultListFragment extends BaseFragment {
         recLabList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
     }
-    private void initAdapter(){
+
+    private void initAdapter() {
         resultListAdapter = new LabResultListAdapter(new ArrayList<LabResultListBean.LabOrderListBean>());
         recLabList.setAdapter(resultListAdapter);
         resultListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                if (view.getId() == R.id.ll_labreport){
+                if (view.getId() == R.id.ll_labreport) {
                     if (listBeans.get(position).getResultStatus().equals("Y")) {
                         Bundle bundle = new Bundle();
                         bundle.putString("oeordId", listBeans.get(position).getOeordId());
-                        bundle.putString("orderName",listBeans.get(position).getOrderName());
+                        bundle.putString("orderName", listBeans.get(position).getOrderName());
                         startFragment(LabResultDetailFragment.class, bundle);
                     }
                 }
@@ -75,17 +77,17 @@ public class LabResultListFragment extends BaseFragment {
         });
     }
 
-    private void initData(){
+    private void initData() {
 
-        HashMap<String,String> map = new HashMap<String, String>();
-        map.put("episodeId",episodeId);
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("episodeId", episodeId);
         LabApiManager.getLabListMsg(map, "getLabOrdList", new LabApiManager.GeLabListCallback() {
             @Override
             public void onSuccess(LabResultListBean labResultListBean) {
                 listBeans = labResultListBean.getLabOrderList();
-                if (listBeans.size() == 0){
+                if (listBeans.size() == 0) {
                     llEmtpy.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     llEmtpy.setVisibility(View.GONE);
                 }
                 resultListAdapter.setNewData(listBeans);
@@ -94,11 +96,10 @@ public class LabResultListFragment extends BaseFragment {
 
             @Override
             public void onFail(String code, String msg) {
-                showToast(code+":"+msg);
+                showToast("error" + code + ":" + msg);
             }
         });
     }
-
 
 
 }

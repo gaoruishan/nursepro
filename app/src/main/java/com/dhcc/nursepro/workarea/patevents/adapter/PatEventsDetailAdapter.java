@@ -18,16 +18,21 @@ import java.util.List;
  * Date: 2018/10/22
  * Time:15:01
  */
-public class PatEventsDetailAdapter extends BaseQuickAdapter<EventItemBean.EventItemListBean,BaseViewHolder> {
+public class PatEventsDetailAdapter extends BaseQuickAdapter<EventItemBean.EventItemListBean, BaseViewHolder> {
 
     private String eventId;
     private String recId;
     private int isel = 0;
 
-    public void setEventId(String eventId){
+    public PatEventsDetailAdapter(@Nullable List<EventItemBean.EventItemListBean> data) {
+        super(R.layout.item_pateventsdetail, data);
+    }
+
+    public void setEventId(String eventId) {
         this.eventId = eventId;
     }
-    public void getEventId(){
+
+    public void getEventId() {
 
     }
 
@@ -39,64 +44,60 @@ public class PatEventsDetailAdapter extends BaseQuickAdapter<EventItemBean.Event
         this.isel = isel;
     }
 
-    public PatEventsDetailAdapter(@Nullable List<EventItemBean.EventItemListBean> data) {
-            super(R.layout.item_pateventsdetail,data);
-            }
-
     @Override
     protected void convert(final BaseViewHolder helper, final EventItemBean.EventItemListBean item) {
 
-        helper.setText(R.id.tv_patevents_eventtype,item.getDesc())
-               .addOnClickListener(R.id.tv_patevents_eventtype);
+        helper.setText(R.id.tv_patevents_eventtype, item.getDesc())
+                .addOnClickListener(R.id.tv_patevents_eventtype);
         //修改事件，判断原有type
         //默认选中第一个
-        if (eventId == null){
-        eventId = item.getId();
+        if (eventId == null) {
+            eventId = item.getId();
         }
-        if (recId != null){
-//                isel = Integer.parseInt(eventId);
-        if (item.getId().equals(eventId)){
-        isel = helper.getAdapterPosition();
-        }else {
-        isel = -1;
+        if (recId != null) {
+            //                isel = Integer.parseInt(eventId);
+            if (item.getId().equals(eventId)) {
+                isel = helper.getAdapterPosition();
+            } else {
+                isel = -1;
+            }
         }
-        }
-final TextView tvsel = helper.getView(R.id.tv_patevents_eventtype);
-        if (isel ==helper.getAdapterPosition()){
-        switch (item.getDesc()){
-        case "外出":
-        tvsel.setBackground(mContext.getResources().getDrawable(R.drawable.bg_eventcircle_1));
-        break;
-        case "死亡":
-        tvsel.setBackground(mContext.getResources().getDrawable(R.drawable.bg_eventcircle_2));
-        break;
-        case "转出":
-        tvsel.setBackground(mContext.getResources().getDrawable(R.drawable.bg_eventcircle_3));
-        break;
-        case "出院":
-        tvsel.setBackground(mContext.getResources().getDrawable(R.drawable.bg_eventcircle_4));
-        break;
-        case "分娩":
-        tvsel.setBackground(mContext.getResources().getDrawable(R.drawable.bg_eventcircle_5));
-        break;
-        case "手术":
-        tvsel.setBackground(mContext.getResources().getDrawable(R.drawable.bg_eventcircle_6));
-        break;
-        case "转入":
-        tvsel.setBackground(mContext.getResources().getDrawable(R.drawable.bg_eventcircle_7));
-        break;
-        case "入院":
-        tvsel.setBackground(mContext.getResources().getDrawable(R.drawable.bg_eventcircle_8));
-        break;
-        default:
-        tvsel.setBackground(mContext.getResources().getDrawable(R.drawable.bg_eventcircle_default));
-        break;
+        final TextView tvsel = helper.getView(R.id.tv_patevents_eventtype);
+        if (isel == helper.getAdapterPosition()) {
+            switch (item.getDesc()) {
+                case "外出":
+                    tvsel.setBackground(mContext.getResources().getDrawable(R.drawable.bg_eventcircle_1));
+                    break;
+                case "死亡":
+                    tvsel.setBackground(mContext.getResources().getDrawable(R.drawable.bg_eventcircle_2));
+                    break;
+                case "转出":
+                    tvsel.setBackground(mContext.getResources().getDrawable(R.drawable.bg_eventcircle_3));
+                    break;
+                case "出院":
+                    tvsel.setBackground(mContext.getResources().getDrawable(R.drawable.bg_eventcircle_4));
+                    break;
+                case "分娩":
+                    tvsel.setBackground(mContext.getResources().getDrawable(R.drawable.bg_eventcircle_5));
+                    break;
+                case "手术":
+                    tvsel.setBackground(mContext.getResources().getDrawable(R.drawable.bg_eventcircle_6));
+                    break;
+                case "转入":
+                    tvsel.setBackground(mContext.getResources().getDrawable(R.drawable.bg_eventcircle_7));
+                    break;
+                case "入院":
+                    tvsel.setBackground(mContext.getResources().getDrawable(R.drawable.bg_eventcircle_8));
+                    break;
+                default:
+                    tvsel.setBackground(mContext.getResources().getDrawable(R.drawable.bg_eventcircle_default));
+                    break;
 
+            }
+            tvsel.setTextColor(mContext.getResources().getColor(R.color.white));
+        } else {
+            tvsel.setBackground(mContext.getResources().getDrawable(R.drawable.bg_eventcircle_unselect));
+            tvsel.setTextColor(mContext.getResources().getColor(R.color.patevents_tv_unsel_color));
         }
-        tvsel.setTextColor(mContext.getResources().getColor(R.color.white));
-        }else {
-        tvsel.setBackground(mContext.getResources().getDrawable(R.drawable.bg_eventcircle_unselect));
-        tvsel.setTextColor(mContext.getResources().getColor(R.color.patevents_tv_unsel_color));
-        }
-        }
-        }
+    }
+}

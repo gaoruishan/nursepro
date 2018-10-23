@@ -530,7 +530,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                     }
                 });
                 execResultDialog.show();
-                //                showToast(code+":"+msg);
+                //                showToast("error" + code + ":" + msg);
             }
         });
     }

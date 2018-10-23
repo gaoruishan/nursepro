@@ -200,7 +200,7 @@ public class DocOrderListFragment extends BaseFragment {
             @Override
             public void onFail(String code, String msg) {
                 hideLoadingTip();
-                showToast(code+":"+msg);
+                showToast("error" + code + ":" + msg);
             }
         });
     }

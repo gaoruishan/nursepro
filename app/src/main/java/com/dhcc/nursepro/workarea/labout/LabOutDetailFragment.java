@@ -42,7 +42,7 @@ public class LabOutDetailFragment extends BaseFragment {
     private LabOutDetailAdapter labOutDetailAdapter;
     private List<LabOutDetailBean.DetailListBean> listBeans;
 
-    private String carryNo = "",carryLocDr = "",carryLabNo = "",DelSend = "",saveFlag = "",carryFlag = "";
+    private String carryNo = "", carryLocDr = "", carryLabNo = "", DelSend = "", saveFlag = "", carryFlag = "";
     private SPUtils spUtils = SPUtils.getInstance();
 
     private IntentFilter intentFilter;
@@ -62,10 +62,10 @@ public class LabOutDetailFragment extends BaseFragment {
         setToolbarBottomLineVisibility(true);
 
         Bundle bundle = getArguments();
-        if (bundle!=null){
+        if (bundle != null) {
             carryNo = bundle.getString("CarryNo");
         }
-        setToolbarCenterTitle(carryNo,0xffffffff,17);
+        setToolbarCenterTitle(carryNo, 0xffffffff, 17);
 
         initview(view);
         initAdapter();
@@ -76,10 +76,11 @@ public class LabOutDetailFragment extends BaseFragment {
         intentFilter = new IntentFilter();
         intentFilter.addAction(Action.DEVICE_SCAN_CODE);
         dataReceiver = new DataReceiver();
-        getActivity().registerReceiver(dataReceiver,intentFilter);
+        getActivity().registerReceiver(dataReceiver, intentFilter);
 
     }
-    private void initview(View view){
+
+    private void initview(View view) {
 
         tvLaboutScan = view.findViewById(R.id.tv_layout_scannum);
         tvLaboutSend = view.findViewById(R.id.tv_layout_send);
@@ -103,15 +104,15 @@ public class LabOutDetailFragment extends BaseFragment {
 
     }
 
-    private void initAdapter(){
+    private void initAdapter() {
 
         labOutDetailAdapter = new LabOutDetailAdapter(new ArrayList<LabOutDetailBean.DetailListBean>());
         recaddLabOut.setAdapter(labOutDetailAdapter);
         labOutDetailAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                if (view.getId() == R.id.messagerightmenu){
-//                    DelSend = "del";
+                if (view.getId() == R.id.messagerightmenu) {
+                    //                    DelSend = "del";
                     saveFlag = "0";
                     carryLocDr = listBeans.get(position).getCarryLoc();
                     carryLabNo = listBeans.get(position).getCarryLabNo();
@@ -121,76 +122,88 @@ public class LabOutDetailFragment extends BaseFragment {
         });
     }
 
-    private void initData(){
+    private void initData() {
 
-        HashMap<String,String > map = new HashMap<>();
-        map.put("carryNo",carryNo);
-        if (!saveFlag.equals("")){
-            map.put("labNo",carryLabNo);
-            map.put("locDr",carryLocDr);
-            map.put("saveFlag",saveFlag);
+        HashMap<String, String> map = new HashMap<>();
+        map.put("carryNo", carryNo);
+        if (!saveFlag.equals("")) {
+            map.put("labNo", carryLabNo);
+            map.put("locDr", carryLocDr);
+            map.put("saveFlag", saveFlag);
         }
         LabOutApiManager.getLabOutDetailMsg(map, "getLabOutDetail", new LabOutApiManager.getLabOutDetailCallBack() {
             @Override
             public void onSuccess(LabOutDetailBean labOutDetailBean) {
-//                setToolbarCenterTitle("检验打包",0xffffffff,17);
+                //                setToolbarCenterTitle("检验打包",0xffffffff,17);
                 saveFlag = "";
                 carryFlag = labOutDetailBean.getCarryFlag();
-                if (carryFlag.equals("1")){
+                if (carryFlag.equals("1")) {
                     tvLaboutSend.setText("  撤销发送  ");
-                }else {
+                } else {
                     tvLaboutSend.setText("  发送    ");
                 }
                 etLaboutContainer.setText(labOutDetailBean.getTransContainer());
 
                 listBeans = labOutDetailBean.getDetailList();
-                tvLaboutScan.setText("已扫描 "+listBeans.size()+" 个");
+                tvLaboutScan.setText("已扫描 " + listBeans.size() + " 个");
                 labOutDetailAdapter.setNewData(listBeans);
             }
 
             @Override
             public void onFail(String code, String msg) {
                 saveFlag = "";
-                showToast(code+":"+msg);
+                showToast("error" + code + ":" + msg);
             }
         });
     }
 
-    private void delOrExchange(){
-        if (listBeans.size()==0){
+    private void delOrExchange() {
+        if (listBeans.size() == 0) {
             showToast("检验包为空，无法进行操作");
             return;
         }
         showLoadingTip(BaseActivity.LoadingType.FULL);
 
-        HashMap<String,String > map = new HashMap<>();
+        HashMap<String, String> map = new HashMap<>();
         map.put("carryNo", carryNo);
-        if (carryFlag.equals("0")) {
+        if ("0".equals(carryFlag)) {
             map.put("containerNo", etLaboutContainer.getText().toString());
-            map.put("transUserId","3");
+            map.put("transUserId", "3");
         }
         LabOutApiManager.delOrdMsg(map, "delOrExchange", new LabOutApiManager.delOrdCallBack() {
             @Override
             public void onSuccess(DelOrderBean delOrderBean) {
                 hideLoadFailTip();
-                showToast(delOrderBean.getMsgcode()+":"+delOrderBean.getMsg());
+                showToast(delOrderBean.getMsg());
                 initData();
             }
 
             @Override
             public void onFail(String code, String msg) {
                 hideLoadFailTip();
-                showToast(code+":"+msg);
+                showToast("error" + code + ":" + msg);
             }
         });
 
+    }
+
+    @Override
+    public void onResume() {
+        getActivity().registerReceiver(dataReceiver, intentFilter);
+        super.onResume();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(dataReceiver);
     }
 
     //扫描腕带获取CarryNo
     public class DataReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(Action.DEVICE_SCAN_CODE)){
+            if (intent.getAction().equals(Action.DEVICE_SCAN_CODE)) {
                 Bundle bundle = new Bundle();
                 bundle = intent.getExtras();
                 carryLocDr = spUtils.getString(SharedPreference.LOCID);
@@ -200,16 +213,6 @@ public class LabOutDetailFragment extends BaseFragment {
 
             }
         }
-    }
-    @Override
-    public void onResume() {
-        getActivity().registerReceiver(dataReceiver,intentFilter);
-        super.onResume();
-    }
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        getActivity().unregisterReceiver(dataReceiver);
     }
 
 }

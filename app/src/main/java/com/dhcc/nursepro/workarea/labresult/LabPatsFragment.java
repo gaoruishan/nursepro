@@ -79,7 +79,8 @@ public class LabPatsFragment extends BaseFragment implements View.OnClickListene
         recall.setHasFixedSize(true);
         recall.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
-    private void initAdapter(){
+
+    private void initAdapter() {
         listBeansAll = new ArrayList<PatsListBean.PatInfoListBean>();
         listBeansInBed = new ArrayList<PatsListBean.PatInfoListBean>();
         listBeansManage = new ArrayList<PatsListBean.PatInfoListBean>();
@@ -131,6 +132,16 @@ public class LabPatsFragment extends BaseFragment implements View.OnClickListene
         view.setBackgroundColor(getResources().getColor(R.color.blue));
     }
 
+    private void showSelectedPats(List<PatsListBean.PatInfoListBean> listPats) {
+        patListAdapterAll.setNewData(listPats);
+        patListAdapterAll.notifyDataSetChanged();
+        if (listPats.size() < 1) {
+            llEmpty.setVisibility(View.VISIBLE);
+        } else {
+            llEmpty.setVisibility(View.GONE);
+        }
+    }
+
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         String episodeId = null;
@@ -177,16 +188,6 @@ public class LabPatsFragment extends BaseFragment implements View.OnClickListene
                 break;
         }
 
-    }
-
-    private void showSelectedPats(List<PatsListBean.PatInfoListBean> listPats){
-        patListAdapterAll.setNewData(listPats);
-        patListAdapterAll.notifyDataSetChanged();
-        if (listPats.size()<1){
-            llEmpty.setVisibility(View.VISIBLE);
-        }else {
-            llEmpty.setVisibility(View.GONE);
-        }
     }
 
     private void setTopFilterSelect(View view) {

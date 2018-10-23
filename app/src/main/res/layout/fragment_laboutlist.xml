@@ -3,121 +3,132 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:orientation="vertical">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-             <TextView
+            android:orientation="horizontal">
+
+            <TextView
                 android:id="@+id/tv_labout_type1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp"
-                android:gravity="center"
                 android:text="已建单"
-                android:textSize="@dimen/sp_14"
-                android:textColor="@drawable/textcolor_item_bedmap_selector"/>
+                android:textColor="@drawable/textcolor_item_bedmap_selector"
+                android:textSize="@dimen/sp_14" />
+
             <TextView
                 android:id="@+id/tv_labout_type2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp"
-                android:gravity="center"
                 android:text="已交接"
-                android:textSize="@dimen/sp_14"
-                android:textColor="@drawable/textcolor_item_bedmap_selector"/>
+                android:textColor="@drawable/textcolor_item_bedmap_selector"
+                android:textSize="@dimen/sp_14" />
 
             <TextView
                 android:id="@+id/tv_labout_type3"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp"
-                android:gravity="center"
                 android:text="部分"
-                android:textSize="@dimen/sp_14"
-                android:textColor="@drawable/textcolor_item_bedmap_selector"/>
+                android:textColor="@drawable/textcolor_item_bedmap_selector"
+                android:textSize="@dimen/sp_14" />
 
             <TextView
                 android:id="@+id/tv_labout_type4"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp"
-                android:gravity="center"
                 android:text="全部"
-                android:textSize="@dimen/sp_14"
-                android:textColor="@drawable/textcolor_item_bedmap_selector"/>
+                android:textColor="@drawable/textcolor_item_bedmap_selector"
+                android:textSize="@dimen/sp_14" />
 
 
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/blue_light"></View>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:background="@color/blue_light"
-            >
+            android:orientation="horizontal">
+
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:layout_weight="1">
+
                 <View
                     android:id="@+id/view_labout_show1"
                     android:layout_width="45dp"
                     android:layout_height="2dp"
-                    android:background="@color/blue"
-                    android:layout_centerInParent="true"></View>
+                    android:layout_centerInParent="true"
+                    android:background="@color/blue" />
             </RelativeLayout>
+
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:layout_weight="1">
+
                 <View
                     android:id="@+id/view_labout_show2"
                     android:layout_width="45dp"
                     android:layout_height="2dp"
-                    android:background="@color/blue"
-                    android:layout_centerInParent="true"></View>
+                    android:layout_centerInParent="true"
+                    android:background="@color/blue" />
             </RelativeLayout>
+
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:layout_weight="1">
+
                 <View
                     android:id="@+id/view_labout_show3"
                     android:layout_width="45dp"
                     android:layout_height="2dp"
-                    android:background="@color/blue"
-                    android:layout_centerInParent="true"></View>
+                    android:layout_centerInParent="true"
+                    android:background="@color/blue" />
             </RelativeLayout>
+
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:layout_weight="1">
+
                 <View
                     android:id="@+id/view_labout_show4"
                     android:layout_width="45dp"
                     android:layout_height="2dp"
-                    android:background="@color/blue"
-                    android:layout_centerInParent="true"></View>
+                    android:layout_centerInParent="true"
+                    android:background="@color/blue" />
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
@@ -126,7 +137,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="5dp"
-        android:background="@color/blue_light"></View>
+        android:background="@color/blue_light" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -138,7 +149,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
             android:layout_marginEnd="12dp"
-            android:src="@drawable/icon_time_bottom"/>
+            android:src="@drawable/icon_time_bottom" />
+
         <TextView
             android:id="@+id/tv_labout_startdate"
             android:layout_width="wrap_content"
@@ -150,31 +162,33 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="1dp"
+            android:layout_marginEnd="8dp"
             android:text="至"
             android:textColor="#62abff"
             android:textSize="13sp" />
+
         <TextView
             android:id="@+id/tv_labout_enddate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="12dp"
             android:textColor="@color/ordersearch_text_color"
             android:textSize="12sp"
-            tools:text="2018-08-23"
-            android:layout_marginRight="12dp"/>
+            tools:text="2018-08-23" />
 
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="5dp"
-        android:background="#FFF6F6F6"></View>
+        android:background="#FFF6F6F6" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recy_labout"
@@ -184,27 +198,29 @@
         </android.support.v7.widget.RecyclerView>
 
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/ll_laboout_empty"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
+
         <ImageView
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/icon_blood_search_empty"/>
+            android:src="@drawable/icon_blood_search_empty" />
 
         <TextView
             android:id="@+id/tv_bloodoplist_empty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:textSize="16sp"
+            android:text="暂无打包单"
             android:textColor="#9B9B9B"
-            android:text="暂无打包单"/>
+            android:textSize="16sp" />
 
     </LinearLayout>
 

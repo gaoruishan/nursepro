@@ -65,7 +65,7 @@ public class CheckResultListFragment extends BaseFragment {
 
     }
 
-    private void initAdapter(){
+    private void initAdapter() {
 
         checkResultListAdapter = new CheckResultListAdapter(new ArrayList<CheckResultListBean.RisOrdListBean>());
         recCheckList.setAdapter(checkResultListAdapter);
@@ -93,6 +93,7 @@ public class CheckResultListFragment extends BaseFragment {
         });
 
     }
+
     private void initData() {
 
         HashMap<String, String> map = new HashMap<String, String>();
@@ -106,7 +107,7 @@ public class CheckResultListFragment extends BaseFragment {
                 listBeans = checkResultListBean.getRisOrdList();
                 if (listBeans.size() == 0) {
                     llEmpty.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     llEmpty.setVisibility(View.GONE);
                 }
                 checkResultListAdapter.setNewData(listBeans);

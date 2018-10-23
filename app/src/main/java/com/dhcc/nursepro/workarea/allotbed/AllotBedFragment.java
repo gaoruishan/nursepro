@@ -117,6 +117,53 @@ public class AllotBedFragment extends BaseFragment implements View.OnClickListen
 
     }
 
+    private void allotBed() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("wardId", spUtils.getString(SharedPreference.WARDID));
+        map.put("locId", spUtils.getString(SharedPreference.LOCID));
+        map.put("linkLocId", spUtils.getString(SharedPreference.LINKLOC));
+        map.put("episodeId", episodeIdNow);
+        map.put("bedId", selectBedId);
+        map.put("userId", spUtils.getString(SharedPreference.USERID));
+        map.put("mainDoc", selectDoc);
+        map.put("mainNurse", selectNur);
+        AllotBedApiManager.getAllotBedResult(map, "allotBed", new AllotBedApiManager.getAllotBedResultCallBack() {
+            @Override
+            public void onSuccess(AllotBedInfoBean allotBedResultBean) {
+                listBeans = allotBedResultBean.getEmptyBedList();
+                listDocBeans = allotBedResultBean.getDoctorList();
+                listNurBeans = allotBedResultBean.getNurseList();
+                emptyBedListAdapter.setNewData(listBeans);
+                emptyBedListAdapter.notifyDataSetChanged();
+                initScanMsg(regNoNow);
+                emptyBedListAdapter.setSelectItem(-1);
+                emptyBedListAdapter.notifyDataSetChanged();
+                selectBedId = "";
+                //                showToast(allotBedResultBean.getMsg());
+                if (allotBedResultDialog != null && allotBedResultDialog.isShowing()) {
+                    allotBedResultDialog.dismiss();
+                }
+                allotBedResultDialog = new AllotBedResultDialog(getActivity());
+                allotBedResultDialog.setExecresult("分床成功");
+                allotBedResultDialog.setImgId(R.drawable.icon_popup_sucess);
+                allotBedResultDialog.setSureVisible(View.GONE);
+                allotBedResultDialog.show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        allotBedResultDialog.dismiss();
+                    }
+                }, 1000);
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+                showToast("error" + code + ":" + msg);
+            }
+        });
+
+    }
+
     private void initView(View view) {
         tvMainDoc = view.findViewById(R.id.tv_allotbed_maindoc);
         tvMainDoc.setOnClickListener(this);
@@ -135,7 +182,7 @@ public class AllotBedFragment extends BaseFragment implements View.OnClickListen
 
     }
 
-    private void initAdapter(){
+    private void initAdapter() {
         emptyBedListAdapter = new EmptyBedListAdapter(new ArrayList<AllotBedInfoBean.EmptyBedListBean>());
         emptyBedListAdapter.setSelectItem(-1);
         recAllotBed.setAdapter(emptyBedListAdapter);
@@ -198,55 +245,6 @@ public class AllotBedFragment extends BaseFragment implements View.OnClickListen
 
     }
 
-
-    private void allotBed() {
-        HashMap<String, String> map = new HashMap<>();
-        map.put("wardId", spUtils.getString(SharedPreference.WARDID));
-        map.put("locId", spUtils.getString(SharedPreference.LOCID));
-        map.put("linkLocId", spUtils.getString(SharedPreference.LINKLOC));
-        map.put("episodeId", episodeIdNow);
-        map.put("bedId", selectBedId);
-        map.put("userId", spUtils.getString(SharedPreference.USERID));
-        map.put("mainDoc", selectDoc);
-        map.put("mainNurse", selectNur);
-        AllotBedApiManager.getAllotBedResult(map, "allotBed", new AllotBedApiManager.getAllotBedResultCallBack() {
-            @Override
-            public void onSuccess(AllotBedInfoBean allotBedResultBean) {
-                listBeans = allotBedResultBean.getEmptyBedList();
-                listDocBeans = allotBedResultBean.getDoctorList();
-                listNurBeans = allotBedResultBean.getNurseList();
-                emptyBedListAdapter.setNewData(listBeans);
-                emptyBedListAdapter.notifyDataSetChanged();
-                initScanMsg(regNoNow);
-                emptyBedListAdapter.setSelectItem(-1);
-                emptyBedListAdapter.notifyDataSetChanged();
-                selectBedId = "";
-                //                showToast(allotBedResultBean.getMsg());
-                if (allotBedResultDialog != null && allotBedResultDialog.isShowing()) {
-                    allotBedResultDialog.dismiss();
-                }
-                allotBedResultDialog = new AllotBedResultDialog(getActivity());
-                allotBedResultDialog.setExecresult("分床成功");
-                allotBedResultDialog.setImgId(R.drawable.icon_popup_sucess);
-                allotBedResultDialog.setSureVisible(View.GONE);
-                allotBedResultDialog.show();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        allotBedResultDialog.dismiss();
-                    }
-                }, 1000);
-            }
-
-            @Override
-            public void onFail(String code, String msg) {
-                showToast("error" + code + ":" + msg);
-            }
-        });
-
-    }
-
-
     private void initScanMsg(String regNo) {
 
         String wardId = spUtils.getString(SharedPreference.WARDID);
@@ -293,7 +291,11 @@ public class AllotBedFragment extends BaseFragment implements View.OnClickListen
 
     }
 
-    private void selectDocAndNur() {
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(dataReceiver);
+    }    private void selectDocAndNur() {
         //        双选护士医生,显示姓名，对应index的编号
         final List<String> listDocName = new ArrayList<>();
         final List<String> listDocCode = new ArrayList<>();
@@ -346,7 +348,18 @@ public class AllotBedFragment extends BaseFragment implements View.OnClickListen
         picker.show();
     }
 
-    @Override
+    //扫描腕带获取regNo、wardId
+    public class DataReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(Action.DEVICE_SCAN_CODE)) {
+                Bundle bundle = new Bundle();
+                bundle = intent.getExtras();
+                initScanMsg(bundle.getString("data"));
+
+            }
+        }
+    }    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_allotbed_maindoc:
@@ -361,22 +374,7 @@ public class AllotBedFragment extends BaseFragment implements View.OnClickListen
     }
 
 
-    //扫描腕带获取regNo、wardId
-    public class DataReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(Action.DEVICE_SCAN_CODE)) {
-                Bundle bundle = new Bundle();
-                bundle = intent.getExtras();
-                initScanMsg(bundle.getString("data"));
 
-            }
-        }
-    }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        getActivity().unregisterReceiver(dataReceiver);
-    }
+
 }

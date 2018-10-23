@@ -67,7 +67,7 @@ public class LabResultDetailFragment extends BaseFragment {
 
             @Override
             public void onFail(String code, String msg) {
-                showToast(code+":"+msg);
+                showToast("error" + code + ":" + msg);
             }
         });
 

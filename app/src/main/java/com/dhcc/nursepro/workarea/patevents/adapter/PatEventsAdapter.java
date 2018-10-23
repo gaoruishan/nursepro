@@ -17,23 +17,23 @@ import com.dhcc.nursepro.workarea.patevents.bean.PatEventsBean;
 import java.util.HashMap;
 import java.util.List;
 
-public class PatEventsAdapter extends BaseQuickAdapter <PatEventsBean.EventListBean,BaseViewHolder>{
+public class PatEventsAdapter extends BaseQuickAdapter<PatEventsBean.EventListBean, BaseViewHolder> {
 
     public PatEventsAdapter(@Nullable List<PatEventsBean.EventListBean> data) {
-        super(R.layout.item_patevents,data);
+        super(R.layout.item_patevents, data);
     }
 
     @Override
     protected void convert(final BaseViewHolder helper, final PatEventsBean.EventListBean item) {
 
-        helper.setText(R.id.tv_patevents_eventtype,item.getEventDesc())
-                .setText(R.id.tv_patevents_eventmaker,item.getAddUser())
-                .setText(R.id.tv_patevents_eventdate,item.getEventDate())
-                .setText(R.id.tv_patevents_eventtime,item.getEventTime())
-                 .addOnClickListener(R.id.messagecontentll)
-                 .addOnClickListener(R.id.tv_patevents_eventdel);
+        helper.setText(R.id.tv_patevents_eventtype, item.getEventDesc())
+                .setText(R.id.tv_patevents_eventmaker, item.getAddUser())
+                .setText(R.id.tv_patevents_eventdate, item.getEventDate())
+                .setText(R.id.tv_patevents_eventtime, item.getEventTime())
+                .addOnClickListener(R.id.messagecontentll)
+                .addOnClickListener(R.id.tv_patevents_eventdel);
         TextView tvdesc = helper.getView(R.id.tv_patevents_eventtype);
-        switch (item.getEventDesc()){
+        switch (item.getEventDesc()) {
             case "外出":
                 tvdesc.setBackground(mContext.getResources().getDrawable(R.drawable.bg_eventcircle_1));
                 break;

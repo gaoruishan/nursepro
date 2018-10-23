@@ -203,9 +203,9 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
                 setTopFilterSelect(tvDosingreviewCurrent);
                 patientAdapter.setNewData(currentOrders);
                 patientAdapter.loadMoreEnd();
-                if (currentOrders.size()<1){
+                if (currentOrders.size() < 1) {
                     llEmpty.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     llEmpty.setVisibility(View.GONE);
                 }
                 break;
@@ -408,9 +408,9 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
 
                             setTopFilterSelect(tvDosingreviewCurrent);
                             patientAdapter.setNewData(currentOrders);
-                            if (currentOrders.size()<1){
+                            if (currentOrders.size() < 1) {
                                 llEmpty.setVisibility(View.VISIBLE);
-                            }else {
+                            } else {
                                 llEmpty.setVisibility(View.GONE);
                             }
                         }

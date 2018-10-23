@@ -156,7 +156,7 @@ public class MilkFreezingFragment extends BaseFragment implements View.OnClickLi
 
                 @Override
                 public void onFail(String code, String msg) {
-                    showToast(code+":"+msg);
+                    showToast("error" + code + ":" + msg);
                 }
             });
 

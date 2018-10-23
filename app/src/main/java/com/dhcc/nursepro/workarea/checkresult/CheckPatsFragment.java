@@ -83,7 +83,8 @@ public class CheckPatsFragment extends BaseFragment implements View.OnClickListe
         recall.setLayoutManager(new LinearLayoutManager(getActivity()));
 
     }
-    private void  initAdapter(){
+
+    private void initAdapter() {
         listBeansAll = new ArrayList<CheckPatsListBean.PatInfoListBean>();
         listBeansInBed = new ArrayList<CheckPatsListBean.PatInfoListBean>();
         listBeansManage = new ArrayList<CheckPatsListBean.PatInfoListBean>();
@@ -136,6 +137,16 @@ public class CheckPatsFragment extends BaseFragment implements View.OnClickListe
         view.setBackgroundColor(getResources().getColor(R.color.blue));
     }
 
+    private void showSelectedPats(List<CheckPatsListBean.PatInfoListBean> listShow) {
+        patListAdapterAll.setNewData(listShow);
+        patListAdapterAll.notifyDataSetChanged();
+        if (listShow.size() < 1) {
+            llEmpty.setVisibility(View.VISIBLE);
+        } else {
+            llEmpty.setVisibility(View.GONE);
+        }
+    }
+
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         String episodeId = null;
@@ -172,7 +183,8 @@ public class CheckPatsFragment extends BaseFragment implements View.OnClickListe
                 setTopFilterSelect(tvmanage);
                 showgone(showview2);
                 break;
-            case R.id.tv_labpats_wait:;
+            case R.id.tv_labpats_wait:
+                ;
                 showSelectedPats(listBeansWait);
                 showListNow = "wait";
                 setTopFilterSelect(tvwait);
@@ -183,18 +195,6 @@ public class CheckPatsFragment extends BaseFragment implements View.OnClickListe
         }
 
     }
-
-    private void showSelectedPats(List<CheckPatsListBean.PatInfoListBean> listShow){
-        patListAdapterAll.setNewData(listShow);
-        patListAdapterAll.notifyDataSetChanged();
-        if (listShow.size()<1){
-            llEmpty.setVisibility(View.VISIBLE);
-        }else {
-            llEmpty.setVisibility(View.GONE);
-        }
-    }
-
-
 
     private void setTopFilterSelect(View view) {
         tvall.setSelected(view == tvall);

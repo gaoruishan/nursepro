@@ -142,7 +142,7 @@ public class MilkReceiveFragment extends BaseFragment implements View.OnClickLis
 
             @Override
             public void onFail(String code, String msg) {
-                showToast(code+":"+msg);
+                showToast("error" + code + ":" + msg);
             }
         });
 

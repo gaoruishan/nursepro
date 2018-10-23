@@ -34,15 +34,15 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-public class LabOutListFragment extends BaseFragment implements View.OnClickListener,OnDateSetListener {
+public class LabOutListFragment extends BaseFragment implements View.OnClickListener, OnDateSetListener {
 
     private RecyclerView recLabOut;
-    private TextView tvType1,tvType2,tvType3,tvType4,tvStartDate,tvEndDate;
+    private TextView tvType1, tvType2, tvType3, tvType4, tvStartDate, tvEndDate;
     private LinearLayout llEmpty;
-    private View show1,show2,show3,show4;
+    private View show1, show2, show3, show4;
     private LabOutAdapter labOutAdapter;
-    private List<LabOutListAllBean.LabOutListBean> listLabAll,listLabNow;
-    private String dateStr,CarrayCerate="No",CarrayDel="No",CarrayNo = "",TypeStr = "Type1";
+    private List<LabOutListAllBean.LabOutListBean> listLabAll, listLabNow;
+    private String dateStr, CarrayCerate = "No", CarrayDel = "No", CarrayNo = "", TypeStr = "Type1";
     private List<LabOutListAllBean.TypeListBean> listType;
 
     private SPUtils spUtils = SPUtils.getInstance();
@@ -58,9 +58,9 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
 
         setToolbarType(BaseActivity.ToolbarType.TOP);
         setToolbarBottomLineVisibility(true);
-        setToolbarCenterTitle(getString(R.string.title_labout),0xffffffff,17);
+        setToolbarCenterTitle(getString(R.string.title_labout), 0xffffffff, 17);
         //右上角按钮"新建"
-        View viewright =  View.inflate(getActivity(),R.layout.view_fratoolbar_right,null);
+        View viewright = View.inflate(getActivity(), R.layout.view_fratoolbar_right, null);
         TextView textView = viewright.findViewById(R.id.tv_fratoobar_right);
         textView.setTextSize(15);
         textView.setText("  新建   ");
@@ -68,7 +68,7 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
         viewright.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                startFragment(PatEventsDetailFragment.class);
+                //                startFragment(PatEventsDetailFragment.class);
                 CarrayCerate = "Yes";
                 initData();
                 setTopFilterSelect(tvType1);
@@ -83,77 +83,18 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
         initData();
 
     }
-    private void initview(View view){
 
-        llEmpty = view.findViewById(R.id.ll_laboout_empty);
-        tvType1 = view.findViewById(R.id.tv_labout_type1);
-        tvType1.setOnClickListener(this);
-        tvType2 = view.findViewById(R.id.tv_labout_type2);
-        tvType2.setOnClickListener(this);
-        tvType3 = view.findViewById(R.id.tv_labout_type3);
-        tvType3.setOnClickListener(this);
-        tvType4 = view.findViewById(R.id.tv_labout_type4);
-        tvType4.setOnClickListener(this);
-        tvStartDate = view.findViewById(R.id.tv_labout_startdate);
-        tvStartDate.setOnClickListener(this);
-        tvEndDate = view.findViewById(R.id.tv_labout_enddate);
-        tvEndDate.setOnClickListener(this);
-
-        tvStartDate.setText(spUtils.getString(SharedPreference.SCHSTDATETIME).substring(0,10));
-        tvEndDate.setText(spUtils.getString(SharedPreference.SCHENDATETIME).substring(0,10));
-
-        show1 = view.findViewById(R.id.view_labout_show1);
-        show2 = view.findViewById(R.id.view_labout_show2);
-        show3 = view.findViewById(R.id.view_labout_show3);
-        show4 = view.findViewById(R.id.view_labout_show4);
-
-        setTopFilterSelect(tvType1);
-        showgone(show1);
-
-        recLabOut = view.findViewById(R.id.recy_labout);
-        //提高展示效率
-        recLabOut.setHasFixedSize(true);
-        //设置的布局管理
-        recLabOut.setLayoutManager(new LinearLayoutManager(getActivity()));
-    }
-
-    private void initAdapter(){
-
-        listType = new ArrayList<LabOutListAllBean.TypeListBean>();
-        labOutAdapter = new LabOutAdapter(new ArrayList<LabOutListAllBean.LabOutListBean>());
-        recLabOut.setAdapter(labOutAdapter);
-
-        labOutAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                if (view.getId()== R.id.tv_lapack_del){
-                    CarrayCerate = "Yes";
-                    CarrayDel = "Yes";
-                    CarrayNo = listLabNow.get(position).getCarryNo();
-                    initData();
-                }else if (view.getId() == R.id.messagecontentll){
-                    String carryNodetail = listLabNow.get(position).getCarryNo();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("CarryNo",carryNodetail);
-                    startFragment(LabOutDetailFragment.class,bundle);
-                }
-
-            }
-        });
-
-    }
-
-    private void initData(){
+    private void initData() {
         showLoadingTip(BaseActivity.LoadingType.FULL);
         SPUtils spUtils = SPUtils.getInstance();
-        HashMap<String,String> map = new HashMap<>();
-        map.put("stdate",tvStartDate.getText().toString());
-        map.put("enddate",tvEndDate.getText().toString());
+        HashMap<String, String> map = new HashMap<>();
+        map.put("stdate", tvStartDate.getText().toString());
+        map.put("enddate", tvEndDate.getText().toString());
         map.put("locId", spUtils.getString(SharedPreference.LOCID));
         if (CarrayCerate.equals("Yes")) {
             map.put("userId", spUtils.getString(SharedPreference.USERID));
-            if (CarrayDel.equals("Yes")){
-                map.put("carryNo",CarrayNo);
+            if (CarrayDel.equals("Yes")) {
+                map.put("carryNo", CarrayNo);
             }
         }
         LabOutApiManager.getLabOutListMsg(map, "getLabOutList", new LabOutApiManager.getLabOutCallBack() {
@@ -162,7 +103,7 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
                 hideLoadFailTip();
                 CarrayCerate = "No";
                 CarrayDel = "No";
-                if (listType.size() == 0){
+                if (listType.size() == 0) {
                     listType = labOutListAllBean.getTypeList();
                     tvType1.setText(listType.get(0).getDesc());
                     tvType2.setText(listType.get(1).getDesc());
@@ -179,32 +120,48 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
                 hideLoadFailTip();
                 CarrayCerate = "No";
                 CarrayDel = "No";
-                showToast(code+":"+msg);
+                showToast("error" + code + ":" + msg);
             }
         });
 
     }
-    private void getLabOutList(){
+
+    private void setTopFilterSelect(View view) {
+        tvType1.setSelected(view == tvType1);
+        tvType2.setSelected(view == tvType2);
+        tvType3.setSelected(view == tvType3);
+        tvType4.setSelected(view == tvType4);
+    }
+
+    private void showgone(View view) {
+        show1.setBackgroundColor(getResources().getColor(R.color.blue_light));
+        show2.setBackgroundColor(getResources().getColor(R.color.blue_light));
+        show3.setBackgroundColor(getResources().getColor(R.color.blue_light));
+        show4.setBackgroundColor(getResources().getColor(R.color.blue_light));
+        view.setBackgroundColor(getResources().getColor(R.color.blue));
+    }
+
+    private void getLabOutList() {
         listLabNow = new ArrayList<>();
-        for (int i = 0;i<listLabAll.size();i++){
-            switch (TypeStr){
+        for (int i = 0; i < listLabAll.size(); i++) {
+            switch (TypeStr) {
                 case "Type1":
-                    if (listLabAll.get(i).getStatus().equals(listType.get(0).getDesc())){
+                    if (listLabAll.get(i).getStatus().equals(listType.get(0).getDesc())) {
                         listLabNow.add(listLabAll.get(i));
                     }
                     break;
                 case "Type2":
-                    if (listLabAll.get(i).getStatus().equals(listType.get(1).getDesc())){
+                    if (listLabAll.get(i).getStatus().equals(listType.get(1).getDesc())) {
                         listLabNow.add(listLabAll.get(i));
                     }
                     break;
                 case "Type3":
-                    if (listLabAll.get(i).getStatus().equals(listType.get(2).getDesc())){
+                    if (listLabAll.get(i).getStatus().equals(listType.get(2).getDesc())) {
                         listLabNow.add(listLabAll.get(i));
                     }
                     break;
                 case "Type4":
-                    if (listLabAll.get(i).getStatus().equals(listType.get(3).getDesc())){
+                    if (listLabAll.get(i).getStatus().equals(listType.get(3).getDesc())) {
                         listLabNow.add(listLabAll.get(i));
                     }
                     break;
@@ -213,18 +170,76 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
             }
         }
         labOutAdapter.setNewData(listLabNow);
-        if (listLabNow.size()<1){
+        if (listLabNow.size() < 1) {
             llEmpty.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             llEmpty.setVisibility(View.GONE);
         }
         labOutAdapter.notifyDataSetChanged();
     }
 
-    @Override
+    private void initview(View view) {
+
+        llEmpty = view.findViewById(R.id.ll_laboout_empty);
+        tvType1 = view.findViewById(R.id.tv_labout_type1);
+        tvType1.setOnClickListener(this);
+        tvType2 = view.findViewById(R.id.tv_labout_type2);
+        tvType2.setOnClickListener(this);
+        tvType3 = view.findViewById(R.id.tv_labout_type3);
+        tvType3.setOnClickListener(this);
+        tvType4 = view.findViewById(R.id.tv_labout_type4);
+        tvType4.setOnClickListener(this);
+        tvStartDate = view.findViewById(R.id.tv_labout_startdate);
+        tvStartDate.setOnClickListener(this);
+        tvEndDate = view.findViewById(R.id.tv_labout_enddate);
+        tvEndDate.setOnClickListener(this);
+
+        tvStartDate.setText(spUtils.getString(SharedPreference.SCHSTDATETIME).substring(0, 10));
+        tvEndDate.setText(spUtils.getString(SharedPreference.SCHENDATETIME).substring(0, 10));
+
+        show1 = view.findViewById(R.id.view_labout_show1);
+        show2 = view.findViewById(R.id.view_labout_show2);
+        show3 = view.findViewById(R.id.view_labout_show3);
+        show4 = view.findViewById(R.id.view_labout_show4);
+
+        setTopFilterSelect(tvType1);
+        showgone(show1);
+
+        recLabOut = view.findViewById(R.id.recy_labout);
+        //提高展示效率
+        recLabOut.setHasFixedSize(true);
+        //设置的布局管理
+        recLabOut.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
+    private void initAdapter() {
+
+        listType = new ArrayList<LabOutListAllBean.TypeListBean>();
+        labOutAdapter = new LabOutAdapter(new ArrayList<LabOutListAllBean.LabOutListBean>());
+        recLabOut.setAdapter(labOutAdapter);
+
+        labOutAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                if (view.getId() == R.id.tv_lapack_del) {
+                    CarrayCerate = "Yes";
+                    CarrayDel = "Yes";
+                    CarrayNo = listLabNow.get(position).getCarryNo();
+                    initData();
+                } else if (view.getId() == R.id.messagecontentll) {
+                    String carryNodetail = listLabNow.get(position).getCarryNo();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("CarryNo", carryNodetail);
+                    startFragment(LabOutDetailFragment.class, bundle);
+                }
+
+            }
+        });
+
+    }    @Override
     public void onClick(View v) {
 
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.tv_labout_type1:
                 TypeStr = "Type1";
                 setTopFilterSelect(tvType1);
@@ -258,27 +273,33 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
                 chooseTime();
                 break;
             default:
-               break;
+                break;
         }
 
     }
 
-    private void setTopFilterSelect(View view) {
-        tvType1.setSelected(view == tvType1);
-        tvType2.setSelected(view == tvType2);
-        tvType3.setSelected(view == tvType3);
-        tvType4.setSelected(view == tvType4);
+    @Override
+    public void onResume() {
+        super.onResume();
+        initData();
     }
 
-    private void showgone(View view){
-        show1.setBackgroundColor(getResources().getColor(R.color.blue_light));
-        show2.setBackgroundColor(getResources().getColor(R.color.blue_light));
-        show3.setBackgroundColor(getResources().getColor(R.color.blue_light));
-        show4.setBackgroundColor(getResources().getColor(R.color.blue_light));
-        view.setBackgroundColor(getResources().getColor(R.color.blue));
+    @Override
+    public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
+        Date date = new Date(millseconds);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        String time = format.format(date);
+        if (dateStr.equals("start")) {
+            tvStartDate.setText(time);
+        } else {
+            tvEndDate.setText(time);
+        }
+        initData();
     }
 
-    private void chooseTime(){
+
+
+    private void chooseTime() {
         long tenYears = 3L * 365 * 1000 * 60 * 60 * 24L;
         Calendar calendar = Calendar.getInstance();
 
@@ -302,26 +323,9 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
                 .setWheelItemTextSelectorColor(getResources().getColor(R.color.blue))
                 .setWheelItemTextSize(12)
                 .build();
-                 mDialogAll.show(getFragmentManager(), "ALL");
+        mDialogAll.show(getFragmentManager(), "ALL");
 
     }
 
-    @Override
-    public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
-        Date date = new Date(millseconds);
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        String time = format.format(date);
-        if (dateStr.equals("start")) {
-            tvStartDate.setText(time);
-        }else {
-            tvEndDate.setText(time);
-        }
-        initData();
-    }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        initData();
-    }
 }

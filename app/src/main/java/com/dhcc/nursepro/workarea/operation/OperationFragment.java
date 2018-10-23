@@ -43,14 +43,15 @@ public class OperationFragment extends BaseFragment {
 
         setToolbarType(BaseActivity.ToolbarType.TOP);
         setToolbarBottomLineVisibility(true);
-        setToolbarCenterTitle(getString(R.string.title_operation),0xffffffff,17);
+        setToolbarCenterTitle(getString(R.string.title_operation), 0xffffffff, 17);
 
         initView(view);
         initAdapter();
         initData();
 
     }
-    private void initView(View view){
+
+    private void initView(View view) {
         llEmtpy = view.findViewById(R.id.ll_operation_empty);
         recOperation = view.findViewById(R.id.rec_operation);
 
@@ -61,12 +62,13 @@ public class OperationFragment extends BaseFragment {
 
     }
 
-    private void initAdapter(){
+    private void initAdapter() {
 
         operationAdapter = new OperationAdapter(new ArrayList<OperationBean.OpListBean>());
         recOperation.setAdapter(operationAdapter);
     }
-    private void initData(){
+
+    private void initData() {
         showLoadingTip(BaseActivity.LoadingType.FULL);
         SPUtils spUtils = SPUtils.getInstance();
         HashMap<String, String> properties = new HashMap<>();
@@ -78,9 +80,9 @@ public class OperationFragment extends BaseFragment {
                 listOp = operationBean.getOpList();
                 operationAdapter.setNewData(listOp);
                 operationAdapter.notifyDataSetChanged();
-                if (listOp.size()<1){
+                if (listOp.size() < 1) {
                     llEmtpy.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     llEmtpy.setVisibility(View.GONE);
                 }
 
@@ -89,7 +91,7 @@ public class OperationFragment extends BaseFragment {
             @Override
             public void onFail(String code, String msg) {
                 hideLoadFailTip();
-                showToast(code+":"+msg);
+                showToast("error" + code + ":" + msg);
 
             }
         });
