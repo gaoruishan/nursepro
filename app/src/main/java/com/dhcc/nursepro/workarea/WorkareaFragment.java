@@ -71,7 +71,7 @@ public class WorkareaFragment extends BaseFragment {
         ItemNameList.add("LAB");//检验报告
         ItemNameList.add("OPERATION");//手术申请
         ItemNameList.add("LABOUT");//检验打包
-        ItemNameList.add("DOSINGREVIEW");//输液复合
+        ItemNameList.add("DOSINGREVIEW");//输液复核
         ItemNameList.add("ALLOTBED");//入院分床
         ItemNameList.add("DOCORDERLIST");//医嘱单
         ItemNameList.add("BLOOD");//输血系统
@@ -198,7 +198,7 @@ public class WorkareaFragment extends BaseFragment {
                     imageView.setImageResource(R.drawable.icon_labout);
                     break;
                 case "DOSINGREVIEW":
-                    tvItem.setText("配液复合");
+                    tvItem.setText("配液复核");
                     imageView.setImageResource(R.drawable.icon_dosingreview);
                     break;
                 case "ALLOTBED":
