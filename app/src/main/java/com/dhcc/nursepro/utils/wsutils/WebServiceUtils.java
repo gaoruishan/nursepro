@@ -52,7 +52,6 @@ public class WebServiceUtils {
 
         final HttpTransportSE httpTransportSE = new HttpTransportSE("http://"+SPUtils.getInstance().getString("IP")+"/dthealth/web/Nur.PDA.WebService.cls");
 
-        Log.v("tttttip",SPUtils.getInstance().getString("IP"));
 
         // 创建SoapObject对象
         SoapObject soapObject = new SoapObject(NAMESPACE, methodName);
