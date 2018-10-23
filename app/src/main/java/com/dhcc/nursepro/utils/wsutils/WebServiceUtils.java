@@ -4,6 +4,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import com.blankj.utilcode.util.SPUtils;
+
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
@@ -23,7 +25,7 @@ import java.util.concurrent.Executors;
 
 public class WebServiceUtils {
 
-    public static final String WEB_SERVER_URL = "http://10.1.5.87/dthealth/web/Nur.PDA.WebService.cls";
+//    public static final String WEB_SERVER_URL = "http://10.1.5.87/dthealth/web/Nur.PDA.WebService.cls";
 
 
     // 含有3个线程的线程池
@@ -47,8 +49,10 @@ public class WebServiceUtils {
                                       HashMap<String, String> properties,
                                       final WebServiceCallBack webServiceCallBack) {
         // 创建HttpTransportSE对象，传递WebService服务器地址
-        final HttpTransportSE httpTransportSE = new HttpTransportSE(WEB_SERVER_URL);
 
+        final HttpTransportSE httpTransportSE = new HttpTransportSE("http://"+SPUtils.getInstance().getString("IP")+"/dthealth/web/Nur.PDA.WebService.cls");
+
+        Log.v("tttttip",SPUtils.getInstance().getString("IP"));
 
         // 创建SoapObject对象
         SoapObject soapObject = new SoapObject(NAMESPACE, methodName);

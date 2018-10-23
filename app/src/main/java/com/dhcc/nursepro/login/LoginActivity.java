@@ -9,7 +9,9 @@ import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -32,6 +34,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import cn.qqtheme.framework.picker.OptionPicker;
 import cn.qqtheme.framework.widget.WheelView;
@@ -60,11 +64,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     private String LocJson = "";
 
+    private TextView tvIp;
+    private String IpStr;
+    private SetIPDialog showDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         setToolbarType(ToolbarType.HIDE);
+        IpStr = spUtils.getString("IP","noIp");
+        if (IpStr == "noIp"){
+            spUtils.put("IP", "10.1.5.87");
+        }
         nurseInfoList = daoSession.getNurseInfoDao().queryBuilder().list();
         version = getVersion();
         initView();
@@ -112,6 +123,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         tvLoginLogin.setOnClickListener(this);
         llLoginRememberme = findViewById(R.id.ll_login_rememberme);
         llLoginRememberme.setOnClickListener(this);
+
+        tvIp = findViewById(R.id.tv_login_setip);
+        tvIp.setOnClickListener(this);
 
 
         etLoginUsercode.addTextChangedListener(new TextWatcher() {
@@ -192,9 +206,56 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         Toast.makeText(this, "" + version, Toast.LENGTH_SHORT).show();
     }
 
+    public boolean isIP(String addr) {
+        if(addr.length() < 7 || addr.length() > 15 || "".equals(addr))
+        {
+        return false;
+        }
+        /*** 判断IP格式和范  */
+            String rexp = "([1-9]|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])(\\.(\\d|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])){3}";
+            Pattern pat = Pattern.compile(rexp);
+            Matcher mat = pat.matcher(addr);
+            boolean ipAddress = mat.find();
+            //============对之前的ip判断的bug在进行判断
+                if (ipAddress==true){
+                String ips[] = addr.split("\\.");
+                if(ips.length==4){
+                    try{
+                            for(String ip : ips){
+                                if(Integer.parseInt(ip)<0||Integer.parseInt(ip)>255){
+                                return false;
+                                }
+                             }
+                        }catch (Exception e){
+                        return false;
+                    }
+                    return true;
+                }else{
+            return false;
+         }
+    }
+    return ipAddress;
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.tv_login_setip:
+                showDialog = new SetIPDialog(this);
+                showDialog.setTitle("结果");
+                showDialog.setMessage(spUtils.getString("IP"));
+                showDialog.setYesOnclickListener("确定", new SetIPDialog.onYesOnclickListener() {
+                    @Override
+                    public void onYesClick() {
+                        if (isIP(showDialog.getIp())){
+                            spUtils.put("IP",showDialog.getIp());
+                            showDialog.dismiss();
+                        }else {
+                            showToast("IP格式不正确，请重新输入");
+                        }
+                    }
+                });
+                showDialog.show();
+                break;
             case R.id.tv_login_ward:
                 if (TextUtils.isEmpty(userCode)) {
                     Toast.makeText(this, "请输入护士工号", Toast.LENGTH_SHORT).show();
