@@ -29,6 +29,7 @@ import com.dhcc.nursepro.workarea.labout.bean.LabOutDetailBean;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class LabOutDetailFragment extends BaseFragment {
 
@@ -203,11 +204,11 @@ public class LabOutDetailFragment extends BaseFragment {
     public class DataReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(Action.DEVICE_SCAN_CODE)) {
+            if (Objects.requireNonNull(intent.getAction()).equals(Action.DEVICE_SCAN_CODE)) {
                 Bundle bundle = new Bundle();
                 bundle = intent.getExtras();
                 carryLocDr = spUtils.getString(SharedPreference.LOCID);
-                carryLabNo = bundle.getString("data");
+                carryLabNo = bundle != null ? bundle.getString("data") : "";
                 saveFlag = "1";
                 initData();
 

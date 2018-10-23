@@ -42,7 +42,7 @@ public class PatEventsFragment extends BaseFragment implements View.OnClickListe
     private IntentFilter intentFilter;
     private DataReceiver dataReceiver = null;
 
-    private String episodeIdNow = null, regNo;
+    private String episodeIdNow = null;
 
     private SPUtils spUtils = SPUtils.getInstance();
 
@@ -73,7 +73,7 @@ public class PatEventsFragment extends BaseFragment implements View.OnClickListe
         tveventuser = view.findViewById(R.id.tv_event_user);
         Bundle bundle = getArguments();
         if (bundle != null) {
-            regNo = bundle.getString("regNo");
+            String regNo = bundle.getString("regNo");
             getUserMsg(regNo);
             rlscan.setVisibility(View.GONE);
         }
