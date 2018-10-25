@@ -9,6 +9,7 @@ package com.dhcc.nursepro.constant;
  */
 public class SharedPreference {
 
+    public static final String WEBIP = "WEBIP";
     public static final String REMEM = "REMEM";
     public static final String REMEM_USERCODE = "REMEM_USERCODE";
 

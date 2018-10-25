@@ -73,9 +73,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         setToolbarType(ToolbarType.HIDE);
-        IpStr = spUtils.getString("IP", "noIp");
+        IpStr = spUtils.getString(SharedPreference.WEBIP, "noIp");
         if ("noIp".equals(IpStr)) {
-            spUtils.put("IP", "10.1.5.87");
+            spUtils.put(SharedPreference.WEBIP, "10.1.5.87");
         }
         nurseInfoList = daoSession.getNurseInfoDao().queryBuilder().list();
         version = getVersion();
@@ -244,12 +244,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             case R.id.tv_login_setip:
                 showDialog = new SetIPDialog(this);
                 showDialog.setTitle("结果");
-                showDialog.setMessage(spUtils.getString("IP"));
+                showDialog.setMessage(spUtils.getString(SharedPreference.WEBIP));
                 showDialog.setYesOnclickListener("确定", new SetIPDialog.onYesOnclickListener() {
                     @Override
                     public void onYesClick() {
                         if (isIP(showDialog.getIp())) {
-                            spUtils.put("IP", showDialog.getIp());
+                            spUtils.put(SharedPreference.WEBIP, showDialog.getIp());
                             showDialog.dismiss();
                         } else {
                             showToast("IP格式不正确，请重新输入");

@@ -5,6 +5,7 @@ import android.os.Message;
 import android.util.Log;
 
 import com.blankj.utilcode.util.SPUtils;
+import com.dhcc.nursepro.constant.SharedPreference;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
@@ -47,7 +48,7 @@ public class WebServiceUtils {
                                       final WebServiceCallBack webServiceCallBack) {
         // 创建HttpTransportSE对象，传递WebService服务器地址
 
-        final HttpTransportSE httpTransportSE = new HttpTransportSE("http://" + SPUtils.getInstance().getString("IP") + "/dthealth/web/Nur.PDA.WebService.cls");
+        final HttpTransportSE httpTransportSE = new HttpTransportSE("http://" + SPUtils.getInstance().getString(SharedPreference.WEBIP) + "/dthealth/web/Nur.PDA.WebService.cls");
 
 
         // 创建SoapObject对象
