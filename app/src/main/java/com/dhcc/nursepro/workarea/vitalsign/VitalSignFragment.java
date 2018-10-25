@@ -299,7 +299,6 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                     List<Integer> filterList = new ArrayList<>();
                     typeAdapter.setFilterList(filterList);
                     typeAdapter.notifyDataSetChanged();
-                    updatePatientData();
                 }
                 break;
             case R.id.tv_vitalsign_allarea:
