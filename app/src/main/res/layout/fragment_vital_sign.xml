@@ -83,22 +83,30 @@
 
         <LinearLayout
             android:layout_width="85dp"
-            android:layout_height="34dp"
+            android:layout_height="40dp"
             android:orientation="vertical"
-            android:gravity="center"
+            android:gravity="center_vertical"
             android:background="@color/vital_sign_type_normal_bg">
 
             <TextView
-                android:layout_width="85dp"
-                android:layout_height="32dp"
+                android:id="@+id/tv_resetting"
+                android:layout_width="match_parent"
+                android:layout_height="28dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/bg_resetting_selector"
+                android:textColor="@color/patevents_tv_unsel_color"
+                android:textIsSelectable="true"
                 android:text="筛选"
                 android:gravity="center"/>
 
             <View
-                android:layout_width="61dp"
+                android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:paddingLeft="12dp"
-                android:paddingRight="12dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="7dp"
                 android:background="@color/vital_sign_filter_bottom_line_color"
                 />
 
@@ -107,7 +115,7 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="33dp"
+            android:layout_height="40dp"
             android:layout_weight="4"
             android:gravity="center">
 
@@ -133,14 +141,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recy_vitalsign_type"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recy_vitalsign_type"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
 
-            >
+                >
 
-        </android.support.v7.widget.RecyclerView>
+            </android.support.v7.widget.RecyclerView>
+
 
         <LinearLayout
             android:layout_width="0dp"

@@ -18,6 +18,8 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textSize="15sp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
         android:background="@drawable/bg_vital_sign_type_selector"
         android:textColor="@color/vital_sign_type_selected_text"
         tools:text="血氧饱和度" />

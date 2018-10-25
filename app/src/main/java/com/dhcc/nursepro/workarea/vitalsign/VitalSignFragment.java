@@ -2,6 +2,7 @@ package com.dhcc.nursepro.workarea.vitalsign;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -45,6 +46,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
     private TextView tvVitalSignAlloutarea;
     private TextView tvVitalSignWaitarea;
     private TextView tvVitalSignChooseTime;
+    private TextView tvResetting;
 
     private RecyclerView recyVitalSignType;
     private RecyclerView recyVitalSignPatient;
@@ -66,6 +68,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
     private String topFilterStr = "inBedAll";
     private String timeFilterStr = "06:00";
     private String dateFilterStr = "";
+    private Boolean bResetting = false;
 
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -96,6 +99,8 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
 
     private void initView(View view) {
 
+        tvResetting = view.findViewById(R.id.tv_resetting);
+        tvResetting.setOnClickListener(this);
         tvVitalSignAllarea = view.findViewById(R.id.tv_vitalsign_allarea);
         tvVitalSignAllarea.setOnClickListener(this);
         tvVitalSignAdminarea = view.findViewById(R.id.tv_vitalsign_adminarea);
@@ -289,6 +294,14 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.tv_resetting:
+                if (bResetting){
+                    List<Integer> filterList = new ArrayList<>();
+                    typeAdapter.setFilterList(filterList);
+                    typeAdapter.notifyDataSetChanged();
+                    updatePatientData();
+                }
+                break;
             case R.id.tv_vitalsign_allarea:
                 topFilterStr = "inBedAll";
                 setTopFilterSelect(tvVitalSignAllarea);
@@ -366,7 +379,16 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
         //左侧筛选项无选中状态，则全部显示
         if (typeAdapter.getFilterList().size() == 0){
             patientAdapter.setNewData(displayList);
+            tvResetting.setSelected(false);
+            tvResetting.setText("筛选");
+            tvResetting.setTextColor(getResources().getColor(R.color.patevents_tv_unsel_color));
+            bResetting = false;
             return;
+        }else {
+            tvResetting.setSelected(true);
+            tvResetting.setText("重置");
+            tvResetting.setTextColor(getResources().getColor(R.color.vital_sign_type_selected_text));
+            bResetting = true;
         }
 
         List<Map> tmpFilterPatientList = new ArrayList<>();
