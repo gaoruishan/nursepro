@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -25,6 +26,7 @@ import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.constant.Action;
 import com.dhcc.nursepro.constant.SharedPreference;
+import com.dhcc.nursepro.workarea.milkloopsystem.MilkOperateResultDialog;
 import com.dhcc.nursepro.workarea.milkloopsystem.api.MilkLoopApiManager;
 import com.dhcc.nursepro.workarea.milkloopsystem.bean.MilkBottlingInfoBean;
 import com.dhcc.nursepro.workarea.milkloopsystem.bean.MilkOperatResultBean;
@@ -42,29 +44,31 @@ import static android.content.Context.INPUT_METHOD_SERVICE;
  * Date: 2018/9/20
  * Time:9:41
  */
-public class MilkBottlingFragment extends BaseFragment implements View.OnClickListener{
-    private ImageView imgBag,imgPat,imgBottle;
-    private View view1,view2;
-    private TextView tvPat,tvBag,tvBottle,tvScanTip;
+public class MilkBottlingFragment extends BaseFragment implements View.OnClickListener {
+    private ImageView imgBag, imgPat, imgBottle;
+    private View view1, view2;
+    private TextView tvPat, tvBag, tvBottle, tvScanTip;
 
     private SPUtils spUtils = SPUtils.getInstance();
 
     private IntentFilter filter;
     private Receiver mReceiver = null;
 
-    private String patInfo="",bagCode="",bottleCode="";
+    private String patInfo = "", bagCode = "", bottleCode = "";
 
     private View viewright;
     private TextView tvSure;
 
-    private TextView tvBottleCode,tvLeft;
+    private TextView tvBottleCode, tvLeft;
     private EditText etAmount;
-    private TextView tvBottling,tvThrow;
+    private TextView tvBottling, tvThrow;
     private LinearLayout llScan;
 
-    private long milkAllAmount = 0,milkBottling = 0,milkLeft = 0;
+    private long milkAllAmount = 0, milkBottling = 0, milkLeft = 0;
 
     private String milkBagOperation = "B";
+
+    private MilkOperateResultDialog milkOperateResultDialog;
 
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -89,19 +93,19 @@ public class MilkBottlingFragment extends BaseFragment implements View.OnClickLi
         viewright.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//转移焦点，隐藏键盘
+                //转移焦点，隐藏键盘
                 llScan.setFocusable(true);
                 llScan.setFocusableInTouchMode(true);
                 llScan.requestFocus();
                 InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(etAmount.getWindowToken(), 0);
 
-                if (bottleCode == ""){
+                if (bottleCode == "") {
                     return;
                 }
-                if (milkBottling>milkAllAmount){
-                    Toast.makeText(getActivity(),"奶袋奶量不足，请重新输入奶量",Toast.LENGTH_SHORT).show();
-                }else {
+                if (milkBottling > milkAllAmount) {
+                    Toast.makeText(getActivity(), "奶袋奶量不足，请重新输入奶量", Toast.LENGTH_SHORT).show();
+                } else {
                     milkBottling();
                 }
             }
@@ -113,32 +117,83 @@ public class MilkBottlingFragment extends BaseFragment implements View.OnClickLi
 
         initView(view);
 
-        mReceiver  = new Receiver();
+        mReceiver = new Receiver();
         filter = new IntentFilter();
         filter.addAction(Action.DEVICE_SCAN_CODE);
         getActivity().registerReceiver(mReceiver, filter);
 
-//        view.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                if(getActivity().getCurrentFocus() != null){
-//                    /**
-//                     * 点击空白位置 隐藏软键盘
-//                     */
-//                    InputMethodManager mInputMethodManager = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
-//                    return mInputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
-//                }
-//                return false;
-//            }
-//        });
+        //        view.setOnTouchListener(new View.OnTouchListener() {
+        //            @Override
+        //            public boolean onTouch(View v, MotionEvent event) {
+        //                if(getActivity().getCurrentFocus() != null){
+        //                    /**
+        //                     * 点击空白位置 隐藏软键盘
+        //                     */
+        //                    InputMethodManager mInputMethodManager = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
+        //                    return mInputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+        //                }
+        //                return false;
+        //            }
+        //        });
     }
 
-    private void initView(View view){
+    private void milkBottling() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("bagNo", bagCode);
+        map.put("bottleNo", bottleCode);
+        map.put("amount", etAmount.getText().toString());
+        map.put("userId", spUtils.getString(SharedPreference.USERID));
+        map.put("type", milkBagOperation);
+        MilkLoopApiManager.getMilkOperateResult(map, "bottling", new MilkLoopApiManager.MilkOperateCallback() {
+            @Override
+            public void onSuccess(MilkOperatResultBean milkOperatResultBean) {
+                if (milkOperateResultDialog != null && milkOperateResultDialog.isShowing()) {
+                    milkOperateResultDialog.dismiss();
+                }
+
+                milkOperateResultDialog = new MilkOperateResultDialog(getActivity());
+
+                milkOperateResultDialog.setExecresult("母乳装瓶成功");
+
+                milkOperateResultDialog.setImgId(R.drawable.icon_popup_sucess);
+                milkOperateResultDialog.setSureVisible(View.GONE);
+                milkOperateResultDialog.show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        milkOperateResultDialog.dismiss();
+                    }
+                }, 500);
+                cleanAll();
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+                if (milkOperateResultDialog != null && milkOperateResultDialog.isShowing()) {
+                    milkOperateResultDialog.dismiss();
+                }
+                milkOperateResultDialog = new MilkOperateResultDialog(getActivity());
+                milkOperateResultDialog.setExecresult(msg);
+                milkOperateResultDialog.setImgId(R.drawable.icon_popup_error_patient);
+                milkOperateResultDialog.setSureVisible(View.VISIBLE);
+                milkOperateResultDialog.setSureOnclickListener(new MilkOperateResultDialog.onSureOnclickListener() {
+                    @Override
+                    public void onSureClick() {
+                        milkOperateResultDialog.dismiss();
+                    }
+                });
+                milkOperateResultDialog.show();
+            }
+        });
+    }
+
+    private void initView(View view) {
         imgBag = view.findViewById(R.id.icon_milkbottling_bag);
         imgPat = view.findViewById(R.id.icon_milkbottling_pat);
         imgBottle = view.findViewById(R.id.icon_milkbottling_bottle);
-        view1 =view.findViewById(R.id.line_milkbottling_1);
-        view2 =view.findViewById(R.id.line_milkbottling_2);
+        view1 = view.findViewById(R.id.line_milkbottling_1);
+        view2 = view.findViewById(R.id.line_milkbottling_2);
         tvPat = view.findViewById(R.id.tv_milkbottling_pat);
         tvBag = view.findViewById(R.id.tv_milkbottling_bag);
         tvBottle = view.findViewById(R.id.tv_milkbottling_bottle);
@@ -169,26 +224,24 @@ public class MilkBottlingFragment extends BaseFragment implements View.OnClickLi
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (etAmount.getText().toString().length()>0){
-                    milkBottling =  Long.parseLong(etAmount.getText().toString());
-                }else {
+                if (etAmount.getText().toString().length() > 0) {
+                    milkBottling = Long.parseLong(etAmount.getText().toString());
+                } else {
                     milkBottling = 0;
                 }
-                if (milkBottling>milkAllAmount){
-//                    showToast(Toast.LENGTH_SHORT,"奶袋奶量不足，请重新输入");
-                    Toast.makeText(getActivity(),"奶袋奶量不足，请重新输入",Toast.LENGTH_SHORT).show();
+                if (milkBottling > milkAllAmount) {
+                    //                    showToast(Toast.LENGTH_SHORT,"奶袋奶量不足，请重新输入");
+                    Toast.makeText(getActivity(), "奶袋奶量不足，请重新输入", Toast.LENGTH_SHORT).show();
                 }
                 milkLeft = milkAllAmount - milkBottling;
-                tvLeft.setText(milkLeft+"");
+                tvLeft.setText(milkLeft + "");
 
             }
         });
 
-    }
-
-    @Override
+    }    @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.tv_milkbottling_bottling:
                 tvBottling.setSelected(true);
                 tvThrow.setSelected(false);
@@ -205,83 +258,9 @@ public class MilkBottlingFragment extends BaseFragment implements View.OnClickLi
 
     }
 
-    private void getPatInfo(final String bagNo){
-        HashMap<String,String> map = new HashMap<>();
-        map.put("bagNo",bagNo);
-        map.put("wardId",spUtils.getString(SharedPreference.WARDID));
-        MilkLoopApiManager.getMilkReceiveBagInfo(map, "getMilkBagInfo", new MilkLoopApiManager.MilkReceiveBagInfoCallback() {
-            @Override
-            public void onSuccess(MilkReceiveBagInfoBean milkReceiveBagInfoBean) {
-                String bed = milkReceiveBagInfoBean.getPatInfo().getBedCode().equals("")?"未分床":milkReceiveBagInfoBean.getPatInfo().getBedCode()+"床";
-                String name = milkReceiveBagInfoBean.getPatInfo().getPatName();
-                tvPat.setText(milkReceiveBagInfoBean.getPatInfo().getRegNo()+"-"+bed+"-"+name);
-                tvBag.setText(bagNo);
-                patInfo = (milkReceiveBagInfoBean.getPatInfo().getRegNo());
-                bagCode = bagNo;
-                imgBag.setSelected(true);
-                imgPat.setSelected(true);
-                view1.setSelected(true);
-                tvScanTip.setText("请扫描奶瓶条码");
-//                rlScan.setVisibility(View.GONE);
-//                etAmount.setText("");
-//                setToolbarRightCustomView(viewright);
-            }
-
-            @Override
-            public void onFail(String code, String msg) {
-                showToast("error" + code + ":" + msg);
-            }
-        });
-    }
-
-    private void getBottlingInfo(final String bottleNo){
-        HashMap<String,String> map = new HashMap<>();
-        map.put("bagNo",bagCode);
-        map.put("bottleNo",bottleNo);
-        MilkLoopApiManager.getMilkBottlingInfo(map, "getBottlingInfo", new MilkLoopApiManager.MilkBottlingInfoCallback() {
-            @Override
-            public void onSuccess(MilkBottlingInfoBean milkBottlingInfoBean) {
-                tvSure.setTextColor(getResources().getColor(R.color.blue));
-                bottleCode = bottleNo;
-//                tvBottleCode.setText("装瓶（"+bottleNo+"）");
-                llScan.setVisibility(View.GONE);
-                tvLeft.setText(milkBottlingInfoBean.getBagInfo().getStoreAmount());
-                milkAllAmount = Long.parseLong(milkBottlingInfoBean.getBagInfo().getStoreAmount());
-
-            }
-
-            @Override
-            public void onFail(String code, String msg) {
-                showToast("error" + code + ":" + msg);
-            }
-        });
-    }
-
-
-    private void milkBottling(){
-        HashMap<String,String> map = new HashMap<>();
-        map.put("bagNo",bagCode);
-        map.put("bottleNo",bottleCode);
-        map.put("amount",etAmount.getText().toString());
-        map.put("userId",spUtils.getString(SharedPreference.USERID));
-        map.put("type",milkBagOperation);
-        MilkLoopApiManager.getMilkOperateResult(map, "bottling", new MilkLoopApiManager.MilkOperateCallback() {
-            @Override
-            public void onSuccess(MilkOperatResultBean milkOperatResultBean) {
-                showToast("成功");
-                cleanAll();
-            }
-
-            @Override
-            public void onFail(String code, String msg) {
-                showToast("error" + code + ":" + msg);
-            }
-        });
-    }
-
-    private void cleanAll(){
+    private void cleanAll() {
         llScan.setVisibility(View.VISIBLE);
-        etAmount .setText("");
+        etAmount.setText("");
         milkBagOperation = "B";
         patInfo = "";
         bagCode = "";
@@ -296,30 +275,10 @@ public class MilkBottlingFragment extends BaseFragment implements View.OnClickLi
         view1.setSelected(false);
         tvSure.setTextColor(getResources().getColor(R.color.patevents_device_color));
         tvScanTip.setText("请扫描奶袋条码");
-//        if(getActivity().getWindow().getAttributes().softInputMode == WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE) {
-//            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-//            imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-//        }
-    }
-
-
-    private class Receiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            switch (Objects.requireNonNull(intent.getAction())) {
-                case Action.DEVICE_SCAN_CODE:
-                    Bundle bundle = new Bundle();
-                    bundle = intent.getExtras();
-                    if (patInfo == ""){
-                        getPatInfo(bundle.getString("data"));
-                    }else if (bottleCode == ""){
-                        getBottlingInfo(bundle.getString("data"));
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
+        //        if(getActivity().getWindow().getAttributes().softInputMode == WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE) {
+        //            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        //            imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+        //        }
     }
 
     @Override
@@ -336,4 +295,77 @@ public class MilkBottlingFragment extends BaseFragment implements View.OnClickLi
         getActivity().unregisterReceiver(mReceiver);
 
     }
+
+    private void getPatInfo(final String bagNo) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("bagNo", bagNo);
+        map.put("wardId", spUtils.getString(SharedPreference.WARDID));
+        MilkLoopApiManager.getMilkReceiveBagInfo(map, "getMilkBagInfo", new MilkLoopApiManager.MilkReceiveBagInfoCallback() {
+            @Override
+            public void onSuccess(MilkReceiveBagInfoBean milkReceiveBagInfoBean) {
+                String bed = milkReceiveBagInfoBean.getPatInfo().getBedCode().equals("") ? "未分床" : milkReceiveBagInfoBean.getPatInfo().getBedCode() + "床";
+                String name = milkReceiveBagInfoBean.getPatInfo().getPatName();
+                tvPat.setText(milkReceiveBagInfoBean.getPatInfo().getRegNo() + "-" + bed + "-" + name);
+                tvBag.setText(bagNo);
+                patInfo = (milkReceiveBagInfoBean.getPatInfo().getRegNo());
+                bagCode = bagNo;
+                imgBag.setSelected(true);
+                imgPat.setSelected(true);
+                view1.setSelected(true);
+                tvScanTip.setText("请扫描奶瓶条码");
+                //                rlScan.setVisibility(View.GONE);
+                //                etAmount.setText("");
+                //                setToolbarRightCustomView(viewright);
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+                showToast("error" + code + ":" + msg);
+            }
+        });
+    }
+
+    private void getBottlingInfo(final String bottleNo) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("bagNo", bagCode);
+        map.put("bottleNo", bottleNo);
+        MilkLoopApiManager.getMilkBottlingInfo(map, "getBottlingInfo", new MilkLoopApiManager.MilkBottlingInfoCallback() {
+            @Override
+            public void onSuccess(MilkBottlingInfoBean milkBottlingInfoBean) {
+                tvSure.setTextColor(getResources().getColor(R.color.blue));
+                bottleCode = bottleNo;
+                //                tvBottleCode.setText("装瓶（"+bottleNo+"）");
+                llScan.setVisibility(View.GONE);
+                tvLeft.setText(milkBottlingInfoBean.getBagInfo().getStoreAmount());
+                milkAllAmount = Long.parseLong(milkBottlingInfoBean.getBagInfo().getStoreAmount());
+
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+                showToast("error" + code + ":" + msg);
+            }
+        });
+    }
+
+    private class Receiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            switch (Objects.requireNonNull(intent.getAction())) {
+                case Action.DEVICE_SCAN_CODE:
+                    Bundle bundle = new Bundle();
+                    bundle = intent.getExtras();
+                    if (patInfo == "") {
+                        getPatInfo(bundle.getString("data"));
+                    } else if (bottleCode == "") {
+                        getBottlingInfo(bundle.getString("data"));
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+
 }

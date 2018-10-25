@@ -42,7 +42,7 @@ import java.util.Objects;
  * Date: 2018/9/20
  * Time:9:41
  */
-public class MilkFreezingFragment extends BaseFragment implements View.OnClickListener{
+public class MilkFreezingFragment extends BaseFragment implements View.OnClickListener {
 
     private RecyclerView recMilk;
     private RelativeLayout rlScan;
@@ -52,7 +52,7 @@ public class MilkFreezingFragment extends BaseFragment implements View.OnClickLi
     private MilkFreezingScanedAdapter milkAdapter;
     private List<MilkFreezingBagInfoBean> listMilk = new ArrayList<>();
     private List<String> listBagNo = new ArrayList<String>();
-    private String st="jj";
+    private String st = "jj";
 
     private SPUtils spUtils = SPUtils.getInstance();
 
@@ -62,6 +62,7 @@ public class MilkFreezingFragment extends BaseFragment implements View.OnClickLi
     private String bagNo;
 
     private MilkOperateResultDialog milkOperateResultDialog;
+
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_milk_freezing, container, false);
@@ -82,17 +83,17 @@ public class MilkFreezingFragment extends BaseFragment implements View.OnClickLi
         initView(view);
         initAdapter();
 
-        mReceiver  = new Receiver();
+        mReceiver = new Receiver();
         filter = new IntentFilter();
         filter.addAction(Action.DEVICE_SCAN_CODE);
         getActivity().registerReceiver(mReceiver, filter);
 
     }
 
-    private void initView(View view){
+    private void initView(View view) {
         rlScan = view.findViewById(R.id.rl_milkfreezing_scan);
         tvScanNo = view.findViewById(R.id.tv_milkfreezing_selected);
-        tvScanNo.setText("已扫码"+listMilk.size()+"个");
+        tvScanNo.setText("已扫码" + listMilk.size() + "个");
         tvSure = view.findViewById(R.id.tv_milkfreezing_sure);
         tvSure.setOnClickListener(this);
         recMilk = view.findViewById(R.id.recy_milkfreezing_selected);
@@ -103,69 +104,61 @@ public class MilkFreezingFragment extends BaseFragment implements View.OnClickLi
         recMilk.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
-    private void initAdapter(){
+    private void initAdapter() {
         milkAdapter = new MilkFreezingScanedAdapter(new ArrayList<MilkFreezingBagInfoBean>());
         recMilk.setAdapter(milkAdapter);
         milkAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                if (view.getId() == R.id.ll_milkfreezing_right){
+                if (view.getId() == R.id.ll_milkfreezing_right) {
                     listMilk.remove(position);
                     milkAdapter.setNewData(listMilk);
                     milkAdapter.notifyDataSetChanged();
                     listBagNo.remove(position);
-                    tvScanNo.setText("已扫码"+listMilk.size()+"个");
+                    tvScanNo.setText("已扫码" + listMilk.size() + "个");
                 }
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mReceiver != null) {
+            getActivity().registerReceiver(mReceiver, filter);
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        getActivity().unregisterReceiver(mReceiver);
+
+    }
 
     @Override
     public void onClick(View v) {
         String strBags = "";
-        for (int i = 0;i<listMilk.size();i++){
-            if (i == 0){
+        for (int i = 0; i < listMilk.size(); i++) {
+            if (i == 0) {
                 strBags = listMilk.get(i).getPatInfo().getBagNo();
-            }else {
-                strBags = strBags + "^"+listMilk.get(i).getPatInfo().getBagNo();
+            } else {
+                strBags = strBags + "^" + listMilk.get(i).getPatInfo().getBagNo();
             }
         }
 
-        if (listMilk.size()<=0){
+        if (listMilk.size() <= 0) {
             showToast("请先添加血袋");
-        }else {
+        } else {
             initMilkFreezingSure(strBags);
         }
     }
 
-    private void initBag(final String bagNo){
-            final HashMap<String,String> map = new HashMap<>();
-            map.put("bagNo",bagNo);
-//            map.put("wardId",spUtils.getString(SharedPreference.WARDID));
-            MilkLoopApiManager.getMilkFreezingBagInfo(map, "getBagFreezingInfo", new MilkLoopApiManager.MilkFreezingBagInfoCallback() {
-                @Override
-                public void onSuccess(MilkFreezingBagInfoBean milkFreezingBagInfoBean) {
-
-                    rlScan.setVisibility(View.GONE);
-                    listMilk.add(milkFreezingBagInfoBean);
-                    tvScanNo.setText("已扫码"+listMilk.size()+"个");
-                    listBagNo.add(bagNo);
-                    milkAdapter.setNewData(listMilk);
-                    milkAdapter.notifyDataSetChanged();
-                }
-
-                @Override
-                public void onFail(String code, String msg) {
-                    showToast("error" + code + ":" + msg);
-                }
-            });
-
-        }
-    private void initMilkFreezingSure(String strBags){
-        final HashMap<String,String> map = new HashMap<>();
-        map.put("bagNo",strBags);
-        map.put("userId",spUtils.getString(SharedPreference.USERID));
-        map.put("operation","freeze");
+    private void initMilkFreezingSure(String strBags) {
+        final HashMap<String, String> map = new HashMap<>();
+        map.put("bagNo", strBags);
+        map.put("userId", spUtils.getString(SharedPreference.USERID));
+        map.put("operation", "freeze");
         MilkLoopApiManager.getMilkOperateResult(map, "bagFreezing", new MilkLoopApiManager.MilkOperateCallback() {
             @Override
             public void onSuccess(MilkOperatResultBean milkOperatResultBean) {
@@ -190,9 +183,10 @@ public class MilkFreezingFragment extends BaseFragment implements View.OnClickLi
                 listMilk = new ArrayList<>();
                 milkAdapter.setNewData(listMilk);
                 milkAdapter.notifyDataSetChanged();
-                tvScanNo.setText("已扫码"+listMilk.size()+"个");
+                tvScanNo.setText("已扫码" + listMilk.size() + "个");
                 rlScan.setVisibility(View.VISIBLE);
             }
+
             @Override
             public void onFail(String code, String msg) {
                 if (milkOperateResultDialog != null && milkOperateResultDialog.isShowing()) {
@@ -214,6 +208,29 @@ public class MilkFreezingFragment extends BaseFragment implements View.OnClickLi
 
     }
 
+    private void initBag(final String bagNo) {
+        final HashMap<String, String> map = new HashMap<>();
+        map.put("bagNo", bagNo);
+        //            map.put("wardId",spUtils.getString(SharedPreference.WARDID));
+        MilkLoopApiManager.getMilkFreezingBagInfo(map, "getBagFreezingInfo", new MilkLoopApiManager.MilkFreezingBagInfoCallback() {
+            @Override
+            public void onSuccess(MilkFreezingBagInfoBean milkFreezingBagInfoBean) {
+
+                rlScan.setVisibility(View.GONE);
+                listMilk.add(milkFreezingBagInfoBean);
+                tvScanNo.setText("已扫码" + listMilk.size() + "个");
+                listBagNo.add(bagNo);
+                milkAdapter.setNewData(listMilk);
+                milkAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+                showToast("error" + code + ":" + msg);
+            }
+        });
+
+    }
 
     private class Receiver extends BroadcastReceiver {
         @Override
@@ -222,9 +239,9 @@ public class MilkFreezingFragment extends BaseFragment implements View.OnClickLi
                 case Action.DEVICE_SCAN_CODE:
                     Bundle bundle = new Bundle();
                     bundle = intent.getExtras();
-                    bagNo =bundle.getString("data");
-                    for (int i = 0;i<listBagNo.size();i++){
-                        if (listBagNo.get(i).equals(bagNo)){
+                    bagNo = bundle.getString("data");
+                    for (int i = 0; i < listBagNo.size(); i++) {
+                        if (listBagNo.get(i).equals(bagNo)) {
                             showToast("重复扫码");
                             return;
                         }
@@ -235,20 +252,5 @@ public class MilkFreezingFragment extends BaseFragment implements View.OnClickLi
                     break;
             }
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mReceiver != null) {
-            getActivity().registerReceiver(mReceiver, filter);
-        }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        getActivity().unregisterReceiver(mReceiver);
-
     }
 }

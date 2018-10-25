@@ -43,7 +43,7 @@ import java.util.Objects;
  * Date: 2018/9/20
  * Time:9:41
  */
-public class MilkReceiveFragment extends BaseFragment implements View.OnClickListener,OnDateSetListener {
+public class MilkReceiveFragment extends BaseFragment implements View.OnClickListener, OnDateSetListener {
 
     private SPUtils spUtils = SPUtils.getInstance();
 
@@ -64,6 +64,7 @@ public class MilkReceiveFragment extends BaseFragment implements View.OnClickLis
     private View viewright;
 
     private MilkOperateResultDialog milkOperateResultDialog;
+
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_milk_receive, container, false);
@@ -84,7 +85,7 @@ public class MilkReceiveFragment extends BaseFragment implements View.OnClickLis
         viewright.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                showToast("保存");
+                //                showToast("保存");
                 saveData();
             }
         });
@@ -93,72 +94,24 @@ public class MilkReceiveFragment extends BaseFragment implements View.OnClickLis
 
         initView(view);
 
-        mReceiver  = new Receiver();
+        mReceiver = new Receiver();
         filter = new IntentFilter();
         filter.addAction(Action.DEVICE_SCAN_CODE);
         getActivity().registerReceiver(mReceiver, filter);
 
     }
 
-    private void initView(View view){
-        rlScan = view.findViewById(R.id.rl_milkreceive_scan);
-        tvPatinfo = view.findViewById(R.id.tv_milkreceive_pat);
-        tvRegno = view.findViewById(R.id.tv_milkreceive_reg);
-        tvTime = view.findViewById(R.id.tv_milkreceive_time);
-        LlTime = view.findViewById(R.id.ll_milkreceive_time);
-        etAmount = view.findViewById(R.id.et_milkamount);
-        LlTime.setOnClickListener(this);
-
-
-        Calendar calendar = Calendar.getInstance();
-        long mCurrentMillSeconds = calendar.getTimeInMillis();
-        Date date = new Date(mCurrentMillSeconds);
-//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//精确到分钟
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat format1 = new SimpleDateFormat("HH:mm");
-        timestr = format1.format(date);
-        datestr = format.format(date);
-
-        tvTime.setText(datestr+" "+timestr);
-
-
-    }
-
-    private void initData(String bagNo){
-        HashMap<String,String> map = new HashMap<>();
-        map.put("bagNo",bagNo);
-        map.put("wardId",spUtils.getString(SharedPreference.WARDID));
-        MilkLoopApiManager.getMilkReceiveBagInfo(map, "getMilkBagInfo", new MilkLoopApiManager.MilkReceiveBagInfoCallback() {
-            @Override
-            public void onSuccess(MilkReceiveBagInfoBean milkReceiveBagInfoBean) {
-                String bed = milkReceiveBagInfoBean.getPatInfo().getBedCode().equals("")?"未分床":milkReceiveBagInfoBean.getPatInfo().getBedCode()+"床";
-                String name = milkReceiveBagInfoBean.getPatInfo().getPatName();
-                tvPatinfo.setText(bed+"   "+name);
-                tvRegno.setText(milkReceiveBagInfoBean.getPatInfo().getRegNo());
-                rlScan.setVisibility(View.GONE);
-                etAmount.setText("");
-                setToolbarRightCustomView(viewright);
-            }
-
-            @Override
-            public void onFail(String code, String msg) {
-                showToast("error" + code + ":" + msg);
-            }
-        });
-
-    }
-
-    private void saveData(){
-        if (etAmount.getText().toString().equals("")){
+    private void saveData() {
+        if (etAmount.getText().toString().equals("")) {
             showToast("请输入留取量再保存");
             return;
         }
-        HashMap<String,String> map = new HashMap<>();
-        map.put("bagNo",bagNo);
-        map.put("amount",etAmount.getText().toString());
-        map.put("date",datestr);
-        map.put("time",timestr);
-        map.put("userId",spUtils.getString(SharedPreference.USERID));
+        HashMap<String, String> map = new HashMap<>();
+        map.put("bagNo", bagNo);
+        map.put("amount", etAmount.getText().toString());
+        map.put("date", datestr);
+        map.put("time", timestr);
+        map.put("userId", spUtils.getString(SharedPreference.USERID));
         MilkLoopApiManager.getMilkOperateResult(map, "receiveBag", new MilkLoopApiManager.MilkOperateCallback() {
             @Override
             public void onSuccess(MilkOperatResultBean milkReceiveBagBean) {
@@ -183,6 +136,7 @@ public class MilkReceiveFragment extends BaseFragment implements View.OnClickLis
                 etAmount.setText("");
                 rlScan.setVisibility(View.VISIBLE);
             }
+
             @Override
             public void onFail(String code, String msg) {
                 if (milkOperateResultDialog != null && milkOperateResultDialog.isShowing()) {
@@ -204,28 +158,84 @@ public class MilkReceiveFragment extends BaseFragment implements View.OnClickLis
 
     }
 
+    private void initView(View view) {
+        rlScan = view.findViewById(R.id.rl_milkreceive_scan);
+        tvPatinfo = view.findViewById(R.id.tv_milkreceive_pat);
+        tvRegno = view.findViewById(R.id.tv_milkreceive_reg);
+        tvTime = view.findViewById(R.id.tv_milkreceive_time);
+        LlTime = view.findViewById(R.id.ll_milkreceive_time);
+        etAmount = view.findViewById(R.id.et_milkamount);
+        LlTime.setOnClickListener(this);
+
+
+        Calendar calendar = Calendar.getInstance();
+        long mCurrentMillSeconds = calendar.getTimeInMillis();
+        Date date = new Date(mCurrentMillSeconds);
+        //        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//精确到分钟
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat format1 = new SimpleDateFormat("HH:mm");
+        timestr = format1.format(date);
+        datestr = format.format(date);
+
+        tvTime.setText(datestr + " " + timestr);
+
+
+    }
+
     @Override
+    public void onResume() {
+        super.onResume();
+        if (mReceiver != null) {
+            getActivity().registerReceiver(mReceiver, filter);
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        getActivity().unregisterReceiver(mReceiver);
+
+    }    @Override
     public void onClick(View v) {
         chooseTime();
     }
 
-    private class Receiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            switch (Objects.requireNonNull(intent.getAction())) {
-                case Action.DEVICE_SCAN_CODE:
-                    Bundle bundle = new Bundle();
-                    bundle = intent.getExtras();
-                    bagNo =bundle.getString("data");
-                    initData(bundle.getString("data"));
-                    break;
-                default:
-                    break;
+    private void initData(String bagNo) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("bagNo", bagNo);
+        map.put("wardId", spUtils.getString(SharedPreference.WARDID));
+        MilkLoopApiManager.getMilkReceiveBagInfo(map, "getMilkBagInfo", new MilkLoopApiManager.MilkReceiveBagInfoCallback() {
+            @Override
+            public void onSuccess(MilkReceiveBagInfoBean milkReceiveBagInfoBean) {
+                String bed = milkReceiveBagInfoBean.getPatInfo().getBedCode().equals("") ? "未分床" : milkReceiveBagInfoBean.getPatInfo().getBedCode() + "床";
+                String name = milkReceiveBagInfoBean.getPatInfo().getPatName();
+                tvPatinfo.setText(bed + "   " + name);
+                tvRegno.setText(milkReceiveBagInfoBean.getPatInfo().getRegNo());
+                rlScan.setVisibility(View.GONE);
+                etAmount.setText("");
+                setToolbarRightCustomView(viewright);
             }
-        }
+
+            @Override
+            public void onFail(String code, String msg) {
+                showToast("error" + code + ":" + msg);
+            }
+        });
+
     }
 
-    private void chooseTime(){
+    @Override
+    public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
+        Date date = new Date(millseconds);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");//精确到分钟
+        String time = format.format(date);
+        SimpleDateFormat formatdate = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formattime = new SimpleDateFormat("HH:mm");
+        datestr = formatdate.format(date);
+        timestr = formattime.format(date);
+        //        showToast(datestr+"--"+timestr);
+        tvTime.setText(time);
+    }    private void chooseTime() {
         long tenYears = 3L * 365 * 1000 * 60 * 60 * 24L;
         Calendar calendar = Calendar.getInstance();
 
@@ -254,31 +264,23 @@ public class MilkReceiveFragment extends BaseFragment implements View.OnClickLis
 
     }
 
-    @Override
-    public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
-        Date date = new Date(millseconds);
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");//精确到分钟
-        String time = format.format(date);
-        SimpleDateFormat formatdate = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat formattime = new SimpleDateFormat("HH:mm");
-        datestr = formatdate.format(date);
-        timestr = formattime.format(date);
-//        showToast(datestr+"--"+timestr);
-        tvTime.setText(time);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mReceiver != null) {
-            getActivity().registerReceiver(mReceiver, filter);
+    private class Receiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            switch (Objects.requireNonNull(intent.getAction())) {
+                case Action.DEVICE_SCAN_CODE:
+                    Bundle bundle = new Bundle();
+                    bundle = intent.getExtras();
+                    bagNo = bundle.getString("data");
+                    initData(bundle.getString("data"));
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        getActivity().unregisterReceiver(mReceiver);
 
-    }
+
+
 }
