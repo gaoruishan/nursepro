@@ -297,7 +297,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
 
                 if (orderExecuteBean.getOrders().size() > 0) {
                     patient = orderExecuteBean.getOrders().get(0);
-                    //                    tvOrderexecutePatinfo.setText("".equals(patient.getBedCode()) ? "未分" : patient.getBedCode() + "床  " + patient.getName());
+                    //                    tvOrderexecutePatinfo.setText("".equals(patient.getBedCode()) ? "未分" : patient.getBedCode() + "  " + patient.getName());
                     patOrders = patient.getPatOrds();
                 } else {
                     patOrders = null;
@@ -553,8 +553,8 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                     episodeId = scanPatBean.getPatInfo().getEpisodeID();
                     regNo = scanPatBean.getPatInfo().getRegNo();
                     rlOrderexecuteScan.setVisibility(View.GONE);
-                    //                    tvPat.setText(scanPatBean.getPatInfo().getBedCode()+"床   "+scanPatBean.getPatInfo().getName());
-                    tvOrderexecutePatinfo.setText("".equals(scanPatBean.getPatInfo().getBedCode()) ? "未分" + "床  " + scanPatBean.getPatInfo().getName() : scanPatBean.getPatInfo().getBedCode() + "床  " + scanPatBean.getPatInfo().getName());
+                    //                    tvPat.setText(scanPatBean.getPatInfo().getBedCode()+"   "+scanPatBean.getPatInfo().getName());
+                    tvOrderexecutePatinfo.setText("".equals(scanPatBean.getPatInfo().getBedCode()) ? "未分" + "床  " + scanPatBean.getPatInfo().getName() : scanPatBean.getPatInfo().getBedCode() + "  " + scanPatBean.getPatInfo().getName());
                     getView().postDelayed(new Runnable() {
                         @Override
                         public void run() {

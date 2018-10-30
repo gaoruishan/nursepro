@@ -382,7 +382,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="事件查询"
+                    android:text="事件录入"
                     android:textColor="#4a4a4a"
                     android:textSize="15sp" />
 

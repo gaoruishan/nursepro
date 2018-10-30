@@ -69,7 +69,7 @@ public class BloodOperationListAdapter extends BaseQuickAdapter<BloodOperationLi
             bloodStopReason.setText("终止原因："+item.getStopReason());
         }
 
-        helper.setText(R.id.tv_item_bloodop_patinfo, item.getBedCode() + "床  " + item.getPatName())
+        helper.setText(R.id.tv_item_bloodop_patinfo, item.getBedCode() + "  " + item.getPatName())
                 .setText(R.id.tv_item_bloodop_productdesc, item.getBloodProducDesc())
                 .setText(R.id.tv_item_bloodop_bloodtype, item.getBldTyp())
                 .setText(R.id.tv_item_bloodop_patbloodtype, item.getPatBldTyp());

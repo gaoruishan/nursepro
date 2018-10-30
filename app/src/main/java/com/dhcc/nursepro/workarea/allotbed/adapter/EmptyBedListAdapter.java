@@ -31,7 +31,7 @@ public class EmptyBedListAdapter extends BaseQuickAdapter<AllotBedInfoBean.Empty
 
     @Override
     protected void convert(BaseViewHolder helper, AllotBedInfoBean.EmptyBedListBean item) {
-        helper.setText(R.id.tv_bed_allot,item.getBedCode()+" 床");
+        helper.setText(R.id.tv_bed_allot,item.getBedCode()+" ");
         TextView textView = helper.getView(R.id.tv_bed_allot);
         if (selectItem == helper.getAdapterPosition()){
             textView.setSelected(true);

@@ -260,7 +260,7 @@ public class AllotBedFragment extends BaseFragment implements View.OnClickListen
 
                 ScanGetUserMsgBean.PatInfoBean patInfoBean = getScanPatsBean.getPatInfo();
                 episodeIdNow = patInfoBean.getEpisodeID();
-                tvPatInfo.setText("".equals(patInfoBean.getBedCode()) ? "未分" + "床  " + patInfoBean.getName() : patInfoBean.getBedCode() + "床  " + patInfoBean.getName());
+                tvPatInfo.setText("".equals(patInfoBean.getBedCode()) ? "未分床  " + patInfoBean.getName() : patInfoBean.getBedCode() + "  " + patInfoBean.getName());
                 tvMainDoc.setText("".equals(patInfoBean.getMainDoctor()) ? "请选择" : patInfoBean.getMainDoctor());
                 tvMainNur.setText("".equals(patInfoBean.getMainNurse()) ? "请选择" : patInfoBean.getMainNurse());
                 tvRegNo.setText(getScanPatsBean.getPatInfo().getRegNo());

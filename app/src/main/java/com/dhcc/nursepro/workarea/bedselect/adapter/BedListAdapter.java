@@ -32,6 +32,6 @@ public class BedListAdapter extends BaseQuickAdapter<BedSelectListBean.BedListBe
             tvBedSelectBed.setSelected(true);
         }
 
-        tvBedSelectBed.setText(item.getBedCode() + "床");
+        tvBedSelectBed.setText(item.getBedCode());
     }
 }

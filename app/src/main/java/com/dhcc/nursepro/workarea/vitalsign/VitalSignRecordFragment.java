@@ -224,7 +224,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
         waiting = true;
         patientInfo = (Map)patientList.get(patientIndex);
         curEpisodeId = (String)patientInfo.get("episodeId");
-        String title = patientInfo.get("bedCode") + "床 " + patientInfo.get("name");
+        String title = patientInfo.get("bedCode") + " " + patientInfo.get("name");
         setToolbarCenterTitle(title,0xffffffff,17);
         recordContentView.removeAllViews();
         asyncGetVitalSignItems();

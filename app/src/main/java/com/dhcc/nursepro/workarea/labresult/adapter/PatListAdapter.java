@@ -21,7 +21,7 @@ public class PatListAdapter extends BaseQuickAdapter <PatsListBean.PatInfoListBe
     @Override
     protected void convert(BaseViewHolder helper, PatsListBean.PatInfoListBean item) {
 
-        helper.setText(R.id.tv_pats_lab_bedno, "".equals(item.getBedCode()) ? "未分床" : item.getBedCode() + "床")
+        helper.setText(R.id.tv_pats_lab_bedno, "".equals(item.getBedCode()) ? "未分床" : item.getBedCode())
                 .setText(R.id.tv_pats_lab_name, item.getName());
 
         TextView tvLongOrd = helper.getView(R.id.tv_bedmap_patient_longorder);

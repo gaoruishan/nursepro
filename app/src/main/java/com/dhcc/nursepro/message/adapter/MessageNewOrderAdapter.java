@@ -43,7 +43,7 @@ public class MessageNewOrderAdapter extends BaseQuickAdapter<MessageBean.NewOrdP
         tvPatientDoctorName.setVisibility(View.GONE);
         llMessageRightMenu.setVisibility(View.GONE);
 
-        helper.setText(R.id.tv_message_bedno, "".equals(item.getBedCode()) ? "未分" : item.getBedCode() + "床")
+        helper.setText(R.id.tv_message_bedno, "".equals(item.getBedCode()) ? "未分床" : item.getBedCode())
                 .setText(R.id.tv_message_patientname, item.getPatName());
     }
 }

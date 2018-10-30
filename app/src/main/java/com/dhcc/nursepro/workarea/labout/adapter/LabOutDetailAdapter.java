@@ -23,7 +23,7 @@ public class LabOutDetailAdapter extends BaseQuickAdapter<LabOutDetailBean.Detai
     }
     @Override
     protected void convert(BaseViewHolder helper, LabOutDetailBean.DetailListBean item) {
-        helper.setText(R.id.tv_laboutdetail_patinfo,item.getBedNo()+"床  "+item.getPatName())
+        helper.setText(R.id.tv_laboutdetail_patinfo,item.getBedNo()+"  "+item.getPatName())
                 .setText(R.id.tv_laboutdetail_no,item.getCarryNo())
                 .setText(R.id.tv_laboutdetail_desc,item.getCarryLabDesc())
                 .setText(R.id.tv_laboutdetail_status,item.getStatusDesc())

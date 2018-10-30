@@ -26,7 +26,7 @@ public class MilkFreezingScanedAdapter extends BaseQuickAdapter<MilkFreezingBagI
     protected void convert(BaseViewHolder helper, MilkFreezingBagInfoBean item) {
 
         helper.setText(R.id.item_milkfreezing_name,item.getPatInfo().getPatName())
-                .setText(R.id.item_milkfreezing_bedcode,item.getPatInfo().getBedCode().equals("")?"未分床":item.getPatInfo().getBedCode()+"床")
+                .setText(R.id.item_milkfreezing_bedcode,item.getPatInfo().getBedCode().equals("")?"未分床":item.getPatInfo().getBedCode())
                 .setText(R.id.item_milkfreezing_bagid,item.getPatInfo().getBagNo())
                 .setText(R.id.item_milkfreezing_amount,item.getPatInfo().getAmount())
                 .setText(R.id.item_milkfreezing_time,item.getPatInfo().getCollectDate()+" "+item.getPatInfo().getCollectTime())

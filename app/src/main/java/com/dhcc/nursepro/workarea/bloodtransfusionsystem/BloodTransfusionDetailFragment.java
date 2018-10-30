@@ -135,7 +135,7 @@ public class BloodTransfusionDetailFragment extends BaseFragment {
         BloodTSApiManager.getBloodPatrolRecord(bloodRowId, new BloodTSApiManager.BloodTransDetailCallback() {
             @Override
             public void onSuccess(BloodTransDetailBean bloodTransDetailBean) {
-                bloodtransdetailPatinfo.setText(bloodTransDetailBean.getBedCode() + "床-" + bloodTransDetailBean.getPatName() + "-" + bloodTransDetailBean.getPatBldTyp());
+                bloodtransdetailPatinfo.setText(bloodTransDetailBean.getBedCode() + "-" + bloodTransDetailBean.getPatName() + "-" + bloodTransDetailBean.getPatBldTyp());
                 bloodtransdetailBloodinfo.setText(bloodTransDetailBean.getBloodProducDesc() + "-" + bloodTransDetailBean.getBldTyp());
                 if (TextUtils.isEmpty(bloodTransDetailBean.getStopReason())) {
                     tvBlooddetailTransenderrorReason.setVisibility(View.GONE);

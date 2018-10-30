@@ -303,7 +303,7 @@ public class MilkBottlingFragment extends BaseFragment implements View.OnClickLi
         MilkLoopApiManager.getMilkReceiveBagInfo(map, "getMilkBagInfo", new MilkLoopApiManager.MilkReceiveBagInfoCallback() {
             @Override
             public void onSuccess(MilkReceiveBagInfoBean milkReceiveBagInfoBean) {
-                String bed = milkReceiveBagInfoBean.getPatInfo().getBedCode().equals("") ? "未分床" : milkReceiveBagInfoBean.getPatInfo().getBedCode() + "床";
+                String bed = milkReceiveBagInfoBean.getPatInfo().getBedCode().equals("") ? "未分床" : milkReceiveBagInfoBean.getPatInfo().getBedCode();
                 String name = milkReceiveBagInfoBean.getPatInfo().getPatName();
                 tvPat.setText(milkReceiveBagInfoBean.getPatInfo().getRegNo() + "-" + bed + "-" + name);
                 tvBag.setText(bagNo);

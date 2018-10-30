@@ -63,7 +63,7 @@ public class BedMapPatInfoFragment extends BaseFragment {
         //返回按钮img设置
         showToolbarNavigationIcon(R.drawable.icon_back_blue);
         //toolbar 中间标题 默认黑色
-        String bedinfo = patInfoDetailBean.getBedCode().isEmpty()?"未分"+ "床  "+patInfoDetailBean.getName():patInfoDetailBean.getBedCode()+"床  "+patInfoDetailBean.getName();
+        String bedinfo = patInfoDetailBean.getBedCode().isEmpty()?"未分床  "+patInfoDetailBean.getName():patInfoDetailBean.getBedCode()+"  "+patInfoDetailBean.getName();
         setToolbarCenterTitle(bedinfo);
         //toolbar 中间标题 内容 颜色 字号默认17
         //        setToolbarCenterTitle(getString(R.string.title_bedmap),0xffffffff,17);

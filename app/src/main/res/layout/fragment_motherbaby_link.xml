@@ -62,7 +62,8 @@
                     android:id="@+id/view_motherbabylink_mother"
                     android:layout_width="55dp"
                     android:layout_height="55dp"
-                    android:background="@drawable/line_bloodts_scan_selector" />
+                    android:background="@drawable/line_bloodts_scan_selector"
+                    android:layerType="software"/>
 
                 <ImageView
                     android:id="@+id/icon_motherbabylink_baby"

@@ -268,7 +268,7 @@ public class BloodTransfusionEndFragment extends BaseFragment {
                 episodeId = patInfo.getEpisodeID();
                 String loc = patInfo.getCtLocDesc().equals("") ? "" : patInfo.getCtLocDesc() + "-";
                 String room = patInfo.getRoomDesc().equals("") ? "" : patInfo.getRoomDesc() + "-";
-                String bedCode = patInfo.getBedCode().equals("") ? "未分床-" : patInfo.getBedCode() + "床-";
+                String bedCode = patInfo.getBedCode().equals("") ? "未分床-" : patInfo.getBedCode() + "-";
                 String name = patInfo.getName();
                 patInfoStr = loc + room + bedCode + name;
                 tvPatinfo.setText(patInfoStr);

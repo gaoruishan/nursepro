@@ -128,7 +128,7 @@ public class BedMapPatFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void initData() {
-        tvBedmappatBedno.setText(patInfoListBean.getBedCode().isEmpty() ? "未分床" : patInfoListBean.getBedCode() + "床");
+        tvBedmappatBedno.setText(patInfoListBean.getBedCode().isEmpty() ? "未分床" : patInfoListBean.getBedCode());
         tvBedmappatName.setText(patInfoListBean.getName());
         
         if ("1".equals(patInfoListBean.getLongOrd())) {
@@ -228,13 +228,13 @@ public class BedMapPatFragment extends BaseFragment implements View.OnClickListe
                 startFragment(OrderExecuteFragment.class,bundle4);
                 break;
             case R.id.ll_bedmappat_testresult://检验结果
-                String bedinfolab = patInfoListBean.getBedCode().isEmpty()?"未分"+ "床  "+patInfoListBean.getName():patInfoListBean.getBedCode()+"床  "+patInfoListBean.getName();
+                String bedinfolab = patInfoListBean.getBedCode().isEmpty()?"未分床  "+patInfoListBean.getName():patInfoListBean.getBedCode()+"  "+patInfoListBean.getName();
                 bundle.putString("episodeId",patInfoListBean.getEpisodeId());
                 bundle.putString("patmsg",bedinfolab);
                 startFragment(LabResultListFragment.class, bundle);
                 break;
             case R.id.ll_bedmappat_inspectionreport://检查报告
-                String bedinfocheck = patInfoListBean.getBedCode().isEmpty()?"未分"+ "床  "+patInfoListBean.getName():patInfoListBean.getBedCode()+"床  "+patInfoListBean.getName();
+                String bedinfocheck = patInfoListBean.getBedCode().isEmpty()?"未分床  "+patInfoListBean.getName():patInfoListBean.getBedCode()+"  "+patInfoListBean.getName();
                 bundle.putString("episodeId",patInfoListBean.getEpisodeId());
                 bundle.putString("patmsg",bedinfocheck);
                 startFragment(CheckResultListFragment.class, bundle);

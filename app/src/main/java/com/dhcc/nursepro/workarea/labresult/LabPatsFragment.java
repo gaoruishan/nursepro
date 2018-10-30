@@ -148,13 +148,13 @@ public class LabPatsFragment extends BaseFragment implements View.OnClickListene
         String patmsg = null;
         if (showListNow.equals("all")) {
             episodeId = listBeansInBed.get(position).getEpisodeId();
-            patmsg = listBeansInBed.get(position).getBedCode() + "床  " + listBeansInBed.get(position).getName();
+            patmsg = listBeansInBed.get(position).getBedCode() + "  " + listBeansInBed.get(position).getName();
         } else if (showListNow.equals("wait")) {
             episodeId = listBeansWait.get(position).getEpisodeId();
             patmsg = "未分床  " + listBeansWait.get(position).getName();
         } else if (showListNow.equals("manage")) {
             episodeId = listBeansManage.get(position).getEpisodeId();
-            patmsg = listBeansManage.get(position).getBedCode() + "床  " + listBeansManage.get(position).getName();
+            patmsg = listBeansManage.get(position).getBedCode() + "  " + listBeansManage.get(position).getName();
         }
 
         Bundle bundle = new Bundle();

@@ -25,7 +25,7 @@ public class MilkColdScanedAdapter extends BaseQuickAdapter<MilkColdPatinfoBean,
     @Override
     protected void convert(BaseViewHolder helper, MilkColdPatinfoBean item) {
         helper.setText(R.id.item_milkcold_name,item.getPatInfo().getPatName())
-                .setText(R.id.item_milkcold_bedcode,item.getPatInfo().getBedCode().equals("")?"未分床":item.getPatInfo().getBedCode()+"床")
+                .setText(R.id.item_milkcold_bedcode,item.getPatInfo().getBedCode().equals("")?"未分床":item.getPatInfo().getBedCode())
                 .setText(R.id.item_milkcold_bagid,item.getPatInfo().getBagNo())
                 .setText(R.id.item_milkcold_amount,item.getPatInfo().getAmount())
                 .setText(R.id.item_milkcold_time,item.getPatInfo().getCollectDate()+" "+item.getPatInfo().getCollectTime())

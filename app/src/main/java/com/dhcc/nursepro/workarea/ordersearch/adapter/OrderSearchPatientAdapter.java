@@ -34,7 +34,7 @@ public class OrderSearchPatientAdapter extends BaseQuickAdapter<OrderSearchBean.
 
     @Override
     protected void convert(BaseViewHolder helper, OrderSearchBean.OrdersBean item) {
-        helper.setText(R.id.tv_ospat_patinfo, "".equals(item.getBedCode()) ? "未分" : item.getBedCode() + "床  " + item.getName());
+        helper.setText(R.id.tv_ospat_patinfo, "".equals(item.getBedCode()) ? "未分床" : item.getBedCode() + "  " + item.getName());
 
         RecyclerView recyPatientOrder = helper.getView(R.id.recy_ospat_patorder);
         //提高展示效率

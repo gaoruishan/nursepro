@@ -207,7 +207,7 @@ public class MilkReceiveFragment extends BaseFragment implements View.OnClickLis
         MilkLoopApiManager.getMilkReceiveBagInfo(map, "getMilkBagInfo", new MilkLoopApiManager.MilkReceiveBagInfoCallback() {
             @Override
             public void onSuccess(MilkReceiveBagInfoBean milkReceiveBagInfoBean) {
-                String bed = milkReceiveBagInfoBean.getPatInfo().getBedCode().equals("") ? "未分床" : milkReceiveBagInfoBean.getPatInfo().getBedCode() + "床";
+                String bed = milkReceiveBagInfoBean.getPatInfo().getBedCode().equals("") ? "未分床" : milkReceiveBagInfoBean.getPatInfo().getBedCode();
                 String name = milkReceiveBagInfoBean.getPatInfo().getPatName();
                 tvPatinfo.setText(bed + "   " + name);
                 tvRegno.setText(milkReceiveBagInfoBean.getPatInfo().getRegNo());

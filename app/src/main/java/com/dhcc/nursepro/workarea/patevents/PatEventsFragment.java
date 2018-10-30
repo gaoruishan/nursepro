@@ -135,7 +135,7 @@ public class PatEventsFragment extends BaseFragment implements View.OnClickListe
             public void onSuccess(ScanGetUserMsgBean scanGetUserMsgBean) {
                 ScanGetUserMsgBean.PatInfoBean patInfoBean = scanGetUserMsgBean.getPatInfo();
                 episodeIdNow = patInfoBean.getEpisodeID();
-                String usermsg = patInfoBean.getBedCode() + "床--" + patInfoBean.getName();
+                String usermsg = patInfoBean.getBedCode() + "--" + patInfoBean.getName();
                 tveventuser.setText(usermsg);
                 initData(episodeIdNow);
             }

@@ -26,7 +26,7 @@ public class VitalSignPatientAdapter extends BaseQuickAdapter<Map, BaseViewHolde
     @Override
     protected void convert(BaseViewHolder helper, Map item) {
 
-        helper.setText(R.id.tv_vitalsign_patient_bedno, "".equals(item.get("bedCode")) ? "未分床" : item.get("bedCode") + "床")
+        helper.setText(R.id.tv_vitalsign_patient_bedno, "".equals(item.get("bedCode")) ? "未分床" : item.get("bedCode") + "")
                 .setText(R.id.tv_vitalsign_patient_name, (String)item.get("name"));
 
         TextView tvLongOrd = helper.getView(R.id.tv_vitalsign_patient_longorder);
