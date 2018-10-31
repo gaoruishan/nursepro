@@ -78,7 +78,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             spUtils.put(SharedPreference.WEBIP, "10.1.5.87");
         }
         nurseInfoList = daoSession.getNurseInfoDao().queryBuilder().list();
-        version = getVersion();
         initView();
     }
 
@@ -96,19 +95,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         }
     }
 
-    //查询当前版本
-    public String getVersion() {
-        try {
-            PackageManager manager = this.getPackageManager();
-            PackageInfo info = manager.getPackageInfo(this.getPackageName(), 0);
-            String version = info.versionName;
-            // return this.getString(R.string.version_name) + version;
-            return version;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "无法获取当前版本号";
-        }
-    }
+
 
     private void initView() {
 
@@ -203,8 +190,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 }
             }
         });
-
-        Toast.makeText(this, "" + version, Toast.LENGTH_SHORT).show();
     }
 
     public boolean isIP(String addr) {

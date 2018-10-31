@@ -29,6 +29,10 @@ android {
             jni.srcDirs = ['src/main/jni', 'src/main/jni/']
         }
     }
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
 
     greendao {
         schemaVersion 1//数据库版本号
@@ -49,6 +53,10 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation('com.allenliu.versionchecklib:library:2.1.1') {
+        exclude group: 'com.android.support'
+        exclude module: "okhttp"
+    }
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.40'
     implementation('io.github.luizgrp.sectionedrecyclerviewadapter:sectionedrecyclerviewadapter:1.2.0') {
         exclude group: 'com.android.support'

@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.blankj.utilcode.util.SizeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -364,15 +363,13 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
 
     }
 
-    /**
-     * tvBedmapAllarea = view.findViewById(R.id.tv_bedmap_allarea);
-     * tvBedmapAdminarea = view.findViewById(R.id.tv_bedmap_adminarea);
-     * tvBedmapNowoutarea = view.findViewById(R.id.tv_bedmap_nowoutarea);
-     * tvBedmapAlloutarea = view.findViewById(R.id.tv_bedmap_alloutarea);
-     * tvBedmapWaitarea = view.findViewById(R.id.tv_bedmap_waitarea);
-     *
-     * @param v
-     */
+    private void setTopFilterSelect(View view) {
+        tvBedmapAllarea.setSelected(view == tvBedmapAllarea);
+        tvBedmapAdminarea.setSelected(view == tvBedmapAdminarea);
+        tvBedmapNowoutarea.setSelected(view == tvBedmapNowoutarea);
+        tvBedmapAlloutarea.setSelected(view == tvBedmapAlloutarea);
+        tvBedmapWaitarea.setSelected(view == tvBedmapWaitarea);
+    }
 
     // {"code":"inBedAll","desc":"全区"},
     // {"code":"manageInBed","desc":"管辖"},
@@ -410,13 +407,5 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
             default:
                 break;
         }
-    }
-
-    private void setTopFilterSelect(View view) {
-        tvBedmapAllarea.setSelected(view == tvBedmapAllarea);
-        tvBedmapAdminarea.setSelected(view == tvBedmapAdminarea);
-        tvBedmapNowoutarea.setSelected(view == tvBedmapNowoutarea);
-        tvBedmapAlloutarea.setSelected(view == tvBedmapAlloutarea);
-        tvBedmapWaitarea.setSelected(view == tvBedmapWaitarea);
     }
 }

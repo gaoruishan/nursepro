@@ -2,18 +2,33 @@ package com.dhcc.nursepro.Activity;
 
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.allenliu.versionchecklib.v2.AllenVersionChecker;
+import com.allenliu.versionchecklib.v2.builder.DownloadBuilder;
+import com.allenliu.versionchecklib.v2.builder.UIData;
+import com.allenliu.versionchecklib.v2.callback.CustomDownloadFailedListener;
+import com.allenliu.versionchecklib.v2.callback.CustomVersionDialogListener;
+import com.blankj.utilcode.util.SPUtils;
+import com.dhcc.nursepro.Activity.update.BaseDialog;
+import com.dhcc.nursepro.Activity.update.api.UpdateApiManager;
+import com.dhcc.nursepro.Activity.update.bean.UpdateBean;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.constant.SharedPreference;
 import com.dhcc.nursepro.message.MessageFragment;
 import com.dhcc.nursepro.setting.SettingFragment;
 import com.dhcc.nursepro.workarea.WorkareaFragment;
@@ -38,15 +53,157 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
     //声明一个long类型变量：用于存放上一点击“返回键”的时刻
     private long mExitTime;
 
+    //更新参数
+    private String wardId;
+    private String ip;
+    private String version;
+    private SPUtils spUtils;
+
+    //是否已请求更新
+    private int hasRequest;
+    //是否可以更新
+    private int canUpdate;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        spUtils = SPUtils.getInstance();
 
         //此处为暂时调用，应该在登录成功后初始化tabviews
         initTabView();
     }
 
+    @Override
+    protected void onResume(@Nullable Bundle args) {
+        super.onResume(args);
+        if (hasRequest == 0) {
+            getNewVersion();
+        } else if (hasRequest == 1 && canUpdate == 1) {
+            getNewVersion();
+        }
+    }
+
+    /**
+     * 更新
+     * <p>
+     * https://github.com/AlexLiuSheng/CheckVersionLib/blob/master/README_UN.MD
+     */
+    private void getNewVersion() {
+        wardId = spUtils.getString(SharedPreference.WARDID);
+        ip = spUtils.getString(SharedPreference.WEBIP);
+        version = getVersion();
+        if ("无法获取当前版本号".equals(version)) {
+            Toast.makeText(this, "获取当前版本号失败", Toast.LENGTH_SHORT).show();
+            canUpdate = 0;
+        } else {
+            UpdateApiManager.getNewVersion(wardId, ip, version, new UpdateApiManager.GetNewVersionCallback() {
+                @Override
+                public void onSuccess(UpdateBean updateBean) {
+                    if (Integer.valueOf(updateBean.getNewVersion()) > Integer.valueOf(version)) {
+                        String appUrl = updateBean.getAppAddress();
+
+                        //                    String appUrl = "https://qd.myapp.com/myapp/qqteam/pcqq/QQ9.0.7.exe";
+                        //                    String appUrl = "http://test-1251233192.coscd.myqcloud.com/1_1.apk";
+                        DownloadBuilder builder = AllenVersionChecker.getInstance().downloadOnly(crateUIData(appUrl));
+                        builder.setCustomVersionDialogListener(createCustomUpdateDialog());
+                        builder.setCustomDownloadFailedListener(createCustomDownloadFailedDialog());
+                        builder.setShowNotification(false);
+                        builder.setDownloadAPKPath(Environment.getExternalStorageDirectory() + "/NurseProAPK/");
+                        builder.setApkName("NursePro");
+                        builder.setNewestVersionCode(Integer.valueOf(updateBean.getNewVersion()));
+                        builder.executeMission(MainActivity.this);
+                        hasRequest = 1;
+                        canUpdate = 1;
+
+                    } else {
+                        Toast.makeText(MainActivity.this, "当前为最新版本", Toast.LENGTH_SHORT).show();
+                        hasRequest = 1;
+                        canUpdate = 0;
+                    }
+                }
+
+                @Override
+                public void onFail(String code, String msg) {
+                    showToast("error" + code + ":" + msg);
+                    canUpdate = 0;
+                }
+            });
+        }
+    }
+
+    //查询当前版本
+    public String getVersion() {
+        try {
+            PackageManager manager = this.getPackageManager();
+            PackageInfo info = manager.getPackageInfo(this.getPackageName(), 0);
+            return info.versionCode + "";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "无法获取当前版本号";
+        }
+    }
+
+    /**
+     * @return
+     * @important 使用请求版本功能，可以在这里设置downloadUrl
+     * 这里可以构造UI需要显示的数据
+     * UIData 内部是一个Bundle
+     */
+    private UIData crateUIData(String appUrl) {
+        UIData uiData = UIData.create();
+        uiData.setTitle("系统升级");
+        uiData.setDownloadUrl(appUrl);
+        uiData.setContent("检查到有新版本，请下载使用");
+        return uiData;
+    }
+
+    /**
+     * 务必用库传回来的context 实例化你的dialog
+     * 自定义的dialog UI参数展示，使用versionBundle
+     *
+     * @return
+     */
+    private CustomVersionDialogListener createCustomUpdateDialog() {
+        return (context, versionBundle) -> {
+            BaseDialog baseDialog = new BaseDialog(context, R.style.BaseDialog, R.layout.dialog_update);
+            TextView title = baseDialog.findViewById(R.id.tv_title);
+            title.setText(versionBundle.getTitle());
+            TextView content = baseDialog.findViewById(R.id.tv_msg);
+            content.setText(versionBundle.getContent());
+            baseDialog.setCanceledOnTouchOutside(false);
+            baseDialog.setCancelable(false);
+            return baseDialog;
+        };
+    }
+
+    /**
+     * 务必用库传回来的context 实例化你的dialog
+     *
+     * @return
+     */
+    private CustomDownloadFailedListener createCustomDownloadFailedDialog() {
+        return (context, versionBundle) -> {
+            BaseDialog baseDialog = new BaseDialog(context, R.style.BaseDialog, R.layout.dialog_update_downloadfailed);
+            baseDialog.setCanceledOnTouchOutside(false);
+            baseDialog.setCancelable(false);
+            return baseDialog;
+        };
+    }
+
+    @Override
+    public void setmessage(int messageNum) {
+        super.setmessage(messageNum);
+        Drawable drawable;
+        if (messageNum < 1) {
+            drawable = getResources().getDrawable(R.drawable.tabbar_item_message_selector);
+            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        } else {
+            drawable = getResources().getDrawable(R.drawable.tabbar_item_havemessage_selector);
+            drawable.setBounds(8, 0, drawable.getIntrinsicWidth() + 8, drawable.getIntrinsicHeight());
+        }
+        rbMessage.setCompoundDrawables(null, drawable, null, null);
+    }
 
     /**
      * 初始化各模块界面
@@ -82,7 +239,6 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
     /**
      * 设置主界面底部栏指示图标
      */
-
     private void setFragmentIndicator() {
         rbWorkarea = findViewById(R.id.rbWorkarea);
         rbMessage = findViewById(R.id.rbMessage);
@@ -92,22 +248,6 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         rbMessage.setOnCheckedChangeListener(this);
         rbSetting.setOnCheckedChangeListener(this);
         rbWorkarea.setChecked(true);
-    }
-
-
-
-    @Override
-    public void setmessage(int messageNum) {
-        super.setmessage(messageNum);
-        Drawable drawable;
-        if (messageNum <1){
-            drawable = getResources().getDrawable(R.drawable.tabbar_item_message_selector);
-            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-        }else {
-            drawable= getResources().getDrawable(R.drawable.tabbar_item_havemessage_selector);
-            drawable.setBounds(8, 0, drawable.getIntrinsicWidth()+8, drawable.getIntrinsicHeight());
-        }
-        rbMessage.setCompoundDrawables(null,drawable,null,null);
     }
 
     /**
@@ -132,22 +272,22 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         setToolbarType(BaseActivity.ToolbarType.HIDE);
         switch (checkedId) {
             case R.id.rbWorkarea:
-//                setStatusBarBackgroundViewVisibility(false, 0xffffffff);
-//                setToolbarType(BaseActivity.ToolbarType.HIDE);
+                //                setStatusBarBackgroundViewVisibility(false, 0xffffffff);
+                //                setToolbarType(BaseActivity.ToolbarType.HIDE);
                 switchMainTab(TAB_WORKAREA);
                 setRbWorkareaTitle();
                 break;
 
             case R.id.rbMessage:
-//                setStatusBarBackgroundViewVisibility(true, 0xffffffff);
-//                setToolbarType(ToolbarType.TOP);
+                //                setStatusBarBackgroundViewVisibility(true, 0xffffffff);
+                //                setToolbarType(ToolbarType.TOP);
                 switchMainTab(TAB_MESSAGE);
                 setRbMessageTitle();
                 break;
 
             case R.id.rbSetting:
-//                setStatusBarBackgroundViewVisibility(true, 0xffffffff);
-////                setToolbarType(ToolbarType.TOP);
+                //                setStatusBarBackgroundViewVisibility(true, 0xffffffff);
+                ////                setToolbarType(ToolbarType.TOP);
                 switchMainTab(TAB_SETTING);
                 setRbSettingTitle();
                 break;
