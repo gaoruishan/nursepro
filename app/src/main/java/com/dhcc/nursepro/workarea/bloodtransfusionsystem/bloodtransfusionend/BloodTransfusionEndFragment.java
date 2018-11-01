@@ -123,11 +123,18 @@ public class BloodTransfusionEndFragment extends BaseFragment {
     }
 
     @Override
-    public void onPreFinish(UniversalActivity activity) {
-        super.onPreFinish(activity);
-        getActivity().unregisterReceiver(mReceiver);
+    public void onResume() {
+        super.onResume();
+        if (mReceiver != null) {
+            getActivity().registerReceiver(mReceiver, filter);
+        }
     }
+    @Override
+    public void onStop() {
+        super.onStop();
+        getActivity().unregisterReceiver(mReceiver);
 
+    }
     private void showdialog() {
         final EndSucessDialog showDialog = new EndSucessDialog(getActivity());
         showDialog.setYesOnclickListener("确定", new EndSucessDialog.onYesOnclickListener() {

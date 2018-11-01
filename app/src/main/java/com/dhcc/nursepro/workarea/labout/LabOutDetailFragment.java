@@ -195,9 +195,10 @@ public class LabOutDetailFragment extends BaseFragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onStop() {
+        super.onStop();
         getActivity().unregisterReceiver(dataReceiver);
+
     }
 
     //扫描腕带获取CarryNo

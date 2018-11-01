@@ -292,10 +292,19 @@ public class AllotBedFragment extends BaseFragment implements View.OnClickListen
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onResume() {
+        super.onResume();
+        if (dataReceiver != null) {
+            getActivity().registerReceiver(dataReceiver, intentFilter);
+        }
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
         getActivity().unregisterReceiver(dataReceiver);
-    }    private void selectDocAndNur() {
+
+    }
+    private void selectDocAndNur() {
         //        双选护士医生,显示姓名，对应index的编号
         final List<String> listDocName = new ArrayList<>();
         final List<String> listDocCode = new ArrayList<>();

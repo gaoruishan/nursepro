@@ -608,11 +608,18 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
 
 
     @Override
-    public void onPreFinish(UniversalActivity activity) {
-        super.onPreFinish(activity);
-        activity.unregisterReceiver(mReceiver);
+    public void onResume() {
+        super.onResume();
+        if (mReceiver != null) {
+            getActivity().registerReceiver(mReceiver, filter);
+        }
     }
+    @Override
+    public void onStop() {
+        super.onStop();
+        getActivity().unregisterReceiver(mReceiver);
 
+    }
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_order_execute, container, false);

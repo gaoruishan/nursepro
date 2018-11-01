@@ -199,10 +199,12 @@ public class PatEventsFragment extends BaseFragment implements View.OnClickListe
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onStop() {
+        super.onStop();
         getActivity().unregisterReceiver(dataReceiver);
-    }    @Override
+
+    }
+    @Override
     public void onClick(View v) {
 
     }

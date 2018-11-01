@@ -294,12 +294,13 @@ public class BloodTransfusionFragment extends BaseFragment {
 
     }
 
-    @Override
-    public void onPreFinish(UniversalActivity activity) {
-        super.onPreFinish(activity);
-        activity.unregisterReceiver(mReceiver);
-    }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        getActivity().unregisterReceiver(mReceiver);
+
+    }
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_blood_transfusion, container, false);

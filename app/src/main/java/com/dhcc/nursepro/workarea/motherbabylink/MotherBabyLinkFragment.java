@@ -199,6 +199,19 @@ public class MotherBabyLinkFragment extends BaseFragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (dataReceiver != null) {
+            getActivity().registerReceiver(dataReceiver, intentFilter);
+        }
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        getActivity().unregisterReceiver(dataReceiver);
+
+    }
 
     //扫描腕带获取regNo、wardId
     public class DataReceiver extends BroadcastReceiver {
