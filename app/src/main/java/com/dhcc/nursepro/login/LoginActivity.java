@@ -1,17 +1,13 @@
 package com.dhcc.nursepro.login;
 
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -28,6 +24,7 @@ import com.dhcc.nursepro.greendao.GreenDaoHelper;
 import com.dhcc.nursepro.login.api.LoginApiManager;
 import com.dhcc.nursepro.login.bean.LoginBean;
 import com.dhcc.nursepro.login.bean.NurseInfo;
+import com.dhcc.nursepro.utils.TransBroadcastUtil;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -79,6 +76,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         }
         nurseInfoList = daoSession.getNurseInfoDao().queryBuilder().list();
         initView();
+        TransBroadcastUtil.setScanAction("com.scanner.broadcast");
     }
 
     @Override

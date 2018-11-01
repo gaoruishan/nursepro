@@ -1,12 +1,10 @@
 package com.dhcc.nursepro;
 
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 
 import com.blankj.utilcode.util.Utils;
-import com.dhcc.nursepro.greendao.DaoMaster;
-import com.dhcc.nursepro.greendao.DaoSession;
 import com.dhcc.nursepro.greendao.GreenDaoHelper;
+import com.dhcc.nursepro.utils.TransBroadcastUtil;
 import com.facebook.drawee.backends.pipeline.Fresco;
 
 import java.util.concurrent.Executors;
@@ -56,6 +54,8 @@ public class NApplication extends BaseApplication {
         Utils.init(this);
 
         Fresco.initialize(getApp());
+
+        TransBroadcastUtil.init(this);
     }
 
 
@@ -64,4 +64,10 @@ public class NApplication extends BaseApplication {
         threadPoolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(4);
     }
 
+    @Override
+    public void onTerminate() {
+        TransBroadcastUtil.unreg(this);
+        super.onTerminate();
+
+    }
 }

@@ -10,7 +10,7 @@ package com.dhcc.nursepro.constant;
 public class Action {
 
     //扫码
-    public static final String DEVICE_SCAN_CODE = "com.scanner.broadcast";
+    public static final String DEVICE_SCAN_CODE = "com.dhcc.nurseprobroadcast";
 
     //医嘱处理
     //接受
