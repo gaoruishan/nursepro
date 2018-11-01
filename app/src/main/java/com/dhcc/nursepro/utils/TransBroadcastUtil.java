@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Bundle;
 
 import com.blankj.utilcode.util.StringUtils;
 import com.dhcc.nursepro.constant.Action;
@@ -20,6 +21,7 @@ public class TransBroadcastUtil {
 
     private static List<GetScanActionBean.BroadcastListBean> broadcastList;
     private static String scanAction = "";
+    private static String scanKey = "";
     private static Receiver mReceiver = new Receiver();
 
     public TransBroadcastUtil() {
@@ -69,19 +71,31 @@ public class TransBroadcastUtil {
                 for (int i = 0; i < broadcastList.size(); i++) {
                     if (Objects.requireNonNull(intent.getAction()).equals(broadcastList.get(i).getAction())) {
                         scanAction = broadcastList.get(i).getAction();
-                        Intent tbIntent = new Intent();
-                        tbIntent.setAction(Action.DEVICE_SCAN_CODE);
-                        tbIntent.putExtras(Objects.requireNonNull(intent.getExtras()));
-                        mContext.sendBroadcast(tbIntent);
+                        scanKey = broadcastList.get(i).getDecode();
+                        Bundle bundle = intent.getExtras();
+                        if (bundle != null) {
+                            String scanInfo = bundle.getString(scanKey);
+                            bundle.putString("data", scanInfo);
+                            Intent tbIntent = new Intent();
+                            tbIntent.setAction(Action.DEVICE_SCAN_CODE);
+                            tbIntent.putExtras(bundle);
+                            mContext.sendBroadcast(tbIntent);
+                        }
+
                         break;
                     }
                 }
 
             } else {
-                Intent tbIntent = new Intent();
-                tbIntent.setAction(Action.DEVICE_SCAN_CODE);
-                tbIntent.putExtras(Objects.requireNonNull(intent.getExtras()));
-                mContext.sendBroadcast(tbIntent);
+                Bundle bundle = intent.getExtras();
+                if (bundle != null) {
+                    String scanInfo = bundle.getString(scanKey);
+                    bundle.putString("data", scanInfo);
+                    Intent tbIntent = new Intent();
+                    tbIntent.setAction(Action.DEVICE_SCAN_CODE);
+                    tbIntent.putExtras(bundle);
+                    mContext.sendBroadcast(tbIntent);
+                }
             }
         }
     }
