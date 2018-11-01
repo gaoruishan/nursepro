@@ -22,6 +22,7 @@ import com.dhcc.nursepro.constant.SharedPreference;
 import com.dhcc.nursepro.greendao.DaoSession;
 import com.dhcc.nursepro.greendao.GreenDaoHelper;
 import com.dhcc.nursepro.login.api.LoginApiManager;
+import com.dhcc.nursepro.login.bean.GetScanActionBean;
 import com.dhcc.nursepro.login.bean.LoginBean;
 import com.dhcc.nursepro.login.bean.NurseInfo;
 import com.dhcc.nursepro.utils.TransBroadcastUtil;
@@ -76,7 +77,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         }
         nurseInfoList = daoSession.getNurseInfoDao().queryBuilder().list();
         initView();
-        TransBroadcastUtil.setScanAction("com.scanner.broadcast");
+        getScanAction();
+        //        TransBroadcastUtil.setScanAction("com.scanner.broadcast");
     }
 
     @Override
@@ -92,8 +94,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             llLoginRememberme.setSelected(false);
         }
     }
-
-
 
     private void initView() {
 
@@ -186,6 +186,21 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     tvLoginLogin.setSelected(false);
 
                 }
+            }
+        });
+    }
+
+    private void getScanAction() {
+        LoginApiManager.getScan(new LoginApiManager.GetScanActionCallback() {
+            @Override
+            public void onSuccess(GetScanActionBean getScanActionBean) {
+                List<GetScanActionBean.BroadcastListBean> broadcastList = getScanActionBean.getBroadcastList();
+                TransBroadcastUtil.setScanActionList(broadcastList);
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+                showToast("error" + code + ":" + msg);
             }
         });
     }

@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
+import com.blankj.utilcode.util.StringUtils;
 import com.dhcc.nursepro.constant.Action;
+import com.dhcc.nursepro.login.bean.GetScanActionBean;
 
 import java.util.List;
 import java.util.Objects;
@@ -16,8 +18,8 @@ public class TransBroadcastUtil {
     // 程序的Context对象
     private static Context mContext;
 
+    private static List<GetScanActionBean.BroadcastListBean> broadcastList;
     private static String scanAction = "";
-    private static IntentFilter filter;
     private static Receiver mReceiver = new Receiver();
 
     public TransBroadcastUtil() {
@@ -35,18 +37,20 @@ public class TransBroadcastUtil {
         return mTransBroadcastUtil;
     }
 
-    public static void setScanAction(String scanActionStr) {
-        scanAction = scanActionStr;
-        filter = new IntentFilter();
-        filter.addAction(scanAction);
-        mContext.registerReceiver(mReceiver, filter);
-    }
+    //    public static void setScanAction(String scanActionStr) {
+    //        scanAction = scanActionStr;
+    //        IntentFilter filter = new IntentFilter();
+    //        filter.addAction(scanAction);
+    //        mContext.registerReceiver(mReceiver, filter);
+    //    }
 
-    public static void setScanAction(List<String> scanActionStr) {
-//        scanAction = scanActionStr;
-//        filter = new IntentFilter();
-//        filter.addAction(scanAction);
-//        mContext.registerReceiver(mReceiver, filter);
+    public static void setScanActionList(List<GetScanActionBean.BroadcastListBean> broadcastListBeans) {
+        broadcastList = broadcastListBeans;
+        IntentFilter filter = new IntentFilter();
+        for (int i = 0; i < broadcastList.size(); i++) {
+            filter.addAction(broadcastList.get(i).getAction());
+        }
+        mContext.registerReceiver(mReceiver, filter);
     }
 
     public static void init(Context context) {
@@ -58,11 +62,22 @@ public class TransBroadcastUtil {
     }
 
 
-
     private static class Receiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (Objects.requireNonNull(intent.getAction()).equals(scanAction)) {
+            if (StringUtils.isEmpty(scanAction)) {
+                for (int i = 0; i < broadcastList.size(); i++) {
+                    if (Objects.requireNonNull(intent.getAction()).equals(broadcastList.get(i).getAction())) {
+                        scanAction = broadcastList.get(i).getAction();
+                        Intent tbIntent = new Intent();
+                        tbIntent.setAction(Action.DEVICE_SCAN_CODE);
+                        tbIntent.putExtras(Objects.requireNonNull(intent.getExtras()));
+                        mContext.sendBroadcast(tbIntent);
+                        break;
+                    }
+                }
+
+            } else {
                 Intent tbIntent = new Intent();
                 tbIntent.setAction(Action.DEVICE_SCAN_CODE);
                 tbIntent.putExtras(Objects.requireNonNull(intent.getExtras()));
