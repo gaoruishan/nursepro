@@ -24,7 +24,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.UniversalActivity;
 import com.dhcc.nursepro.common.BasePushDialog;
 import com.dhcc.nursepro.constant.Action;
 import com.dhcc.nursepro.constant.SharedPreference;
@@ -166,7 +165,6 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
         }
 
 
-
         startDate = spUtils.getString(SharedPreference.SCHSTDATETIME).substring(0, 10);
         startTime = spUtils.getString(SharedPreference.SCHSTDATETIME).substring(11, 16);
         endDate = spUtils.getString(SharedPreference.SCHENDATETIME).substring(0, 10);
@@ -182,6 +180,77 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
         //                asyncInitData();
         //            }
         //        }, 300);
+    }
+
+    private void getScanInfo() {
+        SPUtils spUtils = SPUtils.getInstance();
+        HashMap<String, String> properties = new HashMap<>();
+        if (!episodeId.equals("")) {
+            properties.put("episodeId", episodeId);
+        }
+        properties.put("barcode", scanInfo);
+        properties.put("wardId", spUtils.getString(SharedPreference.WARDID));
+        properties.put("userId", spUtils.getString(SharedPreference.USERID));
+        properties.put("userDeptId", "");
+        OrderExecuteApiManager.GetScanMsg1(properties, new OrderExecuteApiManager.GetScanCallBack1() {
+            @Override
+            public void onSuccess(ScanResultBean scanPatBean) {
+                if (scanPatBean.getFlag().equals("PAT")) {
+                    episodeId = scanPatBean.getPatInfo().getEpisodeID();
+                    regNo = scanPatBean.getPatInfo().getRegNo();
+                    rlOrderexecuteScan.setVisibility(View.GONE);
+                    //                    tvPat.setText(scanPatBean.getPatInfo().getBedCode()+"   "+scanPatBean.getPatInfo().getName());
+                    tvOrderexecutePatinfo.setText("".equals(scanPatBean.getPatInfo().getBedCode()) ? "未分" + "床  " + scanPatBean.getPatInfo().getName() : scanPatBean.getPatInfo().getBedCode() + "  " + scanPatBean.getPatInfo().getName());
+                    getView().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            asyncInitData();
+                        }
+                    }, 300);
+
+                } else {
+                    if (execResultDialog != null && execResultDialog.isShowing()) {
+                        execResultDialog.dismiss();
+                    }
+                    execResultDialog = new OrderExecResultDialog(getActivity());
+                    execResultDialog.setExecresult("扫码执行成功");
+                    execResultDialog.setImgId(R.drawable.icon_popup_sucess);
+                    execResultDialog.setSureVisible(View.GONE);
+                    execResultDialog.show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            execResultDialog.dismiss();
+                            asyncInitData();
+                        }
+                    }, 1000);
+
+                }
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+
+                //                if (episodeId == ""){
+                //                    msg = "请先扫描病人腕带";
+                //                }
+                if (execResultDialog != null && execResultDialog.isShowing()) {
+                    execResultDialog.dismiss();
+                }
+                execResultDialog = new OrderExecResultDialog(getActivity());
+                execResultDialog.setExecresult(msg);
+                execResultDialog.setImgId(R.drawable.icon_popup_error_patient);
+                execResultDialog.setSureVisible(View.VISIBLE);
+                execResultDialog.setSureOnclickListener(new OrderExecResultDialog.onSureOnclickListener() {
+                    @Override
+                    public void onSureClick() {
+                        execResultDialog.dismiss();
+                    }
+                });
+                execResultDialog.show();
+            }
+        });
+
     }
 
     private void initView(View view) {
@@ -348,16 +417,51 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
             llOrderexecuteNoselectbottom.setVisibility(View.GONE);
             llOrderexecuteSelectbottom.setVisibility(View.VISIBLE);
             tvBottomSelecttext.setText("已选择" + selectCount + "个");
+            /**
+             * 类型
+             * exectype
+             * 0 处理
+             * 1 执行
+             *
+             * 处理类型
+             * handleCode
+             * A 接受
+             * S 完成
+             * R 拒绝
+             *
+             * 操作
+             * execStatusCode (F 执行，C 撤销执行，A 接受，S 完成，R 拒绝)
+             * <p>
+             * F 执行
+             * C 撤销执行
+             * A 接受
+             * R 拒绝
+             * S 完成
+             * ""撤销处理
+             */
             if (buttons.size() == 1) {
-                tvBottomUndo.setVisibility(View.GONE);
-                tvBottomTodo.setVisibility(View.VISIBLE);
-                tvBottomTodo.setText(buttons.get(0).getDesc().replace("医嘱", ""));
-                if (exectype == 0) {
-                    execStatusCode = "A";
+                if (buttons.get(0).getDesc().startsWith("撤销")) {
+                    //撤销处理/执行
+                    tvBottomUndo.setVisibility(View.VISIBLE);
+                    tvBottomTodo.setVisibility(View.GONE);
+                    tvBottomUndo.setText(buttons.get(0).getDesc().replace("医嘱", ""));
+                    if (exectype == 0) {
+                        execStatusCode = "";
+                    } else {
+                        execStatusCode = "C";
+                    }
                 } else {
-                    execStatusCode = "";
+                    //处理/执行
+                    tvBottomUndo.setVisibility(View.GONE);
+                    tvBottomTodo.setVisibility(View.VISIBLE);
+                    tvBottomTodo.setText(buttons.get(0).getDesc().replace("医嘱", ""));
+                    if (exectype == 0) {
+                        execStatusCode = handleCode;
+                    } else {
+                        execStatusCode = "F";
+                    }
                 }
-            } else {
+            } else if (buttons.size() == 2) {
                 tvBottomUndo.setVisibility(View.VISIBLE);
                 tvBottomUndo.setText(buttons.get(1).getDesc().replace("医嘱", ""));
                 tvBottomTodo.setVisibility(View.VISIBLE);
@@ -366,6 +470,21 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
 
         }
 
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mReceiver != null) {
+            getActivity().registerReceiver(mReceiver, filter);
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        getActivity().unregisterReceiver(mReceiver);
 
     }
 
@@ -534,92 +653,6 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
         });
     }
 
-
-    private void getScanInfo() {
-        SPUtils spUtils = SPUtils.getInstance();
-        HashMap<String, String> properties = new HashMap<>();
-        if (!episodeId.equals("")) {
-            properties.put("episodeId", episodeId);
-        }
-        properties.put("barcode", scanInfo);
-        properties.put("wardId", spUtils.getString(SharedPreference.WARDID));
-        properties.put("userId", spUtils.getString(SharedPreference.USERID));
-        properties.put("userDeptId", "");
-        OrderExecuteApiManager.GetScanMsg1(properties, new OrderExecuteApiManager.GetScanCallBack1() {
-            @Override
-            public void onSuccess(ScanResultBean scanPatBean) {
-                if (scanPatBean.getFlag().equals("PAT")) {
-                    episodeId = scanPatBean.getPatInfo().getEpisodeID();
-                    regNo = scanPatBean.getPatInfo().getRegNo();
-                    rlOrderexecuteScan.setVisibility(View.GONE);
-                    //                    tvPat.setText(scanPatBean.getPatInfo().getBedCode()+"   "+scanPatBean.getPatInfo().getName());
-                    tvOrderexecutePatinfo.setText("".equals(scanPatBean.getPatInfo().getBedCode()) ? "未分" + "床  " + scanPatBean.getPatInfo().getName() : scanPatBean.getPatInfo().getBedCode() + "  " + scanPatBean.getPatInfo().getName());
-                    getView().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            asyncInitData();
-                        }
-                    }, 300);
-
-                } else {
-                    if (execResultDialog != null && execResultDialog.isShowing()) {
-                        execResultDialog.dismiss();
-                    }
-                    execResultDialog = new OrderExecResultDialog(getActivity());
-                    execResultDialog.setExecresult("扫码执行成功");
-                    execResultDialog.setImgId(R.drawable.icon_popup_sucess);
-                    execResultDialog.setSureVisible(View.GONE);
-                    execResultDialog.show();
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            execResultDialog.dismiss();
-                            asyncInitData();
-                        }
-                    }, 1000);
-
-                }
-            }
-
-            @Override
-            public void onFail(String code, String msg) {
-
-                //                if (episodeId == ""){
-                //                    msg = "请先扫描病人腕带";
-                //                }
-                if (execResultDialog != null && execResultDialog.isShowing()) {
-                    execResultDialog.dismiss();
-                }
-                execResultDialog = new OrderExecResultDialog(getActivity());
-                execResultDialog.setExecresult(msg);
-                execResultDialog.setImgId(R.drawable.icon_popup_error_patient);
-                execResultDialog.setSureVisible(View.VISIBLE);
-                execResultDialog.setSureOnclickListener(new OrderExecResultDialog.onSureOnclickListener() {
-                    @Override
-                    public void onSureClick() {
-                        execResultDialog.dismiss();
-                    }
-                });
-                execResultDialog.show();
-            }
-        });
-
-    }
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mReceiver != null) {
-            getActivity().registerReceiver(mReceiver, filter);
-        }
-    }
-    @Override
-    public void onStop() {
-        super.onStop();
-        getActivity().unregisterReceiver(mReceiver);
-
-    }
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_order_execute, container, false);
