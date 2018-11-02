@@ -1,11 +1,9 @@
 package com.dhcc.nursepro.workarea.ordersearch.adapter;
 
-import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -42,7 +40,7 @@ public class OrderSearchPatientOrderInfoAdapter extends BaseQuickAdapter<OrderSe
             llorderinfomulti1.setVisibility(View.GONE);
             lineorderinfomulti.setVisibility(View.GONE);
             llorderinfomulti2.setVisibility(View.GONE);
-            helper.setText(R.id.tv_osporderinfo_ordertype, orderInfoBean.getOecprDesc())
+            helper.setText(R.id.tv_osporderinfo_ordertype, orderInfoBean.getDisposeStatCode())
                     .setText(R.id.tv_osporderinfo_ordername, orderInfoBean.getArcimDesc())
                     .setText(R.id.tv_osporderinfo_orderdatetime, orderInfoBean.getCreateDateTime().substring(0, 16))
                     .setText(R.id.tv_osporderinfo_orderoperate, orderInfoBean.getPhcinDesc())
@@ -54,7 +52,7 @@ public class OrderSearchPatientOrderInfoAdapter extends BaseQuickAdapter<OrderSe
 
             if (helper.getLayoutPosition() == 0) {
                 tvOrderType.setVisibility(View.VISIBLE);
-                helper.setText(R.id.tv_osporderinfo_ordertype, orderInfoBean.getOecprDesc());
+                helper.setText(R.id.tv_osporderinfo_ordertype, orderInfoBean.getDisposeStatCode());
             } else {
                 tvOrderType.setVisibility(View.GONE);
             }
@@ -75,37 +73,34 @@ public class OrderSearchPatientOrderInfoAdapter extends BaseQuickAdapter<OrderSe
         }
 
         //        RelativeLayout rl = helper.getView(R.id.rl_osporderinfo_ordertype);
-
+//        需处理，已处理，停止需处理，停止已处理，新开长嘱，非新长嘱，需执行，已执行，皮试
         switch (tvOrderType.getText().toString()) {
-            case "临时医嘱":
+            case "需处理":
                 tvOrderType.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_ordertype_1));
                 break;
-            case "长期医嘱":
+            case "已处理":
                 tvOrderType.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_ordertype_2));
                 break;
-            case "临时嘱托":
+            case "停止需处理":
                 tvOrderType.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_ordertype_3));
                 break;
-            case "长期嘱托":
+            case "停止已处理":
                 tvOrderType.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_ordertype_4));
                 break;
-            case "即刻医嘱":
+            case "新开长嘱":
                 tvOrderType.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_ordertype_5));
                 break;
-            case "PRN":
+            case "非新长嘱":
                 tvOrderType.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_ordertype_6));
                 break;
-            case "取药医嘱":
+            case "需执行":
                 tvOrderType.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_ordertype_7));
                 break;
-            case "自备药即刻":
+            case "已执行":
                 tvOrderType.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_ordertype_8));
                 break;
-            case "自备药长期":
+            case "皮试":
                 tvOrderType.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_ordertype_9));
-                break;
-            case "出院带药":
-                tvOrderType.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_ordertype_10));
                 break;
             default:
                 tvOrderType.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_oval_green));
