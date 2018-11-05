@@ -1,7 +1,8 @@
 package com.dhcc.nursepro.workarea.orderexecute.adapter;
 
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -47,14 +48,17 @@ public class OrderExecutePatientOrderInfoAdapter extends BaseQuickAdapter<OrderE
         View lineorderinfomulti = helper.getView(R.id.line_oeporderinfo_multiorder);
         LinearLayout llorderinfomulti2 = helper.getView(R.id.ll_oeporderinfo_multiorder2);
         TextView tvOrderType = helper.getView(R.id.tv_oeporderinfo_ordertype);
+        GradientDrawable myGrad = (GradientDrawable)tvOrderType.getBackground();
 
         if (size == 1) {
             llorderinfosingle.setVisibility(View.VISIBLE);
             llorderinfomulti1.setVisibility(View.GONE);
             lineorderinfomulti.setVisibility(View.GONE);
             llorderinfomulti2.setVisibility(View.GONE);
-            helper.setText(R.id.tv_oeporderinfo_ordertype, orderInfoBean.getDisposeStatCode())
-                    .setText(R.id.tv_oeporderinfo_ordername, orderInfoBean.getArcimDesc())
+            String[] typeStr = orderInfoBean.getDisposeStatCode().split("\\^");
+            tvOrderType.setText(typeStr[0]);
+            myGrad.setColor(Color.parseColor(typeStr[1]));
+            helper.setText(R.id.tv_oeporderinfo_ordername, orderInfoBean.getArcimDesc())
                     .setText(R.id.tv_oeporderinfo_orderdatetime, orderInfoBean.getCreateDateTime().substring(0, 16))
                     .setText(R.id.tv_oeporderinfo_orderoperate, orderInfoBean.getPhcinDesc())
                     .setText(R.id.tv_oeporderinfo_orderdose, orderInfoBean.getPhOrdQtyUnit())
@@ -65,7 +69,9 @@ public class OrderExecutePatientOrderInfoAdapter extends BaseQuickAdapter<OrderE
 
             if (helper.getLayoutPosition() == 0) {
                 tvOrderType.setVisibility(View.VISIBLE);
-                helper.setText(R.id.tv_oeporderinfo_ordertype, orderInfoBean.getDisposeStatCode());
+                String[] typeStr = orderInfoBean.getDisposeStatCode().split("\\^");
+                tvOrderType.setText(typeStr[0]);
+                myGrad.setColor(Color.parseColor(typeStr[1]));
             } else {
                 tvOrderType.setVisibility(View.GONE);
             }
@@ -83,40 +89,6 @@ public class OrderExecutePatientOrderInfoAdapter extends BaseQuickAdapter<OrderE
                 llorderinfomulti1.setVisibility(View.VISIBLE);
                 helper.setText(R.id.tv_oeporderinfo_orderdose1, orderInfoBean.getPhOrdQtyUnit());
             }
-        }
-
-        //        需处理，已处理，停止需处理，停止已处理，新开长嘱，非新长嘱，需执行，已执行，皮试
-        switch (tvOrderType.getText().toString()) {
-            case "需处理":
-                tvOrderType.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_ordertype_1));
-                break;
-            case "已处理":
-                tvOrderType.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_ordertype_2));
-                break;
-            case "停止需处理":
-                tvOrderType.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_ordertype_3));
-                break;
-            case "停止已处理":
-                tvOrderType.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_ordertype_4));
-                break;
-            case "新开长嘱":
-                tvOrderType.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_ordertype_5));
-                break;
-            case "非新长嘱":
-                tvOrderType.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_ordertype_6));
-                break;
-            case "需执行":
-                tvOrderType.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_ordertype_7));
-                break;
-            case "已执行":
-                tvOrderType.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_ordertype_8));
-                break;
-            case "皮试":
-                tvOrderType.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_ordertype_9));
-                break;
-            default:
-                tvOrderType.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_oval_green));
-                break;
         }
     }
 }
