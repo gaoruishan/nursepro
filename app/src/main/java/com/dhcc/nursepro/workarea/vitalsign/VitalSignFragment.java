@@ -1,5 +1,6 @@
 package com.dhcc.nursepro.workarea.vitalsign;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -24,6 +25,8 @@ import com.dhcc.nursepro.workarea.vitalsign.api.VitalSignApiManager;
 import com.dhcc.nursepro.workarea.vitalsign.bean.VitalSignBean;
 
 import com.dhcc.nursepro.workarea.vitalsigndetail.VitalSignDetailFragment;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.core.ImagePipeline;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
@@ -143,9 +146,9 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                     //体征录入
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("info",(Serializable)patientInfo);
-                    //bundle.putString("timepoint",dateFilterStr + " "+ timeFilterStr);
                     bundle.putString("time",timeFilterStr);
                     bundle.putString("date",dateFilterStr);
+                    bundle.putInt("index",position);
                     bundle.putSerializable("list", (Serializable) patientList);
                     bundle.putSerializable("timeList", (Serializable) timeFilterList);
 
@@ -169,6 +172,14 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                     String episodeId = (String)patientInfo.get("episodeId");
                     Bundle bundle = new Bundle();
                     bundle.putString("episodeId",episodeId);
+
+                    bundle.putSerializable("info",(Serializable)patientInfo);
+                    bundle.putString("time",timeFilterStr);
+                    bundle.putString("date",dateFilterStr);
+                    bundle.putInt("index",position);
+                    bundle.putSerializable("list", (Serializable) patientList);
+                    bundle.putSerializable("timeList", (Serializable) timeFilterList);
+
                     startFragment(VitalSignDetailFragment.class,bundle);
 
                 }
@@ -271,11 +282,18 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                     return;
                 }
 
+                ImagePipeline imagePipeline = Fresco.getImagePipeline();
+
                 ArrayList<String> urls = new ArrayList<>();
                 for (int i = 0; i < sum; i ++){
                     Map item = (Map)((ArrayList)map.get("urlList")).get(i);
                     urls.add((String)item.get("url"));
+                    Uri uri = Uri.parse((String)item.get("url"));
+                    imagePipeline.evictFromMemoryCache(uri);
+                    imagePipeline.evictFromDiskCache(uri);
+                    imagePipeline.evictFromCache(uri);
                 }
+
 
                 new ImageViewer.Builder(getContext(), urls)
                         .setStartPosition(0)

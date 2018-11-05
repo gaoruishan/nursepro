@@ -64,6 +64,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="上一位"
+            android:textColor="@color/white"
             android:gravity="center"
             android:background="@color/vital_sign_record_pre_color"/>
         <TextView
@@ -72,6 +73,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="下一位"
+            android:textColor="@color/white"
             android:gravity="center"
             android:background="@color/vital_sign_record_next_color"/>
 

@@ -130,7 +130,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
 
         timepoint = dateFilterStr + " "+ timeFilterStr;
 
-        patientIndex = 0;
+        patientIndex = bundle.getInt("index");
 
         viewItemMap = new HashMap<>();
 
@@ -214,7 +214,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
             tv_next.setEnabled(false);
             tv_next.setBackgroundColor(getResources().getColor(R.color.vital_sign_record_index_null_color));
         }
-        if(patientIndex > 0 && patientIndex < patientList.size()){
+        if(patientIndex > 0 && patientIndex < patientList.size() - 1){
             tv_next.setEnabled(true);
             tv_next.setBackgroundColor(getResources().getColor(R.color.vital_sign_record_next_color));
             tv_pre.setEnabled(true);
@@ -238,16 +238,15 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
 
     public void drawInputItems(){
 
-        LinearLayout layout = new LinearLayout(getContext());
-
+        LinearLayout layout = null;
 
         int size = recordInfo.getTempConfig().size();
 
         for(int i = 0; i < size; i ++){
 
-            if (i != 0 && i % 3 == 0){
-                recordContentView.addView(layout);
+            if (i % 3 == 0){
                 layout = new LinearLayout(getContext());
+                recordContentView.addView(layout);
                 int height = 120;
                 int width = ScreenUtils.getScreenWidth();
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width,height);
@@ -486,16 +485,12 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
         String date = TimeUtils.millis2String(millseconds).substring(0,11);
         String time = TimeUtils.millis2String(millseconds).substring(11,16);
 
-        if (!date.equals(dateFilterStr)){
+        if (!date.equals(dateFilterStr) || !time.equals(timeFilterStr)){
             //日期发生改变，需重新请求数据
             dateFilterStr = date;
-            recordContentView.removeAllViews();
-            asyncGetVitalSignItems();
-        }
-
-        if (!time.equals(timeFilterStr)){
             timeFilterStr = time;
             recordContentView.removeAllViews();
+            timepoint = dateFilterStr + " "+ timeFilterStr;
             asyncGetVitalSignItems();
         }
 
