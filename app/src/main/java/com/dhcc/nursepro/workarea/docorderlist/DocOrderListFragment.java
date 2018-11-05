@@ -215,8 +215,6 @@ public class DocOrderListFragment extends BaseFragment {
                 patsListBeanList = docOrdersPatsListBean.getPatInfoList();
                 patsAdapter.setNewData(patsListBeanList);
                 episodId = patsListBeanList.get(0).getEpisodeId();
-                initDataOrders();
-
                 Bundle bundle = getArguments();
                 String getEpisodId;
                 if (bundle != null) {
@@ -236,8 +234,11 @@ public class DocOrderListFragment extends BaseFragment {
                                     (LinearLayoutManager) recPats.getLayoutManager();
                             mLayoutManager.scrollToPositionWithOffset(i, 0);
                             initDataOrders();
+                            break;
                         }
                     }
+                }else {
+                    initDataOrders();
                 }
             }
 
