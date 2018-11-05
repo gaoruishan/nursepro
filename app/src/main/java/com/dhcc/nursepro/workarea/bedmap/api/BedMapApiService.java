@@ -22,6 +22,24 @@ public class BedMapApiService {
 
     }
 
+    public static void getScanInfo(String barcode, final ServiceCallBack callBack) {
+        SPUtils spUtils = SPUtils.getInstance();
+        HashMap<String, String> properties = new HashMap<>();
+
+        properties.put("episodeId", "");
+        properties.put("barcode", barcode);
+        properties.put("wardId", spUtils.getString(SharedPreference.WARDID));
+        properties.put("userId", spUtils.getString(SharedPreference.USERID));
+        properties.put("userDeptId", spUtils.getString(SharedPreference.LOCID));
+
+        WebServiceUtils.callWebService("getScanInfo", properties, new WebServiceUtils.WebServiceCallBack() {
+            @Override
+            public void callBack(String result) {
+                callBack.onResult(result);
+            }
+        });
+    }
+
     public interface ServiceCallBack {
         void onResult(String jsonStr);
     }

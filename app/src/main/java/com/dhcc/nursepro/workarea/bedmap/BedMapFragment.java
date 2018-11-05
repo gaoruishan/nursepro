@@ -1,6 +1,10 @@
 package com.dhcc.nursepro.workarea.bedmap;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,13 +23,16 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.constant.Action;
 import com.dhcc.nursepro.workarea.bedmap.adapter.BedMapPatientAdapter;
 import com.dhcc.nursepro.workarea.bedmap.adapter.BedMapPatientTypeAdapter;
 import com.dhcc.nursepro.workarea.bedmap.api.BedMapApiManager;
 import com.dhcc.nursepro.workarea.bedmap.bean.BedMapBean;
+import com.dhcc.nursepro.workarea.bedmap.bean.ScanResultBean;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * BedMapFragment
@@ -55,6 +62,8 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
     private String topFilterStr = "inBedAll";
     private String leftFilterStr = "allPat";
 
+    private IntentFilter filter;
+    private Receiver mReceiver = new Receiver();
 
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -70,6 +79,9 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
         //        hideToolbarNavigationIcon();
         setToolbarCenterTitle(getString(R.string.title_bedmap), 0xffffffff, 17);
 
+        filter = new IntentFilter();
+        filter.addAction(Action.DEVICE_SCAN_CODE);
+        getActivity().registerReceiver(mReceiver, filter);
 
         initView(view);
         initAdapter();
@@ -83,6 +95,20 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mReceiver != null) {
+            getActivity().registerReceiver(mReceiver, filter);
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        getActivity().unregisterReceiver(mReceiver);
+
+    }
 
     private void initView(View view) {
 
@@ -406,6 +432,33 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
                 break;
             default:
                 break;
+        }
+    }
+
+    private class Receiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            switch (Objects.requireNonNull(intent.getAction())) {
+                case Action.DEVICE_SCAN_CODE:
+                    Bundle bundle = new Bundle();
+                    bundle = intent.getExtras();
+                    String scanInfo = bundle.getString("data");
+                    BedMapApiManager.getScanInfo(scanInfo, new BedMapApiManager.GetScanInfoCallback() {
+                        @Override
+                        public void onSuccess(ScanResultBean scanResultBean) {
+                            bedno = scanResultBean.getPatInfo().getBedCode();
+                            setData(bedno, topFilterStr, leftFilterStr);
+                        }
+
+                        @Override
+                        public void onFail(String code, String msg) {
+                            showToast("error" + code + ":" + msg);
+                        }
+                    });
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
