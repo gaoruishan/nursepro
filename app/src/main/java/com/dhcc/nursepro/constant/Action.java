@@ -20,6 +20,12 @@ public class Action {
     //完成
     public static final String ORDER_HANDLE_COMPLETE = "com.dhcc.nursepro.order.handle.complete.Action";
 
+    //皮试结果
+    //阳性
+    public static final String SKIN_TEST_YANG = "com.dhcc.nursepro.skin.test.positive.Action";
+    //阴性
+    public static final String SKIN_TEST_YIN = "com.dhcc.nursepro.skin.test.negative.Action";
+
 
     //配液复核
     public static final String DOSING_REVIEW = "com.dhcc.nursepro.dosingreview.Action";

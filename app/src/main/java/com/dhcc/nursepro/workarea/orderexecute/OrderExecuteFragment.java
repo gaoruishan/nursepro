@@ -109,8 +109,13 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
      * A 接受
      * R 拒绝
      * S 完成
+     *
+     * 皮试结果
+     *
+     * Y 阳性
+     * N 阴性
      */
-    private String handleCode = "A";
+    private String handleCode = "";
 
     /**
      * 医嘱id
@@ -152,6 +157,8 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
         filter.addAction(Action.ORDER_HANDLE_ACCEPT);
         filter.addAction(Action.ORDER_HANDLE_REFUSE);
         filter.addAction(Action.ORDER_HANDLE_COMPLETE);
+        filter.addAction(Action.SKIN_TEST_YANG);
+        filter.addAction(Action.SKIN_TEST_YIN);
         filter.addAction(Action.DEVICE_SCAN_CODE);
         getActivity().registerReceiver(mReceiver, filter);
 
@@ -292,7 +299,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     }
 
     private void initAdapter() {
-        orderTypeAdapter = new OrderExecuteOrderTypeAdapter(new ArrayList<OrderExecuteBean.SheetListBean>());
+        orderTypeAdapter = new OrderExecuteOrderTypeAdapter(new ArrayList<>());
         orderTypeAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -308,7 +315,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
 
         //        patientAdapter = new OrderExecutePatientAdapter(new ArrayList<OrderExecuteBean.OrdersBean>());
         //        recyOrderexecutePatorder.setAdapter(patientAdapter);
-        patientOrderAdapter = new OrderExecutePatientOrderAdapter(new ArrayList<List<OrderExecuteBean.OrdersBean.PatOrdsBean>>());
+        patientOrderAdapter = new OrderExecutePatientOrderAdapter(new ArrayList<>());
         patientOrderAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -351,15 +358,24 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                     if (buttons.get(0).getDesc().contains("处理")) {
                         tvBottomNoselecttext.setText("请您选择需处理的医嘱");
                         exectype = 0;
+                        handleCode = "A";
                         viewBottomHandleline.setVisibility(View.VISIBLE);
                         tvBottomHandletype.setVisibility(View.VISIBLE);
                         imgBottomHandlesure.setVisibility(View.VISIBLE);
                     } else {
                         tvBottomNoselecttext.setText("请您选择需执行的医嘱");
                         exectype = 1;
-                        viewBottomHandleline.setVisibility(View.GONE);
-                        tvBottomHandletype.setVisibility(View.GONE);
-                        imgBottomHandlesure.setVisibility(View.GONE);
+                        handleCode = "Y";
+                        if ("PSD".equals(sheetCode)) {
+                            viewBottomHandleline.setVisibility(View.VISIBLE);
+                            tvBottomHandletype.setVisibility(View.VISIBLE);
+                            tvBottomHandletype.setText("阳性");
+                            imgBottomHandlesure.setVisibility(View.VISIBLE);
+                        } else {
+                            viewBottomHandleline.setVisibility(View.GONE);
+                            tvBottomHandletype.setVisibility(View.GONE);
+                            imgBottomHandlesure.setVisibility(View.GONE);
+                        }
                     }
                 }
 
@@ -417,6 +433,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
             llOrderexecuteNoselectbottom.setVisibility(View.GONE);
             llOrderexecuteSelectbottom.setVisibility(View.VISIBLE);
             tvBottomSelecttext.setText("已选择" + selectCount + "个");
+
             /**
              * 类型
              * exectype
@@ -429,10 +446,15 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
              * S 完成
              * R 拒绝
              *
+             * Y 皮试阳性
+             * N 皮试阴性
+             *
              * 操作
              * execStatusCode (F 执行，C 撤销执行，A 接受，S 完成，R 拒绝)
              * <p>
              * F 执行
+             * Y 皮试阳性
+             * N 皮试阴性
              * C 撤销执行
              * A 接受
              * R 拒绝
@@ -458,7 +480,11 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                     if (exectype == 0) {
                         execStatusCode = handleCode;
                     } else {
-                        execStatusCode = "F";
+                        if ("PSD".equals(sheetCode)) {
+                            execStatusCode = handleCode;
+                        } else {
+                            execStatusCode = "F";
+                        }
                     }
                 }
             } else if (buttons.size() == 2) {
@@ -528,7 +554,11 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 chooseTime();
                 break;
             case R.id.tv_bottom_handletype:
-                basePushDialog = showPushDialog(new OrderHandleTypeFragment());
+                if ("PSD".equals(sheetCode)) {
+                    basePushDialog = showPushDialog(new SkinTestResultFragment());
+                } else {
+                    basePushDialog = showPushDialog(new OrderHandleTypeFragment());
+                }
                 break;
             case R.id.tv_bottom_undo:
                 if (exectype == 0) {
@@ -542,7 +572,16 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 if (exectype == 0) {
                     execStatusCode = handleCode;
                 } else {
-                    execStatusCode = "F";
+//                    {"code":"PSD","desc":"皮试单"}
+                    if ("PSD".equals(sheetCode)) {
+                        execStatusCode = handleCode;
+                        if (oeoreId.split("\\^").length > 1) {
+                            showToast("皮试结果只能逐一设置，请选择单条医嘱执行");
+                            break;
+                        }
+                    } else {
+                        execStatusCode = "F";
+                    }
                 }
                 execOrSeeOrder();
                 break;
@@ -591,6 +630,8 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                  * execStatusCode (F 执行，C 撤销执行，A 接受，S 完成，R 拒绝)
                  * <p>
                  * F 执行
+                 * Y 皮试阳性
+                 * N 皮试阴性
                  * C 撤销执行
                  * A 接受
                  * R 拒绝
@@ -605,6 +646,10 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 switch (execStatusCode) {
                     case "F":
                         execResultDialog.setExecresult("手动执行成功");
+                        break;
+                    case "Y":
+                    case "N":
+                        execResultDialog.setExecresult("置皮试结果成功");
                         break;
                     case "C":
                         execResultDialog.setExecresult("手动撤销执行成功");
@@ -676,6 +721,16 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                     basePushDialog.dismiss();
                     tvBottomHandletype.setText("完成");
                     handleCode = "S";
+                    break;
+                case Action.SKIN_TEST_YANG:
+                    basePushDialog.dismiss();
+                    tvBottomHandletype.setText("阳性");
+                    handleCode = "Y";
+                    break;
+                case Action.SKIN_TEST_YIN:
+                    basePushDialog.dismiss();
+                    tvBottomHandletype.setText("阴性");
+                    handleCode = "N";
                     break;
                 case Action.DEVICE_SCAN_CODE:
                     Bundle bundle = new Bundle();
