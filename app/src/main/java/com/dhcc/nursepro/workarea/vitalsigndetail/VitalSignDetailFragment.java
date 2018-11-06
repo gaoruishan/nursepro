@@ -16,6 +16,7 @@ import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.constant.SharedPreference;
+import com.dhcc.nursepro.workarea.vitalsign.VitalSignRecordFragment;
 import com.dhcc.nursepro.workarea.vitalsigndetail.adapter.VitalSignDetailAdapter;
 import com.dhcc.nursepro.workarea.vitalsigndetail.adapter.VitalSignDetailCodeAdapter;
 import com.dhcc.nursepro.workarea.vitalsigndetail.adapter.VitalSignTitleAdapter;
@@ -47,6 +48,7 @@ public class VitalSignDetailFragment extends BaseFragment implements View.OnClic
     private VitalSignTitleAdapter vitalSignTitleAdapter;
     private SPUtils spUtils = SPUtils.getInstance();
     private String episodeId, stDate, enDate, datestr;
+    private Bundle mBundle;
 
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -66,6 +68,7 @@ public class VitalSignDetailFragment extends BaseFragment implements View.OnClic
         //        stDate = "2018-03-23";
         //        enDate ="2018-08-23";
         Bundle bundle = getArguments();
+        mBundle = bundle;
         episodeId = bundle.getString("episodeId");
 
         initView(view);
@@ -94,7 +97,10 @@ public class VitalSignDetailFragment extends BaseFragment implements View.OnClic
         vitalSignDetailAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                showToast(position + "----");
+                VitalSignDetailBean.TempDataListBean bean = listBeans.get(position);
+                mBundle.putString("time",bean.getTime());
+                mBundle.putString("date",bean.getDate());
+                startFragment(VitalSignRecordFragment.class,mBundle);
             }
         });
 
