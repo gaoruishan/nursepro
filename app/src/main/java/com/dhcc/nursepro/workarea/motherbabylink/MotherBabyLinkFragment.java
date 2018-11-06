@@ -143,6 +143,8 @@ public class MotherBabyLinkFragment extends BaseFragment {
             public void onSuccess(LinkResultBean linkResultBean) {
 
                 imgBaby.setSelected(true);
+                tvBabyMsg.setText(linkResultBean.getPatInfo().getName()+"-"+linkResultBean.getPatInfo().getAge()+"-"+linkResultBean.getPatInfo().getRoomDesc()+"-"+linkResultBean.getPatInfo().getRegNo());
+
 
                 if (linkResultDialog != null && linkResultDialog.isShowing()) {
                     linkResultDialog.dismiss();
