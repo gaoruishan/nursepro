@@ -140,7 +140,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
 
-                Map patientInfo = (Map) patientList.get(position);
+                Map patientInfo = (Map) displayList.get(position);
 
                 if (view.getId() == R.id.tv_vitalsign_vitalsign_record){
                     //体征录入
@@ -149,7 +149,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                     bundle.putString("time",timeFilterStr);
                     bundle.putString("date",dateFilterStr);
                     bundle.putInt("index",position);
-                    bundle.putSerializable("list", (Serializable) patientList);
+                    bundle.putSerializable("list", (Serializable) displayList);
                     bundle.putSerializable("timeList", (Serializable) timeFilterList);
 
                     startFragment(VitalSignRecordFragment.class,bundle);

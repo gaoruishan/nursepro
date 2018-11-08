@@ -400,9 +400,9 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
             }
 
             value = value.trim();
-            if (value.length() == 0){
-                continue;
-            }
+//            if (value.length() == 0){
+//                continue;
+//            }
 
             HashMap<String,String> resItem = new HashMap<>();
             resItem.put("code",code);
