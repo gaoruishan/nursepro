@@ -11,10 +11,23 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+    signingConfigs {
+        config {
+        }
+        release {
+            keyAlias 'ControlKey'
+            keyPassword 'cdeffg@2018'
+            storeFile file('sign/ControlKey.jks')
+            storePassword 'cdeffg@2018'
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            signingConfig signingConfigs.release
         }
     }
     defaultConfig {

@@ -103,7 +103,6 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
                     if (Integer.valueOf(updateBean.getNewVersion()) > Integer.valueOf(version)) {
                         String appUrl = updateBean.getAppAddress();
 
-                        //                    String appUrl = "https://qd.myapp.com/myapp/qqteam/pcqq/QQ9.0.7.exe";
                         //                    String appUrl = "http://test-1251233192.coscd.myqcloud.com/1_1.apk";
                         DownloadBuilder builder = AllenVersionChecker.getInstance().downloadOnly(crateUIData(appUrl));
                         builder.setCustomVersionDialogListener(createCustomUpdateDialog());
