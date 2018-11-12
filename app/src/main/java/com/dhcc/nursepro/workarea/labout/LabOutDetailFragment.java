@@ -195,8 +195,8 @@ public class LabOutDetailFragment extends BaseFragment {
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
         getActivity().unregisterReceiver(dataReceiver);
 
     }

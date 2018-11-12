@@ -199,8 +199,8 @@ public class PatEventsFragment extends BaseFragment implements View.OnClickListe
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
         getActivity().unregisterReceiver(dataReceiver);
 
     }

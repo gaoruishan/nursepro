@@ -48,7 +48,7 @@ public class OrderExecuteApiManager {
         });
     }
 
-    public static void ExecOrSeeOrder(String oeoreId, String execStatusCode, final ExecOrSeeOrderCallback callback) {
+    public static void execOrSeeOrder(String oeoreId, String execStatusCode, final ExecOrSeeOrderCallback callback) {
         OrderExecuteApiService.execOrSeeOrder(oeoreId, execStatusCode, new OrderExecuteApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
@@ -80,7 +80,7 @@ public class OrderExecuteApiManager {
         });
     }
 
-    public static void GetScanMsg1(HashMap<String, String> map, final GetScanCallBack1 callback) {
+    public static void getScanMsg(HashMap<String, String> map, final GetScanCallBack callback) {
 
         OrderExecuteApiService.getOrdersMsg(map, "getScanInfo", new OrderExecuteApiService.ServiceCallBack() {
             @Override
@@ -115,7 +115,7 @@ public class OrderExecuteApiManager {
     }
 
     //扫描腕带,医嘱码
-    public interface GetScanCallBack1 extends CommonCallBack {
+    public interface GetScanCallBack extends CommonCallBack {
         void onSuccess(ScanResultBean scanResultBean);
     }
 

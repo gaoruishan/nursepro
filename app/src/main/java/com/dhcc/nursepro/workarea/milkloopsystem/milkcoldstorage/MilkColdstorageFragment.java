@@ -130,8 +130,8 @@ public class MilkColdstorageFragment extends BaseFragment implements View.OnClic
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
         getActivity().unregisterReceiver(mReceiver);
 
     }

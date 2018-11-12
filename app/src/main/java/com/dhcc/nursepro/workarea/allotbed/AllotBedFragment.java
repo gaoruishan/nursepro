@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,10 +28,7 @@ import com.dhcc.nursepro.constant.SharedPreference;
 import com.dhcc.nursepro.workarea.allotbed.adapter.EmptyBedListAdapter;
 import com.dhcc.nursepro.workarea.allotbed.api.AllotBedApiManager;
 import com.dhcc.nursepro.workarea.allotbed.bean.AllotBedInfoBean;
-import com.dhcc.nursepro.workarea.allotbed.bean.AllotBedResultBean;
 import com.dhcc.nursepro.workarea.allotbed.bean.GetScanPatsBean;
-import com.dhcc.nursepro.workarea.patevents.PatEventsFragment;
-import com.dhcc.nursepro.workarea.patevents.api.PatEventsApiManager;
 import com.dhcc.nursepro.workarea.patevents.bean.ScanGetUserMsgBean;
 
 import java.util.ArrayList;
@@ -299,8 +295,8 @@ public class AllotBedFragment extends BaseFragment implements View.OnClickListen
         }
     }
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
         getActivity().unregisterReceiver(dataReceiver);
 
     }

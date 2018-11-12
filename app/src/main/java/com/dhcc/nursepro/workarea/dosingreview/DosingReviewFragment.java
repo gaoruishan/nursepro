@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
@@ -22,7 +21,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.UniversalActivity;
 import com.dhcc.nursepro.constant.Action;
 import com.dhcc.nursepro.constant.SharedPreference;
 import com.dhcc.nursepro.workarea.dosingreview.adapter.DosingReviewPatientAdapter;
@@ -193,8 +191,8 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
         }
     }
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
         getActivity().unregisterReceiver(mReceiver);
 
     }

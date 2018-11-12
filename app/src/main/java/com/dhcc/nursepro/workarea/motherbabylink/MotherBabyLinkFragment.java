@@ -8,7 +8,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,15 +15,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.SPUtils;
-import com.blankj.utilcode.util.Utils;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.constant.Action;
 import com.dhcc.nursepro.constant.SharedPreference;
-import com.dhcc.nursepro.workarea.allotbed.AllotBedFragment;
-import com.dhcc.nursepro.workarea.labresult.api.LabApiManager;
-import com.dhcc.nursepro.workarea.milkloopsystem.milkreceive.MilkReceiveFragment;
 import com.dhcc.nursepro.workarea.motherbabylink.api.LinkApiManager;
 import com.dhcc.nursepro.workarea.motherbabylink.bean.LinkResultBean;
 import com.dhcc.nursepro.workarea.motherbabylink.bean.ScanMotherInfoBean;
@@ -209,8 +204,8 @@ public class MotherBabyLinkFragment extends BaseFragment {
         }
     }
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
         getActivity().unregisterReceiver(dataReceiver);
 
     }

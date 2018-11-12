@@ -199,7 +199,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
         properties.put("wardId", spUtils.getString(SharedPreference.WARDID));
         properties.put("userId", spUtils.getString(SharedPreference.USERID));
         properties.put("userDeptId", "");
-        OrderExecuteApiManager.GetScanMsg1(properties, new OrderExecuteApiManager.GetScanCallBack1() {
+        OrderExecuteApiManager.getScanMsg(properties, new OrderExecuteApiManager.GetScanCallBack() {
             @Override
             public void onSuccess(ScanResultBean scanPatBean) {
                 if (scanPatBean.getFlag().equals("PAT")) {
@@ -508,8 +508,8 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
         getActivity().unregisterReceiver(mReceiver);
 
     }
@@ -622,7 +622,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     }
 
     private void execOrSeeOrder() {
-        OrderExecuteApiManager.ExecOrSeeOrder(oeoreId, execStatusCode, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
+        OrderExecuteApiManager.execOrSeeOrder(oeoreId, execStatusCode, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
             @Override
             public void onSuccess(OrderExecResultBean orderExecResultBean) {
                 /**
@@ -693,7 +693,6 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                     }
                 });
                 execResultDialog.show();
-                //                showToast("error" + code + ":" + msg);
             }
         });
     }

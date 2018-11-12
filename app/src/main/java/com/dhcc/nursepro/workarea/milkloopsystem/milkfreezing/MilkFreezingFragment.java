@@ -28,7 +28,6 @@ import com.dhcc.nursepro.workarea.milkloopsystem.adapter.MilkFreezingScanedAdapt
 import com.dhcc.nursepro.workarea.milkloopsystem.api.MilkLoopApiManager;
 import com.dhcc.nursepro.workarea.milkloopsystem.bean.MilkFreezingBagInfoBean;
 import com.dhcc.nursepro.workarea.milkloopsystem.bean.MilkOperatResultBean;
-import com.dhcc.nursepro.workarea.milkloopsystem.bean.MilkReceiveBagInfoBean;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -130,8 +129,8 @@ public class MilkFreezingFragment extends BaseFragment implements View.OnClickLi
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
         getActivity().unregisterReceiver(mReceiver);
 
     }

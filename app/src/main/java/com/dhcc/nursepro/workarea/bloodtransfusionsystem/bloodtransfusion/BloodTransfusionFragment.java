@@ -24,7 +24,6 @@ import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.UniversalActivity;
 import com.dhcc.nursepro.constant.Action;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.BloodOperationResultDialog;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.api.BloodTSApiManager;
@@ -296,8 +295,8 @@ public class BloodTransfusionFragment extends BaseFragment {
 
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
         getActivity().unregisterReceiver(mReceiver);
 
     }

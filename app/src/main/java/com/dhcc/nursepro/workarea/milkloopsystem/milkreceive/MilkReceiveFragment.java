@@ -191,8 +191,8 @@ public class MilkReceiveFragment extends BaseFragment implements View.OnClickLis
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
         getActivity().unregisterReceiver(mReceiver);
 
     }    @Override

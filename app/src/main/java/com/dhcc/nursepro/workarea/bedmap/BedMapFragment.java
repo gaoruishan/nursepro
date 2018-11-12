@@ -104,8 +104,8 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
         getActivity().unregisterReceiver(mReceiver);
 
     }

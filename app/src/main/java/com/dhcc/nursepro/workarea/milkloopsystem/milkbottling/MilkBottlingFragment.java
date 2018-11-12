@@ -290,8 +290,8 @@ public class MilkBottlingFragment extends BaseFragment implements View.OnClickLi
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
         getActivity().unregisterReceiver(mReceiver);
 
     }
