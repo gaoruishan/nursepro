@@ -44,6 +44,7 @@ public class WorkareaFragment extends BaseFragment {
     private List ItemNameList = new ArrayList<String>();
 
 
+
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_workarea, container, false);

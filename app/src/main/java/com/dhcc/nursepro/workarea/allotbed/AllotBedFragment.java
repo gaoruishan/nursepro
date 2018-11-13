@@ -1,9 +1,6 @@
 package com.dhcc.nursepro.workarea.allotbed;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -101,10 +98,6 @@ public class AllotBedFragment extends BaseFragment implements View.OnClickListen
         initView(view);
         initAdapter();
         initData();
-
-        //扫描广播
-        mReceiver = new Receiver();
-        getActivity().registerReceiver(mReceiver, mfilter);
 
     }
 
@@ -335,18 +328,18 @@ public class AllotBedFragment extends BaseFragment implements View.OnClickListen
         picker.show();
     }
 
-    //扫描腕带获取regNo、wardId
-    public class Receiver extends BaseReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(Action.DEVICE_SCAN_CODE)) {
-                Bundle bundle = new Bundle();
-                bundle = intent.getExtras();
-                initScanMsg(bundle.getString("data"));
 
-            }
+    @Override
+    public void getScanMsg(Intent intent) {
+        super.getScanMsg(intent);
+        if (intent.getAction().equals(Action.DEVICE_SCAN_CODE)) {
+            Bundle bundle = new Bundle();
+            bundle = intent.getExtras();
+            initScanMsg(bundle.getString("data"));
+
         }
-    }    @Override
+    }
+     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_allotbed_maindoc:

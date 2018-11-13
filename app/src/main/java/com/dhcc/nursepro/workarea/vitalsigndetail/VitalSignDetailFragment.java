@@ -77,6 +77,12 @@ public class VitalSignDetailFragment extends BaseFragment implements View.OnClic
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        initData();
+    }
+
     private void initView(View view) {
 
         llEmpty = view.findViewById(R.id.ll_vital_empty);

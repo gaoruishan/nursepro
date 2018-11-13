@@ -77,9 +77,6 @@ public class MilkFreezingFragment extends BaseFragment implements View.OnClickLi
         initView(view);
         initAdapter();
 
-        mReceiver = new Receiver();
-        getActivity().registerReceiver(mReceiver, mfilter);
-
     }
 
     private void initView(View view) {
@@ -210,25 +207,25 @@ public class MilkFreezingFragment extends BaseFragment implements View.OnClickLi
 
     }
 
-    private class Receiver extends BaseReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            switch (Objects.requireNonNull(intent.getAction())) {
-                case Action.DEVICE_SCAN_CODE:
-                    Bundle bundle = new Bundle();
-                    bundle = intent.getExtras();
-                    bagNo = bundle.getString("data");
-                    for (int i = 0; i < listBagNo.size(); i++) {
-                        if (listBagNo.get(i).equals(bagNo)) {
-                            showToast("重复扫码");
-                            return;
-                        }
+    @Override
+    public void getScanMsg(Intent intent) {
+        super.getScanMsg(intent);
+        switch (Objects.requireNonNull(intent.getAction())) {
+            case Action.DEVICE_SCAN_CODE:
+                Bundle bundle = new Bundle();
+                bundle = intent.getExtras();
+                bagNo = bundle.getString("data");
+                for (int i = 0; i < listBagNo.size(); i++) {
+                    if (listBagNo.get(i).equals(bagNo)) {
+                        showToast("重复扫码");
+                        return;
                     }
-                    initBag(bagNo);
-                    break;
-                default:
-                    break;
-            }
+                }
+                initBag(bagNo);
+                break;
+            default:
+                break;
         }
+
     }
 }

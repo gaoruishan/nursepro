@@ -78,9 +78,6 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
         //        hideToolbarNavigationIcon();
         setToolbarCenterTitle(getString(R.string.title_dosingreview), 0xffffffff, 17);
 
-        mReceiver = new Receiver();
-        getActivity().registerReceiver(mReceiver, mfilter);
-
         startDate = spUtils.getString(SharedPreference.SCHSTDATETIME).substring(0, 10);
         endDate = spUtils.getString(SharedPreference.SCHENDATETIME).substring(0, 10);
 
@@ -293,7 +290,6 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
         pageNo = Integer.valueOf(pageNo) + 1 + "";
         asyncInitData();
     }
-
     /**
      * Action.DOSING_REVIEW
      * 撤销
@@ -307,110 +303,110 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
      * @author DevLix126
      * created at 2018/9/12 14:51
      */
-    private class Receiver extends BaseReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            switch (Objects.requireNonNull(intent.getAction())) {
-                case Action.DOSING_REVIEW:
-                    showLoadingTip(BaseActivity.LoadingType.FULL);
-                    orderId = intent.getStringExtra("orderId");
-                    pageNo = "1";
-                    DosingReviewApiManager.getInfusionOrdListAfterCancel(infusionFlag, orderId, startDate, endDate, pageNo, new DosingReviewApiManager.DosingReviewCallback() {
-                        @Override
-                        public void onSuccess(DosingReViewBean dosingReViewBean) {
-                            hideLoadingTip();
-                            showToast(dosingReViewBean.getMsg());
-                            orders = dosingReViewBean.getOrders();
-                            patientAdapter.setNewData(orders);
-                            if (orders.size() == 0) {
-                                patientAdapter.loadMoreEnd();
-                            } else {
-                                patientAdapter.loadMoreComplete();
-                            }
+    @Override
+    public void getScanMsg(Intent intent) {
+        super.getScanMsg(intent);
+        switch (Objects.requireNonNull(intent.getAction())) {
+            case Action.DOSING_REVIEW:
+                showLoadingTip(BaseActivity.LoadingType.FULL);
+                orderId = intent.getStringExtra("orderId");
+                pageNo = "1";
+                DosingReviewApiManager.getInfusionOrdListAfterCancel(infusionFlag, orderId, startDate, endDate, pageNo, new DosingReviewApiManager.DosingReviewCallback() {
+                    @Override
+                    public void onSuccess(DosingReViewBean dosingReViewBean) {
+                        hideLoadingTip();
+                        showToast(dosingReViewBean.getMsg());
+                        orders = dosingReViewBean.getOrders();
+                        patientAdapter.setNewData(orders);
+                        if (orders.size() == 0) {
+                            patientAdapter.loadMoreEnd();
+                        } else {
+                            patientAdapter.loadMoreComplete();
+                        }
+                    }
+
+                    @Override
+                    public void onFail(String code, String msg) {
+                        hideLoadingTip();
+                        showToast("error" + code + ":" + msg);
+                    }
+                });
+
+                //
+
+
+                break;
+
+            case Action.DEVICE_SCAN_CODE:
+
+                showLoadingTip(BaseActivity.LoadingType.FULL);
+                Bundle bundle = new Bundle();
+                bundle = intent.getExtras();
+                orderId = bundle.getString("data");
+                DosingReviewApiManager.preparedVerifyOrd(orderId, "1", new DosingReviewApiManager.PrepareVeriftyCallback() {
+                    @Override
+                    public void onSuccess(PreparedVerifyOrdBean preparedVerifyOrdBean) {
+                        hideLoadingTip();
+                        showToast(preparedVerifyOrdBean.getMsg());
+                        String bedCode = "";
+                        String name = "";
+                        String type = "";
+                        Gson gson = new Gson();
+
+                        //  pv----  返回值内容
+                        //  dr----  新建加入current列表
+
+                        PreparedVerifyOrdBean.OrdersBean pvordersBean = preparedVerifyOrdBean.getOrders();
+                        bedCode = pvordersBean.getBedCode();
+                        name = pvordersBean.getName();
+
+                        List<PreparedVerifyOrdBean.OrdersBean.PatOrdsBean> pvpatOrdsBeanList = pvordersBean.getPatOrds();
+                        List<DosingReViewBean.OrdersBean.PatOrdsBean> drpatOrdsBeanList = new ArrayList<>();
+
+                        for (int i = 0; i < pvpatOrdsBeanList.size(); i++) {
+                            PreparedVerifyOrdBean.OrdersBean.PatOrdsBean pvpatOrdsBean = pvpatOrdsBeanList.get(i);
+
+                            PreparedVerifyOrdBean.OrdersBean.PatOrdsBean.OrderInfoBean pvorderInfoBean = pvpatOrdsBean.getOrderInfo();
+                            type = pvpatOrdsBean.getType();
+
+                            DosingReViewBean.OrdersBean.PatOrdsBean drpatOrdsBean = new DosingReViewBean.OrdersBean.PatOrdsBean();
+                            drpatOrdsBean.setCancelGone(true);
+                            drpatOrdsBean.setType(type);
+                            drpatOrdsBean.setOrderInfo(gson.fromJson(gson.toJson(pvorderInfoBean), DosingReViewBean.OrdersBean.PatOrdsBean.OrderInfoBean.class));
+                            drpatOrdsBeanList.add(drpatOrdsBean);
                         }
 
-                        @Override
-                        public void onFail(String code, String msg) {
-                            hideLoadingTip();
-                            showToast("error" + code + ":" + msg);
+                        List<List<DosingReViewBean.OrdersBean.PatOrdsBean>> drpatOrds = new ArrayList<>();
+
+                        drpatOrds.add(drpatOrdsBeanList);
+
+                        DosingReViewBean.OrdersBean drordersBean = new DosingReViewBean.OrdersBean();
+
+                        drordersBean.setName(name);
+                        drordersBean.setBedCode(bedCode);
+                        drordersBean.setPatOrds(drpatOrds);
+
+                        currentOrders.add(drordersBean);
+
+                        setTopFilterSelect(tvDosingreviewCurrent);
+                        patientAdapter.setNewData(currentOrders);
+                        if (currentOrders.size() < 1) {
+                            llEmpty.setVisibility(View.VISIBLE);
+                        } else {
+                            llEmpty.setVisibility(View.GONE);
                         }
-                    });
+                    }
 
-                    //
-
-
-                    break;
-
-                case Action.DEVICE_SCAN_CODE:
-
-                    showLoadingTip(BaseActivity.LoadingType.FULL);
-                    Bundle bundle = new Bundle();
-                    bundle = intent.getExtras();
-                    orderId = bundle.getString("data");
-                    DosingReviewApiManager.preparedVerifyOrd(orderId, "1", new DosingReviewApiManager.PrepareVeriftyCallback() {
-                        @Override
-                        public void onSuccess(PreparedVerifyOrdBean preparedVerifyOrdBean) {
-                            hideLoadingTip();
-                            showToast(preparedVerifyOrdBean.getMsg());
-                            String bedCode = "";
-                            String name = "";
-                            String type = "";
-                            Gson gson = new Gson();
-
-                            //  pv----  返回值内容
-                            //  dr----  新建加入current列表
-
-                            PreparedVerifyOrdBean.OrdersBean pvordersBean = preparedVerifyOrdBean.getOrders();
-                            bedCode = pvordersBean.getBedCode();
-                            name = pvordersBean.getName();
-
-                            List<PreparedVerifyOrdBean.OrdersBean.PatOrdsBean> pvpatOrdsBeanList = pvordersBean.getPatOrds();
-                            List<DosingReViewBean.OrdersBean.PatOrdsBean> drpatOrdsBeanList = new ArrayList<>();
-
-                            for (int i = 0; i < pvpatOrdsBeanList.size(); i++) {
-                                PreparedVerifyOrdBean.OrdersBean.PatOrdsBean pvpatOrdsBean = pvpatOrdsBeanList.get(i);
-
-                                PreparedVerifyOrdBean.OrdersBean.PatOrdsBean.OrderInfoBean pvorderInfoBean = pvpatOrdsBean.getOrderInfo();
-                                type = pvpatOrdsBean.getType();
-
-                                DosingReViewBean.OrdersBean.PatOrdsBean drpatOrdsBean = new DosingReViewBean.OrdersBean.PatOrdsBean();
-                                drpatOrdsBean.setCancelGone(true);
-                                drpatOrdsBean.setType(type);
-                                drpatOrdsBean.setOrderInfo(gson.fromJson(gson.toJson(pvorderInfoBean), DosingReViewBean.OrdersBean.PatOrdsBean.OrderInfoBean.class));
-                                drpatOrdsBeanList.add(drpatOrdsBean);
-                            }
-
-                            List<List<DosingReViewBean.OrdersBean.PatOrdsBean>> drpatOrds = new ArrayList<>();
-
-                            drpatOrds.add(drpatOrdsBeanList);
-
-                            DosingReViewBean.OrdersBean drordersBean = new DosingReViewBean.OrdersBean();
-
-                            drordersBean.setName(name);
-                            drordersBean.setBedCode(bedCode);
-                            drordersBean.setPatOrds(drpatOrds);
-
-                            currentOrders.add(drordersBean);
-
-                            setTopFilterSelect(tvDosingreviewCurrent);
-                            patientAdapter.setNewData(currentOrders);
-                            if (currentOrders.size() < 1) {
-                                llEmpty.setVisibility(View.VISIBLE);
-                            } else {
-                                llEmpty.setVisibility(View.GONE);
-                            }
-                        }
-
-                        @Override
-                        public void onFail(String code, String msg) {
-                            hideLoadingTip();
-                            showToast("error" + code + ":" + msg);
-                        }
-                    });
-                    break;
-                default:
-                    break;
-            }
+                    @Override
+                    public void onFail(String code, String msg) {
+                        hideLoadingTip();
+                        showToast("error" + code + ":" + msg);
+                    }
+                });
+                break;
+            default:
+                break;
         }
+
     }
 }

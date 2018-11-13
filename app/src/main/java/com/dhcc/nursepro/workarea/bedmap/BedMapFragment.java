@@ -1,10 +1,7 @@
 package com.dhcc.nursepro.workarea.bedmap;
 
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -77,9 +74,6 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
         setToolbarBottomLineVisibility(false);
         //        hideToolbarNavigationIcon();
         setToolbarCenterTitle(getString(R.string.title_bedmap), 0xffffffff, 17);
-
-        mReceiver = new Receiver();
-        getActivity().registerReceiver(mReceiver, mfilter);
 
         initView(view);
         initAdapter();
@@ -418,30 +412,29 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
         }
     }
 
-    private class Receiver extends BaseReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            switch (Objects.requireNonNull(intent.getAction())) {
-                case Action.DEVICE_SCAN_CODE:
-                    Bundle bundle = new Bundle();
-                    bundle = intent.getExtras();
-                    String scanInfo = bundle.getString("data");
-                    BedMapApiManager.getScanInfo(scanInfo, new BedMapApiManager.GetScanInfoCallback() {
-                        @Override
-                        public void onSuccess(ScanResultBean scanResultBean) {
-                            bedno = scanResultBean.getPatInfo().getBedCode();
-                            setData(bedno, topFilterStr, leftFilterStr);
-                        }
+    @Override
+    public void getScanMsg(Intent intent) {
+        super.getScanMsg(intent);
+        switch (Objects.requireNonNull(intent.getAction())) {
+            case Action.DEVICE_SCAN_CODE:
+                Bundle bundle = new Bundle();
+                bundle = intent.getExtras();
+                String scanInfo = bundle.getString("data");
+                BedMapApiManager.getScanInfo(scanInfo, new BedMapApiManager.GetScanInfoCallback() {
+                    @Override
+                    public void onSuccess(ScanResultBean scanResultBean) {
+                        bedno = scanResultBean.getPatInfo().getBedCode();
+                        setData(bedno, topFilterStr, leftFilterStr);
+                    }
 
-                        @Override
-                        public void onFail(String code, String msg) {
-                            showToast("error" + code + ":" + msg);
-                        }
-                    });
-                    break;
-                default:
-                    break;
-            }
+                    @Override
+                    public void onFail(String code, String msg) {
+                        showToast("error" + code + ":" + msg);
+                    }
+                });
+                break;
+            default:
+                break;
         }
     }
 }

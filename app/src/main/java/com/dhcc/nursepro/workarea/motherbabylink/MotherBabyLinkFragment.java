@@ -74,9 +74,6 @@ public class MotherBabyLinkFragment extends BaseFragment {
         setToolbarBottomLineVisibility(false);
 
         initView(view);
-
-        mReceiver = new Receiver();
-        getActivity().registerReceiver(mReceiver, mfilter);
     }
 
     private void initView(View view){
@@ -192,23 +189,20 @@ public class MotherBabyLinkFragment extends BaseFragment {
     }
 
 
-    //扫描腕带获取regNo、wardId
-    public class Receiver extends BaseReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(Action.DEVICE_SCAN_CODE)) {
-                Bundle bundle = new Bundle();
-                bundle = intent.getExtras();
-                if (motherEpisodeId.equals("")){
-                    initScanMomMsg(bundle.getString("data"));
-                }else {
-                    getLinkMsg(bundle.getString("data"));
-                }
-
-
+    @Override
+    public void getScanMsg(Intent intent) {
+        super.getScanMsg(intent);
+        if (intent.getAction().equals(Action.DEVICE_SCAN_CODE)) {
+            Bundle bundle = new Bundle();
+            bundle = intent.getExtras();
+            if (motherEpisodeId.equals("")){
+                initScanMomMsg(bundle.getString("data"));
+            }else {
+                getLinkMsg(bundle.getString("data"));
             }
+
+
         }
+
     }
-
-
 }

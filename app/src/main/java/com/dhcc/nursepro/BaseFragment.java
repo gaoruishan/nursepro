@@ -67,10 +67,14 @@ public class BaseFragment extends Fragment {
 
 
 
+    public void getScanMsg(Intent intent){
+
+    }
+
     public class BaseReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-
+            getScanMsg(intent);
         }
     }
 

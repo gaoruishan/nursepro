@@ -70,11 +70,6 @@ public class LabOutDetailFragment extends BaseFragment {
         initAdapter();
         initData();
 
-
-        //扫描广播
-        mReceiver = new Receiver();
-        getActivity().registerReceiver(mReceiver, mfilter);
-
     }
 
     private void initview(View view) {
@@ -184,21 +179,18 @@ public class LabOutDetailFragment extends BaseFragment {
 
     }
 
+    @Override
+    public void getScanMsg(Intent intent) {
+        super.getScanMsg(intent);
+        if (Objects.requireNonNull(intent.getAction()).equals(Action.DEVICE_SCAN_CODE)) {
+            Bundle bundle = new Bundle();
+            bundle = intent.getExtras();
+            carryLocDr = spUtils.getString(SharedPreference.LOCID);
+            carryLabNo = bundle != null ? bundle.getString("data") : "";
+            saveFlag = "1";
+            initData();
 
-    //扫描腕带获取CarryNo
-    public class Receiver extends BaseReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (Objects.requireNonNull(intent.getAction()).equals(Action.DEVICE_SCAN_CODE)) {
-                Bundle bundle = new Bundle();
-                bundle = intent.getExtras();
-                carryLocDr = spUtils.getString(SharedPreference.LOCID);
-                carryLabNo = bundle != null ? bundle.getString("data") : "";
-                saveFlag = "1";
-                initData();
-
-            }
         }
-    }
 
+    }
 }

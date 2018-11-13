@@ -91,9 +91,6 @@ public class MilkReceiveFragment extends BaseFragment implements View.OnClickLis
 
         initView(view);
 
-        mReceiver = new Receiver();
-        getActivity().registerReceiver(mReceiver, mfilter);
-
     }
 
     private void saveData() {
@@ -246,23 +243,19 @@ public class MilkReceiveFragment extends BaseFragment implements View.OnClickLis
 
     }
 
-    private class Receiver extends BaseReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            switch (Objects.requireNonNull(intent.getAction())) {
-                case Action.DEVICE_SCAN_CODE:
-                    Bundle bundle = new Bundle();
-                    bundle = intent.getExtras();
-                    bagNo = bundle.getString("data");
-                    initData(bundle.getString("data"));
-                    break;
-                default:
-                    break;
-            }
+    @Override
+    public void getScanMsg(Intent intent) {
+        super.getScanMsg(intent);
+        switch (Objects.requireNonNull(intent.getAction())) {
+            case Action.DEVICE_SCAN_CODE:
+                Bundle bundle = new Bundle();
+                bundle = intent.getExtras();
+                bagNo = bundle.getString("data");
+                initData(bundle.getString("data"));
+                break;
+            default:
+                break;
         }
+
     }
-
-
-
-
 }

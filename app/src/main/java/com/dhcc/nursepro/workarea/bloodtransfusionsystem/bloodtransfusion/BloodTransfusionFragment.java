@@ -105,9 +105,6 @@ public class BloodTransfusionFragment extends BaseFragment {
 
 
         initView(view);
-
-        mReceiver = new Receiver();
-        getActivity().registerReceiver(mReceiver, mfilter);
     }
 
 
@@ -350,46 +347,46 @@ public class BloodTransfusionFragment extends BaseFragment {
         });
     }
 
-    private class Receiver extends BaseReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            switch (Objects.requireNonNull(intent.getAction())) {
-                case Action.DEVICE_SCAN_CODE:
-                    Bundle bundle = new Bundle();
-                    bundle = intent.getExtras();
-                    String dataStr = bundle.getString("data");
-                    if (RegNo.equals("")) {
-                        RegNo = dataStr;
-                        scanPatData(dataStr);
-                    } else if (bloodbagId.equals("") && (!episodeId.equals(""))) {
-                        bloodbagId = dataStr;
-                        tvBloodBag.setText(bloodbagId);
-                        imgBloodbag.setSelected(true);
-                        lineBlood2.setSelected(true);
-                        tvBloodscantip.setText("请扫描血制品编号");
-                    } else if (bloodProductId.equals("")) {
-                        bloodProductId = dataStr;
-                        scanInfusionData(bloodbagId, dataStr);
-                    } else if (nurseId1.equals("")) {
-                        nurseId1 = dataStr;
-                        tvNurse1.setText(nurseId1);
-                        tvNurse1.setSelected(true);
-                        llDevice.setBackgroundResource(R.drawable.img_separate2);
+    @Override
+    public void getScanMsg(Intent intent) {
+        super.getScanMsg(intent);
+        switch (Objects.requireNonNull(intent.getAction())) {
+            case Action.DEVICE_SCAN_CODE:
+                Bundle bundle = new Bundle();
+                bundle = intent.getExtras();
+                String dataStr = bundle.getString("data");
+                if (RegNo.equals("")) {
+                    RegNo = dataStr;
+                    scanPatData(dataStr);
+                } else if (bloodbagId.equals("") && (!episodeId.equals(""))) {
+                    bloodbagId = dataStr;
+                    tvBloodBag.setText(bloodbagId);
+                    imgBloodbag.setSelected(true);
+                    lineBlood2.setSelected(true);
+                    tvBloodscantip.setText("请扫描血制品编号");
+                } else if (bloodProductId.equals("")) {
+                    bloodProductId = dataStr;
+                    scanInfusionData(bloodbagId, dataStr);
+                } else if (nurseId1.equals("")) {
+                    nurseId1 = dataStr;
+                    tvNurse1.setText(nurseId1);
+                    tvNurse1.setSelected(true);
+                    llDevice.setBackgroundResource(R.drawable.img_separate2);
 
-                    } else if (nurseId2.equals("")) {
-                        nurseId2 = dataStr;
-                        tvNurse2.setText(nurseId2);
-                        tvNurse2.setSelected(true);
-                        llDevice.setBackgroundResource(R.drawable.img_separate4);
-                        imgBloodnurse.setSelected(true);
-                        startTransInfusion("1");
-                    }
+                } else if (nurseId2.equals("")) {
+                    nurseId2 = dataStr;
+                    tvNurse2.setText(nurseId2);
+                    tvNurse2.setSelected(true);
+                    llDevice.setBackgroundResource(R.drawable.img_separate4);
+                    imgBloodnurse.setSelected(true);
+                    startTransInfusion("1");
+                }
 
-                    break;
-                default:
-                    break;
-            }
+                break;
+            default:
+                break;
         }
+
     }
 
 }

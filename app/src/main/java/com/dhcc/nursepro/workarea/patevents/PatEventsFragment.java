@@ -57,10 +57,6 @@ public class PatEventsFragment extends BaseFragment implements View.OnClickListe
 
         initView(view);
         initAdapter();
-
-        //扫描广播
-        mReceiver = new Receiver();
-        getActivity().registerReceiver(mReceiver, mfilter);
     }
 
     @Override
@@ -199,18 +195,15 @@ public class PatEventsFragment extends BaseFragment implements View.OnClickListe
 
     }
 
-    //扫描腕带获取regNo、wardId
-    public class Receiver extends BaseReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(Action.DEVICE_SCAN_CODE)) {
-                Bundle bundle = new Bundle();
-                bundle = intent.getExtras();
-                getUserMsg(bundle.getString("data"));
+    @Override
+    public void getScanMsg(Intent intent) {
+        super.getScanMsg(intent);
+        if (intent.getAction().equals(Action.DEVICE_SCAN_CODE)) {
+            Bundle bundle = new Bundle();
+            bundle = intent.getExtras();
+            getUserMsg(bundle.getString("data"));
 
-            }
         }
+
     }
-
-
 }

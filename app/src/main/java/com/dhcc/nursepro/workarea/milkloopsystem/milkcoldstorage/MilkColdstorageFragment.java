@@ -77,9 +77,6 @@ public class MilkColdstorageFragment extends BaseFragment implements View.OnClic
 
         initView(view);
         initAdapter();
-
-        mReceiver = new Receiver();
-        getActivity().registerReceiver(mReceiver, mfilter);
     }
 
     private void initView(View view) {
@@ -211,25 +208,25 @@ public class MilkColdstorageFragment extends BaseFragment implements View.OnClic
 
     }
 
-    private class Receiver extends BaseReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            switch (Objects.requireNonNull(intent.getAction())) {
-                case Action.DEVICE_SCAN_CODE:
-                    Bundle bundle = new Bundle();
-                    bundle = intent.getExtras();
-                    bottleNo = bundle.getString("data");
-                    for (int i = 0; i < listBottleNo.size(); i++) {
-                        if (listBottleNo.get(i).equals(bottleNo)) {
-                            showToast("重复扫码");
-                            return;
-                        }
+    @Override
+    public void getScanMsg(Intent intent) {
+        super.getScanMsg(intent);
+        switch (Objects.requireNonNull(intent.getAction())) {
+            case Action.DEVICE_SCAN_CODE:
+                Bundle bundle = new Bundle();
+                bundle = intent.getExtras();
+                bottleNo = bundle.getString("data");
+                for (int i = 0; i < listBottleNo.size(); i++) {
+                    if (listBottleNo.get(i).equals(bottleNo)) {
+                        showToast("重复扫码");
+                        return;
                     }
-                    initBottle(bottleNo);
-                    break;
-                default:
-                    break;
-            }
+                }
+                initBottle(bottleNo);
+                break;
+            default:
+                break;
         }
+
     }
 }

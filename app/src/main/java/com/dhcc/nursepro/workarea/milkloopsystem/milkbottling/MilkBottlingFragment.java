@@ -113,9 +113,6 @@ public class MilkBottlingFragment extends BaseFragment implements View.OnClickLi
 
         initView(view);
 
-        mReceiver = new Receiver();
-        getActivity().registerReceiver(mReceiver, mfilter);
-
         //        view.setOnTouchListener(new View.OnTouchListener() {
         //            @Override
         //            public boolean onTouch(View v, MotionEvent event) {
@@ -327,24 +324,22 @@ public class MilkBottlingFragment extends BaseFragment implements View.OnClickLi
         });
     }
 
-    private class Receiver extends BaseReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            switch (Objects.requireNonNull(intent.getAction())) {
-                case Action.DEVICE_SCAN_CODE:
-                    Bundle bundle = new Bundle();
-                    bundle = intent.getExtras();
-                    if (patInfo == "") {
-                        getPatInfo(bundle.getString("data"));
-                    } else if (bottleCode == "") {
-                        getBottlingInfo(bundle.getString("data"));
-                    }
-                    break;
-                default:
-                    break;
-            }
+    @Override
+    public void getScanMsg(Intent intent) {
+        super.getScanMsg(intent);
+        switch (Objects.requireNonNull(intent.getAction())) {
+            case Action.DEVICE_SCAN_CODE:
+                Bundle bundle = new Bundle();
+                bundle = intent.getExtras();
+                if (patInfo == "") {
+                    getPatInfo(bundle.getString("data"));
+                } else if (bottleCode == "") {
+                    getBottlingInfo(bundle.getString("data"));
+                }
+                break;
+            default:
+                break;
         }
     }
-
 
 }

@@ -150,9 +150,6 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
         //        hideToolbarNavigationIcon();
         setToolbarCenterTitle(getString(R.string.title_orderexecute), 0xffffffff, 17);
 
-        mReceiver = new Receiver();
-        getActivity().registerReceiver(mReceiver, mfilter);
-
         Bundle bundle = getArguments();
         if (bundle != null) {
             scanInfo = bundle.getString("regNo");
@@ -678,49 +675,47 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
         return inflater.inflate(R.layout.fragment_order_execute, container, false);
     }
 
-    private class Receiver extends BaseReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            switch (Objects.requireNonNull(intent.getAction())) {
-                case Action.ORDER_HANDLE_ACCEPT:
-                    basePushDialog.dismiss();
-                    tvBottomHandletype.setText("接受");
-                    handleCode = "A";
-                    break;
-                case Action.ORDER_HANDLE_REFUSE:
-                    basePushDialog.dismiss();
-                    tvBottomHandletype.setText("拒绝");
-                    handleCode = "R";
-                    break;
-                case Action.ORDER_HANDLE_COMPLETE:
-                    basePushDialog.dismiss();
-                    tvBottomHandletype.setText("完成");
-                    handleCode = "S";
-                    break;
-                case Action.SKIN_TEST_YANG:
-                    basePushDialog.dismiss();
-                    tvBottomHandletype.setText("阳性");
-                    handleCode = "Y";
-                    break;
-                case Action.SKIN_TEST_YIN:
-                    basePushDialog.dismiss();
-                    tvBottomHandletype.setText("阴性");
-                    handleCode = "N";
-                    break;
-                case Action.DEVICE_SCAN_CODE:
-                    Bundle bundle = new Bundle();
-                    bundle = intent.getExtras();
-                    scanInfo = bundle.getString("data");
-                    getScanInfo();
-                    if (execResultDialog != null && execResultDialog.isShowing()) {
-                        execResultDialog.dismiss();
-                    }
-                    break;
-                default:
-                    break;
-            }
+    @Override
+    public void getScanMsg(Intent intent) {
+        super.getScanMsg(intent);
+        switch (Objects.requireNonNull(intent.getAction())) {
+            case Action.ORDER_HANDLE_ACCEPT:
+                basePushDialog.dismiss();
+                tvBottomHandletype.setText("接受");
+                handleCode = "A";
+                break;
+            case Action.ORDER_HANDLE_REFUSE:
+                basePushDialog.dismiss();
+                tvBottomHandletype.setText("拒绝");
+                handleCode = "R";
+                break;
+            case Action.ORDER_HANDLE_COMPLETE:
+                basePushDialog.dismiss();
+                tvBottomHandletype.setText("完成");
+                handleCode = "S";
+                break;
+            case Action.SKIN_TEST_YANG:
+                basePushDialog.dismiss();
+                tvBottomHandletype.setText("阳性");
+                handleCode = "Y";
+                break;
+            case Action.SKIN_TEST_YIN:
+                basePushDialog.dismiss();
+                tvBottomHandletype.setText("阴性");
+                handleCode = "N";
+                break;
+            case Action.DEVICE_SCAN_CODE:
+                Bundle bundle = new Bundle();
+                bundle = intent.getExtras();
+                scanInfo = bundle.getString("data");
+                getScanInfo();
+                if (execResultDialog != null && execResultDialog.isShowing()) {
+                    execResultDialog.dismiss();
+                }
+                break;
+            default:
+                break;
         }
+
     }
-
-
 }

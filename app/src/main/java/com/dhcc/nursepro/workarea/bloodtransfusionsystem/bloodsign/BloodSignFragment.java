@@ -122,9 +122,6 @@ public class BloodSignFragment extends BaseFragment {
         setToolbarRightCustomView(viewright);
         setToolbarBottomLineVisibility(false);
 
-        mReceiver = new Receiver();
-        getActivity().registerReceiver(mReceiver, mfilter);
-
         initView(view);
 
 
@@ -165,9 +162,9 @@ public class BloodSignFragment extends BaseFragment {
         return inflater.inflate(R.layout.fragment_blood_sign, container, false);
     }
 
-    private class Receiver extends BaseReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
+    @Override
+    public void getScanMsg(Intent intent) {
+        super.getScanMsg(intent);
             switch (Objects.requireNonNull(intent.getAction())) {
 
                 case Action.DEVICE_SCAN_CODE:
@@ -212,6 +209,5 @@ public class BloodSignFragment extends BaseFragment {
                 default:
                     break;
             }
-        }
     }
 }

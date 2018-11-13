@@ -110,9 +110,6 @@ public class BloodTransfusionEndFragment extends BaseFragment {
 
 
         initView(view);
-
-        mReceiver = new Receiver();
-        getActivity().registerReceiver(mReceiver, mfilter);
     }
 
     private void showdialog() {
@@ -309,40 +306,40 @@ public class BloodTransfusionEndFragment extends BaseFragment {
         });
     }
 
-    private class Receiver extends BaseReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            switch (Objects.requireNonNull(intent.getAction())) {
-                case Action.DEVICE_SCAN_CODE:
-                    Bundle bundle = new Bundle();
-                    bundle = intent.getExtras();
-                    String dataStr = bundle.getString("data");
-                    if (RegNo.equals("")) {
-                        RegNo = dataStr;
-                        scanPatData(dataStr);
-                    } else if (bloodbagId.equals("") && (!episodeId.equals(""))) {
-                        bloodbagId = dataStr;
-                        tvBag.setText(bloodbagId);
-                        imgBloodbag.setSelected(true);
-                        lineBlood2.setSelected(true);
-                        tvBloodscantip.setText("请扫描血制品编号");
-                    } else if (bloodProductId.equals("")) {
-                        bloodProductId = dataStr;
-                        scanInfusionData(bloodbagId, dataStr);
-                    } else if (nurseId.equals("")) {
-                        nurseId = dataStr;
-                        tvNurse.setText(nurseId);
-                        tvNurse.setSelected(true);
-                        imgBloodnurse.setSelected(true);
-                        tvBloodscantip.setText("请选择结束类型");
-                        type = "1";
-                        showdialog();
-                    }
+    @Override
+    public void getScanMsg(Intent intent) {
+        super.getScanMsg(intent);
+        switch (Objects.requireNonNull(intent.getAction())) {
+            case Action.DEVICE_SCAN_CODE:
+                Bundle bundle = new Bundle();
+                bundle = intent.getExtras();
+                String dataStr = bundle.getString("data");
+                if (RegNo.equals("")) {
+                    RegNo = dataStr;
+                    scanPatData(dataStr);
+                } else if (bloodbagId.equals("") && (!episodeId.equals(""))) {
+                    bloodbagId = dataStr;
+                    tvBag.setText(bloodbagId);
+                    imgBloodbag.setSelected(true);
+                    lineBlood2.setSelected(true);
+                    tvBloodscantip.setText("请扫描血制品编号");
+                } else if (bloodProductId.equals("")) {
+                    bloodProductId = dataStr;
+                    scanInfusionData(bloodbagId, dataStr);
+                } else if (nurseId.equals("")) {
+                    nurseId = dataStr;
+                    tvNurse.setText(nurseId);
+                    tvNurse.setSelected(true);
+                    imgBloodnurse.setSelected(true);
+                    tvBloodscantip.setText("请选择结束类型");
+                    type = "1";
+                    showdialog();
+                }
 
-                    break;
-                default:
-                    break;
-            }
+                break;
+            default:
+                break;
         }
+
     }
 }
