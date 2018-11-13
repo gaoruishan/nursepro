@@ -46,8 +46,6 @@ public class LabOutDetailFragment extends BaseFragment {
     private String carryNo = "", carryLocDr = "", carryLabNo = "", DelSend = "", saveFlag = "", carryFlag = "";
     private SPUtils spUtils = SPUtils.getInstance();
 
-    private IntentFilter intentFilter;
-    private DataReceiver dataReceiver = null;
 
 
     @Override
@@ -74,10 +72,8 @@ public class LabOutDetailFragment extends BaseFragment {
 
 
         //扫描广播
-        intentFilter = new IntentFilter();
-        intentFilter.addAction(Action.DEVICE_SCAN_CODE);
-        dataReceiver = new DataReceiver();
-        getActivity().registerReceiver(dataReceiver, intentFilter);
+        mReceiver = new Receiver();
+        getActivity().registerReceiver(mReceiver, mfilter);
 
     }
 
@@ -188,21 +184,9 @@ public class LabOutDetailFragment extends BaseFragment {
 
     }
 
-    @Override
-    public void onResume() {
-        getActivity().registerReceiver(dataReceiver, intentFilter);
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        getActivity().unregisterReceiver(dataReceiver);
-
-    }
 
     //扫描腕带获取CarryNo
-    public class DataReceiver extends BroadcastReceiver {
+    public class Receiver extends BaseReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (Objects.requireNonNull(intent.getAction()).equals(Action.DEVICE_SCAN_CODE)) {

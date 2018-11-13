@@ -39,9 +39,6 @@ public class PatEventsFragment extends BaseFragment implements View.OnClickListe
     private PatEventsAdapter patEventsAdapter;
     private List<PatEventsBean.EventListBean> listItem;
 
-    private IntentFilter intentFilter;
-    private DataReceiver dataReceiver = null;
-
     private String episodeIdNow = null;
 
     private SPUtils spUtils = SPUtils.getInstance();
@@ -62,12 +59,20 @@ public class PatEventsFragment extends BaseFragment implements View.OnClickListe
         initAdapter();
 
         //扫描广播
-        intentFilter = new IntentFilter();
-        intentFilter.addAction(Action.DEVICE_SCAN_CODE);
-        dataReceiver = new DataReceiver();
-        getActivity().registerReceiver(dataReceiver, intentFilter);
+        mReceiver = new Receiver();
+        getActivity().registerReceiver(mReceiver, mfilter);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mReceiver != null) {
+            getActivity().registerReceiver(mReceiver, mfilter);
+        }
+        if (episodeIdNow != null) {
+            initData(episodeIdNow);
+        }
+    }
     private void initView(View view) {
         rlscan = view.findViewById(R.id.rl_patevents_scan);
         tveventuser = view.findViewById(R.id.tv_event_user);
@@ -190,27 +195,12 @@ public class PatEventsFragment extends BaseFragment implements View.OnClickListe
     }
 
     @Override
-    public void onResume() {
-        getActivity().registerReceiver(dataReceiver, intentFilter);
-        if (episodeIdNow != null) {
-            initData(episodeIdNow);
-        }
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        getActivity().unregisterReceiver(dataReceiver);
-
-    }
-    @Override
     public void onClick(View v) {
 
     }
 
     //扫描腕带获取regNo、wardId
-    public class DataReceiver extends BroadcastReceiver {
+    public class Receiver extends BaseReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(Action.DEVICE_SCAN_CODE)) {

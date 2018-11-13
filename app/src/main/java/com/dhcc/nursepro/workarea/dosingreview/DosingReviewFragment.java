@@ -1,10 +1,8 @@
 package com.dhcc.nursepro.workarea.dosingreview;
 
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -71,9 +69,6 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
 
     private String orderId = "";
 
-    private IntentFilter filter;
-    private Receiver mReceiver = new Receiver();
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -83,10 +78,8 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
         //        hideToolbarNavigationIcon();
         setToolbarCenterTitle(getString(R.string.title_dosingreview), 0xffffffff, 17);
 
-        filter = new IntentFilter();
-        filter.addAction(Action.DOSING_REVIEW);
-        filter.addAction(Action.DEVICE_SCAN_CODE);
-        getActivity().registerReceiver(mReceiver, filter);
+        mReceiver = new Receiver();
+        getActivity().registerReceiver(mReceiver, mfilter);
 
         startDate = spUtils.getString(SharedPreference.SCHSTDATETIME).substring(0, 10);
         endDate = spUtils.getString(SharedPreference.SCHENDATETIME).substring(0, 10);
@@ -183,19 +176,7 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
         tvDosingreviewReview.setSelected(view == tvDosingreviewReview);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mReceiver != null) {
-            getActivity().registerReceiver(mReceiver, filter);
-        }
-    }
-    @Override
-    public void onPause() {
-        super.onPause();
-        getActivity().unregisterReceiver(mReceiver);
 
-    }
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_dosing_review, container, false);
@@ -326,7 +307,7 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
      * @author DevLix126
      * created at 2018/9/12 14:51
      */
-    private class Receiver extends BroadcastReceiver {
+    private class Receiver extends BaseReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             switch (Objects.requireNonNull(intent.getAction())) {

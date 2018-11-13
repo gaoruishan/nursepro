@@ -62,8 +62,7 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
     private String topFilterStr = "inBedAll";
     private String leftFilterStr = "allPat";
 
-    private IntentFilter filter;
-    private Receiver mReceiver = new Receiver();
+
 
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -79,9 +78,8 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
         //        hideToolbarNavigationIcon();
         setToolbarCenterTitle(getString(R.string.title_bedmap), 0xffffffff, 17);
 
-        filter = new IntentFilter();
-        filter.addAction(Action.DEVICE_SCAN_CODE);
-        getActivity().registerReceiver(mReceiver, filter);
+        mReceiver = new Receiver();
+        getActivity().registerReceiver(mReceiver, mfilter);
 
         initView(view);
         initAdapter();
@@ -92,21 +90,6 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
             }
         }, 300);
 
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mReceiver != null) {
-            getActivity().registerReceiver(mReceiver, filter);
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        getActivity().unregisterReceiver(mReceiver);
 
     }
 
@@ -435,7 +418,7 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
         }
     }
 
-    private class Receiver extends BroadcastReceiver {
+    private class Receiver extends BaseReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             switch (Objects.requireNonNull(intent.getAction())) {

@@ -1,10 +1,8 @@
 package com.dhcc.nursepro.workarea.bloodtransfusionsystem.bloodtransfusion;
 
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -56,8 +54,6 @@ public class BloodTransfusionFragment extends BaseFragment {
     private EditText tvNurse1, tvNurse2;
     private LinearLayout llDevice;
 
-    private IntentFilter filter;
-    private Receiver mReceiver = null;
     private String episodeId = "";
 
 
@@ -111,18 +107,9 @@ public class BloodTransfusionFragment extends BaseFragment {
         initView(view);
 
         mReceiver = new Receiver();
-        filter = new IntentFilter();
-        filter.addAction(Action.DEVICE_SCAN_CODE);
-        getActivity().registerReceiver(mReceiver, filter);
+        getActivity().registerReceiver(mReceiver, mfilter);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mReceiver != null) {
-            getActivity().registerReceiver(mReceiver, filter);
-        }
-    }
 
     private void startTransInfusion(String type) {
         String nurse1 = tvNurse1.getText().toString();
@@ -293,13 +280,6 @@ public class BloodTransfusionFragment extends BaseFragment {
 
     }
 
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        getActivity().unregisterReceiver(mReceiver);
-
-    }
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_blood_transfusion, container, false);
@@ -370,7 +350,7 @@ public class BloodTransfusionFragment extends BaseFragment {
         });
     }
 
-    private class Receiver extends BroadcastReceiver {
+    private class Receiver extends BaseReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             switch (Objects.requireNonNull(intent.getAction())) {

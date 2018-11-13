@@ -1,10 +1,8 @@
 package com.dhcc.nursepro.workarea.bloodtransfusionsystem.bloodbagrecycling;
 
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -47,9 +45,6 @@ public class BloodBagRecyclingFragment extends BaseFragment {
     private TextView tvBloodbagrecyclingBloodpatientinfo;
 
 
-    private IntentFilter filter;
-    private Receiver mReceiver = new Receiver();
-
     private String episodeId = "";
     private String bloodbagId;
     private String bloodProductId;
@@ -76,9 +71,8 @@ public class BloodBagRecyclingFragment extends BaseFragment {
 
         setToolbarBottomLineVisibility(false);
 
-        filter = new IntentFilter();
-        filter.addAction(Action.DEVICE_SCAN_CODE);
-        getActivity().registerReceiver(mReceiver, filter);
+        mReceiver = new Receiver();
+        getActivity().registerReceiver(mReceiver, mfilter);
 
         initView(view);
 
@@ -101,19 +95,6 @@ public class BloodBagRecyclingFragment extends BaseFragment {
 
 
     @Override
-    public void onPause() {
-        super.onPause();
-        getActivity().unregisterReceiver(mReceiver);
-
-    }
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mReceiver != null) {
-            getActivity().registerReceiver(mReceiver, filter);
-        }
-    }
-    @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_blood_bag_recycling, container, false);
     }
@@ -132,7 +113,7 @@ public class BloodBagRecyclingFragment extends BaseFragment {
         tvBloodbagrecyclingBloodpatientinfo.setText("");
     }
 
-    private class Receiver extends BroadcastReceiver {
+    private class Receiver extends BaseReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             switch (Objects.requireNonNull(intent.getAction())) {

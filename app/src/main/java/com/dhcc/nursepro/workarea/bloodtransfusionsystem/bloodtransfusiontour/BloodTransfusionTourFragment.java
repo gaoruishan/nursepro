@@ -1,10 +1,8 @@
 package com.dhcc.nursepro.workarea.bloodtransfusionsystem.bloodtransfusiontour;
 
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -66,10 +64,6 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
     private SwitchCompat switchBloodtranstourIsexist;
     private EditText etBloodtranstourAdversereactions;
 
-
-    private IntentFilter filter;
-    private Receiver mReceiver = new Receiver();
-
     private String bloodbagId;
     private String bloodProductId;
     private BloodInfoBean.BlooInfoBean bloodInfo;
@@ -102,28 +96,14 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
         setToolbarRightView(0);
         setToolbarBottomLineVisibility(false);
 
-        filter = new IntentFilter();
-        filter.addAction(Action.DEVICE_SCAN_CODE);
-        getActivity().registerReceiver(mReceiver, filter);
+        mReceiver = new Receiver();
+        getActivity().registerReceiver(mReceiver, mfilter);
 
         initView(view);
 
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mReceiver != null) {
-            getActivity().registerReceiver(mReceiver, filter);
-        }
-    }
-    @Override
-    public void onPause() {
-        super.onPause();
-        getActivity().unregisterReceiver(mReceiver);
-
-    }
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_blood_transfusion_tour, container, false);
@@ -297,7 +277,7 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
         tvBloodtranstourTranstime.setText(TimeUtils.millis2String(millseconds).substring(0, 16));
     }
 
-    private class Receiver extends BroadcastReceiver {
+    private class Receiver extends BaseReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             switch (Objects.requireNonNull(intent.getAction())) {

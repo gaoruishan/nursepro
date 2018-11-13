@@ -54,9 +54,6 @@ public class MilkColdstorageFragment extends BaseFragment implements View.OnClic
 
     private SPUtils spUtils = SPUtils.getInstance();
 
-    private IntentFilter filter;
-    private Receiver mReceiver = null;
-
     private String bottleNo;
 
     private MilkOperateResultDialog milkOperateResultDialog;
@@ -82,9 +79,7 @@ public class MilkColdstorageFragment extends BaseFragment implements View.OnClic
         initAdapter();
 
         mReceiver = new Receiver();
-        filter = new IntentFilter();
-        filter.addAction(Action.DEVICE_SCAN_CODE);
-        getActivity().registerReceiver(mReceiver, filter);
+        getActivity().registerReceiver(mReceiver, mfilter);
     }
 
     private void initView(View view) {
@@ -121,20 +116,6 @@ public class MilkColdstorageFragment extends BaseFragment implements View.OnClic
         });
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mReceiver != null) {
-            getActivity().registerReceiver(mReceiver, filter);
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        getActivity().unregisterReceiver(mReceiver);
-
-    }
 
     @Override
     public void onClick(View v) {
@@ -230,7 +211,7 @@ public class MilkColdstorageFragment extends BaseFragment implements View.OnClic
 
     }
 
-    private class Receiver extends BroadcastReceiver {
+    private class Receiver extends BaseReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             switch (Objects.requireNonNull(intent.getAction())) {

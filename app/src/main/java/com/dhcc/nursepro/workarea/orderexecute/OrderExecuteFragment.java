@@ -139,9 +139,6 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
      */
     private String execStatusCode;
 
-
-    private IntentFilter filter;
-    private Receiver mReceiver = new Receiver();
     private String episodeId = "";
 
     @Override
@@ -153,14 +150,8 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
         //        hideToolbarNavigationIcon();
         setToolbarCenterTitle(getString(R.string.title_orderexecute), 0xffffffff, 17);
 
-        filter = new IntentFilter();
-        filter.addAction(Action.ORDER_HANDLE_ACCEPT);
-        filter.addAction(Action.ORDER_HANDLE_REFUSE);
-        filter.addAction(Action.ORDER_HANDLE_COMPLETE);
-        filter.addAction(Action.SKIN_TEST_YANG);
-        filter.addAction(Action.SKIN_TEST_YIN);
-        filter.addAction(Action.DEVICE_SCAN_CODE);
-        getActivity().registerReceiver(mReceiver, filter);
+        mReceiver = new Receiver();
+        getActivity().registerReceiver(mReceiver, mfilter);
 
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -500,21 +491,6 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        if (mReceiver != null) {
-            getActivity().registerReceiver(mReceiver, filter);
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        getActivity().unregisterReceiver(mReceiver);
-
-    }
-
-    @Override
     public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
         String date = TimeUtils.millis2String(millseconds).substring(0, 10);
         String time = TimeUtils.millis2String(millseconds).substring(11, 16);
@@ -702,7 +678,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
         return inflater.inflate(R.layout.fragment_order_execute, container, false);
     }
 
-    private class Receiver extends BroadcastReceiver {
+    private class Receiver extends BaseReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             switch (Objects.requireNonNull(intent.getAction())) {

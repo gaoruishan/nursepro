@@ -1,9 +1,7 @@
 package com.dhcc.nursepro.workarea.milkloopsystem.milkfreezing;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -55,9 +53,6 @@ public class MilkFreezingFragment extends BaseFragment implements View.OnClickLi
 
     private SPUtils spUtils = SPUtils.getInstance();
 
-    private IntentFilter filter;
-    private Receiver mReceiver = null;
-
     private String bagNo;
 
     private MilkOperateResultDialog milkOperateResultDialog;
@@ -83,9 +78,7 @@ public class MilkFreezingFragment extends BaseFragment implements View.OnClickLi
         initAdapter();
 
         mReceiver = new Receiver();
-        filter = new IntentFilter();
-        filter.addAction(Action.DEVICE_SCAN_CODE);
-        getActivity().registerReceiver(mReceiver, filter);
+        getActivity().registerReceiver(mReceiver, mfilter);
 
     }
 
@@ -120,20 +113,6 @@ public class MilkFreezingFragment extends BaseFragment implements View.OnClickLi
         });
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mReceiver != null) {
-            getActivity().registerReceiver(mReceiver, filter);
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        getActivity().unregisterReceiver(mReceiver);
-
-    }
 
     @Override
     public void onClick(View v) {
@@ -231,7 +210,7 @@ public class MilkFreezingFragment extends BaseFragment implements View.OnClickLi
 
     }
 
-    private class Receiver extends BroadcastReceiver {
+    private class Receiver extends BaseReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             switch (Objects.requireNonNull(intent.getAction())) {

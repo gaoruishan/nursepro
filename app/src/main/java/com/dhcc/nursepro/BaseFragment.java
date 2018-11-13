@@ -1,8 +1,10 @@
 package com.dhcc.nursepro;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -25,12 +27,16 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.Objects;
 import java.util.UUID;
 
 import com.dhcc.nursepro.common.BaseBottomLoadingView;
 import com.dhcc.nursepro.common.BaseFullLoadingView;
 import com.dhcc.nursepro.common.BasePushDialog;
 import com.dhcc.nursepro.common.BaseTopLoadingView;
+import com.dhcc.nursepro.constant.Action;
+import com.dhcc.nursepro.workarea.bedmap.api.BedMapApiManager;
+import com.dhcc.nursepro.workarea.bedmap.bean.ScanResultBean;
 
 /**
  * Created by levis on 2018/6/5.
@@ -56,6 +62,34 @@ public class BaseFragment extends Fragment {
     // 记录是否显示了LoadFailTip
     private boolean isLoadFailTipShowing;
 
+    protected  BaseReceiver mReceiver = new BaseReceiver();
+    protected IntentFilter mfilter = new IntentFilter();
+
+
+
+    public class BaseReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mReceiver != null) {
+            getActivity().registerReceiver(mReceiver, mfilter);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mReceiver != null) {
+            getActivity().unregisterReceiver(mReceiver);
+        }
+
+    }
     /**
      * 判断是否大于等于LOLLIPOP
      *
@@ -74,6 +108,15 @@ public class BaseFragment extends Fragment {
     protected void onPreActivityCreate(@NonNull UniversalActivity activity,
                                        @Nullable Bundle savedInstanceState) {
         // 所属UniversalActivity中onCreate之前调用
+
+
+        mfilter.addAction(Action.DEVICE_SCAN_CODE);
+        mfilter.addAction(Action.ORDER_HANDLE_ACCEPT);
+        mfilter.addAction(Action.ORDER_HANDLE_REFUSE);
+        mfilter.addAction(Action.ORDER_HANDLE_COMPLETE);
+        mfilter.addAction(Action.SKIN_TEST_YANG);
+        mfilter.addAction(Action.SKIN_TEST_YIN);
+        mfilter.addAction(Action.DOSING_REVIEW);
     }
 
     /**
@@ -496,8 +539,9 @@ public class BaseFragment extends Fragment {
 
 
         hideLoadingTip();
-        if (getActivity() == null)
+        if (getActivity() == null) {
             return;
+        }
         ((BaseActivity) getActivity()).getUIHandler().post(new Runnable() {
             @Override
             public void run() {
@@ -506,8 +550,9 @@ public class BaseFragment extends Fragment {
                     mContainer.removeView(mContainerMaskContainer);
                     mContainerMaskContainer = null;
                 }
-                if (getActivity() == null)
+                if (getActivity() == null) {
                     return;
+                }
                 mContainerMaskContainer = new FrameLayout(getActivity());
                 mContainerMaskContainer.setId(R.id.base_container_mask_container);
                 mContainer.addView(mContainerMaskContainer);
@@ -563,8 +608,9 @@ public class BaseFragment extends Fragment {
      * 隐藏LoadingTip
      */
     public void hideLoadingTip() {
-        if (getActivity() == null)
+        if (getActivity() == null) {
             return;
+        }
         ((BaseActivity) getActivity()).getUIHandler().post(new Runnable() {
             @Override
             public void run() {
@@ -708,8 +754,9 @@ public class BaseFragment extends Fragment {
                     mContainer.removeView(mContainerMaskContainer);
                     mContainerMaskContainer = null;
                 }
-                if (getActivity() == null)
+                if (getActivity() == null) {
                     return;
+                }
                 mContainerMaskContainer = new FrameLayout(getActivity());
                 mContainerMaskContainer.setId(R.id.base_container_mask_container);
                 mContainerMaskContainer.addView(
@@ -764,8 +811,9 @@ public class BaseFragment extends Fragment {
      * 隐藏LoadFailTip
      */
     public void hideLoadFailTip() {
-        if (getActivity() == null)
+        if (getActivity() == null) {
             return;
+        }
         ((BaseActivity) getActivity()).getUIHandler().post(new Runnable() {
             @Override
             public void run() {

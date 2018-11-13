@@ -61,9 +61,6 @@ public class AllotBedFragment extends BaseFragment implements View.OnClickListen
     private SPUtils spUtils = SPUtils.getInstance();
     private String episodeIdNow = null;
 
-    private IntentFilter intentFilter;
-    private DataReceiver dataReceiver = null;
-
     private String regNoNow = "";
 
     private View viewright;
@@ -106,10 +103,8 @@ public class AllotBedFragment extends BaseFragment implements View.OnClickListen
         initData();
 
         //扫描广播
-        intentFilter = new IntentFilter();
-        intentFilter.addAction(Action.DEVICE_SCAN_CODE);
-        dataReceiver = new DataReceiver();
-        getActivity().registerReceiver(dataReceiver, intentFilter);
+        mReceiver = new Receiver();
+        getActivity().registerReceiver(mReceiver, mfilter);
 
     }
 
@@ -287,19 +282,6 @@ public class AllotBedFragment extends BaseFragment implements View.OnClickListen
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (dataReceiver != null) {
-            getActivity().registerReceiver(dataReceiver, intentFilter);
-        }
-    }
-    @Override
-    public void onPause() {
-        super.onPause();
-        getActivity().unregisterReceiver(dataReceiver);
-
-    }
     private void selectDocAndNur() {
         //        双选护士医生,显示姓名，对应index的编号
         final List<String> listDocName = new ArrayList<>();
@@ -354,7 +336,7 @@ public class AllotBedFragment extends BaseFragment implements View.OnClickListen
     }
 
     //扫描腕带获取regNo、wardId
-    public class DataReceiver extends BroadcastReceiver {
+    public class Receiver extends BaseReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(Action.DEVICE_SCAN_CODE)) {

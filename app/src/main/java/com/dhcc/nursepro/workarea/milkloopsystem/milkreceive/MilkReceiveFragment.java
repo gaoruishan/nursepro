@@ -54,9 +54,6 @@ public class MilkReceiveFragment extends BaseFragment implements View.OnClickLis
     private EditText etAmount;
     private RelativeLayout rlScan;
 
-    private IntentFilter filter;
-    private Receiver mReceiver = null;
-
     private String bagNo;
     private String timestr;
     private String datestr;
@@ -95,9 +92,7 @@ public class MilkReceiveFragment extends BaseFragment implements View.OnClickLis
         initView(view);
 
         mReceiver = new Receiver();
-        filter = new IntentFilter();
-        filter.addAction(Action.DEVICE_SCAN_CODE);
-        getActivity().registerReceiver(mReceiver, filter);
+        getActivity().registerReceiver(mReceiver, mfilter);
 
     }
 
@@ -183,19 +178,6 @@ public class MilkReceiveFragment extends BaseFragment implements View.OnClickLis
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        if (mReceiver != null) {
-            getActivity().registerReceiver(mReceiver, filter);
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        getActivity().unregisterReceiver(mReceiver);
-
-    }    @Override
     public void onClick(View v) {
         chooseTime();
     }
@@ -264,7 +246,7 @@ public class MilkReceiveFragment extends BaseFragment implements View.OnClickLis
 
     }
 
-    private class Receiver extends BroadcastReceiver {
+    private class Receiver extends BaseReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             switch (Objects.requireNonNull(intent.getAction())) {

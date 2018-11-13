@@ -1,9 +1,8 @@
 package com.dhcc.nursepro.workarea.milkloopsystem.milkbottling;
 
-import android.content.BroadcastReceiver;
+
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -50,9 +49,6 @@ public class MilkBottlingFragment extends BaseFragment implements View.OnClickLi
     private TextView tvPat, tvBag, tvBottle, tvScanTip;
 
     private SPUtils spUtils = SPUtils.getInstance();
-
-    private IntentFilter filter;
-    private Receiver mReceiver = null;
 
     private String patInfo = "", bagCode = "", bottleCode = "";
 
@@ -118,9 +114,7 @@ public class MilkBottlingFragment extends BaseFragment implements View.OnClickLi
         initView(view);
 
         mReceiver = new Receiver();
-        filter = new IntentFilter();
-        filter.addAction(Action.DEVICE_SCAN_CODE);
-        getActivity().registerReceiver(mReceiver, filter);
+        getActivity().registerReceiver(mReceiver, mfilter);
 
         //        view.setOnTouchListener(new View.OnTouchListener() {
         //            @Override
@@ -281,21 +275,6 @@ public class MilkBottlingFragment extends BaseFragment implements View.OnClickLi
         //        }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mReceiver != null) {
-            getActivity().registerReceiver(mReceiver, filter);
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        getActivity().unregisterReceiver(mReceiver);
-
-    }
-
     private void getPatInfo(final String bagNo) {
         HashMap<String, String> map = new HashMap<>();
         map.put("bagNo", bagNo);
@@ -348,7 +327,7 @@ public class MilkBottlingFragment extends BaseFragment implements View.OnClickLi
         });
     }
 
-    private class Receiver extends BroadcastReceiver {
+    private class Receiver extends BaseReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             switch (Objects.requireNonNull(intent.getAction())) {

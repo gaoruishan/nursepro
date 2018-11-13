@@ -1,10 +1,8 @@
 package com.dhcc.nursepro.workarea.bloodtransfusionsystem.bloodtransfusionend;
 
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -53,8 +51,6 @@ public class BloodTransfusionEndFragment extends BaseFragment {
     private TextView tvPatinfo, tvBag, tvBlood;
     private EditText tvNurse;
 
-    private IntentFilter filter;
-    private Receiver mReceiver = null;
     private String episodeId = "";
 
 
@@ -116,24 +112,9 @@ public class BloodTransfusionEndFragment extends BaseFragment {
         initView(view);
 
         mReceiver = new Receiver();
-        filter = new IntentFilter();
-        filter.addAction(Action.DEVICE_SCAN_CODE);
-        getActivity().registerReceiver(mReceiver, filter);
+        getActivity().registerReceiver(mReceiver, mfilter);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mReceiver != null) {
-            getActivity().registerReceiver(mReceiver, filter);
-        }
-    }
-    @Override
-    public void onPause() {
-        super.onPause();
-        getActivity().unregisterReceiver(mReceiver);
-
-    }
     private void showdialog() {
         final EndSucessDialog showDialog = new EndSucessDialog(getActivity());
         showDialog.setYesOnclickListener("确定", new EndSucessDialog.onYesOnclickListener() {
@@ -328,7 +309,7 @@ public class BloodTransfusionEndFragment extends BaseFragment {
         });
     }
 
-    private class Receiver extends BroadcastReceiver {
+    private class Receiver extends BaseReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             switch (Objects.requireNonNull(intent.getAction())) {

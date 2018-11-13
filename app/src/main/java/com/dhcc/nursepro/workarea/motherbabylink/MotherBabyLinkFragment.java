@@ -47,9 +47,6 @@ public class MotherBabyLinkFragment extends BaseFragment {
     private SPUtils spUtils = SPUtils.getInstance();
     private String motherEpisodeId = "";
 
-    private IntentFilter intentFilter;
-    private DataReceiver dataReceiver = null;
-
     private LinkResultDialog linkResultDialog;
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -78,10 +75,8 @@ public class MotherBabyLinkFragment extends BaseFragment {
 
         initView(view);
 
-        intentFilter = new IntentFilter();
-        intentFilter.addAction(Action.DEVICE_SCAN_CODE);
-        dataReceiver = new DataReceiver();
-        getActivity().registerReceiver(dataReceiver, intentFilter);
+        mReceiver = new Receiver();
+        getActivity().registerReceiver(mReceiver, mfilter);
     }
 
     private void initView(View view){
@@ -196,22 +191,9 @@ public class MotherBabyLinkFragment extends BaseFragment {
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (dataReceiver != null) {
-            getActivity().registerReceiver(dataReceiver, intentFilter);
-        }
-    }
-    @Override
-    public void onPause() {
-        super.onPause();
-        getActivity().unregisterReceiver(dataReceiver);
-
-    }
 
     //扫描腕带获取regNo、wardId
-    public class DataReceiver extends BroadcastReceiver {
+    public class Receiver extends BaseReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(Action.DEVICE_SCAN_CODE)) {
