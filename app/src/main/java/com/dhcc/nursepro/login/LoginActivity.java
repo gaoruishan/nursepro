@@ -218,13 +218,22 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
     public boolean isIP(String addr) {
 
+        //判断"."的个数，大于3个返回错误
+        int pointNum = search(addr,".");
+        if (pointNum>3){
+            return  false;
+        }
+
         String ipStr = addr;
         if (addr.contains(":")){
+
+            //判断":"个数，大于1个返回错误
             int containNum = search(addr,":");
-            showToast(containNum+"---");
             if (containNum>1){
                 return false;
             }
+
+            //判断":"后面的内容，空的话返回错误，有数字外其他字符也返回错误
             String lastStr = addr.substring(addr.indexOf(":")+1,addr.length());
             if (lastStr.contains(".") || lastStr.length()<1){
                 return false;
