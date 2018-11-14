@@ -205,18 +205,44 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         });
     }
 
+
+
+    public int search(String str,String strRes) {//查找字符串里与指定字符串相同的个数
+        int n=0;
+        while(str.indexOf(strRes)!=-1) {
+            int i = str.indexOf(strRes);
+            n++;
+            str = str.substring(i+1);
+        }
+        return n;
+    }
     public boolean isIP(String addr) {
-        if (addr.length() < 7 || addr.length() > 15 || "".equals(addr)) {
+
+        String ipStr = addr;
+        if (addr.contains(":")){
+            int containNum = search(addr,":");
+            showToast(containNum+"---");
+            if (containNum>1){
+                return false;
+            }
+            String lastStr = addr.substring(addr.indexOf(":")+1,addr.length());
+            if (lastStr.contains(".") || lastStr.length()<1){
+                return false;
+            }
+            ipStr =  addr.substring(0, addr.indexOf(":"));
+        }
+
+        if (ipStr.length() < 7 || ipStr.length() > 15 || "".equals(ipStr)) {
             return false;
         }
         // 判断IP格式是否规范
         String rexp = "([1-9]|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])(\\.(\\d|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])){3}";
         Pattern pat = Pattern.compile(rexp);
-        Matcher mat = pat.matcher(addr);
+        Matcher mat = pat.matcher(ipStr);
         boolean ipAddress = mat.find();
         //============对之前的ip判断的bug在进行判断
         if (ipAddress) {
-            String ips[] = addr.split("\\.");
+            String ips[] = ipStr.split("\\.");
             if (ips.length == 4) {
                 try {
                     for (String ip : ips) {

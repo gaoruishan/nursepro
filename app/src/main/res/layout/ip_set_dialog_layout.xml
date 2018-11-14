@@ -36,7 +36,7 @@
                 android:layout_marginTop="25dp"
                 android:gravity="center"
                 android:text="10.1.5.87"
-                android:digits="0123456789."
+                android:digits="0123456789.:"
                 android:background="@color/bg_blue_light"
                 />
 
