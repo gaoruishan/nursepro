@@ -735,8 +735,9 @@ public class BaseFragment extends Fragment {
      * 显示网络加载失败的提示
      */
     public void showNetworkFailTip() {
-        if (getActivity() == null)
+        if (getActivity() == null) {
             return;
+        }
         showLoadFailTip(R.drawable.wuwangluo_ico, getStringSafe(R.string.str_base_network_fail_tip));
     }
 
@@ -844,7 +845,7 @@ public class BaseFragment extends Fragment {
 
 
     /**
-     * 设置Toolbar的背景
+     * 更新消息信息
      *
      */
     public void setMessage(int messageNum) {

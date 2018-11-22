@@ -54,6 +54,11 @@
             android:label="newOrdService"
             android:screenOrientation="portrait" >
         </service>
+        <service
+            android:name=".workarea.MServiceNewOrd"
+            android:label="newOrdService"
+            android:screenOrientation="portrait" >
+        </service>
     </application>
 
 </manifest>

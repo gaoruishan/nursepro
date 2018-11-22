@@ -1,17 +1,33 @@
 package com.dhcc.nursepro.Activity;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Vibrator;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -27,13 +43,19 @@ import com.dhcc.nursepro.Activity.update.BaseDialog;
 import com.dhcc.nursepro.Activity.update.api.UpdateApiManager;
 import com.dhcc.nursepro.Activity.update.bean.UpdateBean;
 import com.dhcc.nursepro.BaseActivity;
+import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.constant.Action;
 import com.dhcc.nursepro.constant.SharedPreference;
 import com.dhcc.nursepro.message.MessageFragment;
+import com.dhcc.nursepro.message.api.MessageApiManager;
+import com.dhcc.nursepro.message.bean.MessageBean;
 import com.dhcc.nursepro.setting.SettingFragment;
+import com.dhcc.nursepro.workarea.MServiceNewOrd;
 import com.dhcc.nursepro.workarea.WorkareaFragment;
 
 import java.util.List;
+import java.util.Objects;
 
 public class MainActivity extends BaseActivity implements RadioButton.OnCheckedChangeListener {
 
@@ -50,6 +72,7 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
     private RadioButton rbMessage;
     private RadioButton rbSetting;
 
+    private int connn = 0;
     //声明一个long类型变量：用于存放上一点击“返回键”的时刻
     private long mExitTime;
 
@@ -64,6 +87,11 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
     //是否可以更新
     private int canUpdate;
 
+    private MainReceiver mainReceiver = new MainReceiver();
+    private IntentFilter mainfilter = new IntentFilter();
+
+    // 新医嘱提示
+    private NotificationManager nm;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +100,11 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
 
         //此处为暂时调用，应该在登录成功后初始化tabviews
         initTabView();
+
+        Intent i = new Intent(this, MServiceNewOrd.class);
+		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startService(i);
+        nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
     }
 
     @Override
@@ -82,7 +115,37 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         } else if (hasRequest == 1 && canUpdate == 1) {
             getNewVersion();
         }
+
+        if (mainReceiver != null) {
+            mainfilter.addAction(Action.NEWMESSAGE_SERVICE);
+            registerReceiver(mainReceiver, mainfilter);
+        }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Intent i = new Intent(this, MServiceNewOrd.class);
+        stopService(i);
+        if (mainReceiver != null) {
+            unregisterReceiver(mainReceiver);
+        }
+    }
+
+    public class MainReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            switch (Objects.requireNonNull(intent.getAction())) {
+                case Action.NEWMESSAGE_SERVICE:
+                    notifyMessage();
+                    break;
+                default:
+                    break;
+            }
+
+        }
+    }
+
 
     /**
      * 更新
@@ -190,9 +253,26 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         };
     }
 
+
+    public void notifyMessage(){
+        MessageApiManager.getMessage(new MessageApiManager.GetMessageCallback() {
+            @Override
+            public void onSuccess(MessageBean msgs) {
+                int messageNum =  msgs.getNewOrdPatList().size()+msgs.getAbnormalPatList().size()+msgs.getConPatList().size();
+                setmessage(messageNum);
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+                showToast("error" + code + ":" + msg);
+            }
+        });
+    }
     @Override
     public void setmessage(int messageNum) {
         super.setmessage(messageNum);
+
+
         Drawable drawable;
         if (messageNum < 1) {
             drawable = getResources().getDrawable(R.drawable.tabbar_item_message_selector);
@@ -200,8 +280,51 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         } else {
             drawable = getResources().getDrawable(R.drawable.tabbar_item_havemessage_selector);
             drawable.setBounds(8, 0, drawable.getIntrinsicWidth() + 8, drawable.getIntrinsicHeight());
+//            Qnotify();
         }
         rbMessage.setCompoundDrawables(null, drawable, null, null);
+    }
+    private void Qnotify() {
+
+
+        NotificationManager manager =( NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);
+        //新建Notification.Builder对象
+        Notification.Builder builder=new Notification.Builder(this);
+        //PendingIntent点击通知后所跳转的页面
+        PendingIntent intent=PendingIntent.getActivity(this,0,new Intent(this,MainActivity.class),0);
+        builder.setContentTitle("消息");
+        builder.setContentText("有新医嘱！");
+        builder.setSmallIcon(R.mipmap.ic_launcher);
+        //执行intent
+        builder.setContentIntent(intent);
+
+        builder.setVibrate(new long[] {0,2000,500,2000});
+
+        builder.setDefaults(Notification.DEFAULT_SOUND);
+//        Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+//        builder.setSound(uri);
+
+        builder.setDefaults(Notification.DEFAULT_LIGHTS);
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel("to-do", "消息",
+                    NotificationManager.IMPORTANCE_HIGH);
+            channel.enableLights(true);
+            channel.enableVibration(true);
+            channel.setVibrationPattern(new long[] {0,2000,500,2000});
+            channel.setSound(null, null);
+            manager.createNotificationChannel(channel);
+            builder.setChannelId("to-do");
+        }
+
+        //将builder对象转换为普通的notification
+        Notification notification = builder.getNotification();
+        //点击通知后通知消失
+        notification.flags|=Notification.FLAG_AUTO_CANCEL;
+        //运行notification
+        manager.notify(1,notification);
+
     }
 
     /**

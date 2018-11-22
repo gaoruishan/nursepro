@@ -1,5 +1,7 @@
 package com.dhcc.nursepro.message;
 
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +18,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.constant.Action;
 import com.dhcc.nursepro.message.adapter.MessageAbnormalAdapter;
 import com.dhcc.nursepro.message.adapter.MessageConsultationAdapter;
 import com.dhcc.nursepro.message.adapter.MessageNewOrderAdapter;
@@ -25,6 +28,7 @@ import com.dhcc.nursepro.message.bean.ReadMessageBean;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * MessageFragment
@@ -50,6 +54,9 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
     private MessageAbnormalAdapter abnormalAdapter;
     private MessageConsultationAdapter consultationAdapter;
 
+    //登陆成功后所有的广播信息全部注销了，在此重新注册
+    protected  BaseReceiver mReceiver = new BaseReceiver();
+    protected IntentFilter mfilter = new IntentFilter();
 
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -69,7 +76,7 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
         initView(view);
         initAdapter();
         initData();
-
+        getActivity().registerReceiver(mReceiver, mfilter);
     }
 
     private void initView(View view) {
@@ -264,8 +271,21 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
                 @Override
                 public void onFail(String code, String msg) {
                     Toast.makeText(getActivity(), code + "-消息获取失败：" + msg, Toast.LENGTH_SHORT).show();
+                    Log.v("1111111nohid","222");
                 }
             });
+        }
+    }
+
+    @Override
+    public void getScanMsg(Intent intent) {
+        super.getScanMsg(intent);
+        switch (Objects.requireNonNull(intent.getAction())) {
+            case Action.NEWMESSAGE_SERVICE:
+                initData();
+            default:
+                break;
+
         }
     }
 
@@ -273,9 +293,15 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (hidden) {
-
+            if (mReceiver != null ) {
+                    getActivity().unregisterReceiver(mReceiver);
+            }
         } else {
             initData();
+            mfilter.addAction(Action.NEWMESSAGE_SERVICE);
+            if (mReceiver != null) {
+                getActivity().registerReceiver(mReceiver, mfilter);
+            }
         }
     }
 }

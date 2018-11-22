@@ -30,5 +30,8 @@ public class Action {
     //配液复核
     public static final String DOSING_REVIEW = "com.dhcc.nursepro.dosingreview.Action";
 
+    //新消息更新
+    public static final String NEWMESSAGE_SERVICE = "com.dhcc.nursepro.newmessage.Action";
+
 
 }
