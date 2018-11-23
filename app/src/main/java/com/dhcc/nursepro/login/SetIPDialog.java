@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -31,11 +33,11 @@ public class SetIPDialog extends Dialog {
     private Button yes;//确定按钮
     private Button no;//取消按钮
     private TextView titleTv;//消息标题文本
-    private TextView messageTv;//消息提示文本
+    private TextView messageIP;//IP地址
+    private TextView messagePort;//端口
     private String titleStr;//从外界设置的title文本
-    private String messageStr;//从外界设置的消息文本
-    private String ipStr;
-    private RecyclerView recbedset;
+    private String messageStrIP;//从外界设置的IP
+    private String messageStrPort;//外界到处的端口号
     //确定文本和取消文本的显示内容
     private String yesStr, noStr;
     private onNoOnclickListener noOnclickListener;//取消按钮被点击了的监听器
@@ -93,7 +95,8 @@ public class SetIPDialog extends Dialog {
     private void initView() {
         yes = (Button) findViewById(R.id.yes);
         no = (Button) findViewById(R.id.no);
-        messageTv = (TextView) findViewById(R.id.message);
+        messageIP = (TextView) findViewById(R.id.message);
+        messagePort = findViewById(R.id.message2);
 
     }
 
@@ -105,8 +108,11 @@ public class SetIPDialog extends Dialog {
         //            if (titleStr != null) {
         //                titleTv.setText(titleStr);
         //            }
-        if (messageStr != null) {
-            messageTv.setText(messageStr);
+        if (messageStrIP != null) {
+            messageIP.setText(messageStrIP);
+        }
+        if (messageStrPort != null) {
+            messagePort.setText(messageStrPort);
         }
         //如果设置按钮的文字
         if (yesStr != null) {
@@ -157,11 +163,25 @@ public class SetIPDialog extends Dialog {
      * @param message
      */
     public void setMessage(String message) {
-        messageStr = message;
+        if (message.contains(":")){
+            //判断":"后面的内容，空的话返回错误，有数字外其他字符也返回错误
+            messageStrPort = message.substring(message.indexOf(":")+1,message.length());
+            messageStrIP =  message.substring(0, message.indexOf(":"));
+        }else {
+            messageStrIP = message;
+            messageStrPort = "";
+        }
+
     }
 
+
     public String getIp() {
-        return messageTv.getText().toString();
+
+        if (TextUtils.isEmpty(messagePort.getText())){
+            return messageIP.getText().toString();
+        }else {
+            return messageIP.getText().toString() + ":" + messagePort.getText().toString();
+        }
     }
 
     /**

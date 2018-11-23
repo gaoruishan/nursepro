@@ -29,16 +29,42 @@
                 android:textColor="#FF62ABFF"
                 android:textSize="18sp" />
 
-            <EditText
-                android:id="@+id/message"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="25dp"
-                android:gravity="center"
-                android:text="10.1.5.87"
-                android:digits="0123456789.:"
                 android:background="@color/bg_blue_light"
-                />
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/message"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:hint="输入IP"
+                    android:digits="0123456789."
+                    android:background="@color/bg_blue_light"
+                    />
+                <TextView
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text=":"
+                    android:textColor="@color/black"
+                    />
+                <EditText
+                    android:id="@+id/message2"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:hint="输入端口号"
+                    android:digits="0123456789"
+                    android:background="@color/bg_blue_light"
+                    />
+            </LinearLayout>
+
+
 
         </LinearLayout>
 
