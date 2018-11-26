@@ -14,6 +14,7 @@ public class MessageEvent {
     private int postion;//滑动位置
     private int offSet;//偏移位置
     private Object object;//句柄
+
     public MessageEvent(int tag) {
         this.tag = tag;
     }

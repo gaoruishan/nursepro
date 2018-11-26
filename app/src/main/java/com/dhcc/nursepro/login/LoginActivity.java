@@ -45,6 +45,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private ImageView imgLoginUsercodeClear;
     private EditText etLoginPassword;
     private ImageView imgLoginPasswordClear;
+
     private TextView tvLoginWard;
     private TextView tvLoginLogin;
     private LinearLayout llLoginRememberme;
@@ -206,39 +207,39 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
 
-
-    public int search(String str,String strRes) {//查找字符串里与指定字符串相同的个数
-        int n=0;
-        while(str.indexOf(strRes)!=-1) {
+    public int search(String str, String strRes) {//查找字符串里与指定字符串相同的个数
+        int n = 0;
+        while (str.indexOf(strRes) != -1) {
             int i = str.indexOf(strRes);
             n++;
-            str = str.substring(i+1);
+            str = str.substring(i + 1);
         }
         return n;
     }
+
     public boolean isIP(String addr) {
 
         //判断"."的个数，大于3个返回错误
-        int pointNum = search(addr,".");
-        if (pointNum>3){
-            return  false;
+        int pointNum = search(addr, ".");
+        if (pointNum > 3) {
+            return false;
         }
 
         String ipStr = addr;
-        if (addr.contains(":")){
+        if (addr.contains(":")) {
 
             //判断":"个数，大于1个返回错误
-            int containNum = search(addr,":");
-            if (containNum>1){
+            int containNum = search(addr, ":");
+            if (containNum > 1) {
                 return false;
             }
 
             //判断":"后面的内容，空的话返回错误，有数字外其他字符也返回错误
-            String lastStr = addr.substring(addr.indexOf(":")+1,addr.length());
-            if (lastStr.contains(".") || lastStr.length()<1){
+            String lastStr = addr.substring(addr.indexOf(":") + 1, addr.length());
+            if (lastStr.contains(".") || lastStr.length() < 1) {
                 return false;
             }
-            ipStr =  addr.substring(0, addr.indexOf(":"));
+            ipStr = addr.substring(0, addr.indexOf(":"));
         }
 
         if (ipStr.length() < 7 || ipStr.length() > 15 || "".equals(ipStr)) {

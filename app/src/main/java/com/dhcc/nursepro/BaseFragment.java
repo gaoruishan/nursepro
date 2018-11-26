@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.os.Build;
@@ -27,16 +26,13 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.Objects;
-import java.util.UUID;
-
 import com.dhcc.nursepro.common.BaseBottomLoadingView;
 import com.dhcc.nursepro.common.BaseFullLoadingView;
 import com.dhcc.nursepro.common.BasePushDialog;
 import com.dhcc.nursepro.common.BaseTopLoadingView;
 import com.dhcc.nursepro.constant.Action;
-import com.dhcc.nursepro.workarea.bedmap.api.BedMapApiManager;
-import com.dhcc.nursepro.workarea.bedmap.bean.ScanResultBean;
+
+import java.util.UUID;
 
 /**
  * Created by levis on 2018/6/5.
@@ -53,6 +49,8 @@ public class BaseFragment extends Fragment {
     protected BaseTopLoadingView mTopLoadingView;
     // 加载BottomLoadingTip
     protected BaseBottomLoadingView mBottomLoadingView;
+    protected BaseReceiver mReceiver = new BaseReceiver();
+    protected IntentFilter mfilter = new IntentFilter();
     // 用于发起数据请求时的标记
     private String mRequestTag;
     // 加载LoadingDialog的类型
@@ -62,38 +60,6 @@ public class BaseFragment extends Fragment {
     // 记录是否显示了LoadFailTip
     private boolean isLoadFailTipShowing;
 
-    protected  BaseReceiver mReceiver = new BaseReceiver();
-    protected IntentFilter mfilter = new IntentFilter();
-
-
-
-    public void getScanMsg(Intent intent){
-
-    }
-
-    public class BaseReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            getScanMsg(intent);
-        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mReceiver != null) {
-            getActivity().registerReceiver(mReceiver, mfilter);
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        if (mReceiver != null) {
-            getActivity().unregisterReceiver(mReceiver);
-        }
-
-    }
     /**
      * 判断是否大于等于LOLLIPOP
      *
@@ -101,6 +67,10 @@ public class BaseFragment extends Fragment {
      */
     public static boolean isAboveLollipop() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+    }
+
+    public void getScanMsg(Intent intent) {
+
     }
 
     /**
@@ -125,16 +95,16 @@ public class BaseFragment extends Fragment {
 
     /**
      * 设置StatusBarBackgroundView是否需要显示
+     *
      * @param show
      * @param color
      */
-    public void setStatusBarBackgroundViewVisibility(boolean show, int color){
+    public void setStatusBarBackgroundViewVisibility(boolean show, int color) {
         Activity activity = getActivity();
         if (activity != null && activity instanceof BaseActivity) {
-            ((BaseActivity) activity).setStatusBarBackgroundViewVisibility(show,color);
+            ((BaseActivity) activity).setStatusBarBackgroundViewVisibility(show, color);
         }
     }
-
 
     /**
      * 设置Toolbar的背景
@@ -150,6 +120,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 设置Toolbar的导航按钮
+     *
      * @param resId
      */
     public void showToolbarNavigationIcon(int resId) {
@@ -350,6 +321,23 @@ public class BaseFragment extends Fragment {
                             FrameLayout.LayoutParams.MATCH_PARENT));
         }
         return mContainer;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mReceiver != null) {
+            getActivity().registerReceiver(mReceiver, mfilter);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mReceiver != null) {
+            getActivity().unregisterReceiver(mReceiver);
+        }
+
     }
 
     /**
@@ -842,16 +830,20 @@ public class BaseFragment extends Fragment {
         //        Logger.d(getClass().getName() + ": LoadFailRetryClicked");
     }
 
-
-
     /**
      * 更新消息信息
-     *
      */
     public void setMessage(int messageNum) {
         Activity activity = getActivity();
         if (activity != null && activity instanceof BaseActivity) {
             ((BaseActivity) activity).setmessage(messageNum);
+        }
+    }
+
+    public class BaseReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            getScanMsg(intent);
         }
     }
 }

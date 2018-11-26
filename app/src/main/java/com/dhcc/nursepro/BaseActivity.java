@@ -1,7 +1,5 @@
 package com.dhcc.nursepro;
 
-import android.support.v7.app.AppCompatActivity;
-
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -32,6 +30,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.TypedValue;
@@ -51,9 +50,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dhcc.nursepro.common.BaseBottomLoadingView;
+import com.dhcc.nursepro.common.BaseFullLoadingView;
 import com.dhcc.nursepro.common.BasePushDialog;
 import com.dhcc.nursepro.common.BaseTopLoadingView;
-import com.dhcc.nursepro.MessageEvent;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -65,10 +64,6 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
-
-
-import com.dhcc.nursepro.common.BaseFullLoadingView;
-import com.dhcc.nursepro.login.UserLoginFragment;
 
 /**
  * Created by levis on 2018/6/5.
@@ -230,7 +225,6 @@ public class BaseActivity extends AppCompatActivity
     }
 
 
-
     /**
      * 设置Toolbar的背景
      *
@@ -254,20 +248,6 @@ public class BaseActivity extends AppCompatActivity
     // 添加默认的返回按钮图标
     private void initBackAction() {
         mToolbar.setNavigationIcon(R.drawable.icon_back_white);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onToolbarBackPressed();
-            }
-        });
-    }
-
-    /**
-     * 设置返回按钮图标
-     * @param resId
-     */
-    private void initBackAction(int resId) {
-        mToolbar.setNavigationIcon(resId);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -446,8 +426,6 @@ public class BaseActivity extends AppCompatActivity
         }
     }
 
-    //-------------------------------
-
     @CallSuper
     @Override
     protected void onDestroy() {
@@ -458,99 +436,10 @@ public class BaseActivity extends AppCompatActivity
         super.onDestroy();
     }
 
+    //-------------------------------
+
     public boolean isResume() {
         return isResume;
-    }
-
-    @Override
-    public void onGlobalLayout() {
-        try {
-            final View view = getWindow().getDecorView();
-            final Rect r = new Rect();
-            view.getWindowVisibleDisplayFrame(r);
-            final int heightDiff = getWindowManager().getDefaultDisplay().getHeight() - (r.bottom - r.top);
-
-            if (!isSoftKeyboardOpened && heightDiff > 100) { // if more than 100 pixels, its probably a keyboard...
-                isSoftKeyboardOpened = true;
-                int offset = heightDiff - getStatusBarHeight() - getToolbarHeight() - dp2px(20);
-                onKeyBoardOpen(offset);
-
-                List<Fragment> fragments = getSupportFragmentManager().getFragments();
-                if (fragments != null) {
-                    for (Fragment fragment : fragments) {
-                        if (fragment != null && fragment instanceof BaseFragment) {
-                            ((BaseFragment) fragment).onKeyBoardOpen(heightDiff);
-                        }
-                    }
-                }
-                MessageEvent event = new MessageEvent(001);
-                event.setOffSet(offset);
-                EventBus.getDefault().post(event);
-                canCloseSoftKeyboard = false;
-                new Timer().schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        canCloseSoftKeyboard = true;
-                    }
-                }, 600);
-            } else if (canCloseSoftKeyboard && isSoftKeyboardOpened && heightDiff < 100) {
-                isSoftKeyboardOpened = false;
-                onKeyBoardClose();
-                //            MessageEvent event = new MessageEvent(MessageEvent.MessageType.KEY_BORAD_CLOSE);
-                List<Fragment> fragments = getSupportFragmentManager().getFragments();
-                if (fragments != null) {
-                    for (Fragment fragment : fragments) {
-                        if (fragment != null && fragment instanceof BaseFragment) {
-                            ((BaseFragment) fragment).onKeyBoardClose();
-                        }
-                    }
-                }
-                //                MessageEvent event = new MessageEvent(002);
-                //                EventBus.getDefault().post(event);
-            }
-        } catch (Exception e) {
-            //避免潜在的崩溃问题，有些Fragment，例如ZhWebFragment不能被转换为BaseFragment从而报错
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * 获得Toolbar的高度
-     *
-     * @return
-     */
-    public int getToolbarHeight() {
-        return mToolbarHeight;
-    }
-
-    /**
-     * 根据手机的分辨率dp单位转为px像素
-     *
-     * @param dp
-     * @return
-     */
-    public int dp2px(float dp) {
-        final float scale = getResources().getDisplayMetrics().density;
-        return (int) (dp * scale + 0.5f);
-    }
-
-    public void onKeyBoardOpen(int heightDiff) {
-    }
-
-    public void onKeyBoardClose() {
-    }
-
-    /**
-     * 设置Toolbar的高度
-     *
-     * @param toolbarHeight
-     */
-    public void setToolbarHeight(int toolbarHeight) {
-        this.mToolbarHeight = toolbarHeight;
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mToolbar.getLayoutParams();
-        params.height = toolbarHeight;
-        mToolbar.setLayoutParams(params);
-        mToolbar.setMinimumHeight(toolbarHeight);
     }
 
     /**
@@ -562,10 +451,26 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 设置Toolbar的导航按钮
+     *
      * @param resId
      */
     public void showToolbarNavigationIcon(int resId) {
         initBackAction(resId);
+    }
+
+    /**
+     * 设置返回按钮图标
+     *
+     * @param resId
+     */
+    private void initBackAction(int resId) {
+        mToolbar.setNavigationIcon(resId);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onToolbarBackPressed();
+            }
+        });
     }
 
     /**
@@ -583,7 +488,7 @@ public class BaseActivity extends AppCompatActivity
     public void startLogin(Runnable callbackAfterLoginSuccess) {
         mCallbackAfterLoginSuccess = callbackAfterLoginSuccess;
         // 启动登录页面
-        startFragment(UserLoginFragment.class, REQUEST_CODE_CHECK_LOGIN);
+        //        startFragment(UserLoginFragment.class, REQUEST_CODE_CHECK_LOGIN);
     }
 
     /**
@@ -625,7 +530,7 @@ public class BaseActivity extends AppCompatActivity
     public void startLogin(Runnable callbackAfterLoginSuccess, @Nullable Bundle args) {
         mCallbackAfterLoginSuccess = callbackAfterLoginSuccess;
         // 启动登录页面
-        startFragment(UserLoginFragment.class, args, REQUEST_CODE_CHECK_LOGIN);
+        //        startFragment(UserLoginFragment.class, args, REQUEST_CODE_CHECK_LOGIN);
     }
 
     /**
@@ -1363,6 +1268,9 @@ public class BaseActivity extends AppCompatActivity
         }
     }
 
+    public void setmessage(int messageNum) {
+    }
+
     /**
      * 定义了显示加载提示框的类型
      * TOP  : 页面上边简单非模态提示
@@ -1548,9 +1456,107 @@ public class BaseActivity extends AppCompatActivity
                 case 500:
                     setToolbarBottomLineVisibilityCore((boolean) msg.obj);
                     break;
+                default:
+                    break;
             }
         }
     }
 
-    public void setmessage(int messageNum){}
+    @Override
+    public void onGlobalLayout() {
+        try {
+            final View view = getWindow().getDecorView();
+            final Rect r = new Rect();
+            view.getWindowVisibleDisplayFrame(r);
+            final int heightDiff = getWindowManager().getDefaultDisplay().getHeight() - (r.bottom - r.top);
+
+            if (!isSoftKeyboardOpened && heightDiff > 100) { // if more than 100 pixels, its probably a keyboard...
+                isSoftKeyboardOpened = true;
+                int offset = heightDiff - getStatusBarHeight() - getToolbarHeight() - dp2px(20);
+                onKeyBoardOpen(offset);
+
+                List<Fragment> fragments = getSupportFragmentManager().getFragments();
+                if (fragments != null) {
+                    for (Fragment fragment : fragments) {
+                        if (fragment != null && fragment instanceof BaseFragment) {
+                            ((BaseFragment) fragment).onKeyBoardOpen(heightDiff);
+                        }
+                    }
+                }
+                MessageEvent event = new MessageEvent(001);
+                event.setOffSet(offset);
+                EventBus.getDefault().post(event);
+                canCloseSoftKeyboard = false;
+                new Timer().schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        canCloseSoftKeyboard = true;
+                    }
+                }, 600);
+            } else if (canCloseSoftKeyboard && isSoftKeyboardOpened && heightDiff < 100) {
+                isSoftKeyboardOpened = false;
+                onKeyBoardClose();
+                //            MessageEvent event = new MessageEvent(MessageEvent.MessageType.KEY_BORAD_CLOSE);
+                List<Fragment> fragments = getSupportFragmentManager().getFragments();
+                if (fragments != null) {
+                    for (Fragment fragment : fragments) {
+                        if (fragment != null && fragment instanceof BaseFragment) {
+                            ((BaseFragment) fragment).onKeyBoardClose();
+                        }
+                    }
+                }
+                //                MessageEvent event = new MessageEvent(002);
+                //                EventBus.getDefault().post(event);
+            }
+        } catch (Exception e) {
+            //避免潜在的崩溃问题，有些Fragment，例如ZhWebFragment不能被转换为BaseFragment从而报错
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * 获得Toolbar的高度
+     *
+     * @return
+     */
+    public int getToolbarHeight() {
+        return mToolbarHeight;
+    }
+
+
+    /**
+     * 根据手机的分辨率dp单位转为px像素
+     *
+     * @param dp
+     * @return
+     */
+    public int dp2px(float dp) {
+        final float scale = getResources().getDisplayMetrics().density;
+        return (int) (dp * scale + 0.5f);
+    }
+
+
+    public void onKeyBoardOpen(int heightDiff) {
+    }
+
+
+    public void onKeyBoardClose() {
+    }
+
+
+    /**
+     * 设置Toolbar的高度
+     *
+     * @param toolbarHeight
+     */
+    public void setToolbarHeight(int toolbarHeight) {
+        this.mToolbarHeight = toolbarHeight;
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mToolbar.getLayoutParams();
+        params.height = toolbarHeight;
+        mToolbar.setLayoutParams(params);
+        mToolbar.setMinimumHeight(toolbarHeight);
+    }
+
+
 }

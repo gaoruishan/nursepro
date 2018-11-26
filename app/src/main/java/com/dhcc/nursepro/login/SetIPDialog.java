@@ -4,24 +4,12 @@ package com.dhcc.nursepro.login;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.nursepro.R;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 创建自定义的dialog
@@ -163,11 +151,11 @@ public class SetIPDialog extends Dialog {
      * @param message
      */
     public void setMessage(String message) {
-        if (message.contains(":")){
+        if (message.contains(":")) {
             //判断":"后面的内容，空的话返回错误，有数字外其他字符也返回错误
-            messageStrPort = message.substring(message.indexOf(":")+1,message.length());
-            messageStrIP =  message.substring(0, message.indexOf(":"));
-        }else {
+            messageStrPort = message.substring(message.indexOf(":") + 1, message.length());
+            messageStrIP = message.substring(0, message.indexOf(":"));
+        } else {
             messageStrIP = message;
             messageStrPort = "";
         }
@@ -177,9 +165,9 @@ public class SetIPDialog extends Dialog {
 
     public String getIp() {
 
-        if (TextUtils.isEmpty(messagePort.getText())){
+        if (TextUtils.isEmpty(messagePort.getText())) {
             return messageIP.getText().toString();
-        }else {
+        } else {
             return messageIP.getText().toString() + ":" + messagePort.getText().toString();
         }
     }

@@ -35,6 +35,9 @@ import java.util.Objects;
  * 消息页面
  */
 public class MessageFragment extends BaseFragment implements View.OnClickListener {
+    //登陆成功后所有的广播信息全部注销了，在此重新注册
+    protected BaseReceiver mReceiver = new BaseReceiver();
+    protected IntentFilter mfilter = new IntentFilter();
     private LinearLayout llMessageNeworderTitle;
     private TextView tvMessageNeworderCount;
     private RecyclerView recyMessageNeworder;
@@ -44,23 +47,149 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
     private LinearLayout llMessageConsultationTitle;
     private TextView tvMessageConsultationCount;
     private RecyclerView recyMessageConsultation;
-
-
     private List<MessageBean.NewOrdPatListBean> newOrdPatList;
     private List<MessageBean.AbnormalPatListBean> abnormalPatList;
     private List<MessageBean.ConPatListBean> conPatList;
-
     private MessageNewOrderAdapter newOrderAdapter;
     private MessageAbnormalAdapter abnormalAdapter;
     private MessageConsultationAdapter consultationAdapter;
 
-    //登陆成功后所有的广播信息全部注销了，在此重新注册
-    protected  BaseReceiver mReceiver = new BaseReceiver();
-    protected IntentFilter mfilter = new IntentFilter();
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.ll_message_neworder_title:
+                if (recyMessageNeworder.getVisibility() == View.VISIBLE) {
+                    llMessageNeworderTitle.setSelected(true);
+                    recyMessageNeworder.setVisibility(View.GONE);
+                    tvMessageNeworderCount.setVisibility(View.VISIBLE);
+                    tvMessageNeworderCount.setText(newOrderAdapter.getItemCount() + "");
+                } else {
+                    llMessageNeworderTitle.setSelected(false);
+                    tvMessageNeworderCount.setVisibility(View.GONE);
+                    recyMessageNeworder.setVisibility(View.VISIBLE);
+                }
+                break;
+            case R.id.ll_message_abnormal_title:
+                if (recyMessageAbnormal.getVisibility() == View.VISIBLE) {
+                    llMessageAbnormalTitle.setSelected(true);
+                    recyMessageAbnormal.setVisibility(View.GONE);
+                    tvMessageAbnormalCount.setVisibility(View.VISIBLE);
+                    tvMessageAbnormalCount.setText(abnormalAdapter.getItemCount() + "");
+                } else {
+                    llMessageAbnormalTitle.setSelected(false);
+                    tvMessageAbnormalCount.setVisibility(View.GONE);
+                    recyMessageAbnormal.setVisibility(View.VISIBLE);
+                }
+                break;
+            case R.id.ll_message_consultation_title:
+                if (recyMessageConsultation.getVisibility() == View.VISIBLE) {
+                    llMessageConsultationTitle.setSelected(true);
+                    recyMessageConsultation.setVisibility(View.GONE);
+                    tvMessageConsultationCount.setVisibility(View.VISIBLE);
+                    tvMessageConsultationCount.setText(consultationAdapter.getItemCount() + "");
+                } else {
+                    llMessageConsultationTitle.setSelected(false);
+                    tvMessageConsultationCount.setVisibility(View.GONE);
+                    recyMessageConsultation.setVisibility(View.VISIBLE);
+                }
+                break;
+            default:
+                break;
+
+        }
+    }
+
+    @Override
+    public void getScanMsg(Intent intent) {
+        super.getScanMsg(intent);
+        switch (Objects.requireNonNull(intent.getAction())) {
+            case Action.NEWMESSAGE_SERVICE:
+                initData();
+            default:
+                break;
+
+        }
+    }
 
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_message, container, false);
+    }
+
+    private void initData() {
+        MessageApiManager.getMessage(new MessageApiManager.GetMessageCallback() {
+            @Override
+            public void onSuccess(MessageBean msgs) {
+                newOrdPatList = msgs.getNewOrdPatList();
+                abnormalPatList = msgs.getAbnormalPatList();
+                conPatList = msgs.getConPatList();
+
+                newOrderAdapter.setNewData(newOrdPatList);
+                abnormalAdapter.setNewData(abnormalPatList);
+                consultationAdapter.setNewData(conPatList);
+
+                if (newOrdPatList.size() == 0) {
+                    llMessageNeworderTitle.setSelected(true);
+                    recyMessageNeworder.setVisibility(View.GONE);
+                    tvMessageNeworderCount.setVisibility(View.VISIBLE);
+                    tvMessageNeworderCount.setText(newOrderAdapter.getItemCount() + "");
+                } else {
+                    llMessageNeworderTitle.setSelected(false);
+                    tvMessageNeworderCount.setVisibility(View.GONE);
+                    recyMessageNeworder.setVisibility(View.VISIBLE);
+                }
+
+                if (abnormalPatList.size() == 0) {
+                    llMessageAbnormalTitle.setSelected(true);
+                    recyMessageAbnormal.setVisibility(View.GONE);
+                    tvMessageAbnormalCount.setVisibility(View.VISIBLE);
+                    tvMessageAbnormalCount.setText(abnormalAdapter.getItemCount() + "");
+                } else {
+                    llMessageAbnormalTitle.setSelected(false);
+                    tvMessageAbnormalCount.setVisibility(View.GONE);
+                    recyMessageAbnormal.setVisibility(View.VISIBLE);
+                }
+
+                if (conPatList.size() == 0) {
+                    llMessageConsultationTitle.setSelected(true);
+                    recyMessageConsultation.setVisibility(View.GONE);
+                    tvMessageConsultationCount.setVisibility(View.VISIBLE);
+                    tvMessageConsultationCount.setText(consultationAdapter.getItemCount() + "");
+                } else {
+                    llMessageConsultationTitle.setSelected(false);
+                    tvMessageConsultationCount.setVisibility(View.GONE);
+                    recyMessageConsultation.setVisibility(View.VISIBLE);
+                }
+
+                tvMessageNeworderCount.setText(newOrderAdapter.getItemCount() + "");
+                tvMessageAbnormalCount.setText(abnormalAdapter.getItemCount() + "");
+                tvMessageConsultationCount.setText(consultationAdapter.getItemCount() + "");
+
+                int messageNum = msgs.getNewOrdPatList().size() + msgs.getAbnormalPatList().size() + msgs.getConPatList().size();
+                setMessage(messageNum);
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+                showToast("error" + code + ":" + msg);
+            }
+        });
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden) {
+            if (mReceiver != null) {
+                getActivity().unregisterReceiver(mReceiver);
+            }
+        } else {
+            initData();
+            mfilter.addAction(Action.NEWMESSAGE_SERVICE);
+            if (mReceiver != null) {
+                getActivity().registerReceiver(mReceiver, mfilter);
+            }
+        }
     }
 
     @Override
@@ -119,7 +248,6 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
 
     }
 
-
     private void initAdapter() {
         newOrderAdapter = new MessageNewOrderAdapter(new ArrayList<MessageBean.NewOrdPatListBean>());
 
@@ -155,153 +283,21 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
         recyMessageConsultation.setAdapter(consultationAdapter);
     }
 
-    private void initData() {
-        MessageApiManager.getMessage(new MessageApiManager.GetMessageCallback() {
-            @Override
-            public void onSuccess(MessageBean msgs) {
-                newOrdPatList = msgs.getNewOrdPatList();
-                abnormalPatList = msgs.getAbnormalPatList();
-                conPatList = msgs.getConPatList();
-
-                newOrderAdapter.setNewData(newOrdPatList);
-                abnormalAdapter.setNewData(abnormalPatList);
-                consultationAdapter.setNewData(conPatList);
-
-                if (newOrdPatList.size()==0){
-                    llMessageNeworderTitle.setSelected(true);
-                    recyMessageNeworder.setVisibility(View.GONE);
-                    tvMessageNeworderCount.setVisibility(View.VISIBLE);
-                    tvMessageNeworderCount.setText(newOrderAdapter.getItemCount() + "");
-                }else {
-                    llMessageNeworderTitle.setSelected(false);
-                    tvMessageNeworderCount.setVisibility(View.GONE);
-                    recyMessageNeworder.setVisibility(View.VISIBLE);
-                }
-
-                if (abnormalPatList.size()==0){
-                    llMessageAbnormalTitle.setSelected(true);
-                    recyMessageAbnormal.setVisibility(View.GONE);
-                    tvMessageAbnormalCount.setVisibility(View.VISIBLE);
-                    tvMessageAbnormalCount.setText(abnormalAdapter.getItemCount() + "");
-                }else {
-                    llMessageAbnormalTitle.setSelected(false);
-                    tvMessageAbnormalCount.setVisibility(View.GONE);
-                    recyMessageAbnormal.setVisibility(View.VISIBLE);
-                }
-
-                if (conPatList.size()==0){
-                    llMessageConsultationTitle.setSelected(true);
-                    recyMessageConsultation.setVisibility(View.GONE);
-                    tvMessageConsultationCount.setVisibility(View.VISIBLE);
-                    tvMessageConsultationCount.setText(consultationAdapter.getItemCount() + "");
-                }else {
-                    llMessageConsultationTitle.setSelected(false);
-                    tvMessageConsultationCount.setVisibility(View.GONE);
-                    recyMessageConsultation.setVisibility(View.VISIBLE);
-                }
-
-                tvMessageNeworderCount.setText(newOrderAdapter.getItemCount() + "");
-                tvMessageAbnormalCount.setText(abnormalAdapter.getItemCount() + "");
-                tvMessageConsultationCount.setText(consultationAdapter.getItemCount() + "");
-
-                int messageNum =  msgs.getNewOrdPatList().size()+msgs.getAbnormalPatList().size()+msgs.getConPatList().size();
-                setMessage(messageNum);
-            }
-
-            @Override
-            public void onFail(String code, String msg) {
-                showToast("error" + code + ":" + msg);
-            }
-        });
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.ll_message_neworder_title:
-                if (recyMessageNeworder.getVisibility() == View.VISIBLE) {
-                    llMessageNeworderTitle.setSelected(true);
-                    recyMessageNeworder.setVisibility(View.GONE);
-                    tvMessageNeworderCount.setVisibility(View.VISIBLE);
-                    tvMessageNeworderCount.setText(newOrderAdapter.getItemCount() + "");
-                } else {
-                    llMessageNeworderTitle.setSelected(false);
-                    tvMessageNeworderCount.setVisibility(View.GONE);
-                    recyMessageNeworder.setVisibility(View.VISIBLE);
-                }
-                break;
-            case R.id.ll_message_abnormal_title:
-                if (recyMessageAbnormal.getVisibility() == View.VISIBLE) {
-                    llMessageAbnormalTitle.setSelected(true);
-                    recyMessageAbnormal.setVisibility(View.GONE);
-                    tvMessageAbnormalCount.setVisibility(View.VISIBLE);
-                    tvMessageAbnormalCount.setText(abnormalAdapter.getItemCount() + "");
-                } else {
-                    llMessageAbnormalTitle.setSelected(false);
-                    tvMessageAbnormalCount.setVisibility(View.GONE);
-                    recyMessageAbnormal.setVisibility(View.VISIBLE);
-                }
-                break;
-            case R.id.ll_message_consultation_title:
-                if (recyMessageConsultation.getVisibility() == View.VISIBLE) {
-                    llMessageConsultationTitle.setSelected(true);
-                    recyMessageConsultation.setVisibility(View.GONE);
-                    tvMessageConsultationCount.setVisibility(View.VISIBLE);
-                    tvMessageConsultationCount.setText(consultationAdapter.getItemCount() + "");
-                } else {
-                    llMessageConsultationTitle.setSelected(false);
-                    tvMessageConsultationCount.setVisibility(View.GONE);
-                    recyMessageConsultation.setVisibility(View.VISIBLE);
-                }
-                break;
-            default:
-                break;
-
-        }
-    }
-    public void notifyMessage(){
+    public void notifyMessage() {
         {
             MessageApiManager.getMessage(new MessageApiManager.GetMessageCallback() {
                 @Override
                 public void onSuccess(MessageBean msgs) {
-                    int messageNum =  msgs.getNewOrdPatList().size()+msgs.getAbnormalPatList().size()+msgs.getConPatList().size();
+                    int messageNum = msgs.getNewOrdPatList().size() + msgs.getAbnormalPatList().size() + msgs.getConPatList().size();
                     setMessage(messageNum);
                 }
 
                 @Override
                 public void onFail(String code, String msg) {
                     Toast.makeText(getActivity(), code + "-消息获取失败：" + msg, Toast.LENGTH_SHORT).show();
-                    Log.v("1111111nohid","222");
+                    Log.v("1111111nohid", "222");
                 }
             });
-        }
-    }
-
-    @Override
-    public void getScanMsg(Intent intent) {
-        super.getScanMsg(intent);
-        switch (Objects.requireNonNull(intent.getAction())) {
-            case Action.NEWMESSAGE_SERVICE:
-                initData();
-            default:
-                break;
-
-        }
-    }
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (hidden) {
-            if (mReceiver != null ) {
-                    getActivity().unregisterReceiver(mReceiver);
-            }
-        } else {
-            initData();
-            mfilter.addAction(Action.NEWMESSAGE_SERVICE);
-            if (mReceiver != null) {
-                getActivity().registerReceiver(mReceiver, mfilter);
-            }
         }
     }
 }
