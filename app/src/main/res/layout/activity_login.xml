@@ -105,6 +105,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="26dp"
                 android:background="@null"
+                android:inputType="textPassword"
                 android:hint="请输入登录密码"
                 android:imeOptions="actionDone"
                 android:singleLine="true"
@@ -120,11 +121,11 @@
                 android:src="@drawable/clear"/>
             <ImageView
                 android:id="@+id/img_login_password_showhide"
-                android:visibility="gone"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
+                android:layout_marginStart="8dp"
                 android:padding="4dp"
-                android:src="@drawable/icon_pwd_show"/>
+                android:src="@drawable/icon_pwd_selector"/>
         </LinearLayout>
 
         <View

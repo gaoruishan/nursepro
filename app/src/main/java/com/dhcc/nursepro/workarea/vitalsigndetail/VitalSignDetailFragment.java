@@ -237,9 +237,6 @@ public class VitalSignDetailFragment extends BaseFragment implements View.OnClic
                 .setWheelItemTextSize(12)
                 .build();
         mDialogAll.settype(1);
-        //取时间前两个字符转为int（02，06...）
-        String[] stringhours = {"02:00", "06:00", "10:00", "14:00"};
-        //mDialogAll.setintHour(stringhours);
 
         mDialogAll.show(getActivity().getSupportFragmentManager(), "ALL");
 

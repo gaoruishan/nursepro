@@ -10,14 +10,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.bedmap.bean.BedMapBean;
 import com.dhcc.nursepro.workarea.checkresult.CheckResultListFragment;
-import com.dhcc.nursepro.workarea.checkresult.adapter.CheckResultListAdapter;
 import com.dhcc.nursepro.workarea.docorderlist.DocOrderListFragment;
 import com.dhcc.nursepro.workarea.labresult.LabResultListFragment;
 import com.dhcc.nursepro.workarea.orderexecute.OrderExecuteFragment;

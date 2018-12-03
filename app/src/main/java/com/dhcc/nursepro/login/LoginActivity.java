@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
@@ -45,6 +46,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private ImageView imgLoginUsercodeClear;
     private EditText etLoginPassword;
     private ImageView imgLoginPasswordClear;
+    private ImageView imgLoginPasswordShowhide;
 
     private TextView tvLoginWard;
     private TextView tvLoginLogin;
@@ -104,6 +106,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         etLoginPassword = findViewById(R.id.et_login_password);
         imgLoginPasswordClear = findViewById(R.id.img_login_password_clear);
         imgLoginPasswordClear.setOnClickListener(this);
+        imgLoginPasswordShowhide = findViewById(R.id.img_login_password_showhide);
+        imgLoginPasswordShowhide.setOnClickListener(this);
+
         tvLoginWard = findViewById(R.id.tv_login_ward);
         tvLoginWard.setOnClickListener(this);
         tvLoginLogin = findViewById(R.id.tv_login_login);
@@ -325,6 +330,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 break;
             case R.id.img_login_password_clear:
                 etLoginPassword.setText("");
+                break;
+            case R.id.img_login_password_showhide:
+                if (imgLoginPasswordShowhide.isSelected()) {
+                    imgLoginPasswordShowhide.setSelected(false);
+                    etLoginPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                } else {
+                    imgLoginPasswordShowhide.setSelected(true);
+                    etLoginPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                }
                 break;
             case R.id.ll_login_rememberme:
                 if (llLoginRememberme.isSelected()) {
