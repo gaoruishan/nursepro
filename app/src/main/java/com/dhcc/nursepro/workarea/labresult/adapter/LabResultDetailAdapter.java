@@ -46,6 +46,7 @@ public class LabResultDetailAdapter extends BaseQuickAdapter <LabReslutDetailBea
             tvresultref.setVisibility(View.GONE);
         }else {
             tvresultref.setVisibility(View.VISIBLE);
+            tvresultref.setText(item.getResultRefRanges());
         }
 
     }
