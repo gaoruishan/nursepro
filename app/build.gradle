@@ -25,6 +25,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
         debug {
             signingConfig signingConfigs.release
@@ -96,4 +97,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation files('libs/ksoap2-android-assembly-3.6.2-jar-with-dependencies.jar')
     implementation project(':TimePickerDialog')
+    implementation('com.nex3z:flow-layout:1.2.4') {
+        exclude group: 'com.android.support'
+    }
 }
