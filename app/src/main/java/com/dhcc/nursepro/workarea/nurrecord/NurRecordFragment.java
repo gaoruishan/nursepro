@@ -110,13 +110,6 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
         });
         recordContentView = view.findViewById(R.id.ll_vitalsign_record_content);
         viewItemMap = new HashMap<>();
-
-        remodeldetail = view.findViewById(R.id.rec_modeltail);
-        //提高展示效率
-        remodeldetail.setHasFixedSize(true);
-        //设置的布局管理
-        remodeldetail.setLayoutManager(new LinearLayoutManager(getActivity()));
-
     }
     private void initAdapter() {
 
