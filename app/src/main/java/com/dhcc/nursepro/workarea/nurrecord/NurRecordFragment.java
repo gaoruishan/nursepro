@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -58,6 +60,11 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
     private TextView textViewSel;
     private String dt = "date";
     private Map patInfoMap=new HashMap<String,String>();
+
+    private long mExitTime;
+    List listCk = new ArrayList();
+    private String strSend = "";
+
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_modeldetail, container, false);
@@ -82,6 +89,23 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
         tvsend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                strSend = "";
+                for (int i = 0;i<listBeans.size();i++){
+                    if (listBeans.get(i).getItemCode().startsWith("Item")){
+                        strSend = strSend+"^"+listBeans.get(i).getSendValue();
+                    }
+                    if (listBeans.get(i).getMustFill().equals("1")){
+                        if (listBeans.get(i).getSendValue().equals("")) {
+                            showToast(listBeans.get(i).getItemDesc() + "--未填写");
+                            return;
+                        }
+                    }
+                    if (i == listBeans.size()-1){
+
+                        showToast(strSend);
+                        Log.v("111send",strSend);
+                    }
+                }
             }
         });
         recordContentView = view.findViewById(R.id.ll_vitalsign_record_content);
@@ -172,7 +196,7 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
         int width = ConvertUtils.dp2px(Float.parseFloat(config.getWidth()));;
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,height);
-        params.setMargins(0,ConvertUtils.dp2px(20),0,0);
+        params.setMargins(0,0,0,0);
 //        params.weight = 1;
 
         layout.setLayoutParams(params);
@@ -188,9 +212,9 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
         }
 
         LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        titleParams.setMargins(ConvertUtils.dp2px(5),0,ConvertUtils.dp2px(5),0);
+        titleParams.setMargins(ConvertUtils.dp2px(5),5,ConvertUtils.dp2px(5),0);
         titleTV.setLayoutParams(titleParams);
-        titleTV.setGravity(Gravity.CENTER_VERTICAL);
+        titleTV.setGravity(Gravity.TOP);
 //        titleTV.setBackgroundColor(getResources().getColor(R.color.blue_light));
 
         titleTV.setOnClickListener(new View.OnClickListener() {
@@ -212,7 +236,17 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
             edText.setTextSize(Float.parseFloat(config.getFontSize()));
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, ViewGroup.LayoutParams.MATCH_PARENT);
             edText.setLayoutParams(layoutParams);
-            //判断基本信息是否为空，为空则可手动编辑，不为空，将信息填入默认值，并不可编辑
+            edText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (System.currentTimeMillis() - mExitTime > 1000) {
+                        mExitTime = System.currentTimeMillis();
+                    }else {
+                        showToast("双击进入dialog");
+                    }
+                }
+            });
+            //是否可编辑
             if (config.getEditFlag().equals("1")) {
                 edText.setTextColor(getResources().getColor(R.color.black));
             }else {
@@ -222,8 +256,10 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
                 edText.setTextColor(getResources().getColor(R.color.divider_line_color));
                 edText.setText(config.getPatInfo());
             }
+            //根据默认内容优先级填入默认值
             if (config.getPatInfo().equals("")){
                 edText.setText(config.getItemdeValue());
+                config.setSendValue(config.getItemdeValue()+"");
             }else {
 
 //                Gson gson = new Gson();
@@ -231,33 +267,90 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
 //                showToast(result);
                 //将bean转为map，config.getPatInfo())作为键获取值
                 edText.setText((patInfoMap.get(config.getPatInfo())+""));
+                config.setSendValue((patInfoMap.get(config.getPatInfo())+""));
             }
+            edText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    config.setSendValue(edText.getText().toString()+"----");
+                    showToast(edText.getText().toString());
+                }
+            });
+
+
             layout.addView(edText);
 
         }else if (config.getItemType().equals("C")){
-            LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-            params1.setMargins(0,ConvertUtils.dp2px(20),0,0);
-            layout.setLayoutParams(params1);
-            FlowLayout flowCheckGroup = new FlowLayout(getContext());
-            String[] split = config.getItemValue().split(";");
-            for (int i = 0;i<split.length;i++){
-                CheckBox cb = new CheckBox(getContext());
-                cb.setText(split[i]+"");
-                cb.setTextSize(Float.parseFloat(config.getFontSize()));
-                cb.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (cb.isChecked()){
-                            showToast(cb.getText()+"----");
-                        }else {
+            //多选
+            if (config.getSingleCheck().equals("0")) {
+                LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                params1.setMargins(0, ConvertUtils.dp2px(20), 0, 0);
+                layout.setLayoutParams(params1);
+                config.setSendValue(config.getItemdeValue()+"");
+                FlowLayout flowCheckGroup = new FlowLayout(getContext());
+                String[] split = config.getItemValue().split(";");
+                for (int i = 0; i < split.length; i++) {
+                    CheckBox cb = new CheckBox(getContext());
+                    cb.setText(split[i] + "");
+                    cb.setTextSize(Float.parseFloat(config.getFontSize()));
+                    Map mapCk = new HashMap();
+                    mapCk.put("value",cb.getText());
+                    mapCk.put("isSel","false");
+                    listCk.add(mapCk);
+                    cb.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (cb.isChecked()) {
+                                mapCk.put("isSel","true");
+                                config.setSendValue(getckvalue((ArrayList<HashMap>) listCk)+"");
+                                showToast(getckvalue((ArrayList<HashMap>) listCk));
+                            } else {
+                                mapCk.put("isSel","false");
+                                config.setSendValue(getckvalue((ArrayList<HashMap>) listCk)+"");
+                                showToast(getckvalue((ArrayList<HashMap>) listCk));
+                            }
 
                         }
+                    });
+                    flowCheckGroup.addView(cb);
+                }
+                layout.addView(flowCheckGroup);
+                //单选
+            }else {
+                LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+                layout.setLayoutParams(params1);
 
-                    }
-                });
-                flowCheckGroup.addView(cb);
+                LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+                FlowRadioGroup radioGroup = new FlowRadioGroup(getContext());
+                radioGroup.setOrientation(LinearLayout.HORIZONTAL);
+                radioGroup.setLayoutParams(params2);
+                String[] split = config.getItemValue().split(";");
+                for (int i = 0;i<split.length;i++){
+                    RadioButton rb = new RadioButton(getContext());
+                    rb.setTextSize(Float.parseFloat(config.getFontSize()));
+                    rb.setText(split[i]+"");
+                    rb.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            showToast(rb.getText()+"");
+                            config.setSendValue(rb.getText()+"");
+                        }
+                    });
+                    radioGroup.addView(rb);
+                }
+                layout.addView(radioGroup);
+
             }
-            layout.addView(flowCheckGroup);
         }else if (config.getItemType().equals("R")){
 
 //            TextView tvalue = new TextView(getContext());
@@ -281,6 +374,8 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
             FlowRadioGroup radioGroup = new FlowRadioGroup(getContext());
             radioGroup.setOrientation(LinearLayout.HORIZONTAL);
             radioGroup.setLayoutParams(params2);
+
+            config.setSendValue(config.getItemdeValue()+"");
             String[] split = config.getItemValue().split("!");
             for (int i = 0;i<split.length;i++){
                 RadioButton rb = new RadioButton(getContext());
@@ -290,6 +385,7 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
                     @Override
                     public void onClick(View v) {
                         showToast(rb.getText()+"----");
+                        config.setSendValue(rb.getText()+"");
                     }
                 });
                 radioGroup.addView(rb);
@@ -302,6 +398,16 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
             layout.addView(radioGroup);
 
         }else if (config.getItemType().equals("T")){
+            if (config.getLinkInfo().size()>0){
+                titleTV.setTextColor(getResources().getColor(R.color.blue));
+                layout.setBackgroundColor(0);
+                titleTV.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showToast("点击进入新的模板");
+                    }
+                });
+            }
             if (config.getTitleHiddeFlag().equals("0")){
                 TextView tvalue = new TextView(getContext());
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ScreenUtils.getScreenWidth(), ViewGroup.LayoutParams.MATCH_PARENT);
@@ -323,6 +429,7 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
             tvalue.setText(config.getItemdeValue()+"2018-12-11");
             tvalue.setTextSize(Float.parseFloat(config.getFontSize()));
             tvalue.setGravity(Gravity.CENTER_HORIZONTAL);
+            config.setSendValue(tvalue.getText()+"");
             tvalue.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -337,6 +444,7 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
             tvalue.setText(config.getItemdeValue()+"11:11");
             tvalue.setTextSize(Float.parseFloat(config.getFontSize()));
             tvalue.setGravity(Gravity.CENTER_HORIZONTAL);
+            config.setSendValue(tvalue.getText()+"");
             tvalue.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -382,6 +490,16 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
 
 
         return layout;
+    }
+
+    private String getckvalue(ArrayList<HashMap> list){
+        String strck = "";
+        for (int i = 0;i<list.size();i++){
+            if (list.get(i).get("isSel").equals("true")){
+                strck = strck+"！"+list.get(i).get("value")+"";
+            }
+        }
+        return strck;
     }
     private LinearLayout dramEmptyItem(){
         LinearLayout layout = new LinearLayout(getContext());

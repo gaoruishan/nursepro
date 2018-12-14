@@ -32,6 +32,7 @@ public class FlowRadioGroup extends RadioGroup {
         int x = 0;
         int y = 0;
         int row = 0;
+        int xx = 0;
 
         for (int index = 0; index < childCount; index++) {
             final View child = getChildAt(index);
@@ -41,6 +42,7 @@ public class FlowRadioGroup extends RadioGroup {
                 int width = child.getMeasuredWidth();
                 int height = child.getMeasuredHeight();
                 x += width;
+                xx += width;
                 y = row * height + height;
                 if (x > maxWidth) {
                     x = width;
@@ -50,7 +52,11 @@ public class FlowRadioGroup extends RadioGroup {
             }
         }
         // 设置容器所需的宽度和高度
-        setMeasuredDimension(maxWidth, y);
+        if (xx>maxWidth) {
+            setMeasuredDimension(maxWidth, y);
+        }else {
+            setMeasuredDimension(xx, y);
+        }
     }
 
     @Override
