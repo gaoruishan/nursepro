@@ -92,4 +92,10 @@
     <color name="bloodoplist_top_text_selected_color">#62ABFF</color>
     <color name="bloodoplist_top_text_normal_color">#000000</color>
 
+    <color name="nurrecord_text_normal_color">#4A4A4A</color>
+    <color name="nurrecord_text_mustfill_color">#EA4300</color>
+    <color name="nurrecord_edit_normal_color">#4A4A4A</color>
+    <color name="nurrecord_edit_defaultvalue_color">#B3B3B3</color>
+
+
 </resources>

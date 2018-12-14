@@ -19,12 +19,6 @@ public class NurRecordAdapter extends BaseQuickAdapter<NurRecordBean.ModelListBe
     }
     @Override
     protected void convert(BaseViewHolder helper, NurRecordBean.ModelListBean item) {
-        helper.setText(R.id.tv_labout_count,item.getItemDesc())
-                .setText(R.id.tv_labout_no,item.getItemdeValue())
-                .setText(R.id.tv_labout_patname,item.getItemValue())
-                .setText(R.id.tv_labout_time,item.getFontSize())
-                .setText(R.id.tv_labout_statu,item.getItemType())
-                .addOnClickListener(R.id.tv_lapack_del)
-                .addOnClickListener(R.id.messagecontentll);
+
     }
 }

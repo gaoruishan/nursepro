@@ -1,39 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:background="@color/bg_blue_light">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ll_labout_container"
-        android:layout_above="@+id/ll_labout_send"
-        android:visibility="gone"
-        android:orientation="vertical">
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="7dp"
-            android:background="@color/bg_blue_light"></View>
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rec_modeltail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white">
-
-        </android.support.v7.widget.RecyclerView>
-
-    </LinearLayout>
+    android:background="@color/bg_blue_light"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
+        android:layout_height="0dp"
         android:layout_weight="1">
+
         <com.nex3z.flowlayout.FlowLayout
             android:id="@+id/ll_vitalsign_record_content"
             android:layout_width="match_parent"
@@ -42,14 +21,13 @@
             app:flRowSpacing="8dp" />
 
     </ScrollView>
+
     <TextView
+        android:id="@+id/tv_send"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="提交"
         android:padding="@dimen/dp_10"
-        android:id="@+id/tv_send"
-        android:layout_alignParentBottom="true"
-        android:visibility="gone"
-        />
-</RelativeLayout>
+        android:text="提交"
+        android:visibility="gone" />
+</LinearLayout>

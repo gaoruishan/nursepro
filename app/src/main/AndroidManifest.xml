@@ -15,30 +15,33 @@
         android:roundIcon="@drawable/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".UniversalActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize|locale|layoutDirection"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Slide" />
-        <activity android:name=".BaseActivity" />
+
         <activity android:name=".Activity.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/StartAppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Activity.MainActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait">
 
-        </activity>
         <activity
             android:name=".login.LoginActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".Activity.MainActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".UniversalActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize|locale|layoutDirection"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Slide" />
+        <activity android:name=".BaseActivity" />
+
         <activity
             android:name=".Activity.NurseSetActivity"
             android:screenOrientation="portrait" />
@@ -50,14 +53,10 @@
             android:screenOrientation="portrait" />
         <service
             android:name=".Activity.MyService"
-            android:label="newOrdService"
-            android:screenOrientation="portrait" >
-        </service>
+            android:label="newOrdService"/>
         <service
             android:name=".workarea.MServiceNewOrd"
-            android:label="newOrdService"
-            android:screenOrientation="portrait" >
-        </service>
+            android:label="newOrdService"/>
     </application>
 
 </manifest>
