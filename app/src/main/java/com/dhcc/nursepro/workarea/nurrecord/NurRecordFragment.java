@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.ScreenUtils;
-import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
@@ -89,12 +88,12 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
                     if (listBeans.get(i).getItemCode().startsWith("Item")) {
                         strSend = strSend + "^" + listBeans.get(i).getSendValue();
                     }
-                    if ("1".equals(listBeans.get(i).getMustFill())) {
-                        if (StringUtils.isEmpty(listBeans.get(i).getSendValue())) {
-                            showToast(listBeans.get(i).getItemDesc() + "--未填写");
-                            return;
-                        }
-                    }
+//                    if ("1".equals(listBeans.get(i).getMustFill())) {
+//                        if (StringUtils.isEmpty(listBeans.get(i).getSendValue())) {
+//                            showToast(listBeans.get(i).getItemDesc() + "--未填写");
+//                            return;
+//                        }
+//                    }
                     if (i == listBeans.size() - 1) {
 
                         showToast(strSend);
@@ -275,19 +274,30 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
                 LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 params1.setMargins(0, 0, 0, 0);
                 layout.setLayoutParams(params1);
+
                 config.setSendValue(config.getItemdeValue() + "");
                 FlowLayout flowCheckGroup = new FlowLayout(getContext());
                 String[] split = config.getItemValue().split(";");
+                String[] devalue = config.getItemdeValue().split(",");
 
                 List listCk = new ArrayList();
                 for (int i = 0; i < split.length; i++) {
                     CheckBox cb = new CheckBox(getContext());
                     cb.setText(split[i] + "");
-                    cb.setTextSize(Float.parseFloat(config.getFontSize()));
-                    cb.setHeight(height);
                     Map mapCk = new HashMap();
                     mapCk.put("value", cb.getText());
                     mapCk.put("isSel", "false");
+                    for (int j = 0; j < devalue.length; j++) {
+                        if (split[i].equals(devalue[j])) {
+                            cb.setChecked(true);
+                            if (cb.getText().equals(devalue[j])) {
+                                mapCk.put("isSel", "true");
+                            }
+                        }
+                    }
+                    cb.setTextSize(Float.parseFloat(config.getFontSize()));
+                    cb.setHeight(height);
+
                     listCk.add(mapCk);
                     cb.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -317,9 +327,12 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
                 FlowRadioGroup radioGroup = new FlowRadioGroup(getContext());
                 radioGroup.setOrientation(LinearLayout.HORIZONTAL);
                 radioGroup.setLayoutParams(params2);
+
+                config.setSendValue(config.getItemdeValue() + "");
                 String[] split = config.getItemValue().split(";");
                 for (int i = 0; i < split.length; i++) {
                     RadioButton rb = new RadioButton(getContext());
+                    rb.setId(i);
                     rb.setTextSize(Float.parseFloat(config.getFontSize()));
                     rb.setText(split[i] + "");
                     rb.setOnClickListener(new View.OnClickListener() {
@@ -330,8 +343,12 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
                         }
                     });
                     radioGroup.addView(rb);
+                    if (split[i].equals(config.getItemdeValue())) {
+                        radioGroup.check(rb.getId());
+                    }
                 }
                 layout.addView(radioGroup);
+
                 viewItemMap.put(config.getItemCode(), radioGroup);
 
             }
@@ -347,6 +364,7 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
             String[] split = config.getItemValue().split("!");
             for (int i = 0; i < split.length; i++) {
                 RadioButton rb = new RadioButton(getContext());
+                rb.setId(i);
                 rb.setHeight(height);
                 rb.setTextSize(Float.parseFloat(config.getFontSize()));
                 rb.setText(split[i] + "");
@@ -358,8 +376,12 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
                     }
                 });
                 radioGroup.addView(rb);
+                if (split[i].equals(config.getItemdeValue())) {
+                    radioGroup.check(rb.getId());
+                }
 
             }
+
 
             layout.addView(radioGroup);
             viewItemMap.put(config.getItemCode(), radioGroup);
@@ -465,7 +487,7 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
         String strck = "";
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).get("isSel").equals("true")) {
-                strck = strck + "！" + list.get(i).get("value") + "";
+                strck = strck + "," + list.get(i).get("value") + "";
             }
         }
         return strck;
