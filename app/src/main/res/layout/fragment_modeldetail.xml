@@ -22,12 +22,15 @@
 
     </ScrollView>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider_line_color"/>
     <TextView
         android:id="@+id/tv_send"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="@dimen/dp_10"
-        android:text="提交"
-        android:visibility="gone" />
+        android:text="提交" />
 </LinearLayout>

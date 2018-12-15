@@ -17,11 +17,11 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.ScreenUtils;
+import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.uiplugs.OptionView;
 import com.dhcc.nursepro.workarea.nurrecord.adapter.NurRecordAdapter;
 import com.dhcc.nursepro.workarea.nurrecord.api.NurRecordManager;
 import com.dhcc.nursepro.workarea.nurrecord.bean.NurRecordBean;
@@ -89,8 +89,8 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
                     if (listBeans.get(i).getItemCode().startsWith("Item")) {
                         strSend = strSend + "^" + listBeans.get(i).getSendValue();
                     }
-                    if (listBeans.get(i).getMustFill().equals("1")) {
-                        if (listBeans.get(i).getSendValue().equals("")) {
+                    if ("1".equals(listBeans.get(i).getMustFill())) {
+                        if (StringUtils.isEmpty(listBeans.get(i).getSendValue())) {
                             showToast(listBeans.get(i).getItemDesc() + "--未填写");
                             return;
                         }
@@ -167,24 +167,20 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
      */
     private LinearLayout drawItem(NurRecordBean.ModelListBean config) {
 
-        LinearLayout layout = new LinearLayout(getContext());
-        layout.setOrientation(LinearLayout.HORIZONTAL);
-        layout.setBackgroundResource(R.drawable.vital_sign_border);
-
         int height = ConvertUtils.dp2px(Float.parseFloat(config.getHeight()));
         int width = ConvertUtils.dp2px(Float.parseFloat(config.getWidth()));
 
+        LinearLayout layout = new LinearLayout(getContext());
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, height);
-        params.setMargins(0, 0, 0, 0);
-        //        params.weight = 1;
-
         layout.setLayoutParams(params);
+        layout.setOrientation(LinearLayout.HORIZONTAL);
+        layout.setBackgroundResource(R.drawable.vital_sign_border);
 
-
+        //统一名称textview
         TextView titleTV = new TextView(getContext());
         titleTV.setText(config.getItemDesc());
-        //        titleTV.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
         titleTV.setTextSize(Float.parseFloat(config.getFontSize()));
+
         //判断是否必填，必填的话字体变红
         if ("1".equals(config.getMustFill())) {
             titleTV.setTextColor(getResources().getColor(R.color.nurrecord_text_mustfill_color));
@@ -196,7 +192,6 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
         titleParams.setMargins(ConvertUtils.dp2px(5), 5, ConvertUtils.dp2px(5), 0);
         titleTV.setLayoutParams(titleParams);
         titleTV.setGravity(Gravity.TOP);
-        //        titleTV.setBackgroundColor(getResources().getColor(R.color.blue_light));
 
         titleTV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -210,13 +205,16 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
 
         if ("E".equals(config.getItemType())) {
             //输入框
-
+            if ("0".equals(config.getTitleHiddeFlag())) {
+                titleTV.setVisibility(View.GONE);
+            }
             EditText edText = new EditText(getContext());
-            edText.setGravity(Gravity.START);
-            edText.setBackgroundResource(R.drawable.vital_sign_input_bg);
-            edText.setTextSize(Float.parseFloat(config.getFontSize()));
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, ViewGroup.LayoutParams.MATCH_PARENT);
             edText.setLayoutParams(layoutParams);
+            edText.setBackgroundResource(R.drawable.vital_sign_input_bg);
+            edText.setPadding(ConvertUtils.dp2px(5), 0, ConvertUtils.dp2px(5), 0);
+            edText.setTextSize(Float.parseFloat(config.getFontSize()));
+            edText.setSingleLine();
             edText.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -263,7 +261,7 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
 
 
             layout.addView(edText);
-
+            viewItemMap.put(config.getItemCode(), edText);
         } else if ("C".equals(config.getItemType())) {
             //多选
             if ("0".equals(config.getSingleCheck())) {
@@ -299,6 +297,7 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
                     flowCheckGroup.addView(cb);
                 }
                 layout.addView(flowCheckGroup);
+                viewItemMap.put(config.getItemCode(), flowCheckGroup);
                 //单选
             } else {
                 LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -323,36 +322,22 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
                     radioGroup.addView(rb);
                 }
                 layout.addView(radioGroup);
+                viewItemMap.put(config.getItemCode(), radioGroup);
 
             }
         } else if ("R".equals(config.getItemType())) {
-
-            //            TextView tvalue = new TextView(getContext());
-            //            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            //            tvalue.setLayoutParams(layoutParams);
-            //            tvalue.setText("此处是链接");
-            //            tvalue.setTextColor(getResources().getColor(R.color.blue));
-            //            tvalue.setTextSize(Float.parseFloat(config.getFontSize()));
-            //            tvalue.setGravity(Gravity.CENTER_HORIZONTAL);
-            //            tvalue.setGravity(Gravity.CENTER);
-
+            //单选
             LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             layout.setLayoutParams(params1);
-            //            LinearLayout layout1 = new LinearLayout(getContext());
-            //            layout1.setLayoutParams(params1);
-            //            layout1.setOrientation(LinearLayout.HORIZONTAL);
-
-
-            LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            //            params2.weight = 1;
             FlowRadioGroup radioGroup = new FlowRadioGroup(getContext());
             radioGroup.setOrientation(LinearLayout.HORIZONTAL);
-            radioGroup.setLayoutParams(params2);
+            radioGroup.setLayoutParams(params1);
 
             config.setSendValue(config.getItemdeValue() + "");
             String[] split = config.getItemValue().split("!");
             for (int i = 0; i < split.length; i++) {
                 RadioButton rb = new RadioButton(getContext());
+                rb.setHeight(height);
                 rb.setTextSize(Float.parseFloat(config.getFontSize()));
                 rb.setText(split[i] + "");
                 rb.setOnClickListener(new View.OnClickListener() {
@@ -365,13 +350,14 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
                 radioGroup.addView(rb);
 
             }
-            //            layout.addView(radioGroup);
 
-            //            layout1.addView(radioGroup);
-            //            layout1.addView(tvalue);
             layout.addView(radioGroup);
+            viewItemMap.put(config.getItemCode(), radioGroup);
 
         } else if ("T".equals(config.getItemType())) {
+            //textview额外设置
+
+            //判断是否可点击跳转其他病例填充表格
             if (config.getLinkInfo().size() > 0) {
                 titleTV.setTextColor(getResources().getColor(R.color.blue));
                 layout.setBackgroundColor(0);
@@ -382,6 +368,9 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
                     }
                 });
             }
+            viewItemMap.put(config.getItemCode(), titleTV);
+
+            //判断是否单行显示
             if ("0".equals(config.getTitleHiddeFlag())) {
                 TextView tvalue = new TextView(getContext());
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ScreenUtils.getScreenWidth(), ViewGroup.LayoutParams.MATCH_PARENT);
@@ -393,12 +382,12 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
             } else {
                 TextView tvalue = new TextView(getContext());
                 tvalue.setText(config.getItemdeValue() + "");
-                //        titleTV.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
                 tvalue.setTextSize(Float.parseFloat(config.getFontSize()));
                 tvalue.setGravity(Gravity.CENTER_HORIZONTAL);
                 layout.addView(tvalue);
             }
         } else if ("D".equals(config.getItemType())) {
+            //日期选择
             TextView tvalue = new TextView(getContext());
             tvalue.setText(config.getItemdeValue() + "2018-12-11");
             tvalue.setTextSize(Float.parseFloat(config.getFontSize()));
@@ -413,7 +402,9 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
                 }
             });
             layout.addView(tvalue);
+            viewItemMap.put(config.getItemCode(), tvalue);
         } else if ("Ti".equals(config.getItemType())) {
+            //时间选择
             TextView tvalue = new TextView(getContext());
             tvalue.setText(config.getItemdeValue() + "11:11");
             tvalue.setTextSize(Float.parseFloat(config.getFontSize()));
@@ -429,34 +420,29 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
             });
 
             layout.addView(tvalue);
+            viewItemMap.put(config.getItemCode(), tvalue);
         } else {
-
-            //选择框
-            List ll = new ArrayList();
-            ll.add("1");
-            ll.add("2");
-            final OptionView optionView = new OptionView(getActivity(), ll);
-
-            optionView.setTextSize(16);
-            //            optionView.setTextColor(getResources().getColor(R.color.blue_light));
-            optionView.setBackgroundResource(R.drawable.vital_sign_input_bg);
-            optionView.setGravity(Gravity.CENTER);
-
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(100, 50);
-            //            layoutParams.setMargins(ConvertUtils.dp2px(10),ConvertUtils.dp2px(11),ConvertUtils.dp2px(10),45);//4个参数按顺序分别是左上右下
-            optionView.setLayoutParams(layoutParams);
-
-            optionView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-
-                    optionView.showPicker();
-                }
-            });
-
-            layout.addView(optionView);
-            viewItemMap.put(config.getItemCode(), optionView);
+            showToast("出现未知类型控件，请联系后台进行数据修复或更新应用");
+//            //选择框
+//            List ll = new ArrayList();
+//            ll.add("1");
+//            ll.add("2");
+//            final OptionView optionView = new OptionView(getActivity(), ll);
+//            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(100, 50);
+//            optionView.setLayoutParams(layoutParams);
+//            optionView.setTextSize(16);
+//            optionView.setBackgroundResource(R.drawable.vital_sign_input_bg);
+//            optionView.setGravity(Gravity.CENTER);
+//
+//            optionView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    optionView.showPicker();
+//                }
+//            });
+//
+//            layout.addView(optionView);
+//            viewItemMap.put(config.getItemCode(), optionView);
         }
 
         return layout;
@@ -528,7 +514,7 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
     }
 
     /**
-     * 日期时间选择监听；
+     * 日期时间选择回调
      *
      * @param timePickerView
      * @param millseconds
