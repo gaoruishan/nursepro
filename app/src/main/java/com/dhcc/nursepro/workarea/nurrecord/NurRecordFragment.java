@@ -347,7 +347,7 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
             String[] split = config.getItemValue().split("!");
             for (int i = 0; i < split.length; i++) {
                 RadioButton rb = new RadioButton(getContext());
-                rb.setHeight(height);
+                rb.setHeight(height+4);
                 rb.setTextSize(Float.parseFloat(config.getFontSize()));
                 rb.setText(split[i] + "");
                 rb.setOnClickListener(new View.OnClickListener() {
