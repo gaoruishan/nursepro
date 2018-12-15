@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.ScreenUtils;
+import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
@@ -88,12 +89,12 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
                     if (listBeans.get(i).getItemCode().startsWith("Item")) {
                         strSend = strSend + "^" + listBeans.get(i).getSendValue();
                     }
-//                    if ("1".equals(listBeans.get(i).getMustFill())) {
-//                        if (StringUtils.isEmpty(listBeans.get(i).getSendValue())) {
-//                            showToast(listBeans.get(i).getItemDesc() + "--未填写");
-//                            return;
-//                        }
-//                    }
+                    if ("1".equals(listBeans.get(i).getMustFill())) {
+                        if (StringUtils.isEmpty(listBeans.get(i).getSendValue())) {
+                            showToast(listBeans.get(i).getItemDesc() + "--未填写");
+                            return;
+                        }
+                    }
                     if (i == listBeans.size() - 1) {
 
                         showToast(strSend);
@@ -274,7 +275,6 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
                 LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 params1.setMargins(0, 0, 0, 0);
                 layout.setLayoutParams(params1);
-
                 config.setSendValue(config.getItemdeValue() + "");
                 FlowLayout flowCheckGroup = new FlowLayout(getContext());
                 String[] split = config.getItemValue().split(";");
