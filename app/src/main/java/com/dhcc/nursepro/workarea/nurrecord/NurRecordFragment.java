@@ -387,7 +387,7 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
             viewItemMap.put(config.getItemCode(), titleTV);
 
             //判断是否单行显示
-            if ("1".equals(config.getTitleHiddeFlag())) {
+            if ("0".equals(config.getTitleHiddeFlag())) {
                 TextView tvalue = new TextView(getContext());
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ScreenUtils.getScreenWidth(), ViewGroup.LayoutParams.MATCH_PARENT);
                 titleTV.setLayoutParams(layoutParams);
