@@ -269,6 +269,15 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
 
             layout.addView(edText);
             viewItemMap.put(config.getItemCode(), edText);
+            if (!StringUtils.isEmpty(config.getUnit())) {
+                TextView tvUnit = new TextView(getContext());
+                LinearLayout.LayoutParams unitParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                tvUnit.setLayoutParams(unitParams);
+                tvUnit.setText(config.getUnit() + "");
+                layout.addView(tvUnit);
+            }
+
+
         } else if ("C".equals(config.getItemType())) {
             //多选
             if ("0".equals(config.getSingleCheck())) {
