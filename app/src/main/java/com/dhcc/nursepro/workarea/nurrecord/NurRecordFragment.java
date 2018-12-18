@@ -242,7 +242,7 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
                 edText.setText(config.getPatInfo());
             }
             //根据默认内容优先级填入默认值
-            if ("".equals(config.getPatInfo())) {
+            if (StringUtils.isEmpty(config.getPatInfo())) {
                 edText.setText(config.getItemdeValue());
                 config.setSendValue(config.getItemdeValue() + "");
             } else {
@@ -308,25 +308,30 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
                     cb.setHeight(height);
 
                     listCk.add(mapCk);
-                    cb.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (cb.isChecked()) {
-                                mapCk.put("isSel", "true");
-                                config.setSendValue(getckvalue((ArrayList<HashMap>) listCk) + "");
-                                showToast(getckvalue((ArrayList<HashMap>) listCk));
-                            } else {
-                                mapCk.put("isSel", "false");
-                                config.setSendValue(getckvalue((ArrayList<HashMap>) listCk) + "");
-                                showToast(getckvalue((ArrayList<HashMap>) listCk));
-                            }
+                    if ("false".equals(config.getEditFlag())){
+                        cb.setEnabled(false);
+                    }else {
+                        cb.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (cb.isChecked()) {
+                                    mapCk.put("isSel", "true");
+                                    config.setSendValue(getckvalue((ArrayList<HashMap>) listCk) + "");
+                                    showToast(getckvalue((ArrayList<HashMap>) listCk));
+                                } else {
+                                    mapCk.put("isSel", "false");
+                                    config.setSendValue(getckvalue((ArrayList<HashMap>) listCk) + "");
+                                    showToast(getckvalue((ArrayList<HashMap>) listCk));
+                                }
 
-                        }
-                    });
+                            }
+                        });
+                    }
                     flowCheckGroup.addView(cb);
                 }
                 layout.addView(flowCheckGroup);
                 viewItemMap.put(config.getItemCode(), flowCheckGroup);
+
                 //单选
             } else {
                 LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -337,22 +342,33 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
                 radioGroup.setOrientation(LinearLayout.HORIZONTAL);
                 radioGroup.setLayoutParams(params2);
 
+                if (!StringUtils.isEmpty(config.getPatInfo())) {
+                    config.setSendValue((patInfoMap.get(config.getPatInfo()) + ""));
+                } else {
+                    config.setSendValue(config.getItemdeValue() + "");
+                }
+
                 config.setSendValue(config.getItemdeValue() + "");
                 String[] split = config.getItemValue().split(";");
                 for (int i = 0; i < split.length; i++) {
                     RadioButton rb = new RadioButton(getContext());
                     rb.setId(i);
                     rb.setTextSize(Float.parseFloat(config.getFontSize()));
-                    rb.setText(split[i] + "");
-                    rb.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            showToast(rb.getText() + "");
-                            config.setSendValue(rb.getText() + "");
-                        }
-                    });
+                    rb.setText(split[i] + ""); if ("false".equals(config.getEditFlag())){
+                        rb.setEnabled(false);
+                    }else {
+                        rb.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                showToast(rb.getText() + "");
+                                config.setSendValue(rb.getText() + "");
+                            }
+                        });
+                    }
                     radioGroup.addView(rb);
-                    if (split[i].equals(config.getItemdeValue())) {
+                    if (split[i].equals(patInfoMap.get(config.getPatInfo()))){
+                        radioGroup.check(rb.getId());
+                    }else if (split[i].equals(config.getItemdeValue())) {
                         radioGroup.check(rb.getId());
                     }
                 }
@@ -369,7 +385,13 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
             radioGroup.setOrientation(LinearLayout.HORIZONTAL);
             radioGroup.setLayoutParams(params1);
 
-            config.setSendValue(config.getItemdeValue() + "");
+
+            if (!StringUtils.isEmpty(config.getPatInfo())) {
+                config.setSendValue((patInfoMap.get(config.getPatInfo()) + ""));
+            } else {
+                config.setSendValue(config.getItemdeValue() + "");
+            }
+
             String[] split = config.getItemValue().split("!");
             for (int i = 0; i < split.length; i++) {
                 RadioButton rb = new RadioButton(getContext());
@@ -377,15 +399,21 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
                 rb.setHeight(height);
                 rb.setTextSize(Float.parseFloat(config.getFontSize()));
                 rb.setText(split[i] + "");
+                //判断是否可编辑
+                if ("false".equals(config.getEditFlag())){
+                    rb.setEnabled(false);
+                }else {
                 rb.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         showToast(rb.getText() + "----");
                         config.setSendValue(rb.getText() + "");
                     }
-                });
+                });}
                 radioGroup.addView(rb);
-                if (split[i].equals(config.getItemdeValue())) {
+                if (split[i].equals(patInfoMap.get(config.getPatInfo()))){
+                    radioGroup.check(rb.getId());
+                }else if (split[i].equals(config.getItemdeValue())) {
                     radioGroup.check(rb.getId());
                 }
 
@@ -394,6 +422,9 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
 
             layout.addView(radioGroup);
             viewItemMap.put(config.getItemCode(), radioGroup);
+
+
+
 
         } else if ("T".equals(config.getItemType())){
             //textview额外设置
@@ -430,39 +461,133 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
 //                tvalue.setGravity(Gravity.CENTER_HORIZONTAL);
 //                layout.addView(tvalue);
             }
+        } else if ("TN".equals(config.getItemType())){
+            //textview额外设置
+
+            //判断是否可点击跳转其他病例填充表格
+            if (config.getLinkInfo().size() > 0) {
+                titleTV.setTextColor(getResources().getColor(R.color.blue));
+                layout.setBackgroundColor(0);
+                titleTV.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showToast("点击进入新的模板"+config.getLinkInfo().get(0).getLinkModel()+"给:"+config.getLinkInfo().get(0).getLinkItemCode());
+                        View view = viewItemMap.get("Item81");
+                        if (view instanceof EditText){
+                            EditText ed = (EditText)view;
+                            ed.setText("from__"+config.getItemCode());
+                        }
+
+                    }
+                });
+            }
+            viewItemMap.put(config.getItemCode(), titleTV);
+
+            //判断是否单行显示
+            if ("0".equals(config.getTitleHiddeFlag())) {
+//                TextView tvalue = new TextView(getContext());
+//                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(height, ViewGroup.LayoutParams.MATCH_PARENT);
+//                titleTV.setLayoutParams(layoutParams);
+            } else {
+//                TextView tvalue = new TextView(getContext());
+//                tvalue.setText(config.getItemdeValue() + "===");
+//                //        titleTV.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+//                tvalue.setTextSize(Float.parseFloat(config.getFontSize()));
+//                tvalue.setGravity(Gravity.CENTER_HORIZONTAL);
+//                layout.addView(tvalue);
+            }
         }  else if ("D".equals(config.getItemType())) {
             //日期选择
             TextView tvalue = new TextView(getContext());
             tvalue.setText(config.getItemdeValue() + "2018-12-11");
+            if (StringUtils.isEmpty(config.getPatInfo())) {
+                tvalue.setText(config.getItemdeValue());
+                config.setSendValue(config.getItemdeValue() + "");
+            } else {
+                tvalue.setText((patInfoMap.get(config.getPatInfo()) + ""));
+                config.setSendValue((patInfoMap.get(config.getPatInfo()) + ""));
+            }
             tvalue.setTextSize(Float.parseFloat(config.getFontSize()));
             tvalue.setGravity(Gravity.CENTER_HORIZONTAL);
             config.setSendValue(tvalue.getText() + "");
-            tvalue.setOnClickListener(new View.OnClickListener() {
+            //判断是否可编辑
+            if ("false".equals(config.getEditFlag())){
+                tvalue.setEnabled(false);
+            }else {
+                tvalue.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        textViewChooseDateTime = tvalue;
+                        dt = "date";
+                        chooseDate();
+                    }
+                });
+            }
+
+            tvalue.addTextChangedListener(new TextWatcher() {
                 @Override
-                public void onClick(View v) {
-                    textViewChooseDateTime = tvalue;
-                    dt = "date";
-                    chooseDate();
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    config.setSendValue(tvalue.getText().toString() + "----");
                 }
             });
+
+
             layout.addView(tvalue);
             viewItemMap.put(config.getItemCode(), tvalue);
         } else if ("Ti".equals(config.getItemType())) {
             //时间选择
             TextView tvalue = new TextView(getContext());
             tvalue.setText(config.getItemdeValue() + "11:11");
+            if (StringUtils.isEmpty(config.getPatInfo())) {
+                tvalue.setText(config.getItemdeValue());
+                config.setSendValue(config.getItemdeValue() + "");
+            } else if (!StringUtils.isEmpty(patInfoMap.get(config.getPatInfo())+"")){
+                tvalue.setText((patInfoMap.get(config.getPatInfo()) + ""));
+                config.setSendValue((patInfoMap.get(config.getPatInfo()) + ""));
+            }
             tvalue.setTextSize(Float.parseFloat(config.getFontSize()));
             tvalue.setGravity(Gravity.CENTER_HORIZONTAL);
             config.setSendValue(tvalue.getText() + "");
-            tvalue.setOnClickListener(new View.OnClickListener() {
+            //判断是否可编辑
+            if ("false".equals(config.getEditFlag())){
+                tvalue.setEnabled(false);
+            }else {
+                tvalue.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        textViewChooseDateTime = tvalue;
+                        dt = "time";
+                        chooseTime();
+                    }
+                });
+            }
+
+            tvalue.addTextChangedListener(new TextWatcher() {
                 @Override
-                public void onClick(View v) {
-                    textViewChooseDateTime = tvalue;
-                    dt = "time";
-                    chooseTime();
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    config.setSendValue(tvalue.getText().toString() + "----");
                 }
             });
-
             layout.addView(tvalue);
             viewItemMap.put(config.getItemCode(), tvalue);
         } else {
@@ -496,7 +621,11 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
         String strck = "";
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).get("isSel").equals("true")) {
-                strck = strck + "," + list.get(i).get("value") + "";
+                if ("".equals(strck)){
+                    strck = list.get(i).get("value") + "";
+                }else {
+                    strck = strck + "," + list.get(i).get("value") + "";
+                }
             }
         }
         return strck;
