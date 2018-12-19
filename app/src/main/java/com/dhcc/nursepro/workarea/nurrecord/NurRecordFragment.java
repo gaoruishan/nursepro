@@ -243,13 +243,14 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
             edText.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    showDialog = new ItemValueDialog(getActivity());
+                    showDialog = new ItemValueDialog(getActivity(),"1".equals(config.getEditFlag()));
                     showDialog.setTitle(config.getItemDesc());
                     showDialog.setMessage(edText.getText()+"");
                     showDialog.setYesOnclickListener("确定", new ItemValueDialog.onYesOnclickListener() {
                         @Override
                         public void onYesClick() {
                             edText.setText(showDialog.getMessage());
+                            edText.setSelection(edText.getText().length());
                             showDialog.dismiss();
                         }
                     });
@@ -261,10 +262,6 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
             if ("1".equals(config.getEditFlag())) {
                 edText.setTextColor(getResources().getColor(R.color.nurrecord_edit_normal_color));
             } else {
-//                edText.setEnabled(false);
-                //可点击不可编辑
-                edText.setEnabled(true);
-                edText.setClickable(true);
                 edText.setFocusable(false);
                 edText.setTextColor(getResources().getColor(R.color.nurrecord_edit_defaultvalue_color));
                 edText.setText(config.getPatInfo());
