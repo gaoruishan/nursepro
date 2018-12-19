@@ -346,6 +346,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                         handleCode = "A";
                         viewBottomHandleline.setVisibility(View.VISIBLE);
                         tvBottomHandletype.setVisibility(View.VISIBLE);
+                        tvBottomHandletype.setText("接受");
                         imgBottomHandlesure.setVisibility(View.VISIBLE);
                     } else {
                         tvBottomNoselecttext.setText("请您选择需执行的医嘱");
