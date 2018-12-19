@@ -232,7 +232,7 @@ public class BedMapPatInfoFragment extends BaseFragment {
         list.add(paMap);
 
         paMap = new HashMap<>();
-        paMap.put("title","身份证好");
+        paMap.put("title","身份证号");
         paMap.put("content",patInfoDetailBean.getPersonID());
         list.add(paMap);
 
