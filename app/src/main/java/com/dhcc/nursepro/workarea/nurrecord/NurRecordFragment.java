@@ -1,7 +1,11 @@
 package com.dhcc.nursepro.workarea.nurrecord;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -11,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -31,11 +36,21 @@ import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 import com.nex3z.flowlayout.FlowLayout;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * com.dhcc.nursepro.workarea.nurrecord
@@ -172,6 +187,15 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
 
         LinearLayout layout = new LinearLayout(getContext());
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, height);
+
+        if (config.getItemCode().startsWith("_Label345")) {
+            LinearLayout.LayoutParams paramsimg = new LinearLayout.LayoutParams(100, 100);
+            ImageView imageView = new ImageView(getContext());
+            imageView.setLayoutParams(paramsimg);
+            downImage(imageView,"http://lc.wgv5.com/img/beijingtu@2x.png");
+            layout.addView(imageView);
+        }
+
         layout.setLayoutParams(params);
         layout.setOrientation(LinearLayout.HORIZONTAL);
         layout.setBackgroundResource(R.drawable.vital_sign_border);
@@ -183,9 +207,9 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
 
         //判断是否必填，必填的话字体变红
         if ("1".equals(config.getMustFill())) {
-            titleTV.setTextColor(getResources().getColor(R.color.nurrecord_text_mustfill_color));
+            titleTV.setTextColor(ContextCompat.getColor(getActivity(),R.color.nurrecord_text_mustfill_color));
         } else {
-            titleTV.setTextColor(getResources().getColor(R.color.nurrecord_text_normal_color));
+            titleTV.setTextColor(ContextCompat.getColor(getActivity(),R.color.nurrecord_text_normal_color));
         }
 
         LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -237,7 +261,11 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
             if ("1".equals(config.getEditFlag())) {
                 edText.setTextColor(getResources().getColor(R.color.nurrecord_edit_normal_color));
             } else {
-                edText.setEnabled(false);
+//                edText.setEnabled(false);
+                //可点击不可编辑
+                edText.setEnabled(true);
+                edText.setClickable(true);
+                edText.setFocusable(false);
                 edText.setTextColor(getResources().getColor(R.color.nurrecord_edit_defaultvalue_color));
                 edText.setText(config.getPatInfo());
             }
@@ -314,6 +342,9 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
                         cb.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                if (config.getLinkInfo().size()>0) {
+                                    linkView(config.getLinkInfo(), cb.getText() + "",cb.isChecked(),"isC");
+                                }
                                 if (cb.isChecked()) {
                                     mapCk.put("isSel", "true");
                                     config.setSendValue(getckvalue((ArrayList<HashMap>) listCk) + "");
@@ -362,6 +393,9 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
                             public void onClick(View v) {
                                 showToast(rb.getText() + "");
                                 config.setSendValue(rb.getText() + "");
+                                if (config.getLinkInfo().size()>0) {
+                                    linkView(config.getLinkInfo(), rb.getText() + "",rb.isChecked(),"isR");
+                                }
                             }
                         });
                     }
@@ -408,6 +442,9 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
                     public void onClick(View v) {
                         showToast(rb.getText() + "----");
                         config.setSendValue(rb.getText() + "");
+                        if (config.getLinkInfo().size()>0) {
+                            linkView(config.getLinkInfo(), rb.getText() + "",rb.isChecked(),"isR");
+                        }
                     }
                 });}
                 radioGroup.addView(rb);
@@ -422,8 +459,6 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
 
             layout.addView(radioGroup);
             viewItemMap.put(config.getItemCode(), radioGroup);
-
-
 
 
         } else if ("T".equals(config.getItemType())){
@@ -615,6 +650,80 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
         }
 
         return layout;
+    }
+
+
+    private void linkView(List<NurRecordBean.ModelListBean.LinkInfoBean> LinkInfo,String selRadio,Boolean isSel,String isRorC){
+
+        if (isRorC.equals("isC")) {
+            String rangcon = LinkInfo.get(0).getLinkRangeCon();
+            if ("其它".equals(selRadio)) {
+                View view = viewItemMap.get(LinkInfo.get(0).getLinkItemCode());
+
+
+                if (view instanceof EditText) {
+                    EditText ed = (EditText) view;
+                    if (isSel) {
+                        ed.setText("此时可编辑" + LinkInfo.size());
+                        ed.setEnabled(true);
+                        ed.setFocusable(true);
+                        ed.setFocusableInTouchMode(true);
+                    } else {
+                        ed.setText("此时不可编辑" + LinkInfo.size());
+                        ed.setEnabled(false);
+                        ed.setFocusable(false);
+                        ed.setFocusableInTouchMode(false);
+                    }
+                }
+            }
+//单选判断点击的值是否关联值，再判断是否点击，都符合的话关联成功
+        }else if (isRorC.equals("isR")){
+            String rangcon = LinkInfo.get(0).getLinkRangeCon();
+                View view = viewItemMap.get(LinkInfo.get(0).getLinkItemCode());
+                if (view instanceof EditText) {
+                    EditText ed = (EditText) view;
+                    if ("其它".equals(selRadio) && isSel) {
+                        ed.setText("此时可编辑" + LinkInfo.size());
+                        ed.setEnabled(true);
+                        ed.setFocusable(true);
+                        ed.setFocusableInTouchMode(true);
+                    } else {
+                        ed.setText("此时不可编辑" + LinkInfo.size());
+                        ed.setEnabled(false);
+                        ed.setFocusable(false);
+                        ed.setFocusableInTouchMode(false);
+                    }
+            }
+        }
+    }
+    //加载图片
+    private void downImage(ImageView view,String strUrl) {
+        OkHttpClient client = new OkHttpClient();
+        final Request request = new Request
+                .Builder()
+                .get()
+                .url(strUrl)
+                .build();
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                showToast( "下载图片失败");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                InputStream inputStream = response.body().byteStream();
+                //将图片显示到ImageView中
+                final Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        view.setImageBitmap(bitmap);
+                    }
+                });
+            }
+        });
     }
 
     private String getckvalue(ArrayList<HashMap> list) {
