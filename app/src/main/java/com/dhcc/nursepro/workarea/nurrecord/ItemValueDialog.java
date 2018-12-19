@@ -4,9 +4,9 @@ package com.dhcc.nursepro.workarea.nurrecord;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.dhcc.nursepro.R;
@@ -21,16 +21,22 @@ public class ItemValueDialog extends Dialog {
     private Button yes;//确定按钮
     private Button no;//取消按钮
     private TextView titleTv;//消息标题文本
-    private TextView message;//IP地址
+    private EditText message;//IP地址
     private String titleStr;//从外界设置的title文本
     private String messageStr;//从外界设置的IP
     //确定文本和取消文本的显示内容
     private String yesStr, noStr;
     private onNoOnclickListener noOnclickListener;//取消按钮被点击了的监听器
     private onYesOnclickListener yesOnclickListener;//确定按钮被点击了的监听器
+    private boolean messageEditable = true;
 
     public ItemValueDialog(Context context) {
         super(context, R.style.MyDialog);
+    }
+
+    public ItemValueDialog(Context context,boolean editable) {
+        super(context, R.style.MyDialog);
+        messageEditable = editable;
     }
 
     /**
@@ -79,9 +85,10 @@ public class ItemValueDialog extends Dialog {
      * 初始化界面控件
      */
     private void initView() {
-        yes = (Button) findViewById(R.id.yes);
-        no = (Button) findViewById(R.id.no);
-        message = (TextView) findViewById(R.id.message);
+        yes = findViewById(R.id.yes);
+        no = findViewById(R.id.no);
+        message = findViewById(R.id.message);
+        message.setFocusable(messageEditable);
         titleTv = findViewById(R.id.title);
 
     }
@@ -96,6 +103,7 @@ public class ItemValueDialog extends Dialog {
                     }
         if (messageStr != null) {
             message.setText(messageStr);
+            message.setSelection(messageStr.length());
         }
         //如果设置按钮的文字
         if (yesStr != null) {
@@ -148,6 +156,10 @@ public class ItemValueDialog extends Dialog {
     public void setMessage(String message) {
             messageStr = message;
 
+    }
+
+    public void setMessageEditable(boolean editable) {
+        message.setFocusable(editable);
     }
 
 

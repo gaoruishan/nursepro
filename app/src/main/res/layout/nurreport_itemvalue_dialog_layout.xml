@@ -41,8 +41,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:hint="在此输入"
-                    android:background="@color/bg_blue_light"
-                    />
+                    android:background="@color/bg_blue_light" />
 
             </LinearLayout>
 
