@@ -28,7 +28,6 @@
             android:drawableStart="@drawable/search"
             android:hint="输入病人床号或直接扫描病人腕带进行搜索"
             android:imeOptions="actionDone"
-            android:inputType="number"
             android:paddingEnd="12dp"
             android:paddingStart="12dp"
             android:singleLine="true"
