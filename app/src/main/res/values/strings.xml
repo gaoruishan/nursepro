@@ -25,7 +25,7 @@
     <!--医嘱执行-->
     <string name="title_orderexecute">医嘱执行</string>
     <!--事件管理-->
-    <string name="title_patevents">事件录入</string>
+    <string name="title_patevents">事件登记</string>
     <!--新建事件-->
     <string name="title_addpatevents">新建事件</string>
     <string name="title_changepatevents">修改事件</string>

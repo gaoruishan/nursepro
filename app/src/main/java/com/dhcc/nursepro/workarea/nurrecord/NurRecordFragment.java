@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.ConvertUtils;
@@ -243,7 +244,7 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
             edText.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    showDialog = new ItemValueDialog(getActivity(),"1".equals(config.getEditFlag()));
+                    showDialog = new ItemValueDialog(getActivity(),edText.hasFocusable());
                     showDialog.setTitle(config.getItemDesc());
                     showDialog.setMessage(edText.getText()+"");
                     showDialog.setYesOnclickListener("确定", new ItemValueDialog.onYesOnclickListener() {
@@ -335,23 +336,22 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
                     listCk.add(mapCk);
                     if ("false".equals(config.getEditFlag())){
                         cb.setEnabled(false);
+//                        config.setEditFlag("true");
                     }else {
                         cb.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                if (config.getLinkInfo().size()>0) {
-                                    linkView(config.getLinkInfo(), cb.getText() + "",cb.isChecked(),"isC");
-                                }
+                                String allSel = "";
                                 if (cb.isChecked()) {
                                     mapCk.put("isSel", "true");
-                                    config.setSendValue(getckvalue((ArrayList<HashMap>) listCk) + "");
-                                    showToast(getckvalue((ArrayList<HashMap>) listCk));
                                 } else {
                                     mapCk.put("isSel", "false");
-                                    config.setSendValue(getckvalue((ArrayList<HashMap>) listCk) + "");
-                                    showToast(getckvalue((ArrayList<HashMap>) listCk));
                                 }
-
+                                config.setSendValue(getckvalue((ArrayList<HashMap>) listCk) + "");
+                                showToast(getckvalue((ArrayList<HashMap>) listCk));
+                                if (config.getLinkInfo().size()>0) {
+                                    linkView(config.getLinkInfo(), getckvalue((ArrayList<HashMap>) listCk) + "",cb.isChecked(),"isC");
+                                }
                             }
                         });
                     }
@@ -359,7 +359,6 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
                 }
                 layout.addView(flowCheckGroup);
                 viewItemMap.put(config.getItemCode(), flowCheckGroup);
-
                 //单选
             } else {
                 LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -653,8 +652,29 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
     private void linkView(List<NurRecordBean.ModelListBean.LinkInfoBean> LinkInfo,String selRadio,Boolean isSel,String isRorC){
 
         if (isRorC.equals("isC")) {
+
+            //多选评分
+            if (LinkInfo.size()>0){
+                int num = 0;
+                String[] split = selRadio.split(",");
+                for (int i = 0;i<LinkInfo.size();i++){
+                        if (selRadio.contains(LinkInfo.get(i).getLinkRangeCon())){
+                            num = num +Integer.parseInt( LinkInfo.get(i).getReValue());
+                            showToast(num+"---");
+                        }
+                }
+                View view = viewItemMap.get(LinkInfo.get(0).getLinkItemCode());
+                if (view instanceof EditText) {
+                    EditText ed = (EditText) view;
+                    ed.setText(num+"");
+                }
+                return;
+            }
+
+
+            //单选判断是否可变为可编辑
             String rangcon = LinkInfo.get(0).getLinkRangeCon();
-            if ("其它".equals(selRadio)) {
+            if ((selRadio).contains("其它")) {
                 View view = viewItemMap.get(LinkInfo.get(0).getLinkItemCode());
 
 
@@ -662,14 +682,10 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
                     EditText ed = (EditText) view;
                     if (isSel) {
                         ed.setText("此时可编辑" + LinkInfo.size());
-                        ed.setEnabled(true);
                         ed.setFocusable(true);
-                        ed.setFocusableInTouchMode(true);
                     } else {
                         ed.setText("此时不可编辑" + LinkInfo.size());
-                        ed.setEnabled(false);
                         ed.setFocusable(false);
-                        ed.setFocusableInTouchMode(false);
                     }
                 }
             }
@@ -681,18 +697,20 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
                     EditText ed = (EditText) view;
                     if ("其它".equals(selRadio) && isSel) {
                         ed.setText("此时可编辑" + LinkInfo.size());
-                        ed.setEnabled(true);
                         ed.setFocusable(true);
                         ed.setFocusableInTouchMode(true);
                     } else {
                         ed.setText("此时不可编辑" + LinkInfo.size());
-                        ed.setEnabled(false);
                         ed.setFocusable(false);
                         ed.setFocusableInTouchMode(false);
                     }
             }
+         //赋值判断关联项如何编辑
+        }else if (isRorC.equals("isE")){
+
         }
     }
+
     //加载图片
     private void downImage(ImageView view,String strUrl) {
         OkHttpClient client = new OkHttpClient();

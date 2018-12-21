@@ -177,7 +177,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="     注销     "
+            android:text="     退出登录     "
             android:textColor="@color/blue"
             android:textSize="15sp"
             android:textStyle="bold"
