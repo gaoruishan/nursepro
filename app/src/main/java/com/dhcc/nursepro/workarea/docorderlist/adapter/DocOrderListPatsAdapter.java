@@ -1,5 +1,6 @@
 package com.dhcc.nursepro.workarea.docorderlist.adapter;
 
+import android.graphics.Typeface;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -37,13 +38,18 @@ public class DocOrderListPatsAdapter extends BaseQuickAdapter<DocOrdersPatsListB
         helper.setText(R.id.tv_docorder_patinfo, item.getBedCode()+" "+item.getName());
         LinearLayout llPatientType = helper.getView(R.id.ll_docorders_patinfo);
         View viewPatientType = helper.getView(R.id.view_docorders_patinfo);
+        TextView tvPat = helper.getView(R.id.tv_docorder_patinfo);
 
         if (selectItem == helper.getAdapterPosition()) {
             llPatientType.setSelected(true);
+            tvPat.setTextColor(mContext.getResources().getColor(R.color.vital_sign_type_selected_text));
+            tvPat.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
             viewPatientType.setVisibility(View.VISIBLE);
 
         } else {
             llPatientType.setSelected(false);
+            tvPat.setTextColor(mContext.getResources().getColor(R.color.vital_sign_type_normal_text));
+            tvPat.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
             viewPatientType.setVisibility(View.INVISIBLE);
         }
 

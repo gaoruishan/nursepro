@@ -130,7 +130,7 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
         map.put("EmrCode", "DHCNURANHUI2");
         map.put("episodeId", "11");
 
-        NurRecordManager.getModelDetailListMsg(map, "getModelDetail", new NurRecordManager.getLabOutCallBack() {
+        NurRecordManager.getModelDetailListMsg(map, "getModelDetail", new NurRecordManager.getModelDetailCallBack() {
             @Override
             public void onSuccess(NurRecordBean modelDetailBean) {
                 nurRecordBean = modelDetailBean;
@@ -711,6 +711,25 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
         }
     }
 
+    private void changeView(View view){
+        if (view instanceof EditText) {
+            EditText ed = (EditText) view;
+        }else if (view instanceof RadioGroup){
+
+        }else if (view instanceof TextView){
+
+            //判断后面多选框是否可编辑，更改可编辑状态
+        }else if (view instanceof FlowLayout){
+            int cknum = ((FlowLayout) view).getChildCount();
+            for (int i = 0;i<cknum;i++){
+                if ((((FlowLayout) view).getChildAt(i)) instanceof CheckBox){
+                    CheckBox checkBox = (CheckBox) ((FlowLayout) view).getChildAt(i);
+                    Log.v("11111ck",checkBox.getText().toString());
+                }
+            }
+
+        }
+    }
     //加载图片
     private void downImage(ImageView view,String strUrl) {
         OkHttpClient client = new OkHttpClient();

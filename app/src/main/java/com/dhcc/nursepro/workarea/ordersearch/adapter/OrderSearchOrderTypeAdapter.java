@@ -1,8 +1,10 @@
 package com.dhcc.nursepro.workarea.ordersearch.adapter;
 
+import android.graphics.Typeface;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -37,12 +39,17 @@ public class OrderSearchOrderTypeAdapter extends BaseQuickAdapter<OrderSearchBea
         LinearLayout llOrderType = helper.getView(R.id.ll_ordersearch_ordertype);
         View viewOrderType = helper.getView(R.id.view_ordersearch_ordertype);
 
+        TextView tvOrderType = helper.getView(R.id.tv_ordersearch_ordertype);
         if (selectedPostion == helper.getAdapterPosition()) {
             llOrderType.setSelected(true);
+            tvOrderType.setTextColor(mContext.getResources().getColor(R.color.vital_sign_type_selected_text));
+            tvOrderType.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
             viewOrderType.setVisibility(View.VISIBLE);
 
         } else {
             llOrderType.setSelected(false);
+            tvOrderType.setTextColor(mContext.getResources().getColor(R.color.vital_sign_type_normal_text));
+            tvOrderType.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
             viewOrderType.setVisibility(View.INVISIBLE);
         }
 

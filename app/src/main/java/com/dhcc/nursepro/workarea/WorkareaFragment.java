@@ -26,6 +26,7 @@ import com.dhcc.nursepro.workarea.labresult.LabPatsFragment;
 import com.dhcc.nursepro.workarea.milkloopsystem.MilkLoopSystemFragment;
 import com.dhcc.nursepro.workarea.motherbabylink.MotherBabyLinkFragment;
 import com.dhcc.nursepro.workarea.nurrecord.NurRecordFragment;
+import com.dhcc.nursepro.workarea.nurrecord.NurRecordModellistFragmen;
 import com.dhcc.nursepro.workarea.operation.OperationFragment;
 import com.dhcc.nursepro.workarea.orderexecute.OrderExecuteFragment;
 import com.dhcc.nursepro.workarea.ordersearch.OrderSearchFragment;
@@ -145,7 +146,7 @@ public class WorkareaFragment extends BaseFragment {
                 startFragment(MotherBabyLinkFragment.class);
                 break;
             case "MODELDETAIL":
-                startFragment(NurRecordFragment.class);
+                startFragment(NurRecordModellistFragmen.class);
                 break;
             default:
 //                showToast("正在开发");
