@@ -22,12 +22,14 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.ConvertUtils;
+import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.constant.SharedPreference;
 import com.dhcc.nursepro.workarea.nurrecord.adapter.NurRecordAdapter;
 import com.dhcc.nursepro.workarea.nurrecord.api.NurRecordManager;
 import com.dhcc.nursepro.workarea.nurrecord.bean.NurRecordBean;
@@ -76,6 +78,9 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
     private String strSend = "";
 
     private ItemValueDialog showDialog;
+
+    private String emrCode = "";
+    private String episodeId = "";
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_modeldetail, container, false);
@@ -89,6 +94,11 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
         setToolbarBottomLineVisibility(true);
 
         setToolbarCenterTitle("护理病历", 0xffffffff, 17);
+
+        Bundle bundle = getArguments();
+        emrCode = bundle.getString("EmrCode");
+        episodeId = bundle.getString("episodeId");
+
         initview(view);
         initData();
 
@@ -124,11 +134,11 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
     }
 
     private void initData() {
-
+        SPUtils spUtils = SPUtils.getInstance();
         HashMap<String, String> map = new HashMap<>();
-        map.put("locId", "197");
-        map.put("EmrCode", "DHCNURANHUI2");
-        map.put("episodeId", "11");
+        map.put("locId", spUtils.getString(SharedPreference.LOCID));
+        map.put("EmrCode", emrCode);
+        map.put("episodeId", episodeId);
 
         NurRecordManager.getModelDetailListMsg(map, "getModelDetail", new NurRecordManager.getModelDetailCallBack() {
             @Override
@@ -750,6 +760,7 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
                 InputStream inputStream = response.body().byteStream();
                 //将图片显示到ImageView中
                 final Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                if (getActivity() == null) {return;}
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

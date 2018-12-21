@@ -8,20 +8,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.workarea.nurrecord.adapter.NurRecordModelListAdapter;
+import com.dhcc.nursepro.constant.SharedPreference;
+import com.dhcc.nursepro.workarea.nurrecord.adapter.NurRecordMenuListAdapter;
 import com.dhcc.nursepro.workarea.nurrecord.api.NurRecordManager;
-import com.dhcc.nursepro.workarea.nurrecord.bean.NurRecordBean;
 import com.dhcc.nursepro.workarea.nurrecord.bean.NurRecordModelListBean;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * com.dhcc.nursepro.workarea.nurrecord
@@ -32,8 +31,9 @@ import java.util.Map;
  */
 public class NurRecordModellistFragmen extends BaseFragment {
     private RecyclerView recMl;
-    private NurRecordModelListAdapter  modelListAdapter;
+    private NurRecordMenuListAdapter menuListAdapter;
     private List<NurRecordModelListBean.MenuListBean> ModelList = new ArrayList<>();
+    private String episodeId = "11";
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_nurrecordmodellist, container, false);
@@ -65,31 +65,35 @@ public class NurRecordModellistFragmen extends BaseFragment {
     }
 
     private void initAdapter() {
-        modelListAdapter = new NurRecordModelListAdapter(new ArrayList<NurRecordModelListBean.MenuListBean>());
-        modelListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-
-                if (view.getId() == R.id.tv_modellist) {
-                    startFragment(NurRecordFragment.class);
-                }
-            }
-        });
-        recMl.setAdapter(modelListAdapter);
+        menuListAdapter = new NurRecordMenuListAdapter(new ArrayList<NurRecordModelListBean.MenuListBean>(),this,episodeId);
+//        menuListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+//            @Override
+//            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+//
+//                if (view.getId() == R.id.tv_modellist) {
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("EmrCode",ModelList.get(position).getMenuCode());
+//                    bundle.putString("episodeId",episodeId );
+//                    startFragment(NurRecordFragment.class);
+//                }
+//            }
+//        });
+        recMl.setAdapter(menuListAdapter);
 
     }
     private void initData() {
 
+        SPUtils spUtils = SPUtils.getInstance();
         HashMap<String, String> map = new HashMap<>();
-        map.put("locId", "197");
-        map.put("episodeId", "11");
+        map.put("locId", spUtils.getString(SharedPreference.LOCID));
+        map.put("episodeId", episodeId);
 
         NurRecordManager.getModelList(map, "getModelList", new NurRecordManager.getModelListCallBack() {
             @Override
             public void onSuccess(NurRecordModelListBean modelDetailBean) {
 
                 ModelList = modelDetailBean.getMenuList();
-                modelListAdapter.setNewData(ModelList);
+                menuListAdapter.setNewData(ModelList);
             }
 
             @Override
