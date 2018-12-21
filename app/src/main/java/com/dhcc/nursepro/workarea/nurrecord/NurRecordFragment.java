@@ -199,14 +199,6 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
         LinearLayout layout = new LinearLayout(getContext());
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, height);
 
-        if (config.getItemCode().startsWith("_Label345")) {
-            LinearLayout.LayoutParams paramsimg = new LinearLayout.LayoutParams(100, 100);
-            ImageView imageView = new ImageView(getContext());
-            imageView.setLayoutParams(paramsimg);
-            downImage(imageView,"http://lc.wgv5.com/img/beijingtu@2x.png");
-            layout.addView(imageView);
-        }
-
         layout.setLayoutParams(params);
         layout.setOrientation(LinearLayout.HORIZONTAL);
         layout.setBackgroundResource(R.drawable.vital_sign_border);
@@ -244,6 +236,7 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
                 titleTV.setVisibility(View.GONE);
             }
             EditText edText = new EditText(getContext());
+            int sw = ScreenUtils.getScreenWidth();
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, ViewGroup.LayoutParams.MATCH_PARENT);
             edText.setLayoutParams(layoutParams);
             edText.setBackgroundResource(R.drawable.vital_sign_input_bg);
@@ -492,8 +485,11 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
             //判断是否单行显示
             if ("0".equals(config.getTitleHiddeFlag())) {
                 TextView tvalue = new TextView(getContext());
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ScreenUtils.getScreenWidth(), ViewGroup.LayoutParams.MATCH_PARENT);
-                titleTV.setLayoutParams(layoutParams);
+                //如果后面有图片，不单独占一行
+                if (StringUtils.isEmpty(config.getImageName())) {
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ScreenUtils.getScreenWidth(), ViewGroup.LayoutParams.MATCH_PARENT);
+                    titleTV.setLayoutParams(layoutParams);
+                }
             } else {
 //                TextView tvalue = new TextView(getContext());
 //                tvalue.setText(config.getItemdeValue() + "===");
@@ -655,6 +651,15 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
 //            viewItemMap.put(config.getItemCode(), optionView);
         }
 
+        //判断是否与图片，有的话加载
+        if (!StringUtils.isEmpty(config.getImageName())) {
+            LinearLayout.LayoutParams paramsimg = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            ImageView imageView = new ImageView(getContext());
+            imageView.setLayoutParams(paramsimg);
+//            downImage(imageView,config.getImageName());
+            downImage(imageView,"http://10.1.5.87/dhcmg/2229.gif");
+            layout.addView(imageView);
+        }
         return layout;
     }
 
@@ -760,13 +765,14 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
                 InputStream inputStream = response.body().byteStream();
                 //将图片显示到ImageView中
                 final Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                if (getActivity() == null) {return;}
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        view.setImageBitmap(bitmap);
+                if (getActivity() != null) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                view.setImageBitmap(bitmap);
+                            }
+                        });
                     }
-                });
             }
         });
     }
