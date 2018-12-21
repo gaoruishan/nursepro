@@ -13,6 +13,7 @@
         android:layout_height="match_parent"
         android:background="@color/white"
         android:focusable="true"
+        android:visibility="gone"
         android:focusableInTouchMode="true">
 
         <TextView
@@ -64,7 +65,7 @@
                 android:id="@+id/recy_orderexecute_ordertype"
                 android:layout_width="85dp"
                 android:layout_height="match_parent"
-                android:background="@color/ordersearch_left_bgcolor">
+                android:background="@color/orderexecute_left_bgcolor">
 
             </android.support.v7.widget.RecyclerView>
 
@@ -79,7 +80,7 @@
                     android:layout_height="32dp"
                     android:background="@color/white"
                     android:gravity="center"
-                    android:textColor="@color/ordersearch_text_color"
+                    android:textColor="@color/orderexecute_text_color"
                     tools:text="01床 张患者" />
 
                 <View
@@ -104,7 +105,7 @@
                         android:id="@+id/tv_orderexecute_startdatetime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/ordersearch_text_color"
+                        android:textColor="@color/orderexecute_text_color"
                         android:textSize="12sp"
                         tools:text="2018-08-23 10:00" />
 
@@ -122,7 +123,7 @@
                         android:id="@+id/tv_orderexecute_enddatetime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/ordersearch_text_color"
+                        android:textColor="@color/orderexecute_text_color"
                         android:textSize="12sp"
                         tools:text="2018-08-23 10:00" />
 

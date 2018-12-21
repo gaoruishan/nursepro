@@ -10,7 +10,7 @@
         android:id="@+id/recy_docorder_pat"
         android:layout_width="85dp"
         android:layout_height="match_parent"
-        android:background="@color/bedmap_left_bgcolor">
+        android:background="@color/docorderlist_left_bgcolor">
 
     </android.support.v7.widget.RecyclerView>
 

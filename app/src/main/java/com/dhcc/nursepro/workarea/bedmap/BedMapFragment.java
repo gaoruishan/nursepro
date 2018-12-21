@@ -2,6 +2,7 @@ package com.dhcc.nursepro.workarea.bedmap;
 
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -372,6 +373,38 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
         tvBedmapNowoutarea.setSelected(view == tvBedmapNowoutarea);
         tvBedmapAlloutarea.setSelected(view == tvBedmapAlloutarea);
         tvBedmapWaitarea.setSelected(view == tvBedmapWaitarea);
+
+        if (view == tvBedmapAllarea) {
+            tvBedmapAllarea.setTypeface(Typeface.DEFAULT_BOLD);
+            tvBedmapAdminarea.setTypeface(Typeface.DEFAULT);
+            tvBedmapNowoutarea.setTypeface(Typeface.DEFAULT);
+            tvBedmapAlloutarea.setTypeface(Typeface.DEFAULT);
+            tvBedmapWaitarea.setTypeface(Typeface.DEFAULT);
+        } else if (view == tvBedmapAdminarea) {
+            tvBedmapAllarea.setTypeface(Typeface.DEFAULT);
+            tvBedmapAdminarea.setTypeface(Typeface.DEFAULT_BOLD);
+            tvBedmapNowoutarea.setTypeface(Typeface.DEFAULT);
+            tvBedmapAlloutarea.setTypeface(Typeface.DEFAULT);
+            tvBedmapWaitarea.setTypeface(Typeface.DEFAULT);
+        } else if (view == tvBedmapNowoutarea) {
+            tvBedmapAllarea.setTypeface(Typeface.DEFAULT);
+            tvBedmapAdminarea.setTypeface(Typeface.DEFAULT);
+            tvBedmapNowoutarea.setTypeface(Typeface.DEFAULT_BOLD);
+            tvBedmapAlloutarea.setTypeface(Typeface.DEFAULT);
+            tvBedmapWaitarea.setTypeface(Typeface.DEFAULT);
+        } else if (view == tvBedmapAlloutarea) {
+            tvBedmapAllarea.setTypeface(Typeface.DEFAULT);
+            tvBedmapAdminarea.setTypeface(Typeface.DEFAULT);
+            tvBedmapNowoutarea.setTypeface(Typeface.DEFAULT);
+            tvBedmapAlloutarea.setTypeface(Typeface.DEFAULT_BOLD);
+            tvBedmapWaitarea.setTypeface(Typeface.DEFAULT);
+        } else if (view == tvBedmapWaitarea) {
+            tvBedmapAllarea.setTypeface(Typeface.DEFAULT);
+            tvBedmapAdminarea.setTypeface(Typeface.DEFAULT);
+            tvBedmapNowoutarea.setTypeface(Typeface.DEFAULT);
+            tvBedmapAlloutarea.setTypeface(Typeface.DEFAULT);
+            tvBedmapWaitarea.setTypeface(Typeface.DEFAULT_BOLD);
+        }
     }
 
     // {"code":"inBedAll","desc":"全区"},

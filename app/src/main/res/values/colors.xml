@@ -29,7 +29,7 @@
     <color name="vital_sign_border">#A3B5C9</color>
     <color name="vital_sign_type_normal_bg">#F5FAFF</color>
     <color name="vital_sign_type_selected_bg">#DEEDFE</color>
-    <color name="vital_sign_type_selected_text">#4994EA</color>
+    <color name="vital_sign_type_selected_text">#4A90E2</color>
     <color name="vital_sign_type_normal_text">#000000</color>
     <color name="vital_sign_text_color">#4A4A4A</color>
     <color name="vital_sign_top_text_selected_color">#70AAF2</color>
@@ -62,16 +62,25 @@
     <color name="bedmap_top_text_selected_color">#62ABFF</color>
     <color name="bedmap_top_text_normal_color">#000000</color>
     <color name="bedmap_top_right_color">#333333</color>
-    <color name="bedmap_left_bgcolor">#F5FAFF</color>
+    <color name="bedmap_left_bgcolor">#DFEEFF</color>
+    <color name="bedmap_left_text_normal_color">#000000</color>
+    <color name="bedmap_left_text_selected_color">#4A90E2</color>
 
     <color name="workarea_device_color">#ECECEC</color>
     <color name="patevents_device_color">#DADADA</color>
-    <color name="patevents_patbg_color">#F5FAFF</color>
+    <color name="patevents_patbg_color">#DFEEFF</color>
     <color name="patevents_tv_unsel_color">#FF9B9B9B</color>
     <color name="patevents_tv_date_color">#FF4A4A4A</color>
 
-    <color name="ordersearch_left_bgcolor">#F5FAFF</color>
+    <color name="ordersearch_left_bgcolor">#DFEEFF</color>
+    <color name="ordersearch_left_text_normal_color">#000000</color>
+    <color name="ordersearch_left_text_selected_color">#4A90E2</color>
     <color name="ordersearch_text_color">#4A4A4A</color>
+
+    <color name="orderexecute_left_bgcolor">#DFEEFF</color>
+    <color name="orderexecute_text_color">#4A4A4A</color>
+    <color name="orderexecute_left_text_normal_color">#000000</color>
+    <color name="orderexecute_left_text_selected_color">#4A90E2</color>
 
     <color name="bed_text_color">#4A4A4A</color>
 
@@ -88,6 +97,10 @@
     <color name="dosingreview_text_normal_color">#000000</color>
     <color name="dosingreview_text_selected_color">#62ABFF</color>
     <color name="dosingreview_text_color">#4A4A4A</color>
+
+    <color name="docorderlist_left_bgcolor">#DFEEFF</color>
+    <color name="docorderlist_left_text_normal_color">#000000</color>
+    <color name="docorderlist_left_text_selected_color">#4A90E2</color>
 
     <color name="bloodoplist_top_text_selected_color">#62ABFF</color>
     <color name="bloodoplist_top_text_normal_color">#000000</color>

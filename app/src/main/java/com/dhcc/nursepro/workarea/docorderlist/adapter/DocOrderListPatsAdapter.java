@@ -9,7 +9,6 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.workarea.docorderlist.bean.DocOrderListBean;
 import com.dhcc.nursepro.workarea.docorderlist.bean.DocOrdersPatsListBean;
 
 import java.util.List;
@@ -42,14 +41,14 @@ public class DocOrderListPatsAdapter extends BaseQuickAdapter<DocOrdersPatsListB
 
         if (selectItem == helper.getAdapterPosition()) {
             llPatientType.setSelected(true);
-            tvPat.setTextColor(mContext.getResources().getColor(R.color.vital_sign_type_selected_text));
-            tvPat.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+            tvPat.setTextColor(mContext.getResources().getColor(R.color.docorderlist_left_text_selected_color));
+            tvPat.setTypeface(Typeface.DEFAULT_BOLD);
             viewPatientType.setVisibility(View.VISIBLE);
 
         } else {
             llPatientType.setSelected(false);
-            tvPat.setTextColor(mContext.getResources().getColor(R.color.vital_sign_type_normal_text));
-            tvPat.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+            tvPat.setTextColor(mContext.getResources().getColor(R.color.docorderlist_left_text_normal_color));
+            tvPat.setTypeface(Typeface.DEFAULT);
             viewPatientType.setVisibility(View.INVISIBLE);
         }
 

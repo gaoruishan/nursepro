@@ -42,14 +42,14 @@ public class OrderSearchOrderTypeAdapter extends BaseQuickAdapter<OrderSearchBea
         TextView tvOrderType = helper.getView(R.id.tv_ordersearch_ordertype);
         if (selectedPostion == helper.getAdapterPosition()) {
             llOrderType.setSelected(true);
-            tvOrderType.setTextColor(mContext.getResources().getColor(R.color.vital_sign_type_selected_text));
-            tvOrderType.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+            tvOrderType.setTextColor(mContext.getResources().getColor(R.color.ordersearch_left_text_selected_color));
+            tvOrderType.setTypeface(Typeface.DEFAULT_BOLD);
             viewOrderType.setVisibility(View.VISIBLE);
 
         } else {
             llOrderType.setSelected(false);
-            tvOrderType.setTextColor(mContext.getResources().getColor(R.color.vital_sign_type_normal_text));
-            tvOrderType.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+            tvOrderType.setTextColor(mContext.getResources().getColor(R.color.ordersearch_left_text_normal_color));
+            tvOrderType.setTypeface(Typeface.DEFAULT);
             viewOrderType.setVisibility(View.INVISIBLE);
         }
 
