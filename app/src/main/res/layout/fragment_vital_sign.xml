@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/white"
+    android:orientation="vertical"
     tools:context=".workarea.vitalsign.VitalSignFragment">
 
     <LinearLayout
@@ -15,147 +15,146 @@
             android:id="@+id/tv_vitalsign_allarea"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
             android:layout_weight="1"
             android:gravity="center"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
             android:text="全区"
-            android:textSize="15sp"
-            android:textColor="@drawable/textcolor_item_vital_sign_selector" />
+            android:textColor="@drawable/textcolor_item_vital_sign_selector"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/tv_vitalsign_adminarea"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:textSize="15sp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
             android:text="管辖"
-            android:textColor="@drawable/textcolor_item_vital_sign_selector" />
+            android:textColor="@drawable/textcolor_item_vital_sign_selector"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/tv_vitalsign_nowoutarea"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:textSize="15sp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
             android:text="今出区"
-            android:textColor="@drawable/textcolor_item_vital_sign_selector" />
+            android:textColor="@drawable/textcolor_item_vital_sign_selector"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/tv_vitalsign_alloutarea"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:textSize="15sp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
             android:text="全出区"
-            android:textColor="@drawable/textcolor_item_vital_sign_selector" />
+            android:textColor="@drawable/textcolor_item_vital_sign_selector"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/tv_vitalsign_waitarea"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:textSize="15sp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
             android:text="等待区"
-            android:textColor="@drawable/textcolor_item_vital_sign_selector" />
+            android:textColor="@drawable/textcolor_item_vital_sign_selector"
+            android:textSize="15sp" />
 
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#62AAFF" />
+        android:background="#8FD3F4" />
 
-    <LinearLayout
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:layout_width="85dp"
-            android:layout_height="40dp"
-            android:orientation="vertical"
-            android:gravity="center_vertical"
-            android:background="@color/vital_sign_type_normal_bg">
-
-            <TextView
-                android:id="@+id/tv_resetting"
-                android:layout_width="match_parent"
-                android:layout_height="28dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/bg_resetting_selector"
-                android:textColor="@color/patevents_tv_unsel_color"
-                android:textIsSelectable="true"
-                android:text="筛选"
-                android:gravity="center"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"
-                android:layout_marginTop="7dp"
-                android:background="@color/vital_sign_filter_bottom_line_color"
-                />
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_weight="4"
-            android:gravity="center">
-
-            <ImageView
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:layout_marginRight="12dp"
-                android:src="@drawable/vital_sing_time_ico"/>
-            <TextView
-                android:id="@+id/tv_vitalsign_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2018-11-15 06:00"
-                android:textSize="12sp"/>
-
-        </LinearLayout>
-
-
-
-    </LinearLayout>
+        android:layout_height="5dp"
+        android:background="#ECF4FC" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <LinearLayout
+            android:layout_width="85dp"
+            android:layout_height="match_parent"
+            android:background="@color/vital_sign_left_bgcolor"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tv_resetting"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginRight="6dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:background="@drawable/bg_resetting_selector"
+                    android:gravity="center"
+                    android:text="筛选"
+                    android:textColor="@color/vital_sign_type_normal_text"
+                    android:textIsSelectable="true" />
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginBottom="2dp"
+                android:background="@color/vital_sign_filter_bottom_line_color" />
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recy_vitalsign_type"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-
-                >
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
             </android.support.v7.widget.RecyclerView>
-
+        </LinearLayout>
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="4"
             android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:src="@drawable/vital_sing_time_ico" />
+
+                <TextView
+                    android:id="@+id/tv_vitalsign_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2018-11-15 06:00"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="5dp"
@@ -164,15 +163,12 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recy_vitalsign_patient"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:background="@color/white">
 
             </android.support.v7.widget.RecyclerView>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:background="#F6F6F6" />
         </LinearLayout>
+
     </LinearLayout>
+
 </LinearLayout>

@@ -1,17 +1,15 @@
 package com.dhcc.nursepro.workarea.vitalsign;
 
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.blankj.utilcode.util.TimeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -22,8 +20,6 @@ import com.dhcc.nursepro.workarea.patevents.PatEventsFragment;
 import com.dhcc.nursepro.workarea.vitalsign.adapter.VitalSignPatientAdapter;
 import com.dhcc.nursepro.workarea.vitalsign.adapter.VitalSignTypeAdapter;
 import com.dhcc.nursepro.workarea.vitalsign.api.VitalSignApiManager;
-import com.dhcc.nursepro.workarea.vitalsign.bean.VitalSignBean;
-
 import com.dhcc.nursepro.workarea.vitalsigndetail.VitalSignDetailFragment;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.core.ImagePipeline;
@@ -33,11 +29,8 @@ import com.jzxiang.pickerview.listener.OnDateSetListener;
 import com.stfalcon.frescoimageviewer.ImageViewer;
 
 import java.io.Serializable;
-import java.sql.Time;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -84,7 +77,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
 
         setToolbarType(BaseActivity.ToolbarType.TOP);
         setToolbarBottomLineVisibility(true);
-        setToolbarCenterTitle(getString(R.string.title_vitalsign),0xffffffff,17);
+        setToolbarCenterTitle(getString(R.string.title_vitalsign), 0xffffffff, 17);
 
 
         initView(view);
@@ -142,45 +135,45 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
 
                 Map patientInfo = (Map) displayList.get(position);
 
-                if (view.getId() == R.id.tv_vitalsign_vitalsign_record){
+                if (view.getId() == R.id.tv_vitalsign_vitalsign_record) {
                     //体征录入
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable("info",(Serializable)patientInfo);
-                    bundle.putString("time",timeFilterStr);
-                    bundle.putString("date",dateFilterStr);
-                    bundle.putInt("index",position);
+                    bundle.putSerializable("info", (Serializable) patientInfo);
+                    bundle.putString("time", timeFilterStr);
+                    bundle.putString("date", dateFilterStr);
+                    bundle.putInt("index", position);
                     bundle.putSerializable("list", (Serializable) displayList);
                     bundle.putSerializable("timeList", (Serializable) timeFilterList);
 
-                    startFragment(VitalSignRecordFragment.class,bundle);
+                    startFragment(VitalSignRecordFragment.class, bundle);
 
-                }else if(view.getId() == R.id.tv_vitalsign_event_record){
+                } else if (view.getId() == R.id.tv_vitalsign_event_record) {
                     //事件登记
                     Bundle bundle = new Bundle();
-                    bundle.putString("regNo",(String) patientInfo.get("regNo"));
-                    startFragment(PatEventsFragment.class,bundle);
+                    bundle.putString("regNo", (String) patientInfo.get("regNo"));
+                    startFragment(PatEventsFragment.class, bundle);
 
-                }else if(view.getId() == R.id.tv_vitalsign_tmp_preview){
+                } else if (view.getId() == R.id.tv_vitalsign_tmp_preview) {
                     //体温单预览
 
-                    String episodeId = (String)patientInfo.get("episodeId");
-//                    viewPatientTempImages("94");
+                    String episodeId = (String) patientInfo.get("episodeId");
+                    //                    viewPatientTempImages("94");
                     viewPatientTempImages(episodeId);
 
-                }else{
+                } else {
                     //普通点击
-                    String episodeId = (String)patientInfo.get("episodeId");
+                    String episodeId = (String) patientInfo.get("episodeId");
                     Bundle bundle = new Bundle();
-                    bundle.putString("episodeId",episodeId);
+                    bundle.putString("episodeId", episodeId);
 
-                    bundle.putSerializable("info",(Serializable)patientInfo);
-                    bundle.putString("time",timeFilterStr);
-                    bundle.putString("date",dateFilterStr);
-                    bundle.putInt("index",position);
+                    bundle.putSerializable("info", (Serializable) patientInfo);
+                    bundle.putString("time", timeFilterStr);
+                    bundle.putString("date", dateFilterStr);
+                    bundle.putInt("index", position);
                     bundle.putSerializable("list", (Serializable) patientList);
                     bundle.putSerializable("timeList", (Serializable) timeFilterList);
 
-                    startFragment(VitalSignDetailFragment.class,bundle);
+                    startFragment(VitalSignDetailFragment.class, bundle);
 
                 }
             }
@@ -203,8 +196,8 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
 
     }
 
-    private void initData(){
-        dateFilterStr = TimeUtils.getNowString().substring(0,11);
+    private void initData() {
+        dateFilterStr = TimeUtils.getNowString().substring(0, 11);
         tvVitalSignChooseTime.setText(dateFilterStr + "  " + timeFilterStr);
     }
 
@@ -216,15 +209,15 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
             public void onSuccess(Map<String, Object> map) {
 
                 topFilterList = (ArrayList) map.get("topFilter");
-                leftFilterList = (ArrayList)map.get("leftFilter");
-                patientList = (ArrayList)map.get("patInfoList");
-                timeFilterList = (ArrayList)map.get("timeSelect");
-                timeFilterStr = (String)map.get("timePoint");
+                leftFilterList = (ArrayList) map.get("leftFilter");
+                patientList = (ArrayList) map.get("patInfoList");
+                timeFilterList = (ArrayList) map.get("timeSelect");
+                timeFilterStr = (String) map.get("timePoint");
                 tvVitalSignChooseTime.setText(dateFilterStr + "  " + timeFilterStr);
 
                 typeAdapter.setNewData(leftFilterList);
 
-                for (int i = 0; i < topFilterList.size(); i++){
+                for (int i = 0; i < topFilterList.size(); i++) {
                     Map filter = (Map) topFilterList.get(i);
                     if ("".equals(filter.get("code"))) {
                         String code = (String) filter.get("code");
@@ -264,7 +257,47 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
 
     }
 
-    private void viewPatientTempImages(String episodeId){
+    private void setTopFilterSelect(View view) {
+        tvVitalSignAllarea.setSelected(view == tvVitalSignAllarea);
+        tvVitalSignAdminarea.setSelected(view == tvVitalSignAdminarea);
+        tvVitalSignNowoutarea.setSelected(view == tvVitalSignNowoutarea);
+        tvVitalSignAlloutarea.setSelected(view == tvVitalSignAlloutarea);
+        tvVitalSignWaitarea.setSelected(view == tvVitalSignWaitarea);
+
+        if (view == tvVitalSignAllarea) {
+            tvVitalSignAllarea.setTypeface(Typeface.DEFAULT_BOLD);
+            tvVitalSignAdminarea.setTypeface(Typeface.DEFAULT);
+            tvVitalSignNowoutarea.setTypeface(Typeface.DEFAULT);
+            tvVitalSignAlloutarea.setTypeface(Typeface.DEFAULT);
+            tvVitalSignWaitarea.setTypeface(Typeface.DEFAULT);
+        } else if (view == tvVitalSignAdminarea) {
+            tvVitalSignAllarea.setTypeface(Typeface.DEFAULT);
+            tvVitalSignAdminarea.setTypeface(Typeface.DEFAULT_BOLD);
+            tvVitalSignNowoutarea.setTypeface(Typeface.DEFAULT);
+            tvVitalSignAlloutarea.setTypeface(Typeface.DEFAULT);
+            tvVitalSignWaitarea.setTypeface(Typeface.DEFAULT);
+        } else if (view == tvVitalSignNowoutarea) {
+            tvVitalSignAllarea.setTypeface(Typeface.DEFAULT);
+            tvVitalSignAdminarea.setTypeface(Typeface.DEFAULT);
+            tvVitalSignNowoutarea.setTypeface(Typeface.DEFAULT_BOLD);
+            tvVitalSignAlloutarea.setTypeface(Typeface.DEFAULT);
+            tvVitalSignWaitarea.setTypeface(Typeface.DEFAULT);
+        } else if (view == tvVitalSignAlloutarea) {
+            tvVitalSignAllarea.setTypeface(Typeface.DEFAULT);
+            tvVitalSignAdminarea.setTypeface(Typeface.DEFAULT);
+            tvVitalSignNowoutarea.setTypeface(Typeface.DEFAULT);
+            tvVitalSignAlloutarea.setTypeface(Typeface.DEFAULT_BOLD);
+            tvVitalSignWaitarea.setTypeface(Typeface.DEFAULT);
+        } else if (view == tvVitalSignWaitarea) {
+            tvVitalSignAllarea.setTypeface(Typeface.DEFAULT);
+            tvVitalSignAdminarea.setTypeface(Typeface.DEFAULT);
+            tvVitalSignNowoutarea.setTypeface(Typeface.DEFAULT);
+            tvVitalSignAlloutarea.setTypeface(Typeface.DEFAULT);
+            tvVitalSignWaitarea.setTypeface(Typeface.DEFAULT_BOLD);
+        }
+    }
+
+    private void viewPatientTempImages(String episodeId) {
 
         //
         showLoadingTip(BaseActivity.LoadingType.FULL);
@@ -272,12 +305,12 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
         VitalSignApiManager.gePatientTempImages(episodeId, new VitalSignApiManager.GetPatientTempImagesCallback() {
             @Override
             public void onSuccess(Map<String, Object> map) {
-                
+
                 hideLoadFailTip();
 
 
-                int sum = ((ArrayList)map.get("urlList")).size();
-                if (sum == 0){
+                int sum = ((ArrayList) map.get("urlList")).size();
+                if (sum == 0) {
                     showToast("该病人无体温单");
                     return;
                 }
@@ -285,10 +318,10 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                 ImagePipeline imagePipeline = Fresco.getImagePipeline();
 
                 ArrayList<String> urls = new ArrayList<>();
-                for (int i = 0; i < sum; i ++){
-                    Map item = (Map)((ArrayList)map.get("urlList")).get(i);
-                    urls.add((String)item.get("url"));
-                    Uri uri = Uri.parse((String)item.get("url"));
+                for (int i = 0; i < sum; i++) {
+                    Map item = (Map) ((ArrayList) map.get("urlList")).get(i);
+                    urls.add((String) item.get("url"));
+                    Uri uri = Uri.parse((String) item.get("url"));
                     imagePipeline.evictFromMemoryCache(uri);
                     imagePipeline.evictFromDiskCache(uri);
                     imagePipeline.evictFromCache(uri);
@@ -309,53 +342,14 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
 
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.tv_resetting:
-                if (bResetting){
-                    List<Integer> filterList = new ArrayList<>();
-                    typeAdapter.setFilterList(filterList);
-                    typeAdapter.notifyDataSetChanged();
-                }
-                break;
-            case R.id.tv_vitalsign_allarea:
-                topFilterStr = "inBedAll";
-                setTopFilterSelect(tvVitalSignAllarea);
-                break;
-            case R.id.tv_vitalsign_adminarea:
-                topFilterStr = "manageInBed";
-                setTopFilterSelect(tvVitalSignAdminarea);
-                break;
-            case R.id.tv_vitalsign_nowoutarea:
-                topFilterStr = "todayOut";
-                setTopFilterSelect(tvVitalSignNowoutarea);
-                break;
-            case R.id.tv_vitalsign_alloutarea:
-                topFilterStr = "allOut";
-                setTopFilterSelect(tvVitalSignAlloutarea);
-                break;
-            case R.id.tv_vitalsign_waitarea:
-                topFilterStr = "wait";
-                setTopFilterSelect(tvVitalSignWaitarea);
-                break;
-            case R.id.tv_vitalsign_time:
-                chooseTime();
-                break;
-            default:
-                break;
-        }
-        updatePatientData();
-    }
-
-    private void updatePatientData(){
+    private void updatePatientData() {
 
         displayList.clear();
 
         //顶部区域过滤
         for (int i = 0; i < patientList.size(); i++) {
 
-            Map patientInfo = (Map)patientList.get(i);
+            Map patientInfo = (Map) patientList.get(i);
 
             boolean topmatch = false;
 
@@ -394,14 +388,14 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
         }
 
         //左侧筛选项无选中状态，则全部显示
-        if (typeAdapter.getFilterList().size() == 0){
+        if (typeAdapter.getFilterList().size() == 0) {
             patientAdapter.setNewData(displayList);
             tvResetting.setSelected(false);
             tvResetting.setText("筛选");
-            tvResetting.setTextColor(getResources().getColor(R.color.patevents_tv_unsel_color));
+            tvResetting.setTextColor(getResources().getColor(R.color.vital_sign_type_normal_text));
             bResetting = false;
             return;
-        }else {
+        } else {
             tvResetting.setSelected(true);
             tvResetting.setText("重置");
             tvResetting.setTextColor(getResources().getColor(R.color.vital_sign_type_selected_text));
@@ -414,21 +408,21 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
         displayList.clear();
 
         //时间点过滤
-        for (int i = 0; i < tmpFilterPatientList.size() ; ++i){
+        for (int i = 0; i < tmpFilterPatientList.size(); ++i) {
 
             Map patientInfo = tmpFilterPatientList.get(i);
             //每个病人需测项目为一个array，需根据时间点过滤病人列表
 
             boolean needMeasure = false;
 
-            for (int j = 0; j <((List)patientInfo.get("needMeasureInfo")).size(); j++) {
-                Map measureInfo = (Map)((List)patientInfo.get("needMeasureInfo")).get(j);
-                if (((String)measureInfo.get("needTimePoint")).equals(timeFilterStr)){
+            for (int j = 0; j < ((List) patientInfo.get("needMeasureInfo")).size(); j++) {
+                Map measureInfo = (Map) ((List) patientInfo.get("needMeasureInfo")).get(j);
+                if (((String) measureInfo.get("needTimePoint")).equals(timeFilterStr)) {
                     needMeasure = true;
                 }
             }
 
-            if (needMeasure){
+            if (needMeasure) {
                 displayList.add(patientInfo);
             }
         }
@@ -442,29 +436,29 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
         //通过 typeAdapter 中的选中index 列表获取选中的左侧需测项目列表
         List<Map> selectedLeftFilter = new ArrayList<>();
 
-        for (int i = 0 ; i < typeAdapter.getFilterList().size() ; i ++){
+        for (int i = 0; i < typeAdapter.getFilterList().size(); i++) {
             int index = typeAdapter.getFilterList().get(i).intValue();
             selectedLeftFilter.add((Map) leftFilterList.get(index));
         }
 
-        for (int i = 0; i < tmpFilterPatientList.size(); i++){
+        for (int i = 0; i < tmpFilterPatientList.size(); i++) {
             Map patientInfo = tmpFilterPatientList.get(i);
 
             List<Map> needMeasureList = (List) patientInfo.get("needMeasureInfo");
 
             boolean needShow = false;
 
-            for (int j = 0; j < needMeasureList.size(); j ++){
+            for (int j = 0; j < needMeasureList.size(); j++) {
 
-                for (int k = 0; k < selectedLeftFilter.size(); k++){
+                for (int k = 0; k < selectedLeftFilter.size(); k++) {
                     String key = (String) selectedLeftFilter.get(k).get("code");
-                    if (((String)needMeasureList.get(j).get(key)).equals("1")){
+                    if (((String) needMeasureList.get(j).get(key)).equals("1")) {
                         needShow = true;
                     }
                 }
 
             }
-            if (needShow){
+            if (needShow) {
                 displayList.add(patientInfo);
             }
 
@@ -475,16 +469,46 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
 
     }
 
-
-    private void setTopFilterSelect(View view) {
-        tvVitalSignAllarea.setSelected(view == tvVitalSignAllarea);
-        tvVitalSignAdminarea.setSelected(view == tvVitalSignAdminarea);
-        tvVitalSignNowoutarea.setSelected(view == tvVitalSignNowoutarea);
-        tvVitalSignAlloutarea.setSelected(view == tvVitalSignAlloutarea);
-        tvVitalSignWaitarea.setSelected(view == tvVitalSignWaitarea);
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tv_resetting:
+                if (bResetting) {
+                    List<Integer> filterList = new ArrayList<>();
+                    typeAdapter.setFilterList(filterList);
+                    typeAdapter.notifyDataSetChanged();
+                }
+                break;
+            case R.id.tv_vitalsign_allarea:
+                topFilterStr = "inBedAll";
+                setTopFilterSelect(tvVitalSignAllarea);
+                break;
+            case R.id.tv_vitalsign_adminarea:
+                topFilterStr = "manageInBed";
+                setTopFilterSelect(tvVitalSignAdminarea);
+                break;
+            case R.id.tv_vitalsign_nowoutarea:
+                topFilterStr = "todayOut";
+                setTopFilterSelect(tvVitalSignNowoutarea);
+                break;
+            case R.id.tv_vitalsign_alloutarea:
+                topFilterStr = "allOut";
+                setTopFilterSelect(tvVitalSignAlloutarea);
+                break;
+            case R.id.tv_vitalsign_waitarea:
+                topFilterStr = "wait";
+                setTopFilterSelect(tvVitalSignWaitarea);
+                break;
+            case R.id.tv_vitalsign_time:
+                chooseTime();
+                break;
+            default:
+                break;
+        }
+        updatePatientData();
     }
 
-    private void chooseTime(){
+    private void chooseTime() {
         long tenYears = 10L * 365 * 1000 * 60 * 60 * 24L;
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -514,8 +538,8 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
         //取时间前两个字符转为int（02，06...）
 
         List<String> hours = new ArrayList();
-        for (int i = 0; i < timeFilterList.size(); i ++){
-            String str = (String)((Map)timeFilterList.get(i)).get("time");
+        for (int i = 0; i < timeFilterList.size(); i++) {
+            String str = (String) ((Map) timeFilterList.get(i)).get("time");
             hours.add(str);
         }
 
@@ -528,21 +552,21 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
     @Override
     public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
 
-        String date = TimeUtils.millis2String(millseconds).substring(0,11);
-        String time = TimeUtils.millis2String(millseconds).substring(11,16);
+        String date = TimeUtils.millis2String(millseconds).substring(0, 11);
+        String time = TimeUtils.millis2String(millseconds).substring(11, 16);
 
-        if (!date.equals(dateFilterStr)){
+        if (!date.equals(dateFilterStr)) {
             //日期发生改变，需重新请求数据
             dateFilterStr = date;
             asyncInitData();
         }
 
-        if (!time.equals(timeFilterStr)){
+        if (!time.equals(timeFilterStr)) {
             timeFilterStr = time;
             updatePatientData();
         }
 
-        tvVitalSignChooseTime.setText(TimeUtils.millis2String(millseconds).substring(0,16));
+        tvVitalSignChooseTime.setText(TimeUtils.millis2String(millseconds).substring(0, 16));
     }
 
 

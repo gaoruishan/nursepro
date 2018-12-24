@@ -3,7 +3,7 @@
 <!-- 实心 -->
 <solid android:color="@color/vital_sign_type_selected_bg" />
 <!-- 圆角 -->
-<corners android:radius="25dp" />
+<corners android:radius="20dp" />
 <!-- 边距 -->
 <padding
     android:bottom="5dp"

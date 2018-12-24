@@ -25,16 +25,17 @@
     <color name="user_attr_line_color">#EEEEEE</color>
     <color name="color_loading_dialog_background">#66000000</color>
     <color name="color_base_content">#F7F8F9</color>
-    
+
+    <color name="vital_sign_left_bgcolor">#DFEEFF</color>
+    <color name="vital_sign_filter_bottom_line_color">#62ABFF</color>
     <color name="vital_sign_border">#A3B5C9</color>
-    <color name="vital_sign_type_normal_bg">#F5FAFF</color>
-    <color name="vital_sign_type_selected_bg">#DEEDFE</color>
+    <color name="vital_sign_type_normal_bg">#DFEEFF</color>
+    <color name="vital_sign_type_selected_bg">#FFFFFF</color>
     <color name="vital_sign_type_selected_text">#4A90E2</color>
     <color name="vital_sign_type_normal_text">#000000</color>
     <color name="vital_sign_text_color">#4A4A4A</color>
     <color name="vital_sign_top_text_selected_color">#70AAF2</color>
     <color name="vital_sign_top_text_normal_color">#000000</color>
-    <color name="vital_sign_filter_bottom_line_color">#D8EAFF</color>
     <color name="vital_sign_record_pre_color">#4A90E2</color>
     <color name="vital_sign_record_next_color">#62ABFF</color>
     <color name="vital_sign_record_index_null_color">#ECECEC</color>
