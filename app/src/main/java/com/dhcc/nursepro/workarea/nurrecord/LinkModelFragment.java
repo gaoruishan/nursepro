@@ -1,11 +1,8 @@
 package com.dhcc.nursepro.workarea.nurrecord;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
@@ -32,7 +29,6 @@ import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.constant.SharedPreference;
-import com.dhcc.nursepro.workarea.bedselect.BedSelectFragment;
 import com.dhcc.nursepro.workarea.nurrecord.adapter.NurRecordAdapter;
 import com.dhcc.nursepro.workarea.nurrecord.api.NurRecordManager;
 import com.dhcc.nursepro.workarea.nurrecord.bean.NurRecordBean;
@@ -42,8 +38,6 @@ import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 import com.nex3z.flowlayout.FlowLayout;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -65,30 +59,26 @@ import okhttp3.Response;
  * Date: 2018/12/3
  * Time:9:49
  */
-public class NurRecordFragment extends BaseFragment implements OnDateSetListener {
+public class LinkModelFragment extends BaseFragment implements OnDateSetListener {
     private FlowLayout recordContentView;
     private TextView tvsend;
 
     private TextView textViewChooseDateTime;
     private String dt = "date";
 
-    private NurRecordAdapter modelDetailAdapter;
     private List<NurRecordBean.ModelListBean> listBeans;
     private NurRecordBean nurRecordBean;
     private HashMap<String, View> viewItemMap;
     private Map patInfoMap = new HashMap<String, String>();
-    private long mExitTime;
     private String strSend = "";
 
     private ItemValueDialog showDialog;
 
     private String emrCode = "";
     private String episodeId = "";
-
-    private String itemNum = "";
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_modeldetail, container, false);
+        return inflater.inflate(R.layout.fragment_modeldetaillink, container, false);
     }
 
     @Override
@@ -98,7 +88,7 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
         setToolbarType(BaseActivity.ToolbarType.TOP);
         setToolbarBottomLineVisibility(true);
 
-        setToolbarCenterTitle("护理病历", 0xffffffff, 17);
+        setToolbarCenterTitle("护理病历二级模板", 0xffffffff, 17);
 
         Bundle bundle = getArguments();
         emrCode = bundle.getString("EmrCode");
@@ -108,20 +98,9 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
         initData();
 
     }
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK) {
-            View view = viewItemMap.get(itemNum);
-            if (view instanceof EditText){
-                EditText ed = (EditText)view;
-                ed.setText(data.getStringExtra("linkstrsend")+"");
-            }
-        }
-    }
-
 
     private void initview(View view) {
-        tvsend = view.findViewById(R.id.tv_send);
+        tvsend = view.findViewById(R.id.tv_save);
 
         tvsend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,14 +117,14 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
                         }
                     }
                     if (i == listBeans.size() - 1) {
-
-                        showToast(strSend);
-                        Log.v("111send", strSend);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("linkstrsend", strSend);
+                        finish(bundle);
                     }
                 }
             }
         });
-        recordContentView = view.findViewById(R.id.fl_modeldetail);
+        recordContentView = view.findViewById(R.id.fl_modellink);
         viewItemMap = new HashMap<>();
     }
 
@@ -165,7 +144,6 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
                 String result = gson.toJson(nurRecordBean.getPatInfo());
                 patInfoMap = gson.fromJson(result, HashMap.class);
                 drawInputItems();
-                inputItemsValue();
             }
 
             @Override
@@ -185,22 +163,6 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
             recordContentView.addView(drawItem(config));
         }
     }
-
-    private void inputItemsValue() {
-
-        //        for (int i = 0; i < recordInfo.getTempList().size(); i ++){
-        //            VitalSignRecordBean.TempListBean temp = recordInfo.getTempList().get(i);
-        //            View view =  viewItemMap.get(temp.getCode());
-        //            if (view instanceof EditText){
-        //                EditText ed = (EditText)view;
-        //                ed.setText(temp.getValue());
-        //            }else{
-        //                OptionView op = (OptionView)view;
-        //                op.setText(temp.getValue());
-        //            }
-        //        }
-    }
-
     /**
      * 区分不同View类型，添加进容器
      *
@@ -487,18 +449,11 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
                     @Override
                     public void onClick(View v) {
                         showToast("点击进入新的模板"+config.getLinkInfo().get(0).getLinkModel()+"给:"+config.getLinkInfo().get(0).getLinkItemCode());
-                        Bundle bundle = new Bundle();
-                        bundle.putString("EmrCode",config.getLinkInfo().get(0).getLinkModel());
-                        bundle.putString("episodeId",episodeId );
-                        startFragment(LinkModelFragment.class,bundle,1);
-//                        itemNum = config.getLinkInfo().get(0).getLinkItemCode();
-                        itemNum = "Item81";
-
-//                        View view = viewItemMap.get("Item81");
-//                        if (view instanceof EditText){
-//                            EditText ed = (EditText)view;
-//                            ed.setText("from__"+config.getItemCode());
-//                        }
+                        View view = viewItemMap.get("Item81");
+                        if (view instanceof EditText){
+                            EditText ed = (EditText)view;
+                            ed.setText("from__"+config.getItemCode());
+                        }
 
                     }
                 });

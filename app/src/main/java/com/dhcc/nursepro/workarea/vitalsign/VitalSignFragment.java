@@ -1,5 +1,6 @@
 package com.dhcc.nursepro.workarea.vitalsign;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,12 +12,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.constant.Action;
+import com.dhcc.nursepro.constant.SharedPreference;
+import com.dhcc.nursepro.workarea.allotbed.api.AllotBedApiManager;
+import com.dhcc.nursepro.workarea.allotbed.bean.GetScanPatsBean;
 import com.dhcc.nursepro.workarea.patevents.PatEventsFragment;
+import com.dhcc.nursepro.workarea.patevents.bean.ScanGetUserMsgBean;
 import com.dhcc.nursepro.workarea.vitalsign.adapter.VitalSignPatientAdapter;
 import com.dhcc.nursepro.workarea.vitalsign.adapter.VitalSignTypeAdapter;
 import com.dhcc.nursepro.workarea.vitalsign.api.VitalSignApiManager;
@@ -31,6 +38,7 @@ import com.stfalcon.frescoimageviewer.ImageViewer;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -66,6 +74,8 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
     private String dateFilterStr = "";
     private Boolean bResetting = false;
 
+    private SPUtils spUtils = SPUtils.getInstance();
+
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_vital_sign, container, false);
@@ -89,7 +99,6 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                 asyncInitData();
             }
         }, 300);
-
     }
 
 
@@ -195,6 +204,59 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
 
 
     }
+
+    //扫码获取信息
+    @Override
+    public void getScanMsg(Intent intent) {
+        super.getScanMsg(intent);
+        if (intent.getAction().equals(Action.DEVICE_SCAN_CODE)) {
+            Bundle bundle = new Bundle();
+            bundle = intent.getExtras();
+            initScanMsg(bundle.getString("data"));
+
+        }
+    }
+    //扫码直接进入
+    private void initScanMsg(String regNo) {
+
+        String wardId = spUtils.getString(SharedPreference.WARDID);
+        HashMap<String, String> mapmsg = new HashMap<String, String>();
+        mapmsg.put("regNo", regNo);
+        mapmsg.put("wardId", wardId);
+        //获取用户信息，跟allotbed共用一个api
+        AllotBedApiManager.getUserMsg(mapmsg, "getPatWristInfo", new AllotBedApiManager.GetUserMsgCallBack() {
+            @Override
+            public void onSuccess(GetScanPatsBean getScanPatsBean) {
+
+
+              for (int i = 0;i<displayList.size();i++){
+                  if ((getScanPatsBean.getPatInfo().getRegNo()).equals(displayList.get(i).get("regNo"))){
+
+                      Map patientInfo = (Map) displayList.get(i);
+                      //体征录入
+                      Bundle bundle = new Bundle();
+                      bundle.putSerializable("info", (Serializable) patientInfo);
+                      bundle.putString("time", timeFilterStr);
+                      bundle.putString("date", dateFilterStr);
+                      bundle.putInt("index", i);
+                      bundle.putSerializable("list", (Serializable) displayList);
+                      bundle.putSerializable("timeList", (Serializable) timeFilterList);
+
+                      startFragment(VitalSignRecordFragment.class, bundle);
+
+                  }
+              }
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+                showToast("error" + code + ":" + msg);
+            }
+        });
+
+    }
+
+
 
     private void initData() {
         dateFilterStr = TimeUtils.getNowString().substring(0, 11);
