@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="300dp"
+    android:layout_width="320dp"
     android:layout_height="wrap_content"
     android:layout_marginStart="20dp"
     android:layout_marginEnd="20dp"
@@ -20,25 +20,6 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="条码信息"
-            android:textColor="#9B9B9B" />
-
-        <TextView
-            android:id="@+id/tv_popup_scaninfo"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginTop="10dp"
-            android:background="#F5FAFF"
-            android:gravity="center"
-            android:textColor="#4A4A4A"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            tools:text="MA 03981 0399 0192 9384 19" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
             android:text="患者信息"
             android:textColor="#9B9B9B" />
 
@@ -63,29 +44,56 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             android:background="#F5FAFF"
             android:gravity="center_vertical"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_popup_orderinfo"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#F5FAFF"
-                android:gravity="center"
-                android:textColor="#4A4A4A"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                tools:text="0.9%氯化钠注射液T(100ml*塑瓶)" />
+                android:layout_marginTop="16dp">
+
+                <TextView
+                    android:id="@+id/tv_popup_orderinfo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:textColor="#4A4A4A"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    tools:text="0.9%氯化钠注射液T(100ml*塑瓶)" />
+
+                <TextView
+                    android:id="@+id/tv_popup_orderunit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#4A4A4A"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    tools:text="100ml" />
+
+            </LinearLayout>
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recy_popup_childOrderInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </android.support.v7.widget.RecyclerView>
 
             <TextView
                 android:id="@+id/tv_popup_orderinfoex"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:background="#F5FAFF"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="16dp"
                 android:gravity="center"
                 android:textColor="#9B9B9B"
                 android:textSize="13sp"

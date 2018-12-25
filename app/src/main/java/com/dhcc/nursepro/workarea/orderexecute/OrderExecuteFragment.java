@@ -220,17 +220,22 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
 
                     if ("1".equals(scanResultBean.getDiagFlag())) {
                         execOrderDialog = new OrderExecOrderDialog(getActivity());
-                        execOrderDialog.setScanInfo(scanInfo);
                         execOrderDialog.setPatInfo(patInfo);
-                        ScanResultBean.OrdersBean ordersBean = scanResultBean.getOrders().get(0);
+                        List<ScanResultBean.OrdersBean> ordersBeanList = scanResultBean.getOrders();
+                        ScanResultBean.OrdersBean ordersBean = ordersBeanList.get(0);
                         execOrderDialog.setOrderInfo(ordersBean.getArcimDesc());
-                        execOrderDialog.setOrderInfoEx(ordersBean.getCreateDateTime().substring(0, 16) + " " + ordersBean.getPhcinDesc() + " " + ordersBean.getPhOrdQtyUnit() + " " + ordersBean.getCtcpDesc());
+                        execOrderDialog.setOrderUnit(ordersBean.getPhOrdQtyUnit());
+                        if (ordersBeanList.size() > 1) {
+                            ordersBeanList.remove(0);
+                            execOrderDialog.setChildOrders(ordersBeanList);
+                        }
+                        execOrderDialog.setOrderInfoEx(ordersBean.getCreateDateTime().substring(0, 16) + " " + ordersBean.getPhcinDesc() + " " + ordersBean.getCtcpDesc());
                         execOrderDialog.show();
                         execOrderDialog.setSureOnclickListener(new OrderExecOrderDialog.onSureOnclickListener() {
                             @Override
                             public void onSureClick() {
                                 execOrderDialog.dismiss();
-                                execOrSeeOrderScan(ordersBean.getID(),"F");
+                                execOrSeeOrderScan(ordersBean.getID(), "F");
                             }
                         });
 
@@ -434,7 +439,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     /**
      * 扫码执行
      */
-    private void execOrSeeOrderScan(String oeoreIdScan,String execStatusCodeScan) {
+    private void execOrSeeOrderScan(String oeoreIdScan, String execStatusCodeScan) {
         OrderExecuteApiManager.execOrSeeOrder(oeoreIdScan, execStatusCodeScan, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
             @Override
             public void onSuccess(OrderExecResultBean orderExecResultBean) {

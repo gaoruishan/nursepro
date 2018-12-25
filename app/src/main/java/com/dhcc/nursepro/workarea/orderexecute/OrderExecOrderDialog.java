@@ -4,10 +4,17 @@ package com.dhcc.nursepro.workarea.orderexecute;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.workarea.orderexecute.adapter.OrderExecuteOrderDialogAdapter;
+import com.dhcc.nursepro.workarea.orderexecute.bean.ScanResultBean;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * OrderExecOrderDialog
@@ -17,17 +24,22 @@ import com.dhcc.nursepro.R;
  * created at 2018/12/25 10:00
  */
 public class OrderExecOrderDialog extends Dialog {
-    private TextView tvPopupScaninfo;
+    private Context context;
     private TextView tvPopupPatinfo;
+    private TextView tvPopupOrderunit;
     private TextView tvPopupOrderinfo;
+    private RecyclerView recyPopupChildOrderInfo;
     private TextView tvPopupOrderinfoex;
     private TextView tvPopupOrderexec;
     private TextView tvPopupOrdercancel;
 
-    private String scanInfo;
     private String patInfo;
     private String orderInfo;
+    private String orderUnit;
+    private List<ScanResultBean.OrdersBean> childOrders = new ArrayList<>();
     private String orderInfoEx;
+
+    private OrderExecuteOrderDialogAdapter adapter;
 
     private onSureOnclickListener sureOnclickListener;
     private onCancelOnclickListener cancelOnclickListener;
@@ -35,14 +47,20 @@ public class OrderExecOrderDialog extends Dialog {
 
     public OrderExecOrderDialog(Context context) {
         super(context, R.style.MyDialog);
+        this.context = context;
+
     }
 
-    public void setScanInfo(String scanInfo) {
-        this.scanInfo = scanInfo;
+    public void setChildOrders(List<ScanResultBean.OrdersBean> childOrders) {
+        this.childOrders = childOrders;
     }
 
     public void setPatInfo(String patInfo) {
         this.patInfo = patInfo;
+    }
+
+    public void setOrderUnit(String orderUnit) {
+        this.orderUnit = orderUnit;
     }
 
     public void setOrderInfo(String orderInfo) {
@@ -78,6 +96,8 @@ public class OrderExecOrderDialog extends Dialog {
         setCanceledOnTouchOutside(true);
         //初始化界面控件
         initView();
+        //初始化adapter
+        initAdapter();
         //初始化界面数据
         initData();
         //初始化界面控件的事件
@@ -85,18 +105,26 @@ public class OrderExecOrderDialog extends Dialog {
     }
 
     private void initView() {
-        tvPopupScaninfo = findViewById(R.id.tv_popup_scaninfo);
         tvPopupPatinfo = findViewById(R.id.tv_popup_patinfo);
         tvPopupOrderinfo = findViewById(R.id.tv_popup_orderinfo);
+        tvPopupOrderunit = findViewById(R.id.tv_popup_orderunit);
+        recyPopupChildOrderInfo = findViewById(R.id.recy_popup_childOrderInfo);
         tvPopupOrderinfoex = findViewById(R.id.tv_popup_orderinfoex);
         tvPopupOrderexec = findViewById(R.id.tv_popup_orderexec);
         tvPopupOrdercancel = findViewById(R.id.tv_popup_ordercancel);
+
+        //提高展示效率
+        recyPopupChildOrderInfo.setHasFixedSize(true);
+        //设置的布局管理
+        recyPopupChildOrderInfo.setLayoutManager(new LinearLayoutManager(context));
+    }
+
+    private void initAdapter() {
+        adapter = new OrderExecuteOrderDialogAdapter(new ArrayList<>());
+        recyPopupChildOrderInfo.setAdapter(adapter);
     }
 
     private void initData() {
-        if (scanInfo != null) {
-            tvPopupScaninfo.setText(scanInfo);
-        }
 
         if (patInfo != null) {
             tvPopupPatinfo.setText(patInfo);
@@ -104,6 +132,14 @@ public class OrderExecOrderDialog extends Dialog {
 
         if (orderInfo != null) {
             tvPopupOrderinfo.setText(orderInfo);
+        }
+
+        if (orderUnit != null) {
+            tvPopupOrderunit.setText(orderUnit);
+        }
+
+        if (childOrders != null && childOrders.size() > 0) {
+            adapter.setNewData(childOrders);
         }
 
         if (orderInfoEx != null) {
