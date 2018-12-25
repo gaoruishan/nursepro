@@ -25,7 +25,6 @@ import com.dhcc.nursepro.workarea.labout.LabOutListFragment;
 import com.dhcc.nursepro.workarea.labresult.LabPatsFragment;
 import com.dhcc.nursepro.workarea.milkloopsystem.MilkLoopSystemFragment;
 import com.dhcc.nursepro.workarea.motherbabylink.MotherBabyLinkFragment;
-import com.dhcc.nursepro.workarea.nurrecord.NurRecordFragment;
 import com.dhcc.nursepro.workarea.nurrecord.NurRecordModellistFragmen;
 import com.dhcc.nursepro.workarea.operation.OperationFragment;
 import com.dhcc.nursepro.workarea.orderexecute.OrderExecuteFragment;

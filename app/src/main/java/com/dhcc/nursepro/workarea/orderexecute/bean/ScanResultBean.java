@@ -18,6 +18,20 @@ public class ScanResultBean {
     private PatInfoBean patInfo;
     private String status;
     private List<OrdersBean> orders;
+    /**
+     * diagFlag : 1
+     * orders : [{"DspStat":"","Durat":"","EncryptLevel":"","ID":"91||6||1","PatLevel":"","PreDisDateTime":"","admLoc":"内分泌科","age":"30岁","arcimDesc":"手术申请：","bedCode":"14","cancelReason":"药物过敏","createDateTime":"2018-03-26 09:33:29","ctcpDesc":"医生01","doseQtyUnit":"","examInfo":{},"execCtcpDesc":"医生01","execDateTime":"03-27 13:40","execID":"91||6||1","execXDateTime":"2018-05-03 19:32:46","execXUserDesc":"护士01","flowSpeed":"","labNo":"","medCareNo":"100056","no":"5","notes":"拟于2018-03-26 03:30:00,在下行一氧化氮疗法","notifyClinician":"","oecprDesc":"临时医嘱","orcatDesc":"嘱托","ordDep":"内分泌科","ordID":"91||6","ordStatDesc":"撤销","ordTyp":"N","patIdentity":"全自费","patName":"王伟测试","phOrdQtyUnit":"1 ","phcfrCode":"","phcinDesc":"","placerNo":"","preparedFlag":"N","prescNo":"","price":"0.00","printFlag":"","reclocDesc":"内分泌科","regNo":"0000000129 ","seeOrderUserDateTime":"2018-09-12 10:45:09","seeOrderUserName":"护士01","seqNo":"91||6","skinTestInfo":"","skinTestNumber":"","specCollDateTime":"","specDesc":"","sttDate":"03-26","sttDateTime":"2018-03-26 09:33:29","sttTime":"09:33","totalAmount":"0.00","tubeColor":"","verifyFlag":"N","xCtcpDesc":"医生01","xDateTime":"2018-03-27 13:40:09"}]
+     */
+
+    private String diagFlag;
+
+    public String getDiagFlag() {
+        return diagFlag == null ? "" : diagFlag;
+    }
+
+    public void setDiagFlag(String diagFlag) {
+        this.diagFlag = diagFlag;
+    }
 
     public String getFlag() {
         return flag;
