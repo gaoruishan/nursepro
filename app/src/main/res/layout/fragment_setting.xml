@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#FFF5FAFF"
+    tools:context=".setting.SettingFragment"
     >
     <View
         android:layout_width="match_parent"
@@ -31,18 +33,17 @@
         <ImageView
             android:layout_width="85dp"
             android:layout_height="85dp"
-            android:layout_margin="20dp" 
+            android:layout_margin="20dp"
             android:src="@drawable/icon_nurse"/>
         <TextView
             android:id="@+id/tv_setting_username"
             android:layout_width="match_parent"
             android:layout_height="24dp"
             android:gravity="center"
-            android:text="王医生"
             android:textColor="@color/text_view_text_color"
             android:textStyle="bold"
             android:textSize="17sp"
-            />
+            tools:text="护士" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -165,7 +166,7 @@
         </RelativeLayout>
 
     </LinearLayout>
-    
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"

@@ -29,7 +29,7 @@
         android:layout_marginTop="5dp"
         android:background="#FFF5FAFF"
         android:gravity="center"
-        android:text="2016-11-11 12:12"
+        tools:text="2016-11-11 12:12"
         android:textColor="#FF4A4A4A"
         android:textSize="@dimen/sp_16"
         />
@@ -59,7 +59,7 @@
         android:layout_marginTop="5dp"
         android:background="#FFF5FAFF"
         android:gravity="center"
-        android:text="2016-11-11 12:12"
+        tools:text="2016-11-11 12:12"
         android:textColor="#FF4A4A4A"
         android:textSize="@dimen/sp_16"
         />

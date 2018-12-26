@@ -34,15 +34,14 @@ import com.dhcc.nursepro.workarea.vitalsign.VitalSignFragment;
 import com.dhcc.nursepro.workarea.workareaapi.WorkareaApiManager;
 import com.dhcc.nursepro.workarea.workareabean.MainConfigBean;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * WorkareaFragment
  * 主页
  */
 public class WorkareaFragment extends BaseFragment {
-    private List ItemNameList = new ArrayList<String>();
+    private List<String> ItemNameList = new ArrayList<String>();
     private WorkAreaAdapter patEventsAdapter ;
 
 
@@ -63,13 +62,14 @@ public class WorkareaFragment extends BaseFragment {
         initView(view);
         initData();
     }
-    private void initData() {
 
+    private void initData() {
 
         WorkareaApiManager.getMainConfig(null, "getMainConfig", new WorkareaApiManager.GetMainconfigCallback() {
             @Override
             public void onSuccess(MainConfigBean mainConfigBean) {
                 ItemNameList = mainConfigBean.getMainConfig();
+//                ItemNameList.add("MODELDETAIL");
                 patEventsAdapter.setNewData(ItemNameList);
             }
 

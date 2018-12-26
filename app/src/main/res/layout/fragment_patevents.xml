@@ -77,7 +77,7 @@
                 android:gravity="center"
                 android:textSize="@dimen/sp_16"
                 android:textStyle="bold"
-                android:text="06床--苏患者"/>
+                tools:text="患者"/>
         </LinearLayout>
     </RelativeLayout>
 
