@@ -18,6 +18,6 @@ public class OrderExecuteOrderDialogAdapter extends BaseQuickAdapter<ScanResultB
     @Override
     protected void convert(BaseViewHolder helper, ScanResultBean.OrdersBean item) {
         helper.setText(R.id.tv_popup_childorderinfo, item.getArcimDesc())
-                .setText(R.id.tv_popup_childorderunit, item.getPhOrdQtyUnit());
+                .setText(R.id.tv_popup_childorderunit, item.getDoseQtyUnit());
     }
 }

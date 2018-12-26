@@ -224,12 +224,12 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                         List<ScanResultBean.OrdersBean> ordersBeanList = scanResultBean.getOrders();
                         ScanResultBean.OrdersBean ordersBean = ordersBeanList.get(0);
                         execOrderDialog.setOrderInfo(ordersBean.getArcimDesc());
-                        execOrderDialog.setOrderUnit(ordersBean.getPhOrdQtyUnit());
+                        execOrderDialog.setOrderUnit(ordersBean.getDoseQtyUnit());
                         if (ordersBeanList.size() > 1) {
                             ordersBeanList.remove(0);
                             execOrderDialog.setChildOrders(ordersBeanList);
                         }
-                        execOrderDialog.setOrderInfoEx(ordersBean.getCreateDateTime().substring(0, 16) + " " + ordersBean.getPhcinDesc() + " " + ordersBean.getCtcpDesc());
+                        execOrderDialog.setOrderInfoEx(ordersBean.getSttDateTime().substring(0, 16) + " " + ordersBean.getPhcinDesc() + " " + ordersBean.getCtcpDesc());
                         execOrderDialog.show();
                         execOrderDialog.setSureOnclickListener(new OrderExecOrderDialog.onSureOnclickListener() {
                             @Override
