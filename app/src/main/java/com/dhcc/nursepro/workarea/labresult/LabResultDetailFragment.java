@@ -49,7 +49,7 @@ public class LabResultDetailFragment extends BaseFragment {
         reclabdetail = view.findViewById(R.id.recy_labdetail);
         reclabdetail.setHasFixedSize(true);
         reclabdetail.setLayoutManager(new LinearLayoutManager(getActivity()));
-        labResultDetailAdapter = new LabResultDetailAdapter(new ArrayList<LabReslutDetailBean.ResultDetailBean>());
+        labResultDetailAdapter = new LabResultDetailAdapter(new ArrayList<>());
         reclabdetail.setAdapter(labResultDetailAdapter);
 
     }

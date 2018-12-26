@@ -55,8 +55,8 @@
     <string name="title_bloodtransfusionsystem">输血系统</string>
     <string name="title_bloodsign">血液签收</string>
     <string name="title_bloodtransfusion">血液输注</string>
-    <string name="title_bloodtransfusionend">血液结束</string>
-    <string name="title_bloodtransfusiontour">血液巡视</string>
+    <string name="title_bloodtransfusiontour">输血巡视</string>
+    <string name="title_bloodtransfusionend">输血结束</string>
     <string name="title_bloodbagrecycling">血液回收</string>
     <string name="title_bloodtransfusionsearch">血液查询</string>
     <string name="title_bloodtransfusiondetail">详情</string>
