@@ -1,6 +1,5 @@
 package com.dhcc.nursepro.workarea.vitalsign;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.Gravity;
@@ -10,12 +9,9 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.blankj.utilcode.util.ConvertUtils;
-import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
@@ -29,14 +25,13 @@ import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class VitalSignRecordFragment extends BaseFragment implements View.OnClickListener,OnDateSetListener {
+public class VitalSignRecordFragment extends BaseFragment implements View.OnClickListener, OnDateSetListener {
 
     private Map patientInfo;
 
@@ -59,7 +54,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
 
     private boolean waiting = false;
 
-    private HashMap<String,View> viewItemMap;
+    private HashMap<String, View> viewItemMap;
 
     private List timeFilterList;
     private String timeFilterStr = "";
@@ -87,7 +82,27 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
 
     }
 
-    private void initView(View view){
+    private void initData() {
+        Bundle bundle = getArguments();
+
+        //        timepoint = bundle.getString("timepoint");
+        patientList = (List) bundle.getSerializable("list");
+
+        timeFilterList = bundle.getStringArrayList("timeList");
+
+        dateFilterStr = bundle.getString("date");
+
+        timeFilterStr = bundle.getString("time");
+
+        timepoint = dateFilterStr + " " + timeFilterStr;
+
+        patientIndex = bundle.getInt("index");
+
+        viewItemMap = new HashMap<>();
+
+    }
+
+    private void initView(View view) {
         et_time = view.findViewById(R.id.et_vital_sign_record_time);
         et_time.setOnClickListener(this);
         et_time.setText(timepoint);
@@ -116,27 +131,91 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
 
     }
 
-    private void initData(){
-        Bundle bundle = getArguments();
+    private void switchPatient() {
 
-//        timepoint = bundle.getString("timepoint");
-        patientList = (List)bundle.getSerializable("list");
+        if (patientIndex == 0) {
+            tv_pre.setEnabled(false);
+            tv_pre.setBackgroundColor(getResources().getColor(R.color.vital_sign_record_index_null_color));
+        }
+        if (patientIndex == patientList.size() - 1) {
+            tv_next.setEnabled(false);
+            tv_next.setBackgroundColor(getResources().getColor(R.color.vital_sign_record_index_null_color));
+        }
+        if (patientIndex > 0 && patientIndex < patientList.size() - 1) {
+            tv_next.setEnabled(true);
+            tv_next.setBackgroundColor(getResources().getColor(R.color.vital_sign_record_next_color));
+            tv_pre.setEnabled(true);
+            tv_pre.setBackgroundColor(getResources().getColor(R.color.vital_sign_record_pre_color));
+        }
 
-        timeFilterList = bundle.getStringArrayList("timeList");
+        waiting = true;
+        patientInfo = (Map) patientList.get(patientIndex);
+        curEpisodeId = (String) patientInfo.get("episodeId");
+        String title = patientInfo.get("bedCode") + " " + patientInfo.get("name");
+        setToolbarCenterTitle(title, 0xffffffff, 17);
+        recordContentView.removeAllViews();
+        asyncGetVitalSignItems();
+    }
 
-        dateFilterStr = bundle.getString("date");
+    /**
+     * 保存生命体征数据
+     */
+    private void saveTempValue() {
 
-        timeFilterStr = bundle.getString("time");
+        ArrayList<HashMap<String, String>> resList = new ArrayList();
 
-        timepoint = dateFilterStr + " "+ timeFilterStr;
+        for (int i = 0; i < recordInfo.getTempList().size(); i++) {
+            VitalSignRecordBean.TempListBean temp = recordInfo.getTempList().get(i);
+            String code = temp.getCode();
+            View view = viewItemMap.get(temp.getCode());
+            String value = "";
 
-        patientIndex = bundle.getInt("index");
+            if (view instanceof EditText) {
+                EditText ed = (EditText) view;
+                value = ed.getText().toString();
+            } else {
+                OptionView op = (OptionView) view;
+                value = op.getText().toString();
+            }
 
-        viewItemMap = new HashMap<>();
+            value = value.trim();
+            //            if (value.length() == 0){
+            //                continue;
+            //            }
+
+            HashMap<String, String> resItem = new HashMap<>();
+            resItem.put("code", code);
+            resItem.put("value", value);
+
+            resList.add(resItem);
+        }
+
+        Gson gson = new Gson();
+        String result = gson.toJson(resList);
+
+        showLoadingTip(BaseActivity.LoadingType.FULL);
+
+        waiting = true;
+
+        VitalSignApiManager.saveTempData(curEpisodeId, timepoint, result, new VitalSignApiManager.SaveTempDataCallback() {
+            @Override
+            public void onSuccess(VitalSignSaveBean bean) {
+                hideLoadFailTip();
+                waiting = false;
+                showToast("保存成功 ");
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+                hideLoadFailTip();
+                waiting = false;
+                showToast("error" + code + ":" + msg);
+            }
+        });
 
     }
 
-    private void asyncGetVitalSignItems(){
+    private void asyncGetVitalSignItems() {
 
         showLoadingTip(BaseActivity.LoadingType.FULL);
         VitalSignApiManager.getVitalSignItems(curEpisodeId, timepoint, new VitalSignApiManager.GetVitalSignItemCallback() {
@@ -161,9 +240,66 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
         });
     }
 
-    @Override
+    /**
+     * 绘制UI相关
+     */
+
+    public void drawInputItems() {
+
+        LinearLayout layout = null;
+
+        int size = recordInfo.getTempConfig().size();
+
+        for (int i = 0; i < size; i++) {
+            if (i % 3 == 0) {
+                layout = new LinearLayout(getContext());
+            }
+
+            VitalSignRecordBean.TempConfigBean config = recordInfo.getTempConfig().get(i);
+            LinearLayout item = drawItem(config);
+            layout.addView(item);
+
+            if (i == size - 1 && i % 3 == 0) {
+                layout.addView(dramEmptyItem());
+                layout.addView(dramEmptyItem());
+            }
+
+            if (i == size - 1 && i % 3 == 1) {
+                layout.addView(dramEmptyItem());
+            }
+
+            if (i == size - 1 || i % 3 == 2) {
+                recordContentView.addView(layout);
+            }
+        }
+
+
+        //        for(int i = 0; i < size; i ++){
+        //
+        //            if (i % 3 == 0){
+        //                layout = new LinearLayout(getContext());
+        //                recordContentView.addView(layout);
+        //                int height = 120;
+        //                int width = ScreenUtils.getScreenWidth();
+        //                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width,height);
+        //            }
+        //
+        //            VitalSignRecordBean.TempConfigBean config = recordInfo.getTempConfig().get(i);
+        //
+        //            LinearLayout item = drawItem(config);
+        //
+        //            layout.addView(item);
+        //        }
+        //
+        //        if (size % 3 != 0){
+        //            for (int i = 0; i < size % 3 + 1; i ++){
+        //                layout.addView(dramEmptyItem());
+        //            }
+        //            recordContentView.addView(layout);
+        //        }
+    }    @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.et_vital_sign_record_time:
                 chooseTime();
                 break;
@@ -178,96 +314,22 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
         }
     }
 
-    /**
-     * 病人切换相关
-     */
-    private void nextPatient(){
+    private void inputItemsValue() {
 
-        if (waiting){
-            showToast("正在获取数据，请稍后");
-            return;
-        }
-
-        patientIndex ++;
-        switchPatient();
-
-    }
-
-    private void prePatient(){
-
-        if (waiting){
-            showToast("正在获取数据，请稍后");
-            return;
-        }
-
-        patientIndex --;
-        switchPatient();
-    }
-
-    private void switchPatient(){
-
-        if (patientIndex == 0) {
-            tv_pre.setEnabled(false);
-            tv_pre.setBackgroundColor(getResources().getColor(R.color.vital_sign_record_index_null_color));
-        }
-        if (patientIndex == patientList.size() - 1){
-            tv_next.setEnabled(false);
-            tv_next.setBackgroundColor(getResources().getColor(R.color.vital_sign_record_index_null_color));
-        }
-        if(patientIndex > 0 && patientIndex < patientList.size() - 1){
-            tv_next.setEnabled(true);
-            tv_next.setBackgroundColor(getResources().getColor(R.color.vital_sign_record_next_color));
-            tv_pre.setEnabled(true);
-            tv_pre.setBackgroundColor(getResources().getColor(R.color.vital_sign_record_pre_color));
-        }
-
-        waiting = true;
-        patientInfo = (Map)patientList.get(patientIndex);
-        curEpisodeId = (String)patientInfo.get("episodeId");
-        String title = patientInfo.get("bedCode") + " " + patientInfo.get("name");
-        setToolbarCenterTitle(title,0xffffffff,17);
-        recordContentView.removeAllViews();
-        asyncGetVitalSignItems();
-    }
-
-
-
-    /**
-     * 绘制UI相关
-     */
-
-    public void drawInputItems(){
-
-        LinearLayout layout = null;
-
-        int size = recordInfo.getTempConfig().size();
-
-        for(int i = 0; i < size; i ++){
-
-            if (i % 3 == 0){
-                layout = new LinearLayout(getContext());
-                recordContentView.addView(layout);
-                int height = 120;
-                int width = ScreenUtils.getScreenWidth();
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width,height);
+        for (int i = 0; i < recordInfo.getTempList().size(); i++) {
+            VitalSignRecordBean.TempListBean temp = recordInfo.getTempList().get(i);
+            View view = viewItemMap.get(temp.getCode());
+            if (view instanceof EditText) {
+                EditText ed = (EditText) view;
+                ed.setText(temp.getValue());
+            } else {
+                OptionView op = (OptionView) view;
+                op.setText(temp.getValue());
             }
-
-            VitalSignRecordBean.TempConfigBean config = recordInfo.getTempConfig().get(i);
-
-            LinearLayout item = drawItem(config);
-
-            layout.addView(item);
-        }
-
-        if (size % 3 != 0){
-            for (int i = 0; i < size % 3 + 1; i ++){
-                layout.addView(dramEmptyItem());
-            }
-            recordContentView.addView(layout);
         }
     }
 
-    private LinearLayout drawItem(VitalSignRecordBean.TempConfigBean config){
+    private LinearLayout drawItem(VitalSignRecordBean.TempConfigBean config) {
 
         LinearLayout layout = new LinearLayout(getContext());
         layout.setOrientation(LinearLayout.VERTICAL);
@@ -276,7 +338,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
         int height = ConvertUtils.dp2px(110);
         int width = 0;
 
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width,height);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, height);
         params.weight = 1;
 
         layout.setLayoutParams(params);
@@ -284,45 +346,44 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
 
         TextView titleTV = new TextView(getContext());
         titleTV.setText(config.getDesc());
-//        titleTV.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+        //        titleTV.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
         titleTV.setTextSize(16);
         titleTV.setGravity(Gravity.CENTER_HORIZONTAL);
 
         LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        titleParams.setMargins(0,ConvertUtils.dp2px(20),0,0);//4个参数按顺序分别是左上右下
+        titleParams.setMargins(0, ConvertUtils.dp2px(20), 0, 0);//4个参数按顺序分别是左上右下
         titleTV.setLayoutParams(titleParams);
 
         layout.addView(titleTV);
 
 
-        if (config.getSelect().equals("false")){
+        if (config.getSelect().equals("false")) {
             //非选择框
 
             EditText edText = new EditText(getContext());
             edText.setGravity(Gravity.CENTER);
             edText.setTextColor(getResources().getColor(R.color.vital_sign_record_next_color));
             edText.setBackgroundResource(R.drawable.vital_sign_input_bg);
-            if (config.getValueType().equals("N")){
+            if (config.getValueType().equals("N")) {
                 edText.setInputType(EditorInfo.TYPE_CLASS_PHONE);
             }
 
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            layoutParams.setMargins(ConvertUtils.dp2px(27),ConvertUtils.dp2px(11),ConvertUtils.dp2px(27),ConvertUtils.dp2px(15));//4个参数按顺序分别是左上右下
+            layoutParams.setMargins(ConvertUtils.dp2px(27), ConvertUtils.dp2px(11), ConvertUtils.dp2px(27), ConvertUtils.dp2px(15));//4个参数按顺序分别是左上右下
 
             edText.setLayoutParams(layoutParams);
 
-            edText.setPadding(10,10,10,10);
+            edText.setPadding(10, 10, 10, 10);
 
             layout.addView(edText);
 
-            viewItemMap.put(config.getCode(),edText);
+            viewItemMap.put(config.getCode(), edText);
 
 
-
-        }else{
+        } else {
             //选择框
 
-            final OptionView optionView = new OptionView(getActivity(),config.getOptions());
+            final OptionView optionView = new OptionView(getActivity(), config.getOptions());
 
             optionView.setTextSize(16);
             optionView.setTextColor(getResources().getColor(R.color.vital_sign_record_next_color));
@@ -330,7 +391,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
             optionView.setGravity(Gravity.CENTER);
 
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            layoutParams.setMargins(ConvertUtils.dp2px(10),ConvertUtils.dp2px(11),ConvertUtils.dp2px(10),45);//4个参数按顺序分别是左上右下
+            layoutParams.setMargins(ConvertUtils.dp2px(10), ConvertUtils.dp2px(11), ConvertUtils.dp2px(10), 45);//4个参数按顺序分别是左上右下
             optionView.setLayoutParams(layoutParams);
 
             optionView.setOnClickListener(new View.OnClickListener() {
@@ -341,7 +402,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
             });
 
             layout.addView(optionView);
-            viewItemMap.put(config.getCode(),optionView);
+            viewItemMap.put(config.getCode(), optionView);
 
         }
 
@@ -349,13 +410,13 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
         return layout;
     }
 
-    private LinearLayout dramEmptyItem(){
+    private LinearLayout dramEmptyItem() {
         LinearLayout layout = new LinearLayout(getContext());
 
         int height = ConvertUtils.dp2px(120);
         int width = ConvertUtils.dp2px(0);
 
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width,height);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, height);
         params.weight = 1;
 
         layout.setLayoutParams(params);
@@ -363,83 +424,36 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
         return layout;
     }
 
-    private void inputItemsValue(){
+    /**
+     * 病人切换相关
+     */
+    private void nextPatient() {
 
-        for (int i = 0; i < recordInfo.getTempList().size(); i ++){
-            VitalSignRecordBean.TempListBean temp = recordInfo.getTempList().get(i);
-            View view =  viewItemMap.get(temp.getCode());
-            if (view instanceof EditText){
-                EditText ed = (EditText)view;
-                ed.setText(temp.getValue());
-            }else{
-                OptionView op = (OptionView)view;
-                op.setText(temp.getValue());
-            }
+        if (waiting) {
+            showToast("正在获取数据，请稍后");
+            return;
         }
+
+        patientIndex++;
+        switchPatient();
+
     }
 
-    /**
-     * 保存生命体征数据
-     */
-    private void saveTempValue(){
+    private void prePatient() {
 
-        ArrayList<HashMap<String,String>> resList = new ArrayList();
-
-        for (int i = 0; i < recordInfo.getTempList().size(); i ++){
-            VitalSignRecordBean.TempListBean temp = recordInfo.getTempList().get(i);
-            String code = temp.getCode();
-            View view =  viewItemMap.get(temp.getCode());
-            String value = "";
-
-            if (view instanceof EditText){
-                EditText ed = (EditText)view;
-                value = ed.getText().toString();
-            }else{
-                OptionView op = (OptionView)view;
-                value = op.getText().toString();
-            }
-
-            value = value.trim();
-//            if (value.length() == 0){
-//                continue;
-//            }
-
-            HashMap<String,String> resItem = new HashMap<>();
-            resItem.put("code",code);
-            resItem.put("value",value);
-
-            resList.add(resItem);
+        if (waiting) {
+            showToast("正在获取数据，请稍后");
+            return;
         }
 
-        Gson gson = new Gson();
-        String result = gson.toJson(resList);
-
-        showLoadingTip(BaseActivity.LoadingType.FULL);
-
-        waiting = true;
-
-        VitalSignApiManager.saveTempData(curEpisodeId,timepoint,result, new VitalSignApiManager.SaveTempDataCallback() {
-            @Override
-            public void onSuccess(VitalSignSaveBean bean) {
-                hideLoadFailTip();
-                waiting = false;
-                showToast("保存成功 ");
-            }
-
-            @Override
-            public void onFail(String code, String msg) {
-                hideLoadFailTip();
-                waiting = false;
-                showToast("error" + code + ":" + msg);
-            }
-        });
-
+        patientIndex--;
+        switchPatient();
     }
 
     /**
      * 选择时间
      */
-    private void chooseTime(){
+    private void chooseTime() {
         long tenYears = 10L * 365 * 1000 * 60 * 60 * 24L;
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -469,8 +483,8 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
         //取时间前两个字符转为int（02，06...）
 
         List<String> hours = new ArrayList();
-        for (int i = 0; i < timeFilterList.size(); i ++){
-            String str = (String)((Map)timeFilterList.get(i)).get("time");
+        for (int i = 0; i < timeFilterList.size(); i++) {
+            String str = (String) ((Map) timeFilterList.get(i)).get("time");
             hours.add(str);
         }
 
@@ -482,18 +496,22 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
 
     @Override
     public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
-        String date = TimeUtils.millis2String(millseconds).substring(0,11);
-        String time = TimeUtils.millis2String(millseconds).substring(11,16);
+        String date = TimeUtils.millis2String(millseconds).substring(0, 11);
+        String time = TimeUtils.millis2String(millseconds).substring(11, 16);
 
-        if (!date.equals(dateFilterStr) || !time.equals(timeFilterStr)){
+        if (!date.equals(dateFilterStr) || !time.equals(timeFilterStr)) {
             //日期发生改变，需重新请求数据
             dateFilterStr = date;
             timeFilterStr = time;
             recordContentView.removeAllViews();
-            timepoint = dateFilterStr + " "+ timeFilterStr;
+            timepoint = dateFilterStr + " " + timeFilterStr;
             asyncGetVitalSignItems();
         }
 
-        et_time.setText(TimeUtils.millis2String(millseconds).substring(0,16));
+        et_time.setText(TimeUtils.millis2String(millseconds).substring(0, 16));
     }
+
+
+
+
 }
