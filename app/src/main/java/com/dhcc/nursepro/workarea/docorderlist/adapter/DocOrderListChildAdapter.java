@@ -1,7 +1,6 @@
 package com.dhcc.nursepro.workarea.docorderlist.adapter;
 
 import android.support.annotation.Nullable;
-import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -27,14 +26,8 @@ public class DocOrderListChildAdapter extends BaseQuickAdapter<DocOrderListBean.
 
     @Override
     protected void convert(BaseViewHolder helper, DocOrderListBean.OrdListBean item) {
-        helper.setText(R.id.tv_item_order_childname, item.getOrddesc());
-//        TextView textView = helper.getView(R.id.tv_item_order_priority);
-//        if (item.get(0).getOrdPriority().equals("长期")){
-//            textView.setBackgroundResource(R.drawable.bg_priority_long);
-//        }else {
-//            textView.setBackgroundResource(R.drawable.bg_priority_short);
-//        }
-
+        helper.setText(R.id.tv_item_order_childname, item.getOrddesc())
+                .setText(R.id.tv_item_order_childunit, item.getOrddose());
 
     }
 }

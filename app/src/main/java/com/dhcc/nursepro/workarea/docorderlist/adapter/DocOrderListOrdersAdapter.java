@@ -31,17 +31,16 @@ public class DocOrderListOrdersAdapter extends BaseQuickAdapter<List<DocOrderLis
 
     @Override
     protected void convert(BaseViewHolder helper, List<DocOrderListBean.OrdListBean> item) {
-        if (item.size() > 0){
+        if (item.size() > 0) {
             helper.setText(R.id.tv_item_order_priority, item.get(0).getOrdPriority())
-                    .setText(R.id.tv_item_order_start,item.get(0).getOrdstarttime())
-                    .setText(R.id.tv_item_order_end,item.get(0).getOrdstoptime())
-                    .setText(R.id.tv_item_order_ordphcin,item.get(0).getPhcinDesc())
-                    .setText(R.id.tv_item_order_orddoc,item.get(0).getCtcpDesc())
-                    .setText(R.id.tv_item_order_orddose,item.get(0).getOrddose());
+                    .setText(R.id.tv_item_order_start, item.get(0).getOrdstarttime())
+                    .setText(R.id.tv_item_order_ordphcin, item.get(0).getPhcinDesc())
+                    .setText(R.id.tv_item_order_ordunit, item.get(0).getPhcfrCode())
+                    .setText(R.id.tv_item_order_orddoc, item.get(0).getCtcpDesc());
             TextView textView = helper.getView(R.id.tv_item_order_priority);
-            if (item.get(0).getOrdPriority().equals("长期")){
+            if ("长期".equals(item.get(0).getOrdPriority())) {
                 textView.setBackgroundResource(R.drawable.bg_priority_long);
-            }else {
+            } else {
                 textView.setBackgroundResource(R.drawable.bg_priority_short);
             }
 
@@ -53,9 +52,9 @@ public class DocOrderListOrdersAdapter extends BaseQuickAdapter<List<DocOrderLis
             recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
             recyclerView.setAdapter(docOrderListChildAdapter);
             View view = helper.getView(R.id.view_docorders_namedev);
-            if (item.size() == 1){
+            if (item.size() == 1) {
                 view.setVisibility(View.GONE);
-            }else {
+            } else {
                 view.setVisibility(View.VISIBLE);
             }
 

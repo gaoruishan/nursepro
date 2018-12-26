@@ -77,7 +77,7 @@ public class WorkareaFragment extends BaseFragment {
         ItemNameList.add("BLOOD");//输血系统
         ItemNameList.add("MILK");//母乳闭环
         ItemNameList.add("MOTHERBABYLINK");//母婴关联
-        ItemNameList.add("MODELDETAIL");//护理病历
+//        ItemNameList.add("MODELDETAIL");//护理病历
         initView(view);
     }
     private void initView(View view) {

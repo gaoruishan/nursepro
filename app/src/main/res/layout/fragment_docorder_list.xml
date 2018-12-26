@@ -81,7 +81,9 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_10"
-            android:background="@color/blue_light"></View>
+            android:background="@color/blue_light">
+
+        </View>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recy_order_list"
             android:layout_width="match_parent"
