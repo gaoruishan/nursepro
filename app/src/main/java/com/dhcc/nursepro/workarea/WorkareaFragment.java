@@ -31,6 +31,8 @@ import com.dhcc.nursepro.workarea.orderexecute.OrderExecuteFragment;
 import com.dhcc.nursepro.workarea.ordersearch.OrderSearchFragment;
 import com.dhcc.nursepro.workarea.patevents.PatEventsFragment;
 import com.dhcc.nursepro.workarea.vitalsign.VitalSignFragment;
+import com.dhcc.nursepro.workarea.workareaapi.WorkareaApiManager;
+import com.dhcc.nursepro.workarea.workareabean.MainConfigBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +43,7 @@ import java.util.List;
  */
 public class WorkareaFragment extends BaseFragment {
     private List ItemNameList = new ArrayList<String>();
-
+    private WorkAreaAdapter patEventsAdapter ;
 
 
     @Override
@@ -58,27 +60,24 @@ public class WorkareaFragment extends BaseFragment {
 //        setToolbarBottomLineVisibility(true);
 //        hideToolbarNavigationIcon();
 
-        initData(view);
-    }
-    private void initData(View view) {
-
-        ItemNameList.add("BEDMAP");//床位图
-        ItemNameList.add("VITALSIGN");//生命体征
-        ItemNameList.add("EVENTS");//事件管理
-        ItemNameList.add("ORDERSEARCH");//医嘱查询
-        ItemNameList.add("ORDEREXECUTE");//医嘱执行
-        ItemNameList.add("CHECK");//检查报告
-        ItemNameList.add("LAB");//检验报告
-        ItemNameList.add("OPERATION");//手术申请
-        ItemNameList.add("LABOUT");//检验打包
-        ItemNameList.add("DOSINGREVIEW");//输液复核
-        ItemNameList.add("ALLOTBED");//入院分床
-        ItemNameList.add("DOCORDERLIST");//医嘱单
-        ItemNameList.add("BLOOD");//输血系统
-        ItemNameList.add("MILK");//母乳闭环
-        ItemNameList.add("MOTHERBABYLINK");//母婴关联
-//        ItemNameList.add("MODELDETAIL");//护理病历
         initView(view);
+        initData();
+    }
+    private void initData() {
+
+
+        WorkareaApiManager.getMainConfig(null, "getMainConfig", new WorkareaApiManager.GetMainconfigCallback() {
+            @Override
+            public void onSuccess(MainConfigBean mainConfigBean) {
+                ItemNameList = mainConfigBean.getMainConfig();
+                patEventsAdapter.setNewData(ItemNameList);
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+                showToast("error" + code + ":" + msg);
+            }
+        });
     }
     private void initView(View view) {
 
@@ -86,9 +85,8 @@ public class WorkareaFragment extends BaseFragment {
         recyPatevents.setHasFixedSize(true);
 //        recyPatevents.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyPatevents.setLayoutManager(new GridLayoutManager(getActivity(),3));
-        WorkAreaAdapter patEventsAdapter = new WorkAreaAdapter(new ArrayList<String>());
+        patEventsAdapter = new WorkAreaAdapter(new ArrayList<String>());
         recyPatevents.setAdapter(patEventsAdapter);
-        patEventsAdapter.setNewData(ItemNameList);
         patEventsAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -97,6 +95,25 @@ public class WorkareaFragment extends BaseFragment {
         });
     }
 
+    /**
+     * MainConfig
+     *("BEDMAP");//床位图
+     ("VITALSIGN");//生命体征
+     ("EVENTS");//事件管理
+     ("ORDERSEARCH");//医嘱查询
+     ("ORDEREXECUTE");//医嘱执行
+     ("CHECK");//检查报告
+     ("LAB");//检验报告
+     ("OPERATION");//手术申请
+     ("LABOUT");//检验打包
+     ("DOSINGREVIEW");//输液复核
+     ("ALLOTBED");//入院分床
+     ("DOCORDERLIST");//医嘱单
+     ("BLOOD");//输血系统
+     ("MILK");//母乳闭环
+     ("MOTHERBABYLINK");//母婴关联
+     ("MODELDETAIL");//护理病历
+     */
     public void itemClick(String itemName){
         switch (itemName) {
             case "BEDMAP":
