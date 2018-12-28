@@ -12,8 +12,6 @@
         android:layout_height="wrap_content"
         android:textColor="#4A4A4A"
         android:textStyle="bold"
-        android:singleLine="true"
-        android:ellipsize="end"
         tools:text="0.9%氯化钠注射液T(100ml*塑瓶)" />
 
     <TextView

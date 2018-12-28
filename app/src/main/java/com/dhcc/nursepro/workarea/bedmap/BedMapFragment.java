@@ -30,6 +30,7 @@ import com.dhcc.nursepro.workarea.bedmap.bean.ScanResultBean;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -56,16 +57,11 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
     private List<BedMapBean.PatInfoListBean> patInfoListBeanList;
     private List<BedMapBean.TopFilterBean> topFilterBeanList;
 
-    private String bedno = "";
+    private List<Map<String, String>> patInfoMapList;
+
+    private String bedCode = "";
     private String topFilterStr = "inBedAll";
     private String leftFilterStr = "allPat";
-
-
-
-    @Override
-    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_bedmap, container, false);
-    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -90,8 +86,7 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
 
     private void initView(View view) {
 
-
-        //控制登录用户名图标大小
+        //控制图标大小
         etBedmapBedno = view.findViewById(R.id.et_bedmap_bedno);
         Drawable drawable1 = getResources().getDrawable(R.drawable.search); //获取图片
         drawable1.setBounds(0, 0, SizeUtils.dp2px(18), SizeUtils.dp2px(18));  //设置图片参数
@@ -111,8 +106,8 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
 
             @Override
             public void afterTextChanged(Editable s) {
-                bedno = s.toString();
-                setData(bedno, topFilterStr, leftFilterStr);
+                bedCode = s.toString();
+                setData(bedCode, topFilterStr, leftFilterStr);
             }
         });
 
@@ -149,7 +144,7 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 leftFilterStr = ((BedMapBean.LeftFilterBean) adapter.getItem(position)).getCode();
-                setData(bedno, topFilterStr, leftFilterStr);
+                setData(bedCode, topFilterStr, leftFilterStr);
                 //左侧刷新分类选中状态显示
                 bedMapPatientTypeAdapter.setSelectedPostion(position);
                 bedMapPatientTypeAdapter.notifyDataSetChanged();
@@ -179,12 +174,13 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
 
         BedMapApiManager.getBedMap(new BedMapApiManager.GetBedMapCallback() {
             @Override
-            public void onSuccess(BedMapBean bedMapBean) {
-
+            public void onSuccess(BedMapBean bedMapBean, Map bedMapMap) {
 
                 topFilterBeanList = bedMapBean.getTopFilter();
                 leftFilterBeanList = bedMapBean.getLeftFilter();
                 patInfoListBeanList = bedMapBean.getPatInfoList();
+
+                patInfoMapList = (List<Map<String, String>>) bedMapMap.get("patInfoList");
 
                 bedMapPatientTypeAdapter.setNewData(leftFilterBeanList);
 
@@ -225,141 +221,31 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
         });
     }
 
-    private void setData(String bedno, String topFilterStr, String leftFilterStr) {
+    private void setData(String bedCode, String topFilterStr, String leftFilterStr) {
         List<BedMapBean.PatInfoListBean> displayList = new ArrayList<>();
 
-        if ("allPat".equals(leftFilterStr)) {
-            for (int i = 0; i < patInfoListBeanList.size(); i++) {
-                BedMapBean.PatInfoListBean patInfoListBean = patInfoListBeanList.get(i);
+        for (int i = 0; i < patInfoMapList.size(); i++) {
+            BedMapBean.PatInfoListBean patInfoListBean = patInfoListBeanList.get(i);
+            Map<String, String> patInfoMap = patInfoMapList.get(i);
 
-                boolean bednomatch = false;
-                boolean topmatch = false;
+            boolean bednomatch = false;
+            boolean topmatch = false;
+            boolean leftmatch = false;
 
-                if (bedno.equals("")) {
-                    bednomatch = true;
-                } else if (patInfoListBean.getBedCode().equals(bedno)) {
-                    bednomatch = true;
-                }
-
-                // {"code":"inBedAll","desc":"全区"},
-                // {"code":"manageInBed","desc":"管辖"},
-                // {"code":"todayOut","desc":"今出"},
-                // {"code":"allOut","desc":"全出"},
-                // {"code":"wait","desc":"等候"}
-                switch (topFilterStr) {
-                    case "inBedAll":
-                        if ("1".equals(patInfoListBean.getInBedAll())) {
-                            topmatch = true;
-                        }
-                        break;
-                    case "manageInBed":
-                        if ("1".equals(patInfoListBean.getManageInBed())) {
-                            topmatch = true;
-                        }
-                        break;
-                    case "todayOut":
-                        if ("1".equals(patInfoListBean.getTodayOut())) {
-                            topmatch = true;
-                        }
-                        break;
-                    case "allOut":
-                        if ("1".equals(patInfoListBean.getAllOut())) {
-                            topmatch = true;
-                        }
-                        break;
-                    case "wait":
-                        if ("1".equals(patInfoListBean.getWait())) {
-                            topmatch = true;
-                        }
-                        break;
-                    default:
-                        break;
-                }
-                if (bednomatch && topmatch) {
-                    displayList.add(patInfoListBean);
-                }
+            if ("".equals(bedCode) || patInfoMap.get("bedCode").equals(bedCode)) {
+                bednomatch = true;
             }
-        } else {
-            for (int i = 0; i < patInfoListBeanList.size(); i++) {
-                BedMapBean.PatInfoListBean patInfoListBean = patInfoListBeanList.get(i);
 
-                boolean bednomatch = false;
-                boolean topmatch = false;
-                boolean leftmatch = false;
+            if ("1".equals(patInfoMap.get(topFilterStr))) {
+                topmatch = true;
+            }
 
-                if (bedno.equals("")) {
-                    bednomatch = true;
-                } else if (patInfoListBean.getBedCode().equals(bedno)) {
-                    bednomatch = true;
-                }
+            if ("allPat".equals(leftFilterStr) || "1".equals(patInfoMap.get(leftFilterStr))) {
+                leftmatch = true;
+            }
 
-                // {"code":"inBedAll","desc":"全区"},
-                // {"code":"manageInBed","desc":"管辖"},
-                // {"code":"todayOut","desc":"今出"},
-                // {"code":"allOut","desc":"全出"},
-                // {"code":"wait","desc":"等候"}
-                switch (topFilterStr) {
-                    case "inBedAll":
-                        if ("1".equals(patInfoListBean.getInBedAll())) {
-                            topmatch = true;
-                        }
-                        break;
-                    case "manageInBed":
-                        if ("1".equals(patInfoListBean.getManageInBed())) {
-                            topmatch = true;
-                        }
-                        break;
-                    case "todayOut":
-                        if ("1".equals(patInfoListBean.getTodayOut())) {
-                            topmatch = true;
-                        }
-                        break;
-                    case "allOut":
-                        if ("1".equals(patInfoListBean.getAllOut())) {
-                            topmatch = true;
-                        }
-                        break;
-                    case "wait":
-                        if ("1".equals(patInfoListBean.getWait())) {
-                            topmatch = true;
-                        }
-                        break;
-                    default:
-                        break;
-                }
-
-                // {"code":"newPatient","desc":"新入"},
-                // {"code":"operation","desc":"手术"},
-                // {"code":"fever","desc":"发烧"},
-                // {"code":"gotAllergy","desc":"过敏"}
-                switch (leftFilterStr) {
-                    case "newPatient":
-                        if ("1".equals(patInfoListBean.getNewPatient())) {
-                            leftmatch = true;
-                        }
-                        break;
-                    case "operation":
-                        if ("1".equals(patInfoListBean.getOperation())) {
-                            leftmatch = true;
-                        }
-                        break;
-                    case "fever":
-                        if ("1".equals(patInfoListBean.getFever())) {
-                            leftmatch = true;
-                        }
-                        break;
-                    case "gotAllergy":
-                        if ("1".equals(patInfoListBean.getGotAllergy())) {
-                            leftmatch = true;
-                        }
-                        break;
-                    default:
-                        break;
-                }
-
-                if (bednomatch && topmatch && leftmatch) {
-                    displayList.add(patInfoListBean);
-                }
+            if (bednomatch && topmatch && leftmatch) {
+                displayList.add(patInfoListBean);
             }
         }
 
@@ -418,27 +304,27 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
             case R.id.tv_bedmap_allarea:
                 topFilterStr = "inBedAll";
                 setTopFilterSelect(tvBedmapAllarea);
-                setData(bedno, topFilterStr, leftFilterStr);
+                setData(bedCode, topFilterStr, leftFilterStr);
                 break;
             case R.id.tv_bedmap_adminarea:
                 topFilterStr = "manageInBed";
                 setTopFilterSelect(tvBedmapAdminarea);
-                setData(bedno, topFilterStr, leftFilterStr);
+                setData(bedCode, topFilterStr, leftFilterStr);
                 break;
             case R.id.tv_bedmap_nowoutarea:
                 topFilterStr = "todayOut";
                 setTopFilterSelect(tvBedmapNowoutarea);
-                setData(bedno, topFilterStr, leftFilterStr);
+                setData(bedCode, topFilterStr, leftFilterStr);
                 break;
             case R.id.tv_bedmap_alloutarea:
                 topFilterStr = "allOut";
                 setTopFilterSelect(tvBedmapAlloutarea);
-                setData(bedno, topFilterStr, leftFilterStr);
+                setData(bedCode, topFilterStr, leftFilterStr);
                 break;
             case R.id.tv_bedmap_waitarea:
                 topFilterStr = "wait";
                 setTopFilterSelect(tvBedmapWaitarea);
-                setData(bedno, topFilterStr, leftFilterStr);
+                setData(bedCode, topFilterStr, leftFilterStr);
                 break;
             default:
                 break;
@@ -456,8 +342,8 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
                 BedMapApiManager.getScanInfo(scanInfo, new BedMapApiManager.GetScanInfoCallback() {
                     @Override
                     public void onSuccess(ScanResultBean scanResultBean) {
-                        bedno = scanResultBean.getPatInfo().getBedCode();
-                        setData(bedno, topFilterStr, leftFilterStr);
+                        bedCode = scanResultBean.getPatInfo().getBedCode();
+                        setData(bedCode, topFilterStr, leftFilterStr);
                     }
 
                     @Override
@@ -469,5 +355,10 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
             default:
                 break;
         }
+    }
+
+    @Override
+    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_bedmap, container, false);
     }
 }

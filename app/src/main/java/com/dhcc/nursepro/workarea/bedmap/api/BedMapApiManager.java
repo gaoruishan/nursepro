@@ -5,6 +5,8 @@ import com.dhcc.nursepro.workarea.bedmap.bean.BedMapBean;
 import com.dhcc.nursepro.workarea.bedmap.bean.ScanResultBean;
 import com.google.gson.Gson;
 
+import java.util.Map;
+
 public class BedMapApiManager {
 
     public static void getBedMap(final GetBedMapCallback callback) {
@@ -23,7 +25,8 @@ public class BedMapApiManager {
                         } else {
                             if ("0".equals(bedMapBean.getStatus())) {
                                 if (callback != null) {
-                                    callback.onSuccess(bedMapBean);
+                                    Map bedMapMap = gson.fromJson(jsonStr, Map.class);
+                                    callback.onSuccess(bedMapBean, bedMapMap);
                                 }
                             } else {
                                 if (callback != null) {
@@ -42,7 +45,7 @@ public class BedMapApiManager {
         });
     }
 
-    public static void getScanInfo(String barCode,final GetScanInfoCallback callback) {
+    public static void getScanInfo(String barCode, final GetScanInfoCallback callback) {
         BedMapApiService.getScanInfo(barCode, new BedMapApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
@@ -81,7 +84,7 @@ public class BedMapApiManager {
     }
 
     public interface GetBedMapCallback extends CommonCallBack {
-        void onSuccess(BedMapBean bedMapBean);
+        void onSuccess(BedMapBean bedMapBean, Map bedMapMap);
     }
 
     public interface GetScanInfoCallback extends CommonCallBack {

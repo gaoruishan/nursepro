@@ -10,7 +10,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.dosingreview.bean.DosingReViewBean;
-import com.dhcc.nursepro.workarea.ordersearch.bean.OrderSearchBean;
 
 import java.util.List;
 
@@ -61,9 +60,9 @@ public class DosingReviewPatientOrderInfoAdapter extends BaseQuickAdapter<Dosing
             lineorderinfomulti.setVisibility(View.GONE);
             llorderinfomulti2.setVisibility(View.GONE);
             helper.setText(R.id.tv_drporderinfo_ordername, orderInfoBean.getArcimDesc())
-                    .setText(R.id.tv_drporderinfo_orderdatetime, orderInfoBean.getCreateDateTime().substring(0, 16))
+                    .setText(R.id.tv_drporderinfo_orderdatetime, orderInfoBean.getSttDateTime().substring(0, 16))
                     .setText(R.id.tv_drporderinfo_orderoperate, orderInfoBean.getPhcinDesc())
-                    .setText(R.id.tv_drporderinfo_orderdose, orderInfoBean.getPhOrdQtyUnit())
+                    .setText(R.id.tv_drporderinfo_orderdose, orderInfoBean.getDoseQtyUnit())
                     .setText(R.id.tv_drporderinfo_orderfrequency, orderInfoBean.getPhcfrCode())
                     .setText(R.id.tv_drporderinfo_ordercreator, orderInfoBean.getCtcpDesc());
         } else {
@@ -79,14 +78,14 @@ public class DosingReviewPatientOrderInfoAdapter extends BaseQuickAdapter<Dosing
                 llorderinfomulti1.setVisibility(View.VISIBLE);
                 lineorderinfomulti.setVisibility(View.VISIBLE);
                 llorderinfomulti2.setVisibility(View.VISIBLE);
-                helper.setText(R.id.tv_drporderinfo_orderdose1, orderInfoBean.getPhOrdQtyUnit())
-                        .setText(R.id.tv_drporderinfo_orderdatetime2, orderInfoBean.getCreateDateTime().substring(0, 16))
+                helper.setText(R.id.tv_drporderinfo_orderdose1, orderInfoBean.getDoseQtyUnit())
+                        .setText(R.id.tv_drporderinfo_orderdatetime2, orderInfoBean.getSttDateTime().substring(0, 16))
                         .setText(R.id.tv_drporderinfo_orderoperate2, orderInfoBean.getPhcinDesc())
                         .setText(R.id.tv_drporderinfo_orderfrequency2, orderInfoBean.getPhcfrCode())
                         .setText(R.id.tv_drporderinfo_ordercreator2, orderInfoBean.getCtcpDesc());
             } else {
                 llorderinfomulti1.setVisibility(View.VISIBLE);
-                helper.setText(R.id.tv_drporderinfo_orderdose1, orderInfoBean.getPhOrdQtyUnit());
+                helper.setText(R.id.tv_drporderinfo_orderdose1, orderInfoBean.getDoseQtyUnit());
             }
         }
     }
