@@ -21,7 +21,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:singleLine="true"
         android:textColor="@color/bedmap_text_color"
         android:textSize="12sp"
         tools:text="青霉素" />
