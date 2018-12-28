@@ -46,9 +46,12 @@ public class OrderExecuteApiService {
 
     }
 
-    public static void execOrSeeOrder(String oeoreId,String execStatusCode, final ServiceCallBack callBack){
+    public static void execOrSeeOrder(String batch,String auditUserCode ,String auditUserPass ,String oeoreId,String execStatusCode, final ServiceCallBack callBack){
         SPUtils spUtils = SPUtils.getInstance();
         HashMap<String, String> properties = new HashMap<>();
+        properties.put("batch",batch);
+        properties.put("auditUserCode ",auditUserCode);
+        properties.put("auditUserPass ",auditUserPass);
         properties.put("oeoreId",oeoreId);
         properties.put("execStatusCode",execStatusCode);
         properties.put("userId", spUtils.getString(SharedPreference.USERID));

@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
+        android:visibility="gone"
         android:focusable="true"
         android:focusableInTouchMode="true">
 
@@ -171,33 +172,43 @@
             android:orientation="horizontal"
             android:paddingStart="16dp">
 
-            <TextView
-                android:id="@+id/tv_bottom_selecttext"
+            <LinearLayout
+                android:id="@+id/ll_orderexecute_selectnum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                tools:text="已选择2个" />
-            <View
-                android:id="@+id/view_bottom_handleline"
-                android:layout_width="1dp"
-                android:layout_height="16dp"
-                android:layout_marginStart="6dp"
-                android:layout_marginEnd="6dp"
-                android:background="@color/white"/>
-            <TextView
-                android:id="@+id/tv_bottom_handletype"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:textColor="@color/white"
-                android:gravity="center"
-                android:text="接受"/>
-            <ImageView
-                android:id="@+id/img_bottom_handlesure"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="1dp"
-                android:layout_marginStart="6dp"
-                android:src="@drawable/icon_bottom_selected"/>
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tv_bottom_selecttext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    tools:text="已选择2个" />
+
+                <View
+                    android:id="@+id/view_bottom_handleline"
+                    android:layout_width="1dp"
+                    android:layout_height="16dp"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginEnd="6dp"
+                    android:background="@color/white" />
+
+                <TextView
+                    android:id="@+id/tv_bottom_handletype"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="接受"
+                    android:textColor="@color/white" />
+
+                <ImageView
+                    android:id="@+id/img_bottom_handlesure"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginBottom="1dp"
+                    android:src="@drawable/icon_bottom_selected" />
+            </LinearLayout>
+
 
             <View
                 android:layout_width="0dp"
@@ -210,9 +221,9 @@
                 android:layout_width="90dp"
                 android:layout_height="match_parent"
                 android:background="#4a90e2"
+                android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="16sp"
-                android:gravity="center"
                 tools:text="撤销执行" />
 
             <TextView
@@ -221,8 +232,8 @@
                 android:layout_height="match_parent"
                 android:background="#62abff"
                 android:gravity="center"
-                android:textSize="16sp"
                 android:textColor="@color/white"
+                android:textSize="16sp"
                 tools:text="执行" />
         </LinearLayout>
     </LinearLayout>

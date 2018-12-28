@@ -48,8 +48,8 @@ public class OrderExecuteApiManager {
         });
     }
 
-    public static void execOrSeeOrder(String oeoreId, String execStatusCode, final ExecOrSeeOrderCallback callback) {
-        OrderExecuteApiService.execOrSeeOrder(oeoreId, execStatusCode, new OrderExecuteApiService.ServiceCallBack() {
+    public static void execOrSeeOrder(String batch,String auditUserCode ,String auditUserPass ,String oeoreId, String execStatusCode, final ExecOrSeeOrderCallback callback) {
+        OrderExecuteApiService.execOrSeeOrder(batch,auditUserCode ,auditUserPass ,oeoreId, execStatusCode, new OrderExecuteApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();

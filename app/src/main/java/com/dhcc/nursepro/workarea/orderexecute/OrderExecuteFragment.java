@@ -57,6 +57,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     private TextView tvOrderexecuteEnddatetime;
     private RecyclerView recyOrderexecutePatorder;
     private LinearLayout llOrderexecuteNoselectbottom;
+    private LinearLayout llorderexecuteselectnum;
     private TextView tvBottomNoselecttext;
     private LinearLayout llOrderexecuteSelectbottom;
     private TextView tvBottomSelecttext;
@@ -94,7 +95,14 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     private String patInfo = "";
     private String orderInfo = "";
     private String orderInfoEx = "";
+    private String skinBatch = "";
+    private String skinUserCode = "";
+    private String skinUserPass = "";
+    private String singleFlag = "N";
+
     private OrderExecOrderDialog execOrderDialog;
+
+    private SkinResultOrderDialog skinResultOrderDialog;
 
     private OrderExecResultDialog execResultDialog;
 
@@ -142,6 +150,8 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     private String execStatusCode;
 
     private String episodeId = "";
+
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -219,6 +229,8 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                     }
 
                     if ("1".equals(scanResultBean.getDiagFlag())) {
+
+
                         execOrderDialog = new OrderExecOrderDialog(getActivity());
                         execOrderDialog.setPatInfo(patInfo);
                         List<ScanResultBean.OrdersBean> ordersBeanList = scanResultBean.getOrders();
@@ -298,6 +310,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
         tvOrderexecuteEnddatetime = view.findViewById(R.id.tv_orderexecute_enddatetime);
         recyOrderexecutePatorder = view.findViewById(R.id.recy_orderexecute_patorder);
         llOrderexecuteNoselectbottom = view.findViewById(R.id.ll_orderexecute_noselectbottom);
+        llorderexecuteselectnum = view.findViewById(R.id.ll_orderexecute_selectnum);
         tvBottomNoselecttext = view.findViewById(R.id.tv_bottom_noselecttext);
         llOrderexecuteSelectbottom = view.findViewById(R.id.ll_orderexecute_selectbottom);
         tvBottomSelecttext = view.findViewById(R.id.tv_bottom_selecttext);
@@ -350,15 +363,22 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 OrderExecuteBean.OrdersBean.PatOrdsBean patOrdsBean = patOrders.get(position).get(0);
                 if (view.getId() == R.id.ll_oepat_orderselect) {
-                    if (patOrdsBean.getSelect() == null || "0".equals(patOrdsBean.getSelect()) || "".equals(patOrdsBean.getSelect())) {
-                        patOrdsBean.setSelect("1");
-                    } else {
-                        patOrdsBean.setSelect("0");
+                    if ("PSD".equals(sheetCode)){
+                        llorderexecuteselectnum.setVisibility(View.GONE);
+                    }else {
+                        llorderexecuteselectnum.setVisibility(View.VISIBLE);
                     }
+
+                        if (patOrdsBean.getSelect() == null || "0".equals(patOrdsBean.getSelect()) || "".equals(patOrdsBean.getSelect())) {
+                            patOrdsBean.setSelect("1");
+                        } else {
+                            patOrdsBean.setSelect("0");
+                        }
                     patientOrderAdapter.notifyItemChanged(position);
                     if (llOrderexecuteSelectbottom.getVisibility() == View.VISIBLE || llOrderexecuteNoselectbottom.getVisibility() == View.VISIBLE) {
                         refreshBottom();
                     }
+
                 }
             }
         });
@@ -440,7 +460,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
      * 扫码执行
      */
     private void execOrSeeOrderScan(String oeoreIdScan, String execStatusCodeScan) {
-        OrderExecuteApiManager.execOrSeeOrder(oeoreIdScan, execStatusCodeScan, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
+        OrderExecuteApiManager.execOrSeeOrder( skinBatch,skinUserCode ,skinUserPass ,oeoreIdScan, execStatusCodeScan, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
             @Override
             public void onSuccess(OrderExecResultBean orderExecResultBean) {
 
@@ -568,6 +588,12 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 tvBottomUndo.setText(buttons.get(1).getDesc().replace("医嘱", ""));
                 tvBottomTodo.setVisibility(View.VISIBLE);
                 tvBottomTodo.setText(buttons.get(0).getDesc().replace("医嘱", ""));
+            }else if (buttons.size() == 3){
+                tvBottomUndo.setVisibility(View.VISIBLE);
+                tvBottomUndo.setText(buttons.get(1).getDesc().replace("医嘱", ""));
+                tvBottomTodo.setVisibility(View.VISIBLE);
+                tvBottomTodo.setText(buttons.get(0).getDesc().replace("医嘱", ""));
+                singleFlag = buttons.get(2).getSingleFlag();
             }
 
         }
@@ -632,6 +658,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
             case R.id.tv_bottom_todo:
                 if (exectype == 0) {
                     execStatusCode = handleCode;
+                    execOrSeeOrder();
                 } else {
                     //{"code":"PSD","desc":"皮试单"}
                     if ("PSD".equals(sheetCode)) {
@@ -639,12 +666,42 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                         if (oeoreId.split("\\^").length > 1) {
                             showToast("皮试结果只能逐一设置，请选择单条医嘱执行");
                             break;
+                        }else {
+                            {
+
+                                if (skinResultOrderDialog != null && skinResultOrderDialog.isShowing()) {
+                                    skinResultOrderDialog.dismiss();
+                                }
+                                {
+                                    skinResultOrderDialog = new SkinResultOrderDialog(getActivity());
+                                    skinResultOrderDialog.setPatInfo(patInfo);
+                                    skinResultOrderDialog.setSingleFlag(singleFlag);
+                                    skinResultOrderDialog.show();
+                                    skinResultOrderDialog.setSureOnclickListener(new SkinResultOrderDialog.onSureOnclickListener() {
+                                        @Override
+                                        public void onSureClick() {
+                                            execStatusCode = skinResultOrderDialog.getSkinResult();
+                                            skinBatch = skinResultOrderDialog.getSkinNum();
+                                            skinUserCode = skinResultOrderDialog.getNurName();
+                                            skinUserPass = skinResultOrderDialog.getNurPass();
+                                            skinResultOrderDialog.dismiss();
+                                            execOrSeeOrder();                            }
+                                    });
+
+                                    skinResultOrderDialog.setCancelOnclickListener(new SkinResultOrderDialog.onCancelOnclickListener() {
+                                        @Override
+                                        public void onCancelClick() {
+                                            skinResultOrderDialog.dismiss();
+                                        }
+                                    });
+                                }
+                            }
                         }
                     } else {
                         execStatusCode = "F";
+                        execOrSeeOrder();
                     }
                 }
-                execOrSeeOrder();
                 break;
             default:
                 break;
@@ -683,7 +740,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     }
 
     private void execOrSeeOrder() {
-        OrderExecuteApiManager.execOrSeeOrder(oeoreId, execStatusCode, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
+        OrderExecuteApiManager.execOrSeeOrder(skinBatch,skinUserCode,skinUserPass,oeoreId, execStatusCode, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
             @Override
             public void onSuccess(OrderExecResultBean orderExecResultBean) {
                 /**

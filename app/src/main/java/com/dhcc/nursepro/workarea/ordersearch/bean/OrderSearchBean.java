@@ -94,6 +94,7 @@ public class OrderSearchBean implements Serializable {
 
         private String code;
         private String desc;
+        private String singleFlag;
 
         public String getCode() {
             return code;
@@ -109,6 +110,13 @@ public class OrderSearchBean implements Serializable {
 
         public void setDesc(String desc) {
             this.desc = desc;
+        }
+        public String getSingleFlag() {
+            return singleFlag;
+        }
+
+        public void setSingleFlag(String singleFlag) {
+            this.singleFlag = singleFlag;
         }
     }
 

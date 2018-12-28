@@ -94,6 +94,7 @@ public class OrderExecuteBean implements Serializable {
 
         private String code;
         private String desc;
+        private String singleFlag;
 
         public String getCode() {
             return code;
@@ -105,6 +106,14 @@ public class OrderExecuteBean implements Serializable {
 
         public String getDesc() {
             return desc;
+        }
+
+        public void setSingleFlag(String singleFlag) {
+            this.singleFlag = singleFlag;
+        }
+
+        public String getSingleFlag() {
+            return singleFlag;
         }
 
         public void setDesc(String desc) {
