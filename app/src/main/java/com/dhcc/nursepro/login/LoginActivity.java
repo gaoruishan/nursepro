@@ -68,6 +68,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private TextView tvIp;
     private String IpStr;
     private SetIPDialog showDialog;
+    private OptionPicker picker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -359,7 +360,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void onSuccess(final LoginBean loginBean) {
 
-                //保存科室列表
+                //保存科室列表，设置界面更换病区会用到
                 List<Map<String, String>> list = new ArrayList<>();
                 for (int i = 0; i < loginBean.getLocs().size(); i++) {
                     Map<String, String> map = new HashMap<>();
@@ -378,65 +379,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
                 //选择科室
                 if ("ward".equals(action)) {
-                    final List<LoginBean.LocsBean> locsBeanList = loginBean.getLocs();
 
-                    String[] locDesc = new String[locsBeanList.size()];
-                    for (int i = 0; i < locsBeanList.size(); i++) {
-                        locDesc[i] = locsBeanList.get(i).getLocDesc();
-                    }
-
-                    final OptionPicker picker = new OptionPicker(LoginActivity.this, locDesc);
-                    picker.setCanceledOnTouchOutside(false);
-                    picker.setDividerRatio(WheelView.DividerConfig.FILL);
-                    picker.setSelectedIndex(0);
-                    picker.setCycleDisable(true);
-                    picker.setTextSize(20);
-                    picker.setOnOptionPickListener(new OptionPicker.OnOptionPickListener() {
-                        @Override
-                        public void onOptionPicked(int index, String item) {
-                            LoginBean.LocsBean locsBean = locsBeanList.get(index);
-
-                            if (nurseInfo == null) {
-                                loginNurseInfo = new NurseInfo(null, loginBean.getSchEnDateTime(), loginBean.getSchStDateTime(), loginBean.getStatus(), loginBean.getUserId(), userCode, loginBean.getUserName(), locsBean.getGroupDesc(), locsBean.getGroupId(), locsBean.getHospitalRowId(), locsBean.getLinkLoc(), locsBean.getLocDesc(), locsBean.getLocId(), locsBean.getWardId());
-
-                            } else {
-                                loginNurseInfo.setGroupDesc(locsBean.getGroupDesc());
-                                loginNurseInfo.setGroupId(locsBean.getGroupId());
-                                loginNurseInfo.setHospitalRowId(locsBean.getHospitalRowId());
-                                loginNurseInfo.setLinkLoc(locsBean.getLinkLoc());
-                                loginNurseInfo.setLocDesc(locsBean.getLocDesc());
-                                loginNurseInfo.setLocId(locsBean.getLocId());
-                                loginNurseInfo.setWardId(locsBean.getWardId());
-                            }
-
-                            if (nurseInfoList != null && nurseInfoList.size() > 0) {
-                                int j;
-                                for (j = 0; j < nurseInfoList.size(); j++) {
-                                    NurseInfo nurseInfo1 = nurseInfoList.get(j);
-                                    if (userCode.equals(nurseInfo1.getUserCode())) {
-                                        //                                        Toast.makeText(LoginActivity.this, "ward----已存在,更新数据", Toast.LENGTH_SHORT).show();
-                                        loginNurseInfo.setId(nurseInfo1.getId());
-                                        daoSession.getNurseInfoDao().update(loginNurseInfo);
-                                        initData("login", loginNurseInfo);
-                                        break;
-                                    }
-                                }
-
-                                if (j >= nurseInfoList.size()) {
-                                    //                                    Toast.makeText(LoginActivity.this, "ward----不存在，插入新数据", Toast.LENGTH_SHORT).show();
-                                    daoSession.getNurseInfoDao().insert(loginNurseInfo);
-                                    initData("login", loginNurseInfo);
-                                }
-
-                            } else {
-                                //                                Toast.makeText(LoginActivity.this, "ward----不存在，插入新数据", Toast.LENGTH_SHORT).show();
-                                daoSession.getNurseInfoDao().insert(loginNurseInfo);
-                                initData("login", loginNurseInfo);
-                            }
-                        }
-                    });
-                    picker.show();
-
+                    showLocPicker(nurseInfo, loginBean);
 
                     //登录
                 } else if ("login".equals(action)) {
@@ -445,68 +389,56 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     if (nurseInfo == null) {
                         loginNurseInfo = new NurseInfo(null, loginBean.getSchEnDateTime(), loginBean.getSchStDateTime(), loginBean.getStatus(), loginBean.getUserId(), userCode, loginBean.getUserName(), locsBean.getGroupDesc(), locsBean.getGroupId(), locsBean.getHospitalRowId(), locsBean.getLinkLoc(), locsBean.getLocDesc(), locsBean.getLocId(), locsBean.getWardId());
                     } else {
+                        loginNurseInfo = nurseInfo;
                         loginNurseInfo.setSchStDateTime(loginBean.getSchStDateTime());
                         loginNurseInfo.setSchEnDateTime(loginBean.getSchEnDateTime());
                     }
 
+                    //本地数据库已存储用户登录数据
                     if (nurseInfoList != null && nurseInfoList.size() > 0) {
-                        int k;
+                        int k = 0, l = 0;
                         for (k = 0; k < nurseInfoList.size(); k++) {
                             NurseInfo nurseInfo1 = nurseInfoList.get(k);
+                            //判断本地数据库是否已保存用户登录信息
                             if (userCode.equals(nurseInfo1.getUserCode())) {
                                 //                                Toast.makeText(LoginActivity.this,"login----已存在,使用已保存数据", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                for (l = 0; l < loginBean.getLocs().size(); l++) {
+                                    //判断本地数据库保存的登录病区是否在登录成功返回的病区列表里面
+                                    if (nurseInfo1.getLocId().equals(loginBean.getLocs().get(l).getLocId()) && nurseInfo1.getWardId().equals(loginBean.getLocs().get(l).getWardId())) {
+                                        break;
+                                    }
+                                }
+                                //本地数据库保存的登录病区不在登录成功返回的可登录病区列表里面，提示消息，弹窗选择病区
+                                if (l >= loginBean.getLocs().size()) {
+                                    showToast("已取消默认病区登录权限，请重新选择病区登录");
+                                    showLocPicker(nurseInfo1, loginBean);
+                                }
                                 break;
                             }
                         }
+                        //本地数据库已保存用户信息且用户的登录病区存在于登陆成功返回的可登录病区列表，
+                        if (k < nurseInfoList.size() && l < loginBean.getLocs().size()) {
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            saveUserInfo();
+                            finish();
+                        }
 
+                        //本地数据库未保存用户信息，数据库添加用户数据，SP设置用户数据，跳转页面
                         if (k >= nurseInfoList.size()) {
                             //                            Toast.makeText(LoginActivity.this, "login----不存在，插入新数据", Toast.LENGTH_SHORT).show();
                             daoSession.getNurseInfoDao().insert(loginNurseInfo);
+                            saveUserInfo();
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            finish();
                         }
-
                     } else {
+                        //本地数据库未存储用户登录数据，数据库添加用户数据，SP设置用户数据，跳转页面
                         //                        Toast.makeText(LoginActivity.this, "login----不存在，插入新数据", Toast.LENGTH_SHORT).show();
                         daoSession.getNurseInfoDao().insert(loginNurseInfo);
+                        saveUserInfo();
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
-
+                        finish();
                     }
-                    if (remem) {
-                        spUtils.put(SharedPreference.REMEM, true);
-                        spUtils.put(SharedPreference.REMEM_USERCODE, userCode);
-                    } else {
-                        spUtils.put(SharedPreference.REMEM, false);
-                        spUtils.put(SharedPreference.REMEM_USERCODE, "");
-                    }
-                    /**
-                     * userCode
-                     * userId : 3
-                     * userName : innurse
-                     * hospitalRowId : 2
-                     * groupId : 132
-                     * groupDesc : Inpatient Nurse
-                     * linkLoc : 110
-                     * locId : 197
-                     * locDesc : 内分泌科护理单元
-                     * wardId : 5
-                     * schEnDateTime : 13/08/2018,23:59:59
-                     * schStDateTime : 13/08/2018,00:00:00
-                     */
-                    spUtils.put(SharedPreference.USERCODE, userCode);
-                    spUtils.put(SharedPreference.USERID, loginNurseInfo.getUserId());
-                    spUtils.put(SharedPreference.USERNAME, loginNurseInfo.getUserName());
-                    spUtils.put(SharedPreference.HOSPITALROWID, loginNurseInfo.getHospitalRowId());
-                    spUtils.put(SharedPreference.GROUPID, loginNurseInfo.getGroupId());
-                    spUtils.put(SharedPreference.GROUPDESC, loginNurseInfo.getGroupDesc());
-                    spUtils.put(SharedPreference.LINKLOC, loginNurseInfo.getLinkLoc());
-                    spUtils.put(SharedPreference.LOCID, loginNurseInfo.getLocId());
-                    spUtils.put(SharedPreference.LOCDESC, loginNurseInfo.getLocDesc());
-                    spUtils.put(SharedPreference.WARDID, loginNurseInfo.getWardId());
-                    spUtils.put(SharedPreference.SCHSTDATETIME, loginNurseInfo.getSchStDateTime());
-                    spUtils.put(SharedPreference.SCHENDATETIME, loginNurseInfo.getSchEnDateTime());
-
-                    finish();
                 }
 
             }
@@ -518,28 +450,119 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         });
     }
 
-    //    //初次登录获取科室列表并将默认科室保存，再次点击登录就可获取默认科室
-    //    private void getLocs() {
-    //
-    //    }
-    //
-    //    //请求后台查看是否有新版本
-    //    public void ifUpdate() {
-    //        //如果有新版本，进行强制操作，否则无法进行下一步操作
-    //        if (true) {
-    //            new WSPresenter(this).init();
-    //        }
-    //
-    //    }
-    //
-    //
-    //    @Override
-    //    public void showLoading() {
-    //
-    //    }
-    //
-    //    @Override
-    //    public void showStudents(List<String> list, String wsCode) {
-    //
-    //    }
+    /**
+     * 本地存储数据
+     */
+    private void saveUserInfo() {
+        //是否“记住我”
+        if (remem) {
+            spUtils.put(SharedPreference.REMEM, true);
+            spUtils.put(SharedPreference.REMEM_USERCODE, userCode);
+        } else {
+            spUtils.put(SharedPreference.REMEM, false);
+            spUtils.put(SharedPreference.REMEM_USERCODE, "");
+        }
+        /*
+          更新SP数据
+          userCode
+          userId : 3
+          userName : innurse
+          hospitalRowId : 2
+          groupId : 132
+          groupDesc : Inpatient Nurse
+          linkLoc : 110
+          locId : 197
+          locDesc : 内分泌科护理单元
+          wardId : 5
+          schEnDateTime : 13/08/2018,23:59:59
+          schStDateTime : 13/08/2018,00:00:00
+         */
+        spUtils.put(SharedPreference.USERCODE, userCode);
+        spUtils.put(SharedPreference.USERID, loginNurseInfo.getUserId());
+        spUtils.put(SharedPreference.USERNAME, loginNurseInfo.getUserName());
+        spUtils.put(SharedPreference.HOSPITALROWID, loginNurseInfo.getHospitalRowId());
+        spUtils.put(SharedPreference.GROUPID, loginNurseInfo.getGroupId());
+        spUtils.put(SharedPreference.GROUPDESC, loginNurseInfo.getGroupDesc());
+        spUtils.put(SharedPreference.LINKLOC, loginNurseInfo.getLinkLoc());
+        spUtils.put(SharedPreference.LOCID, loginNurseInfo.getLocId());
+        spUtils.put(SharedPreference.LOCDESC, loginNurseInfo.getLocDesc());
+        spUtils.put(SharedPreference.WARDID, loginNurseInfo.getWardId());
+        spUtils.put(SharedPreference.SCHSTDATETIME, loginNurseInfo.getSchStDateTime());
+        spUtils.put(SharedPreference.SCHENDATETIME, loginNurseInfo.getSchEnDateTime());
+    }
+
+    /**
+     * 选择病区弹窗
+     *
+     * @param nurseInfo
+     * @param loginBean
+     */
+    public void showLocPicker(NurseInfo nurseInfo, LoginBean loginBean) {
+        final List<LoginBean.LocsBean> locsBeanList = loginBean.getLocs();
+
+        //登陆成功返回的可登录病区列表，提取病区描述
+        String[] locDesc = new String[locsBeanList.size()];
+        for (int i = 0; i < locsBeanList.size(); i++) {
+            locDesc[i] = locsBeanList.get(i).getLocDesc();
+        }
+
+        picker = new OptionPicker(LoginActivity.this, locDesc);
+        picker.setCanceledOnTouchOutside(false);
+        picker.setDividerRatio(WheelView.DividerConfig.FILL);
+        picker.setSelectedIndex(0);
+        picker.setCycleDisable(true);
+        picker.setTextSize(20);
+        picker.setOnOptionPickListener(new OptionPicker.OnOptionPickListener() {
+            @Override
+            public void onOptionPicked(int index, String item) {
+                LoginBean.LocsBean locsBean = locsBeanList.get(index);
+
+                if (nurseInfo == null) {
+                    //loginNurseInfo为空，直接新建数据
+                    loginNurseInfo = new NurseInfo(null, loginBean.getSchEnDateTime(), loginBean.getSchStDateTime(), loginBean.getStatus(), loginBean.getUserId(), userCode, loginBean.getUserName(), locsBean.getGroupDesc(), locsBean.getGroupId(), locsBean.getHospitalRowId(), locsBean.getLinkLoc(), locsBean.getLocDesc(), locsBean.getLocId(), locsBean.getWardId());
+
+                } else {
+                    //loginNurseInfo不为空，按照所选病区更新数据
+                    loginNurseInfo.setGroupDesc(locsBean.getGroupDesc());
+                    loginNurseInfo.setGroupId(locsBean.getGroupId());
+                    loginNurseInfo.setHospitalRowId(locsBean.getHospitalRowId());
+                    loginNurseInfo.setLinkLoc(locsBean.getLinkLoc());
+                    loginNurseInfo.setLocDesc(locsBean.getLocDesc());
+                    loginNurseInfo.setLocId(locsBean.getLocId());
+                    loginNurseInfo.setWardId(locsBean.getWardId());
+                }
+
+
+                if (nurseInfoList != null && nurseInfoList.size() > 0) {
+                    //本地数据库不为空，判断是否包含当前用户登录数据
+                    int j;
+                    for (j = 0; j < nurseInfoList.size(); j++) {
+                        NurseInfo nurseInfo1 = nurseInfoList.get(j);
+                        if (userCode.equals(nurseInfo1.getUserCode())) {
+                            //本地数据库包含当前用户登录数据，设置id，更新数据库数据
+                            //                                        Toast.makeText(LoginActivity.this, "ward----已存在,更新数据", Toast.LENGTH_SHORT).show();
+                            loginNurseInfo.setId(nurseInfo1.getId());
+                            daoSession.getNurseInfoDao().update(loginNurseInfo);
+                            initData("login", loginNurseInfo);
+                            break;
+                        }
+                    }
+
+                    if (j >= nurseInfoList.size()) {
+                        //本地数据库不包含当前用户登录数据，新增数据库数据
+                        //                                    Toast.makeText(LoginActivity.this, "ward----不存在，插入新数据", Toast.LENGTH_SHORT).show();
+                        daoSession.getNurseInfoDao().insert(loginNurseInfo);
+                        initData("login", loginNurseInfo);
+                    }
+
+                } else {
+                    //本地数据库为空，直接新增数据库数据
+                    //                                Toast.makeText(LoginActivity.this, "ward----不存在，插入新数据", Toast.LENGTH_SHORT).show();
+                    daoSession.getNurseInfoDao().insert(loginNurseInfo);
+                    initData("login", loginNurseInfo);
+                }
+            }
+        });
+        picker.show();
+    }
 }
