@@ -60,6 +60,10 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
     private String timeFilterStr = "";
     private String dateFilterStr = "";
 
+    private int SAVE_TEMP_VALUE_NORMAL = 0;
+    private int SAVE_TEMP_VALUE_NEXT = 1;
+    private int SAVE_TEMP_VALUE_PRE = 2;
+
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_vital_sign_record, container, false);
@@ -123,7 +127,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
         viewright.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveTempValue();
+                saveTempValue(SAVE_TEMP_VALUE_NORMAL);
             }
         });
 
@@ -160,7 +164,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
     /**
      * 保存生命体征数据
      */
-    private void saveTempValue() {
+    private void saveTempValue(int type) {
 
         ArrayList<HashMap<String, String>> resList = new ArrayList();
 
@@ -202,14 +206,23 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
             public void onSuccess(VitalSignSaveBean bean) {
                 hideLoadFailTip();
                 waiting = false;
-                showToast("保存成功 ");
+//                showToast("保存成功 ");
+                if (type == SAVE_TEMP_VALUE_NEXT){
+                    patientIndex++;
+                    switchPatient();
+                }else if(type == SAVE_TEMP_VALUE_PRE){
+                    patientIndex--;
+                    switchPatient();
+                }else {
+                    //do nothing
+                }
             }
 
             @Override
             public void onFail(String code, String msg) {
                 hideLoadFailTip();
                 waiting = false;
-                showToast("error" + code + ":" + msg);
+                showToast("error:" + msg);
             }
         });
 
@@ -347,7 +360,12 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
         TextView titleTV = new TextView(getContext());
         titleTV.setText(config.getDesc());
         //        titleTV.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-        titleTV.setTextSize(16);
+        if (config.getDesc().length() > 7){
+            titleTV.setTextSize(12);
+        }else{
+            titleTV.setTextSize(16);
+        }
+
         titleTV.setGravity(Gravity.CENTER_HORIZONTAL);
 
         LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -369,7 +387,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
             }
 
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            layoutParams.setMargins(ConvertUtils.dp2px(27), ConvertUtils.dp2px(11), ConvertUtils.dp2px(27), ConvertUtils.dp2px(15));//4个参数按顺序分别是左上右下
+            layoutParams.setMargins(ConvertUtils.dp2px(10), ConvertUtils.dp2px(11), ConvertUtils.dp2px(10), ConvertUtils.dp2px(15));//4个参数按顺序分别是左上右下
 
             edText.setLayoutParams(layoutParams);
 
@@ -434,8 +452,12 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
             return;
         }
 
-        patientIndex++;
-        switchPatient();
+        //当前上一位下一位需要保存数据，顾讲病人切换移动到保存数据成功的回调中
+
+        saveTempValue(SAVE_TEMP_VALUE_NEXT);
+
+//        patientIndex++;
+//        switchPatient();
 
     }
 
@@ -446,8 +468,12 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
             return;
         }
 
-        patientIndex--;
-        switchPatient();
+        //当前上一位下一位需要保存数据，顾讲病人切换移动到保存数据成功的回调中
+
+        saveTempValue(SAVE_TEMP_VALUE_PRE);
+
+//        patientIndex--;
+//        switchPatient();
     }
 
     /**
