@@ -12,9 +12,10 @@
         >
         <TextView
             android:id="@+id/tv_detail_code"
-            android:layout_width="59dp"
-            android:layout_height="59dp"
-            android:text=""
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:textSize="14sp"
+            tools:text="序号"
             android:textColor="@color/vitalsign_detail_tvcolor"
             android:gravity="center"
             />
@@ -27,179 +28,27 @@
                 android:id="@+id/tv_detail_date"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:textSize="15sp"
-                android:text="2018-09-22"
+                android:textSize="14sp"
+                tools:text="2018-09-22"
                 android:textColor="@color/vitalsign_detail_tvcolor"
                 android:gravity="center" />
             <TextView
                 android:id="@+id/tv_detail_time"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:textSize="15sp"
-                android:text="08:33"
+                android:textSize="14sp"
+                tools:text="08:33"
                 android:textColor="@color/lab_un_report"
                 android:gravity="center" />
 
         </LinearLayout>
-        <TextView
-            android:id="@+id/tv_detail_temperature"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textColor="@color/vitalsign_detail_tvcolor"
-            android:gravity="center"/>
-        <TextView
-            android:id="@+id/tv_detail_rectemperature"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textColor="@color/vitalsign_detail_tvcolor"
-            android:gravity="center"  />
-        <TextView
-            android:id="@+id/tv_detail_pulse"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textColor="@color/vitalsign_detail_tvcolor"
-            android:gravity="center" />
-        <TextView
-            android:id="@+id/tv_detail_breath"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textColor="@color/vitalsign_detail_tvcolor"
-            android:gravity="center"  />
-        <TextView
-            android:id="@+id/tv_detail_sysPressure"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textColor="@color/vitalsign_detail_tvcolor"
-            android:gravity="center"/>
-        <TextView
-            android:id="@+id/tv_detail_diaPressure"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textColor="@color/vitalsign_detail_tvcolor"
-            android:gravity="center"/>
-        <TextView
-            android:id="@+id/tv_detail_degrBlood"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textColor="@color/vitalsign_detail_tvcolor"
-            android:gravity="center" />
-        <TextView
-            android:id="@+id/tv_detail_heartbeat"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textColor="@color/vitalsign_detail_tvcolor"
-            android:gravity="center"/>
-        <TextView
-            android:id="@+id/tv_detail_phyCooling"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textColor="@color/vitalsign_detail_tvcolor"
-            android:gravity="center" />
-        <TextView
-            android:id="@+id/tv_detail_painInten"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textColor="@color/vitalsign_detail_tvcolor"
-            android:gravity="center" />
-        <TextView
-            android:id="@+id/tv_detail_defFreq"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textColor="@color/vitalsign_detail_tvcolor"
-            android:gravity="center" />
-        <TextView
-            android:id="@+id/tv_detail_height"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textColor="@color/vitalsign_detail_tvcolor"
-            android:gravity="center" />
-        <TextView
-            android:id="@+id/tv_detail_weight"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textColor="@color/vitalsign_detail_tvcolor"
-            android:gravity="center"
-            />
-        <TextView
-            android:id="@+id/tv_detail_uriVolume"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textColor="@color/vitalsign_detail_tvcolor"
-            android:gravity="center" />
-        <TextView
-            android:id="@+id/tv_detail_liquidOut"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textColor="@color/vitalsign_detail_tvcolor"
-            android:gravity="center"  />
-        <TextView
-            android:id="@+id/tv_detail_Barthel"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textColor="@color/vitalsign_detail_tvcolor"
-            android:gravity="center"/>
-        <TextView
-            android:id="@+id/tv_detail_Bedsore"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textColor="@color/vitalsign_detail_tvcolor"
-            android:gravity="center"/>
-        <TextView
-            android:id="@+id/tv_detail_Fallrisk"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textColor="@color/vitalsign_detail_tvcolor"
-            android:gravity="center" />
-        <TextView
-            android:id="@+id/tv_detail_Fallbed"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textColor="@color/vitalsign_detail_tvcolor"
-            android:gravity="center"  />
-        <TextView
-            android:id="@+id/tv_detail_Item34_Title"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textColor="@color/vitalsign_detail_tvcolor"
-            android:gravity="center" />
-        <TextView
-            android:id="@+id/tv_detail_Item34"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textColor="@color/vitalsign_detail_tvcolor"
-            android:gravity="center"  />
-        <TextView
-            android:id="@+id/tv_detail_Reason"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textColor="@color/vitalsign_detail_tvcolor"
-            android:gravity="center" />
+        <LinearLayout
+            android:id="@+id/ll_vital_datalist"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal">
 
-
-
-
+        </LinearLayout>
     </LinearLayout>
     <View
         android:layout_width="match_parent"

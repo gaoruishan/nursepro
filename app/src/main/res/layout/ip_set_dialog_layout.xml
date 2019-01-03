@@ -43,6 +43,7 @@
                     android:gravity="center"
                     android:hint="输入IP"
                     android:digits="0123456789."
+                    android:textColor="@color/black"
                     android:background="@color/bg_blue_light"
                     />
                 <TextView
@@ -60,6 +61,7 @@
                     android:gravity="center"
                     android:hint="输入端口号"
                     android:digits="0123456789"
+                    android:textColor="@color/black"
                     android:background="@color/bg_blue_light"
                     />
             </LinearLayout>

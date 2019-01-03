@@ -2,14 +2,17 @@ package com.dhcc.nursepro.workarea.vitalsigndetail;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.nursepro.BaseActivity;
@@ -18,8 +21,6 @@ import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.constant.SharedPreference;
 import com.dhcc.nursepro.workarea.vitalsign.VitalSignRecordFragment;
 import com.dhcc.nursepro.workarea.vitalsigndetail.adapter.VitalSignDetailAdapter;
-import com.dhcc.nursepro.workarea.vitalsigndetail.adapter.VitalSignDetailCodeAdapter;
-import com.dhcc.nursepro.workarea.vitalsigndetail.adapter.VitalSignTitleAdapter;
 import com.dhcc.nursepro.workarea.vitalsigndetail.api.VitalSignDetailApiManager;
 import com.dhcc.nursepro.workarea.vitalsigndetail.bean.VitalSignDetailBean;
 import com.jzxiang.pickerview.TimePickerDialog;
@@ -32,20 +33,16 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class VitalSignDetailFragment extends BaseFragment implements View.OnClickListener, OnDateSetListener {
 
-    private RecyclerView recyclerView, recyclertitleView, recyclercodeView;
-    private TextView tvEndate, tvStdate;
+    private RecyclerView recyclerView;
+    private LinearLayout llvid,lllist;
+    private TextView tvEndate, tvStdate,tvcode,tvdatetime;
     private LinearLayout llEmpty;
     private List<VitalSignDetailBean.TempDataListBean> listBeans;
     private List<VitalSignDetailBean.TempConfigBean> listBeansTitle;
-    private List<String> listcode;
-    private List<Map<String, String>> listTitle;
     private VitalSignDetailAdapter vitalSignDetailAdapter;
-//    private VitalSignDetailCodeAdapter vitalSignDetailCodeAdapter;
-    private VitalSignTitleAdapter vitalSignTitleAdapter;
     private SPUtils spUtils = SPUtils.getInstance();
     private String episodeId, stDate, enDate, datestr;
     private Bundle mBundle;
@@ -65,16 +62,12 @@ public class VitalSignDetailFragment extends BaseFragment implements View.OnClic
 
         stDate = spUtils.getString(SharedPreference.SCHSTDATETIME).substring(0, 10);
         enDate = spUtils.getString(SharedPreference.SCHENDATETIME).substring(0, 10);
-        //        stDate = "2018-03-23";
-        //        enDate ="2018-08-23";
         Bundle bundle = getArguments();
         mBundle = bundle;
         episodeId = bundle.getString("episodeId");
 
         initView(view);
         initData();
-
-
     }
 
     @Override
@@ -85,6 +78,8 @@ public class VitalSignDetailFragment extends BaseFragment implements View.OnClic
 
     private void initView(View view) {
 
+        lllist = view.findViewById(R.id.ll_vital_list);
+        llvid = view.findViewById(R.id.ll_vid);
         llEmpty = view.findViewById(R.id.ll_vital_empty);
         tvStdate = view.findViewById(R.id.tv_stdate);
         tvEndate = view.findViewById(R.id.tv_endate);
@@ -92,12 +87,15 @@ public class VitalSignDetailFragment extends BaseFragment implements View.OnClic
         tvEndate.setOnClickListener(this);
         tvStdate.setText(stDate);
         tvEndate.setText(enDate);
-
+        tvcode = view.findViewById(R.id.tv_detail_codetitle);
+        tvcode.setTextSize(14);
+        tvdatetime = view.findViewById(R.id.tv_detail_datetime);
+        tvdatetime.setTextSize(14);
 
         recyclerView = view.findViewById(R.id.recy_vitalsign_detail);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        vitalSignDetailAdapter = new VitalSignDetailAdapter(new ArrayList<VitalSignDetailBean.TempDataListBean>());
+        vitalSignDetailAdapter = new VitalSignDetailAdapter(new ArrayList<VitalSignDetailBean.TempDataListBean>(),getContext());
         recyclerView.setAdapter(vitalSignDetailAdapter);
         vitalSignDetailAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -108,23 +106,6 @@ public class VitalSignDetailFragment extends BaseFragment implements View.OnClic
                 startFragment(VitalSignRecordFragment.class,mBundle);
             }
         });
-
-        //如果序号固定，就单独用下面这个recy
-//        recyclercodeView = view.findViewById(R.id.recy_vitalsign_detailcode);
-//        recyclercodeView.setHasFixedSize(true);
-//        recyclercodeView.setLayoutManager(new LinearLayoutManager(getActivity()));
-//        vitalSignDetailCodeAdapter = new VitalSignDetailCodeAdapter(new ArrayList<String>());
-//        recyclercodeView.setAdapter(vitalSignDetailCodeAdapter);
-
-        recyclertitleView = view.findViewById(R.id.recy_vitalsign_title);
-        recyclertitleView.setHasFixedSize(true);
-        recyclertitleView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        vitalSignTitleAdapter = new VitalSignTitleAdapter(new ArrayList<Map<String, String>>());
-        recyclertitleView.setAdapter(vitalSignTitleAdapter);
-
-
-        listTitle = new ArrayList<Map<String, String>>();
-
     }
 
     private void initData() {
@@ -139,24 +120,18 @@ public class VitalSignDetailFragment extends BaseFragment implements View.OnClic
                 listBeansTitle = vitalSignDetailBean.getTempConfig();
                 if (listBeans.size() == 0) {
                     llEmpty.setVisibility(View.VISIBLE);
+                    lllist.setVisibility(View.GONE);
                 } else {
                     llEmpty.setVisibility(View.GONE);
+                    lllist.setVisibility(View.VISIBLE);
                 }
 
+                vitalSignDetailAdapter.setListTitle(listBeansTitle);
                 vitalSignDetailAdapter.setNewData(listBeans);
                 vitalSignDetailAdapter.notifyDataSetChanged();
-                listcode = new ArrayList<String>();
-                for (int i = 0; i < listBeans.size(); i++) {
-                    listcode.add(i + 1 + "");
-                }
-//                vitalSignDetailCodeAdapter.setNewData(listcode);
-//                vitalSignDetailCodeAdapter.notifyDataSetChanged();
-                //                showToast(listBeans.size()+"--"+listcode.size());
+
                 initTitle(listBeansTitle);
-
-
             }
-
             @Override
             public void onFail(String code, String msg) {
                 showToast("error" + code + ":" + msg);
@@ -165,15 +140,18 @@ public class VitalSignDetailFragment extends BaseFragment implements View.OnClic
     }
 
     private void initTitle(List<VitalSignDetailBean.TempConfigBean> listBeansConfig) {
-        HashMap<String, String> map = new HashMap<String, String>();
-        listTitle = new ArrayList<Map<String, String>>();
+        llvid.removeAllViews();
+        int height = ConvertUtils.dp2px(60);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(height, height);
         for (int i = 0; i < listBeansConfig.size(); i++) {
-            map.put(listBeansConfig.get(i).getCode(), listBeansConfig.get(i).getDesc());
+            TextView textView = new TextView(getContext());
+            textView.setText(listBeansConfig.get(i).getDesc());
+            textView.setLayoutParams(params);
+            textView.setGravity(Gravity.CENTER);
+            textView.setTextColor(ContextCompat.getColor(getActivity(),R.color.white));
+            textView.setTextSize(14);
+            llvid.addView(textView);
         }
-        listTitle.add(map);
-        vitalSignTitleAdapter.setNewData(listTitle);
-        vitalSignTitleAdapter.notifyDataSetChanged();
-
     }
 
     @Override
@@ -237,6 +215,5 @@ public class VitalSignDetailFragment extends BaseFragment implements View.OnClic
         mDialogAll.settype(1);
 
         mDialogAll.show(getActivity().getSupportFragmentManager(), "ALL");
-
     }
 }
