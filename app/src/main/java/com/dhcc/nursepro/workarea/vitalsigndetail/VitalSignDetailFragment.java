@@ -37,14 +37,14 @@ import java.util.Map;
 public class VitalSignDetailFragment extends BaseFragment implements View.OnClickListener, OnDateSetListener {
 
     private RecyclerView recyclerView, recyclertitleView, recyclercodeView;
-    private TextView tvEndate, tvStdate, tvcodetitle;
+    private TextView tvEndate, tvStdate;
     private LinearLayout llEmpty;
     private List<VitalSignDetailBean.TempDataListBean> listBeans;
     private List<VitalSignDetailBean.TempConfigBean> listBeansTitle;
     private List<String> listcode;
     private List<Map<String, String>> listTitle;
     private VitalSignDetailAdapter vitalSignDetailAdapter;
-    private VitalSignDetailCodeAdapter vitalSignDetailCodeAdapter;
+//    private VitalSignDetailCodeAdapter vitalSignDetailCodeAdapter;
     private VitalSignTitleAdapter vitalSignTitleAdapter;
     private SPUtils spUtils = SPUtils.getInstance();
     private String episodeId, stDate, enDate, datestr;
@@ -92,7 +92,6 @@ public class VitalSignDetailFragment extends BaseFragment implements View.OnClic
         tvEndate.setOnClickListener(this);
         tvStdate.setText(stDate);
         tvEndate.setText(enDate);
-        tvcodetitle = view.findViewById(R.id.tv_detail_codetitle);
 
 
         recyclerView = view.findViewById(R.id.recy_vitalsign_detail);
@@ -110,11 +109,12 @@ public class VitalSignDetailFragment extends BaseFragment implements View.OnClic
             }
         });
 
-        recyclercodeView = view.findViewById(R.id.recy_vitalsign_detailcode);
-        recyclercodeView.setHasFixedSize(true);
-        recyclercodeView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        vitalSignDetailCodeAdapter = new VitalSignDetailCodeAdapter(new ArrayList<String>());
-        recyclercodeView.setAdapter(vitalSignDetailCodeAdapter);
+        //如果序号固定，就单独用下面这个recy
+//        recyclercodeView = view.findViewById(R.id.recy_vitalsign_detailcode);
+//        recyclercodeView.setHasFixedSize(true);
+//        recyclercodeView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        vitalSignDetailCodeAdapter = new VitalSignDetailCodeAdapter(new ArrayList<String>());
+//        recyclercodeView.setAdapter(vitalSignDetailCodeAdapter);
 
         recyclertitleView = view.findViewById(R.id.recy_vitalsign_title);
         recyclertitleView.setHasFixedSize(true);
@@ -138,10 +138,8 @@ public class VitalSignDetailFragment extends BaseFragment implements View.OnClic
                 listBeans = vitalSignDetailBean.getTempDataList();
                 listBeansTitle = vitalSignDetailBean.getTempConfig();
                 if (listBeans.size() == 0) {
-                    tvcodetitle.setVisibility(View.GONE);
                     llEmpty.setVisibility(View.VISIBLE);
                 } else {
-                    tvcodetitle.setVisibility(View.VISIBLE);
                     llEmpty.setVisibility(View.GONE);
                 }
 
@@ -151,8 +149,8 @@ public class VitalSignDetailFragment extends BaseFragment implements View.OnClic
                 for (int i = 0; i < listBeans.size(); i++) {
                     listcode.add(i + 1 + "");
                 }
-                vitalSignDetailCodeAdapter.setNewData(listcode);
-                vitalSignDetailCodeAdapter.notifyDataSetChanged();
+//                vitalSignDetailCodeAdapter.setNewData(listcode);
+//                vitalSignDetailCodeAdapter.notifyDataSetChanged();
                 //                showToast(listBeans.size()+"--"+listcode.size());
                 initTitle(listBeansTitle);
 

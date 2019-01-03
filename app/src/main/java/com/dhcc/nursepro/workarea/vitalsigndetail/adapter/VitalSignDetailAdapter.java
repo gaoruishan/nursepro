@@ -42,7 +42,8 @@ public class VitalSignDetailAdapter extends BaseQuickAdapter <VitalSignDetailBea
                 .setText(R.id.tv_detail_time,"".equals(item.getTime()) ? " " : item.getTime())
                 .setText(R.id.tv_detail_uriVolume,"".equals(item.getUriVolume()) ? " " : item.getUriVolume())
                 .setText(R.id.tv_detail_weight,"".equals(item.getWeight()) ? " " : item.getWeight())
-                .setText(R.id.tv_detail_Bedsore,"".equals(item.getBedsore()) ? " " : item.getBedsore());;
+                .setText(R.id.tv_detail_Bedsore,"".equals(item.getBedsore()) ? " " : item.getBedsore())
+                .setText(R.id.tv_detail_code,helper.getAdapterPosition()+1+"");
 
 
 //
