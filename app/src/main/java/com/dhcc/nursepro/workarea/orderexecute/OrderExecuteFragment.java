@@ -460,7 +460,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
      * 扫码执行
      */
     private void execOrSeeOrderScan(String oeoreIdScan, String execStatusCodeScan) {
-        OrderExecuteApiManager.execOrSeeOrder( "","" ,"" ,oeoreIdScan, execStatusCodeScan, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
+        OrderExecuteApiManager.execOrSeeOrder( "1","","" ,"" ,oeoreIdScan, execStatusCodeScan, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
             @Override
             public void onSuccess(OrderExecResultBean orderExecResultBean) {
 
@@ -740,7 +740,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     }
 
     private void execOrSeeOrder() {
-        OrderExecuteApiManager.execOrSeeOrder(skinBatch,skinUserCode,skinUserPass,oeoreId, execStatusCode, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
+        OrderExecuteApiManager.execOrSeeOrder("0",skinBatch,skinUserCode,skinUserPass,oeoreId, execStatusCode, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
             @Override
             public void onSuccess(OrderExecResultBean orderExecResultBean) {
                 skinBatch = "";
