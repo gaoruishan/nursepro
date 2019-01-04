@@ -23,7 +23,6 @@ import com.dhcc.nursepro.constant.SharedPreference;
 import com.dhcc.nursepro.greendao.DaoSession;
 import com.dhcc.nursepro.greendao.GreenDaoHelper;
 import com.dhcc.nursepro.login.api.LoginApiManager;
-import com.dhcc.nursepro.login.bean.GetScanActionBean;
 import com.dhcc.nursepro.login.bean.LoginBean;
 import com.dhcc.nursepro.login.bean.NurseInfo;
 import com.dhcc.nursepro.utils.TransBroadcastUtil;
@@ -51,7 +50,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private TextView tvLoginWard;
     private TextView tvLoginLogin;
     private LinearLayout llLoginRememberme;
-    private String version;
     private List<NurseInfo> nurseInfoList;
     private NurseInfo loginNurseInfo;
     private String userCode;
@@ -81,8 +79,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         }
         nurseInfoList = daoSession.getNurseInfoDao().queryBuilder().list();
         initView();
-        getScanAction();
-        //        TransBroadcastUtil.setScanAction("com.scanner.broadcast");
     }
 
     @Override
@@ -196,22 +192,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             }
         });
     }
-
-    private void getScanAction() {
-        LoginApiManager.getScan(new LoginApiManager.GetScanActionCallback() {
-            @Override
-            public void onSuccess(GetScanActionBean getScanActionBean) {
-                List<GetScanActionBean.BroadcastListBean> broadcastList = getScanActionBean.getBroadcastList();
-                TransBroadcastUtil.setScanActionList(broadcastList);
-            }
-
-            @Override
-            public void onFail(String code, String msg) {
-                showToast("error" + code + ":" + msg);
-            }
-        });
-    }
-
 
     public int search(String str, String strRes) {//查找字符串里与指定字符串相同的个数
         int n = 0;
@@ -418,8 +398,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         }
                         //本地数据库已保存用户信息且用户的登录病区存在于登陆成功返回的可登录病区列表，
                         if (k < nurseInfoList.size() && l < loginBean.getLocs().size()) {
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            List<LoginBean.BroadcastListBean> broadcastList = loginBean.getBroadcastList();
+                            TransBroadcastUtil.setScanActionList(broadcastList);
                             saveUserInfo();
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             finish();
                         }
 
@@ -427,6 +409,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         if (k >= nurseInfoList.size()) {
                             //                            Toast.makeText(LoginActivity.this, "login----不存在，插入新数据", Toast.LENGTH_SHORT).show();
                             daoSession.getNurseInfoDao().insert(loginNurseInfo);
+                            List<LoginBean.BroadcastListBean> broadcastList = loginBean.getBroadcastList();
+                            TransBroadcastUtil.setScanActionList(broadcastList);
                             saveUserInfo();
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             finish();
@@ -435,6 +419,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         //本地数据库未存储用户登录数据，数据库添加用户数据，SP设置用户数据，跳转页面
                         //                        Toast.makeText(LoginActivity.this, "login----不存在，插入新数据", Toast.LENGTH_SHORT).show();
                         daoSession.getNurseInfoDao().insert(loginNurseInfo);
+                        List<LoginBean.BroadcastListBean> broadcastList = loginBean.getBroadcastList();
+                        TransBroadcastUtil.setScanActionList(broadcastList);
                         saveUserInfo();
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         finish();

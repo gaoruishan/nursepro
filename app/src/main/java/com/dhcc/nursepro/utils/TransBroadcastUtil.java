@@ -8,7 +8,7 @@ import android.os.Bundle;
 
 import com.blankj.utilcode.util.StringUtils;
 import com.dhcc.nursepro.constant.Action;
-import com.dhcc.nursepro.login.bean.GetScanActionBean;
+import com.dhcc.nursepro.login.bean.LoginBean;
 
 import java.util.List;
 import java.util.Objects;
@@ -19,7 +19,7 @@ public class TransBroadcastUtil {
     // 程序的Context对象
     private static Context mContext;
 
-    private static List<GetScanActionBean.BroadcastListBean> broadcastList;
+    private static List<LoginBean.BroadcastListBean> broadcastList;
     private static String scanAction = "";
     private static String scanKey = "";
     private static Receiver mReceiver = new Receiver();
@@ -46,7 +46,7 @@ public class TransBroadcastUtil {
     //        mContext.registerReceiver(mReceiver, filter);
     //    }
 
-    public static void setScanActionList(List<GetScanActionBean.BroadcastListBean> broadcastListBeans) {
+    public static void setScanActionList(List<LoginBean.BroadcastListBean> broadcastListBeans) {
         broadcastList = broadcastListBeans;
         IntentFilter filter = new IntentFilter();
         for (int i = 0; i < broadcastList.size(); i++) {

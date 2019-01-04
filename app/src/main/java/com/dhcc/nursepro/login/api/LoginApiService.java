@@ -26,19 +26,6 @@ public class LoginApiService {
 
     }
 
-
-    public static void getScanAction(final ServiceCallBack callback) {
-
-        HashMap<String, String> properties = new HashMap<String, String>();
-        WebServiceUtils.callWebService("getBroadcastConfig", properties, new WebServiceUtils.WebServiceCallBack() {
-            @Override
-            public void callBack(String result) {
-                callback.onResult(result);
-            }
-        });
-
-    }
-
     public interface ServiceCallBack {
         void onResult(String jsonStr);
     }
