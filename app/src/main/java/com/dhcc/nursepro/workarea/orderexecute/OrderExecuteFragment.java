@@ -460,7 +460,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
      * 扫码执行
      */
     private void execOrSeeOrderScan(String oeoreIdScan, String execStatusCodeScan) {
-        OrderExecuteApiManager.execOrSeeOrder( skinBatch,skinUserCode ,skinUserPass ,oeoreIdScan, execStatusCodeScan, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
+        OrderExecuteApiManager.execOrSeeOrder( "","" ,"" ,oeoreIdScan, execStatusCodeScan, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
             @Override
             public void onSuccess(OrderExecResultBean orderExecResultBean) {
 
@@ -743,6 +743,9 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
         OrderExecuteApiManager.execOrSeeOrder(skinBatch,skinUserCode,skinUserPass,oeoreId, execStatusCode, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
             @Override
             public void onSuccess(OrderExecResultBean orderExecResultBean) {
+                skinBatch = "";
+                skinUserCode = "";
+                skinUserPass = "";
                 /**
                  * 操作
                  * execStatusCode (F 执行，C 撤销执行，A 接受，S 完成，R 拒绝)
@@ -797,6 +800,9 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
 
             @Override
             public void onFail(String code, String msg) {
+                skinBatch = "";
+                skinUserCode = "";
+                skinUserPass = "";
                 if (execResultDialog != null && execResultDialog.isShowing()) {
                     execResultDialog.dismiss();
                 }
