@@ -6,8 +6,10 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ConvertUtils;
 import com.dhcc.nursepro.R;
 
 /**
@@ -18,12 +20,17 @@ public class OrderExecResultDialog extends Dialog {
     private ImageView imgPopupOrderexecresult;
     private TextView tvPopupOrderexecresult;
     private TextView tvPopupSure;
+    private TextView tvPopupCancle;
+    private LinearLayout llDialog;
 
     private String execresult;
     private int imgId;
     private int sureVisible;
+    private int cancleVisible;
 
     private onSureOnclickListener sureOnclickListener;
+    private onCancelOnclickListener cancelOnclickListener;
+
 
 
     public OrderExecResultDialog(Context context) {
@@ -42,12 +49,24 @@ public class OrderExecResultDialog extends Dialog {
         this.sureVisible = sureVisible;
     }
 
+    public void setCancleVisible(int cancleVisible) {
+        this.cancleVisible = cancleVisible;
+    }
+
     /**
      * 设置确定按钮的显示内容和监听
      */
     public void setSureOnclickListener(onSureOnclickListener onSureOnclickListener) {
 
         this.sureOnclickListener = onSureOnclickListener;
+    }
+
+    /**
+     * 设置取消按钮的显示内容和监听
+     */
+    public void setCancelOnclickListener(onCancelOnclickListener onCancelOnclickListener) {
+
+        this.cancelOnclickListener = onCancelOnclickListener;
     }
 
     @Override
@@ -69,6 +88,8 @@ public class OrderExecResultDialog extends Dialog {
         imgPopupOrderexecresult = findViewById(R.id.img_popup_orderexecresult);
         tvPopupOrderexecresult = findViewById(R.id.tv_popup_orderexecresult);
         tvPopupSure = findViewById(R.id.tv_popup_sure);
+        tvPopupCancle = findViewById(R.id.tv_popup_cancle);
+        llDialog = findViewById(R.id.ll_order_dialog);
     }
 
     private void initData() {
@@ -81,6 +102,12 @@ public class OrderExecResultDialog extends Dialog {
         }
 
         tvPopupSure.setVisibility(sureVisible);
+        tvPopupCancle.setVisibility(cancleVisible);
+        if (cancleVisible == View.GONE){
+            llDialog.setPadding(ConvertUtils.dp2px(56),0,ConvertUtils.dp2px(56),0);
+        }else {
+            llDialog.setPadding(0,0,0,0);
+        }
 
     }
 
@@ -93,6 +120,14 @@ public class OrderExecResultDialog extends Dialog {
                 }
             }
         });
+        tvPopupCancle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (cancelOnclickListener != null) {
+                    cancelOnclickListener.onCancelClick();
+                }
+            }
+        });
     }
 
     /**
@@ -100,6 +135,13 @@ public class OrderExecResultDialog extends Dialog {
      */
     public interface onSureOnclickListener {
         public void onSureClick();
+    }
+
+    /**
+     * 设置取消按钮被点击的接口
+     */
+    public interface onCancelOnclickListener {
+        public void onCancelClick();
     }
 
 }

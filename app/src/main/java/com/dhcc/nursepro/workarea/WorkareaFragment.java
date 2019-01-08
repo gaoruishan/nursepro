@@ -41,6 +41,7 @@ import java.util.*;
  * 主页
  */
 public class WorkareaFragment extends BaseFragment {
+    private RecyclerView recConfig;
     private List<String> ItemNameList = new ArrayList<String>();
     private WorkAreaAdapter patEventsAdapter ;
 
@@ -64,12 +65,11 @@ public class WorkareaFragment extends BaseFragment {
     }
 
     private void initData() {
-
-        WorkareaApiManager.getMainConfig(null, "getMainConfig", new WorkareaApiManager.GetMainconfigCallback() {
+        HashMap<String, String> properties = new HashMap<String, String>();
+        WorkareaApiManager.getMainConfig(properties, "getMainConfig", new WorkareaApiManager.GetMainconfigCallback() {
             @Override
             public void onSuccess(MainConfigBean mainConfigBean) {
                 ItemNameList = mainConfigBean.getMainConfig();
-//                ItemNameList.add("MODELDETAIL");
                 patEventsAdapter.setNewData(ItemNameList);
             }
 
@@ -81,12 +81,11 @@ public class WorkareaFragment extends BaseFragment {
     }
     private void initView(View view) {
 
-        RecyclerView recyPatevents = view.findViewById(R.id.recy_workarea);
-        recyPatevents.setHasFixedSize(true);
-//        recyPatevents.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyPatevents.setLayoutManager(new GridLayoutManager(getActivity(),3));
+        recConfig = view.findViewById(R.id.recy_workarea);
+        recConfig.setHasFixedSize(true);
+        recConfig.setLayoutManager(new GridLayoutManager(getActivity(),3));
         patEventsAdapter = new WorkAreaAdapter(new ArrayList<String>());
-        recyPatevents.setAdapter(patEventsAdapter);
+        recConfig.setAdapter(patEventsAdapter);
         patEventsAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -165,14 +164,15 @@ public class WorkareaFragment extends BaseFragment {
                 startFragment(NurRecordModellistFragmen.class);
                 break;
             default:
-//                showToast("正在开发");
+
                 break;
         }
     }
 
     public class WorkAreaAdapter extends BaseQuickAdapter<String,BaseViewHolder> {
         public WorkAreaAdapter(@Nullable List<String> data) {
-            super(R.layout.item_workarea,data);
+            super(R.layout.item_workarea,
+                    data);
         }
         @Override
         protected void convert(BaseViewHolder helper, String item) {
@@ -180,8 +180,6 @@ public class WorkareaFragment extends BaseFragment {
             ImageView imageView = helper.getView(R.id.icon_workarea);
             switch (item) {
                 case "BEDMAP":
-//                    helper.setText(R.id.tv_workarea,item)
-//                    .setImageResource(R.id.icon_workarea,R.drawable.icon_add);
                     tvItem.setText("床位图");
                     imageView.setImageResource(R.drawable.icon_bedmap);
                     break;

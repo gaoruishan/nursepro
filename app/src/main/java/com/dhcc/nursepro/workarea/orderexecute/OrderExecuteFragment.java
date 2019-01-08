@@ -205,19 +205,57 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 //PAT 扫腕带返回患者信息
                 //ORD 扫医嘱条码返回医嘱信息
                 if ("PAT".equals(scanResultBean.getFlag())) {
-                    ScanResultBean.PatInfoBean patInfoBean = scanResultBean.getPatInfo();
-                    episodeId = patInfoBean.getEpisodeID();
-                    regNo = patInfoBean.getRegNo();
-                    rlOrderexecuteScan.setVisibility(View.GONE);
-                    //                    tvPat.setText(scanPatBean.getPatInfo().getBedCode()+"   "+scanPatBean.getPatInfo().getName());
-                    tvOrderexecutePatinfo.setText("".equals(patInfoBean.getBedCode()) ? "未分床  " + patInfoBean.getName() : patInfoBean.getBedCode() + "  " + patInfoBean.getName());
-                    patInfo = patInfoBean.getBedCode() + "-" + patInfoBean.getName() + "-" + patInfoBean.getSex() + "-" + patInfoBean.getAge();
-                    getView().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            asyncInitData();
-                        }
-                    }, 300);
+
+                    if ("104999".equals(scanResultBean.getMsgcode())){
+
+                            if (execResultDialog != null && execResultDialog.isShowing()) {
+                                execResultDialog.dismiss();
+                            }
+                            execResultDialog = new OrderExecResultDialog(getActivity());
+                            execResultDialog.setExecresult(scanResultBean.getMsg()+"是否继续执行医嘱？");
+                            execResultDialog.setImgId(R.drawable.icon_popup_error_patient);
+                            execResultDialog.setSureVisible(View.VISIBLE);
+                            execResultDialog.setCancleVisible(View.VISIBLE);
+                            execResultDialog.setSureOnclickListener(new OrderExecResultDialog.onSureOnclickListener() {
+                                @Override
+                                public void onSureClick() {
+                                    execResultDialog.dismiss();
+                                    ScanResultBean.PatInfoBean patInfoBean = scanResultBean.getPatInfo();
+                                    episodeId = patInfoBean.getEpisodeID();
+                                    regNo = patInfoBean.getRegNo();
+                                    tvOrderexecutePatinfo.setText("".equals(patInfoBean.getBedCode()) ? "未分床  " + patInfoBean.getName() : patInfoBean.getBedCode() + "  " + patInfoBean.getName());
+                                    patInfo = patInfoBean.getBedCode() + "-" + patInfoBean.getName() + "-" + patInfoBean.getSex() + "-" + patInfoBean.getAge();
+                                    rlOrderexecuteScan.setVisibility(View.GONE);
+                                    getView().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            asyncInitData();
+                                        }
+                                    }, 300);
+                                }
+                            });
+                            execResultDialog.setCancelOnclickListener(new OrderExecResultDialog.onCancelOnclickListener() {
+                                @Override
+                                public void onCancelClick() {
+                                    execResultDialog.dismiss();
+                                }
+                            });
+                            execResultDialog.show();
+
+                    }else {
+                        rlOrderexecuteScan.setVisibility(View.GONE);
+                        ScanResultBean.PatInfoBean patInfoBean = scanResultBean.getPatInfo();
+                        episodeId = patInfoBean.getEpisodeID();
+                        regNo = patInfoBean.getRegNo();
+                        tvOrderexecutePatinfo.setText("".equals(patInfoBean.getBedCode()) ? "未分床  " + patInfoBean.getName() : patInfoBean.getBedCode() + "  " + patInfoBean.getName());
+                        patInfo = patInfoBean.getBedCode() + "-" + patInfoBean.getName() + "-" + patInfoBean.getSex() + "-" + patInfoBean.getAge();
+                        getView().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                asyncInitData();
+                            }
+                        }, 300);
+                    }
 
                 } else {
                     if (execResultDialog != null && execResultDialog.isShowing()) {
@@ -262,6 +300,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                         execResultDialog.setExecresult("扫码执行成功");
                         execResultDialog.setImgId(R.drawable.icon_popup_sucess);
                         execResultDialog.setSureVisible(View.GONE);
+                        execResultDialog.setCancleVisible(View.GONE);
                         execResultDialog.show();
                         new Handler().postDelayed(new Runnable() {
                             @Override
@@ -289,6 +328,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 execResultDialog.setExecresult(msg);
                 execResultDialog.setImgId(R.drawable.icon_popup_error_patient);
                 execResultDialog.setSureVisible(View.VISIBLE);
+                execResultDialog.setCancleVisible(View.GONE);
                 execResultDialog.setSureOnclickListener(new OrderExecResultDialog.onSureOnclickListener() {
                     @Override
                     public void onSureClick() {
@@ -472,6 +512,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 execResultDialog.setExecresult("扫码执行成功");
                 execResultDialog.setImgId(R.drawable.icon_popup_sucess);
                 execResultDialog.setSureVisible(View.GONE);
+                execResultDialog.setCancleVisible(View.GONE);
                 execResultDialog.show();
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -491,6 +532,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 execResultDialog.setExecresult(msg);
                 execResultDialog.setImgId(R.drawable.icon_popup_error_patient);
                 execResultDialog.setSureVisible(View.VISIBLE);
+                execResultDialog.setCancleVisible(View.GONE);
                 execResultDialog.setSureOnclickListener(new OrderExecResultDialog.onSureOnclickListener() {
                     @Override
                     public void onSureClick() {
@@ -788,6 +830,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 }
                 execResultDialog.setImgId(R.drawable.icon_popup_sucess);
                 execResultDialog.setSureVisible(View.GONE);
+                execResultDialog.setCancleVisible(View.GONE);
                 execResultDialog.show();
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -810,6 +853,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 execResultDialog.setExecresult(msg);
                 execResultDialog.setImgId(R.drawable.icon_popup_error_patient);
                 execResultDialog.setSureVisible(View.VISIBLE);
+                execResultDialog.setCancleVisible(View.GONE);
                 execResultDialog.setSureOnclickListener(new OrderExecResultDialog.onSureOnclickListener() {
                     @Override
                     public void onSureClick() {
