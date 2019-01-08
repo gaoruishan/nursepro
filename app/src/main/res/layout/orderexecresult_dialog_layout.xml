@@ -63,7 +63,7 @@
             android:layout_marginTop="36dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/bg_dialog_sure"
+            android:background="@drawable/bg_dialog_cancel"
             android:paddingBottom="10dp"
             android:paddingEnd="46dp"
             android:paddingStart="46dp"
