@@ -206,7 +206,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
             public void onSuccess(VitalSignSaveBean bean) {
                 hideLoadFailTip();
                 waiting = false;
-//                showToast("保存成功 ");
+                showToast("保存成功 ");
                 if (type == SAVE_TEMP_VALUE_NEXT){
                     patientIndex++;
                     switchPatient();
@@ -215,6 +215,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
                     switchPatient();
                 }else {
                     //do nothing
+//                    showToast("保存成功 ");
                 }
             }
 

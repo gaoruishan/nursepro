@@ -244,7 +244,7 @@ public class DocOrderListFragment extends BaseFragment {
 
             @Override
             public void onFail(String code, String msg) {
-
+                showToast("error" + code + ":" + msg);
             }
         });
     }
