@@ -18,11 +18,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class VitalSignDetailAdapter extends BaseQuickAdapter <VitalSignDetailBean.TempDataListBean,BaseViewHolder>{
+public class VitalSignDetailAdapter extends BaseQuickAdapter <Map,BaseViewHolder>{
     Context context;
     private List<VitalSignDetailBean.TempConfigBean> listTitle;
 
-    public VitalSignDetailAdapter(@Nullable List<VitalSignDetailBean.TempDataListBean> data,Context context) {
+    public VitalSignDetailAdapter(@Nullable List<Map> data,Context context) {
         super(R.layout.item_vital_detail,data);
         this.context = context;
     }
@@ -31,15 +31,15 @@ public class VitalSignDetailAdapter extends BaseQuickAdapter <VitalSignDetailBea
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, VitalSignDetailBean.TempDataListBean item) {
+    protected void convert(BaseViewHolder helper, Map item) {
         helper.setText(R.id.tv_detail_code,helper.getAdapterPosition()+1+"")
-                .setText(R.id.tv_detail_date,"".equals(item.getDate()) ? " " : item.getDate())
-                .setText(R.id.tv_detail_time,"".equals(item.getTime()) ? " " : item.getTime());
+                .setText(R.id.tv_detail_date,"".equals(item.get("date").toString()) ? " " : item.get("date").toString())
+                .setText(R.id.tv_detail_time,"".equals(item.get("time").toString()) ? " " : item.get("time").toString());
 
-        Map<String, String> map = new HashMap<String, String>();
-        Gson gson = new Gson();
-        String jsonStr = gson.toJson(item);
-        map = (Map<String, String>) gson.fromJson(jsonStr, map.getClass());
+//        Map<String, String> map = new HashMap<String, String>();
+//        Gson gson = new Gson();
+//        String jsonStr = gson.toJson(item);
+//        map = (Map<String, String>) gson.fromJson(jsonStr, map.getClass());
 
         LinearLayout lldatalist = helper.getView(R.id.ll_vital_datalist);
         lldatalist.removeAllViews();
@@ -48,7 +48,7 @@ public class VitalSignDetailAdapter extends BaseQuickAdapter <VitalSignDetailBea
 
         for (int i = 0; i < listTitle.size(); i++) {
             TextView textView = new TextView(context);
-            String tvstr = map.get((listTitle.get(i).getCode())+"")+"";
+            String tvstr = item.get((listTitle.get(i).getCode())+"")+"";
             textView.setText(tvstr);
             textView.setLayoutParams(params);
             textView.setGravity(Gravity.CENTER);

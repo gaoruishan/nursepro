@@ -8,6 +8,7 @@ import com.dhcc.nursepro.workarea.vitalsigndetail.bean.VitalSignDetailBean;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class VitalSignDetailApiManager {
 
@@ -23,6 +24,8 @@ public class VitalSignDetailApiManager {
                 } else {
                     try {
                         VitalSignDetailBean vitalSignDetailBean = gson.fromJson(jsonStr, VitalSignDetailBean.class);
+                        Map JsonMap = gson.fromJson(jsonStr,Map.class);
+                        vitalSignDetailBean.setMap(JsonMap);
                         if (ObjectUtils.isEmpty(vitalSignDetailBean)) {
                             callback.onFail("-3", "网络错误，数据解析为空");
                         } else {

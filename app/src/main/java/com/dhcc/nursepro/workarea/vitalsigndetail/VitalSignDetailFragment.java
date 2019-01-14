@@ -33,6 +33,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class VitalSignDetailFragment extends BaseFragment implements View.OnClickListener, OnDateSetListener {
 
@@ -40,7 +41,8 @@ public class VitalSignDetailFragment extends BaseFragment implements View.OnClic
     private LinearLayout llvid,lllist;
     private TextView tvEndate, tvStdate,tvcode,tvdatetime;
     private LinearLayout llEmpty;
-    private List<VitalSignDetailBean.TempDataListBean> listBeans;
+//    private List<VitalSignDetailBean.TempDataListBean> listBeans;
+    private List<Map> listMap;
     private List<VitalSignDetailBean.TempConfigBean> listBeansTitle;
     private VitalSignDetailAdapter vitalSignDetailAdapter;
     private SPUtils spUtils = SPUtils.getInstance();
@@ -95,14 +97,14 @@ public class VitalSignDetailFragment extends BaseFragment implements View.OnClic
         recyclerView = view.findViewById(R.id.recy_vitalsign_detail);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        vitalSignDetailAdapter = new VitalSignDetailAdapter(new ArrayList<VitalSignDetailBean.TempDataListBean>(),getContext());
+        vitalSignDetailAdapter = new VitalSignDetailAdapter(new ArrayList<Map>(),getContext());
         recyclerView.setAdapter(vitalSignDetailAdapter);
         vitalSignDetailAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                VitalSignDetailBean.TempDataListBean bean = listBeans.get(position);
-                mBundle.putString("time",bean.getTime());
-                mBundle.putString("date",bean.getDate());
+                Map bean = listMap.get(position);
+                mBundle.putString("time",bean.get("time").toString());
+                mBundle.putString("date",bean.get("date").toString());
                 startFragment(VitalSignRecordFragment.class,mBundle);
             }
         });
@@ -116,9 +118,11 @@ public class VitalSignDetailFragment extends BaseFragment implements View.OnClic
         VitalSignDetailApiManager.getVitalSignDetail(map, new VitalSignDetailApiManager.GetEventsResultMsgCallBack() {
             @Override
             public void onSuccess(VitalSignDetailBean vitalSignDetailBean) {
-                listBeans = vitalSignDetailBean.getTempDataList();
+//                listBeans = vitalSignDetailBean.getTempDataList();
                 listBeansTitle = vitalSignDetailBean.getTempConfig();
-                if (listBeans.size() == 0) {
+//                List list = new ArrayList<Map>();
+                listMap = (List) vitalSignDetailBean.getMap().get("tempDataList");
+                if (listMap.size() == 0) {
                     llEmpty.setVisibility(View.VISIBLE);
                     lllist.setVisibility(View.GONE);
                 } else {
@@ -127,7 +131,7 @@ public class VitalSignDetailFragment extends BaseFragment implements View.OnClic
                 }
 
                 vitalSignDetailAdapter.setListTitle(listBeansTitle);
-                vitalSignDetailAdapter.setNewData(listBeans);
+                vitalSignDetailAdapter.setNewData(listMap);
                 vitalSignDetailAdapter.notifyDataSetChanged();
 
                 initTitle(listBeansTitle);

@@ -1,6 +1,7 @@
 package com.dhcc.nursepro.workarea.vitalsigndetail.bean;
 
 import java.util.List;
+import java.util.Map;
 
 public class VitalSignDetailBean {
 
@@ -21,6 +22,15 @@ public class VitalSignDetailBean {
     private String status;
     private List<TempConfigBean> tempConfig;
     private List<TempDataListBean> tempDataList;
+    private Map map;
+
+    public Map getMap(){
+        return map;
+    }
+
+    public void setMap(Map map) {
+        this.map = map;
+    }
 
     public String getEndDate() {
         return endDate;
