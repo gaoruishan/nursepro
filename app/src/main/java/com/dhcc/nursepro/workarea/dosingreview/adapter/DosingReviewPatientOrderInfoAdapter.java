@@ -60,7 +60,7 @@ public class DosingReviewPatientOrderInfoAdapter extends BaseQuickAdapter<Dosing
             lineorderinfomulti.setVisibility(View.GONE);
             llorderinfomulti2.setVisibility(View.GONE);
             helper.setText(R.id.tv_drporderinfo_ordername, orderInfoBean.getArcimDesc())
-                    .setText(R.id.tv_drporderinfo_orderdatetime, orderInfoBean.getSttDateTime().substring(0, 16))
+                    .setText(R.id.tv_drporderinfo_orderdatetime, orderInfoBean.getSttDateTime())
                     .setText(R.id.tv_drporderinfo_orderoperate, orderInfoBean.getPhcinDesc())
                     .setText(R.id.tv_drporderinfo_orderdose, orderInfoBean.getDoseQtyUnit())
                     .setText(R.id.tv_drporderinfo_orderfrequency, orderInfoBean.getPhcfrCode())
@@ -79,7 +79,7 @@ public class DosingReviewPatientOrderInfoAdapter extends BaseQuickAdapter<Dosing
                 lineorderinfomulti.setVisibility(View.VISIBLE);
                 llorderinfomulti2.setVisibility(View.VISIBLE);
                 helper.setText(R.id.tv_drporderinfo_orderdose1, orderInfoBean.getDoseQtyUnit())
-                        .setText(R.id.tv_drporderinfo_orderdatetime2, orderInfoBean.getSttDateTime().substring(0, 16))
+                        .setText(R.id.tv_drporderinfo_orderdatetime2, orderInfoBean.getSttDateTime())
                         .setText(R.id.tv_drporderinfo_orderoperate2, orderInfoBean.getPhcinDesc())
                         .setText(R.id.tv_drporderinfo_orderfrequency2, orderInfoBean.getPhcfrCode())
                         .setText(R.id.tv_drporderinfo_ordercreator2, orderInfoBean.getCtcpDesc());

@@ -59,7 +59,7 @@ public class OrderExecutePatientOrderInfoAdapter extends BaseQuickAdapter<OrderE
             tvOrderType.setText(typeStr[0]);
             myGrad.setColor(Color.parseColor(typeStr[1]));
             helper.setText(R.id.tv_oeporderinfo_ordername, orderInfoBean.getArcimDesc())
-                    .setText(R.id.tv_oeporderinfo_orderdatetime, orderInfoBean.getSttDateTime().substring(0, 16))
+                    .setText(R.id.tv_oeporderinfo_orderdatetime, orderInfoBean.getSttDateTime())
                     .setText(R.id.tv_oeporderinfo_orderoperate, orderInfoBean.getPhcinDesc())
                     .setText(R.id.tv_oeporderinfo_orderdose, orderInfoBean.getDoseQtyUnit())
                     .setText(R.id.tv_oeporderinfo_orderfrequency, orderInfoBean.getPhcfrCode())
@@ -81,7 +81,7 @@ public class OrderExecutePatientOrderInfoAdapter extends BaseQuickAdapter<OrderE
                 lineorderinfomulti.setVisibility(View.VISIBLE);
                 llorderinfomulti2.setVisibility(View.VISIBLE);
                 helper.setText(R.id.tv_oeporderinfo_orderdose1, orderInfoBean.getDoseQtyUnit())
-                        .setText(R.id.tv_oeporderinfo_orderdatetime2, orderInfoBean.getSttDateTime().substring(0, 16))
+                        .setText(R.id.tv_oeporderinfo_orderdatetime2, orderInfoBean.getSttDateTime())
                         .setText(R.id.tv_oeporderinfo_orderoperate2, orderInfoBean.getPhcinDesc())
                         .setText(R.id.tv_oeporderinfo_orderfrequency2, orderInfoBean.getPhcfrCode())
                         .setText(R.id.tv_oeporderinfo_ordercreator2, orderInfoBean.getCtcpDesc());

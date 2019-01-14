@@ -1,9 +1,6 @@
 package com.dhcc.nursepro.workarea.vitalsigndetail.api;
 
 import com.blankj.utilcode.util.ObjectUtils;
-import com.dhcc.nursepro.workarea.patevents.bean.EventItemBean;
-import com.dhcc.nursepro.workarea.patevents.bean.PatEventsBean;
-import com.dhcc.nursepro.workarea.patevents.bean.ScanGetUserMsgBean;
 import com.dhcc.nursepro.workarea.vitalsigndetail.bean.VitalSignDetailBean;
 import com.google.gson.Gson;
 

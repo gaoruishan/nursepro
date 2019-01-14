@@ -279,7 +279,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                             ordersBeanList.remove(0);
                             execOrderDialog.setChildOrders(ordersBeanList);
                         }
-                        execOrderDialog.setOrderInfoEx(ordersBean.getSttDateTime().substring(0, 16) + " " + ordersBean.getPhcinDesc() + " " + ordersBean.getCtcpDesc());
+                        execOrderDialog.setOrderInfoEx(ordersBean.getSttDateTime() + " " + ordersBean.getPhcinDesc() + " " + ordersBean.getCtcpDesc());
                         execOrderDialog.show();
                         execOrderDialog.setSureOnclickListener(new OrderExecOrderDialog.onSureOnclickListener() {
                             @Override
