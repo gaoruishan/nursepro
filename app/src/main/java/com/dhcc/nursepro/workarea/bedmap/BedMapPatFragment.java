@@ -54,8 +54,8 @@ public class BedMapPatFragment extends BaseFragment implements View.OnClickListe
 
 
     private BedMapBean.PatInfoListBean patInfoListBean;
-    private BedMapBean.PatInfoListBean.PatInfoDetailBean patInfoDetailBean;
 
+    private String jsonMap = "";
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_bedmap_pat, container, false);
@@ -66,7 +66,7 @@ public class BedMapPatFragment extends BaseFragment implements View.OnClickListe
         super.onViewCreated(view, savedInstanceState);
         Bundle bundle = getArguments();
         patInfoListBean = (BedMapBean.PatInfoListBean) bundle.getSerializable("patinfo");
-        patInfoDetailBean = patInfoListBean.getPatInfoDetail();
+        jsonMap = bundle.getString("jsonmap");
 
         //状态栏 背景 默认蓝色
         setStatusBarBackgroundViewVisibility(true, 0xffffffff);
@@ -209,7 +209,7 @@ public class BedMapPatFragment extends BaseFragment implements View.OnClickListe
         Bundle bundle = new Bundle();
         switch (v.getId()) {
             case R.id.ll_bedmappat_info://基本信息
-                bundle.putSerializable("patinfo",patInfoDetailBean);
+                bundle.putString("jsonmap",jsonMap);
                 startFragment(BedMapPatInfoFragment.class,bundle);
                 break;
             case R.id.ll_bedmappat_order://医嘱单

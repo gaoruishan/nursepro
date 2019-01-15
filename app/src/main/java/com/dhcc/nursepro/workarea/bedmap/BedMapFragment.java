@@ -27,6 +27,7 @@ import com.dhcc.nursepro.workarea.bedmap.adapter.BedMapPatientTypeAdapter;
 import com.dhcc.nursepro.workarea.bedmap.api.BedMapApiManager;
 import com.dhcc.nursepro.workarea.bedmap.bean.BedMapBean;
 import com.dhcc.nursepro.workarea.bedmap.bean.ScanResultBean;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -159,8 +160,13 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 BedMapBean.PatInfoListBean patInfoListBean = (BedMapBean.PatInfoListBean) adapter.getItem(position);
+                Gson gson = new Gson();
+                Map map = patInfoMapList.get(position);
+                String jsonMap = gson.toJson(map);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("patinfo", patInfoListBean);
+                bundle.putString("jsonmap",jsonMap);
+
                 startFragment(BedMapPatFragment.class, bundle);
             }
         });
