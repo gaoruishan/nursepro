@@ -18,8 +18,8 @@ public class VitalSignApiManager {
      * @param date     日期时间点
      * @param callback
      */
-    public static void getVitalSignList(String date, final VitalSignApiManager.GetVitalSignListCallback callback) {
-        VitalSignApiService.getVitalSignList(date, new VitalSignApiService.ServiceCallBack() {
+    public static void getVitalSignList(String date,String time, final VitalSignApiManager.GetVitalSignListCallback callback) {
+        VitalSignApiService.getVitalSignList(date,time, new VitalSignApiService.ServiceCallBack() {
 
             @Override
             public void onResult(String jsonStr) {

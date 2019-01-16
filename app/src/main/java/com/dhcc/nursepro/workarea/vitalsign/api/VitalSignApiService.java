@@ -16,7 +16,7 @@ public class VitalSignApiService {
      * @param date 日期时间点
      * @param callback
      */
-    public static void getVitalSignList(String date, final VitalSignApiService.ServiceCallBack callback ){
+    public static void getVitalSignList(String date,String time,final VitalSignApiService.ServiceCallBack callback ){
 
         HashMap<String, String> properties = new HashMap<String, String>();
         //病区id
@@ -26,7 +26,15 @@ public class VitalSignApiService {
         //科室id
         properties.put("locId", SPUtils.getInstance().getString("LOCID"));
         //日期
+        if ("".equals(date)){
+            date = null;
+        }
+        if ("".equals(time)){
+            time = null;
+        }
         properties.put("date", date);
+        properties.put("time", time);
+
         WebServiceUtils.callWebService("getTempPatList", properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {

@@ -70,7 +70,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
 
 
     private String topFilterStr = "inBedAll";
-    private String timeFilterStr = "06:00";
+    private String timeFilterStr = "";
     private String dateFilterStr = "";
     private Boolean bResetting = false;
 
@@ -92,7 +92,9 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
 
         initView(view);
         initAdapter();
-        initData();
+
+        //不用本地时间，用后台返回的时间
+//        initData();
         view.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -266,7 +268,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
     private void asyncInitData() {
         showLoadingTip(BaseActivity.LoadingType.FULL);
 
-        VitalSignApiManager.getVitalSignList(dateFilterStr, new VitalSignApiManager.GetVitalSignListCallback() {
+        VitalSignApiManager.getVitalSignList(dateFilterStr,timeFilterStr, new VitalSignApiManager.GetVitalSignListCallback() {
             @Override
             public void onSuccess(Map<String, Object> map) {
 
@@ -275,6 +277,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                 patientList = (ArrayList) map.get("patInfoList");
                 timeFilterList = (ArrayList) map.get("timeSelect");
                 timeFilterStr = (String) map.get("timePoint");
+                dateFilterStr = (String) map.get("datePoint");
                 tvVitalSignChooseTime.setText(dateFilterStr + "  " + timeFilterStr);
 
                 typeAdapter.setNewData(leftFilterList);
@@ -614,21 +617,24 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
     @Override
     public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
 
-        String date = TimeUtils.millis2String(millseconds).substring(0, 11);
+        String date = TimeUtils.millis2String(millseconds).substring(0, 10);
         String time = TimeUtils.millis2String(millseconds).substring(11, 16);
 
-        if (!date.equals(dateFilterStr)) {
+        if (!date.equals(dateFilterStr) || !time.equals(timeFilterStr)) {
             //日期发生改变，需重新请求数据
+            Boolean b1 = !date.equals(dateFilterStr);
+            Boolean b2 = !time.equals(timeFilterStr);
             dateFilterStr = date;
+            timeFilterStr = time;
             asyncInitData();
         }
 
-        if (!time.equals(timeFilterStr)) {
-            timeFilterStr = time;
-            updatePatientData();
-        }
+//        if (!time.equals(timeFilterStr)) {
+//            timeFilterStr = time;
+//            updatePatientData();
+//        }
 
-        tvVitalSignChooseTime.setText(TimeUtils.millis2String(millseconds).substring(0, 16));
+//        tvVitalSignChooseTime.setText(TimeUtils.millis2String(millseconds).substring(0, 16));
     }
 
 

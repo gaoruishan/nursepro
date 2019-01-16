@@ -151,7 +151,7 @@
                     android:id="@+id/tv_vitalsign_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="2018-11-15 06:00"
+                    tools:text="2018-11-15 06:00"
                     android:textSize="13sp" />
             </LinearLayout>
 
