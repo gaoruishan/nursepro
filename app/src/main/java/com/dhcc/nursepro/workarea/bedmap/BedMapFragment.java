@@ -58,7 +58,10 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
     private List<BedMapBean.PatInfoListBean> patInfoListBeanList;
     private List<BedMapBean.TopFilterBean> topFilterBeanList;
 
+    //所有患者信息
     private List<Map<String, String>> patInfoMapList;
+    //展示的患者信息
+    private List<Map<String, String>> patInfoMapListShow;
 
     private String bedCode = "";
     private String topFilterStr = "inBedAll";
@@ -161,7 +164,7 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 BedMapBean.PatInfoListBean patInfoListBean = (BedMapBean.PatInfoListBean) adapter.getItem(position);
                 Gson gson = new Gson();
-                Map map = patInfoMapList.get(position);
+                Map map = patInfoMapListShow.get(position);
                 String jsonMap = gson.toJson(map);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("patinfo", patInfoListBean);
@@ -187,7 +190,7 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
                 patInfoListBeanList = bedMapBean.getPatInfoList();
 
                 patInfoMapList = (List<Map<String, String>>) bedMapMap.get("patInfoList");
-
+                patInfoMapListShow = patInfoMapList;
                 bedMapPatientTypeAdapter.setNewData(leftFilterBeanList);
 
                 for (int i = 0; i < topFilterBeanList.size(); i++) {
@@ -230,6 +233,7 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
     private void setData(String bedCode, String topFilterStr, String leftFilterStr) {
         List<BedMapBean.PatInfoListBean> displayList = new ArrayList<>();
 
+        patInfoMapListShow = new ArrayList<>();
         for (int i = 0; i < patInfoMapList.size(); i++) {
             BedMapBean.PatInfoListBean patInfoListBean = patInfoListBeanList.get(i);
             Map<String, String> patInfoMap = patInfoMapList.get(i);
@@ -252,6 +256,7 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
 
             if (bednomatch && topmatch && leftmatch) {
                 displayList.add(patInfoListBean);
+                patInfoMapListShow.add(patInfoMapList.get(i));
             }
         }
 
