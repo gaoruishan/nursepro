@@ -7,8 +7,8 @@ android {
         applicationId "com.dhcc.nursepro"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
@@ -20,6 +20,16 @@ android {
             storeFile file('sign/ControlKey.jks')
             storePassword 'cdeffg@2018'
         }
+    }
+
+    //release版本输出包名自动追加版本号和版本名称
+    applicationVariants.all {
+        variant ->
+            variant.outputs.all {
+                if (buildType.name == 'release') {
+                    outputFileName = "MobileNurse_" + defaultConfig.versionCode +"_"+new Date().format("yyyy-MM-dd")+".apk"
+                }
+            }
     }
     buildTypes {
         release {
