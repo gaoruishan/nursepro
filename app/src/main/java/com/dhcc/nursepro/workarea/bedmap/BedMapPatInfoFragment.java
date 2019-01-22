@@ -4,27 +4,22 @@ package com.dhcc.nursepro.workarea.bedmap;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.bedmap.adapter.BedMapPatInfoDetailAdapter;
-import com.dhcc.nursepro.workarea.bedmap.bean.BedMapBean;
 import com.google.gson.Gson;
-import com.jzxiang.pickerview.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedMap;
 
 /**
  * BedMapPatInfoFragment
@@ -35,7 +30,7 @@ import java.util.SortedMap;
  */
 public class BedMapPatInfoFragment extends BaseFragment {
 
-    private HashMap<String,String> paMap = new HashMap<String, String>();
+    private HashMap<String,String> paMap = new HashMap<>();
     private List<HashMap<String,String>> list = new ArrayList<>();
     private RecyclerView recPatInfo;
     private BedMapPatInfoDetailAdapter bedMapPatInfoDetailAdapter;
@@ -89,7 +84,7 @@ public class BedMapPatInfoFragment extends BaseFragment {
         recPatInfo.setHasFixedSize(true);
         //设置的布局管理
         recPatInfo.setLayoutManager(new LinearLayoutManager(getActivity()));
-        bedMapPatInfoDetailAdapter = new BedMapPatInfoDetailAdapter(new ArrayList<HashMap<String, String>>());
+        bedMapPatInfoDetailAdapter = new BedMapPatInfoDetailAdapter(new ArrayList<>());
         recPatInfo.setAdapter(bedMapPatInfoDetailAdapter);
 
     }

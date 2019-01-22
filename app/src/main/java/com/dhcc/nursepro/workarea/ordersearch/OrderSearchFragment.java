@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
@@ -21,7 +20,6 @@ import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.constant.SharedPreference;
-import com.dhcc.nursepro.workarea.bedmap.bean.BedMapBean;
 import com.dhcc.nursepro.workarea.bedselect.BedSelectFragment;
 import com.dhcc.nursepro.workarea.ordersearch.adapter.OrderSearchOrderTypeAdapter;
 import com.dhcc.nursepro.workarea.ordersearch.adapter.OrderSearchPatientAdapter;
@@ -155,7 +153,7 @@ public class OrderSearchFragment extends BaseFragment implements View.OnClickLis
                 asyncInitData();
 
                 //左侧刷新分类选中状态显示
-                orderTypeAdapter.setSelectedPostion(position);
+                orderTypeAdapter.setSelectedCode(sheetCode);
                 orderTypeAdapter.notifyDataSetChanged();
 
             }
@@ -179,7 +177,21 @@ public class OrderSearchFragment extends BaseFragment implements View.OnClickLis
                 detailColums = orderSearchBean.getDetailColums();
                 orders = orderSearchBean.getOrders();
                 if ("1".equals(pageNo)) {
+
+                    //左侧列表判断有无默认值，有的话滑动到默认值类型
+                    if (!"".equals(orderSearchBean.getSheetDefCode())) {
+                        orderTypeAdapter.setSelectedCode(orderSearchBean.getSheetDefCode());
+                    }
                     orderTypeAdapter.setNewData(sheetList);
+                    if (!"".equals(orderSearchBean.getSheetDefCode())) {
+                        for (int i = 0; i < sheetList.size(); i++) {
+                            if (sheetList.get(i).getCode().equals(orderSearchBean.getSheetDefCode())) {
+                                recyOrdersearchOrdertype.scrollToPosition(i);
+                                break;
+                            }
+                        }
+                    }
+
                     patientAdapter.setDetailColums(detailColums);
                     patientAdapter.setNewData(orders);
                     if (orders.size() == 0) {

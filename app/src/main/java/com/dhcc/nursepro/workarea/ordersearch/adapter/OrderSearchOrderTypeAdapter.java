@@ -20,18 +20,14 @@ import java.util.List;
  * @date 2018/8/24
  */
 public class OrderSearchOrderTypeAdapter extends BaseQuickAdapter<OrderSearchBean.SheetListBean, BaseViewHolder> {
-    private int selectedPostion;
+    private String selectedCode;
 
     public OrderSearchOrderTypeAdapter(@Nullable List<OrderSearchBean.SheetListBean> data) {
         super(R.layout.item_ordersearch_ordertype, data);
     }
 
-    public int getSelectedPostion() {
-        return selectedPostion;
-    }
-
-    public void setSelectedPostion(int selectedPostion) {
-        this.selectedPostion = selectedPostion;
+    public void setSelectedCode(String selectedCode) {
+        this.selectedCode = selectedCode;
     }
 
     @Override
@@ -40,17 +36,33 @@ public class OrderSearchOrderTypeAdapter extends BaseQuickAdapter<OrderSearchBea
         View viewOrderType = helper.getView(R.id.view_ordersearch_ordertype);
 
         TextView tvOrderType = helper.getView(R.id.tv_ordersearch_ordertype);
-        if (selectedPostion == helper.getAdapterPosition()) {
-            llOrderType.setSelected(true);
-            tvOrderType.setTextColor(mContext.getResources().getColor(R.color.ordersearch_left_text_selected_color));
-            tvOrderType.setTypeface(Typeface.DEFAULT_BOLD);
-            viewOrderType.setVisibility(View.VISIBLE);
+        if (selectedCode == null || "".equals(selectedCode)) {
+            if (0 == helper.getAdapterPosition()) {
+                llOrderType.setSelected(true);
+                tvOrderType.setTextColor(mContext.getResources().getColor(R.color.ordersearch_left_text_selected_color));
+                tvOrderType.setTypeface(Typeface.DEFAULT_BOLD);
+                viewOrderType.setVisibility(View.VISIBLE);
 
+            } else {
+                llOrderType.setSelected(false);
+                tvOrderType.setTextColor(mContext.getResources().getColor(R.color.ordersearch_left_text_normal_color));
+                tvOrderType.setTypeface(Typeface.DEFAULT);
+                viewOrderType.setVisibility(View.INVISIBLE);
+            }
         } else {
-            llOrderType.setSelected(false);
-            tvOrderType.setTextColor(mContext.getResources().getColor(R.color.ordersearch_left_text_normal_color));
-            tvOrderType.setTypeface(Typeface.DEFAULT);
-            viewOrderType.setVisibility(View.INVISIBLE);
+
+            if (selectedCode.equals(item.getCode())) {
+                llOrderType.setSelected(true);
+                tvOrderType.setTextColor(mContext.getResources().getColor(R.color.ordersearch_left_text_selected_color));
+                tvOrderType.setTypeface(Typeface.DEFAULT_BOLD);
+                viewOrderType.setVisibility(View.VISIBLE);
+
+            } else {
+                llOrderType.setSelected(false);
+                tvOrderType.setTextColor(mContext.getResources().getColor(R.color.ordersearch_left_text_normal_color));
+                tvOrderType.setTypeface(Typeface.DEFAULT);
+                viewOrderType.setVisibility(View.INVISIBLE);
+            }
         }
 
         helper.setText(R.id.tv_ordersearch_ordertype, item.getDesc());

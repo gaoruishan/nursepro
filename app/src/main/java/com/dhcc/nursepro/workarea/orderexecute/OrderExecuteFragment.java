@@ -152,7 +152,6 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     private String episodeId = "";
 
 
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -206,43 +205,43 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 //ORD 扫医嘱条码返回医嘱信息
                 if ("PAT".equals(scanResultBean.getFlag())) {
 
-                    if ("104999".equals(scanResultBean.getMsgcode())){
+                    if ("104999".equals(scanResultBean.getMsgcode())) {
 
-                            if (execResultDialog != null && execResultDialog.isShowing()) {
+                        if (execResultDialog != null && execResultDialog.isShowing()) {
+                            execResultDialog.dismiss();
+                        }
+                        execResultDialog = new OrderExecResultDialog(getActivity());
+                        execResultDialog.setExecresult(scanResultBean.getMsg() + "是否继续执行医嘱？");
+                        execResultDialog.setImgId(R.drawable.icon_popup_error_patient);
+                        execResultDialog.setSureVisible(View.VISIBLE);
+                        execResultDialog.setCancleVisible(View.VISIBLE);
+                        execResultDialog.setSureOnclickListener(new OrderExecResultDialog.onSureOnclickListener() {
+                            @Override
+                            public void onSureClick() {
+                                execResultDialog.dismiss();
+                                ScanResultBean.PatInfoBean patInfoBean = scanResultBean.getPatInfo();
+                                episodeId = patInfoBean.getEpisodeID();
+                                regNo = patInfoBean.getRegNo();
+                                tvOrderexecutePatinfo.setText("".equals(patInfoBean.getBedCode()) ? "未分床  " + patInfoBean.getName() : patInfoBean.getBedCode() + "  " + patInfoBean.getName());
+                                patInfo = patInfoBean.getBedCode() + "-" + patInfoBean.getName() + "-" + patInfoBean.getSex() + "-" + patInfoBean.getAge();
+                                rlOrderexecuteScan.setVisibility(View.GONE);
+                                getView().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        asyncInitData();
+                                    }
+                                }, 300);
+                            }
+                        });
+                        execResultDialog.setCancelOnclickListener(new OrderExecResultDialog.onCancelOnclickListener() {
+                            @Override
+                            public void onCancelClick() {
                                 execResultDialog.dismiss();
                             }
-                            execResultDialog = new OrderExecResultDialog(getActivity());
-                            execResultDialog.setExecresult(scanResultBean.getMsg()+"是否继续执行医嘱？");
-                            execResultDialog.setImgId(R.drawable.icon_popup_error_patient);
-                            execResultDialog.setSureVisible(View.VISIBLE);
-                            execResultDialog.setCancleVisible(View.VISIBLE);
-                            execResultDialog.setSureOnclickListener(new OrderExecResultDialog.onSureOnclickListener() {
-                                @Override
-                                public void onSureClick() {
-                                    execResultDialog.dismiss();
-                                    ScanResultBean.PatInfoBean patInfoBean = scanResultBean.getPatInfo();
-                                    episodeId = patInfoBean.getEpisodeID();
-                                    regNo = patInfoBean.getRegNo();
-                                    tvOrderexecutePatinfo.setText("".equals(patInfoBean.getBedCode()) ? "未分床  " + patInfoBean.getName() : patInfoBean.getBedCode() + "  " + patInfoBean.getName());
-                                    patInfo = patInfoBean.getBedCode() + "-" + patInfoBean.getName() + "-" + patInfoBean.getSex() + "-" + patInfoBean.getAge();
-                                    rlOrderexecuteScan.setVisibility(View.GONE);
-                                    getView().postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            asyncInitData();
-                                        }
-                                    }, 300);
-                                }
-                            });
-                            execResultDialog.setCancelOnclickListener(new OrderExecResultDialog.onCancelOnclickListener() {
-                                @Override
-                                public void onCancelClick() {
-                                    execResultDialog.dismiss();
-                                }
-                            });
-                            execResultDialog.show();
+                        });
+                        execResultDialog.show();
 
-                    }else {
+                    } else {
                         rlOrderexecuteScan.setVisibility(View.GONE);
                         ScanResultBean.PatInfoBean patInfoBean = scanResultBean.getPatInfo();
                         episodeId = patInfoBean.getEpisodeID();
@@ -389,7 +388,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 asyncInitData();
 
                 //左侧刷新分类选中状态显示
-                orderTypeAdapter.setSelectedPostion(position);
+                orderTypeAdapter.setSelectedCode(sheetCode);
                 orderTypeAdapter.notifyDataSetChanged();
             }
         });
@@ -403,17 +402,17 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 OrderExecuteBean.OrdersBean.PatOrdsBean patOrdsBean = patOrders.get(position).get(0);
                 if (view.getId() == R.id.ll_oepat_orderselect) {
-                    if ("PSD".equals(sheetCode)){
+                    if ("PSD".equals(sheetCode)) {
                         llorderexecuteselectnum.setVisibility(View.GONE);
-                    }else {
+                    } else {
                         llorderexecuteselectnum.setVisibility(View.VISIBLE);
                     }
 
-                        if (patOrdsBean.getSelect() == null || "0".equals(patOrdsBean.getSelect()) || "".equals(patOrdsBean.getSelect())) {
-                            patOrdsBean.setSelect("1");
-                        } else {
-                            patOrdsBean.setSelect("0");
-                        }
+                    if (patOrdsBean.getSelect() == null || "0".equals(patOrdsBean.getSelect()) || "".equals(patOrdsBean.getSelect())) {
+                        patOrdsBean.setSelect("1");
+                    } else {
+                        patOrdsBean.setSelect("0");
+                    }
                     patientOrderAdapter.notifyItemChanged(position);
                     if (llOrderexecuteSelectbottom.getVisibility() == View.VISIBLE || llOrderexecuteNoselectbottom.getVisibility() == View.VISIBLE) {
                         refreshBottom();
@@ -482,7 +481,21 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 }
                 patientOrderAdapter.setNewData(patOrders);
                 patientOrderAdapter.loadMoreEnd();
+
+                //左侧列表判断有无默认值，有的话滑动到默认值类型
+                if (!"".equals(orderExecuteBean.getSheetDefCode())) {
+                    orderTypeAdapter.setSelectedCode(orderExecuteBean.getSheetDefCode());
+                }
                 orderTypeAdapter.setNewData(sheetList);
+
+                if (!"".equals(orderExecuteBean.getSheetDefCode())) {
+                    for (int i = 0; i < sheetList.size(); i++) {
+                        if (sheetList.get(i).getCode().equals(orderExecuteBean.getSheetDefCode())) {
+                            recyOrderexecuteOrdertype.scrollToPosition(i);
+                            break;
+                        }
+                    }
+                }
 
             }
 
@@ -500,7 +513,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
      * 扫码执行
      */
     private void execOrSeeOrderScan(String oeoreIdScan, String execStatusCodeScan) {
-        OrderExecuteApiManager.execOrSeeOrder( "1","","" ,"" ,oeoreIdScan, execStatusCodeScan, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
+        OrderExecuteApiManager.execOrSeeOrder("1", "", "", "", oeoreIdScan, execStatusCodeScan, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
             @Override
             public void onSuccess(OrderExecResultBean orderExecResultBean) {
 
@@ -630,7 +643,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 tvBottomUndo.setText(buttons.get(1).getDesc().replace("医嘱", ""));
                 tvBottomTodo.setVisibility(View.VISIBLE);
                 tvBottomTodo.setText(buttons.get(0).getDesc().replace("医嘱", ""));
-            }else if (buttons.size() == 3){
+            } else if (buttons.size() == 3) {
                 tvBottomUndo.setVisibility(View.VISIBLE);
                 tvBottomUndo.setText(buttons.get(1).getDesc().replace("医嘱", ""));
                 tvBottomTodo.setVisibility(View.VISIBLE);
@@ -708,7 +721,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                         if (oeoreId.split("\\^").length > 1) {
                             showToast("皮试结果只能逐一设置，请选择单条医嘱执行");
                             break;
-                        }else {
+                        } else {
                             {
 
                                 if (skinResultOrderDialog != null && skinResultOrderDialog.isShowing()) {
@@ -727,7 +740,8 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                                             skinUserCode = skinResultOrderDialog.getNurName();
                                             skinUserPass = skinResultOrderDialog.getNurPass();
                                             skinResultOrderDialog.dismiss();
-                                            execOrSeeOrder();                            }
+                                            execOrSeeOrder();
+                                        }
                                     });
 
                                     skinResultOrderDialog.setCancelOnclickListener(new SkinResultOrderDialog.onCancelOnclickListener() {
@@ -782,7 +796,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     }
 
     private void execOrSeeOrder() {
-        OrderExecuteApiManager.execOrSeeOrder("0",skinBatch,skinUserCode,skinUserPass,oeoreId, execStatusCode, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
+        OrderExecuteApiManager.execOrSeeOrder("0", skinBatch, skinUserCode, skinUserPass, oeoreId, execStatusCode, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
             @Override
             public void onSuccess(OrderExecResultBean orderExecResultBean) {
                 skinBatch = "";

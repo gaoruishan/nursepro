@@ -13,12 +13,11 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.support.annotation.Nullable;
-import android.support.v7.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.constant.Action;
-import com.dhcc.nursepro.workarea.patevents.PatEventsFragment;
 
 public class MyService extends Service {
     private Vibrator vibrator;
@@ -26,19 +25,13 @@ public class MyService extends Service {
 
     private IntentFilter intentFilter;
     private DataReceiver dataReceiver = null;
-    private  Context context;
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        Toast.makeText(this,"----",Toast.LENGTH_LONG).show();
-        return null;
-    }
+    private Context context;
 
     @Override
     public void onCreate() {
         super.onCreate();
         context = this;
-        Toast.makeText(this,"----",Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "----", Toast.LENGTH_LONG).show();
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         vibrator.vibrate(30);
 
@@ -46,21 +39,15 @@ public class MyService extends Service {
         intentFilter = new IntentFilter();
         intentFilter.addAction(Action.DEVICE_SCAN_CODE);
         dataReceiver = new DataReceiver();
-        registerReceiver(dataReceiver,intentFilter);
-//        showNotification(this);
+        registerReceiver(dataReceiver, intentFilter);
+        //        showNotification(this);
     }
 
-    //扫描腕带获取regNo、wardId
-    public class DataReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(Action.DEVICE_SCAN_CODE)){
-                Bundle bundle = new Bundle();
-                bundle = intent.getExtras();
-//                getUserMsg(bundle.getString("data"));
-                showNotification(context);
-            }
-        }
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        Toast.makeText(this, "----", Toast.LENGTH_LONG).show();
+        return null;
     }
 
     private void showNotification(Context context) {
@@ -89,13 +76,26 @@ public class MyService extends Service {
                 .build();
         //        if (LoginUser.SoundF == true)
         notification.defaults |= Notification.DEFAULT_SOUND;
-//        if (LoginUser.VibrateF == true)
+        //        if (LoginUser.VibrateF == true)
         notification.defaults |= Notification.DEFAULT_VIBRATE;
-//        if (LoginUser.LigthF == true)
+        //        if (LoginUser.LigthF == true)
         notification.defaults |= Notification.DEFAULT_LIGHTS;
-                notification.flags |= Notification.FLAG_INSISTENT;
-                notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
-                /**发起通知**/
-                notificationManager.notify(1, notification);
+        notification.flags |= Notification.FLAG_INSISTENT;
+        notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
+        /**发起通知**/
+        notificationManager.notify(1, notification);
+    }
+
+    //扫描腕带获取regNo、wardId
+    public class DataReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(Action.DEVICE_SCAN_CODE)) {
+                Bundle bundle = new Bundle();
+                bundle = intent.getExtras();
+                //                getUserMsg(bundle.getString("data"));
+                showNotification(context);
+            }
+        }
     }
 }

@@ -29,6 +29,12 @@ public class OrderExecuteBean implements Serializable {
     private List<DetailColumsBean> detailColums;
     private List<OrdersBean> orders;
     private List<SheetListBean> sheetList;
+    /**
+     * orders : []
+     * sheetDefCode : DefaultSee
+     */
+
+    private String sheetDefCode;
 
     public String getMsg() {
         return msg;
@@ -84,6 +90,14 @@ public class OrderExecuteBean implements Serializable {
 
     public void setSheetList(List<SheetListBean> sheetList) {
         this.sheetList = sheetList;
+    }
+
+    public String getSheetDefCode() {
+        return sheetDefCode == null ? "" : sheetDefCode;
+    }
+
+    public void setSheetDefCode(String sheetDefCode) {
+        this.sheetDefCode = sheetDefCode;
     }
 
     public static class ButtonsBean implements Serializable {

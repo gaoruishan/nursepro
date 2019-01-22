@@ -1,101 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    >
-<com.guanaj.easyswipemenulibrary.EasySwipeMenuLayout
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-app:contentView="@+id/messagecontentll"
-app:rightMenuView="@+id/messagerightmenu"
-android:background="@color/bg_blue_light">
+    android:orientation="vertical">
 
-<LinearLayout
-    android:id="@+id/messagecontentll"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingBottom="20dp"
-    android:paddingEnd="12dp"
-    android:paddingStart="12dp"
-    android:paddingTop="12dp"
-    android:background="@drawable/bg_labout_white">
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        <TextView
-            android:id="@+id/tv_laboutdetail_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_labout_tv1"
-            android:text="已发送"
-            android:textColor="@color/white"
-            android:paddingBottom="1dp"
-            android:paddingTop="1dp"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"/>
-
-        <TextView
-            android:id="@+id/tv_laboutdetail_desc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:textSize="15sp"
-            android:textColor="@color/black"
-            android:text="B型脑纳肽检测" />
-        <TextView
-            android:id="@+id/tv_laboutdetail_no"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="13sp"
-            android:layout_marginTop="5dp"
-            android:text="1709156472"/>
-        <TextView
-            android:id="@+id/tv_laboutdetail_patinfo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:textSize="12sp"
-            android:text="7床   刘患者"/>
-    </LinearLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <TextView
-            android:id="@+id/tv_labout_specname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:textSize="12sp"
-            android:text="血浆"/>
-    </RelativeLayout>
-</LinearLayout>
-<LinearLayout
-    android:id="@+id/messagerightmenu"
-    android:layout_width="100dp"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:background="@android:color/holo_red_light">
-
-    <TextView
-        android:id="@+id/tv_patevents_eventdel"
+    <com.guanaj.easyswipemenulibrary.EasySwipeMenuLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:gravity="center"
-        android:textSize="14sp"
-        android:text="删除"/>
+        android:background="@color/bg_blue_light"
+        app:contentView="@+id/messagecontentll"
+        app:rightMenuView="@+id/messagerightmenu">
 
-</LinearLayout>
+        <LinearLayout
+            android:id="@+id/messagecontentll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_labout_white"
+            android:paddingStart="12dp"
+            android:paddingTop="12dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="20dp">
 
-</com.guanaj.easyswipemenulibrary.EasySwipeMenuLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_laboutdetail_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_labout_tv1"
+                    android:paddingStart="8dp"
+                    android:paddingTop="1dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="1dp"
+                    android:text="已发送"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/tv_laboutdetail_desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="B型脑纳肽检测"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_laboutdetail_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="1709156472"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/tv_laboutdetail_patinfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="7床   刘患者"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tv_labout_specname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="血浆"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/messagerightmenu"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/holo_red_light"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tv_patevents_eventdel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="删除"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+    </com.guanaj.easyswipemenulibrary.EasySwipeMenuLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="7dp"
-        android:background="@color/bg_blue_light"></View>
+        android:background="@color/bg_blue_light"/>
 </LinearLayout>
