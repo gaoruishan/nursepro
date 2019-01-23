@@ -4,6 +4,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -36,12 +37,24 @@ public class DocOrderListOrdersAdapter extends BaseQuickAdapter<List<DocOrderLis
                     .setText(R.id.tv_item_order_start, item.get(0).getOrdstarttime())
                     .setText(R.id.tv_item_order_ordphcin, item.get(0).getPhcinDesc())
                     .setText(R.id.tv_item_order_ordunit, item.get(0).getPhcfrCode())
-                    .setText(R.id.tv_item_order_orddoc, item.get(0).getCtcpDesc());
+                    .setText(R.id.tv_item_order_orddoc, item.get(0).getCtcpDesc())
+                    .setText(R.id.tv_item_order_stopdate,item.get(0).getStopDate())
+                    .setText(R.id.tv_item_order_stoptime,item.get(0).getStopTime())
+                    .setText(R.id.tv_item_order_stopdoc,item.get(0).getStopDoctor()+"");
             TextView textView = helper.getView(R.id.tv_item_order_priority);
+            TextView tvstop = helper.getView(R.id.tv_item_order_stop);
+            LinearLayout llstop = helper.getView(R.id.ll_item_stoporder);
             if ("长期".equals(item.get(0).getOrdPriority())) {
                 textView.setBackgroundResource(R.drawable.bg_priority_long);
             } else {
                 textView.setBackgroundResource(R.drawable.bg_priority_short);
+            }
+            if ("".equals(item.get(0).getStopDoctor())){
+                llstop.setVisibility(View.GONE);
+                tvstop.setVisibility(View.GONE);
+            }else {
+                llstop.setVisibility(View.VISIBLE);
+                tvstop.setVisibility(View.VISIBLE);
             }
 
             RecyclerView recyclerView = helper.getView(R.id.rec_item_order_name);
