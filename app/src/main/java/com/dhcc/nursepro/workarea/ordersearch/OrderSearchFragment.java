@@ -257,7 +257,7 @@ public class OrderSearchFragment extends BaseFragment implements View.OnClickLis
         asyncInitData();
     }
 
-    private void chooseTime() {
+    private void chooseTime(long currentTimeMillis) {
         long tenYears = 10L * 365 * 1000 * 60 * 60 * 24L;
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -275,8 +275,9 @@ public class OrderSearchFragment extends BaseFragment implements View.OnClickLis
                 .setHourText("时")
                 .setMinuteText("分")
                 .setCyclic(false)
-                .setMinMillseconds(System.currentTimeMillis() - tenYears)
-                .setCurrentMillseconds(calendar.getTimeInMillis())
+                .setMinMillseconds(currentTimeMillis - tenYears)
+                .setMaxMillseconds(currentTimeMillis + tenYears)
+                .setCurrentMillseconds(currentTimeMillis)
                 .setThemeColor(getResources().getColor(R.color.colorPrimary))
                 .setType(Type.ALL)
                 .setWheelItemTextNormalColor(getResources().getColor(R.color.timetimepicker_default_text_color))
@@ -294,12 +295,12 @@ public class OrderSearchFragment extends BaseFragment implements View.OnClickLis
         switch (v.getId()) {
             case R.id.tv_ordersearch_startdatetime:
                 etChangeFlag = "START";
-                chooseTime();
+                chooseTime(TimeUtils.string2Millis(tvOrdersearchStartdatetime.getText().toString() + ":00"));
 
                 break;
             case R.id.tv_ordersearch_enddatetime:
                 etChangeFlag = "END";
-                chooseTime();
+                chooseTime(TimeUtils.string2Millis(tvOrdersearchStartdatetime.getText().toString() + ":00"));
                 break;
             default:
                 break;

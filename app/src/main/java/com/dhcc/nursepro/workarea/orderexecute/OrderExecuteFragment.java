@@ -688,12 +688,12 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
         switch (v.getId()) {
             case R.id.tv_orderexecute_startdatetime:
                 etChangeFlag = "START";
-                chooseTime();
+                chooseTime(TimeUtils.string2Millis(tvOrderexecuteStartdatetime.getText().toString() + ":00"));
 
                 break;
             case R.id.tv_orderexecute_enddatetime:
                 etChangeFlag = "END";
-                chooseTime();
+                chooseTime(TimeUtils.string2Millis(tvOrderexecuteEnddatetime.getText().toString() + ":00"));
                 break;
             case R.id.tv_bottom_handletype:
                 if ("PSD".equals(sheetCode)) {
@@ -764,7 +764,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
         }
     }
 
-    private void chooseTime() {
+    private void chooseTime(long currentTimeMillis) {
         long tenYears = 10L * 365 * 1000 * 60 * 60 * 24L;
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -782,8 +782,9 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 .setHourText("时")
                 .setMinuteText("分")
                 .setCyclic(false)
-                .setMinMillseconds(System.currentTimeMillis() - tenYears)
-                .setCurrentMillseconds(calendar.getTimeInMillis())
+                .setMinMillseconds(currentTimeMillis - tenYears)
+                .setMaxMillseconds(currentTimeMillis + tenYears)
+                .setCurrentMillseconds(currentTimeMillis)
                 .setThemeColor(getResources().getColor(R.color.colorPrimary))
                 .setType(Type.ALL)
                 .setWheelItemTextNormalColor(getResources().getColor(R.color.timetimepicker_default_text_color))

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.TimeUtils;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
@@ -18,7 +19,6 @@ import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -88,11 +88,11 @@ public class SettingDateTimeFragment extends BaseFragment implements View.OnClic
         switch (v.getId()){
             case R.id.tv_setting_starttime:
                 dateStr = "start";
-                chooseTime();
+                chooseTime(TimeUtils.string2Millis(tvStart.getText().toString()));
                 break;
             case R.id.tv_setting_endtime:
                 dateStr = "end";
-                chooseTime();
+                chooseTime(TimeUtils.string2Millis(tvEnd.getText().toString()));
                 break;
             default:
                 break;
@@ -100,9 +100,8 @@ public class SettingDateTimeFragment extends BaseFragment implements View.OnClic
 
     }
 
-    private void chooseTime(){
+    private void chooseTime(long currentTimeMillis){
         long tenYears = 3L * 365 * 1000 * 60 * 60 * 24L;
-        Calendar calendar = Calendar.getInstance();
 
         TimePickerDialog mDialogAll = new TimePickerDialog.Builder()
                 .setCallBack(this)
@@ -115,9 +114,9 @@ public class SettingDateTimeFragment extends BaseFragment implements View.OnClic
                 .setHourText("时")
                 .setMinuteText("分")
                 .setCyclic(true)
-                .setMinMillseconds(System.currentTimeMillis() - tenYears)
-                .setMaxMillseconds(System.currentTimeMillis() + tenYears)
-                .setCurrentMillseconds(calendar.getTimeInMillis())
+                .setMinMillseconds(currentTimeMillis - tenYears)
+                .setMaxMillseconds(currentTimeMillis + tenYears)
+                .setCurrentMillseconds(currentTimeMillis)
                 .setThemeColor(getResources().getColor(R.color.blue))
                 .setType(Type.ALL)
                 .setWheelItemTextNormalColor(getResources().getColor(R.color.timetimepicker_default_text_color))

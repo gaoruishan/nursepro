@@ -23,7 +23,6 @@ import com.dhcc.nursepro.constant.SharedPreference;
 import com.dhcc.nursepro.workarea.allotbed.api.AllotBedApiManager;
 import com.dhcc.nursepro.workarea.allotbed.bean.GetScanPatsBean;
 import com.dhcc.nursepro.workarea.patevents.PatEventsFragment;
-import com.dhcc.nursepro.workarea.patevents.bean.ScanGetUserMsgBean;
 import com.dhcc.nursepro.workarea.vitalsign.adapter.VitalSignPatientAdapter;
 import com.dhcc.nursepro.workarea.vitalsign.adapter.VitalSignTypeAdapter;
 import com.dhcc.nursepro.workarea.vitalsign.api.VitalSignApiManager;
@@ -77,11 +76,6 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
     private SPUtils spUtils = SPUtils.getInstance();
 
     @Override
-    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_vital_sign, container, false);
-    }
-
-    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
@@ -94,7 +88,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
         initAdapter();
 
         //不用本地时间，用后台返回的时间
-//        initData();
+        //        initData();
         view.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -102,7 +96,6 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
             }
         }, 300);
     }
-
 
     private void initView(View view) {
 
@@ -207,68 +200,10 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
 
     }
 
-    //扫码获取信息
-    @Override
-    public void getScanMsg(Intent intent) {
-        super.getScanMsg(intent);
-        if (intent.getAction().equals(Action.DEVICE_SCAN_CODE)) {
-            Bundle bundle = new Bundle();
-            bundle = intent.getExtras();
-            initScanMsg(bundle.getString("data"));
-
-        }
-    }
-    //扫码直接进入
-    private void initScanMsg(String regNo) {
-
-        String wardId = spUtils.getString(SharedPreference.WARDID);
-        HashMap<String, String> mapmsg = new HashMap<String, String>();
-        mapmsg.put("regNo", regNo);
-        mapmsg.put("wardId", wardId);
-        //获取用户信息，跟allotbed共用一个api
-        AllotBedApiManager.getUserMsg(mapmsg, "getPatWristInfo", new AllotBedApiManager.GetUserMsgCallBack() {
-            @Override
-            public void onSuccess(GetScanPatsBean getScanPatsBean) {
-
-
-              for (int i = 0;i<displayList.size();i++){
-                  if ((getScanPatsBean.getPatInfo().getRegNo()).equals(displayList.get(i).get("regNo"))){
-
-                      Map patientInfo = (Map) displayList.get(i);
-                      //体征录入
-                      Bundle bundle = new Bundle();
-                      bundle.putSerializable("info", (Serializable) patientInfo);
-                      bundle.putString("time", timeFilterStr);
-                      bundle.putString("date", dateFilterStr);
-                      bundle.putInt("index", i);
-                      bundle.putSerializable("list", (Serializable) displayList);
-                      bundle.putSerializable("timeList", (Serializable) timeFilterList);
-
-                      startFragment(VitalSignRecordFragment.class, bundle);
-
-                  }
-              }
-            }
-
-            @Override
-            public void onFail(String code, String msg) {
-                showToast("error" + code + ":" + msg);
-            }
-        });
-
-    }
-
-
-
-    private void initData() {
-        dateFilterStr = TimeUtils.getNowString().substring(0, 11);
-        tvVitalSignChooseTime.setText(dateFilterStr + "  " + timeFilterStr);
-    }
-
     private void asyncInitData() {
         showLoadingTip(BaseActivity.LoadingType.FULL);
 
-        VitalSignApiManager.getVitalSignList(dateFilterStr,timeFilterStr, new VitalSignApiManager.GetVitalSignListCallback() {
+        VitalSignApiManager.getVitalSignList(dateFilterStr, timeFilterStr, new VitalSignApiManager.GetVitalSignListCallback() {
             @Override
             public void onSuccess(Map<String, Object> map) {
 
@@ -534,6 +469,68 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
 
     }
 
+    //扫码获取信息
+    @Override
+    public void getScanMsg(Intent intent) {
+        super.getScanMsg(intent);
+        if (intent.getAction().equals(Action.DEVICE_SCAN_CODE)) {
+            Bundle bundle = new Bundle();
+            bundle = intent.getExtras();
+            initScanMsg(bundle.getString("data"));
+
+        }
+    }
+
+    @Override
+    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_vital_sign, container, false);
+    }
+
+    //扫码直接进入
+    private void initScanMsg(String regNo) {
+
+        String wardId = spUtils.getString(SharedPreference.WARDID);
+        HashMap<String, String> mapmsg = new HashMap<String, String>();
+        mapmsg.put("regNo", regNo);
+        mapmsg.put("wardId", wardId);
+        //获取用户信息，跟allotbed共用一个api
+        AllotBedApiManager.getUserMsg(mapmsg, "getPatWristInfo", new AllotBedApiManager.GetUserMsgCallBack() {
+            @Override
+            public void onSuccess(GetScanPatsBean getScanPatsBean) {
+
+
+                for (int i = 0; i < displayList.size(); i++) {
+                    if ((getScanPatsBean.getPatInfo().getRegNo()).equals(displayList.get(i).get("regNo"))) {
+
+                        Map patientInfo = (Map) displayList.get(i);
+                        //体征录入
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("info", (Serializable) patientInfo);
+                        bundle.putString("time", timeFilterStr);
+                        bundle.putString("date", dateFilterStr);
+                        bundle.putInt("index", i);
+                        bundle.putSerializable("list", (Serializable) displayList);
+                        bundle.putSerializable("timeList", (Serializable) timeFilterList);
+
+                        startFragment(VitalSignRecordFragment.class, bundle);
+
+                    }
+                }
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+                showToast("error" + code + ":" + msg);
+            }
+        });
+
+    }
+
+    private void initData() {
+        dateFilterStr = TimeUtils.getNowString().substring(0, 11);
+        tvVitalSignChooseTime.setText(dateFilterStr + "  " + timeFilterStr);
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -565,7 +562,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                 setTopFilterSelect(tvVitalSignWaitarea);
                 break;
             case R.id.tv_vitalsign_time:
-                chooseTime();
+                chooseTime(TimeUtils.string2Millis(dateFilterStr + " 00:00:00"));
                 break;
             default:
                 break;
@@ -573,7 +570,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
         updatePatientData();
     }
 
-    private void chooseTime() {
+    private void chooseTime(long currentTimeMillis) {
         long tenYears = 10L * 365 * 1000 * 60 * 60 * 24L;
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -591,8 +588,9 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                 .setHourText("：00")
                 .setMinuteText("分")
                 .setCyclic(false)
-                .setMinMillseconds(System.currentTimeMillis() - tenYears)
-                .setCurrentMillseconds(calendar.getTimeInMillis())
+                .setMinMillseconds(currentTimeMillis - tenYears)
+                .setMaxMillseconds(currentTimeMillis + tenYears)
+                .setCurrentMillseconds(currentTimeMillis)
                 .setThemeColor(getResources().getColor(R.color.colorPrimary))
                 .setType(Type.ALL)
                 .setWheelItemTextNormalColor(getResources().getColor(R.color.timetimepicker_default_text_color))
@@ -629,12 +627,12 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
             asyncInitData();
         }
 
-//        if (!time.equals(timeFilterStr)) {
-//            timeFilterStr = time;
-//            updatePatientData();
-//        }
+        //        if (!time.equals(timeFilterStr)) {
+        //            timeFilterStr = time;
+        //            updatePatientData();
+        //        }
 
-//        tvVitalSignChooseTime.setText(TimeUtils.millis2String(millseconds).substring(0, 16));
+        //        tvVitalSignChooseTime.setText(TimeUtils.millis2String(millseconds).substring(0, 16));
     }
 
 

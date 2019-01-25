@@ -315,7 +315,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.et_vital_sign_record_time:
-                chooseTime();
+                chooseTime(TimeUtils.string2Millis(dateFilterStr + " " + timeFilterStr+":00"));
                 break;
             case R.id.tv_vitalsign_record_next:
                 nextPatient();
@@ -480,7 +480,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
     /**
      * 选择时间
      */
-    private void chooseTime() {
+    private void chooseTime(long currentTimeMillis) {
         long tenYears = 10L * 365 * 1000 * 60 * 60 * 24L;
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -498,8 +498,9 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
                 .setHourText("：00")
                 .setMinuteText("分")
                 .setCyclic(false)
-                .setMinMillseconds(System.currentTimeMillis() - tenYears)
-                .setCurrentMillseconds(calendar.getTimeInMillis())
+                .setMinMillseconds(currentTimeMillis - tenYears)
+                .setMaxMillseconds(currentTimeMillis + tenYears)
+                .setCurrentMillseconds(currentTimeMillis)
                 .setThemeColor(getResources().getColor(R.color.colorPrimary))
                 .setType(Type.ALL)
                 .setWheelItemTextNormalColor(getResources().getColor(R.color.timetimepicker_default_text_color))

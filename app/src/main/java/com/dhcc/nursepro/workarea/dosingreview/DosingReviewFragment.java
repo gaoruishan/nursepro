@@ -1,7 +1,6 @@
 package com.dhcc.nursepro.workarea.dosingreview;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -31,7 +30,6 @@ import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
@@ -173,12 +171,6 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
         tvDosingreviewReview.setSelected(view == tvDosingreviewReview);
     }
 
-
-    @Override
-    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_dosing_review, container, false);
-    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -218,12 +210,12 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
                 break;
             case R.id.tv_dosingreview_startdate:
                 etChangeFlag = "START";
-                chooseTime();
+                chooseTime(TimeUtils.string2Millis(tvDosingreviewStartdate.getText().toString() + " 00:00:00"));
 
                 break;
             case R.id.tv_dosingreview_enddate:
                 etChangeFlag = "END";
-                chooseTime();
+                chooseTime(TimeUtils.string2Millis(tvDosingreviewEnddate.getText().toString() + " 00:00:00"));
 
                 break;
             default:
@@ -231,12 +223,8 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
         }
     }
 
-    private void chooseTime() {
+    private void chooseTime(long currentTimeMillis) {
         long tenYears = 10L * 365 * 1000 * 60 * 60 * 24L;
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
 
         TimePickerDialog mDialogAll = new TimePickerDialog.Builder()
                 .setCallBack(this)
@@ -247,8 +235,9 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
                 .setMonthText("月")
                 .setDayText("日")
                 .setCyclic(false)
-                .setMinMillseconds(System.currentTimeMillis() - tenYears)
-                .setCurrentMillseconds(calendar.getTimeInMillis())
+                .setMinMillseconds(currentTimeMillis - tenYears)
+                .setMaxMillseconds(currentTimeMillis + tenYears)
+                .setCurrentMillseconds(currentTimeMillis)
                 .setThemeColor(getResources().getColor(R.color.colorPrimary))
                 .setType(Type.YEAR_MONTH_DAY)
                 .setWheelItemTextNormalColor(getResources().getColor(R.color.timetimepicker_default_text_color))
@@ -290,6 +279,7 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
         pageNo = Integer.valueOf(pageNo) + 1 + "";
         asyncInitData();
     }
+
     /**
      * Action.DOSING_REVIEW
      * 撤销
@@ -408,5 +398,10 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
                 break;
         }
 
+    }
+
+    @Override
+    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_dosing_review, container, false);
     }
 }

@@ -1,7 +1,6 @@
 package com.dhcc.nursepro.workarea.bloodtransfusionsystem.bloodtransfusiontour;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -99,22 +98,17 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
         initView(view);
     }
 
-    @Override
-    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_blood_transfusion_tour, container, false);
-    }
-
     private void setToolbarRightView(int i) {
         if (i == 0) {
             //右上角按钮
-//            View viewright = View.inflate(getActivity(), R.layout.view_bloodtoolbar_right, null);
-//            viewright.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    showToast("今日列表");
-//                }
-//            });
-//            setToolbarRightCustomView(viewright);
+            //            View viewright = View.inflate(getActivity(), R.layout.view_bloodtoolbar_right, null);
+            //            viewright.setOnClickListener(new View.OnClickListener() {
+            //                @Override
+            //                public void onClick(View v) {
+            //                    showToast("今日列表");
+            //                }
+            //            });
+            //            setToolbarRightCustomView(viewright);
             setToolbarRightCustomView(null);
         } else {
             //右上角保存按钮
@@ -187,7 +181,11 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
         llBloodtranstourSelecttime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                chooseTime();
+                if (tvBloodtranstourTranstime.getText().toString().contains("0")) {
+                    chooseTime(TimeUtils.string2Millis(tvBloodtranstourTranstime.getText().toString() + " 00:00:00"));
+                } else {
+                    chooseTime(TimeUtils.string2Millis(SPUtils.getInstance().getString(SharedPreference.SCHSTDATETIME).replace("/", "-").replace(",", " ")));
+                }
             }
         });
         tvBloodtranstourTranstime = view.findViewById(R.id.tv_bloodtranstour_transtime);
@@ -213,7 +211,7 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
 
     }
 
-    private void chooseTime() {
+    private void chooseTime(long currentTimeMillis) {
         long tenYears = 10L * 365 * 1000 * 60 * 60 * 24L;
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -231,8 +229,9 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
                 .setHourText("时")
                 .setMinuteText("分")
                 .setCyclic(false)
-                .setMinMillseconds(System.currentTimeMillis() - tenYears)
-                .setCurrentMillseconds(System.currentTimeMillis())
+                .setMinMillseconds(currentTimeMillis - tenYears)
+                .setMaxMillseconds(currentTimeMillis + tenYears)
+                .setCurrentMillseconds(currentTimeMillis)
                 .setThemeColor(getResources().getColor(R.color.colorPrimary))
                 .setType(Type.ALL)
                 .setWheelItemTextNormalColor(getResources().getColor(R.color.timetimepicker_default_text_color))
@@ -357,5 +356,10 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
                 break;
         }
 
+    }
+
+    @Override
+    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_blood_transfusion_tour, container, false);
     }
 }

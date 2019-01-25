@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
@@ -55,7 +54,6 @@ public class BloodOperationListFragment extends BaseFragment implements View.OnC
 
     private List<BloodOperationListBean.BloodListBean> bloodOperationList;
     private BloodOperationListAdapter operationListAdapter;
-
 
 
     @Override
@@ -118,7 +116,7 @@ public class BloodOperationListFragment extends BaseFragment implements View.OnC
                 BloodOperationListBean.BloodListBean bloodListBean = (BloodOperationListBean.BloodListBean) adapter.getItem(position);
                 Bundle bundle = new Bundle();
                 bundle.putString("bloodRowId", bloodListBean.getBloodRowId());
-                startFragment(BloodTransfusionDetailFragment.class,bundle);
+                startFragment(BloodTransfusionDetailFragment.class, bundle);
             }
         });
 
@@ -161,6 +159,13 @@ public class BloodOperationListFragment extends BaseFragment implements View.OnC
         });
     }
 
+    private void setTopFilterSelect(View view) {
+        tvBloodoplistSign.setSelected(view == tvBloodoplistSign);
+        tvBloodoplistTrans.setSelected(view == tvBloodoplistTrans);
+        tvBloodoplistTransend.setSelected(view == tvBloodoplistTransend);
+        tvBloodoplistRecycling.setSelected(view == tvBloodoplistRecycling);
+    }
+
     /**
      * type
      * R 查询签收列表
@@ -192,21 +197,14 @@ public class BloodOperationListFragment extends BaseFragment implements View.OnC
                 asyncInitData();
                 break;
             case R.id.ll_bloodoplist_searchdate:
-                chooseTime();
+                chooseTime(TimeUtils.string2Millis(tvBloodoplistSearchdate.getText().toString() + " 00:00:00"));
                 break;
             default:
                 break;
         }
     }
 
-    private void setTopFilterSelect(View view) {
-        tvBloodoplistSign.setSelected(view == tvBloodoplistSign);
-        tvBloodoplistTrans.setSelected(view == tvBloodoplistTrans);
-        tvBloodoplistTransend.setSelected(view == tvBloodoplistTransend);
-        tvBloodoplistRecycling.setSelected(view == tvBloodoplistRecycling);
-    }
-
-    private void chooseTime() {
+    private void chooseTime(long currentTimeMillis) {
         long tenYears = 10L * 365 * 1000 * 60 * 60 * 24L;
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -222,8 +220,9 @@ public class BloodOperationListFragment extends BaseFragment implements View.OnC
                 .setMonthText("月")
                 .setDayText("日")
                 .setCyclic(false)
-                .setMinMillseconds(System.currentTimeMillis() - tenYears)
-                .setCurrentMillseconds(calendar.getTimeInMillis())
+                .setMinMillseconds(currentTimeMillis - tenYears)
+                .setMaxMillseconds(currentTimeMillis + tenYears)
+                .setCurrentMillseconds(currentTimeMillis)
                 .setThemeColor(getResources().getColor(R.color.colorPrimary))
                 .setType(Type.YEAR_MONTH_DAY)
                 .setWheelItemTextNormalColor(getResources().getColor(R.color.timetimepicker_default_text_color))

@@ -1,9 +1,6 @@
 package com.dhcc.nursepro.workarea.milkloopsystem.milkreceive;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.TimeUtils;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
@@ -31,7 +29,6 @@ import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Objects;
@@ -61,11 +58,6 @@ public class MilkReceiveFragment extends BaseFragment implements View.OnClickLis
     private View viewright;
 
     private MilkOperateResultDialog milkOperateResultDialog;
-
-    @Override
-    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_milk_receive, container, false);
-    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -160,23 +152,52 @@ public class MilkReceiveFragment extends BaseFragment implements View.OnClickLis
         LlTime.setOnClickListener(this);
 
 
-        Calendar calendar = Calendar.getInstance();
-        long mCurrentMillSeconds = calendar.getTimeInMillis();
-        Date date = new Date(mCurrentMillSeconds);
-        //        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//精确到分钟
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat format1 = new SimpleDateFormat("HH:mm");
-        timestr = format1.format(date);
-        datestr = format.format(date);
-
-        tvTime.setText(datestr + " " + timestr);
+        //        Calendar calendar = Calendar.getInstance();
+        //        long mCurrentMillSeconds = calendar.getTimeInMillis();
+        //        Date date = new Date(mCurrentMillSeconds);
+        //        //        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//精确到分钟
+        //        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        //        SimpleDateFormat format1 = new SimpleDateFormat("HH:mm");
+        //        timestr = format1.format(date);
+        //        datestr = format.format(date);
+        //
+        //        tvTime.setText(datestr + " " + timestr);
 
 
     }
 
     @Override
-    public void onClick(View v) {
-        chooseTime();
+    public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
+        Date date = new Date(millseconds);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");//精确到分钟
+        String time = format.format(date);
+        SimpleDateFormat formatdate = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formattime = new SimpleDateFormat("HH:mm");
+        datestr = formatdate.format(date);
+        timestr = formattime.format(date);
+        //        showToast(datestr+"--"+timestr);
+        tvTime.setText(time);
+    }
+
+    @Override
+    public void getScanMsg(Intent intent) {
+        super.getScanMsg(intent);
+        switch (Objects.requireNonNull(intent.getAction())) {
+            case Action.DEVICE_SCAN_CODE:
+                Bundle bundle = new Bundle();
+                bundle = intent.getExtras();
+                bagNo = bundle.getString("data");
+                initData(bundle.getString("data"));
+                break;
+            default:
+                break;
+        }
+
+    }
+
+    @Override
+    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_milk_receive, container, false);
     }
 
     private void initData(String bagNo) {
@@ -204,19 +225,17 @@ public class MilkReceiveFragment extends BaseFragment implements View.OnClickLis
     }
 
     @Override
-    public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
-        Date date = new Date(millseconds);
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");//精确到分钟
-        String time = format.format(date);
-        SimpleDateFormat formatdate = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat formattime = new SimpleDateFormat("HH:mm");
-        datestr = formatdate.format(date);
-        timestr = formattime.format(date);
-        //        showToast(datestr+"--"+timestr);
-        tvTime.setText(time);
-    }    private void chooseTime() {
-        long tenYears = 3L * 365 * 1000 * 60 * 60 * 24L;
-        Calendar calendar = Calendar.getInstance();
+    public void onClick(View v) {
+        if (tvTime.getText().toString().contains("0")) {
+            chooseTime(TimeUtils.string2Millis(tvTime.getText().toString() + ":00"));
+        } else {
+            chooseTime(TimeUtils.string2Millis(SPUtils.getInstance().getString(SharedPreference.SCHSTDATETIME).replace("/", "-").replace(",", " ")));
+        }
+    }
+
+
+    private void chooseTime(long currentTimeMillis) {
+        long tenYears = 10L * 365 * 1000 * 60 * 60 * 24L;
 
         TimePickerDialog mDialogAll = new TimePickerDialog.Builder()
                 .setCallBack(this)
@@ -229,9 +248,9 @@ public class MilkReceiveFragment extends BaseFragment implements View.OnClickLis
                 .setHourText("时")
                 .setMinuteText("分")
                 .setCyclic(true)
-                .setMinMillseconds(System.currentTimeMillis() - tenYears)
-                .setMaxMillseconds(System.currentTimeMillis() + tenYears)
-                .setCurrentMillseconds(calendar.getTimeInMillis())
+                .setMinMillseconds(currentTimeMillis - tenYears)
+                .setMaxMillseconds(currentTimeMillis + tenYears)
+                .setCurrentMillseconds(currentTimeMillis)
                 .setThemeColor(getResources().getColor(R.color.blue))
                 .setType(Type.ALL)
                 .setWheelItemTextNormalColor(getResources().getColor(R.color.timetimepicker_default_text_color))
@@ -243,19 +262,5 @@ public class MilkReceiveFragment extends BaseFragment implements View.OnClickLis
 
     }
 
-    @Override
-    public void getScanMsg(Intent intent) {
-        super.getScanMsg(intent);
-        switch (Objects.requireNonNull(intent.getAction())) {
-            case Action.DEVICE_SCAN_CODE:
-                Bundle bundle = new Bundle();
-                bundle = intent.getExtras();
-                bagNo = bundle.getString("data");
-                initData(bundle.getString("data"));
-                break;
-            default:
-                break;
-        }
 
-    }
 }

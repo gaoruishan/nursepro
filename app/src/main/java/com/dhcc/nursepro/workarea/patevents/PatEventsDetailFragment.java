@@ -3,19 +3,15 @@ package com.dhcc.nursepro.workarea.patevents;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.TimeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
@@ -23,12 +19,9 @@ import com.dhcc.nursepro.constant.SharedPreference;
 import com.dhcc.nursepro.workarea.patevents.adapter.PatEventsDetailAdapter;
 import com.dhcc.nursepro.workarea.patevents.api.PatEventsApiManager;
 import com.dhcc.nursepro.workarea.patevents.bean.EventItemBean;
-import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.TimeWheel;
 import com.jzxiang.pickerview.config.PickerConfig;
-import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.data.WheelCalendar;
-import com.jzxiang.pickerview.listener.OnDateSetListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,7 +29,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class PatEventsDetailFragment extends BaseFragment implements View.OnClickListener {
 
@@ -49,6 +41,8 @@ public class PatEventsDetailFragment extends BaseFragment implements View.OnClic
     private TimeWheel mTimeWheel;
     private String recId, episodeId, eventDate, eventTime, buneventId, userId;
     private Calendar calendar;
+    private long currentTimeMillis;
+    private long tenYears = 10L * 365 * 1000 * 60 * 60 * 24L;
 
     private String userIdNow;
     private SPUtils spUtils = SPUtils.getInstance();
@@ -89,8 +83,10 @@ public class PatEventsDetailFragment extends BaseFragment implements View.OnClic
         }
         if (recId == null) {
             setToolbarCenterTitle(getStringSafe(R.string.title_addpatevents), 0xffffffff, 17);
+            currentTimeMillis = TimeUtils.string2Millis(SPUtils.getInstance().getString(SharedPreference.SCHSTDATETIME).replace("/", "-").replace(",", " "));
         } else {
             setToolbarCenterTitle(getStringSafe(R.string.title_changepatevents), 0xffffffff, 17);
+            currentTimeMillis = TimeUtils.string2Millis(eventDate + " " + eventTime + ":00");
         }
 
         initview(view);
@@ -103,6 +99,7 @@ public class PatEventsDetailFragment extends BaseFragment implements View.OnClic
     private void sureClicked() {
         Calendar calendar = Calendar.getInstance();
         calendar.clear();
+
         calendar.set(Calendar.YEAR, mTimeWheel.getCurrentYear());
         calendar.set(Calendar.MONTH, mTimeWheel.getCurrentMonth() - 1);
         calendar.set(Calendar.DAY_OF_MONTH, mTimeWheel.getCurrentDay());
@@ -170,14 +167,10 @@ public class PatEventsDetailFragment extends BaseFragment implements View.OnClic
         sure.setText(mPickerConfig.mSureString);
         mPickerConfig.mWheelTVSelectorColor = getResources().getColor(R.color.blue);
         mPickerConfig.mThemeColor = getResources().getColor(R.color.blue);
+        mPickerConfig.mMinCalendar = new WheelCalendar(currentTimeMillis - tenYears);
+        mPickerConfig.mMaxCalendar = new WheelCalendar(currentTimeMillis + tenYears);
+        mPickerConfig.mCurrentCalendar = new WheelCalendar(currentTimeMillis);
 
-        if (recId != null) {
-            calendar = Calendar.getInstance();
-            String[] arrdate = eventDate.split("-");
-            String[] arrtime = eventTime.split(":");
-            calendar.set(Integer.parseInt(arrdate[0]), Integer.parseInt(arrdate[1]) - 1, Integer.parseInt(arrdate[2]), Integer.parseInt(arrtime[0]), Integer.parseInt(arrtime[1]));
-            mPickerConfig.mCurrentCalendar = new WheelCalendar(calendar.getTimeInMillis());
-        }
         toolbar.setBackgroundColor(getResources().getColor(R.color.blue));
         mTimeWheel = new TimeWheel(viewtime, mPickerConfig);
 
