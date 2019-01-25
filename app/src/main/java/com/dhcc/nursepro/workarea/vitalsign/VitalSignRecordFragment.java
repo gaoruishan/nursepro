@@ -2,6 +2,7 @@ package com.dhcc.nursepro.workarea.vitalsign;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,8 @@ import com.blankj.utilcode.util.TimeUtils;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.constant.SharedPreference;
+import com.dhcc.nursepro.login.bean.NurseInfo;
 import com.dhcc.nursepro.uiplugs.OptionView;
 import com.dhcc.nursepro.workarea.vitalsign.api.VitalSignApiManager;
 import com.dhcc.nursepro.workarea.vitalsign.bean.VitalSignRecordBean;
@@ -30,6 +33,9 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import cn.qqtheme.framework.picker.OptionPicker;
+import cn.qqtheme.framework.widget.WheelView;
 
 public class VitalSignRecordFragment extends BaseFragment implements View.OnClickListener, OnDateSetListener {
 
@@ -394,6 +400,19 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
 
             edText.setPadding(10, 10, 10, 10);
 
+            if (config.getSymbol()!=null) {
+                if (config.getSymbol().size() > 0) {
+                    edText.setBackgroundResource(R.drawable.vital_sign_input_bggreen);
+                    edText.setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View v) {
+                            symbol((ArrayList<String>) config.getSymbol(),edText);
+                            return false;
+                        }
+                    });
+                }
+            }
+
             layout.addView(edText);
 
             viewItemMap.put(config.getCode(), edText);
@@ -427,6 +446,30 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
 
 
         return layout;
+    }
+
+
+    private void  symbol(ArrayList<String> list,EditText editText){
+        String[] locDesc = new String[list.size()];
+        for (int i = 0;i< list.size();i++){
+            locDesc[i] = list.get(i);
+        }
+//                Toast.makeText(NurseSetActivity.this,LocJson,Toast.LENGTH_LONG).show();
+
+
+        final OptionPicker picker = new OptionPicker(getActivity(), locDesc);
+        picker.setCanceledOnTouchOutside(false);
+        picker.setDividerRatio(WheelView.DividerConfig.FILL);
+        picker.setSelectedIndex(0);
+        picker.setCycleDisable(true);
+        picker.setTextSize(20);
+        picker.setOnOptionPickListener(new OptionPicker.OnOptionPickListener() {
+            @Override
+            public void onOptionPicked(int index, String item) {
+                        editText.setText(item);
+            }
+        });
+        picker.show();
     }
 
     private LinearLayout dramEmptyItem() {
