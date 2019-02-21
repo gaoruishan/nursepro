@@ -29,7 +29,6 @@ import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.constant.SharedPreference;
-import com.dhcc.nursepro.workarea.nurrecord.adapter.NurRecordAdapter;
 import com.dhcc.nursepro.workarea.nurrecord.api.NurRecordManager;
 import com.dhcc.nursepro.workarea.nurrecord.bean.NurRecordBean;
 import com.google.gson.Gson;
@@ -76,6 +75,7 @@ public class LinkModelFragment extends BaseFragment implements OnDateSetListener
 
     private String emrCode = "";
     private String episodeId = "";
+
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_modeldetaillink, container, false);
@@ -163,6 +163,7 @@ public class LinkModelFragment extends BaseFragment implements OnDateSetListener
             recordContentView.addView(drawItem(config));
         }
     }
+
     /**
      * 区分不同View类型，添加进容器
      *
@@ -188,9 +189,9 @@ public class LinkModelFragment extends BaseFragment implements OnDateSetListener
 
         //判断是否必填，必填的话字体变红
         if ("1".equals(config.getMustFill())) {
-            titleTV.setTextColor(ContextCompat.getColor(getActivity(),R.color.nurrecord_text_mustfill_color));
+            titleTV.setTextColor(ContextCompat.getColor(getActivity(), R.color.nurrecord_text_mustfill_color));
         } else {
-            titleTV.setTextColor(ContextCompat.getColor(getActivity(),R.color.nurrecord_text_normal_color));
+            titleTV.setTextColor(ContextCompat.getColor(getActivity(), R.color.nurrecord_text_normal_color));
         }
 
         LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -221,13 +222,13 @@ public class LinkModelFragment extends BaseFragment implements OnDateSetListener
             edText.setPadding(ConvertUtils.dp2px(5), 0, ConvertUtils.dp2px(5), 0);
             edText.setTextSize(Float.parseFloat(config.getFontSize()));
             edText.setSingleLine();
-            viewItemMap.put(config.getItemCode(),edText);
+            viewItemMap.put(config.getItemCode(), edText);
             edText.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    showDialog = new ItemValueDialog(getActivity(),edText.hasFocusable());
+                    showDialog = new ItemValueDialog(getActivity(), edText.hasFocusable());
                     showDialog.setTitle(config.getItemDesc());
-                    showDialog.setMessage(edText.getText()+"");
+                    showDialog.setMessage(edText.getText() + "");
                     showDialog.setYesOnclickListener("确定", new ItemValueDialog.onYesOnclickListener() {
                         @Override
                         public void onYesClick() {
@@ -315,10 +316,10 @@ public class LinkModelFragment extends BaseFragment implements OnDateSetListener
                     cb.setHeight(height);
 
                     listCk.add(mapCk);
-                    if ("false".equals(config.getEditFlag())){
+                    if ("false".equals(config.getEditFlag())) {
                         cb.setEnabled(false);
-//                        config.setEditFlag("true");
-                    }else {
+                        //                        config.setEditFlag("true");
+                    } else {
                         cb.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -330,8 +331,8 @@ public class LinkModelFragment extends BaseFragment implements OnDateSetListener
                                 }
                                 config.setSendValue(getckvalue((ArrayList<HashMap>) listCk) + "");
                                 showToast(getckvalue((ArrayList<HashMap>) listCk));
-                                if (config.getLinkInfo().size()>0) {
-                                    linkView(config.getLinkInfo(), getckvalue((ArrayList<HashMap>) listCk) + "",cb.isChecked(),"isC");
+                                if (config.getLinkInfo().size() > 0) {
+                                    linkView(config.getLinkInfo(), getckvalue((ArrayList<HashMap>) listCk) + "", cb.isChecked(), "isC");
                                 }
                             }
                         });
@@ -362,24 +363,25 @@ public class LinkModelFragment extends BaseFragment implements OnDateSetListener
                     RadioButton rb = new RadioButton(getContext());
                     rb.setId(i);
                     rb.setTextSize(Float.parseFloat(config.getFontSize()));
-                    rb.setText(split[i] + ""); if ("false".equals(config.getEditFlag())){
+                    rb.setText(split[i] + "");
+                    if ("false".equals(config.getEditFlag())) {
                         rb.setEnabled(false);
-                    }else {
+                    } else {
                         rb.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 showToast(rb.getText() + "");
                                 config.setSendValue(rb.getText() + "");
-                                if (config.getLinkInfo().size()>0) {
-                                    linkView(config.getLinkInfo(), rb.getText() + "",rb.isChecked(),"isR");
+                                if (config.getLinkInfo().size() > 0) {
+                                    linkView(config.getLinkInfo(), rb.getText() + "", rb.isChecked(), "isR");
                                 }
                             }
                         });
                     }
                     radioGroup.addView(rb);
-                    if (split[i].equals(patInfoMap.get(config.getPatInfo()))){
+                    if (split[i].equals(patInfoMap.get(config.getPatInfo()))) {
                         radioGroup.check(rb.getId());
-                    }else if (split[i].equals(config.getItemdeValue())) {
+                    } else if (split[i].equals(config.getItemdeValue())) {
                         radioGroup.check(rb.getId());
                     }
                 }
@@ -411,23 +413,24 @@ public class LinkModelFragment extends BaseFragment implements OnDateSetListener
                 rb.setTextSize(Float.parseFloat(config.getFontSize()));
                 rb.setText(split[i] + "");
                 //判断是否可编辑
-                if ("false".equals(config.getEditFlag())){
+                if ("false".equals(config.getEditFlag())) {
                     rb.setEnabled(false);
-                }else {
-                rb.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        showToast(rb.getText() + "----");
-                        config.setSendValue(rb.getText() + "");
-                        if (config.getLinkInfo().size()>0) {
-                            linkView(config.getLinkInfo(), rb.getText() + "",rb.isChecked(),"isR");
+                } else {
+                    rb.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            showToast(rb.getText() + "----");
+                            config.setSendValue(rb.getText() + "");
+                            if (config.getLinkInfo().size() > 0) {
+                                linkView(config.getLinkInfo(), rb.getText() + "", rb.isChecked(), "isR");
+                            }
                         }
-                    }
-                });}
+                    });
+                }
                 radioGroup.addView(rb);
-                if (split[i].equals(patInfoMap.get(config.getPatInfo()))){
+                if (split[i].equals(patInfoMap.get(config.getPatInfo()))) {
                     radioGroup.check(rb.getId());
-                }else if (split[i].equals(config.getItemdeValue())) {
+                } else if (split[i].equals(config.getItemdeValue())) {
                     radioGroup.check(rb.getId());
                 }
 
@@ -438,7 +441,7 @@ public class LinkModelFragment extends BaseFragment implements OnDateSetListener
             viewItemMap.put(config.getItemCode(), radioGroup);
 
 
-        } else if ("T".equals(config.getItemType())){
+        } else if ("T".equals(config.getItemType())) {
             //textview额外设置
 
             //判断是否可点击跳转其他病例填充表格
@@ -448,11 +451,11 @@ public class LinkModelFragment extends BaseFragment implements OnDateSetListener
                 titleTV.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        showToast("点击进入新的模板"+config.getLinkInfo().get(0).getLinkModel()+"给:"+config.getLinkInfo().get(0).getLinkItemCode());
+                        showToast("点击进入新的模板" + config.getLinkInfo().get(0).getLinkModel() + "给:" + config.getLinkInfo().get(0).getLinkItemCode());
                         View view = viewItemMap.get("Item81");
-                        if (view instanceof EditText){
-                            EditText ed = (EditText)view;
-                            ed.setText("from__"+config.getItemCode());
+                        if (view instanceof EditText) {
+                            EditText ed = (EditText) view;
+                            ed.setText("from__" + config.getItemCode());
                         }
 
                     }
@@ -469,14 +472,14 @@ public class LinkModelFragment extends BaseFragment implements OnDateSetListener
                     titleTV.setLayoutParams(layoutParams);
                 }
             } else {
-//                TextView tvalue = new TextView(getContext());
-//                tvalue.setText(config.getItemdeValue() + "===");
-//                //        titleTV.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-//                tvalue.setTextSize(Float.parseFloat(config.getFontSize()));
-//                tvalue.setGravity(Gravity.CENTER_HORIZONTAL);
-//                layout.addView(tvalue);
+                //                TextView tvalue = new TextView(getContext());
+                //                tvalue.setText(config.getItemdeValue() + "===");
+                //                //        titleTV.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+                //                tvalue.setTextSize(Float.parseFloat(config.getFontSize()));
+                //                tvalue.setGravity(Gravity.CENTER_HORIZONTAL);
+                //                layout.addView(tvalue);
             }
-        } else if ("TN".equals(config.getItemType())){
+        } else if ("TN".equals(config.getItemType())) {
             //textview额外设置
 
             //判断是否可点击跳转其他病例填充表格
@@ -486,11 +489,11 @@ public class LinkModelFragment extends BaseFragment implements OnDateSetListener
                 titleTV.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        showToast("点击进入新的模板"+config.getLinkInfo().get(0).getLinkModel()+"给:"+config.getLinkInfo().get(0).getLinkItemCode());
+                        showToast("点击进入新的模板" + config.getLinkInfo().get(0).getLinkModel() + "给:" + config.getLinkInfo().get(0).getLinkItemCode());
                         View view = viewItemMap.get("Item81");
-                        if (view instanceof EditText){
-                            EditText ed = (EditText)view;
-                            ed.setText("from__"+config.getItemCode());
+                        if (view instanceof EditText) {
+                            EditText ed = (EditText) view;
+                            ed.setText("from__" + config.getItemCode());
                         }
 
                     }
@@ -500,18 +503,18 @@ public class LinkModelFragment extends BaseFragment implements OnDateSetListener
 
             //判断是否单行显示
             if ("0".equals(config.getTitleHiddeFlag())) {
-//                TextView tvalue = new TextView(getContext());
-//                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(height, ViewGroup.LayoutParams.MATCH_PARENT);
-//                titleTV.setLayoutParams(layoutParams);
+                //                TextView tvalue = new TextView(getContext());
+                //                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(height, ViewGroup.LayoutParams.MATCH_PARENT);
+                //                titleTV.setLayoutParams(layoutParams);
             } else {
-//                TextView tvalue = new TextView(getContext());
-//                tvalue.setText(config.getItemdeValue() + "===");
-//                //        titleTV.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-//                tvalue.setTextSize(Float.parseFloat(config.getFontSize()));
-//                tvalue.setGravity(Gravity.CENTER_HORIZONTAL);
-//                layout.addView(tvalue);
+                //                TextView tvalue = new TextView(getContext());
+                //                tvalue.setText(config.getItemdeValue() + "===");
+                //                //        titleTV.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+                //                tvalue.setTextSize(Float.parseFloat(config.getFontSize()));
+                //                tvalue.setGravity(Gravity.CENTER_HORIZONTAL);
+                //                layout.addView(tvalue);
             }
-        }  else if ("D".equals(config.getItemType())) {
+        } else if ("D".equals(config.getItemType())) {
             //日期选择
             TextView tvalue = new TextView(getContext());
             tvalue.setText(config.getItemdeValue() + "2018-12-11");
@@ -526,14 +529,19 @@ public class LinkModelFragment extends BaseFragment implements OnDateSetListener
             tvalue.setGravity(Gravity.CENTER_HORIZONTAL);
             config.setSendValue(tvalue.getText() + "");
             //判断是否可编辑
-            if ("false".equals(config.getEditFlag())){
+            if ("false".equals(config.getEditFlag())) {
                 tvalue.setEnabled(false);
-            }else {
+            } else {
                 tvalue.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         textViewChooseDateTime = tvalue;
                         dt = "date";
+                        //                        if (textViewChooseDateTime.getText().toString().contains("-")) {
+                        //                            chooseDate(TimeUtils.string2Millis(textViewChooseDateTime.getText().toString() + " 00:00:00"));
+                        //                        } else {
+                        //                            chooseDate(TimeUtils.string2Millis(SPUtils.getInstance().getString(SharedPreference.SCHSTDATETIME).replace("/", "-").replace(",", " ")));
+                        //                        }
                         chooseDate();
                     }
                 });
@@ -566,7 +574,7 @@ public class LinkModelFragment extends BaseFragment implements OnDateSetListener
             if (StringUtils.isEmpty(config.getPatInfo())) {
                 tvalue.setText(config.getItemdeValue());
                 config.setSendValue(config.getItemdeValue() + "");
-            } else if (!StringUtils.isEmpty(patInfoMap.get(config.getPatInfo())+"")){
+            } else if (!StringUtils.isEmpty(patInfoMap.get(config.getPatInfo()) + "")) {
                 tvalue.setText((patInfoMap.get(config.getPatInfo()) + ""));
                 config.setSendValue((patInfoMap.get(config.getPatInfo()) + ""));
             }
@@ -574,9 +582,9 @@ public class LinkModelFragment extends BaseFragment implements OnDateSetListener
             tvalue.setGravity(Gravity.CENTER_HORIZONTAL);
             config.setSendValue(tvalue.getText() + "");
             //判断是否可编辑
-            if ("false".equals(config.getEditFlag())){
+            if ("false".equals(config.getEditFlag())) {
                 tvalue.setEnabled(false);
-            }else {
+            } else {
                 tvalue.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -607,26 +615,26 @@ public class LinkModelFragment extends BaseFragment implements OnDateSetListener
             viewItemMap.put(config.getItemCode(), tvalue);
         } else {
             showToast("出现未知类型控件，请联系后台进行数据修复或更新应用");
-//            //选择框
-//            List ll = new ArrayList();
-//            ll.add("1");
-//            ll.add("2");
-//            final OptionView optionView = new OptionView(getActivity(), ll);
-//            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(100, 50);
-//            optionView.setLayoutParams(layoutParams);
-//            optionView.setTextSize(16);
-//            optionView.setBackgroundResource(R.drawable.vital_sign_input_bg);
-//            optionView.setGravity(Gravity.CENTER);
-//
-//            optionView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    optionView.showPicker();
-//                }
-//            });
-//
-//            layout.addView(optionView);
-//            viewItemMap.put(config.getItemCode(), optionView);
+            //            //选择框
+            //            List ll = new ArrayList();
+            //            ll.add("1");
+            //            ll.add("2");
+            //            final OptionView optionView = new OptionView(getActivity(), ll);
+            //            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(100, 50);
+            //            optionView.setLayoutParams(layoutParams);
+            //            optionView.setTextSize(16);
+            //            optionView.setBackgroundResource(R.drawable.vital_sign_input_bg);
+            //            optionView.setGravity(Gravity.CENTER);
+            //
+            //            optionView.setOnClickListener(new View.OnClickListener() {
+            //                @Override
+            //                public void onClick(View v) {
+            //                    optionView.showPicker();
+            //                }
+            //            });
+            //
+            //            layout.addView(optionView);
+            //            viewItemMap.put(config.getItemCode(), optionView);
         }
 
         //判断是否与图片，有的话加载
@@ -634,32 +642,45 @@ public class LinkModelFragment extends BaseFragment implements OnDateSetListener
             LinearLayout.LayoutParams paramsimg = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             ImageView imageView = new ImageView(getContext());
             imageView.setLayoutParams(paramsimg);
-//            downImage(imageView,config.getImageName());
-            downImage(imageView,"http://10.1.5.87/dhcmg/2229.gif");
+            //            downImage(imageView,config.getImageName());
+            downImage(imageView, "http://10.1.5.87/dhcmg/2229.gif");
             layout.addView(imageView);
         }
         return layout;
     }
 
+    private String getckvalue(ArrayList<HashMap> list) {
+        String strck = "";
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).get("isSel").equals("true")) {
+                if ("".equals(strck)) {
+                    strck = list.get(i).get("value") + "";
+                } else {
+                    strck = strck + "," + list.get(i).get("value") + "";
+                }
+            }
+        }
+        return strck;
+    }
 
-    private void linkView(List<NurRecordBean.ModelListBean.LinkInfoBean> LinkInfo,String selRadio,Boolean isSel,String isRorC){
+    private void linkView(List<NurRecordBean.ModelListBean.LinkInfoBean> LinkInfo, String selRadio, Boolean isSel, String isRorC) {
 
         if (isRorC.equals("isC")) {
 
             //多选评分
-            if (LinkInfo.size()>0){
+            if (LinkInfo.size() > 0) {
                 int num = 0;
                 String[] split = selRadio.split(",");
-                for (int i = 0;i<LinkInfo.size();i++){
-                        if (selRadio.contains(LinkInfo.get(i).getLinkRangeCon())){
-                            num = num +Integer.parseInt( LinkInfo.get(i).getReValue());
-                            showToast(num+"---");
-                        }
+                for (int i = 0; i < LinkInfo.size(); i++) {
+                    if (selRadio.contains(LinkInfo.get(i).getLinkRangeCon())) {
+                        num = num + Integer.parseInt(LinkInfo.get(i).getReValue());
+                        showToast(num + "---");
+                    }
                 }
                 View view = viewItemMap.get(LinkInfo.get(0).getLinkItemCode());
                 if (view instanceof EditText) {
                     EditText ed = (EditText) view;
-                    ed.setText(num+"");
+                    ed.setText(num + "");
                 }
                 return;
             }
@@ -682,91 +703,26 @@ public class LinkModelFragment extends BaseFragment implements OnDateSetListener
                     }
                 }
             }
-//单选判断点击的值是否关联值，再判断是否点击，都符合的话关联成功
-        }else if (isRorC.equals("isR")){
+            //单选判断点击的值是否关联值，再判断是否点击，都符合的话关联成功
+        } else if (isRorC.equals("isR")) {
             String rangcon = LinkInfo.get(0).getLinkRangeCon();
-                View view = viewItemMap.get(LinkInfo.get(0).getLinkItemCode());
-                if (view instanceof EditText) {
-                    EditText ed = (EditText) view;
-                    if ("其它".equals(selRadio) && isSel) {
-                        ed.setText("此时可编辑" + LinkInfo.size());
-                        ed.setFocusable(true);
-                        ed.setFocusableInTouchMode(true);
-                    } else {
-                        ed.setText("此时不可编辑" + LinkInfo.size());
-                        ed.setFocusable(false);
-                        ed.setFocusableInTouchMode(false);
-                    }
-            }
-         //赋值判断关联项如何编辑
-        }else if (isRorC.equals("isE")){
-
-        }
-    }
-
-    private void changeView(View view){
-        if (view instanceof EditText) {
-            EditText ed = (EditText) view;
-        }else if (view instanceof RadioGroup){
-
-        }else if (view instanceof TextView){
-
-            //判断后面多选框是否可编辑，更改可编辑状态
-        }else if (view instanceof FlowLayout){
-            int cknum = ((FlowLayout) view).getChildCount();
-            for (int i = 0;i<cknum;i++){
-                if ((((FlowLayout) view).getChildAt(i)) instanceof CheckBox){
-                    CheckBox checkBox = (CheckBox) ((FlowLayout) view).getChildAt(i);
-                    Log.v("11111ck",checkBox.getText().toString());
+            View view = viewItemMap.get(LinkInfo.get(0).getLinkItemCode());
+            if (view instanceof EditText) {
+                EditText ed = (EditText) view;
+                if ("其它".equals(selRadio) && isSel) {
+                    ed.setText("此时可编辑" + LinkInfo.size());
+                    ed.setFocusable(true);
+                    ed.setFocusableInTouchMode(true);
+                } else {
+                    ed.setText("此时不可编辑" + LinkInfo.size());
+                    ed.setFocusable(false);
+                    ed.setFocusableInTouchMode(false);
                 }
             }
+            //赋值判断关联项如何编辑
+        } else if (isRorC.equals("isE")) {
 
         }
-    }
-    //加载图片
-    private void downImage(ImageView view,String strUrl) {
-        OkHttpClient client = new OkHttpClient();
-        final Request request = new Request
-                .Builder()
-                .get()
-                .url(strUrl)
-                .build();
-        Call call = client.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                showToast( "下载图片失败");
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                InputStream inputStream = response.body().byteStream();
-                //将图片显示到ImageView中
-                final Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                if (getActivity() != null) {
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                view.setImageBitmap(bitmap);
-                            }
-                        });
-                    }
-            }
-        });
-    }
-
-    private String getckvalue(ArrayList<HashMap> list) {
-        String strck = "";
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).get("isSel").equals("true")) {
-                if ("".equals(strck)){
-                    strck = list.get(i).get("value") + "";
-                }else {
-                    strck = strck + "," + list.get(i).get("value") + "";
-                }
-            }
-        }
-        return strck;
     }
 
     /**
@@ -822,6 +778,90 @@ public class LinkModelFragment extends BaseFragment implements OnDateSetListener
                 .setWheelItemTextSize(12)
                 .build();
         mDialogAll.show(getFragmentManager(), "ALL");
+    }
+
+    //加载图片
+    private void downImage(ImageView view, String strUrl) {
+        OkHttpClient client = new OkHttpClient();
+        final Request request = new Request
+                .Builder()
+                .get()
+                .url(strUrl)
+                .build();
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                showToast("下载图片失败");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                InputStream inputStream = response.body().byteStream();
+                //将图片显示到ImageView中
+                final Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            view.setImageBitmap(bitmap);
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    /**
+     * 选择日期---年月日
+     */
+    private void chooseDate(long currentTimeMillis) {
+        long tenYears = 10L * 365 * 1000 * 60 * 60 * 24L;
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+
+        TimePickerDialog mDialogAll = new TimePickerDialog.Builder()
+                .setCallBack(this)
+                .setCancelStringId("取消")
+                .setSureStringId("确认")
+                .setTitleStringId("日期")
+                .setYearText("年")
+                .setMonthText("月")
+                .setDayText("日")
+                .setCyclic(false)
+                .setMinMillseconds(currentTimeMillis - tenYears)
+                .setMaxMillseconds(currentTimeMillis + tenYears)
+                .setCurrentMillseconds(currentTimeMillis)
+                .setThemeColor(getResources().getColor(R.color.colorPrimary))
+                .setType(Type.YEAR_MONTH_DAY)
+                .setWheelItemTextNormalColor(getResources().getColor(R.color.timetimepicker_default_text_color))
+                .setWheelItemTextSelectorColor(getResources().getColor(R.color.colorPrimaryDark))
+                .setWheelItemTextSize(12)
+                .build();
+        mDialogAll.show(getFragmentManager(), "ALL");
+
+    }
+
+    private void changeView(View view) {
+        if (view instanceof EditText) {
+            EditText ed = (EditText) view;
+        } else if (view instanceof RadioGroup) {
+
+        } else if (view instanceof TextView) {
+
+            //判断后面多选框是否可编辑，更改可编辑状态
+        } else if (view instanceof FlowLayout) {
+            int cknum = ((FlowLayout) view).getChildCount();
+            for (int i = 0; i < cknum; i++) {
+                if ((((FlowLayout) view).getChildAt(i)) instanceof CheckBox) {
+                    CheckBox checkBox = (CheckBox) ((FlowLayout) view).getChildAt(i);
+                    Log.v("11111ck", checkBox.getText().toString());
+                }
+            }
+
+        }
     }
 
     /**

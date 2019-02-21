@@ -34,7 +34,9 @@ import com.dhcc.nursepro.workarea.vitalsign.VitalSignFragment;
 import com.dhcc.nursepro.workarea.workareaapi.WorkareaApiManager;
 import com.dhcc.nursepro.workarea.workareabean.MainConfigBean;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * WorkareaFragment
@@ -43,7 +45,7 @@ import java.util.*;
 public class WorkareaFragment extends BaseFragment {
     private RecyclerView recConfig;
     private List<String> ItemNameList = new ArrayList<String>();
-    private WorkAreaAdapter patEventsAdapter ;
+    private WorkAreaAdapter patEventsAdapter;
 
 
     @Override
@@ -56,12 +58,27 @@ public class WorkareaFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         setStatusBarBackgroundViewVisibility(false, 0xffffffff);
         setToolbarType(BaseActivity.ToolbarType.HIDE);
-//        setToolbarType(BaseActivity.ToolbarType.TOP);
-//        setToolbarBottomLineVisibility(true);
-//        hideToolbarNavigationIcon();
+        //        setToolbarType(BaseActivity.ToolbarType.TOP);
+        //        setToolbarBottomLineVisibility(true);
+        //        hideToolbarNavigationIcon();
 
         initView(view);
         initData();
+    }
+
+    private void initView(View view) {
+
+        recConfig = view.findViewById(R.id.recy_workarea);
+        recConfig.setHasFixedSize(true);
+        recConfig.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        patEventsAdapter = new WorkAreaAdapter(new ArrayList<String>());
+        recConfig.setAdapter(patEventsAdapter);
+        patEventsAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                itemClick(ItemNameList.get(position) + "");
+            }
+        });
     }
 
     private void initData() {
@@ -79,41 +96,27 @@ public class WorkareaFragment extends BaseFragment {
             }
         });
     }
-    private void initView(View view) {
-
-        recConfig = view.findViewById(R.id.recy_workarea);
-        recConfig.setHasFixedSize(true);
-        recConfig.setLayoutManager(new GridLayoutManager(getActivity(),3));
-        patEventsAdapter = new WorkAreaAdapter(new ArrayList<String>());
-        recConfig.setAdapter(patEventsAdapter);
-        patEventsAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                itemClick(ItemNameList.get(position)+"");
-            }
-        });
-    }
 
     /**
      * MainConfig
-     *("BEDMAP");//床位图
-     ("VITALSIGN");//生命体征
-     ("EVENTS");//事件管理
-     ("ORDERSEARCH");//医嘱查询
-     ("ORDEREXECUTE");//医嘱执行
-     ("CHECK");//检查报告
-     ("LAB");//检验报告
-     ("OPERATION");//手术申请
-     ("LABOUT");//检验打包
-     ("DOSINGREVIEW");//输液复核
-     ("ALLOTBED");//入院分床
-     ("DOCORDERLIST");//医嘱单
-     ("BLOOD");//输血系统
-     ("MILK");//母乳闭环
-     ("MOTHERBABYLINK");//母婴关联
-     ("MODELDETAIL");//护理病历
+     * ("BEDMAP");//床位图
+     * ("VITALSIGN");//生命体征
+     * ("EVENTS");//事件管理
+     * ("ORDERSEARCH");//医嘱查询
+     * ("ORDEREXECUTE");//医嘱执行
+     * ("CHECK");//检查报告
+     * ("LAB");//检验报告
+     * ("OPERATION");//手术申请
+     * ("LABOUT");//检验打包
+     * ("DOSINGREVIEW");//输液复核
+     * ("ALLOTBED");//入院分床
+     * ("DOCORDERLIST");//医嘱单
+     * ("BLOOD");//输血系统
+     * ("MILK");//母乳闭环
+     * ("MOTHERBABYLINK");//母婴关联
+     * ("MODELDETAIL");//护理病历
      */
-    public void itemClick(String itemName){
+    public void itemClick(String itemName) {
         switch (itemName) {
             case "BEDMAP":
                 startFragment(BedMapFragment.class);
@@ -169,11 +172,12 @@ public class WorkareaFragment extends BaseFragment {
         }
     }
 
-    public class WorkAreaAdapter extends BaseQuickAdapter<String,BaseViewHolder> {
+    public class WorkAreaAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
         public WorkAreaAdapter(@Nullable List<String> data) {
             super(R.layout.item_workarea,
                     data);
         }
+
         @Override
         protected void convert(BaseViewHolder helper, String item) {
             TextView tvItem = helper.getView(R.id.tv_workarea);
