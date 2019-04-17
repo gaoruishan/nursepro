@@ -6,18 +6,14 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blankj.utilcode.util.SPUtils;
-import com.dhcc.nursepro.Activity.NurseSetActivity;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.WsTest.ClassificationActivity;
-import com.dhcc.nursepro.WsTest.SectionActivity;
 import com.dhcc.nursepro.constant.SharedPreference;
 import com.dhcc.nursepro.greendao.DaoSession;
 import com.dhcc.nursepro.greendao.GreenDaoHelper;
@@ -25,18 +21,10 @@ import com.dhcc.nursepro.login.LoginActivity;
 import com.dhcc.nursepro.login.bean.NurseInfo;
 import com.dhcc.nursepro.message.api.MessageApiManager;
 import com.dhcc.nursepro.message.bean.MessageBean;
-import com.dhcc.nursepro.utils.wsutils.WebServiceUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.jzxiang.pickerview.TimePickerDialog;
-import com.jzxiang.pickerview.data.Type;
-import com.jzxiang.pickerview.listener.OnDateSetListener;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -47,20 +35,18 @@ import cn.qqtheme.framework.widget.WheelView;
  * SettingFragment
  * 设置
  */
-public class SettingFragment extends BaseFragment implements View.OnClickListener{
+public class SettingFragment extends BaseFragment implements View.OnClickListener {
 
+    DaoSession daoSession = GreenDaoHelper.getDaoSession();
     private SPUtils spUtils = SPUtils.getInstance();
     private TextView tvUserName;
     private TextView tvLoc;
     private TextView tvRelogin;
-
     private RelativeLayout rlDate;
     private RelativeLayout rlBeds;
     private RelativeLayout rlWay;
-
-    DaoSession daoSession = GreenDaoHelper.getDaoSession();
     private NurseInfo loginNurseInfo;
-    private List<Map<String,String>> locsList;
+    private List<Map<String, String>> locsList;
     private List<NurseInfo> nurseInfoList;
 
 
@@ -75,9 +61,9 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 
         setStatusBarBackgroundViewVisibility(false, 0xffffffff);
         setToolbarType(BaseActivity.ToolbarType.HIDE);
-//        setToolbarType(BaseActivity.ToolbarType.TOP);
-//        setToolbarBottomLineVisibility(true);
-//        hideToolbarNavigationIcon();
+        //        setToolbarType(BaseActivity.ToolbarType.TOP);
+        //        setToolbarBottomLineVisibility(true);
+        //        hideToolbarNavigationIcon();
         initView(view);
 
         nurseInfoList = daoSession.getNurseInfoDao().queryBuilder().list();
@@ -91,7 +77,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         tvLoc.setOnClickListener(this);
         tvLoc.setText(spUtils.getString(SharedPreference.LOCDESC));
 
-        tvRelogin =view.findViewById(R.id.tv_setting_relogin);
+        tvRelogin = view.findViewById(R.id.tv_setting_relogin);
         tvRelogin.setOnClickListener(this);
         rlDate = view.findViewById(R.id.rl_setting_choosedate);
         rlDate.setOnClickListener(this);
@@ -105,7 +91,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.tv_setting_loc:
                 if (nurseInfoList != null && nurseInfoList.size() > 0) {
                     String userCode = spUtils.getString(SharedPreference.USERCODE);
@@ -119,7 +105,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                         }
                     }
                 }
-            break;
+                break;
             case R.id.rl_setting_choosedate:
                 startFragment(SettingDateTimeFragment.class);
                 break;
@@ -139,17 +125,18 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         }
     }
 
-    private void changeLoc(){
+    private void changeLoc() {
         Gson gson = new Gson();
-        java.lang.reflect.Type type = new TypeToken<List<Map<String,String>>>(){}.getType();
+        java.lang.reflect.Type type = new TypeToken<List<Map<String, String>>>() {
+        }.getType();
         locsList = new ArrayList<>();
         String LocJson = spUtils.getString(SharedPreference.LOCSLISTJSON);
-        locsList =gson.fromJson(LocJson,type);
+        locsList = gson.fromJson(LocJson, type);
         String[] locDesc = new String[locsList.size()];
-        for (int i = 0;i< locsList.size();i++){
+        for (int i = 0; i < locsList.size(); i++) {
             locDesc[i] = locsList.get(i).get("LocDesc");
         }
-//                Toast.makeText(NurseSetActivity.this,LocJson,Toast.LENGTH_LONG).show();
+        //                Toast.makeText(NurseSetActivity.this,LocJson,Toast.LENGTH_LONG).show();
 
 
         final OptionPicker picker = new OptionPicker(getActivity(), locDesc);
@@ -168,7 +155,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 loginNurseInfo.setLocDesc(locsList.get(index).get("LocDesc"));
                 loginNurseInfo.setLocId(locsList.get(index).get("LocId"));
                 loginNurseInfo.setWardId(locsList.get(index).get("WardId"));
-//
+                //
                 if (nurseInfoList != null && nurseInfoList.size() > 0) {
                     int j;
                     String userCode = spUtils.getString(SharedPreference.USERCODE);
@@ -207,12 +194,12 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         picker.show();
     }
 
-    public void notifyMessage(){
+    public void notifyMessage() {
         {
             MessageApiManager.getMessage(new MessageApiManager.GetMessageCallback() {
                 @Override
                 public void onSuccess(MessageBean msgs) {
-                    int messageNum =  msgs.getNewOrdPatList().size()+msgs.getAbnormalPatList().size()+msgs.getConPatList().size();
+                    int messageNum = msgs.getNewOrdPatList().size() + msgs.getAbnormalPatList().size() + msgs.getConPatList().size();
                     setMessage(messageNum);
                 }
 

@@ -3,163 +3,171 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="#FFF5FAFF"
-    tools:context=".setting.SettingFragment"
-    >
+    android:orientation="vertical"
+    tools:context=".setting.SettingFragment">
+
     <View
         android:layout_width="match_parent"
         android:layout_height="20dp"
-        android:background="@color/white"></View>
+        android:background="@color/white" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:textSize="17sp"
-        android:textColor="@color/black"
-        android:gravity="center"
         android:background="@color/white"
-        android:text="设置"/>
+        android:gravity="center"
+        android:text="设置"
+        android:textColor="@color/black"
+        android:textSize="17sp" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/workarea_device_color"></View>
+        android:background="@color/workarea_device_color" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:background="@color/white"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
         <ImageView
             android:layout_width="85dp"
             android:layout_height="85dp"
             android:layout_margin="20dp"
-            android:src="@drawable/icon_nurse"/>
+            android:src="@drawable/icon_nurse" />
+
         <TextView
             android:id="@+id/tv_setting_username"
             android:layout_width="match_parent"
             android:layout_height="24dp"
             android:gravity="center"
             android:textColor="@color/text_view_text_color"
-            android:textStyle="bold"
             android:textSize="17sp"
+            android:textStyle="bold"
             tools:text="护士" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
             android:layout_marginTop="15dp"
-            android:layout_marginBottom="20dp">
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
             <TextView
                 android:id="@+id/tv_setting_loc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/text_view_text_color"
-                android:textSize="13sp"
                 android:text="选择科室"
-                />
+                android:textColor="@color/text_view_text_color"
+                android:textSize="13sp" />
+
             <View
                 android:id="@+id/img_setting_point"
                 android:layout_width="7dp"
                 android:layout_height="7dp"
-                android:background="@drawable/point_circle"
-                android:layout_marginLeft="@dimen/dp_10"
-                />
+                android:layout_marginStart="@dimen/dp_10"
+                android:background="@drawable/point_circle" />
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_marginTop="20dp"
         android:background="@color/white"
-        >
+        android:orientation="vertical">
+
         <RelativeLayout
             android:id="@+id/rl_setting_choosedate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="医嘱查询时间"
-                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
-                android:textSize="15sp"
+                android:text="医嘱查询时间"
                 android:textColor="@color/text_view_text_color"
-                />
+                android:textSize="15sp" />
+
             <ImageView
                 android:layout_width="8dp"
                 android:layout_height="15dp"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="20dp"
+                android:layout_marginEnd="20dp"
                 android:src="@drawable/setting_arrow">
 
             </ImageView>
         </RelativeLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/patevents_device_color"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            ></View>
+            android:background="@color/patevents_device_color" />
 
         <RelativeLayout
             android:id="@+id/rl_setting_choosebeds"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="所管床设置"
-                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
-                android:textSize="15sp"
+                android:text="所管床设置"
                 android:textColor="@color/text_view_text_color"
-                />
+                android:textSize="15sp" />
+
             <ImageView
                 android:layout_width="8dp"
                 android:layout_height="15dp"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="20dp"
+                android:layout_marginEnd="20dp"
                 android:src="@drawable/setting_arrow">
 
             </ImageView>
         </RelativeLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/patevents_device_color"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            ></View>
+            android:background="@color/patevents_device_color" />
 
         <RelativeLayout
             android:id="@+id/rl_setting_chooseway"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
                 android:text="提醒方式"
-                android:layout_marginLeft="15dp"
-                android:textSize="15sp"
                 android:textColor="@color/text_view_text_color"
-                />
+                android:textSize="15sp" />
+
             <ImageView
                 android:layout_width="8dp"
                 android:layout_height="15dp"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="20dp"
+                android:layout_marginEnd="20dp"
                 android:src="@drawable/setting_arrow">
 
             </ImageView>
@@ -170,9 +178,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/white"
         android:layout_marginTop="20dp"
+        android:background="@color/white"
         android:gravity="center">
+
         <TextView
             android:id="@+id/tv_setting_relogin"
             android:layout_width="wrap_content"
@@ -181,8 +190,7 @@
             android:text="     退出登录     "
             android:textColor="@color/blue"
             android:textSize="15sp"
-            android:textStyle="bold"
-            />
+            android:textStyle="bold" />
     </LinearLayout>
 
 </LinearLayout>
