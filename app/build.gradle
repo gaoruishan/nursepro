@@ -5,7 +5,7 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.dhcc.nursepro"
-        minSdkVersion 19
+        minSdkVersion 17
         targetSdkVersion 27
         versionCode 4
         versionName "1.3"
@@ -81,14 +81,12 @@ dependencies {
         exclude group: 'com.android.support'
         exclude module: "okhttp"
     }
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.40'
-    implementation('io.github.luizgrp.sectionedrecyclerviewadapter:sectionedrecyclerviewadapter:1.2.0') {
-        exclude group: 'com.android.support'
-    }
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46'
+
     implementation 'com.github.anzaizai:EasySwipeMenuLayout:1.1.2'
     implementation 'org.greenrobot:greendao:3.2.2'
     implementation 'org.greenrobot:eventbus:3.1.1'
-    implementation 'com.blankj:utilcode:1.19.0'
+    implementation 'com.blankj:utilcode:1.23.6'
     implementation 'com.github.stfalcon:frescoimageviewer:0.5.0'
     implementation('com.facebook.fresco:fresco:0.12.0') {
         exclude group: 'com.parse.bolts',
