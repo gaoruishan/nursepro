@@ -36,7 +36,6 @@ import com.jzxiang.pickerview.listener.OnDateSetListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -189,16 +188,8 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     }
 
     private void getScanInfo() {
-        SPUtils spUtils = SPUtils.getInstance();
-        HashMap<String, String> properties = new HashMap<>();
-        if (!episodeId.equals("")) {
-            properties.put("episodeId", episodeId);
-        }
-        properties.put("barcode", scanInfo);
-        properties.put("wardId", spUtils.getString(SharedPreference.WARDID));
-        properties.put("userId", spUtils.getString(SharedPreference.USERID));
-        properties.put("userDeptId", "");
-        OrderExecuteApiManager.getScanMsg(properties, new OrderExecuteApiManager.GetScanCallBack() {
+
+        OrderExecuteApiManager.getScanMsg(episodeId, scanInfo, new OrderExecuteApiManager.GetScanCallBack() {
             @Override
             public void onSuccess(ScanResultBean scanResultBean) {
                 //PAT 扫腕带返回患者信息

@@ -6,8 +6,6 @@ import com.dhcc.nursepro.workarea.orderexecute.bean.OrderExecuteBean;
 import com.dhcc.nursepro.workarea.orderexecute.bean.ScanResultBean;
 import com.google.gson.Gson;
 
-import java.util.HashMap;
-
 /**
  * OrderSearchApiManager
  *
@@ -48,8 +46,8 @@ public class OrderExecuteApiManager {
         });
     }
 
-    public static void execOrSeeOrder(String scanFlag,String batch,String auditUserCode ,String auditUserPass ,String oeoreId, String execStatusCode, final ExecOrSeeOrderCallback callback) {
-        OrderExecuteApiService.execOrSeeOrder(scanFlag,batch,auditUserCode ,auditUserPass ,oeoreId, execStatusCode, new OrderExecuteApiService.ServiceCallBack() {
+    public static void execOrSeeOrder(String scanFlag, String batch, String auditUserCode, String auditUserPass, String oeoreId, String execStatusCode, final ExecOrSeeOrderCallback callback) {
+        OrderExecuteApiService.execOrSeeOrder(scanFlag, batch, auditUserCode, auditUserPass, oeoreId, execStatusCode, new OrderExecuteApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();
@@ -80,9 +78,9 @@ public class OrderExecuteApiManager {
         });
     }
 
-    public static void getScanMsg(HashMap<String, String> map, final GetScanCallBack callback) {
+    public static void getScanMsg(String episodeId, String scanInfo, final GetScanCallBack callback) {
 
-        OrderExecuteApiService.getOrdersMsg(map, "getScanInfo", new OrderExecuteApiService.ServiceCallBack() {
+        OrderExecuteApiService.getOrdersMsg(episodeId, scanInfo, new OrderExecuteApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();
