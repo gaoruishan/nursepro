@@ -98,6 +98,11 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startService(i);
         nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        int exitTime = spUtils.getInt(SharedPreference.EXITTIME,0);
+        if (exitTime > 0) {
+            startTimer();
+        }
     }
 
     @Override

@@ -15,7 +15,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 
-import com.dhcc.nursepro.utils.CommonUtil;
+import com.blankj.utilcode.util.ConvertUtils;
 
 
 /**
@@ -83,7 +83,7 @@ public class CircularProgressBar extends View {
         if (isInEditMode()) {
             mBorderWidth = 6;
         } else {
-            mBorderWidth = CommonUtil.dip2px(4);
+            mBorderWidth = ConvertUtils.dp2px(4);
         }
         mColors = new int[]{0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff};
         mCurrentColorIndex = 0;

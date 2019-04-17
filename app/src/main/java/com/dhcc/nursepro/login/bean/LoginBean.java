@@ -32,6 +32,18 @@ public class LoginBean {
     private String userName;
     private List<BroadcastListBean> broadcastList;
     private List<LocsBean> locs;
+    /**
+     * closeTime : 30000
+     */
+
+
+    private String closeTime;
+    /**
+     * checkTime : 2000
+     */
+
+    private String checkTime;
+
 
     public String getMsg() {
         return msg;
@@ -103,6 +115,22 @@ public class LoginBean {
 
     public void setLocs(List<LocsBean> locs) {
         this.locs = locs;
+    }
+
+    public String getCloseTime() {
+        return closeTime;
+    }
+
+    public void setCloseTime(String closeTime) {
+        this.closeTime = closeTime;
+    }
+
+    public String getCheckTime() {
+        return checkTime;
+    }
+
+    public void setCheckTime(String checkTime) {
+        this.checkTime = checkTime;
     }
 
     public static class BroadcastListBean {

@@ -2,6 +2,7 @@ package com.dhcc.nursepro;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -33,10 +34,12 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -49,16 +52,19 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.nursepro.common.BaseBottomLoadingView;
 import com.dhcc.nursepro.common.BaseFullLoadingView;
 import com.dhcc.nursepro.common.BasePushDialog;
 import com.dhcc.nursepro.common.BaseTopLoadingView;
+import com.dhcc.nursepro.constant.SharedPreference;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
@@ -124,6 +130,13 @@ public class BaseActivity extends AppCompatActivity
     private NetworkStatusReceiver mNetworkStatusReceiver;
     private String mRequestTag;
 
+    public static LinkedList<Activity> sAllActivitys = new LinkedList<Activity>();
+
+    // 都是static声明的变量，避免被实例化多次；因为整个app只需要一个计时任务就可以了。
+    private static Timer mTimer; // 计时器，每1秒执行一次任务
+    private static MyTimerTask mTimerTask; // 计时任务，判断是否未操作时间到达5s
+    private static long mLastActionTime; // 上一次操作时间
+
     // =========================================================
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -176,6 +189,46 @@ public class BaseActivity extends AppCompatActivity
                 mUIHandler.updateLayoutWithToolbarType();
             }
         });
+        sAllActivitys.add(this);
+    }
+
+    // 每当用户接触了屏幕，都会执行此方法
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        mLastActionTime = System.currentTimeMillis();
+//        Log.e("nurseprotime", "user action");
+        return super.dispatchTouchEvent(ev);
+    }
+
+    private static class MyTimerTask extends TimerTask {
+
+        @Override
+        public void run() {
+//            Log.e("nurseprotime", "check time");
+            // 5s未操作
+            if (System.currentTimeMillis() - mLastActionTime > SPUtils.getInstance().getInt(SharedPreference.EXITTIME)) {
+                // 停止计时任务
+                stopTimer();
+                exit();
+            }
+        }
+    }
+
+    // 登录成功，开始计时
+    protected static void startTimer() {
+        mTimer = new Timer();
+        mTimerTask = new MyTimerTask();
+        // 初始化上次操作时间为登录成功的时间
+        mLastActionTime = System.currentTimeMillis();
+        // 每过1s检查一次
+        mTimer.schedule(mTimerTask, 0, SPUtils.getInstance().getInt(SharedPreference.CHECKTIME));
+//        Log.e("nurseprotime", "start timer");
+    }
+
+    // 停止计时任务
+    protected static void stopTimer() {
+        mTimer.cancel();
+//        Log.e("nurseprotime", "cancel timer");
     }
 
     // 在大于等于5.0的系统中使StatusBar半透明效果
@@ -434,6 +487,21 @@ public class BaseActivity extends AppCompatActivity
             mNetworkStatusReceiver.unregister();
         }
         super.onDestroy();
+        sAllActivitys.remove(this);
+    }
+
+    public static void finishAll() {
+        for(Activity activity : sAllActivitys) {
+            activity.finish();
+        }
+
+        sAllActivitys.clear();
+    }
+
+    public static void exit() {
+        finishAll();
+        // 这个主要是用来关闭进程的, 光把所有activity finish的话，进程是不会关闭的
+        System.exit(0);
     }
 
     //-------------------------------

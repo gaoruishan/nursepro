@@ -38,4 +38,8 @@ public class SharedPreference {
     public static final String VIBRATOR = "VIBRATOR";
 
 
+    public static final String EXITTIME = "EXITTIME";
+    public static final String CHECKTIME = "CHECKTIME";
+
+
 }

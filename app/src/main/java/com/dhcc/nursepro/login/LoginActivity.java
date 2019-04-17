@@ -1,6 +1,9 @@
 package com.dhcc.nursepro.login;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,13 +19,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.StringUtils;
 import com.dhcc.nursepro.Activity.MainActivity;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.constant.Action;
 import com.dhcc.nursepro.constant.SharedPreference;
 import com.dhcc.nursepro.greendao.DaoSession;
 import com.dhcc.nursepro.greendao.GreenDaoHelper;
 import com.dhcc.nursepro.login.api.LoginApiManager;
+import com.dhcc.nursepro.login.bean.BroadCastListBean;
 import com.dhcc.nursepro.login.bean.LoginBean;
 import com.dhcc.nursepro.login.bean.NurseInfo;
 import com.dhcc.nursepro.utils.TransBroadcastUtil;
@@ -32,6 +38,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -68,9 +75,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private SetIPDialog showDialog;
     private OptionPicker picker;
 
+    private boolean hasBroadCastConfig = false;
+    private LoginReceiver loginReceiver = new LoginReceiver();
+    private IntentFilter loginFilter = new IntentFilter();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_login);
         setToolbarType(ToolbarType.HIDE);
         IpStr = spUtils.getString(SharedPreference.WEBIP, "noIp");
@@ -79,20 +91,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         }
         nurseInfoList = daoSession.getNurseInfoDao().queryBuilder().list();
         initView();
-    }
-
-    @Override
-    protected void onResume(@Nullable Bundle args) {
-        super.onResume(args);
-        remem = spUtils.getBoolean(SharedPreference.REMEM);
-        if (remem) {
-            llLoginRememberme.setSelected(true);
-            rememUserCode = spUtils.getString(SharedPreference.REMEM_USERCODE);
-            etLoginUsercode.setText(rememUserCode);
-            etLoginPassword.requestFocus();
-        } else {
-            llLoginRememberme.setSelected(false);
-        }
+        getBroadCastConfig();
     }
 
     private void initView() {
@@ -193,6 +192,53 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         });
     }
 
+    private void getBroadCastConfig() {
+        LoginApiManager.getBroadcastConfig(new LoginApiManager.GetBroadCastConfigCallback() {
+            @Override
+            public void onSuccess(BroadCastListBean broadCastListBean) {
+                List<BroadCastListBean.BroadcastListBean> broadcastList = broadCastListBean.getBroadcastList();
+                if (broadcastList != null && broadcastList.size() > 0) {
+                    TransBroadcastUtil.setScanActionList(broadcastList);
+                    hasBroadCastConfig = true;
+                }
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+                showToast("error" + code + ":" + msg);
+            }
+        });
+
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (loginReceiver != null) {
+            unregisterReceiver(loginReceiver);
+        }
+    }
+
+    @Override
+    protected void onResume(@Nullable Bundle args) {
+        super.onResume(args);
+        remem = spUtils.getBoolean(SharedPreference.REMEM);
+        if (remem) {
+            llLoginRememberme.setSelected(true);
+            rememUserCode = spUtils.getString(SharedPreference.REMEM_USERCODE);
+            etLoginUsercode.setText(rememUserCode);
+            etLoginPassword.requestFocus();
+        } else {
+            llLoginRememberme.setSelected(false);
+        }
+
+        if (loginReceiver != null) {
+            loginFilter.addAction(Action.DEVICE_SCAN_CODE);
+            registerReceiver(loginReceiver, loginFilter);
+        }
+    }
+
     public int search(String str, String strRes) {//查找字符串里与指定字符串相同的个数
         int n = 0;
         while (str.indexOf(strRes) != -1) {
@@ -271,6 +317,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         if (isIP(showDialog.getIp())) {
                             spUtils.put(SharedPreference.WEBIP, showDialog.getIp());
                             showDialog.dismiss();
+                            getBroadCastConfig();
                         } else {
                             showToast("IP格式不正确，请重新输入");
                         }
@@ -335,6 +382,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private void initData(final String action, final NurseInfo nurseInfo) {
+
+        //判断是否存在广播码信息，若无，再次请求广播码
+        if(!hasBroadCastConfig) {
+            getBroadCastConfig();
+        }
+
         nurseInfoList = daoSession.getNurseInfoDao().queryBuilder().list();
         LoginApiManager.getLogin(userCode, password, logonWardId, new LoginApiManager.GetLoginCallback() {
             @Override
@@ -364,6 +417,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
                     //登录
                 } else if ("login".equals(action)) {
+                    //保存自动退出时长及检查时间间隔
+                    if (StringUtils.isEmpty(loginBean.getCloseTime())) {
+                        spUtils.put(SharedPreference.EXITTIME, 0);
+                    } else {
+                        spUtils.put(SharedPreference.EXITTIME, Integer.valueOf(loginBean.getCloseTime()));
+                    }
+
+                    if (StringUtils.isEmpty(loginBean.getCheckTime())) {
+                        spUtils.put(SharedPreference.CHECKTIME, 1000);
+                    } else {
+                        spUtils.put(SharedPreference.CHECKTIME, Integer.valueOf(loginBean.getCheckTime()));
+                    }
+
                     LoginBean.LocsBean locsBean = loginBean.getLocs().get(0);
 
                     if (nurseInfo == null) {
@@ -398,8 +464,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         }
                         //本地数据库已保存用户信息且用户的登录病区存在于登陆成功返回的可登录病区列表，
                         if (k < nurseInfoList.size() && l < loginBean.getLocs().size()) {
-                            List<LoginBean.BroadcastListBean> broadcastList = loginBean.getBroadcastList();
-                            TransBroadcastUtil.setScanActionList(broadcastList);
                             saveUserInfo();
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             finish();
@@ -409,8 +473,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         if (k >= nurseInfoList.size()) {
                             //                            Toast.makeText(LoginActivity.this, "login----不存在，插入新数据", Toast.LENGTH_SHORT).show();
                             daoSession.getNurseInfoDao().insert(loginNurseInfo);
-                            List<LoginBean.BroadcastListBean> broadcastList = loginBean.getBroadcastList();
-                            TransBroadcastUtil.setScanActionList(broadcastList);
                             saveUserInfo();
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             finish();
@@ -419,8 +481,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         //本地数据库未存储用户登录数据，数据库添加用户数据，SP设置用户数据，跳转页面
                         //                        Toast.makeText(LoginActivity.this, "login----不存在，插入新数据", Toast.LENGTH_SHORT).show();
                         daoSession.getNurseInfoDao().insert(loginNurseInfo);
-                        List<LoginBean.BroadcastListBean> broadcastList = loginBean.getBroadcastList();
-                        TransBroadcastUtil.setScanActionList(broadcastList);
                         saveUserInfo();
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         finish();
@@ -431,7 +491,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
             @Override
             public void onFail(String code, String msg) {
-                Toast.makeText(LoginActivity.this, "error" + code + ":" + msg, Toast.LENGTH_SHORT).show();
+                showToast("error" + code + ":" + msg);
             }
         });
     }
@@ -550,5 +610,42 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             }
         });
         picker.show();
+    }
+
+    public class LoginReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            switch (Objects.requireNonNull(intent.getAction())) {
+                case Action.DEVICE_SCAN_CODE:
+                    Bundle bundle = new Bundle();
+                    bundle = intent.getExtras();
+                    String scanInfo = bundle.getString("data");
+
+                    LoginApiManager.GetUserPwd(scanInfo, new LoginApiManager.GetUserPwdCallback() {
+                        @Override
+                        public void onSuccess(LoginBean loginBean) {
+                            LoginApiManager.ScanLogon(scanInfo, new LoginApiManager.ScanLogonCallback() {
+                                @Override
+                                public void onSuccess(LoginBean loginBean) {
+
+                                }
+
+                                @Override
+                                public void onFail(String code, String msg) {
+
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onFail(String code, String msg) {
+                            Toast.makeText(LoginActivity.this, "error" + code + ":" + msg, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }
