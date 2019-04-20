@@ -45,12 +45,6 @@
         <activity
             android:name=".Activity.NurseSetActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".WsTest.ClassificationActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".WsTest.SectionActivity"
-            android:screenOrientation="portrait" />
         <service
             android:name=".Activity.MyService"
             android:label="newOrdService"/>

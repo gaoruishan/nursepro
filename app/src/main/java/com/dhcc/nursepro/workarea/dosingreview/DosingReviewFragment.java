@@ -3,6 +3,7 @@ package com.dhcc.nursepro.workarea.dosingreview;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -66,6 +67,8 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
     private String pageNo = "1";
 
     private String orderId = "";
+
+    private DosingReviewResultDialog dosingReviewResultDialog;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -305,7 +308,7 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
                     @Override
                     public void onSuccess(DosingReViewBean dosingReViewBean) {
                         hideLoadingTip();
-                        showToast(dosingReViewBean.getMsg());
+
                         orders = dosingReViewBean.getOrders();
                         patientAdapter.setNewData(orders);
                         if (orders.size() == 0) {
@@ -313,12 +316,43 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
                         } else {
                             patientAdapter.loadMoreComplete();
                         }
+
+                        if (dosingReviewResultDialog != null && dosingReviewResultDialog.isShowing()) {
+                            dosingReviewResultDialog.dismiss();
+                        }
+                        dosingReviewResultDialog = new DosingReviewResultDialog(getActivity());
+                        dosingReviewResultDialog.setDRresult(dosingReViewBean.getMsg());
+                        dosingReviewResultDialog.setImgId(R.drawable.icon_popup_sucess);
+                        dosingReviewResultDialog.setSureVisible(View.GONE);
+                        dosingReviewResultDialog.setCancleVisible(View.GONE);
+                        dosingReviewResultDialog.show();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                dosingReviewResultDialog.dismiss();
+                            }
+                        }, 1000);
+
                     }
 
                     @Override
                     public void onFail(String code, String msg) {
                         hideLoadingTip();
-                        showToast("error" + code + ":" + msg);
+                        if (dosingReviewResultDialog != null && dosingReviewResultDialog.isShowing()) {
+                            dosingReviewResultDialog.dismiss();
+                        }
+                        dosingReviewResultDialog = new DosingReviewResultDialog(getActivity());
+                        dosingReviewResultDialog.setDRresult(msg);
+                        dosingReviewResultDialog.setImgId(R.drawable.icon_popup_error_patient);
+                        dosingReviewResultDialog.setSureVisible(View.VISIBLE);
+                        dosingReviewResultDialog.setCancleVisible(View.GONE);
+                        dosingReviewResultDialog.setSureOnclickListener(new DosingReviewResultDialog.onSureOnclickListener() {
+                            @Override
+                            public void onSureClick() {
+                                dosingReviewResultDialog.dismiss();
+                            }
+                        });
+                        dosingReviewResultDialog.show();
                     }
                 });
 
@@ -337,7 +371,7 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
                     @Override
                     public void onSuccess(PreparedVerifyOrdBean preparedVerifyOrdBean) {
                         hideLoadingTip();
-                        showToast(preparedVerifyOrdBean.getMsg());
+
                         String bedCode = "";
                         String name = "";
                         String type = "";
@@ -385,12 +419,42 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
                         } else {
                             llEmpty.setVisibility(View.GONE);
                         }
+
+                        if (dosingReviewResultDialog != null && dosingReviewResultDialog.isShowing()) {
+                            dosingReviewResultDialog.dismiss();
+                        }
+                        dosingReviewResultDialog = new DosingReviewResultDialog(getActivity());
+                        dosingReviewResultDialog.setDRresult(preparedVerifyOrdBean.getMsg());
+                        dosingReviewResultDialog.setImgId(R.drawable.icon_popup_sucess);
+                        dosingReviewResultDialog.setSureVisible(View.GONE);
+                        dosingReviewResultDialog.setCancleVisible(View.GONE);
+                        dosingReviewResultDialog.show();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                dosingReviewResultDialog.dismiss();
+                            }
+                        }, 1000);
                     }
 
                     @Override
                     public void onFail(String code, String msg) {
                         hideLoadingTip();
-                        showToast("error" + code + ":" + msg);
+                        if (dosingReviewResultDialog != null && dosingReviewResultDialog.isShowing()) {
+                            dosingReviewResultDialog.dismiss();
+                        }
+                        dosingReviewResultDialog = new DosingReviewResultDialog(getActivity());
+                        dosingReviewResultDialog.setDRresult(msg);
+                        dosingReviewResultDialog.setImgId(R.drawable.icon_popup_error_patient);
+                        dosingReviewResultDialog.setSureVisible(View.VISIBLE);
+                        dosingReviewResultDialog.setCancleVisible(View.GONE);
+                        dosingReviewResultDialog.setSureOnclickListener(new DosingReviewResultDialog.onSureOnclickListener() {
+                            @Override
+                            public void onSureClick() {
+                                dosingReviewResultDialog.dismiss();
+                            }
+                        });
+                        dosingReviewResultDialog.show();
                     }
                 });
                 break;
