@@ -288,6 +288,7 @@
 
             <LinearLayout
                 android:id="@+id/ll_bedmappat_orderexecute"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@color/white"
