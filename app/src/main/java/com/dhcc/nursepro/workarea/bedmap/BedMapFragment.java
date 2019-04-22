@@ -54,14 +54,14 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
     private BedMapPatientTypeAdapter bedMapPatientTypeAdapter;
     private BedMapPatientAdapter bedMapPatientAdapter;
 
-    private List<BedMapBean.LeftFilterBean> leftFilterBeanList;
-    private List<BedMapBean.PatInfoListBean> patInfoListBeanList;
-    private List<BedMapBean.TopFilterBean> topFilterBeanList;
+    private List<BedMapBean.LeftFilterBean> leftFilterBeanList =new ArrayList<>();
+    private List<BedMapBean.PatInfoListBean> patInfoListBeanList =new ArrayList<>();
+    private List<BedMapBean.TopFilterBean> topFilterBeanList =new ArrayList<>();
 
     //所有患者信息
-    private List<Map<String, String>> patInfoMapList;
+    private List<Map<String, String>> patInfoMapList =new ArrayList<>();
     //展示的患者信息
-    private List<Map<String, String>> patInfoMapListShow;
+    private List<Map<String, String>> patInfoMapListShow =new ArrayList<>();
 
     private String bedCode = "";
     private String topFilterStr = "inBedAll";

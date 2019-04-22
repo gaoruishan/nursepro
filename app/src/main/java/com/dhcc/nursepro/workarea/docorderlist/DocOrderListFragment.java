@@ -43,11 +43,11 @@ public class DocOrderListFragment extends BaseFragment {
     private DocOrderListPriorityAdapter priorityAdapter;
     private DocOrderListStatusAdapter statusAdapter;
 
-    private List<DocOrdersPatsListBean.PatInfoListBean> patsListBeanList;
-    private List<DocOrderListBean.OrdPriorityBean> ordPrioritybeanList;
-    private List<DocOrderListBean.OrdTypeBean> ordTypeBeanList;
-    private List<DocOrderListBean.OrdStatusBean> ordStatusBeanList;
-    private List<List<DocOrderListBean.OrdListBean>>  ordListBeanList;
+    private List<DocOrdersPatsListBean.PatInfoListBean> patsListBeanList =new ArrayList<>();
+    private List<DocOrderListBean.OrdPriorityBean> ordPrioritybeanList =new ArrayList<>();
+    private List<DocOrderListBean.OrdTypeBean> ordTypeBeanList =new ArrayList<>();
+    private List<DocOrderListBean.OrdStatusBean> ordStatusBeanList =new ArrayList<>();
+    private List<List<DocOrderListBean.OrdListBean>>  ordListBeanList =new ArrayList<>();
 
     private RecyclerView recPats;
     private RecyclerView recPriority;
@@ -74,7 +74,7 @@ public class DocOrderListFragment extends BaseFragment {
         setToolbarType(BaseActivity.ToolbarType.TOP);
         setToolbarBottomLineVisibility(false);
         //        hideToolbarNavigationIcon();
-        setToolbarCenterTitle((getString(R.string.title_docorderlist)), 0xffffffff, 17);
+        setToolbarCenterTitle((getString(R.string.title_nurinspection)), 0xffffffff, 17);
 
         initView(view);
         initAdapter();

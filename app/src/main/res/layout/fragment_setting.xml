@@ -172,6 +172,31 @@
 
             </ImageView>
         </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rl_setting_failrequest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:text="失败请求"
+                android:layout_marginLeft="15dp"
+                android:textSize="15sp"
+                android:textColor="@color/text_view_text_color"
+                />
+            <ImageView
+                android:layout_width="8dp"
+                android:layout_height="15dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/setting_arrow">
+
+            </ImageView>
+        </RelativeLayout>
+
 
     </LinearLayout>
 

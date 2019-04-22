@@ -26,7 +26,7 @@ public class LabResultListFragment extends BaseFragment {
     private RecyclerView recLabList;
     private LinearLayout llEmtpy;
     private LabResultListAdapter resultListAdapter;
-    private List<LabResultListBean.LabOrderListBean> listBeans;
+    private List<LabResultListBean.LabOrderListBean> listBeans =new ArrayList<>();
     private String episodeId, patmsg;
 
     @Override

@@ -37,9 +37,9 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
     private LinearLayout llEmpty;
     private View show1, show2, show3, show4;
     private LabOutAdapter labOutAdapter;
-    private List<LabOutListAllBean.LabOutListBean> listLabAll, listLabNow;
+    private List<LabOutListAllBean.LabOutListBean> listLabAll =new ArrayList<>(), listLabNow =new ArrayList<>();
     private String dateStr, CarrayCerate = "No", CarrayDel = "No", CarrayNo = "", TypeStr = "Type1";
-    private List<LabOutListAllBean.TypeListBean> listType;
+    private List<LabOutListAllBean.TypeListBean> listType =new ArrayList<>();
 
     private SPUtils spUtils = SPUtils.getInstance();
 

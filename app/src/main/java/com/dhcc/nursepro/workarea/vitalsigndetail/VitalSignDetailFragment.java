@@ -42,8 +42,8 @@ public class VitalSignDetailFragment extends BaseFragment implements View.OnClic
     private TextView tvEndate, tvStdate,tvcode,tvdatetime;
     private LinearLayout llEmpty;
 //    private List<VitalSignDetailBean.TempDataListBean> listBeans;
-    private List<Map> listMap;
-    private List<VitalSignDetailBean.TempConfigBean> listBeansTitle;
+    private List<Map> listMap =new ArrayList<>();
+    private List<VitalSignDetailBean.TempConfigBean> listBeansTitle =new ArrayList<>();
     private VitalSignDetailAdapter vitalSignDetailAdapter;
     private SPUtils spUtils = SPUtils.getInstance();
     private String episodeId, stDate, enDate, datestr;

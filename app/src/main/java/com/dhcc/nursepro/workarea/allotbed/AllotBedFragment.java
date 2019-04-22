@@ -46,9 +46,9 @@ public class AllotBedFragment extends BaseFragment implements View.OnClickListen
 
     private RecyclerView recAllotBed;
     private EmptyBedListAdapter emptyBedListAdapter;
-    private List<AllotBedInfoBean.EmptyBedListBean> listBeans;
-    private List<AllotBedInfoBean.DoctorListBean> listDocBeans;
-    private List<AllotBedInfoBean.NurseListBean> listNurBeans;
+    private List<AllotBedInfoBean.EmptyBedListBean> listBeans =new ArrayList<>();
+    private List<AllotBedInfoBean.DoctorListBean> listDocBeans =new ArrayList<>();
+    private List<AllotBedInfoBean.NurseListBean> listNurBeans =new ArrayList<>();
     private String selectBedId = "", selectDoc = "", selectNur = "";
     private int selectNurIndex = 0, selectDocIndex = 0, selectPosition = -1;
     private TextView tvMainDoc, tvMainNur, tvPatInfo, tvRegNo;

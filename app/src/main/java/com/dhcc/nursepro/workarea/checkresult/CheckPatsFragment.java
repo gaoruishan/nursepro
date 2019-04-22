@@ -32,7 +32,7 @@ public class CheckPatsFragment extends BaseFragment implements View.OnClickListe
     private RecyclerView recall;
     private LinearLayout llEmpty;
     private CheckPatListAdapter patListAdapterAll, patListAdapterManage, patListAdapterWait;
-    private List<CheckPatsListBean.PatInfoListBean> listBeansAll, listBeansInBed, listBeansManage, listBeansWait;
+    private List<CheckPatsListBean.PatInfoListBean> listBeansAll =new ArrayList<>(), listBeansInBed =new ArrayList<>(), listBeansManage =new ArrayList<>(), listBeansWait =new ArrayList<>();
     private String showListNow = "all";
     private View showview1, showview2, showview3;
     private SPUtils spUtils = SPUtils.getInstance();

@@ -21,7 +21,7 @@ import java.util.List;
 
 public class LabResultDetailFragment extends BaseFragment {
     private RecyclerView reclabdetail;
-    private List<LabReslutDetailBean.ResultDetailBean> listbeans;
+    private List<LabReslutDetailBean.ResultDetailBean> listbeans =new ArrayList<>();
     private LabResultDetailAdapter labResultDetailAdapter;
     private String oeordId,orderName;
     @Override

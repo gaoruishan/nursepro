@@ -28,7 +28,7 @@ public class CheckResultListFragment extends BaseFragment {
     private RecyclerView recCheckList;
     private LinearLayout llEmpty;
     private CheckResultListAdapter checkResultListAdapter;
-    private List<CheckResultListBean.RisOrdListBean> listBeans;
+    private List<CheckResultListBean.RisOrdListBean> listBeans =new ArrayList<>();
     private String episodeId, patmsg;
     private ShowMsgDialog showDialog;
     private SPUtils spUtils = SPUtils.getInstance();

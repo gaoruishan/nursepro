@@ -30,7 +30,7 @@ public class OperationFragment extends BaseFragment {
     private RecyclerView recOperation;
     private LinearLayout llEmtpy;
     private OperationAdapter operationAdapter;
-    private List<OperationBean.OpListBean> listOp;
+    private List<OperationBean.OpListBean> listOp =new ArrayList<>();
 
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

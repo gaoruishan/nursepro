@@ -52,7 +52,7 @@ public class BloodOperationListFragment extends BaseFragment implements View.OnC
     private String type = "R";
     private String searchDate;
 
-    private List<BloodOperationListBean.BloodListBean> bloodOperationList;
+    private List<BloodOperationListBean.BloodListBean> bloodOperationList =new ArrayList<>();
     private BloodOperationListAdapter operationListAdapter;
 
 

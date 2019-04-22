@@ -54,7 +54,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
 
     private VitalSignRecordBean recordInfo;
 
-    private List patientList;
+    private List patientList =new ArrayList<>();
 
     private int patientIndex;
 
@@ -62,7 +62,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
 
     private HashMap<String, View> viewItemMap;
 
-    private List timeFilterList;
+    private List timeFilterList =new ArrayList<>();
     private String timeFilterStr = "";
     private String dateFilterStr = "";
 

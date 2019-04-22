@@ -33,9 +33,9 @@ import java.util.List;
 public class PatEventsDetailFragment extends BaseFragment implements View.OnClickListener {
 
     private RecyclerView recyPatevents;
-    private List<String> list;
+    private List<String> list =new ArrayList<>();
     private PatEventsDetailAdapter patEventsDetailAdapter;
-    private List<EventItemBean.EventItemListBean> listItem;
+    private List<EventItemBean.EventItemListBean> listItem =new ArrayList<>();
     private int isel = 0;
     private String eventId;
     private TimeWheel mTimeWheel;

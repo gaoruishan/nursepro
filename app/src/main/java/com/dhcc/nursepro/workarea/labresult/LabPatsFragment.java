@@ -29,7 +29,7 @@ public class LabPatsFragment extends BaseFragment implements View.OnClickListene
     private RecyclerView recall;
     private LinearLayout llEmpty;
     private PatListAdapter patListAdapterAll, patListAdapterManage, patListAdapterWait;
-    private List<PatsListBean.PatInfoListBean> listBeansAll, listBeansInBed, listBeansManage, listBeansWait;
+    private List<PatsListBean.PatInfoListBean> listBeansAll =new ArrayList<>(), listBeansInBed =new ArrayList<>(), listBeansManage =new ArrayList<>(), listBeansWait =new ArrayList<>();
     private String showListNow = "all";
     private View showview1, showview2, showview3;
     private SPUtils spUtils = SPUtils.getInstance();

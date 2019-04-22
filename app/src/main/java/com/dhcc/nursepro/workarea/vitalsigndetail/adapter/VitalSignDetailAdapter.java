@@ -14,13 +14,14 @@ import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.vitalsigndetail.bean.VitalSignDetailBean;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class VitalSignDetailAdapter extends BaseQuickAdapter <Map,BaseViewHolder>{
     Context context;
-    private List<VitalSignDetailBean.TempConfigBean> listTitle;
+    private List<VitalSignDetailBean.TempConfigBean> listTitle =new ArrayList<>();
 
     public VitalSignDetailAdapter(@Nullable List<Map> data,Context context) {
         super(R.layout.item_vital_detail,data);

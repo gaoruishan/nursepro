@@ -41,7 +41,7 @@ public class LabOutDetailFragment extends BaseFragment {
 
     private RecyclerView recaddLabOut;
     private LabOutDetailAdapter labOutDetailAdapter;
-    private List<LabOutDetailBean.DetailListBean> listBeans;
+    private List<LabOutDetailBean.DetailListBean> listBeans =new ArrayList<>();
 
     private String carryNo = "", carryLocDr = "", carryLabNo = "", DelSend = "", saveFlag = "", carryFlag = "";
     private SPUtils spUtils = SPUtils.getInstance();

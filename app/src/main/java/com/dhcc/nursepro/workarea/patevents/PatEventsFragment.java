@@ -35,9 +35,9 @@ public class PatEventsFragment extends BaseFragment implements View.OnClickListe
     private RecyclerView recyPatevents;
     private RelativeLayout rlscan;
     private TextView tveventuser;
-    private List<String> list;
+    private List<String> list =new ArrayList<>();
     private PatEventsAdapter patEventsAdapter;
-    private List<PatEventsBean.EventListBean> listItem;
+    private List<PatEventsBean.EventListBean> listItem =new ArrayList<>();
 
     private String episodeIdNow = null;
 

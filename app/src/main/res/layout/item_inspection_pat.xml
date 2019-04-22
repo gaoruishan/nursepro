@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/ll_inspection_patinfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_patienttype_selector">
+
+        <View
+            android:id="@+id/view_docorders_patinfo"
+            android:layout_width="5dp"
+            android:layout_height="match_parent"
+            android:background="#FF70AAF2" />
+
+        <TextView
+            android:id="@+id/tv_docorder_patinfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="17dp"
+            android:layout_marginBottom="17dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="12dp"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            tools:text="全部" />
+    </LinearLayout>
+
+</LinearLayout>
+    
+

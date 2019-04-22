@@ -57,13 +57,13 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
     private VitalSignPatientAdapter patientAdapter;
     private VitalSignTypeAdapter typeAdapter;
 
-    private ArrayList topFilterList;
+    private ArrayList topFilterList = new ArrayList();
 
-    private List leftFilterList;
+    private List leftFilterList = new ArrayList();
 
-    private List patientList;
+    private List patientList = new ArrayList();
 
-    private List timeFilterList;
+    private List timeFilterList = new ArrayList();
 
     private List<Map> displayList = new ArrayList<>();
 
