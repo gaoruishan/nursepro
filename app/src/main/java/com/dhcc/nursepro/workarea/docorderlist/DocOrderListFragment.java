@@ -74,7 +74,7 @@ public class DocOrderListFragment extends BaseFragment {
         setToolbarType(BaseActivity.ToolbarType.TOP);
         setToolbarBottomLineVisibility(false);
         //        hideToolbarNavigationIcon();
-        setToolbarCenterTitle((getString(R.string.title_nurinspection)), 0xffffffff, 17);
+        setToolbarCenterTitle((getString(R.string.title_docorderlist)), 0xffffffff, 17);
 
         initView(view);
         initAdapter();
