@@ -24,8 +24,8 @@ import com.dhcc.nursepro.workarea.dosingreview.DosingReviewFragment;
 import com.dhcc.nursepro.workarea.labout.LabOutListFragment;
 import com.dhcc.nursepro.workarea.labresult.LabPatsFragment;
 import com.dhcc.nursepro.workarea.milkloopsystem.MilkLoopSystemFragment;
-import com.dhcc.nursepro.workarea.motherbabylink.MotherBabyLinkFragment;
 import com.dhcc.nursepro.workarea.nurrecord.NurRecordModellistFragmen;
+import com.dhcc.nursepro.workarea.nurtour.NurTourFragment;
 import com.dhcc.nursepro.workarea.operation.OperationFragment;
 import com.dhcc.nursepro.workarea.orderexecute.OrderExecuteFragment;
 import com.dhcc.nursepro.workarea.ordersearch.OrderSearchFragment;
@@ -87,6 +87,7 @@ public class WorkareaFragment extends BaseFragment {
             @Override
             public void onSuccess(MainConfigBean mainConfigBean) {
                 ItemNameList = mainConfigBean.getMainConfig();
+                ItemNameList.add("MOTHERBABYLINK");
                 patEventsAdapter.setNewData(ItemNameList);
             }
 
@@ -161,7 +162,7 @@ public class WorkareaFragment extends BaseFragment {
                 startFragment(MilkLoopSystemFragment.class);
                 break;
             case "MOTHERBABYLINK":
-                startFragment(MotherBabyLinkFragment.class);
+                startFragment(NurTourFragment.class);
                 break;
             case "MODELDETAIL":
                 startFragment(NurRecordModellistFragmen.class);

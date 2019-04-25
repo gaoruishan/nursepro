@@ -1,0 +1,573 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".workarea.docorderlist.DocOrderListFragment">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_tour_all"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:text="全部"
+                android:textColor="@drawable/textcolor_item_bedmap_selector"
+                android:textSize="@dimen/sp_14" />
+
+            <TextView
+                android:id="@+id/tv_tour_nur"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:text="护理巡视"
+                android:textColor="@drawable/textcolor_item_bedmap_selector"
+                android:textSize="@dimen/sp_14" />
+
+            <TextView
+                android:id="@+id/tv_tour_dosing"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:text="输液巡视"
+                android:textColor="@drawable/textcolor_item_bedmap_selector"
+                android:textSize="@dimen/sp_14" />
+
+            <TextView
+                android:id="@+id/tv_tour_blood"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:text="输血巡视"
+                android:textColor="@drawable/textcolor_item_bedmap_selector"
+                android:textSize="@dimen/sp_14" />
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/blue_light"></View>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/blue_light"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1">
+
+                <View
+                    android:id="@+id/view_tour_show1"
+                    android:layout_width="45dp"
+                    android:layout_height="2dp"
+                    android:layout_centerInParent="true"
+                    android:background="@color/blue" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1">
+
+                <View
+                    android:id="@+id/view_tour_show2"
+                    android:layout_width="45dp"
+                    android:layout_height="2dp"
+                    android:layout_centerInParent="true"
+                    android:background="@color/blue" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1">
+
+                <View
+                    android:id="@+id/view_tour_show3"
+                    android:layout_width="45dp"
+                    android:layout_height="2dp"
+                    android:layout_centerInParent="true"
+                    android:background="@color/blue" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1">
+
+                <View
+                    android:id="@+id/view_tour_show4"
+                    android:layout_width="45dp"
+                    android:layout_height="2dp"
+                    android:layout_centerInParent="true"
+                    android:background="@color/blue" />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/ll_tour_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"
+        >
+        <LinearLayout
+            android:id="@+id/ll_alltype"
+            android:layout_width="85dp"
+            android:layout_height="match_parent"
+            android:background="@color/blue_light"
+            android:orientation="vertical">
+            <LinearLayout
+                android:id="@+id/ll_tourtype_patlist"
+                android:layout_width="85dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recy_tour_pattype"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </android.support.v7.widget.RecyclerView>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:background="@color/blue"></View>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recy_tour_patlist"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </android.support.v7.widget.RecyclerView>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/ll_tourtype_all"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="全部"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="即将/已超时"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_tourtype_nur"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/blue_light"
+                android:orientation="vertical">
+
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recy_tour_nurlist"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </android.support.v7.widget.RecyclerView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_tourtype_dosing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="全部"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="执行中"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="已完成"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_tourtype_blood"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="全部"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="执行中"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="已完成"/>
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:background="@color/white"
+            >
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/ll_tour_main_all"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="巡视类别" />
+
+                            <TextView
+                                android:id="@+id/tv_tour_main_level1"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="分级巡视"
+                                android:textColor="@color/colorAccent" />
+
+                            <TextView
+                                android:id="@+id/tv_tour_main_level2"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="输液巡视"
+                                android:textColor="@color/blue" />
+
+                            <TextView
+                                android:id="@+id/tv_tour_main_level3"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="输血巡视"
+                                android:textColor="@color/lab_warning_red" />
+                        </LinearLayout>
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/recy_tour_listall"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/dp_10"
+                            android:background="@color/blue_light">
+
+                        </android.support.v7.widget.RecyclerView>
+                    </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_tour_main_nurlist"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recy_tour_nur"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dp_10">
+
+                    </android.support.v7.widget.RecyclerView>
+                </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/ll_tourmain_dosinglist"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/recy_tour_dosing"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/dp_10">
+
+                        </android.support.v7.widget.RecyclerView>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_tourmain_bloodlist"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/recy_tour_blood"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/dp_10">
+
+                        </android.support.v7.widget.RecyclerView>
+                    </LinearLayout>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recy_tour_listblood"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dp_10"
+                        android:background="@color/divider_line_color"
+                        android:visibility="gone">
+
+                    </android.support.v7.widget.RecyclerView>
+
+                </LinearLayout>
+
+            </ScrollView>
+        </LinearLayout>
+
+    </LinearLayout>
+<RelativeLayout
+    android:visibility="gone"
+    android:id="@+id/ll_tour_send"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/ll_tourmain_save"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:background="@color/blue">
+
+        <TextView
+            android:id="@+id/tv_tour_cancle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="@color/white"
+            android:textColor="@color/black"
+            android:layout_margin="1dp"
+
+            android:text="取消" />
+
+        <TextView
+            android:id="@+id/tv_tour_save"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:text="确定" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/blue_light"
+        android:orientation="vertical"
+        android:layout_above="@+id/ll_tourmain_save">
+        <LinearLayout
+            android:id="@+id/ll_tourmain_nur"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:id="@+id/ll_tournurlist_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="101床   啦啦啦"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:textSize="15sp"
+                        android:text="hulidengji "
+                        android:background="@color/blue"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        />
+
+                </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@drawable/bg_oval_blue"></View>
+                <LinearLayout
+                    android:id="@+id/messagecontentll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_margin="5dp">
+
+                    <TextView
+                        android:id="@+id/tv_tourall_type1"
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:background="#FFF5A623"
+                        android:gravity="center"
+                        android:text="护理等级"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+                    <TextView
+                        android:id="@+id/tv_tourall_date1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="2019-10-02"
+                        android:textColor="#FF4A4A4A"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="13sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_tourall_time1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:text="07:37:57"
+                        android:textColor="#FF4A4A4A"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="13sp"/>
+                    <TextView
+                        android:id="@+id/tv_tourall_nursedetail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:text="hs01"
+                        android:textColor="#FF4A4A4A"
+                        android:layout_marginRight="55dp"
+                        android:gravity="end"
+                        android:textSize="13sp"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:text="在此显示巡视详情"/>
+                </LinearLayout>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@drawable/bg_rectangle_green"></View>
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <com.nex3z.flowlayout.FlowLayout
+
+                    android:id="@+id/fl_modeldetail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:flChildSpacing="5dp"
+                    app:flRowSpacing="8dp" />
+
+            </ScrollView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_tourmain_dosing"
+            android:layout_width="match_parent"
+            android:layout_height="100dp">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_tourmain_blood"
+            android:layout_width="match_parent"
+            android:layout_height="100dp">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>
+
+</LinearLayout>
