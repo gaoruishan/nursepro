@@ -24,6 +24,7 @@ import com.dhcc.nursepro.workarea.dosingreview.DosingReviewFragment;
 import com.dhcc.nursepro.workarea.labout.LabOutListFragment;
 import com.dhcc.nursepro.workarea.labresult.LabPatsFragment;
 import com.dhcc.nursepro.workarea.milkloopsystem.MilkLoopSystemFragment;
+import com.dhcc.nursepro.workarea.motherbabylink.MotherBabyLinkFragment;
 import com.dhcc.nursepro.workarea.nurrecord.NurRecordModellistFragmen;
 import com.dhcc.nursepro.workarea.nurtour.NurTourFragment;
 import com.dhcc.nursepro.workarea.operation.OperationFragment;
@@ -87,7 +88,6 @@ public class WorkareaFragment extends BaseFragment {
             @Override
             public void onSuccess(MainConfigBean mainConfigBean) {
                 ItemNameList = mainConfigBean.getMainConfig();
-                ItemNameList.add("MOTHERBABYLINK");
                 patEventsAdapter.setNewData(ItemNameList);
             }
 
@@ -116,6 +116,7 @@ public class WorkareaFragment extends BaseFragment {
      * ("MILK");//母乳闭环
      * ("MOTHERBABYLINK");//母婴关联
      * ("MODELDETAIL");//护理病历
+     * ("NURTOUR");//巡视
      */
     public void itemClick(String itemName) {
         switch (itemName) {
@@ -162,10 +163,13 @@ public class WorkareaFragment extends BaseFragment {
                 startFragment(MilkLoopSystemFragment.class);
                 break;
             case "MOTHERBABYLINK":
-                startFragment(NurTourFragment.class);
+                startFragment(MotherBabyLinkFragment.class);
                 break;
             case "MODELDETAIL":
                 startFragment(NurRecordModellistFragmen.class);
+                break;
+            case "NURTOUR":
+                startFragment(NurTourFragment.class);
                 break;
             default:
 
@@ -246,6 +250,10 @@ public class WorkareaFragment extends BaseFragment {
                     break;
                 case "MODELDETAIL":
                     tvItem.setText("护理病历");
+                    imageView.setImageResource(R.drawable.icon_motherbabylink);
+                    break;
+                case "NURTOUR":
+                    tvItem.setText("巡视");
                     imageView.setImageResource(R.drawable.icon_motherbabylink);
                     break;
                 default:
