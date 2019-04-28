@@ -33,5 +33,8 @@ public class Action {
     //新消息更新
     public static final String NEWMESSAGE_SERVICE = "com.dhcc.nursepro.newmessage.Action";
 
+    //护理巡视巡视记录点击
+    public static final String TOUR_DOSINGID = "com.dhcc.nursepro.tour_dosing";
+
 
 }

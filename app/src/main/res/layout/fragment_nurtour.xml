@@ -142,6 +142,7 @@
         android:layout_height="match_parent"
         android:layout_marginTop="5dp"
         android:orientation="horizontal"
+        android:visibility="gone"
         >
         <LinearLayout
             android:id="@+id/ll_alltype"
@@ -175,24 +176,6 @@
 
 
             <LinearLayout
-                android:id="@+id/ll_tourtype_all"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:gravity="center"
-                    android:text="全部"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:gravity="center"
-                    android:text="即将/已超时"/>
-            </LinearLayout>
-
-            <LinearLayout
                 android:id="@+id/ll_tourtype_nur"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -201,57 +184,13 @@
 
 
                 <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recy_tour_nurlist"
+                    android:id="@+id/recy_tour_nurlefttypelist"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                 </android.support.v7.widget.RecyclerView>
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/ll_tourtype_dosing"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:gravity="center"
-                    android:text="全部"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:gravity="center"
-                    android:text="执行中"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:gravity="center"
-                    android:text="已完成"/>
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/ll_tourtype_blood"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:gravity="center"
-                    android:text="全部"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:gravity="center"
-                    android:text="执行中"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:gravity="center"
-                    android:text="已完成"/>
-            </LinearLayout>
         </LinearLayout>
 
 
@@ -262,11 +201,6 @@
             android:orientation="vertical"
             android:background="@color/white"
             >
-
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -279,6 +213,7 @@
                         android:orientation="vertical">
 
                         <LinearLayout
+                            android:id="@+id/ll_alltour_toptip"
                             android:layout_width="match_parent"
                             android:layout_height="30dp"
                             android:orientation="horizontal">
@@ -323,47 +258,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="@dimen/dp_10"
-                            android:background="@color/blue_light">
-
-                        </android.support.v7.widget.RecyclerView>
-                    </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/ll_tour_main_nurlist"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/recy_tour_nur"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/dp_10">
-
-                    </android.support.v7.widget.RecyclerView>
-                </LinearLayout>
-                    <LinearLayout
-                        android:id="@+id/ll_tourmain_dosinglist"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/recy_tour_dosing"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/dp_10">
-
-                        </android.support.v7.widget.RecyclerView>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/ll_tourmain_bloodlist"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/recy_tour_blood"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/dp_10">
+                            android:background="@color/white">
 
                         </android.support.v7.widget.RecyclerView>
                     </LinearLayout>
@@ -379,13 +274,10 @@
                     </android.support.v7.widget.RecyclerView>
 
                 </LinearLayout>
-
-            </ScrollView>
         </LinearLayout>
 
     </LinearLayout>
 <RelativeLayout
-    android:visibility="gone"
     android:id="@+id/ll_tour_send"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -441,6 +333,7 @@
                     android:layout_height="wrap_content"
                     >
                     <TextView
+                        android:id="@+id/tv_nurtour_patinfo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="101床   啦啦啦"
@@ -452,11 +345,12 @@
                         />
 
                     <TextView
+                        android:id="@+id/tv_nurtour_level"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
                         android:textSize="15sp"
-                        android:text="hulidengji "
+                        android:text="一级护理 "
                         android:background="@color/blue"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
@@ -476,7 +370,7 @@
                     android:layout_margin="5dp">
 
                     <TextView
-                        android:id="@+id/tv_tourall_type1"
+                        android:id="@+id/tv_tourall_type"
                         android:layout_width="50dp"
                         android:layout_height="match_parent"
                         android:orientation="vertical"
@@ -547,25 +441,6 @@
             </ScrollView>
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/ll_tourmain_dosing"
-            android:layout_width="match_parent"
-            android:layout_height="100dp">
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_tourmain_blood"
-            android:layout_width="match_parent"
-            android:layout_height="100dp">
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>

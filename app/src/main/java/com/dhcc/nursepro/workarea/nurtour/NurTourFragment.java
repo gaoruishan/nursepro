@@ -37,6 +37,8 @@ import com.dhcc.nursepro.constant.SharedPreference;
 import com.dhcc.nursepro.workarea.nurrecord.FlowRadioGroup;
 import com.dhcc.nursepro.workarea.nurrecord.ItemValueDialog;
 import com.dhcc.nursepro.workarea.nurrecord.bean.NurRecordBean;
+import com.dhcc.nursepro.workarea.nurtour.adapter.DosingTourListAdapter;
+import com.dhcc.nursepro.workarea.nurtour.adapter.DosingTourTypeAdapter;
 import com.dhcc.nursepro.workarea.nurtour.adapter.NurTourListAdapter;
 import com.dhcc.nursepro.workarea.nurtour.adapter.NurTourTypeAdapter;
 import com.dhcc.nursepro.workarea.nurtour.adapter.TourAllAdapter;
@@ -44,8 +46,11 @@ import com.dhcc.nursepro.workarea.nurtour.adapter.TourPatTypeAdapter;
 import com.dhcc.nursepro.workarea.nurtour.adapter.TourPatslistAdapter;
 import com.dhcc.nursepro.workarea.nurtour.api.TourApiManager;
 import com.dhcc.nursepro.workarea.nurtour.bean.AllTourListBean;
+import com.dhcc.nursepro.workarea.nurtour.bean.DosingListBean;
 import com.dhcc.nursepro.workarea.nurtour.bean.GradeModelBean;
 import com.dhcc.nursepro.workarea.nurtour.bean.GradeTourListBean;
+import com.dhcc.nursepro.workarea.nurtour.bean.ModelDataBean;
+import com.dhcc.nursepro.workarea.nurtour.bean.TourSaveBean;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
@@ -83,34 +88,29 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
     private RecyclerView recPatType;
     private RecyclerView recAll;
     private RecyclerView recTimeout;
-    private RecyclerView recNurTour;
-    private RecyclerView recNurList;
-    private RecyclerView recBloodList;
-    private RecyclerView recDosingList;
+    private RecyclerView recNurTypeList;
 
     private LinearLayout llMainAll;
-    private LinearLayout llMainNurList;
-    private LinearLayout llMainDosingList;
-    private LinearLayout llMainBloodList;
-
+    private LinearLayout llTopTip;
 
     private LinearLayout llMainNur;
-    private LinearLayout llMainDosing;
-    private LinearLayout llMainBlood;
     private LinearLayout llMainSave;
 
     private TextView tvCancle,tvSave;
 
     private TextView tvAll,tvNur,tvDosing,tvBlood;
     private View show1, show2, show3, show4;
+    private TextView tvSendPatinfo,tvSendTourLevel,tvSendTourType;
 
-    private LinearLayout llTypeAll,llPatList,llTypeNur,llTypeDosing,llTypeBlood;
+    private LinearLayout llPatList,llTypeNur;
 
     private TourAllAdapter tourAllAdapter;
     private TourPatslistAdapter patsAdapter;
     private TourPatTypeAdapter tourPatTypeAdapter;
     private NurTourTypeAdapter nurTourTypeAdapter;
     private NurTourListAdapter nurTourListAdapter;
+    private DosingTourTypeAdapter dosingTourTypeAdapter;
+    private DosingTourListAdapter dosingTourListAdapter;
 
 
     private SPUtils spUtils = SPUtils.getInstance();
@@ -118,19 +118,27 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
     private List<AllTourListBean.PatInfoListBean> patsListBeanList =new ArrayList<>();
     private List<AllTourListBean.PatInfoListBean> patsListBeanFilter =new ArrayList<>();
     private List<AllTourListBean.TopFilterBean> topFilterBeans =new ArrayList<>();
+
     private List<AllTourListBean.TourDataListBeanX> tourDataListBeans =new ArrayList<>();
     private List<GradeTourListBean.LeftFilterBean> gradeTourTypeList = new ArrayList<>();
     private List<GradeTourListBean.PatInfoListBean> gradePatTourList = new ArrayList<>();
 
+    private List<DosingListBean.PatInfoListBean> dosingPatsListBeanList =new ArrayList<>();
+    private List<DosingListBean.PatInfoListBean> dosingPastBeanFilter =new ArrayList<>();
+    private List<DosingListBean.TopFilterBean> dosingTopFilterBeans =new ArrayList<>();
+
     private String topTypeSelected = "nur";
+    private String tempTopTypeSelected = "";
     private String regNo = "";
     private String episodeId = "";
+    private String modelType="grade";
+    private String sendpisodeId = "";
 
 
     private TextView textViewChooseDateTime;
     private String dt = "date";
 
-    private List<GradeModelBean.ModelListBean> listBeans =new ArrayList<>();
+    private List<ModelDataBean.ModelListBean> modelListBeans =new ArrayList<>();
     private Map patInfoMap = new HashMap<String, String>();
 
     private ItemValueDialog showDialog;
@@ -164,6 +172,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 
         initDataAll();
         initDataGrade();
+        initDataInfusion();
 
     }
 
@@ -178,19 +187,15 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         recPatlist = view.findViewById(R.id.recy_tour_patlist);
         recPatType = view.findViewById(R.id.recy_tour_pattype);
         recAll = view.findViewById(R.id.recy_tour_listall);
-        recNurTour = view.findViewById(R.id.recy_tour_nur);
-        recNurList = view.findViewById(R.id.recy_tour_nurlist);
-        recBloodList = view.findViewById(R.id.recy_tour_blood);
-        recDosingList = view.findViewById(R.id.recy_tour_dosing);
+        recNurTypeList = view.findViewById(R.id.recy_tour_nurlefttypelist);
 
         llMainAll = view.findViewById(R.id.ll_tour_main_all);
-        llMainNurList = view.findViewById(R.id.ll_tour_main_nurlist);
-        llMainBloodList = view.findViewById(R.id.ll_tourmain_bloodlist);
-        llMainDosingList = view.findViewById(R.id.ll_tourmain_dosinglist);
+        llTopTip = view.findViewById(R.id.ll_alltour_toptip);
         llMainNur = view.findViewById(R.id.ll_tourmain_nur);
-        llMainDosing = view.findViewById(R.id.ll_tourmain_dosing);
-        llMainBlood = view.findViewById(R.id.ll_tourmain_blood);
         llMainSave = view.findViewById(R.id.ll_tourmain_save);
+        tvSendPatinfo = view.findViewById(R.id.tv_nurtour_patinfo);
+        tvSendTourLevel = view.findViewById(R.id.tv_nurtour_level);
+        tvSendTourType = view.findViewById(R.id.tv_tourall_type);
 
         tvAll = view.findViewById(R.id.tv_tour_all);
         tvAll.setOnClickListener(this);
@@ -206,11 +211,8 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         show3 = view.findViewById(R.id.view_tour_show3);
         show4 = view.findViewById(R.id.view_tour_show4);
 
-        llTypeAll = view.findViewById(R.id.ll_tourtype_all);
         llPatList = view.findViewById(R.id.ll_tourtype_patlist);
         llTypeNur = view.findViewById(R.id.ll_tourtype_nur);
-        llTypeDosing = view.findViewById(R.id.ll_tourtype_dosing);
-        llTypeBlood = view.findViewById(R.id.ll_tourtype_blood);
 
         tvCancle = view.findViewById(R.id.tv_tour_cancle);
         tvCancle.setOnClickListener(this);
@@ -221,10 +223,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 
         llTourlist.setVisibility(View.VISIBLE);
         llTourSend.setVisibility(View.GONE);
-        setTopFilterSelect(tvNur);
-        showgone(show2);
-        insectionTypeGone(llTypeNur);
-        mainAreaGone(llMainNurList);
+        setTopFilterSelect();
 
         //提高展示效率
         recAll.setHasFixedSize(true);
@@ -242,23 +241,25 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         recPatType.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         //提高展示效率
-        recNurTour.setHasFixedSize(true);
+        recNurTypeList.setHasFixedSize(true);
         //设置的布局管理
-        recNurTour.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        //提高展示效率
-        recNurList.setHasFixedSize(true);
-        //设置的布局管理
-        recNurList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recNurTypeList.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
     private void initAdapter() {
 
         tourAllAdapter = new TourAllAdapter(new ArrayList<AllTourListBean.TourDataListBeanX>(),getActivity());
-        recAll.setAdapter(tourAllAdapter);
-
+        patsAdapter = new TourPatslistAdapter(new ArrayList<AllTourListBean.PatInfoListBean>());
+        tourPatTypeAdapter = new TourPatTypeAdapter(new ArrayList<AllTourListBean.TopFilterBean>());
         nurTourTypeAdapter = new NurTourTypeAdapter(new ArrayList<GradeTourListBean.LeftFilterBean>());
-        recNurList.setAdapter(nurTourTypeAdapter);
+        nurTourListAdapter= new NurTourListAdapter(new ArrayList<GradeTourListBean.PatInfoListBean>(), getActivity());
+        dosingTourTypeAdapter = new DosingTourTypeAdapter(new ArrayList<DosingListBean.TopFilterBean>());
+        dosingTourListAdapter = new DosingTourListAdapter(new ArrayList<DosingListBean.PatInfoListBean>(),getActivity());
+
+        recAll.setAdapter(nurTourListAdapter);
+
+        //分级巡视左侧分类列表
+        recNurTypeList.setAdapter(nurTourTypeAdapter);
         nurTourTypeAdapter.setSelectItem(0);
         nurTourTypeAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -268,10 +269,21 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                 showToast(gradeTourTypeList.get(position).getDesc());
             }
         });
-        nurTourListAdapter = new NurTourListAdapter(new ArrayList<GradeTourListBean.PatInfoListBean>(), getContext());
-        recNurTour.setAdapter(nurTourListAdapter);
 
-        patsAdapter = new TourPatslistAdapter(new ArrayList<AllTourListBean.PatInfoListBean>());
+        ///输液巡视左侧分类列表
+        dosingTourTypeAdapter.setSelectItem(0);
+        dosingTourTypeAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                dosingTourTypeAdapter.setSelectItem(position);
+                dosingTourTypeAdapter.notifyDataSetChanged();
+                dosingPatFilter(dosingTopFilterBeans.get(position).getCode());
+//                showToast(gradeTourTypeList.get(position).getDesc());
+            }
+        });
+
+
+        //全部巡视左侧病人列表
         recPatlist.setAdapter(patsAdapter);
         patsAdapter.setSelectItem(0);
         patsAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -283,8 +295,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                 initDataAll();
             }
         });
-
-        tourPatTypeAdapter = new TourPatTypeAdapter(new ArrayList<AllTourListBean.TopFilterBean>());
+        //全部巡视病人分类列表
         recPatType.setAdapter(tourPatTypeAdapter);
         tourPatTypeAdapter.setSelectItem(0);
         tourPatTypeAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -296,7 +307,6 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
             }
         });
     }
-
     private void initDataGrade(){
         showLoadingTip(BaseActivity.LoadingType.FULL);
             HashMap<String,String> map = new HashMap<>();
@@ -365,6 +375,27 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         HashMap<String,String> map = new HashMap<>();
         map.put("locId",spUtils.getString(SharedPreference.LOCID));
         map.put("userId",spUtils.getString(SharedPreference.USERID));
+        TourApiManager.getInfusionList(map, "getInfusionTourList", new TourApiManager.getInfusionlcall() {
+            @Override
+            public void onSuccess(DosingListBean infusionListBean) {
+                dosingPatsListBeanList = infusionListBean.getPatInfoList();
+                dosingPastBeanFilter = dosingPatsListBeanList;
+                dosingTourListAdapter.setNewData(dosingPastBeanFilter);
+                dosingTourListAdapter.notifyDataSetChanged();
+
+                dosingTopFilterBeans = infusionListBean.getTopFilter();
+                dosingTourTypeAdapter.setNewData(dosingTopFilterBeans);
+                dosingTourTypeAdapter.notifyDataSetChanged();
+
+                hideLoadingTip();
+
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+                hideLoadingTip();
+            }
+        });
 
 
 
@@ -379,21 +410,41 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 
     }
 
-
-
-    private void initDataGradeModel() {
+    private void initDataModel() {
         showLoadingTip(BaseActivity.LoadingType.FULL);
         HashMap<String, String> map = new HashMap<>();
         map.put("locId", "197");
         map.put("episodeId", "94");
-        TourApiManager.getGradeModel(map, "getGradeModelData", new TourApiManager.getGradeModelcall() {
+        map.put("barCode", "94");
+        TourApiManager.getModelData(map, "getModelData", new TourApiManager.getModelDatacall() {
             @Override
-            public void onSuccess(GradeModelBean gradeModelBean) {
+            public void onSuccess(ModelDataBean modelDataBean) {
 //                nurRecordBean = modelDetailBean;
-                listBeans = gradeModelBean.getModelList();
+                modelListBeans = modelDataBean.getModelList();
 //                Gson gson = new Gson();
 //                String result = gson.toJson(nurRecordBean.getPatInfo());
 //                patInfoMap = gson.fromJson(result, HashMap.class);
+                sendpisodeId = modelDataBean.getPatInfo().getEpisodeID();
+                modelType = modelDataBean.getModelType();
+                switch (modelDataBean.getModelType()){
+                    case "Grade":
+                        topTypeSelected = "nur";
+                        tvSendTourType.setText("护理巡视");
+                        break;
+                    case "Infusion":
+                        topTypeSelected = "dosing";
+                        tvSendTourType.setText("输液巡视");
+                        break;
+                    case "Blood":
+                        topTypeSelected = "blood";
+                        tvSendTourType.setText("输血巡视");
+                        break;
+                    default:
+                        break;
+                }
+                tvSendPatinfo.setText(modelDataBean.getPatInfo().getBedCode()+"  "+modelDataBean.getPatInfo().getName());
+                setTopFilterSelect();
+
                 drawInputItems();
 
                 hideLoadFailTip();
@@ -406,96 +457,168 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         });
     }
 
+    private void initTourSave(String send){
+        showLoadingTip(BaseActivity.LoadingType.FULL);
+        HashMap<String,String> map = new HashMap<>();
+        map.put("parr",send);
+        map.put("id",spUtils.getString(SharedPreference.USERID));
+        map.put("tourType",spUtils.getString(SharedPreference.LOCID));
+        map.put("userId",spUtils.getString(SharedPreference.USERID));
+        TourApiManager.getTourSaveMsg(map, "saveTour", new TourApiManager.getTourSavecall() {
+            @Override
+            public void onSuccess(TourSaveBean tourSaveBean) {
+                seToptEnable(true);
+                setTopFilterSelect();
 
+                llTourSend.setVisibility(View.GONE);
+                llTourlist.setVisibility(View.VISIBLE);
+                switch (topTypeSelected){
+                    case "all":
+                        onClick(tvAll);
+                        break;
+                    case "nur":
+                        onClick(tvNur);
+                        break;
+                    case "dosing":
+                        onClick(tvDosing);
+                        break;
+                    case "blood":
+                        onClick(tvBlood);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+                    showToast(code+"--"+msg);
+            }
+        });
+
+
+    }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_tour_all:
+                episodeId = "";
+                patsAdapter.setSelectItem(0);
+                patsAdapter.notifyDataSetChanged();
+                tourPatTypeAdapter.setSelectItem(0);
+                tourPatTypeAdapter.notifyDataSetChanged();
+
+                initDataAll();
                 topTypeSelected = "all";
-                setTopFilterSelect(tvAll);
-                showgone(show1);
-                insectionTypeGone(llPatList);
-                mainAreaGone(llMainAll);
+                setTopFilterSelect();
                 break;
             case R.id.tv_tour_nur:
+                nurTourTypeAdapter.setSelectItem(0);
+                nurTourTypeAdapter.notifyDataSetChanged();
+                initDataGrade();
                 topTypeSelected = "nur";
-                setTopFilterSelect(tvNur);
-                showgone(show2);
-                insectionTypeGone(llTypeNur);
-                mainAreaGone(llMainNurList);
+                setTopFilterSelect();
                 break;
             case R.id.tv_tour_dosing:
+                dosingTourTypeAdapter.setSelectItem(0);
+                dosingTourTypeAdapter.notifyDataSetChanged();
+                initDataInfusion();
                 topTypeSelected = "dosing";
-                setTopFilterSelect(tvDosing);
-                showgone(show3);
-                insectionTypeGone(llTypeDosing);
-                mainAreaGone(llMainDosingList);
+                setTopFilterSelect();
                 break;
             case R.id.tv_tour_blood:
                 topTypeSelected = "blood";
-                setTopFilterSelect(tvBlood);
-                showgone(show4);
-                insectionTypeGone(llTypeBlood);
-                mainAreaGone(llMainBloodList);
+                setTopFilterSelect();
                 break;
             case R.id.tv_tour_cancle:
+                topTypeSelected = tempTopTypeSelected;
                 seToptEnable(true);
-                if (topTypeSelected.equals("all")){
-                    onClick(tvAll);
-                }else if (topTypeSelected.equals("nur")){
-                    onClick(tvNur);
-                } else if (topTypeSelected.equals("dosing")){
-                    onClick(tvDosing);
-                }else if (topTypeSelected.equals("blood")){
-                    onClick(tvBlood);
-                }
+                setTopFilterSelect();
+
                 llTourSend.setVisibility(View.GONE);
                 llTourlist.setVisibility(View.VISIBLE);
                 break;
             case R.id.tv_tour_save:
 
+                String strSendHead = "DHCNurTourAdmDR|"+sendpisodeId+"^DHCNurTourCtlocDR|"+spUtils.getString(SharedPreference.LOCID)+
+                        "^DHCNurTourPatBed|^DHCNurTourCareDR|^DHCNurTourCareDesc|^DHCNurTourUser|"+spUtils.getString(SharedPreference.USERCODE)+
+                        "^DHCNurTourType|"+modelType;
                 String  strSend = "";
-                for (int i = 0; i < listBeans.size(); i++) {
-
-
-                    if (listBeans.get(i).getItemCode().startsWith("DHC")) {
-                        strSend = strSend + "^" + listBeans.get(i).getSendValue();
+                for (int i = 0; i < modelListBeans.size(); i++) {
+                    if (modelListBeans.get(i).getItemCode().startsWith("DHC")) {
+                        strSend = strSend + "^" + modelListBeans.get(i).getSendValue();
                     }
-                    if ("1".equals(listBeans.get(i).getMustFill())) {
-                        if (StringUtils.isEmpty(listBeans.get(i).getSendValue())) {
-                            showToast(listBeans.get(i).getItemDesc() + "--未填写");
+                    if ("1".equals(modelListBeans.get(i).getMustFill())) {
+                        if (StringUtils.isEmpty(modelListBeans.get(i).getSendValue())) {
+                            showToast(modelListBeans.get(i).getItemDesc() + "--未填写");
                             return;
                         }
                     }
-                    if (i == listBeans.size() - 1) {
+                    if (i == modelListBeans.size() - 1) {
 
-                        showToast(strSend);
+                        showToast(strSendHead+strSend);
                         Log.v("111send", strSend);
                     }
                 }
 
                 llType.setVisibility(View.VISIBLE);
+
+                initTourSave(strSendHead+strSend);
+
                 break;
-//            case R.id.tv_labout_startdate:
-//                dateStr = "start";
-//                chooseTime(TimeUtils.string2Millis(tvStartDate.getText().toString() + " 00:00:00"));
-//                break;
-//            case R.id.tv_labout_enddate:
-//                dateStr = "end";
-//                chooseTime(TimeUtils.string2Millis(tvEndDate.getText().toString() + " 00:00:00"));
-//                break;
+
             default:
                 break;
         }
     }
 
 
-    private void setTopFilterSelect(View view) {
-        tvAll.setSelected(view == tvAll);
-        tvNur.setSelected(view == tvNur);
-        tvDosing.setSelected(view == tvDosing);
-        tvBlood.setSelected(view == tvBlood);
+    private void setTopFilterSelect() {
+        tvAll.setSelected(false);
+        tvNur.setSelected(false);
+        tvDosing.setSelected(false);
+        tvBlood.setSelected(false);
+
+        llTopTip.setVisibility(View.GONE);
+
+        show1.setBackgroundColor(getResources().getColor(R.color.blue_light));
+        show2.setBackgroundColor(getResources().getColor(R.color.blue_light));
+        show3.setBackgroundColor(getResources().getColor(R.color.blue_light));
+        show4.setBackgroundColor(getResources().getColor(R.color.blue_light));
+
+        llPatList.setVisibility(View.GONE);
+        llTypeNur.setVisibility(View.GONE);
+        switch (topTypeSelected){
+            case "all":
+                tvAll.setSelected(true);
+                show1.setBackgroundColor(getResources().getColor(R.color.blue));
+                llPatList.setVisibility(View.VISIBLE);
+                llTopTip.setVisibility(View.VISIBLE);
+                recAll.setAdapter(tourAllAdapter);
+                break;
+            case "nur":
+                tvNur.setSelected(true);
+                show2.setBackgroundColor(getResources().getColor(R.color.blue));
+                llTypeNur.setVisibility(View.VISIBLE);
+                recAll.setAdapter(nurTourListAdapter);
+                recNurTypeList.setAdapter(nurTourTypeAdapter);
+                break;
+            case "dosing":
+                tvDosing.setSelected(true);
+                show3.setBackgroundColor(getResources().getColor(R.color.blue));
+                llTypeNur.setVisibility(View.VISIBLE);
+                recAll.setAdapter(dosingTourListAdapter);
+                recNurTypeList.setAdapter(dosingTourTypeAdapter);
+                break;
+            case "blood":
+                tvBlood.setSelected(true);
+                show4.setBackgroundColor(getResources().getColor(R.color.blue));
+                llTypeNur.setVisibility(View.VISIBLE);
+                break;
+            default:
+                break;
+        }
     }
 
     private void seToptEnable(Boolean b){
@@ -505,32 +628,6 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         tvBlood.setEnabled(b);
     }
 
-    private void showgone(View view) {
-        show1.setBackgroundColor(getResources().getColor(R.color.blue_light));
-        show2.setBackgroundColor(getResources().getColor(R.color.blue_light));
-        show3.setBackgroundColor(getResources().getColor(R.color.blue_light));
-        show4.setBackgroundColor(getResources().getColor(R.color.blue_light));
-        view.setBackgroundColor(getResources().getColor(R.color.blue));
-    }
-    private void insectionTypeGone(View view) {
-        llTypeAll.setVisibility(View.GONE);
-        llPatList.setVisibility(View.GONE);
-        llTypeNur.setVisibility(View.GONE);
-        llTypeDosing.setVisibility(View.GONE);
-        llTypeBlood.setVisibility(View.GONE);
-        view.setVisibility(View.VISIBLE);
-    }
-
-    private void mainAreaGone(View view) {
-        llMainAll.setVisibility(View.GONE);
-        llMainNurList.setVisibility(View.GONE);
-        llMainBloodList.setVisibility(View.GONE);
-        llMainDosingList.setVisibility(View.GONE);
-        llMainNur.setVisibility(View.GONE);
-        llMainDosing.setVisibility(View.GONE);
-        llMainBlood.setVisibility(View.GONE);
-        view.setVisibility(View.VISIBLE);
-    }
 
     private void patFilter(String pattype){
         patsListBeanFilter = new ArrayList<>();
@@ -575,18 +672,62 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         patsAdapter.notifyDataSetChanged();
     }
 
+    private void dosingPatFilter(String pattype){
+        dosingPastBeanFilter = new ArrayList<>();
+        for (int i = 0;i<dosingPatsListBeanList.size();i++){
+
+            switch (pattype) {
+                case "inBedAll":
+                    if (dosingPatsListBeanList.get(i).getInBedAll().equals("1")){
+                        dosingPastBeanFilter.add(dosingPatsListBeanList.get(i));
+                    }
+                    break;
+                case "manageInBed":
+                    if (dosingPatsListBeanList.get(i).getManageInBed().equals("1")){
+                        dosingPastBeanFilter.add(dosingPatsListBeanList.get(i));
+                    }
+                    break;
+                case "todayOut":
+                    if (dosingPatsListBeanList.get(i).getTodayOut().equals("1")){
+                        dosingPastBeanFilter.add(dosingPatsListBeanList.get(i));
+                    }
+                    break;
+                case "allOut":
+                    if (dosingPatsListBeanList.get(i).getAllOut().equals("1")){
+                        dosingPastBeanFilter.add(dosingPatsListBeanList.get(i));
+                    }
+                    break;
+                case "wait":
+                    if (dosingPatsListBeanList.get(i).getWait().equals("1")){
+                        dosingPastBeanFilter.add(dosingPatsListBeanList.get(i));
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+        }
+        dosingTourListAdapter.setNewData(dosingPastBeanFilter);
+        dosingTourListAdapter.notifyDataSetChanged();
+    }
+
     @Override
     public void getScanMsg(Intent intent) {
         super.getScanMsg(intent);
         if (Objects.requireNonNull(intent.getAction()).equals(Action.DEVICE_SCAN_CODE)) {
+            tempTopTypeSelected =topTypeSelected;
             Bundle bundle = new Bundle();
             bundle = intent.getExtras();
             showToast(bundle.getString("data"));
-            mainAreaGone(llMainNur);
             llTourlist.setVisibility(View.GONE);
             llTourSend.setVisibility(View.VISIBLE);
             seToptEnable(false);
-            initDataGradeModel();
+            initDataModel();
+        }
+        if (Objects.requireNonNull(intent.getAction()).equals(Action.TOUR_DOSINGID)) {
+            Bundle bundle = new Bundle();
+            bundle = intent.getExtras();
+            showToast(bundle.getString("data"));
         }
 
     }
@@ -603,8 +744,8 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
      */
     public void drawInputItems() {
         recordContentView.removeAllViews();
-        for (int i = 0; i < listBeans.size(); i++) {
-            GradeModelBean.ModelListBean config = listBeans.get(i);
+        for (int i = 0; i < modelListBeans.size(); i++) {
+            ModelDataBean.ModelListBean config = modelListBeans.get(i);
             recordContentView.addView(drawItem(config));
         }
     }
@@ -630,9 +771,11 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
      * @param config
      * @return
      */
-    private LinearLayout drawItem(GradeModelBean.ModelListBean config) {
+    private LinearLayout drawItem(ModelDataBean.ModelListBean config) {
 
-        int height = 3* ConvertUtils.dp2px(Float.parseFloat(config.getHeight()));
+        config.setSendValue(config.getItemCode()+"|");
+
+        int height = ConvertUtils.dp2px(Float.parseFloat(config.getHeight()));
         int width = ConvertUtils.dp2px(Float.parseFloat(config.getWidth()));
 
         LinearLayout layout = new LinearLayout(getContext());
@@ -876,10 +1019,10 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 
 
             if (!StringUtils.isEmpty(config.getPatInfo())) {
-                config.setSendValue((patInfoMap.get(config.getPatInfo()) + ""));
+                config.setSendValue(config.getItemCode()+(patInfoMap.get(config.getPatInfo()) + ""));
                 config.setItemdeValue((patInfoMap.get(config.getPatInfo()) + ""));
             } else {
-                config.setSendValue(config.getItemdeValue() + "");
+                config.setSendValue(config.getItemCode()+config.getItemdeValue() + "");
             }
 
             String[] split = config.getItemValue().split("!");
@@ -898,7 +1041,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                         @Override
                         public void onClick(View v) {
 //                            showToast(rb.getText() + "----");
-                            config.setSendValue(config.getItemCode()+"|"+rb.getId()+"!"+rb.getText() + "");
+                            config.setSendValue(config.getItemCode()+"|"+rb.getText() + "");
                             if (config.getLinkInfo().size()>0) {
 //                                linkView(config.getLinkInfo(), rb.getText() + "",rb.isChecked(),"isR");
                             }
@@ -907,10 +1050,10 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                 radioGroup.addView(rb);
                 if (split[i].equals(patInfoMap.get(config.getPatInfo()))){
                     radioGroup.check(rb.getId());
-                    config.setSendValue(config.getItemCode()+"|"+rbnum+"!"+config.getItemdeValue() + "");
+                    config.setSendValue(config.getItemCode()+"|"+config.getItemdeValue() + "");
                 }else if (split[i].equals(config.getItemdeValue())) {
                     radioGroup.check(rb.getId());
-                    config.setSendValue(config.getItemCode()+"|"+rbnum+"!"+config.getItemdeValue() + "");
+                    config.setSendValue(config.getItemCode()+"|"+config.getItemdeValue() + "");
                 }
 
             }
@@ -1005,13 +1148,13 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
             //日期选择
             TextView tvalue = new TextView(getContext());
             tvalue.setText(config.getItemdeValue() + "2018-12-11");
-            if (StringUtils.isEmpty(config.getPatInfo())) {
-                tvalue.setText(config.getItemdeValue());
-                config.setSendValue(config.getItemCode()+"|"+config.getItemdeValue() + "");
-            } else {
-                tvalue.setText((patInfoMap.get(config.getPatInfo()) + ""));
-                config.setSendValue(config.getItemCode()+"|"+(patInfoMap.get(config.getPatInfo()) + ""));
-            }
+//            if (StringUtils.isEmpty(config.getPatInfo())) {
+//                tvalue.setText(config.getItemdeValue());
+//                config.setSendValue(config.getItemCode()+"|"+config.getItemdeValue() + "");
+//            } else {
+//                tvalue.setText((patInfoMap.get(config.getPatInfo()) + ""));
+//                config.setSendValue(config.getItemCode()+"|"+(patInfoMap.get(config.getPatInfo()) + ""));
+//            }
             tvalue.setTextSize(Float.parseFloat(config.getFontSize()));
             tvalue.setGravity(Gravity.CENTER_HORIZONTAL);
             config.setSendValue(config.getItemCode()+"|"+tvalue.getText() + "");

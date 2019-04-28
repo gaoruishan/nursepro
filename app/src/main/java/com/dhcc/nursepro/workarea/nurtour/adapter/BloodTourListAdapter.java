@@ -22,34 +22,26 @@ import java.util.List;
  * com.dhcc.nursepro.workarea.nurtour.adapter
  * <p>
  * author Q
- * Date: 2019/4/22
- * Time:15:20
+ * Date: 2019/4/26
+ * Time:8:52
  */
-public class NurTourListAdapter extends BaseQuickAdapter<GradeTourListBean.PatInfoListBean, BaseViewHolder> {
+public class BloodTourListAdapter extends BaseQuickAdapter<GradeTourListBean.PatInfoListBean, BaseViewHolder> {
 
     private Context mContext;
-    public NurTourListAdapter(@Nullable List<GradeTourListBean.PatInfoListBean> data, Context context) {
+    public BloodTourListAdapter(@Nullable List<GradeTourListBean.PatInfoListBean> data, Context context) {
         super(R.layout.item_tour_nurlist, data);
         mContext = context;
     }
     @Override
     protected void convert(BaseViewHolder helper, GradeTourListBean.PatInfoListBean item) {
-        helper.setText(R.id.tv_tournurlist_bedcode,item.getBedCode())
-                .setText(R.id.tv_tournurlist_name,item.getName())
-                .setText(R.id.tv_tourall_nurse1,item.getLastTourInfo().getTourTypeDesc())
-                .setText(R.id.tv_tournurlist_date,item.getLastTourInfo().getDHCNurTourDate())
-                .setText(R.id.tv_tournurlist_time,item.getLastTourInfo().getDHCNurTourTime())
-                .setText(R.id.tv_tourall_nurse2,item.getLastTourInfo().getDHCNurTourUser());
+        helper
+                .setText(R.id.tv_tournurlist_name,item.getName()+"--");
         com.guanaj.easyswipemenulibrary.EasySwipeMenuLayout swipeLabout = helper.getView(R.id.swipe_labout);
-
-        ImageView imgsex = helper.getView(R.id.img_tour_sex);
-        if (item.getSex().equals("男")){
-            imgsex.setImageDrawable(mContext.getResources().getDrawable(R.drawable.sex_male));
-        }else {
-            imgsex.setImageDrawable(mContext.getResources().getDrawable(R.drawable.sex_female));
-        }
-
-
+//        if (item.getStatus().startsWith("建单")){
+//            swipeLabout.setCanLeftSwipe(true);
+//        }else {
+//            swipeLabout.setCanLeftSwipe(false);
+//        }
         FlowLayout flTourDetail = helper.getView(R.id.fl_modeldetail);
         flTourDetail.removeAllViews();
         //统一名称textview

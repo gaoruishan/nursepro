@@ -10,43 +10,56 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
-
+        android:layout_margin="10dp"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
             <TextView
                 android:id="@+id/tv_tournurlist_bedcode"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginLeft="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="101床"
                 android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textSize="13sp" />
+
             <TextView
-                android:id="@+id/tv_tournurlist_name"
+                android:id="@+id/tv_tourall_nurse1"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:gravity="end"
+                android:text="一级护理"
+                android:textColor="@color/black"
+                android:textSize="13sp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <TextView
+                android:id="@+id/tv_tournurlist_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:gravity="center|start"
                 android:text="zhangwei"
                 android:textColor="@color/black"
-                android:layout_marginLeft="5dp"
-                android:textSize="13sp"/>
-        <TextView
-            android:id="@+id/tv_tourall_nurse1"
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="5dp"
-            android:background="@color/blue"
-            android:gravity="center"
-            android:text="一级护理"
-            android:textColor="@color/white"
-            android:textSize="13sp"/>
+                android:textSize="16sp"/>
+            <ImageView
+                android:id="@+id/img_tour_sex"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/sex_male"
+                android:layout_marginLeft="10dp"
+                />
+
+        </LinearLayout>
+
     </LinearLayout>
     <View
         android:layout_width="match_parent"
@@ -111,8 +124,7 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_marginEnd="8dp"
-                android:background="@color/blue"
-                android:src="@drawable/icon_message_selector"/>
+                android:src="@drawable/icon_tourlist_selector"/>
         </LinearLayout>
     <View
         android:layout_width="match_parent"
@@ -124,56 +136,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <LinearLayout
-            android:id="@+id/messagecontentll"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:id="@+id/tv_tourall_type1"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginLeft="5dp"
-                android:background="#FFF5A623"
-                android:gravity="center"
-                android:text="护理等级"
-                android:textColor="@color/white"
-                android:textSize="12sp" />
-            <TextView
-                android:id="@+id/tv_tourall_date1"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="2019-10-02"
-                android:textColor="#FF4A4A4A"
-                android:layout_marginLeft="5dp"
-                android:textSize="13sp"/>
-
-            <TextView
-                android:id="@+id/tv_tourall_time1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:text="07:37:57"
-                android:textColor="#FF4A4A4A"
-                android:layout_marginLeft="5dp"
-                android:textSize="13sp"/>
-            <TextView
-                android:id="@+id/tv_tourall_nursedetail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:text="hs01"
-                android:textColor="#FF4A4A4A"
-                android:layout_marginRight="55dp"
-                android:gravity="end"
-                android:textSize="13sp"/>
-        </LinearLayout>
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -187,6 +149,11 @@
                     app:flRowSpacing="8dp" />
 
             </ScrollView>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#FFF6F6F6"></View>
+
     </LinearLayout>
 
 </LinearLayout>

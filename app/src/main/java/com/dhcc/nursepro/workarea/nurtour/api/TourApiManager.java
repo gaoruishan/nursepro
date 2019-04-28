@@ -5,7 +5,9 @@ import com.dhcc.nursepro.workarea.nurtour.bean.AllTourListBean;
 import com.dhcc.nursepro.workarea.nurtour.bean.BloodListBean;
 import com.dhcc.nursepro.workarea.nurtour.bean.GradeModelBean;
 import com.dhcc.nursepro.workarea.nurtour.bean.GradeTourListBean;
-import com.dhcc.nursepro.workarea.nurtour.bean.InfusionListBean;
+import com.dhcc.nursepro.workarea.nurtour.bean.DosingListBean;
+import com.dhcc.nursepro.workarea.nurtour.bean.ModelDataBean;
+import com.dhcc.nursepro.workarea.nurtour.bean.TourSaveBean;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
@@ -126,41 +128,110 @@ public class TourApiManager {
     }
 
 
+    //获取巡视模板
+    public static void getModelData(HashMap<String, String> map, String method, final getModelDatacall callback) {
+
+        TourApiService.getTourListMsg(map, method, new TourApiService.ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                Gson gson = new Gson();
+
+                if (jsonStr.isEmpty()) {
+                    callback.onFail("-1", "网络错误，请求数据为空");
+                } else {
+                    try {
+                        ModelDataBean modelDataBean = gson.fromJson(jsonStr, ModelDataBean.class);
+                        if (ObjectUtils.isEmpty(modelDataBean)) {
+                            callback.onFail("-3", "网络错误，数据解析为空");
+                        } else {
+                            if ("0".equals(modelDataBean.getStatus())) {
+                                if (callback != null) {
+                                    callback.onSuccess(modelDataBean);
+                                }
+                            } else {
+                                if (callback != null) {
+                                    callback.onFail(modelDataBean.getMsgcode(), modelDataBean.getMsg());
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        callback.onFail("-2", "网络错误，数据解析失败");
+                    }
+
+                }
+            }
+        });
+    }
+
+
     //获取输液巡视列表
-//    public static void getInfusionList(HashMap<String, String> map, String method, final getInfusionlcall callback) {
-//
-//        TourApiService.getTourListMsg(map, method, new TourApiService.ServiceCallBack() {
-//            @Override
-//            public void onResult(String jsonStr) {
-//                Gson gson = new Gson();
-//                if (jsonStr.isEmpty()) {
-//                    callback.onFail("-1", "网络错误，请求数据为空");
-//                } else {
-//                    try {
-//                        InfusionListBean infusionListBean = gson.fromJson(jsonStr, InfusionListBean.class);
-//                        if (ObjectUtils.isEmpty(infusionListBean)) {
-//                            callback.onFail("-3", "网络错误，数据解析为空");
-//                        } else {
-//                            if ("0".equals(infusionListBean.getStatus())) {
-//                                if (callback != null) {
-//                                    callback.onSuccess(infusionListBean);
-//                                }
-//                            } else {
-//                                if (callback != null) {
-//                                    callback.onFail(infusionListBean.getMsgcode(), infusionListBean.getMsg());
-//                                }
-//                            }
-//                        }
-//                    } catch (Exception e) {
-//                        callback.onFail("-2", "网络错误，数据解析失败");
-//                    }
-//
-//                }
-//            }
-//        });
-//    }
+    public static void getInfusionList(HashMap<String, String> map, String method, final getInfusionlcall callback) {
+
+        TourApiService.getTourListMsg(map, method, new TourApiService.ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                Gson gson = new Gson();
+                if (jsonStr.isEmpty()) {
+                    callback.onFail("-1", "网络错误，请求数据为空");
+                } else {
+                    try {
+                        DosingListBean infusionListBean = gson.fromJson(jsonStr, DosingListBean.class);
+                        if (ObjectUtils.isEmpty(infusionListBean)) {
+                            callback.onFail("-3", "网络错误，数据解析为空");
+                        } else {
+                            if ("0".equals(infusionListBean.getStatus())) {
+                                if (callback != null) {
+                                    callback.onSuccess(infusionListBean);
+                                }
+                            } else {
+                                if (callback != null) {
+                                    callback.onFail(infusionListBean.getMsgcode(), infusionListBean.getMsg());
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        callback.onFail("-2", "网络错误，数据解析失败");
+                    }
+
+                }
+            }
+        });
+    }
 
 
+    //获取保存结果
+    public static void getTourSaveMsg(HashMap<String, String> map, String method, final getTourSavecall callback) {
+
+        TourApiService.getTourListMsg(map, method, new TourApiService.ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                Gson gson = new Gson();
+                if (jsonStr.isEmpty()) {
+                    callback.onFail("-1", "网络错误，请求数据为空");
+                } else {
+                    try {
+                        TourSaveBean tourSaveBean = gson.fromJson(jsonStr, TourSaveBean.class);
+                        if (ObjectUtils.isEmpty(tourSaveBean)) {
+                            callback.onFail("-3", "网络错误，数据解析为空");
+                        } else {
+                            if ("0".equals(tourSaveBean.getStatus())) {
+                                if (callback != null) {
+                                    callback.onSuccess(tourSaveBean);
+                                }
+                            } else {
+                                if (callback != null) {
+                                    callback.onFail(tourSaveBean.getMsgcode(), tourSaveBean.getMsg());
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        callback.onFail("-2", "网络错误，数据解析失败");
+                    }
+
+                }
+            }
+        });
+    }
 
     //获取输血巡视列表
 //    public static void getBloodList(HashMap<String, String> map, String method, final getBloodcall callback) {
@@ -206,12 +277,20 @@ public class TourApiManager {
     public interface getGradeModelcall extends CommonCallBack {
         void onSuccess(GradeModelBean gradeModelBean);
     }
+    public interface getModelDatacall extends CommonCallBack {
+        void onSuccess(ModelDataBean modelDataBean);
+    }
     public interface getInfusionlcall extends CommonCallBack {
-        void onSuccess(InfusionListBean infusionListBean);
+        void onSuccess(DosingListBean infusionListBean);
     }
     public interface getBloodcall extends CommonCallBack {
         void onSuccess(BloodListBean bloodListBean);
     }
+
+    public interface getTourSavecall extends CommonCallBack {
+        void onSuccess(TourSaveBean tourSaveBean);
+    }
+
 
 
     public interface CommonCallBack {
