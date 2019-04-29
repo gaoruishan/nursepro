@@ -142,7 +142,6 @@
         android:layout_height="match_parent"
         android:layout_marginTop="5dp"
         android:orientation="horizontal"
-        android:visibility="gone"
         >
         <LinearLayout
             android:id="@+id/ll_alltype"
@@ -150,11 +149,6 @@
             android:layout_height="match_parent"
             android:background="@color/blue_light"
             android:orientation="vertical">
-            <LinearLayout
-                android:id="@+id/ll_tourtype_patlist"
-                android:layout_width="85dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recy_tour_pattype"
@@ -172,24 +166,6 @@
                     android:layout_height="wrap_content">
 
                 </android.support.v7.widget.RecyclerView>
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/ll_tourtype_nur"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/blue_light"
-                android:orientation="vertical">
-
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recy_tour_nurlefttypelist"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                </android.support.v7.widget.RecyclerView>
-            </LinearLayout>
 
         </LinearLayout>
 
@@ -425,6 +401,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="5dp"
                 android:background="@drawable/bg_rectangle_green"></View>
+            <LinearLayout
+                android:id="@+id/ll_tour_sendorderlist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="输液医嘱列表："
+                    android:textColor="@color/black"/>
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </android.support.v7.widget.RecyclerView>
+            </LinearLayout>
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"

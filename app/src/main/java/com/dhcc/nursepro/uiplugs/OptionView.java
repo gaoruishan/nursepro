@@ -23,7 +23,7 @@ public class OptionView extends android.support.v7.widget.AppCompatTextView {
 
     private Activity mActivity;
 
-    private OptionPicker picker;
+    public OptionPicker picker;
 
     public OptionView(Activity activity, List<String> options) {
         super(activity);

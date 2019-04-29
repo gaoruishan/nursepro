@@ -156,7 +156,15 @@ public class GradeTourListBean {
         private String tempOrd;
         private String todayOut;
         private String wait;
+        private String needFlag;
 
+        public String getNeedFlag() {
+            return needFlag;
+        }
+
+        public void setNeedFlag(String needFlag) {
+            this.needFlag = needFlag;
+        }
         public String getAge() {
             return age;
         }

@@ -254,7 +254,7 @@ public class WorkareaFragment extends BaseFragment {
                     break;
                 case "NURTOUR":
                     tvItem.setText("巡视");
-                    imageView.setImageResource(R.drawable.icon_motherbabylink);
+                    imageView.setImageResource(R.drawable.icon_tour);
                     break;
                 default:
                     break;

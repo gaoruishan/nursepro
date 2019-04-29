@@ -42,4 +42,8 @@ public class SharedPreference {
     public static final String CHECKTIME = "CHECKTIME";
 
 
+    //pda系统时间与获取的服务器 时间
+    public static final String SYSYTEMTIME = "SYSYTEMTIME";
+    public static final String SERVETIME = "SERVETIME";
+
 }

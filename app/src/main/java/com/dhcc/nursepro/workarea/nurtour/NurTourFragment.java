@@ -34,11 +34,14 @@ import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.constant.Action;
 import com.dhcc.nursepro.constant.SharedPreference;
+import com.dhcc.nursepro.uiplugs.OptionView;
+import com.dhcc.nursepro.utils.DateUtils;
 import com.dhcc.nursepro.workarea.nurrecord.FlowRadioGroup;
 import com.dhcc.nursepro.workarea.nurrecord.ItemValueDialog;
 import com.dhcc.nursepro.workarea.nurrecord.bean.NurRecordBean;
 import com.dhcc.nursepro.workarea.nurtour.adapter.DosingTourListAdapter;
 import com.dhcc.nursepro.workarea.nurtour.adapter.DosingTourTypeAdapter;
+import com.dhcc.nursepro.workarea.nurtour.adapter.NurPatTypeAdapter;
 import com.dhcc.nursepro.workarea.nurtour.adapter.NurTourListAdapter;
 import com.dhcc.nursepro.workarea.nurtour.adapter.NurTourTypeAdapter;
 import com.dhcc.nursepro.workarea.nurtour.adapter.TourAllAdapter;
@@ -65,6 +68,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import cn.qqtheme.framework.picker.OptionPicker;
+import cn.qqtheme.framework.util.CompatUtils;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -78,7 +83,7 @@ import okhttp3.Response;
  * Date: 2019/4/20
  * Time:9:35
  */
-public class NurTourFragment extends BaseFragment implements View.OnClickListener, OnDateSetListener {
+public class NurTourFragment extends BaseFragment implements View.OnClickListener {
 
     private LinearLayout llType;
     private LinearLayout llTourlist;
@@ -88,7 +93,6 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
     private RecyclerView recPatType;
     private RecyclerView recAll;
     private RecyclerView recTimeout;
-    private RecyclerView recNurTypeList;
 
     private LinearLayout llMainAll;
     private LinearLayout llTopTip;
@@ -101,13 +105,13 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
     private TextView tvAll,tvNur,tvDosing,tvBlood;
     private View show1, show2, show3, show4;
     private TextView tvSendPatinfo,tvSendTourLevel,tvSendTourType;
-
-    private LinearLayout llPatList,llTypeNur;
+    private LinearLayout llSendDosingList;
 
     private TourAllAdapter tourAllAdapter;
     private TourPatslistAdapter patsAdapter;
     private TourPatTypeAdapter tourPatTypeAdapter;
     private NurTourTypeAdapter nurTourTypeAdapter;
+    private NurPatTypeAdapter nurPatTypeAdapter;
     private NurTourListAdapter nurTourListAdapter;
     private DosingTourTypeAdapter dosingTourTypeAdapter;
     private DosingTourListAdapter dosingTourListAdapter;
@@ -121,7 +125,9 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 
     private List<AllTourListBean.TourDataListBeanX> tourDataListBeans =new ArrayList<>();
     private List<GradeTourListBean.LeftFilterBean> gradeTourTypeList = new ArrayList<>();
+    private List<GradeTourListBean.TopFilterBean> gradePatTypeList = new ArrayList<>();
     private List<GradeTourListBean.PatInfoListBean> gradePatTourList = new ArrayList<>();
+    private List<GradeTourListBean.PatInfoListBean> gradePatTourListFilter = new ArrayList<>();
 
     private List<DosingListBean.PatInfoListBean> dosingPatsListBeanList =new ArrayList<>();
     private List<DosingListBean.PatInfoListBean> dosingPastBeanFilter =new ArrayList<>();
@@ -129,14 +135,13 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 
     private String topTypeSelected = "nur";
     private String tempTopTypeSelected = "";
+    private String gradeTourType = "一级";
+    private String gradePatType = "inBedAll";
     private String regNo = "";
     private String episodeId = "";
     private String modelType="grade";
     private String sendpisodeId = "";
 
-
-    private TextView textViewChooseDateTime;
-    private String dt = "date";
 
     private List<ModelDataBean.ModelListBean> modelListBeans =new ArrayList<>();
     private Map patInfoMap = new HashMap<String, String>();
@@ -187,7 +192,6 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         recPatlist = view.findViewById(R.id.recy_tour_patlist);
         recPatType = view.findViewById(R.id.recy_tour_pattype);
         recAll = view.findViewById(R.id.recy_tour_listall);
-        recNurTypeList = view.findViewById(R.id.recy_tour_nurlefttypelist);
 
         llMainAll = view.findViewById(R.id.ll_tour_main_all);
         llTopTip = view.findViewById(R.id.ll_alltour_toptip);
@@ -196,6 +200,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         tvSendPatinfo = view.findViewById(R.id.tv_nurtour_patinfo);
         tvSendTourLevel = view.findViewById(R.id.tv_nurtour_level);
         tvSendTourType = view.findViewById(R.id.tv_tourall_type);
+        llSendDosingList = view.findViewById(R.id.ll_tour_sendorderlist);
 
         tvAll = view.findViewById(R.id.tv_tour_all);
         tvAll.setOnClickListener(this);
@@ -210,9 +215,6 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         show2 = view.findViewById(R.id.view_tour_show2);
         show3 = view.findViewById(R.id.view_tour_show3);
         show4 = view.findViewById(R.id.view_tour_show4);
-
-        llPatList = view.findViewById(R.id.ll_tourtype_patlist);
-        llTypeNur = view.findViewById(R.id.ll_tourtype_nur);
 
         tvCancle = view.findViewById(R.id.tv_tour_cancle);
         tvCancle.setOnClickListener(this);
@@ -240,10 +242,6 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         //设置的布局管理
         recPatType.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        //提高展示效率
-        recNurTypeList.setHasFixedSize(true);
-        //设置的布局管理
-        recNurTypeList.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
     private void initAdapter() {
@@ -252,20 +250,36 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         patsAdapter = new TourPatslistAdapter(new ArrayList<AllTourListBean.PatInfoListBean>());
         tourPatTypeAdapter = new TourPatTypeAdapter(new ArrayList<AllTourListBean.TopFilterBean>());
         nurTourTypeAdapter = new NurTourTypeAdapter(new ArrayList<GradeTourListBean.LeftFilterBean>());
+        nurPatTypeAdapter = new NurPatTypeAdapter(new ArrayList<GradeTourListBean.TopFilterBean>());
         nurTourListAdapter= new NurTourListAdapter(new ArrayList<GradeTourListBean.PatInfoListBean>(), getActivity());
         dosingTourTypeAdapter = new DosingTourTypeAdapter(new ArrayList<DosingListBean.TopFilterBean>());
         dosingTourListAdapter = new DosingTourListAdapter(new ArrayList<DosingListBean.PatInfoListBean>(),getActivity());
 
         recAll.setAdapter(nurTourListAdapter);
 
+
+        //全部巡视病人分类列表
+        recPatType.setAdapter(nurPatTypeAdapter);
+        nurPatTypeAdapter.setSelectItem(0);
+        nurPatTypeAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                nurPatTypeAdapter.setSelectItem(position);
+                nurPatTypeAdapter.notifyDataSetChanged();
+                gradePatType = topFilterBeans.get(position).getCode();
+                gradeTourFilter();
+            }
+        });
         //分级巡视左侧分类列表
-        recNurTypeList.setAdapter(nurTourTypeAdapter);
+        recPatlist.setAdapter(nurTourTypeAdapter);
         nurTourTypeAdapter.setSelectItem(0);
         nurTourTypeAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 nurTourTypeAdapter.setSelectItem(position);
                 nurTourTypeAdapter.notifyDataSetChanged();
+                gradeTourType = gradeTourTypeList.get(position).getDesc();
+                gradeTourFilter();
                 showToast(gradeTourTypeList.get(position).getDesc());
             }
         });
@@ -282,9 +296,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
             }
         });
 
-
         //全部巡视左侧病人列表
-        recPatlist.setAdapter(patsAdapter);
         patsAdapter.setSelectItem(0);
         patsAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -296,7 +308,6 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
             }
         });
         //全部巡视病人分类列表
-        recPatType.setAdapter(tourPatTypeAdapter);
         tourPatTypeAdapter.setSelectItem(0);
         tourPatTypeAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -307,12 +318,15 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
             }
         });
     }
+
+    /**
+     * 获取分级巡视详情
+     */
     private void initDataGrade(){
         showLoadingTip(BaseActivity.LoadingType.FULL);
             HashMap<String,String> map = new HashMap<>();
             map.put("locId",spUtils.getString(SharedPreference.LOCID));
             map.put("userId",spUtils.getString(SharedPreference.USERID));
-//        map.put("adm",episodeId);
             TourApiManager.getGradeTourList(map, "getGradeTourList", new TourApiManager.getGradeTourListcall() {
                 @Override
                 public void onSuccess(GradeTourListBean gradeTourListBean) {
@@ -320,9 +334,18 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                     nurTourTypeAdapter.setNewData(gradeTourTypeList);
                     nurTourTypeAdapter.notifyDataSetChanged();
 
+                    gradePatTypeList =gradeTourListBean.getTopFilter();
+                    nurPatTypeAdapter.setNewData(gradePatTypeList);
+                    nurPatTypeAdapter.notifyDataSetChanged();
+
                     gradePatTourList = gradeTourListBean.getPatInfoList();
-                    nurTourListAdapter.setNewData(gradePatTourList);
-                    nurTourListAdapter.notifyDataSetChanged();
+                    gradePatTourListFilter = gradePatTourList;
+
+                    if (gradeTourTypeList.size()>0) {
+                        gradeTourType = gradeTourTypeList.get(0).getDesc();
+                        gradeTourFilter();
+                    }
+                    gradePatType = gradeTourListBean.getTopFilter().get(0).getCode();
 
                     hideLoadingTip();
                 }
@@ -334,6 +357,9 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
             });
     }
 
+    /**
+     * 获取全部巡视详情;默认获取第一个人的记录，输入episodeId获取对应患者记录
+     */
     private void initDataAll(){
         showLoadingTip(BaseActivity.LoadingType.FULL);
         HashMap<String,String> map = new HashMap<>();
@@ -369,7 +395,9 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
             }
         });
     }
-
+    /**
+     * 获取输液巡视详情；
+     */
     private void initDataInfusion(){
         showLoadingTip(BaseActivity.LoadingType.FULL);
         HashMap<String,String> map = new HashMap<>();
@@ -401,6 +429,9 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 
     }
 
+    /**
+     * 获取输血巡视详情
+     */
     private void initDataInBlood(){
         showLoadingTip(BaseActivity.LoadingType.FULL);
         HashMap<String,String> map = new HashMap<>();
@@ -409,7 +440,9 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 
 
     }
-
+    /**
+     * 获取巡视模板，modelType为返回的模板类型，根据类型加载对应控件
+     */
     private void initDataModel() {
         showLoadingTip(BaseActivity.LoadingType.FULL);
         HashMap<String, String> map = new HashMap<>();
@@ -419,11 +452,12 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         TourApiManager.getModelData(map, "getModelData", new TourApiManager.getModelDatacall() {
             @Override
             public void onSuccess(ModelDataBean modelDataBean) {
-//                nurRecordBean = modelDetailBean;
+
+                llTourlist.setVisibility(View.GONE);
+                llTourSend.setVisibility(View.VISIBLE);
+                seToptEnable(false);
+                llSendDosingList.setVisibility(View.GONE);
                 modelListBeans = modelDataBean.getModelList();
-//                Gson gson = new Gson();
-//                String result = gson.toJson(nurRecordBean.getPatInfo());
-//                patInfoMap = gson.fromJson(result, HashMap.class);
                 sendpisodeId = modelDataBean.getPatInfo().getEpisodeID();
                 modelType = modelDataBean.getModelType();
                 switch (modelDataBean.getModelType()){
@@ -432,6 +466,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                         tvSendTourType.setText("护理巡视");
                         break;
                     case "Infusion":
+                        llSendDosingList.setVisibility(View.VISIBLE);
                         topTypeSelected = "dosing";
                         tvSendTourType.setText("输液巡视");
                         break;
@@ -457,6 +492,9 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         });
     }
 
+    /**
+     * 保存巡视状况，保存完回到对应界面刷新
+     */
     private void initTourSave(String send){
         showLoadingTip(BaseActivity.LoadingType.FULL);
         HashMap<String,String> map = new HashMap<>();
@@ -469,6 +507,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
             public void onSuccess(TourSaveBean tourSaveBean) {
                 seToptEnable(true);
                 setTopFilterSelect();
+                hideLoadFailTip();
 
                 llTourSend.setVisibility(View.GONE);
                 llTourlist.setVisibility(View.VISIBLE);
@@ -493,6 +532,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
             @Override
             public void onFail(String code, String msg) {
                     showToast(code+"--"+msg);
+                    hideLoadFailTip();
             }
         });
 
@@ -514,8 +554,11 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                 setTopFilterSelect();
                 break;
             case R.id.tv_tour_nur:
+                nurPatTypeAdapter.setSelectItem(0);
+                nurPatTypeAdapter.notifyDataSetChanged();
                 nurTourTypeAdapter.setSelectItem(0);
                 nurTourTypeAdapter.notifyDataSetChanged();
+
                 initDataGrade();
                 topTypeSelected = "nur";
                 setTopFilterSelect();
@@ -523,6 +566,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
             case R.id.tv_tour_dosing:
                 dosingTourTypeAdapter.setSelectItem(0);
                 dosingTourTypeAdapter.notifyDataSetChanged();
+
                 initDataInfusion();
                 topTypeSelected = "dosing";
                 setTopFilterSelect();
@@ -561,19 +605,17 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                         Log.v("111send", strSend);
                     }
                 }
-
                 llType.setVisibility(View.VISIBLE);
-
                 initTourSave(strSendHead+strSend);
-
                 break;
-
             default:
                 break;
         }
     }
 
-
+    /**
+     * 顶部筛选，点击分类展示对应界面
+     */
     private void setTopFilterSelect() {
         tvAll.setSelected(false);
         tvNur.setSelected(false);
@@ -587,40 +629,44 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         show3.setBackgroundColor(getResources().getColor(R.color.blue_light));
         show4.setBackgroundColor(getResources().getColor(R.color.blue_light));
 
-        llPatList.setVisibility(View.GONE);
-        llTypeNur.setVisibility(View.GONE);
+        recPatType.setVisibility(View.VISIBLE);
+
         switch (topTypeSelected){
             case "all":
+                recPatlist.setAdapter(patsAdapter);
+                recPatType.setAdapter(tourPatTypeAdapter);
                 tvAll.setSelected(true);
                 show1.setBackgroundColor(getResources().getColor(R.color.blue));
-                llPatList.setVisibility(View.VISIBLE);
                 llTopTip.setVisibility(View.VISIBLE);
                 recAll.setAdapter(tourAllAdapter);
                 break;
             case "nur":
+                recPatType.setAdapter(nurPatTypeAdapter);
                 tvNur.setSelected(true);
                 show2.setBackgroundColor(getResources().getColor(R.color.blue));
-                llTypeNur.setVisibility(View.VISIBLE);
                 recAll.setAdapter(nurTourListAdapter);
-                recNurTypeList.setAdapter(nurTourTypeAdapter);
+                recPatlist.setAdapter(nurTourTypeAdapter);
                 break;
             case "dosing":
                 tvDosing.setSelected(true);
                 show3.setBackgroundColor(getResources().getColor(R.color.blue));
-                llTypeNur.setVisibility(View.VISIBLE);
                 recAll.setAdapter(dosingTourListAdapter);
-                recNurTypeList.setAdapter(dosingTourTypeAdapter);
+                recPatlist.setAdapter(dosingTourTypeAdapter);
+                recPatType.setVisibility(View.GONE);
                 break;
             case "blood":
                 tvBlood.setSelected(true);
                 show4.setBackgroundColor(getResources().getColor(R.color.blue));
-                llTypeNur.setVisibility(View.VISIBLE);
+                recPatType.setVisibility(View.GONE);
                 break;
             default:
                 break;
         }
     }
 
+    /**
+     * 进入巡视录入界面，顶部按钮变为不可点击
+     */
     private void seToptEnable(Boolean b){
         tvAll.setEnabled(b);
         tvNur.setEnabled(b);
@@ -628,11 +674,12 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         tvBlood.setEnabled(b);
     }
 
-
+    /**
+     * 筛选患者
+     */
     private void patFilter(String pattype){
         patsListBeanFilter = new ArrayList<>();
         for (int i = 0;i<patsListBeanList.size();i++){
-
             switch (pattype) {
                 case "inBedAll":
                     if (patsListBeanList.get(i).getInBedAll().equals("1")){
@@ -672,6 +719,68 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         patsAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * 顶部分级巡视列表，根据左侧级别分类筛选
+     */
+    private void gradeTourFilter(){
+        gradePatTourListFilter = new ArrayList<>();
+        if (gradeTourType.equals("全部")){
+            gradePatTourListFilter = gradePatTourList;
+        }else if (gradeTourType.equals("需巡")){
+            for (int i = 0; i < gradePatTourList.size(); i++) {
+                if (gradePatTourList.get(i).getNeedFlag().equals("1")) {
+                    gradePatTourListFilter.add(gradePatTourList.get(i));
+                }
+            }
+        }else {
+            for (int i = 0; i < gradePatTourList.size(); i++) {
+                if (gradePatTourList.get(i).getCareLevel().equals(gradeTourType)) {
+                    gradePatTourListFilter.add(gradePatTourList.get(i));
+                }
+            }
+        }
+
+        List<GradeTourListBean.PatInfoListBean> gradePatTourListFilterShow = new ArrayList<>();
+        for (int i = 0; i < gradePatTourListFilter.size(); i++) {
+            switch (gradePatType) {
+                case "inBedAll":
+                    if (gradePatTourListFilter.get(i).getInBedAll().equals("1")){
+                        gradePatTourListFilterShow.add(gradePatTourListFilter.get(i));
+                    }
+                    break;
+                case "manageInBed":
+                    if (gradePatTourListFilter.get(i).getManageInBed().equals("1")){
+                        gradePatTourListFilterShow.add(gradePatTourListFilter.get(i));
+                    }
+                    break;
+                case "todayOut":
+                    if (gradePatTourListFilter.get(i).getTodayOut().equals("1")){
+                        gradePatTourListFilterShow.add(gradePatTourListFilter.get(i));
+                    }
+                    break;
+                case "allOut":
+                    if (gradePatTourListFilter.get(i).getAllOut().equals("1")){
+                        gradePatTourListFilterShow.add(gradePatTourListFilter.get(i));
+                    }
+                    break;
+                case "wait":
+                    if (gradePatTourListFilter.get(i).getWait().equals("1")){
+                        gradePatTourListFilterShow.add(gradePatTourListFilter.get(i));
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+        }
+
+        nurTourListAdapter.setNewData(gradePatTourListFilterShow);
+        nurTourListAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * 输液巡视列表筛选，根据患者类型筛选
+     */
     private void dosingPatFilter(String pattype){
         dosingPastBeanFilter = new ArrayList<>();
         for (int i = 0;i<dosingPatsListBeanList.size();i++){
@@ -719,9 +828,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
             Bundle bundle = new Bundle();
             bundle = intent.getExtras();
             showToast(bundle.getString("data"));
-            llTourlist.setVisibility(View.GONE);
-            llTourSend.setVisibility(View.VISIBLE);
-            seToptEnable(false);
+
             initDataModel();
         }
         if (Objects.requireNonNull(intent.getAction()).equals(Action.TOUR_DOSINGID)) {
@@ -733,14 +840,8 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
     }
 
 
-
-
-
-
-
-
     /**
-     * 绘制UI相关
+     * 画控件.
      */
     public void drawInputItems() {
         recordContentView.removeAllViews();
@@ -1009,7 +1110,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                 viewItemMap.put(config.getItemCode(), radioGroup);
 
             }
-        } else if ("R".equals(config.getItemType())) {
+        } else if ("R1".equals(config.getItemType())) {
             //单选
             LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             layout.setLayoutParams(params1);
@@ -1065,31 +1166,6 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 
         } else if ("T".equals(config.getItemType())){
             //textview额外设置
-
-            //判断是否可点击跳转其他病例填充表格
-//            if (config.getLinkInfo().size() > 0) {
-//                titleTV.setTextColor(getResources().getColor(R.color.blue));
-//                layout.setBackgroundColor(0);
-//                titleTV.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        showToast("点击进入新的模板"+config.getLinkInfo().get(0).getLinkModel()+"给:"+config.getLinkInfo().get(0).getLinkItemCode());
-//                        Bundle bundle = new Bundle();
-//                        bundle.putString("EmrCode",config.getLinkInfo().get(0).getLinkModel());
-//                        bundle.putString("episodeId",episodeId );
-//                        startFragment(LinkModelFragment.class,bundle,1);
-////                        itemNum = config.getLinkInfo().get(0).getLinkItemCode();
-//                        itemNum = "Item81";
-//
-////                        View view = viewItemMap.get("Item81");
-////                        if (view instanceof EditText){
-////                            EditText ed = (EditText)view;
-////                            ed.setText("from__"+config.getItemCode());
-////                        }
-//
-//                    }
-//                });
-//            }
             viewItemMap.put(config.getItemCode(), titleTV);
             config.setSendValue(config.getItemCode()+"|"+config.getItemValue());
 
@@ -1110,25 +1186,6 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 //                layout.addView(tvalue);
             }
         } else if ("TN".equals(config.getItemType())){
-            //textview额外设置
-
-            //判断是否可点击跳转其他病例填充表格
-//            if (config.getLinkInfo().size() > 0) {
-//                titleTV.setTextColor(getResources().getColor(R.color.blue));
-//                layout.setBackgroundColor(0);
-//                titleTV.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        showToast("点击进入新的模板"+config.getLinkInfo().get(0).getLinkModel()+"给:"+config.getLinkInfo().get(0).getLinkItemCode());
-//                        View view = viewItemMap.get("Item81");
-//                        if (view instanceof EditText){
-//                            EditText ed = (EditText)view;
-//                            ed.setText("from__"+config.getItemCode());
-//                        }
-//
-//                    }
-//                });
-//            }
             viewItemMap.put(config.getItemCode(), titleTV);
 
             //判断是否单行显示
@@ -1165,9 +1222,12 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                 tvalue.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        textViewChooseDateTime = tvalue;
-                        dt = "date";
-                        chooseDate();
+                        DateUtils.chooseDate(getActivity(), getFragmentManager(), new OnDateSetListener() {
+                            @Override
+                            public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
+                                tvalue.setText(DateUtils.getDateByMillisecond(millseconds));
+                            }
+                        });
                     }
                 });
             }
@@ -1195,14 +1255,14 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         } else if ("Ti".equals(config.getItemType())) {
             //时间选择
             TextView tvalue = new TextView(getContext());
-            tvalue.setText(config.getItemdeValue() + "11:11");
-            if (StringUtils.isEmpty(config.getPatInfo())) {
-                tvalue.setText(config.getItemdeValue());
-                config.setSendValue(config.getItemCode()+"|"+config.getItemdeValue() + "");
-            } else if (!StringUtils.isEmpty(patInfoMap.get(config.getPatInfo())+"")){
-                tvalue.setText((patInfoMap.get(config.getPatInfo()) + ""));
-                config.setSendValue(config.getItemCode()+"|"+(patInfoMap.get(config.getPatInfo()) + ""));
-            }
+            tvalue.setText(config.getItemdeValue() + "11:11：11");
+//            if (StringUtils.isEmpty(config.getPatInfo())) {
+//                tvalue.setText(config.getItemdeValue());
+//                config.setSendValue(config.getItemCode()+"|"+config.getItemdeValue() + "");
+//            } else if (!StringUtils.isEmpty(patInfoMap.get(config.getPatInfo())+"")){
+//                tvalue.setText((patInfoMap.get(config.getPatInfo()) + ""));
+//                config.setSendValue(config.getItemCode()+"|"+(patInfoMap.get(config.getPatInfo()) + ""));
+//            }
             tvalue.setTextSize(Float.parseFloat(config.getFontSize()));
             tvalue.setGravity(Gravity.CENTER_HORIZONTAL);
             config.setSendValue(config.getItemCode()+"|"+tvalue.getText() + "");
@@ -1213,9 +1273,13 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                 tvalue.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        textViewChooseDateTime = tvalue;
-                        dt = "time";
-                        chooseTime();
+
+                        DateUtils.chooseTime(getActivity(), getFragmentManager(), new OnDateSetListener() {
+                            @Override
+                            public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
+                                tvalue.setText(DateUtils.getTimeByMillisecond(millseconds));
+                            }
+                        });
                     }
                 });
             }
@@ -1238,31 +1302,43 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
             });
             layout.addView(tvalue);
             viewItemMap.put(config.getItemCode(), tvalue);
-        } else {
-            showToast("出现未知类型控件，请联系后台进行数据修复或更新应用");
-//            //选择框
-//            List ll = new ArrayList();
-//            ll.add("1");
-//            ll.add("2");
-//            final OptionView optionView = new OptionView(getActivity(), ll);
-//            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(100, 50);
-//            optionView.setLayoutParams(layoutParams);
-//            optionView.setTextSize(16);
-//            optionView.setBackgroundResource(R.drawable.vital_sign_input_bg);
-//            optionView.setGravity(Gravity.CENTER);
-//
-//            optionView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    optionView.showPicker();
-//                }
-//            });
-//
-//            layout.addView(optionView);
-//            viewItemMap.put(config.getItemCode(), optionView);
+        } else if ("R".equals(config.getItemType())){
+//            showToast("出现未知类型控件，请联系后台进行数据修复或更新应用");
+            //选择框
+            List ll = new ArrayList();
+            String[] split = config.getItemValue().split("!");
+            for (String str:split){
+                ll.add(str);
+            }
+
+            final OptionView optionView = new OptionView(getActivity(), ll);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(100, 50);
+            optionView.setLayoutParams(layoutParams);
+            optionView.setTextSize(16);
+            optionView.setBackgroundResource(R.drawable.vital_sign_input_bg);
+            optionView.setGravity(Gravity.CENTER);
+
+            optionView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    optionView.picker.setOnOptionPickListener(new OptionPicker.OnOptionPickListener() {
+                        @Override
+                        public void onOptionPicked(int index, String item) {
+                            config.setSendValue(config.getItemCode()+"|"+item);
+                            optionView.setText(item);
+                        }
+                    });
+                    optionView.showPicker();
+                }
+            });
+
+
+            config.setSendValue(config.getItemCode()+"|"+optionView.getText().toString());
+            layout.addView(optionView);
+            viewItemMap.put(config.getItemCode(), optionView);
         }
 
-        //判断是否与图片，有的话加载
+        //判断是否有图片，有的话加载
         if (!StringUtils.isEmpty(config.getImageName())) {
             LinearLayout.LayoutParams paramsimg = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             ImageView imageView = new ImageView(getContext());
@@ -1274,90 +1350,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         return layout;
     }
 
-
-    private void linkView(List<NurRecordBean.ModelListBean.LinkInfoBean> LinkInfo, String selRadio, Boolean isSel, String isRorC){
-
-        if (isRorC.equals("isC")) {
-
-            //多选评分
-            if (LinkInfo.size()>0){
-                int num = 0;
-                String[] split = selRadio.split(",");
-                for (int i = 0;i<LinkInfo.size();i++){
-                    if (selRadio.contains(LinkInfo.get(i).getLinkRangeCon())){
-                        num = num +Integer.parseInt( LinkInfo.get(i).getReValue());
-//                        showToast(num+"---");
-                    }
-                }
-                View view = viewItemMap.get(LinkInfo.get(0).getLinkItemCode());
-                if (view instanceof EditText) {
-                    EditText ed = (EditText) view;
-                    ed.setText(num+"");
-                }
-                return;
-            }
-
-
-            //单选判断是否可变为可编辑
-            String rangcon = LinkInfo.get(0).getLinkRangeCon();
-            if ((selRadio).contains("其它")) {
-                View view = viewItemMap.get(LinkInfo.get(0).getLinkItemCode());
-
-
-                if (view instanceof EditText) {
-                    EditText ed = (EditText) view;
-                    if (isSel) {
-                        ed.setText("此时可编辑" + LinkInfo.size());
-                        ed.setFocusable(true);
-                    } else {
-                        ed.setText("此时不可编辑" + LinkInfo.size());
-                        ed.setFocusable(false);
-                    }
-                }
-            }
-//单选判断点击的值是否关联值，再判断是否点击，都符合的话关联成功
-        }else if (isRorC.equals("isR")){
-            String rangcon = LinkInfo.get(0).getLinkRangeCon();
-            View view = viewItemMap.get(LinkInfo.get(0).getLinkItemCode());
-            if (view instanceof EditText) {
-                EditText ed = (EditText) view;
-                if ("其它".equals(selRadio) && isSel) {
-                    ed.setText("此时可编辑" + LinkInfo.size());
-                    ed.setFocusable(true);
-                    ed.setFocusableInTouchMode(true);
-                } else {
-                    ed.setText("此时不可编辑" + LinkInfo.size());
-                    ed.setFocusable(false);
-                    ed.setFocusableInTouchMode(false);
-                }
-            }
-            //赋值判断关联项如何编辑
-        }else if (isRorC.equals("isE")){
-
-        }
-    }
-
-    private void changeView(View view){
-        if (view instanceof EditText) {
-            EditText ed = (EditText) view;
-        }else if (view instanceof RadioGroup){
-
-        }else if (view instanceof TextView){
-
-            //判断后面多选框是否可编辑，更改可编辑状态
-        }else if (view instanceof FlowLayout){
-            int cknum = ((FlowLayout) view).getChildCount();
-            for (int i = 0;i<cknum;i++){
-                if ((((FlowLayout) view).getChildAt(i)) instanceof CheckBox){
-                    CheckBox checkBox = (CheckBox) ((FlowLayout) view).getChildAt(i);
-                    Log.v("11111ck",checkBox.getText().toString());
-                }
-            }
-
-        }
-    }
-    //加载图片
-    private void downImage(ImageView view,String strUrl) {
+    public void downImage(ImageView view,String strUrl) {
         OkHttpClient client = new OkHttpClient();
         final Request request = new Request
                 .Builder()
@@ -1390,6 +1383,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 
     private String getckvalue(ArrayList<HashMap> list,String itemNum) {
         String strck = "";
+        StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).get("isSel").equals("true")) {
                 if ("".equals(strck)){
@@ -1401,68 +1395,4 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         }
         return strck;
     }
-
-    /**
-     * 选择日期---年月日
-     */
-    private void chooseDate() {
-        long tenYears = 10L * 365 * 1000 * 60 * 60 * 24L;
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-
-        TimePickerDialog mDialogAll = new TimePickerDialog.Builder()
-                .setCallBack(this)
-                .setCancelStringId("取消")
-                .setSureStringId("确认")
-                .setTitleStringId("日期")
-                .setYearText("年")
-                .setMonthText("月")
-                .setDayText("日")
-                .setCyclic(false)
-                .setMinMillseconds(System.currentTimeMillis() - tenYears)
-                .setCurrentMillseconds(calendar.getTimeInMillis())
-                .setThemeColor(getResources().getColor(R.color.colorPrimary))
-                .setType(Type.YEAR_MONTH_DAY)
-                .setWheelItemTextNormalColor(getResources().getColor(R.color.timetimepicker_default_text_color))
-                .setWheelItemTextSelectorColor(getResources().getColor(R.color.colorPrimaryDark))
-                .setWheelItemTextSize(12)
-                .build();
-        mDialogAll.show(getFragmentManager(), "ALL");
-
-    }
-
-    /**
-     * 选择时间---时分
-     */
-    private void chooseTime() {
-        Calendar calendar = Calendar.getInstance();
-
-        TimePickerDialog mDialogAll = new TimePickerDialog.Builder()
-                .setCallBack(this)
-                .setCancelStringId("取消")
-                .setSureStringId("确认")
-                .setTitleStringId("时间")
-                .setHourText("时")
-                .setMinuteText("分")
-                .setCyclic(true)
-                .setCurrentMillseconds(calendar.getTimeInMillis())
-                .setThemeColor(getResources().getColor(R.color.colorPrimary))
-                .setType(Type.HOURS_MINS)
-                .setWheelItemTextNormalColor(getResources().getColor(R.color.timetimepicker_default_text_color))
-                .setWheelItemTextSelectorColor(getResources().getColor(R.color.colorPrimaryDark))
-                .setWheelItemTextSize(12)
-                .build();
-        mDialogAll.show(getFragmentManager(), "ALL");
-    }
-
-
-
-    @Override
-    public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
-
-    }
-
-
 }
