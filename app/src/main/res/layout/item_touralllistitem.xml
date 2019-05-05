@@ -26,7 +26,7 @@
             <TextView
                 android:id="@+id/tv_tourallitem_type"
                 android:layout_width="50dp"
-                android:layout_height="match_parent"
+                android:layout_height="20dp"
                 android:orientation="vertical"
                 android:layout_marginLeft="35dp"
                 android:background="#FFF5A623"
@@ -68,10 +68,10 @@
     </LinearLayout>
         <LinearLayout
             android:id="@+id/messagerightmenu"
-            android:layout_width="100dp"
+            android:layout_width="60dp"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:background="@android:color/holo_red_light">
+            android:background="@color/divider_line_color">
 
             <TextView
                 android:id="@+id/tv_tourallitem_del"
@@ -80,7 +80,7 @@
                 android:textColor="@color/white"
                 android:gravity="center"
                 android:textSize="14sp"
-                android:text="删除"/>
+                android:text="详细信息"/>
 
         </LinearLayout>
     </com.guanaj.easyswipemenulibrary.EasySwipeMenuLayout>

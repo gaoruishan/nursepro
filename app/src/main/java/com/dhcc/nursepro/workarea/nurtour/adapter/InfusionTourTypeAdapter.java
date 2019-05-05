@@ -9,8 +9,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.workarea.nurtour.bean.DosingListBean;
-import com.dhcc.nursepro.workarea.nurtour.bean.GradeTourListBean;
+import com.dhcc.nursepro.workarea.nurtour.bean.InfusionListBean;
 
 import java.util.List;
 
@@ -21,12 +20,12 @@ import java.util.List;
  * Date: 2019/4/26
  * Time:8:50
  */
-public class DosingTourTypeAdapter extends BaseQuickAdapter<DosingListBean.TopFilterBean, BaseViewHolder> {
+public class InfusionTourTypeAdapter extends BaseQuickAdapter<InfusionListBean.TopFilterBean, BaseViewHolder> {
 
     private int selectItem;
 
-    public DosingTourTypeAdapter(@Nullable List<DosingListBean.TopFilterBean> data) {
-        super(R.layout.item_tour_dosingtype, data);
+    public InfusionTourTypeAdapter(@Nullable List<InfusionListBean.TopFilterBean> data) {
+        super(R.layout.item_tour_infusiontype, data);
     }
 
     public void setSelectItem(int selectItem) {
@@ -34,7 +33,7 @@ public class DosingTourTypeAdapter extends BaseQuickAdapter<DosingListBean.TopFi
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, DosingListBean.TopFilterBean item) {
+    protected void convert(BaseViewHolder helper, InfusionListBean.TopFilterBean item) {
         helper.setText(R.id.tv_docorder_patinfo, item.getDesc());
         LinearLayout llPatientType = helper.getView(R.id.ll_tour_patinfo);
         View viewPatientType = helper.getView(R.id.view_docorders_patinfo);

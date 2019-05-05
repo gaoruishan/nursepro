@@ -10,12 +10,27 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@drawable/bg_oval_greenlight"></View>
-    <TextView
-        android:id="@+id/tv_orderid"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="医嘱ID："
+            android:textColor="@color/black"
+            android:layout_marginLeft="5dp"
+            android:textSize="15sp"/>
+        <TextView
+            android:id="@+id/tv_orderid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=" "
+            android:textColor="@color/black"
+            android:textSize="13sp"/>
+    </LinearLayout>
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rec_tourdosingsublist_ordlist"
+        android:id="@+id/rec_tourinfusionsublist_ordlist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
 
@@ -37,7 +52,7 @@
                 android:textColor="@color/black"
                 android:textSize="13sp" />
             <TextView
-                android:id="@+id/tv_tourdosingsublist_time"
+                android:id="@+id/tv_tourinfusionsublist_time"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
@@ -51,15 +66,14 @@
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:layout_marginEnd="8dp"
-            android:background="@color/blue"
-            android:src="@drawable/icon_message_selector"/>
+            android:src="@drawable/icon_tourlist_selector"/>
     </LinearLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="#FFF6F6F6"></View>
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rec_tourdosingsublist_tourlist"
+        android:id="@+id/rec_tourinfusionsublist_tourlist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
 

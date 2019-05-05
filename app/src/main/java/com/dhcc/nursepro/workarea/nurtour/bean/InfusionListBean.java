@@ -9,7 +9,7 @@ import java.util.List;
  * Date: 2019/4/24
  * Time:16:47
  */
-public class DosingListBean {
+public class InfusionListBean {
 
     /**
      * msg : 成功

@@ -14,19 +14,28 @@
         android:layout_marginBottom="5dp"
         android:orientation="horizontal"
         android:gravity="center_vertical">
-
+        <TextView
+            android:id="@+id/tv_tourid"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginLeft="5dp"
+            android:gravity="center"
+            android:text="巡视ID"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
             <TextView
-                android:id="@+id/tv_ordername"
+                android:id="@+id/tv_infusiontour_name"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="1dp"
                 android:gravity="center"
-                android:text="最近巡视"
+                android:text="巡视类型"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
             <TextView
-                android:id="@+id/tv_tourdosingsublist_time"
+                android:id="@+id/tv_infusiontour_time"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center|start"
@@ -35,14 +44,14 @@
                 android:layout_marginLeft="5dp"
                 android:textSize="10sp"/>
         <TextView
-            android:id="@+id/tv_tourall_nurse1"
+            android:id="@+id/tv_infusiontour_nurse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="5dp"
             android:gravity="center"
-            android:text="一级护理"
+            android:text="巡视人"
             android:textColor="@color/black"
             android:textSize="10sp"/>
     </LinearLayout>

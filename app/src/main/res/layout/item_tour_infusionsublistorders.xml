@@ -22,15 +22,15 @@
                 android:orientation="vertical"
                 android:layout_marginLeft="5dp"
                 android:gravity="center"
-                android:text="最近巡视"
+                android:text="医嘱名称"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
             <TextView
-                android:id="@+id/tv_tourdosingsublist_time"
+                android:id="@+id/tv_tourinfusionsublist_time"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center|start"
-                android:text="2019-10-10 10:00"
+                android:text="药量"
                 android:textColor="@color/black"
                 android:layout_marginLeft="5dp"
                 android:textSize="10sp"/>
@@ -42,7 +42,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginLeft="5dp"
             android:gravity="center"
-            android:text="一级护理"
+            android:text="频次"
             android:textColor="@color/black"
             android:textSize="10sp"/>
     </LinearLayout>

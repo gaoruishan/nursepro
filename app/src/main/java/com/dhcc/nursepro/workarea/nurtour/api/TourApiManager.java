@@ -5,7 +5,7 @@ import com.dhcc.nursepro.workarea.nurtour.bean.AllTourListBean;
 import com.dhcc.nursepro.workarea.nurtour.bean.BloodListBean;
 import com.dhcc.nursepro.workarea.nurtour.bean.GradeModelBean;
 import com.dhcc.nursepro.workarea.nurtour.bean.GradeTourListBean;
-import com.dhcc.nursepro.workarea.nurtour.bean.DosingListBean;
+import com.dhcc.nursepro.workarea.nurtour.bean.InfusionListBean;
 import com.dhcc.nursepro.workarea.nurtour.bean.ModelDataBean;
 import com.dhcc.nursepro.workarea.nurtour.bean.TourSaveBean;
 import com.google.gson.Gson;
@@ -175,7 +175,7 @@ public class TourApiManager {
                     callback.onFail("-1", "网络错误，请求数据为空");
                 } else {
                     try {
-                        DosingListBean infusionListBean = gson.fromJson(jsonStr, DosingListBean.class);
+                        InfusionListBean infusionListBean = gson.fromJson(jsonStr, InfusionListBean.class);
                         if (ObjectUtils.isEmpty(infusionListBean)) {
                             callback.onFail("-3", "网络错误，数据解析为空");
                         } else {
@@ -281,7 +281,7 @@ public class TourApiManager {
         void onSuccess(ModelDataBean modelDataBean);
     }
     public interface getInfusionlcall extends CommonCallBack {
-        void onSuccess(DosingListBean infusionListBean);
+        void onSuccess(InfusionListBean infusionListBean);
     }
     public interface getBloodcall extends CommonCallBack {
         void onSuccess(BloodListBean bloodListBean);
