@@ -43,7 +43,7 @@ public class NurseSetActivity extends AppCompatActivity implements View.OnClickL
     private String timeTemp;
     private Notification baseNF;
     private NotificationManager nm;
-    private ShowBedDialog showDialog;
+    private RequestDialog showDialog;
     private Vibrator vibrator;
     private SPUtils spUtils = SPUtils.getInstance();
     private List<Map<String, String>> list1 = new ArrayList<Map<String, String>>();
@@ -122,39 +122,6 @@ public class NurseSetActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case R.id.check_all_alarm:
 
-                break;
-            case R.id.btn_bed_set:
-                final List<Map<String, String>> list = new ArrayList<Map<String, String>>();
-                Map<String, String> map = new HashMap<String, String>();
-                map.put("ck", "true");
-                map.put("bedNo", "222");
-                list.add(map);
-                list.add(map);
-                list.add(map);
-                list.add(map);
-                list.add(map);
-                list.add(map);
-                showDialog = new ShowBedDialog(this);
-                showDialog.setTitle("结果");
-                showDialog.setMessage("kk");
-                showDialog.setList(list);
-                showDialog.setYesOnclickListener("确定", new ShowBedDialog.onYesOnclickListener() {
-                    @Override
-                    public void onYesClick() {
-                        list1 = showDialog.getlist();
-                        ss();
-                        showDialog.dismiss();
-                    }
-                });
-
-                //                        selfDialog.setNoOnclickListener("取消", new ShowBedDialog.onNoOnclickListener() {
-                //                            @Override
-                //                            public void onNoClick() {
-                //                                Toast.makeText(getActivity(),"点击了--取消--按钮",Toast.LENGTH_LONG).show();
-                //                                selfDialog.dismiss();
-                //                            }
-                //                        });
-                showDialog.show();
                 break;
             case R.id.btn_changeloc:
 

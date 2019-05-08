@@ -88,7 +88,7 @@ public class DateUtils {
     public static String getTimeFromSystem() {
 
         Date date = new Date(System.currentTimeMillis());
-        SimpleDateFormat format = new SimpleDateFormat("hh-mm");
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
         String time = format.format(date);
         return time;
     }

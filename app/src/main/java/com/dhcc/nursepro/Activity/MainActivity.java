@@ -43,9 +43,15 @@ import com.dhcc.nursepro.message.MessageFragment;
 import com.dhcc.nursepro.message.api.MessageApiManager;
 import com.dhcc.nursepro.message.bean.MessageBean;
 import com.dhcc.nursepro.setting.SettingFragment;
+import com.dhcc.nursepro.utils.wsutils.WebServiceUtils;
 import com.dhcc.nursepro.workarea.MServiceNewOrd;
 import com.dhcc.nursepro.workarea.WorkareaFragment;
+import com.dhcc.nursepro.workarea.orderexecute.OrderExecOrderDialog;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -84,6 +90,8 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
 
     // 新医嘱提示
     private NotificationManager nm;
+    private List<HashMap<String,String>> localList =new ArrayList<>();
+    RequestDialog requestDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -305,6 +313,47 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
             public void onSuccess(MessageBean msgs) {
                 int messageNum = msgs.getNewOrdPatList().size() + msgs.getAbnormalPatList().size() + msgs.getConPatList().size();
                 setmessage(messageNum);
+
+
+                localList =new ArrayList<>();
+                Gson gson1 = new Gson();
+                java.lang.reflect.Type type = new TypeToken<List<HashMap<String,String>>>(){}.getType();
+                String LocalJson = spUtils.getString(SharedPreference.LOCALREQUEST,"");
+                if (LocalJson != ""){
+                    localList =gson1.fromJson(LocalJson,type);
+                }
+
+
+
+//                showToast(localList.size()+"---"+LocalJson);
+
+
+//                requestDialog = new RequestDialog(MainActivity.this);
+//                requestDialog.setSureOnclickListener(new OrderExecOrderDialog.onSureOnclickListener() {
+//                    @Override
+//                    public void onSureClick() {
+//                        requestDialog.dismiss();
+//                        for (int k =0 ;k<localList.size();k++){
+//                            HashMap<String,String> map = new HashMap<String, String>();
+//                            map = localList.get(k);
+//                            map.remove("soap_method");
+//                            map.remove("remarks");
+//                            WebServiceUtils.callWebService("execOrSeeOrder", map, new WebServiceUtils.WebServiceCallBack() {
+//                                @Override
+//                                public void callBack(String result) {
+//                                    showToast(result);
+//                                }
+//                            });
+//                        }
+//
+//                    }
+//
+//                });
+//                requestDialog.show();
+
+
+
+
             }
 
             @Override

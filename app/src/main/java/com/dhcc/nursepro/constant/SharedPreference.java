@@ -46,4 +46,5 @@ public class SharedPreference {
     public static final String SYSYTEMTIME = "SYSYTEMTIME";
     public static final String SERVETIME = "SERVETIME";
 
+    public static final String LOCALREQUEST = "LOCALREQUEST";
 }

@@ -11,12 +11,12 @@ import java.util.List;
  */
 public class ModelDataBean {
     /**
-     * lastTourInfo : {}
-     * modelList : [{"LinkInfo":[],"ModelSort":"1","PatInfo":"","Unit":"","editCondition":"","editFlag":"","editItem":"","editType":"","fontSize":"12","height":"16","imageName":"","itemCode":"DHCNurTourDate","itemDesc":"巡视日期","itemType":"D","itemValue":"","itemdeValue":"","jModelKey":"","mustFill":"0","singleCheck":"1","subRowId":"","titleHiddeFlag":"1","toastStr":"","value":"测试","width":"120"},{"LinkInfo":[],"ModelSort":"2","PatInfo":"","Unit":"","editCondition":"","editFlag":"","editItem":"","editType":"","fontSize":"12","height":"18","imageName":"","itemCode":"DHCNurTourTime","itemDesc":"巡视时间","itemType":"Ti","itemValue":"","itemdeValue":"","jModelKey":"","mustFill":"0","singleCheck":"1","subRowId":"","titleHiddeFlag":"0","toastStr":"","value":"测试","width":"109"},{"LinkInfo":[],"ModelSort":"3","PatInfo":"","Unit":"","editCondition":"","editFlag":"","editItem":"","editType":"","fontSize":"12","height":"20","imageName":"","itemCode":"DHCNurTourIfOut","itemDesc":"是否离房","itemType":"R","itemValue":"是!否!","itemdeValue":"","jModelKey":"","mustFill":"0","singleCheck":"1","subRowId":"","titleHiddeFlag":"1","toastStr":"","value":"测试","width":"117"},{"LinkInfo":[],"ModelSort":"4","PatInfo":"","Unit":"","editCondition":"","editFlag":"","editItem":"","editType":"","fontSize":"12","height":"20","imageName":"","itemCode":"DHCNurTourIfOutRes","itemDesc":"离开原因","itemType":"R","itemValue":"外出!请假!","itemdeValue":"","jModelKey":"","mustFill":"0","singleCheck":"1","subRowId":"","titleHiddeFlag":"1","toastStr":"","value":"测试","width":"117"},{"LinkInfo":[],"ModelSort":"5","PatInfo":"","Unit":"","editCondition":"","editFlag":"","editItem":"","editType":"","fontSize":"12","height":"20","imageName":"","itemCode":"DHCNurTourSTAT","itemDesc":"总体状况","itemType":"R","itemValue":"正常!意识模糊!","itemdeValue":"","jModelKey":"","mustFill":"0","singleCheck":"1","subRowId":"","titleHiddeFlag":"1","toastStr":"","value":"测试","width":"117"},{"LinkInfo":[],"ModelSort":"6","PatInfo":"","Unit":"","editCondition":"","editFlag":"","editItem":"","editType":"","fontSize":"12","height":"20","imageName":"","itemCode":"DHCNurTourTW","itemDesc":"体位","itemType":"R","itemValue":"仰卧位!俯卧位!侧卧位!端坐位!","itemdeValue":"","jModelKey":"","mustFill":"0","singleCheck":"1","subRowId":"","titleHiddeFlag":"1","toastStr":"","value":"测试","width":"117"},{"LinkInfo":[],"ModelSort":"7","PatInfo":"","Unit":"","editCondition":"","editFlag":"","editItem":"","editType":"","fontSize":"12","height":"20","imageName":"","itemCode":"DHCNurTourTunnelSTAT","itemDesc":"管道情况","itemType":"R","itemValue":"污浊!通畅!","itemdeValue":"","jModelKey":"","mustFill":"0","singleCheck":"1","subRowId":"","titleHiddeFlag":"1","toastStr":"","value":"测试","width":"117"}]
+     * lastTourInfo : {"DHCNurTourDate":"2019-05-08","DHCNurTourTime":"10:42:00","DHCNurTourUser":"护士01","DetailDR":"23","TourDetailList":[{"DetailDR":"23","TourDataName":"体位","TourDataValue":"俯卧位","TourTypeCode":"Grade","TourTypeDesc":"分级巡视"},{"DetailDR":"23","TourDataName":"管道","TourDataValue":"通畅","TourTypeCode":"Grade","TourTypeDesc":"分级巡视"}],"TourTypeCode":"Grade","TourTypeDesc":"分级巡视"}
+     * modelList : [{"LinkInfo":[],"ModelSort":"1","PatInfo":"","Unit":"","editCondition":"","editFlag":"true","editItem":"","editType":"","fontSize":"12","height":"16","imageName":"","itemCode":"DHCNurTourDate","itemDesc":"巡视日期","itemType":"D","itemValue":"","itemdeValue":"","jModelKey":"","mustFill":"false","singleCheck":"true","subRowId":"","titleHiddeFlag":"true","toastStr":"","value":"测试","width":"120"},{"LinkInfo":[],"ModelSort":"2","PatInfo":"","Unit":"","editCondition":"","editFlag":"true","editItem":"","editType":"","fontSize":"12","height":"18","imageName":"","itemCode":"DHCNurTourTime","itemDesc":"巡视时间","itemType":"Ti","itemValue":"","itemdeValue":"","jModelKey":"","mustFill":"false","singleCheck":"true","subRowId":"","titleHiddeFlag":"0","toastStr":"","value":"测试","width":"109"},{"LinkInfo":[],"ModelSort":"3","PatInfo":"","Unit":"","editCondition":"","editFlag":"true","editItem":"","editType":"","fontSize":"12","height":"20","imageName":"","itemCode":"DHCNurTourIfOut","itemDesc":"是否离房","itemType":"R","itemValue":"是!否!","itemdeValue":"","jModelKey":"","mustFill":"false","singleCheck":"true","subRowId":"","titleHiddeFlag":"true","toastStr":"","value":"测试","width":"117"},{"LinkInfo":[],"ModelSort":"4","PatInfo":"","Unit":"","editCondition":"","editFlag":"true","editItem":"","editType":"","fontSize":"12","height":"20","imageName":"","itemCode":"DHCNurTourIfOutRes","itemDesc":"离开原因","itemType":"R","itemValue":"外出!请假!","itemdeValue":"","jModelKey":"","mustFill":"false","singleCheck":"true","subRowId":"","titleHiddeFlag":"true","toastStr":"","value":"测试","width":"117"},{"LinkInfo":[],"ModelSort":"5","PatInfo":"","Unit":"","editCondition":"","editFlag":"true","editItem":"","editType":"","fontSize":"12","height":"20","imageName":"","itemCode":"DHCNurTourSTAT","itemDesc":"总体状况","itemType":"R","itemValue":"正常!意识模糊!","itemdeValue":"","jModelKey":"","mustFill":"false","singleCheck":"true","subRowId":"","titleHiddeFlag":"true","toastStr":"","value":"测试","width":"117"},{"LinkInfo":[],"ModelSort":"6","PatInfo":"","Unit":"","editCondition":"","editFlag":"true","editItem":"","editType":"","fontSize":"12","height":"20","imageName":"","itemCode":"DHCNurTourTW","itemDesc":"体位","itemType":"R","itemValue":"仰卧位!俯卧位!侧卧位!端坐位!","itemdeValue":"","jModelKey":"","mustFill":"false","singleCheck":"true","subRowId":"","titleHiddeFlag":"true","toastStr":"","value":"测试","width":"117"},{"LinkInfo":[],"ModelSort":"7","PatInfo":"","Unit":"","editCondition":"","editFlag":"true","editItem":"","editType":"","fontSize":"12","height":"20","imageName":"","itemCode":"DHCNurTourTunnelSTAT","itemDesc":"管道情况","itemType":"R","itemValue":"污浊!通畅!","itemdeValue":"","jModelKey":"","mustFill":"false","singleCheck":"true","subRowId":"","titleHiddeFlag":"true","toastStr":"","value":"测试","width":"117"}]
      * modelType : Grade
      * msg : 成功
      * msgcode : 999999
-     * patInfo : {"Barthel":"0","Bedsore":"0","Fallbed":"0","Fallrisk":"0","Item34":"0","Item34_Title":"0","PatBMI":"22.87,超过中等","Reason":"0","admReason":"全自费","age":"59岁","balance":"8870.26","bedCode":"01","breath":"0","careLevel":"","ctLocDesc":"内分泌科","currWardID":"5","defFreq":"0","degrBlood":"0","diaPressure":"0","diagnosis":"发热","dischargeStatus":"","episodeID":"35","heartbeat":"0","height":"0","homeAddres":"","ifNewBaby":"N","illState":"普通","inDays":"399","inDeptDateTime":"2018-03-23 14:38","inHospDateTime":"2018-03-23 14:38:00","insuranceCard":"","liquidOut":"0","mainDoctor":"医生01","mainDoctorID":["1"],"mainNurse":"","mainNurseID":[],"medicareNo":"100025","motherTransLoc":"","name":"zxw01","nation":"汉族","operation":"","orderID":"16","painInten":"0","patLinkman":"","patientID":"75","personID":"","phyCooling":"0","pulse":"0","rectemperature":"0","regDateTime":"2018-03-23 14:30:22","regNo":"0000000075","roomDesc":"1病室","sex":"女","sysPressure":"0","telphone":"13119325130","temperature":"37","totalCost":"1129.74","uriVolume":"0","wardDesc":"内分泌科护理单元","weight":"180"}
+     * patInfo : {"Barthel":"11.1.1","Bedsore":"11.1.1","Fallbed":"11.1.1","Fallrisk":"11.1.1","Item34":"11.1.1","Item34_Title":"心包引流(ml)","PatBMI":"22.87,超过中等","Reason":"11.1.1","admReason":"全自费","age":"30岁","balance":"89490.41","bedCode":"02","breath":"20","careLevel":"","ctLocDesc":"内分泌科","currWardID":"5","defFreq":"1","degrBlood":"95","diaPressure":"70","diagnosis":"食管裂孔疝,食管裂孔疝,肺占位性病变,咳嗽病,阳明实证","dischargeStatus":"","episodeID":"94","heartbeat":"60","height":"11.1.1","homeAddres":"","ifNewBaby":"N","illState":"普通","inDays":"408","inDeptDateTime":"2018-03-26 08:46","inHospDateTime":"2018-03-26 08:46:30","insuranceCard":"","liquidOut":"11.1.1","mainDoctor":"智亚芹","mainDoctorID":["1671"],"mainNurse":"关畅","mainNurseID":["830"],"medicareNo":"100056","motherTransLoc":"","name":"王伟测试","nation":"汉族","operation":"颈部血管治疗性超声","orderID":"91","painInten":"11.1.1","patLinkman":"","patientID":"129","personID":"37078419880819641X ","phyCooling":"11.1.1","pulse":"50","rectemperature":"85","regDateTime":"2018-03-26 08:45:24","regNo":"0000000129","roomDesc":"1病室","sex":"男","sysPressure":"120","telphone":"15336465257","temperature":"36","totalCost":"20509.59","uriVolume":"11.1.1","wardDesc":"内分泌科护理单元","weight":"56"}
      * status : 0
      */
 
@@ -85,70 +85,199 @@ public class ModelDataBean {
     }
 
     public static class LastTourInfoBean {
+        /**
+         * DHCNurTourDate : 2019-05-08
+         * DHCNurTourTime : 10:42:00
+         * DHCNurTourUser : 护士01
+         * DetailDR : 23
+         * TourDetailList : [{"DetailDR":"23","TourDataName":"体位","TourDataValue":"俯卧位","TourTypeCode":"Grade","TourTypeDesc":"分级巡视"},{"DetailDR":"23","TourDataName":"管道","TourDataValue":"通畅","TourTypeCode":"Grade","TourTypeDesc":"分级巡视"}]
+         * TourTypeCode : Grade
+         * TourTypeDesc : 分级巡视
+         */
+
+        private String DHCNurTourDate;
+        private String DHCNurTourTime;
+        private String DHCNurTourUser;
+        private String DetailDR;
+        private String TourTypeCode;
+        private String TourTypeDesc;
+        private List<TourDetailListBean> TourDetailList;
+
+        public String getDHCNurTourDate() {
+            return DHCNurTourDate;
+        }
+
+        public void setDHCNurTourDate(String DHCNurTourDate) {
+            this.DHCNurTourDate = DHCNurTourDate;
+        }
+
+        public String getDHCNurTourTime() {
+            return DHCNurTourTime;
+        }
+
+        public void setDHCNurTourTime(String DHCNurTourTime) {
+            this.DHCNurTourTime = DHCNurTourTime;
+        }
+
+        public String getDHCNurTourUser() {
+            return DHCNurTourUser;
+        }
+
+        public void setDHCNurTourUser(String DHCNurTourUser) {
+            this.DHCNurTourUser = DHCNurTourUser;
+        }
+
+        public String getDetailDR() {
+            return DetailDR;
+        }
+
+        public void setDetailDR(String DetailDR) {
+            this.DetailDR = DetailDR;
+        }
+
+        public String getTourTypeCode() {
+            return TourTypeCode;
+        }
+
+        public void setTourTypeCode(String TourTypeCode) {
+            this.TourTypeCode = TourTypeCode;
+        }
+
+        public String getTourTypeDesc() {
+            return TourTypeDesc;
+        }
+
+        public void setTourTypeDesc(String TourTypeDesc) {
+            this.TourTypeDesc = TourTypeDesc;
+        }
+
+        public List<TourDetailListBean> getTourDetailList() {
+            return TourDetailList;
+        }
+
+        public void setTourDetailList(List<TourDetailListBean> TourDetailList) {
+            this.TourDetailList = TourDetailList;
+        }
+
+        public static class TourDetailListBean {
+            /**
+             * DetailDR : 23
+             * TourDataName : 体位
+             * TourDataValue : 俯卧位
+             * TourTypeCode : Grade
+             * TourTypeDesc : 分级巡视
+             */
+
+            private String DetailDR;
+            private String TourDataName;
+            private String TourDataValue;
+            private String TourTypeCode;
+            private String TourTypeDesc;
+
+            public String getDetailDR() {
+                return DetailDR;
+            }
+
+            public void setDetailDR(String DetailDR) {
+                this.DetailDR = DetailDR;
+            }
+
+            public String getTourDataName() {
+                return TourDataName;
+            }
+
+            public void setTourDataName(String TourDataName) {
+                this.TourDataName = TourDataName;
+            }
+
+            public String getTourDataValue() {
+                return TourDataValue;
+            }
+
+            public void setTourDataValue(String TourDataValue) {
+                this.TourDataValue = TourDataValue;
+            }
+
+            public String getTourTypeCode() {
+                return TourTypeCode;
+            }
+
+            public void setTourTypeCode(String TourTypeCode) {
+                this.TourTypeCode = TourTypeCode;
+            }
+
+            public String getTourTypeDesc() {
+                return TourTypeDesc;
+            }
+
+            public void setTourTypeDesc(String TourTypeDesc) {
+                this.TourTypeDesc = TourTypeDesc;
+            }
+        }
     }
 
     public static class PatInfoBean {
         /**
-         * Barthel : 0
-         * Bedsore : 0
-         * Fallbed : 0
-         * Fallrisk : 0
-         * Item34 : 0
-         * Item34_Title : 0
+         * Barthel : 11.1.1
+         * Bedsore : 11.1.1
+         * Fallbed : 11.1.1
+         * Fallrisk : 11.1.1
+         * Item34 : 11.1.1
+         * Item34_Title : 心包引流(ml)
          * PatBMI : 22.87,超过中等
-         * Reason : 0
+         * Reason : 11.1.1
          * admReason : 全自费
-         * age : 59岁
-         * balance : 8870.26
-         * bedCode : 01
-         * breath : 0
+         * age : 30岁
+         * balance : 89490.41
+         * bedCode : 02
+         * breath : 20
          * careLevel :
          * ctLocDesc : 内分泌科
          * currWardID : 5
-         * defFreq : 0
-         * degrBlood : 0
-         * diaPressure : 0
-         * diagnosis : 发热
+         * defFreq : 1
+         * degrBlood : 95
+         * diaPressure : 70
+         * diagnosis : 食管裂孔疝,食管裂孔疝,肺占位性病变,咳嗽病,阳明实证
          * dischargeStatus :
-         * episodeID : 35
-         * heartbeat : 0
-         * height : 0
+         * episodeID : 94
+         * heartbeat : 60
+         * height : 11.1.1
          * homeAddres :
          * ifNewBaby : N
          * illState : 普通
-         * inDays : 399
-         * inDeptDateTime : 2018-03-23 14:38
-         * inHospDateTime : 2018-03-23 14:38:00
+         * inDays : 408
+         * inDeptDateTime : 2018-03-26 08:46
+         * inHospDateTime : 2018-03-26 08:46:30
          * insuranceCard :
-         * liquidOut : 0
-         * mainDoctor : 医生01
-         * mainDoctorID : ["1"]
-         * mainNurse :
-         * mainNurseID : []
-         * medicareNo : 100025
+         * liquidOut : 11.1.1
+         * mainDoctor : 智亚芹
+         * mainDoctorID : ["1671"]
+         * mainNurse : 关畅
+         * mainNurseID : ["830"]
+         * medicareNo : 100056
          * motherTransLoc :
-         * name : zxw01
+         * name : 王伟测试
          * nation : 汉族
-         * operation :
-         * orderID : 16
-         * painInten : 0
+         * operation : 颈部血管治疗性超声
+         * orderID : 91
+         * painInten : 11.1.1
          * patLinkman :
-         * patientID : 75
-         * personID :
-         * phyCooling : 0
-         * pulse : 0
-         * rectemperature : 0
-         * regDateTime : 2018-03-23 14:30:22
-         * regNo : 0000000075
+         * patientID : 129
+         * personID : 37078419880819641X
+         * phyCooling : 11.1.1
+         * pulse : 50
+         * rectemperature : 85
+         * regDateTime : 2018-03-26 08:45:24
+         * regNo : 0000000129
          * roomDesc : 1病室
-         * sex : 女
-         * sysPressure : 0
-         * telphone : 13119325130
-         * temperature : 37
-         * totalCost : 1129.74
-         * uriVolume : 0
+         * sex : 男
+         * sysPressure : 120
+         * telphone : 15336465257
+         * temperature : 36
+         * totalCost : 20509.59
+         * uriVolume : 11.1.1
          * wardDesc : 内分泌科护理单元
-         * weight : 180
+         * weight : 56
          */
 
         private String Barthel;
@@ -210,7 +339,7 @@ public class ModelDataBean {
         private String wardDesc;
         private String weight;
         private List<String> mainDoctorID;
-        private List<?> mainNurseID;
+        private List<String> mainNurseID;
 
         public String getBarthel() {
             return Barthel;
@@ -684,11 +813,11 @@ public class ModelDataBean {
             this.mainDoctorID = mainDoctorID;
         }
 
-        public List<?> getMainNurseID() {
+        public List<String> getMainNurseID() {
             return mainNurseID;
         }
 
-        public void setMainNurseID(List<?> mainNurseID) {
+        public void setMainNurseID(List<String> mainNurseID) {
             this.mainNurseID = mainNurseID;
         }
     }
@@ -700,7 +829,7 @@ public class ModelDataBean {
          * PatInfo :
          * Unit :
          * editCondition :
-         * editFlag :
+         * editFlag : true
          * editItem :
          * editType :
          * fontSize : 12
@@ -712,10 +841,10 @@ public class ModelDataBean {
          * itemValue :
          * itemdeValue :
          * jModelKey :
-         * mustFill : 0
-         * singleCheck : 1
+         * mustFill : false
+         * singleCheck : true
          * subRowId :
-         * titleHiddeFlag : 1
+         * titleHiddeFlag : true
          * toastStr :
          * value : 测试
          * width : 120
@@ -745,15 +874,17 @@ public class ModelDataBean {
         private String value;
         private String width;
         private List<?> LinkInfo;
-        private String sendvalue;
+        private String sendValue;
+
 
         public String getSendValue() {
-            return sendvalue;
+            return sendValue;
         }
 
-        public void setSendValue(String sendvalue) {
-            this.sendvalue = sendvalue;
+        public void setSendValue(String sendValue) {
+            this.sendValue = sendValue;
         }
+
         public String getModelSort() {
             return ModelSort;
         }
