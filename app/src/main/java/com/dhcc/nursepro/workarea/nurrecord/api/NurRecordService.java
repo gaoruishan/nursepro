@@ -5,10 +5,7 @@ import com.dhcc.nursepro.utils.wsutils.WebServiceUtils;
 import java.util.HashMap;
 
 public class NurRecordService {
-    public interface ServiceCallBack {
-        void onResult(String jsonStr);
-    }
-    public static void getModelDetailMsg(HashMap<String,String> map, String MethodName, final ServiceCallBack callback ){
+    public static void getModelDetailMsg(HashMap<String, String> map, String MethodName, final ServiceCallBack callback) {
 
         WebServiceUtils.callWebService(MethodName, map, new WebServiceUtils.WebServiceCallBack() {
             @Override
@@ -17,6 +14,10 @@ public class NurRecordService {
             }
         });
 
+    }
+
+    public interface ServiceCallBack {
+        void onResult(String jsonStr);
     }
 
 }

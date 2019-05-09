@@ -146,7 +146,7 @@
                         android:src="@drawable/icon_blood_back"/>
                     <TextView
                         style="@style/iconTextStyle"
-                        android:text="血液回收" />
+                        android:text="血袋回收" />
                 </LinearLayout>
 
                 <LinearLayout

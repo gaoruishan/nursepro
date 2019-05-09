@@ -31,9 +31,9 @@ import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.constant.SharedPreference;
-import com.dhcc.nursepro.workarea.nurrecord.adapter.NurRecordAdapter;
 import com.dhcc.nursepro.workarea.nurrecord.api.NurRecordManager;
 import com.dhcc.nursepro.workarea.nurrecord.bean.NurRecordBean;
+import com.dhcc.nursepro.workarea.nurrecord.bean.ScanResultBean;
 import com.google.gson.Gson;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.data.Type;
@@ -68,7 +68,6 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
     private TextView textViewChooseDateTime;
     private String dt = "date";
 
-    private NurRecordAdapter modelDetailAdapter;
     private List<NurRecordBean.ModelListBean> listBeans;
     private NurRecordBean nurRecordBean;
     private HashMap<String, View> viewItemMap;
@@ -125,8 +124,14 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
         tvsend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //^EmrUser|4636^EmrCode|DHCNURANHUI14
-                strSend = "^EmrUser|" + SPUtils.getInstance().getString(SharedPreference.USERID) + "^EmrCode|" + emrCode;
+                SPUtils spUtils = SPUtils.getInstance();
+                //^EmrUser|4636^EmrCode|DHCNURANHUI14^DetLocDr|197^EpisodeId|315
+                strSend = "^EmrUser|" + spUtils.getString(SharedPreference.USERID) + "^EmrCode|" + emrCode + "^DetLocDr|" + spUtils.getString(SharedPreference.LOCID) + "^EpisodeId|" + episodeId;
+
+                String str1 = "";
+                String str2 = "";
+                String str3 = "";
+                String str4 = "";
                 for (int i = 0; i < listBeans.size(); i++) {
                     if ("1".equals(listBeans.get(i).getMustFill())) {
                         if (StringUtils.isEmpty(listBeans.get(i).getSendValue())) {
@@ -135,12 +140,31 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
                         }
                     }
                     if (listBeans.get(i).getItemCode().startsWith("Item")) {
-                        strSend = strSend + "^" + listBeans.get(i).getSendValue();
+
+                        if ("E".equals(listBeans.get(i).getItemType())) {
+                            str1 = str1 + "^" + listBeans.get(i).getSendValue();
+                        } else if ("C".equals(listBeans.get(i).getItemType())) {
+                            if (StringUtils.isEmpty(str2)) {
+                                str2 = str2 + "&" + listBeans.get(i).getSendValue();
+                            } else {
+                                str2 = str2 + "^" + listBeans.get(i).getSendValue();
+                            }
+                        } else if ("R".equals(listBeans.get(i).getItemType())) {
+                            if (StringUtils.isEmpty(str3)) {
+                                str3 = str3 + "&" + listBeans.get(i).getSendValue();
+                            } else {
+                                str3 = str3 + "^" + listBeans.get(i).getSendValue();
+                            }
+                        } else {
+                            if (StringUtils.isEmpty(str4)) {
+                                str4 = str4 + "&";
+                            }
+                        }
                     }
                     if (i == listBeans.size() - 1) {
-                        strSend = strSend + "&";
+                        strSend = strSend + str1 + str2 + str3 + str4;
                         showToast(strSend);
-                        Log.v("111send", strSend);
+                        saveNurRecord(strSend);
                     }
                 }
             }
@@ -152,9 +176,15 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
     private void initData() {
         SPUtils spUtils = SPUtils.getInstance();
         HashMap<String, String> map = new HashMap<>();
+        //"197","DHCNURANHUI14","315"
+        //        map.put("locId", "197");
+        //        map.put("EmrCode", "DHCNURANHUI14");
+        //        map.put("episodeId", "315");
+
         map.put("locId", spUtils.getString(SharedPreference.LOCID));
         map.put("EmrCode", emrCode);
         map.put("episodeId", episodeId);
+
 
         NurRecordManager.getModelDetailListMsg(map, "getModelDetail", new NurRecordManager.getModelDetailCallBack() {
             @Override
@@ -175,6 +205,22 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
         });
     }
 
+    private void saveNurRecord(String strSend) {
+        HashMap<String, String> map = new HashMap<>();
+
+        map.put("parr", strSend);
+        NurRecordManager.saveNurRecord(map, "savePGD", new NurRecordManager.GetScanInfoCallback() {
+            @Override
+            public void onSuccess(ScanResultBean scanResultBean) {
+
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+
+            }
+        });
+    }
 
     /**
      * 绘制UI相关
@@ -276,7 +322,7 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
                 }
             });
             //是否可编辑
-            if ("1".equals(config.getEditFlag())) {
+            if ("true".equals(config.getEditFlag())) {
                 edText.setTextColor(getResources().getColor(R.color.nurrecord_edit_normal_color));
             } else {
                 edText.setFocusable(false);
@@ -355,26 +401,27 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
                         config.setSendValue(getckvalue(config.getItemCode(), (ArrayList<HashMap<String, String>>) listCk));
                     }
 
-                    if ("false".equals(config.getEditFlag())) {
-                        cb.setEnabled(false);
-                    } else {
-                        cb.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                String allSel = "";
-                                if (cb.isChecked()) {
-                                    mapCk.put("sValue", cb.getText());
-                                } else {
-                                    mapCk.put("sValue", "");
-                                }
-                                config.setSendValue(getckvalue(config.getItemCode(), (ArrayList<HashMap<String, String>>) listCk));
-                                showToast(getckvalue(config.getItemCode(), (ArrayList<HashMap<String, String>>) listCk));
-                                showToast(getckvalue((ArrayList<HashMap<String, String>>) listCk));
-                                if (config.getLinkInfo().size() > 0) {
-                                    linkView(config.getLinkInfo(), getckvalue((ArrayList<HashMap<String, String>>) listCk) + "", cb.isChecked(), "isC");
-                                }
+                    cb.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String allSel = "";
+                            if (cb.isChecked()) {
+                                mapCk.put("sValue", cb.getText());
+                            } else {
+                                mapCk.put("sValue", "");
                             }
-                        });
+                            config.setSendValue(getckvalue(config.getItemCode(), (ArrayList<HashMap<String, String>>) listCk));
+                            showToast(getckvalue(config.getItemCode(), (ArrayList<HashMap<String, String>>) listCk));
+                            showToast(getckvalue((ArrayList<HashMap<String, String>>) listCk));
+                            if (config.getLinkInfo().size() > 0) {
+                                linkView(config.getLinkInfo(), getckvalue((ArrayList<HashMap<String, String>>) listCk) + "", cb.isChecked(), "isC");
+                            }
+                        }
+                    });
+                    if ("true".equals(config.getEditFlag())) {
+                        cb.setEnabled(true);
+                    } else {
+                        cb.setEnabled(false);
                     }
                     flowCheckGroup.addView(cb);
                 }
@@ -410,21 +457,22 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
                     }
                     listRb.add(mapRb);
 
-                    if ("false".equals(config.getEditFlag())) {
-                        rb.setEnabled(false);
-                    } else {
-                        rb.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                showToast(getrbvalue(rb.getId(), (ArrayList<HashMap<String, String>>) listRb));
-                                showToast(rb.getText());
+                    rb.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            showToast(getCrbvalue((ArrayList<HashMap<String, String>>) listRb));
+                            showToast(rb.getText());
 
-                                config.setSendValue(getrbvalue(rb.getId(), (ArrayList<HashMap<String, String>>) listRb));
-                                if (config.getLinkInfo().size() > 0) {
-                                    linkView(config.getLinkInfo(), rb.getText() + "", rb.isChecked(), "isR");
-                                }
+                            config.setSendValue(getCrbvalue((ArrayList<HashMap<String, String>>) listRb));
+                            if (config.getLinkInfo().size() > 0) {
+                                linkView(config.getLinkInfo(), rb.getText() + "", rb.isChecked(), "isR");
                             }
-                        });
+                        }
+                    });
+                    if ("true".equals(config.getEditFlag())) {
+                        rb.setEnabled(true);
+                    } else {
+                        rb.setEnabled(false);
                     }
                     radioGroup.addView(rb);
                     if (split[i].equals(patInfoMap.get(config.getPatInfo()))) {
@@ -456,37 +504,36 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
                 rb.setTextSize(Float.parseFloat(config.getFontSize()));
                 rb.setText(split[i]);
 
-                Map mapRb = new HashMap<String, String>(3);
-                mapRb.put("cItemCode", config.getItemCode() + "_" + (i + 1));
+                Map mapRb = new HashMap<String, String>(4);
+                mapRb.put("cItemCode", config.getItemCode());
+                mapRb.put("num", (i + 1) + "");
                 mapRb.put("value", split[i]);
                 mapRb.put("sValue", "");
-                if (split[i].equals(patInfoMap.get(config.getPatInfo()))) {
-                    mapRb.put("sValue", split[i]);
-                } else if (split[i].equals(config.getItemdeValue())) {
+                if (split[i].equals(patInfoMap.get(config.getPatInfo())) || split[i].equals(config.getItemdeValue())) {
                     mapRb.put("sValue", split[i]);
                 }
                 listRb.add(mapRb);
 
                 if (i == split.length - 1) {
-                    config.setSendValue(getrbvalue(rb.getId(), (ArrayList<HashMap<String, String>>) listRb));
+                    config.setSendValue(getRrbvalue((ArrayList<HashMap<String, String>>) listRb));
                 }
 
-                //判断是否可编辑
-                if ("false".equals(config.getEditFlag())) {
-                    rb.setEnabled(false);
-                } else {
-                    rb.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            showToast(getrbvalue(rb.getId(), (ArrayList<HashMap<String, String>>) listRb));
-                            showToast(rb.getText());
+                rb.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showToast(getRrbvalue(rb.getId(), (ArrayList<HashMap<String, String>>) listRb));
 
-                            config.setSendValue(getrbvalue(rb.getId(), (ArrayList<HashMap<String, String>>) listRb));
-                            if (config.getLinkInfo().size() > 0) {
-                                linkView(config.getLinkInfo(), rb.getText() + "", rb.isChecked(), "isR");
-                            }
+                        config.setSendValue(getRrbvalue(rb.getId(), (ArrayList<HashMap<String, String>>) listRb));
+                        if (config.getLinkInfo().size() > 0) {
+                            linkView(config.getLinkInfo(), rb.getText() + "", rb.isChecked(), "isR");
                         }
-                    });
+                    }
+                });
+                //判断是否可编辑
+                if ("true".equals(config.getEditFlag())) {
+                    rb.setEnabled(true);
+                } else {
+                    rb.setEnabled(false);
                 }
                 radioGroup.addView(rb);
                 if (split[i].equals(patInfoMap.get(config.getPatInfo()))) {
@@ -585,21 +632,25 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
         } else if ("D".equals(config.getItemType())) {
             //日期选择
             TextView tvalue = new TextView(getContext());
-            tvalue.setText(config.getItemdeValue() + "2018-12-11");
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            tvalue.setLayoutParams(layoutParams);
+            tvalue.setTextSize(Float.parseFloat(config.getFontSize()));
+            tvalue.setGravity(Gravity.CENTER_HORIZONTAL);
             if (StringUtils.isEmpty(config.getPatInfo())) {
                 tvalue.setText(config.getItemdeValue());
                 config.setSendValue(config.getItemCode() + "|" + config.getItemdeValue());
             } else {
-                tvalue.setText((patInfoMap.get(config.getPatInfo()) + ""));
-                config.setSendValue(config.getItemCode() + "|" + patInfoMap.get(config.getPatInfo()));
+                String dateStr = patInfoMap.get(config.getPatInfo()).toString();
+                if (dateStr.length() > 11) {
+                    dateStr = dateStr.substring(0, 11);
+                }
+                tvalue.setText(dateStr);
+                config.setSendValue(config.getItemCode() + "|" + dateStr);
             }
-            tvalue.setTextSize(Float.parseFloat(config.getFontSize()));
-            tvalue.setGravity(Gravity.CENTER_HORIZONTAL);
-            config.setSendValue(config.getItemCode() + "|" + tvalue.getText());
+
             //判断是否可编辑
-            if ("false".equals(config.getEditFlag())) {
-                tvalue.setEnabled(false);
-            } else {
+            if ("true".equals(config.getEditFlag())) {
+                tvalue.setEnabled(true);
                 tvalue.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -608,6 +659,8 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
                         chooseDate();
                     }
                 });
+            } else {
+                tvalue.setEnabled(false);
             }
 
             tvalue.addTextChangedListener(new TextWatcher() {
@@ -627,27 +680,30 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
                 }
             });
 
-
             layout.addView(tvalue);
             viewItemMap.put(config.getItemCode(), tvalue);
         } else if ("Ti".equals(config.getItemType())) {
             //时间选择
             TextView tvalue = new TextView(getContext());
-            tvalue.setText(config.getItemdeValue() + "11:11");
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            tvalue.setLayoutParams(layoutParams);
+            tvalue.setTextSize(Float.parseFloat(config.getFontSize()));
+            tvalue.setGravity(Gravity.CENTER_HORIZONTAL);
             if (StringUtils.isEmpty(config.getPatInfo())) {
                 tvalue.setText(config.getItemdeValue());
                 config.setSendValue(config.getItemCode() + "|" + config.getItemdeValue());
             } else if (!StringUtils.isEmpty(patInfoMap.get(config.getPatInfo()) + "")) {
-                tvalue.setText((patInfoMap.get(config.getPatInfo()) + ""));
-                config.setSendValue(config.getItemCode() + "|" + patInfoMap.get(config.getPatInfo()));
+                String timeStr = patInfoMap.get(config.getPatInfo()).toString();
+                if (timeStr.length() >= 16) {
+                    timeStr = timeStr.substring(11, 16);
+                }
+                tvalue.setText(timeStr);
+                config.setSendValue(config.getItemCode() + "|" + timeStr);
             }
-            tvalue.setTextSize(Float.parseFloat(config.getFontSize()));
-            tvalue.setGravity(Gravity.CENTER_HORIZONTAL);
-            config.setSendValue(config.getItemCode() + "|" + tvalue.getText());
+
             //判断是否可编辑
-            if ("false".equals(config.getEditFlag())) {
-                tvalue.setEnabled(false);
-            } else {
+            if ("true".equals(config.getEditFlag())) {
+                tvalue.setEnabled(true);
                 tvalue.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -656,6 +712,8 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
                         chooseTime();
                     }
                 });
+            } else {
+                tvalue.setEnabled(false);
             }
 
             tvalue.addTextChangedListener(new TextWatcher() {
@@ -802,22 +860,42 @@ public class NurRecordFragment extends BaseFragment implements OnDateSetListener
         }
     }
 
-    private String getrbvalue(int rbId, ArrayList<HashMap<String, String>> list) {
-        StringBuilder strrb = new StringBuilder();
+    private String getCrbvalue(ArrayList<HashMap<String, String>> list) {
+        StringBuilder strcb = new StringBuilder();
         for (int i = 0; i < list.size(); i++) {
             if (i == 0) {
-                strrb.append(list.get(i).get("cItemCode"));
+                strcb.append(list.get(i).get("cItemCode"));
             } else {
-                strrb.append("^").append(list.get(i).get("cItemCode"));
+                strcb.append("^").append(list.get(i).get("cItemCode"));
             }
-            if (i == rbId) {
-                list.get(i).put("sValue", list.get(i).get("value"));
-            } else {
-                list.get(i).put("sValue", "");
-            }
-            strrb.append("|").append(list.get(i).get("sValue")).append("|").append(list.get(i).get("value"));
+            strcb.append("|").append(list.get(i).get("sValue")).append("|").append(list.get(i).get("value"));
         }
+        return strcb.toString();
+    }
+
+    private String getRrbvalue(ArrayList<HashMap<String, String>> list) {
+        StringBuilder strrb = new StringBuilder();
+        strrb.append(list.get(0).get("cItemCode"));
+        int i;
+        for (i = 0; i < list.size(); i++) {
+            if (!StringUtils.isEmpty(list.get(i).get("sValue"))) {
+                strrb.append("|").append(list.get(i).get("num")).append("!").append(list.get(i).get("sValue"));
+                break;
+            }
+        }
+
+        if (i >= list.size()) {
+            strrb.append("|").append("!");
+        }
+
         return strrb.toString();
+    }
+
+    private String getRrbvalue(int rbId, ArrayList<HashMap<String, String>> list) {
+        HashMap<String, String> map = list.get(rbId);
+        String strrb = map.get("cItemCode") +
+                "|" + map.get("num") + "!" + map.get("value");
+        return strrb;
     }
 
     /**

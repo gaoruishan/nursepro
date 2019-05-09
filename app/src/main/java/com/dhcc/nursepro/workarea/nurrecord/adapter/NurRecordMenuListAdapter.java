@@ -19,6 +19,7 @@ import com.dhcc.nursepro.workarea.vitalsign.VitalSignFragment;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class NurRecordMenuListAdapter extends BaseQuickAdapter<NurRecordModelListBean.MenuListBean, BaseViewHolder>{
     private Context context ;
@@ -27,11 +28,15 @@ public class NurRecordMenuListAdapter extends BaseQuickAdapter<NurRecordModelLis
     private NurRecordModelListAdapter modelListAdapter;
     private List<NurRecordModelListBean.MenuListBean.ModelListBean> ModelList = new ArrayList<>();
 
-    public NurRecordMenuListAdapter(@Nullable List<NurRecordModelListBean.MenuListBean> data, BaseFragment baseFragment,String episodeId) {
+    public NurRecordMenuListAdapter(@Nullable List<NurRecordModelListBean.MenuListBean> data, BaseFragment baseFragment) {
         super(R.layout.item_nurrecord_menullist, data);
         this.baseFragment = baseFragment;
+    }
+
+    public void setEpisodeId(String episodeId) {
         this.episodeId = episodeId;
     }
+
     @Override
     protected void convert(BaseViewHolder helper, NurRecordModelListBean.MenuListBean item) {
         helper.setText(R.id.tv_menulist,item.getMenuName());
@@ -52,7 +57,7 @@ public class NurRecordMenuListAdapter extends BaseQuickAdapter<NurRecordModelLis
 
                 if (view.getId() == R.id.tv_modellist) {
                     Bundle bundle = new Bundle();
-                    bundle.putString("EmrCode",ModelList.get(position).getModelCode());
+                    bundle.putString("EmrCode", Objects.requireNonNull(modelListAdapter.getItem(position)).getModelCode());
                     bundle.putString("episodeId",episodeId );
                     baseFragment.startFragment(NurRecordFragment.class,bundle);
                 }
