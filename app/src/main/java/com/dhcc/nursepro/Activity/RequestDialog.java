@@ -36,23 +36,15 @@ import java.util.Map;
 public class RequestDialog extends Dialog {
     private Context context;
     private TextView tvPopupPatinfo;
-    private TextView tvPopupOrderunit;
-    private TextView tvPopupOrderinfo;
-    private RecyclerView recyPopupChildOrderInfo;
-    private TextView tvPopupOrderinfoex;
     private TextView tvPopupOrderexec;
     private TextView tvPopupOrdercancel;
 
     private String patInfo;
-    private String orderInfo;
-    private String orderUnit;
     private List<ScanResultBean.OrdersBean> childOrders = new ArrayList<>();
     private String orderInfoEx;
 
-    private OrderExecuteOrderDialogAdapter adapter;
-
-    private OrderExecOrderDialog.onSureOnclickListener sureOnclickListener;
-    private OrderExecOrderDialog.onCancelOnclickListener cancelOnclickListener;
+    private onSureOnclickListener sureOnclickListener;
+    private onCancelOnclickListener cancelOnclickListener;
 
 
     public RequestDialog(Context context) {
@@ -69,22 +61,10 @@ public class RequestDialog extends Dialog {
         this.patInfo = patInfo;
     }
 
-    public void setOrderUnit(String orderUnit) {
-        this.orderUnit = orderUnit;
-    }
-
-    public void setOrderInfo(String orderInfo) {
-        this.orderInfo = orderInfo;
-    }
-
-    public void setOrderInfoEx(String orderInfoEx) {
-        this.orderInfoEx = orderInfoEx;
-    }
-
     /**
      * 设置确定按钮的显示内容和监听
      */
-    public void setSureOnclickListener(OrderExecOrderDialog.onSureOnclickListener onSureOnclickListener) {
+    public void setSureOnclickListener(onSureOnclickListener onSureOnclickListener) {
 
         this.sureOnclickListener = onSureOnclickListener;
     }
@@ -92,7 +72,7 @@ public class RequestDialog extends Dialog {
     /**
      * 设置取消按钮的显示内容和监听
      */
-    public void setCancelOnclickListener(OrderExecOrderDialog.onCancelOnclickListener onCancelOnclickListener) {
+    public void setCancelOnclickListener(onCancelOnclickListener onCancelOnclickListener) {
 
         this.cancelOnclickListener = onCancelOnclickListener;
     }
@@ -100,14 +80,12 @@ public class RequestDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.orderexecorder_dialog_layout);
+        setContentView(R.layout.localrequest_dialog_layout);
         //按空白处不能取消动画
         //            setCanceledOnTouchOutside(false);
         setCanceledOnTouchOutside(true);
         //初始化界面控件
         initView();
-        //初始化adapter
-        initAdapter();
         //初始化界面数据
         initData();
         //初始化界面控件的事件
@@ -116,46 +94,17 @@ public class RequestDialog extends Dialog {
 
     private void initView() {
         tvPopupPatinfo = findViewById(R.id.tv_popup_patinfo);
-        tvPopupOrderinfo = findViewById(R.id.tv_popup_orderinfo);
-        tvPopupOrderunit = findViewById(R.id.tv_popup_orderunit);
-        recyPopupChildOrderInfo = findViewById(R.id.recy_popup_childOrderInfo);
-        tvPopupOrderinfoex = findViewById(R.id.tv_popup_orderinfoex);
         tvPopupOrderexec = findViewById(R.id.tv_popup_orderexec);
         tvPopupOrdercancel = findViewById(R.id.tv_popup_ordercancel);
-
-        //提高展示效率
-        recyPopupChildOrderInfo.setHasFixedSize(true);
-        //设置的布局管理
-        recyPopupChildOrderInfo.setLayoutManager(new LinearLayoutManager(context));
     }
 
-    private void initAdapter() {
-        adapter = new OrderExecuteOrderDialogAdapter(new ArrayList<>());
-        recyPopupChildOrderInfo.setAdapter(adapter);
-    }
+
 
     private void initData() {
 
         if (patInfo != null) {
             tvPopupPatinfo.setText(patInfo);
         }
-
-        if (orderInfo != null) {
-            tvPopupOrderinfo.setText(orderInfo);
-        }
-
-        if (orderUnit != null) {
-            tvPopupOrderunit.setText(orderUnit);
-        }
-
-        if (childOrders != null && childOrders.size() > 0) {
-            adapter.setNewData(childOrders);
-        }
-
-        if (orderInfoEx != null) {
-            tvPopupOrderinfoex.setText(orderInfoEx);
-        }
-
     }
 
     private void initEvent() {

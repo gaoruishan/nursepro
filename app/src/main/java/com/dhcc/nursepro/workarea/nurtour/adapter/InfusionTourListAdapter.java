@@ -30,7 +30,8 @@ public class InfusionTourListAdapter extends BaseQuickAdapter<InfusionListBean.P
     }
     @Override
     protected void convert(BaseViewHolder helper, InfusionListBean.PatInfoListBean item) {
-        helper.setText(R.id.tv_tournurlist_name,item.getName());
+        helper.setText(R.id.tv_tournurlist_name,item.getName())
+                .setText(R.id.tv_tournurlist_bedcode,item.getBedCode());
 
         RecyclerView recAll = helper.getView(R.id.rec_tourinfusionlist_allorders);
         //提高展示效率

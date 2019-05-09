@@ -9,6 +9,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
@@ -39,6 +40,7 @@ import com.dhcc.nursepro.workarea.nurrecord.FlowRadioGroup;
 import com.dhcc.nursepro.workarea.nurrecord.ItemValueDialog;
 import com.dhcc.nursepro.workarea.nurtour.adapter.InfusionTourListAdapter;
 import com.dhcc.nursepro.workarea.nurtour.adapter.InfusionTourTypeAdapter;
+import com.dhcc.nursepro.workarea.nurtour.adapter.ModelOrderListAdapter;
 import com.dhcc.nursepro.workarea.nurtour.adapter.NurPatTypeAdapter;
 import com.dhcc.nursepro.workarea.nurtour.adapter.NurTourListAdapter;
 import com.dhcc.nursepro.workarea.nurtour.adapter.NurTourTypeAdapter;
@@ -103,6 +105,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
     private LinearLayout llSendInfusionList;
     private FlowLayout flLastTour;
     private TextView tvLastDate,tvLastTime,tvLastNurse;
+    private RecyclerView recOrderList;
 
     private TourAllAdapter tourAllAdapter;
     private TourPatslistAdapter patsAdapter;
@@ -112,6 +115,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
     private NurTourListAdapter nurTourListAdapter;
     private InfusionTourTypeAdapter infusionTourTypeAdapter;
     private InfusionTourListAdapter infusionTourListAdapter;
+    private ModelOrderListAdapter modelOrderListAdapter;
 
 
     private SPUtils spUtils = SPUtils.getInstance();
@@ -130,6 +134,8 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
     private List<InfusionListBean.PatInfoListBean> infusionPastBeanFilter =new ArrayList<>();
     private List<InfusionListBean.TopFilterBean> infusionTopFilterBeans =new ArrayList<>();
 
+    private List<ModelDataBean.InfusionOrdInfoBean> modelOrderListBeans = new ArrayList<>();
+
     private String topTypeSelected = "nur";
     private String tempTopTypeSelected = "";
     private String gradeTourType = "一级";
@@ -139,6 +145,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
     private String modelType="Grade";
     private String sendEdpisodeId = "";
     private String sendOrderId = "";
+    private String modelFlag = "input";
 
 
     private List<ModelDataBean.ModelListBean> modelListBeans =new ArrayList<>();
@@ -203,6 +210,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         tvLastDate = view.findViewById(R.id.tv_moedellasttour_date);
         tvLastTime = view.findViewById(R.id.tv_moedellasttour_time);
         tvLastNurse = view.findViewById(R.id.tv_moedellasttour_nurse);
+        recOrderList = view.findViewById(R.id.rec_model_orderlist);
 
         tvAll = view.findViewById(R.id.tv_tour_all);
         tvAll.setOnClickListener(this);
@@ -244,6 +252,11 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         //设置的布局管理
         recPatType.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        //提高展示效率
+        recOrderList.setHasFixedSize(true);
+        //设置的布局管理
+        recOrderList.setLayoutManager(new LinearLayoutManager(getActivity()));
+
     }
 
     private void initAdapter() {
@@ -256,6 +269,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         nurTourListAdapter= new NurTourListAdapter(new ArrayList<GradeTourListBean.PatInfoListBean>(), getActivity());
         infusionTourTypeAdapter = new InfusionTourTypeAdapter(new ArrayList<InfusionListBean.TopFilterBean>());
         infusionTourListAdapter = new InfusionTourListAdapter(new ArrayList<InfusionListBean.PatInfoListBean>(),getActivity());
+        modelOrderListAdapter = new ModelOrderListAdapter(new ArrayList<ModelDataBean.InfusionOrdInfoBean>(),getActivity());
 
         recAll.setAdapter(nurTourListAdapter);
 
@@ -319,6 +333,10 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                 patFilter(topFilterBeans.get(position).getCode());
             }
         });
+
+
+        //录入界面输液巡视医嘱列表
+        recOrderList.setAdapter(modelOrderListAdapter);
     }
 
     /**
@@ -445,12 +463,21 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
     /**
      * 获取巡视模板，modelType为返回的模板类型，根据类型加载对应控件
      */
-    private void initDataModel(String barcode) {
+    private void initDataModel(String barcode,String tourtype) {
         showLoadingTip(BaseActivity.LoadingType.FULL);
         HashMap<String, String> map = new HashMap<>();
         map.put("locId", spUtils.getString(SharedPreference.LOCID));
         map.put("wardId", spUtils.getString(SharedPreference.WARDID));
-        map.put("barCode", barcode);
+        if (modelFlag.equals("input")){
+            map.put("barCode", barcode);
+            sendOrderId = barcode;
+        }else {
+            map.put("barCode", "");
+            map.put("id", barcode);
+            map.put("tourType", tourtype);
+            sendOrderId = "";
+        }
+
         TourApiManager.getModelData(map, "getModelData", new TourApiManager.getModelDatacall() {
             @Override
             public void onSuccess(ModelDataBean modelDataBean) {
@@ -471,10 +498,12 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                 if (modelDataBean.getLastTourInfo().getTourDetailList() != null) {
                     for (int i = 0; i < modelDataBean.getLastTourInfo().getTourDetailList().size(); i++) {
                         TextView titleTV = new TextView(getActivity());
+                        titleTV.setTextColor(getResources().getColor(R.color.black));
+                        titleTV.setTextSize(12);
                         titleTV.setText(modelDataBean.getLastTourInfo().getTourDetailList().get(i).getTourDataName() + ": " + modelDataBean.getLastTourInfo().getTourDetailList().get(i).getTourDataValue());
                         LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
                         if (i ==1){
-                            titleParams.setMargins(ConvertUtils.dp2px(8), 0, 5, 0);
+                            titleParams.setMargins(ConvertUtils.dp2px(12), 0, 5, 0);
                         }else {
                             titleParams.setMargins(ConvertUtils.dp2px(15), 0, 5, 0);
                         }
@@ -491,10 +520,12 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                         tvSendTourType.setText("护理巡视");
                         break;
                     case "Infusion":
-                        sendOrderId = barcode;
                         llSendInfusionList.setVisibility(View.VISIBLE);
                         topTypeSelected = "infusion";
                         tvSendTourType.setText("输液巡视");
+                        modelOrderListBeans = modelDataBean.getInfusionOrdInfo();
+                        modelOrderListAdapter.setNewData(modelOrderListBeans);
+                        modelOrderListAdapter.notifyDataSetChanged();
                         break;
                     case "Blood":
                         topTypeSelected = "blood";
@@ -857,12 +888,14 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
             tempTopTypeSelected =topTypeSelected;
             bundle = intent.getExtras();
 //            showToast(bundle.getString("data"));
-
-            initDataModel(bundle.getString("data"));
+            modelFlag = "input";
+            initDataModel(bundle.getString("data"),"");
         }
         if (Objects.requireNonNull(intent.getAction()).equals(Action.TOUR_DOSINGID)) {
             bundle = intent.getExtras();
-            showToast(bundle.getString("data"));
+            showToast(bundle.getString("data")+bundle.getString("type"));
+            modelFlag = "update";
+            initDataModel(bundle.getString("data"),bundle.getString("type"));
         }
 
     }
@@ -993,11 +1026,11 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 //        titleTV.setTextSize(Float.parseFloat(config.getFontSize()));
 //
 //        //判断是否必填，必填的话字体变红
-//        if ("1".equals(config.getMustFill())) {
-//            titleTV.setTextColor(ContextCompat.getColor(getActivity(), R.color.nurrecord_text_mustfill_color));
-//        } else {
-//            titleTV.setTextColor(ContextCompat.getColor(getActivity(), R.color.nurrecord_text_normal_color));
-//        }
+        if ("1".equals(config.getMustFill())) {
+            titleTV.setTextColor(ContextCompat.getColor(getActivity(), R.color.nurrecord_text_mustfill_color));
+        } else {
+            titleTV.setTextColor(ContextCompat.getColor(getActivity(), R.color.nurrecord_text_normal_color));
+        }
 //
 //        LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 //        titleParams.setMargins(ConvertUtils.dp2px(5), 0, 5, 0);
@@ -1020,40 +1053,51 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                 titleTV.setVisibility(View.GONE);
             }
             EditText edText = new EditText(getContext());
-            int sw = ScreenUtils.getScreenWidth();
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, ViewGroup.LayoutParams.MATCH_PARENT);
-            edText.setLayoutParams(layoutParams);
+
+            edText.setTextSize(16);
+            edText.setTextColor(getResources().getColor(R.color.vital_sign_record_next_color));
             edText.setBackgroundResource(R.drawable.vital_sign_input_bg);
-            edText.setPadding(ConvertUtils.dp2px(5), 0, ConvertUtils.dp2px(5), 0);
-            edText.setTextSize(Float.parseFloat(config.getFontSize()));
+            edText.setGravity(Gravity.CENTER);
+
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            layoutParams.setMargins(ConvertUtils.dp2px(10), ConvertUtils.dp2px(11), ConvertUtils.dp2px(10), 45);//4个参数按顺序分别是左上右下
+            edText.setLayoutParams(layoutParams);
+
+//            int sw = ScreenUtils.getScreenWidth();
+//            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, ViewGroup.LayoutParams.MATCH_PARENT);
+//            edText.setLayoutParams(layoutParams);
+//            edText.setBackgroundResource(R.drawable.vital_sign_input_bg);
+//            edText.setPadding(ConvertUtils.dp2px(5), 0, ConvertUtils.dp2px(5), 0);
+//            edText.setTextSize(Float.parseFloat(config.getFontSize()));
             edText.setSingleLine();
             viewItemMap.put(config.getItemCode(),edText);
-            edText.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    showDialog = new ItemValueDialog(getActivity(),edText.hasFocusable());
-                    showDialog.setTitle(config.getItemDesc());
-                    showDialog.setMessage(edText.getText()+"");
-                    showDialog.setYesOnclickListener("确定", new ItemValueDialog.onYesOnclickListener() {
-                        @Override
-                        public void onYesClick() {
-                            edText.setText(showDialog.getMessage());
-                            edText.setSelection(edText.getText().length());
-                            showDialog.dismiss();
-                        }
-                    });
-                    showDialog.show();
-                    return false;
-                }
-            });
+//            edText.setOnLongClickListener(new View.OnLongClickListener() {
+//                @Override
+//                public boolean onLongClick(View v) {
+//                    showDialog = new ItemValueDialog(getActivity(),edText.hasFocusable());
+//                    showDialog.setTitle(config.getItemDesc());
+//                    showDialog.setMessage(edText.getText()+"");
+//                    showDialog.setYesOnclickListener("确定", new ItemValueDialog.onYesOnclickListener() {
+//                        @Override
+//                        public void onYesClick() {
+//                            edText.setText(showDialog.getMessage());
+//                            edText.setSelection(edText.getText().length());
+//                            showDialog.dismiss();
+//                        }
+//                    });
+//                    showDialog.show();
+//                    return false;
+//                }
+//            });
             //是否可编辑
-            if ("1".equals(config.getEditFlag())) {
-                edText.setTextColor(getResources().getColor(R.color.nurrecord_edit_normal_color));
-            } else {
-                edText.setFocusable(false);
-                edText.setTextColor(getResources().getColor(R.color.nurrecord_edit_defaultvalue_color));
-                edText.setText(config.getPatInfo());
-            }
+//            if ("1".equals(config.getEditFlag())) {
+//                edText.setTextColor(getResources().getColor(R.color.nurrecord_edit_normal_color));
+//            } else {
+//                edText.setFocusable(false);
+//                edText.setTextColor(getResources().getColor(R.color.nurrecord_edit_defaultvalue_color));
+//                edText.setText(config.getPatInfo());
+//            }
+            edText.setInputType(InputType.TYPE_CLASS_NUMBER);
             //根据默认内容优先级填入默认值
             if (StringUtils.isEmpty(config.getPatInfo())) {
                 edText.setText(config.getItemdeValue());
@@ -1364,7 +1408,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
             //时间选择
             TextView tvalue = new TextView(getContext());
             if (config.getItemdeValue().equals("")){
-                tvalue.setText(DateUtils.getTimeFromSystem());
+                tvalue.setText(DateUtils.getTimeFromSystem()+":00");
             }else {
                 tvalue.setText(config.getItemdeValue());
             }
@@ -1398,7 +1442,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                         DateUtils.chooseTime(getActivity(), getFragmentManager(), new OnDateSetListener() {
                             @Override
                             public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
-                                tvalue.setText(DateUtils.getTimeByMillisecond(millseconds));
+                                tvalue.setText(DateUtils.getTimeByMillisecond(millseconds)+":00");
                             }
                         });
                     }
@@ -1431,6 +1475,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
             for (String str:split){
                 ll.add(str);
             }
+            ll.add("清空");
 
             final OptionView optionView = new OptionView(getActivity(), ll);
 
@@ -1450,7 +1495,11 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                         @Override
                         public void onOptionPicked(int index, String item) {
                             config.setSendValue(config.getItemCode()+"|"+item);
-                            optionView.setText(item);
+                            if (item.equals("清空")){
+                                optionView.setText("");
+                            }else {
+                                optionView.setText(item);
+                            }
                         }
                     });
                     optionView.showPicker();

@@ -225,6 +225,7 @@
                         android:textColor="@color/blue" />
 
                     <TextView
+                        android:visibility="gone"
                         android:id="@+id/tv_tour_main_level3"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -283,7 +284,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/blue_light"
             android:orientation="vertical"
             android:layout_above="@+id/ll_tourmain_save">
             <LinearLayout
@@ -392,24 +392,7 @@
                             android:text="在此显示巡视详情"/>
                     </LinearLayout>
                 </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/ll_tour_sendorderlist"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="输液医嘱列表："
-                        android:textColor="@color/black"/>
-                    <android.support.v7.widget.RecyclerView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                    </android.support.v7.widget.RecyclerView>
-                </LinearLayout>
                 <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -469,7 +452,6 @@
                                 android:gravity="end"
                                 android:textSize="13sp"/>
                         </LinearLayout>
-
                         <com.nex3z.flowlayout.FlowLayout
                             android:id="@+id/fl_lasttour"
                             android:layout_width="match_parent"
@@ -479,12 +461,39 @@
                             android:layout_marginBottom="@dimen/dp_10"/>
                         <View
                             android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="@drawable/bg_oval_blue"></View>
+                            android:layout_height="4dp"
+                            android:background="#FFF6F6F6"></View>
+                        <LinearLayout
+                            android:id="@+id/ll_tour_sendorderlist"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="医嘱详情："
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginTop="3dp"
+                                android:textSize="12sp"
+                                android:textColor="@color/black"/>
+                            <android.support.v7.widget.RecyclerView
+                                android:id="@+id/rec_model_orderlist"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                            </android.support.v7.widget.RecyclerView>
+                        </LinearLayout>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="4dp"
+                            android:background="#FFF6F6F6"></View>
                         <LinearLayout
                             android:id="@+id/fl_modeldetail"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:background="@color/white"
                             android:orientation="vertical">
 
                         </LinearLayout>

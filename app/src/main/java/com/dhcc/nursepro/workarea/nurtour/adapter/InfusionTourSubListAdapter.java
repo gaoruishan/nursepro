@@ -63,6 +63,7 @@ public class InfusionTourSubListAdapter extends BaseQuickAdapter<InfusionListBea
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Bundle bundle = new Bundle();
                 bundle.putString("data", item.getTourList().get(position).getDetailId());
+                bundle.putString("type", item.getTourList().get(position).getTourType());
                 Intent tbIntent = new Intent();
                 tbIntent.setAction(Action.TOUR_DOSINGID);
                 tbIntent.putExtras(bundle);

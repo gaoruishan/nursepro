@@ -61,7 +61,7 @@ public class DateUtils {
     public static String getDateTimeByMillisecond(Long millseconds) {
 
         Date date = new Date(millseconds);
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh-mm");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String time = format.format(date);
         return time;
     }
@@ -101,7 +101,7 @@ public class DateUtils {
     public static String getDateTimeFromSystem() {
 
         Date date = new Date(System.currentTimeMillis());
-        SimpleDateFormat format = new SimpleDateFormat("yy-mm-dd hh-mm");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String time = format.format(date);
         return time;
     }

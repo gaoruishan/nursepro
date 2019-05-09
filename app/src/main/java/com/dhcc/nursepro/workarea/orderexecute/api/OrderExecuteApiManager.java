@@ -1,6 +1,9 @@
 package com.dhcc.nursepro.workarea.orderexecute.api;
 
 import com.blankj.utilcode.util.ObjectUtils;
+import com.blankj.utilcode.util.SPUtils;
+import com.dhcc.nursepro.constant.SharedPreference;
+import com.dhcc.nursepro.utils.DateUtils;
 import com.dhcc.nursepro.workarea.orderexecute.bean.OrderExecResultBean;
 import com.dhcc.nursepro.workarea.orderexecute.bean.OrderExecuteBean;
 import com.dhcc.nursepro.workarea.orderexecute.bean.ScanResultBean;
@@ -51,14 +54,27 @@ public class OrderExecuteApiManager {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();
+//                SPUtils spUtils = SPUtils.getInstance();
+//                String strLocReruest = spUtils.getString(SharedPreference.LOCALREQUEST,"");
+//                String strOrdId = "|"+oeoreId+"!";
+//                if (strLocReruest.contains(strOrdId)){
+//                    int startIndex = strLocReruest.indexOf(strOrdId);
+//                    int idLength = strOrdId.length();
+//                    String strIdTime = strLocReruest.substring(startIndex,startIndex+idLength+16);
+//                    strLocReruest = strLocReruest.replace(strIdTime,"");
+//                }
 
                 if (jsonStr.isEmpty()) {
                     callback.onFail("-1", "网络错误，请求数据为空");
+//                    strLocReruest = strLocReruest+"|"+oeoreId+"!"+ DateUtils.getDateTimeFromSystem();
+//                    spUtils.put(SharedPreference.LOCALREQUEST,strLocReruest);
                 } else {
                     try {
                         OrderExecResultBean orderExecResultBean = gson.fromJson(jsonStr, OrderExecResultBean.class);
                         if (ObjectUtils.isEmpty(orderExecResultBean)) {
                             callback.onFail("-3", "网络错误，数据解析为空");
+//                            strLocReruest = strLocReruest+"|"+oeoreId+"!"+ DateUtils.getDateTimeFromSystem();
+//                            spUtils.put(SharedPreference.LOCALREQUEST,strLocReruest);
                         } else {
                             if ("0".equals(orderExecResultBean.getStatus())) {
                                 if (callback != null) {
@@ -72,6 +88,8 @@ public class OrderExecuteApiManager {
                         }
                     } catch (Exception e) {
                         callback.onFail("-2", "网络错误，数据解析失败");
+//                        strLocReruest = strLocReruest+"|"+oeoreId+"!"+ DateUtils.getDateTimeFromSystem();
+//                        spUtils.put(SharedPreference.LOCALREQUEST,strLocReruest);
                     }
                 }
             }

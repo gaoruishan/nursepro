@@ -314,42 +314,28 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
                 int messageNum = msgs.getNewOrdPatList().size() + msgs.getAbnormalPatList().size() + msgs.getConPatList().size();
                 setmessage(messageNum);
 
-
-                localList =new ArrayList<>();
-                Gson gson1 = new Gson();
-                java.lang.reflect.Type type = new TypeToken<List<HashMap<String,String>>>(){}.getType();
-                String LocalJson = spUtils.getString(SharedPreference.LOCALREQUEST,"");
-                if (LocalJson != ""){
-                    localList =gson1.fromJson(LocalJson,type);
-                }
-
-
-
-//                showToast(localList.size()+"---"+LocalJson);
-
-
-//                requestDialog = new RequestDialog(MainActivity.this);
-//                requestDialog.setSureOnclickListener(new OrderExecOrderDialog.onSureOnclickListener() {
-//                    @Override
-//                    public void onSureClick() {
-//                        requestDialog.dismiss();
-//                        for (int k =0 ;k<localList.size();k++){
-//                            HashMap<String,String> map = new HashMap<String, String>();
-//                            map = localList.get(k);
-//                            map.remove("soap_method");
-//                            map.remove("remarks");
-//                            WebServiceUtils.callWebService("execOrSeeOrder", map, new WebServiceUtils.WebServiceCallBack() {
-//                                @Override
-//                                public void callBack(String result) {
-//                                    showToast(result);
-//                                }
-//                            });
+//                requestDialog.dismiss();
+//                String strlocalreq = spUtils.getString(SharedPreference.LOCALREQUEST,"");
+//                if (strlocalreq.length()>1){
+//                    requestDialog = new RequestDialog(MainActivity.this);
+//                    requestDialog.setPatInfo(strlocalreq);
+//                    requestDialog.setSureOnclickListener(new RequestDialog.onSureOnclickListener() {
+//                        @Override
+//                        public void onSureClick() {
+//                            requestDialog.dismiss();
+//                            spUtils.put(SharedPreference.LOCALREQUEST,"");
+//                            showToast(strlocalreq);
 //                        }
+//                    });
+//                    requestDialog.setCancelOnclickListener(new RequestDialog.onCancelOnclickListener() {
+//                        @Override
+//                        public void onCancelClick() {
+//                            requestDialog.dismiss();
+//                        }
+//                    });
+//                    requestDialog.show();
 //
-//                    }
-//
-//                });
-//                requestDialog.show();
+//                }
 
 
 

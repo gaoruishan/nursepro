@@ -11,12 +11,13 @@ import java.util.List;
  */
 public class ModelDataBean {
     /**
-     * lastTourInfo : {"DHCNurTourDate":"2019-05-08","DHCNurTourTime":"10:42:00","DHCNurTourUser":"护士01","DetailDR":"23","TourDetailList":[{"DetailDR":"23","TourDataName":"体位","TourDataValue":"俯卧位","TourTypeCode":"Grade","TourTypeDesc":"分级巡视"},{"DetailDR":"23","TourDataName":"管道","TourDataValue":"通畅","TourTypeCode":"Grade","TourTypeDesc":"分级巡视"}],"TourTypeCode":"Grade","TourTypeDesc":"分级巡视"}
-     * modelList : [{"LinkInfo":[],"ModelSort":"1","PatInfo":"","Unit":"","editCondition":"","editFlag":"true","editItem":"","editType":"","fontSize":"12","height":"16","imageName":"","itemCode":"DHCNurTourDate","itemDesc":"巡视日期","itemType":"D","itemValue":"","itemdeValue":"","jModelKey":"","mustFill":"false","singleCheck":"true","subRowId":"","titleHiddeFlag":"true","toastStr":"","value":"测试","width":"120"},{"LinkInfo":[],"ModelSort":"2","PatInfo":"","Unit":"","editCondition":"","editFlag":"true","editItem":"","editType":"","fontSize":"12","height":"18","imageName":"","itemCode":"DHCNurTourTime","itemDesc":"巡视时间","itemType":"Ti","itemValue":"","itemdeValue":"","jModelKey":"","mustFill":"false","singleCheck":"true","subRowId":"","titleHiddeFlag":"0","toastStr":"","value":"测试","width":"109"},{"LinkInfo":[],"ModelSort":"3","PatInfo":"","Unit":"","editCondition":"","editFlag":"true","editItem":"","editType":"","fontSize":"12","height":"20","imageName":"","itemCode":"DHCNurTourIfOut","itemDesc":"是否离房","itemType":"R","itemValue":"是!否!","itemdeValue":"","jModelKey":"","mustFill":"false","singleCheck":"true","subRowId":"","titleHiddeFlag":"true","toastStr":"","value":"测试","width":"117"},{"LinkInfo":[],"ModelSort":"4","PatInfo":"","Unit":"","editCondition":"","editFlag":"true","editItem":"","editType":"","fontSize":"12","height":"20","imageName":"","itemCode":"DHCNurTourIfOutRes","itemDesc":"离开原因","itemType":"R","itemValue":"外出!请假!","itemdeValue":"","jModelKey":"","mustFill":"false","singleCheck":"true","subRowId":"","titleHiddeFlag":"true","toastStr":"","value":"测试","width":"117"},{"LinkInfo":[],"ModelSort":"5","PatInfo":"","Unit":"","editCondition":"","editFlag":"true","editItem":"","editType":"","fontSize":"12","height":"20","imageName":"","itemCode":"DHCNurTourSTAT","itemDesc":"总体状况","itemType":"R","itemValue":"正常!意识模糊!","itemdeValue":"","jModelKey":"","mustFill":"false","singleCheck":"true","subRowId":"","titleHiddeFlag":"true","toastStr":"","value":"测试","width":"117"},{"LinkInfo":[],"ModelSort":"6","PatInfo":"","Unit":"","editCondition":"","editFlag":"true","editItem":"","editType":"","fontSize":"12","height":"20","imageName":"","itemCode":"DHCNurTourTW","itemDesc":"体位","itemType":"R","itemValue":"仰卧位!俯卧位!侧卧位!端坐位!","itemdeValue":"","jModelKey":"","mustFill":"false","singleCheck":"true","subRowId":"","titleHiddeFlag":"true","toastStr":"","value":"测试","width":"117"},{"LinkInfo":[],"ModelSort":"7","PatInfo":"","Unit":"","editCondition":"","editFlag":"true","editItem":"","editType":"","fontSize":"12","height":"20","imageName":"","itemCode":"DHCNurTourTunnelSTAT","itemDesc":"管道情况","itemType":"R","itemValue":"污浊!通畅!","itemdeValue":"","jModelKey":"","mustFill":"false","singleCheck":"true","subRowId":"","titleHiddeFlag":"true","toastStr":"","value":"测试","width":"117"}]
-     * modelType : Grade
+     * infusionOrdInfo : [{"ArcimDesc":"0.9%氯化钠注射液(塑瓶)[250ml]","DoseQtyUnit":"250 ml","PhOrdQtyUnit":"500 ml"},{"ArcimDesc":"注射用青霉素钠[400万U]","DoseQtyUnit":"400 万IU","PhOrdQtyUnit":"800 万IU"},{"ArcimDesc":"一次性注射器[10ml]","DoseQtyUnit":" 万IU","PhOrdQtyUnit":"1 个"},{"ArcimDesc":"一次性输液器[7＃]","DoseQtyUnit":"1 万IU","PhOrdQtyUnit":"1 "}]
+     * lastTourInfo : {"DHCNurTourDate":"2019-05-09","DHCNurTourTime":"09:13:00","DHCNurTourUser":"护士01","TourDetailList":[{"TourDataName":"巡视情况","TourDataValue":"正常"},{"TourDataName":"滴速","TourDataValue":""}],"TourTypeCode":"Infusion","TourTypeDesc":"输液巡视"}
+     * modelList : [{"LinkInfo":[],"ModelSort":"1","PatInfo":"","Unit":"","editCondition":"","editFlag":"true","editItem":"","editType":"","fontSize":"12","height":"18","imageName":"","itemCode":"DHCNurTourDate","itemDesc":"巡视日期","itemType":"D","itemValue":"","itemdeValue":"","jModelKey":"","mustFill":"false","singleCheck":"true","subRowId":"","titleHiddeFlag":"true","toastStr":"","value":"测试","width":"128"},{"LinkInfo":[],"ModelSort":"2","PatInfo":"","Unit":"","editCondition":"","editFlag":"true","editItem":"","editType":"","fontSize":"12","height":"20","imageName":"","itemCode":"DHCNurTourTime","itemDesc":"巡视时间","itemType":"Ti","itemValue":"","itemdeValue":"","jModelKey":"","mustFill":"false","singleCheck":"true","subRowId":"","titleHiddeFlag":"0","toastStr":"","value":"测试","width":"115"},{"LinkInfo":[],"ModelSort":"3","PatInfo":"","Unit":"","editCondition":"","editFlag":"true","editItem":"","editType":"","fontSize":"12","height":"20","imageName":"","itemCode":"DHCNurTourInspectHandle","itemDesc":"巡视操作","itemType":"R","itemValue":"穿刺!巡视!续液!拔针!","itemdeValue":"","jModelKey":"","mustFill":"false","singleCheck":"true","subRowId":"","titleHiddeFlag":"true","toastStr":"","value":"测试","width":"110"},{"LinkInfo":[],"ModelSort":"4","PatInfo":"","Unit":"","editCondition":"","editFlag":"true","editItem":"","editType":"","fontSize":"12","height":"20","imageName":"","itemCode":"DHCNurTourInspectSTAT","itemDesc":"输液情况","itemType":"R","itemValue":"正常!鼓针!发冷!","itemdeValue":"","jModelKey":"","mustFill":"false","singleCheck":"true","subRowId":"","titleHiddeFlag":"true","toastStr":"","value":"测试","width":"110"},{"LinkInfo":[],"ModelSort":"5","PatInfo":"","Unit":"","editCondition":"","editFlag":"true","editItem":"","editType":"","fontSize":"12","height":"20","imageName":"","itemCode":"DHCNurTourInspectDeal","itemDesc":"异常处理措施","itemType":"R","itemValue":"重新穿刺!调整滴速!","itemdeValue":"","jModelKey":"","mustFill":"false","singleCheck":"true","subRowId":"","titleHiddeFlag":"true","toastStr":"","value":"测试","width":"110"},{"LinkInfo":[],"ModelSort":"6","PatInfo":"","Unit":"","editCondition":"","editFlag":"true","editItem":"","editType":"","fontSize":"12","height":"21","imageName":"","itemCode":"DHCNurTourInspectSP","itemDesc":"滴速","itemType":"E","itemValue":"","itemdeValue":"","jModelKey":"","mustFill":"false","singleCheck":"true","subRowId":"","titleHiddeFlag":"true","toastStr":"","value":"测试","width":"106"}]
+     * modelType : Infusion
      * msg : 成功
      * msgcode : 999999
-     * patInfo : {"Barthel":"11.1.1","Bedsore":"11.1.1","Fallbed":"11.1.1","Fallrisk":"11.1.1","Item34":"11.1.1","Item34_Title":"心包引流(ml)","PatBMI":"22.87,超过中等","Reason":"11.1.1","admReason":"全自费","age":"30岁","balance":"89490.41","bedCode":"02","breath":"20","careLevel":"","ctLocDesc":"内分泌科","currWardID":"5","defFreq":"1","degrBlood":"95","diaPressure":"70","diagnosis":"食管裂孔疝,食管裂孔疝,肺占位性病变,咳嗽病,阳明实证","dischargeStatus":"","episodeID":"94","heartbeat":"60","height":"11.1.1","homeAddres":"","ifNewBaby":"N","illState":"普通","inDays":"408","inDeptDateTime":"2018-03-26 08:46","inHospDateTime":"2018-03-26 08:46:30","insuranceCard":"","liquidOut":"11.1.1","mainDoctor":"智亚芹","mainDoctorID":["1671"],"mainNurse":"关畅","mainNurseID":["830"],"medicareNo":"100056","motherTransLoc":"","name":"王伟测试","nation":"汉族","operation":"颈部血管治疗性超声","orderID":"91","painInten":"11.1.1","patLinkman":"","patientID":"129","personID":"37078419880819641X ","phyCooling":"11.1.1","pulse":"50","rectemperature":"85","regDateTime":"2018-03-26 08:45:24","regNo":"0000000129","roomDesc":"1病室","sex":"男","sysPressure":"120","telphone":"15336465257","temperature":"36","totalCost":"20509.59","uriVolume":"11.1.1","wardDesc":"内分泌科护理单元","weight":"56"}
+     * patInfo : {"Barthel":"11.1.1","Bedsore":"11.1.1","Fallbed":"11.1.1","Fallrisk":"11.1.1","Item34":"11.1.1","Item34_Title":"心包引流(ml)","PatBMI":"22.87,超过中等","Reason":"11.1.1","admReason":"全自费","age":"30岁","balance":"89490.41","bedCode":"02","breath":"20","careLevel":"","ctLocDesc":"内分泌科","currWardID":"5","defFreq":"1","degrBlood":"95","diaPressure":"70","diagnosis":"食管裂孔疝,食管裂孔疝,肺占位性病变,咳嗽病,阳明实证","dischargeStatus":"","episodeID":"94","heartbeat":"60","height":"11.1.1","homeAddres":"","ifNewBaby":"N","illState":"普通","inDays":"409","inDeptDateTime":"2018-03-26 08:46","inHospDateTime":"2018-03-26 08:46:30","insuranceCard":"","liquidOut":"11.1.1","mainDoctor":"智亚芹","mainDoctorID":["1671"],"mainNurse":"关畅","mainNurseID":["830"],"medicareNo":"100056","motherTransLoc":"","name":"王伟测试","nation":"汉族","operation":"颈部血管治疗性超声","orderID":"91","painInten":"11.1.1","patLinkman":"","patientID":"129","personID":"37078419880819641X ","phyCooling":"11.1.1","pulse":"50","rectemperature":"85","regDateTime":"2018-03-26 08:45:24","regNo":"0000000129","roomDesc":"1病室","sex":"男","sysPressure":"120","telphone":"15336465257","temperature":"36","totalCost":"20509.59","uriVolume":"11.1.1","wardDesc":"内分泌科护理单元","weight":"56"}
      * status : 0
      */
 
@@ -26,6 +27,7 @@ public class ModelDataBean {
     private String msgcode;
     private PatInfoBean patInfo;
     private String status;
+    private List<InfusionOrdInfoBean> infusionOrdInfo;
     private List<ModelListBean> modelList;
 
     public LastTourInfoBean getLastTourInfo() {
@@ -76,6 +78,14 @@ public class ModelDataBean {
         this.status = status;
     }
 
+    public List<InfusionOrdInfoBean> getInfusionOrdInfo() {
+        return infusionOrdInfo;
+    }
+
+    public void setInfusionOrdInfo(List<InfusionOrdInfoBean> infusionOrdInfo) {
+        this.infusionOrdInfo = infusionOrdInfo;
+    }
+
     public List<ModelListBean> getModelList() {
         return modelList;
     }
@@ -86,19 +96,17 @@ public class ModelDataBean {
 
     public static class LastTourInfoBean {
         /**
-         * DHCNurTourDate : 2019-05-08
-         * DHCNurTourTime : 10:42:00
+         * DHCNurTourDate : 2019-05-09
+         * DHCNurTourTime : 09:13:00
          * DHCNurTourUser : 护士01
-         * DetailDR : 23
-         * TourDetailList : [{"DetailDR":"23","TourDataName":"体位","TourDataValue":"俯卧位","TourTypeCode":"Grade","TourTypeDesc":"分级巡视"},{"DetailDR":"23","TourDataName":"管道","TourDataValue":"通畅","TourTypeCode":"Grade","TourTypeDesc":"分级巡视"}]
-         * TourTypeCode : Grade
-         * TourTypeDesc : 分级巡视
+         * TourDetailList : [{"TourDataName":"巡视情况","TourDataValue":"正常"},{"TourDataName":"滴速","TourDataValue":""}]
+         * TourTypeCode : Infusion
+         * TourTypeDesc : 输液巡视
          */
 
         private String DHCNurTourDate;
         private String DHCNurTourTime;
         private String DHCNurTourUser;
-        private String DetailDR;
         private String TourTypeCode;
         private String TourTypeDesc;
         private List<TourDetailListBean> TourDetailList;
@@ -127,14 +135,6 @@ public class ModelDataBean {
             this.DHCNurTourUser = DHCNurTourUser;
         }
 
-        public String getDetailDR() {
-            return DetailDR;
-        }
-
-        public void setDetailDR(String DetailDR) {
-            this.DetailDR = DetailDR;
-        }
-
         public String getTourTypeCode() {
             return TourTypeCode;
         }
@@ -161,26 +161,12 @@ public class ModelDataBean {
 
         public static class TourDetailListBean {
             /**
-             * DetailDR : 23
-             * TourDataName : 体位
-             * TourDataValue : 俯卧位
-             * TourTypeCode : Grade
-             * TourTypeDesc : 分级巡视
+             * TourDataName : 巡视情况
+             * TourDataValue : 正常
              */
 
-            private String DetailDR;
             private String TourDataName;
             private String TourDataValue;
-            private String TourTypeCode;
-            private String TourTypeDesc;
-
-            public String getDetailDR() {
-                return DetailDR;
-            }
-
-            public void setDetailDR(String DetailDR) {
-                this.DetailDR = DetailDR;
-            }
 
             public String getTourDataName() {
                 return TourDataName;
@@ -196,22 +182,6 @@ public class ModelDataBean {
 
             public void setTourDataValue(String TourDataValue) {
                 this.TourDataValue = TourDataValue;
-            }
-
-            public String getTourTypeCode() {
-                return TourTypeCode;
-            }
-
-            public void setTourTypeCode(String TourTypeCode) {
-                this.TourTypeCode = TourTypeCode;
-            }
-
-            public String getTourTypeDesc() {
-                return TourTypeDesc;
-            }
-
-            public void setTourTypeDesc(String TourTypeDesc) {
-                this.TourTypeDesc = TourTypeDesc;
             }
         }
     }
@@ -245,7 +215,7 @@ public class ModelDataBean {
          * homeAddres :
          * ifNewBaby : N
          * illState : 普通
-         * inDays : 408
+         * inDays : 409
          * inDeptDateTime : 2018-03-26 08:46
          * inHospDateTime : 2018-03-26 08:46:30
          * insuranceCard :
@@ -822,6 +792,42 @@ public class ModelDataBean {
         }
     }
 
+    public static class InfusionOrdInfoBean {
+        /**
+         * ArcimDesc : 0.9%氯化钠注射液(塑瓶)[250ml]
+         * DoseQtyUnit : 250 ml
+         * PhOrdQtyUnit : 500 ml
+         */
+
+        private String ArcimDesc;
+        private String DoseQtyUnit;
+        private String PhOrdQtyUnit;
+
+        public String getArcimDesc() {
+            return ArcimDesc;
+        }
+
+        public void setArcimDesc(String ArcimDesc) {
+            this.ArcimDesc = ArcimDesc;
+        }
+
+        public String getDoseQtyUnit() {
+            return DoseQtyUnit;
+        }
+
+        public void setDoseQtyUnit(String DoseQtyUnit) {
+            this.DoseQtyUnit = DoseQtyUnit;
+        }
+
+        public String getPhOrdQtyUnit() {
+            return PhOrdQtyUnit;
+        }
+
+        public void setPhOrdQtyUnit(String PhOrdQtyUnit) {
+            this.PhOrdQtyUnit = PhOrdQtyUnit;
+        }
+    }
+
     public static class ModelListBean {
         /**
          * LinkInfo : []
@@ -833,7 +839,7 @@ public class ModelDataBean {
          * editItem :
          * editType :
          * fontSize : 12
-         * height : 16
+         * height : 18
          * imageName :
          * itemCode : DHCNurTourDate
          * itemDesc : 巡视日期
@@ -847,7 +853,7 @@ public class ModelDataBean {
          * titleHiddeFlag : true
          * toastStr :
          * value : 测试
-         * width : 120
+         * width : 128
          */
 
         private String ModelSort;
@@ -875,7 +881,6 @@ public class ModelDataBean {
         private String width;
         private List<?> LinkInfo;
         private String sendValue;
-
 
         public String getSendValue() {
             return sendValue;

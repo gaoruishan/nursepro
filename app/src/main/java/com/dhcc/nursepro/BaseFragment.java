@@ -70,6 +70,11 @@ public class BaseFragment extends Fragment {
     }
 
     public void getScanMsg(Intent intent) {
+        Bundle bundle = new Bundle();
+        bundle = intent.getExtras();
+        String scanInfo = bundle.getString("data").replace("||","-");
+        intent.putExtra("data",scanInfo);
+
 
     }
 

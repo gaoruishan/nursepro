@@ -1,12 +1,17 @@
 package com.dhcc.nursepro.workarea.nurtour.adapter;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.constant.Action;
 import com.dhcc.nursepro.workarea.nurtour.bean.AllTourListBean;
 
 import java.util.List;
@@ -38,5 +43,19 @@ public class TourAllListItemAdapter  extends BaseQuickAdapter<AllTourListBean.To
         }else {
             textView.setBackgroundColor(Color.parseColor("#FFEA4300"));
         }
+        LinearLayout linearLayout = helper.getView(R.id.messagerightmenu);
+        linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("data", item.getDetailDR());
+                bundle.putString("type", item.getTourType());
+                Intent tbIntent = new Intent();
+                tbIntent.setAction(Action.TOUR_DOSINGID);
+                tbIntent.putExtras(bundle);
+                mContext.sendBroadcast(tbIntent);
+            }
+        });
+
     }
 }
