@@ -32,6 +32,7 @@ import com.dhcc.nursepro.common.BasePushDialog;
 import com.dhcc.nursepro.common.BaseTopLoadingView;
 import com.dhcc.nursepro.constant.Action;
 
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -70,11 +71,13 @@ public class BaseFragment extends Fragment {
     }
 
     public void getScanMsg(Intent intent) {
-        Bundle bundle = new Bundle();
-        bundle = intent.getExtras();
-        String scanInfo = bundle.getString("data").replace("||","-");
-        intent.putExtra("data",scanInfo);
 
+        if (Objects.requireNonNull(intent.getAction()).equals(Action.DEVICE_SCAN_CODE)) {
+            Bundle bundle = new Bundle();
+            bundle = intent.getExtras();
+            String scanInfo = bundle.getString("data").replace("||","-");
+            intent.putExtra("data",scanInfo);
+        }
 
     }
 
