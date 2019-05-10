@@ -37,9 +37,11 @@ public class InfusionTourSubListAdapter extends BaseQuickAdapter<InfusionListBea
     protected void convert(BaseViewHolder helper, InfusionListBean.PatInfoListBean.OrdListBean item) {
         helper.setText(R.id.tv_orderid,item.getOeoreId());
         if (item.getTourList().size()>0){
-            helper.setText(R.id.tv_tourinfusionsublist_time,item.getTourList().get(item.getTourList().size()-1).getDHCNurTourDate()+" "+item.getTourList().get(item.getTourList().size()-1).getDHCNurTourTime());
+            helper.setText(R.id.tv_tourinfusionsublist_time,item.getTourList().get(item.getTourList().size()-1).getDHCNurTourDate()+" "+item.getTourList().get(item.getTourList().size()-1).getDHCNurTourTime())
+                    .setText(R.id.tv_tourinfusionsublist_nurse,item.getTourList().get(item.getTourList().size()-1).getDHCNurTourUser());
         }else {
-            helper.setText(R.id.tv_tourinfusionsublist_time,"无");
+            helper.setText(R.id.tv_tourinfusionsublist_time,"无")
+                    .setText(R.id.tv_tourinfusionsublist_nurse,"");
         }
         Log.d(TAG, "convert: ");
         RecyclerView recOrderList = helper.getView(R.id.rec_tourinfusionsublist_ordlist);

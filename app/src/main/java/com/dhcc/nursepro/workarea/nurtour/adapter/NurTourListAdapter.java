@@ -62,10 +62,11 @@ public class NurTourListAdapter extends BaseQuickAdapter<GradeTourListBean.PatIn
         if (item.getLastTourInfo().getTourDetailList() != null) {
             for (int i = 0; i < item.getLastTourInfo().getTourDetailList().size(); i++) {
                 TextView titleTV = new TextView(mContext);
+                titleTV.setTextSize(13);
                 titleTV.setText(item.getLastTourInfo().getTourDetailList().get(i).getTourDataName() + ": " + item.getLastTourInfo().getTourDetailList().get(i).getTourDataValue());
                 LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
                 if (i ==1){
-                    titleParams.setMargins(ConvertUtils.dp2px(8), 0, 5, 0);
+                    titleParams.setMargins(ConvertUtils.dp2px(5), 5, 5, 5);
                 }else {
                     titleParams.setMargins(ConvertUtils.dp2px(15), 0, 5, 0);
                 }

@@ -13,6 +13,8 @@
         android:id="@+id/swipe_tourall_type1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         app:contentView="@+id/messagecontentl"
         app:rightMenuView="@+id/messagerightmenu">
@@ -25,15 +27,15 @@
 
             <TextView
                 android:id="@+id/tv_tourallitem_type"
-                android:layout_width="50dp"
-                android:layout_height="20dp"
+                android:layout_width="52dp"
+                android:layout_height="16dp"
                 android:orientation="vertical"
                 android:layout_marginLeft="35dp"
                 android:background="#FFF5A623"
                 android:gravity="center"
                 android:text="护理等级"
                 android:textColor="@color/white"
-                android:textSize="12sp" />
+                android:textSize="10sp" />
             <TextView
                 android:id="@+id/tv_tourallitem_date"
                 android:layout_width="wrap_content"
@@ -86,6 +88,7 @@
     </com.guanaj.easyswipemenulibrary.EasySwipeMenuLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/dp_10"
         android:background="#FFF6F6F6"></View>
 </LinearLayout>

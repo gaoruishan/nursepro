@@ -37,11 +37,11 @@ public class TourAllListItemAdapter  extends BaseQuickAdapter<AllTourListBean.To
                 .setText(R.id.tv_tourallitem_nurse, item.getDHCNurTourUser());
         TextView textView = helper.getView(R.id.tv_tourallitem_type);
         if (item.getTourTypeCode().equals("Grade")){
-            textView.setBackgroundColor(Color.parseColor("#FF4081"));
+            textView.setBackground(mContext.getResources().getDrawable(R.drawable.bg_tourtype_grade));
         }else if (item.getTourTypeCode().equals("Infusion")){
-            textView.setBackgroundColor(Color.parseColor("#4C95EF"));
+            textView.setBackground(mContext.getResources().getDrawable(R.drawable.bg_tourtype_infusion));
         }else {
-            textView.setBackgroundColor(Color.parseColor("#FFEA4300"));
+            textView.setBackground(mContext.getResources().getDrawable(R.drawable.bg_tourtype_blood));
         }
         LinearLayout linearLayout = helper.getView(R.id.messagerightmenu);
         linearLayout.setOnClickListener(new View.OnClickListener() {

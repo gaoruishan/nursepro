@@ -189,10 +189,6 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         viewright.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Bundle bundle = new Bundle();
-//                bundle.putString("bedselectinfoStr", getBedSelectInfoStr());
-//                finish(bundle);
-                showToast(modelTourId+"--"+modelType);
                 initTourDelete();
             }
         });
@@ -321,7 +317,6 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                 nurTourTypeAdapter.notifyDataSetChanged();
                 gradeTourType = gradeTourTypeList.get(position).getDesc();
                 gradeTourFilter();
-                showToast(gradeTourTypeList.get(position).getDesc());
             }
         });
 
@@ -333,7 +328,6 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                 infusionTourTypeAdapter.setSelectItem(position);
                 infusionTourTypeAdapter.notifyDataSetChanged();
                 infusionPatFilter(infusionTopFilterBeans.get(position).getCode());
-//                showToast(gradeTourTypeList.get(position).getDesc());
             }
         });
 
@@ -530,12 +524,12 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                 if (modelDataBean.getLastTourInfo().getTourDetailList() != null) {
                     for (int i = 0; i < modelDataBean.getLastTourInfo().getTourDetailList().size(); i++) {
                         TextView titleTV = new TextView(getActivity());
-                        titleTV.setTextColor(getResources().getColor(R.color.black));
-                        titleTV.setTextSize(12);
+                        titleTV.setTextColor(getResources().getColor(R.color.nurrecord_edit_defaultvalue_color));
+                        titleTV.setTextSize(13);
                         titleTV.setText(modelDataBean.getLastTourInfo().getTourDetailList().get(i).getTourDataName() + ": " + modelDataBean.getLastTourInfo().getTourDetailList().get(i).getTourDataValue());
                         LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
                         if (i ==1){
-                            titleParams.setMargins(ConvertUtils.dp2px(12), 0, 5, 0);
+                            titleParams.setMargins(ConvertUtils.dp2px(5), 0, 5, 0);
                         }else {
                             titleParams.setMargins(ConvertUtils.dp2px(15), 0, 5, 0);
                         }
@@ -623,7 +617,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 
             @Override
             public void onFail(String code, String msg) {
-                    showToast(code+"--"+msg+modelType);
+                    showToast(code+"--"+msg);
                     hideLoadFailTip();
             }
         });
@@ -672,7 +666,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 
             @Override
             public void onFail(String code, String msg) {
-                showToast(code+"--"+msg+modelType);
+                showToast(code+"--"+msg);
                 hideLoadFailTip();
             }
         });
@@ -745,7 +739,6 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                     }
                     if (i == modelListBeans.size() - 1) {
 
-//                        showToast(strSendHead+strSend);
                         Log.v("111send", strSend);
                     }
                 }
@@ -971,14 +964,12 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         if (Objects.requireNonNull(intent.getAction()).equals(Action.DEVICE_SCAN_CODE)) {
             tempTopTypeSelected =topTypeSelected;
             bundle = intent.getExtras();
-//            showToast(bundle.getString("data"));
             modelFlag = "input";
             initDataModel(bundle.getString("data"),"");
         }
         if (Objects.requireNonNull(intent.getAction()).equals(Action.TOUR_DOSINGID)) {
             tempTopTypeSelected =topTypeSelected;
             bundle = intent.getExtras();
-            showToast(bundle.getString("data")+bundle.getString("type"));
             modelFlag = "update";
             initDataModel(bundle.getString("data"),bundle.getString("type"));
         }

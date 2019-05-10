@@ -6,11 +6,8 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     >
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/bg_oval_greenlight"></View>
     <LinearLayout
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -34,11 +31,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#FFF6F6F6"></View>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:orientation="horizontal"
         android:gravity="center_vertical">
 
@@ -48,19 +49,28 @@
                 android:orientation="vertical"
                 android:layout_marginLeft="5dp"
                 android:gravity="center"
-                android:text="最近巡视"
-                android:textColor="@color/black"
+                android:text="巡视记录"
+                android:textColor="@color/bottom_item_text_unselected_color"
                 android:textSize="13sp" />
             <TextView
                 android:id="@+id/tv_tourinfusionsublist_time"
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center|start"
                 android:text="2019-10-10 10:00"
-                android:textColor="@color/black"
+                android:textColor="@color/bottom_item_text_unselected_color"
                 android:layout_marginLeft="5dp"
                 android:textSize="12sp"/>
+        <TextView
+            android:id="@+id/tv_tourinfusionsublist_nurse"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center|start"
+            android:text="护士1"
+            android:textColor="@color/bottom_item_text_unselected_color"
+            android:layout_marginLeft="5dp"
+            android:textSize="12sp"/>
         <ImageView
             android:id="@+id/tv_tournurlist_img"
             android:layout_width="16dp"
