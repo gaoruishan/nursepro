@@ -15,6 +15,7 @@
         android:orientation="horizontal"
         android:gravity="center_vertical">
         <TextView
+            android:visibility="gone"
             android:id="@+id/tv_tourid"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -25,6 +26,7 @@
             android:textColor="@color/black"
             android:textSize="12sp" />
             <TextView
+                android:visibility="gone"
                 android:id="@+id/tv_infusiontour_name"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -41,7 +43,7 @@
                 android:gravity="center|start"
                 android:text="2019-10-10 10:00"
                 android:textColor="@color/black"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="10dp"
                 android:textSize="10sp"/>
         <TextView
             android:id="@+id/tv_infusiontour_nurse"
@@ -49,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="10dp"
             android:gravity="center"
             android:text="巡视人"
             android:textColor="@color/black"

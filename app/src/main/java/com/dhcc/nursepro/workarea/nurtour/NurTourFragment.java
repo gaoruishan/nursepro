@@ -49,6 +49,7 @@ import com.dhcc.nursepro.workarea.nurtour.adapter.TourPatTypeAdapter;
 import com.dhcc.nursepro.workarea.nurtour.adapter.TourPatslistAdapter;
 import com.dhcc.nursepro.workarea.nurtour.api.TourApiManager;
 import com.dhcc.nursepro.workarea.nurtour.bean.AllTourListBean;
+import com.dhcc.nursepro.workarea.nurtour.bean.DeleteTourBean;
 import com.dhcc.nursepro.workarea.nurtour.bean.InfusionListBean;
 import com.dhcc.nursepro.workarea.nurtour.bean.GradeTourListBean;
 import com.dhcc.nursepro.workarea.nurtour.bean.ModelDataBean;
@@ -106,6 +107,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
     private FlowLayout flLastTour;
     private TextView tvLastDate,tvLastTime,tvLastNurse;
     private RecyclerView recOrderList;
+    private LinearLayout llModelLastTour;
 
     private TourAllAdapter tourAllAdapter;
     private TourPatslistAdapter patsAdapter;
@@ -146,6 +148,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
     private String sendEdpisodeId = "";
     private String sendOrderId = "";
     private String modelFlag = "input";
+    private String modelTourId = "";
 
 
     private List<ModelDataBean.ModelListBean> modelListBeans =new ArrayList<>();
@@ -160,6 +163,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
     private LinearLayout recordContentView;
     private HashMap<String, View> viewItemMap;
 
+    private View viewright;
 
 
 
@@ -176,6 +180,26 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         setToolbarBottomLineVisibility(false);
         //        hideToolbarNavigationIcon();
         setToolbarCenterTitle((getString(R.string.title_nurtour)), 0xffffffff, 17);
+        //右上角保存按钮
+        viewright = View.inflate(getActivity(), R.layout.view_fratoolbar_right, null);
+        TextView textView = viewright.findViewById(R.id.tv_fratoobar_right);
+        textView.setTextSize(16);
+        textView.setText("   删除   ");
+        textView.setTextColor(getResources().getColor(R.color.white));
+        viewright.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Bundle bundle = new Bundle();
+//                bundle.putString("bedselectinfoStr", getBedSelectInfoStr());
+//                finish(bundle);
+                showToast(modelTourId+"--"+modelType);
+                initTourDelete();
+            }
+        });
+        viewright.setVisibility(View.GONE);
+        setToolbarRightCustomView(viewright);
+
+
 
         initView(view);
         initAdapter();
@@ -211,6 +235,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         tvLastTime = view.findViewById(R.id.tv_moedellasttour_time);
         tvLastNurse = view.findViewById(R.id.tv_moedellasttour_nurse);
         recOrderList = view.findViewById(R.id.rec_model_orderlist);
+        llModelLastTour = view.findViewById(R.id.ll_tourmodel_lasttour);
 
         tvAll = view.findViewById(R.id.tv_tour_all);
         tvAll.setOnClickListener(this);
@@ -469,18 +494,25 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         map.put("locId", spUtils.getString(SharedPreference.LOCID));
         map.put("wardId", spUtils.getString(SharedPreference.WARDID));
         if (modelFlag.equals("input")){
+            modelTourId = "";
             map.put("barCode", barcode);
             sendOrderId = barcode;
+            llModelLastTour.setVisibility(View.VISIBLE);
         }else {
+            modelTourId = barcode;
             map.put("barCode", "");
             map.put("id", barcode);
             map.put("tourType", tourtype);
             sendOrderId = "";
+            llModelLastTour.setVisibility(View.GONE);
         }
 
         TourApiManager.getModelData(map, "getModelData", new TourApiManager.getModelDatacall() {
             @Override
             public void onSuccess(ModelDataBean modelDataBean) {
+                if (modelFlag.equals("update")){
+                    viewright.setVisibility(View.VISIBLE);
+                }
 
                 llTourlist.setVisibility(View.GONE);
                 llTourSend.setVisibility(View.VISIBLE);
@@ -556,12 +588,15 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         showLoadingTip(BaseActivity.LoadingType.FULL);
         HashMap<String,String> map = new HashMap<>();
         map.put("parr",send);
-//        map.put("id",spUtils.getString(SharedPreference.USERID));
+        if (modelFlag.equals("update")){
+            map.put("id",modelTourId);
+        }
         map.put("tourType",modelType);
         map.put("userId",spUtils.getString(SharedPreference.USERID));
         TourApiManager.getTourSaveMsg(map, "saveTour", new TourApiManager.getTourSavecall() {
             @Override
             public void onSuccess(TourSaveBean tourSaveBean) {
+                viewright.setVisibility(View.GONE);
                 seToptEnable(true);
                 setTopFilterSelect();
                 hideLoadFailTip();
@@ -593,6 +628,54 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
             }
         });
 
+
+    }
+
+    /**
+     * 删除巡视记录，保存完回到对应界面刷新
+     */
+    private void initTourDelete(){
+        showLoadingTip(BaseActivity.LoadingType.FULL);
+        HashMap<String,String> map = new HashMap<>();
+        map.put("id",modelTourId);
+        map.put("tourType",modelType);
+        map.put("userId",spUtils.getString(SharedPreference.USERID));
+        TourApiManager.getTourDeleteMsg(map, "deleteTour", new TourApiManager.getTourDeleteCall() {
+            @Override
+            public void onSuccess(DeleteTourBean deleteTourBean) {
+                viewright.setVisibility(View.GONE);
+                seToptEnable(true);
+                setTopFilterSelect();
+                hideLoadFailTip();
+
+                llTourSend.setVisibility(View.GONE);
+                llTourlist.setVisibility(View.VISIBLE);
+                switch (topTypeSelected){
+                    case "all":
+                        onClick(tvAll);
+                        break;
+                    case "nur":
+                        onClick(tvNur);
+                        break;
+                    case "infusion":
+                        onClick(tvInfusion);
+                        break;
+                    case "blood":
+                        onClick(tvBlood);
+                        break;
+                    default:
+                        break;
+                }
+                showToast(deleteTourBean.getMsg());
+                hideLoadFailTip();
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+                showToast(code+"--"+msg+modelType);
+                hideLoadFailTip();
+            }
+        });
 
     }
 
@@ -633,6 +716,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                 setTopFilterSelect();
                 break;
             case R.id.tv_tour_cancle:
+                viewright.setVisibility(View.GONE);
                 topTypeSelected = tempTopTypeSelected;
                 seToptEnable(true);
                 setTopFilterSelect();
@@ -892,6 +976,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
             initDataModel(bundle.getString("data"),"");
         }
         if (Objects.requireNonNull(intent.getAction()).equals(Action.TOUR_DOSINGID)) {
+            tempTopTypeSelected =topTypeSelected;
             bundle = intent.getExtras();
             showToast(bundle.getString("data")+bundle.getString("type"));
             modelFlag = "update";
@@ -1483,6 +1568,8 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
             optionView.setTextColor(getResources().getColor(R.color.vital_sign_record_next_color));
             optionView.setBackgroundResource(R.drawable.vital_sign_input_bg);
             optionView.setGravity(Gravity.CENTER);
+            optionView.setText(config.getItemdeValue());
+            config.setSendValue(config.getItemCode()+"|"+config.getItemdeValue());
 
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             layoutParams.setMargins(ConvertUtils.dp2px(10), ConvertUtils.dp2px(11), ConvertUtils.dp2px(10), 45);//4个参数按顺序分别是左上右下

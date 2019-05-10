@@ -3,6 +3,7 @@ package com.dhcc.nursepro.workarea.nurtour.api;
 import com.blankj.utilcode.util.ObjectUtils;
 import com.dhcc.nursepro.workarea.nurtour.bean.AllTourListBean;
 import com.dhcc.nursepro.workarea.nurtour.bean.BloodListBean;
+import com.dhcc.nursepro.workarea.nurtour.bean.DeleteTourBean;
 import com.dhcc.nursepro.workarea.nurtour.bean.GradeModelBean;
 import com.dhcc.nursepro.workarea.nurtour.bean.GradeTourListBean;
 import com.dhcc.nursepro.workarea.nurtour.bean.InfusionListBean;
@@ -233,6 +234,40 @@ public class TourApiManager {
         });
     }
 
+    //删除巡视记录
+    public static void getTourDeleteMsg(HashMap<String, String> map, String method, final getTourDeleteCall callback) {
+
+        TourApiService.getTourListMsg(map, method, new TourApiService.ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                Gson gson = new Gson();
+                if (jsonStr.isEmpty()) {
+                    callback.onFail("-1", "网络错误，请求数据为空");
+                } else {
+                    try {
+                        DeleteTourBean deleteTourBean = gson.fromJson(jsonStr, DeleteTourBean.class);
+                        if (ObjectUtils.isEmpty(deleteTourBean)) {
+                            callback.onFail("-3", "网络错误，数据解析为空");
+                        } else {
+                            if ("0".equals(deleteTourBean.getStatus())) {
+                                if (callback != null) {
+                                    callback.onSuccess(deleteTourBean);
+                                }
+                            } else {
+                                if (callback != null) {
+                                    callback.onFail(deleteTourBean.getMsgcode(), deleteTourBean.getMsg());
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        callback.onFail("-2", "网络错误，数据解析失败");
+                    }
+
+                }
+            }
+        });
+    }
+
     //获取输血巡视列表
 //    public static void getBloodList(HashMap<String, String> map, String method, final getBloodcall callback) {
 //
@@ -291,7 +326,9 @@ public class TourApiManager {
         void onSuccess(TourSaveBean tourSaveBean);
     }
 
-
+    public interface getTourDeleteCall extends CommonCallBack {
+        void onSuccess(DeleteTourBean deleteTourBean);
+    }
 
     public interface CommonCallBack {
         void onFail(String code, String msg);

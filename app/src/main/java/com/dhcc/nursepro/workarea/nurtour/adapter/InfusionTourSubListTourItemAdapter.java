@@ -28,7 +28,7 @@ public class InfusionTourSubListTourItemAdapter extends BaseQuickAdapter<Infusio
     protected void convert(BaseViewHolder helper, InfusionListBean.PatInfoListBean.OrdListBean.TourListBean item) {
         helper.setText(R.id.tv_tourid,item.getDetailId())
                 .setText(R.id.tv_infusiontour_name,item.getTourType())
-                .setText(R.id.tv_infusiontour_time,item.getDHCNurTourDate()+"  "+item.getDHCNurTourTime())
+                .setText(R.id.tv_infusiontour_time,item.getDHCNurTourDate()+"   "+item.getDHCNurTourTime())
                 .setText(R.id.tv_infusiontour_nurse,item.getDHCNurTourUser());
     }
 }

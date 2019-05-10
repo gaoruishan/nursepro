@@ -147,7 +147,6 @@
 
 
     <LinearLayout
-        android:visibility="gone"
         android:id="@+id/ll_tour_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -402,63 +401,70 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
                         <LinearLayout
+                            android:id="@+id/ll_tourmodel_lasttour"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginBottom="5dp"
-                            android:orientation="horizontal"
-                            android:gravity="center_vertical">
-
-                            <TextView
-                                android:id="@+id/tv_tourall_type2"
-                                android:layout_width="50dp"
-                                android:layout_height="match_parent"
-                                android:orientation="vertical"
-                                android:layout_marginLeft="10dp"
-                                android:gravity="center"
-                                android:text="最近巡视:"
-                                android:textColor="@color/black"
-                                android:textSize="12sp" />
-                            <TextView
-                                android:id="@+id/tv_moedellasttour_date"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:gravity="center"
-                                android:text="2019-10-02"
-                                android:textColor="#FF4A4A4A"
-                                android:layout_marginLeft="5dp"
-                                android:textSize="13sp"/>
-
-                            <TextView
-                                android:id="@+id/tv_moedellasttour_time"
-                                android:layout_width="wrap_content"
+                            android:orientation="vertical">
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:layout_alignParentTop="true"
-                                android:text="07:37:57"
-                                android:textColor="#FF4A4A4A"
-                                android:layout_marginLeft="5dp"
-                                android:textSize="13sp"/>
-                            <TextView
-                                android:id="@+id/tv_moedellasttour_nurse"
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginBottom="5dp"
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical">
+
+                                <TextView
+                                    android:id="@+id/tv_tourall_type2"
+                                    android:layout_width="50dp"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical"
+                                    android:layout_marginLeft="10dp"
+                                    android:gravity="center"
+                                    android:text="最近巡视:"
+                                    android:textColor="@color/black"
+                                    android:textSize="12sp" />
+                                <TextView
+                                    android:id="@+id/tv_moedellasttour_date"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:text="2019-10-02"
+                                    android:textColor="#FF4A4A4A"
+                                    android:layout_marginLeft="5dp"
+                                    android:textSize="13sp"/>
+
+                                <TextView
+                                    android:id="@+id/tv_moedellasttour_time"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_alignParentTop="true"
+                                    android:text="07:37:57"
+                                    android:textColor="#FF4A4A4A"
+                                    android:layout_marginLeft="5dp"
+                                    android:textSize="13sp"/>
+                                <TextView
+                                    android:id="@+id/tv_moedellasttour_nurse"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_alignParentTop="true"
+                                    android:text="hs01"
+                                    android:textColor="#FF4A4A4A"
+                                    android:layout_marginRight="10dp"
+                                    android:gravity="end"
+                                    android:textSize="13sp"/>
+                            </LinearLayout>
+                            <com.nex3z.flowlayout.FlowLayout
+                                android:id="@+id/fl_lasttour"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:layout_alignParentTop="true"
-                                android:text="hs01"
-                                android:textColor="#FF4A4A4A"
-                                android:layout_marginRight="10dp"
-                                android:gravity="end"
-                                android:textSize="13sp"/>
+                                app:flChildSpacing="5dp"
+                                app:flRowSpacing="8dp"
+                                android:layout_marginBottom="@dimen/dp_10"/>
+
                         </LinearLayout>
-                        <com.nex3z.flowlayout.FlowLayout
-                            android:id="@+id/fl_lasttour"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            app:flChildSpacing="5dp"
-                            app:flRowSpacing="8dp"
-                            android:layout_marginBottom="@dimen/dp_10"/>
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="4dp"

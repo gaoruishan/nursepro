@@ -1,6 +1,8 @@
 package com.dhcc.nursepro.workarea.nurtour.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.Gravity;
 import android.view.View;
@@ -13,6 +15,7 @@ import com.blankj.utilcode.util.ConvertUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.constant.Action;
 import com.dhcc.nursepro.workarea.nurtour.bean.GradeTourListBean;
 import com.nex3z.flowlayout.FlowLayout;
 
@@ -40,6 +43,9 @@ public class NurTourListAdapter extends BaseQuickAdapter<GradeTourListBean.PatIn
                 .setText(R.id.tv_tournurlist_date,item.getLastTourInfo().getDHCNurTourDate())
                 .setText(R.id.tv_tournurlist_time,item.getLastTourInfo().getDHCNurTourTime())
                 .setText(R.id.tv_tourall_nurse2,item.getLastTourInfo().getDHCNurTourUser());
+        if (item.getLastTourInfo().getDetailDR() == null){
+            helper.setText(R.id.tv_tournurlist_date,"无");
+        }
         com.guanaj.easyswipemenulibrary.EasySwipeMenuLayout swipeLabout = helper.getView(R.id.swipe_labout);
 
         ImageView imgsex = helper.getView(R.id.img_tour_sex);
@@ -70,6 +76,18 @@ public class NurTourListAdapter extends BaseQuickAdapter<GradeTourListBean.PatIn
         }
 
         LinearLayout llAccount = helper.getView(R.id.ll_tournurlist_detail);
+        llAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("data", item.getLastTourInfo().getDetailDR());
+                bundle.putString("type", item.getLastTourInfo().getTourTypeCode());
+                Intent tbIntent = new Intent();
+                tbIntent.setAction(Action.TOUR_DOSINGID);
+                tbIntent.putExtras(bundle);
+                mContext.sendBroadcast(tbIntent);
+            }
+        });
         ImageView img = helper.getView(R.id.tv_tournurlist_img);
         img.setSelected(false);
         llAccount.setVisibility(View.GONE);
