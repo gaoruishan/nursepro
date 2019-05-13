@@ -92,6 +92,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     private BasePushDialog basePushDialog;
 
     private String patInfo = "";
+    private String patSaveInfo = "";
     private String orderInfo = "";
     private String orderInfoEx = "";
     private String skinBatch = "";
@@ -149,7 +150,10 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     private String execStatusCode;
 
     private String episodeId = "";
-
+    private StringBuffer sbOrderSaveInfo;
+    private String orderSaveInfo = "";
+    private StringBuffer sbTimeSaveInfo;
+    private String timeSaveInfo = "";
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -214,7 +218,9 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                                 episodeId = patInfoBean.getEpisodeID();
                                 regNo = patInfoBean.getRegNo();
                                 tvOrderexecutePatinfo.setText("".equals(patInfoBean.getBedCode()) ? "未分床  " + patInfoBean.getName() : patInfoBean.getBedCode() + "  " + patInfoBean.getName());
+
                                 patInfo = patInfoBean.getBedCode() + "-" + patInfoBean.getName() + "-" + patInfoBean.getSex() + "-" + patInfoBean.getAge();
+                                patSaveInfo = patInfoBean.getBedCode() + "-" + patInfoBean.getName();
                                 rlOrderexecuteScan.setVisibility(View.GONE);
                                 getView().postDelayed(new Runnable() {
                                     @Override
@@ -239,6 +245,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                         regNo = patInfoBean.getRegNo();
                         tvOrderexecutePatinfo.setText("".equals(patInfoBean.getBedCode()) ? "未分床  " + patInfoBean.getName() : patInfoBean.getBedCode() + "  " + patInfoBean.getName());
                         patInfo = patInfoBean.getBedCode() + "-" + patInfoBean.getName() + "-" + patInfoBean.getSex() + "-" + patInfoBean.getAge();
+                        patSaveInfo = patInfoBean.getBedCode() + "-" + patInfoBean.getName();
                         getView().postDelayed(new Runnable() {
                             @Override
                             public void run() {
@@ -275,7 +282,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                             @Override
                             public void onSureClick() {
                                 execOrderDialog.dismiss();
-                                execOrSeeOrderScan(ordersBean.getID(), "F");
+                                execOrSeeOrderScan(ordersBean.getSttDateTime(),ordersBean.getArcimDesc(),ordersBean.getID(), "F");
                             }
                         });
 
@@ -503,8 +510,8 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     /**
      * 扫码执行
      */
-    private void execOrSeeOrderScan(String oeoreIdScan, String execStatusCodeScan) {
-        OrderExecuteApiManager.execOrSeeOrder("1", "", "", "", oeoreIdScan, execStatusCodeScan, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
+    private void execOrSeeOrderScan(String creattime,String order,String oeoreIdScan, String execStatusCodeScan) {
+        OrderExecuteApiManager.execOrSeeOrder(creattime,order,patSaveInfo,"1", "", "", "", oeoreIdScan, execStatusCodeScan, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
             @Override
             public void onSuccess(OrderExecResultBean orderExecResultBean) {
 
@@ -550,19 +557,38 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
 
     public void refreshBottom() {
         sbOeoreId = new StringBuffer();
+        sbOrderSaveInfo = new StringBuffer();
+        sbTimeSaveInfo = new StringBuffer();
         selectCount = 0;
         for (int i = 0; i < patOrders.size(); i++) {
+
+            String orderDescs = "";
+            for (int j = 0; j < patOrders.get(i).size(); j++){
+                if (j ==patOrders.get(i).size()-1 ){
+                    orderDescs = orderDescs+ patOrders.get(i).get(j).getOrderInfo().getArcimDesc();
+                }else {
+                    orderDescs = orderDescs+ patOrders.get(i).get(j).getOrderInfo().getArcimDesc()+"\n";
+                }
+
+            }
             if (patOrders.get(i) != null && patOrders.get(i).get(0) != null && patOrders.get(i).get(0).getSelect() != null && "1".equals(patOrders.get(i).get(0).getSelect())) {
                 if (selectCount == 0) {
                     sbOeoreId.append(patOrders.get(i).get(0).getOrderInfo().getID());
+//                    sbOrderSaveInfo.append(patOrders.get(i).get(0).getOrderInfo().getArcimDesc());
+                    sbOrderSaveInfo.append(orderDescs);
+                    sbTimeSaveInfo.append(patOrders.get(i).get(0).getOrderInfo().getSttDateTime());
                 } else {
                     sbOeoreId.append("^" + patOrders.get(i).get(0).getOrderInfo().getID());
+//                    sbOrderSaveInfo.append("^" + patOrders.get(i).get(0).getOrderInfo().getArcimDesc());
+                    sbOrderSaveInfo.append("^" + orderDescs);
+                    sbTimeSaveInfo.append("^"+patOrders.get(i).get(0).getOrderInfo().getSttDateTime());
                 }
                 selectCount++;
             }
         }
         oeoreId = sbOeoreId.toString();
-
+        orderSaveInfo = sbOrderSaveInfo.toString();
+        timeSaveInfo = sbTimeSaveInfo.toString();
         if (selectCount == 0) {
             llOrderexecuteNoselectbottom.setVisibility(View.VISIBLE);
             llOrderexecuteSelectbottom.setVisibility(View.GONE);
@@ -788,7 +814,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     }
 
     private void execOrSeeOrder() {
-        OrderExecuteApiManager.execOrSeeOrder("0", skinBatch, skinUserCode, skinUserPass, oeoreId, execStatusCode, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
+        OrderExecuteApiManager.execOrSeeOrder(timeSaveInfo,orderSaveInfo,patSaveInfo,"0", skinBatch, skinUserCode, skinUserPass, oeoreId, execStatusCode, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
             @Override
             public void onSuccess(OrderExecResultBean orderExecResultBean) {
                 skinBatch = "";

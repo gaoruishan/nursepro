@@ -45,6 +45,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     private RelativeLayout rlDate;
     private RelativeLayout rlBeds;
     private RelativeLayout rlWay;
+    private RelativeLayout rlReq;
     private NurseInfo loginNurseInfo;
     private List<Map<String, String>> locsList;
     private List<NurseInfo> nurseInfoList;
@@ -85,6 +86,8 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         rlBeds.setOnClickListener(this);
         rlWay = view.findViewById(R.id.rl_setting_chooseway);
         rlWay.setOnClickListener(this);
+        rlReq = view.findViewById(R.id.rl_setting_failrequest);
+        rlReq.setOnClickListener(this);
 
 
     }
@@ -114,6 +117,9 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 break;
             case R.id.rl_setting_chooseway:
                 startFragment(SettingWayFragment.class);
+                break;
+            case R.id.rl_setting_failrequest:
+                startFragment(LocalRequesetFragment.class);
                 break;
             case R.id.tv_setting_relogin:
                 Intent i = new Intent(getActivity(), LoginActivity.class);
