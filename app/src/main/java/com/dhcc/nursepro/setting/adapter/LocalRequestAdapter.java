@@ -34,8 +34,9 @@ public class LocalRequestAdapter extends BaseQuickAdapter<HashMap<String,String>
                 .setText(R.id.tv_req_order,item.get("orderInfo"))
                 .addOnClickListener(R.id.ll_message_content)
                 .addOnClickListener(R.id.ll_message_rightmenu)
-                .setText(R.id.tv_req_failreason,"失败原因："+item.get("failreason"))
-                .setText(R.id.tv_req_failtime,item.get("execDate")+" "+item.get("execTime"));
+                .setText(R.id.tv_req_failreason,item.get("failreason"))
+                .setText(R.id.tv_req_failtime,item.get("execDate")+" "+item.get("execTime"))
+                .setTextColor(R.id.tv_req_failreason,mContext.getResources().getColor(R.color.lab_warning_red));
 //        item.remove("soap_method");
 //        item.remove("remarks");
 //        tvBedSelectBed.setOnClickListener(new View.OnClickListener() {

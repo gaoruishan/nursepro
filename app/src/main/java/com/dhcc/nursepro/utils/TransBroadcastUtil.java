@@ -76,7 +76,7 @@ public class TransBroadcastUtil {
                         if (bundle != null) {
                             String scanInfo = bundle.getString(scanKey);
                             if (scanInfo != null) {
-                                scanInfo = scanInfo.replaceAll("||", "-");
+                                scanInfo = scanInfo.replaceAll("\\|\\|", "-");
                             }
                             bundle.putString("data", scanInfo);
                             Intent tbIntent = new Intent();
@@ -94,7 +94,7 @@ public class TransBroadcastUtil {
                 if (bundle != null) {
                     String scanInfo = bundle.getString(scanKey);
                     if (scanInfo != null) {
-                        scanInfo = scanInfo.replaceAll("||", "-");
+                        scanInfo = scanInfo.replaceAll("\\|\\|", "-");
                     }
                     bundle.putString("data", scanInfo);
                     Intent tbIntent = new Intent();
