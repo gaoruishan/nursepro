@@ -75,6 +75,9 @@ public class TransBroadcastUtil {
                         Bundle bundle = intent.getExtras();
                         if (bundle != null) {
                             String scanInfo = bundle.getString(scanKey);
+                            if (scanInfo != null) {
+                                scanInfo = scanInfo.replaceAll("||", "-");
+                            }
                             bundle.putString("data", scanInfo);
                             Intent tbIntent = new Intent();
                             tbIntent.setAction(Action.DEVICE_SCAN_CODE);
@@ -90,6 +93,9 @@ public class TransBroadcastUtil {
                 Bundle bundle = intent.getExtras();
                 if (bundle != null) {
                     String scanInfo = bundle.getString(scanKey);
+                    if (scanInfo != null) {
+                        scanInfo = scanInfo.replaceAll("||", "-");
+                    }
                     bundle.putString("data", scanInfo);
                     Intent tbIntent = new Intent();
                     tbIntent.setAction(Action.DEVICE_SCAN_CODE);
