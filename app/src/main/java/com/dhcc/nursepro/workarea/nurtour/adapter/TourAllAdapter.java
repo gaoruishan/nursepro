@@ -4,6 +4,8 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -32,6 +34,18 @@ public class TourAllAdapter extends BaseQuickAdapter<AllTourListBean.TourDataLis
         helper.setText(R.id.tv_item_tourall_time,item.getIntTime())
                 .addOnClickListener(R.id.tv_lapack_del)
                 .addOnClickListener(R.id.messagecontentll);
+        if (item.getTourDataList() != null) {
+            if (item.getTourDataList().size() < 1) {
+                LinearLayout ll = helper.getView(R.id.ll_item_tourall);
+                ll.setVisibility(View.GONE);
+            }else {
+                LinearLayout ll = helper.getView(R.id.ll_item_tourall);
+                ll.setVisibility(View.VISIBLE);
+            }
+        }else {
+            LinearLayout ll = helper.getView(R.id.ll_item_tourall);
+            ll.setVisibility(View.GONE);
+        }
         RecyclerView recAll = helper.getView(R.id.recy_item_tourall);
         TourAllListItemAdapter tourAllListItemAdapter = new TourAllListItemAdapter(new ArrayList<AllTourListBean.TourDataListBeanX.TourDataListBean>());
         //提高展示效率
