@@ -40,6 +40,8 @@ public class LocalRequesetFragment extends BaseFragment {
     private LocalRequestAdapter localRequestAdapter;
     private  List<HashMap<String,String>> localList;
     private int allI = 0;
+    private int orderIndex = 0;
+    private int ifPoint = 0;
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_setting_localrequest, container, false);
@@ -47,9 +49,9 @@ public class LocalRequesetFragment extends BaseFragment {
 
 
     private void updateOrders(){
-        for (int i = 0;i<localList.size();i++){
+            ifPoint = 1;
             HashMap<String,String> map = new HashMap<String, String>();
-            map.putAll(localList.get(i));
+            map.putAll(localList.get(orderIndex));
             map.remove("soap_method");
             map.remove("remarks");
             map.remove("orderInfo");
@@ -69,7 +71,11 @@ public class LocalRequesetFragment extends BaseFragment {
                             String LocJson = gson.toJson(localList);
                             spUtils.put(SharedPreference.LOCALREQUEST, LocJson);
                             if (localList.size() == 0 ){
-                                showToast("全部执行成功");
+                                showToast("全部上传成功");
+                                ifPoint = 0;
+                            }
+                            if (orderIndex <= localList.size()-1){
+                                updateOrders();
                             }
                         }
                     }
@@ -85,12 +91,19 @@ public class LocalRequesetFragment extends BaseFragment {
                             Gson gson = new Gson();
                             String LocJson = gson.toJson(localList);
                             spUtils.put(SharedPreference.LOCALREQUEST, LocJson);
-                            showToast("部分执行失败，请查看失败原因");
+                            if (orderIndex <= localList.size()-1){
+                                orderIndex++;
+                                if (orderIndex==localList.size()-1){
+                                    ifPoint = 0;
+                                    showToast("全部上传失败，请查看失败原因");
+                                }else {
+                                    updateOrders();
+                                }
+                            }
                         }
                     }
                 }
             });
-        }
     }
 
     @Override
@@ -112,8 +125,12 @@ public class LocalRequesetFragment extends BaseFragment {
         viewright.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                allI = localList.size();
-                updateOrders();
+                orderIndex = 0;
+                if (localList.size()>0){
+                    if (ifPoint == 0){
+                        updateOrders();
+                    }
+                }
             }
         });
         setToolbarRightCustomView(viewright);
