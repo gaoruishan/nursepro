@@ -92,11 +92,11 @@ public class LocalRequesetFragment extends BaseFragment {
                             String LocJson = gson.toJson(localList);
                             spUtils.put(SharedPreference.LOCALREQUEST, LocJson);
                             if (orderIndex <= localList.size()-1){
-                                orderIndex++;
                                 if (orderIndex==localList.size()-1){
                                     ifPoint = 0;
                                     showToast("全部上传失败，请查看失败原因");
                                 }else {
+                                    orderIndex++;
                                     updateOrders();
                                 }
                             }
