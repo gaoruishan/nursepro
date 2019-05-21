@@ -12,6 +12,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NotificationCompat;
 import android.view.KeyEvent;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
@@ -92,6 +94,7 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
     private NotificationManager nm;
     private List<HashMap<String,String>> localList =new ArrayList<>();
     RequestDialog requestDialog;
+    private NotificationManager notificationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -257,8 +260,9 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         } else {
             drawable = getResources().getDrawable(R.drawable.tabbar_item_havemessage_selector);
             drawable.setBounds(8, 0, drawable.getIntrinsicWidth() + 8, drawable.getIntrinsicHeight());
-            //            Qnotify();
+            showNotification(this);
         }
+//        showNotification(this);
         rbMessage.setCompoundDrawables(null, drawable, null, null);
     }
 
@@ -347,6 +351,56 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
                 showToast("error" + code + ":" + msg);
             }
         });
+    }
+    private void showNotification(Context context) {
+        Boolean bLight = spUtils.getBoolean(SharedPreference.LIGHT,true);
+        Boolean bSound =spUtils.getBoolean(SharedPreference.SOUND,true);
+        Boolean bVibrator =spUtils.getBoolean(SharedPreference.VIBRATOR,true);
+        Notification.Builder builder = new Notification.Builder(context);
+        /**设置通知左边的大图标**/
+        builder .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher))
+                /**设置通知右边的小图标**/
+                .setSmallIcon(R.drawable.ic_launcher)
+                /**通知首次出现在通知栏，带上升动画效果的**/
+                .setTicker("通知")
+                /**设置通知的标题**/
+                .setContentTitle("新消息")
+                /**设置通知的内容**/
+                .setContentText("有新医嘱")
+                /**通知产生的时间，会在通知信息里显示**/
+                .setWhen(System.currentTimeMillis())
+                /**设置该通知优先级**/
+                .setPriority(Notification.PRIORITY_DEFAULT)
+                /**设置这个标志当用户单击面板就可以让通知将自动取消**/
+                .setAutoCancel(true)
+                /**设置他为一个正在进行的通知。他们通常是用来表示一个后台任务,用户积极参与(如播放音乐)或以某种方式正在等待,因此占用设备(如一个文件下载,同步操作,主动网络连接)**/
+                .setOngoing(false)
+                /**向通知添加声音、闪灯和振动效果的最简单、最一致的方式是使用当前的用户默认设置，使用defaults属性，可以组合：**/
+//                .setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND | Notification.DEFAULT_LIGHTS)
+                .setContentIntent(PendingIntent.getActivity(context, 1, new Intent(context, MainActivity.class), PendingIntent.FLAG_CANCEL_CURRENT))
+                .build();
+        //        if (LoginUser.SoundF == true)
+//        builder.setDefaults(Notification.DEFAULT_VIBRATE |Notification.DEFAULT_SOUND|Notification.DEFAULT_LIGHTS);
+        Notification notification = builder.getNotification();
+//        notification.defaults |= Notification.DEFAULT_SOUND;
+//        //        if (LoginUser.VibrateF == true)
+        if (bVibrator){
+            notification.defaults |= Notification.DEFAULT_VIBRATE;
+        }
+        if (bSound){
+            notification.defaults |= Notification.DEFAULT_SOUND;
+        }
+        if (bLight){
+            notification.defaults |= Notification.DEFAULT_LIGHTS;
+        }
+
+//        //        if (LoginUser.LigthF == true)
+//
+
+//        notification.flags |= Notification.FLAG_INSISTENT;
+        notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+        /**发起通知**/
+        notificationManager.notify(1, notification);
     }
 
     private void Qnotify() {
