@@ -1,83 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activityPopup"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/white"
+
     xmlns:tools="http://schemas.android.com/tools">
+
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="65dp"
-        android:background="@color/vital_sign_type_normal_bg">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:background="@color/white">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="时间选择"
-                android:layout_marginLeft="15dp"
-                android:layout_gravity="center"/>
-
-            <TextView
-                android:id="@+id/et_vital_sign_record_time"
-                android:layout_gravity="right|center"
-                android:layout_width="0dp"
-                android:layout_weight="3"
-                android:gravity="right"
-                android:layout_height="wrap_content"
-                android:text="请选择时间"
-                android:layout_marginRight="10dp"/>
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1">
-
+        android:orientation="vertical"
+        android:background="@color/white">
         <LinearLayout
-            android:id="@+id/ll_vitalsign_record_content"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="65dp"
+            android:background="@color/vital_sign_type_normal_bg">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="时间选择"
+                    android:layout_marginLeft="15dp"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:id="@+id/et_vital_sign_record_time"
+                    android:layout_gravity="right|center"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:gravity="right"
+                    android:layout_height="wrap_content"
+                    android:text="请选择时间"
+                    android:layout_marginRight="10dp"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
-    </ScrollView>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="49dp">
-
-        <TextView
-            android:id="@+id/tv_vitalsign_record_pre"
-            android:layout_width="0dp"
+        <ScrollView
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="上一位"
-            android:textColor="@color/white"
-            android:gravity="center"
-            android:background="@color/vital_sign_record_pre_color"/>
-        <TextView
-            android:id="@+id/tv_vitalsign_record_next"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="下一位"
-            android:textColor="@color/white"
-            android:gravity="center"
-            android:background="@color/vital_sign_record_next_color"/>
+            android:layout_weight="1">
 
+            <LinearLayout
+                android:id="@+id/ll_vitalsign_record_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/ll_vitalsign_prenex"
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_vitalsign_record_pre"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="上一位"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:background="@color/vital_sign_record_pre_color"/>
+            <TextView
+                android:id="@+id/tv_vitalsign_record_next"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="下一位"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:background="@color/vital_sign_record_next_color"/>
+
+        </LinearLayout>
     </LinearLayout>
 
+    <com.dhcc.nursepro.utils.view.DIYKeyboardView
+        android:id="@+id/ky_keyboard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#E1E1E1"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:keyBackground="@android:color/white"
+        android:keyTextColor="@color/blue"
+        android:keyTextSize="20sp"
+        android:shadowColor="#E1E1E1"
+        android:shadowRadius="0.0" />
 
-</LinearLayout>
+</RelativeLayout>

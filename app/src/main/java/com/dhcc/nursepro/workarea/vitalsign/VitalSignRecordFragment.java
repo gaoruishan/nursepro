@@ -1,13 +1,19 @@
 package com.dhcc.nursepro.workarea.vitalsign;
 
+import android.content.Context;
+import android.inputmethodservice.KeyboardView;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,6 +26,7 @@ import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.constant.SharedPreference;
 import com.dhcc.nursepro.login.bean.NurseInfo;
 import com.dhcc.nursepro.uiplugs.OptionView;
+import com.dhcc.nursepro.utils.KeyBoardUtil;
 import com.dhcc.nursepro.workarea.vitalsign.api.VitalSignApiManager;
 import com.dhcc.nursepro.workarea.vitalsign.bean.VitalSignRecordBean;
 import com.dhcc.nursepro.workarea.vitalsign.bean.VitalSignSaveBean;
@@ -70,6 +77,9 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
     private int SAVE_TEMP_VALUE_NEXT = 1;
     private int SAVE_TEMP_VALUE_PRE = 2;
 
+    private LinearLayout llPreNex;
+    private KeyboardView mKeyboard;
+
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_vital_sign_record, container, false);
@@ -113,6 +123,8 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
     }
 
     private void initView(View view) {
+        llPreNex = view.findViewById(R.id.ll_vitalsign_prenex);
+        mKeyboard = view.findViewById(R.id.ky_keyboard);
         et_time = view.findViewById(R.id.et_vital_sign_record_time);
         et_time.setOnClickListener(this);
         et_time.setText(timepoint);
@@ -327,7 +339,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
                 nextPatient();
                 break;
             case R.id.tv_vitalsign_record_pre:
-                prePatient();
+//                prePatient();
                 break;
             default:
                 break;
@@ -412,7 +424,22 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
                     });
                 }
             }
+            //自定义键盘
+            edText.setOnTouchListener(new View.OnTouchListener() {
+                @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (titleTV.getText().toString().contains("℃")){
+                        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(edText.getWindowToken(), 0);
+                        new KeyBoardUtil(mKeyboard,edText).showKeyboard();
+                    }else {
+                        mKeyboard.setVisibility(View.GONE);
 
+                    }
+                    return false;
+                }
+            });
             layout.addView(edText);
 
             viewItemMap.put(config.getCode(), edText);
@@ -420,7 +447,6 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
 
         } else {
             //选择框
-
             final OptionView optionView = new OptionView(getActivity(), config.getOptions());
 
             optionView.setTextSize(16);
@@ -435,6 +461,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
             optionView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    mKeyboard.setVisibility(View.GONE);
                     optionView.showPicker();
                 }
             });
