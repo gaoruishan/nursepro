@@ -75,6 +75,14 @@
     <!--护理巡视-->
     <string name="title_nurtour">巡视</string>
 
+    <!-- 药品闭环 -->
+    <string name="title_drughandover">药品交接</string>
+    <string name="title_drugreview">取药复核</string>
+    <string name="title_residualliquidregistration">余液登记</string>
+    <string name="title_ampoulebottleregistration">安瓿瓶登记</string>
+
+
+
     <!--#################################消息文字区#################################-->
 
     <!--#################################设置文字区#################################-->

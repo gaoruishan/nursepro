@@ -21,6 +21,7 @@ import com.dhcc.nursepro.workarea.bloodtransfusionsystem.BloodTransfusionSystemF
 import com.dhcc.nursepro.workarea.checkresult.CheckPatsFragment;
 import com.dhcc.nursepro.workarea.docorderlist.DocOrderListFragment;
 import com.dhcc.nursepro.workarea.dosingreview.DosingReviewFragment;
+import com.dhcc.nursepro.workarea.drugloopsystem.drughandover.DrugHandoverFragment;
 import com.dhcc.nursepro.workarea.labout.LabOutListFragment;
 import com.dhcc.nursepro.workarea.labresult.LabPatsFragment;
 import com.dhcc.nursepro.workarea.milkloopsystem.MilkLoopSystemFragment;
@@ -88,7 +89,8 @@ public class WorkareaFragment extends BaseFragment {
             @Override
             public void onSuccess(MainConfigBean mainConfigBean) {
                 ItemNameList = mainConfigBean.getMainConfig();
-                patEventsAdapter.setNewData(ItemNameList);
+//                ItemNameList.add("DRUGHANDOVER");
+//                patEventsAdapter.setNewData(ItemNameList);
             }
 
             @Override
@@ -170,6 +172,9 @@ public class WorkareaFragment extends BaseFragment {
                 break;
             case "NURTOUR":
                 startFragment(NurTourFragment.class);
+                break;
+            case "DRUGHANDOVER":
+                startFragment(DrugHandoverFragment.class);
                 break;
             default:
 
@@ -254,6 +259,10 @@ public class WorkareaFragment extends BaseFragment {
                     break;
                 case "NURTOUR":
                     tvItem.setText("巡视");
+                    imageView.setImageResource(R.drawable.icon_tour);
+                    break;
+                case "DRUGHANDOVER":
+                    tvItem.setText("药品交接");
                     imageView.setImageResource(R.drawable.icon_tour);
                     break;
                 default:
