@@ -1,7 +1,10 @@
 package com.dhcc.nursepro.workarea.orderexecute;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -36,6 +39,7 @@ import com.jzxiang.pickerview.listener.OnDateSetListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -149,6 +153,9 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
      */
     private String execStatusCode;
 
+    private SoundPool soundPool;
+    private HashMap<Integer, Integer> soundPoolMap = new HashMap<Integer, Integer>();
+
     private String episodeId = "";
     private StringBuffer sbOrderSaveInfo;
     private String orderSaveInfo = "";
@@ -183,12 +190,9 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
         initAdapter();
 
 
-        //        view.postDelayed(new Runnable() {
-        //            @Override
-        //            public void run() {
-        //                asyncInitData();
-        //            }
-        //        }, 300);
+        //提示音集合
+        soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 100);
+        soundPoolMap.put(1, soundPool.load(getContext(), R.raw.notice22, 1));
     }
 
     private void getScanInfo() {
@@ -282,7 +286,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                             @Override
                             public void onSureClick() {
                                 execOrderDialog.dismiss();
-                                execOrSeeOrderScan(ordersBean.getSttDateTime(),ordersBean.getArcimDesc(),ordersBean.getID(), "F");
+                                execOrSeeOrderScan(ordersBean.getSttDateTime(), ordersBean.getArcimDesc(), ordersBean.getID(), "F");
                             }
                         });
 
@@ -318,6 +322,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 //                if (episodeId == ""){
                 //                    msg = "请先扫描病人腕带";
                 //                }
+                playSound(1, 0);
                 if (execResultDialog != null && execResultDialog.isShowing()) {
                     execResultDialog.dismiss();
                 }
@@ -510,8 +515,8 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     /**
      * 扫码执行
      */
-    private void execOrSeeOrderScan(String creattime,String order,String oeoreIdScan, String execStatusCodeScan) {
-        OrderExecuteApiManager.execOrSeeOrder(creattime,order,patSaveInfo,"1", "", "", "", oeoreIdScan, execStatusCodeScan, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
+    private void execOrSeeOrderScan(String creattime, String order, String oeoreIdScan, String execStatusCodeScan) {
+        OrderExecuteApiManager.execOrSeeOrder(creattime, order, patSaveInfo, "1", "", "", "", oeoreIdScan, execStatusCodeScan, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
             @Override
             public void onSuccess(OrderExecResultBean orderExecResultBean) {
 
@@ -536,6 +541,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
 
             @Override
             public void onFail(String code, String msg) {
+                playSound(1, 0);
                 if (execResultDialog != null && execResultDialog.isShowing()) {
                     execResultDialog.dismiss();
                 }
@@ -555,6 +561,22 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
         });
     }
 
+    public void playSound(int sound, int loop) {
+
+        AudioManager mgr = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);
+
+        float streamVolumeCurrent = mgr.getStreamVolume(AudioManager.STREAM_MUSIC);
+
+        float streamVolumeMax = mgr.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+
+        float volume = streamVolumeCurrent / streamVolumeMax;
+
+        soundPool.play(soundPoolMap.get(sound), volume, volume, 1, loop, 1f);
+
+        //参数：1、Map中取值   2、当前音量     3、最大音量  4、优先级   5、重播次数   6、播放速度
+
+    }
+
     public void refreshBottom() {
         sbOeoreId = new StringBuffer();
         sbOrderSaveInfo = new StringBuffer();
@@ -563,25 +585,25 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
         for (int i = 0; i < patOrders.size(); i++) {
 
             String orderDescs = "";
-            for (int j = 0; j < patOrders.get(i).size(); j++){
-                if (j ==patOrders.get(i).size()-1 ){
-                    orderDescs = orderDescs+ patOrders.get(i).get(j).getOrderInfo().getArcimDesc();
-                }else {
-                    orderDescs = orderDescs+ patOrders.get(i).get(j).getOrderInfo().getArcimDesc()+"\n";
+            for (int j = 0; j < patOrders.get(i).size(); j++) {
+                if (j == patOrders.get(i).size() - 1) {
+                    orderDescs = orderDescs + patOrders.get(i).get(j).getOrderInfo().getArcimDesc();
+                } else {
+                    orderDescs = orderDescs + patOrders.get(i).get(j).getOrderInfo().getArcimDesc() + "\n";
                 }
 
             }
             if (patOrders.get(i) != null && patOrders.get(i).get(0) != null && patOrders.get(i).get(0).getSelect() != null && "1".equals(patOrders.get(i).get(0).getSelect())) {
                 if (selectCount == 0) {
                     sbOeoreId.append(patOrders.get(i).get(0).getOrderInfo().getID());
-//                    sbOrderSaveInfo.append(patOrders.get(i).get(0).getOrderInfo().getArcimDesc());
+                    //                    sbOrderSaveInfo.append(patOrders.get(i).get(0).getOrderInfo().getArcimDesc());
                     sbOrderSaveInfo.append(orderDescs);
                     sbTimeSaveInfo.append(patOrders.get(i).get(0).getOrderInfo().getSttDateTime());
                 } else {
                     sbOeoreId.append("^" + patOrders.get(i).get(0).getOrderInfo().getID());
-//                    sbOrderSaveInfo.append("^" + patOrders.get(i).get(0).getOrderInfo().getArcimDesc());
+                    //                    sbOrderSaveInfo.append("^" + patOrders.get(i).get(0).getOrderInfo().getArcimDesc());
                     sbOrderSaveInfo.append("^" + orderDescs);
-                    sbTimeSaveInfo.append("^"+patOrders.get(i).get(0).getOrderInfo().getSttDateTime());
+                    sbTimeSaveInfo.append("^" + patOrders.get(i).get(0).getOrderInfo().getSttDateTime());
                 }
                 selectCount++;
             }
@@ -814,7 +836,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     }
 
     private void execOrSeeOrder() {
-        OrderExecuteApiManager.execOrSeeOrder(timeSaveInfo,orderSaveInfo,patSaveInfo,"0", skinBatch, skinUserCode, skinUserPass, oeoreId, execStatusCode, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
+        OrderExecuteApiManager.execOrSeeOrder(timeSaveInfo, orderSaveInfo, patSaveInfo, "0", skinBatch, skinUserCode, skinUserPass, oeoreId, execStatusCode, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
             @Override
             public void onSuccess(OrderExecResultBean orderExecResultBean) {
                 skinBatch = "";
@@ -875,6 +897,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
 
             @Override
             public void onFail(String code, String msg) {
+                playSound(1, 0);
                 skinBatch = "";
                 skinUserCode = "";
                 skinUserPass = "";
