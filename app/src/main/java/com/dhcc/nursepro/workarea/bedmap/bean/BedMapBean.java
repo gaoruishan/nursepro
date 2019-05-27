@@ -156,7 +156,13 @@ public class BedMapBean implements Serializable {
         private String todayOut;
         private String wait;
         private List<SkinOrdBean> skinOrd;
-
+        private String Diet;
+        public String getDiet() {
+            return Diet;
+        }
+        public void setDiet(String Diet) {
+            this.Diet = Diet;
+        }
         public String getAge() {
             return age;
         }

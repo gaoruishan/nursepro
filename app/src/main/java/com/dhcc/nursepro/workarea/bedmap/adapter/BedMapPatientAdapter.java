@@ -36,10 +36,12 @@ public class BedMapPatientAdapter extends BaseQuickAdapter<BedMapBean.PatInfoLis
         TextView tvLongOrd = helper.getView(R.id.tv_bedmap_patient_longorder);
         TextView tvTempOrd = helper.getView(R.id.tv_bedmap_patient_temporder);
         TextView tvCareLevel = helper.getView(R.id.tv_bedmap_patient_carelevel);
+        TextView tvDiet = helper.getView(R.id.tv_bedmap_patient_diet);
 
         View line = helper.getView(R.id.line_bedmap_patient);
         View line1 = helper.getView(R.id.line_bedmap_patient_1);
         View line2 = helper.getView(R.id.line_bedmap_patient_2);
+        View line11 = helper.getView(R.id.line_bedmap_patient_11);
 
         ImageView patientSex = helper.getView(R.id.img_bedmap_patient_sex);
 
@@ -66,6 +68,18 @@ public class BedMapPatientAdapter extends BaseQuickAdapter<BedMapBean.PatInfoLis
         } else {
             tvTempOrd.setVisibility(View.GONE);
         }
+
+
+//
+//        if ("".equals(item.getDiet()) || item.getDiet().isEmpty()) {
+//            line11.setVisibility(View.GONE);
+//            tvDiet.setVisibility(View.GONE);
+//        } else {
+//            line11.setVisibility(View.VISIBLE);
+//            tvDiet.setVisibility(View.VISIBLE);
+//            tvDiet.setText(item.getDiet());
+//        }
+
         if ("".equals(item.getCareLevel())) {
             tvCareLevel.setVisibility(View.GONE);
 
@@ -73,7 +87,6 @@ public class BedMapPatientAdapter extends BaseQuickAdapter<BedMapBean.PatInfoLis
             tvCareLevel.setVisibility(View.VISIBLE);
             tvCareLevel.setText(item.getCareLevel());
         }
-
         if ("".equals(item.getCareLevel())) {
             line2.setVisibility(View.GONE);
             if ("0".equals(item.getTempOrd())) {
