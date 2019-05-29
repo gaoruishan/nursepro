@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#4C95EF</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+
+    <color name="color_base_content">#F7F8F9</color>
+
+    <color name="user_attr_line_color">#EEEEEE</color>
+    <color name="color_loading_dialog_background">#66000000</color>
+
+    <color name="blue_dark2">#C9E2FF</color>
+    <color name="blue_dark">#62ABFF</color>
+    <color name="blue_light">#E9F3FF</color>
+    <color name="bg_blue_light">#FFF5FAFF</color>
+    <color name="bg_err">#FFF6F6</color>
+
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="blue">#4C95EF</color>
+    <color name="screen_bg_color">#F7F7F7</color>
+</resources>

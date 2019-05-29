@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +19,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.base.commlibs.http.CommResult;
+import com.base.commlibs.http.CommonCallBack;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
@@ -27,6 +31,7 @@ import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.common.BasePushDialog;
 import com.dhcc.nursepro.constant.Action;
 import com.dhcc.nursepro.constant.SharedPreference;
+import com.dhcc.nursepro.utils.DialogFactory;
 import com.dhcc.nursepro.workarea.orderexecute.adapter.OrderExecuteOrderTypeAdapter;
 import com.dhcc.nursepro.workarea.orderexecute.adapter.OrderExecutePatientOrderAdapter;
 import com.dhcc.nursepro.workarea.orderexecute.api.OrderExecuteApiManager;
@@ -46,7 +51,6 @@ import java.util.Objects;
 /**
  * OrderExecuteFragment
  * 医嘱执行/处理
- *
  * @author DevLix126
  * created at 2018/8/31 10:21
  */
@@ -761,36 +765,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                             showToast("皮试结果只能逐一设置，请选择单条医嘱执行");
                             break;
                         } else {
-                            {
-
-                                if (skinResultOrderDialog != null && skinResultOrderDialog.isShowing()) {
-                                    skinResultOrderDialog.dismiss();
-                                }
-                                {
-                                    skinResultOrderDialog = new SkinResultOrderDialog(getActivity());
-                                    skinResultOrderDialog.setPatInfo(patInfo);
-                                    skinResultOrderDialog.setSingleFlag(singleFlag);
-                                    skinResultOrderDialog.show();
-                                    skinResultOrderDialog.setSureOnclickListener(new SkinResultOrderDialog.onSureOnclickListener() {
-                                        @Override
-                                        public void onSureClick() {
-                                            execStatusCode = skinResultOrderDialog.getSkinResult();
-                                            skinBatch = skinResultOrderDialog.getSkinNum();
-                                            skinUserCode = skinResultOrderDialog.getNurName();
-                                            skinUserPass = skinResultOrderDialog.getNurPass();
-                                            skinResultOrderDialog.dismiss();
-                                            execOrSeeOrder();
-                                        }
-                                    });
-
-                                    skinResultOrderDialog.setCancelOnclickListener(new SkinResultOrderDialog.onCancelOnclickListener() {
-                                        @Override
-                                        public void onCancelClick() {
-                                            skinResultOrderDialog.dismiss();
-                                        }
-                                    });
-                                }
-                            }
+                            showSkinResultOrderDialog();
                         }
                     } else {
                         execStatusCode = "F";
@@ -916,6 +891,65 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                     }
                 });
                 execResultDialog.show();
+            }
+        });
+    }
+
+    /**
+     * 皮试单-点击'执行'/'皮试计时'
+     */
+    private void showSkinResultOrderDialog() {
+        String s = f(R.id.tv_bottom_todo, TextView.class).getText().toString();
+        if (!TextUtils.isEmpty(s) && s.contains("计时")) {
+            // 皮试计时
+            DialogFactory.showCountTime(getActivity(), new DialogFactory.CommClickListener() {
+                @Override
+                public void data(Object[] args) {
+                    super.data(args);
+                    doSkinTime((String)args[0],(String)args[1]);
+                }
+            });
+            return;
+        }
+
+        if (skinResultOrderDialog != null && skinResultOrderDialog.isShowing()) {
+            skinResultOrderDialog.dismiss();
+        }
+        skinResultOrderDialog = new SkinResultOrderDialog(getActivity());
+        skinResultOrderDialog.setPatInfo(patInfo);
+        skinResultOrderDialog.setSingleFlag(singleFlag);
+        skinResultOrderDialog.show();
+        skinResultOrderDialog.setSureOnclickListener(new SkinResultOrderDialog.onSureOnclickListener() {
+            @Override
+            public void onSureClick() {
+                execStatusCode = skinResultOrderDialog.getSkinResult();
+                skinBatch = skinResultOrderDialog.getSkinNum();
+                skinUserCode = skinResultOrderDialog.getNurName();
+                skinUserPass = skinResultOrderDialog.getNurPass();
+                skinResultOrderDialog.dismiss();
+                execOrSeeOrder();
+            }
+        });
+
+        skinResultOrderDialog.setCancelOnclickListener(new SkinResultOrderDialog.onCancelOnclickListener() {
+            @Override
+            public void onCancelClick() {
+                skinResultOrderDialog.dismiss();
+            }
+        });
+    }
+
+    private void doSkinTime(String observeTime, String note) {
+        OrderExecuteApiManager.skinTime(oeoreId, observeTime,note, new CommonCallBack<CommResult>() {
+            @Override
+            public void onFail(String code, String msg) {
+                ToastUtils.showShort(msg);
+            }
+
+            @Override
+            public void onSuccess(CommResult bean, String type) {
+                DialogFactory.showCommDialog(getActivity(), bean.getMsg(), null, 0, null, true);
+                asyncInitData();//刷新
             }
         });
     }

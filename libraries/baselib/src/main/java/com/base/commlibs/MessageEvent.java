@@ -1,4 +1,4 @@
-package com.dhcc.nursepro;
+package com.base.commlibs;
 
 import android.os.Bundle;
 
@@ -94,7 +94,7 @@ public class MessageEvent {
         this.args = args;
     }
 
-    public enum MessageType {
+    public  enum MessageType {
         NONE,
         SHOW_LOADING,
         HIDE_LOADING,

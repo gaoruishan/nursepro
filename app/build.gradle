@@ -27,7 +27,7 @@ android {
         variant ->
             variant.outputs.all {
                 if (buildType.name == 'release') {
-                    outputFileName = "MobileNurse_" + defaultConfig.versionCode +"_"+new Date().format("yyyy-MM-dd")+".apk"
+                    outputFileName = "MobileNurse_" + defaultConfig.versionCode + "_" + new Date().format("yyyy-MM-dd") + ".apk"
                 }
             }
     }
@@ -68,44 +68,49 @@ android {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:support-v4:27.1.1'
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support:recyclerview-v7:27.1.1'
-    implementation 'com.android.support:design:27.1.1'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation('com.allenliu.versionchecklib:library:2.1.1') {
-        exclude group: 'com.android.support'
-        exclude module: "okhttp"
-    }
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46'
+//    implementation fileTree(include: ['*.jar'], dir: 'libs')
+//    implementation 'com.android.support:support-v4:27.1.1'
+//    implementation 'com.android.support:appcompat-v7:27.1.1'
+//    implementation 'com.android.support:recyclerview-v7:27.1.1'
+//    implementation 'com.android.support:design:27.1.1'
+//    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+//    testImplementation 'junit:junit:4.12'
+//    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+//    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+//    implementation('com.allenliu.versionchecklib:library:2.1.1') {
+//        exclude group: 'com.android.support'
+//        exclude module: "okhttp"
+//    }
+//    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46'
+//
+//    implementation 'com.github.anzaizai:EasySwipeMenuLayout:1.1.2'
+//    implementation 'org.greenrobot:greendao:3.2.2'
+//    implementation 'org.greenrobot:eventbus:3.1.1'
+//    implementation 'com.blankj:utilcode:1.23.6'
+//    implementation 'com.github.stfalcon:frescoimageviewer:0.5.0'
+//    implementation('com.facebook.fresco:fresco:0.12.0') {
+//        exclude group: 'com.parse.bolts',
+//                module: 'bolts-tasks'
+//        exclude group: 'com.parse.bolts',
+//                module: 'bolts-android'
+//        exclude group: 'com.parse.bolts',
+//                module: 'bolts-applinks'
+//    }
+//    implementation 'com.facebook.fresco:animated-gif:0.12.0'
+//    implementation 'com.facebook.fresco:animated-webp:0.12.0'
+//    //    implementation 'com.jzxiang.pickerview:TimePickerDialog:1.0.1'
+//    implementation('cn.qqtheme.framework:WheelPicker:1.5.6') {
+//        exclude group: 'com.android.support'
+//    }
+//    implementation 'com.google.code.gson:gson:2.8.5'
+//    implementation files('libs/ksoap2-android-assembly-3.6.2-jar-with-dependencies.jar')
+//
+//    implementation('com.nex3z:flow-layout:1.2.4') {
+//        exclude group: 'com.android.support'
+//    }
+//    //背景shape.xml
+//    implementation('com.noober.background:core:1.3.4')
 
-    implementation 'com.github.anzaizai:EasySwipeMenuLayout:1.1.2'
-    implementation 'org.greenrobot:greendao:3.2.2'
-    implementation 'org.greenrobot:eventbus:3.1.1'
-    implementation 'com.blankj:utilcode:1.23.6'
-    implementation 'com.github.stfalcon:frescoimageviewer:0.5.0'
-    implementation('com.facebook.fresco:fresco:0.12.0') {
-        exclude group: 'com.parse.bolts',
-                module: 'bolts-tasks'
-        exclude group: 'com.parse.bolts',
-                module: 'bolts-android'
-        exclude group: 'com.parse.bolts',
-                module: 'bolts-applinks'
-    }
-    implementation 'com.facebook.fresco:animated-gif:0.12.0'
-    implementation 'com.facebook.fresco:animated-webp:0.12.0'
-    //    implementation 'com.jzxiang.pickerview:TimePickerDialog:1.0.1'
-    implementation('cn.qqtheme.framework:WheelPicker:1.5.6') {
-        exclude group: 'com.android.support'
-    }
-    implementation 'com.google.code.gson:gson:2.8.5'
-    implementation files('libs/ksoap2-android-assembly-3.6.2-jar-with-dependencies.jar')
-    implementation project(':TimePickerDialog')
-    implementation('com.nex3z:flow-layout:1.2.4') {
-        exclude group: 'com.android.support'
-    }
+    implementation project(':libraries:baselib')
+    implementation project(':libraries:TimePickerDialog')
 }

@@ -2,6 +2,9 @@ package com.dhcc.nursepro.workarea.orderexecute.api;
 
 import android.util.Log;
 
+import com.base.commlibs.http.CommResult;
+import com.base.commlibs.http.ParserUtil;
+import com.base.commlibs.http.ServiceCallBack;
 import com.blankj.utilcode.util.ObjectUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.nursepro.constant.SharedPreference;
@@ -19,13 +22,31 @@ import java.util.Map;
 
 /**
  * OrderSearchApiManager
- *
  * @author DevLix126
  * @date 2018/8/24
  */
 public class OrderExecuteApiManager {
     private static List<Map<String, String>> locsList;
-    private static  String LocJson;
+    private static String LocJson;
+
+    /**
+     * Description: 皮试计时
+     * Input：	oeoriId 执行记录Id
+     * Return： w ##class(Nur.PDA.Order).skinTime("194||57||1",1,"50分钟",149)
+     */
+    public static void skinTime(String oeoriId, String observeTime,String note, com.base.commlibs.http.CommonCallBack<CommResult> callBack) {
+        OrderExecuteApiService.skinTime(oeoriId, observeTime, note,new ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                ParserUtil<CommResult> parserUtil = new ParserUtil<>();
+                CommResult bean = parserUtil.parserResult(jsonStr, callBack, CommResult.class);
+                if (bean == null) {
+                    return;
+                }
+                parserUtil.parserStatus(bean, callBack);
+            }
+        });
+    }
 
     public static void getOrder(String regNo, String sheetCode, String startDate, String startTime, String endDate, String endTime, final GetOrderCallback callback) {
         OrderExecuteApiService.getOrder(regNo, sheetCode, startDate, startTime, endDate, endTime, new OrderExecuteApiService.ServiceCallBack() {
@@ -60,100 +81,38 @@ public class OrderExecuteApiManager {
         });
     }
 
-    public static void saveRequest(HashMap<String, String> properties,String ifSave){
-        if (ifSave.equals("yes")){
-                String[] orders = properties.get("oeoreId").split("\\^");
-                String[] orderdescs = properties.get("orderInfo").split("\\^");
-                String[] datetimes = properties.get("starttime").split("\\^");
-                for (int i = 0;i<orders.length;i++){
-                    HashMap<String,String> hashMap = new HashMap<>();
-                    hashMap.putAll(properties);
-                    hashMap.put("oeoreId",orders[i]);
-                    hashMap.put("orderInfo",orderdescs[i]);
-                    hashMap.put("remarks","医嘱："+orders[i]);
-                    hashMap.put("starttime",datetimes[i]);
-                    hashMap.put("execDate",DateUtils.getDateFromSystem());
-                    hashMap.put("execTime",DateUtils.getTimeFromSystem());
-                    Gson gson = new Gson();
-                    SPUtils spUtils = SPUtils.getInstance();
-                    Boolean b = true;
-                    for (int j = 0;j<locsList.size();j++){
-                        if (locsList.get(j).get("oeoreId").equals(orders[i])){
-                            b = false;
-                            Log.d("iii", "saveRequest: "+b);
-                        }
-                    }
-                    if (b){
-                        locsList.add(hashMap);
-                    }
-                    LocJson = gson.toJson(locsList);
-                    spUtils.put(SharedPreference.LOCALREQUEST, LocJson);
-                }
-
-
-        }else {
-            SPUtils spUtils = SPUtils.getInstance();
-            List<HashMap<String,String>> localList =new ArrayList<>();
-            Gson gson1 = new Gson();
-            java.lang.reflect.Type type = new TypeToken<List<HashMap<String,String>>>(){}.getType();
-            String LocalJson = spUtils.getString(SharedPreference.LOCALREQUEST,"");
-            if (LocalJson != ""){
-                localList =gson1.fromJson(LocalJson,type);
-            }
-                String[] orders = properties.get("oeoreId").split("\\^");
-                int oo = orders.length;
-                for (int j = 0;j<orders.length;j++){
-                    for (int i = 0 ;i<localList.size();i++){
-                        if (localList.get(i).get("oeoreId").equals(orders[j])){
-                            localList.remove(i);
-                            Gson gson = new Gson();
-                            String LocJson = gson.toJson(localList);
-                            spUtils.put(SharedPreference.LOCALREQUEST, LocJson);
-                        }
-                    }
-
-                }
-        }
-
-
-
-    }
-
-    public static void execOrSeeOrder(String starttime,String orderDesc,String patInfo,String scanFlag, String batch, String auditUserCode, String auditUserPass, String oeoreId, String execStatusCode, final ExecOrSeeOrderCallback callback) {
+    public static void execOrSeeOrder(String starttime, String orderDesc, String patInfo, String scanFlag, String batch, String auditUserCode, String auditUserPass, String oeoreId, String execStatusCode, final ExecOrSeeOrderCallback callback) {
 
         SPUtils spUtils = SPUtils.getInstance();
 
         HashMap<String, String> properties = new HashMap<>();
-        properties.put("orderInfo",orderDesc);
-        properties.put("patInfo",patInfo);
-        properties.put("scanFlag",scanFlag);
-        properties.put("batch",batch);
-        properties.put("auditUserCode ",auditUserCode);
-        properties.put("auditUserPass ",auditUserPass);
-        properties.put("oeoreId",oeoreId);
-        properties.put("execStatusCode",execStatusCode);
+        properties.put("orderInfo", orderDesc);
+        properties.put("patInfo", patInfo);
+        properties.put("scanFlag", scanFlag);
+        properties.put("batch", batch);
+        properties.put("auditUserCode ", auditUserCode);
+        properties.put("auditUserPass ", auditUserPass);
+        properties.put("oeoreId", oeoreId);
+        properties.put("execStatusCode", execStatusCode);
         properties.put("userId", spUtils.getString(SharedPreference.USERID));
         properties.put("userDeptId", spUtils.getString(SharedPreference.LOCID));
         properties.put("wardId", spUtils.getString(SharedPreference.WARDID));
 
 
-        Log.i("OrderExecute", "execOrSeeOrder: "+properties.toString());
-        locsList =new ArrayList<>();
-        LocJson = spUtils.getString(SharedPreference.LOCALREQUEST,"");
+        Log.i("OrderExecute", "execOrSeeOrder: " + properties.toString());
+        locsList = new ArrayList<>();
+        LocJson = spUtils.getString(SharedPreference.LOCALREQUEST, "");
         Gson gson = new Gson();
-        java.lang.reflect.Type type = new TypeToken<List<Map<String,String>>>(){}.getType();
-        locsList = new ArrayList<Map<String,String>>();
-        if (LocJson != ""){
-            locsList =gson.fromJson(LocJson,type);
+        java.lang.reflect.Type type = new TypeToken<List<Map<String, String>>>() {
+        }.getType();
+        locsList = new ArrayList<Map<String, String>>();
+        if (LocJson != "") {
+            locsList = gson.fromJson(LocJson, type);
         }
-        properties.put("soap_method","execOrSeeOrder");
-        properties.put("remarks","医嘱执行:"+ oeoreId);
-        properties.put("failreason","网络异常");
-        properties.put("starttime",starttime);
-
-
-
-
+        properties.put("soap_method", "execOrSeeOrder");
+        properties.put("remarks", "医嘱执行:" + oeoreId);
+        properties.put("failreason", "网络异常");
+        properties.put("starttime", starttime);
 
 
         OrderExecuteApiService.execOrSeeOrder(scanFlag, batch, auditUserCode, auditUserPass, oeoreId, execStatusCode, new OrderExecuteApiService.ServiceCallBack() {
@@ -173,15 +132,15 @@ public class OrderExecuteApiManager {
 
                 if (jsonStr.isEmpty()) {
                     callback.onFail("-1", "网络错误，请求数据为空");
-                    saveRequest(properties,"yes");
+                    saveRequest(properties, "yes");
                 } else {
                     try {
                         OrderExecResultBean orderExecResultBean = gson.fromJson(jsonStr, OrderExecResultBean.class);
                         if (ObjectUtils.isEmpty(orderExecResultBean)) {
                             callback.onFail("-3", "网络错误，数据解析为空");
-                            saveRequest(properties,"yes");
+                            saveRequest(properties, "yes");
                         } else {
-                            saveRequest(properties,"no");
+                            saveRequest(properties, "no");
                             if ("0".equals(orderExecResultBean.getStatus())) {
                                 if (callback != null) {
                                     callback.onSuccess(orderExecResultBean);
@@ -194,11 +153,70 @@ public class OrderExecuteApiManager {
                         }
                     } catch (Exception e) {
                         callback.onFail("-2", "网络错误，数据解析失败");
-                        saveRequest(properties,"yes");
+                        saveRequest(properties, "yes");
                     }
                 }
             }
         });
+    }
+
+    public static void saveRequest(HashMap<String, String> properties, String ifSave) {
+        if (ifSave.equals("yes")) {
+            String[] orders = properties.get("oeoreId").split("\\^");
+            String[] orderdescs = properties.get("orderInfo").split("\\^");
+            String[] datetimes = properties.get("starttime").split("\\^");
+            for (int i = 0; i < orders.length; i++) {
+                HashMap<String, String> hashMap = new HashMap<>();
+                hashMap.putAll(properties);
+                hashMap.put("oeoreId", orders[i]);
+                hashMap.put("orderInfo", orderdescs[i]);
+                hashMap.put("remarks", "医嘱：" + orders[i]);
+                hashMap.put("starttime", datetimes[i]);
+                hashMap.put("execDate", DateUtils.getDateFromSystem());
+                hashMap.put("execTime", DateUtils.getTimeFromSystem());
+                Gson gson = new Gson();
+                SPUtils spUtils = SPUtils.getInstance();
+                Boolean b = true;
+                for (int j = 0; j < locsList.size(); j++) {
+                    if (locsList.get(j).get("oeoreId").equals(orders[i])) {
+                        b = false;
+                        Log.d("iii", "saveRequest: " + b);
+                    }
+                }
+                if (b) {
+                    locsList.add(hashMap);
+                }
+                LocJson = gson.toJson(locsList);
+                spUtils.put(SharedPreference.LOCALREQUEST, LocJson);
+            }
+
+
+        } else {
+            SPUtils spUtils = SPUtils.getInstance();
+            List<HashMap<String, String>> localList = new ArrayList<>();
+            Gson gson1 = new Gson();
+            java.lang.reflect.Type type = new TypeToken<List<HashMap<String, String>>>() {
+            }.getType();
+            String LocalJson = spUtils.getString(SharedPreference.LOCALREQUEST, "");
+            if (LocalJson != "") {
+                localList = gson1.fromJson(LocalJson, type);
+            }
+            String[] orders = properties.get("oeoreId").split("\\^");
+            int oo = orders.length;
+            for (int j = 0; j < orders.length; j++) {
+                for (int i = 0; i < localList.size(); i++) {
+                    if (localList.get(i).get("oeoreId").equals(orders[j])) {
+                        localList.remove(i);
+                        Gson gson = new Gson();
+                        String LocJson = gson.toJson(localList);
+                        spUtils.put(SharedPreference.LOCALREQUEST, LocJson);
+                    }
+                }
+
+            }
+        }
+
+
     }
 
     public static void getScanMsg(String episodeId, String scanInfo, final GetScanCallBack callback) {

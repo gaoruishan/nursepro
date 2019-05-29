@@ -2,7 +2,6 @@ package com.dhcc.nursepro;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -34,7 +33,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -52,12 +50,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.base.commlibs.MessageEvent;
 import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.nursepro.common.BaseBottomLoadingView;
 import com.dhcc.nursepro.common.BaseFullLoadingView;
 import com.dhcc.nursepro.common.BasePushDialog;
 import com.dhcc.nursepro.common.BaseTopLoadingView;
 import com.dhcc.nursepro.constant.SharedPreference;
+import com.noober.background.BackgroundLibrary;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -75,8 +75,7 @@ import java.util.UUID;
  * Created by levis on 2018/6/5.
  */
 
-public class BaseActivity extends AppCompatActivity
-        implements Toolbar.OnMenuItemClickListener,
+public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuItemClickListener,
         ViewTreeObserver.OnGlobalLayoutListener {
 
 
@@ -140,7 +139,7 @@ public class BaseActivity extends AppCompatActivity
     // =========================================================
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-
+        BackgroundLibrary.inject(this);
         super.onCreate(savedInstanceState);
         getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(this);
         // 生成请求数据的标记

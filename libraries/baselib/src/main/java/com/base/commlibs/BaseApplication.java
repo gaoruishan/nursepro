@@ -1,9 +1,8 @@
-package com.dhcc.nursepro;
+package com.base.commlibs;
 
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
@@ -81,9 +80,7 @@ public class BaseApplication extends Application implements Application.Activity
         super.onCreate();
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            builder.detectFileUriExposure();
-        }
+//        builder.detectFileUriExposure();
 
         getApp().registerActivityLifecycleCallbacks(this);
 

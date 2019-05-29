@@ -1,12 +1,32 @@
 package com.dhcc.nursepro.message.api;
 
+import com.base.commlibs.http.CommResult;
+import com.base.commlibs.http.CommWebService;
+import com.base.commlibs.http.ParserUtil;
+import com.base.commlibs.http.ServiceCallBack;
 import com.blankj.utilcode.util.ObjectUtils;
 import com.dhcc.nursepro.message.bean.MessageBean;
+import com.dhcc.nursepro.message.bean.MessageSkinBean;
 import com.dhcc.nursepro.message.bean.ReadMessageBean;
 import com.google.gson.Gson;
 
 public class MessageApiManager {
-
+    /**
+     * Description: 获取皮试列表  阳性:Y/+ 阴性:N/-
+     * Input： locId:科室ID
+     * other:	w ##class(Nur.OPPDA.Message).getSkinTestMessage("7")
+     */
+    public static void getSkinTestMessage(final com.base.commlibs.http.CommonCallBack<MessageSkinBean> callBack) {
+        MessageApiService.getSkinTestMessage(new ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                ParserUtil<MessageSkinBean> parserUtil = new ParserUtil<>();
+                MessageSkinBean bean = parserUtil.parserResult(jsonStr, callBack, MessageSkinBean.class);
+                if (bean == null) return;
+                parserUtil.parserStatus(bean, callBack);
+            }
+        });
+    }
     public static void getMessage(final GetMessageCallback callback) {
         MessageApiService.getMessage(new MessageApiService.ServiceCallBack() {
             @Override
@@ -76,6 +96,20 @@ public class MessageApiManager {
             }
         });
     }
+    /**
+     * Description: 置皮试结果
+     * Input： oeoreId:执行记录ID
+     * other:	w ##class(Nur.OPPDA.Order).setSkinTestResult("656||4||1","Y",1)
+     */
+    public static void setSkinTestResult(String oeoreId, String skinTest,String auditUserId, final com.base.commlibs.http.CommonCallBack<CommResult> callBack) {
+        MessageApiService.setSkinTestResult(oeoreId, skinTest, auditUserId,new ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                CommWebService.parserCommResult(jsonStr, callBack);
+            }
+        });
+    }
+
 
     public interface CommonCallBack {
         void onFail(String code, String msg);

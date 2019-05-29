@@ -89,8 +89,8 @@ public class WorkareaFragment extends BaseFragment {
             @Override
             public void onSuccess(MainConfigBean mainConfigBean) {
                 ItemNameList = mainConfigBean.getMainConfig();
-//                ItemNameList.add("DRUGHANDOVER");
-//                patEventsAdapter.setNewData(ItemNameList);
+                ItemNameList.add("DRUGHANDOVER");
+                patEventsAdapter.setNewData(ItemNameList);
             }
 
             @Override

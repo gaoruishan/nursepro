@@ -14,6 +14,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.base.commlibs.MessageEvent;
+import com.base.commlibs.http.CommonCallBack;
+import com.base.commlibs.utils.RecyclerViewHelper;
+import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.BaseFragment;
@@ -22,9 +26,14 @@ import com.dhcc.nursepro.constant.Action;
 import com.dhcc.nursepro.message.adapter.MessageAbnormalAdapter;
 import com.dhcc.nursepro.message.adapter.MessageConsultationAdapter;
 import com.dhcc.nursepro.message.adapter.MessageNewOrderAdapter;
+import com.dhcc.nursepro.message.adapter.MessageSkinAdapter;
 import com.dhcc.nursepro.message.api.MessageApiManager;
 import com.dhcc.nursepro.message.bean.MessageBean;
+import com.dhcc.nursepro.message.bean.MessageSkinBean;
 import com.dhcc.nursepro.message.bean.ReadMessageBean;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +62,8 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
     private MessageNewOrderAdapter newOrderAdapter;
     private MessageAbnormalAdapter abnormalAdapter;
     private MessageConsultationAdapter consultationAdapter;
+    private MessageSkinAdapter messageSkinAdapter;
+    private RecyclerView recyMessageSkin;
 
     @Override
     public void onClick(View v) {
@@ -93,10 +104,23 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
                     recyMessageConsultation.setVisibility(View.VISIBLE);
                 }
                 break;
+            case R.id.ll_message_skin_title:
+                switchSkinMessage(f(R.id.recy_message_skin).getVisibility() == View.VISIBLE);
+                break;
             default:
                 break;
 
         }
+    }
+
+    /**
+     * 点击切换
+     */
+    private void switchSkinMessage(boolean gone) {
+        f(R.id.ll_message_skin_title).setSelected(gone);
+        f(R.id.tv_message_skin_count).setVisibility(gone ? View.VISIBLE : View.GONE);
+        f(R.id.tv_message_skin_count, TextView.class).setText(messageSkinAdapter.getItemCount()+"");
+        f(R.id.recy_message_skin).setVisibility(gone ? View.GONE : View.VISIBLE);
     }
 
     @Override
@@ -120,6 +144,8 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
         MessageApiManager.getMessage(new MessageApiManager.GetMessageCallback() {
             @Override
             public void onSuccess(MessageBean msgs) {
+                //请求皮试
+                getSkinTestMessage();
                 newOrdPatList = msgs.getNewOrdPatList();
                 abnormalPatList = msgs.getAbnormalPatList();
                 conPatList = msgs.getConPatList();
@@ -176,6 +202,28 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
         });
     }
 
+    /**
+     * 请求皮试消息
+     */
+    private void getSkinTestMessage() {
+        //初始化
+        switchSkinMessage(true);
+        MessageApiManager.getSkinTestMessage(new CommonCallBack<MessageSkinBean>() {
+            @Override
+            public void onFail(String code, String msg) {
+                ToastUtils.showShort(msg);
+            }
+
+            @Override
+            public void onSuccess(MessageSkinBean bean, String type) {
+                if (bean.getSkinTimeList() != null && bean.getSkinTimeList().size() > 0) {
+                    switchSkinMessage(false);
+                    messageSkinAdapter.replaceData(bean.getSkinTimeList());
+                }
+            }
+        });
+    }
+
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
@@ -206,6 +254,18 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
         initAdapter();
         initData();
         getActivity().registerReceiver(mReceiver, mfilter);
+        //注册事件总线
+        EventBus.getDefault().register(this);
+    }
+
+    /**
+     * 接收事件- 更新数据
+     * @param event
+     */
+    @Subscribe
+    public void updateList(MessageEvent event) {
+        Log.e(getClass().getSimpleName(), "updateText:"+event.getType());
+        getSkinTestMessage();
     }
 
     private void initView(View view) {
@@ -222,7 +282,7 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
         llMessageConsultationTitle.setOnClickListener(this);
         tvMessageConsultationCount = view.findViewById(R.id.tv_message_consultation_count);
         recyMessageConsultation = view.findViewById(R.id.recy_message_consultation);
-
+        f(R.id.ll_message_skin_title).setOnClickListener(this);
 
         //提高展示效率
         recyMessageNeworder.setHasFixedSize(true);
@@ -281,6 +341,10 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
         recyMessageNeworder.setAdapter(newOrderAdapter);
         recyMessageAbnormal.setAdapter(abnormalAdapter);
         recyMessageConsultation.setAdapter(consultationAdapter);
+
+        recyMessageSkin = RecyclerViewHelper.get(getActivity(), R.id.recy_message_skin);
+        messageSkinAdapter = new MessageSkinAdapter(null);
+        recyMessageSkin.setAdapter(messageSkinAdapter);
     }
 
     public void notifyMessage() {

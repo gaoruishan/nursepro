@@ -1,1 +1,5 @@
-include ':app', ':TimePickerDialog'
+include ':app'
+
+include ':libraries',
+        ':libraries:baselib',
+        ':libraries:TimePickerDialog'

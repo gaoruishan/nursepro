@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/bg_dialog"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/dp_55"
+        android:paddingRight="@dimen/dp_55"
+        android:paddingTop="@dimen/dp_40"
+        android:paddingBottom="@dimen/dp_50"
+    >
+
+        <ImageView
+            android:id="@+id/iv_comm"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/icon_popup_sucess"/>
+
+        <TextView
+            android:id="@+id/tv_txt_comm"
+            android:layout_width="@dimen/dp_150"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_25"
+            android:text="分床成功"
+            android:textColor="#4a4a4a"
+            android:textSize="@dimen/sp_16"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/tv_ok_comm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="@dimen/dp_30"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/bg_dialog_sure"
+            android:paddingStart="@dimen/dp_46"
+            android:paddingEnd="@dimen/dp_46"
+            android:gravity="center"
+            android:paddingBottom="@dimen/dp_10"
+            android:paddingTop="@dimen/dp_10"
+            android:visibility="gone"
+            android:text="确定"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_17"
+        />
+    </LinearLayout>
+</RelativeLayout>

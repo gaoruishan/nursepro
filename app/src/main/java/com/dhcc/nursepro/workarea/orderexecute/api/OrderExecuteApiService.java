@@ -15,7 +15,26 @@ import java.util.HashMap;
  * @date 2018/8/24
  */
 public class OrderExecuteApiService {
-
+    /**
+     * Description: 皮试计时
+     * Input：	oeoriId 执行记录Id
+     * Return： w ##class(Nur.PDA.Order).skinTime("194||57||1",1,"50分钟",149)
+     */
+    public static void skinTime(String oeoriId, String observeTime, String note,com.base.commlibs.http.ServiceCallBack callBack) {
+        SPUtils spUtils = SPUtils.getInstance();
+        HashMap<String, String> properties = new HashMap<>();
+        properties.put("userId", spUtils.getString(SharedPreference.USERID));
+        properties.put("locId", spUtils.getString(SharedPreference.LOCID));
+        properties.put("oeoriId",oeoriId);
+        properties.put("observeTime",observeTime);
+        properties.put("note",note);
+        WebServiceUtils.callWebService("skinTime", properties, new WebServiceUtils.WebServiceCallBack(){
+            @Override
+            public void callBack(String result) {
+                callBack.onResult(result);
+            }
+        });
+    }
     public static void getOrder(String regNo, String sheetCode, String startDate, String startTime, String endDate, String endTime, final ServiceCallBack callback) {
         SPUtils spUtils = SPUtils.getInstance();
         HashMap<String, String> properties = new HashMap<>();

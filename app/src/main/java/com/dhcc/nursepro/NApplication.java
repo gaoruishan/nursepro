@@ -2,6 +2,7 @@ package com.dhcc.nursepro;
 
 import android.os.Handler;
 
+import com.base.commlibs.BaseApplication;
 import com.blankj.utilcode.util.Utils;
 import com.dhcc.nursepro.greendao.GreenDaoHelper;
 import com.dhcc.nursepro.utils.TransBroadcastUtil;

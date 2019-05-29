@@ -1,4 +1,4 @@
-package com.dhcc.nursepro;
+package com.base.commlibs;
 
 import android.content.Context;
 import android.content.pm.PackageManager;

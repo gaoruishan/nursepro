@@ -1,0 +1,78 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.android.compileSdkVersion
+    defaultConfig {
+        minSdkVersion rootProject.android.minSdkVersion
+        targetSdkVersion rootProject.android.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    // 基本
+    api fileTree(dir: 'libs', include: ['*.jar'])
+    api rootProject.ext.dependencies["appcompat_v7"]
+    api rootProject.ext.dependencies["support_annotations"]
+    api rootProject.ext.dependencies["constraint_layout"]
+    api rootProject.ext.dependencies["cardview-v7"]
+    api rootProject.ext.dependencies["recyclerview-v7"]
+    api rootProject.ext.dependencies["support-v4"]
+    api rootProject.ext.dependencies["design"]
+    api rootProject.ext.dependencies["gson"]
+
+    // 背景
+    api rootProject.ext.dependencies['backgroundLibrary']
+    // 图表库MpChart
+    api rootProject.ext.dependencies['MPAndroidChart']
+    api rootProject.ext.dependencies["baseRecyclerViewAdapterHelper"]
+    api rootProject.ext.dependencies["EasySwipeMenuLayout"]
+    //工具类
+    api rootProject.ext.dependencies["utilcode"]
+    api rootProject.ext.dependencies["greendao3"]
+    api rootProject.ext.dependencies["eventbus"]
+    api 'com.github.stfalcon:frescoimageviewer:0.5.0'
+    api 'com.facebook.fresco:animated-gif:0.12.0'
+    api 'com.facebook.fresco:animated-webp:0.12.0'
+
+    api('com.allenliu.versionchecklib:library:2.1.1') {
+        exclude group: 'com.android.support'
+        exclude module: "okhttp"
+    }
+    api('io.github.luizgrp.sectionedrecyclerviewadapter:sectionedrecyclerviewadapter:1.2.0') {
+        exclude group: 'com.android.support'
+    }
+    api('com.facebook.fresco:fresco:0.12.0') {
+        exclude group: 'com.parse.bolts',
+                module: 'bolts-tasks'
+        exclude group: 'com.parse.bolts',
+                module: 'bolts-android'
+        exclude group: 'com.parse.bolts',
+                module: 'bolts-applinks'
+    }
+    api('cn.qqtheme.framework:WheelPicker:1.5.6') {
+        exclude group: 'com.android.support'
+    }
+    api('com.nex3z:flow-layout:1.2.4') {
+        exclude group: 'com.android.support'
+    }
+
+    //依赖库
+    api project(':libraries:TimePickerDialog')
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}
