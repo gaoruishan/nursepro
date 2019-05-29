@@ -48,7 +48,7 @@ public class WebServiceUtils {
                                       final WebServiceCallBack webServiceCallBack) {
         // 创建HttpTransportSE对象，传递WebService服务器地址
 
-        final HttpTransportSE httpTransportSE = new HttpTransportSE("http://" + SPUtils.getInstance().getString(SharedPreference.WEBIP) + "/dthealth/web/Nur.PDA.WebService.cls");
+        final HttpTransportSE httpTransportSE = new HttpTransportSE("http://" + SPUtils.getInstance().getString(SharedPreference.WEBIP) + "/imedical/web/Nur.PDA.WebService.cls");
 
 
         // 创建SoapObject对象

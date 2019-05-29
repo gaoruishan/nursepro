@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_dialog"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingBottom="40dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingStart="36dp"
+        android:paddingTop="40dp"
+        android:paddingEnd="36dp">
+
+        <ImageView
+            android:id="@+id/img_drughandover"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/icon_popup_error_patient" />
+
+        <TextView
+            android:id="@+id/tv_drughandoveresult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="扫描药品数量与药品清单数量不符，\n请确认是否有遗漏药品未扫描"
+            android:textColor="#4a4a4a"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll_drughandover_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tv_drughandover_sure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/bg_dialog_sure"
+            android:paddingBottom="10dp"
+            android:paddingEnd="36dp"
+            android:paddingStart="36dp"
+            android:paddingTop="10dp"
+            android:text="确定"
+            android:textColor="@color/white"
+            android:textSize="17sp" />
+        <TextView
+            android:id="@+id/tv_drughandover_cancle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/bg_dialog_cancel"
+            android:paddingBottom="10dp"
+            android:paddingEnd="36dp"
+            android:paddingStart="36dp"
+            android:paddingTop="10dp"
+            android:text="取消"
+            android:textColor="@color/white"
+            android:textSize="17sp" />
+
+
+    </LinearLayout>
+
+</LinearLayout>

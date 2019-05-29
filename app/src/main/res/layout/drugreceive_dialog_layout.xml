@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="320dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_dialog"
+    android:orientation="vertical"
+    android:paddingStart="15dp"
+    android:paddingTop="20dp"
+    android:paddingEnd="15dp"
+    android:paddingBottom="30dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/img_drugreceive_scan"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="12dp"
+            android:src="@drawable/icon_patient_scan" />
+
+        <ImageView
+            android:id="@+id/img_drugreceive_success"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="4dp"
+            android:src="@drawable/icon_popup_sucess"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_drugreceivetip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FF62ABFF"
+            android:textSize="16sp"
+            tools:text="请扫描运送人员胸牌条码" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="箱码信息"
+            android:textColor="#9B9B9B" />
+
+        <TextView
+            android:id="@+id/tv_drugreceive_boxcode"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="10dp"
+            android:background="#F5FAFF"
+            android:gravity="center"
+            android:textColor="#4A4A4A"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            tools:text="BOX01" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="接收信息"
+            android:textColor="#9B9B9B" />
+
+        <TextView
+            android:id="@+id/tv_drugreceive_druginfo"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="10dp"
+            android:background="#F5FAFF"
+            android:gravity="center"
+            android:textColor="#4A4A4A"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            tools:text="共接收21袋药品，错发1袋，质量问题1袋" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="运送人员信息"
+            android:textColor="#9B9B9B" />
+
+        <TextView
+            android:id="@+id/tv_drugreceive_carryuser"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="10dp"
+            android:background="#F5FAFF"
+            android:gravity="center"
+            android:textColor="#4A4A4A"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:hint="请扫描运送人员胸牌条码"
+            tools:text="YSR01" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="接收护士"
+            android:textColor="#9B9B9B" />
+
+        <TextView
+            android:id="@+id/tv_drugreceive_nurse"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="10dp"
+            android:background="#F5FAFF"
+            android:gravity="center"
+            android:textColor="#4A4A4A"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            tools:text="HS01" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="医嘱信息"
+            android:textColor="#9B9B9B"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_drugreceive_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tv_drugreceive_sure"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_dialog_sure"
+                android:gravity="center"
+                android:paddingStart="36dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="36dp"
+                android:paddingBottom="8dp"
+                android:text="确认"
+                android:textColor="@color/white"
+                android:textSize="17sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tv_drugreceive_cancle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_dialog_cancel"
+                android:paddingStart="36dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="36dp"
+                android:paddingBottom="8dp"
+                android:text="取消"
+                android:textColor="@color/white"
+                android:textSize="17sp" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+</LinearLayout>

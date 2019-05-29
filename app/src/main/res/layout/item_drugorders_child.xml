@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/tv_drugorder_cname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#101010"
+        android:textSize="15sp"
+        tools:text="氯化钠注射液"/>
+
+    <TextView
+        android:id="@+id/tv_drugorder_cdose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="10mg"/>
 </LinearLayout>
