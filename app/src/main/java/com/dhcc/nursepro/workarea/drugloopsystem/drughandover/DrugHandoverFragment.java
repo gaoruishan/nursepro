@@ -355,8 +355,8 @@ public class DrugHandoverFragment extends BaseFragment {
                             public void onSuccess(DrugHandOverScanOrderList scanOrderList) {
                                 scanOrderAdapter.setNewData(scanOrderList.getOrdList());
                                 refreshBottom();
+                                llDrughandoverScan.setVisibility(View.VISIBLE);
                                 recyDrughandoverList.setVisibility(View.GONE);
-                                recyDrughandoverScan.setVisibility(View.VISIBLE);
 
                             }
 
