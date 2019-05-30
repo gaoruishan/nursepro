@@ -1,7 +1,7 @@
 package com.dhcc.nursepro.workarea.drugloopsystem.drughandover.api;
 
 import com.blankj.utilcode.util.ObjectUtils;
-import com.dhcc.nursepro.workarea.dosingreview.bean.PreparedVerifyOrdBean;
+import com.dhcc.nursepro.workarea.drugloopsystem.drughandover.bean.BatchSaveResult;
 import com.dhcc.nursepro.workarea.drugloopsystem.drughandover.bean.DrugHandOverScanOrderList;
 import com.google.gson.Gson;
 
@@ -45,8 +45,8 @@ public class DrugHandoverApiManager {
         });
     }
 
-    public static void BatchSave(String parr, String carryUser, String barCode, final DrugHandoverScanOrderListCallback callback) {
-        DrugHandoverApiService.BatchSave(parr, carryUser, barCode, new DrugHandoverApiService.ServiceCallBack() {
+    public static void batchSave(String parr, String carryUser, String barCode, String type, final BatchSaveCallback callback) {
+        DrugHandoverApiService.batchSave(parr, carryUser, barCode, type, new DrugHandoverApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();
@@ -55,17 +55,17 @@ public class DrugHandoverApiManager {
                     callback.onFail("-1", "网络错误，请求数据为空");
                 } else {
                     try {
-                        DrugHandOverScanOrderList scanOrderList = gson.fromJson(jsonStr, DrugHandOverScanOrderList.class);
-                        if (ObjectUtils.isEmpty(scanOrderList)) {
+                        BatchSaveResult batchSaveResult = gson.fromJson(jsonStr, BatchSaveResult.class);
+                        if (ObjectUtils.isEmpty(batchSaveResult)) {
                             callback.onFail("-3", "网络错误，数据解析为空");
                         } else {
-                            if ("0".equals(scanOrderList.getStatus())) {
+                            if ("0".equals(batchSaveResult.getStatus())) {
                                 if (callback != null) {
-                                    callback.onSuccess(scanOrderList);
+                                    callback.onSuccess(batchSaveResult);
                                 }
                             } else {
                                 if (callback != null) {
-                                    callback.onFail(scanOrderList.getMsgcode(), scanOrderList.getMsg());
+                                    callback.onFail(batchSaveResult.getMsgcode(), batchSaveResult.getMsg());
                                 }
                             }
                         }
@@ -88,6 +88,6 @@ public class DrugHandoverApiManager {
     }
 
     public interface BatchSaveCallback extends CommonCallBack {
-        void onSuccess(PreparedVerifyOrdBean preparedVerifyOrdBean);
+        void onSuccess(BatchSaveResult batchSaveResult);
     }
 }

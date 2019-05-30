@@ -17,9 +17,7 @@ import java.util.HashMap;
 public class DrugHandoverApiService {
 
     public static void getOrdListByBarCode(String barCode, final ServiceCallBack callback) {
-        SPUtils spUtils = SPUtils.getInstance();
         HashMap<String, String> properties = new HashMap<>();
-
         properties.put("barCode", barCode);
 
         Log.i("DrugHandover", "getOrdListByBarCode: " + properties.toString());
@@ -32,7 +30,7 @@ public class DrugHandoverApiService {
         });
     }
 
-    public static void BatchSave(String parr, String carryUser, String barCode, final ServiceCallBack callback) {
+    public static void batchSave(String parr, String carryUser, String barCode, String type, final ServiceCallBack callback) {
         SPUtils spUtils = SPUtils.getInstance();
         HashMap<String, String> properties = new HashMap<>();
         properties.put("userId", spUtils.getString(SharedPreference.USERID));
@@ -41,7 +39,7 @@ public class DrugHandoverApiService {
         properties.put("parr", parr);
         properties.put("carryUser", carryUser);
         properties.put("barCode", barCode);
-        properties.put("type", "");
+        properties.put("type", type);
 
 
         Log.i("DrugHandover", "BatchSave: " + properties.toString());

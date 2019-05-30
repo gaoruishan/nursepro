@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.SPUtils;
@@ -24,8 +25,8 @@ import com.dhcc.nursepro.constant.Action;
 import com.dhcc.nursepro.constant.SharedPreference;
 import com.dhcc.nursepro.workarea.drugloopsystem.drughandover.adapter.DrugHandoverScanOrderAdapter;
 import com.dhcc.nursepro.workarea.drugloopsystem.drughandover.api.DrugHandoverApiManager;
+import com.dhcc.nursepro.workarea.drugloopsystem.drughandover.bean.BatchSaveResult;
 import com.dhcc.nursepro.workarea.drugloopsystem.drughandover.bean.DrugHandOverScanOrderList;
-import com.guanaj.easyswipemenulibrary.EasySwipeMenuLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,13 +40,12 @@ import java.util.Objects;
  * created at 2019/5/22 11:47
  */
 public class DrugHandoverFragment extends BaseFragment {
-
-    private EasySwipeMenuLayout easySwipeMenuLayout;
+    private RelativeLayout rlDrughandoverScan;
     private RecyclerView recyDrughandoverList;
     private LinearLayout llDrughandoverScan;
     private RecyclerView recyDrughandoverScan;
-    private LinearLayout llDrughandoverReceive;
     private TextView tvDrughandoverReceivesize;
+    private TextView tvDrughandoverClear;
     private TextView tvDrughandoverReceive;
 
     private DrugHandoverScanOrderAdapter scanOrderAdapter;
@@ -55,6 +55,7 @@ public class DrugHandoverFragment extends BaseFragment {
     private int select;
     private String selectStr;
     private String parr;
+    private String type = "";
 
     private DrugHandoverDialog drugHandoverDialog;
     private DrugReceiveDialog drugReceiveDialog;
@@ -67,24 +68,51 @@ public class DrugHandoverFragment extends BaseFragment {
         setToolbarBottomLineVisibility(false);
         //        hideToolbarNavigationIcon();
         setToolbarCenterTitle(getString(R.string.title_drughandover), 0xffffffff, 17);
-
+        //右上角按钮
+        View viewright = View.inflate(getActivity(), R.layout.view_fratoolbar_right, null);
+        TextView textView = viewright.findViewById(R.id.tv_fratoobar_right);
+        textView.setTextSize(15);
+        textView.setText("   列表   ");
+        textView.setTextColor(getResources().getColor(R.color.white));
+        viewright.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (recyDrughandoverList.getVisibility() == View.GONE) {
+                    asyncInitData();
+                    recyDrughandoverList.setVisibility(View.VISIBLE);
+                    textView.setText("   扫描   ");
+                } else {
+                    recyDrughandoverList.setVisibility(View.GONE);
+                    textView.setText("   列表   ");
+                }
+            }
+        });
+        setToolbarRightCustomView(viewright);
         initView(view);
         initAdapter();
-        view.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                asyncInitData();
-            }
-        }, 300);
+        //        view.postDelayed(new Runnable() {
+        //            @Override
+        //            public void run() {
+        //                asyncInitData();
+        //            }
+        //        }, 300);
+    }
+
+    /**
+     * 加载已交接药品列表
+     */
+    private void asyncInitData() {
+        showToast("获取列表。。。");
     }
 
     private void initView(View view) {
-
+        rlDrughandoverScan = view.findViewById(R.id.rl_drughandover_scan);
         recyDrughandoverList = view.findViewById(R.id.recy_drughandover_list);
         llDrughandoverScan = view.findViewById(R.id.ll_drughandover_scan);
         recyDrughandoverScan = view.findViewById(R.id.recy_drughandover_scan);
-        llDrughandoverReceive = view.findViewById(R.id.ll_drughandover_receive);
         tvDrughandoverReceivesize = view.findViewById(R.id.tv_drughandover_receivesize);
+
+        tvDrughandoverClear = view.findViewById(R.id.tv_drughandover_clear);
         tvDrughandoverReceive = view.findViewById(R.id.tv_drughandover_receive);
 
         recyDrughandoverList.setHasFixedSize(true);
@@ -92,6 +120,14 @@ public class DrugHandoverFragment extends BaseFragment {
         recyDrughandoverScan.setHasFixedSize(true);
         recyDrughandoverScan.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        tvDrughandoverClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scanOrderAdapter.setNewData(new ArrayList<>());
+                rlDrughandoverScan.setVisibility(View.VISIBLE);
+                llDrughandoverScan.setVisibility(View.GONE);
+            }
+        });
         tvDrughandoverReceive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,13 +159,6 @@ public class DrugHandoverFragment extends BaseFragment {
     }
 
     /**
-     * 加载已交接药品列表
-     */
-    private void asyncInitData() {
-        showToast("获取列表。。。");
-    }
-
-    /**
      * 药品确认弹窗
      * 点击接收按钮，判断药品是否已全部接收
      * 若以全部接收，直接弹出接收窗口，若未全部接收，弹出确认窗口
@@ -139,6 +168,7 @@ public class DrugHandoverFragment extends BaseFragment {
     private void showDrugHandoverDialog() {
         if (amount == select) {
             showDrugReceiveDialog();
+            return;
         }
 
         if (drugHandoverDialog != null && drugHandoverDialog.isShowing()) {
@@ -200,26 +230,34 @@ public class DrugHandoverFragment extends BaseFragment {
 
     /**
      * 获取药品汇总信息
-     * "共接收10袋药品，错发1袋，漏发2袋，质量问题3袋"
+     * "共10袋药品，接收5袋，袋错发1袋，漏发2袋，质量问题3袋"
+     *
      * @return
      */
     private String getDrugInfo() {
+        List<DrugHandOverScanOrderList.OrdListBean> ordListBeans = scanOrderAdapter.getData();
+        StringBuilder stringBuilder = new StringBuilder();
+
         int all = scanOrderAdapter.getData().size();
         int wrong = 0;
         int miss = 0;
         int quality = 0;
         for (int i = 0; i < all; i++) {
-            if ("W".equals(scanOrderAdapter.getData().get(i).getError())) {
+            DrugHandOverScanOrderList.OrdListBean ordListBean = ordListBeans.get(i);
+
+            if ("W".equals(ordListBean.getError())) {
                 wrong++;
-            } else if ("M".equals(scanOrderAdapter.getData().get(i).getError())) {
+            } else if ("M".equals(ordListBean.getError())) {
                 miss++;
-            } else if ("Q".equals(scanOrderAdapter.getData().get(i).getError())) {
+            } else if ("Q".equals(ordListBean.getError())) {
                 quality++;
             }
         }
 
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("共接收").append(all).append("袋药品");
+        stringBuilder.append("共").append(all).append("袋药品");
+
+        stringBuilder.append("，接收").append(select).append("袋");
+
         if (wrong > 0) {
             stringBuilder.append("，错发").append(wrong).append("袋");
         }
@@ -229,12 +267,12 @@ public class DrugHandoverFragment extends BaseFragment {
         if (quality > 0) {
             stringBuilder.append("，质量问题").append(quality).append("袋");
         }
-
         return stringBuilder.toString();
     }
 
     /**
      * 药品接收
+     *
      * @param barCode
      * @param carryUser
      */
@@ -242,15 +280,15 @@ public class DrugHandoverFragment extends BaseFragment {
 
         parr = getParr();
 
-        DrugHandoverApiManager.BatchSave(parr, carryUser, barCode, new DrugHandoverApiManager.DrugHandoverScanOrderListCallback() {
+        DrugHandoverApiManager.batchSave(parr, carryUser, barCode, type, new DrugHandoverApiManager.BatchSaveCallback() {
             @Override
-            public void onSuccess(DrugHandOverScanOrderList scanOrderList) {
+            public void onSuccess(BatchSaveResult batchSaveResult) {
                 if (drugHandoverDialog != null && drugHandoverDialog.isShowing()) {
                     drugHandoverDialog.dismiss();
                 }
                 drugHandoverDialog = new DrugHandoverDialog(getActivity());
                 drugHandoverDialog.setImgId(R.drawable.icon_popup_sucess);
-                drugHandoverDialog.setHandoverresult("接收成功");
+                drugHandoverDialog.setHandoverresult(batchSaveResult.getMsg());
                 drugHandoverDialog.setSureVisible(View.GONE);
                 drugHandoverDialog.setCancleVisible(View.GONE);
                 drugHandoverDialog.show();
@@ -258,9 +296,9 @@ public class DrugHandoverFragment extends BaseFragment {
                     @Override
                     public void run() {
                         drugHandoverDialog.dismiss();
+                        rlDrughandoverScan.setVisibility(View.VISIBLE);
                         llDrughandoverScan.setVisibility(View.GONE);
-                        recyDrughandoverList.setVisibility(View.VISIBLE);
-                        asyncInitData();
+                        scanOrderAdapter.setNewData(new ArrayList<>());
                     }
                 }, 1000);
             }
@@ -281,7 +319,6 @@ public class DrugHandoverFragment extends BaseFragment {
                         drugHandoverDialog.dismiss();
                     }
                 });
-
                 drugHandoverDialog.show();
             }
         });
@@ -290,12 +327,12 @@ public class DrugHandoverFragment extends BaseFragment {
     /**
      * 获取接口传输药品汇总信息
      * "194-53-1||Y^194-53-2|Q|N"
+     *
      * @return
      */
     private String getParr() {
-        StringBuilder stringBuilder = new StringBuilder();
-
         List<DrugHandOverScanOrderList.OrdListBean> ordListBeans = scanOrderAdapter.getData();
+        StringBuilder stringBuilder = new StringBuilder();
 
         for (int i = 0; i < ordListBeans.size(); i++) {
             DrugHandOverScanOrderList.OrdListBean ordListBean = ordListBeans.get(i);
@@ -309,7 +346,6 @@ public class DrugHandoverFragment extends BaseFragment {
             if (i < ordListBeans.size() - 1) {
                 stringBuilder.append("^");
             }
-
         }
         return stringBuilder.toString();
     }
@@ -318,8 +354,9 @@ public class DrugHandoverFragment extends BaseFragment {
      * 获取扫码信息，此页为本地判断扫码类型
      * 若药品接收弹窗显示，认为扫码为运送人胸牌
      * 若药品接收弹窗未显示，
-     *      若扫码列表已有数据，认为扫码为药品小码
-     *      若扫码列表无数据，认为扫码为药品大码
+     * 若扫码列表已有数据，认为扫码为药品小码
+     * 若扫码列表无数据，认为扫码为药品大码
+     *
      * @param intent
      */
     @Override
@@ -339,7 +376,6 @@ public class DrugHandoverFragment extends BaseFragment {
 
                     List<DrugHandOverScanOrderList.OrdListBean> ordListBeans = scanOrderAdapter.getData();
                     if (ordListBeans.size() > 0) {
-                        scanInfo = scanInfo.replaceAll("-", "||");
                         for (int i = 0; i < ordListBeans.size(); i++) {
                             if (scanInfo.equals(ordListBeans.get(i).getOeoreId())) {
                                 scanOrderAdapter.getData().get(i).setScan(true);
@@ -353,11 +389,20 @@ public class DrugHandoverFragment extends BaseFragment {
                         DrugHandoverApiManager.getOrdListByBarCode(barCode, new DrugHandoverApiManager.DrugHandoverScanOrderListCallback() {
                             @Override
                             public void onSuccess(DrugHandOverScanOrderList scanOrderList) {
-                                scanOrderAdapter.setNewData(scanOrderList.getOrdList());
+                                List<DrugHandOverScanOrderList.OrdListBean> ordListBeanList = scanOrderList.getOrdList();
+                                //向后台传输数据 医嘱中"||"全部替换为"-"
+                                //若大码与列表中某条医嘱的oeoreId相同，则这条医嘱直接置为已扫描状态
+                                for (int i = 0; i < ordListBeanList.size(); i++) {
+                                    ordListBeanList.get(i).setOeoreId(ordListBeanList.get(i).getOeoreId().replaceAll("\\|\\|", "-"));
+
+                                    if (barCode.equals(ordListBeanList.get(i).getOeoreId())) {
+                                        ordListBeanList.get(i).setScan(true);
+                                    }
+                                }
+                                scanOrderAdapter.setNewData(ordListBeanList);
                                 refreshBottom();
                                 llDrughandoverScan.setVisibility(View.VISIBLE);
-                                recyDrughandoverList.setVisibility(View.GONE);
-
+                                rlDrughandoverScan.setVisibility(View.GONE);
                             }
 
                             @Override
@@ -392,8 +437,6 @@ public class DrugHandoverFragment extends BaseFragment {
             selectStr = "共" + amount + "袋，已扫描" + select + "袋";
             tvDrughandoverReceivesize.setText(selectStr);
         }
-
-
     }
 
     @Override
