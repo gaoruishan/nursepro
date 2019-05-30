@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ic_ord_state_unexpect">#FF4081</color>
+    <color name="gray_f6">#F6F6F6</color>
+    <color name="gray_d8">#FFD8D8D8</color>
+    <color name="text_view_text_color">#666666</color>
+
+</resources>

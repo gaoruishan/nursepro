@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ECECEC"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/blue_light"/>
+    <!--扫码-->
+    <com.dhcc.module.infusion.view.CustomScanView
+        android:id="@+id/csv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+    />
+
+    <!--穿刺情况-->
+    <include layout="@layout/layout_puncture_status"/>
+
+    <com.dhcc.module.infusion.view.CustomPatView
+        android:id="@+id/cpv_pat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+    />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_puncture"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@color/white"
+    />
+
+
+</LinearLayout>

@@ -1,0 +1,95 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion rootProject.android.compileSdkVersion
+    defaultConfig {
+        applicationId "com.dhcc.infusion"
+        minSdkVersion rootProject.android.minSdkVersion
+        targetSdkVersion rootProject.android.targetSdkVersion
+        versionCode 4
+        versionName "1.3"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    signingConfigs {
+        release {
+            keyAlias 'ControlKey'
+            keyPassword 'cdeffg@2018'
+            storeFile file('../sign/ControlKey.jks')
+            storePassword 'cdeffg@2018'
+        }
+    }
+
+    //release版本输出包名自动追加版本号和版本名称
+    applicationVariants.all {
+        variant ->
+            variant.outputs.all {
+                if (buildType.name == 'release') {
+                    outputFileName = "PDA_"+defaultConfig.applicationId+"_" + defaultConfig.versionCode + "_" + new Date().format("yyyy-MM-dd") + ".apk"
+                }
+            }
+    }
+    buildTypes {
+        release {
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            signingConfig signingConfigs.release
+        }
+    }
+    //根据项目工程配置出不同的包
+//    flavorDimensions "default"
+//    productFlavors {
+//         //打包gradle assembleInfusionRelease
+//        infusion {
+//            applicationId 'com.dhcc.infusion'
+//            versionCode 1
+//            versionName "1.0"
+//            resValue "string", "app_name_dhcc", "门急诊输液"
+//            resValue "string", "app_webservice", "/dthealth/web/Nur.OPPDA.WebService.cls"
+//            resValue "string", "logonLocType", "E"
+//            resValue "string", "app_login_title", "欢迎使用门急诊移动输液站"
+//            resValue "bool", "isInfusion", "true"
+//            resValue "bool", "isNursepro", "false"
+//        }
+//        nursepro {
+//            applicationId 'com.dhcc.nursepro'
+//            versionCode 4
+//            versionName "1.3"
+//            resValue "string", "app_name_dhcc", "护士站"
+//            resValue "string", "app_webservice", "/dthealth/web/Nur.PDA.WebService.cls"
+//            resValue "string", "logonLocType", "W"
+//            resValue "string", "app_login_title", "欢迎使用护士站"
+//            resValue "bool", "isInfusion", "false"
+//            resValue "bool", "isNursepro", "true"
+//        }
+//    }
+    defaultConfig {
+        ndk {
+            //设置支持的SO库架构
+            abiFilters "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
+        }
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+            jni.srcDirs = ['src/main/jni', 'src/main/jni/']
+        }
+    }
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
+
+}
+
+dependencies {
+    implementation project(':libraries:baselib')
+    implementation project(':libraries:dhcc_infusion')
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+
+}

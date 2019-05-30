@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_puncture_status"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="gone"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:layout_weight="1"
+        android:orientation="vertical">
+        <include layout="@layout/custom_select_view"/>
+
+        <com.dhcc.module.infusion.view.CustomSpeedView
+            android:id="@+id/csv_speed"
+            android:layout_marginTop="@dimen/dp_20"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_120"
+            android:orientation="vertical">
+        </com.dhcc.module.infusion.view.CustomSpeedView>
+
+        <com.dhcc.module.infusion.view.CustomSelectView
+            android:id="@+id/csv_select"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/dp_20"
+            android:layout_height="wrap_content">
+
+        </com.dhcc.module.infusion.view.CustomSelectView>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_save"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:background="#FF62ABFF"
+        android:gravity="center"
+        android:text="保存"
+        android:textColor="#FFFFFFFF"
+        android:textSize="@dimen/sp_16"
+    />
+</LinearLayout>

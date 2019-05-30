@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.dhcc.infusion">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.VIBRATE">
+    </uses-permission>
+
+    <application
+        android:name="com.dhcc.infusion.NApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name_dhcc"
+        android:roundIcon="@drawable/ic_launcher"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:replace="android:label">
+
+        <activity android:name="com.dhcc.infusion.SplashActivity"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/StartAppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.dhcc.module.infusion.login.LoginActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name="com.dhcc.infusion.MainActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.dhcc.intent.action.main"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.base.commlibs.UniversalActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize|locale|layoutDirection"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Slide"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name="com.base.commlibs.BaseActivity"/>
+
+        <service
+            android:name="com.base.commlibs.service.MyService"
+            android:label="newOrdService"/>
+        <service
+            android:name="com.base.commlibs.service.MServiceNewOrd"
+            android:label="newOrdService"/>
+    </application>
+
+</manifest>

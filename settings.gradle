@@ -1,5 +1,7 @@
 include ':app'
+include ':infusion'
 
 include ':libraries',
         ':libraries:baselib',
-        ':libraries:TimePickerDialog'
+        ':libraries:TimePickerDialog',
+        ':libraries:dhcc_infusion'
