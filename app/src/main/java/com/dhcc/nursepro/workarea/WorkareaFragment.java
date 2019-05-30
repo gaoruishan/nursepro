@@ -22,6 +22,7 @@ import com.dhcc.nursepro.workarea.checkresult.CheckPatsFragment;
 import com.dhcc.nursepro.workarea.docorderlist.DocOrderListFragment;
 import com.dhcc.nursepro.workarea.dosingreview.DosingReviewFragment;
 import com.dhcc.nursepro.workarea.drugloopsystem.drughandover.DrugHandoverFragment;
+import com.dhcc.nursepro.workarea.drugloopsystem.residualliquidregistration.RLRegFragment;
 import com.dhcc.nursepro.workarea.labout.LabOutListFragment;
 import com.dhcc.nursepro.workarea.labresult.LabPatsFragment;
 import com.dhcc.nursepro.workarea.milkloopsystem.MilkLoopSystemFragment;
@@ -89,7 +90,8 @@ public class WorkareaFragment extends BaseFragment {
             @Override
             public void onSuccess(MainConfigBean mainConfigBean) {
                 ItemNameList = mainConfigBean.getMainConfig();
-                ItemNameList.add("DRUGHANDOVER");
+//                ItemNameList.add("DRUGHANDOVER");
+//                ItemNameList.add("RLREG");
                 patEventsAdapter.setNewData(ItemNameList);
             }
 
@@ -175,6 +177,9 @@ public class WorkareaFragment extends BaseFragment {
                 break;
             case "DRUGHANDOVER":
                 startFragment(DrugHandoverFragment.class);
+                break;
+            case "RLREG":
+                startFragment(RLRegFragment.class);
                 break;
             default:
 
@@ -263,6 +268,10 @@ public class WorkareaFragment extends BaseFragment {
                     break;
                 case "DRUGHANDOVER":
                     tvItem.setText("药品交接");
+                    imageView.setImageResource(R.drawable.icon_tour);
+                    break;
+                case "RLREG":
+                    tvItem.setText("余液登记");
                     imageView.setImageResource(R.drawable.icon_tour);
                     break;
                 default:
