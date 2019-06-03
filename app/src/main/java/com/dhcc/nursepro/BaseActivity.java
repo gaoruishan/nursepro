@@ -51,11 +51,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.base.commlibs.MessageEvent;
+import com.base.commlibs.base.BaseBottomLoadingView;
+import com.base.commlibs.base.BaseFullLoadingView;
+import com.base.commlibs.base.BaseTopLoadingView;
 import com.blankj.utilcode.util.SPUtils;
-import com.dhcc.nursepro.common.BaseBottomLoadingView;
-import com.dhcc.nursepro.common.BaseFullLoadingView;
 import com.dhcc.nursepro.common.BasePushDialog;
-import com.dhcc.nursepro.common.BaseTopLoadingView;
 import com.dhcc.nursepro.constant.SharedPreference;
 import com.noober.background.BackgroundLibrary;
 

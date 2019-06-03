@@ -46,7 +46,6 @@ import com.dhcc.module.infusion.setting.SettingFragment;
 import com.dhcc.module.infusion.workarea.WorkAreaFragment;
 
 import java.util.List;
-import java.util.Objects;
 
 public class MainActivity extends BaseActivity implements RadioButton.OnCheckedChangeListener {
 
@@ -454,14 +453,9 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
     public class MainReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            switch (Objects.requireNonNull(intent.getAction())) {
-                case Action.NEWMESSAGE_SERVICE:
-                    notifyMessage();
-                    break;
-                default:
-                    break;
+            if (Action.NEWMESSAGE_SERVICE.equals(intent.getAction())) {
+                notifyMessage();
             }
-
         }
     }
 

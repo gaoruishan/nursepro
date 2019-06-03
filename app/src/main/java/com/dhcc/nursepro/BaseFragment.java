@@ -27,10 +27,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.dhcc.nursepro.common.BaseBottomLoadingView;
-import com.dhcc.nursepro.common.BaseFullLoadingView;
+import com.base.commlibs.base.BaseBottomLoadingView;
+import com.base.commlibs.base.BaseFullLoadingView;
+import com.base.commlibs.base.BaseTopLoadingView;
 import com.dhcc.nursepro.common.BasePushDialog;
-import com.dhcc.nursepro.common.BaseTopLoadingView;
 import com.dhcc.nursepro.constant.Action;
 
 import org.greenrobot.eventbus.EventBus;

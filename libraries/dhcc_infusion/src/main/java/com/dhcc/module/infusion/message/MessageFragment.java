@@ -29,7 +29,6 @@ import com.dhcc.module.infusion.view.CustomTabView;
 import com.dhcc.module.infusion.workarea.PatInfoFragment;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * MessageInfusionFragment
@@ -48,12 +47,8 @@ public class MessageFragment extends BaseFragment implements CustomTabView.OnTab
     @Override
     public void getScanMsg(Intent intent) {
         super.getScanMsg(intent);
-        switch (Objects.requireNonNull(intent.getAction())) {
-            case Action.NEWMESSAGE_SERVICE:
-                initData();
-            default:
-                break;
-
+        if (Action.NEWMESSAGE_SERVICE.equals(intent.getAction())) {
+            initData();
         }
     }
 
