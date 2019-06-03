@@ -17,13 +17,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.base.commlibs.BaseActivity;
+import com.base.commlibs.BaseFragment;
+import com.base.commlibs.constant.Action;
+import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
-import com.dhcc.nursepro.BaseActivity;
-import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.constant.Action;
-import com.dhcc.nursepro.constant.SharedPreference;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.BloodOperationResultDialog;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.api.BloodTSApiManager;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bean.BloodInfoBean;
@@ -33,7 +33,6 @@ import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 
 import java.util.Calendar;
-import java.util.Objects;
 
 /**
  * BloodTransfusionTourFragment
@@ -274,9 +273,7 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
     @Override
     public void getScanMsg(Intent intent) {
         super.getScanMsg(intent);
-        switch (Objects.requireNonNull(intent.getAction())) {
-
-            case Action.DEVICE_SCAN_CODE:
+        if (Action.DEVICE_SCAN_CODE.equals(intent.getAction())) {
                 Bundle bundle = new Bundle();
                 bundle = intent.getExtras();
                 String scanStr = bundle.getString("data");
@@ -350,10 +347,6 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
                         }
                     });
                 }
-
-                break;
-            default:
-                break;
         }
 
     }

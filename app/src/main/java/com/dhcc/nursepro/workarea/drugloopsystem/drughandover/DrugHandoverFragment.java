@@ -18,11 +18,11 @@ import android.widget.TextView;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.dhcc.nursepro.BaseActivity;
-import com.dhcc.nursepro.BaseFragment;
+import com.base.commlibs.BaseActivity;
+import com.base.commlibs.BaseFragment;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.constant.Action;
-import com.dhcc.nursepro.constant.SharedPreference;
+import com.base.commlibs.constant.Action;
+import com.base.commlibs.constant.SharedPreference;
 import com.dhcc.nursepro.workarea.drugloopsystem.drughandover.adapter.DrugHandoverScanOrderAdapter;
 import com.dhcc.nursepro.workarea.drugloopsystem.drughandover.api.DrugHandoverApiManager;
 import com.dhcc.nursepro.workarea.drugloopsystem.drughandover.bean.BatchSaveResult;
@@ -362,8 +362,7 @@ public class DrugHandoverFragment extends BaseFragment {
     @Override
     public void getScanMsg(Intent intent) {
         super.getScanMsg(intent);
-        switch (Objects.requireNonNull(intent.getAction())) {
-            case Action.DEVICE_SCAN_CODE:
+        if (Action.DEVICE_SCAN_CODE.equals(intent.getAction())) {
                 Bundle bundle = new Bundle();
                 bundle = intent.getExtras();
                 String scanInfo = bundle.getString("data");
@@ -412,9 +411,6 @@ public class DrugHandoverFragment extends BaseFragment {
                         });
                     }
                 }
-                break;
-            default:
-                break;
         }
     }
 

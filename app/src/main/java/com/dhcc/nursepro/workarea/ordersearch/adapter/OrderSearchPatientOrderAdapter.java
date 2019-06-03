@@ -1,21 +1,15 @@
 package com.dhcc.nursepro.workarea.ordersearch.adapter;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.dhcc.nursepro.BaseActivity;
-import com.dhcc.nursepro.BaseFragment;
+import com.base.commlibs.BaseActivity;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.UniversalActivity;
-import com.dhcc.nursepro.workarea.bedmap.BedMapPatFragment;
-import com.dhcc.nursepro.workarea.bedmap.bean.BedMapBean;
 import com.dhcc.nursepro.workarea.ordersearch.OrderInfoDetailFragment;
 import com.dhcc.nursepro.workarea.ordersearch.bean.OrderSearchBean;
 

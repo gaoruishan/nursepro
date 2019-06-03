@@ -8,14 +8,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.dhcc.nursepro.BaseActivity;
-import com.dhcc.nursepro.BaseFragment;
+import com.base.commlibs.BaseActivity;
+import com.base.commlibs.BaseFragment;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.constant.SharedPreference;
+import com.base.commlibs.constant.SharedPreference;
 import com.dhcc.nursepro.workarea.docorderlist.adapter.DocOrderListOrdersAdapter;
 import com.dhcc.nursepro.workarea.docorderlist.adapter.DocOrderListPatsAdapter;
 import com.dhcc.nursepro.workarea.docorderlist.adapter.DocOrderListPriorityAdapter;

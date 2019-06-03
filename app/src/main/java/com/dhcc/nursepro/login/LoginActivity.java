@@ -18,13 +18,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.base.commlibs.BaseActivity;
+import com.base.commlibs.constant.Action;
+import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.dhcc.nursepro.Activity.MainActivity;
-import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.constant.Action;
-import com.dhcc.nursepro.constant.SharedPreference;
 import com.dhcc.nursepro.greendao.DaoSession;
 import com.dhcc.nursepro.greendao.GreenDaoHelper;
 import com.dhcc.nursepro.login.api.LoginApiManager;
@@ -38,7 +38,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -615,8 +614,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     public class LoginReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            switch (Objects.requireNonNull(intent.getAction())) {
-                case Action.DEVICE_SCAN_CODE:
+            if (Action.DEVICE_SCAN_CODE.equals(intent.getAction())) {
                     Bundle bundle = new Bundle();
                     bundle = intent.getExtras();
                     String scanInfo = bundle.getString("data");
@@ -642,9 +640,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             Toast.makeText(LoginActivity.this, "error" + code + ":" + msg, Toast.LENGTH_SHORT).show();
                         }
                     });
-                    break;
-                default:
-                    break;
             }
         }
     }

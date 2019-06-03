@@ -9,16 +9,13 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.dhcc.nursepro.BaseFragment;
+import com.base.commlibs.BaseFragment;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.nurrecord.NurRecordFragment;
-import com.dhcc.nursepro.workarea.nurrecord.bean.NurRecordBean;
 import com.dhcc.nursepro.workarea.nurrecord.bean.NurRecordModelListBean;
-import com.dhcc.nursepro.workarea.vitalsign.VitalSignFragment;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 public class NurRecordMenuListAdapter extends BaseQuickAdapter<NurRecordModelListBean.MenuListBean, BaseViewHolder>{

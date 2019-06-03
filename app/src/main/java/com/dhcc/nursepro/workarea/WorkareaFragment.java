@@ -12,8 +12,8 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.dhcc.nursepro.BaseActivity;
-import com.dhcc.nursepro.BaseFragment;
+import com.base.commlibs.BaseActivity;
+import com.base.commlibs.BaseFragment;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.allotbed.AllotBedFragment;
 import com.dhcc.nursepro.workarea.bedmap.BedMapFragment;

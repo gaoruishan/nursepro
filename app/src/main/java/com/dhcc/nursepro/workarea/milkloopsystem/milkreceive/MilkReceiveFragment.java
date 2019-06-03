@@ -13,13 +13,13 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.base.commlibs.BaseActivity;
+import com.base.commlibs.BaseFragment;
+import com.base.commlibs.constant.Action;
+import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
-import com.dhcc.nursepro.BaseActivity;
-import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.constant.Action;
-import com.dhcc.nursepro.constant.SharedPreference;
 import com.dhcc.nursepro.workarea.milkloopsystem.MilkOperateResultDialog;
 import com.dhcc.nursepro.workarea.milkloopsystem.api.MilkLoopApiManager;
 import com.dhcc.nursepro.workarea.milkloopsystem.bean.MilkOperatResultBean;
@@ -31,7 +31,6 @@ import com.jzxiang.pickerview.listener.OnDateSetListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Objects;
 
 /**
  * com.dhcc.nursepro.workarea.milkloopsystem.MilkReceive
@@ -182,15 +181,11 @@ public class MilkReceiveFragment extends BaseFragment implements View.OnClickLis
     @Override
     public void getScanMsg(Intent intent) {
         super.getScanMsg(intent);
-        switch (Objects.requireNonNull(intent.getAction())) {
-            case Action.DEVICE_SCAN_CODE:
+        if (Action.DEVICE_SCAN_CODE.equals(intent.getAction())) {
                 Bundle bundle = new Bundle();
                 bundle = intent.getExtras();
                 bagNo = bundle.getString("data");
                 initData(bundle.getString("data"));
-                break;
-            default:
-                break;
         }
 
     }

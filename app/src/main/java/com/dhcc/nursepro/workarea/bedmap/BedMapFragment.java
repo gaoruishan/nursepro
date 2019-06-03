@@ -16,12 +16,12 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.base.commlibs.BaseActivity;
+import com.base.commlibs.BaseFragment;
+import com.base.commlibs.constant.Action;
 import com.blankj.utilcode.util.SizeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.dhcc.nursepro.BaseActivity;
-import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.constant.Action;
 import com.dhcc.nursepro.workarea.bedmap.adapter.BedMapPatientAdapter;
 import com.dhcc.nursepro.workarea.bedmap.adapter.BedMapPatientTypeAdapter;
 import com.dhcc.nursepro.workarea.bedmap.api.BedMapApiManager;
@@ -32,7 +32,6 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * BedMapFragment
@@ -345,8 +344,7 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
     @Override
     public void getScanMsg(Intent intent) {
         super.getScanMsg(intent);
-        switch (Objects.requireNonNull(intent.getAction())) {
-            case Action.DEVICE_SCAN_CODE:
+        if (Action.DEVICE_SCAN_CODE.equals(intent.getAction())) {
                 Bundle bundle = new Bundle();
                 bundle = intent.getExtras();
                 String scanInfo = bundle.getString("data");
@@ -362,9 +360,6 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
                         showToast("error" + code + ":" + msg);
                     }
                 });
-                break;
-            default:
-                break;
         }
     }
 

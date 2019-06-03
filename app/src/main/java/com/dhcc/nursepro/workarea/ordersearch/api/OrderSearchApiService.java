@@ -3,7 +3,7 @@ package com.dhcc.nursepro.workarea.ordersearch.api;
 import android.util.Log;
 
 import com.blankj.utilcode.util.SPUtils;
-import com.dhcc.nursepro.constant.SharedPreference;
+import com.base.commlibs.constant.SharedPreference;
 import com.dhcc.nursepro.utils.wsutils.WebServiceUtils;
 
 import java.util.HashMap;

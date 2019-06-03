@@ -8,14 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.blankj.utilcode.util.SPUtils;
-import com.dhcc.nursepro.BaseActivity;
-import com.dhcc.nursepro.BaseFragment;
+import com.base.commlibs.BaseActivity;
+import com.base.commlibs.BaseFragment;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.constant.SharedPreference;
-import com.dhcc.nursepro.workarea.labresult.bean.PatsListBean;
+import com.base.commlibs.constant.SharedPreference;
 import com.dhcc.nursepro.workarea.operation.adapter.OperationAdapter;
 import com.dhcc.nursepro.workarea.operation.api.OperationApiManager;
 import com.dhcc.nursepro.workarea.operation.bean.OperationBean;
@@ -23,7 +21,6 @@ import com.dhcc.nursepro.workarea.operation.bean.OperationBean;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class OperationFragment extends BaseFragment {
 

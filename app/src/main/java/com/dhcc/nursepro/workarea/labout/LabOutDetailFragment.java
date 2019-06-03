@@ -1,9 +1,6 @@
 package com.dhcc.nursepro.workarea.labout;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,11 +13,11 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.dhcc.nursepro.BaseActivity;
-import com.dhcc.nursepro.BaseFragment;
+import com.base.commlibs.BaseActivity;
+import com.base.commlibs.BaseFragment;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.constant.Action;
-import com.dhcc.nursepro.constant.SharedPreference;
+import com.base.commlibs.constant.Action;
+import com.base.commlibs.constant.SharedPreference;
 import com.dhcc.nursepro.workarea.labout.adapter.LabOutDetailAdapter;
 import com.dhcc.nursepro.workarea.labout.api.LabOutApiManager;
 import com.dhcc.nursepro.workarea.labout.bean.DelOrderBean;

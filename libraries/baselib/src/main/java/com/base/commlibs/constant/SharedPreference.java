@@ -41,6 +41,18 @@ public class SharedPreference {
     public static final String SOUND = "SOUND";
     public static final String VIBRATOR = "VIBRATOR";
 
+
+    public static final String EXITTIME = "EXITTIME";
+    public static final String CHECKTIME = "CHECKTIME";
+
+
+    //pda系统时间与获取的服务器 时间
+    public static final String SYSYTEMTIME = "SYSYTEMTIME";
+    public static final String SERVETIME = "SERVETIME";
+
+    public static final String LOCALREQUEST = "LOCALREQUEST";
+
+
     public static final String WINDOWS = "WINDOWS";
     public static final String DEFAULTWINDOW = "DEFAULTWINDOW";
 

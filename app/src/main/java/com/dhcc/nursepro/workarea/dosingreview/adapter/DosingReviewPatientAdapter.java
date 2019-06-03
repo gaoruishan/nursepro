@@ -9,7 +9,7 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.constant.Action;
+import com.base.commlibs.constant.Action;
 import com.dhcc.nursepro.workarea.dosingreview.bean.DosingReViewBean;
 
 import java.util.List;

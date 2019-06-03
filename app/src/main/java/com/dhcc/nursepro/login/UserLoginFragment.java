@@ -1,6 +1,6 @@
 package com.dhcc.nursepro.login;
 
-import com.dhcc.nursepro.BaseFragment;
+import com.base.commlibs.BaseFragment;
 
 public class UserLoginFragment extends BaseFragment {
 }

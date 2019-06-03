@@ -1,6 +1,5 @@
 package com.base.commlibs;
 
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -38,6 +37,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -54,6 +54,8 @@ import com.base.commlibs.base.BaseBottomLoadingView;
 import com.base.commlibs.base.BaseFullLoadingView;
 import com.base.commlibs.base.BasePushDialog;
 import com.base.commlibs.base.BaseTopLoadingView;
+import com.base.commlibs.constant.SharedPreference;
+import com.blankj.utilcode.util.SPUtils;
 import com.noober.background.BackgroundLibrary;
 
 import org.greenrobot.eventbus.EventBus;
@@ -61,6 +63,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
@@ -71,8 +74,7 @@ import java.util.UUID;
  * Created by levis on 2018/6/5.
  */
 
-public class BaseActivity extends AppCompatActivity
-        implements Toolbar.OnMenuItemClickListener,
+public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuItemClickListener,
         ViewTreeObserver.OnGlobalLayoutListener {
 
 
@@ -126,6 +128,13 @@ public class BaseActivity extends AppCompatActivity
     private NetworkStatusReceiver mNetworkStatusReceiver;
     private String mRequestTag;
 
+    public static LinkedList<Activity> sAllActivitys = new LinkedList<Activity>();
+
+    // 都是static声明的变量，避免被实例化多次；因为整个app只需要一个计时任务就可以了。
+    private static Timer mTimer; // 计时器，每1秒执行一次任务
+    private static MyTimerTask mTimerTask; // 计时任务，判断是否未操作时间到达5s
+    private static long mLastActionTime; // 上一次操作时间
+
     // =========================================================
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -178,6 +187,46 @@ public class BaseActivity extends AppCompatActivity
                 mUIHandler.updateLayoutWithToolbarType();
             }
         });
+        sAllActivitys.add(this);
+    }
+
+    // 每当用户接触了屏幕，都会执行此方法
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        mLastActionTime = System.currentTimeMillis();
+//        Log.e("nurseprotime", "user action");
+        return super.dispatchTouchEvent(ev);
+    }
+
+    private static class MyTimerTask extends TimerTask {
+
+        @Override
+        public void run() {
+//            Log.e("nurseprotime", "check time");
+            // 5s未操作
+            if (System.currentTimeMillis() - mLastActionTime > SPUtils.getInstance().getInt(SharedPreference.EXITTIME)) {
+                // 停止计时任务
+                stopTimer();
+                exit();
+            }
+        }
+    }
+
+    // 登录成功，开始计时
+    protected static void startTimer() {
+        mTimer = new Timer();
+        mTimerTask = new MyTimerTask();
+        // 初始化上次操作时间为登录成功的时间
+        mLastActionTime = System.currentTimeMillis();
+        // 每过1s检查一次
+        mTimer.schedule(mTimerTask, 0, SPUtils.getInstance().getInt(SharedPreference.CHECKTIME));
+//        Log.e("nurseprotime", "start timer");
+    }
+
+    // 停止计时任务
+    protected static void stopTimer() {
+        mTimer.cancel();
+//        Log.e("nurseprotime", "cancel timer");
     }
 
     // 在大于等于5.0的系统中使StatusBar半透明效果
@@ -204,6 +253,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 设置StatusBarBackgroundView是否需要显示
+     *
      * @param show
      */
     protected void setStatusBarBackgroundViewVisibility(boolean show, int color) {
@@ -228,6 +278,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 设置Toolbar的背景
+     *
      * @param background
      */
     public void setToolbarBackground(Drawable background) {
@@ -278,6 +329,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 判断是否大于等于LOLLIPOP
+     *
      * @return true，表示大于等于LOLLIPOP
      */
     public static boolean isAboveLollipop() {
@@ -293,6 +345,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 设置5.0以下系统的状态栏背景颜色
+     *
      * @param color 状态栏背景颜色
      */
     private void setStatusBarColorLowLollipop(int color) {
@@ -340,6 +393,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 获得StatusBar的高度
+     *
      * @return
      */
     public int getStatusBarHeight() {
@@ -364,6 +418,7 @@ public class BaseActivity extends AppCompatActivity
     /**
      * 判断手机是否为小米5并且系统为6.0
      * 用于单独适配状态栏背景颜色
+     *
      * @return true:
      */
     public static boolean isXiaoMi5OS6() {
@@ -379,6 +434,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 会将设置进来的View添加到mContainer中
+     *
      * @param layoutResID
      */
     @Override
@@ -392,6 +448,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 会将设置进来的View添加到mContainer中
+     *
      * @param view
      */
     @Override
@@ -404,6 +461,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 会将设置进来的View添加到mContainer中
+     *
      * @param view
      * @param params
      */
@@ -427,6 +485,21 @@ public class BaseActivity extends AppCompatActivity
             mNetworkStatusReceiver.unregister();
         }
         super.onDestroy();
+        sAllActivitys.remove(this);
+    }
+
+    public static void finishAll() {
+        for(Activity activity : sAllActivitys) {
+            activity.finish();
+        }
+
+        sAllActivitys.clear();
+    }
+
+    public static void exit() {
+        finishAll();
+        // 这个主要是用来关闭进程的, 光把所有activity finish的话，进程是不会关闭的
+        System.exit(0);
     }
 
     //-------------------------------
@@ -444,6 +517,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 设置Toolbar的导航按钮
+     *
      * @param resId
      */
     public void showToolbarNavigationIcon(int resId) {
@@ -452,6 +526,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 设置返回按钮图标
+     *
      * @param resId
      */
     private void initBackAction(int resId) {
@@ -473,6 +548,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 启动登录页面,登录完成后会回调到callbackAfterLoginSuccess
+     *
      * @param callbackAfterLoginSuccess 登录成功之后回调到这里
      */
     public void startLogin(Runnable callbackAfterLoginSuccess) {
@@ -483,6 +559,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 使用UniversalActivity启动给定的Fragment
+     *
      * @param fragCls     待启动Fragment
      * @param requestCode -1表示不使用ForResult
      */
@@ -493,6 +570,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 使用UniversalActivity启动给定的Fragment
+     *
      * @param fragCls     待启动Fragment
      * @param args        传递给Fragment的参数,可空
      * @param requestCode -1表示不使用ForResult
@@ -511,6 +589,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 启动登录页面,登录完成后会回调到callbackAfterLoginSuccess
+     *
      * @param callbackAfterLoginSuccess 登录成功之后回调到这里
      * @param args                      启动登录界面的参数
      */
@@ -522,6 +601,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 使用UniversalActivity启动给定的Fragment
+     *
      * @param fragCls 待启动Fragment
      */
     public void startFragment(@NonNull Class<? extends BaseFragment> fragCls) {
@@ -530,6 +610,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 使用UniversalActivity启动给定的Fragment
+     *
      * @param fragCls 待启动Fragment
      * @param args    传递给Fragment的参数,可空
      */
@@ -540,6 +621,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 使用UniversalActivity及其子类启动给定的Fragment
+     *
      * @param containerCls UniversalActivity及其子类
      * @param fragCls      待启动Fragment
      */
@@ -550,6 +632,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 使用UniversalActivity及其子类启动给定的Fragment
+     *
      * @param containerCls UniversalActivity及其子类
      * @param fragCls      待启动Fragment
      * @param args         传递给Fragment的参数,可空
@@ -570,6 +653,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 使用UniversalActivity及其子类启动给定的Fragment
+     *
      * @param containerCls UniversalActivity及其子类
      * @param fragCls      待启动Fragment
      * @param args         传递给Fragment的参数,可空
@@ -654,6 +738,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 返回窗口的Toolbar
+     *
      * @return
      */
     public Toolbar getToolbar() {
@@ -662,6 +747,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 获得窗口Toolbar的显示类型
+     *
      * @return
      */
     public ToolbarType getToolbarType() {
@@ -670,6 +756,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 设置为给定的ToolbarType
+     *
      * @param type
      */
     public void setToolbarType(ToolbarType type) {
@@ -679,6 +766,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 设置Toolbar的右边操作动作按钮
+     *
      * @param menuId
      */
     public void setToolbarMenu(@MenuRes int menuId) {
@@ -689,6 +777,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 设置Toolbar居中的标题
+     *
      * @param title
      */
     public void setToolbarCenterTitle(CharSequence title) {
@@ -697,6 +786,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 设置Toolbar居中的标题
+     *
      * @param title
      * @param color 如:0xffcccccc
      * @param size  单位:DIP
@@ -707,6 +797,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 设置Toolbar居中的自定义视图
+     *
      * @param view
      */
     public void setToolbarCenterCustomView(View view) {
@@ -715,6 +806,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 设置Toolbar左边的自定义视图
+     *
      * @param view
      */
     public void setToolbarLeftCustomView(View view) {
@@ -723,6 +815,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 设置Toolbar右边的自定义视图
+     *
      * @param view
      */
     public void setToolbarRightCustomView(View view) {
@@ -731,6 +824,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 获取UIHandler
+     *
      * @return
      */
     public Handler getUIHandler() {
@@ -739,6 +833,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 设置Toolbar-BottomLine是否显示
+     *
      * @param show true:显示BottomLine;false:不显示
      */
     public void setToolbarBottomLineVisibility(boolean show) {
@@ -751,6 +846,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 配置是否支持右滑退出手势
+     *
      * @return
      */
     protected boolean checkSldeable() {
@@ -847,6 +943,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * Toolbar右边动作按钮回调
+     *
      * @param item
      * @return
      */
@@ -890,6 +987,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 每当网络连接后,回调到这里
+     *
      * @param type 连接后的网络类型  one of {@link ConnectivityManager#TYPE_MOBILE}, {@link
      *             ConnectivityManager#TYPE_WIFI}, {@link ConnectivityManager#TYPE_WIMAX}, {@link
      *             ConnectivityManager#TYPE_ETHERNET},  {@link ConnectivityManager#TYPE_BLUETOOTH}, or other
@@ -901,6 +999,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 显示Toast提示框
+     *
      * @param iconId 图标资源ID,Drawable Resource ID
      * @param text   显示的文本
      */
@@ -925,6 +1024,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 显示Toast提示框
+     *
      * @param text 显示的文本
      */
     public void showToast(final CharSequence text) {
@@ -948,6 +1048,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 显示LoadingTip
+     *
      * @param type 显示加载提示框的样式类型
      */
     public void showLoadingTip(BaseActivity.LoadingType type) {
@@ -956,6 +1057,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 显示LoadingTip
+     *
      * @param type       显示加载提示框的样式类型
      * @param cancelable 是否可以点击后隐藏;TOP类型时无效
      */
@@ -1087,6 +1189,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 创建一个FullLoadingView
+     *
      * @return 返回创建的FullLoadingView
      */
     protected BaseFullLoadingView onCreateFullLoadingView() {
@@ -1097,6 +1200,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 创建一个TopLoadingView
+     *
      * @return
      */
     protected BaseTopLoadingView onCreateTopLoadingView() {
@@ -1107,6 +1211,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 创建一个BottomLoadingView
+     *
      * @return
      */
     protected BaseBottomLoadingView onCreateBottomLoadingView() {
@@ -1117,6 +1222,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 显示一个从底部动画推上来的对话框
+     *
      * @param contentFragment 要显示的内容Fragment
      * @return
      */
@@ -1134,6 +1240,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 请求权限
+     *
      * @param permission 申请的权限名称
      */
     public final void requestPermission(final String permission) {
@@ -1152,6 +1259,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 请求权限
+     *
      * @param permission     申请的权限名称
      * @param requestMessage 申请权限提示框中提示文本
      */
@@ -1211,6 +1319,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * 权限请求结果回调
+     *
      * @param permission 权限名称
      * @param granted    是否请求成功
      */
@@ -1226,6 +1335,197 @@ public class BaseActivity extends AppCompatActivity
     }
 
     public void setmessage(int messageNum) {
+    }
+
+    /**
+     * 定义了显示加载提示框的类型
+     * TOP  : 页面上边简单非模态提示
+     * FULL : 全屏模态提示
+     */
+    public static enum LoadingType {
+        TOP,    // 页面上边简单非模态提示
+        BOTTOM, // 页面下边简单非模态提示
+        FULL,   // 全屏模态提示
+    }
+
+    /**
+     * 定义了Toolbar的显示位置
+     * HIDE  : 不显示Toolbar
+     * TOP   : Toolbar显示在Container上面,处于同一水平高度
+     * FLOAT : Toolbar悬浮在Container上面,在不同水平高度
+     */
+    public static enum ToolbarType {
+        HIDE,  // 不显示Toolbar
+        TOP,   // Toolbar显示在Container上面,处于同一水平高度
+        FLOAT, // Toolbar悬浮在Container上面,在不同水平高度
+    }
+
+    // =========================================================
+    // Network Status
+    private static class NetworkStatusReceiver extends BroadcastReceiver {
+        private SoftReference<BaseActivity> mActivity;
+
+        /**
+         * 实例化广播接收器,并将其注册到activity上
+         *
+         * @param activity
+         */
+        public NetworkStatusReceiver(BaseActivity activity) {
+            mActivity = new SoftReference<>(activity);
+            // 注册该广播接收器
+            register();
+        }
+
+        private void register() {
+            BaseActivity activity = mActivity.get();
+            if (activity != null) {
+                IntentFilter filter = new IntentFilter();
+                filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+                activity.registerReceiver(this, filter);
+            }
+        }
+
+        /**
+         * 解注册该广播接收器
+         */
+        public void unregister() {
+            BaseActivity activity = mActivity.get();
+            if (activity != null) {
+                activity.unregisterReceiver(this);
+            }
+        }
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            ConnectivityManager cm = (ConnectivityManager) context
+                    .getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo info = cm.getActiveNetworkInfo();
+            if (info != null && info.isConnected()) {
+                BaseActivity activity = mActivity.get();
+                if (activity != null) {
+                    activity.onNetworkConnectedCore(info.getType());
+                }
+            } else {
+                BaseActivity activity = mActivity.get();
+                if (activity != null) {
+                    activity.onNetworkDisconnectedCore();
+                }
+            }
+        }
+    }
+
+    // =========================================================
+    // UIHandler
+    private class UIHandler extends Handler {
+        public UIHandler(Looper looper) {
+            super(looper);
+        }
+
+        /**
+         * 发起[根据当前的ToolbarType更新为对应的布局]的操作
+         */
+        public void updateLayoutWithToolbarType() {
+            sendEmptyMessage(100);
+        }
+
+        /**
+         * 发起[设置Toolbar的背景]的操作
+         *
+         * @param background
+         */
+        public void setToolbarBackground(Drawable background) {
+            Message msg = obtainMessage(200);
+            msg.obj = background;
+            sendMessage(msg);
+        }
+
+        /**
+         * 发起[设置Toolbar中心标题]的操作
+         *
+         * @param title
+         * @param color
+         * @param size
+         */
+        public void setToolbarCenterTitle(CharSequence title, int color, int size) {
+            Message msg = obtainMessage(300);
+            msg.obj = title;
+            msg.arg1 = color;
+            msg.arg2 = size;
+            sendMessage(msg);
+        }
+
+        /**
+         * 发起[设置Toolbar中心自定义View]的操作
+         *
+         * @param view
+         */
+        public void setToolbarCenterCustomView(View view) {
+            Message msg = obtainMessage(400);
+            msg.obj = view;
+            sendMessage(msg);
+        }
+
+        /**
+         * 发起[设置Toolbar左边自定义View]的操作
+         *
+         * @param view
+         */
+        public void setToolbarLeftCustomView(View view) {
+            Message msg = obtainMessage(401);
+            msg.obj = view;
+            sendMessage(msg);
+        }
+
+        /**
+         * 发起[设置Toolbar右边自定义View]的操作
+         *
+         * @param view
+         */
+        public void setToolbarRightCustomView(View view) {
+            Message msg = obtainMessage(410);
+            msg.obj = view;
+            sendMessage(msg);
+        }
+
+        /**
+         * 发起[设置Toolbar-BottomLine是否显示]的操作
+         *
+         * @param show
+         */
+        public void setToolbarBottomLineVisibility(boolean show) {
+            Message msg = obtainMessage(500);
+            msg.obj = show;
+            sendMessage(msg);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 100:
+                    updateLayoutWithToolbarTypeCore();
+                    break;
+                case 200:
+                    setToolbarBackgroundCore((Drawable) msg.obj);
+                    break;
+                case 300:
+                    setToolbarCenterTitleCore((CharSequence) msg.obj, msg.arg1, msg.arg2);
+                    break;
+                case 400:
+                    setToolbarCenterCustomViewCore((View) msg.obj);
+                    break;
+                case 401:
+                    setToolbarLeftCustomViewCore((View) msg.obj);
+                    break;
+                case 410:
+                    setToolbarRightCustomViewCore((View) msg.obj);
+                    break;
+                case 500:
+                    setToolbarBottomLineVisibilityCore((boolean) msg.obj);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     @Override
@@ -1280,16 +1580,20 @@ public class BaseActivity extends AppCompatActivity
         }
     }
 
+
     /**
      * 获得Toolbar的高度
+     *
      * @return
      */
     public int getToolbarHeight() {
         return mToolbarHeight;
     }
 
+
     /**
      * 根据手机的分辨率dp单位转为px像素
+     *
      * @param dp
      * @return
      */
@@ -1298,14 +1602,18 @@ public class BaseActivity extends AppCompatActivity
         return (int) (dp * scale + 0.5f);
     }
 
+
     public void onKeyBoardOpen(int heightDiff) {
     }
+
 
     public void onKeyBoardClose() {
     }
 
+
     /**
      * 设置Toolbar的高度
+     *
      * @param toolbarHeight
      */
     public void setToolbarHeight(int toolbarHeight) {
@@ -1314,193 +1622,6 @@ public class BaseActivity extends AppCompatActivity
         params.height = toolbarHeight;
         mToolbar.setLayoutParams(params);
         mToolbar.setMinimumHeight(toolbarHeight);
-    }
-
-
-    /**
-     * 定义了显示加载提示框的类型
-     * TOP  : 页面上边简单非模态提示
-     * FULL : 全屏模态提示
-     */
-    public static enum LoadingType {
-        TOP,    // 页面上边简单非模态提示
-        BOTTOM, // 页面下边简单非模态提示
-        FULL,   // 全屏模态提示
-    }
-
-
-    /**
-     * 定义了Toolbar的显示位置
-     * HIDE  : 不显示Toolbar
-     * TOP   : Toolbar显示在Container上面,处于同一水平高度
-     * FLOAT : Toolbar悬浮在Container上面,在不同水平高度
-     */
-    public static enum ToolbarType {
-        HIDE,  // 不显示Toolbar
-        TOP,   // Toolbar显示在Container上面,处于同一水平高度
-        FLOAT, // Toolbar悬浮在Container上面,在不同水平高度
-    }
-
-    // =========================================================
-    // Network Status
-    private static class NetworkStatusReceiver extends BroadcastReceiver {
-        private SoftReference<BaseActivity> mActivity;
-
-        /**
-         * 实例化广播接收器,并将其注册到activity上
-         * @param activity
-         */
-        public NetworkStatusReceiver(BaseActivity activity) {
-            mActivity = new SoftReference<>(activity);
-            // 注册该广播接收器
-            register();
-        }
-
-        private void register() {
-            BaseActivity activity = mActivity.get();
-            if (activity != null) {
-                IntentFilter filter = new IntentFilter();
-                filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-                activity.registerReceiver(this, filter);
-            }
-        }
-
-        /**
-         * 解注册该广播接收器
-         */
-        public void unregister() {
-            BaseActivity activity = mActivity.get();
-            if (activity != null) {
-                activity.unregisterReceiver(this);
-            }
-        }
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            ConnectivityManager cm = (ConnectivityManager) context
-                    .getSystemService(Context.CONNECTIVITY_SERVICE);
-            @SuppressLint("MissingPermission")
-            NetworkInfo info = cm.getActiveNetworkInfo();
-            if (info != null && info.isConnected()) {
-                BaseActivity activity = mActivity.get();
-                if (activity != null) {
-                    activity.onNetworkConnectedCore(info.getType());
-                }
-            } else {
-                BaseActivity activity = mActivity.get();
-                if (activity != null) {
-                    activity.onNetworkDisconnectedCore();
-                }
-            }
-        }
-    }
-
-    // =========================================================
-    // UIHandler
-    private class UIHandler extends Handler {
-        public UIHandler(Looper looper) {
-            super(looper);
-        }
-
-        /**
-         * 发起[根据当前的ToolbarType更新为对应的布局]的操作
-         */
-        public void updateLayoutWithToolbarType() {
-            sendEmptyMessage(100);
-        }
-
-        /**
-         * 发起[设置Toolbar的背景]的操作
-         * @param background
-         */
-        public void setToolbarBackground(Drawable background) {
-            Message msg = obtainMessage(200);
-            msg.obj = background;
-            sendMessage(msg);
-        }
-
-        /**
-         * 发起[设置Toolbar中心标题]的操作
-         * @param title
-         * @param color
-         * @param size
-         */
-        public void setToolbarCenterTitle(CharSequence title, int color, int size) {
-            Message msg = obtainMessage(300);
-            msg.obj = title;
-            msg.arg1 = color;
-            msg.arg2 = size;
-            sendMessage(msg);
-        }
-
-        /**
-         * 发起[设置Toolbar中心自定义View]的操作
-         * @param view
-         */
-        public void setToolbarCenterCustomView(View view) {
-            Message msg = obtainMessage(400);
-            msg.obj = view;
-            sendMessage(msg);
-        }
-
-        /**
-         * 发起[设置Toolbar左边自定义View]的操作
-         * @param view
-         */
-        public void setToolbarLeftCustomView(View view) {
-            Message msg = obtainMessage(401);
-            msg.obj = view;
-            sendMessage(msg);
-        }
-
-        /**
-         * 发起[设置Toolbar右边自定义View]的操作
-         * @param view
-         */
-        public void setToolbarRightCustomView(View view) {
-            Message msg = obtainMessage(410);
-            msg.obj = view;
-            sendMessage(msg);
-        }
-
-        /**
-         * 发起[设置Toolbar-BottomLine是否显示]的操作
-         * @param show
-         */
-        public void setToolbarBottomLineVisibility(boolean show) {
-            Message msg = obtainMessage(500);
-            msg.obj = show;
-            sendMessage(msg);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case 100:
-                    updateLayoutWithToolbarTypeCore();
-                    break;
-                case 200:
-                    setToolbarBackgroundCore((Drawable) msg.obj);
-                    break;
-                case 300:
-                    setToolbarCenterTitleCore((CharSequence) msg.obj, msg.arg1, msg.arg2);
-                    break;
-                case 400:
-                    setToolbarCenterCustomViewCore((View) msg.obj);
-                    break;
-                case 401:
-                    setToolbarLeftCustomViewCore((View) msg.obj);
-                    break;
-                case 410:
-                    setToolbarRightCustomViewCore((View) msg.obj);
-                    break;
-                case 500:
-                    setToolbarBottomLineVisibilityCore((boolean) msg.obj);
-                    break;
-                default:
-                    break;
-            }
-        }
     }
 
 

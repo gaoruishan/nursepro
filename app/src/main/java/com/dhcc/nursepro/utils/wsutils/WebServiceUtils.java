@@ -2,7 +2,7 @@ package com.dhcc.nursepro.utils.wsutils;
 
 import com.base.commlibs.wsutils.BaseWebServiceUtils;
 import com.blankj.utilcode.util.SPUtils;
-import com.dhcc.nursepro.constant.SharedPreference;
+import com.base.commlibs.constant.SharedPreference;
 
 import java.util.HashMap;
 

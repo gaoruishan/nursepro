@@ -1,8 +1,7 @@
 package com.dhcc.nursepro.config.api;
 
 import com.blankj.utilcode.util.SPUtils;
-import com.dhcc.nursepro.config.NurseConfig;
-import com.dhcc.nursepro.constant.SharedPreference;
+import com.base.commlibs.constant.SharedPreference;
 import com.dhcc.nursepro.utils.wsutils.WebServiceUtils;
 
 import java.util.HashMap;

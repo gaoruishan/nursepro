@@ -5,17 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.dhcc.nursepro.BaseActivity;
-import com.dhcc.nursepro.BaseFragment;
+import com.base.commlibs.BaseActivity;
+import com.base.commlibs.BaseFragment;
+import com.base.commlibs.constant.Action;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.constant.Action;
-
-import java.util.Objects;
 
 /**
  * DrugReviewFragment
@@ -60,8 +57,8 @@ public class DrugReviewFragment extends BaseFragment {
     @Override
     public void getScanMsg(Intent intent) {
         super.getScanMsg(intent);
-        switch (Objects.requireNonNull(intent.getAction())) {
-            case Action.DEVICE_SCAN_CODE:
+        if (Action.DEVICE_SCAN_CODE.equals(intent.getAction())) {
+
                 Bundle bundle = new Bundle();
                 bundle = intent.getExtras();
                 String scanInfo = bundle.getString("data");
@@ -78,9 +75,7 @@ public class DrugReviewFragment extends BaseFragment {
                 //                        showToast("error" + code + ":" + msg);
                 //                    }
                 //                });
-                break;
-            default:
-                break;
+
         }
     }
 

@@ -1,7 +1,6 @@
 package com.dhcc.nursepro.workarea.milkloopsystem.milkbottling;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -19,12 +18,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.base.commlibs.BaseActivity;
+import com.base.commlibs.BaseFragment;
+import com.base.commlibs.constant.Action;
+import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
-import com.dhcc.nursepro.BaseActivity;
-import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.constant.Action;
-import com.dhcc.nursepro.constant.SharedPreference;
 import com.dhcc.nursepro.workarea.milkloopsystem.MilkOperateResultDialog;
 import com.dhcc.nursepro.workarea.milkloopsystem.api.MilkLoopApiManager;
 import com.dhcc.nursepro.workarea.milkloopsystem.bean.MilkBottlingInfoBean;
@@ -32,7 +31,6 @@ import com.dhcc.nursepro.workarea.milkloopsystem.bean.MilkOperatResultBean;
 import com.dhcc.nursepro.workarea.milkloopsystem.bean.MilkReceiveBagInfoBean;
 
 import java.util.HashMap;
-import java.util.Objects;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
@@ -327,8 +325,7 @@ public class MilkBottlingFragment extends BaseFragment implements View.OnClickLi
     @Override
     public void getScanMsg(Intent intent) {
         super.getScanMsg(intent);
-        switch (Objects.requireNonNull(intent.getAction())) {
-            case Action.DEVICE_SCAN_CODE:
+        if (Action.DEVICE_SCAN_CODE.equals(intent.getAction())) {
                 Bundle bundle = new Bundle();
                 bundle = intent.getExtras();
                 if (patInfo == "") {
@@ -336,9 +333,7 @@ public class MilkBottlingFragment extends BaseFragment implements View.OnClickLi
                 } else if (bottleCode == "") {
                     getBottlingInfo(bundle.getString("data"));
                 }
-                break;
-            default:
-                break;
+
         }
     }
 

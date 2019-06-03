@@ -10,12 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.base.commlibs.BaseActivity;
+import com.base.commlibs.BaseFragment;
+import com.base.commlibs.constant.Action;
+import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
-import com.dhcc.nursepro.BaseActivity;
-import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.constant.Action;
-import com.dhcc.nursepro.constant.SharedPreference;
 import com.dhcc.nursepro.workarea.nurrecord.adapter.NurRecordMenuListAdapter;
 import com.dhcc.nursepro.workarea.nurrecord.api.NurRecordManager;
 import com.dhcc.nursepro.workarea.nurrecord.bean.NurRecordModelListBean;
@@ -24,7 +24,6 @@ import com.dhcc.nursepro.workarea.nurrecord.bean.ScanResultBean;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * com.dhcc.nursepro.workarea.nurrecord
@@ -44,16 +43,13 @@ public class NurRecordModellistFragmen extends BaseFragment {
     @Override
     public void getScanMsg(Intent intent) {
         super.getScanMsg(intent);
-        switch (Objects.requireNonNull(intent.getAction())) {
-            case Action.DEVICE_SCAN_CODE:
+        if (Action.DEVICE_SCAN_CODE.equals(intent.getAction())) {
+
                 Bundle bundle = new Bundle();
                 bundle = intent.getExtras();
                 scanInfo = bundle.getString("data");
                 getScanInfo();
 
-                break;
-            default:
-                break;
         }
 
     }

@@ -12,15 +12,12 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.dhcc.nursepro.BaseActivity;
-import com.dhcc.nursepro.BaseFragment;
+import com.base.commlibs.BaseActivity;
+import com.base.commlibs.BaseFragment;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.checkresult.adapter.CheckPatListAdapter;
 import com.dhcc.nursepro.workarea.checkresult.api.CheckApiManager;
 import com.dhcc.nursepro.workarea.checkresult.bean.CheckPatsListBean;
-import com.dhcc.nursepro.workarea.labresult.LabResultListFragment;
-import com.dhcc.nursepro.workarea.labresult.api.LabApiManager;
-import com.dhcc.nursepro.workarea.labresult.bean.PatsListBean;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,6 +1,5 @@
 package com.dhcc.nursepro.workarea.orderexecute.adapter;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,7 +9,7 @@ import android.widget.LinearLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.dhcc.nursepro.BaseActivity;
+import com.base.commlibs.BaseActivity;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.orderexecute.OrderInfoDetailFragment;
 import com.dhcc.nursepro.workarea.orderexecute.bean.OrderExecuteBean;

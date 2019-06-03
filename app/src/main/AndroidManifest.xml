@@ -35,12 +35,12 @@
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".UniversalActivity"
+            android:name="com.base.commlibs.UniversalActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|locale|layoutDirection"
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Slide" />
-        <activity android:name=".BaseActivity" />
+        <activity android:name="com.base.commlibs.BaseActivity" />
 
         <activity
             android:name=".Activity.NurseSetActivity"

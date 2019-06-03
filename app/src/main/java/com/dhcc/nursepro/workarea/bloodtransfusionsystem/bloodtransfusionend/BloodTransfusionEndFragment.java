@@ -1,7 +1,6 @@
 package com.dhcc.nursepro.workarea.bloodtransfusionsystem.bloodtransfusionend;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -17,18 +16,16 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.base.commlibs.BaseActivity;
+import com.base.commlibs.BaseFragment;
+import com.base.commlibs.constant.Action;
 import com.blankj.utilcode.util.SPUtils;
-import com.dhcc.nursepro.BaseActivity;
-import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.constant.Action;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.BloodOperationResultDialog;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.api.BloodTSApiManager;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bean.BloodInfoBean;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bean.BloodOperationResultBean;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bean.PatWristInfoBean;
-
-import java.util.Objects;
 
 /**
  * BloodTransfusionEndFragment
@@ -309,8 +306,7 @@ public class BloodTransfusionEndFragment extends BaseFragment {
     @Override
     public void getScanMsg(Intent intent) {
         super.getScanMsg(intent);
-        switch (Objects.requireNonNull(intent.getAction())) {
-            case Action.DEVICE_SCAN_CODE:
+        if (Action.DEVICE_SCAN_CODE.equals(intent.getAction())) {
                 Bundle bundle = new Bundle();
                 bundle = intent.getExtras();
                 String dataStr = bundle.getString("data");
@@ -336,9 +332,6 @@ public class BloodTransfusionEndFragment extends BaseFragment {
                     showdialog();
                 }
 
-                break;
-            default:
-                break;
         }
 
     }

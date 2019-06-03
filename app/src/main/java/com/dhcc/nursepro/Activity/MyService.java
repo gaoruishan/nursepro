@@ -17,7 +17,7 @@ import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.constant.Action;
+import com.base.commlibs.constant.Action;
 
 public class MyService extends Service {
     private Vibrator vibrator;

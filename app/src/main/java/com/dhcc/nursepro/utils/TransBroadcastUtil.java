@@ -7,7 +7,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 
 import com.blankj.utilcode.util.StringUtils;
-import com.dhcc.nursepro.constant.Action;
+import com.base.commlibs.constant.Action;
 import com.dhcc.nursepro.login.bean.BroadCastListBean;
 
 import java.util.List;

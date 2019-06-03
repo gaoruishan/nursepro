@@ -1,9 +1,6 @@
 package com.dhcc.nursepro.workarea.motherbabylink;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,11 +12,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.SPUtils;
-import com.dhcc.nursepro.BaseActivity;
-import com.dhcc.nursepro.BaseFragment;
+import com.base.commlibs.BaseActivity;
+import com.base.commlibs.BaseFragment;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.constant.Action;
-import com.dhcc.nursepro.constant.SharedPreference;
+import com.base.commlibs.constant.Action;
+import com.base.commlibs.constant.SharedPreference;
 import com.dhcc.nursepro.workarea.motherbabylink.api.LinkApiManager;
 import com.dhcc.nursepro.workarea.motherbabylink.bean.LinkResultBean;
 import com.dhcc.nursepro.workarea.motherbabylink.bean.ScanMotherInfoBean;

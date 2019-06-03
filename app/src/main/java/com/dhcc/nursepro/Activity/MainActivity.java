@@ -21,7 +21,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.NotificationCompat;
 import android.view.KeyEvent;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
@@ -33,29 +32,24 @@ import com.allenliu.versionchecklib.v2.builder.DownloadBuilder;
 import com.allenliu.versionchecklib.v2.builder.UIData;
 import com.allenliu.versionchecklib.v2.callback.CustomDownloadFailedListener;
 import com.allenliu.versionchecklib.v2.callback.CustomVersionDialogListener;
+import com.base.commlibs.BaseActivity;
+import com.base.commlibs.constant.Action;
+import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.nursepro.Activity.update.BaseDialog;
 import com.dhcc.nursepro.Activity.update.api.UpdateApiManager;
 import com.dhcc.nursepro.Activity.update.bean.UpdateBean;
-import com.dhcc.nursepro.BaseActivity;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.constant.Action;
-import com.dhcc.nursepro.constant.SharedPreference;
 import com.dhcc.nursepro.message.MessageFragment;
 import com.dhcc.nursepro.message.api.MessageApiManager;
 import com.dhcc.nursepro.message.bean.MessageBean;
 import com.dhcc.nursepro.setting.SettingFragment;
-import com.dhcc.nursepro.utils.wsutils.WebServiceUtils;
 import com.dhcc.nursepro.workarea.MServiceNewOrd;
 import com.dhcc.nursepro.workarea.WorkareaFragment;
-import com.dhcc.nursepro.workarea.orderexecute.OrderExecOrderDialog;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 public class MainActivity extends BaseActivity implements RadioButton.OnCheckedChangeListener {
 
@@ -552,14 +546,9 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
     public class MainReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            switch (Objects.requireNonNull(intent.getAction())) {
-                case Action.NEWMESSAGE_SERVICE:
-                    notifyMessage();
-                    break;
-                default:
-                    break;
+            if (Action.NEWMESSAGE_SERVICE.equals(intent.getAction())) {
+                notifyMessage();
             }
-
         }
     }
 

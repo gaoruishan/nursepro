@@ -19,18 +19,18 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.base.commlibs.BaseActivity;
+import com.base.commlibs.BaseFragment;
+import com.base.commlibs.base.BasePushDialog;
+import com.base.commlibs.constant.Action;
+import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.dhcc.nursepro.BaseActivity;
-import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.common.BasePushDialog;
-import com.dhcc.nursepro.constant.Action;
-import com.dhcc.nursepro.constant.SharedPreference;
 import com.dhcc.nursepro.utils.DialogFactory;
 import com.dhcc.nursepro.workarea.orderexecute.adapter.OrderExecuteOrderTypeAdapter;
 import com.dhcc.nursepro.workarea.orderexecute.adapter.OrderExecutePatientOrderAdapter;
@@ -46,7 +46,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * OrderExecuteFragment
@@ -957,33 +956,33 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     @Override
     public void getScanMsg(Intent intent) {
         super.getScanMsg(intent);
-        switch (Objects.requireNonNull(intent.getAction())) {
-            case Action.ORDER_HANDLE_ACCEPT:
-                basePushDialog.dismiss();
-                tvBottomHandletype.setText("接受");
-                handleCode = "A";
-                break;
-            case Action.ORDER_HANDLE_REFUSE:
-                basePushDialog.dismiss();
-                tvBottomHandletype.setText("拒绝");
-                handleCode = "R";
-                break;
-            case Action.ORDER_HANDLE_COMPLETE:
-                basePushDialog.dismiss();
-                tvBottomHandletype.setText("完成");
-                handleCode = "S";
-                break;
-            case Action.SKIN_TEST_YANG:
-                basePushDialog.dismiss();
-                tvBottomHandletype.setText("阳性");
-                handleCode = "Y";
-                break;
-            case Action.SKIN_TEST_YIN:
-                basePushDialog.dismiss();
-                tvBottomHandletype.setText("阴性");
-                handleCode = "N";
-                break;
-            case Action.DEVICE_SCAN_CODE:
+        if (Action.ORDER_HANDLE_ACCEPT.equals(intent.getAction())) {
+
+            basePushDialog.dismiss();
+            tvBottomHandletype.setText("接受");
+            handleCode = "A";
+        }
+        if (Action.ORDER_HANDLE_REFUSE.equals(intent.getAction())) {
+            basePushDialog.dismiss();
+            tvBottomHandletype.setText("拒绝");
+            handleCode = "R";
+        }
+        if (Action.ORDER_HANDLE_COMPLETE.equals(intent.getAction())) {
+            basePushDialog.dismiss();
+            tvBottomHandletype.setText("完成");
+            handleCode = "S";
+        }
+        if (Action.SKIN_TEST_YANG.equals(intent.getAction())) {
+            basePushDialog.dismiss();
+            tvBottomHandletype.setText("阳性");
+            handleCode = "Y";
+        }
+        if (Action.SKIN_TEST_YIN.equals(intent.getAction())) {
+            basePushDialog.dismiss();
+            tvBottomHandletype.setText("阴性");
+            handleCode = "N";
+        }
+        if (Action.DEVICE_SCAN_CODE.equals(intent.getAction())) {
                 Bundle bundle = new Bundle();
                 bundle = intent.getExtras();
                 scanInfo = bundle.getString("data");
@@ -991,9 +990,6 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 if (execResultDialog != null && execResultDialog.isShowing()) {
                     execResultDialog.dismiss();
                 }
-                break;
-            default:
-                break;
         }
 
     }

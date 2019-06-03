@@ -42,4 +42,7 @@ public class Action {
     public static final String NEWMESSAGE_SERVICE = appName+".newmessage.Action";
 
 
+    //护理巡视巡视记录点击
+    public static final String TOUR_DOSINGID = appName+".tour_dosing";
+
 }

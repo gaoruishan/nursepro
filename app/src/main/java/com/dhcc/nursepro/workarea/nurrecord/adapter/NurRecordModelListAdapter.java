@@ -2,14 +2,11 @@ package com.dhcc.nursepro.workarea.nurrecord.adapter;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.nurrecord.bean.NurRecordModelListBean;
-import com.dhcc.nursepro.workarea.vitalsign.VitalSignFragment;
 
 import java.util.List;
 

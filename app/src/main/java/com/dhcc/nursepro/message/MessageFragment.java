@@ -14,15 +14,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.base.commlibs.BaseActivity;
+import com.base.commlibs.BaseFragment;
 import com.base.commlibs.MessageEvent;
+import com.base.commlibs.constant.Action;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.RecyclerViewHelper;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.dhcc.nursepro.BaseActivity;
-import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.constant.Action;
 import com.dhcc.nursepro.message.adapter.MessageAbnormalAdapter;
 import com.dhcc.nursepro.message.adapter.MessageConsultationAdapter;
 import com.dhcc.nursepro.message.adapter.MessageNewOrderAdapter;
@@ -37,7 +37,6 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * MessageFragment
@@ -126,13 +125,10 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
     @Override
     public void getScanMsg(Intent intent) {
         super.getScanMsg(intent);
-        switch (Objects.requireNonNull(intent.getAction())) {
-            case Action.NEWMESSAGE_SERVICE:
-                initData();
-            default:
-                break;
-
+        if (Action.NEWMESSAGE_SERVICE.equals(intent.getAction())) {
+            initData();
         }
+
     }
 
     @Override

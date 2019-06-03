@@ -1,6 +1,5 @@
 package com.dhcc.nursepro.workarea.milkloopsystem.milkfreezing;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -14,13 +13,13 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.base.commlibs.BaseActivity;
+import com.base.commlibs.BaseFragment;
+import com.base.commlibs.constant.Action;
+import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.dhcc.nursepro.BaseActivity;
-import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.constant.Action;
-import com.dhcc.nursepro.constant.SharedPreference;
 import com.dhcc.nursepro.workarea.milkloopsystem.MilkOperateResultDialog;
 import com.dhcc.nursepro.workarea.milkloopsystem.adapter.MilkFreezingScanedAdapter;
 import com.dhcc.nursepro.workarea.milkloopsystem.api.MilkLoopApiManager;
@@ -30,7 +29,6 @@ import com.dhcc.nursepro.workarea.milkloopsystem.bean.MilkOperatResultBean;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * com.dhcc.nursepro.workarea.milkloopsystem.MilkReceive
@@ -210,8 +208,7 @@ public class MilkFreezingFragment extends BaseFragment implements View.OnClickLi
     @Override
     public void getScanMsg(Intent intent) {
         super.getScanMsg(intent);
-        switch (Objects.requireNonNull(intent.getAction())) {
-            case Action.DEVICE_SCAN_CODE:
+        if (Action.DEVICE_SCAN_CODE.equals(intent.getAction())) {
                 Bundle bundle = new Bundle();
                 bundle = intent.getExtras();
                 bagNo = bundle.getString("data");
@@ -222,9 +219,7 @@ public class MilkFreezingFragment extends BaseFragment implements View.OnClickLi
                     }
                 }
                 initBag(bagNo);
-                break;
-            default:
-                break;
+
         }
 
     }

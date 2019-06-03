@@ -1,7 +1,5 @@
 package com.dhcc.nursepro.setting.api;
 
-import com.blankj.utilcode.util.SPUtils;
-import com.dhcc.nursepro.constant.SharedPreference;
 import com.dhcc.nursepro.utils.wsutils.WebServiceUtils;
 import com.dhcc.nursepro.workarea.bedselect.api.BedListApiService;
 

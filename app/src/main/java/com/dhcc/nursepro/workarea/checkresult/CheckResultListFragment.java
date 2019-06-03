@@ -11,10 +11,10 @@ import android.widget.LinearLayout;
 
 import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.dhcc.nursepro.BaseActivity;
-import com.dhcc.nursepro.BaseFragment;
+import com.base.commlibs.BaseActivity;
+import com.base.commlibs.BaseFragment;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.constant.SharedPreference;
+import com.base.commlibs.constant.SharedPreference;
 import com.dhcc.nursepro.workarea.checkresult.adapter.CheckResultListAdapter;
 import com.dhcc.nursepro.workarea.checkresult.api.CheckApiManager;
 import com.dhcc.nursepro.workarea.checkresult.api.ShowMsgDialog;

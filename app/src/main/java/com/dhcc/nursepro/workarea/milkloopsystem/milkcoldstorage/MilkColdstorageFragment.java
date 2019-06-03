@@ -1,9 +1,6 @@
 package com.dhcc.nursepro.workarea.milkloopsystem.milkcoldstorage;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,13 +13,13 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.base.commlibs.BaseActivity;
+import com.base.commlibs.BaseFragment;
+import com.base.commlibs.constant.Action;
+import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.dhcc.nursepro.BaseActivity;
-import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.constant.Action;
-import com.dhcc.nursepro.constant.SharedPreference;
 import com.dhcc.nursepro.workarea.milkloopsystem.MilkOperateResultDialog;
 import com.dhcc.nursepro.workarea.milkloopsystem.adapter.MilkColdScanedAdapter;
 import com.dhcc.nursepro.workarea.milkloopsystem.api.MilkLoopApiManager;
@@ -32,7 +29,6 @@ import com.dhcc.nursepro.workarea.milkloopsystem.bean.MilkOperatResultBean;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * com.dhcc.nursepro.workarea.milkloopsystem.MilkReceive
@@ -211,8 +207,7 @@ public class MilkColdstorageFragment extends BaseFragment implements View.OnClic
     @Override
     public void getScanMsg(Intent intent) {
         super.getScanMsg(intent);
-        switch (Objects.requireNonNull(intent.getAction())) {
-            case Action.DEVICE_SCAN_CODE:
+        if (Action.DEVICE_SCAN_CODE.equals(intent.getAction())) {
                 Bundle bundle = new Bundle();
                 bundle = intent.getExtras();
                 bottleNo = bundle.getString("data");
@@ -223,9 +218,6 @@ public class MilkColdstorageFragment extends BaseFragment implements View.OnClic
                     }
                 }
                 initBottle(bottleNo);
-                break;
-            default:
-                break;
         }
 
     }

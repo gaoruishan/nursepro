@@ -13,14 +13,14 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.base.commlibs.BaseActivity;
+import com.base.commlibs.BaseFragment;
+import com.base.commlibs.constant.Action;
+import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.dhcc.nursepro.BaseActivity;
-import com.dhcc.nursepro.BaseFragment;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.constant.Action;
-import com.dhcc.nursepro.constant.SharedPreference;
 import com.dhcc.nursepro.workarea.dosingreview.adapter.DosingReviewPatientAdapter;
 import com.dhcc.nursepro.workarea.dosingreview.api.DosingReviewApiManager;
 import com.dhcc.nursepro.workarea.dosingreview.bean.DosingReViewBean;
@@ -32,7 +32,6 @@ import com.jzxiang.pickerview.listener.OnDateSetListener;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * DosingReviewFragment
@@ -299,69 +298,65 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
     @Override
     public void getScanMsg(Intent intent) {
         super.getScanMsg(intent);
-        switch (Objects.requireNonNull(intent.getAction())) {
-            case Action.DOSING_REVIEW:
-                showLoadingTip(BaseActivity.LoadingType.FULL);
-                orderId = intent.getStringExtra("orderId");
-                pageNo = "1";
-                DosingReviewApiManager.getInfusionOrdListAfterCancel(infusionFlag, orderId, startDate, endDate, pageNo, new DosingReviewApiManager.DosingReviewCallback() {
-                    @Override
-                    public void onSuccess(DosingReViewBean dosingReViewBean) {
-                        hideLoadingTip();
+        if (Action.DOSING_REVIEW.equals(intent.getAction())) {
+            showLoadingTip(BaseActivity.LoadingType.FULL);
+            orderId = intent.getStringExtra("orderId");
+            pageNo = "1";
+            DosingReviewApiManager.getInfusionOrdListAfterCancel(infusionFlag, orderId, startDate, endDate, pageNo, new DosingReviewApiManager.DosingReviewCallback() {
+                @Override
+                public void onSuccess(DosingReViewBean dosingReViewBean) {
+                    hideLoadingTip();
 
-                        orders = dosingReViewBean.getOrders();
-                        patientAdapter.setNewData(orders);
-                        if (orders.size() == 0) {
-                            patientAdapter.loadMoreEnd();
-                        } else {
-                            patientAdapter.loadMoreComplete();
-                        }
-
-                        if (dosingReviewResultDialog != null && dosingReviewResultDialog.isShowing()) {
-                            dosingReviewResultDialog.dismiss();
-                        }
-                        dosingReviewResultDialog = new DosingReviewResultDialog(getActivity());
-                        dosingReviewResultDialog.setDRresult(dosingReViewBean.getMsg());
-                        dosingReviewResultDialog.setImgId(R.drawable.icon_popup_sucess);
-                        dosingReviewResultDialog.setSureVisible(View.GONE);
-                        dosingReviewResultDialog.setCancleVisible(View.GONE);
-                        dosingReviewResultDialog.show();
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                dosingReviewResultDialog.dismiss();
-                            }
-                        }, 1000);
-
+                    orders = dosingReViewBean.getOrders();
+                    patientAdapter.setNewData(orders);
+                    if (orders.size() == 0) {
+                        patientAdapter.loadMoreEnd();
+                    } else {
+                        patientAdapter.loadMoreComplete();
                     }
 
-                    @Override
-                    public void onFail(String code, String msg) {
-                        hideLoadingTip();
-                        if (dosingReviewResultDialog != null && dosingReviewResultDialog.isShowing()) {
+                    if (dosingReviewResultDialog != null && dosingReviewResultDialog.isShowing()) {
+                        dosingReviewResultDialog.dismiss();
+                    }
+                    dosingReviewResultDialog = new DosingReviewResultDialog(getActivity());
+                    dosingReviewResultDialog.setDRresult(dosingReViewBean.getMsg());
+                    dosingReviewResultDialog.setImgId(R.drawable.icon_popup_sucess);
+                    dosingReviewResultDialog.setSureVisible(View.GONE);
+                    dosingReviewResultDialog.setCancleVisible(View.GONE);
+                    dosingReviewResultDialog.show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
                             dosingReviewResultDialog.dismiss();
                         }
-                        dosingReviewResultDialog = new DosingReviewResultDialog(getActivity());
-                        dosingReviewResultDialog.setDRresult(msg);
-                        dosingReviewResultDialog.setImgId(R.drawable.icon_popup_error_patient);
-                        dosingReviewResultDialog.setSureVisible(View.VISIBLE);
-                        dosingReviewResultDialog.setCancleVisible(View.GONE);
-                        dosingReviewResultDialog.setSureOnclickListener(new DosingReviewResultDialog.onSureOnclickListener() {
-                            @Override
-                            public void onSureClick() {
-                                dosingReviewResultDialog.dismiss();
-                            }
-                        });
-                        dosingReviewResultDialog.show();
+                    }, 1000);
+
+                }
+
+                @Override
+                public void onFail(String code, String msg) {
+                    hideLoadingTip();
+                    if (dosingReviewResultDialog != null && dosingReviewResultDialog.isShowing()) {
+                        dosingReviewResultDialog.dismiss();
                     }
-                });
+                    dosingReviewResultDialog = new DosingReviewResultDialog(getActivity());
+                    dosingReviewResultDialog.setDRresult(msg);
+                    dosingReviewResultDialog.setImgId(R.drawable.icon_popup_error_patient);
+                    dosingReviewResultDialog.setSureVisible(View.VISIBLE);
+                    dosingReviewResultDialog.setCancleVisible(View.GONE);
+                    dosingReviewResultDialog.setSureOnclickListener(new DosingReviewResultDialog.onSureOnclickListener() {
+                        @Override
+                        public void onSureClick() {
+                            dosingReviewResultDialog.dismiss();
+                        }
+                    });
+                    dosingReviewResultDialog.show();
+                }
+            });
 
-                //
+        }
 
-
-                break;
-
-            case Action.DEVICE_SCAN_CODE:
+            if (Action.DEVICE_SCAN_CODE.equals(intent.getAction())) {
 
                 showLoadingTip(BaseActivity.LoadingType.FULL);
                 Bundle bundle = new Bundle();
@@ -457,9 +452,6 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
                         dosingReviewResultDialog.show();
                     }
                 });
-                break;
-            default:
-                break;
         }
 
     }
