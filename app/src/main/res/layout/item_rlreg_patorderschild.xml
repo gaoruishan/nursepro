@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <TextView
-        android:id="@+id/tv_drugorder_cname"
+        android:id="@+id/tv_rlreg_cname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#101010"
+        android:textColor="@drawable/textcolor_item_rlregorder_selector"
         android:textSize="15sp"
         android:textStyle="bold"
-        tools:text="氯化钠注射液"/>
+        tools:text="氯化钠注射液" />
 
     <TextView
-        android:id="@+id/tv_drugorder_cdose"
+        android:id="@+id/tv_rlreg_cdose"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#101010"
-        tools:text="10mg"/>
+        android:textColor="@drawable/textcolor_item_rlregorder_selector"
+        tools:text="10mg" />
 </LinearLayout>

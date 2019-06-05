@@ -102,7 +102,9 @@ public class DrugHandoverFragment extends BaseFragment {
      * 加载已交接药品列表
      */
     private void asyncInitData() {
+        showLoadingTip(BaseActivity.LoadingType.FULL);
         showToast("获取列表。。。");
+        hideLoadingTip();
     }
 
     private void initView(View view) {
@@ -385,6 +387,7 @@ public class DrugHandoverFragment extends BaseFragment {
                         refreshBottom();
                     } else {
                         barCode = scanInfo;
+                        showLoadingTip(BaseActivity.LoadingType.FULL);
                         DrugHandoverApiManager.getOrdListByBarCode(barCode, new DrugHandoverApiManager.DrugHandoverScanOrderListCallback() {
                             @Override
                             public void onSuccess(DrugHandOverScanOrderList scanOrderList) {
@@ -398,6 +401,7 @@ public class DrugHandoverFragment extends BaseFragment {
                                         ordListBeanList.get(i).setScan(true);
                                     }
                                 }
+                                hideLoadingTip();
                                 scanOrderAdapter.setNewData(ordListBeanList);
                                 refreshBottom();
                                 llDrughandoverScan.setVisibility(View.VISIBLE);
@@ -406,6 +410,7 @@ public class DrugHandoverFragment extends BaseFragment {
 
                             @Override
                             public void onFail(String code, String msg) {
+                                hideLoadingTip();
                                 showToast("error" + code + ":" + msg);
                             }
                         });

@@ -121,6 +121,8 @@ public class WorkareaFragment extends BaseFragment {
      * ("MOTHERBABYLINK");//母婴关联
      * ("MODELDETAIL");//护理病历
      * ("NURTOUR");//巡视
+     * ("DRUGHANDOVER");//药品交接
+     * ("RLREG");//余液登记
      */
     public void itemClick(String itemName) {
         switch (itemName) {
@@ -189,8 +191,7 @@ public class WorkareaFragment extends BaseFragment {
 
     public class WorkAreaAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
         public WorkAreaAdapter(@Nullable List<String> data) {
-            super(R.layout.item_workarea,
-                    data);
+            super(R.layout.item_workarea, data);
         }
 
         @Override

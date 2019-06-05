@@ -105,6 +105,7 @@ public class BaseFragment extends Fragment {
         mfilter.addAction(Action.SKIN_TEST_YIN);
         mfilter.addAction(Action.DOSING_REVIEW);
         mfilter.addAction(Action.TOUR_DOSINGID);
+        mfilter.addAction(Action.DRUG_RLREG);
     }
 
     /**

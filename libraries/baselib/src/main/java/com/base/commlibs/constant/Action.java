@@ -34,15 +34,16 @@ public class Action {
     //阴性
     public static final String SKIN_TEST_YIN = appName+".skin.test.negative.Action";
 
-
     //配液复核
     public static final String DOSING_REVIEW = appName+".dosingreview.Action";
 
     //新消息更新
     public static final String NEWMESSAGE_SERVICE = appName+".newmessage.Action";
 
-
     //护理巡视巡视记录点击
     public static final String TOUR_DOSINGID = appName+".tour_dosing";
+
+    //余液登记
+    public static final String DRUG_RLREG = "com.dhcc.nursepro.drug_rlreg.Action";
 
 }

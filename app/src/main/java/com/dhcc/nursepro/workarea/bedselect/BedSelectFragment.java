@@ -142,6 +142,7 @@ public class BedSelectFragment extends BaseFragment {
     }
 
     private void initData() {
+        showLoadingTip(BaseActivity.LoadingType.FULL);
         BedListApiManager.getBedList(new BedListApiManager.GetBedListCallback() {
             @Override
             public void onSuccess(BedSelectListBean bedSelectListBean) {
@@ -149,12 +150,14 @@ public class BedSelectFragment extends BaseFragment {
                 for (int i = 0; i < bedList.size(); i++) {
                     bedList.get(i).setSelect("0");
                 }
+                hideLoadingTip();
                 bedGroupListAdapter.setNewData(bedList);
 
             }
 
             @Override
             public void onFail(String code, String msg) {
+                hideLoadingTip();
                 showToast("error" + code + ":" + msg);
             }
         });
