@@ -29,6 +29,7 @@ import com.dhcc.nursepro.workarea.vitalsign.api.VitalSignApiManager;
 import com.dhcc.nursepro.workarea.vitalsigndetail.VitalSignDetailFragment;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.core.ImagePipeline;
+import com.google.gson.Gson;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
@@ -137,16 +138,21 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
 
-                Map patientInfo = (Map) displayList.get(position);
+                Map patientInfo = displayList.get(position);
 
                 if (view.getId() == R.id.tv_vitalsign_vitalsign_record) {
                     //体征录入
+
+                    //将列表数据存储在sp，避免Intent传输数据过大报错
+                    Gson gson = new Gson();
+                    String  displayListJsonStr = gson.toJson(displayList);
+                    spUtils.put(SharedPreference.DISPLAYLIST, displayListJsonStr);
+
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("info", (Serializable) patientInfo);
                     bundle.putString("time", timeFilterStr);
                     bundle.putString("date", dateFilterStr);
                     bundle.putInt("index", position);
-                    bundle.putSerializable("list", (Serializable) displayList);
                     bundle.putSerializable("timeList", (Serializable) timeFilterList);
 
                     startFragment(VitalSignRecordFragment.class, bundle);
@@ -169,13 +175,6 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                     String episodeId = (String) patientInfo.get("episodeId");
                     Bundle bundle = new Bundle();
                     bundle.putString("episodeId", episodeId);
-
-                    bundle.putSerializable("info", (Serializable) patientInfo);
-                    bundle.putString("time", timeFilterStr);
-                    bundle.putString("date", dateFilterStr);
-                    bundle.putInt("index", position);
-                    bundle.putSerializable("list", (Serializable) patientList);
-                    bundle.putSerializable("timeList", (Serializable) timeFilterList);
 
                     startFragment(VitalSignDetailFragment.class, bundle);
 

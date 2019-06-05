@@ -56,5 +56,8 @@ public class SharedPreference {
     public static final String WINDOWS = "WINDOWS";
     public static final String DEFAULTWINDOW = "DEFAULTWINDOW";
 
+    //生命体征列表
+    public static final String DISPLAYLIST = "DISPLAYLIST";
+
 
 }

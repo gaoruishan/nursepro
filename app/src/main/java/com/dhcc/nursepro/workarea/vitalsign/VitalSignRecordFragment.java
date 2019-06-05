@@ -17,10 +17,12 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.ConvertUtils;
-import com.blankj.utilcode.util.TimeUtils;
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
+import com.base.commlibs.constant.SharedPreference;
+import com.blankj.utilcode.util.ConvertUtils;
+import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.TimeUtils;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.uiplugs.OptionView;
 import com.dhcc.nursepro.utils.KeyBoardUtil;
@@ -28,6 +30,7 @@ import com.dhcc.nursepro.workarea.vitalsign.api.VitalSignApiManager;
 import com.dhcc.nursepro.workarea.vitalsign.bean.VitalSignRecordBean;
 import com.dhcc.nursepro.workarea.vitalsign.bean.VitalSignSaveBean;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
@@ -58,7 +61,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
 
     private VitalSignRecordBean recordInfo;
 
-    private List patientList =new ArrayList<>();
+    private List<Map<String, Object>> patientList;
 
     private int patientIndex;
 
@@ -66,7 +69,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
 
     private HashMap<String, View> viewItemMap;
 
-    private List timeFilterList =new ArrayList<>();
+    private List timeFilterList = new ArrayList<>();
     private String timeFilterStr = "";
     private String dateFilterStr = "";
 
@@ -100,20 +103,23 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
     }
 
     private void initData() {
+
+        //取出sp中的列表
+        Gson gson = new Gson();
+        java.lang.reflect.Type type = new TypeToken<List<Map<String, Object>>>() {
+        }.getType();
+        patientList = new ArrayList<>();
+        String displayListJsonStr = SPUtils.getInstance().getString(SharedPreference.DISPLAYLIST);
+        patientList = gson.fromJson(displayListJsonStr, type);
+
         Bundle bundle = getArguments();
-
-        //        timepoint = bundle.getString("timepoint");
-        patientList = (List) bundle.getSerializable("list");
-
-        timeFilterList = bundle.getStringArrayList("timeList");
-
-        dateFilterStr = bundle.getString("date");
-
-        timeFilterStr = bundle.getString("time");
-
-        timepoint = dateFilterStr + " " + timeFilterStr;
-
-        patientIndex = bundle.getInt("index");
+        if (bundle != null) {
+            timeFilterList = bundle.getStringArrayList("timeList");
+            dateFilterStr = bundle.getString("date");
+            timeFilterStr = bundle.getString("time");
+            timepoint = dateFilterStr + " " + timeFilterStr;
+            patientIndex = bundle.getInt("index");
+        }
 
         viewItemMap = new HashMap<>();
 
@@ -150,30 +156,81 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
 
     }
 
-    private void switchPatient() {
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.et_vital_sign_record_time:
+                chooseTime(TimeUtils.string2Millis(dateFilterStr + " " + timeFilterStr + ":00"));
+                break;
+            case R.id.tv_vitalsign_record_next:
+                nextPatient();
+                break;
+            case R.id.tv_vitalsign_record_pre:
+                prePatient();
+                break;
+            default:
+                break;
+        }
+    }
 
-        if (patientIndex == 0) {
-            tv_pre.setEnabled(false);
-            tv_pre.setBackgroundColor(getResources().getColor(R.color.vital_sign_record_index_null_color));
-        }
-        if (patientIndex == patientList.size() - 1) {
-            tv_next.setEnabled(false);
-            tv_next.setBackgroundColor(getResources().getColor(R.color.vital_sign_record_index_null_color));
-        }
-        if (patientIndex > 0 && patientIndex < patientList.size() - 1) {
-            tv_next.setEnabled(true);
-            tv_next.setBackgroundColor(getResources().getColor(R.color.vital_sign_record_next_color));
-            tv_pre.setEnabled(true);
-            tv_pre.setBackgroundColor(getResources().getColor(R.color.vital_sign_record_pre_color));
+    /**
+     * 选择时间
+     */
+    private void chooseTime(long currentTimeMillis) {
+        long tenYears = 10L * 365 * 1000 * 60 * 60 * 24L;
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+
+        TimePickerDialog mDialogAll = new TimePickerDialog.Builder()
+                .setCallBack(this)
+                .setCancelStringId("取消")
+                .setSureStringId("确认")
+                .setTitleStringId("时间")
+                .setYearText("年")
+                .setMonthText("月")
+                .setDayText("日")
+                .setHourText("：00")
+                .setMinuteText("分")
+                .setCyclic(false)
+                .setMinMillseconds(currentTimeMillis - tenYears)
+                .setMaxMillseconds(currentTimeMillis + tenYears)
+                .setCurrentMillseconds(currentTimeMillis)
+                .setThemeColor(getResources().getColor(R.color.colorPrimary))
+                .setType(Type.ALL)
+                .setWheelItemTextNormalColor(getResources().getColor(R.color.timetimepicker_default_text_color))
+                .setWheelItemTextSelectorColor(getResources().getColor(R.color.colorPrimaryDark))
+                .setWheelItemTextSize(12)
+                .build();
+        mDialogAll.settype(1);
+        //取时间前两个字符转为int（02，06...）
+
+        List<String> hours = new ArrayList();
+        for (int i = 0; i < timeFilterList.size(); i++) {
+            String str = (String) ((Map) timeFilterList.get(i)).get("time");
+            hours.add(str);
         }
 
-        waiting = true;
-        patientInfo = (Map) patientList.get(patientIndex);
-        curEpisodeId = (String) patientInfo.get("episodeId");
-        String title = patientInfo.get("bedCode") + " " + patientInfo.get("name");
-        setToolbarCenterTitle(title, 0xffffffff, 17);
-        recordContentView.removeAllViews();
-        asyncGetVitalSignItems();
+        mDialogAll.setintHour(hours);
+
+        mDialogAll.show(getFragmentManager(), "ALL");
+
+    }
+
+    /**
+     * 病人切换相关
+     */
+    private void nextPatient() {
+
+        if (waiting) {
+            showToast("正在获取数据，请稍后");
+            return;
+        }
+
+        //当前上一位下一位需要保存数据，顾讲病人切换移动到保存数据成功的回调中
+        saveTempValue(SAVE_TEMP_VALUE_NEXT);
+
     }
 
     /**
@@ -198,9 +255,6 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
             }
 
             value = value.trim();
-            //            if (value.length() == 0){
-            //                continue;
-            //            }
 
             HashMap<String, String> resItem = new HashMap<>();
             resItem.put("code", code);
@@ -222,15 +276,12 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
                 hideLoadFailTip();
                 waiting = false;
                 showToast("保存成功 ");
-                if (type == SAVE_TEMP_VALUE_NEXT){
+                if (type == SAVE_TEMP_VALUE_NEXT) {
                     patientIndex++;
                     switchPatient();
-                }else if(type == SAVE_TEMP_VALUE_PRE){
+                } else if (type == SAVE_TEMP_VALUE_PRE) {
                     patientIndex--;
                     switchPatient();
-                }else {
-                    //do nothing
-//                    showToast("保存成功 ");
                 }
             }
 
@@ -242,6 +293,61 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
             }
         });
 
+    }
+
+    private void switchPatient() {
+
+        if (patientIndex == 0) {
+            tv_pre.setEnabled(false);
+            tv_pre.setBackgroundColor(getResources().getColor(R.color.vital_sign_record_index_null_color));
+        }
+        if (patientIndex == patientList.size() - 1) {
+            tv_next.setEnabled(false);
+            tv_next.setBackgroundColor(getResources().getColor(R.color.vital_sign_record_index_null_color));
+        }
+        if (patientIndex > 0 && patientIndex < patientList.size() - 1) {
+            tv_next.setEnabled(true);
+            tv_next.setBackgroundColor(getResources().getColor(R.color.vital_sign_record_next_color));
+            tv_pre.setEnabled(true);
+            tv_pre.setBackgroundColor(getResources().getColor(R.color.vital_sign_record_pre_color));
+        }
+
+        waiting = true;
+        patientInfo = patientList.get(patientIndex);
+        curEpisodeId = (String) patientInfo.get("episodeId");
+        String title = patientInfo.get("bedCode") + " " + patientInfo.get("name");
+        setToolbarCenterTitle(title, 0xffffffff, 17);
+        recordContentView.removeAllViews();
+        asyncGetVitalSignItems();
+    }
+
+    private void prePatient() {
+
+        if (waiting) {
+            showToast("正在获取数据，请稍后");
+            return;
+        }
+
+        //当前上一位下一位需要保存数据，顾讲病人切换移动到保存数据成功的回调中
+        saveTempValue(SAVE_TEMP_VALUE_PRE);
+
+    }
+
+    @Override
+    public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
+        String date = TimeUtils.millis2String(millseconds).substring(0, 11);
+        String time = TimeUtils.millis2String(millseconds).substring(11, 16);
+
+        if (!date.equals(dateFilterStr) || !time.equals(timeFilterStr)) {
+            //日期发生改变，需重新请求数据
+            dateFilterStr = date;
+            timeFilterStr = time;
+            recordContentView.removeAllViews();
+            timepoint = dateFilterStr + " " + timeFilterStr;
+            asyncGetVitalSignItems();
+        }
+
+        et_time.setText(TimeUtils.millis2String(millseconds).substring(0, 16));
     }
 
     private void asyncGetVitalSignItems() {
@@ -302,45 +408,6 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
             }
         }
 
-
-        //        for(int i = 0; i < size; i ++){
-        //
-        //            if (i % 3 == 0){
-        //                layout = new LinearLayout(getContext());
-        //                recordContentView.addView(layout);
-        //                int height = 120;
-        //                int width = ScreenUtils.getScreenWidth();
-        //                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width,height);
-        //            }
-        //
-        //            VitalSignRecordBean.TempConfigBean config = recordInfo.getTempConfig().get(i);
-        //
-        //            LinearLayout item = drawItem(config);
-        //
-        //            layout.addView(item);
-        //        }
-        //
-        //        if (size % 3 != 0){
-        //            for (int i = 0; i < size % 3 + 1; i ++){
-        //                layout.addView(dramEmptyItem());
-        //            }
-        //            recordContentView.addView(layout);
-        //        }
-    }    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.et_vital_sign_record_time:
-                chooseTime(TimeUtils.string2Millis(dateFilterStr + " " + timeFilterStr+":00"));
-                break;
-            case R.id.tv_vitalsign_record_next:
-                nextPatient();
-                break;
-            case R.id.tv_vitalsign_record_pre:
-//                prePatient();
-                break;
-            default:
-                break;
-        }
     }
 
     private void inputItemsValue() {
@@ -376,9 +443,9 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
         TextView titleTV = new TextView(getContext());
         titleTV.setText(config.getDesc());
         //        titleTV.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-        if (config.getDesc().length() > 7){
+        if (config.getDesc().length() > 7) {
             titleTV.setTextSize(12);
-        }else{
+        } else {
             titleTV.setTextSize(16);
         }
 
@@ -409,13 +476,13 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
 
             edText.setPadding(10, 10, 10, 10);
 
-            if (config.getSymbol()!=null) {
+            if (config.getSymbol() != null) {
                 if (config.getSymbol().size() > 0) {
                     edText.setBackgroundResource(R.drawable.vital_sign_input_bggreen);
                     edText.setOnLongClickListener(new View.OnLongClickListener() {
                         @Override
                         public boolean onLongClick(View v) {
-                            symbol((ArrayList<String>) config.getSymbol(),edText);
+                            symbol((ArrayList<String>) config.getSymbol(), edText);
                             return false;
                         }
                     });
@@ -426,11 +493,11 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
                 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    if (titleTV.getText().toString().contains("℃")){
+                    if (titleTV.getText().toString().contains("℃")) {
                         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(edText.getWindowToken(), 0);
-                        new KeyBoardUtil(mKeyboard,edText).showKeyboard();
-                    }else {
+                        new KeyBoardUtil(mKeyboard, edText).showKeyboard();
+                    } else {
                         mKeyboard.setVisibility(View.GONE);
 
                     }
@@ -472,30 +539,6 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
         return layout;
     }
 
-
-    private void  symbol(ArrayList<String> list,EditText editText){
-        String[] locDesc = new String[list.size()];
-        for (int i = 0;i< list.size();i++){
-            locDesc[i] = list.get(i);
-        }
-//                Toast.makeText(NurseSetActivity.this,LocJson,Toast.LENGTH_LONG).show();
-
-
-        final OptionPicker picker = new OptionPicker(getActivity(), locDesc);
-        picker.setCanceledOnTouchOutside(false);
-        picker.setDividerRatio(WheelView.DividerConfig.FILL);
-        picker.setSelectedIndex(0);
-        picker.setCycleDisable(true);
-        picker.setTextSize(20);
-        picker.setOnOptionPickListener(new OptionPicker.OnOptionPickListener() {
-            @Override
-            public void onOptionPicked(int index, String item) {
-                        editText.setText(item);
-            }
-        });
-        picker.show();
-    }
-
     private LinearLayout dramEmptyItem() {
         LinearLayout layout = new LinearLayout(getContext());
 
@@ -510,103 +553,25 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
         return layout;
     }
 
-    /**
-     * 病人切换相关
-     */
-    private void nextPatient() {
-
-        if (waiting) {
-            showToast("正在获取数据，请稍后");
-            return;
+    private void symbol(ArrayList<String> list, EditText editText) {
+        String[] locDesc = new String[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            locDesc[i] = list.get(i);
         }
 
-        //当前上一位下一位需要保存数据，顾讲病人切换移动到保存数据成功的回调中
-
-        saveTempValue(SAVE_TEMP_VALUE_NEXT);
-
-//        patientIndex++;
-//        switchPatient();
-
+        final OptionPicker picker = new OptionPicker(getActivity(), locDesc);
+        picker.setCanceledOnTouchOutside(false);
+        picker.setDividerRatio(WheelView.DividerConfig.FILL);
+        picker.setSelectedIndex(0);
+        picker.setCycleDisable(true);
+        picker.setTextSize(20);
+        picker.setOnOptionPickListener(new OptionPicker.OnOptionPickListener() {
+            @Override
+            public void onOptionPicked(int index, String item) {
+                editText.setText(item);
+            }
+        });
+        picker.show();
     }
-
-    private void prePatient() {
-
-        if (waiting) {
-            showToast("正在获取数据，请稍后");
-            return;
-        }
-
-        //当前上一位下一位需要保存数据，顾讲病人切换移动到保存数据成功的回调中
-
-        saveTempValue(SAVE_TEMP_VALUE_PRE);
-
-//        patientIndex--;
-//        switchPatient();
-    }
-
-    /**
-     * 选择时间
-     */
-    private void chooseTime(long currentTimeMillis) {
-        long tenYears = 10L * 365 * 1000 * 60 * 60 * 24L;
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-
-        TimePickerDialog mDialogAll = new TimePickerDialog.Builder()
-                .setCallBack(this)
-                .setCancelStringId("取消")
-                .setSureStringId("确认")
-                .setTitleStringId("时间")
-                .setYearText("年")
-                .setMonthText("月")
-                .setDayText("日")
-                .setHourText("：00")
-                .setMinuteText("分")
-                .setCyclic(false)
-                .setMinMillseconds(currentTimeMillis - tenYears)
-                .setMaxMillseconds(currentTimeMillis + tenYears)
-                .setCurrentMillseconds(currentTimeMillis)
-                .setThemeColor(getResources().getColor(R.color.colorPrimary))
-                .setType(Type.ALL)
-                .setWheelItemTextNormalColor(getResources().getColor(R.color.timetimepicker_default_text_color))
-                .setWheelItemTextSelectorColor(getResources().getColor(R.color.colorPrimaryDark))
-                .setWheelItemTextSize(12)
-                .build();
-        mDialogAll.settype(1);
-        //取时间前两个字符转为int（02，06...）
-
-        List<String> hours = new ArrayList();
-        for (int i = 0; i < timeFilterList.size(); i++) {
-            String str = (String) ((Map) timeFilterList.get(i)).get("time");
-            hours.add(str);
-        }
-
-        mDialogAll.setintHour(hours);
-
-        mDialogAll.show(getFragmentManager(), "ALL");
-
-    }
-
-    @Override
-    public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
-        String date = TimeUtils.millis2String(millseconds).substring(0, 11);
-        String time = TimeUtils.millis2String(millseconds).substring(11, 16);
-
-        if (!date.equals(dateFilterStr) || !time.equals(timeFilterStr)) {
-            //日期发生改变，需重新请求数据
-            dateFilterStr = date;
-            timeFilterStr = time;
-            recordContentView.removeAllViews();
-            timepoint = dateFilterStr + " " + timeFilterStr;
-            asyncGetVitalSignItems();
-        }
-
-        et_time.setText(TimeUtils.millis2String(millseconds).substring(0, 16));
-    }
-
-
-
 
 }
