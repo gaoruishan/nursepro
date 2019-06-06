@@ -18,7 +18,7 @@ import java.util.List;
 public class DrugHandoverScanOrderAdapter extends BaseQuickAdapter<DrugHandOverScanOrderList.OrdListBean, BaseViewHolder> {
 
     public DrugHandoverScanOrderAdapter(@Nullable List<DrugHandOverScanOrderList.OrdListBean> data) {
-        super(R.layout.item_drug_orders, data);
+        super(R.layout.item_drughandover_orders, data);
     }
 
     @Override
@@ -42,12 +42,15 @@ public class DrugHandoverScanOrderAdapter extends BaseQuickAdapter<DrugHandOverS
 
         if ("W".equals(item.getError())) {
             tvDrugordererror.setVisibility(View.VISIBLE);
+            tvDrugordererror.setBackground(mContext.getResources().getDrawable(R.drawable.bg_drugorder_error_wrong));
             tvDrugordererror.setText("错发");
         } else if ("M".equals(item.getError())) {
             tvDrugordererror.setVisibility(View.VISIBLE);
+            tvDrugordererror.setBackground(mContext.getResources().getDrawable(R.drawable.bg_drugorder_error_miss));
             tvDrugordererror.setText("漏发");
         } else if ("Q".equals(item.getError())) {
             tvDrugordererror.setVisibility(View.VISIBLE);
+            tvDrugordererror.setBackground(mContext.getResources().getDrawable(R.drawable.bg_drugorder_error_quality));
             tvDrugordererror.setText("质量问题");
         } else {
             tvDrugordererror.setVisibility(View.GONE);

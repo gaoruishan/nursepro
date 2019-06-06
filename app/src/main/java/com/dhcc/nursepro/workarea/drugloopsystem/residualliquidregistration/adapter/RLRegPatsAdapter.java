@@ -20,7 +20,7 @@ public class RLRegPatsAdapter extends BaseQuickAdapter<RLPatOrdBean.PatOrdListBe
     private RlRegPatOrdersAdapter patOrdersAdapter;
 
     public RLRegPatsAdapter(@Nullable List<RLPatOrdBean.PatOrdListBean> data) {
-        super(R.layout.item_rlreg_pat, data);
+        super(R.layout.item_drugrlreg_pat, data);
     }
 
     @Override

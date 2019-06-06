@@ -15,7 +15,25 @@
         android:layout_height="wrap_content"
         android:padding="2dp"
         android:background="@drawable/bg_drugorder_selector"
-        android:orientation="horizontal">
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tv_drugorder_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_drugorder_error_quality"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginBottom="6dp"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:paddingBottom="2dp"
+            android:text="质量问题"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recy_drugorders"
@@ -25,31 +43,17 @@
 
         </android.support.v7.widget.RecyclerView>
 
-        <TextView
-            android:id="@+id/tv_drugorder_error"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_drugorder_error"
-            android:layout_marginTop="6dp"
-            android:layout_marginEnd="6dp"
-            android:paddingStart="4dp"
-            android:paddingEnd="4dp"
-            android:paddingBottom="2dp"
-            android:text="质量问题"
-            android:textColor="@color/white"
-            android:textSize="15sp" />
-
         <ImageView
             android:id="@+id/img_select_drugorders"
             android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_marginTop="6dp"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp"
             android:background="@drawable/icon_orderexec_selector" />
 
-
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -61,10 +65,11 @@
 
         <TextView
             android:id="@+id/tv_drugorder_wrong"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@android:color/holo_red_light"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:background="#f5a623"
             android:gravity="center"
             android:text="错发"
             android:textColor="@color/white"
@@ -72,11 +77,11 @@
 
         <TextView
             android:id="@+id/tv_drugorder_missing"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginStart="1dp"
-            android:layout_weight="1"
-            android:background="@android:color/holo_red_light"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:background="#ff8154"
             android:gravity="center"
             android:text="漏发"
             android:textColor="@color/white"
@@ -84,11 +89,11 @@
 
         <TextView
             android:id="@+id/tv_drugorder_quality"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginStart="1dp"
-            android:layout_weight="1"
-            android:background="@android:color/holo_red_light"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:background="#ff6262"
             android:gravity="center"
             android:text="质量问题"
             android:textColor="@color/white"

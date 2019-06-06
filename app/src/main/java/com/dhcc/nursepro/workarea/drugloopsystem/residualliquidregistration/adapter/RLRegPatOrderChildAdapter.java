@@ -15,7 +15,7 @@ public class RLRegPatOrderChildAdapter extends BaseQuickAdapter<RLPatOrdBean.Pat
     private TextView tvRlregCdose;
 
     public RLRegPatOrderChildAdapter(@Nullable List<RLPatOrdBean.PatOrdListBean.PatOrdsBean.OeoreGroupBean> data) {
-        super(R.layout.item_rlreg_patorderschild, data);
+        super(R.layout.item_drugrlreg_patorderschild, data);
     }
 
     @Override

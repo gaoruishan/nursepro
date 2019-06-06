@@ -22,6 +22,7 @@ import com.dhcc.nursepro.workarea.checkresult.CheckPatsFragment;
 import com.dhcc.nursepro.workarea.docorderlist.DocOrderListFragment;
 import com.dhcc.nursepro.workarea.dosingreview.DosingReviewFragment;
 import com.dhcc.nursepro.workarea.drugloopsystem.drughandover.DrugHandoverFragment;
+import com.dhcc.nursepro.workarea.drugloopsystem.drugpreparation.DrugPreparationFragment;
 import com.dhcc.nursepro.workarea.drugloopsystem.residualliquidregistration.RLRegFragment;
 import com.dhcc.nursepro.workarea.labout.LabOutListFragment;
 import com.dhcc.nursepro.workarea.labresult.LabPatsFragment;
@@ -91,6 +92,7 @@ public class WorkareaFragment extends BaseFragment {
             public void onSuccess(MainConfigBean mainConfigBean) {
                 ItemNameList = mainConfigBean.getMainConfig();
 //                ItemNameList.add("DRUGHANDOVER");
+//                ItemNameList.add("DRUGPREPARATION");
 //                ItemNameList.add("RLREG");
                 patEventsAdapter.setNewData(ItemNameList);
             }
@@ -122,6 +124,7 @@ public class WorkareaFragment extends BaseFragment {
      * ("MODELDETAIL");//护理病历
      * ("NURTOUR");//巡视
      * ("DRUGHANDOVER");//药品交接
+     * ("DRUGPREPARATION");//取备用药
      * ("RLREG");//余液登记
      */
     public void itemClick(String itemName) {
@@ -179,6 +182,9 @@ public class WorkareaFragment extends BaseFragment {
                 break;
             case "DRUGHANDOVER":
                 startFragment(DrugHandoverFragment.class);
+                break;
+            case "DRUGPREPARATION":
+                startFragment(DrugPreparationFragment.class);
                 break;
             case "RLREG":
                 startFragment(RLRegFragment.class);
@@ -269,11 +275,15 @@ public class WorkareaFragment extends BaseFragment {
                     break;
                 case "DRUGHANDOVER":
                     tvItem.setText("药品交接");
-                    imageView.setImageResource(R.drawable.icon_tour);
+                    imageView.setImageResource(R.drawable.icon_drughandover);
+                    break;
+                case "DRUGPREPARATION":
+                    tvItem.setText("取备用药");
+                    imageView.setImageResource(R.drawable.icon_drugpreparation);
                     break;
                 case "RLREG":
                     tvItem.setText("余液登记");
-                    imageView.setImageResource(R.drawable.icon_tour);
+                    imageView.setImageResource(R.drawable.icon_drugrlreg);
                     break;
                 default:
                     break;

@@ -111,5 +111,9 @@
     <color name="nurrecord_edit_normal_color">#4A4A4A</color>
     <color name="nurrecord_edit_defaultvalue_color">#B3B3B3</color>
 
+    <color name="drugpreparation_text_normal_color">#000000</color>
+    <color name="drugpreparation_text_selected_color">#62ABFF</color>
+    <color name="drugpreparation_text_color">#4A4A4A</color>
+
 
 </resources>

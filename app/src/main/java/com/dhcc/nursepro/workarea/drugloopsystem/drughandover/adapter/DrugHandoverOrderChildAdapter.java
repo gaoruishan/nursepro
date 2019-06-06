@@ -12,7 +12,7 @@ import java.util.List;
 public class DrugHandoverOrderChildAdapter extends BaseQuickAdapter<DrugHandOverScanOrderList.OrdListBean.OeoreGroupBean, BaseViewHolder> {
 
     public DrugHandoverOrderChildAdapter(@Nullable List<DrugHandOverScanOrderList.OrdListBean.OeoreGroupBean> data) {
-        super(R.layout.item_drugorders_child, data);
+        super(R.layout.item_drughandover_orderchild, data);
     }
 
     @Override

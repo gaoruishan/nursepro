@@ -77,7 +77,7 @@
 
     <!-- 药品闭环 -->
     <string name="title_drughandover">药品交接</string>
-    <string name="title_drugreview">取药复核</string>
+    <string name="title_drugpreparation">取备用药</string>
     <string name="title_residualliquidregistration">余液登记</string>
     <string name="title_ampoulebottleregistration">安瓿瓶登记</string>
 

@@ -25,11 +25,11 @@ public class RlRegPatOrdersAdapter extends BaseQuickAdapter<RLPatOrdBean.PatOrdL
     private RLRegPatOrderChildAdapter patOrderChildAdapter;
 
     public RlRegPatOrdersAdapter(@Nullable List<RLPatOrdBean.PatOrdListBean.PatOrdsBean> data) {
-        super(R.layout.item_rlreg_patorders, data);
+        super(R.layout.item_drugrlreg_patorders, data);
     }
 
     public RlRegPatOrdersAdapter(@Nullable List<RLPatOrdBean.PatOrdListBean.PatOrdsBean> data, int size) {
-        super(R.layout.item_rlreg_patorders, data);
+        super(R.layout.item_drugrlreg_patorders, data);
         this.size = size;
     }
 

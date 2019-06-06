@@ -72,7 +72,7 @@ public class DrugHandoverFragment extends BaseFragment {
         View viewright = View.inflate(getActivity(), R.layout.view_fratoolbar_right, null);
         TextView textView = viewright.findViewById(R.id.tv_fratoobar_right);
         textView.setTextSize(15);
-        textView.setText("   列表   ");
+        textView.setText("   历史记录   ");
         textView.setTextColor(getResources().getColor(R.color.white));
         viewright.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,10 +80,10 @@ public class DrugHandoverFragment extends BaseFragment {
                 if (recyDrughandoverList.getVisibility() == View.GONE) {
                     asyncInitData();
                     recyDrughandoverList.setVisibility(View.VISIBLE);
-                    textView.setText("   扫描   ");
+                    textView.setText("   扫描箱码   ");
                 } else {
                     recyDrughandoverList.setVisibility(View.GONE);
-                    textView.setText("   列表   ");
+                    textView.setText("   历史记录   ");
                 }
             }
         });
