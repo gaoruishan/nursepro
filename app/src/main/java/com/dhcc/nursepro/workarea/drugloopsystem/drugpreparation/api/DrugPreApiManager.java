@@ -79,8 +79,8 @@ public class DrugPreApiManager {
         });
     }
 
-    public static void getTakeOrdList(String startDate, String endDate, String type, final GetTakeOrdListCallback callback) {
-        DrugPreApiService.getTakeOrdList(startDate, endDate, type, new DrugPreApiService.ServiceCallBack() {
+    public static void getTakeOrdList(String startDate, String endDate, final GetTakeOrdListCallback callback) {
+        DrugPreApiService.getTakeOrdList(startDate, endDate, new DrugPreApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();

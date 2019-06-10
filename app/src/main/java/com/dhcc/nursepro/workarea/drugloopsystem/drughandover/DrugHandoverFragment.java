@@ -40,6 +40,7 @@ import java.util.Objects;
  * created at 2019/5/22 11:47
  */
 public class DrugHandoverFragment extends BaseFragment {
+    private TextView tvRight;
     private RelativeLayout rlDrughandoverScan;
     private RecyclerView recyDrughandoverList;
     private LinearLayout llDrughandoverScan;
@@ -70,20 +71,20 @@ public class DrugHandoverFragment extends BaseFragment {
         setToolbarCenterTitle(getString(R.string.title_drughandover), 0xffffffff, 17);
         //右上角按钮
         View viewright = View.inflate(getActivity(), R.layout.view_fratoolbar_right, null);
-        TextView textView = viewright.findViewById(R.id.tv_fratoobar_right);
-        textView.setTextSize(15);
-        textView.setText("   历史记录   ");
-        textView.setTextColor(getResources().getColor(R.color.white));
+        tvRight = viewright.findViewById(R.id.tv_fratoobar_right);
+        tvRight.setTextSize(15);
+        tvRight.setText("   历史记录   ");
+        tvRight.setTextColor(getResources().getColor(R.color.white));
         viewright.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (recyDrughandoverList.getVisibility() == View.GONE) {
                     asyncInitData();
                     recyDrughandoverList.setVisibility(View.VISIBLE);
-                    textView.setText("   扫描箱码   ");
+                    tvRight.setText("   扫描箱码   ");
                 } else {
                     recyDrughandoverList.setVisibility(View.GONE);
-                    textView.setText("   历史记录   ");
+                    tvRight.setText("   历史记录   ");
                 }
             }
         });
@@ -365,57 +366,62 @@ public class DrugHandoverFragment extends BaseFragment {
     public void getScanMsg(Intent intent) {
         super.getScanMsg(intent);
         if (Action.DEVICE_SCAN_CODE.equals(intent.getAction())) {
-                Bundle bundle = new Bundle();
-                bundle = intent.getExtras();
-                String scanInfo = bundle.getString("data");
+            Bundle bundle = new Bundle();
+            bundle = intent.getExtras();
+            String scanInfo = bundle.getString("data");
 
-                if (drugReceiveDialog != null && drugReceiveDialog.isShowing()) {
+            if (recyDrughandoverList.getVisibility() == View.VISIBLE) {
+                recyDrughandoverList.setVisibility(View.GONE);
+                tvRight.setText("   历史记录   ");
+            }
 
-                    drugReceiveDialog.setCarryUser(scanInfo);
-                    drugReceiveDialog.setNurseInfo(SPUtils.getInstance().getString(SharedPreference.USERNAME));
-                } else {
+            if (drugReceiveDialog != null && drugReceiveDialog.isShowing()) {
 
-                    List<DrugHandOverScanOrderList.OrdListBean> ordListBeans = scanOrderAdapter.getData();
-                    if (ordListBeans.size() > 0) {
-                        for (int i = 0; i < ordListBeans.size(); i++) {
-                            if (scanInfo.equals(ordListBeans.get(i).getOeoreId())) {
-                                scanOrderAdapter.getData().get(i).setScan(true);
-                                break;
-                            }
+                drugReceiveDialog.setCarryUser(scanInfo);
+                drugReceiveDialog.setNurseInfo(SPUtils.getInstance().getString(SharedPreference.USERNAME));
+            } else {
+
+                List<DrugHandOverScanOrderList.OrdListBean> ordListBeans = scanOrderAdapter.getData();
+                if (ordListBeans.size() > 0) {
+                    for (int i = 0; i < ordListBeans.size(); i++) {
+                        if (scanInfo.equals(ordListBeans.get(i).getOeoreId())) {
+                            scanOrderAdapter.getData().get(i).setScan(true);
+                            break;
                         }
-                        scanOrderAdapter.notifyDataSetChanged();
-                        refreshBottom();
-                    } else {
-                        barCode = scanInfo;
-                        showLoadingTip(BaseActivity.LoadingType.FULL);
-                        DrugHandoverApiManager.getOrdListByBarCode(barCode, new DrugHandoverApiManager.DrugHandoverScanOrderListCallback() {
-                            @Override
-                            public void onSuccess(DrugHandOverScanOrderList scanOrderList) {
-                                List<DrugHandOverScanOrderList.OrdListBean> ordListBeanList = scanOrderList.getOrdList();
-                                //向后台传输数据 医嘱中"||"全部替换为"-"
-                                //若大码与列表中某条医嘱的oeoreId相同，则这条医嘱直接置为已扫描状态
-                                for (int i = 0; i < ordListBeanList.size(); i++) {
-                                    ordListBeanList.get(i).setOeoreId(ordListBeanList.get(i).getOeoreId().replaceAll("\\|\\|", "-"));
-
-                                    if (barCode.equals(ordListBeanList.get(i).getOeoreId())) {
-                                        ordListBeanList.get(i).setScan(true);
-                                    }
-                                }
-                                hideLoadingTip();
-                                scanOrderAdapter.setNewData(ordListBeanList);
-                                refreshBottom();
-                                llDrughandoverScan.setVisibility(View.VISIBLE);
-                                rlDrughandoverScan.setVisibility(View.GONE);
-                            }
-
-                            @Override
-                            public void onFail(String code, String msg) {
-                                hideLoadingTip();
-                                showToast("error" + code + ":" + msg);
-                            }
-                        });
                     }
+                    scanOrderAdapter.notifyDataSetChanged();
+                    refreshBottom();
+                } else {
+                    barCode = scanInfo;
+                    showLoadingTip(BaseActivity.LoadingType.FULL);
+                    DrugHandoverApiManager.getOrdListByBarCode(barCode, new DrugHandoverApiManager.DrugHandoverScanOrderListCallback() {
+                        @Override
+                        public void onSuccess(DrugHandOverScanOrderList scanOrderList) {
+                            List<DrugHandOverScanOrderList.OrdListBean> ordListBeanList = scanOrderList.getOrdList();
+                            //向后台传输数据 医嘱中"||"全部替换为"-"
+                            //若大码与列表中某条医嘱的oeoreId相同，则这条医嘱直接置为已扫描状态
+                            for (int i = 0; i < ordListBeanList.size(); i++) {
+                                ordListBeanList.get(i).setOeoreId(ordListBeanList.get(i).getOeoreId().replaceAll("\\|\\|", "-"));
+
+                                if (barCode.equals(ordListBeanList.get(i).getOeoreId())) {
+                                    ordListBeanList.get(i).setScan(true);
+                                }
+                            }
+                            hideLoadingTip();
+                            scanOrderAdapter.setNewData(ordListBeanList);
+                            refreshBottom();
+                            llDrughandoverScan.setVisibility(View.VISIBLE);
+                            rlDrughandoverScan.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onFail(String code, String msg) {
+                            hideLoadingTip();
+                            showToast("error" + code + ":" + msg);
+                        }
+                    });
                 }
+            }
         }
     }
 

@@ -3,24 +3,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="2dp"
     android:layout_marginBottom="6dp"
+    android:padding="6dp"
     android:background="@color/white"
     android:orientation="vertical">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recy_drugpre_takeorders"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recy_drugpre_takeorders"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
 
 
-    </android.support.v7.widget.RecyclerView>
+        </android.support.v7.widget.RecyclerView>
+        <TextView
+            android:id="@+id/tv_drugpre_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="1dp"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            android:background="@drawable/bg_drugpre_1"
+            tools:text="已取药"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ll_drugpre_takeorders_take"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="6dp"
         android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -30,19 +50,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="取药人："
-                android:textColor="#101010"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                android:text="取药时间：" />
 
             <TextView
-                android:id="@+id/tv_drugpre_takeorders_name"
+                android:id="@+id/tv_drugpre_takeorders_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#101010"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                tools:text="0001" />
+                tools:text="2019年6月6日17:15:56" />
 
         </LinearLayout>
         <LinearLayout
@@ -54,19 +68,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="取药时间："
-                android:textColor="#101010"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                android:text="取药人：" />
 
             <TextView
-                android:id="@+id/tv_drugpre_takeorders_time"
+                android:id="@+id/tv_drugpre_takeorders_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#101010"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                tools:text="2019年6月6日17:15:56" />
+                tools:text="0001" />
 
         </LinearLayout>
 
@@ -76,8 +84,8 @@
         android:id="@+id/ll_drugpre_takeorders_review"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="6dp"
         android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -87,19 +95,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="复核人："
-                android:textColor="#101010"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                android:text="复核时间：" />
 
             <TextView
-                android:id="@+id/tv_drugpre_takeorders_reviewname"
+                android:id="@+id/tv_drugpre_takeorders_reviewtime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#101010"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                tools:text="0002" />
+                tools:text="2019年6月6日17:17:05" />
 
         </LinearLayout>
         <LinearLayout
@@ -111,19 +113,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="复核时间："
-                android:textColor="#101010"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                android:text="复核人：" />
 
             <TextView
-                android:id="@+id/tv_drugpre_takeorders_reviewtime"
+                android:id="@+id/tv_drugpre_takeorders_reviewname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#101010"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                tools:text="2019年6月6日17:17:05" />
+                tools:text="0002" />
 
         </LinearLayout>
 

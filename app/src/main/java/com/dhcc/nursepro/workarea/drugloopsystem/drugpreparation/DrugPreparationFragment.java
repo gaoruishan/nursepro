@@ -43,6 +43,9 @@ import java.util.List;
  * created at 2019/5/22 16:43
  */
 public class DrugPreparationFragment extends BaseFragment implements OnDateSetListener {
+    private TextView tvRight;
+
+    private LinearLayout llDrugpreparationType;
     private TextView tvDrugpreparationTake;
     private TextView tvDrugpreparationReview;
     private View lineDrugpreparationTake;
@@ -92,20 +95,22 @@ public class DrugPreparationFragment extends BaseFragment implements OnDateSetLi
         setToolbarCenterTitle(getString(R.string.title_drugpreparation), 0xffffffff, 17);
         //右上角按钮
         View viewright = View.inflate(getActivity(), R.layout.view_fratoolbar_right, null);
-        TextView textView = viewright.findViewById(R.id.tv_fratoobar_right);
-        textView.setTextSize(15);
-        textView.setText("   历史记录   ");
-        textView.setTextColor(getResources().getColor(R.color.white));
+        tvRight = viewright.findViewById(R.id.tv_fratoobar_right);
+        tvRight.setTextSize(15);
+        tvRight.setText("   历史记录   ");
+        tvRight.setTextColor(getResources().getColor(R.color.white));
         viewright.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (llDrugpreparationHis.getVisibility() == View.GONE) {
                     asyncInitData();
+                    llDrugpreparationType.setVisibility(View.GONE);
                     llDrugpreparationHis.setVisibility(View.VISIBLE);
-                    textView.setText("   扫描箱码   ");
+                    tvRight.setText("   扫描箱码   ");
                 } else {
+                    llDrugpreparationType.setVisibility(View.VISIBLE);
                     llDrugpreparationHis.setVisibility(View.GONE);
-                    textView.setText("   历史记录   ");
+                    tvRight.setText("   历史记录   ");
                 }
             }
         });
@@ -130,7 +135,7 @@ public class DrugPreparationFragment extends BaseFragment implements OnDateSetLi
     private void asyncInitData() {
         showLoadingTip(BaseActivity.LoadingType.FULL);
 
-        DrugPreApiManager.getTakeOrdList(startDate, endDate, type, new DrugPreApiManager.GetTakeOrdListCallback() {
+        DrugPreApiManager.getTakeOrdList(startDate, endDate, new DrugPreApiManager.GetTakeOrdListCallback() {
             @Override
             public void onSuccess(GetTakeOrdListBean getTakeOrdListBean) {
                 hideLoadingTip();
@@ -148,7 +153,7 @@ public class DrugPreparationFragment extends BaseFragment implements OnDateSetLi
     }
 
     private void initView(View view) {
-
+        llDrugpreparationType = view.findViewById(R.id.ll_drugpreparation_type);
         tvDrugpreparationTake = view.findViewById(R.id.tv_drugpreparation_take);
         tvDrugpreparationReview = view.findViewById(R.id.tv_drugpreparation_review);
         lineDrugpreparationTake = view.findViewById(R.id.line_drugpreparation_take);
@@ -382,6 +387,11 @@ public class DrugPreparationFragment extends BaseFragment implements OnDateSetLi
             bundle = intent.getExtras();
             String scanInfo = bundle.getString("data");
 
+            if (llDrugpreparationHis.getVisibility() == View.VISIBLE) {
+                llDrugpreparationType.setVisibility(View.VISIBLE);
+                llDrugpreparationHis.setVisibility(View.GONE);
+                tvRight.setText("   历史记录   ");
+            }
 
             List<GetOrdInfoBean.OeoreGroupBean> oeoreGroupBeanList = drugPreOrderAdapter.getData();
             if (oeoreGroupBeanList.size() > 0) {

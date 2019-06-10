@@ -51,14 +51,14 @@ public class DrugPreApiService {
         });
     }
 
-    public static void getTakeOrdList(String startDate, String endDate, String type, final ServiceCallBack callback) {
+    public static void getTakeOrdList(String startDate, String endDate, final ServiceCallBack callback) {
         SPUtils spUtils = SPUtils.getInstance();
         HashMap<String, String> properties = new HashMap<>();
         properties.put("locId", spUtils.getString(SharedPreference.LOCID));
 
         properties.put("startDate", startDate);
         properties.put("endDate", endDate);
-        properties.put("type", type);
+        properties.put("type", "");
 
         Log.i("DrugPre", "getTakeOrdList: " + properties.toString());
 
