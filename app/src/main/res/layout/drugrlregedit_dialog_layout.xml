@@ -104,6 +104,7 @@
                 android:background="@drawable/bg_rlreg_edit"
                 android:gravity="center"
                 android:hint="输入余液量"
+                android:inputType="numberDecimal"
                 android:textColor="#4A4A4A"
                 android:textColorHint="#9B9B9B"
                 android:textSize="14sp"
@@ -124,7 +125,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:text="处理方式"
+            android:text="余液去向"
             android:textColor="#9B9B9B" />
 
         <LinearLayout
@@ -145,7 +146,7 @@
                 android:gravity="center"
                 android:paddingStart="15dp"
                 android:paddingEnd="15dp"
-                android:text="销毁"
+                tools:text="销毁"
                 android:textColor="@drawable/textcolor_blood_end_selector"
                 android:textSize="15sp" />
 
@@ -158,7 +159,7 @@
                 android:gravity="center"
                 android:paddingStart="15dp"
                 android:paddingEnd="15dp"
-                android:text="回收"
+                tools:text="回收"
                 android:textColor="@drawable/textcolor_blood_end_selector"
                 android:textSize="15sp" />
 

@@ -15,14 +15,14 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.base.commlibs.BaseActivity;
+import com.base.commlibs.BaseFragment;
+import com.base.commlibs.constant.Action;
+import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.base.commlibs.BaseActivity;
-import com.base.commlibs.BaseFragment;
 import com.dhcc.nursepro.R;
-import com.base.commlibs.constant.Action;
-import com.base.commlibs.constant.SharedPreference;
 import com.dhcc.nursepro.workarea.drugloopsystem.drughandover.adapter.DrugHandoverScanOrderAdapter;
 import com.dhcc.nursepro.workarea.drugloopsystem.drughandover.api.DrugHandoverApiManager;
 import com.dhcc.nursepro.workarea.drugloopsystem.drughandover.bean.BatchSaveResult;
@@ -41,8 +41,8 @@ import java.util.Objects;
  */
 public class DrugHandoverFragment extends BaseFragment {
     private TextView tvRight;
+
     private RelativeLayout rlDrughandoverScan;
-    private RecyclerView recyDrughandoverList;
     private LinearLayout llDrughandoverScan;
     private RecyclerView recyDrughandoverScan;
     private TextView tvDrughandoverReceivesize;
@@ -62,6 +62,7 @@ public class DrugHandoverFragment extends BaseFragment {
     private DrugReceiveDialog drugReceiveDialog;
 
 
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -78,39 +79,16 @@ public class DrugHandoverFragment extends BaseFragment {
         viewright.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (recyDrughandoverList.getVisibility() == View.GONE) {
-                    asyncInitData();
-                    recyDrughandoverList.setVisibility(View.VISIBLE);
-                    tvRight.setText("   扫描箱码   ");
-                } else {
-                    recyDrughandoverList.setVisibility(View.GONE);
-                    tvRight.setText("   历史记录   ");
-                }
+                startFragment(DrugHandoverHisFragment.class);
             }
         });
         setToolbarRightCustomView(viewright);
         initView(view);
         initAdapter();
-        //        view.postDelayed(new Runnable() {
-        //            @Override
-        //            public void run() {
-        //                asyncInitData();
-        //            }
-        //        }, 300);
-    }
-
-    /**
-     * 加载已交接药品列表
-     */
-    private void asyncInitData() {
-        showLoadingTip(BaseActivity.LoadingType.FULL);
-        showToast("获取列表。。。");
-        hideLoadingTip();
     }
 
     private void initView(View view) {
         rlDrughandoverScan = view.findViewById(R.id.rl_drughandover_scan);
-        recyDrughandoverList = view.findViewById(R.id.recy_drughandover_list);
         llDrughandoverScan = view.findViewById(R.id.ll_drughandover_scan);
         recyDrughandoverScan = view.findViewById(R.id.recy_drughandover_scan);
         tvDrughandoverReceivesize = view.findViewById(R.id.tv_drughandover_receivesize);
@@ -118,8 +96,6 @@ public class DrugHandoverFragment extends BaseFragment {
         tvDrughandoverClear = view.findViewById(R.id.tv_drughandover_clear);
         tvDrughandoverReceive = view.findViewById(R.id.tv_drughandover_receive);
 
-        recyDrughandoverList.setHasFixedSize(true);
-        recyDrughandoverList.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyDrughandoverScan.setHasFixedSize(true);
         recyDrughandoverScan.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -370,10 +346,6 @@ public class DrugHandoverFragment extends BaseFragment {
             bundle = intent.getExtras();
             String scanInfo = bundle.getString("data");
 
-            if (recyDrughandoverList.getVisibility() == View.VISIBLE) {
-                recyDrughandoverList.setVisibility(View.GONE);
-                tvRight.setText("   历史记录   ");
-            }
 
             if (drugReceiveDialog != null && drugReceiveDialog.isShowing()) {
 

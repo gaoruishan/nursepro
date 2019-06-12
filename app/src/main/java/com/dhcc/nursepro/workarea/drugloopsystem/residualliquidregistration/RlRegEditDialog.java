@@ -43,11 +43,13 @@ public class RlRegEditDialog extends Dialog {
     private String orderexinfo;
     private String rlCount;
     private String rlUnit;
+    private String whereGo;
     private String type;
-
+    private String[] rlWhereGo;
 
     private onSureOnclickListener sureOnclickListener;
     private onCancelOnclickListener cancelOnclickListener;
+    private onUnitOnclickListener unitOnclickListener;
 
     private RLRegPatOrderChildAdapter patOrderChildAdapter;
 
@@ -89,6 +91,7 @@ public class RlRegEditDialog extends Dialog {
     }
 
     public String getRlCount() {
+        rlCount = etRlregeditRledit.getText().toString();
         return rlCount;
     }
 
@@ -102,14 +105,19 @@ public class RlRegEditDialog extends Dialog {
 
     public void setRlUnit(String rlUnit) {
         this.rlUnit = rlUnit;
+        if (tvRlregeditRlunit != null) {
+            tvRlregeditRlunit.setText(rlUnit);
+        }
+
+    }
+
+    public void setWhereGo(String whereGo) {
+        this.whereGo = whereGo;
+        rlWhereGo = whereGo.split("\\^");
     }
 
     public String getType() {
         return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     /**
@@ -126,6 +134,14 @@ public class RlRegEditDialog extends Dialog {
     public void setCancelOnclickListener(onCancelOnclickListener onCancelOnclickListener) {
 
         this.cancelOnclickListener = onCancelOnclickListener;
+    }
+
+    /**
+     * 设置单位的显示内容和监听
+     */
+    public void setUnitOnclickListener(onUnitOnclickListener onUnitOnclickListener) {
+
+        this.unitOnclickListener = onUnitOnclickListener;
     }
 
     @Override
@@ -160,7 +176,7 @@ public class RlRegEditDialog extends Dialog {
             public void onClick(View v) {
                 tvRlregeditType1.setSelected(true);
                 tvRlregeditType2.setSelected(false);
-                type = "type1";
+                type = rlWhereGo[0];
             }
         });
         tvRlregeditType2.setOnClickListener(new View.OnClickListener() {
@@ -168,7 +184,7 @@ public class RlRegEditDialog extends Dialog {
             public void onClick(View v) {
                 tvRlregeditType1.setSelected(false);
                 tvRlregeditType2.setSelected(true);
-                type = "type2";
+                type = rlWhereGo[1];
             }
         });
 
@@ -205,14 +221,21 @@ public class RlRegEditDialog extends Dialog {
         }
 
         if (!StringUtils.isEmpty(rlCount)) {
-            rlUnit = rlCount.replaceAll("[^(A-Za-z)]", "");
             rlCount = rlCount.replaceAll("[^(0-9)]", "");
             etRlregeditRledit.setText(rlCount);
+        }
+
+        if (!StringUtils.isEmpty(rlUnit)) {
             tvRlregeditRlunit.setText(rlUnit);
         }
 
+        if (!StringUtils.isEmpty(whereGo)) {
+            tvRlregeditType1.setText(rlWhereGo[0]);
+            tvRlregeditType2.setText(rlWhereGo[1]);
+        }
+
         if (!StringUtils.isEmpty(type)) {
-            if (type.equals("type1")) {
+            if (type.equals(rlWhereGo[0])) {
                 tvRlregeditType1.setSelected(true);
                 tvRlregeditType2.setSelected(false);
             } else {
@@ -240,6 +263,15 @@ public class RlRegEditDialog extends Dialog {
                 }
             }
         });
+
+        tvRlregeditRlunit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (unitOnclickListener != null) {
+                    unitOnclickListener.onUnitClick();
+                }
+            }
+        });
     }
 
     /**
@@ -256,4 +288,10 @@ public class RlRegEditDialog extends Dialog {
         public void onCancelClick();
     }
 
+    /**
+     * 设置单位被点击的接口
+     */
+    public interface onUnitOnclickListener {
+        public void onUnitClick();
+    }
 }

@@ -7,7 +7,7 @@ public class RLPatOrdBean {
 
 
     /**
-     * PatOrdList : [{"PatBed":"06","PatName":"lc2019021204","PatOrds":[{"JmOeoreId":"194||66||1","MethDesc":"静脉滴注","OeoreGroup":[{"ArcimDesc":"0.9%氯化钠注射液[500ml]","DoseQtyUnit":"500 ml","JmFlag":"0","PhOrdQtyUnit":"1500 ml"},{"ArcimDesc":"0.9%氯化钠注射液[500ml]","DoseQtyUnit":"500 ml","JmFlag":"0","PhOrdQtyUnit":"1500 ml"}],"OeoreId":"194||65||1","ResidualQty":"20 ml","SttdateTime":"2019-06-04 09:19:17"},{"JmOeoreId":"194||66||2","MethDesc":"静脉滴注","OeoreGroup":[{"ArcimDesc":"0.9%氯化钠注射液[500ml]","DoseQtyUnit":"500 ml","JmFlag":"0","PhOrdQtyUnit":"1500 ml"},{"ArcimDesc":"0.9%氯化钠注射液[500ml]","DoseQtyUnit":"500 ml","JmFlag":"0","PhOrdQtyUnit":"1500 ml"}],"OeoreId":"194||65||2","ResidualQty":"20 ml","SttdateTime":"2019-06-04 09:19:17"}]},{"PatBed":"02","PatName":"lc2019020201","PatOrds":[]},{"PatBed":"03","PatName":"lc2019021201","PatOrds":[]},{"PatBed":"04","PatName":"lc2019021202","PatOrds":[]},{"PatBed":"05","PatName":"lc2019021203","PatOrds":[]},{"PatBed":"01","PatName":"lc2019013101","PatOrds":[]},{"PatBed":"07","PatName":"zfmcs04","PatOrds":[]},{"PatBed":"08","PatName":"jhm0100","PatOrds":[]},{"PatBed":"09","PatName":"zfmcs03","PatOrds":[]},{"PatBed":"10","PatName":"zfmcs05","PatOrds":[]},{"PatBed":"11","PatName":"jhm0101","PatOrds":[]},{"PatBed":"12","PatName":"jhm0102","PatOrds":[]},{"PatBed":"13","PatName":"lc2019021601","PatOrds":[]},{"PatBed":"14","PatName":"tyu02","PatOrds":[]},{"PatBed":"15","PatName":"lc2019021301","PatOrds":[]},{"PatBed":"16","PatName":"lc2019021801","PatOrds":[]},{"PatBed":"17","PatName":"lc2019021402","PatOrds":[{"JmOeoreId":"281||30||1","MethDesc":"静脉滴注","OeoreGroup":[{"ArcimDesc":"10%葡萄糖注射液(塑瓶)[250ML]","DoseQtyUnit":"250 ml","JmFlag":"0","PhOrdQtyUnit":"750 ml"},{"ArcimDesc":"10%葡萄糖注射液(塑瓶)[250ML]","DoseQtyUnit":"250 ml","JmFlag":"0","PhOrdQtyUnit":"750 ml"}],"OeoreId":"281||29||1","ResidualQty":"20 ml","SttdateTime":"2019-06-04 09:20:46"},{"JmOeoreId":"281||30||2","MethDesc":"静脉滴注","OeoreGroup":[{"ArcimDesc":"10%葡萄糖注射液(塑瓶)[250ML]","DoseQtyUnit":"250 ml","JmFlag":"0","PhOrdQtyUnit":"750 ml"},{"ArcimDesc":"10%葡萄糖注射液(塑瓶)[250ML]","DoseQtyUnit":"250 ml","JmFlag":"0","PhOrdQtyUnit":"750 ml"}],"OeoreId":"281||29||2","ResidualQty":"20 ml","SttdateTime":"2019-06-04 09:20:46"}]},{"PatBed":"18","PatName":"lc2019021605","PatOrds":[]},{"PatBed":"19","PatName":"jhm0103","PatOrds":[]},{"PatBed":"20","PatName":"lc2019021401","PatOrds":[]},{"PatBed":"21","PatName":"jhm0106","PatOrds":[]},{"PatBed":"22","PatName":"jhm0107","PatOrds":[]},{"PatBed":"23","PatName":"lc2019022001","PatOrds":[]},{"PatBed":"24","PatName":"lc2018021802","PatOrds":[]},{"PatBed":"25","PatName":"jhm0110","PatOrds":[]},{"PatBed":"26","PatName":"lc2019021905","PatOrds":[]},{"PatBed":"27","PatName":"时效性验证","PatOrds":[]},{"PatBed":"28","PatName":"lc2019022002","PatOrds":[]},{"PatBed":"29","PatName":"转科需关注","PatOrds":[]},{"PatBed":"30","PatName":"lc2019022101","PatOrds":[]}]
+     * PatOrdList : [{"PatBed":"06","PatName":"lc2019021204","PatOrds":[{"JmOeoreId":"194||60||1","JmUnitDesc":"mg","MethDesc":"外用","OeoreGroup":[{"ArcimDesc":"芬太尼透皮贴剂(多瑞吉)[8.4mg*5]","DoseQtyUnit":"8.4 mg","JmFlag":"1","PhOrdQtyUnit":"25.2 mg","oeoreId":"194||60||1"}],"OeoreId":"194||60||1","ResidualQty":"20 ml","SttdateTime":"2019-05-29 11:15:20","UnitDescComb":"ml^g^kg","WhereGo":"A^B"},{"JmOeoreId":"194||60||2","JmUnitDesc":"mg","MethDesc":"外用","OeoreGroup":[{"ArcimDesc":"芬太尼透皮贴剂(多瑞吉)[8.4mg*5]","DoseQtyUnit":"8.4 mg","JmFlag":"1","PhOrdQtyUnit":"25.2 mg","oeoreId":"194||60||2"}],"OeoreId":"194||60||2","ResidualQty":"20 ml","SttdateTime":"2019-05-29 11:15:20","UnitDescComb":"ml^g^kg","WhereGo":"A^B"},{"JmOeoreId":"194||60||3","JmUnitDesc":"mg","MethDesc":"外用","OeoreGroup":[{"ArcimDesc":"芬太尼透皮贴剂(多瑞吉)[8.4mg*5]","DoseQtyUnit":"8.4 mg","JmFlag":"1","PhOrdQtyUnit":"25.2 mg","oeoreId":"194||60||3"}],"OeoreId":"194||60||3","ResidualQty":"","SttdateTime":"2019-05-29 11:15:20","UnitDescComb":"ml^g^kg","WhereGo":"A^B"},{"JmOeoreId":"194||60||4","JmUnitDesc":"mg","MethDesc":"外用","OeoreGroup":[{"ArcimDesc":"芬太尼透皮贴剂(多瑞吉)[8.4mg*5]","DoseQtyUnit":"8.4 mg","JmFlag":"1","PhOrdQtyUnit":"25.2 mg","oeoreId":"194||60||4"}],"OeoreId":"194||60||4","ResidualQty":"20 ml","SttdateTime":"2019-05-29 11:15:20","UnitDescComb":"ml^g^kg","WhereGo":"A^B"},{"JmOeoreId":"194||66||1","JmUnitDesc":"mg","MethDesc":"静脉滴注","OeoreGroup":[{"ArcimDesc":"0.9%氯化钠注射液[500ml]","DoseQtyUnit":"500 ml","JmFlag":"0","PhOrdQtyUnit":"1500 ml","oeoreId":"194||65||1"},{"ArcimDesc":"芬太尼透皮贴剂(多瑞吉)[8.4mg*5]","DoseQtyUnit":"8.4 mg","JmFlag":"1","PhOrdQtyUnit":"25.2 mg","oeoreId":"194||66||1"}],"OeoreId":"194||65||1","ResidualQty":"","SttdateTime":"2019-06-04 09:19:17","UnitDescComb":"ml^g^kg","WhereGo":"A^B"},{"JmOeoreId":"194||66||2","JmUnitDesc":"mg","MethDesc":"静脉滴注","OeoreGroup":[{"ArcimDesc":"0.9%氯化钠注射液[500ml]","DoseQtyUnit":"500 ml","JmFlag":"0","PhOrdQtyUnit":"1500 ml","oeoreId":"194||65||2"},{"ArcimDesc":"芬太尼透皮贴剂(多瑞吉)[8.4mg*5]","DoseQtyUnit":"8.4 mg","JmFlag":"1","PhOrdQtyUnit":"25.2 mg","oeoreId":"194||66||2"}],"OeoreId":"194||65||2","ResidualQty":"","SttdateTime":"2019-06-04 09:19:17","UnitDescComb":"ml^g^kg","WhereGo":"A^B"},{"JmOeoreId":"194||66||3","JmUnitDesc":"mg","MethDesc":"静脉滴注","OeoreGroup":[{"ArcimDesc":"0.9%氯化钠注射液[500ml]","DoseQtyUnit":"500 ml","JmFlag":"0","PhOrdQtyUnit":"1500 ml","oeoreId":"194||65||3"},{"ArcimDesc":"芬太尼透皮贴剂(多瑞吉)[8.4mg*5]","DoseQtyUnit":"8.4 mg","JmFlag":"1","PhOrdQtyUnit":"25.2 mg","oeoreId":"194||66||3"}],"OeoreId":"194||65||3","ResidualQty":"20 ml","SttdateTime":"2019-06-04 09:19:17","UnitDescComb":"ml^g^kg","WhereGo":"A^B"},{"JmOeoreId":"194||66||4","JmUnitDesc":"mg","MethDesc":"静脉滴注","OeoreGroup":[{"ArcimDesc":"0.9%氯化钠注射液[500ml]","DoseQtyUnit":"500 ml","JmFlag":"0","PhOrdQtyUnit":"1500 ml","oeoreId":"194||65||4"},{"ArcimDesc":"芬太尼透皮贴剂(多瑞吉)[8.4mg*5]","DoseQtyUnit":"8.4 mg","JmFlag":"1","PhOrdQtyUnit":"25.2 mg","oeoreId":"194||66||4"}],"OeoreId":"194||65||4","ResidualQty":"","SttdateTime":"2019-06-04 09:19:17","UnitDescComb":"ml^g^kg","WhereGo":"A^B"},{"JmOeoreId":"194||66||5","JmUnitDesc":"mg","MethDesc":"静脉滴注","OeoreGroup":[{"ArcimDesc":"0.9%氯化钠注射液[500ml]","DoseQtyUnit":"500 ml","JmFlag":"0","PhOrdQtyUnit":"1500 ml","oeoreId":"194||65||5"},{"ArcimDesc":"芬太尼透皮贴剂(多瑞吉)[8.4mg*5]","DoseQtyUnit":"8.4 mg","JmFlag":"1","PhOrdQtyUnit":"25.2 mg","oeoreId":"194||66||5"}],"OeoreId":"194||65||5","ResidualQty":"","SttdateTime":"2019-06-04 09:19:17","UnitDescComb":"ml^g^kg","WhereGo":"A^B"}]},{"PatBed":"17","PatName":"lc2019021402","PatOrds":[{"JmOeoreId":"281||30||1","JmUnitDesc":"mg","MethDesc":"静脉滴注","OeoreGroup":[{"ArcimDesc":"10%葡萄糖注射液(塑瓶)[250ML]","DoseQtyUnit":"250 ml","JmFlag":"0","PhOrdQtyUnit":"750 ml","oeoreId":"281||29||1"},{"ArcimDesc":"芬太尼透皮贴剂(多瑞吉)[8.4mg*5]","DoseQtyUnit":"8.4 mg","JmFlag":"1","PhOrdQtyUnit":"25.2 mg","oeoreId":"281||30||1"}],"OeoreId":"281||29||1","ResidualQty":"","SttdateTime":"2019-06-04 09:20:46","UnitDescComb":"ml^g^kg","WhereGo":"A^B"},{"JmOeoreId":"281||30||2","JmUnitDesc":"mg","MethDesc":"静脉滴注","OeoreGroup":[{"ArcimDesc":"10%葡萄糖注射液(塑瓶)[250ML]","DoseQtyUnit":"250 ml","JmFlag":"0","PhOrdQtyUnit":"750 ml","oeoreId":"281||29||2"},{"ArcimDesc":"芬太尼透皮贴剂(多瑞吉)[8.4mg*5]","DoseQtyUnit":"8.4 mg","JmFlag":"1","PhOrdQtyUnit":"25.2 mg","oeoreId":"281||30||2"}],"OeoreId":"281||29||2","ResidualQty":"","SttdateTime":"2019-06-04 09:20:46","UnitDescComb":"ml^g^kg","WhereGo":"A^B"},{"JmOeoreId":"281||30||3","JmUnitDesc":"mg","MethDesc":"静脉滴注","OeoreGroup":[{"ArcimDesc":"10%葡萄糖注射液(塑瓶)[250ML]","DoseQtyUnit":"250 ml","JmFlag":"0","PhOrdQtyUnit":"750 ml","oeoreId":"281||29||3"},{"ArcimDesc":"芬太尼透皮贴剂(多瑞吉)[8.4mg*5]","DoseQtyUnit":"8.4 mg","JmFlag":"1","PhOrdQtyUnit":"25.2 mg","oeoreId":"281||30||3"}],"OeoreId":"281||29||3","ResidualQty":"","SttdateTime":"2019-06-04 09:20:46","UnitDescComb":"ml^g^kg","WhereGo":"A^B"},{"JmOeoreId":"281||30||4","JmUnitDesc":"mg","MethDesc":"静脉滴注","OeoreGroup":[{"ArcimDesc":"10%葡萄糖注射液(塑瓶)[250ML]","DoseQtyUnit":"250 ml","JmFlag":"0","PhOrdQtyUnit":"750 ml","oeoreId":"281||29||4"},{"ArcimDesc":"芬太尼透皮贴剂(多瑞吉)[8.4mg*5]","DoseQtyUnit":"8.4 mg","JmFlag":"1","PhOrdQtyUnit":"25.2 mg","oeoreId":"281||30||4"}],"OeoreId":"281||29||4","ResidualQty":"","SttdateTime":"2019-06-04 09:20:46","UnitDescComb":"ml^g^kg","WhereGo":"A^B"},{"JmOeoreId":"281||30||5","JmUnitDesc":"mg","MethDesc":"静脉滴注","OeoreGroup":[{"ArcimDesc":"10%葡萄糖注射液(塑瓶)[250ML]","DoseQtyUnit":"250 ml","JmFlag":"0","PhOrdQtyUnit":"750 ml","oeoreId":"281||29||5"},{"ArcimDesc":"芬太尼透皮贴剂(多瑞吉)[8.4mg*5]","DoseQtyUnit":"8.4 mg","JmFlag":"1","PhOrdQtyUnit":"25.2 mg","oeoreId":"281||30||5"}],"OeoreId":"281||29||5","ResidualQty":"","SttdateTime":"2019-06-04 09:20:46","UnitDescComb":"ml^g^kg","WhereGo":"A^B"}]}]
      * msg : 成功
      * msgcode :
      * status : 0
@@ -54,7 +54,7 @@ public class RLPatOrdBean {
         /**
          * PatBed : 06
          * PatName : lc2019021204
-         * PatOrds : [{"JmOeoreId":"194||66||1","MethDesc":"静脉滴注","OeoreGroup":[{"ArcimDesc":"0.9%氯化钠注射液[500ml]","DoseQtyUnit":"500 ml","JmFlag":"0","PhOrdQtyUnit":"1500 ml"},{"ArcimDesc":"0.9%氯化钠注射液[500ml]","DoseQtyUnit":"500 ml","JmFlag":"0","PhOrdQtyUnit":"1500 ml"}],"OeoreId":"194||65||1","ResidualQty":"20 ml","SttdateTime":"2019-06-04 09:19:17"},{"JmOeoreId":"194||66||2","MethDesc":"静脉滴注","OeoreGroup":[{"ArcimDesc":"0.9%氯化钠注射液[500ml]","DoseQtyUnit":"500 ml","JmFlag":"0","PhOrdQtyUnit":"1500 ml"},{"ArcimDesc":"0.9%氯化钠注射液[500ml]","DoseQtyUnit":"500 ml","JmFlag":"0","PhOrdQtyUnit":"1500 ml"}],"OeoreId":"194||65||2","ResidualQty":"20 ml","SttdateTime":"2019-06-04 09:19:17"}]
+         * PatOrds : [{"JmOeoreId":"194||60||1","JmUnitDesc":"mg","MethDesc":"外用","OeoreGroup":[{"ArcimDesc":"芬太尼透皮贴剂(多瑞吉)[8.4mg*5]","DoseQtyUnit":"8.4 mg","JmFlag":"1","PhOrdQtyUnit":"25.2 mg","oeoreId":"194||60||1"}],"OeoreId":"194||60||1","ResidualQty":"20 ml","SttdateTime":"2019-05-29 11:15:20","UnitDescComb":"ml^g^kg","WhereGo":"A^B"},{"JmOeoreId":"194||60||2","JmUnitDesc":"mg","MethDesc":"外用","OeoreGroup":[{"ArcimDesc":"芬太尼透皮贴剂(多瑞吉)[8.4mg*5]","DoseQtyUnit":"8.4 mg","JmFlag":"1","PhOrdQtyUnit":"25.2 mg","oeoreId":"194||60||2"}],"OeoreId":"194||60||2","ResidualQty":"20 ml","SttdateTime":"2019-05-29 11:15:20","UnitDescComb":"ml^g^kg","WhereGo":"A^B"},{"JmOeoreId":"194||60||3","JmUnitDesc":"mg","MethDesc":"外用","OeoreGroup":[{"ArcimDesc":"芬太尼透皮贴剂(多瑞吉)[8.4mg*5]","DoseQtyUnit":"8.4 mg","JmFlag":"1","PhOrdQtyUnit":"25.2 mg","oeoreId":"194||60||3"}],"OeoreId":"194||60||3","ResidualQty":"","SttdateTime":"2019-05-29 11:15:20","UnitDescComb":"ml^g^kg","WhereGo":"A^B"},{"JmOeoreId":"194||60||4","JmUnitDesc":"mg","MethDesc":"外用","OeoreGroup":[{"ArcimDesc":"芬太尼透皮贴剂(多瑞吉)[8.4mg*5]","DoseQtyUnit":"8.4 mg","JmFlag":"1","PhOrdQtyUnit":"25.2 mg","oeoreId":"194||60||4"}],"OeoreId":"194||60||4","ResidualQty":"20 ml","SttdateTime":"2019-05-29 11:15:20","UnitDescComb":"ml^g^kg","WhereGo":"A^B"},{"JmOeoreId":"194||66||1","JmUnitDesc":"mg","MethDesc":"静脉滴注","OeoreGroup":[{"ArcimDesc":"0.9%氯化钠注射液[500ml]","DoseQtyUnit":"500 ml","JmFlag":"0","PhOrdQtyUnit":"1500 ml","oeoreId":"194||65||1"},{"ArcimDesc":"芬太尼透皮贴剂(多瑞吉)[8.4mg*5]","DoseQtyUnit":"8.4 mg","JmFlag":"1","PhOrdQtyUnit":"25.2 mg","oeoreId":"194||66||1"}],"OeoreId":"194||65||1","ResidualQty":"","SttdateTime":"2019-06-04 09:19:17","UnitDescComb":"ml^g^kg","WhereGo":"A^B"},{"JmOeoreId":"194||66||2","JmUnitDesc":"mg","MethDesc":"静脉滴注","OeoreGroup":[{"ArcimDesc":"0.9%氯化钠注射液[500ml]","DoseQtyUnit":"500 ml","JmFlag":"0","PhOrdQtyUnit":"1500 ml","oeoreId":"194||65||2"},{"ArcimDesc":"芬太尼透皮贴剂(多瑞吉)[8.4mg*5]","DoseQtyUnit":"8.4 mg","JmFlag":"1","PhOrdQtyUnit":"25.2 mg","oeoreId":"194||66||2"}],"OeoreId":"194||65||2","ResidualQty":"","SttdateTime":"2019-06-04 09:19:17","UnitDescComb":"ml^g^kg","WhereGo":"A^B"},{"JmOeoreId":"194||66||3","JmUnitDesc":"mg","MethDesc":"静脉滴注","OeoreGroup":[{"ArcimDesc":"0.9%氯化钠注射液[500ml]","DoseQtyUnit":"500 ml","JmFlag":"0","PhOrdQtyUnit":"1500 ml","oeoreId":"194||65||3"},{"ArcimDesc":"芬太尼透皮贴剂(多瑞吉)[8.4mg*5]","DoseQtyUnit":"8.4 mg","JmFlag":"1","PhOrdQtyUnit":"25.2 mg","oeoreId":"194||66||3"}],"OeoreId":"194||65||3","ResidualQty":"20 ml","SttdateTime":"2019-06-04 09:19:17","UnitDescComb":"ml^g^kg","WhereGo":"A^B"},{"JmOeoreId":"194||66||4","JmUnitDesc":"mg","MethDesc":"静脉滴注","OeoreGroup":[{"ArcimDesc":"0.9%氯化钠注射液[500ml]","DoseQtyUnit":"500 ml","JmFlag":"0","PhOrdQtyUnit":"1500 ml","oeoreId":"194||65||4"},{"ArcimDesc":"芬太尼透皮贴剂(多瑞吉)[8.4mg*5]","DoseQtyUnit":"8.4 mg","JmFlag":"1","PhOrdQtyUnit":"25.2 mg","oeoreId":"194||66||4"}],"OeoreId":"194||65||4","ResidualQty":"","SttdateTime":"2019-06-04 09:19:17","UnitDescComb":"ml^g^kg","WhereGo":"A^B"},{"JmOeoreId":"194||66||5","JmUnitDesc":"mg","MethDesc":"静脉滴注","OeoreGroup":[{"ArcimDesc":"0.9%氯化钠注射液[500ml]","DoseQtyUnit":"500 ml","JmFlag":"0","PhOrdQtyUnit":"1500 ml","oeoreId":"194||65||5"},{"ArcimDesc":"芬太尼透皮贴剂(多瑞吉)[8.4mg*5]","DoseQtyUnit":"8.4 mg","JmFlag":"1","PhOrdQtyUnit":"25.2 mg","oeoreId":"194||66||5"}],"OeoreId":"194||65||5","ResidualQty":"","SttdateTime":"2019-06-04 09:19:17","UnitDescComb":"ml^g^kg","WhereGo":"A^B"}]
          */
 
         private String PatBed;
@@ -87,19 +87,25 @@ public class RLPatOrdBean {
 
         public static class PatOrdsBean implements Serializable {
             /**
-             * JmOeoreId : 194||66||1
-             * MethDesc : 静脉滴注
-             * OeoreGroup : [{"ArcimDesc":"0.9%氯化钠注射液[500ml]","DoseQtyUnit":"500 ml","JmFlag":"0","PhOrdQtyUnit":"1500 ml"},{"ArcimDesc":"0.9%氯化钠注射液[500ml]","DoseQtyUnit":"500 ml","JmFlag":"0","PhOrdQtyUnit":"1500 ml"}]
-             * OeoreId : 194||65||1
+             * JmOeoreId : 194||60||1
+             * JmUnitDesc : mg
+             * MethDesc : 外用
+             * OeoreGroup : [{"ArcimDesc":"芬太尼透皮贴剂(多瑞吉)[8.4mg*5]","DoseQtyUnit":"8.4 mg","JmFlag":"1","PhOrdQtyUnit":"25.2 mg","oeoreId":"194||60||1"}]
+             * OeoreId : 194||60||1
              * ResidualQty : 20 ml
-             * SttdateTime : 2019-06-04 09:19:17
+             * SttdateTime : 2019-05-29 11:15:20
+             * UnitDescComb : ml^g^kg
+             * WhereGo : A^B
              */
 
             private String JmOeoreId;
+            private String JmUnitDesc;
             private String MethDesc;
             private String OeoreId;
             private String ResidualQty;
             private String SttdateTime;
+            private String UnitDescComb;
+            private String WhereGo;
             private List<OeoreGroupBean> OeoreGroup;
 
             public String getJmOeoreId() {
@@ -108,6 +114,14 @@ public class RLPatOrdBean {
 
             public void setJmOeoreId(String JmOeoreId) {
                 this.JmOeoreId = JmOeoreId;
+            }
+
+            public String getJmUnitDesc() {
+                return JmUnitDesc;
+            }
+
+            public void setJmUnitDesc(String JmUnitDesc) {
+                this.JmUnitDesc = JmUnitDesc;
             }
 
             public String getMethDesc() {
@@ -142,6 +156,22 @@ public class RLPatOrdBean {
                 this.SttdateTime = SttdateTime;
             }
 
+            public String getUnitDescComb() {
+                return UnitDescComb;
+            }
+
+            public void setUnitDescComb(String UnitDescComb) {
+                this.UnitDescComb = UnitDescComb;
+            }
+
+            public String getWhereGo() {
+                return WhereGo;
+            }
+
+            public void setWhereGo(String WhereGo) {
+                this.WhereGo = WhereGo;
+            }
+
             public List<OeoreGroupBean> getOeoreGroup() {
                 return OeoreGroup;
             }
@@ -152,16 +182,18 @@ public class RLPatOrdBean {
 
             public static class OeoreGroupBean implements Serializable {
                 /**
-                 * ArcimDesc : 0.9%氯化钠注射液[500ml]
-                 * DoseQtyUnit : 500 ml
-                 * JmFlag : 0
-                 * PhOrdQtyUnit : 1500 ml
+                 * ArcimDesc : 芬太尼透皮贴剂(多瑞吉)[8.4mg*5]
+                 * DoseQtyUnit : 8.4 mg
+                 * JmFlag : 1
+                 * PhOrdQtyUnit : 25.2 mg
+                 * oeoreId : 194||60||1
                  */
 
                 private String ArcimDesc;
                 private String DoseQtyUnit;
                 private String JmFlag;
                 private String PhOrdQtyUnit;
+                private String oeoreId;
 
                 public String getArcimDesc() {
                     return ArcimDesc;
@@ -193,6 +225,14 @@ public class RLPatOrdBean {
 
                 public void setPhOrdQtyUnit(String PhOrdQtyUnit) {
                     this.PhOrdQtyUnit = PhOrdQtyUnit;
+                }
+
+                public String getOeoreId() {
+                    return oeoreId;
+                }
+
+                public void setOeoreId(String oeoreId) {
+                    this.oeoreId = oeoreId;
                 }
             }
         }

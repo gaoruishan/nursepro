@@ -31,6 +31,9 @@ import com.jzxiang.pickerview.listener.OnDateSetListener;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import cn.qqtheme.framework.picker.OptionPicker;
+import cn.qqtheme.framework.widget.WheelView;
+
 /**
  * RLRegFragment
  * 余液登记
@@ -185,6 +188,13 @@ public class RLRegFragment extends BaseFragment implements View.OnClickListener,
         rlRegEditDialog.setOeoreGroupBeanList(patOrdsBean.getOeoreGroup());
         rlRegEditDialog.setOrderexinfo(patOrdsBean.getSttdateTime() + "   " + patOrdsBean.getMethDesc());
         rlRegEditDialog.setRlCount(patOrdsBean.getResidualQty());
+        rlRegEditDialog.setWhereGo(patOrdsBean.getWhereGo());
+        rlRegEditDialog.setUnitOnclickListener(new RlRegEditDialog.onUnitOnclickListener() {
+            @Override
+            public void onUnitClick() {
+                showUnitPicker(patOrdsBean.getUnitDescComb());
+            }
+        });
         rlRegEditDialog.setSureOnclickListener(new RlRegEditDialog.onSureOnclickListener() {
             @Override
             public void onSureClick() {
@@ -200,6 +210,24 @@ public class RLRegFragment extends BaseFragment implements View.OnClickListener,
         });
         rlRegEditDialog.show();
 
+    }
+
+    private void showUnitPicker(String unitDescComb) {
+        String[] unitDesc = unitDescComb.split("\\^");
+
+        final OptionPicker picker = new OptionPicker(getActivity(), unitDesc);
+        picker.setCanceledOnTouchOutside(false);
+        picker.setDividerRatio(WheelView.DividerConfig.FILL);
+        picker.setSelectedIndex(0);
+        picker.setCycleDisable(true);
+        picker.setTextSize(18);
+        picker.setOnOptionPickListener(new OptionPicker.OnOptionPickListener() {
+            @Override
+            public void onOptionPicked(int index, String item) {
+                rlRegEditDialog.setRlUnit(item);
+            }
+        });
+        picker.show();
     }
 
     private void rlReg(RLPatOrdBean.PatOrdListBean.PatOrdsBean patOrdsBean, String rlCount, String rlUnit, String type) {

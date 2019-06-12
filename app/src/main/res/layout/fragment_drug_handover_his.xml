@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context=".workarea.drugloopsystem.drughandover.DrugHandoverHisFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/icon_time_bottom" />
+
+        <TextView
+            android:id="@+id/tv_drughandoverhis_startdate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:textColor="#4a4a4a"
+            tools:text="2018-08-23" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="至"
+            android:textColor="#62abff" />
+
+        <TextView
+            android:id="@+id/tv_drughandoverhis_enddate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:textColor="#4a4a4a"
+            tools:text="2018-08-23" />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recy_drughandoverhis_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#f5faff">
+
+    </android.support.v7.widget.RecyclerView>
+
+</LinearLayout>

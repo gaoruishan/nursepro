@@ -52,6 +52,24 @@ public class DrugHandoverApiService {
         });
     }
 
+    public static void getOrdRecieveList(String startdate, String enddate, final ServiceCallBack callback) {
+        SPUtils spUtils = SPUtils.getInstance();
+        HashMap<String, String> properties = new HashMap<>();
+        properties.put("locId", spUtils.getString(SharedPreference.LOCID));
+
+        properties.put("startDate", startdate);
+        properties.put("endDate", enddate);
+
+        Log.i("DrugHandover", "getOrdRecieveList: " + properties.toString());
+
+        WebServiceUtils.callWebService("getOrdRecieveList", properties, new WebServiceUtils.WebServiceCallBack() {
+            @Override
+            public void callBack(String result) {
+                callback.onResult(result);
+            }
+        });
+    }
+
     public interface ServiceCallBack {
         void onResult(String jsonStr);
     }

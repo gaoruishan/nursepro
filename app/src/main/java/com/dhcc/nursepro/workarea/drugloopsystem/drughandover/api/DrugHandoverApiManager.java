@@ -3,6 +3,7 @@ package com.dhcc.nursepro.workarea.drugloopsystem.drughandover.api;
 import com.blankj.utilcode.util.ObjectUtils;
 import com.dhcc.nursepro.workarea.drugloopsystem.drughandover.bean.BatchSaveResult;
 import com.dhcc.nursepro.workarea.drugloopsystem.drughandover.bean.DrugHandOverScanOrderList;
+import com.dhcc.nursepro.workarea.drugloopsystem.drughandover.bean.GetOrdRecListBean;
 import com.google.gson.Gson;
 
 /**
@@ -78,6 +79,39 @@ public class DrugHandoverApiManager {
         });
     }
 
+    public static void getOrdRecieveList(String startdate, String enddate, final GetOrdReceiveListCallback callback) {
+        DrugHandoverApiService.getOrdRecieveList(startdate, enddate, new DrugHandoverApiService.ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                Gson gson = new Gson();
+
+                if (jsonStr.isEmpty()) {
+                    callback.onFail("-1", "网络错误，请求数据为空");
+                } else {
+                    try {
+                        GetOrdRecListBean getOrdRecListBean = gson.fromJson(jsonStr, GetOrdRecListBean.class);
+                        if (ObjectUtils.isEmpty(getOrdRecListBean)) {
+                            callback.onFail("-3", "网络错误，数据解析为空");
+                        } else {
+                            if ("0".equals(getOrdRecListBean.getStatus())) {
+                                if (callback != null) {
+                                    callback.onSuccess(getOrdRecListBean);
+                                }
+                            } else {
+                                if (callback != null) {
+                                    callback.onFail(getOrdRecListBean.getMsgcode(), getOrdRecListBean.getMsg());
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        callback.onFail("-2", "网络错误，数据解析失败");
+                    }
+
+                }
+            }
+        });
+    }
+
 
     public interface CommonCallBack {
         void onFail(String code, String msg);
@@ -90,4 +124,9 @@ public class DrugHandoverApiManager {
     public interface BatchSaveCallback extends CommonCallBack {
         void onSuccess(BatchSaveResult batchSaveResult);
     }
+
+    public interface GetOrdReceiveListCallback extends CommonCallBack {
+        void onSuccess(GetOrdRecListBean getOrdRecListBean);
+    }
+
 }
