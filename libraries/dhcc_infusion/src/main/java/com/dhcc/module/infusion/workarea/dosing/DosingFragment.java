@@ -1,18 +1,15 @@
 package com.dhcc.module.infusion.workarea.dosing;
 
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import com.base.commlibs.BaseFragment;
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
 import com.blankj.utilcode.util.ToastUtils;
@@ -20,6 +17,7 @@ import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.utils.AdapterFactory;
 import com.dhcc.module.infusion.utils.DialogFactory;
 import com.dhcc.module.infusion.utils.RecyclerViewHelper;
+import com.dhcc.module.infusion.workarea.comm.BaseInfusionFragment;
 import com.dhcc.module.infusion.workarea.dosing.adapter.CommDosingAdapter;
 import com.dhcc.module.infusion.workarea.dosing.api.DosingApiManager;
 import com.dhcc.module.infusion.workarea.dosing.bean.DosingBean;
@@ -30,7 +28,7 @@ import com.dhcc.module.infusion.workarea.dosing.bean.DosingBean;
  * @date:202019-04-24/14:13
  * @email:grs0515@163.com
  */
-public class DosingFragment extends BaseFragment implements View.OnClickListener {
+public class DosingFragment extends BaseInfusionFragment implements View.OnClickListener {
 
     private DosingApiManager manager;
     private RecyclerView rvDosing;
@@ -43,12 +41,8 @@ public class DosingFragment extends BaseFragment implements View.OnClickListener
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setStatusBarBackgroundViewVisibility(true, 0xffffffff);
-        setToolbarBackground(new ColorDrawable(0xffffffff));
-        setToolbarBottomLineVisibility(true);
-        this.getActivity().findViewById(R.id.toolbar_bottom_line).setBackgroundColor(ContextCompat.getColor(getContext(), R.color.blue_dark2));
-        showToolbarNavigationIcon(R.drawable.icon_back_blue);
         setToolbarCenterTitle("配液");
+        addPatListToToolbarRight();
         tvOk=f(R.id.tv_ok);
         tvOk.setOnClickListener(this);
         rvDosing = RecyclerViewHelper.get(this.getActivity(), R.id.rv_dosing);

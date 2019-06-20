@@ -1,7 +1,6 @@
 package com.dhcc.module.infusion.workarea.needles;
 
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,18 +9,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.base.commlibs.BaseFragment;
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
 import com.blankj.utilcode.util.ToastUtils;
-import com.dhcc.module.infusion.workarea.patrol.adapter.PatrolOrdListAdapter;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.utils.AdapterFactory;
 import com.dhcc.module.infusion.utils.DialogFactory;
 import com.dhcc.module.infusion.utils.RecyclerViewHelper;
 import com.dhcc.module.infusion.view.CustomPatView;
 import com.dhcc.module.infusion.view.CustomScanView;
+import com.dhcc.module.infusion.workarea.comm.BaseInfusionFragment;
 import com.dhcc.module.infusion.workarea.needles.api.NeedlesApiManager;
+import com.dhcc.module.infusion.workarea.patrol.adapter.PatrolOrdListAdapter;
 
 /**
  * 拔针
@@ -29,7 +28,7 @@ import com.dhcc.module.infusion.workarea.needles.api.NeedlesApiManager;
  * @date:202019-04-29/11:34
  * @email:grs0515@163.com
  */
-public class NeedlesFragment extends BaseFragment implements View.OnClickListener {
+public class NeedlesFragment extends BaseInfusionFragment implements View.OnClickListener {
     private CustomScanView csvScan;
     private CustomPatView cpvPat;
     private PatrolOrdListAdapter commPatrolAdapter;
@@ -39,9 +38,6 @@ public class NeedlesFragment extends BaseFragment implements View.OnClickListene
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setStatusBarBackgroundViewVisibility(true, 0xffffffff);
-        setToolbarBackground(new ColorDrawable(0xffffffff));
-        showToolbarNavigationIcon(R.drawable.icon_back_blue);
         setToolbarCenterTitle("拔针");
         csvScan = mContainerChild.findViewById(R.id.csv_scan);
         cpvPat = mContainerChild.findViewById(R.id.cpv_pat);

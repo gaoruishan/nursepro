@@ -5,10 +5,6 @@
     android:layout_height="match_parent"
     android:background="@color/screen_bg_color"
     android:orientation="vertical">
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/blue_light"/>
     <!--扫码-->
     <com.dhcc.module.infusion.view.CustomScanView
         android:id="@+id/csv_scan"

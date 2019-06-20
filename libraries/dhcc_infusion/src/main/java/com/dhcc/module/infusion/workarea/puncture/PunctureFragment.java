@@ -10,8 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.base.commlibs.BaseActivity;
-import com.base.commlibs.BaseFragment;
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.BaseHelper;
@@ -23,6 +21,7 @@ import com.dhcc.module.infusion.utils.RecyclerViewHelper;
 import com.dhcc.module.infusion.view.CustomPatView;
 import com.dhcc.module.infusion.view.CustomSelectView;
 import com.dhcc.module.infusion.view.CustomSpeedView;
+import com.dhcc.module.infusion.workarea.comm.BaseInfusionFragment;
 import com.dhcc.module.infusion.workarea.dosing.adapter.CommDosingAdapter;
 import com.dhcc.module.infusion.workarea.puncture.api.PunctureApiManager;
 
@@ -38,7 +37,7 @@ import cn.qqtheme.framework.widget.WheelView;
  * Date: 2019/3/7
  * Time:9:25
  */
-public class PunctureFragment extends BaseFragment implements View.OnClickListener {
+public class PunctureFragment extends BaseInfusionFragment implements View.OnClickListener {
 
     private PunctureBean mBean;
     private RecyclerView rvPuncture;
@@ -53,12 +52,13 @@ public class PunctureFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setStatusBarBackgroundViewVisibility(true, 0xffffffff);
-        setToolbarType(BaseActivity.ToolbarType.TOP);
-        setToolbarBackground(new ColorDrawable(0xffffffff));
-        showToolbarNavigationIcon(R.drawable.icon_back_blue);
         setToolbarCenterTitle("穿刺");
-        setToolbarBottomLineVisibility(false);
+
+        setStatusBarBackgroundViewVisibility(true, 0xffffffff);
+        setToolbarBackground(new ColorDrawable(0xffffffff));
+        setToolbarBottomLineVisibility(true);
+        showToolbarNavigationIcon(R.drawable.icon_back_blue);
+
         helper = new BaseHelper(this.getActivity());
         rvPuncture = RecyclerViewHelper.get(getActivity(), R.id.rv_puncture);
         csvSpeed = mContainerChild.findViewById(R.id.csv_speed);

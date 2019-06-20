@@ -7,10 +7,6 @@
     android:background="#ECECEC"
     android:orientation="vertical">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/blue_light"/>
     <!--扫码-->
     <com.dhcc.module.infusion.view.CustomScanView
         android:id="@+id/csv"
@@ -31,7 +27,7 @@
         android:id="@+id/rv_puncture"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="@dimen/dp_20"
         android:background="@color/white"
     />
 

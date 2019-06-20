@@ -38,7 +38,7 @@ public class MessageFragment extends BaseFragment implements CustomTabView.OnTab
     //登陆成功后所有的广播信息全部注销了，在此重新注册
     protected BaseReceiver mReceiver = new BaseReceiver();
     protected IntentFilter mfilter = new IntentFilter();
-    private CustomTabView ctv;
+//    private CustomTabView ctv;
     private RecyclerView[] recyclerViews;
     private MessageInfusionAdapter messageInfusionAdapter;
     private MessageSkinAdapter messageSkinAdapter;
@@ -115,7 +115,7 @@ public class MessageFragment extends BaseFragment implements CustomTabView.OnTab
             return;
         }
         setStatusBarBackgroundViewVisibility(false, 0xffffffff);
-        ctv = mContainerChild.findViewById(R.id.ctv);
+        CustomTabView ctv = view.findViewById(R.id.ctv);
         ctv.setTabText(new String[]{"皮试", "输液"}).setOnTabClickLisenter(this);
         RecyclerView rvMsgSkin = RecyclerViewHelper.get(getActivity(), R.id.rv_msg_skin);
         RecyclerView rvMsgInfusion = RecyclerViewHelper.get(getActivity(), R.id.rv_msg_infusion);

@@ -1,7 +1,6 @@
 package com.dhcc.module.infusion.workarea.patrol;
 
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import com.base.commlibs.BaseFragment;
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
 import com.blankj.utilcode.util.ToastUtils;
@@ -24,6 +22,7 @@ import com.dhcc.module.infusion.view.CustomPatView;
 import com.dhcc.module.infusion.view.CustomScanView;
 import com.dhcc.module.infusion.view.CustomSelectView;
 import com.dhcc.module.infusion.view.CustomSpeedView;
+import com.dhcc.module.infusion.workarea.comm.BaseInfusionFragment;
 import com.dhcc.module.infusion.workarea.patrol.adapter.InfusionTourAdapter;
 import com.dhcc.module.infusion.workarea.patrol.adapter.PatrolOrdListAdapter;
 import com.dhcc.module.infusion.workarea.patrol.api.PatrolApiManager;
@@ -40,7 +39,7 @@ import cn.qqtheme.framework.picker.OptionPicker;
  * @date:202019-04-28/08:40
  * @email:grs0515@163.com
  */
-public class PatrolFragment extends BaseFragment implements View.OnClickListener {
+public class PatrolFragment extends BaseInfusionFragment implements View.OnClickListener {
 
     private CustomScanView csvScan;
     private CustomPatView cpvPat;
@@ -60,9 +59,6 @@ public class PatrolFragment extends BaseFragment implements View.OnClickListener
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setStatusBarBackgroundViewVisibility(true, 0xffffffff);
-        setToolbarBackground(new ColorDrawable(0xffffffff));
-        showToolbarNavigationIcon(R.drawable.icon_back_blue);
         setToolbarCenterTitle("巡视");
         csvScan = mContainerChild.findViewById(R.id.csv_scan);
         cpvPat = mContainerChild.findViewById(R.id.cpv_pat);

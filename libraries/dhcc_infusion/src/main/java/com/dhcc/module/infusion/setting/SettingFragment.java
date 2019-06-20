@@ -41,7 +41,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     private TextView tvWin;
     private TextView tvRelogin;
 
-    private RelativeLayout rlDate;
+    private RelativeLayout rlPat;
     private RelativeLayout rlBeds;
     private RelativeLayout rlWay;
 
@@ -98,8 +98,8 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 
         tvRelogin =view.findViewById(R.id.tv_setting_relogin);
         tvRelogin.setOnClickListener(this);
-        rlDate = view.findViewById(R.id.rl_setting_choosedate);
-        rlDate.setOnClickListener(this);
+        rlPat = view.findViewById(R.id.rl_setting_pat_list);
+        rlPat.setOnClickListener(this);
         rlBeds = view.findViewById(R.id.rl_setting_choosebeds);
         rlBeds.setOnClickListener(this);
         rlWay = view.findViewById(R.id.rl_setting_chooseway);
@@ -142,9 +142,10 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         if (v.getId() == R.id.rl_setting_chooseway) {
             startFragment(SettingWayFragment.class);
         }
-//        if (v.getId() == R.id.rl_setting_choosedate) {
-//            startFragment(SettingDateTimeFragment.class);
-//        }
+        //患者列表
+        if (v.getId() == R.id.rl_setting_pat_list) {
+            startFragment(PatListFragment.class);
+        }
     }
 
     private void changeWindow(List list) {

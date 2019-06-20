@@ -3,6 +3,7 @@ package com.dhcc.module.infusion.utils;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.message.adapter.MessageInfusionAdapter;
 import com.dhcc.module.infusion.message.adapter.MessageSkinAdapter;
+import com.dhcc.module.infusion.setting.adapter.PatListAdapter;
 import com.dhcc.module.infusion.setting.adapter.WorkStatisticsAdapter;
 import com.dhcc.module.infusion.workarea.comm.adapter.DetailLogAdapter;
 import com.dhcc.module.infusion.workarea.comm.adapter.PatInfoAdapter;
@@ -76,5 +77,12 @@ public class AdapterFactory {
      */
     public static WorkStatisticsAdapter geWorkStatistics() {
         return new WorkStatisticsAdapter(R.layout.item_work_statistics, null);
+    }
+    /**
+     * 患者列表
+     * @return
+     */
+    public static PatListAdapter getPatListAdapter() {
+        return new PatListAdapter(R.layout.item_pat_list, null);
     }
 }
