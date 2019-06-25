@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import com.base.commlibs.http.CommWebService;
 import com.base.commlibs.http.ServiceCallBack;
+import com.dhcc.module.infusion.utils.AppUtil;
 
 import java.util.HashMap;
 
@@ -31,6 +32,9 @@ public class PunctureApiService {
         }
         properties.put("barCode", barCode);
 
+        String windowName = AppUtil.getWindowName();
+        properties.put("winCode", windowName);
+
         CommWebService.callUserIdLocId("getPunctOrdList",properties,callBack);
     }
 
@@ -46,7 +50,6 @@ public class PunctureApiService {
         properties.put("distantTime", distantTime);
         properties.put("ifSpeed", ifSpeed);
         properties.put("puncturePart", puncturePart);
-
         CommWebService.callUserIdLocId("punctureOrd",properties,callBack);
     }
 

@@ -22,6 +22,7 @@ import com.dhcc.module.infusion.message.adapter.MessageSkinAdapter;
 import com.dhcc.module.infusion.message.api.MessageApiManager;
 import com.dhcc.module.infusion.message.bean.MessageInfusionBean;
 import com.dhcc.module.infusion.message.bean.MessageSkinBean;
+import com.dhcc.module.infusion.message.bean.NotifyMessageBean;
 import com.dhcc.module.infusion.utils.AdapterFactory;
 import com.dhcc.module.infusion.utils.RecyclerViewHelper;
 import com.dhcc.module.infusion.view.CustomPatView;
@@ -38,10 +39,11 @@ public class MessageFragment extends BaseFragment implements CustomTabView.OnTab
     //登陆成功后所有的广播信息全部注销了，在此重新注册
     protected BaseReceiver mReceiver = new BaseReceiver();
     protected IntentFilter mfilter = new IntentFilter();
-//    private CustomTabView ctv;
+    private CustomTabView ctv;
     private RecyclerView[] recyclerViews;
     private MessageInfusionAdapter messageInfusionAdapter;
     private MessageSkinAdapter messageSkinAdapter;
+    private int mCurrentPosition;
 
     @SuppressLint("NewApi")
     @Override
@@ -68,8 +70,10 @@ public class MessageFragment extends BaseFragment implements CustomTabView.OnTab
             public void onSuccess(MessageInfusionBean bean, String type) {
                 if (bean.getInfusionTimeList() != null && bean.getInfusionTimeList().size() > 0) {
                     bean.setTypeItem(MessageInfusionBean.TYPE_2);
+                    f(R.id.ll_empty).setVisibility(View.GONE);
                     messageInfusionAdapter.replaceData(bean.getInfusionTimeList());
-//                    ctv.setTabRedSpot("1", 1);
+                } else if (mCurrentPosition == 1) {//输液
+                    f(R.id.ll_empty).setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -82,11 +86,29 @@ public class MessageFragment extends BaseFragment implements CustomTabView.OnTab
             @Override
             public void onSuccess(MessageSkinBean bean, String type) {
                 List<MessageSkinBean.SkinTimeListBean> skinTimeList = bean.getSkinTimeList();
-                if (skinTimeList!= null && skinTimeList.size() > 0) {
+                if (skinTimeList != null && skinTimeList.size() > 0) {
                     f(R.id.ll_empty).setVisibility(View.GONE);
                     messageSkinAdapter.replaceData(skinTimeList);
-                } else {
+                } else if (mCurrentPosition == 0) {//皮试
                     f(R.id.ll_empty).setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        MessageApiManager.getNotifyMessage(new CommonCallBack<NotifyMessageBean>() {
+            @Override
+            public void onFail(String code, String msg) {
+                showToast("error" + code + ":" + msg);
+            }
+
+            @Override
+            public void onSuccess(NotifyMessageBean bean, String type) {
+                for (NotifyMessageBean.NotifyMessageListBean b : bean.getNotifyMessageList()) {
+                    if ("Infusion".equals(b.getMType())) {//输液
+                        ctv.setTabRedSpot(b.getMNum(), 1);
+                    }
+                    if ("Skin".equals(b.getMType())) {//皮试
+                        ctv.setTabRedSpot(b.getMNum(), 0);
+                    }
                 }
             }
         });
@@ -115,7 +137,7 @@ public class MessageFragment extends BaseFragment implements CustomTabView.OnTab
             return;
         }
         setStatusBarBackgroundViewVisibility(false, 0xffffffff);
-        CustomTabView ctv = view.findViewById(R.id.ctv);
+        ctv = view.findViewById(R.id.ctv);
         ctv.setTabText(new String[]{"皮试", "输液"}).setOnTabClickLisenter(this);
         RecyclerView rvMsgSkin = RecyclerViewHelper.get(getActivity(), R.id.rv_msg_skin);
         RecyclerView rvMsgInfusion = RecyclerViewHelper.get(getActivity(), R.id.rv_msg_infusion);
@@ -125,13 +147,15 @@ public class MessageFragment extends BaseFragment implements CustomTabView.OnTab
         rvMsgInfusion.setAdapter(messageInfusionAdapter);
         rvMsgSkin.setAdapter(messageSkinAdapter);
         messageInfusionAdapter.setOnItemChildClickListener(this);
-        //默认显示第一个
-        setSwitchRecycleView(0);
+        //TODO 默认显示输液,隐藏第一个
+        setSwitchRecycleView(1);
+        ctv.setPositionTabGone(0);
         initData();
         getActivity().getApplicationContext().registerReceiver(mReceiver, mfilter);
     }
 
     private void setSwitchRecycleView(int pst) {
+        mCurrentPosition = pst;
         f(R.id.ll_empty).setVisibility(View.GONE);
         for (int i = 0; i < recyclerViews.length; i++) {
             recyclerViews[i].setVisibility(pst == i ? View.VISIBLE : View.GONE);

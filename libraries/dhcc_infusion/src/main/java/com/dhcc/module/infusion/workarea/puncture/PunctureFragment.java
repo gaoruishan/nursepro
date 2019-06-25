@@ -9,10 +9,13 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.BaseHelper;
+import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.utils.AdapterFactory;
@@ -68,7 +71,7 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
         helper.setOnClickListener(R.id.tv_save, this);
         punctureAdapter = AdapterFactory.getCommDosingOrdList();
         rvPuncture.setAdapter(punctureAdapter);
-
+        f(R.id.tv_user, TextView.class).setText(SPUtils.getInstance().getString(SharedPreference.USERNAME));
     }
 
 
@@ -98,6 +101,7 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
             @Override
             public void onSuccess(PunctureBean bean, String type) {
                 punctureAdapter.replaceData(bean.getOrdList());
+                punctureAdapter.setCurrentScanInfo(scanInfo);
                 // 隐藏扫码页
                 helper.setVisible(R.id.csv, false);
                 if (bean.getPatInfo() != null) {
@@ -110,7 +114,6 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
                 mBean = bean;
                 if (scanInfo1 == null) {
                     scanInfo1 = scanInfo;
-                    punctureAdapter.setCurrentScanInfo(scanInfo);
                     helper.setVisible(R.id.ll_puncture_status, false);
                 } else if (!TextUtils.isEmpty(bean.getCurRegNo())
                         && !TextUtils.isEmpty(bean.getCurOeoreId())) {

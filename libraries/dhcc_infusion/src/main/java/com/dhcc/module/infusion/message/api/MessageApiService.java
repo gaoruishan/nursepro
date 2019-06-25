@@ -3,6 +3,7 @@ package com.dhcc.module.infusion.message.api;
 import android.text.TextUtils;
 
 import com.base.commlibs.http.CommWebService;
+import com.base.commlibs.http.ServiceCallBack;
 
 import java.util.HashMap;
 
@@ -47,4 +48,7 @@ public class MessageApiService {
         }
     }
 
+    public static void getNotifyMessage(ServiceCallBack callBack) {
+        CommWebService.callUserIdLocId("getNotifyMessage",null,callBack);
+    }
 }

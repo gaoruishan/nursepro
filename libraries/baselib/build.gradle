@@ -47,6 +47,7 @@ dependencies {
     api rootProject.ext.dependencies["utilcode"]
     api rootProject.ext.dependencies["greendao3"]
     api rootProject.ext.dependencies["eventbus"]
+    api rootProject.ext.dependencies["notificationLib"]
     //内存泄露
     debugApi rootProject.ext.dependencies["debugLeakcanary"]
     releaseApi rootProject.ext.dependencies["releaseLeakcanary"]

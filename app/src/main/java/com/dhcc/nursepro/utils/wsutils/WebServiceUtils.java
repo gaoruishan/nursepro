@@ -9,7 +9,6 @@ import java.util.HashMap;
 
 public class WebServiceUtils {
 
-    //    public static final String WEB_SERVER_URL = "http://10.1.5.87/dthealth/web/Nur.PDA.WebService.cls";
 
     /**
      * WebService服务器地址

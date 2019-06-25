@@ -2,6 +2,7 @@ package com.dhcc.module.infusion.workarea.dosing;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +22,10 @@ import com.dhcc.module.infusion.workarea.comm.BaseInfusionFragment;
 import com.dhcc.module.infusion.workarea.dosing.adapter.CommDosingAdapter;
 import com.dhcc.module.infusion.workarea.dosing.api.DosingApiManager;
 import com.dhcc.module.infusion.workarea.dosing.bean.DosingBean;
+import com.dhcc.module.infusion.workarea.dosing.bean.OrdListBean;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 配液
@@ -33,18 +38,19 @@ public class DosingFragment extends BaseInfusionFragment implements View.OnClick
     private DosingApiManager manager;
     private RecyclerView rvDosing;
     private CommDosingAdapter commDosingAdapter;
-//    @FindView(R.id.tv_ok)
     private View tvOk;
     private String reqType;
     private String scanInfo;
+    private List<String> listId = new ArrayList<>();
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setToolbarCenterTitle("配液");
-        addPatListToToolbarRight();
-        tvOk=f(R.id.tv_ok);
+//        addPatListToToolbarRight();
+        tvOk = f(R.id.tv_ok);
         tvOk.setOnClickListener(this);
+//        f(R.id.tv_ok_all).setOnClickListener(this);
         rvDosing = RecyclerViewHelper.get(this.getActivity(), R.id.rv_dosing);
         commDosingAdapter = AdapterFactory.getCommDosingOrdList();
         rvDosing.setAdapter(commDosingAdapter);
@@ -69,6 +75,20 @@ public class DosingFragment extends BaseInfusionFragment implements View.OnClick
 
             @Override
             public void onSuccess(DosingBean bean, String type) {
+                //检验
+                boolean isContain = false;
+                String s = "";
+                for (OrdListBean b : bean.getOrdList()) {
+                    listId.add(b.getOeoreId());
+                    s += b.getOeoreId() + ", ";
+                    if (b.getOeoreId().equals(scanInfo)) {
+                        isContain = true;
+                    }
+                }
+                if (!isContain) {
+                    ToastUtils.showShort("瓶贴不匹配,请换一个扫描" );
+                    return;
+                }
                 mContainerChild.findViewById(R.id.csv).setVisibility(View.GONE);
                 tvOk.setVisibility(View.VISIBLE);
                 commDosingAdapter.replaceData(bean.getOrdList());
@@ -87,9 +107,15 @@ public class DosingFragment extends BaseInfusionFragment implements View.OnClick
         return inflater.inflate(R.layout.fragment_dosing, container, false);
     }
 
-//    @FindEvent(R.id.tv_ok)
-    public void onOkClick(View v) {
-        despensingOrd();
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.tv_ok) {
+            despensingOrd();
+        }
+        //自动配液
+        if (v.getId() == R.id.tv_ok_all) {
+            despensingOrdAll();
+        }
     }
 
     private void despensingOrd() {
@@ -124,10 +150,40 @@ public class DosingFragment extends BaseInfusionFragment implements View.OnClick
         });
     }
 
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.tv_ok) {
-            despensingOrd();
+    private void despensingOrdAll() {
+        final boolean[] isOnce = {false};
+        final List<Object> temp = new ArrayList<>();
+        for (int i = 0; i < listId.size(); i++) {
+            final String scanInfo = listId.get(i);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    postDelay(isOnce, temp, scanInfo);
+                }
+            }, 300);
         }
+    }
+
+    private void postDelay(final boolean[] isOnce, final List<Object> temp, String scanInfo) {
+        DosingApiManager.despensingOrd(scanInfo, DosingApiManager.Despensing, "", "", new CommonCallBack<CommResult>() {
+            @Override
+            public void onFail(String code, String msg) {
+                if (!isOnce[0]) {
+                    isOnce[0] = true;
+                    DialogFactory.showCommDialog(getActivity(), msg, "确定", R.drawable.icon_popup_error_patient, null);
+                }
+            }
+
+            @Override
+            public void onSuccess(CommResult bean, String type) {
+                temp.add(type);
+                String successInfo = "配液成功";
+                // 刷新
+                if (temp.size() == listId.size()) {
+                    getOrdList(listId.get(0));
+                    DialogFactory.showCommDialog(getActivity(), successInfo, "", 0, null, true);
+                }
+            }
+        });
     }
 }

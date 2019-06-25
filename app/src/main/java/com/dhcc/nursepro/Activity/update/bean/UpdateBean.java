@@ -3,7 +3,6 @@ package com.dhcc.nursepro.Activity.update.bean;
 public class UpdateBean {
 
     /**
-     * appAddress : http://10.1.5.87/dthealth/web/MobileNurse.apk
      * msg :
      * msgcode : 999999
      * newVersion : 1.2.0

@@ -18,16 +18,20 @@ import android.widget.Toast;
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
+import com.base.commlibs.http.CommonCallBack;
 import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.db.GreenDaoHelper;
 import com.dhcc.module.infusion.db.InfusionInfo;
 import com.dhcc.module.infusion.greendao.DaoSession;
 import com.dhcc.module.infusion.login.api.LoginApiManager;
+import com.dhcc.module.infusion.login.bean.BroadcastListBean;
 import com.dhcc.module.infusion.login.bean.LoginBean;
+import com.dhcc.module.infusion.login.bean.ScanCodeBean;
 import com.dhcc.module.infusion.login.windowpicker.Ward;
 import com.dhcc.module.infusion.login.windowpicker.Window;
 import com.dhcc.module.infusion.login.windowpicker.WindowPicker;
+import com.dhcc.module.infusion.utils.AppUtil;
 import com.dhcc.module.infusion.utils.TransBroadcastUtil;
 import com.google.gson.Gson;
 
@@ -41,7 +45,11 @@ import java.util.regex.Pattern;
 import cn.qqtheme.framework.picker.LinkagePicker;
 import cn.qqtheme.framework.widget.WheelView;
 
+import static com.base.commlibs.wsutils.BaseWebServiceUtils.DEFAULT_IP;
+import static com.base.commlibs.wsutils.BaseWebServiceUtils.DTHEALTH_WEB;
+
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
+
 
     DaoSession daoSession = GreenDaoHelper.getDaoSession();
     private EditText etLoginUsercode;
@@ -76,6 +84,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private List listaaa = new ArrayList();
 
     private String defaultwindow = "";
+    private String scanInfo;
+    private String scanFlag="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,15 +95,41 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         IpStr = spUtils.getString(SharedPreference.WEBIP, "noIp");
         defaultwindow = spUtils.getString(SharedPreference.DEFAULTWINDOW, "");
         if ("noIp".equals(IpStr)) {
-            spUtils.put(SharedPreference.WEBIP, "10.1.5.87");
+            spUtils.put(SharedPreference.WEBIP, DEFAULT_IP);
         }
         String webPath = spUtils.getString(SharedPreference.WEBPATH);
         if(TextUtils.isEmpty(webPath)){
-            spUtils.put(SharedPreference.WEBPATH, "/dthealth/web");
+            spUtils.put(SharedPreference.WEBPATH, DTHEALTH_WEB);
         }
         spUtils.put(SharedPreference.LOGONLOCTYPE, "E");
         nurseInfoList = daoSession.getInfusionInfoDao().queryBuilder().list();
         initView();
+        //注册扫码监听
+        registerScanMsgReceiver();
+        //获取广播码
+        getBroadcastList();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mReceiver != null) {
+            unregisterReceiver(mReceiver);
+        }
+    }
+
+    private void getBroadcastList() {
+        LoginApiManager.getBroadcastList(new CommonCallBack<ScanCodeBean>() {
+            @Override
+            public void onFail(String code, String msg) {
+
+            }
+
+            @Override
+            public void onSuccess(ScanCodeBean bean, String type) {
+                TransBroadcastUtil.setScanActionList(bean.getBroadcastList());
+            }
+        });
     }
 
     @Override
@@ -110,6 +146,17 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         }
     }
 
+    @Override
+    public void getScanMsg(Intent intent) {
+        super.getScanMsg(intent);
+        scanInfo = doScanInfo(intent);
+        if (scanInfo != null) {
+            etLoginUsercode.setText("");
+            etLoginUsercode.setText(scanInfo);
+            scanFlag = "1";//扫码-scanFlag不为空
+            initData("login", null);
+        }
+    }
     private void initView() {
 
         etLoginUsercode = findViewById(R.id.et_login_usercode);
@@ -163,7 +210,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     for (int i = 0; i < nurseInfoList.size(); i++) {
                         InfusionInfo nurseInfo = nurseInfoList.get(i);
                         if (userCode.equals(nurseInfo.getUserCode())) {
-                            tvLoginWard.setText(nurseInfo.getLocDesc() + " " + spUtils.getString(SharedPreference.WINDOWNAME));
+                            tvLoginWard.setText(nurseInfo.getLocDesc() + " " + AppUtil.getWindowName());
                             tvLoginWard.setTextColor(Color.parseColor("#000000"));
                             logonWardId = nurseInfo.getWardId();
                             loginNurseInfo = nurseInfo;
@@ -288,6 +335,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         if (!TextUtils.isEmpty(showDialog.getAddr())) {
                             spUtils.put(SharedPreference.WEBPATH, showDialog.getAddr());
                         }
+                        //重写请求
+                        getBroadcastList();
                         showDialog.dismiss();
                     } else {
                         showToast("IP格式不正确，请重新输入");
@@ -352,7 +401,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     private void initData(final String action, final InfusionInfo nurseInfo) {
         nurseInfoList = daoSession.getInfusionInfoDao().queryBuilder().list();
-        LoginApiManager.getLogin(userCode, password, logonWardId, new LoginApiManager.GetLoginCallback() {
+        LoginApiManager.getLogin(userCode, password, logonWardId, scanFlag,new LoginApiManager.GetLoginCallback() {
             @Override
             public void onSuccess(final LoginBean loginBean) {
                 listaaa = new ArrayList();
@@ -454,7 +503,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private void saveToAcitvity(LoginBean loginBean) {
-        List<LoginBean.BroadcastListBean> broadcastList = loginBean.getBroadcastList();
+        List<BroadcastListBean> broadcastList = loginBean.getBroadcastList();
         TransBroadcastUtil.setScanActionList(broadcastList);
         saveUserInfo();
         startActivity(new Intent(Action.MainActivity));
@@ -509,24 +558,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
      */
     public void showLocPicker(final InfusionInfo nurseInfo, final LoginBean loginBean) {
 
-
-        List list = new ArrayList();
-        list.add("1111");
-        list.add("2222");
-
-        List list1 = new ArrayList();
-
-        List list2 = new ArrayList();
-        list2.add("dfdttt");
-        list2.add("fsdjjj");
-
-        List list3 = new ArrayList();
-        list3.add(list1);
-        list3.add(list2);
-
-        Map map = new HashMap();
-        map.put("1111", list1);
-        map.put("2222", list2);
         final List<LoginBean.LocsBean> locsBeanList = loginBean.getLocs();
 
         //登陆成功返回的可登录病区列表，提取病区描述

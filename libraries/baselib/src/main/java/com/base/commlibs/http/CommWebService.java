@@ -22,6 +22,9 @@ public class CommWebService {
      */
     public static void callUserIdLocId(String methodName, HashMap<String, String> properties, ServiceCallBack callBack) {
         SPUtils spUtils = SPUtils.getInstance();
+        if (properties == null) {
+            properties = new HashMap<String, String>();
+        }
         properties.put("userId", spUtils.getString(SharedPreference.USERID));
         properties.put("locId", spUtils.getString(SharedPreference.LOCID));
         call(methodName, properties, callBack);

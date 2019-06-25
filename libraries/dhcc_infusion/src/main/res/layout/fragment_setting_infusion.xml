@@ -84,6 +84,7 @@
         android:background="@color/white"
         >
         <RelativeLayout
+            android:visibility="gone"
             android:id="@+id/rl_setting_pat_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

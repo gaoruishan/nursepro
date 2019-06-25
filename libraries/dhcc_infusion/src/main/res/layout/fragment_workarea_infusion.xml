@@ -6,7 +6,7 @@
     android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/dp_157"
         android:background="@drawable/picture_workarea"
         android:gravity="center"
         >
@@ -18,7 +18,6 @@
             android:textSize="@dimen/sp_14"
             android:textColor="@color/white"
             android:gravity="center"
-            android:layout_marginTop="@dimen/dp_15"
             />
 
     </LinearLayout>

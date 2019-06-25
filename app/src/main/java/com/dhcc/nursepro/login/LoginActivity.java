@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
+import com.base.commlibs.wsutils.BaseWebServiceUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.dhcc.nursepro.Activity.MainActivity;
@@ -86,7 +87,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         setToolbarType(ToolbarType.HIDE);
         IpStr = spUtils.getString(SharedPreference.WEBIP, "noIp");
         if ("noIp".equals(IpStr)) {
-            spUtils.put(SharedPreference.WEBIP, "10.1.5.87");
+            spUtils.put(SharedPreference.WEBIP, BaseWebServiceUtils.DEFAULT_IP);
         }
         nurseInfoList = daoSession.getNurseInfoDao().queryBuilder().list();
         initView();

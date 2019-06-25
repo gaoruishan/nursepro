@@ -21,6 +21,7 @@ import com.dhcc.module.infusion.R;
  * @email:grs0515@163.com
  */
 public class CustomTabView extends LinearLayout implements View.OnClickListener {
+    private View ll_pats_show;
     private TextView[] tv_tabs;
     private TextView[] tv_tab_reds;
     private View[] view_pats_shows;
@@ -48,6 +49,7 @@ public class CustomTabView extends LinearLayout implements View.OnClickListener 
                 view.findViewById(R.id.tv_tab1_red),
                 view.findViewById(R.id.tv_tab2_red)
         };
+        ll_pats_show = view.findViewById(R.id.ll_pats_show);
         view_pats_shows = new View[]{
                 view.findViewById(R.id.view_pats_show1),
                 view.findViewById(R.id.view_pats_show2)
@@ -75,6 +77,20 @@ public class CustomTabView extends LinearLayout implements View.OnClickListener 
         }
     }
 
+    /**
+     * 设置隐藏Tab
+     * @param pst
+     * @return
+     */
+    public CustomTabView setPositionTabGone(int pst) {
+        if (pst < rls.length) {
+            rls[pst].setVisibility(GONE);
+        }
+        if (rls.length == 2) {//都隐藏
+            ll_pats_show.setVisibility(GONE);
+        }
+        return this;
+    }
     public CustomTabView setTabText(String[] data) {
         for (int i = 0; i < tv_tabs.length; i++) {
             tv_tabs[i].setText(data[i]);

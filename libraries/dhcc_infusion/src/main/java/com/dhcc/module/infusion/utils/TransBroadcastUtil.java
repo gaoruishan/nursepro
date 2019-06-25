@@ -7,9 +7,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 
-import com.blankj.utilcode.util.StringUtils;
 import com.base.commlibs.constant.Action;
-import com.dhcc.module.infusion.login.bean.LoginBean;
+import com.blankj.utilcode.util.StringUtils;
+import com.dhcc.module.infusion.login.bean.BroadcastListBean;
 
 import java.util.List;
 import java.util.Objects;
@@ -20,7 +20,7 @@ public class TransBroadcastUtil {
     // 程序的Context对象
     private static Context mContext;
 
-    private static List<LoginBean.BroadcastListBean> broadcastList;
+    private static List<BroadcastListBean> broadcastList;
     private static String scanAction = "";
     private static String scanKey = "";
     private static Receiver mReceiver = new Receiver();
@@ -47,7 +47,7 @@ public class TransBroadcastUtil {
     //        mContext.registerReceiver(mReceiver, filter);
     //    }
 
-    public static void setScanActionList(List<LoginBean.BroadcastListBean> broadcastListBeans) {
+    public static void setScanActionList(List<BroadcastListBean> broadcastListBeans) {
         broadcastList = broadcastListBeans;
         IntentFilter filter = new IntentFilter();
         for (int i = 0; i < broadcastList.size(); i++) {

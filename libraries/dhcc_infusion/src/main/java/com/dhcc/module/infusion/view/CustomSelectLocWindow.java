@@ -1,23 +1,20 @@
-package com.dhcc.module.infusion.setting;
+package com.dhcc.module.infusion.view;
 
-import android.content.Intent;
-import android.os.Bundle;
+import android.app.Activity;
+import android.content.Context;
 import android.support.annotation.Nullable;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.base.commlibs.BaseActivity;
-import com.base.commlibs.BaseFragment;
 import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.db.GreenDaoHelper;
 import com.dhcc.module.infusion.db.InfusionInfo;
 import com.dhcc.module.infusion.greendao.DaoSession;
-import com.dhcc.module.infusion.login.LoginActivity;
 import com.dhcc.module.infusion.utils.AppUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -31,58 +28,40 @@ import cn.qqtheme.framework.picker.OptionPicker;
 import cn.qqtheme.framework.widget.WheelView;
 
 /**
- * SettingFragment
- * 设置
+ * @author:gaoruishan
+ * @date:202019-06-24/09:49
+ * @email:grs0515@163.com
  */
-public class SettingFragment extends BaseFragment implements View.OnClickListener{
-
-    private SPUtils spUtils = SPUtils.getInstance();
-    private TextView tvUserName;
+public class CustomSelectLocWindow extends LinearLayout implements View.OnClickListener {
     private TextView tvLoc;
     private TextView tvWin;
-    private TextView tvRelogin;
-
-    private RelativeLayout rlPat;
-    private RelativeLayout rlBeds;
-    private RelativeLayout rlWay;
-
-    DaoSession daoSession = GreenDaoHelper.getDaoSession();
+    private SPUtils spUtils = SPUtils.getInstance();
+    private DaoSession daoSession = GreenDaoHelper.getDaoSession();
+    private List<InfusionInfo> nurseInfoList;
     private InfusionInfo loginNurseInfo;
     private List<Map<String,String>> locsList;
-    private List<InfusionInfo> nurseInfoList;
-
     private Map<String,List> mapWins;
-    private View mView;
 
 
-    @Override
-    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_setting_infusion, container, false);
+    public CustomSelectLocWindow(Context context) {
+        this(context,null);
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public CustomSelectLocWindow(Context context, @Nullable AttributeSet attrs) {
+        this(context, attrs,0);
+    }
 
-        setStatusBarBackgroundViewVisibility(false, 0xffffffff);
-        setToolbarType(BaseActivity.ToolbarType.HIDE);
-//        setToolbarType(BaseActivity.ToolbarType.TOP);
-//        setToolbarBottomLineVisibility(true);
-//        hideToolbarNavigationIcon();
-        mView = view;
-        initView(view);
-
+    public CustomSelectLocWindow(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        View view = LayoutInflater.from(context).inflate(R.layout.custom_select_loc_window, null);
+        addView(view);
+        tvLoc = view.findViewById(R.id.tv_setting_loc);
+        tvLoc.setOnClickListener(this);
+        tvLoc.setText(SPUtils.getInstance().getString(SharedPreference.LOCDESC));
+        tvWin = view.findViewById(R.id.tv_setting_window);
+        tvWin.setOnClickListener(this);
+        tvWin.setText(AppUtil.getWindowName());
         nurseInfoList = daoSession.getInfusionInfoDao().queryBuilder().list();
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        initView(mView);
-    }
-
-    private void initView(View view) {
         Gson gson = new Gson();
         java.lang.reflect.Type type = new TypeToken<List<Map<String,String>>>(){}.getType();
         locsList = new ArrayList<>();
@@ -94,26 +73,6 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         mapWins = new HashMap<>();
         String WinJson = spUtils.getString(SharedPreference.WINSLISTJSON);
         mapWins = gson.fromJson(WinJson,typeWin);
-
-
-        tvUserName = view.findViewById(R.id.tv_setting_username);
-        tvUserName.setText(spUtils.getString(SharedPreference.USERNAME));
-        tvLoc = view.findViewById(R.id.tv_setting_loc);
-        tvLoc.setOnClickListener(this);
-        tvLoc.setText(spUtils.getString(SharedPreference.LOCDESC));
-        tvWin = view.findViewById(R.id.tv_setting_window);
-        tvWin.setOnClickListener(this);
-        tvWin.setText(AppUtil.getWindowName());
-
-        tvRelogin =view.findViewById(R.id.tv_setting_relogin);
-        tvRelogin.setOnClickListener(this);
-        rlPat = view.findViewById(R.id.rl_setting_pat_list);
-        rlPat.setOnClickListener(this);
-        rlBeds = view.findViewById(R.id.rl_setting_choosebeds);
-        rlBeds.setOnClickListener(this);
-        rlWay = view.findViewById(R.id.rl_setting_chooseway);
-        rlWay.setOnClickListener(this);
-
 
     }
 
@@ -138,52 +97,47 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
             list = mapWins.get(spUtils.getString(SharedPreference.LOCDESC));
             changeWindow(list);
         }
-        //工作统计
-        if (v.getId() == R.id.rl_setting_choosebeds) {
-            startFragment(WorkStatisticsFragment.class);
-        }
-        if (v.getId() == R.id.tv_setting_relogin) {
-            Intent i = new Intent(getActivity(), LoginActivity.class);
-            startActivity(i);
-            finish();
-        }
-        //提醒方式
-        if (v.getId() == R.id.rl_setting_chooseway) {
-            startFragment(SettingWayFragment.class);
-        }
-        //患者列表
-        if (v.getId() == R.id.rl_setting_pat_list) {
-            startFragment(PatListFragment.class);
-        }
     }
-
     private void changeWindow(List list) {
-            String[] locDesc = new String[list.size()];
-            for (int i = 0; i < list.size(); i++) {
-                locDesc[i] = list.get(i).toString();
-            }
-            final OptionPicker picker = new OptionPicker(getActivity(), locDesc);
-            picker.setCanceledOnTouchOutside(false);
-            picker.setDividerRatio(WheelView.DividerConfig.FILL);
-            picker.setSelectedIndex(0);
-            picker.setCycleDisable(true);
-            picker.setTextSize(20);
-            picker.setOnOptionPickListener(new OptionPicker.OnOptionPickListener() {
-                @Override
-                public void onOptionPicked(int index, String item) {
-                    spUtils.put(SharedPreference.WINDOWNAME,item);
-                    tvWin.setText(AppUtil.getWindowName());
-                }
-            });
-            picker.show();
+        String[] locDesc = new String[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            locDesc[i] = list.get(i).toString();
         }
+        Activity activity = null;
+        if (getContext() instanceof Activity) {
+            activity = (Activity) getContext();
+        }
+        if (activity == null) {
+            return;
+        }
+        final OptionPicker picker = new OptionPicker(activity, locDesc);
+        picker.setCanceledOnTouchOutside(false);
+        picker.setDividerRatio(WheelView.DividerConfig.FILL);
+        picker.setSelectedIndex(0);
+        picker.setCycleDisable(true);
+        picker.setTextSize(20);
+        picker.setOnOptionPickListener(new OptionPicker.OnOptionPickListener() {
+            @Override
+            public void onOptionPicked(int index, String item) {
+                spUtils.put(SharedPreference.WINDOWNAME,item);
+                tvWin.setText(AppUtil.getWindowName());
+            }
+        });
+        picker.show();
+    }
     private void changeLoc(){
         String[] locDesc = new String[locsList.size()];
         for (int i = 0;i< locsList.size();i++){
             locDesc[i] = locsList.get(i).get("LocDesc");
         }
-
-        final OptionPicker picker = new OptionPicker(getActivity(), locDesc);
+        Activity activity = null;
+        if (getContext() instanceof Activity) {
+            activity = (Activity) getContext();
+        }
+        if (activity == null) {
+            return;
+        }
+        final OptionPicker picker = new OptionPicker(activity, locDesc);
         picker.setCanceledOnTouchOutside(false);
         picker.setDividerRatio(WheelView.DividerConfig.FILL);
         picker.setSelectedIndex(0);
@@ -217,7 +171,6 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                             spUtils.put(SharedPreference.WARDID, loginNurseInfo.getWardId());
 
                             tvLoc.setText(loginNurseInfo.getLocDesc());
-                            notifyMessage();
                             break;
                         }
                     }
@@ -232,21 +185,5 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
             }
         });
         picker.show();
-    }
-    //TODO 需要修改
-    public void notifyMessage(){ {
-//            MessageApiManager.getMessage(new MessageApiManager.GetMessageCallback() {
-//                @Override
-//                public void onSuccess(MessageBean msgs) {
-//                    int messageNum =  msgs.getNewOrdPatList().size()+msgs.getAbnormalPatList().size()+msgs.getConPatList().size();
-//                    setMessage(messageNum);
-//                }
-//
-//                @Override
-//                public void onFail(String code, String msg) {
-//                    Toast.makeText(getActivity(), code + "-消息获取失败：" + msg, Toast.LENGTH_SHORT).show();
-//                }
-//            });
-        }
     }
 }

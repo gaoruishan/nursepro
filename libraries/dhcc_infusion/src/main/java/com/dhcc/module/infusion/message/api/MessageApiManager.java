@@ -7,6 +7,7 @@ import com.base.commlibs.http.ParserUtil;
 import com.base.commlibs.http.ServiceCallBack;
 import com.dhcc.module.infusion.message.bean.MessageInfusionBean;
 import com.dhcc.module.infusion.message.bean.MessageSkinBean;
+import com.dhcc.module.infusion.message.bean.NotifyMessageBean;
 
 
 /**
@@ -63,7 +64,15 @@ public class MessageApiManager {
         });
     }
 
-    public static void getNotifyMessage( final CommonCallBack<CommResult> callBack) {
-
+    public static void getNotifyMessage( final CommonCallBack<NotifyMessageBean> callBack) {
+        MessageApiService.getNotifyMessage(new ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                ParserUtil<NotifyMessageBean> parserUtil = new ParserUtil<>();
+                NotifyMessageBean bean = parserUtil.parserResult(jsonStr, callBack, NotifyMessageBean.class);
+                if (bean == null) return;
+                parserUtil.parserStatus(bean, callBack);
+            }
+        });
     }
 }

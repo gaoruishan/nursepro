@@ -54,6 +54,7 @@ import com.base.commlibs.base.BaseBottomLoadingView;
 import com.base.commlibs.base.BaseFullLoadingView;
 import com.base.commlibs.base.BasePushDialog;
 import com.base.commlibs.base.BaseTopLoadingView;
+import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
 import com.noober.background.BackgroundLibrary;
@@ -78,6 +79,7 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         ViewTreeObserver.OnGlobalLayoutListener {
 
 
+    public static final String TAG = BaseActivity.class.getSimpleName();
     public static final int RequestPermissionTimeout = 1000;
     public static final int REQUEST_CODE_ASK_PERMISSIONS = 68;
     private static final int REQUEST_CODE_CHECK_LOGIN = 101;
@@ -134,6 +136,7 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
     private static Timer mTimer; // 计时器，每1秒执行一次任务
     private static MyTimerTask mTimerTask; // 计时任务，判断是否未操作时间到达5s
     private static long mLastActionTime; // 上一次操作时间
+    public BroadcastReceiver mReceiver;
 
     // =========================================================
     @Override
@@ -1624,5 +1627,43 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         mToolbar.setMinimumHeight(toolbarHeight);
     }
 
-
+    /**
+     * 注册扫码广播
+     */
+    public void registerScanMsgReceiver() {
+         mReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                getScanMsg(intent);
+            }
+        };
+        IntentFilter mfilter = new IntentFilter();
+        mfilter.addAction(Action.DEVICE_SCAN_CODE);
+       registerReceiver(mReceiver, mfilter);
+    }
+    public void getScanMsg(Intent intent) {
+        Bundle bundle = new Bundle();
+        bundle = intent.getExtras();
+        String scanInfo = bundle.getString("data");
+        intent.putExtra("data", scanInfo);
+    }
+    /**
+     * 处理扫描数据
+     * @param intent
+     * @return
+     */
+    protected String doScanInfo(Intent intent) {
+        if (Action.DEVICE_SCAN_CODE.equals(intent.getAction())) {
+            Bundle bundle = new Bundle();
+            bundle = intent.getExtras();
+            String scanInfo = bundle.getString("data");
+            if (scanInfo != null) {
+                // 只有数字和横杆
+//                Matcher m = Pattern.compile("[^0-9\\-]").matcher(scanInfo);
+//                return m.replaceAll("").trim();
+                return scanInfo.replaceAll(" ","").trim();
+            }
+        }
+        return null;
+    }
 }

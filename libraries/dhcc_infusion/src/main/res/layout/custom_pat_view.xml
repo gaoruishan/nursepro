@@ -15,8 +15,9 @@
             android:id="@+id/tv_pat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginLeft="@dimen/dp_15"
             android:gravity="center"
+            android:textStyle="bold"
             tools:text="患者1"
         />
         <ImageView

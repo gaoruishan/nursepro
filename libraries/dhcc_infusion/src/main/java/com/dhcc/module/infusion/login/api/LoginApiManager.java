@@ -1,7 +1,10 @@
 package com.dhcc.module.infusion.login.api;
 
+import com.base.commlibs.http.ParserUtil;
+import com.base.commlibs.http.ServiceCallBack;
 import com.blankj.utilcode.util.ObjectUtils;
 import com.dhcc.module.infusion.login.bean.LoginBean;
+import com.dhcc.module.infusion.login.bean.ScanCodeBean;
 import com.google.gson.Gson;
 
 /**
@@ -12,8 +15,8 @@ import com.google.gson.Gson;
  */
 public class LoginApiManager {
 
-    public static void getLogin(String userCode, String password, String logonWardId, final GetLoginCallback callback) {
-        LoginApiService.getLogin(userCode, password, logonWardId, new LoginApiService.ServiceCallBack() {
+    public static void getLogin(String userCode, String password, String logonWardId,String scanFlag, final GetLoginCallback callback) {
+        LoginApiService.getLogin(userCode, password, logonWardId, scanFlag,new LoginApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
 
@@ -45,6 +48,19 @@ public class LoginApiManager {
             }
         });
     }
+
+    public static void getBroadcastList(final com.base.commlibs.http.CommonCallBack<ScanCodeBean> callBack) {
+        LoginApiService.getBroadcastList(new ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                ParserUtil<ScanCodeBean> parserUtil = new ParserUtil<>();
+                ScanCodeBean bean = parserUtil.parserResult(jsonStr, callBack, ScanCodeBean.class);
+                if (bean == null) return;
+                parserUtil.parserStatus(bean, callBack);
+            }
+        });
+    }
+
 
     public interface CommonCallBack {
         void onFail(String code, String msg);

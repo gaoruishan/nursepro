@@ -27,6 +27,8 @@ import java.util.concurrent.Executors;
 
 public class BaseWebServiceUtils {
 
+    public static final String DEFAULT_IP = "10.10.11.18";
+    public static final String DTHEALTH_WEB = "/dthealth/web";
     //    public static final String WEB_SERVER_URL = "http://10.1.5.87/dthealth/web/Nur.PDA.WebService.cls";
     // 门诊输液新接口
     public static final String NUR_OPPDA_SERVICE = "/Nur.OPPDA.WebService.cls";
@@ -58,7 +60,7 @@ public class BaseWebServiceUtils {
     public static String getServiceUrl(String serviceCls) {
         String path = SPUtils.getInstance().getString(SharedPreference.WEBPATH);
         if (TextUtils.isEmpty(path)) {
-            path = "/imedical/web";
+            path = DTHEALTH_WEB;
         }
         return getServiceIP() + path + serviceCls;
     }
@@ -166,7 +168,7 @@ public class BaseWebServiceUtils {
     public static String getServiceIP() {
         String ip = SPUtils.getInstance().getString(SharedPreference.WEBIP);
         if (TextUtils.isEmpty(ip)) {
-            ip = "10.1.5.87";
+            ip = DEFAULT_IP;
         }
         return "http://" + ip;
     }

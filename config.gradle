@@ -122,7 +122,9 @@ ext {
                     "flowtag"                        : 'com.hyman:flowlayout-lib:1.1.2',
                     // 工具类
                     "utilcode"                       : 'com.blankj:utilcode:1.24.0',
-                    "EasySwipeMenuLayout"            : 'com.github.anzaizai:EasySwipeMenuLayout:1.1.2'
+                    "EasySwipeMenuLayout"            : 'com.github.anzaizai:EasySwipeMenuLayout:1.1.2',
+                    //通知
+                    "notificationLib"                : 'cn.yc:notificationLib:1.0.2'
 
     ]
 }
