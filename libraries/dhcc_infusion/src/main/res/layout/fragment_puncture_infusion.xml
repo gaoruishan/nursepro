@@ -25,10 +25,12 @@
             android:layout_gravity="center_vertical"
             android:text="选择科室"
         />
+        <!--只需引入自定组件, 即可具有布局/业务功能-->
         <com.dhcc.module.infusion.view.CustomSelectLocWindow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"/>
+
     </LinearLayout>
     <View android:layout_width="match_parent" android:layout_height="@dimen/dp_1"
           android:background="@color/bg_blue_light"/>

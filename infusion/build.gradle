@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply from: "../plugin/build_pack.gradle"
 
 android {
     compileSdkVersion rootProject.android.compileSdkVersion
@@ -20,14 +21,15 @@ android {
     }
 
     //release版本输出包名自动追加版本号和版本名称
-    applicationVariants.all {
-        variant ->
-            variant.outputs.all {
-                if (buildType.name == 'release') {
-                    outputFileName = "PDA_"+defaultConfig.applicationId+"_" + defaultConfig.versionCode + "_" + new Date().format("yyyy-MM-dd") + ".apk"
-                }
-            }
-    }
+//    applicationVariants.all {
+//        variant ->
+//            variant.outputs.all {
+//                if (buildType.name == 'release') {
+//                    outputFileName = "PDA_"+defaultConfig.applicationId+"_" + defaultConfig.versionCode + "_" + new Date().format("yyyy-MM-dd") + ".apk"
+//                }
+//            }
+//    }
+
     buildTypes {
         release {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'

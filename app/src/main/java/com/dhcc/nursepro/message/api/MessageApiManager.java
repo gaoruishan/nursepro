@@ -27,6 +27,19 @@ public class MessageApiManager {
             }
         });
     }
+    /**
+     * Description: 置皮试结果
+     * Input： oeoreId:执行记录ID
+     * other:	w ##class(Nur.OPPDA.Order).setSkinTestResult("656||4||1","Y",1)
+     */
+    public static void setSkinTestResult(String oeoreId, String skinTest,String auditUserId, final com.base.commlibs.http.CommonCallBack<CommResult> callBack) {
+        MessageApiService.setSkinTestResult(oeoreId, skinTest, auditUserId,new ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                CommWebService.parserCommResult(jsonStr, callBack);
+            }
+        });
+    }
     public static void getMessage(final GetMessageCallback callback) {
         MessageApiService.getMessage(new MessageApiService.ServiceCallBack() {
             @Override
@@ -53,11 +66,7 @@ public class MessageApiManager {
                     } catch (Exception e) {
                         callback.onFail("-2","网络错误，数据解析失败");
                     }
-
-
                 }
-
-
             }
         });
     }
@@ -88,27 +97,11 @@ public class MessageApiManager {
                     } catch (Exception e) {
                         callback.onFail("-2","网络错误，数据解析失败");
                     }
-
-
                 }
-
-
             }
         });
     }
-    /**
-     * Description: 置皮试结果
-     * Input： oeoreId:执行记录ID
-     * other:	w ##class(Nur.OPPDA.Order).setSkinTestResult("656||4||1","Y",1)
-     */
-    public static void setSkinTestResult(String oeoreId, String skinTest,String auditUserId, final com.base.commlibs.http.CommonCallBack<CommResult> callBack) {
-        MessageApiService.setSkinTestResult(oeoreId, skinTest, auditUserId,new ServiceCallBack() {
-            @Override
-            public void onResult(String jsonStr) {
-                CommWebService.parserCommResult(jsonStr, callBack);
-            }
-        });
-    }
+
 
 
     public interface CommonCallBack {

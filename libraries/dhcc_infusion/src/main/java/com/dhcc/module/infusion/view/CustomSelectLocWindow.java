@@ -28,6 +28,7 @@ import cn.qqtheme.framework.picker.OptionPicker;
 import cn.qqtheme.framework.widget.WheelView;
 
 /**
+ * 切换科室
  * @author:gaoruishan
  * @date:202019-06-24/09:49
  * @email:grs0515@163.com
@@ -41,16 +42,12 @@ public class CustomSelectLocWindow extends LinearLayout implements View.OnClickL
     private InfusionInfo loginNurseInfo;
     private List<Map<String,String>> locsList;
     private Map<String,List> mapWins;
-
-
     public CustomSelectLocWindow(Context context) {
         this(context,null);
     }
-
     public CustomSelectLocWindow(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs,0);
     }
-
     public CustomSelectLocWindow(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         View view = LayoutInflater.from(context).inflate(R.layout.custom_select_loc_window, null);
@@ -78,6 +75,7 @@ public class CustomSelectLocWindow extends LinearLayout implements View.OnClickL
 
     @Override
     public void onClick(View v) {
+        // 点击切换科室
         if (v.getId() == R.id.tv_setting_loc) {
             if (nurseInfoList != null && nurseInfoList.size() > 0) {
                 String userCode = spUtils.getString(SharedPreference.USERCODE);
@@ -92,6 +90,7 @@ public class CustomSelectLocWindow extends LinearLayout implements View.OnClickL
                 }
             }
         }
+        // 点击切换窗口
         if (v.getId() == R.id.tv_setting_window) {
             List list = new ArrayList();
             list = mapWins.get(spUtils.getString(SharedPreference.LOCDESC));

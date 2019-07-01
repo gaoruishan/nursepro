@@ -1,0 +1,68 @@
+/**
+ * 自定义打包
+ * 1,适用于在apply plugin: 'com.android.application' 的依赖
+ * 2,每个依赖库build.gradle需添加输出APK: apply from: "../plugin/build_pack.gradle"
+ * 3,点击最右侧栏"Gradle"-->找对应依赖库-->Tasks-->build-->运行build编译
+ */
+
+
+//定义一个装apk文件路径的数组
+def fileArray = []
+
+android.applicationVariants.all { variant -> //获取 variant 参数，就是 productFlavor x buildType
+    variant.outputs.all { output -> //获取输出文件
+        def outputFile = output.outputFile//修改实例
+        def targetName = "-release.apk"
+        if (outputFile != null && outputFile.name.contains(targetName)) {
+            //获取每个打包产物
+            def variantProd = variant.productFlavors[0]
+            def fileName
+            if (variantProd) {
+                fileName = "PDA__${variantProd.applicationId}_${variantProd.versionCode}" + "_${variantProd.name}_"+new Date().format("yyyy-MM-dd")+".apk"
+            }else{
+                def name = outputFile.name.replace(targetName, "")
+                fileName = "PDA_"+name+ "_" + new Date().format("yyyy-MM-dd")+".apk"
+            }
+            println "任务1自定义输出apk的名字:" + fileName;
+            outputFileName = fileName;
+            println "任务1输出apk地址:" + outputFile.parentFile.absolutePath + java.io.File.separator + fileName
+            fileArray.add(outputFile.parentFile.absolutePath + java.io.File.separator + fileName);
+        }
+
+    }
+}
+
+//遍历进行文件操作
+def copyForEachFile(fileArray) {
+    println "任务2编译打包完成后需要复制apk的数量:" + fileArray.size()
+    fileArray.forEach { file ->
+        println "任务2遍历apk文件"
+        renameAndMoveApk(file)
+    }
+}
+
+//拷贝复制apk
+def renameAndMoveApk(orignalFile) {
+    def intoFile = rootDir.getAbsolutePath() + File.separator + "apk"
+    copy {
+        from orignalFile
+        into intoFile
+        println "任务3复制apk到指定位置:" + intoFile
+        rename("${android.defaultConfig.versionName}_${android.defaultConfig.versionCode}_", "")
+        println "任务3修改apk的命名"
+    }
+}
+
+/**
+ * Gradle构建脚本默认的名字是build.gradle，
+ * 当在shell中执行gradle命令时，Gradle会去当前目录下寻找名字是build.gradle的文件。
+ * 在Gradle中一个原子性的操作叫做task，简单理解为task是Gradle脚本中的最小可执行单元。
+ */
+//app构建最后执行
+
+build {
+    doLast() {
+        copyForEachFile(fileArray)
+    }
+}
+

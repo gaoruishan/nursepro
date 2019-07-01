@@ -1,0 +1,48 @@
+/**
+ * 1,适用于在apply plugin: 'com.android.library' 的依赖库
+ * 2,每个依赖库build.gradle需添加输出AAR: apply from: '../../build_copy.gradle'
+ * 3,点击最右侧栏"Gradle"-->找对应依赖库-->Tasks-->build-->运行build编译
+ */
+//方式一
+def renameAndMove(orginFile) {
+    def intoFile = rootDir.getAbsolutePath() + File.separator + "biz-lib"
+    // 使用copy
+    copy {
+        from orginFile
+        into intoFile
+        println "任务 复制到指定位置:" + intoFile
+        if(orginFile.equals('-release.aar')){
+            rename(orginFile.getName + '-release.aar', orginFile.getName + ".aar")
+        }else{
+            rename(orginFile.getName(),orginFile.getName())
+        }
+        println "任务 修改命名"
+    }
+}
+assemble.doLast {
+    def files = file("./build/outputs/aar/").listFiles()
+    files.each { file ->
+        println "任务 file:" + file.getName()
+        renameAndMove(file)
+    }
+
+}
+
+//方式二
+//assemble.doLast {
+//    def files = file("./build/outputs/aar/").listFiles()
+//    def targetDir = rootDir.getAbsolutePath() + File.separator + "biz-lib/"
+//    def targetName = "-release.aar"
+//    files.each { item ->
+        //定义文件名
+//        def target = file(targetDir + item.getName())
+//        if (item.getName().contains(targetName)) {
+//            target = file(targetDir + item.getName().replace(targetName, ".aar"))
+//        }
+//        if (target.exists()) {
+//            target.delete()
+//        }
+//        println "任务 复制到指定位置:" + target
+//        item.renameTo(target) // 移动
+//    }
+//}

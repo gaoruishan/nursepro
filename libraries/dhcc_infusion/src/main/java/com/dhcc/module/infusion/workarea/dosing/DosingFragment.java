@@ -77,11 +77,13 @@ public class DosingFragment extends BaseInfusionFragment implements View.OnClick
             public void onSuccess(DosingBean bean, String type) {
                 //检验
                 boolean isContain = false;
-                String s = "";
                 for (OrdListBean b : bean.getOrdList()) {
                     listId.add(b.getOeoreId());
-                    s += b.getOeoreId() + ", ";
-                    if (b.getOeoreId().equals(scanInfo)) {
+                    String bOeoreId = b.getOeoreId();
+                    if (bOeoreId.contains("-")){
+                        bOeoreId = bOeoreId.replaceAll("-", "\\|\\|");
+                    }
+                    if (bOeoreId.equals(scanInfo)) {
                         isContain = true;
                     }
                 }
