@@ -110,6 +110,7 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
                 if (bean.getPatInfo() != null) {
                     cpvPat.setPatName(bean.getPatInfo().getPatName())
                             .setRegNo(bean.getPatInfo().getPatRegNo())
+                            .setAge(bean.getPatInfo().getPatAge())
                             .setImgSexResource(bean.getPatInfo().getPatSexDrawable());
                 }
                 csvSpeed.setSpeed(bean.getDefautSpeed());

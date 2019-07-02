@@ -82,6 +82,7 @@ public class ContinueFragment extends BaseInfusionFragment implements View.OnCli
                 csvScan.setVisibility(View.GONE);
                 if (bean.getPatInfo() != null) {
                     cpvPat.setRegNo(bean.getPatInfo().getPatRegNo()).setPatName(bean.getPatInfo().getPatName())
+                            .setAge(bean.getPatInfo().getPatAge())
                             .setImgSexResource(CustomPatView.getPatSexDrawable(bean.getPatInfo().getPatSex()));
                 }
                 csvSpeed.setSpeed(bean.getDefautSpeed());

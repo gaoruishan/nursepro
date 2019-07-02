@@ -1,7 +1,7 @@
 package com.dhcc.module.infusion.workarea.puncture;
 
 import com.base.commlibs.http.CommResult;
-import com.dhcc.module.infusion.R;
+import com.dhcc.module.infusion.workarea.comm.bean.PatInfoBean;
 import com.dhcc.module.infusion.workarea.dosing.bean.OrdListBean;
 
 import java.util.List;
@@ -101,50 +101,6 @@ public class PunctureBean extends CommResult {
     }
 
 
-    public static class PatInfoBean {
-        private String PatName;
-        private String PatRegNo;
-        private String PatSex;
-
-        /**
-         * PatName : lh041101
-         * PatRegNo : 0000000435
-         * PatSex : 女
-         */
-        public int getPatSexDrawable() {
-            if ("男".equals(PatSex)) {
-                return R.drawable.infusion_sex_male;
-            } else if ("女".equals(PatSex)) {
-                return R.drawable.infusion_sex_female;
-            } else {
-                return R.drawable.infusion_sex_male;
-            }
-        }
-
-        public String getPatName() {
-            return PatName;
-        }
-
-        public void setPatName(String PatName) {
-            this.PatName = PatName;
-        }
-
-        public String getPatRegNo() {
-            return PatRegNo;
-        }
-
-        public void setPatRegNo(String PatRegNo) {
-            this.PatRegNo = PatRegNo;
-        }
-
-        public String getPatSex() {
-            return PatSex;
-        }
-
-        public void setPatSex(String PatSex) {
-            this.PatSex = PatSex;
-        }
-    }
 
     public static class PunturePartListBean {
         /**

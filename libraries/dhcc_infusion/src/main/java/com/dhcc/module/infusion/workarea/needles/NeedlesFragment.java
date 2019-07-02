@@ -78,6 +78,7 @@ public class NeedlesFragment extends BaseInfusionFragment implements View.OnClic
                 csvScan.setVisibility(View.GONE);
                 if (bean.getPatInfo() != null) {
                     cpvPat.setRegNo(bean.getPatInfo().getPatRegNo()).setPatName(bean.getPatInfo().getPatName())
+                           .setAge(bean.getPatInfo().getPatAge())
                             .setImgSexResource(CustomPatView.getPatSexDrawable(bean.getPatInfo().getPatSex()));
                 }
                 commPatrolAdapter.setCurrentScanInfo(scanInfo);

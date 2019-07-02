@@ -1,6 +1,7 @@
 package com.dhcc.module.infusion.workarea.patrol.bean;
 
 import com.base.commlibs.http.CommResult;
+import com.dhcc.module.infusion.workarea.comm.bean.PatInfoBean;
 import com.dhcc.module.infusion.workarea.dosing.bean.OrdListBean;
 
 import java.util.List;
@@ -120,42 +121,6 @@ public class PatrolBean extends CommResult {
 
     public void setOrdList(List<OrdListBean> ordList) {
         this.ordList = ordList;
-    }
-
-    public static class PatInfoBean {
-        /**
-         * PatName : lh041101
-         * PatRegNo : 0000000435
-         * PatSex : 女
-         */
-
-        private String PatName;
-        private String PatRegNo;
-        private String PatSex;
-
-        public String getPatName() {
-            return PatName;
-        }
-
-        public void setPatName(String PatName) {
-            this.PatName = PatName;
-        }
-
-        public String getPatRegNo() {
-            return PatRegNo;
-        }
-
-        public void setPatRegNo(String PatRegNo) {
-            this.PatRegNo = PatRegNo;
-        }
-
-        public String getPatSex() {
-            return PatSex;
-        }
-
-        public void setPatSex(String PatSex) {
-            this.PatSex = PatSex;
-        }
     }
 
     public static class InfusionReasonListBean {
