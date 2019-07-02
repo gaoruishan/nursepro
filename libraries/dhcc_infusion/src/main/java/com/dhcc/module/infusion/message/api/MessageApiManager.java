@@ -64,15 +64,19 @@ public class MessageApiManager {
         });
     }
 
+    /**
+     * 安医附院新增-标准版去掉
+     * @param callBack
+     */
     public static void getNotifyMessage( final CommonCallBack<NotifyMessageBean> callBack) {
-        MessageApiService.getNotifyMessage(new ServiceCallBack() {
-            @Override
-            public void onResult(String jsonStr) {
-                ParserUtil<NotifyMessageBean> parserUtil = new ParserUtil<>();
-                NotifyMessageBean bean = parserUtil.parserResult(jsonStr, callBack, NotifyMessageBean.class);
-                if (bean == null) return;
-                parserUtil.parserStatus(bean, callBack);
-            }
-        });
+//        MessageApiService.getNotifyMessage(new ServiceCallBack() {
+//            @Override
+//            public void onResult(String jsonStr) {
+//                ParserUtil<NotifyMessageBean> parserUtil = new ParserUtil<>();
+//                NotifyMessageBean bean = parserUtil.parserResult(jsonStr, callBack, NotifyMessageBean.class);
+//                if (bean == null) return;
+//                parserUtil.parserStatus(bean, callBack);
+//            }
+//        });
     }
 }

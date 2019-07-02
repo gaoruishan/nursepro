@@ -66,8 +66,9 @@ public class PatInfoFragment extends BaseFragment {
 
             @Override
             public void onSuccess(PatDetailBean bean, String type) {
-                cpvPat.setPatName(bean.getPatInfo().getPatName());
-                cpvPat.setRegNo(bean.getPatInfo().getPatRegNo());
+                cpvPat.setPatName(bean.getPatInfo().getPatName())
+                        .setAge(bean.getPatInfo().getPatAge())
+                        .setRegNo(bean.getPatInfo().getPatRegNo());
                 cpvPat.setImgSexResource(CustomPatView.getPatSexDrawable(bean.getPatInfo().getPatSex()));
                 helper.setTextData(R.id.tv_last_num, bean.getLeftTreatNum());
                 patInfoAdapter.replaceData(bean.getRecOrdList());

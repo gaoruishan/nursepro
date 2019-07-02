@@ -104,6 +104,9 @@ public class PatrolFragment extends BaseInfusionFragment implements View.OnClick
 
             @Override
             public void onSuccess(final PatrolBean bean, String type) {
+                if (checkListOeoreId(bean.getOrdList(), "扫码不匹配")) {
+                    return;
+                }
                 mBean = bean;
                 csvScan.setVisibility(View.GONE);
                 if (bean.getPatInfo() != null) {

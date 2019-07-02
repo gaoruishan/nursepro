@@ -75,6 +75,9 @@ public class ContinueFragment extends BaseInfusionFragment implements View.OnCli
 
             @Override
             public void onSuccess(ContinueBean bean, String type) {
+                if (checkListOeoreId(bean.getOrdList(), "扫码不匹配")) {
+                    return;
+                }
                 mBean = bean;
                 csvScan.setVisibility(View.GONE);
                 if (bean.getPatInfo() != null) {

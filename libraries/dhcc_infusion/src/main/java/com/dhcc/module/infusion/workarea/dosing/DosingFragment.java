@@ -40,8 +40,7 @@ public class DosingFragment extends BaseInfusionFragment implements View.OnClick
     private CommDosingAdapter commDosingAdapter;
     private View tvOk;
     private String reqType;
-    private String scanInfo;
-    private List<String> listId = new ArrayList<>();
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -75,20 +74,8 @@ public class DosingFragment extends BaseInfusionFragment implements View.OnClick
 
             @Override
             public void onSuccess(DosingBean bean, String type) {
-                //检验
-                boolean isContain = false;
-                for (OrdListBean b : bean.getOrdList()) {
-                    listId.add(b.getOeoreId());
-                    String bOeoreId = b.getOeoreId();
-                    if (bOeoreId.contains("-")){
-                        bOeoreId = bOeoreId.replaceAll("-", "\\|\\|");
-                    }
-                    if (bOeoreId.equals(scanInfo)) {
-                        isContain = true;
-                    }
-                }
-                if (!isContain) {
-                    ToastUtils.showShort("瓶贴不匹配,请换一个扫描" );
+                List<OrdListBean> ordList = bean.getOrdList();
+                if (checkListOeoreId(ordList, "瓶贴不匹配,请换一个扫描")) {
                     return;
                 }
                 mContainerChild.findViewById(R.id.csv).setVisibility(View.GONE);
@@ -103,6 +90,7 @@ public class DosingFragment extends BaseInfusionFragment implements View.OnClick
             }
         });
     }
+
 
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

@@ -100,6 +100,9 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
 
             @Override
             public void onSuccess(PunctureBean bean, String type) {
+                if (checkListOeoreId(bean.getOrdList(), "扫码不匹配")) {
+                    return;
+                }
                 punctureAdapter.replaceData(bean.getOrdList());
                 punctureAdapter.setCurrentScanInfo(scanInfo);
                 // 隐藏扫码页

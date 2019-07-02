@@ -147,9 +147,7 @@ public class MessageFragment extends BaseFragment implements CustomTabView.OnTab
         rvMsgInfusion.setAdapter(messageInfusionAdapter);
         rvMsgSkin.setAdapter(messageSkinAdapter);
         messageInfusionAdapter.setOnItemChildClickListener(this);
-        //TODO 默认显示输液,隐藏第一个
-        setSwitchRecycleView(1);
-        ctv.setPositionTabGone(0);
+        setSwitchRecycleView(0);
         initData();
         getActivity().getApplicationContext().registerReceiver(mReceiver, mfilter);
     }

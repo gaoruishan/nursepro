@@ -151,10 +151,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         if (v.getId() == R.id.rl_setting_chooseway) {
             startFragment(SettingWayFragment.class);
         }
-        //患者列表
-        if (v.getId() == R.id.rl_setting_pat_list) {
-            startFragment(PatListFragment.class);
-        }
+
     }
 
     private void changeWindow(List list) {

@@ -5,7 +5,7 @@
  */
 //方式一
 def renameAndMove(orginFile) {
-    def intoFile = rootDir.getAbsolutePath() + File.separator + "biz-lib"
+    def intoFile = rootDir.getAbsolutePath() + File.separator + "lib"
     // 使用copy
     copy {
         from orginFile

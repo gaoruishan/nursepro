@@ -57,6 +57,25 @@ public class PatDetailBean extends CommResult {
         private String PatName;
         private String PatRegNo;
         private String PatSex;
+        private String PatAge;
+        //诊断
+        private String PatDiag;
+
+        public String getPatAge() {
+            return PatAge == null ? "" : PatAge;
+        }
+
+        public void setPatAge(String patAge) {
+            PatAge = patAge;
+        }
+
+        public String getPatDiag() {
+            return PatDiag == null ? "" : PatDiag;
+        }
+
+        public void setPatDiag(String patDiag) {
+            PatDiag = patDiag;
+        }
 
         public String getPatName() {
             return PatName;

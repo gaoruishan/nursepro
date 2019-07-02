@@ -30,6 +30,7 @@ public class CustomPatView extends LinearLayout {
     private View view;
     private TextView tvPat;
     private TextView tvRegno;
+    private TextView tvAge;
     private ImageView imgSex;
 
     public CustomPatView(Context context) {
@@ -66,6 +67,7 @@ public class CustomPatView extends LinearLayout {
         super.onFinishInflate();
         tvPat = view.findViewById(R.id.tv_pat);
         tvRegno = view.findViewById(R.id.tv_regno);
+        tvAge = view.findViewById(R.id.tv_age);
         imgSex = view.findViewById(R.id.img_sex);
         // 点击事件
         setOnClickListener(new OnClickListener() {
@@ -110,6 +112,13 @@ public class CustomPatView extends LinearLayout {
         if (!TextUtils.isEmpty(regNo)) {
             this.tvRegno.setVisibility(VISIBLE);
             this.tvRegno.setText(regNo);
+        }
+        return this;
+    }
+    public CustomPatView setAge(String tvAge) {
+        if (!TextUtils.isEmpty(tvAge)) {
+            this.tvAge.setVisibility(VISIBLE);
+            this.tvAge.setText(tvAge);
         }
         return this;
     }
