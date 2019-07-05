@@ -5,7 +5,7 @@
  */
 //方式一
 def renameAndMove(orginFile) {
-    def intoFile = rootDir.getAbsolutePath() + File.separator + "lib"
+    def intoFile = rootDir.getAbsolutePath() + File.separator + "libs"
     // 使用copy
     copy {
         from orginFile
@@ -13,7 +13,7 @@ def renameAndMove(orginFile) {
         println "任务 复制到指定位置:" + intoFile
         if(orginFile.equals('-release.aar')){
             rename(orginFile.getName + '-release.aar', orginFile.getName + ".aar")
-        }else{
+         }else{
             rename(orginFile.getName(),orginFile.getName())
         }
         println "任务 修改命名"

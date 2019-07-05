@@ -51,6 +51,16 @@ public class BaseWebServiceUtils {
         String url = getServiceUrl(NUR_OPPDA_SERVICE);
         callWebService(url, methodName, properties, webServiceCallBack);
     }
+    /**
+     * PDA护士站服务器地址
+     */
+    public static void callWebPDAService(final String methodName,
+                                      HashMap<String, String> properties,
+                                      final WebServiceCallBack webServiceCallBack) {
+        // 创建HttpTransportSE对象，传递WebService服务器地址,默认Nur.PDA.WebService.cls
+        String url = getServiceUrl(NUR_PDA_SERVICE);
+        callWebService(url, methodName, properties, webServiceCallBack);
+    }
 
     /**
      * 获取服务器URL

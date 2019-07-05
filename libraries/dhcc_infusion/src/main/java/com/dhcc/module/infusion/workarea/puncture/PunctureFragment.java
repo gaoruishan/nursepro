@@ -6,9 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.base.commlibs.constant.SharedPreference;
@@ -50,7 +48,6 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
     private CustomSpeedView csvSpeed;
     private CustomSelectView csvSelect;
     private CustomPatView cpvPat;
-    private String scanInfo;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -78,7 +75,6 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
     @Override
     public void getScanMsg(Intent intent) {
         super.getScanMsg(intent);
-         scanInfo = doScanInfo(intent);
         if (scanInfo != null) {
             getOrdList(scanInfo);
         }
@@ -135,8 +131,8 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
     }
 
     @Override
-    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_puncture_infusion, container, false);
+    protected int setLayout() {
+        return R.layout.fragment_puncture_infusion;
     }
 
 

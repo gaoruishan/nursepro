@@ -6,9 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.base.commlibs.http.CommResult;
@@ -54,7 +52,6 @@ public class PatrolFragment extends BaseInfusionFragment implements View.OnClick
     private PatrolBean mBean;
     private View llMeasure;
     private EditText edMeasure;
-    private String scanInfo;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -82,15 +79,14 @@ public class PatrolFragment extends BaseInfusionFragment implements View.OnClick
     @Override
     public void getScanMsg(Intent intent) {
         super.getScanMsg(intent);
-        scanInfo = doScanInfo(intent);
         if (scanInfo != null) {
             getOrdList(scanInfo);
         }
     }
 
     @Override
-    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_patrol, null);
+    protected int setLayout() {
+        return R.layout.fragment_patrol;
     }
 
     private void getOrdList(final String scanInfo) {

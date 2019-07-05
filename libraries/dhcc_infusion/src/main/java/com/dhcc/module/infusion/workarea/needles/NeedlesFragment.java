@@ -5,9 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
@@ -33,7 +31,6 @@ public class NeedlesFragment extends BaseInfusionFragment implements View.OnClic
     private CustomPatView cpvPat;
     private PatrolOrdListAdapter commPatrolAdapter;
     private NeedlesBean mBean;
-    private String scanInfo;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -51,15 +48,14 @@ public class NeedlesFragment extends BaseInfusionFragment implements View.OnClic
     @Override
     public void getScanMsg(Intent intent) {
         super.getScanMsg(intent);
-         scanInfo = doScanInfo(intent);
         if (scanInfo != null) {
             getOrdList(scanInfo);
         }
     }
 
     @Override
-    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_needles, container);
+    protected int setLayout() {
+        return R.layout.fragment_needles;
     }
 
     private void getOrdList(final String scanInfo) {

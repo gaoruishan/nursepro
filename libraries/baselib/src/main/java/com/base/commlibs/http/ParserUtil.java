@@ -48,7 +48,7 @@ public class ParserUtil<T extends CommResult> {
      * @param bean
      * @param callback
      */
-    public void parserStatus(T bean, CommonCallBack callback) {
+    public void parserStatus(T bean, CommonCallBack<T> callback) {
         if ("0".equals(bean.getStatus())) {
             if (callback != null) {
                 callback.onSuccess(bean, bean.getClass().getSimpleName());

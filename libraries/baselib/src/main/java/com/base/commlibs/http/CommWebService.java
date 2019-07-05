@@ -31,12 +31,27 @@ public class CommWebService {
     }
 
     /**
-     * 统一
+     * 统一(门诊输液)
      * @param methodName
      * @param properties
      */
     public static void call(String methodName, HashMap<String, String> properties, final ServiceCallBack callBack) {
         BaseWebServiceUtils.callWebOPPDAService( methodName, properties, new BaseWebServiceUtils.WebServiceCallBack() {
+            @Override
+            public void callBack(String result) {
+                callBack.onResult(result);
+            }
+        });
+    }
+
+    /**
+     * 统一(护士站)
+     * @param methodName
+     * @param properties
+     * @param callBack
+     */
+    public static void callNurse(String methodName, HashMap<String, String> properties, final ServiceCallBack callBack) {
+        BaseWebServiceUtils.callWebPDAService( methodName, properties, new BaseWebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callBack.onResult(result);
@@ -83,6 +98,19 @@ public class CommWebService {
         }
         SPUtils spUtils = SPUtils.getInstance();
         properties.put("userId", spUtils.getString(SharedPreference.USERID));
+        return properties;
+    }
+    /**
+     * 添加病房ID
+     * @param properties
+     * @return
+     */
+    public static HashMap<String, String> addWardId(HashMap<String, String> properties) {
+        if (properties == null) {
+            properties = new HashMap<String, String>();
+        }
+        SPUtils spUtils = SPUtils.getInstance();
+        properties.put("wardId", spUtils.getString(SharedPreference.WARDID));
         return properties;
     }
 

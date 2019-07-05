@@ -35,6 +35,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     // 依赖基础库
     implementation project(':libraries:baselib')
+    // 依赖资源库
+    implementation project(':libraries:dhcc_res')
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
