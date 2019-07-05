@@ -23,4 +23,8 @@ public class OrderExecuteApiManager {
             }
         });
     }
+
+    public static void getOrder(String regNo, String sheetCode, String startDate, String startTime, String endDate, String endTime, CommonCallBack callBack) {
+
+    }
 }

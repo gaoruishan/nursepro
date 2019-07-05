@@ -8,7 +8,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.base.commlibs.BaseActivity;
+import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommonCallBack;
+import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.workarea.comm.BaseInfusionFragment;
@@ -25,11 +27,20 @@ public class OrderExecuteFragment extends BaseInfusionFragment {
     private String regNo;
     private String patInfo;
     private String patSaveInfo;
-
+    private SPUtils spUtils = SPUtils.getInstance();
+    private String startDate;
+    private String startTime;
+    private String endDate;
+    private String endTime;
+    private String sheetCode = "";
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setToolbarCenterTitle("医嘱执行");
+        startDate = spUtils.getString(SharedPreference.SCHSTDATETIME).substring(0, 10);
+        startTime = spUtils.getString(SharedPreference.SCHSTDATETIME).substring(11, 16);
+        endDate = spUtils.getString(SharedPreference.SCHENDATETIME).substring(0, 10);
+        endTime = spUtils.getString(SharedPreference.SCHENDATETIME).substring(11, 16);
     }
 
     @Override
@@ -68,7 +79,19 @@ public class OrderExecuteFragment extends BaseInfusionFragment {
     }
 
     private void asyncInitData() {
+        OrderExecuteApiManager.getOrder(regNo, sheetCode, startDate, startTime, endDate, endTime, new CommonCallBack() {
 
+
+            @Override
+            public void onFail(String code, String msg) {
+
+            }
+
+            @Override
+            public void onSuccess(Object bean, String type) {
+
+            }
+        });
     }
 
     @Override

@@ -45,9 +45,6 @@ import java.util.regex.Pattern;
 import cn.qqtheme.framework.picker.LinkagePicker;
 import cn.qqtheme.framework.widget.WheelView;
 
-import static com.base.commlibs.wsutils.BaseWebServiceUtils.DEFAULT_IP;
-import static com.base.commlibs.wsutils.BaseWebServiceUtils.DTHEALTH_WEB;
-
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
 
 
@@ -76,14 +73,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private String WinJson = "";
 
     private TextView tvIp;
-    private String IpStr;
     private SetIPDialog showDialog;
     private WindowPicker picker;
 
     private Map mapaaa = new HashMap();
     private List listaaa = new ArrayList();
 
-    private String defaultwindow = "";
     private String scanInfo;
     private String scanFlag="";
 
@@ -92,16 +87,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_infusion);
         setToolbarType(ToolbarType.HIDE);
-        IpStr = spUtils.getString(SharedPreference.WEBIP, "noIp");
-        defaultwindow = spUtils.getString(SharedPreference.DEFAULTWINDOW, "");
-        if ("noIp".equals(IpStr)) {
-            spUtils.put(SharedPreference.WEBIP, DEFAULT_IP);
-        }
-        String webPath = spUtils.getString(SharedPreference.WEBPATH);
-        if(TextUtils.isEmpty(webPath)){
-            spUtils.put(SharedPreference.WEBPATH, DTHEALTH_WEB);
-        }
-        spUtils.put(SharedPreference.LOGONLOCTYPE, "E");
+        AppUtil.checkWebIp();
+        AppUtil.checkWebPath();
+        AppUtil.setLoginLocType();
         nurseInfoList = daoSession.getInfusionInfoDao().queryBuilder().list();
         initView();
         //注册扫码监听
@@ -331,10 +319,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 public void onYesClick() {
                     String ip = showDialog.getIp();
                     if (isIP(ip)) {
-                        spUtils.put(SharedPreference.WEBIP, ip);
-                        if (!TextUtils.isEmpty(showDialog.getAddr())) {
-                            spUtils.put(SharedPreference.WEBPATH, showDialog.getAddr());
-                        }
+                        AppUtil.setWebIpAndPath(ip,showDialog.getAddr());
                         //重写请求
                         getBroadcastList();
                         showDialog.dismiss();
@@ -399,6 +384,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         }
     }
 
+
+
     private void initData(final String action, final InfusionInfo nurseInfo) {
         nurseInfoList = daoSession.getInfusionInfoDao().queryBuilder().list();
         LoginApiManager.getLogin(userCode, password, logonWardId, scanFlag,new CommonCallBack<LoginBean>() {
@@ -432,8 +419,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 Gson gson = new Gson();
                 LocJson = gson.toJson(list);
                 WinJson = gson.toJson(mapaaa);
-                spUtils.put(SharedPreference.LOCSLISTJSON, LocJson);
-                spUtils.put(SharedPreference.WINSLISTJSON, WinJson);
+                AppUtil.setLocWinListJson(LocJson, WinJson);
 
                 //选择科室
                 if ("ward".equals(action)) {
@@ -517,8 +503,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private void saveUserInfo() {
         //是否“记住我”
         if (remem) {
-            spUtils.put(SharedPreference.REMEM, true);
-            spUtils.put(SharedPreference.REMEM_USERCODE, userCode);
+            AppUtil.setRememberUserCode(true, userCode);
         } else {
             spUtils.put(SharedPreference.REMEM, false);
             spUtils.put(SharedPreference.REMEM_USERCODE, "");
