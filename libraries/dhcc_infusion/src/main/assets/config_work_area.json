@@ -1,0 +1,41 @@
+{
+  "desc": "主页模块配置",
+  "list": [
+    {
+      "id": 100,
+      "name": "配液",
+      "image": "infusion_main_py",
+      "fragment": "com.dhcc.module.infusion.workarea.dosing.DosingFragment"
+    },
+    {
+      "id": 101,
+      "name": "穿刺",
+      "image": "infusion_main_cc",
+      "fragment": "com.dhcc.module.infusion.workarea.puncture.PunctureFragment"
+    },
+    {
+      "id": 102,
+      "name": "巡视",
+      "image": "infusion_main_xs",
+      "fragment": "com.dhcc.module.infusion.workarea.patrol.PatrolFragment"
+    },
+    {
+      "id": 103,
+      "name": "续液",
+      "image": "infusion_main_xy",
+      "fragment": "com.dhcc.module.infusion.workarea.continues.ContinueFragment"
+    },
+    {
+      "id": 104,
+      "name": "拔针",
+      "image": "infusion_main_bz",
+      "fragment": "com.dhcc.module.infusion.workarea.needles.NeedlesFragment"
+    },
+    {
+      "id": 105,
+      "name": "医嘱执行",
+      "image": "dhcc_icon_orderexcute",
+      "fragment": "com.dhcc.module.infusion.workarea.orderexecute.OrderExecuteFragment"
+    }
+  ]
+}

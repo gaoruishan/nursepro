@@ -401,9 +401,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     private void initData(final String action, final InfusionInfo nurseInfo) {
         nurseInfoList = daoSession.getInfusionInfoDao().queryBuilder().list();
-        LoginApiManager.getLogin(userCode, password, logonWardId, scanFlag,new LoginApiManager.GetLoginCallback() {
+        LoginApiManager.getLogin(userCode, password, logonWardId, scanFlag,new CommonCallBack<LoginBean>() {
             @Override
-            public void onSuccess(final LoginBean loginBean) {
+            public void onSuccess(final LoginBean loginBean, String type) {
                 listaaa = new ArrayList();
                 mapaaa = new HashMap();
                 //保存科室列表，设置界面更换病区会用到
@@ -499,6 +499,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             public void onFail(String code, String msg) {
                 Toast.makeText(LoginActivity.this, "error" + code + ":" + msg, Toast.LENGTH_SHORT).show();
             }
+
         });
     }
 

@@ -8,16 +8,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingLeft="56dp"
-        android:paddingRight="56dp"
-        android:paddingTop="32dp"
-        android:paddingBottom="32dp"
+        android:paddingLeft="@dimen/dp_56"
+        android:paddingRight="@dimen/dp_56"
+        android:paddingTop="@dimen/dp_32"
+        android:paddingBottom="@dimen/dp_32"
         android:background="@drawable/base_full_loading_background">
 
         <com.base.commlibs.base.CircularProgressBar
             android:layout_gravity="center_vertical"
-            android:layout_width="60dp"
-            android:layout_height="60dp" />
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="@dimen/dp_60" />
 
     </LinearLayout>
 </com.base.commlibs.base.BaseFullLoadingView>

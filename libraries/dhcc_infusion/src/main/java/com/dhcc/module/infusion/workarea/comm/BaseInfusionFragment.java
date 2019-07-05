@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.base.commlibs.BaseFragment;
 import com.blankj.utilcode.util.ToastUtils;
@@ -23,7 +25,7 @@ import java.util.List;
  * @date:202019-06-20/16:38
  * @email:grs0515@163.com
  */
-public class BaseInfusionFragment extends BaseFragment {
+public abstract class BaseInfusionFragment extends BaseFragment {
 
     protected String scanInfo;
     protected Activity mContext;
@@ -50,6 +52,26 @@ public class BaseInfusionFragment extends BaseFragment {
         scanInfo = doScanInfo(intent);
     }
 
+    @Override
+    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if (setLayout() != 0) {
+            return inflater.inflate(setLayout(), container, false);
+        }
+        return null;
+    }
+
+    /**
+     * 设置布局
+     * @return
+     */
+    protected abstract @LayoutRes int setLayout();
+
+    /**
+     * 校验列表中的OeoreId
+     * @param list
+     * @param s
+     * @return
+     */
     protected boolean checkListOeoreId(List<OrdListBean> list, String s) {
         //检验
         boolean isContain = false;
@@ -60,8 +82,14 @@ public class BaseInfusionFragment extends BaseFragment {
             if (bOeoreId.contains("-")) {
                 bOeoreId = bOeoreId.replaceAll("-", "\\|\\|");
             }
+            //不包含|| 或者-的扫码结果
             if (bOeoreId.equals(scanInfo)) {
                 isContain = true;
+                break;
+            }
+            if (scanInfo != null && !scanInfo.contains("\\|\\|")) {
+                isContain = true;
+                break;
             }
         }
         if (!isContain) {
@@ -84,5 +112,4 @@ public class BaseInfusionFragment extends BaseFragment {
             }
         });
     }
-
 }

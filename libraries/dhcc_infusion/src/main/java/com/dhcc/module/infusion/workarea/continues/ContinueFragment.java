@@ -5,9 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
+import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
@@ -36,7 +35,7 @@ public class ContinueFragment extends BaseInfusionFragment implements View.OnCli
     private CustomSpeedView csvSpeed;
     private CommDosingAdapter commDosingAdapter;
     private ContinueBean mBean;
-    private String scanInfo;
+    private String scanInfo1;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -55,19 +54,25 @@ public class ContinueFragment extends BaseInfusionFragment implements View.OnCli
     @Override
     public void getScanMsg(Intent intent) {
         super.getScanMsg(intent);
-         scanInfo = doScanInfo(intent);
         if (scanInfo != null) {
             getOrdList(scanInfo);
         }
     }
 
+
     @Override
-    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_continue, container);
+    protected int setLayout() {
+        return R.layout.fragment_continue;
     }
 
     private void getOrdList(final String scanInfo) {
-        ContinueApiManager.getChangeOrdList("", "", scanInfo, new CommonCallBack<ContinueBean>() {
+        String regNo = "";
+        String curOeoreId = "";
+        if (mBean != null) {
+            regNo = mBean.getCurRegNo();
+            curOeoreId = mBean.getCurOeoreId();
+        }
+        ContinueApiManager.getChangeOrdList(regNo, curOeoreId, scanInfo, new CommonCallBack<ContinueBean>() {
             @Override
             public void onFail(String code, String msg) {
                 ToastUtils.showShort(msg);
@@ -78,7 +83,6 @@ public class ContinueFragment extends BaseInfusionFragment implements View.OnCli
                 if (checkListOeoreId(bean.getOrdList(), "扫码不匹配")) {
                     return;
                 }
-                mBean = bean;
                 csvScan.setVisibility(View.GONE);
                 if (bean.getPatInfo() != null) {
                     cpvPat.setRegNo(bean.getPatInfo().getPatRegNo()).setPatName(bean.getPatInfo().getPatName())
@@ -88,6 +92,15 @@ public class ContinueFragment extends BaseInfusionFragment implements View.OnCli
                 csvSpeed.setSpeed(bean.getDefautSpeed());
                 commDosingAdapter.setCurrentScanInfo(scanInfo);
                 commDosingAdapter.replaceData(bean.getOrdList());
+                // 第一次扫码
+                mBean = bean;
+                if (scanInfo1 == null) {
+                    scanInfo1 = scanInfo;
+                    f(R.id.tv_ok).setVisibility(View.GONE);
+                } else if (!TextUtils.isEmpty(bean.getCurRegNo())
+                        && !TextUtils.isEmpty(bean.getCurOeoreId())) {
+                    f(R.id.tv_ok).setVisibility(View.VISIBLE);
+                }
             }
         });
     }

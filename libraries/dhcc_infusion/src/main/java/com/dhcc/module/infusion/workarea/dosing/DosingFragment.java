@@ -2,13 +2,10 @@ package com.dhcc.module.infusion.workarea.dosing;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.base.commlibs.http.CommResult;
@@ -24,7 +21,6 @@ import com.dhcc.module.infusion.workarea.dosing.api.DosingApiManager;
 import com.dhcc.module.infusion.workarea.dosing.bean.DosingBean;
 import com.dhcc.module.infusion.workarea.dosing.bean.OrdListBean;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -58,7 +54,6 @@ public class DosingFragment extends BaseInfusionFragment implements View.OnClick
     @Override
     public void getScanMsg(Intent intent) {
         super.getScanMsg(intent);
-        String scanInfo = doScanInfo(intent);
         if (scanInfo != null) {
             getOrdList(scanInfo);
         }
@@ -91,20 +86,15 @@ public class DosingFragment extends BaseInfusionFragment implements View.OnClick
         });
     }
 
-
     @Override
-    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_dosing, container, false);
+    protected int setLayout() {
+        return R.layout.fragment_dosing;
     }
 
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.tv_ok) {
             despensingOrd();
-        }
-        //自动配液
-        if (v.getId() == R.id.tv_ok_all) {
-            despensingOrdAll();
         }
     }
 
@@ -136,43 +126,6 @@ public class DosingFragment extends BaseInfusionFragment implements View.OnClick
                 // 刷新
                 getOrdList(scanInfo);
                 DialogFactory.showCommDialog(getActivity(), successInfo, "", 0, null, true);
-            }
-        });
-    }
-
-    private void despensingOrdAll() {
-        final boolean[] isOnce = {false};
-        final List<Object> temp = new ArrayList<>();
-        for (int i = 0; i < listId.size(); i++) {
-            final String scanInfo = listId.get(i);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    postDelay(isOnce, temp, scanInfo);
-                }
-            }, 300);
-        }
-    }
-
-    private void postDelay(final boolean[] isOnce, final List<Object> temp, String scanInfo) {
-        DosingApiManager.despensingOrd(scanInfo, DosingApiManager.Despensing, "", "", new CommonCallBack<CommResult>() {
-            @Override
-            public void onFail(String code, String msg) {
-                if (!isOnce[0]) {
-                    isOnce[0] = true;
-                    DialogFactory.showCommDialog(getActivity(), msg, "确定", R.drawable.icon_popup_error_patient, null);
-                }
-            }
-
-            @Override
-            public void onSuccess(CommResult bean, String type) {
-                temp.add(type);
-                String successInfo = "配液成功";
-                // 刷新
-                if (temp.size() == listId.size()) {
-                    getOrdList(listId.get(0));
-                    DialogFactory.showCommDialog(getActivity(), successInfo, "", 0, null, true);
-                }
             }
         });
     }

@@ -3,5 +3,6 @@ include ':infusion'
 
 include ':libraries',
         ':libraries:baselib',
+        ':libraries:dhcc_res',
         ':libraries:TimePickerDialog',
         ':libraries:dhcc_infusion'

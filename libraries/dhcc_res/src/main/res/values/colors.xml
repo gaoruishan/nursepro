@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="dhcc_colorPrimary">#4C95EF</color>
+    <color name="dhcc_colorPrimaryDark">#303F9F</color>
+
+    <color name="dhcc_color_base_content">#F7F8F9</color>
+
+    <color name="dhcc_user_attr_line_color">#EEEEEE</color>
+    <color name="dhcc_color_loading_dialog_background">#66000000</color>
+
+    <color name="dhcc_blue_dark2">#C9E2FF</color>
+    <color name="dhcc_blue_dark">#62ABFF</color>
+    <color name="dhcc_blue_light">#E9F3FF</color>
+    <color name="dhcc_bg_blue_light">#FFF5FAFF</color>
+    <color name="dhcc_bg_err">#FFF6F6</color>
+
+    <color name="dhcc_white">#FFFFFFFF</color>
+    <color name="dhcc_black">#000000</color>
+    <color name="dhcc_blue">#4C95EF</color>
+    <color name="dhcc_screen_bg_color">#F7F7F7</color>
+
+    <color name="dhcc_orderexecute_left_bgcolor">#DFEEFF</color>
+    <color name="dhcc_orderexecute_text_color">#4A4A4A</color>
+    <color name="orderexecute_left_text_normal_color">#000000</color>
+    <color name="orderexecute_left_text_selected_color">#4A90E2</color>
+
+</resources>
