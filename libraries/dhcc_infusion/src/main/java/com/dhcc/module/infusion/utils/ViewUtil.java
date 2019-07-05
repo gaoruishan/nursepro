@@ -162,11 +162,7 @@ public class ViewUtil {
     public static boolean isFastClick() {
         long currentTime = System.currentTimeMillis();//当前系统时间
         boolean isAllowClick;//是否允许点击
-        if (currentTime - lastClickTime > spaceTime) {
-            isAllowClick = false;
-        } else {
-            isAllowClick = true;
-        }
+        isAllowClick = currentTime - lastClickTime <= spaceTime;
         lastClickTime = currentTime;
         return isAllowClick;
     }
@@ -312,15 +308,12 @@ public class ViewUtil {
      */
     public static boolean isChinese(char c) {
         Character.UnicodeBlock ub = Character.UnicodeBlock.of(c);
-        if (ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS
+        return ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS
                 || ub == Character.UnicodeBlock.CJK_COMPATIBILITY_IDEOGRAPHS
                 || ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A
                 || ub == Character.UnicodeBlock.GENERAL_PUNCTUATION
                 || ub == Character.UnicodeBlock.CJK_SYMBOLS_AND_PUNCTUATION
-                || ub == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS) {
-            return true;
-        }
-        return false;
+                || ub == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS;
     }
 
     // 隐藏输入法

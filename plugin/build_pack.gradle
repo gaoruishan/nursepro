@@ -23,10 +23,10 @@ android.applicationVariants.all { variant -> //获取 variant 参数，就是 pr
                 def name = outputFile.name.replace(targetName, "")
                 fileName = "PDA_"+name+ "_" + new Date().format("yyyy-MM-dd")+".apk"
             }
-            println "任务1自定义输出apk的名字:" + fileName;
-            outputFileName = fileName;
+            println "任务1自定义输出apk的名字:" + fileName
+            outputFileName = fileName
             println "任务1输出apk地址:" + outputFile.parentFile.absolutePath + java.io.File.separator + fileName
-            fileArray.add(outputFile.parentFile.absolutePath + java.io.File.separator + fileName);
+            fileArray.add(outputFile.parentFile.absolutePath + java.io.File.separator + fileName)
         }
 
     }

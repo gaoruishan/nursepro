@@ -416,7 +416,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
 
             for (int j = 0; j < ((List) patientInfo.get("needMeasureInfo")).size(); j++) {
                 Map measureInfo = (Map) ((List) patientInfo.get("needMeasureInfo")).get(j);
-                if (((String) measureInfo.get("needTimePoint")).equals(timeFilterStr)) {
+                if (measureInfo.get("needTimePoint").equals(timeFilterStr)) {
                     needMeasure = true;
                 }
             }
@@ -451,7 +451,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
 
                 for (int k = 0; k < selectedLeftFilter.size(); k++) {
                     String key = (String) selectedLeftFilter.get(k).get("code");
-                    if (((String) needMeasureList.get(j).get(key)).equals("1")) {
+                    if (needMeasureList.get(j).get(key).equals("1")) {
                         needShow = true;
                     }
                 }
@@ -501,7 +501,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                 for (int i = 0; i < displayList.size(); i++) {
                     if ((getScanPatsBean.getPatInfo().getRegNo()).equals(displayList.get(i).get("regNo"))) {
 
-                        Map patientInfo = (Map) displayList.get(i);
+                        Map patientInfo = displayList.get(i);
                         //体征录入
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("info", (Serializable) patientInfo);

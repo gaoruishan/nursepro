@@ -22,7 +22,7 @@ public class LabResultListAdapter extends BaseQuickAdapter <LabResultListBean.La
         helper.setText(R.id.tv_lablist_ordname,item.getOrderName())
                 .setText(R.id.tv_lablist_datetime,item.getResultDateTime())
                 .setText(R.id.tv_lablist_labno,"标本号  "+item.getLabNo())
-                .addOnClickListener(R.id.ll_labreport);;
+                .addOnClickListener(R.id.ll_labreport);
         TextView tvresult = helper.getView(R.id.tv_lablist_result);
         TextView tvreport = helper.getView(R.id.tv_lablist_report);
         if (item.getResultStatus().equals("Y")){

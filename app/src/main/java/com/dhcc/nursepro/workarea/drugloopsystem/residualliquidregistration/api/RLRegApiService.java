@@ -1,7 +1,5 @@
 package com.dhcc.nursepro.workarea.drugloopsystem.residualliquidregistration.api;
 
-import android.util.Log;
-
 import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.nursepro.utils.wsutils.WebServiceUtils;
@@ -25,8 +23,6 @@ public class RLRegApiService {
         properties.put("startDate", startDate);
         properties.put("endDate", endDate);
 
-        Log.i("RLReg", "getResidualQtyList: " + properties.toString());
-
         WebServiceUtils.callWebService("getResidualQtyList", properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
@@ -48,8 +44,6 @@ public class RLRegApiService {
         properties.put("regQty", regQty);
         properties.put("regQtyUnit", regQtyUnit);
         properties.put("wayDesc", wayDesc);
-
-        Log.i("RLReg", "residualQtyReg: " + properties.toString());
 
         WebServiceUtils.callWebService("residualQtyReg", properties, new WebServiceUtils.WebServiceCallBack() {
             @Override

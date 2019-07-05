@@ -283,7 +283,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             }
 
             //判断":"后面的内容，空的话返回错误，有数字外其他字符也返回错误
-            String lastStr = addr.substring(addr.indexOf(":") + 1, addr.length());
+            String lastStr = addr.substring(addr.indexOf(":") + 1);
             if (lastStr.contains(".") || lastStr.length() < 1) {
                 return false;
             }
@@ -300,7 +300,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         boolean ipAddress = mat.find();
         //============对之前的ip判断的bug在进行判断
         if (ipAddress) {
-            String ips[] = ipStr.split("\\.");
+            String[] ips = ipStr.split("\\.");
             if (ips.length == 4) {
                 try {
                     for (String ip : ips) {

@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.dhcc.nursepro.R;
 
 import java.text.SimpleDateFormat;
@@ -22,6 +23,7 @@ import java.util.TimeZone;
 
 /**
  * 活动-时分秒倒计时
+ *
  * @author:gaoruishan
  * @date:2018/8/30/14:48
  * @email:grs0515@163.com
@@ -54,6 +56,19 @@ public class CountView extends LinearLayout {
     private LinearLayout rootView;
     private int dayNum;
     private OnCountViewStatusListener listener;
+    private Handler handlerStop = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == STOP) {
+                stop();
+                if (listener != null) {
+                    listener.onStop();
+                }
+                Log.e(TAG, "handleMessage: ");
+            }
+        }
+    };
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
@@ -73,19 +88,6 @@ public class CountView extends LinearLayout {
 
             if (mTime > 0) {
                 handler.postDelayed(this, DELAY_MILLIS);
-            }
-        }
-    };
-    private Handler handlerStop = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if (msg.what == STOP) {
-                stop();
-                if (listener != null) {
-                    listener.onStop();
-                }
-                Log.e(TAG, "handleMessage: ");
             }
         }
     };
@@ -135,6 +137,7 @@ public class CountView extends LinearLayout {
 
     /**
      * 获取指定格式数据
+     *
      * @param totalTime
      */
     private String formatLongToTimeStr(long totalTime) {
@@ -195,6 +198,7 @@ public class CountView extends LinearLayout {
 
     /**
      * 设置状态监听
+     *
      * @param listener
      */
     public void setOnCountViewStatusListener(OnCountViewStatusListener listener) {
@@ -203,6 +207,7 @@ public class CountView extends LinearLayout {
 
     /**
      * 开始
+     *
      * @param time 毫秒值
      */
     public void start(Long time, int type) {
@@ -238,24 +243,26 @@ public class CountView extends LinearLayout {
 
     /**
      * 设置时间前面提示语
+     *
      * @return
      */
     public TextView getTitleName() {
         return tvTitleName;
     }
 
-    public void setTitleName(String txt,@Size(min = 1) String color,@DimenRes int  size) {
-        if(!TextUtils.isEmpty(txt)){
+    public void setTitleName(String txt, @Size(min = 1) String color, @DimenRes int size) {
+        if (!TextUtils.isEmpty(txt)) {
             tvTitleName.setVisibility(VISIBLE);
             tvTitleName.setText(txt);
         }
-        if(!TextUtils.isEmpty(color)){
+        if (!TextUtils.isEmpty(color)) {
             tvTitleName.setTextColor(Color.parseColor(color));
         }
         if (size != 0) {
             tvTitleName.setTextSize(getContext().getResources().getDimension(size));
         }
     }
+
     /***
      * OneDay模式下TextView
      * @return
@@ -266,6 +273,7 @@ public class CountView extends LinearLayout {
 
     /**
      * 设置单位
+     *
      * @return
      */
     public TextView getCountUnit() {

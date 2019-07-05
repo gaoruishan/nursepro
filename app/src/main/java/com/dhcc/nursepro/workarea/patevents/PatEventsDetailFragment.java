@@ -155,11 +155,11 @@ public class PatEventsDetailFragment extends BaseFragment implements View.OnClic
 
         //时间控件
         View viewtime = view.findViewById(R.id.ll_timepicker);
-        TextView cancel = (TextView) view.findViewById(com.jzxiang.pickerview.R.id.tv_cancel);
+        TextView cancel = view.findViewById(com.jzxiang.pickerview.R.id.tv_cancel);
         cancel.setOnClickListener(this);
-        TextView sure = (TextView) view.findViewById(com.jzxiang.pickerview.R.id.tv_sure);
+        TextView sure = view.findViewById(com.jzxiang.pickerview.R.id.tv_sure);
         sure.setOnClickListener(this);
-        TextView title = (TextView) view.findViewById(com.jzxiang.pickerview.R.id.tv_title);
+        TextView title = view.findViewById(com.jzxiang.pickerview.R.id.tv_title);
         View toolbar = view.findViewById(com.jzxiang.pickerview.R.id.toolbar);
         PickerConfig mPickerConfig = new PickerConfig();
         title.setText(mPickerConfig.mTitleString);

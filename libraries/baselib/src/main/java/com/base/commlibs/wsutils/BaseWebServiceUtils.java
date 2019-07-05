@@ -45,8 +45,8 @@ public class BaseWebServiceUtils {
      * OPPDA门诊服务器地址
      */
     public static void callWebOPPDAService(final String methodName,
-                                      HashMap<String, String> properties,
-                                      final WebServiceCallBack webServiceCallBack) {
+                                           HashMap<String, String> properties,
+                                           final WebServiceCallBack webServiceCallBack) {
         // 创建HttpTransportSE对象，传递WebService服务器地址,默认Nur.PDA.WebService.cls
         String url = getServiceUrl(NUR_OPPDA_SERVICE);
         callWebService(url, methodName, properties, webServiceCallBack);
@@ -54,6 +54,7 @@ public class BaseWebServiceUtils {
 
     /**
      * 获取服务器URL
+     *
      * @param serviceCls
      * @return
      */
@@ -67,6 +68,7 @@ public class BaseWebServiceUtils {
 
     /**
      * WebService服务器地址
+     *
      * @param url                请求URL
      * @param methodName         WebService的调用方法名
      * @param properties         WebService的参数
@@ -163,6 +165,7 @@ public class BaseWebServiceUtils {
 
     /**
      * 获取服务IP地址
+     *
      * @return
      */
     public static String getServiceIP() {
@@ -222,7 +225,7 @@ public class BaseWebServiceUtils {
                 // <Response><ResultCode>0</ResultCode><ResultDesc></ResultDesc><ResultList><Patinfo><name>张三</name><sex>男</sex><age>20</age></Patinfo><Patinfo><name>李四</name><sex>女</sex><age>22</age></Patinfo></ResultList></Response>
 
                 retData = obj.toString();
-                Log.v("1112222ret", retData.toString() + "1211");
+                Log.v("1112222ret", retData + "1211");
 
             }
 
@@ -242,7 +245,7 @@ public class BaseWebServiceUtils {
      * @author xiaanming
      */
     public interface WebServiceCallBack {
-        public void callBack(String result);
+        void callBack(String result);
     }
 
 

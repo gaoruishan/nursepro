@@ -85,9 +85,9 @@ public class SetIPDialog extends Dialog {
      * 初始化界面控件
      */
     private void initView() {
-        yes = (Button) findViewById(R.id.yes);
-        no = (Button) findViewById(R.id.no);
-        messageIP = (TextView) findViewById(R.id.message);
+        yes = findViewById(R.id.yes);
+        no = findViewById(R.id.no);
+        messageIP = findViewById(R.id.message);
         messagePort = findViewById(R.id.message2);
         messageRes = (EditText) findViewById(R.id.message3);
 
@@ -159,7 +159,7 @@ public class SetIPDialog extends Dialog {
     public void setMessage(String message, String path) {
         if (message.contains(":")) {
             //判断":"后面的内容，空的话返回错误，有数字外其他字符也返回错误
-            messageStrPort = message.substring(message.indexOf(":") + 1, message.length());
+            messageStrPort = message.substring(message.indexOf(":") + 1);
             messageStrIP = message.substring(0, message.indexOf(":"));
         } else {
             messageStrIP = message;
@@ -186,7 +186,7 @@ public class SetIPDialog extends Dialog {
             if (!"/".equals(path.substring(0, 1))) {
                 path = "/" + path;
             }
-            if ("/".equals(path.substring(path.length() - 1, path.length()))) {
+            if ("/".equals(path.substring(path.length() - 1))) {
                 path = path.substring(0, path.length() - 1);
             }
         }
@@ -198,10 +198,10 @@ public class SetIPDialog extends Dialog {
      * 设置确定按钮和取消被点击的接口
      */
     public interface onYesOnclickListener {
-        public void onYesClick();
+        void onYesClick();
     }
 
     public interface onNoOnclickListener {
-        public void onNoClick();
+        void onNoClick();
     }
 }

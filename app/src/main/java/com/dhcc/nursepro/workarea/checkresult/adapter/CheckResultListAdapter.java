@@ -23,7 +23,7 @@ public class CheckResultListAdapter extends BaseQuickAdapter <CheckResultListBea
         helper.setText(R.id.tv_checklist_ordname,item.getOrderName())
                 .setText(R.id.tv_checklist_datetime,item.getReportDateTime())
                 .setText(R.id.tv_checklist_doc,item.getReportDoc())
-                .addOnClickListener(R.id.ll_checkreport);;
+                .addOnClickListener(R.id.ll_checkreport);
         TextView tvresult = helper.getView(R.id.tv_checklist_result);
         TextView tvreport = helper.getView(R.id.tv_checklist_report);
         if (item.getReportStat().equals("Y")){

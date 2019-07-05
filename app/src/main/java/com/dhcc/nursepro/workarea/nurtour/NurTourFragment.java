@@ -24,16 +24,16 @@ import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.base.commlibs.BaseActivity;
+import com.base.commlibs.BaseFragment;
+import com.base.commlibs.constant.Action;
+import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.base.commlibs.BaseActivity;
-import com.base.commlibs.BaseFragment;
 import com.dhcc.nursepro.R;
-import com.base.commlibs.constant.Action;
-import com.base.commlibs.constant.SharedPreference;
 import com.dhcc.nursepro.uiplugs.OptionView;
 import com.dhcc.nursepro.utils.DateUtils;
 import com.dhcc.nursepro.workarea.nurrecord.FlowRadioGroup;
@@ -50,8 +50,8 @@ import com.dhcc.nursepro.workarea.nurtour.adapter.TourPatslistAdapter;
 import com.dhcc.nursepro.workarea.nurtour.api.TourApiManager;
 import com.dhcc.nursepro.workarea.nurtour.bean.AllTourListBean;
 import com.dhcc.nursepro.workarea.nurtour.bean.DeleteTourBean;
-import com.dhcc.nursepro.workarea.nurtour.bean.InfusionListBean;
 import com.dhcc.nursepro.workarea.nurtour.bean.GradeTourListBean;
+import com.dhcc.nursepro.workarea.nurtour.bean.InfusionListBean;
 import com.dhcc.nursepro.workarea.nurtour.bean.ModelDataBean;
 import com.dhcc.nursepro.workarea.nurtour.bean.TourSaveBean;
 import com.jzxiang.pickerview.TimePickerDialog;
@@ -97,14 +97,14 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
     private LinearLayout llMainNur;
     private LinearLayout llMainSave;
 
-    private TextView tvCancle,tvSave;
+    private TextView tvCancle, tvSave;
 
-    private TextView tvAll,tvNur,tvInfusion,tvBlood;
+    private TextView tvAll, tvNur, tvInfusion, tvBlood;
     private View show1, show2, show3, show4;
-    private TextView tvSendPatinfo,tvSendTourLevel,tvSendTourType;
+    private TextView tvSendPatinfo, tvSendTourLevel, tvSendTourType;
     private LinearLayout llSendInfusionList;
     private FlowLayout flLastTour;
-    private TextView tvLastDate,tvLastTime,tvLastNurse;
+    private TextView tvLastDate, tvLastTime, tvLastNurse;
     private RecyclerView recOrderList;
     private LinearLayout llModelLastTour;
 
@@ -121,19 +121,19 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 
     private SPUtils spUtils = SPUtils.getInstance();
 
-    private List<AllTourListBean.PatInfoListBean> patsListBeanList =new ArrayList<>();
-    private List<AllTourListBean.PatInfoListBean> patsListBeanFilter =new ArrayList<>();
-    private List<AllTourListBean.TopFilterBean> topFilterBeans =new ArrayList<>();
+    private List<AllTourListBean.PatInfoListBean> patsListBeanList = new ArrayList<>();
+    private List<AllTourListBean.PatInfoListBean> patsListBeanFilter = new ArrayList<>();
+    private List<AllTourListBean.TopFilterBean> topFilterBeans = new ArrayList<>();
 
-    private List<AllTourListBean.TourDataListBeanX> tourDataListBeans =new ArrayList<>();
+    private List<AllTourListBean.TourDataListBeanX> tourDataListBeans = new ArrayList<>();
     private List<GradeTourListBean.LeftFilterBean> gradeTourTypeList = new ArrayList<>();
     private List<GradeTourListBean.TopFilterBean> gradePatTypeList = new ArrayList<>();
     private List<GradeTourListBean.PatInfoListBean> gradePatTourList = new ArrayList<>();
     private List<GradeTourListBean.PatInfoListBean> gradePatTourListFilter = new ArrayList<>();
 
-    private List<InfusionListBean.PatInfoListBean> infusionPatsListBeanList =new ArrayList<>();
-    private List<InfusionListBean.PatInfoListBean> infusionPastBeanFilter =new ArrayList<>();
-    private List<InfusionListBean.TopFilterBean> infusionTopFilterBeans =new ArrayList<>();
+    private List<InfusionListBean.PatInfoListBean> infusionPatsListBeanList = new ArrayList<>();
+    private List<InfusionListBean.PatInfoListBean> infusionPastBeanFilter = new ArrayList<>();
+    private List<InfusionListBean.TopFilterBean> infusionTopFilterBeans = new ArrayList<>();
 
     private List<ModelDataBean.InfusionOrdInfoBean> modelOrderListBeans = new ArrayList<>();
 
@@ -143,27 +143,26 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
     private String gradePatType = "inBedAll";
     private String regNo = "";
     private String episodeId = "";
-    private String modelType="Grade";
+    private String modelType = "Grade";
     private String sendEdpisodeId = "";
     private String sendOrderId = "";
     private String modelFlag = "input";
     private String modelTourId = "";
 
 
-    private List<ModelDataBean.ModelListBean> modelListBeans =new ArrayList<>();
+    private List<ModelDataBean.ModelListBean> modelListBeans = new ArrayList<>();
     private Map patInfoMap = new HashMap<String, String>();
 
     private ItemValueDialog showDialog;
 
     private String itemNum = "";
-    private int rbnum;;
+    private int rbnum;
 
 
     private LinearLayout recordContentView;
     private HashMap<String, View> viewItemMap;
 
     private View viewright;
-
 
 
     @Override
@@ -195,7 +194,6 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         setToolbarRightCustomView(viewright);
 
 
-
         initView(view);
         initAdapter();
 
@@ -205,7 +203,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 
     }
 
-    private void initView(View view){
+    private void initView(View view) {
 
         viewItemMap = new HashMap<>();
 
@@ -281,15 +279,15 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 
     private void initAdapter() {
 
-        tourAllAdapter = new TourAllAdapter(new ArrayList<AllTourListBean.TourDataListBeanX>(),getActivity());
+        tourAllAdapter = new TourAllAdapter(new ArrayList<AllTourListBean.TourDataListBeanX>(), getActivity());
         patsAdapter = new TourPatslistAdapter(new ArrayList<AllTourListBean.PatInfoListBean>());
         tourPatTypeAdapter = new TourPatTypeAdapter(new ArrayList<AllTourListBean.TopFilterBean>());
         nurTourTypeAdapter = new NurTourTypeAdapter(new ArrayList<GradeTourListBean.LeftFilterBean>());
         nurPatTypeAdapter = new NurPatTypeAdapter(new ArrayList<GradeTourListBean.TopFilterBean>());
-        nurTourListAdapter= new NurTourListAdapter(new ArrayList<GradeTourListBean.PatInfoListBean>(), getActivity());
+        nurTourListAdapter = new NurTourListAdapter(new ArrayList<GradeTourListBean.PatInfoListBean>(), getActivity());
         infusionTourTypeAdapter = new InfusionTourTypeAdapter(new ArrayList<InfusionListBean.TopFilterBean>());
-        infusionTourListAdapter = new InfusionTourListAdapter(new ArrayList<InfusionListBean.PatInfoListBean>(),getActivity());
-        modelOrderListAdapter = new ModelOrderListAdapter(new ArrayList<ModelDataBean.InfusionOrdInfoBean>(),getActivity());
+        infusionTourListAdapter = new InfusionTourListAdapter(new ArrayList<InfusionListBean.PatInfoListBean>(), getActivity());
+        modelOrderListAdapter = new ModelOrderListAdapter(new ArrayList<ModelDataBean.InfusionOrdInfoBean>(), getActivity());
 
         recAll.setAdapter(nurTourListAdapter);
 
@@ -360,51 +358,52 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
     /**
      * 获取分级巡视详情
      */
-    private void initDataGrade(){
+    private void initDataGrade() {
         showLoadingTip(BaseActivity.LoadingType.FULL);
-            HashMap<String,String> map = new HashMap<>();
-            map.put("locId",spUtils.getString(SharedPreference.LOCID));
-            map.put("userId",spUtils.getString(SharedPreference.USERID));
-            TourApiManager.getGradeTourList(map, "getGradeTourList", new TourApiManager.getGradeTourListcall() {
-                @Override
-                public void onSuccess(GradeTourListBean gradeTourListBean) {
-                    gradeTourTypeList = gradeTourListBean.getLeftFilter();
-                    nurTourTypeAdapter.setNewData(gradeTourTypeList);
-                    nurTourTypeAdapter.notifyDataSetChanged();
+        HashMap<String, String> map = new HashMap<>();
+        map.put("locId", spUtils.getString(SharedPreference.LOCID));
+        map.put("userId", spUtils.getString(SharedPreference.USERID));
+        TourApiManager.getGradeTourList(map, "getGradeTourList", new TourApiManager.getGradeTourListcall() {
+            @Override
+            public void onSuccess(GradeTourListBean gradeTourListBean) {
+                gradeTourTypeList = gradeTourListBean.getLeftFilter();
+                nurTourTypeAdapter.setNewData(gradeTourTypeList);
+                nurTourTypeAdapter.notifyDataSetChanged();
 
-                    gradePatTypeList =gradeTourListBean.getTopFilter();
-                    nurPatTypeAdapter.setNewData(gradePatTypeList);
-                    nurPatTypeAdapter.notifyDataSetChanged();
+                gradePatTypeList = gradeTourListBean.getTopFilter();
+                nurPatTypeAdapter.setNewData(gradePatTypeList);
+                nurPatTypeAdapter.notifyDataSetChanged();
 
-                    gradePatTourList = gradeTourListBean.getPatInfoList();
-                    gradePatTourListFilter = gradePatTourList;
+                gradePatTourList = gradeTourListBean.getPatInfoList();
+                gradePatTourListFilter = gradePatTourList;
 
-                    if (gradeTourTypeList.size()>0) {
-                        gradeTourType = gradeTourTypeList.get(0).getDesc();
-                        gradeTourFilter();
-                    }
-                    gradePatType = gradeTourListBean.getTopFilter().get(0).getCode();
-
-                    hideLoadingTip();
+                if (gradeTourTypeList.size() > 0) {
+                    gradeTourType = gradeTourTypeList.get(0).getDesc();
+                    gradeTourFilter();
                 }
-                @Override
-                public void onFail(String code, String msg) {
-                    showToast("error" + code + ":" + msg);
-                    hideLoadingTip();
-                }
-            });
+                gradePatType = gradeTourListBean.getTopFilter().get(0).getCode();
+
+                hideLoadingTip();
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+                showToast("error" + code + ":" + msg);
+                hideLoadingTip();
+            }
+        });
     }
 
     /**
      * 获取全部巡视详情;默认获取第一个人的记录，输入episodeId获取对应患者记录
      */
-    private void initDataAll(){
+    private void initDataAll() {
         showLoadingTip(BaseActivity.LoadingType.FULL);
-        HashMap<String,String> map = new HashMap<>();
-        map.put("locId",spUtils.getString(SharedPreference.LOCID));
-        map.put("userId",spUtils.getString(SharedPreference.USERID));
-        if (!(episodeId.equals(""))){
-            map.put("episodeId",episodeId);
+        HashMap<String, String> map = new HashMap<>();
+        map.put("locId", spUtils.getString(SharedPreference.LOCID));
+        map.put("userId", spUtils.getString(SharedPreference.USERID));
+        if (!(episodeId.equals(""))) {
+            map.put("episodeId", episodeId);
         }
         TourApiManager.getPatsList(map, "getSumTourList", new TourApiManager.getPatsListCallback() {
             @Override
@@ -426,6 +425,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 
                 hideLoadingTip();
             }
+
             @Override
             public void onFail(String code, String msg) {
                 showToast("error" + code + ":" + msg);
@@ -433,14 +433,15 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
             }
         });
     }
+
     /**
      * 获取输液巡视详情；
      */
-    private void initDataInfusion(){
+    private void initDataInfusion() {
         showLoadingTip(BaseActivity.LoadingType.FULL);
-        HashMap<String,String> map = new HashMap<>();
-        map.put("locId",spUtils.getString(SharedPreference.LOCID));
-        map.put("userId",spUtils.getString(SharedPreference.USERID));
+        HashMap<String, String> map = new HashMap<>();
+        map.put("locId", spUtils.getString(SharedPreference.LOCID));
+        map.put("userId", spUtils.getString(SharedPreference.USERID));
         TourApiManager.getInfusionList(map, "getInfusionTourList", new TourApiManager.getInfusionlcall() {
             @Override
             public void onSuccess(InfusionListBean infusionListBean) {
@@ -464,34 +465,34 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         });
 
 
-
     }
 
     /**
      * 获取输血巡视详情
      */
-    private void initDataInBlood(){
+    private void initDataInBlood() {
         showLoadingTip(BaseActivity.LoadingType.FULL);
-        HashMap<String,String> map = new HashMap<>();
-        map.put("locId",spUtils.getString(SharedPreference.LOCID));
-        map.put("userId",spUtils.getString(SharedPreference.USERID));
+        HashMap<String, String> map = new HashMap<>();
+        map.put("locId", spUtils.getString(SharedPreference.LOCID));
+        map.put("userId", spUtils.getString(SharedPreference.USERID));
 
 
     }
+
     /**
      * 获取巡视模板，modelType为返回的模板类型，根据类型加载对应控件
      */
-    private void initDataModel(String barcode,String tourtype) {
+    private void initDataModel(String barcode, String tourtype) {
         showLoadingTip(BaseActivity.LoadingType.FULL);
         HashMap<String, String> map = new HashMap<>();
         map.put("locId", spUtils.getString(SharedPreference.LOCID));
         map.put("wardId", spUtils.getString(SharedPreference.WARDID));
-        if (modelFlag.equals("input")){
+        if (modelFlag.equals("input")) {
             modelTourId = "";
             map.put("barCode", barcode);
             sendOrderId = barcode;
             llModelLastTour.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             modelTourId = barcode;
             map.put("barCode", "");
             map.put("id", barcode);
@@ -503,7 +504,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         TourApiManager.getModelData(map, "getModelData", new TourApiManager.getModelDatacall() {
             @Override
             public void onSuccess(ModelDataBean modelDataBean) {
-                if (modelFlag.equals("update")){
+                if (modelFlag.equals("update")) {
                     viewright.setVisibility(View.VISIBLE);
                 }
 
@@ -527,9 +528,9 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                         titleTV.setTextSize(13);
                         titleTV.setText(modelDataBean.getLastTourInfo().getTourDetailList().get(i).getTourDataName() + ": " + modelDataBean.getLastTourInfo().getTourDetailList().get(i).getTourDataValue());
                         LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                        if (i ==1){
+                        if (i == 1) {
                             titleParams.setMargins(ConvertUtils.dp2px(5), 0, 5, 0);
-                        }else {
+                        } else {
                             titleParams.setMargins(ConvertUtils.dp2px(15), 0, 5, 0);
                         }
                         titleTV.setLayoutParams(titleParams);
@@ -539,7 +540,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                 }
 
 
-                switch (modelDataBean.getModelType()){
+                switch (modelDataBean.getModelType()) {
                     case "Grade":
                         topTypeSelected = "nur";
                         tvSendTourType.setText("护理巡视");
@@ -559,13 +560,14 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                     default:
                         break;
                 }
-                tvSendPatinfo.setText(modelDataBean.getPatInfo().getBedCode()+"  "+modelDataBean.getPatInfo().getName());
+                tvSendPatinfo.setText(modelDataBean.getPatInfo().getBedCode() + "  " + modelDataBean.getPatInfo().getName());
                 setTopFilterSelect();
 
                 drawInputItems();
 
                 hideLoadFailTip();
             }
+
             @Override
             public void onFail(String code, String msg) {
                 showToast("error" + code + ":" + msg);
@@ -577,15 +579,15 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
     /**
      * 保存巡视状况，保存完回到对应界面刷新
      */
-    private void initTourSave(String send){
+    private void initTourSave(String send) {
         showLoadingTip(BaseActivity.LoadingType.FULL);
-        HashMap<String,String> map = new HashMap<>();
-        map.put("parr",send);
-        if (modelFlag.equals("update")){
-            map.put("id",modelTourId);
+        HashMap<String, String> map = new HashMap<>();
+        map.put("parr", send);
+        if (modelFlag.equals("update")) {
+            map.put("id", modelTourId);
         }
-        map.put("tourType",modelType);
-        map.put("userId",spUtils.getString(SharedPreference.USERID));
+        map.put("tourType", modelType);
+        map.put("userId", spUtils.getString(SharedPreference.USERID));
         TourApiManager.getTourSaveMsg(map, "saveTour", new TourApiManager.getTourSavecall() {
             @Override
             public void onSuccess(TourSaveBean tourSaveBean) {
@@ -596,7 +598,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 
                 llTourSend.setVisibility(View.GONE);
                 llTourlist.setVisibility(View.VISIBLE);
-                switch (topTypeSelected){
+                switch (topTypeSelected) {
                     case "all":
                         onClick(tvAll);
                         break;
@@ -616,8 +618,8 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 
             @Override
             public void onFail(String code, String msg) {
-                    showToast(code+"--"+msg);
-                    hideLoadFailTip();
+                showToast(code + "--" + msg);
+                hideLoadFailTip();
             }
         });
 
@@ -627,12 +629,12 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
     /**
      * 删除巡视记录，保存完回到对应界面刷新
      */
-    private void initTourDelete(){
+    private void initTourDelete() {
         showLoadingTip(BaseActivity.LoadingType.FULL);
-        HashMap<String,String> map = new HashMap<>();
-        map.put("id",modelTourId);
-        map.put("tourType",modelType);
-        map.put("userId",spUtils.getString(SharedPreference.USERID));
+        HashMap<String, String> map = new HashMap<>();
+        map.put("id", modelTourId);
+        map.put("tourType", modelType);
+        map.put("userId", spUtils.getString(SharedPreference.USERID));
         TourApiManager.getTourDeleteMsg(map, "deleteTour", new TourApiManager.getTourDeleteCall() {
             @Override
             public void onSuccess(DeleteTourBean deleteTourBean) {
@@ -643,7 +645,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 
                 llTourSend.setVisibility(View.GONE);
                 llTourlist.setVisibility(View.VISIBLE);
-                switch (topTypeSelected){
+                switch (topTypeSelected) {
                     case "all":
                         onClick(tvAll);
                         break;
@@ -665,7 +667,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 
             @Override
             public void onFail(String code, String msg) {
-                showToast(code+"--"+msg);
+                showToast(code + "--" + msg);
                 hideLoadFailTip();
             }
         });
@@ -719,13 +721,13 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                 break;
             case R.id.tv_tour_save:
 
-                String strSendHead = "DHCNurTourAdmDR|"+sendEdpisodeId+"^DHCNurTourCtlocDR|"+spUtils.getString(SharedPreference.LOCID)+
-                        "^DHCNurTourPatBed|^DHCNurTourCareDR|^DHCNurTourCareDesc|^DHCNurTourUser|"+spUtils.getString(SharedPreference.USERCODE)+
-                        "^DHCNurTourType|"+modelType;
-                if (modelType.equals("Infusion")){
-                    strSendHead = strSendHead+"^DHCNurTourInspectDR|"+sendOrderId;
+                String strSendHead = "DHCNurTourAdmDR|" + sendEdpisodeId + "^DHCNurTourCtlocDR|" + spUtils.getString(SharedPreference.LOCID) +
+                        "^DHCNurTourPatBed|^DHCNurTourCareDR|^DHCNurTourCareDesc|^DHCNurTourUser|" + spUtils.getString(SharedPreference.USERCODE) +
+                        "^DHCNurTourType|" + modelType;
+                if (modelType.equals("Infusion")) {
+                    strSendHead = strSendHead + "^DHCNurTourInspectDR|" + sendOrderId;
                 }
-                String  strSend = "";
+                String strSend = "";
                 for (int i = 0; i < modelListBeans.size(); i++) {
                     if (modelListBeans.get(i).getItemCode().startsWith("DHC")) {
                         strSend = strSend + "^" + modelListBeans.get(i).getSendValue();
@@ -742,7 +744,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                     }
                 }
                 llType.setVisibility(View.VISIBLE);
-                initTourSave(strSendHead+strSend);
+                initTourSave(strSendHead + strSend);
                 break;
             default:
                 break;
@@ -767,7 +769,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 
         recPatType.setVisibility(View.VISIBLE);
 
-        switch (topTypeSelected){
+        switch (topTypeSelected) {
             case "all":
                 recPatlist.setAdapter(patsAdapter);
                 recPatType.setAdapter(tourPatTypeAdapter);
@@ -803,7 +805,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
     /**
      * 进入巡视录入界面，顶部按钮变为不可点击
      */
-    private void seToptEnable(Boolean b){
+    private void seToptEnable(Boolean b) {
         tvAll.setEnabled(b);
         tvNur.setEnabled(b);
         tvInfusion.setEnabled(b);
@@ -813,32 +815,32 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
     /**
      * 筛选患者
      */
-    private void patFilter(String pattype){
+    private void patFilter(String pattype) {
         patsListBeanFilter = new ArrayList<>();
-        for (int i = 0;i<patsListBeanList.size();i++){
+        for (int i = 0; i < patsListBeanList.size(); i++) {
             switch (pattype) {
                 case "inBedAll":
-                    if (patsListBeanList.get(i).getInBedAll().equals("1")){
+                    if (patsListBeanList.get(i).getInBedAll().equals("1")) {
                         patsListBeanFilter.add(patsListBeanList.get(i));
                     }
                     break;
                 case "manageInBed":
-                    if (patsListBeanList.get(i).getManageInBed().equals("1")){
+                    if (patsListBeanList.get(i).getManageInBed().equals("1")) {
                         patsListBeanFilter.add(patsListBeanList.get(i));
                     }
                     break;
                 case "todayOut":
-                    if (patsListBeanList.get(i).getTodayOut().equals("1")){
+                    if (patsListBeanList.get(i).getTodayOut().equals("1")) {
                         patsListBeanFilter.add(patsListBeanList.get(i));
                     }
                     break;
                 case "allOut":
-                    if (patsListBeanList.get(i).getAllOut().equals("1")){
+                    if (patsListBeanList.get(i).getAllOut().equals("1")) {
                         patsListBeanFilter.add(patsListBeanList.get(i));
                     }
                     break;
                 case "wait":
-                    if (patsListBeanList.get(i).getWait().equals("1")){
+                    if (patsListBeanList.get(i).getWait().equals("1")) {
                         patsListBeanFilter.add(patsListBeanList.get(i));
                     }
                     break;
@@ -858,17 +860,17 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
     /**
      * 顶部分级巡视列表，根据左侧级别分类筛选
      */
-    private void gradeTourFilter(){
+    private void gradeTourFilter() {
         gradePatTourListFilter = new ArrayList<>();
-        if (gradeTourType.equals("全部")){
+        if (gradeTourType.equals("全部")) {
             gradePatTourListFilter = gradePatTourList;
-        }else if (gradeTourType.equals("需巡")){
+        } else if (gradeTourType.equals("需巡")) {
             for (int i = 0; i < gradePatTourList.size(); i++) {
                 if (gradePatTourList.get(i).getNeedFlag().equals("1")) {
                     gradePatTourListFilter.add(gradePatTourList.get(i));
                 }
             }
-        }else {
+        } else {
             for (int i = 0; i < gradePatTourList.size(); i++) {
                 if (gradePatTourList.get(i).getCareLevel().equals(gradeTourType)) {
                     gradePatTourListFilter.add(gradePatTourList.get(i));
@@ -880,27 +882,27 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         for (int i = 0; i < gradePatTourListFilter.size(); i++) {
             switch (gradePatType) {
                 case "inBedAll":
-                    if (gradePatTourListFilter.get(i).getInBedAll().equals("1")){
+                    if (gradePatTourListFilter.get(i).getInBedAll().equals("1")) {
                         gradePatTourListFilterShow.add(gradePatTourListFilter.get(i));
                     }
                     break;
                 case "manageInBed":
-                    if (gradePatTourListFilter.get(i).getManageInBed().equals("1")){
+                    if (gradePatTourListFilter.get(i).getManageInBed().equals("1")) {
                         gradePatTourListFilterShow.add(gradePatTourListFilter.get(i));
                     }
                     break;
                 case "todayOut":
-                    if (gradePatTourListFilter.get(i).getTodayOut().equals("1")){
+                    if (gradePatTourListFilter.get(i).getTodayOut().equals("1")) {
                         gradePatTourListFilterShow.add(gradePatTourListFilter.get(i));
                     }
                     break;
                 case "allOut":
-                    if (gradePatTourListFilter.get(i).getAllOut().equals("1")){
+                    if (gradePatTourListFilter.get(i).getAllOut().equals("1")) {
                         gradePatTourListFilterShow.add(gradePatTourListFilter.get(i));
                     }
                     break;
                 case "wait":
-                    if (gradePatTourListFilter.get(i).getWait().equals("1")){
+                    if (gradePatTourListFilter.get(i).getWait().equals("1")) {
                         gradePatTourListFilterShow.add(gradePatTourListFilter.get(i));
                     }
                     break;
@@ -917,33 +919,33 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
     /**
      * 输液巡视列表筛选，根据患者类型筛选
      */
-    private void infusionPatFilter(String pattype){
+    private void infusionPatFilter(String pattype) {
         infusionPastBeanFilter = new ArrayList<>();
-        for (int i = 0;i<infusionPatsListBeanList.size();i++){
+        for (int i = 0; i < infusionPatsListBeanList.size(); i++) {
 
             switch (pattype) {
                 case "inBedAll":
-                    if (infusionPatsListBeanList.get(i).getInBedAll().equals("1")){
+                    if (infusionPatsListBeanList.get(i).getInBedAll().equals("1")) {
                         infusionPastBeanFilter.add(infusionPatsListBeanList.get(i));
                     }
                     break;
                 case "manageInBed":
-                    if (infusionPatsListBeanList.get(i).getManageInBed().equals("1")){
+                    if (infusionPatsListBeanList.get(i).getManageInBed().equals("1")) {
                         infusionPastBeanFilter.add(infusionPatsListBeanList.get(i));
                     }
                     break;
                 case "todayOut":
-                    if (infusionPatsListBeanList.get(i).getTodayOut().equals("1")){
+                    if (infusionPatsListBeanList.get(i).getTodayOut().equals("1")) {
                         infusionPastBeanFilter.add(infusionPatsListBeanList.get(i));
                     }
                     break;
                 case "allOut":
-                    if (infusionPatsListBeanList.get(i).getAllOut().equals("1")){
+                    if (infusionPatsListBeanList.get(i).getAllOut().equals("1")) {
                         infusionPastBeanFilter.add(infusionPatsListBeanList.get(i));
                     }
                     break;
                 case "wait":
-                    if (infusionPatsListBeanList.get(i).getWait().equals("1")){
+                    if (infusionPatsListBeanList.get(i).getWait().equals("1")) {
                         infusionPastBeanFilter.add(infusionPatsListBeanList.get(i));
                     }
                     break;
@@ -961,16 +963,16 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         super.getScanMsg(intent);
         Bundle bundle = new Bundle();
         if (Objects.requireNonNull(intent.getAction()).equals(Action.DEVICE_SCAN_CODE)) {
-            tempTopTypeSelected =topTypeSelected;
+            tempTopTypeSelected = topTypeSelected;
             bundle = intent.getExtras();
             modelFlag = "input";
-            initDataModel(bundle.getString("data"),"");
+            initDataModel(bundle.getString("data"), "");
         }
         if (Objects.requireNonNull(intent.getAction()).equals(Action.TOUR_DOSINGID)) {
-            tempTopTypeSelected =topTypeSelected;
+            tempTopTypeSelected = topTypeSelected;
             bundle = intent.getExtras();
             modelFlag = "update";
-            initDataModel(bundle.getString("data"),bundle.getString("type"));
+            initDataModel(bundle.getString("data"), bundle.getString("type"));
         }
 
     }
@@ -1015,6 +1017,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         }
 
     }
+
     private LinearLayout dramEmptyItem() {
         LinearLayout layout = new LinearLayout(getContext());
 
@@ -1028,6 +1031,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 
         return layout;
     }
+
     private void inputItemsValue() {
 
         //        for (int i = 0; i < recordInfo.getTempList().size(); i ++){
@@ -1052,7 +1056,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
     private LinearLayout drawItem(ModelDataBean.ModelListBean config) {
 
 
-        config.setSendValue(config.getItemCode()+"|");
+        config.setSendValue(config.getItemCode() + "|");
 
 //        int height = ConvertUtils.dp2px(Float.parseFloat(config.getHeight()));
 //        int width = ConvertUtils.dp2px(Float.parseFloat(config.getWidth()));
@@ -1063,7 +1067,6 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 //        layout.setLayoutParams(params);
 //        layout.setOrientation(LinearLayout.HORIZONTAL);
 //        layout.setBackgroundResource(R.drawable.vital_sign_border);
-
 
 
         LinearLayout layout = new LinearLayout(getContext());
@@ -1081,9 +1084,9 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         TextView titleTV = new TextView(getContext());
         titleTV.setText(config.getItemDesc());
         //        titleTV.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-        if (config.getItemDesc().length() > 7){
+        if (config.getItemDesc().length() > 7) {
             titleTV.setTextSize(12);
-        }else{
+        } else {
             titleTV.setTextSize(16);
         }
 
@@ -1145,7 +1148,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 //            edText.setPadding(ConvertUtils.dp2px(5), 0, ConvertUtils.dp2px(5), 0);
 //            edText.setTextSize(Float.parseFloat(config.getFontSize()));
             edText.setSingleLine();
-            viewItemMap.put(config.getItemCode(),edText);
+            viewItemMap.put(config.getItemCode(), edText);
 //            edText.setOnLongClickListener(new View.OnLongClickListener() {
 //                @Override
 //                public boolean onLongClick(View v) {
@@ -1176,10 +1179,10 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
             //根据默认内容优先级填入默认值
             if (StringUtils.isEmpty(config.getPatInfo())) {
                 edText.setText(config.getItemdeValue());
-                config.setSendValue(config.getItemCode()+"|"+config.getItemdeValue() + "");
+                config.setSendValue(config.getItemCode() + "|" + config.getItemdeValue() + "");
             } else {
                 edText.setText((patInfoMap.get(config.getPatInfo()) + ""));
-                config.setSendValue((config.getItemCode()+"|"+patInfoMap.get(config.getPatInfo()) + ""));
+                config.setSendValue((config.getItemCode() + "|" + patInfoMap.get(config.getPatInfo()) + ""));
             }
             edText.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -1194,7 +1197,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 
                 @Override
                 public void afterTextChanged(Editable s) {
-                    config.setSendValue(config.getItemCode()+"|"+edText.getText().toString());
+                    config.setSendValue(config.getItemCode() + "|" + edText.getText().toString());
                 }
             });
 
@@ -1222,7 +1225,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                 String[] devalue = config.getItemdeValue().split(",");
 
                 ArrayList<HashMap> listdef = new ArrayList<HashMap>();
-                if (config.getItemValue().length()>0) {
+                if (config.getItemValue().length() > 0) {
                     for (int i = 0; i < devalue.length; i++) {
                         HashMap<String, String> mapdef = new HashMap<String, String>();
                         mapdef.put("value", devalue[i]);
@@ -1230,7 +1233,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                         listdef.add(mapdef);
                     }
 
-                    config.setSendValue(getckvalue(listdef,config.getItemCode()));
+                    config.setSendValue(getckvalue(listdef, config.getItemCode()));
                 }
                 List listCk = new ArrayList();
                 for (int i = 0; i < split.length; i++) {
@@ -1251,10 +1254,10 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                     cb.setHeight(height);
 
                     listCk.add(mapCk);
-                    if ("false".equals(config.getEditFlag())){
+                    if ("false".equals(config.getEditFlag())) {
                         cb.setEnabled(false);
 //                        config.setEditFlag("true");
-                    }else {
+                    } else {
                         cb.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -1264,9 +1267,9 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                                 } else {
                                     mapCk.put("isSel", "false");
                                 }
-                                config.setSendValue(getckvalue((ArrayList<HashMap>) listCk,config.getItemCode()) + "");
-                                showToast(getckvalue((ArrayList<HashMap>) listCk,config.getItemCode()));
-                                if (config.getLinkInfo().size()>0) {
+                                config.setSendValue(getckvalue((ArrayList<HashMap>) listCk, config.getItemCode()) + "");
+                                showToast(getckvalue((ArrayList<HashMap>) listCk, config.getItemCode()));
+                                if (config.getLinkInfo().size() > 0) {
 //                                    linkView(config.getLinkInfo(), getckvalue((ArrayList<HashMap>) listCk,config.getItemCode()) + "",cb.isChecked(),"isC");
                                 }
                             }
@@ -1293,7 +1296,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                     config.setSendValue(config.getItemdeValue() + "");
                 }
 
-                config.setSendValue(config.getItemCode()+"|"+rbnum+"!"+config.getItemdeValue() + "");
+                config.setSendValue(config.getItemCode() + "|" + rbnum + "!" + config.getItemdeValue() + "");
                 String[] split = config.getItemValue().split(";");
 
                 for (int i = 0; i < split.length; i++) {
@@ -1301,28 +1304,29 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                     RadioButton rb = new RadioButton(getContext());
                     rb.setId(i);
                     rb.setTextSize(Float.parseFloat(config.getFontSize()));
-                    rb.setText(split[i] + ""); if ("false".equals(config.getEditFlag())){
+                    rb.setText(split[i] + "");
+                    if ("false".equals(config.getEditFlag())) {
                         rb.setEnabled(false);
-                    }else {
+                    } else {
                         int finalI = i;
                         rb.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                showToast(config.getItemCode()+"|"+rb.getText() + "");
-                                config.setSendValue(config.getItemCode()+"|"+rb.getId()+"!"+rb.getText() + "");
-                                if (config.getLinkInfo().size()>0) {
+                                showToast(config.getItemCode() + "|" + rb.getText() + "");
+                                config.setSendValue(config.getItemCode() + "|" + rb.getId() + "!" + rb.getText() + "");
+                                if (config.getLinkInfo().size() > 0) {
 //                                    linkView(config.getLinkInfo(), rb.getText() + "",rb.isChecked(),"isR");
                                 }
                             }
                         });
                     }
                     radioGroup.addView(rb);
-                    if (split[i].equals(patInfoMap.get(config.getPatInfo()))){
+                    if (split[i].equals(patInfoMap.get(config.getPatInfo()))) {
                         radioGroup.check(rb.getId());
-                        config.setSendValue(config.getItemCode()+"|"+rbnum+"!"+config.getItemdeValue() + "");
-                    }else if (split[i].equals(config.getItemdeValue())) {
+                        config.setSendValue(config.getItemCode() + "|" + rbnum + "!" + config.getItemdeValue() + "");
+                    } else if (split[i].equals(config.getItemdeValue())) {
                         radioGroup.check(rb.getId());
-                        config.setSendValue(config.getItemCode()+"|"+rbnum+"!"+config.getItemdeValue() + "");
+                        config.setSendValue(config.getItemCode() + "|" + rbnum + "!" + config.getItemdeValue() + "");
                     }
                 }
                 layout.addView(radioGroup);
@@ -1340,10 +1344,10 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 
 
             if (!StringUtils.isEmpty(config.getPatInfo())) {
-                config.setSendValue(config.getItemCode()+(patInfoMap.get(config.getPatInfo()) + ""));
+                config.setSendValue(config.getItemCode() + (patInfoMap.get(config.getPatInfo()) + ""));
                 config.setItemdeValue((patInfoMap.get(config.getPatInfo()) + ""));
             } else {
-                config.setSendValue(config.getItemCode()+config.getItemdeValue() + "");
+                config.setSendValue(config.getItemCode() + config.getItemdeValue() + "");
             }
 
             String[] split = config.getItemValue().split("!");
@@ -1355,26 +1359,27 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                 rb.setTextSize(Float.parseFloat(config.getFontSize()));
                 rb.setText(split[i] + "");
                 //判断是否可编辑
-                if ("false".equals(config.getEditFlag())){
+                if ("false".equals(config.getEditFlag())) {
                     rb.setEnabled(false);
-                }else {
+                } else {
                     rb.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
 //                            showToast(rb.getText() + "----");
-                            config.setSendValue(config.getItemCode()+"|"+rb.getText() + "");
-                            if (config.getLinkInfo().size()>0) {
+                            config.setSendValue(config.getItemCode() + "|" + rb.getText() + "");
+                            if (config.getLinkInfo().size() > 0) {
 //                                linkView(config.getLinkInfo(), rb.getText() + "",rb.isChecked(),"isR");
                             }
                         }
-                    });}
+                    });
+                }
                 radioGroup.addView(rb);
-                if (split[i].equals(patInfoMap.get(config.getPatInfo()))){
+                if (split[i].equals(patInfoMap.get(config.getPatInfo()))) {
                     radioGroup.check(rb.getId());
-                    config.setSendValue(config.getItemCode()+"|"+config.getItemdeValue() + "");
-                }else if (split[i].equals(config.getItemdeValue())) {
+                    config.setSendValue(config.getItemCode() + "|" + config.getItemdeValue() + "");
+                } else if (split[i].equals(config.getItemdeValue())) {
                     radioGroup.check(rb.getId());
-                    config.setSendValue(config.getItemCode()+"|"+config.getItemdeValue() + "");
+                    config.setSendValue(config.getItemCode() + "|" + config.getItemdeValue() + "");
                 }
 
             }
@@ -1384,10 +1389,10 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
             viewItemMap.put(config.getItemCode(), radioGroup);
 
 
-        } else if ("T".equals(config.getItemType())){
+        } else if ("T".equals(config.getItemType())) {
             //textview额外设置
             viewItemMap.put(config.getItemCode(), titleTV);
-            config.setSendValue(config.getItemCode()+"|"+config.getItemValue());
+            config.setSendValue(config.getItemCode() + "|" + config.getItemValue());
 
             //判断是否单行显示
             if ("0".equals(config.getTitleHiddeFlag())) {
@@ -1405,7 +1410,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 //                tvalue.setGravity(Gravity.CENTER_HORIZONTAL);
 //                layout.addView(tvalue);
             }
-        } else if ("TN".equals(config.getItemType())){
+        } else if ("TN".equals(config.getItemType())) {
             viewItemMap.put(config.getItemCode(), titleTV);
 
             //判断是否单行显示
@@ -1421,12 +1426,12 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 //                tvalue.setGravity(Gravity.CENTER_HORIZONTAL);
 //                layout.addView(tvalue);
             }
-        }  else if ("D".equals(config.getItemType())) {
+        } else if ("D".equals(config.getItemType())) {
             //日期选择
             TextView tvalue = new TextView(getContext());
-            if (config.getItemdeValue().equals("")){
+            if (config.getItemdeValue().equals("")) {
                 tvalue.setText(DateUtils.getDateFromSystem());
-            }else {
+            } else {
                 tvalue.setText(config.getItemdeValue());
             }
 //            tvalue.setTextSize(Float.parseFloat(config.getFontSize()));
@@ -1441,11 +1446,11 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
             layoutParams.setMargins(ConvertUtils.dp2px(10), ConvertUtils.dp2px(11), ConvertUtils.dp2px(10), 45);//4个参数按顺序分别是左上右下
             tvalue.setLayoutParams(layoutParams);
 
-            config.setSendValue(config.getItemCode()+"|"+tvalue.getText() + "");
+            config.setSendValue(config.getItemCode() + "|" + tvalue.getText() + "");
             //判断是否可编辑
-            if ("false".equals(config.getEditFlag())){
+            if ("false".equals(config.getEditFlag())) {
                 tvalue.setEnabled(false);
-            }else {
+            } else {
                 tvalue.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -1472,7 +1477,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 
                 @Override
                 public void afterTextChanged(Editable s) {
-                    config.setSendValue(config.getItemCode()+"|"+tvalue.getText().toString());
+                    config.setSendValue(config.getItemCode() + "|" + tvalue.getText().toString());
                 }
             });
 
@@ -1482,9 +1487,9 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         } else if ("Ti".equals(config.getItemType())) {
             //时间选择
             TextView tvalue = new TextView(getContext());
-            if (config.getItemdeValue().equals("")){
-                tvalue.setText(DateUtils.getTimeFromSystem()+":00");
-            }else {
+            if (config.getItemdeValue().equals("")) {
+                tvalue.setText(DateUtils.getTimeFromSystem() + ":00");
+            } else {
                 tvalue.setText(config.getItemdeValue());
             }
 
@@ -1505,11 +1510,11 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             layoutParams.setMargins(ConvertUtils.dp2px(10), ConvertUtils.dp2px(11), ConvertUtils.dp2px(10), 45);//4个参数按顺序分别是左上右下
             tvalue.setLayoutParams(layoutParams);
-            config.setSendValue(config.getItemCode()+"|"+tvalue.getText() + "");
+            config.setSendValue(config.getItemCode() + "|" + tvalue.getText() + "");
             //判断是否可编辑
-            if ("false".equals(config.getEditFlag())){
+            if ("false".equals(config.getEditFlag())) {
                 tvalue.setEnabled(false);
-            }else {
+            } else {
                 tvalue.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -1517,7 +1522,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                         DateUtils.chooseTime(getActivity(), getFragmentManager(), new OnDateSetListener() {
                             @Override
                             public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
-                                tvalue.setText(DateUtils.getTimeByMillisecond(millseconds)+":00");
+                                tvalue.setText(DateUtils.getTimeByMillisecond(millseconds) + ":00");
                             }
                         });
                     }
@@ -1537,17 +1542,17 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 
                 @Override
                 public void afterTextChanged(Editable s) {
-                    config.setSendValue(config.getItemCode()+"|"+tvalue.getText().toString());
+                    config.setSendValue(config.getItemCode() + "|" + tvalue.getText().toString());
                 }
             });
             layout.addView(tvalue);
             viewItemMap.put(config.getItemCode(), tvalue);
-        } else if ("R".equals(config.getItemType())){
+        } else if ("R".equals(config.getItemType())) {
 
             //选择框
             List ll = new ArrayList();
             String[] split = config.getItemValue().split("!");
-            for (String str:split){
+            for (String str : split) {
                 ll.add(str);
             }
             ll.add("清空");
@@ -1559,7 +1564,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
             optionView.setBackgroundResource(R.drawable.vital_sign_input_bg);
             optionView.setGravity(Gravity.CENTER);
             optionView.setText(config.getItemdeValue());
-            config.setSendValue(config.getItemCode()+"|"+config.getItemdeValue());
+            config.setSendValue(config.getItemCode() + "|" + config.getItemdeValue());
 
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             layoutParams.setMargins(ConvertUtils.dp2px(10), ConvertUtils.dp2px(11), ConvertUtils.dp2px(10), 45);//4个参数按顺序分别是左上右下
@@ -1571,10 +1576,10 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                     optionView.picker.setOnOptionPickListener(new OptionPicker.OnOptionPickListener() {
                         @Override
                         public void onOptionPicked(int index, String item) {
-                            config.setSendValue(config.getItemCode()+"|"+item);
-                            if (item.equals("清空")){
+                            config.setSendValue(config.getItemCode() + "|" + item);
+                            if (item.equals("清空")) {
                                 optionView.setText("");
-                            }else {
+                            } else {
                                 optionView.setText(item);
                             }
                         }
@@ -1628,13 +1633,13 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
             ImageView imageView = new ImageView(getContext());
             imageView.setLayoutParams(paramsimg);
 //            downImage(imageView,config.getImageName());
-            downImage(imageView,"http://10.1.5.87/dhcmg/2229.gif");
+            downImage(imageView, "http://10.1.5.87/dhcmg/2229.gif");
             layout.addView(imageView);
         }
         return layout;
     }
 
-    public void downImage(ImageView view,String strUrl) {
+    public void downImage(ImageView view, String strUrl) {
         OkHttpClient client = new OkHttpClient();
         final Request request = new Request
                 .Builder()
@@ -1645,7 +1650,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                showToast( "下载图片失败");
+                showToast("下载图片失败");
             }
 
             @Override
@@ -1665,15 +1670,15 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         });
     }
 
-    private String getckvalue(ArrayList<HashMap> list,String itemNum) {
+    private String getckvalue(ArrayList<HashMap> list, String itemNum) {
         String strck = "";
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).get("isSel").equals("true")) {
-                if ("".equals(strck)){
-                    strck = itemNum+"_"+i+"|"+list.get(i).get("value") + "";
-                }else {
-                    strck = strck + "^" + itemNum+"_"+i+"|"+list.get(i).get("value") + "";
+                if ("".equals(strck)) {
+                    strck = itemNum + "_" + i + "|" + list.get(i).get("value") + "";
+                } else {
+                    strck = strck + "^" + itemNum + "_" + i + "|" + list.get(i).get("value") + "";
                 }
             }
         }

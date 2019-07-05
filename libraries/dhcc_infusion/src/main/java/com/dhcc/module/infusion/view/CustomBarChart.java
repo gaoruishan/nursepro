@@ -133,7 +133,7 @@ public class CustomBarChart extends LinearLayout {
      */
     public void setMax(int max) {
         this.MAX = max;
-        String i = max > 1 ? "" + (int) max / 2 : "0.5";
+        String i = max > 1 ? "" + max / 2 : "0.5";
         tvSpliceLine.setText(i);
     }
 

@@ -83,6 +83,8 @@
     <string name="title_residualliquidregistration">余液登记</string>
     <string name="title_ampoulebottleregistration">安瓿瓶登记</string>
 
+    <!-- 护理病历 -->
+    <string name="title_nurrecord">护理病历</string>
 
 
     <!--#################################消息文字区#################################-->

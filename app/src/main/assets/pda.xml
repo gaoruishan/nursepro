@@ -1,0 +1,405 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <Hospital fullscreen="true">xh医院</Hospital>
+  <DefaultVarTyp>0@WZXPDA</DefaultVarTyp>
+  <DownLoadAddress url="http://192.168.49.20/dthealth/web/DHCNur.CAB">http://192.168.49.20/dthealth/web/DHCNur.CAB</DownLoadAddress>  
+  <ServerIp url="http://192.168.1.1/dthealth/web/">192.168.49.14</ServerIp>  
+  <RegNoLength>8</RegNoLength>
+  <Vibrate>true</Vibrate>
+  <Light>true</Light>
+  <Sound>true</Sound>
+  <Version>1.0.0.2</Version>
+  <OBJTEMPITM>
+   <Itm>日期|180|RecDate|Title1</Itm>
+   <Itm>时间|180|RecTime|Title2</Itm>
+   <Itm>体温|80|Item1|Title3</Itm>
+   <Itm>口温|0|Item12|Title4</Itm>
+   <Itm>肛温|0|Item20|Title5</Itm>
+   <Itm>脉搏|120|Item7|Title6</Itm>
+   <Itm>呼吸|120|Item4|Title7</Itm>
+   <Itm>收缩压|120|Item5|Title8</Itm>
+   <Itm>舒张压|120|Item6|Title9</Itm>
+   <Itm>物理降温|160|Item22|Title10</Itm>
+   <Itm>心率|160|Item13|Title11</Itm>
+   <Itm>大便次数|160|Item11|Title12</Itm>
+   <Itm>小便次数|160|Item10|Title13</Itm>
+   <Itm>尿量|160|Item9|Title14</Itm>
+   <Itm>痰量|160|Item29|Title15</Itm>
+   <Itm>引流量|160|Item28|Title16</Itm>
+   <Itm>呕吐量|160|Item30|Title17</Itm>
+   <Itm>总出量|160|Item14|Title18</Itm>
+   <Itm>总入量|160|Item23|Title19</Itm>
+   <Itm>身高|160|Item25|Title20</Itm>
+   <Itm>体重|160|Item2|Title21</Itm>
+   <Itm>疼痛评分|160|Item31|Title22</Itm>
+   <Itm>未测原因|160|Item40|Title23</Itm>
+   </OBJTEMPITM>
+   <OBJTEMPITMChild>
+   <Itm>日期|180|RecDate|Title1</Itm>
+   <Itm>时间|180|RecTime|Title2</Itm>
+   <Itm>体温|80|Item1|Title3</Itm>
+   <Itm>物理降温|180|Item22|Title4</Itm>
+   <Itm>母乳|160|Item10|Title5</Itm>
+   <Itm>人工|120|Item12|Title6</Itm>
+   <Itm>黄疸|120|Item17|Title7</Itm>
+   <Itm>大便|120|Item11|Title8</Itm>
+   <Itm>小便|120|Item9|Title9</Itm>
+   <Itm>体重|160|Item2|Title10</Itm>
+   <Itm>卡介苗|200|Item21|Title11</Itm>
+   <Itm>批号|180|Item15|Title12</Itm>
+   <Itm>乙肝疫苗|200|Item16|Title13</Itm>
+   <Itm>批号|180|Item18|Title14</Itm>
+ </OBJTEMPITMChild>
+ <OBJBLANK>
+   <Itm>值1|Item34</Itm>
+   <Itm>值2|Item26</Itm>
+   <Itm>值3|Item28</Itm>
+   <Itm>值4|Item30</Itm>
+   <Itm>值5|Item32</Itm>
+   <Itm>值6|Item17</Itm>
+   <Itm>值7|Item15</Itm>
+  </OBJBLANK>>
+  <DHCNURPGD_NCRYPGD txt="首次入院评估单" Mth="web.DHCPdaNurRec:GetCommRec" SaveMth="Nur.PdaClsInterface.cls:SaveMouldData" QueryMth="web.DHCNurseRecordComm:GetCareRecComm">
+    <Templet>DHCNURXUNSHI_pda.1</Templet>
+  </DHCNURPGD_NCRYPGD>
+  
+  <DHCNURSSKHL txt="一般护理记录单" Mth="web.DHCPdaNurRec:GetCommRec" SaveMth="Nur.PdaClsInterface.cls:SaveRecData" QueryMth="web.DHCNurRecComm:GetCareRecComm">
+	<Templet>DHCNURSSKHL_PDA.1</Templet>
+	<Templet>DHCNURSSKHL_PDA.2</Templet>
+	<Templet>DHCNURSSKHL_PDA.3</Templet>
+	<OBJTEMP>
+	 <Itm>日期|180|CareDate|Title1</Itm>
+	 <Itm>时间|100|CareTime|Title2</Itm>
+	 <Itm>护理记录|850|CaseMeasure|Title3</Itm>
+	 <Itm>签名|120|User|Title4</Itm>
+	 </OBJTEMP>
+  </DHCNURSSKHL>
+  <DHCNURPGD_XTJCB txt="血糖检测表" Mth="web.DHCPdaNurRec:GetCommRec" SaveMth="Nur.PdaClsInterface.cls:SaveRecData" QueryMth="web.DHCNurHCRecComm:GetCareRecComm">
+	<Templet>DHCNURBG_CPXTJLD</Templet>
+	<OBJTEMP>
+	 <Itm>日期|180|CareDate|Title1</Itm>
+	 <Itm>时间|100|Item1|Title2</Itm>
+	 <Itm>血糖类型|150|Item3|Title3</Itm>
+	 <Itm>血糖值(mmol/L)|500|Item2|Title4</Itm>
+	 <Itm>措施|500|CaseMeasure|Title5</Itm>
+	 <Itm>签名|120|User|Title6</Itm>
+	 </OBJTEMP>
+  </DHCNURPGD_XTJCB> 
+  <DHCNURXHPGD_YYSC txt="营养筛查评估表" Mth="Nur.DHCMoudDataSub:getVal" SaveMth="Nur.PdaClsInterface.cls:SaveListMouldData" QueryMth="web.DHCNurMouldDataComm:MoudData">
+	<Templet>DHCNURXHPGDPDA_YYSC01</Templet>
+	<OBJTEMP>
+	 <Itm>科室|180|Item1|Title1</Itm>
+	 <Itm>姓名|180|Item3|Title2</Itm>
+	 <Itm>性别|100|Item4|Title3</Itm>
+	 <Itm>床号|100|Item2|Title4</Itm>
+	 <Itm>住院号|180|Item6|Title5</Itm>
+	 <Itm>总分|180|Item109|Title6</Itm>
+	 </OBJTEMP>
+  </DHCNURXHPGD_YYSC> 
+  <DHCNURPGD_rcshzlnlBARTHLEpf txt="日常生活能力评估表" Mth="Nur.DHCMoudDataSub:getVal" SaveMth="Nur.PdaClsInterface.cls:SaveListMouldData" QueryMth="web.DHCNurMouldDataComm:MoudData" UserSaveItem="Item132">
+	<Templet>DHCNURPGDPDA_SHZLNL.1</Templet>
+	<Templet>DHCNURPGDPDA_SHZLNL.2</Templet>
+	<OBJTEMP>
+	 <Itm>科室|180|Item1|Title1</Itm>
+	 <Itm>姓名|120|Item3|Title2</Itm>
+	 <Itm>性别|80|Item4|Title3</Itm>
+	 <Itm>床号|80|Item2|Title4</Itm>
+	 <Itm>评分时间1|200|Item29|Title5</Itm>
+	 <Itm>总分|80|Item114|Title6</Itm>
+	 <Itm>评分时间2|200|Item35|Title7</Itm>
+	 <Itm>总分|80|Item115|Title8</Itm>
+	 <Itm>评分时间3|200|Item36|Title9</Itm>
+	 <Itm>总分|80|Item116|Title10</Itm>
+	 <Itm>评分时间4|200|Item37|Title11</Itm>
+	 <Itm>总分|80|Item117|Title12</Itm>
+	 </OBJTEMP>
+  </DHCNURPGD_rcshzlnlBARTHLEpf> 
+  <DHCNURPGDMorseDD txt="跌倒Morse危险因素评估量表" Mth="Nur.DHCMoudDataSub:getVal" SaveMth="Nur.PdaClsInterface.cls:SaveListMouldData" QueryMth="web.DHCNurMouldDataComm:MoudData" UserSaveItem="Item171">
+	<Templet>DHCNURPGDPDA_Morse.1</Templet>
+	<Templet>DHCNURPGDPDA_Morse.2</Templet>
+	<Templet>DHCNURPGDPDA_Morse.3</Templet>
+	<OBJTEMP>
+	 <Itm>科室|180|Item1|Title1</Itm>
+	 <Itm>姓名|120|Item3|Title2</Itm>
+	 <Itm>性别|80|Item4|Title3</Itm>
+	 <Itm>床号|80|Item2|Title4</Itm>
+	 <Itm>评分日期1|200|Item182|Title5</Itm>
+	 <Itm>总分|80|Item60|Title6</Itm>
+	 <Itm>评分日期2|200|Item183|Title7</Itm>
+	 <Itm>总分|80|Item61|Title8</Itm>
+	 <Itm>评分日期3|200|Item184|Title9</Itm>
+	 <Itm>总分|80|Item62|Title10</Itm>
+	 <Itm>评分日期4|200|Item185|Title11</Itm>
+	 <Itm>总分|80|Item63|Title12</Itm>
+	 <Itm>评分日期5|200|Item186|Title13</Itm>
+	 <Itm>总分|80|Item64|Title14</Itm>
+	 </OBJTEMP>
+  </DHCNURPGDMorseDD>
+  <DHCNURPGD_ycfswxyslhpg txt="压力性损伤BradenScale评估表" Mth="Nur.DHCMoudDataSub:getVal" SaveMth="Nur.PdaClsInterface.cls:SaveListMouldData" QueryMth="web.DHCNurMouldDataComm:MoudData" UserSaveItem="Item31">
+	<Templet>DHCNURPGDPDA_Braden.1</Templet>
+	<Templet>DHCNURPGDPDA_Braden.2</Templet>
+	<OBJTEMP>
+	 <Itm>科室|180|Item1|Title1</Itm>
+	 <Itm>姓名|120|Item3|Title2</Itm>
+	 <Itm>性别|80|Item4|Title3</Itm>
+	 <Itm>床号|80|Item2|Title4</Itm>
+	 <Itm>评分日期1|200|Item112|Title5</Itm>
+	 <Itm>总分|80|Item110|Title6</Itm>
+	 <Itm>评分日期2|200|Item13|Title7</Itm>
+	 <Itm>总分|80|Item111|Title8</Itm>
+	 <Itm>评分日期3|200|Item14|Title9</Itm>
+	 <Itm>总分|80|Item67|Title10</Itm>
+	 <Itm>评分日期4|200|Item70|Title11</Itm>
+	 <Itm>总分|80|Item88|Title12</Itm>
+	 <Itm>评分日期5|200|Item71|Title13</Itm>
+	 <Itm>总分|80|Item89|Title14</Itm>
+	 </OBJTEMP>
+  </DHCNURPGD_ycfswxyslhpg>
+  <DHCNURPGD_ETYCFXPGLB txt="儿童压力损伤Braden-Q风险评估表" Mth="Nur.DHCMoudDataSub:getVal" SaveMth="Nur.PdaClsInterface.cls:SaveListMouldData" QueryMth="web.DHCNurMouldDataComm:MoudData" UserSaveItem="Item31">
+	<Templet>DHCNURPGDPDA_ETBradenQ.1</Templet>
+	<Templet>DHCNURPGDPDA_ETBradenQ.2</Templet>
+	<OBJTEMP>
+	 <Itm>科室|180|Item1|Title1</Itm>
+	 <Itm>姓名|120|Item3|Title2</Itm>
+	 <Itm>性别|80|Item4|Title3</Itm>
+	 <Itm>床号|80|Item2|Title4</Itm>
+	 <Itm>评分日期1|200|Item112|Title5</Itm>
+	 <Itm>总分|80|Item110|Title6</Itm>
+	 <Itm>评分日期2|200|Item13|Title7</Itm>
+	 <Itm>总分|80|Item111|Title8</Itm>
+	 <Itm>评分日期3|200|Item14|Title9</Itm>
+	 <Itm>总分|80|Item67|Title10</Itm>
+	 <Itm>评分日期4|200|Item70|Title11</Itm>
+	 <Itm>总分|80|Item88|Title12</Itm>
+	 <Itm>评分日期5|200|Item71|Title13</Itm>
+	 <Itm>总分|80|Item89|Title14</Itm>
+	 </OBJTEMP>
+  </DHCNURPGD_ETYCFXPGLB>
+  <DHCNURPGD_HEDDZCFXZHPGB txt="儿童跌倒HumptyDumpty评估量表" Mth="Nur.DHCMoudDataSub:getVal" SaveMth="Nur.PdaClsInterface.cls:SaveListMouldData" QueryMth="web.DHCNurMouldDataComm:MoudData" UserSaveItem="Item166">
+	<Templet>DHCNURPGDPDA_Humptydumpty.1</Templet>
+	<Templet>DHCNURPGDPDA_Humptydumpty.2</Templet>
+	<Templet>DHCNURPGDPDA_Humptydumpty.3</Templet>
+	<OBJTEMP>
+	 <Itm>科室|180|Item1|Title1</Itm>
+	 <Itm>床号|80|Item2|Title2</Itm>
+	 <Itm>姓名|120|Item3|Title3</Itm>
+	 <Itm>性别|80|Item4|Title4</Itm>
+	 <Itm>年龄|80|Item5|Title5</Itm>
+	 <Itm>评分日期1|200|Item16|Title5</Itm>
+	 <Itm>总分|80|Item56|Title6</Itm>
+	 <Itm>评分日期2|200|Item17|Title7</Itm>
+	 <Itm>总分|80|Item57|Title8</Itm>
+	 <Itm>评分日期3|200|Item18|Title9</Itm>
+	 <Itm>总分|80|Item58|Title10</Itm>
+	 <Itm>评分日期4|200|Item19|Title11</Itm>
+	 <Itm>总分|80|Item59|Title12</Itm>
+	 <Itm>评分日期5|200|Item20|Title13</Itm>
+	 <Itm>总分|80|Item60|Title14</Itm>
+	 </OBJTEMP>
+  </DHCNURPGD_HEDDZCFXZHPGB>
+  <DHCNURZYSCHLNEW txt="入出院评估单" Mth="Nur.DHCMoudData:getVal" SaveMth="Nur.PdaClsInterface.cls:SaveMouldData" GetIdMth="Nur.DHCMoudData:GetId" AdmUserItem="Item84" DisUserItem="Item130" JudgeItem="Item102">
+	<Templet>DHCNURZYSCHLNEW_PDA.1</Templet>
+	<Templet>DHCNURZYSCHLNEW_PDA.2</Templet>
+	<Templet>DHCNURZYSCHLNEW_PDA.3</Templet>
+	<Templet>DHCNURZYSCHLNEW_PDA.4</Templet>
+	<Templet>DHCNURZYSCHLNEW_PDA.5</Templet>
+	<Templet>DHCNURZYSCHLNEW_PDA.6</Templet>
+	<Templet>DHCNURZYSCHLNEW_PDA.7</Templet>
+  </DHCNURZYSCHLNEW>
+  <DHCNURPGD_EKRYPGD txt="儿科入出院评估单" Mth="Nur.DHCMoudData:getVal" SaveMth="Nur.PdaClsInterface.cls:SaveMouldData" GetIdMth="Nur.DHCMoudData:GetId" AdmUserItem="Item84" DisUserItem="Item130" JudgeItem="Item102">
+	<Templet>DHCNURPGDPDA_EKRYPGD.1</Templet>
+	<Templet>DHCNURPGDPDA_EKRYPGD.2</Templet>
+	<Templet>DHCNURPGDPDA_EKRYPGD.3</Templet>
+	<Templet>DHCNURPGDPDA_EKRYPGD.4</Templet>
+	<Templet>DHCNURPGDPDA_EKRYPGD.5</Templet>
+	<Templet>DHCNURPGDPDA_EKRYPGD.6</Templet>
+	<Templet>DHCNURPGDPDA_EKRYPGD.7</Templet>
+  </DHCNURPGD_EKRYPGD>
+  <DHCNURPGD_CKRYPG txt="产科入出院评估单" Mth="Nur.DHCMoudData:getVal" SaveMth="Nur.PdaClsInterface.cls:SaveMouldData" GetIdMth="Nur.DHCMoudData:GetId" AdmUserItem="Item84" DisUserItem="Item130" JudgeItem="Item102">
+	<Templet>DHCNURPGDPDA_CKRYPGD.1</Templet>
+	<Templet>DHCNURPGDPDA_CKRYPGD.2</Templet>
+	<Templet>DHCNURPGDPDA_CKRYPGD.3</Templet>
+	<Templet>DHCNURPGDPDA_CKRYPGD.4</Templet>
+	<Templet>DHCNURPGDPDA_CKRYPGD.5</Templet>
+	<Templet>DHCNURPGDPDA_CKRYPGD.6</Templet>
+	<Templet>DHCNURPGDPDA_CKRYPGD.7</Templet>
+	<Templet>DHCNURPGDPDA_CKRYPGD.8</Templet>
+  </DHCNURPGD_CKRYPG>
+  
+  
+  
+  
+  
+  
+  
+  
+  <DHCNURXH_GKHLJLD txt="护理" Mth="web.DHCPdaNurRec:GetCommRec" SaveMth="Nur.PdaClsInterface.cls:SaveListMouldData" QueryMth="web.DHCNurRecComm:GetCareRecComm">
+  <DHCNURXH_GKHLJLD_pda.1/>
+  <OBJTEMP>
+   <Itm>日期|120|CareDate|Title1</Itm>
+   <Itm>时间|100|CareTime|Title2</Itm>
+   <Itm>项目|80|Item1|Title3</Itm>
+   <Itm>备用量|80|Item2|Title4</Itm>
+   <Itm>实用量|80|Item3|Title5</Itm>
+   <Itm>尿量|80|Item4|Title6</Itm>
+   <Itm>引流|80|Item5|Title7</Itm>
+   <Itm>大便|80|Item6|Title8</Itm>
+   <Itm>体温℃|80|Item7|Title9</Itm>
+   <Itm>脉搏次/分|80|Item8|Title10</Itm>
+   <Itm>呼吸次/分|80|Item9|Title11</Itm>
+   <Itm>血压mmHg|80|Item10|Title12</Itm>
+   </OBJTEMP>
+  </DHCNURXH_GKHLJLD>    
+  <DHCNURXH1 txt="护理" Mth="web.DHCPdaNurRec:GetCommRec" SaveMth="Nur.PdaClsInterface.cls:SaveRecData" QueryMth="web.DHCNurRecComm:GetCareRecComm">
+  <DHCNURXH1_pda.1/>
+  <OBJTEMP>
+   <Itm>日期|120|CareDate|Title1</Itm>
+   <Itm>时间|100|CareTime|Title2</Itm>
+   <Itm>项目|80|Item1|Title3</Itm>
+   <Itm>用法|80|Item5|Title4</Itm>
+   <Itm>备用量|80|Item2|Title5</Itm>
+   <Itm>实用量|80|Item3|Title6</Itm>
+   <Itm>尿量|80|Item13|Title7</Itm>
+   <Itm>呕吐|80|Item14|Title8</Itm>
+   <Itm>胃液|80|Item15|Title9</Itm>
+   <Itm>其他1|80|Item31|Title10</Itm>
+   <Itm>其他2|80|Item32|Title11</Itm>
+   <Itm>其他3|80|Item33|Title12</Itm>
+   <Itm>大便|80|Item6|Title13</Itm>
+   <Itm>体温|80|Item7|Title14</Itm>
+   <Itm>脉搏|80|Item8|Title15</Itm>
+   <Itm>呼吸|80|Item9|Title16</Itm>
+   <Itm>SPO2|80|Item12|Title17</Itm>
+   <Itm>收缩压|80|Item10|Title18</Itm>
+   <Itm>舒张压|80|Item11|Title19</Itm>
+   </OBJTEMP>
+  </DHCNURXH1>  
+  <DHCNURXUNSHI txt="护理巡视" Mth="web.DHCPdaNurRec:GetCommRec" SaveMth="Nur.PdaClsInterface.cls:SaveRecData" QueryMth="web.DHCNurRecComm:GetCareRecComm">
+  <DHCNURXUNSHI_pda.1/>
+  <OBJTEMP>
+   <Itm>巡视日期|160|CareDate|Title1</Itm>
+   <Itm>时间|100|CareTime|Title2</Itm>
+   <Itm>呼吸|80|Item15|Title3</Itm>
+   <Itm>神智|80|Item1|Title4</Itm>
+   <Itm>瞳左|80|Item2|Title5</Itm>
+   <Itm>瞳右|80|Item3|Title6</Itm>
+   <Itm>其他|180|CaseMeasure|Title7</Itm>
+   <Itm>输液日期|180|Item7|Title8</Itm>
+   <Itm>时间|80|Item8|Title9</Itm>
+   <Itm>剂量|80|Item10|Title10</Itm>
+   <Itm>滴速|80|Item11|Title11</Itm>
+   <Itm>余量|80|Item13|Title12</Itm>
+   <Itm>输液反应|80|Item12|Title13</Itm>
+   <Itm>rw|10|rw|Title14</Itm>
+   <Itm>par|10|par|Title15</Itm>
+   </OBJTEMP>
+  </DHCNURXUNSHI>
+ <DHCNURXHZCHL txt="护理（再化疗）" Mth="web.DHCPdaNurRec:GetCommRec" SaveMth="Nur.DHCNurseRecSub:Save" QueryMth="web.DHCNurseRecordComm:GetCareRecComm">
+  <DHCNURXHZCHL_pda.1/>
+  <DHCNURXHZCHL_pda.2/>
+  <DHCNURXHZCHL_pda.3/>
+  <DHCNURXHZCHL_pda.4/>
+  </DHCNURXHZCHL>
+ <DHCNURXH_SQSHFSD txt="护理访视" Mth="web.DHCPdaNurRec:GetCommRec" SaveMth="Nur.DHCNurseRecSub:Save" QueryMth="web.DHCNurseRecordComm:GetCareRecComm">
+  <DHCNURXH_SQSHFSD_pda.1/>
+  <DHCNURXH_SQSHFSD_pda.2/>
+ </DHCNURXH_SQSHFSD>
+<DHCNURXHnewrypg txt="护理" Mth="web.DHCPdaNurRec:GetCommRec" SaveMth="Nur.DHCNurseRecSub:Save" QueryMth="web.DHCNurseRecordComm:GetCareRecComm">
+  <DHCNURXHnewrypg_pda.1/>
+  <DHCNURXHnewrypg_pda.2/>
+  <DHCNURXHnewrypg_pda.3/>
+  <DHCNURXHnewrypg_pda.4/>
+  <DHCNURXHnewrypg_pda.5/>
+  <DHCNURXHnewrypg_pda.6/>
+  </DHCNURXHnewrypg>
+ <DHCNURPFB txt="生活能力评估" Mth="Nur.DHCMoudDataSub:getVal" SaveMth="Nur.PdaClsInterface.cls:SaveSubData" QueryMth="web.DHCNurMouldDataComm:MoudData">
+  <DHCNURPFB_pda.1/>
+  <DHCNURPFB_pda.2/>
+  <OBJTEMP>
+   <Itm>科室|160|Item15|Title1</Itm>
+   <Itm>姓名|100|Item16|Title2</Itm>
+   <Itm>性别|80|Item17|Title3</Itm>
+   <Itm>床号|80|Item18|Title4</Itm>
+   <Itm>病历号|80|Item19|Title5</Itm>
+   <Itm>评分日期|180|Item20|Title6</Itm>
+   <Itm>评分时间|100|Item11|Title7</Itm>
+   <Itm>总分|80|Item12|Title8</Itm>
+   <Itm>分级|80|Item13|Title9</Itm>
+   <Itm>护士签名|100|Item14|Title10</Itm>
+   </OBJTEMP>
+  </DHCNURPFB>
+  <DHCNURXHFFYC txt="防范患者压疮记录表" Mth="Nur.DHCMoudData:getVal" SaveMth="Nur.PdaClsInterface.cls:Save2MouldData" QueryMth="web.DHCNurblsjflwh:MoudDatabyadm">
+  <DHCNURXHFFYC_pda.1/>
+  <OBJTEMP>
+   <Itm>科室|120|Item4|Title1</Itm>
+   <Itm>姓名|100|Item1|Title2</Itm>
+   <Itm>性别|80|Item2|Title3</Itm>
+   <Itm>年龄|80|Item3|Title4</Itm>
+   <Itm>入院日期|180|Item6|Title5</Itm>
+   <Itm>出院日期|180|Item7|Title6</Itm>
+   <Itm>评估日期1|180|Item12|Title7</Itm>
+   <Itm>签名|80|Item31|Title8</Itm>
+   <Itm>评估日期2|180|Item13|Title9</Itm>
+   <Itm>签名|80|Item32|Title10</Itm>
+   <Itm>评估日期3|180|Item14|Title11</Itm>
+   <Itm>签名|80|Item33|Title12</Itm>
+  <Itm>转入科室|180|Item8|Title13</Itm>
+   <Itm>转入日期|180|Item9|Title14</Itm>
+   <Itm>par|100|par|Title15</Itm>
+   </OBJTEMP>
+  </DHCNURXHFFYC>
+  <DHCNURXHFFDD txt="防范患者跌倒（坠床）评估记录表" Mth="Nur.DHCMoudData:getVal" SaveMth="Nur.PdaClsInterface.cls:Save2MouldData" QueryMth="web.DHCNurblsjflwh:MoudDatabyadm">
+  <DHCNURXHFFDD_pda.1/>
+  <OBJTEMP>
+   <Itm>科室|160|Item4|Title1</Itm>
+   <Itm>姓名|100|Item1|Title2</Itm>
+   <Itm>性别|80|Item2|Title3</Itm>
+   <Itm>年龄|80|Item3|Title4</Itm>
+   <Itm>入院日期|180|Item7|Title5</Itm>
+   <Itm>出院日期|180|Item8|Title6</Itm>
+   <Itm>评估日期1|180|Item12|Title7</Itm>
+   <Itm>签名|180|Item31|Title8</Itm>
+   <Itm>评估日期2|180|Item13|Title9</Itm>
+   <Itm>签名|180|Item32|Title10</Itm>
+   <Itm>评估日期3|180|Item14|Title11</Itm>
+   <Itm>签名|180|Item33|Title12</Itm>
+   <Itm>评估日期4|180|Item68|Title13</Itm>
+   <Itm>签名|180|Item70|Title14</Itm>
+   <Itm>评估日期5|180|Item69|Title15</Itm>
+   <Itm>签名|180|Item71|Title16</Itm>
+   <Itm>par|180|par|Title17</Itm>
+   </OBJTEMP>
+  </DHCNURXHFFDD>
+   <DHCNUR11 txt="护理" Mth="web.DHCPdaNurRec:GetCommRec" SaveMth="Nur.DHCNurseRecSub:Save" QueryMth="web.DHCNurseRecordComm:GetCareRecComm">
+  <DHCNUR11_pda.1/>
+  <DHCNUR11_pda.2/>
+  <DHCNUR11_pda.3/>
+  <DHCNUR11_pda.4/>
+  <DHCNUR11_pda.5/>
+  </DHCNUR11>
+  <DHCNUR4 txt="护理" Mth="web.DHCPdaNurRec:GetCommRec" SaveMth="Nur.PdaClsInterface.cls:SaveRecData" QueryMth="web.DHCNurseRecordComm:GetCareRecComm">
+  <DHCNUR4_pda.1/>
+  <DHCNUR4_pda.2/>
+  <DHCNUR4_pda.3/>
+  <DHCNUR4_pda.4/>
+  <DHCNUR4_pda.5/>
+  </DHCNUR4>
+  <DHCNUR6 txt="护理" Mth="web.DHCPdaNurRec:GetCommRec" SaveMth="Nur.DHCNurseRecSub:Save" QueryMth="web.DHCNurseRecordComm:GetCareRecComm">
+  <DHCNUR6_pda.1/>
+  <DHCNUR6_pda.2/>
+  <DHCNUR6_pda.3/>
+  <DHCNUR6_pda.4/>
+  <DHCNUR6_pda.5/>
+  </DHCNUR6>
+  <DHCNUR13 txt="护理" Mth="web.DHCPdaNurRec:GetCommRec" SaveMth="Nur.DHCNurseRecSub:Save" QueryMth="web.DHCNurseRecordComm:GetCareRecComm">
+  <DHCNUR13_pda.1/>
+  <DHCNUR13_pda.2/>
+  <DHCNUR13_pda.3/>
+  <DHCNUR13_pda.4/>
+  <DHCNUR13_pda.5/>
+  </DHCNUR13>
+  <DHCNURADMNurseTurn txt="临床护理" Mth="web.DHCPdaNurRec:GetCommRec" SaveMth="Nur.PdaClsInterface.cls:PatNurseTurnOverRecord" QueryMth="web.DHCNurRecComm:GetCareRecComm">
+		<DHCNURBG_PDATurn />
+</DHCNURADMNurseTurn>
+</configuration>
+

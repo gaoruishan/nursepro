@@ -2,12 +2,12 @@ package com.dhcc.nursepro.workarea.orderexecute.api;
 
 import android.util.Log;
 
+import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.ParserUtil;
 import com.base.commlibs.http.ServiceCallBack;
 import com.blankj.utilcode.util.ObjectUtils;
 import com.blankj.utilcode.util.SPUtils;
-import com.base.commlibs.constant.SharedPreference;
 import com.dhcc.nursepro.utils.DateUtils;
 import com.dhcc.nursepro.workarea.orderexecute.bean.OrderExecResultBean;
 import com.dhcc.nursepro.workarea.orderexecute.bean.OrderExecuteBean;
@@ -22,6 +22,7 @@ import java.util.Map;
 
 /**
  * OrderSearchApiManager
+ *
  * @author DevLix126
  * @date 2018/8/24
  */
@@ -34,8 +35,8 @@ public class OrderExecuteApiManager {
      * Input：	oeoriId 执行记录Id
      * Return： w ##class(Nur.PDA.Order).skinTime("194||57||1",1,"50分钟",149)
      */
-    public static void skinTime(String oeoriId, String observeTime,String note, com.base.commlibs.http.CommonCallBack<CommResult> callBack) {
-        OrderExecuteApiService.skinTime(oeoriId, observeTime, note,new ServiceCallBack() {
+    public static void skinTime(String oeoriId, String observeTime, String note, com.base.commlibs.http.CommonCallBack<CommResult> callBack) {
+        OrderExecuteApiService.skinTime(oeoriId, observeTime, note, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<CommResult> parserUtil = new ParserUtil<>();

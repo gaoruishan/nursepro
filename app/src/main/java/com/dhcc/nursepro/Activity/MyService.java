@@ -81,7 +81,7 @@ public class MyService extends Service {
         //        if (LoginUser.LigthF == true)
         notification.defaults |= Notification.DEFAULT_LIGHTS;
         notification.flags |= Notification.FLAG_INSISTENT;
-        notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
+        notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
         /**发起通知**/
         notificationManager.notify(1, notification);
     }

@@ -9,6 +9,7 @@ import android.widget.EditText;
 
 import com.base.commlibs.BaseApplication;
 
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
@@ -31,8 +32,8 @@ public class CommonUtil {
         try {
             // Create MD5 Hash
             MessageDigest digest = MessageDigest.getInstance("MD5");
-            digest.update(s.getBytes("UTF-8"));
-            byte messageDigest[] = digest.digest();
+            digest.update(s.getBytes(StandardCharsets.UTF_8));
+            byte[] messageDigest = digest.digest();
 
             // Create Hex String
             StringBuffer hexString = new StringBuffer();

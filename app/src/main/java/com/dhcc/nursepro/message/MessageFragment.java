@@ -1,7 +1,6 @@
 package com.dhcc.nursepro.message;
 
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -43,9 +42,6 @@ import java.util.List;
  * 消息页面
  */
 public class MessageFragment extends BaseFragment implements View.OnClickListener {
-    //登陆成功后所有的广播信息全部注销了，在此重新注册
-    protected BaseReceiver mReceiver = new BaseReceiver();
-    protected IntentFilter mfilter = new IntentFilter();
     private LinearLayout llMessageNeworderTitle;
     private TextView tvMessageNeworderCount;
     private RecyclerView recyMessageNeworder;
@@ -118,7 +114,7 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
     private void switchSkinMessage(boolean gone) {
         f(R.id.ll_message_skin_title).setSelected(gone);
         f(R.id.tv_message_skin_count).setVisibility(gone ? View.VISIBLE : View.GONE);
-        f(R.id.tv_message_skin_count, TextView.class).setText(messageSkinAdapter.getItemCount()+"");
+        f(R.id.tv_message_skin_count, TextView.class).setText(messageSkinAdapter.getItemCount() + "");
         f(R.id.recy_message_skin).setVisibility(gone ? View.GONE : View.VISIBLE);
     }
 
@@ -223,16 +219,8 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (hidden) {
-            if (mReceiver != null) {
-                getActivity().unregisterReceiver(mReceiver);
-            }
-        } else {
+        if (!hidden) {
             initData();
-            mfilter.addAction(Action.NEWMESSAGE_SERVICE);
-            if (mReceiver != null) {
-                getActivity().registerReceiver(mReceiver, mfilter);
-            }
         }
     }
 
@@ -249,18 +237,18 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
         initView(view);
         initAdapter();
         initData();
-        getActivity().registerReceiver(mReceiver, mfilter);
         //注册事件总线
         EventBus.getDefault().register(this);
     }
 
     /**
      * 接收事件- 更新数据
+     *
      * @param event
      */
     @Subscribe
     public void updateList(MessageEvent event) {
-        Log.e(getClass().getSimpleName(), "updateText:"+event.getType());
+        Log.e(getClass().getSimpleName(), "updateText:" + event.getType());
         getSkinTestMessage();
     }
 

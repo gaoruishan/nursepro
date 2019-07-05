@@ -76,10 +76,7 @@ public class BaseHelper {
         if (o != null && o instanceof String) {
             return !TextUtils.isEmpty((String) o);
         }
-        if (o != null) {
-            return true;
-        }
-        return false;
+        return o != null;
     }
 
     /**

@@ -14,7 +14,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.jzxiang.pickerview.adapters.NumericWheelAdapter;
 import com.jzxiang.pickerview.config.PickerConfig;
 import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.data.WheelCalendar;
@@ -99,11 +98,11 @@ public class TimePickerDialog extends DialogFragment implements View.OnClickList
     View initView() {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View view = inflater.inflate(R.layout.timepicker_layout, null);
-        TextView cancel = (TextView) view.findViewById(R.id.tv_cancel);
+        TextView cancel = view.findViewById(R.id.tv_cancel);
         cancel.setOnClickListener(this);
-        TextView sure = (TextView) view.findViewById(R.id.tv_sure);
+        TextView sure = view.findViewById(R.id.tv_sure);
         sure.setOnClickListener(this);
-        TextView title = (TextView) view.findViewById(R.id.tv_title);
+        TextView title = view.findViewById(R.id.tv_title);
         View toolbar = view.findViewById(R.id.toolbar);
 
         title.setText(mPickerConfig.mTitleString);

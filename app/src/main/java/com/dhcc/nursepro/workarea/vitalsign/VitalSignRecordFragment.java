@@ -465,7 +465,8 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
             edText.setGravity(Gravity.CENTER);
             edText.setTextColor(getResources().getColor(R.color.vital_sign_record_next_color));
             edText.setBackgroundResource(R.drawable.vital_sign_input_bg);
-            if (config.getValueType().equals("N")) {
+
+            if (config.getValueType() != null && config.getValueType().equals("N")) {
                 edText.setInputType(EditorInfo.TYPE_CLASS_PHONE);
             }
 

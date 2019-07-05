@@ -1,9 +1,7 @@
 package com.dhcc.nursepro.workarea.drugloopsystem.drughandover.api;
 
-import android.util.Log;
-
-import com.blankj.utilcode.util.SPUtils;
 import com.base.commlibs.constant.SharedPreference;
+import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.nursepro.utils.wsutils.WebServiceUtils;
 
 import java.util.HashMap;
@@ -19,8 +17,6 @@ public class DrugHandoverApiService {
     public static void getOrdListByBarCode(String barCode, final ServiceCallBack callback) {
         HashMap<String, String> properties = new HashMap<>();
         properties.put("barCode", barCode);
-
-        Log.i("DrugHandover", "getOrdListByBarCode: " + properties.toString());
 
         WebServiceUtils.callWebService("getOrdListByBarCode", properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
@@ -41,9 +37,6 @@ public class DrugHandoverApiService {
         properties.put("barCode", barCode);
         properties.put("type", type);
 
-
-        Log.i("DrugHandover", "BatchSave: " + properties.toString());
-
         WebServiceUtils.callWebService("BatchSave", properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
@@ -59,8 +52,6 @@ public class DrugHandoverApiService {
 
         properties.put("startDate", startdate);
         properties.put("endDate", enddate);
-
-        Log.i("DrugHandover", "getOrdRecieveList: " + properties.toString());
 
         WebServiceUtils.callWebService("getOrdRecieveList", properties, new WebServiceUtils.WebServiceCallBack() {
             @Override

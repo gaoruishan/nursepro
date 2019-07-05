@@ -32,7 +32,7 @@ public class WebServiceUtils {
      */
     public interface WebServiceCallBack extends BaseWebServiceUtils.WebServiceCallBack{
         @Override
-        public void callBack(String result);
+        void callBack(String result);
     }
 
 

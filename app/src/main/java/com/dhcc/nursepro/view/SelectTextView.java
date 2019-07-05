@@ -21,6 +21,7 @@ import com.dhcc.nursepro.R;
 
 /**
  * 筛选TextView
+ *
  * @author:gaoruishan
  * @date:2018/8/16/16:41
  * @email:grs0515@163.com
@@ -36,12 +37,11 @@ public class SelectTextView extends android.support.v7.widget.AppCompatTextView 
     private float cornersRadius = 10;
     private int labelWidth = dpTpPx(38);
     private int labelHeight = dpTpPx(40);
-    ;
     //文本颜色
     private int unSelectTextColor = 0xff333333;
     private int selectedTextColor = 0xffFE4C35;
     //tab选中图标
-    private int selectedIcon ;
+    private int selectedIcon;
     private int selectedBg = 0;
     private int unSelectedBg = 0;
     //id
@@ -147,6 +147,7 @@ public class SelectTextView extends android.support.v7.widget.AppCompatTextView 
 
     /**
      * 截取5个字符
+     *
      * @param text
      * @return
      */
@@ -215,6 +216,7 @@ public class SelectTextView extends android.support.v7.widget.AppCompatTextView 
 
     /**
      * 选择监听
+     *
      * @param l
      */
     public void setOnSelectorListener(@Nullable final OnClickListener l) {
@@ -226,7 +228,7 @@ public class SelectTextView extends android.support.v7.widget.AppCompatTextView 
     public void onClick(View v) {
         if (l != null) {
             l.onClick(v);
-        }else {
+        } else {
             isSelect = !isSelect;
             invalidate();
         }
@@ -239,12 +241,15 @@ public class SelectTextView extends android.support.v7.widget.AppCompatTextView 
         isSelect = !isSelect;
         invalidate();
     }
+
     public void setToggle(boolean isSelect) {
-        this.isSelect =isSelect;
+        this.isSelect = isSelect;
         invalidate();
     }
+
     /**
      * 一直加粗
+     *
      * @param alwaysBold
      */
     public void setAlwaysBold(boolean alwaysBold) {

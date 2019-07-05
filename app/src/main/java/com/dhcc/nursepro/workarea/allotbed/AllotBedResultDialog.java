@@ -101,7 +101,7 @@ public class AllotBedResultDialog extends Dialog {
      * 设置确定按钮被点击的接口
      */
     public interface onSureOnclickListener {
-        public void onSureClick();
+        void onSureClick();
     }
 
 }

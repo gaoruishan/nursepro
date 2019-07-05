@@ -1,10 +1,8 @@
 package com.dhcc.nursepro.workarea.vitalsign.api;
 
 import com.blankj.utilcode.util.ObjectUtils;
-import com.dhcc.nursepro.workarea.vitalsign.bean.VitalSignBean;
 import com.dhcc.nursepro.workarea.vitalsign.bean.VitalSignRecordBean;
 import com.dhcc.nursepro.workarea.vitalsign.bean.VitalSignSaveBean;
-import com.dhcc.nursepro.workarea.vitalsigndetail.bean.VitalSignDetailBean;
 import com.google.gson.Gson;
 
 import java.util.HashMap;

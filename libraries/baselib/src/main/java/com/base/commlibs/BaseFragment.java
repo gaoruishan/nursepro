@@ -98,6 +98,7 @@ public class BaseFragment extends Fragment {
 
 
         mfilter.addAction(Action.DEVICE_SCAN_CODE);
+        mfilter.addAction(Action.NEWMESSAGE_SERVICE);
         mfilter.addAction(Action.ORDER_HANDLE_ACCEPT);
         mfilter.addAction(Action.ORDER_HANDLE_REFUSE);
         mfilter.addAction(Action.ORDER_HANDLE_COMPLETE);
@@ -760,7 +761,7 @@ public class BaseFragment extends Fragment {
                                 R.layout.no_net_show_layout, mContainerMaskContainer, false),
                         new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
                                 FrameLayout.LayoutParams.MATCH_PARENT));
-                ImageView imageView = (ImageView) mContainerMaskContainer
+                ImageView imageView = mContainerMaskContainer
                         .findViewById(R.id.noNet_showView_imageView);
                 imageView.setImageResource(iconResId);
                 imageView.setOnClickListener(new View.OnClickListener() {
@@ -769,7 +770,7 @@ public class BaseFragment extends Fragment {
                         onLoadFailRetryClicked();
                     }
                 });
-                TextView textView = (TextView) mContainerMaskContainer
+                TextView textView = mContainerMaskContainer
                         .findViewById(R.id.noNet_showView_textView);
                 if (TextUtils.isEmpty(tip)) {
                     textView.setVisibility(View.GONE);

@@ -1,7 +1,6 @@
 package com.jzxiang.pickerview;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 
 import com.jzxiang.pickerview.adapters.NumericWheelAdapter;
@@ -79,11 +78,11 @@ public class TimeWheel {
 
 
     void initView(View view) {
-        year = (WheelView) view.findViewById(R.id.year);
-        month = (WheelView) view.findViewById(R.id.month);
-        day = (WheelView) view.findViewById(R.id.day);
-        hour = (WheelView) view.findViewById(R.id.hour);
-        minute = (WheelView) view.findViewById(R.id.minute);
+        year = view.findViewById(R.id.year);
+        month = view.findViewById(R.id.month);
+        day = view.findViewById(R.id.day);
+        hour = view.findViewById(R.id.hour);
+        minute = view.findViewById(R.id.minute);
         if (type == 1){
             minute.setVisibility(View.GONE);
         }

@@ -1,7 +1,5 @@
 package com.dhcc.nursepro.workarea.drugloopsystem.drugpreparation.api;
 
-import android.util.Log;
-
 import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.nursepro.utils.wsutils.WebServiceUtils;
@@ -18,10 +16,7 @@ public class DrugPreApiService {
 
     public static void getOrdInfo(String oeoreId, final ServiceCallBack callback) {
         HashMap<String, String> properties = new HashMap<>();
-
         properties.put("oeoreId", oeoreId);
-
-        Log.i("DrugPre", "getOrdInfo: " + properties.toString());
 
         WebServiceUtils.callWebService("getOrdInfo", properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
@@ -41,8 +36,6 @@ public class DrugPreApiService {
         properties.put("oeoreId", oeoreId);
         properties.put("type", type);
 
-        Log.i("DrugPre", "TakeOrd: " + properties.toString());
-
         WebServiceUtils.callWebService("TakeOrd", properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
@@ -59,8 +52,6 @@ public class DrugPreApiService {
         properties.put("startDate", startDate);
         properties.put("endDate", endDate);
         properties.put("type", "");
-
-        Log.i("DrugPre", "getTakeOrdList: " + properties.toString());
 
         WebServiceUtils.callWebService("getTakeOrdList", properties, new WebServiceUtils.WebServiceCallBack() {
             @Override

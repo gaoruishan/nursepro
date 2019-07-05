@@ -4,30 +4,14 @@ package com.dhcc.nursepro.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.utils.wsutils.WebServiceUtils;
-import com.dhcc.nursepro.workarea.checkresult.adapter.CheckPatListAdapter;
-import com.dhcc.nursepro.workarea.labresult.api.LabApiManager;
-import com.dhcc.nursepro.workarea.labresult.bean.LabResultListBean;
-import com.dhcc.nursepro.workarea.orderexecute.OrderExecOrderDialog;
-import com.dhcc.nursepro.workarea.orderexecute.adapter.OrderExecuteOrderDialogAdapter;
 import com.dhcc.nursepro.workarea.orderexecute.bean.ScanResultBean;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 创建自定义的dialog
@@ -130,14 +114,14 @@ public class RequestDialog extends Dialog {
      * 设置确定按钮被点击的接口
      */
     public interface onSureOnclickListener {
-        public void onSureClick();
+        void onSureClick();
     }
 
     /**
      * 设置取消按钮被点击的接口
      */
     public interface onCancelOnclickListener {
-        public void onCancelClick();
+        void onCancelClick();
     }
 
 }

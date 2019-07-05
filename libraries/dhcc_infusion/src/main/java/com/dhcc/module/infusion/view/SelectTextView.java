@@ -36,7 +36,6 @@ public class SelectTextView extends android.support.v7.widget.AppCompatTextView 
     private float cornersRadius = 10;
     private int labelWidth = dpTpPx(38);
     private int labelHeight = dpTpPx(40);
-    ;
     //文本颜色
     private int unSelectTextColor = 0xff333333;
     private int selectedTextColor = 0xffFE4C35;

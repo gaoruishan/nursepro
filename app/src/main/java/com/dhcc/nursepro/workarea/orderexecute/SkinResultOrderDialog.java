@@ -4,8 +4,6 @@ package com.dhcc.nursepro.workarea.orderexecute;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -15,11 +13,6 @@ import android.widget.Toast;
 
 import com.blankj.utilcode.util.StringUtils;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.workarea.orderexecute.adapter.OrderExecuteOrderDialogAdapter;
-import com.dhcc.nursepro.workarea.orderexecute.bean.ScanResultBean;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * com.dhcc.nursepro.workarea.orderexecute
@@ -193,14 +186,14 @@ public class SkinResultOrderDialog extends Dialog {
      * 设置确定按钮被点击的接口
      */
     public interface onSureOnclickListener {
-        public void onSureClick();
+        void onSureClick();
     }
 
     /**
      * 设置取消按钮被点击的接口
      */
     public interface onCancelOnclickListener {
-        public void onCancelClick();
+        void onCancelClick();
     }
 
 }

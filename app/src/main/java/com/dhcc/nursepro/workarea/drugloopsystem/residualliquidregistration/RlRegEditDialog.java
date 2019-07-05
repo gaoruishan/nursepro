@@ -278,20 +278,20 @@ public class RlRegEditDialog extends Dialog {
      * 设置确定按钮被点击的接口
      */
     public interface onSureOnclickListener {
-        public void onSureClick();
+        void onSureClick();
     }
 
     /**
      * 设置取消按钮被点击的接口
      */
     public interface onCancelOnclickListener {
-        public void onCancelClick();
+        void onCancelClick();
     }
 
     /**
      * 设置单位被点击的接口
      */
     public interface onUnitOnclickListener {
-        public void onUnitClick();
+        void onUnitClick();
     }
 }

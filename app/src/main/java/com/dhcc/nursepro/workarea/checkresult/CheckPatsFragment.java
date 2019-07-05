@@ -181,7 +181,6 @@ public class CheckPatsFragment extends BaseFragment implements View.OnClickListe
                 showgone(showview2);
                 break;
             case R.id.tv_labpats_wait:
-                ;
                 showSelectedPats(listBeansWait);
                 showListNow = "wait";
                 setTopFilterSelect(tvwait);

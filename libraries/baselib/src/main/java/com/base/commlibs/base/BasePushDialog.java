@@ -57,7 +57,7 @@ public class BasePushDialog extends DialogFragment
                 dismiss();
             }
         });
-        mContainer = (FrameLayout) view.findViewById(R.id.container);
+        mContainer = view.findViewById(R.id.container);
     }
 
     /**
@@ -91,7 +91,7 @@ public class BasePushDialog extends DialogFragment
         Dialog dialog = getDialog();
         dialog.setOnKeyListener(this);
         WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();
-        lp.width = BaseApplication.getApp().getResources().getDisplayMetrics().widthPixels;;
+        lp.width = BaseApplication.getApp().getResources().getDisplayMetrics().widthPixels;
         dialog.getWindow().setAttributes(lp);
         mContainer.removeAllViews();
         mContainer.setVisibility(View.INVISIBLE);

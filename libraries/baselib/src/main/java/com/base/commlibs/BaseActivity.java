@@ -174,10 +174,10 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         if (mToolbar != null) {
             mToolbar.setContentInsetsAbsolute(0, 0);
         }
-        mToolbarCenterContainer = (FrameLayout) findViewById(R.id.toolbar_center_container);
-        mToolbarLeftContainer = (FrameLayout) findViewById(R.id.toolbar_left_container);
-        mToolbarRightContainer = (FrameLayout) findViewById(R.id.toolbar_right_container);
-        mContainer = (FrameLayout) findViewById(R.id.container);
+        mToolbarCenterContainer = findViewById(R.id.toolbar_center_container);
+        mToolbarLeftContainer = findViewById(R.id.toolbar_left_container);
+        mToolbarRightContainer = findViewById(R.id.toolbar_right_container);
+        mContainer = findViewById(R.id.container);
         setToolbarBackground(new ColorDrawable(0xffffffff));
         initStatusBarBackgroundView();
         initBackAction();
@@ -428,11 +428,7 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         String manufacturer = Build.MANUFACTURER;
         if ("Xiaomi".equalsIgnoreCase(manufacturer)) {
             return true;
-        } else if ("oppo".equalsIgnoreCase(manufacturer)) {
-            return true;
-        } else {
-            return false;
-        }
+        } else return "oppo".equalsIgnoreCase(manufacturer);
     }
 
     /**
@@ -1012,8 +1008,8 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
             public void run() {
                 View inflate = LayoutInflater.from(BaseActivity.this)
                         .inflate(R.layout.dialog_toast, mContainer, false);
-                ImageView imageView = (ImageView) inflate.findViewById(R.id.icon);
-                TextView textView = (TextView) inflate.findViewById(R.id.text);
+                ImageView imageView = inflate.findViewById(R.id.icon);
+                TextView textView = inflate.findViewById(R.id.text);
                 textView.setText(text);
                 imageView.setImageDrawable(getResources().getDrawable(iconId));
                 Toast toast = new Toast(BaseActivity.this);
@@ -1036,9 +1032,9 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
             public void run() {
                 View inflate = LayoutInflater.from(BaseActivity.this)
                         .inflate(R.layout.dialog_toast, mContainer, false);
-                ImageView imageView = (ImageView) inflate.findViewById(R.id.icon);
+                ImageView imageView = inflate.findViewById(R.id.icon);
                 imageView.setVisibility(View.GONE);
-                TextView textView = (TextView) inflate.findViewById(R.id.text);
+                TextView textView = inflate.findViewById(R.id.text);
                 textView.setText(text);
                 Toast toast = new Toast(BaseActivity.this);
                 toast.setGravity(Gravity.CENTER, 0, 0);
@@ -1345,7 +1341,7 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
      * TOP  : 页面上边简单非模态提示
      * FULL : 全屏模态提示
      */
-    public static enum LoadingType {
+    public enum LoadingType {
         TOP,    // 页面上边简单非模态提示
         BOTTOM, // 页面下边简单非模态提示
         FULL,   // 全屏模态提示
@@ -1357,7 +1353,7 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
      * TOP   : Toolbar显示在Container上面,处于同一水平高度
      * FLOAT : Toolbar悬浮在Container上面,在不同水平高度
      */
-    public static enum ToolbarType {
+    public enum ToolbarType {
         HIDE,  // 不显示Toolbar
         TOP,   // Toolbar显示在Container上面,处于同一水平高度
         FLOAT, // Toolbar悬浮在Container上面,在不同水平高度
