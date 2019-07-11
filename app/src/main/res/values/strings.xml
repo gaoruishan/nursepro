@@ -67,6 +67,9 @@
     <string name="title_milk_freezing">母乳冷冻</string>
     <string name="title_milk_bottling">母乳装瓶</string>
     <string name="title_milk_coldstorage">母乳冷藏</string>
+    <string name="title_milk_bind">绑定医嘱</string>
+    <string name="title_milk_warming">温奶</string>
+    <string name="title_milk_feed">母乳喂养</string>
 
     <!--母婴关联-->
     <string name="title_motherbaby_link">母婴关联</string>

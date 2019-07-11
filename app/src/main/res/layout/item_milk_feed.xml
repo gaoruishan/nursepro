@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.guanaj.easyswipemenulibrary.EasySwipeMenuLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:contentView="@+id/ll_milkcold_content"
+    app:rightMenuView="@+id/ll_milkcold_right">
+    <LinearLayout
+        android:id="@+id/ll_milkcold_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_marginTop="@dimen/dp_10"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="@dimen/dp_10"
+            >
+            <TextView
+                android:id="@+id/item_milkfeed_status"
+                android:layout_width="60dp"
+                android:layout_height="18dp"
+                android:textSize="@dimen/sp_12"
+                android:background="@drawable/bg_milkfreezing_scan"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:text="正在喂奶"/>
+            <TextView
+                android:id="@+id/item_milkfeed_time"
+                android:layout_width="wrap_content"
+                android:layout_height="18dp"
+                android:layout_alignParentRight="true"
+                android:text="2018-08-08 08:08"
+                android:textSize="13sp"
+                />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="30dp">
+                <TextView
+                android:id="@+id/item_milkfeed_bagid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="23432t45446"
+                android:textSize="15sp"
+                android:textColor="@color/black"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:orientation="horizontal"
+                    >
+                    <TextView
+                        android:id="@+id/item_milkfeed_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="250"
+                        android:textSize="15sp"
+                        android:textColor="@color/black"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="  ml"
+                        android:textSize="13sp"/>
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="30dp"
+                android:layout_marginBottom="20dp"
+                >
+
+                <TextView
+                    android:id="@+id/item_milkfeed_bedcode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="13sp"
+                    android:layout_marginTop="5dp"
+                    android:text="20床"/>
+                <TextView
+                    android:id="@+id/item_milkfeed_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="13sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:text="李患者"/>
+            </LinearLayout>
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/workarea_device_color"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"></View>
+    </LinearLayout>
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/ll_milkfeed_right"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:background="@android:color/holo_red_light">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:text="删除"/>
+
+    </LinearLayout>
+
+</com.guanaj.easyswipemenulibrary.EasySwipeMenuLayout>

@@ -86,9 +86,9 @@ public class BaseApplication extends Application implements Application.Activity
 
         getApp().registerActivityLifecycleCallbacks(this);
         //检测内存泄露
-//        if (!LeakCanary.isInAnalyzerProcess(this)) {
-//            LeakCanary.install(this);
-//        }
+        if (!LeakCanary.isInAnalyzerProcess(this)) {
+            LeakCanary.install(this);
+        }
     }
 
     public static Application getApp() {

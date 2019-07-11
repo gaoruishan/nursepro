@@ -26,7 +26,7 @@ import com.dhcc.nursepro.workarea.drugloopsystem.drugpreparation.DrugPreparation
 import com.dhcc.nursepro.workarea.drugloopsystem.residualliquidregistration.RLRegFragment;
 import com.dhcc.nursepro.workarea.labout.LabOutListFragment;
 import com.dhcc.nursepro.workarea.labresult.LabPatsFragment;
-import com.dhcc.nursepro.workarea.milkloopsystem.MilkLoopSystemFragment;
+import com.dhcc.nursepro.workarea.milkloopsystem_wenling.MilkLoopSystemFragment;
 import com.dhcc.nursepro.workarea.motherbabylink.MotherBabyLinkFragment;
 import com.dhcc.nursepro.workarea.nurrecord.NurRecordModellistFragmen;
 import com.dhcc.nursepro.workarea.nurtour.NurTourFragment;
