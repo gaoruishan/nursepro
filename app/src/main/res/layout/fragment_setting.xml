@@ -180,6 +180,7 @@
                 android:layout_marginRight="15dp"
                 android:background="@color/patevents_device_color" />
             <RelativeLayout
+                android:visibility="gone"
                 android:background="@color/white"
                 android:id="@+id/rl_setting_failrequest"
                 android:layout_width="match_parent"
