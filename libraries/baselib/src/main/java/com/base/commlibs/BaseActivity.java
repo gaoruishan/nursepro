@@ -1396,9 +1396,11 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            ConnectivityManager cm = (ConnectivityManager) context
-                    .getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo info = cm.getActiveNetworkInfo();
+            ConnectivityManager cm = (ConnectivityManager) context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo info = null;
+            if (cm != null) {
+                info = cm.getActiveNetworkInfo();
+            }
             if (info != null && info.isConnected()) {
                 BaseActivity activity = mActivity.get();
                 if (activity != null) {
