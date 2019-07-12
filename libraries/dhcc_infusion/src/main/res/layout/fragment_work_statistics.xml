@@ -56,7 +56,7 @@
             android:layout_height="@dimen/dp_335"
             android:background="#FFFFFFFF"
         >
-            <com.dhcc.module.infusion.view.CustomBarChart
+            <com.dhcc.res.infusion.CustomBarChart
                 android:id="@+id/cbc_chart"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>

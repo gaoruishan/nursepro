@@ -16,7 +16,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.utils.AdapterFactory;
 import com.dhcc.module.infusion.utils.RecyclerViewHelper;
-import com.dhcc.module.infusion.view.CustomPatView;
+import com.dhcc.res.infusion.CustomPatView;
 import com.dhcc.module.infusion.workarea.comm.adapter.PatInfoAdapter;
 import com.dhcc.module.infusion.workarea.comm.api.WorkAreaApiManager;
 import com.dhcc.module.infusion.workarea.comm.bean.PatDetailBean;

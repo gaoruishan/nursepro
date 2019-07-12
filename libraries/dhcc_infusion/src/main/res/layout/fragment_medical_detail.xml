@@ -15,7 +15,7 @@
             android:layout_height="1dp"
             android:background="@color/blue_light"/>
 
-        <com.dhcc.module.infusion.view.CustomOrdStateView
+        <com.dhcc.res.infusion.CustomOrdStateView
             android:id="@+id/cosv_state"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -45,7 +45,7 @@
             android:layout_height="20dp"
             android:layout_gravity="center"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/infusion_sex_male"/>
+            android:src="@drawable/dhcc_sex_male"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -77,7 +77,7 @@
                 android:textSize="@dimen/sp_20"
                 android:visibility="gone"
             />
-            <com.dhcc.module.infusion.view.CountView
+            <com.dhcc.res.infusion.CountView
                 android:id="@+id/cv_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

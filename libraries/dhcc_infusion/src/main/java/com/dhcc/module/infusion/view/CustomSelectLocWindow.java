@@ -15,7 +15,7 @@ import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.db.GreenDaoHelper;
 import com.dhcc.module.infusion.db.InfusionInfo;
 import com.dhcc.module.infusion.greendao.DaoSession;
-import com.dhcc.module.infusion.utils.AppUtil;
+import com.base.commlibs.utils.UserUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -57,7 +57,7 @@ public class CustomSelectLocWindow extends LinearLayout implements View.OnClickL
         tvLoc.setText(SPUtils.getInstance().getString(SharedPreference.LOCDESC));
         tvWin = view.findViewById(R.id.tv_setting_window);
         tvWin.setOnClickListener(this);
-        tvWin.setText(AppUtil.getWindowName());
+        tvWin.setText(UserUtil.getWindowName());
         nurseInfoList = daoSession.getInfusionInfoDao().queryBuilder().list();
         Gson gson = new Gson();
         java.lang.reflect.Type type = new TypeToken<List<Map<String,String>>>(){}.getType();
@@ -119,7 +119,7 @@ public class CustomSelectLocWindow extends LinearLayout implements View.OnClickL
             @Override
             public void onOptionPicked(int index, String item) {
                 spUtils.put(SharedPreference.WINDOWNAME,item);
-                tvWin.setText(AppUtil.getWindowName());
+                tvWin.setText(UserUtil.getWindowName());
             }
         });
         picker.show();

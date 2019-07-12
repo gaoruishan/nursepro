@@ -3,7 +3,7 @@ package com.dhcc.module.infusion.login.api;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.http.ParserUtil;
 import com.base.commlibs.http.ServiceCallBack;
-import com.dhcc.module.infusion.login.bean.LoginBean;
+import com.base.commlibs.bean.LoginBean;
 import com.dhcc.module.infusion.login.bean.ScanCodeBean;
 
 /**

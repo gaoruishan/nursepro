@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_oeporderinfo_ordertype"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dhcc_bg_oval_green"
+        android:paddingBottom="1dp"
+        android:paddingEnd="8dp"
+        android:paddingStart="8dp"
+        android:textColor="@color/white"
+        tools:text="皮试" />
+
+    <TextView
+        android:id="@+id/tv_oeporderinfo_ordername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/dhcc_ordersearch_text_color"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        tools:text="阿德福韦片T(10mg*14片)" />
+
+    <LinearLayout
+        android:id="@+id/ll_oeporderinfo_singleorder"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:id="@+id/tv_oeporderinfo_orderdatetime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:textColor="@color/dhcc_ordersearch_text_color"
+            android:textSize="12sp"
+            tools:text="2018-08-25 08:00" />
+
+        <TextView
+            android:id="@+id/tv_oeporderinfo_orderoperate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:textColor="@color/dhcc_ordersearch_text_color"
+            android:textSize="12sp"
+            tools:text="皮试" />
+
+        <TextView
+            android:id="@+id/tv_oeporderinfo_orderdose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:textColor="@color/dhcc_ordersearch_text_color"
+            android:textSize="12sp"
+            tools:text="10mg" />
+
+        <TextView
+            android:id="@+id/tv_oeporderinfo_orderfrequency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:textColor="@color/dhcc_ordersearch_text_color"
+            android:textSize="12sp"
+            tools:text="QD" />
+
+        <TextView
+            android:id="@+id/tv_oeporderinfo_ordercreator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/dhcc_ordersearch_text_color"
+            android:textSize="12sp"
+            tools:text="严医生" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_oeporderinfo_multiorder1"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:id="@+id/tv_oeporderinfo_orderdose1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:textColor="@color/dhcc_ordersearch_text_color"
+            android:textSize="12sp"
+            tools:text="10mg" />
+
+
+    </LinearLayout>
+    <View
+        android:id="@+id/line_oeporderinfo_multiorder"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="3dp"
+        android:background="@drawable/dhcc_line_dash"
+        android:layerType="software" />
+    <LinearLayout
+        android:id="@+id/ll_oeporderinfo_multiorder2"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:id="@+id/tv_oeporderinfo_orderdatetime2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:textColor="@color/dhcc_ordersearch_text_color"
+            android:textSize="12sp"
+            tools:text="2018-08-25 08:00" />
+
+        <TextView
+            android:id="@+id/tv_oeporderinfo_orderoperate2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:textColor="@color/dhcc_ordersearch_text_color"
+            android:textSize="12sp"
+            tools:text="皮试" />
+
+        <TextView
+            android:id="@+id/tv_oeporderinfo_orderfrequency2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:textColor="@color/dhcc_ordersearch_text_color"
+            android:textSize="12sp"
+            tools:text="QD" />
+
+        <TextView
+            android:id="@+id/tv_oeporderinfo_ordercreator2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/dhcc_ordersearch_text_color"
+            android:textSize="12sp"
+            tools:text="严医生" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.base.commlibs.constant.SharedPreference;
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.SPUtils;
 
 import org.ksoap2.SoapEnvelope;
@@ -135,7 +136,7 @@ public class BaseWebServiceUtils {
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 // 将返回值回调到callBack的参数中
-                Log.e("json result", (String) msg.obj);
+                LogUtils.e(msg.obj);
                 webServiceCallBack.callBack((String) msg.obj);
             }
 

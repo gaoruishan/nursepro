@@ -61,7 +61,7 @@
             <View
                 android:layout_width="@dimen/dp_7"
                 android:layout_height="@dimen/dp_7"
-                android:background="@drawable/point_circle"
+                android:background="@drawable/dhcc_point_circle"
                 android:layout_marginLeft="@dimen/dp_10"
                 android:layout_marginRight="10dp"
                 />

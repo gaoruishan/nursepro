@@ -73,21 +73,25 @@ public abstract class BaseInfusionFragment extends BaseFragment {
      * @return
      */
     protected boolean checkListOeoreId(List<OrdListBean> list, String s) {
+        //对于空List
+        if (list == null || list.size() == 0) {
+            return false;
+        }
         //检验
         boolean isContain = false;
         listId = new ArrayList<>();
+        if (scanInfo.contains("-")) {
+            scanInfo = scanInfo.replaceAll("-", "\\|\\|");
+        }
         for (OrdListBean b : list) {
             listId.add(b.getOeoreId());
             String bOeoreId = b.getOeoreId();
-            if (bOeoreId.contains("-")) {
-                bOeoreId = bOeoreId.replaceAll("-", "\\|\\|");
-            }
             //不包含|| 或者-的扫码结果
             if (bOeoreId.equals(scanInfo)) {
                 isContain = true;
                 break;
             }
-            if (scanInfo != null && !scanInfo.contains("\\|\\|")) {
+            if (scanInfo != null && !scanInfo.contains("||")) {
                 isContain = true;
                 break;
             }

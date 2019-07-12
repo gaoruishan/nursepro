@@ -25,8 +25,8 @@ import com.dhcc.module.infusion.message.bean.MessageSkinBean;
 import com.dhcc.module.infusion.message.bean.NotifyMessageBean;
 import com.dhcc.module.infusion.utils.AdapterFactory;
 import com.dhcc.module.infusion.utils.RecyclerViewHelper;
-import com.dhcc.module.infusion.view.CustomPatView;
-import com.dhcc.module.infusion.view.CustomTabView;
+import com.dhcc.res.infusion.CustomPatView;
+import com.dhcc.res.infusion.CustomTabView;
 import com.dhcc.module.infusion.workarea.PatInfoFragment;
 
 import java.util.List;
@@ -37,9 +37,8 @@ import java.util.List;
  */
 public class MessageFragment extends BaseFragment implements CustomTabView.OnTabClickLisenter, BaseQuickAdapter.OnItemChildClickListener {
     //登陆成功后所有的广播信息全部注销了，在此重新注册
-    protected BaseReceiver mReceiver = new BaseReceiver();
-    protected IntentFilter mfilter = new IntentFilter();
-    private CustomTabView ctv;
+    protected BaseReceiver mReceiver;
+    protected IntentFilter mfilter;
     private RecyclerView[] recyclerViews;
     private MessageInfusionAdapter messageInfusionAdapter;
     private MessageSkinAdapter messageSkinAdapter;
@@ -68,10 +67,10 @@ public class MessageFragment extends BaseFragment implements CustomTabView.OnTab
 
             @Override
             public void onSuccess(MessageInfusionBean bean, String type) {
+                messageInfusionAdapter.replaceData(bean.getInfusionTimeList());
                 if (bean.getInfusionTimeList() != null && bean.getInfusionTimeList().size() > 0) {
                     bean.setTypeItem(MessageInfusionBean.TYPE_2);
                     f(R.id.ll_empty).setVisibility(View.GONE);
-                    messageInfusionAdapter.replaceData(bean.getInfusionTimeList());
                 } else if (mCurrentPosition == 1) {//输液
                     f(R.id.ll_empty).setVisibility(View.VISIBLE);
                 }
@@ -86,9 +85,9 @@ public class MessageFragment extends BaseFragment implements CustomTabView.OnTab
             @Override
             public void onSuccess(MessageSkinBean bean, String type) {
                 List<MessageSkinBean.SkinTimeListBean> skinTimeList = bean.getSkinTimeList();
+                messageSkinAdapter.replaceData(skinTimeList);
                 if (skinTimeList != null && skinTimeList.size() > 0) {
                     f(R.id.ll_empty).setVisibility(View.GONE);
-                    messageSkinAdapter.replaceData(skinTimeList);
                 } else if (mCurrentPosition == 0) {//皮试
                     f(R.id.ll_empty).setVisibility(View.VISIBLE);
                 }
@@ -104,10 +103,10 @@ public class MessageFragment extends BaseFragment implements CustomTabView.OnTab
             public void onSuccess(NotifyMessageBean bean, String type) {
                 for (NotifyMessageBean.NotifyMessageListBean b : bean.getNotifyMessageList()) {
                     if ("Infusion".equals(b.getMType())) {//输液
-                        ctv.setTabRedSpot(b.getMNum(), 1);
+                        f(R.id.ctv,CustomTabView.class).setTabRedSpot(b.getMNum(), 1);
                     }
                     if ("Skin".equals(b.getMType())) {//皮试
-                        ctv.setTabRedSpot(b.getMNum(), 0);
+                        f(R.id.ctv,CustomTabView.class).setTabRedSpot(b.getMNum(), 0);
                     }
                 }
             }
@@ -136,9 +135,12 @@ public class MessageFragment extends BaseFragment implements CustomTabView.OnTab
         if (getActivity() == null) {
             return;
         }
+        mReceiver = new BaseReceiver();
+        mfilter = new IntentFilter();
         setStatusBarBackgroundViewVisibility(false, 0xffffffff);
-        ctv = view.findViewById(R.id.ctv);
-        ctv.setTabText(new String[]{"皮试", "输液"}).setOnTabClickLisenter(this);
+        CustomTabView ctv = view.findViewById(R.id.ctv);
+        ctv.setTabText(new String[]{"皮试", "输液"});
+        ctv.setOnTabClickLisenter(this);
         RecyclerView rvMsgSkin = RecyclerViewHelper.get(getActivity(), R.id.rv_msg_skin);
         RecyclerView rvMsgInfusion = RecyclerViewHelper.get(getActivity(), R.id.rv_msg_infusion);
         recyclerViews = new RecyclerView[]{rvMsgSkin, rvMsgInfusion};
@@ -178,7 +180,7 @@ public class MessageFragment extends BaseFragment implements CustomTabView.OnTab
             MessageInfusionBean.InfusionTimeListBean bean = (MessageInfusionBean.InfusionTimeListBean) adapter.getData().get(position);
             if (!TextUtils.isEmpty(bean.getPatRegNo())) {
                 bundle.putString("id", bean.getPatRegNo());
-                CustomPatView.startPatInfoFragment(getContext(), PatInfoFragment.class, bundle);
+                CustomPatView.startPatInfoFragment(getContext(), PatInfoFragment.class.getName(), bundle);
             }
         }
     }

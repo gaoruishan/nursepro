@@ -482,7 +482,7 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
                 mExitTime = System.currentTimeMillis();
             } else {
                 //小于2000ms则认为是用户确实希望退出程序
-                finish();
+                exit();
             }
             return true;
         }

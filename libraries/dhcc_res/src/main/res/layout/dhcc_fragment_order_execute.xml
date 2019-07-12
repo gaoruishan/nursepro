@@ -1,53 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+              android:orientation="vertical"
 >
-
-    <RelativeLayout
-        android:id="@+id/rl_orderexecute_scan"
+    <com.dhcc.res.infusion.CustomScanView
+        android:id="@+id/custom_scan"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        android:focusable="true"
-        android:focusableInTouchMode="true">
-
-        <TextView
-            android:id="@+id/tv_orderexecute_warning"
-            android:layout_width="@dimen/dp_260"
-            android:layout_height="@dimen/dp_55"
-            android:layout_centerInParent="true"
-            android:background="#FFF5FAFF"
-            android:gravity="center"
-            android:text="请您使用扫码设备，扫描病人腕带"
-            android:textColor="#FF9B9B9B"
-            android:textSize="@dimen/sp_14" />
-
-        <TextView
-            android:id="@+id/tv_orderexecute_warningtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/tv_orderexecute_warning"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="@dimen/dp_30"
-            android:text="请扫描腕带"
-            android:textColor="#FF62ABFF"
-            android:textSize="@dimen/sp_20"
-            android:textStyle="bold" />
-
-        <ImageView
-            android:layout_width="@dimen/dp_60"
-            android:layout_height="@dimen/dp_91"
-            android:layout_above="@+id/tv_orderexecute_warningtitle"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="@dimen/dp_10"
-            android:src="@drawable/dhcc_icon_patient_scan" />
-
-    </RelativeLayout>
-
+        android:layout_height="match_parent"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -60,13 +22,11 @@
             android:layout_weight="1"
             android:orientation="horizontal">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recy_orderexecute_ordertype"
-                android:layout_width="@dimen/dp_85"
-                android:layout_height="match_parent"
-                android:background="@color/dhcc_orderexecute_left_bgcolor">
-
-            </android.support.v7.widget.RecyclerView>
+            <com.dhcc.res.infusion.CustomSheetListView
+                android:id="@+id/custom_sheet_list"
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:layout_height="wrap_content"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -80,12 +40,12 @@
                     android:background="@color/white"
                     android:gravity="center"
                     android:textColor="@color/dhcc_orderexecute_text_color"
-                    tools:text="01床 张患者" />
+                    tools:text="01床 张患者"/>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_2"
-                    android:background="#f6f6f6" />
+                    android:background="#f6f6f6"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -98,7 +58,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp_1"
                         android:layout_marginEnd="@dimen/dp_8"
-                        android:src="@drawable/dhcc_icon_time_bottom" />
+                        android:src="@drawable/dhcc_icon_time_bottom"/>
 
                     <TextView
                         android:id="@+id/tv_orderexecute_startdatetime"
@@ -106,7 +66,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/dhcc_orderexecute_text_color"
                         android:textSize="@dimen/sp_12"
-                        tools:text="2018-08-23 10:00" />
+                        tools:text="2018-08-23 10:00"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -116,7 +76,7 @@
                         android:layout_marginEnd="@dimen/dp_8"
                         android:text="至"
                         android:textColor="#62abff"
-                        android:textSize="@dimen/sp_13" />
+                        android:textSize="@dimen/sp_13"/>
 
                     <TextView
                         android:id="@+id/tv_orderexecute_enddatetime"
@@ -124,14 +84,14 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/dhcc_orderexecute_text_color"
                         android:textSize="@dimen/sp_12"
-                        tools:text="2018-08-23 10:00" />
+                        tools:text="2018-08-23 10:00"/>
 
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_5"
-                    android:background="#f6f6f6" />
+                    android:background="#f6f6f6"/>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recy_orderexecute_patorder"
@@ -151,14 +111,15 @@
             android:background="#9b9b9b"
             android:gravity="center_vertical"
             android:paddingStart="@dimen/dp_16"
-            android:visibility="gone">
+            android:visibility="gone"
+        >
 
             <TextView
                 android:id="@+id/tv_bottom_noselecttext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                tools:text="请您选择需执行的医嘱" />
+                tools:text="请您选择需执行的医嘱"/>
         </LinearLayout>
 
         <LinearLayout
@@ -181,7 +142,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
-                    tools:text="已选择2个" />
+                    tools:text="已选择2个"/>
 
                 <View
                     android:id="@+id/view_bottom_handleline"
@@ -189,7 +150,7 @@
                     android:layout_height="@dimen/dp_16"
                     android:layout_marginStart="@dimen/dp_6"
                     android:layout_marginEnd="@dimen/dp_6"
-                    android:background="@color/white" />
+                    android:background="@color/white"/>
 
                 <TextView
                     android:id="@+id/tv_bottom_handletype"
@@ -197,7 +158,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="接受"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"/>
 
                 <ImageView
                     android:id="@+id/img_bottom_handlesure"
@@ -205,14 +166,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_6"
                     android:layout_marginBottom="@dimen/dp_1"
-                    android:src="@drawable/dhcc_icon_bottom_selected" />
+                    android:src="@drawable/dhcc_icon_bottom_selected"/>
             </LinearLayout>
 
 
             <View
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_weight="1"/>
 
 
             <TextView
@@ -223,7 +184,7 @@
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="@dimen/sp_16"
-                tools:text="撤销执行" />
+                tools:text="撤销执行"/>
 
             <TextView
                 android:id="@+id/tv_bottom_todo"
@@ -233,7 +194,7 @@
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="@dimen/sp_16"
-                tools:text="执行" />
+                tools:text="执行"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

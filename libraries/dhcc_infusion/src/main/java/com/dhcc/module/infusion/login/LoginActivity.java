@@ -16,22 +16,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.base.commlibs.BaseActivity;
+import com.base.commlibs.bean.BroadcastListBean;
+import com.base.commlibs.bean.LoginBean;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommonCallBack;
+import com.base.commlibs.utils.UserUtil;
 import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.db.GreenDaoHelper;
 import com.dhcc.module.infusion.db.InfusionInfo;
-import com.dhcc.module.infusion.greendao.DaoSession;
 import com.dhcc.module.infusion.login.api.LoginApiManager;
-import com.dhcc.module.infusion.login.bean.BroadcastListBean;
-import com.dhcc.module.infusion.login.bean.LoginBean;
 import com.dhcc.module.infusion.login.bean.ScanCodeBean;
 import com.dhcc.module.infusion.login.windowpicker.Ward;
 import com.dhcc.module.infusion.login.windowpicker.Window;
 import com.dhcc.module.infusion.login.windowpicker.WindowPicker;
-import com.dhcc.module.infusion.utils.AppUtil;
 import com.dhcc.module.infusion.utils.TransBroadcastUtil;
 import com.google.gson.Gson;
 
@@ -48,7 +47,6 @@ import cn.qqtheme.framework.widget.WheelView;
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
 
 
-    DaoSession daoSession = GreenDaoHelper.getDaoSession();
     private EditText etLoginUsercode;
     private ImageView imgLoginUsercodeClear;
     private EditText etLoginPassword;
@@ -65,21 +63,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private String logonWardId;
 
     private boolean remem = false;
-    private String rememUserCode;
 
-    private SPUtils spUtils = SPUtils.getInstance();
-
-    private String LocJson = "";
-    private String WinJson = "";
-
-    private TextView tvIp;
     private SetIPDialog showDialog;
     private WindowPicker picker;
 
     private Map mapaaa = new HashMap();
     private List listaaa = new ArrayList();
 
-    private String scanInfo;
     private String scanFlag="";
 
     @Override
@@ -87,10 +77,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_infusion);
         setToolbarType(ToolbarType.HIDE);
-        AppUtil.checkWebIp();
-        AppUtil.checkWebPath();
-        AppUtil.setLoginLocType();
-        nurseInfoList = daoSession.getInfusionInfoDao().queryBuilder().list();
+        UserUtil.checkWebIp();
+        UserUtil.checkWebPath();
+        UserUtil.setLoginLocType();
+        nurseInfoList = GreenDaoHelper.getDaoSession().getInfusionInfoDao().queryBuilder().list();
         initView();
         //注册扫码监听
         registerScanMsgReceiver();
@@ -123,10 +113,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void onResume(@Nullable Bundle args) {
         super.onResume(args);
-        remem = spUtils.getBoolean(SharedPreference.REMEM);
+        remem = SPUtils.getInstance().getBoolean(SharedPreference.REMEM);
         if (remem) {
             llLoginRememberme.setSelected(true);
-            rememUserCode = spUtils.getString(SharedPreference.REMEM_USERCODE);
+            String rememUserCode = SPUtils.getInstance().getString(SharedPreference.REMEM_USERCODE);
             etLoginUsercode.setText(rememUserCode);
             etLoginPassword.requestFocus();
         } else {
@@ -137,7 +127,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     @Override
     public void getScanMsg(Intent intent) {
         super.getScanMsg(intent);
-        scanInfo = doScanInfo(intent);
+        String scanInfo = doScanInfo(intent);
         if (scanInfo != null) {
             etLoginUsercode.setText("");
             etLoginUsercode.setText(scanInfo);
@@ -163,7 +153,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         llLoginRememberme = findViewById(R.id.ll_login_rememberme);
         llLoginRememberme.setOnClickListener(this);
 
-        tvIp = findViewById(R.id.tv_login_setip);
+        View tvIp = findViewById(R.id.tv_login_setip);
         tvIp.setOnClickListener(this);
 
 
@@ -198,7 +188,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     for (int i = 0; i < nurseInfoList.size(); i++) {
                         InfusionInfo nurseInfo = nurseInfoList.get(i);
                         if (userCode.equals(nurseInfo.getUserCode())) {
-                            tvLoginWard.setText(nurseInfo.getLocDesc() + " " + AppUtil.getWindowName());
+                            tvLoginWard.setText(nurseInfo.getLocDesc() + " " + UserUtil.getWindowName());
                             tvLoginWard.setTextColor(Color.parseColor("#000000"));
                             logonWardId = nurseInfo.getWardId();
                             loginNurseInfo = nurseInfo;
@@ -313,13 +303,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         if (v.getId() == R.id.tv_login_setip) {
             showDialog = new SetIPDialog(this);
             showDialog.setTitle("结果");
-            showDialog.setMessage(spUtils.getString(SharedPreference.WEBIP),spUtils.getString(SharedPreference.WEBPATH));
+            showDialog.setMessage(SPUtils.getInstance().getString(SharedPreference.WEBIP),SPUtils.getInstance().getString(SharedPreference.WEBPATH));
             showDialog.setYesOnclickListener("确定", new SetIPDialog.onYesOnclickListener() {
                 @Override
                 public void onYesClick() {
                     String ip = showDialog.getIp();
                     if (isIP(ip)) {
-                        AppUtil.setWebIpAndPath(ip,showDialog.getAddr());
+                        UserUtil.setWebIpAndPath(ip,showDialog.getAddr());
                         //重写请求
                         getBroadcastList();
                         showDialog.dismiss();
@@ -387,7 +377,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
 
     private void initData(final String action, final InfusionInfo nurseInfo) {
-        nurseInfoList = daoSession.getInfusionInfoDao().queryBuilder().list();
+        nurseInfoList = GreenDaoHelper.getDaoSession().getInfusionInfoDao().queryBuilder().list();
         LoginApiManager.getLogin(userCode, password, logonWardId, scanFlag,new CommonCallBack<LoginBean>() {
             @Override
             public void onSuccess(final LoginBean loginBean, String type) {
@@ -417,9 +407,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     list.add(map);
                 }
                 Gson gson = new Gson();
-                LocJson = gson.toJson(list);
-                WinJson = gson.toJson(mapaaa);
-                AppUtil.setLocWinListJson(LocJson, WinJson);
+                String locjson = gson.toJson(list);
+                String winjson = gson.toJson(mapaaa);
+                UserUtil.setLocWinListJson(locjson, winjson);
 
                 //选择科室
                 if ("ward".equals(action)) {
@@ -468,13 +458,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         //本地数据库未保存用户信息，数据库添加用户数据，SP设置用户数据，跳转页面
                         if (k >= nurseInfoList.size()) {
                             //                            Toast.makeText(LoginActivity.this, "login----不存在，插入新数据", Toast.LENGTH_SHORT).show();
-                            daoSession.getInfusionInfoDao().insert(loginNurseInfo);
+                            GreenDaoHelper.getDaoSession().getInfusionInfoDao().insert(loginNurseInfo);
                             saveToAcitvity(loginBean);
                         }
                     } else {
                         //本地数据库未存储用户登录数据，数据库添加用户数据，SP设置用户数据，跳转页面
                         //                        Toast.makeText(LoginActivity.this, "login----不存在，插入新数据", Toast.LENGTH_SHORT).show();
-                        daoSession.getInfusionInfoDao().insert(loginNurseInfo);
+                        GreenDaoHelper.getDaoSession().getInfusionInfoDao().insert(loginNurseInfo);
                         saveToAcitvity(loginBean);
                     }
                 }
@@ -492,49 +482,25 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private void saveToAcitvity(LoginBean loginBean) {
         List<BroadcastListBean> broadcastList = loginBean.getBroadcastList();
         TransBroadcastUtil.setScanActionList(broadcastList);
-        saveUserInfo();
+        saveUserInfo(loginBean);
         startActivity(new Intent(Action.MainActivity));
         finish();
     }
 
     /**
      * 本地存储数据
+     * @param loginBean
      */
-    private void saveUserInfo() {
+    private void saveUserInfo(LoginBean loginBean) {
         //是否“记住我”
         if (remem) {
-            AppUtil.setRememberUserCode(true, userCode);
+            UserUtil.setRememberUserCode(true, userCode);
         } else {
-            spUtils.put(SharedPreference.REMEM, false);
-            spUtils.put(SharedPreference.REMEM_USERCODE, "");
+            UserUtil.setRememberUserCode(false,"");
         }
-        /*
-          更新SP数据
-          userCode
-          userId : 3
-          userName : innurse
-          hospitalRowId : 2
-          groupId : 132
-          groupDesc : Inpatient Nurse
-          linkLoc : 110
-          locId : 197
-          locDesc : 内分泌科护理单元
-          wardId : 5
-          schEnDateTime : 13/08/2018,23:59:59
-          schStDateTime : 13/08/2018,00:00:00
-         */
-        spUtils.put(SharedPreference.USERCODE, userCode);
-        spUtils.put(SharedPreference.USERID, loginNurseInfo.getUserId());
-        spUtils.put(SharedPreference.USERNAME, loginNurseInfo.getUserName());
-        spUtils.put(SharedPreference.HOSPITALROWID, loginNurseInfo.getHospitalRowId());
-        spUtils.put(SharedPreference.GROUPID, loginNurseInfo.getGroupId());
-        spUtils.put(SharedPreference.GROUPDESC, loginNurseInfo.getGroupDesc());
-        spUtils.put(SharedPreference.LINKLOC, loginNurseInfo.getLinkLoc());
-        spUtils.put(SharedPreference.LOCID, loginNurseInfo.getLocId());
-        spUtils.put(SharedPreference.LOCDESC, loginNurseInfo.getLocDesc());
-        spUtils.put(SharedPreference.WARDID, loginNurseInfo.getWardId());
-        spUtils.put(SharedPreference.SCHSTDATETIME, loginNurseInfo.getSchStDateTime());
-        spUtils.put(SharedPreference.SCHENDATETIME, loginNurseInfo.getSchEnDateTime());
+        UserUtil.setUserInfo(loginBean);
+        UserUtil.setLocsUserInfo(userCode,loginNurseInfo.getHospitalRowId(),loginNurseInfo.getGroupId(),loginNurseInfo.getGroupDesc()
+        ,loginNurseInfo.getLinkLoc(),loginNurseInfo.getLocId(), loginNurseInfo.getLocDesc(),loginNurseInfo.getWardId());
     }
 
     /**
@@ -569,7 +535,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void onPicked(Ward first, Window second, Void third) {
 //                showToast(first.getName()+"----"+second.getWindId());
-                spUtils.put(SharedPreference.WINDOWNAME, second.getName());
+                UserUtil.setWindowName(second.getName());
                 {
                     int index = picker.getSelectedFirstIndex();
                     LoginBean.LocsBean locsBean = locsBeanList.get(index);
@@ -599,7 +565,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                 //本地数据库包含当前用户登录数据，设置id，更新数据库数据
                                 //                                        Toast.makeText(LoginActivity.this, "ward----已存在,更新数据", Toast.LENGTH_SHORT).show();
                                 loginNurseInfo.setId(nurseInfo1.getId());
-                                daoSession.getInfusionInfoDao().update(loginNurseInfo);
+                                GreenDaoHelper.getDaoSession().getInfusionInfoDao().update(loginNurseInfo);
                                 initData("login", loginNurseInfo);
                                 break;
                             }
@@ -608,14 +574,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         if (j >= nurseInfoList.size()) {
                             //本地数据库不包含当前用户登录数据，新增数据库数据
                             //                                    Toast.makeText(LoginActivity.this, "ward----不存在，插入新数据", Toast.LENGTH_SHORT).show();
-                            daoSession.getInfusionInfoDao().insert(loginNurseInfo);
+                            GreenDaoHelper.getDaoSession().getInfusionInfoDao().insert(loginNurseInfo);
                             initData("login", loginNurseInfo);
                         }
 
                     } else {
                         //本地数据库为空，直接新增数据库数据
                         //                                Toast.makeText(LoginActivity.this, "ward----不存在，插入新数据", Toast.LENGTH_SHORT).show();
-                        daoSession.getInfusionInfoDao().insert(loginNurseInfo);
+                        GreenDaoHelper.getDaoSession().getInfusionInfoDao().insert(loginNurseInfo);
                         initData("login", loginNurseInfo);
                     }
                 }

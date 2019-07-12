@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/ll_ordersearch_ordertype"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dhcc_bg_ordertype_selector">
+
+        <View
+            android:id="@+id/view_ordersearch_ordertype"
+            android:layout_width="@dimen/dp_5"
+            android:layout_height="match_parent"
+            android:background="#FF70AAF2" />
+
+        <TextView
+            android:id="@+id/tv_ordersearch_ordertype"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/dp_17"
+            android:layout_marginBottom="@dimen/dp_17"
+            android:textColor="@color/black"
+            tools:text="全部" />
+    </LinearLayout>
+
+</LinearLayout>
+    
+

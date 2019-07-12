@@ -35,7 +35,7 @@
                 app:selectedBg="@drawable/bg_circle_light"
                 app:selectedTextColor="@color/blue_dark"
                 app:unSelectTextColor="@color/black"
-                app:unSelectedBg="@drawable/bg_dialog"
+                app:unSelectedBg="@drawable/dhcc_bg_dialog"
             />
 
             <TextView

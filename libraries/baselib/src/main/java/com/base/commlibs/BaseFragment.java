@@ -315,10 +315,10 @@ public class BaseFragment extends Fragment {
      * @param t     指定View类类型
      * @return
      */
-    protected <T extends View> T f(@IdRes int resId, Class<T>... t) {
+    @SafeVarargs
+    protected final <T extends View> T f(@IdRes int resId, Class<T>... t) {
         if (mContainerChild != null) {
-            T viewById =  mContainerChild.findViewById(resId);
-            return viewById;
+            return mContainerChild.findViewById(resId);
         }
         return null;
     }

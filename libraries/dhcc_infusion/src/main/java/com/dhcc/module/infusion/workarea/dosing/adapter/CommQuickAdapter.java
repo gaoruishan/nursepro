@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.MotionEvent;
@@ -60,6 +61,9 @@ public abstract class CommQuickAdapter<T, K extends BaseViewHolder> extends Base
         int position = helper.getAdapterPosition();
         // 显示状态
         helper.setText(R.id.tv_state, item.getOrdState());
+        if ("异常结束".equals(item.getOrdState())) {
+            helper.setTextColor(R.id.tv_state, ContextCompat.getColor(mContext,R.color.ic_ord_state_unexpect));
+        }
         // 医生说明
         boolean empty = TextUtils.isEmpty(item.getNotes());
         helper.setGone(R.id.ll_notes, !empty);

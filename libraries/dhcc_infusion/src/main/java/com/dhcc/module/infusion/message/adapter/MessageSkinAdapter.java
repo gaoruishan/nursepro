@@ -16,8 +16,8 @@ import com.dhcc.module.infusion.message.api.MessageApiManager;
 import com.dhcc.module.infusion.message.bean.MessageSkinBean;
 import com.dhcc.module.infusion.utils.DialogFactory;
 import com.dhcc.module.infusion.utils.RecyclerViewHelper;
-import com.dhcc.module.infusion.view.CountView;
-import com.dhcc.module.infusion.view.CustomPatView;
+import com.dhcc.res.infusion.CountView;
+import com.dhcc.res.infusion.CustomPatView;
 import com.dhcc.module.infusion.view.SelectTextView;
 import com.dhcc.module.infusion.workarea.dosing.adapter.CommQuickAdapter;
 

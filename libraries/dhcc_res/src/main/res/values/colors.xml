@@ -21,7 +21,12 @@
 
     <color name="dhcc_orderexecute_left_bgcolor">#DFEEFF</color>
     <color name="dhcc_orderexecute_text_color">#4A4A4A</color>
-    <color name="orderexecute_left_text_normal_color">#000000</color>
-    <color name="orderexecute_left_text_selected_color">#4A90E2</color>
+    <color name="dhcc_orderexecute_left_text_normal_color">#000000</color>
+    <color name="dhcc_orderexecute_left_text_selected_color">#4A90E2</color>
 
+    <color name="dhcc_bedmap_left_bgcolor">#DFEEFF</color>
+    <color name="dhcc_ordersearch_left_text_selected_color">#4A90E2</color>
+    <color name="dhcc_ordersearch_left_text_normal_color">#000000</color>
+    <color name="dhcc_text_view_text_color">#666666</color>
+    <color name="dhcc_ordersearch_text_color">#4A4A4A</color>
 </resources>

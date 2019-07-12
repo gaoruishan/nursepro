@@ -22,7 +22,7 @@ import com.dhcc.module.infusion.setting.api.SettingApiManeger;
 import com.dhcc.module.infusion.setting.bean.WorkStatisticsBean;
 import com.dhcc.module.infusion.utils.AdapterFactory;
 import com.dhcc.module.infusion.utils.RecyclerViewHelper;
-import com.dhcc.module.infusion.view.CustomBarChart;
+import com.dhcc.res.infusion.CustomBarChart;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;

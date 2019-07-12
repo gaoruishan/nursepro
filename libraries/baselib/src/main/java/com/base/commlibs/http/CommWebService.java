@@ -36,7 +36,7 @@ public class CommWebService {
      * @param properties
      */
     public static void call(String methodName, HashMap<String, String> properties, final ServiceCallBack callBack) {
-        BaseWebServiceUtils.callWebOPPDAService( methodName, properties, new BaseWebServiceUtils.WebServiceCallBack() {
+        BaseWebServiceUtils.callWebOPPDAService(methodName, properties, new BaseWebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callBack.onResult(result);
@@ -51,7 +51,7 @@ public class CommWebService {
      * @param callBack
      */
     public static void callNurse(String methodName, HashMap<String, String> properties, final ServiceCallBack callBack) {
-        BaseWebServiceUtils.callWebPDAService( methodName, properties, new BaseWebServiceUtils.WebServiceCallBack() {
+        BaseWebServiceUtils.callWebPDAService(methodName, properties, new BaseWebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callBack.onResult(result);
@@ -82,8 +82,7 @@ public class CommWebService {
         if (properties == null) {
             properties = new HashMap<String, String>();
         }
-        SPUtils spUtils = SPUtils.getInstance();
-        properties.put("locId", spUtils.getString(SharedPreference.LOCID));
+        properties.put("locId", SPUtils.getInstance().getString(SharedPreference.LOCID));
         return properties;
     }
 
@@ -96,10 +95,10 @@ public class CommWebService {
         if (properties == null) {
             properties = new HashMap<String, String>();
         }
-        SPUtils spUtils = SPUtils.getInstance();
-        properties.put("userId", spUtils.getString(SharedPreference.USERID));
+        properties.put("userId", SPUtils.getInstance().getString(SharedPreference.USERID));
         return properties;
     }
+
     /**
      * 添加病房ID
      * @param properties
@@ -109,9 +108,35 @@ public class CommWebService {
         if (properties == null) {
             properties = new HashMap<String, String>();
         }
-        SPUtils spUtils = SPUtils.getInstance();
-        properties.put("wardId", spUtils.getString(SharedPreference.WARDID));
+        properties.put("wardId", SPUtils.getInstance().getString(SharedPreference.WARDID));
         return properties;
     }
+
+    /**
+     * 添加医院ID
+     * @param properties
+     * @return
+     */
+    public static HashMap<String, String> addHospitalId(HashMap<String, String> properties) {
+        if (properties == null) {
+            properties = new HashMap<String, String>();
+        }
+        properties.put("hospitalId", SPUtils.getInstance().getString(SharedPreference.HOSPITALROWID));
+        return properties;
+    }
+
+    /**
+     * 添加组ID
+     * @param properties
+     * @return
+     */
+    public static HashMap<String, String> addGroupId(HashMap<String, String> properties) {
+        if (properties == null) {
+            properties = new HashMap<String, String>();
+        }
+        properties.put("groupId", SPUtils.getInstance().getString(SharedPreference.GROUPID));
+        return properties;
+    }
+
 
 }

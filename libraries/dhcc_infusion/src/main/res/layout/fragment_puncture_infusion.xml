@@ -35,7 +35,7 @@
     <View android:layout_width="match_parent" android:layout_height="@dimen/dp_1"
           android:background="@color/bg_blue_light"/>
     <!--扫码-->
-    <com.dhcc.module.infusion.view.CustomScanView
+    <com.dhcc.res.infusion.CustomScanView
         android:id="@+id/csv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -43,7 +43,7 @@
     <!--穿刺情况-->
     <include layout="@layout/layout_puncture_status"/>
 
-    <com.dhcc.module.infusion.view.CustomPatView
+    <com.dhcc.res.infusion.CustomPatView
         android:id="@+id/cpv_pat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -13,21 +13,21 @@
         android:orientation="vertical">
         <include layout="@layout/custom_select_view"/>
 
-        <com.dhcc.module.infusion.view.CustomSpeedView
+        <com.dhcc.res.infusion.CustomSpeedView
             android:id="@+id/csv_speed"
             android:layout_marginTop="@dimen/dp_20"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_120"
             android:orientation="vertical">
-        </com.dhcc.module.infusion.view.CustomSpeedView>
+        </com.dhcc.res.infusion.CustomSpeedView>
 
-        <com.dhcc.module.infusion.view.CustomSelectView
+        <com.dhcc.res.infusion.CustomSelectView
             android:id="@+id/csv_select"
             android:layout_width="match_parent"
             android:layout_marginTop="@dimen/dp_20"
             android:layout_height="wrap_content">
 
-        </com.dhcc.module.infusion.view.CustomSelectView>
+        </com.dhcc.res.infusion.CustomSelectView>
     </LinearLayout>
 
     <TextView

@@ -9,7 +9,7 @@ import android.os.Bundle;
 
 import com.base.commlibs.constant.Action;
 import com.blankj.utilcode.util.StringUtils;
-import com.dhcc.module.infusion.login.bean.BroadcastListBean;
+import com.base.commlibs.bean.BroadcastListBean;
 
 import java.util.List;
 import java.util.Objects;

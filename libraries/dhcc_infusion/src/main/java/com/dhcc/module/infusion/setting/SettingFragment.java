@@ -18,7 +18,7 @@ import com.dhcc.module.infusion.db.GreenDaoHelper;
 import com.dhcc.module.infusion.db.InfusionInfo;
 import com.dhcc.module.infusion.greendao.DaoSession;
 import com.dhcc.module.infusion.login.LoginActivity;
-import com.dhcc.module.infusion.utils.AppUtil;
+import com.base.commlibs.utils.UserUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -103,7 +103,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         tvLoc.setText(spUtils.getString(SharedPreference.LOCDESC));
         tvWin = view.findViewById(R.id.tv_setting_window);
         tvWin.setOnClickListener(this);
-        tvWin.setText(AppUtil.getWindowName());
+        tvWin.setText(UserUtil.getWindowName());
 
         tvRelogin =view.findViewById(R.id.tv_setting_relogin);
         tvRelogin.setOnClickListener(this);
@@ -169,7 +169,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 @Override
                 public void onOptionPicked(int index, String item) {
                     spUtils.put(SharedPreference.WINDOWNAME,item);
-                    tvWin.setText(AppUtil.getWindowName());
+                    tvWin.setText(UserUtil.getWindowName());
                 }
             });
             picker.show();

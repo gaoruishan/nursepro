@@ -1,5 +1,6 @@
 package com.dhcc.module.infusion.login.bean;
 
+import com.base.commlibs.bean.BroadcastListBean;
 import com.base.commlibs.http.CommResult;
 
 import java.util.List;

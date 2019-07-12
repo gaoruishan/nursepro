@@ -56,7 +56,7 @@ public class DetailLogAdapter extends CommQuickAdapter<OrdInfoBean.OrdInfoArrBea
             tvStateTag.setText(item.getWorkType());
         }
         //拔针 #16C295
-        if ("Extract".equals(item.getWorkCode())) {
+        if ("Finish".equals(item.getWorkCode())) {
             ViewUtil.setBgRadiusColor(tvStateTag, 10, "#16C295");
             tvStateTag.setText(item.getWorkType());
         }

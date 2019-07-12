@@ -23,11 +23,11 @@ public  class PatInfoBean {
      */
     public int getPatSexDrawable() {
         if ("男".equals(PatSex)) {
-            return R.drawable.infusion_sex_male;
+            return R.drawable.dhcc_sex_male;
         } else if ("女".equals(PatSex)) {
-            return R.drawable.infusion_sex_female;
+            return R.drawable.dhcc_sex_female;
         } else {
-            return R.drawable.infusion_sex_male;
+            return R.drawable.dhcc_sex_male;
         }
     }
 

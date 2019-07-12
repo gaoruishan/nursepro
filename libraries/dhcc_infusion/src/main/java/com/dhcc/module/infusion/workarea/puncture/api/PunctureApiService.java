@@ -4,7 +4,7 @@ import android.text.TextUtils;
 
 import com.base.commlibs.http.CommWebService;
 import com.base.commlibs.http.ServiceCallBack;
-import com.dhcc.module.infusion.utils.AppUtil;
+import com.base.commlibs.utils.UserUtil;
 
 import java.util.HashMap;
 
@@ -32,7 +32,7 @@ public class PunctureApiService {
         }
         properties.put("barCode", barCode);
 
-        String windowName = AppUtil.getWindowName();
+        String windowName = UserUtil.getWindowName();
         properties.put("winCode", windowName);
 
         CommWebService.callUserIdLocId("getPunctOrdList",properties,callBack);
