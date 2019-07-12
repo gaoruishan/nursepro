@@ -220,6 +220,7 @@
             android:text="事件登记" />
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/tv_vitalsign_tmp_preview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
