@@ -41,7 +41,7 @@ public class DetailLogAdapter extends CommQuickAdapter<OrdInfoBean.OrdInfoArrBea
         });
         //配液 #5DC1FD
         if ("Despensing".equals(item.getWorkCode())||
-        "DesAudit".equals(item.getWorkCode())) {
+        "AuditDes".equals(item.getWorkCode())) {
             ViewUtil.setBgRadiusColor(tvStateTag, 10, "#5DC1FD");
             tvStateTag.setText(item.getWorkType());
         }

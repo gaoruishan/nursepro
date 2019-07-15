@@ -23,8 +23,8 @@ import com.dhcc.module.infusion.setting.bean.WorkStatisticsBean;
 import com.dhcc.module.infusion.utils.AdapterFactory;
 import com.dhcc.module.infusion.utils.RecyclerViewHelper;
 import com.dhcc.res.infusion.CustomBarChart;
+import com.dhcc.res.infusion.CustomDateTimeView;
 import com.jzxiang.pickerview.TimePickerDialog;
-import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ import java.util.List;
  * @date:202019-04-22/15:43
  * @email:grs0515@163.com
  */
-public class WorkStatisticsFragment extends BaseFragment implements View.OnClickListener {
+public class WorkStatisticsFragment extends BaseFragment{
     private static final long ONE_DAY = 24 * 60 * 60 * 1000L;
     private BaseHelper helper;
     private WorkStatisticsAdapter workStatisticsAdapter;
@@ -56,19 +56,35 @@ public class WorkStatisticsFragment extends BaseFragment implements View.OnClick
         showToolbarNavigationIcon(R.drawable.icon_back_blue);
         setToolbarCenterTitle("工作统计");
         helper = new BaseHelper(this.getActivity());
-        helper.addOnClickListener(this, R.id.tv_choose_date_start);
-        helper.addOnClickListener(this, R.id.tv_choose_date_end);
         RecyclerView rv = RecyclerViewHelper.get(getActivity(), R.id.rv);
         workStatisticsAdapter = AdapterFactory.geWorkStatistics();
         rv.setAdapter(workStatisticsAdapter);
         cbcChart = mContainerChild.findViewById(R.id.cbc_chart);
 
+        setDateTime();
+
+        getWorkLoad();
+    }
+
+    private void setDateTime() {
         String dayStart = CommonUtil.longTimeToDay(System.currentTimeMillis() - ONE_DAY);
         helper.setTextData(R.id.tv_choose_date_start, dayStart);
         String dayEnd = CommonUtil.longTimeToDay(System.currentTimeMillis());
         helper.setTextData(R.id.tv_choose_date_end, dayEnd);
-
-        getWorkLoad();
+        CustomDateTimeView customDateTimeView = f(R.id.custom_cdtv, CustomDateTimeView.class);
+        customDateTimeView.setOnDateSetListener(new OnDateSetListener() {
+            @Override
+            public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
+                helper.setTextData(R.id.tv_choose_date_start, TimeUtils.millis2String(millseconds).substring(0, 10));
+                getWorkLoad();
+            }
+        }, new OnDateSetListener() {
+            @Override
+            public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
+                helper.setTextData(R.id.tv_choose_date_end, TimeUtils.millis2String(millseconds).substring(0, 10));
+                getWorkLoad();
+            }
+        });
     }
 
     private void getWorkLoad() {
@@ -109,53 +125,6 @@ public class WorkStatisticsFragment extends BaseFragment implements View.OnClick
                 helper.setTextData(R.id.tv_all_times, "" + allTimes);
             }
         });
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.tv_choose_date_start) {
-            this.chooseTime(System.currentTimeMillis() - ONE_DAY, new OnDateSetListener() {
-                @Override
-                public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
-                    helper.setTextData(R.id.tv_choose_date_start, TimeUtils.millis2String(millseconds).substring(0, 10));
-                    getWorkLoad();
-                }
-            });
-        }
-        if (v.getId() == R.id.tv_choose_date_end) {
-            this.chooseTime(System.currentTimeMillis(), new OnDateSetListener() {
-                @Override
-                public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
-                    helper.setTextData(R.id.tv_choose_date_end, TimeUtils.millis2String(millseconds).substring(0, 10));
-                    getWorkLoad();
-                }
-            });
-        }
-    }
-
-    public void chooseTime(long currentTimeMillis, OnDateSetListener listener) {
-        long tenYears = 10L * 365 * 1000 * 60 * 60 * 24L;
-
-        TimePickerDialog mDialogAll = new TimePickerDialog.Builder()
-                .setCallBack(listener)
-                .setCancelStringId("取消")
-                .setSureStringId("确认")
-                .setTitleStringId("时间")
-                .setYearText("年")
-                .setMonthText("月")
-                .setDayText("日")
-                .setCyclic(false)
-                .setMinMillseconds(currentTimeMillis - tenYears)
-                .setMaxMillseconds(currentTimeMillis + tenYears)
-                .setCurrentMillseconds(currentTimeMillis)
-                .setThemeColor(getResources().getColor(R.color.colorPrimary))
-                .setType(Type.YEAR_MONTH_DAY)
-                .setWheelItemTextNormalColor(getResources().getColor(R.color.timetimepicker_default_text_color))
-                .setWheelItemTextSelectorColor(getResources().getColor(R.color.colorPrimaryDark))
-                .setWheelItemTextSize(12)
-                .build();
-        mDialogAll.show(getFragmentManager(), "ALL");
-
     }
 
 }

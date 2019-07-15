@@ -3,52 +3,27 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/screen_bg_color"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/screen_bg_color">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <LinearLayout
-            android:focusable="true"
-            android:focusableInTouchMode="true"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_40"
             android:background="#FFF5FAFF"
+            android:focusable="true"
+            android:orientation="horizontal"
+            android:focusableInTouchMode="true"
             android:gravity="center"
         >
-            <ImageView
-                android:layout_width="wrap_content"
+            <com.dhcc.res.infusion.CustomDateTimeView
+                android:id="@+id/custom_cdtv"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/dp_10"
-                android:src="@drawable/infusion_icon_time_bottom"
-            />
-            <TextView
-                android:id="@+id/tv_choose_date_start"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2019-1-20   "
-                android:textColor="#FF4A4A4A"
-                android:textSize="@dimen/sp_12"
-            />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp_20"
-                android:layout_marginRight="@dimen/dp_20"
-                android:text="至"
-                android:textColor="#FF62ABFF"
-                android:textSize="@dimen/sp_14"
-            />
-            <TextView
-                android:id="@+id/tv_choose_date_end"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2019-1-22   "
-                android:textColor="#FF4A4A4A"
-                android:textSize="@dimen/sp_12"
-            />
+                android:orientation="vertical"/>
         </LinearLayout>
 
         <LinearLayout

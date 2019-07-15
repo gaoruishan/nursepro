@@ -14,6 +14,7 @@ import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.RecyclerViewHelper;
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.module.infusion.R;
@@ -22,9 +23,12 @@ import com.dhcc.module.infusion.workarea.orderexecute.adapter.OrderExecutePatOrd
 import com.dhcc.module.infusion.workarea.orderexecute.api.OrderExecuteApiManager;
 import com.dhcc.module.infusion.workarea.orderexecute.bean.OrdScanInfoBean;
 import com.dhcc.module.infusion.workarea.orderexecute.bean.OrderExecuteBean;
+import com.dhcc.res.infusion.CustomDateTimeView;
 import com.dhcc.res.infusion.CustomScanView;
 import com.dhcc.res.infusion.CustomSheetListView;
 import com.dhcc.res.infusion.bean.SheetListBean;
+import com.jzxiang.pickerview.TimePickerDialog;
+import com.jzxiang.pickerview.listener.OnDateSetListener;
 
 import java.util.List;
 
@@ -55,16 +59,7 @@ public class OrderExecuteFragment extends BaseInfusionFragment {
         super.onViewCreated(view, savedInstanceState);
         setToolbarCenterTitle("医嘱执行");
         f(R.id.custom_scan, CustomScanView.class).setTitle("请扫描腕带").setWarning("请您使用扫码设备，扫描病人腕带");
-        String start = spUtils.getString(SharedPreference.SCHSTDATETIME);
-        if (!TextUtils.isEmpty(start)) {
-            startDate = start.substring(0, 10);
-            startTime = start.substring(11, 16);
-        }
-        String end = spUtils.getString(SharedPreference.SCHENDATETIME);
-        if (!TextUtils.isEmpty(end)) {
-            endDate = end.substring(0, 10);
-            endTime = end.substring(11, 16);
-        }
+        setDateTime();
         sheetListView = f(R.id.custom_sheet_list, CustomSheetListView.class);
         sheetListView.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -101,6 +96,42 @@ public class OrderExecuteFragment extends BaseInfusionFragment {
                 }
             }
         });
+    }
+
+    private void setDateTime() {
+        CustomDateTimeView customDateTimeView = f(R.id.custom_cdtv, CustomDateTimeView.class);
+        customDateTimeView.setShowTime(true);
+        customDateTimeView.setOnDateSetListener(new OnDateSetListener() {
+            @Override
+            public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
+                getStartDateTime(TimeUtils.millis2String(millseconds));
+                getOrdList();
+            }
+        }, new OnDateSetListener() {
+            @Override
+            public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
+                String end = TimeUtils.millis2String(millseconds);
+                endDate = end.substring(0, 10);
+                endTime = end.substring(11, 16);
+                getOrdList();
+            }
+        });
+        getStartDateTime(spUtils.getString(SharedPreference.SCHSTDATETIME));
+        getEndDateTime(spUtils.getString(SharedPreference.SCHENDATETIME));
+    }
+
+    private void getEndDateTime(String string) {
+        if (!TextUtils.isEmpty(string)) {
+            endDate = string.substring(0, 10);
+            endTime = string.substring(11, 16);
+        }
+    }
+
+    private void getStartDateTime(String string) {
+        if (!TextUtils.isEmpty(string)) {
+            startDate = string.substring(0, 10);
+            startTime = string.substring(11, 16);
+        }
     }
 
     @Override
