@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
+import com.base.commlibs.utils.UserUtil;
 import com.base.commlibs.wsutils.BaseWebServiceUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
@@ -85,10 +86,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
         setContentView(R.layout.activity_login);
         setToolbarType(ToolbarType.HIDE);
-        IpStr = spUtils.getString(SharedPreference.WEBIP, "noIp");
-        if ("noIp".equals(IpStr)) {
-            spUtils.put(SharedPreference.WEBIP, BaseWebServiceUtils.DEFAULT_IP);
-        }
+        UserUtil.checkWebIp();
+        UserUtil.checkWebPath();
         nurseInfoList = daoSession.getNurseInfoDao().queryBuilder().list();
         initView();
         getBroadCastConfig();
@@ -310,14 +309,20 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             case R.id.tv_login_setip:
                 showDialog = new SetIPDialog(this);
                 showDialog.setTitle("结果");
-                showDialog.setMessage(spUtils.getString(SharedPreference.WEBIP));
+                showDialog.setMessage(spUtils.getString(SharedPreference.WEBIP),spUtils.getString(SharedPreference.WEBPATH));
                 showDialog.setYesOnclickListener("确定", new SetIPDialog.onYesOnclickListener() {
                     @Override
                     public void onYesClick() {
                         if (isIP(showDialog.getIp())) {
-                            spUtils.put(SharedPreference.WEBIP, showDialog.getIp());
-                            showDialog.dismiss();
-                            getBroadCastConfig();
+                            if (TextUtils.isEmpty(showDialog.getAddr())){
+                                showToast("资源路径不能为空");
+                            }else {
+                                spUtils.put(SharedPreference.WEBIP, showDialog.getIp());
+                                spUtils.put(SharedPreference.WEBPATH, showDialog.getAddr());
+                                showDialog.dismiss();
+                                getBroadCastConfig();
+                            }
+
                         } else {
                             showToast("IP格式不正确，请重新输入");
                         }

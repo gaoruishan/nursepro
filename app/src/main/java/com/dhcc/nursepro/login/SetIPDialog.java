@@ -5,8 +5,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.dhcc.nursepro.R;
@@ -26,10 +28,12 @@ public class SetIPDialog extends Dialog {
     private String titleStr;//从外界设置的title文本
     private String messageStrIP;//从外界设置的IP
     private String messageStrPort;//外界到处的端口号
+    private TextView messageRes;//资源路径
     //确定文本和取消文本的显示内容
     private String yesStr, noStr;
     private onNoOnclickListener noOnclickListener;//取消按钮被点击了的监听器
     private onYesOnclickListener yesOnclickListener;//确定按钮被点击了的监听器
+    private String messagePath;
 
     public SetIPDialog(Context context) {
         super(context, R.style.MyDialog);
@@ -85,7 +89,7 @@ public class SetIPDialog extends Dialog {
         no = findViewById(R.id.no);
         messageIP = findViewById(R.id.message);
         messagePort = findViewById(R.id.message2);
-
+        messageRes = (EditText) findViewById(R.id.message3);
     }
 
     /**
@@ -108,6 +112,9 @@ public class SetIPDialog extends Dialog {
         }
         if (noStr != null) {
             no.setText(noStr);
+        }
+        if (!TextUtils.isEmpty(messagePath)) {
+            messageRes.setText(messagePath);
         }
 
     }
@@ -150,7 +157,7 @@ public class SetIPDialog extends Dialog {
      *
      * @param message
      */
-    public void setMessage(String message) {
+    public void setMessage(String message, String path) {
         if (message.contains(":")) {
             //判断":"后面的内容，空的话返回错误，有数字外其他字符也返回错误
             messageStrPort = message.substring(message.indexOf(":") + 1);
@@ -159,9 +166,8 @@ public class SetIPDialog extends Dialog {
             messageStrIP = message;
             messageStrPort = "";
         }
-
+        messagePath = path;
     }
-
 
     public String getIp() {
 
@@ -170,6 +176,19 @@ public class SetIPDialog extends Dialog {
         } else {
             return messageIP.getText().toString() + ":" + messagePort.getText().toString();
         }
+    }
+    public String getAddr() {
+        String path = messageRes.getText().toString();
+        if (!TextUtils.isEmpty(path)) {// 不包含'/'
+            path = path.replaceAll("//", "/");
+            if (!"/".equals(path.substring(0, 1))) {
+                path = "/" + path;
+            }
+            if ("/".equals(path.substring(path.length() - 1))) {
+                path = path.substring(0, path.length() - 1);
+            }
+        }
+        return path;
     }
 
     /**
