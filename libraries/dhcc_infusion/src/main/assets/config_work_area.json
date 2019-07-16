@@ -30,12 +30,6 @@
       "name": "拔针",
       "image": "infusion_main_bz",
       "fragment": "com.dhcc.module.infusion.workarea.needles.NeedlesFragment"
-    },
-    {
-      "id": 105,
-      "name": "医嘱执行",
-      "image": "dhcc_icon_orderexcute",
-      "fragment": "com.dhcc.module.infusion.workarea.orderexecute.OrderExecuteFragment"
     }
   ]
 }

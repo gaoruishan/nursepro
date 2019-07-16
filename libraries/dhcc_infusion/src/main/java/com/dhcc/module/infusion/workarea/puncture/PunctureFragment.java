@@ -1,7 +1,6 @@
 package com.dhcc.module.infusion.workarea.puncture;
 
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -19,12 +18,12 @@ import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.utils.AdapterFactory;
 import com.dhcc.module.infusion.utils.DialogFactory;
 import com.dhcc.module.infusion.utils.RecyclerViewHelper;
-import com.dhcc.res.infusion.CustomPatView;
-import com.dhcc.res.infusion.CustomSelectView;
-import com.dhcc.res.infusion.CustomSpeedView;
 import com.dhcc.module.infusion.workarea.comm.BaseInfusionFragment;
 import com.dhcc.module.infusion.workarea.dosing.adapter.CommDosingAdapter;
 import com.dhcc.module.infusion.workarea.puncture.api.PunctureApiManager;
+import com.dhcc.res.infusion.CustomPatView;
+import com.dhcc.res.infusion.CustomSelectView;
+import com.dhcc.res.infusion.CustomSpeedView;
 
 import java.util.List;
 
@@ -54,18 +53,13 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
         super.onViewCreated(view, savedInstanceState);
         setToolbarCenterTitle("穿刺");
 
-        setStatusBarBackgroundViewVisibility(true, 0xffffffff);
-        setToolbarBackground(new ColorDrawable(0xffffffff));
-        setToolbarBottomLineVisibility(true);
-        showToolbarNavigationIcon(R.drawable.icon_back_blue);
-
-        helper = new BaseHelper(this.getActivity());
-        rvPuncture = RecyclerViewHelper.get(getActivity(), R.id.rv_puncture);
+        helper = new BaseHelper(mContext);
+        rvPuncture = RecyclerViewHelper.get(mContext, R.id.rv_puncture);
         csvSpeed = mContainerChild.findViewById(R.id.csv_speed);
         csvSelect = mContainerChild.findViewById(R.id.csv_select);
         cpvPat = mContainerChild.findViewById(R.id.cpv_pat);
         helper.setOnClickListener(R.id.rl_punct_part, this);
-        helper.setOnClickListener(R.id.tv_save, this);
+        helper.setOnClickListener(R.id.tv_ok, this);
         punctureAdapter = AdapterFactory.getCommDosingOrdList();
         rvPuncture.setAdapter(punctureAdapter);
         f(R.id.tv_user, TextView.class).setText(SPUtils.getInstance().getString(SharedPreference.USERNAME));
@@ -96,8 +90,8 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
 
             @Override
             public void onSuccess(PunctureBean bean, String type) {
-                if (checkListOeoreId(bean.getOrdList(), "扫码不匹配")) {
-                    return;
+                if (checkListOeoreId(bean.getOrdList(), PROMPT_NO_ORD)) {
+//                    return;
                 }
                 punctureAdapter.replaceData(bean.getOrdList());
                 punctureAdapter.setCurrentScanInfo(scanInfo);
@@ -117,6 +111,10 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
                     helper.setVisible(R.id.ll_puncture_status, false);
                 } else if (!TextUtils.isEmpty(bean.getCurRegNo())
                         && !TextUtils.isEmpty(bean.getCurOeoreId())) {
+                    //再次检查
+                    if (!forIsContain(bean.getOrdList(),scanInfo1)){
+                       return;
+                    }
                     //显示穿刺情况
                     setToolbarCenterTitle("穿刺情况");
                     if (bean.getPunturePartList() != null) {
@@ -139,7 +137,7 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
     @Override
     public void onClick(View v) {
         // 保存
-        if (v.getId() == R.id.tv_save) {
+        if (v.getId() == R.id.tv_ok) {
             String part = helper.getTextData(R.id.tv_part);
             if (TextUtils.isEmpty(part)) {
                 ToastUtils.showShort("请选择穿刺部位");

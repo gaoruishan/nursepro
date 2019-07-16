@@ -31,7 +31,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tv_save"
+        android:id="@+id/tv_ok"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_50"
         android:background="#FF62ABFF"

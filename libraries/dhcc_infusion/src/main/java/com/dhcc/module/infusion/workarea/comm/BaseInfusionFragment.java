@@ -8,6 +8,7 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import java.util.List;
  */
 public abstract class BaseInfusionFragment extends BaseFragment {
 
+    protected static final String PROMPT_NO_ORD = "本次接单任务无此瓶贴,请核对!";
     protected String scanInfo;
     protected Activity mContext;
     protected List<String> listId;
@@ -50,6 +52,9 @@ public abstract class BaseInfusionFragment extends BaseFragment {
     public void getScanMsg(Intent intent) {
         super.getScanMsg(intent);
         scanInfo = doScanInfo(intent);
+        if (scanInfo.contains("-")) {
+            scanInfo = scanInfo.replaceAll("-", "\\|\\|");
+        }
     }
 
     @Override
@@ -64,7 +69,8 @@ public abstract class BaseInfusionFragment extends BaseFragment {
      * 设置布局
      * @return
      */
-    protected abstract @LayoutRes int setLayout();
+    protected abstract @LayoutRes
+    int setLayout();
 
     /**
      * 校验列表中的OeoreId
@@ -80,9 +86,6 @@ public abstract class BaseInfusionFragment extends BaseFragment {
         //检验
         boolean isContain = false;
         listId = new ArrayList<>();
-        if (scanInfo.contains("-")) {
-            scanInfo = scanInfo.replaceAll("-", "\\|\\|");
-        }
         for (OrdListBean b : list) {
             listId.add(b.getOeoreId());
             String bOeoreId = b.getOeoreId();
@@ -91,16 +94,49 @@ public abstract class BaseInfusionFragment extends BaseFragment {
                 isContain = true;
                 break;
             }
+            //当前扫码不为空,不包含|| ->腕带
             if (scanInfo != null && !scanInfo.contains("||")) {
                 isContain = true;
                 break;
             }
         }
+        View tvOk = f(R.id.tv_ok);
         if (!isContain) {
-            ToastUtils.showShort(s);
+            if (!TextUtils.isEmpty(s)) {
+                ToastUtils.showShort(s);
+            }
+            //隐藏"确定"按钮
+            if (tvOk != null) {
+                tvOk.setVisibility(View.GONE);
+            }
             return true;
         }
+        if (tvOk != null) {
+            tvOk.setVisibility(View.VISIBLE);
+        }
         return false;
+    }
+
+    /**
+     * 处理二次扫码
+     * @param list
+     * @param scan
+     * @return
+     */
+    protected boolean forIsContain(List<OrdListBean> list, String scan) {
+        boolean isContain = false;
+        if (!scan.contains("||")) {
+            scan = scanInfo;
+        }
+        for (OrdListBean b : list) {
+            String bOeoreId = b.getOeoreId();
+            //不包含|| 或者-的扫码结果
+            if (bOeoreId.equals(scan)) {
+                isContain = true;
+                break;
+            }
+        }
+        return isContain;
     }
 
     /**

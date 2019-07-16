@@ -80,8 +80,21 @@ public class ContinueFragment extends BaseInfusionFragment implements View.OnCli
 
             @Override
             public void onSuccess(ContinueBean bean, String type) {
-                if (checkListOeoreId(bean.getOrdList(), "扫码不匹配")) {
-                    return;
+                if (checkListOeoreId(bean.getOrdList(), PROMPT_NO_ORD)) {
+//                    return;
+                }
+                // 第一次扫码
+                mBean = bean;
+                if (scanInfo1 == null) {
+                    scanInfo1 = scanInfo;
+                    f(R.id.tv_ok).setVisibility(View.GONE);
+                } else if (!TextUtils.isEmpty(bean.getCurRegNo())
+                        && !TextUtils.isEmpty(bean.getCurOeoreId())) {
+                    f(R.id.tv_ok).setVisibility(View.VISIBLE);
+                    //再次检查
+                    if (!forIsContain(bean.getOrdList(), scanInfo1)) {
+                        f(R.id.tv_ok).setVisibility(View.GONE);
+                    }
                 }
                 csvScan.setVisibility(View.GONE);
                 if (bean.getPatInfo() != null) {
@@ -92,15 +105,7 @@ public class ContinueFragment extends BaseInfusionFragment implements View.OnCli
                 csvSpeed.setSpeed(bean.getDefautSpeed());
                 commDosingAdapter.setCurrentScanInfo(scanInfo);
                 commDosingAdapter.replaceData(bean.getOrdList());
-                // 第一次扫码
-                mBean = bean;
-                if (scanInfo1 == null) {
-                    scanInfo1 = scanInfo;
-                    f(R.id.tv_ok).setVisibility(View.GONE);
-                } else if (!TextUtils.isEmpty(bean.getCurRegNo())
-                        && !TextUtils.isEmpty(bean.getCurOeoreId())) {
-                    f(R.id.tv_ok).setVisibility(View.VISIBLE);
-                }
+
             }
         });
     }
@@ -112,7 +117,7 @@ public class ContinueFragment extends BaseInfusionFragment implements View.OnCli
             String distantTime = "";
             if (mBean != null) {
                 oeoreId = mBean.getCurOeoreId();
-                distantTime = mBean.getDistantDate()+" "+mBean.getDistantTime();
+                distantTime = mBean.getDistantDate() + " " + mBean.getDistantTime();
             }
             int speed = csvSpeed.getSpeed();
             if (speed <= 0) {

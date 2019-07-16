@@ -57,7 +57,7 @@
                     android:layout_centerInParent="true"
                     android:gravity="center"
                     android:text="输液"
-                    android:textColor="@drawable/textcolor_item_tab_selector"
+                    android:textColor="@drawable/dhcc_textcolor_item_tab_selector"
                     android:textSize="@dimen/sp_14"/>
                 <TextView
                     android:id="@+id/tv_tab2_red"

@@ -70,11 +70,11 @@ public class DosingFragment extends BaseInfusionFragment implements View.OnClick
             @Override
             public void onSuccess(DosingBean bean, String type) {
                 List<OrdListBean> ordList = bean.getOrdList();
-                if (checkListOeoreId(ordList, "瓶贴不匹配,请换一个扫描")) {
-                    return;
+                if (checkListOeoreId(ordList, PROMPT_NO_ORD)) {
+//                    return;
                 }
                 mContainerChild.findViewById(R.id.csv).setVisibility(View.GONE);
-                tvOk.setVisibility(View.VISIBLE);
+//                tvOk.setVisibility(View.VISIBLE);
                 commDosingAdapter.replaceData(bean.getOrdList());
                 // 当前
                 commDosingAdapter.setCurrentScanInfo(scanInfo);

@@ -67,8 +67,8 @@ public class NeedlesFragment extends BaseInfusionFragment implements View.OnClic
 
             @Override
             public void onSuccess(NeedlesBean bean, String type) {
-                if (checkListOeoreId(bean.getOrdList(), "扫码不匹配")) {
-                    return;
+                if (checkListOeoreId(bean.getOrdList(), PROMPT_NO_ORD)) {
+//                    return;
                 }
                 mBean = bean;
                 csvScan.setVisibility(View.GONE);

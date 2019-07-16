@@ -38,7 +38,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/dp_20"
-            android:src="@drawable/infusion_setting_arrow">
+            android:src="@drawable/dhcc_setting_arrow">
 
         </ImageView>
     </RelativeLayout>
