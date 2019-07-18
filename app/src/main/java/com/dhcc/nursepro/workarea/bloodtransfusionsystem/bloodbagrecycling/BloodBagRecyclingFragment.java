@@ -15,6 +15,8 @@ import android.widget.TextView;
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
 import com.base.commlibs.constant.Action;
+import com.base.commlibs.constant.SharedPreference;
+import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.BloodOperationResultDialog;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.api.BloodTSApiManager;
@@ -115,71 +117,64 @@ public class BloodBagRecyclingFragment extends BaseFragment {
                 bundle = intent.getExtras();
                 String scanStr = bundle.getString("data");
 
-                if (scanOrder == 1) {
-                    scanOrder++;
+                if (SPUtils.getInstance().getString(SharedPreference.BLOODSCANTIMES).equals("1")){
                     bloodbagId = scanStr;
                     tvBloodbagrecyclingBloodbaginfo.setText(bloodbagId);
-                    tvBloodscantip.setText("请扫描血制品条码");
+//                    tvBloodscantip.setText("请扫描血制品条码");
                     imgBloodbag.setSelected(true);
                     lineBlood1.setSelected(true);
-                } else if (scanOrder == 2) {
-                    scanOrder++;
-                    bloodProductId = scanStr;
-                    BloodTSApiManager.getInfusionBloodInfo(episodeId, bloodbagId, bloodProductId, "RE", new BloodTSApiManager.GetBloodInfoCallback() {
+                    getInfusionBloodInfo(bloodbagId,"");
+                }else {
+                    if (scanOrder == 1) {
+                        scanOrder++;
+                        bloodbagId = scanStr;
+                        tvBloodbagrecyclingBloodbaginfo.setText(bloodbagId);
+                        tvBloodscantip.setText("请扫描血制品条码");
+                        imgBloodbag.setSelected(true);
+                        lineBlood1.setSelected(true);
+                    } else if (scanOrder == 2) {
+                        scanOrder++;
+                        bloodProductId = scanStr;
+                        getInfusionBloodInfo(bloodbagId,bloodProductId);
+                    }
+                }
+            }
+        }
+
+
+        private void getInfusionBloodInfo(String bloodbag,String bloodProduct){
+            BloodTSApiManager.getInfusionBloodInfo(episodeId, bloodbag, bloodProduct, "RE", new BloodTSApiManager.GetBloodInfoCallback() {
+                @Override
+                public void onSuccess(BloodInfoBean bloodInfoBean) {
+                    bloodInfo = bloodInfoBean.getBlooInfo();
+                    tvBloodbagrecyclingBloodproductinfo.setText(bloodProductId + "-" + bloodInfo.getProductDesc() + "-" + bloodInfo.getBloodGroup());
+                    tvBloodbagrecyclingBloodpatientinfo.setText(bloodInfo.getWardDesc() + "-" + bloodInfo.getBedCode() + "-" + bloodInfo.getPatName() + "-" + bloodInfo.getBloodGroup());
+
+                    imgBloodproduct.setSelected(true);
+                    lineBlood2.setSelected(true);
+                    imgBloodpatient.setSelected(true);
+
+                    BloodTSApiManager.recycleBloodbag(bloodInfo.getBloodRowId(), new BloodTSApiManager.BloodOperationResultCallback() {
                         @Override
-                        public void onSuccess(BloodInfoBean bloodInfoBean) {
-                            bloodInfo = bloodInfoBean.getBlooInfo();
-                            tvBloodbagrecyclingBloodproductinfo.setText(bloodProductId + "-" + bloodInfo.getProductDesc() + "-" + bloodInfo.getBloodGroup());
-                            tvBloodbagrecyclingBloodpatientinfo.setText(bloodInfo.getWardDesc() + "-" + bloodInfo.getBedCode() + "-" + bloodInfo.getPatName() + "-" + bloodInfo.getBloodGroup());
+                        public void onSuccess(BloodOperationResultBean bloodOperationResult) {
+                            if (bloodOperationResultDialog != null && bloodOperationResultDialog.isShowing()) {
+                                bloodOperationResultDialog.dismiss();
+                            }
 
-                            imgBloodproduct.setSelected(true);
-                            lineBlood2.setSelected(true);
-                            imgBloodpatient.setSelected(true);
+                            bloodOperationResultDialog = new BloodOperationResultDialog(getActivity());
 
-                            BloodTSApiManager.recycleBloodbag(bloodInfo.getBloodRowId(), new BloodTSApiManager.BloodOperationResultCallback() {
+                            bloodOperationResultDialog.setExecresult("血袋回收成功");
+
+                            bloodOperationResultDialog.setImgId(R.drawable.icon_popup_sucess);
+                            bloodOperationResultDialog.setSureVisible(View.GONE);
+                            bloodOperationResultDialog.show();
+                            new Handler().postDelayed(new Runnable() {
                                 @Override
-                                public void onSuccess(BloodOperationResultBean bloodOperationResult) {
-                                    if (bloodOperationResultDialog != null && bloodOperationResultDialog.isShowing()) {
-                                        bloodOperationResultDialog.dismiss();
-                                    }
-
-                                    bloodOperationResultDialog = new BloodOperationResultDialog(getActivity());
-
-                                    bloodOperationResultDialog.setExecresult("血袋回收成功");
-
-                                    bloodOperationResultDialog.setImgId(R.drawable.icon_popup_sucess);
-                                    bloodOperationResultDialog.setSureVisible(View.GONE);
-                                    bloodOperationResultDialog.show();
-                                    new Handler().postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            clearScanInfo();
-                                            bloodOperationResultDialog.dismiss();
-                                        }
-                                    }, 1000);
+                                public void run() {
+                                    clearScanInfo();
+                                    bloodOperationResultDialog.dismiss();
                                 }
-
-                                @Override
-                                public void onFail(String code, String msg) {
-                                    if (bloodOperationResultDialog != null && bloodOperationResultDialog.isShowing()) {
-                                        bloodOperationResultDialog.dismiss();
-                                    }
-                                    bloodOperationResultDialog = new BloodOperationResultDialog(getActivity());
-                                    bloodOperationResultDialog.setExecresult(msg);
-                                    bloodOperationResultDialog.setImgId(R.drawable.icon_popup_error_patient);
-                                    bloodOperationResultDialog.setSureVisible(View.VISIBLE);
-                                    bloodOperationResultDialog.setSureOnclickListener(new BloodOperationResultDialog.onSureOnclickListener() {
-                                        @Override
-                                        public void onSureClick() {
-                                            clearScanInfo();
-                                            bloodOperationResultDialog.dismiss();
-                                        }
-                                    });
-                                    bloodOperationResultDialog.show();
-                                }
-                            });
-
-
+                            }, 1000);
                         }
 
                         @Override
@@ -201,7 +196,29 @@ public class BloodBagRecyclingFragment extends BaseFragment {
                             bloodOperationResultDialog.show();
                         }
                     });
+
+
                 }
-            }
+
+                @Override
+                public void onFail(String code, String msg) {
+                    if (bloodOperationResultDialog != null && bloodOperationResultDialog.isShowing()) {
+                        bloodOperationResultDialog.dismiss();
+                    }
+                    bloodOperationResultDialog = new BloodOperationResultDialog(getActivity());
+                    bloodOperationResultDialog.setExecresult(msg);
+                    bloodOperationResultDialog.setImgId(R.drawable.icon_popup_error_patient);
+                    bloodOperationResultDialog.setSureVisible(View.VISIBLE);
+                    bloodOperationResultDialog.setSureOnclickListener(new BloodOperationResultDialog.onSureOnclickListener() {
+                        @Override
+                        public void onSureClick() {
+                            clearScanInfo();
+                            bloodOperationResultDialog.dismiss();
+                        }
+                    });
+                    bloodOperationResultDialog.show();
+                }
+            });
+
         }
 }

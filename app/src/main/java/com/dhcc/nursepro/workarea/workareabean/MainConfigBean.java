@@ -14,6 +14,15 @@ public class MainConfigBean {
     private String msgcode;
     private String status;
     private List<String> mainConfig;
+    private String scantimes;
+
+    public String getScantimes(){
+        return scantimes;
+    }
+
+    public void setScantimes(String scantimes){
+        this.scantimes = scantimes;
+    }
 
     public String getMsg() {
         return msg;

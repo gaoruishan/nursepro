@@ -925,8 +925,13 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 skinBatch = skinResultOrderDialog.getSkinNum();
                 skinUserCode = skinResultOrderDialog.getNurName();
                 skinUserPass = skinResultOrderDialog.getNurPass();
-                skinResultOrderDialog.dismiss();
-                execOrSeeOrder();
+                String userId = spUtils.getString(SharedPreference.USERCODE);
+                if (skinUserCode.equals(userId)){
+                    showToast("请其他护士进行双签");
+                }else {
+                    skinResultOrderDialog.dismiss();
+                    execOrSeeOrder();
+                }
             }
         });
 

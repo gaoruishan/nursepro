@@ -62,5 +62,7 @@ public class SharedPreference {
     //临时变量定位报错方法名
     public static String MethodName = "";
 
+    public static  final String BLOODSCANTIMES = "BLOODSCANTIMES";
+
 
 }

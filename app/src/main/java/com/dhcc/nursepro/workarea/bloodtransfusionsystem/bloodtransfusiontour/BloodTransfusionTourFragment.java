@@ -278,76 +278,92 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
                 bundle = intent.getExtras();
                 String scanStr = bundle.getString("data");
 
-                if (scanOrder == 1) {
-                    scanOrder++;
+                if (SPUtils.getInstance().getString(SharedPreference.BLOODSCANTIMES).equals("1")){
                     bloodbagId = scanStr;
                     tvBloodtranstourBloodbaginfo.setText(bloodbagId);
-                    tvBloodscantip.setText("请扫描血制品条码");
+//                    tvBloodscantip.setText("请扫描血制品条码");
                     imgBloodbag.setSelected(true);
                     lineBlood1.setSelected(true);
-                } else if (scanOrder == 2) {
-                    scanOrder++;
-                    bloodProductId = scanStr;
-                    BloodTSApiManager.getBloodInfo(bloodbagId, bloodProductId, new BloodTSApiManager.GetBloodInfoCallback() {
-                        @Override
-                        public void onSuccess(BloodInfoBean bloodInfoBean) {
-                            bloodInfo = bloodInfoBean.getBlooInfo();
-                            bloodRowId = bloodInfo.getBloodRowId();
-                            tvBloodtranstourBloodproductinfo.setText(bloodProductId + "-" + bloodInfo.getProductDesc() + "-" + bloodInfo.getBloodGroup());
-                            tvBloodtranstourBloodpatientinfo.setText(bloodInfo.getWardDesc() + "-" + bloodInfo.getBedCode() + "-" + bloodInfo.getPatName() + "-" + bloodInfo.getBloodGroup());
-                            tvBloodscantip.setText("请填写输血巡视内容");
-                            imgBloodproduct.setSelected(true);
-                            lineBlood2.setSelected(true);
-                            imgBloodpatient.setSelected(true);
-
-                            if (bloodOperationResultDialog != null && bloodOperationResultDialog.isShowing()) {
-                                bloodOperationResultDialog.dismiss();
-                            }
-
-                            bloodOperationResultDialog = new BloodOperationResultDialog(getActivity());
-
-                            bloodOperationResultDialog.setExecresult("血袋信息获取成功");
-
-                            bloodOperationResultDialog.setImgId(R.drawable.icon_popup_sucess);
-                            bloodOperationResultDialog.setSureVisible(View.GONE);
-                            bloodOperationResultDialog.show();
-
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    llBloodtranstourEdit.setVisibility(View.VISIBLE);
-                                    setToolbarRightView(1);
-                                    tvBloodtranstourNursename.setText(SPUtils.getInstance().getString(SharedPreference.USERNAME));
-                                    llBloodtranstourScan.setVisibility(View.GONE);
-                                    clearScanInfo();
-                                    bloodOperationResultDialog.dismiss();
-
-
-                                }
-                            }, 1000);
-                        }
-
-                        @Override
-                        public void onFail(String code, String msg) {
-                            if (bloodOperationResultDialog != null && bloodOperationResultDialog.isShowing()) {
-                                bloodOperationResultDialog.dismiss();
-                            }
-                            bloodOperationResultDialog = new BloodOperationResultDialog(getActivity());
-                            bloodOperationResultDialog.setExecresult(msg);
-                            bloodOperationResultDialog.setImgId(R.drawable.icon_popup_error_patient);
-                            bloodOperationResultDialog.setSureVisible(View.VISIBLE);
-                            bloodOperationResultDialog.setSureOnclickListener(new BloodOperationResultDialog.onSureOnclickListener() {
-                                @Override
-                                public void onSureClick() {
-                                    clearScanInfo();
-                                    bloodOperationResultDialog.dismiss();
-                                }
-                            });
-                            bloodOperationResultDialog.show();
-                        }
-                    });
+                    getBloodInfo(bloodbagId,"");
+                }else {
+                    if (scanOrder == 1) {
+                        scanOrder++;
+                        bloodbagId = scanStr;
+                        tvBloodtranstourBloodbaginfo.setText(bloodbagId);
+                        tvBloodscantip.setText("请扫描血制品条码");
+                        imgBloodbag.setSelected(true);
+                        lineBlood1.setSelected(true);
+                    } else if (scanOrder == 2) {
+                        scanOrder++;
+                        bloodProductId = scanStr;
+                        getBloodInfo(bloodbagId,bloodProductId);
+                    }
                 }
+
         }
+
+    }
+
+
+    private void getBloodInfo(String bloodbag,String bloodProduct){
+        BloodTSApiManager.getBloodInfo(bloodbag, bloodProduct, new BloodTSApiManager.GetBloodInfoCallback() {
+            @Override
+            public void onSuccess(BloodInfoBean bloodInfoBean) {
+                bloodInfo = bloodInfoBean.getBlooInfo();
+                bloodRowId = bloodInfo.getBloodRowId();
+                tvBloodtranstourBloodproductinfo.setText(bloodProductId + "-" + bloodInfo.getProductDesc() + "-" + bloodInfo.getBloodGroup());
+                tvBloodtranstourBloodpatientinfo.setText(bloodInfo.getWardDesc() + "-" + bloodInfo.getBedCode() + "-" + bloodInfo.getPatName() + "-" + bloodInfo.getBloodGroup());
+                tvBloodscantip.setText("请填写输血巡视内容");
+                imgBloodproduct.setSelected(true);
+                lineBlood2.setSelected(true);
+                imgBloodpatient.setSelected(true);
+
+                if (bloodOperationResultDialog != null && bloodOperationResultDialog.isShowing()) {
+                    bloodOperationResultDialog.dismiss();
+                }
+
+                bloodOperationResultDialog = new BloodOperationResultDialog(getActivity());
+
+                bloodOperationResultDialog.setExecresult("血袋信息获取成功");
+
+                bloodOperationResultDialog.setImgId(R.drawable.icon_popup_sucess);
+                bloodOperationResultDialog.setSureVisible(View.GONE);
+                bloodOperationResultDialog.show();
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        llBloodtranstourEdit.setVisibility(View.VISIBLE);
+                        setToolbarRightView(1);
+                        tvBloodtranstourNursename.setText(SPUtils.getInstance().getString(SharedPreference.USERNAME));
+                        llBloodtranstourScan.setVisibility(View.GONE);
+                        clearScanInfo();
+                        bloodOperationResultDialog.dismiss();
+
+
+                    }
+                }, 1000);
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+                if (bloodOperationResultDialog != null && bloodOperationResultDialog.isShowing()) {
+                    bloodOperationResultDialog.dismiss();
+                }
+                bloodOperationResultDialog = new BloodOperationResultDialog(getActivity());
+                bloodOperationResultDialog.setExecresult(msg);
+                bloodOperationResultDialog.setImgId(R.drawable.icon_popup_error_patient);
+                bloodOperationResultDialog.setSureVisible(View.VISIBLE);
+                bloodOperationResultDialog.setSureOnclickListener(new BloodOperationResultDialog.onSureOnclickListener() {
+                    @Override
+                    public void onSureClick() {
+                        clearScanInfo();
+                        bloodOperationResultDialog.dismiss();
+                    }
+                });
+                bloodOperationResultDialog.show();
+            }
+        });
 
     }
 

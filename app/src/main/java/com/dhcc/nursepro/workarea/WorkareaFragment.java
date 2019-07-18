@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.base.commlibs.constant.SharedPreference;
+import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.base.commlibs.BaseActivity;
@@ -95,6 +97,7 @@ public class WorkareaFragment extends BaseFragment {
 //                ItemNameList.add("DRUGPREPARATION");
 //                ItemNameList.add("RLREG");
                 patEventsAdapter.setNewData(ItemNameList);
+                SPUtils.getInstance().put(SharedPreference.BLOODSCANTIMES,mainConfigBean.getScantimes());
             }
 
             @Override
