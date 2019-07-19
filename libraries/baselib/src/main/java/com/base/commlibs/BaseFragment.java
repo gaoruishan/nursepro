@@ -69,6 +69,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 判断是否大于等于LOLLIPOP
+     *
      * @return true，表示大于等于LOLLIPOP
      */
     public static boolean isAboveLollipop() {
@@ -81,7 +82,7 @@ public class BaseFragment extends Fragment {
             Bundle bundle = new Bundle();
             bundle = intent.getExtras();
             String scanInfo = bundle.getString("data");
-//               .replace("||","-");
+            //               .replace("||","-");
             intent.putExtra("data", scanInfo);
         }
 
@@ -89,6 +90,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 所属Activity中onCreate之前调用(只适用于UniversalActivity及其子类)
+     *
      * @param activity           所属Activity(只适用于UniversalActivity及其子类)
      * @param savedInstanceState onCreate中的savedInstanceState
      */
@@ -107,10 +109,12 @@ public class BaseFragment extends Fragment {
         mfilter.addAction(Action.DOSING_REVIEW);
         mfilter.addAction(Action.TOUR_DOSINGID);
         mfilter.addAction(Action.DRUG_RLREG);
+        mfilter.addAction(Action.NUR_RECORD_XML_VIEW);
     }
 
     /**
      * 设置StatusBarBackgroundView是否需要显示
+     *
      * @param show
      * @param color
      */
@@ -123,6 +127,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 设置Toolbar的背景
+     *
      * @param background
      */
     public void setToolbarBackground(Drawable background) {
@@ -134,6 +139,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 设置Toolbar的导航按钮
+     *
      * @param resId
      */
     public void showToolbarNavigationIcon(int resId) {
@@ -165,6 +171,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 设置为给定的ToolbarType
+     *
      * @param type
      */
     public void setToolbarType(BaseActivity.ToolbarType type) {
@@ -176,6 +183,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 设置Toolbar的右边操作动作按钮
+     *
      * @param menuId
      */
     public void setToolbarMenu(@MenuRes int menuId) {
@@ -187,6 +195,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 设置Toolbar居中的标题
+     *
      * @param title
      */
     public void setToolbarCenterTitle(CharSequence title) {
@@ -198,6 +207,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 设置Toolbar居中的标题
+     *
      * @param title
      * @param color 如:0xffcccccc
      * @param size  单位:DIP
@@ -211,6 +221,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 设置Toolbar居中的自定义视图
+     *
      * @param view
      */
     public void setToolbarCenterCustomView(View view) {
@@ -222,6 +233,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 设置Toolbar左边自定义视图
+     *
      * @param view
      */
     public void setToolbarLeftCustomView(View view) {
@@ -233,6 +245,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 设置Toolbar右边自定义视图
+     *
      * @param view
      */
     public void setToolbarRightCustomView(View view) {
@@ -244,6 +257,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 设置Toolbar-BottomLine是否显示
+     *
      * @param show true:显示BottomLine;false:不显示
      */
     public void setToolbarBottomLineVisibility(boolean show) {
@@ -264,6 +278,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * Toolbar右边动作按钮回调
+     *
      * @param item
      * @return
      */
@@ -281,6 +296,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 每当网络连接后,回调到这里
+     *
      * @param type 连接后的网络类型  one of {@link ConnectivityManager#TYPE_MOBILE}, {@link
      *             ConnectivityManager#TYPE_WIFI}, {@link ConnectivityManager#TYPE_WIMAX}, {@link
      *             ConnectivityManager#TYPE_ETHERNET},  {@link ConnectivityManager#TYPE_BLUETOOTH}, or other
@@ -292,6 +308,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 安全方式调用getString
+     *
      * @param resId
      * @return
      */
@@ -311,6 +328,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 查找View
+     *
      * @param resId View的id
      * @param t     指定View类类型
      * @return
@@ -365,6 +383,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 替代原有的onCreateView方法,子类必须用这个方法设置其View
+     *
      * @param inflater
      * @param container
      * @param savedInstanceState
@@ -378,6 +397,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 显示Toast提示框
+     *
      * @param text 显示的文本
      */
     public void showToast(CharSequence text) {
@@ -389,6 +409,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 显示Toast提示框
+     *
      * @param iconId 图标资源ID,Drawable Resource ID
      * @param text   显示的文本
      */
@@ -401,6 +422,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 使用UniversalActivity启动给定的Fragment
+     *
      * @param fragCls 待启动Fragment
      */
     public void startFragment(@NonNull Class<? extends BaseFragment> fragCls) {
@@ -409,6 +431,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 使用UniversalActivity启动给定的Fragment
+     *
      * @param fragCls     待启动Fragment
      * @param args        传递给Fragment的参数,可空
      * @param requestCode -1表示不使用ForResult
@@ -430,6 +453,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 使用UniversalActivity启动给定的Fragment
+     *
      * @param fragCls 待启动Fragment
      * @param args    传递给Fragment的参数,可空
      */
@@ -440,6 +464,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 使用UniversalActivity启动给定的Fragment
+     *
      * @param fragCls     待启动Fragment
      * @param requestCode -1表示不使用ForResult
      */
@@ -450,6 +475,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 使用UniversalActivity及其子类启动给定的Fragment
+     *
      * @param containerCls UniversalActivity及其子类
      * @param fragCls      待启动Fragment
      */
@@ -460,6 +486,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 使用UniversalActivity及其子类启动给定的Fragment
+     *
      * @param containerCls UniversalActivity及其子类
      * @param fragCls      待启动Fragment
      * @param args         传递给Fragment的参数,可空
@@ -483,6 +510,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 使用UniversalActivity及其子类启动给定的Fragment
+     *
      * @param containerCls UniversalActivity及其子类
      * @param fragCls      待启动Fragment
      * @param args         传递给Fragment的参数,可空
@@ -495,6 +523,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 显示一个从底部动画推上来的对话框
+     *
      * @param contentFragment 要显示的内容Fragment
      * @return 如果返回null, 说明没有正常显示对话框
      */
@@ -514,6 +543,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 权限请求结果回调
+     *
      * @param permission 权限名称
      * @param granted    是否请求成功
      */
@@ -523,6 +553,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 显示LoadingTip
+     *
      * @param type 显示加载提示框的样式类型
      */
     public void showLoadingTip(BaseActivity.LoadingType type) {
@@ -531,6 +562,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 显示LoadingTip
+     *
      * @param type       显示加载提示框的样式类型
      * @param cancelable 是否可以点击后隐藏;TOP类型时无效
      */
@@ -670,6 +702,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 创建一个FullLoadingView
+     *
      * @return 返回创建的FullLoadingView
      */
     protected BaseFullLoadingView onCreateFullLoadingView() {
@@ -680,6 +713,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 创建一个TopLoadingView
+     *
      * @return
      */
     protected BaseTopLoadingView onCreateTopLoadingView() {
@@ -690,6 +724,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 创建一个TopLoadingView
+     *
      * @return
      */
     protected BaseBottomLoadingView onCreateBottomLoadingView() {
@@ -707,6 +742,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 关闭所属的Activity
+     *
      * @param data setResult中的返回数据
      */
     public void finish(Bundle data) {
@@ -736,6 +772,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 显示LoadFailTip
+     *
      * @param iconResId 提示图标DrawableResID
      * @param tip       错误提示信息
      */
@@ -792,6 +829,7 @@ public class BaseFragment extends Fragment {
 
     /**
      * 安全方式调用getString
+     *
      * @param resId
      * @return
      */
@@ -843,15 +881,9 @@ public class BaseFragment extends Fragment {
         }
     }
 
-    public class BaseReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            getScanMsg(intent);
-        }
-    }
-
     /**
      * 处理扫描数据
+     *
      * @param intent
      * @return
      */
@@ -862,12 +894,19 @@ public class BaseFragment extends Fragment {
             String scanInfo = bundle.getString("data");
             if (scanInfo != null) {
                 // 只有数字和横杆
-//                Matcher m = Pattern.compile("[^0-9\\-]").matcher(scanInfo);
-//                return m.replaceAll("").trim();
-                Log.e(TAG,"scanInfo: "+scanInfo);
-                return scanInfo.replaceAll(" ","").trim();
+                //                Matcher m = Pattern.compile("[^0-9\\-]").matcher(scanInfo);
+                //                return m.replaceAll("").trim();
+                Log.e(TAG, "scanInfo: " + scanInfo);
+                return scanInfo.replaceAll(" ", "").trim();
             }
         }
         return null;
+    }
+
+    public class BaseReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            getScanMsg(intent);
+        }
     }
 }

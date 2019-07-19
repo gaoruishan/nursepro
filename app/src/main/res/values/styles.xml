@@ -21,10 +21,13 @@
         <!--是否模糊-->
         <item name="android:backgroundDimEnabled">true</item>
     </style>
+
     <style name="MainActivityTheme" parent="AppTheme"></style>
-    <style name="Line" >
+
+    <style name="Line">
         <item name="android:background">@color/user_attr_line_color</item>
     </style>
+
     <style name="Line.H">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0.5dp</item>
@@ -36,6 +39,13 @@
         <item name="android:windowBackground">@drawable/loading_splash</item>
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
+
+    <style name="header_title_style">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">17dip</item>
+        <item name="android:textCursorDrawable">@null</item>
+    </style>
+
     <!-- 对话框样式-->
     <style name="BaseDialog" parent="Theme.AppCompat.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
@@ -58,13 +68,13 @@
         <item name="android:windowNoTitle">true</item>
     </style>
     <!-- 手势右滑退出动画 -->
-    <style name="SlideAnimation" parent="@android:style/Animation.Activity">
-    </style>
+    <style name="SlideAnimation" parent="@android:style/Animation.Activity"></style>
 
     <!-- 配置中心多选框样式 -->
     <style name="ConfigCheckBox" parent="@android:style/Widget.CompoundButton.CheckBox">
         <item name="android:button">@drawable/config_checkbox_style</item>
     </style>
+
     <style name="RideoStyle" parent="@android:style/Widget.CompoundButton.CheckBox">
         <item name="android:button">@null</item>
         <item name="android:background">@drawable/btn_ordershandle</item>

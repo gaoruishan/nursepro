@@ -53,6 +53,9 @@ dependencies {
     debugApi rootProject.ext.dependencies["debugLeakcanary"]
     releaseApi rootProject.ext.dependencies["releaseLeakcanary"]
 
+    api rootProject.ext.dependencies["ViewPagerIndicator"]
+    api rootProject.ext.dependencies["dom4j"]
+
     api 'com.github.stfalcon:frescoimageviewer:0.5.0'
     api 'com.facebook.fresco:animated-gif:0.12.0'
     api 'com.facebook.fresco:animated-webp:0.12.0'

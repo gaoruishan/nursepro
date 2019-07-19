@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="horizontal"
     tools:context=".workarea.nurrecordold.PatNurRecordFragment">
 
@@ -17,8 +18,8 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recy_patnurrecord_record"
         android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_weight="1">
 
     </android.support.v7.widget.RecyclerView>
 

@@ -83,9 +83,15 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
     public static final int RequestPermissionTimeout = 1000;
     public static final int REQUEST_CODE_ASK_PERMISSIONS = 68;
     private static final int REQUEST_CODE_CHECK_LOGIN = 101;
+    public static LinkedList<Activity> sAllActivitys = new LinkedList<Activity>();
     // 记录下页面打开的所有DialogFragment
     private static List<SoftReference<DialogFragment>> mShowingDialogs;
     private static Map<String, Long> RequestPermissionTimeMap = new HashMap<>();
+    // 都是static声明的变量，避免被实例化多次；因为整个app只需要一个计时任务就可以了。
+    private static Timer mTimer; // 计时器，每1秒执行一次任务
+    private static MyTimerTask mTimerTask; // 计时任务，判断是否未操作时间到达5s
+    private static long mLastActionTime; // 上一次操作时间
+    public BroadcastReceiver mReceiver;
     // 加载FullLoadingView
     protected BaseFullLoadingView mFullLoadingView;
     // 加载TopLoadingTip
@@ -130,13 +136,59 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
     private NetworkStatusReceiver mNetworkStatusReceiver;
     private String mRequestTag;
 
-    public static LinkedList<Activity> sAllActivitys = new LinkedList<Activity>();
+    // 登录成功，开始计时
+    protected static void startTimer() {
+        mTimer = new Timer();
+        mTimerTask = new MyTimerTask();
+        // 初始化上次操作时间为登录成功的时间
+        mLastActionTime = System.currentTimeMillis();
+        // 每过1s检查一次
+        mTimer.schedule(mTimerTask, 0, SPUtils.getInstance().getInt(SharedPreference.CHECKTIME));
+        //        Log.e("nurseprotime", "start timer");
+    }
 
-    // 都是static声明的变量，避免被实例化多次；因为整个app只需要一个计时任务就可以了。
-    private static Timer mTimer; // 计时器，每1秒执行一次任务
-    private static MyTimerTask mTimerTask; // 计时任务，判断是否未操作时间到达5s
-    private static long mLastActionTime; // 上一次操作时间
-    public BroadcastReceiver mReceiver;
+    // 停止计时任务
+    protected static void stopTimer() {
+        mTimer.cancel();
+        //        Log.e("nurseprotime", "cancel timer");
+    }
+
+    /**
+     * 判断是否大于等于LOLLIPOP
+     *
+     * @return true，表示大于等于LOLLIPOP
+     */
+    public static boolean isAboveLollipop() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+    }
+
+    /**
+     * 判断手机是否为小米5并且系统为6.0
+     * 用于单独适配状态栏背景颜色
+     *
+     * @return true:
+     */
+    public static boolean isXiaoMi5OS6() {
+        String manufacturer = Build.MANUFACTURER;
+        if ("Xiaomi".equalsIgnoreCase(manufacturer)) {
+            return true;
+        } else
+            return "oppo".equalsIgnoreCase(manufacturer);
+    }
+
+    public static void finishAll() {
+        for (Activity activity : sAllActivitys) {
+            activity.finish();
+        }
+
+        sAllActivitys.clear();
+    }
+
+    public static void exit() {
+        finishAll();
+        // 这个主要是用来关闭进程的, 光把所有activity finish的话，进程是不会关闭的
+        System.exit(0);
+    }
 
     // =========================================================
     @Override
@@ -197,39 +249,8 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         mLastActionTime = System.currentTimeMillis();
-//        Log.e("nurseprotime", "user action");
+        //Log.e("nurseprotime", "user action");
         return super.dispatchTouchEvent(ev);
-    }
-
-    private static class MyTimerTask extends TimerTask {
-
-        @Override
-        public void run() {
-//            Log.e("nurseprotime", "check time");
-            // 5s未操作
-            if (System.currentTimeMillis() - mLastActionTime > SPUtils.getInstance().getInt(SharedPreference.EXITTIME)) {
-                // 停止计时任务
-                stopTimer();
-                exit();
-            }
-        }
-    }
-
-    // 登录成功，开始计时
-    protected static void startTimer() {
-        mTimer = new Timer();
-        mTimerTask = new MyTimerTask();
-        // 初始化上次操作时间为登录成功的时间
-        mLastActionTime = System.currentTimeMillis();
-        // 每过1s检查一次
-        mTimer.schedule(mTimerTask, 0, SPUtils.getInstance().getInt(SharedPreference.CHECKTIME));
-//        Log.e("nurseprotime", "start timer");
-    }
-
-    // 停止计时任务
-    protected static void stopTimer() {
-        mTimer.cancel();
-//        Log.e("nurseprotime", "cancel timer");
     }
 
     // 在大于等于5.0的系统中使StatusBar半透明效果
@@ -277,7 +298,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
             setStatusBarColorLowLollipop(color);
         }
     }
-
 
     /**
      * 设置Toolbar的背景
@@ -328,15 +348,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
                 }
             }
         });
-    }
-
-    /**
-     * 判断是否大于等于LOLLIPOP
-     *
-     * @return true，表示大于等于LOLLIPOP
-     */
-    public static boolean isAboveLollipop() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     }
 
     /**
@@ -419,19 +430,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
     }
 
     /**
-     * 判断手机是否为小米5并且系统为6.0
-     * 用于单独适配状态栏背景颜色
-     *
-     * @return true:
-     */
-    public static boolean isXiaoMi5OS6() {
-        String manufacturer = Build.MANUFACTURER;
-        if ("Xiaomi".equalsIgnoreCase(manufacturer)) {
-            return true;
-        } else return "oppo".equalsIgnoreCase(manufacturer);
-    }
-
-    /**
      * 会将设置进来的View添加到mContainer中
      *
      * @param layoutResID
@@ -487,25 +485,11 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         sAllActivitys.remove(this);
     }
 
-    public static void finishAll() {
-        for(Activity activity : sAllActivitys) {
-            activity.finish();
-        }
-
-        sAllActivitys.clear();
-    }
-
-    public static void exit() {
-        finishAll();
-        // 这个主要是用来关闭进程的, 光把所有activity finish的话，进程是不会关闭的
-        System.exit(0);
-    }
-
-    //-------------------------------
-
     public boolean isResume() {
         return isResume;
     }
+
+    //-------------------------------
 
     /**
      * 显示Toolbar的导航按钮
@@ -1035,11 +1019,11 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
                 ImageView imageView = inflate.findViewById(R.id.icon);
                 imageView.setVisibility(View.GONE);
                 TextView textView = inflate.findViewById(R.id.text);
-//                if (text.toString().contains("error")){
-//                    textView.setText(text+"_"+SharedPreference.MethodName);
-//                }else {
-//                    textView.setText(text);
-//                }
+                //                if (text.toString().contains("error")){
+                //                    textView.setText(text+"_"+SharedPreference.MethodName);
+                //                }else {
+                //                    textView.setText(text);
+                //                }
                 textView.setText(text);
                 Toast toast = new Toast(BaseActivity.this);
                 toast.setGravity(Gravity.CENTER, 0, 0);
@@ -1341,6 +1325,141 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
     public void setmessage(int messageNum) {
     }
 
+    @Override
+    public void onGlobalLayout() {
+        try {
+            final View view = getWindow().getDecorView();
+            final Rect r = new Rect();
+            view.getWindowVisibleDisplayFrame(r);
+            final int heightDiff = getWindowManager().getDefaultDisplay().getHeight() - (r.bottom - r.top);
+
+            if (!isSoftKeyboardOpened && heightDiff > 100) { // if more than 100 pixels, its probably a keyboard...
+                isSoftKeyboardOpened = true;
+                int offset = heightDiff - getStatusBarHeight() - getToolbarHeight() - dp2px(20);
+                onKeyBoardOpen(offset);
+
+                List<Fragment> fragments = getSupportFragmentManager().getFragments();
+                if (fragments != null) {
+                    for (Fragment fragment : fragments) {
+                        if (fragment != null && fragment instanceof BaseFragment) {
+                            ((BaseFragment) fragment).onKeyBoardOpen(heightDiff);
+                        }
+                    }
+                }
+                MessageEvent event = new MessageEvent(001);
+                event.setOffSet(offset);
+                EventBus.getDefault().post(event);
+                canCloseSoftKeyboard = false;
+                new Timer().schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        canCloseSoftKeyboard = true;
+                    }
+                }, 600);
+            } else if (canCloseSoftKeyboard && isSoftKeyboardOpened && heightDiff < 100) {
+                isSoftKeyboardOpened = false;
+                onKeyBoardClose();
+                //            MessageEvent event = new MessageEvent(MessageEvent.MessageType.KEY_BORAD_CLOSE);
+                List<Fragment> fragments = getSupportFragmentManager().getFragments();
+                if (fragments != null) {
+                    for (Fragment fragment : fragments) {
+                        if (fragment != null && fragment instanceof BaseFragment) {
+                            ((BaseFragment) fragment).onKeyBoardClose();
+                        }
+                    }
+                }
+                //                MessageEvent event = new MessageEvent(002);
+                //                EventBus.getDefault().post(event);
+            }
+        } catch (Exception e) {
+            //避免潜在的崩溃问题，有些Fragment，例如ZhWebFragment不能被转换为BaseFragment从而报错
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 获得Toolbar的高度
+     *
+     * @return
+     */
+    public int getToolbarHeight() {
+        return mToolbarHeight;
+    }
+
+    /**
+     * 设置Toolbar的高度
+     *
+     * @param toolbarHeight
+     */
+    public void setToolbarHeight(int toolbarHeight) {
+        this.mToolbarHeight = toolbarHeight;
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mToolbar.getLayoutParams();
+        params.height = toolbarHeight;
+        mToolbar.setLayoutParams(params);
+        mToolbar.setMinimumHeight(toolbarHeight);
+    }
+
+    /**
+     * 根据手机的分辨率dp单位转为px像素
+     *
+     * @param dp
+     * @return
+     */
+    public int dp2px(float dp) {
+        final float scale = getResources().getDisplayMetrics().density;
+        return (int) (dp * scale + 0.5f);
+    }
+
+    public void onKeyBoardOpen(int heightDiff) {
+    }
+
+    public void onKeyBoardClose() {
+    }
+
+    /**
+     * 注册扫码广播
+     */
+    public void registerScanMsgReceiver() {
+        mReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                getScanMsg(intent);
+            }
+        };
+        IntentFilter mfilter = new IntentFilter();
+        mfilter.addAction(Action.DEVICE_SCAN_CODE);
+        registerReceiver(mReceiver, mfilter);
+    }
+
+    public void getScanMsg(Intent intent) {
+        Bundle bundle = new Bundle();
+        bundle = intent.getExtras();
+        String scanInfo = bundle.getString("data");
+        intent.putExtra("data", scanInfo);
+    }
+
+    /**
+     * 处理扫描数据
+     *
+     * @param intent
+     * @return
+     */
+    protected String doScanInfo(Intent intent) {
+        if (Action.DEVICE_SCAN_CODE.equals(intent.getAction())) {
+            Bundle bundle = new Bundle();
+            bundle = intent.getExtras();
+            String scanInfo = bundle.getString("data");
+            if (scanInfo != null) {
+                // 只有数字和横杆
+                //                Matcher m = Pattern.compile("[^0-9\\-]").matcher(scanInfo);
+                //                return m.replaceAll("").trim();
+                return scanInfo.replaceAll(" ", "").trim();
+            }
+        }
+        return null;
+    }
+
+
     /**
      * 定义了显示加载提示框的类型
      * TOP  : 页面上边简单非模态提示
@@ -1352,6 +1471,7 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         FULL,   // 全屏模态提示
     }
 
+
     /**
      * 定义了Toolbar的显示位置
      * HIDE  : 不显示Toolbar
@@ -1362,6 +1482,20 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         HIDE,  // 不显示Toolbar
         TOP,   // Toolbar显示在Container上面,处于同一水平高度
         FLOAT, // Toolbar悬浮在Container上面,在不同水平高度
+    }
+
+    private static class MyTimerTask extends TimerTask {
+
+        @Override
+        public void run() {
+            //            Log.e("nurseprotime", "check time");
+            // 5s未操作
+            if (System.currentTimeMillis() - mLastActionTime > SPUtils.getInstance().getInt(SharedPreference.EXITTIME)) {
+                // 停止计时任务
+                stopTimer();
+                exit();
+            }
+        }
     }
 
     // =========================================================
@@ -1532,141 +1666,5 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
                     break;
             }
         }
-    }
-
-    @Override
-    public void onGlobalLayout() {
-        try {
-            final View view = getWindow().getDecorView();
-            final Rect r = new Rect();
-            view.getWindowVisibleDisplayFrame(r);
-            final int heightDiff = getWindowManager().getDefaultDisplay().getHeight() - (r.bottom - r.top);
-
-            if (!isSoftKeyboardOpened && heightDiff > 100) { // if more than 100 pixels, its probably a keyboard...
-                isSoftKeyboardOpened = true;
-                int offset = heightDiff - getStatusBarHeight() - getToolbarHeight() - dp2px(20);
-                onKeyBoardOpen(offset);
-
-                List<Fragment> fragments = getSupportFragmentManager().getFragments();
-                if (fragments != null) {
-                    for (Fragment fragment : fragments) {
-                        if (fragment != null && fragment instanceof BaseFragment) {
-                            ((BaseFragment) fragment).onKeyBoardOpen(heightDiff);
-                        }
-                    }
-                }
-                MessageEvent event = new MessageEvent(001);
-                event.setOffSet(offset);
-                EventBus.getDefault().post(event);
-                canCloseSoftKeyboard = false;
-                new Timer().schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        canCloseSoftKeyboard = true;
-                    }
-                }, 600);
-            } else if (canCloseSoftKeyboard && isSoftKeyboardOpened && heightDiff < 100) {
-                isSoftKeyboardOpened = false;
-                onKeyBoardClose();
-                //            MessageEvent event = new MessageEvent(MessageEvent.MessageType.KEY_BORAD_CLOSE);
-                List<Fragment> fragments = getSupportFragmentManager().getFragments();
-                if (fragments != null) {
-                    for (Fragment fragment : fragments) {
-                        if (fragment != null && fragment instanceof BaseFragment) {
-                            ((BaseFragment) fragment).onKeyBoardClose();
-                        }
-                    }
-                }
-                //                MessageEvent event = new MessageEvent(002);
-                //                EventBus.getDefault().post(event);
-            }
-        } catch (Exception e) {
-            //避免潜在的崩溃问题，有些Fragment，例如ZhWebFragment不能被转换为BaseFragment从而报错
-            e.printStackTrace();
-        }
-    }
-
-
-    /**
-     * 获得Toolbar的高度
-     *
-     * @return
-     */
-    public int getToolbarHeight() {
-        return mToolbarHeight;
-    }
-
-
-    /**
-     * 根据手机的分辨率dp单位转为px像素
-     *
-     * @param dp
-     * @return
-     */
-    public int dp2px(float dp) {
-        final float scale = getResources().getDisplayMetrics().density;
-        return (int) (dp * scale + 0.5f);
-    }
-
-
-    public void onKeyBoardOpen(int heightDiff) {
-    }
-
-
-    public void onKeyBoardClose() {
-    }
-
-
-    /**
-     * 设置Toolbar的高度
-     *
-     * @param toolbarHeight
-     */
-    public void setToolbarHeight(int toolbarHeight) {
-        this.mToolbarHeight = toolbarHeight;
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mToolbar.getLayoutParams();
-        params.height = toolbarHeight;
-        mToolbar.setLayoutParams(params);
-        mToolbar.setMinimumHeight(toolbarHeight);
-    }
-
-    /**
-     * 注册扫码广播
-     */
-    public void registerScanMsgReceiver() {
-         mReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                getScanMsg(intent);
-            }
-        };
-        IntentFilter mfilter = new IntentFilter();
-        mfilter.addAction(Action.DEVICE_SCAN_CODE);
-       registerReceiver(mReceiver, mfilter);
-    }
-    public void getScanMsg(Intent intent) {
-        Bundle bundle = new Bundle();
-        bundle = intent.getExtras();
-        String scanInfo = bundle.getString("data");
-        intent.putExtra("data", scanInfo);
-    }
-    /**
-     * 处理扫描数据
-     * @param intent
-     * @return
-     */
-    protected String doScanInfo(Intent intent) {
-        if (Action.DEVICE_SCAN_CODE.equals(intent.getAction())) {
-            Bundle bundle = new Bundle();
-            bundle = intent.getExtras();
-            String scanInfo = bundle.getString("data");
-            if (scanInfo != null) {
-                // 只有数字和横杆
-//                Matcher m = Pattern.compile("[^0-9\\-]").matcher(scanInfo);
-//                return m.replaceAll("").trim();
-                return scanInfo.replaceAll(" ","").trim();
-            }
-        }
-        return null;
     }
 }

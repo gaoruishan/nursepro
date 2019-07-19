@@ -179,6 +179,7 @@ public class WorkareaFragment extends BaseFragment {
                 break;
             case "MODELDETAIL":
                 startFragment(NurRecordModellistFragmen.class);
+//                startFragment(NurRecordOldFragment.class);
                 break;
             case "NURTOUR":
                 startFragment(NurTourFragment.class);

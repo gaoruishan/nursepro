@@ -36,6 +36,10 @@ public class BaseWebServiceUtils {
     // 护士站接口
     public static final String NUR_PDA_SERVICE = "/Nur.PDA.WebService.cls";
 
+    //
+    public static final String OLD_PDA_SERVICE1 = "/DHCNurDocOrdPda.cls";
+    public static final String OLD_PDA_SERVICE2 = "/DHCNUREMRNEWOnPage.cls";
+
     // 含有3个线程的线程池
     private static final ExecutorService executorService = Executors
             .newFixedThreadPool(5);
@@ -60,6 +64,14 @@ public class BaseWebServiceUtils {
                                       final WebServiceCallBack webServiceCallBack) {
         // 创建HttpTransportSE对象，传递WebService服务器地址,默认Nur.PDA.WebService.cls
         String url = getServiceUrl(NUR_PDA_SERVICE);
+        callWebService(url, methodName, properties, webServiceCallBack);
+    }
+
+    public static void callWebPDAService(String Cls,final String methodName,
+                                         HashMap<String, String> properties,
+                                         final WebServiceCallBack webServiceCallBack) {
+        // 创建HttpTransportSE对象，传递WebService服务器地址,默认Nur.PDA.WebService.cls
+        String url = getServiceUrl(Cls);
         callWebService(url, methodName, properties, webServiceCallBack);
     }
 

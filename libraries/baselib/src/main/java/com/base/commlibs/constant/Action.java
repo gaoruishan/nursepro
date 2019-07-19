@@ -46,4 +46,8 @@ public class Action {
     //余液登记
     public static final String DRUG_RLREG = "com.dhcc.nursepro.drug_rlreg.Action";
 
+    //护理病历
+    //View XML
+    public static final String NUR_RECORD_XML_VIEW = "com.dhcc.nursepro.nurrecord.xmlview.Action";
+
 }
