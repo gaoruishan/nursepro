@@ -1019,12 +1019,12 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
                 ImageView imageView = inflate.findViewById(R.id.icon);
                 imageView.setVisibility(View.GONE);
                 TextView textView = inflate.findViewById(R.id.text);
-                //                if (text.toString().contains("error")){
-                //                    textView.setText(text+"_"+SharedPreference.MethodName);
-                //                }else {
-                //                    textView.setText(text);
-                //                }
-                textView.setText(text);
+                                if (text.toString().contains("error")){
+                                    textView.setText(text+"_"+SharedPreference.MethodName);
+                                }else {
+                                    textView.setText(text);
+                                }
+//                textView.setText(text);
                 Toast toast = new Toast(BaseActivity.this);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.setView(inflate);

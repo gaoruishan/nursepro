@@ -111,7 +111,8 @@ public class BaseWebServiceUtils {
                 Map.Entry<String, String> entry = it.next();
                 if (entry != null && entry.getValue() != null) {
                     //替换双竖杆
-                    String value = entry.getValue().replaceAll("\\|\\|", "-");
+//                    String value = entry.getValue().replaceAll("\\|\\|", "-");
+                    String value = entry.getValue();
                     soapObject.addProperty(entry.getKey(), value);
                 }
             }
