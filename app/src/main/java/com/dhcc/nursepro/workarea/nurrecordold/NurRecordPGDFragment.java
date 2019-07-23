@@ -60,6 +60,9 @@ public class NurRecordPGDFragment extends BaseFragment implements View.OnClickLi
     private String emrCode = "";
     private String pgdId = "";
     private int modelNum = 0;
+    private String bedNo = "";
+    private String patName = "";
+
     private Map<String, Object> PatIn = new HashMap<>();
     private Map<String, Object> CNHVal = new HashMap<>();
     private Map<String, Object> CNHtb = new HashMap<>();
@@ -76,31 +79,31 @@ public class NurRecordPGDFragment extends BaseFragment implements View.OnClickLi
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        setToolbarType(BaseActivity.ToolbarType.TOP);
-        setToolbarBottomLineVisibility(true);
-
-        setToolbarCenterTitle(getString(R.string.title_nurrecord), 0xffffffff, 17);
-
-        episodeID = "";
-        xmlParseInterface.CNHLB = CNHLB;
-        xmlParseInterface.CNHtb = CNHtb;
-        xmlParseInterface.CNHVal = CNHVal;
-
-
         if (getArguments() != null) {
             episodeID = getArguments().getString("EpisodeID");
             emrCode = getArguments().getString("EMRCode");
             modelNum = Integer.parseInt(getArguments().getString("ModelNum"));
-            if (StringUtils.isEmpty(episodeID)) {
-                getEmrPatInfo();
-            } else {
-                getPGDId();
-
-            }
+            bedNo = getArguments().getString("BedNo");
+            patName = getArguments().getString("PatName");
         }
+
+        setToolbarType(BaseActivity.ToolbarType.TOP);
+        setToolbarBottomLineVisibility(true);
+
+        setToolbarCenterTitle(bedNo + "    " + patName, 0xffffffff, 17);
+
+        xmlParseInterface.CNHLB = CNHLB;
+        xmlParseInterface.CNHtb = CNHtb;
+        xmlParseInterface.CNHVal = CNHVal;
 
         initview(view);
         initAdapter();
+
+        if (StringUtils.isEmpty(episodeID)) {
+            getEmrPatInfo();
+        } else {
+            getPGDId();
+        }
 
     }
 
@@ -262,7 +265,7 @@ public class NurRecordPGDFragment extends BaseFragment implements View.OnClickLi
     }
 
     private void getEmrPatInfo() {
-        NurRecordOldApiManager.getEmrPatinfo(episodeID, new NurRecordOldApiManager.RecDataCallback() {
+        NurRecordOldApiManager.getEmrPatinfo(episodeID, emrCode, new NurRecordOldApiManager.RecDataCallback() {
             @Override
             public void onSuccess(RecDataBean recDataBean) {
                 String recData = recDataBean.getRetData();

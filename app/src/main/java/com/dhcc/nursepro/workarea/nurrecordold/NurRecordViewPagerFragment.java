@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsoluteLayout;
 
-import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
 import com.base.commlibs.constant.Action;
 import com.dhcc.nursepro.R;
@@ -57,11 +56,6 @@ public class NurRecordViewPagerFragment extends BaseFragment{
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        setToolbarType(BaseActivity.ToolbarType.TOP);
-        setToolbarBottomLineVisibility(true);
-
-        setToolbarCenterTitle(getString(R.string.title_nurrecord), 0xffffffff, 17);
 
         if (getArguments() != null) {
             emrCode = getArguments().getString("EMRCODE");

@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -65,7 +64,8 @@ public class NurRecordJLDFragment extends BaseFragment implements View.OnClickLi
     private Map<String, Object> CNHLB = new HashMap<>();
     private Map<String, Object> CNHVal = new HashMap<>();
 
-    private String bedno = "";
+    private String bedNo = "";
+    private String patName = "";
     private String emrCode = "";
     private String recId = "";
     private String recData = "";
@@ -84,19 +84,20 @@ public class NurRecordJLDFragment extends BaseFragment implements View.OnClickLi
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        setToolbarType(BaseActivity.ToolbarType.TOP);
-        setToolbarBottomLineVisibility(true);
-
-        setToolbarCenterTitle(getString(R.string.title_nurrecord), 0xffffffff, 17);
-
-
         if (getArguments() != null) {
             episodeID = getArguments().getString("EpisodeID");
             recId = getArguments().getString("RecID");
             emrCode = getArguments().getString("EMRCode");
             modelNum = Integer.parseInt(getArguments().getString("ModelNum"));
             modelListBean = (RecModelListBean.MenuListBean.ModelListBean) getArguments().getSerializable("ModelListBean");
+            bedNo = getArguments().getString("BedNo");
+            patName = getArguments().getString("PatName");
         }
+        setToolbarType(BaseActivity.ToolbarType.TOP);
+        setToolbarBottomLineVisibility(true);
+
+        setToolbarCenterTitle(bedNo + "    " + patName, 0xffffffff, 17);
+
 
         initView(view);
         initAdapter();
@@ -109,26 +110,49 @@ public class NurRecordJLDFragment extends BaseFragment implements View.OnClickLi
         if (!recId.equals("")) {
             GetJLDVal(recId);
         } else {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    init();
-                }
-            }, 300);
+            getEmrPatInfo();
         }
 
 
     }
 
-    private void init() {
-        xmlParseInterface.PatIn = PatIn;
-        xmlParseInterface.PatRelItm = PatRelItm;
-        xmlParseInterface.RetData = recData;
-        xmlParseInterface.EmrCode = emrCode;
-        xmlParseInterface.EpisodeID = episodeID;
-        for (int i = 0; i < fragmentList.size(); i++) {
-            fragmentList.get(i).setXmlParseInterface(xmlParseInterface);
-        }
+    private void getEmrPatInfo() {
+        NurRecordOldApiManager.getEmrPatinfo(episodeID, emrCode, new NurRecordOldApiManager.RecDataCallback() {
+            @Override
+            public void onSuccess(RecDataBean recDataBean) {
+                String recData = recDataBean.getRetData();
+                String[] pat = recData.split("\\^");
+                for (int i = 0; i < pat.length; i++) {
+                    String[] itm = pat[i].split("\\|");
+                    if (itm.length > 1)
+                        CNHVal.put(itm[0], itm[1]);
+                    else
+                        CNHVal.put(itm[0], "");
+                    if (itm.length > 1)
+                        PatIn.put(itm[0], itm[1]);
+                    else
+                        PatIn.put(itm[0], "");
+
+                }
+
+                xmlParseInterface.PatIn = PatIn;
+                xmlParseInterface.PatRelItm = PatRelItm;
+                xmlParseInterface.RetData = recData;
+                xmlParseInterface.EmrCode = emrCode;
+                xmlParseInterface.EpisodeID = episodeID;
+                //为了显示病人信息，赋个值
+                xmlParseInterface.RecId = "PatInfo";
+
+                for (int i = 0; i < fragmentList.size(); i++) {
+                    fragmentList.get(i).setXmlParseInterface(xmlParseInterface);
+                }
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+                showToast("error" + code + ":" + msg);
+            }
+        });
     }
 
     private void GetJLDVal(String recId) {
@@ -353,7 +377,7 @@ public class NurRecordJLDFragment extends BaseFragment implements View.OnClickLi
 
         }
 
-        String parr = ret + "RecBed|" + bedno + "^RecLoc|" + SPUtils.getInstance().getString(SharedPreference.LOCID);
+        String parr = ret + "RecBed|" + bedNo + "^RecLoc|" + SPUtils.getInstance().getString(SharedPreference.LOCID);
 
         NurRecordOldApiManager.saveJLDData(parr, episodeID, emrCode, new NurRecordOldApiManager.RecDataCallback() {
             @Override

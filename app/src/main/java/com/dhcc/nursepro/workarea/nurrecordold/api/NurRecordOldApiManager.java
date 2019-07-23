@@ -210,8 +210,8 @@ public class NurRecordOldApiManager {
         });
     }
 
-    public static void getEmrPatinfo(String episodeID, final RecDataCallback callback) {
-        NurRecordOldApiService.getEmrPatinfo(episodeID, new NurRecordOldApiService.ServiceCallBack() {
+    public static void getEmrPatinfo(String episodeID, String emrCode, final RecDataCallback callback) {
+        NurRecordOldApiService.getEmrPatinfo(episodeID, emrCode, new NurRecordOldApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();

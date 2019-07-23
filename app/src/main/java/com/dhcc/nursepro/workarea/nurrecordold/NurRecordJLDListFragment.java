@@ -44,11 +44,11 @@ public class NurRecordJLDListFragment extends BaseFragment {
 
     private JLDListDetailAdapter jldListDetailAdapter;
 
-    private String episodeID;
-    private String bedNo;
-    private String patName;
-    private String emrCode;
-    private String modelNum;
+    private String episodeID = "";
+    private String bedNo= "";
+    private String patName= "";
+    private String emrCode = "";
+    private String modelNum = "";
     private RecModelListBean.MenuListBean.ModelListBean modelListBean;
     private List<Map> listMap = new ArrayList<>();
 
@@ -61,19 +61,20 @@ public class NurRecordJLDListFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        if (getArguments() != null) {
+            episodeID = getArguments().getString("EpisodeID");
+            emrCode = getArguments().getString("EMRCode");
+            modelNum = getArguments().getString("ModelNum");
+            bedNo = getArguments().getString("BedNo");
+            patName = getArguments().getString("PatName");
+            modelListBean = (RecModelListBean.MenuListBean.ModelListBean) getArguments().getSerializable("ModelListBean");
+        }
+
         setToolbarType(BaseActivity.ToolbarType.TOP);
         setToolbarBottomLineVisibility(true);
 
-        setToolbarCenterTitle(getString(R.string.title_nurrecord), 0xffffffff, 17);
+        setToolbarCenterTitle(bedNo + "    " + patName, 0xffffffff, 17);
 
-        if (getArguments() != null) {
-            episodeID = getArguments().getString("EpisodeID");
-            bedNo = getArguments().getString("BedNo");
-            patName = getArguments().getString("PatName");
-            emrCode = getArguments().getString("EMRCode");
-            modelNum = getArguments().getString("ModelNum");
-            modelListBean = (RecModelListBean.MenuListBean.ModelListBean) getArguments().getSerializable("ModelListBean");
-        }
 
         //右上角按钮"新建"
         View viewright = View.inflate(getActivity(), R.layout.view_fratoolbar_right, null);
@@ -90,6 +91,8 @@ public class NurRecordJLDListFragment extends BaseFragment {
                 bundle.putString("EMRCode", emrCode);
                 bundle.putString("ModelNum", modelNum);
                 bundle.putSerializable("ModelListBean", modelListBean);
+                bundle.putString("BedNo", bedNo);
+                bundle.putString("PatName", patName);
                 startFragment(NurRecordJLDFragment.class, bundle);
             }
         });
@@ -129,15 +132,14 @@ public class NurRecordJLDListFragment extends BaseFragment {
                 bundle.putString("CDate", itm.get("CareDate").toString());
                 bundle.putString("CTime", itm.get("CareTime").toString());
                 bundle.putString("RecID", RecId);
-                bundle.putString("BedNo", bedNo);
-                bundle.putString("PatName", patName);
                 bundle.putString("EMRCode", emrCode);
                 bundle.putString("ModelNum", modelNum);
                 bundle.putString("EpisodeID", episodeID);
                 bundle.putString("listret", "");
                 bundle.putString("Pos", "0");
                 bundle.putSerializable("ModelListBean", modelListBean);
-
+                bundle.putString("BedNo", bedNo);
+                bundle.putString("PatName", patName);
                 bundle.putString("nodeEmrcode", "DHCNUR"
                         + SPUtils.getInstance().getString(SharedPreference.LOCID));
 

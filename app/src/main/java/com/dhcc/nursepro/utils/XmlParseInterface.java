@@ -144,7 +144,7 @@ public class XmlParseInterface implements Serializable {
                 int Iwidth = ConvertUtils.dp2px(Float.parseFloat(width)) + 10;
                 int Iheight = ConvertUtils.dp2px(Float.parseFloat(height)) - 5;
                 final int fontsz = Integer.valueOf(fontsize);
-//                final int fontsz = ConvertUtils.dp2px(Float.parseFloat(fontsize)) - 3;
+                //                final int fontsz = ConvertUtils.dp2px(Float.parseFloat(fontsize)) - 3;
                 String CName = nod.getName();
                 if (RelName != "")
                     CName = RelName;
@@ -264,32 +264,34 @@ public class XmlParseInterface implements Serializable {
                 if ((nod.getName().substring(0, 1).equals("S") || (nod
                         .getName().substring(0, 1).equals("G")))) {
                     final EditText txt = new EditText(context);
-//                    txt.setOnClickListener(new OnClickListener() {
-//                        public void onClick(View v) {
-//                            // TODO Auto-generated method stub
-//                            // MultiChoiceID.clear();
-//                            try {
-//                                EditText sp = (EditText) CNHtb.get(txt.getTag());
-//                                ShowEdit(sp, context);
-//                            } catch (Exception e) {
-//
-//                            }
-//                            return;
-//                        }
-//                    });
-                    txt.setOnTouchListener(new View.OnTouchListener() {
-                        @Override
-                        public boolean onTouch(View v, MotionEvent event) {
-                            switch (event.getAction()) {
-                                case MotionEvent.ACTION_DOWN:
-                                    EditText sp = (EditText) CNHtb.get(txt.getTag());
-                                    ShowEdit(sp, context);
-                                    return true;
-                                default:
-                                    return true;
+                    //                    txt.setOnClickListener(new OnClickListener() {
+                    //                        public void onClick(View v) {
+                    //                            // TODO Auto-generated method stub
+                    //                            // MultiChoiceID.clear();
+                    //                            try {
+                    //                                EditText sp = (EditText) CNHtb.get(txt.getTag());
+                    //                                ShowEdit(sp, context);
+                    //                            } catch (Exception e) {
+                    //
+                    //                            }
+                    //                            return;
+                    //                        }
+                    //                    });
+                    if (nod.getName().substring(0, 1).equals("G")) {
+                        txt.setOnTouchListener(new View.OnTouchListener() {
+                            @Override
+                            public boolean onTouch(View v, MotionEvent event) {
+                                switch (event.getAction()) {
+                                    case MotionEvent.ACTION_DOWN:
+                                        EditText sp = (EditText) CNHtb.get(txt.getTag());
+                                        ShowEdit(sp, context);
+                                        return true;
+                                    default:
+                                        return true;
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
                     txt.setBackgroundResource(R.drawable.nur_record_input_bg);
                     txt.setTextColor(android.graphics.Color
                             .parseColor("#ff000000"));
@@ -497,7 +499,6 @@ public class XmlParseInterface implements Serializable {
     }
 
 
-
     private void ShowEdit(final EditText sp, final Context context) {
         try {
             LayoutInflater factory = LayoutInflater.from(context);
@@ -554,7 +555,8 @@ public class XmlParseInterface implements Serializable {
             txt.setFocusableInTouchMode(true);
             txt.requestFocus();
             InputMethodManager manager = ((InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE));
-            if (manager != null) manager.showSoftInput(txt, 0);
+            if (manager != null)
+                manager.showSoftInput(txt, 0);
             dialog07.setPositiveButton("确定",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog,
@@ -1583,37 +1585,44 @@ public class XmlParseInterface implements Serializable {
             if (total >= 0 && total < 7) {
                 for (String value : list7) {
                     button = (Button) CNHtb.get(value);
-                    if (button != null) button.setText("");
+                    if (button != null)
+                        button.setText("");
                 }
 
                 for (String value : list12) {
                     button = (Button) CNHtb.get(value);
-                    if (button != null) button.setText("");
+                    if (button != null)
+                        button.setText("");
                 }
             } else if (total >= 7 && total <= 11) {
 
                 for (String value : list7) {
                     button = (Button) CNHtb.get(value);
-                    if (button != null) button.setText("√");
+                    if (button != null)
+                        button.setText("√");
                 }
 
                 for (String value : list12) {
                     button = (Button) CNHtb.get(value);
-                    if (button != null) button.setText("");
+                    if (button != null)
+                        button.setText("");
                 }
 
             } else if (total > 11) {
                 for (int i = 0; i < list7.size(); i++) {
                     button = (Button) CNHtb.get(list7.get(i));
                     if (button != null) {
-                        if (i == 0) button.setText("");
-                        else button.setText("√");
+                        if (i == 0)
+                            button.setText("");
+                        else
+                            button.setText("√");
                     }
                 }
 
                 for (String value : list12) {
                     button = (Button) CNHtb.get(value);
-                    if (button != null) button.setText("√");
+                    if (button != null)
+                        button.setText("√");
                 }
             }
 
@@ -1694,46 +1703,56 @@ public class XmlParseInterface implements Serializable {
             List<String> list45 = Arrays.asList("Item84", "Item124", "Item129", "Item134", "Item139", "Item144", "Item149", "Item154");
             if (total >= 0 && total <= 24) {
                 button = (Button) CNHtb.get(list0.get(0));
-                if (button != null) button.setText("√");
+                if (button != null)
+                    button.setText("√");
 
                 for (String value : list25) {
                     button = (Button) CNHtb.get(value);
-                    if (button != null) button.setText("");
+                    if (button != null)
+                        button.setText("");
                 }
 
                 for (String value : list45) {
                     button = (Button) CNHtb.get(value);
-                    if (button != null) button.setText("");
+                    if (button != null)
+                        button.setText("");
                 }
 
             } else if (total > 24 && total <= 44) {
                 button = (Button) CNHtb.get(list0.get(0));
-                if (button != null) button.setText("");
+                if (button != null)
+                    button.setText("");
 
                 for (String value : list25) {
                     button = (Button) CNHtb.get(value);
-                    if (button != null) button.setText("√");
+                    if (button != null)
+                        button.setText("√");
                 }
 
                 for (String value : list45) {
                     button = (Button) CNHtb.get(value);
-                    if (button != null) button.setText("");
+                    if (button != null)
+                        button.setText("");
                 }
             } else if (total > 44) {
                 button = (Button) CNHtb.get(list0.get(0));
-                if (button != null) button.setText("");
+                if (button != null)
+                    button.setText("");
 
                 for (int i = 0; i < list25.size(); i++) {
                     button = (Button) CNHtb.get(list25.get(i));
                     if (button != null) {
-                        if (i == 0) button.setText("");
-                        else button.setText("√");
+                        if (i == 0)
+                            button.setText("");
+                        else
+                            button.setText("√");
                     }
                 }
 
                 for (String value : list45) {
                     button = (Button) CNHtb.get(value);
-                    if (button != null) button.setText("√");
+                    if (button != null)
+                        button.setText("√");
                 }
             }
 

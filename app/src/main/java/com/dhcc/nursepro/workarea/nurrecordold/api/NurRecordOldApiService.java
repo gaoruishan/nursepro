@@ -102,7 +102,7 @@ public class NurRecordOldApiService {
     }
 
     //获取患者信息
-    public static void getEmrPatinfo(String episodeID, final ServiceCallBack callback) {
+    public static void getEmrPatinfo(String episodeID, String emrCode, final ServiceCallBack callback) {
         HashMap<String, String> properties = new HashMap<>();
         properties.put("episodeId", episodeID);
 
