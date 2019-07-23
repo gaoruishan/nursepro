@@ -53,5 +53,5 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/patevents_device_color"></View>
+        android:background="@color/patevents_device_color"/>
 </LinearLayout>

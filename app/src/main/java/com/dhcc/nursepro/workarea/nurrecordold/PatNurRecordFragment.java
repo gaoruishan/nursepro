@@ -13,7 +13,16 @@ import android.view.ViewGroup;
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
 import com.base.commlibs.constant.Action;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.workarea.nurrecordold.adapter.NurRecordMenuListAdapter;
+import com.dhcc.nursepro.workarea.nurrecordold.adapter.NurRecordPatListAdapter;
+import com.dhcc.nursepro.workarea.nurrecordold.api.NurRecordOldApiManager;
+import com.dhcc.nursepro.workarea.nurrecordold.bean.InWardPatListBean;
+import com.dhcc.nursepro.workarea.nurrecordold.bean.RecModelListBean;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * PatNurRecordFragment
@@ -25,6 +34,11 @@ import com.dhcc.nursepro.R;
 public class PatNurRecordFragment extends BaseFragment {
     private RecyclerView recyPatnurrecordPat;
     private RecyclerView recyPatnurrecordRecord;
+
+    private List<InWardPatListBean.PatInfoListBean> patInfoList = new ArrayList<>();
+    private NurRecordPatListAdapter patListAdapter;
+    private InWardPatListBean.PatInfoListBean patInfoListBean;
+    private NurRecordMenuListAdapter menuListAdapter;
 
 
     @Override
@@ -41,7 +55,6 @@ public class PatNurRecordFragment extends BaseFragment {
 
         setToolbarCenterTitle(getString(R.string.title_nurrecord), 0xffffffff, 17);
 
-//      initView();
         initview(view);
         initAdapter();
         initData();
@@ -65,11 +78,45 @@ public class PatNurRecordFragment extends BaseFragment {
     }
 
     private void initAdapter() {
+        patListAdapter = new NurRecordPatListAdapter(new ArrayList<>());
+        patListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                patListAdapter.setSelectItem(position);
+                patListAdapter.notifyDataSetChanged();
+                patInfoListBean = (InWardPatListBean.PatInfoListBean) adapter.getItem(position);
+                if (patInfoListBean != null) {
+                    getModelList(patInfoListBean);
+                }
+            }
+        });
+        recyPatnurrecordPat.setAdapter(patListAdapter);
+
+        menuListAdapter = new NurRecordMenuListAdapter(new ArrayList<>(), this, patInfoListBean);
+        recyPatnurrecordRecord.setAdapter(menuListAdapter);
+
 
     }
 
     private void initData() {
+        showLoadingTip(BaseActivity.LoadingType.FULL);
+        NurRecordOldApiManager.getInWardPatList(new NurRecordOldApiManager.InWardPatListCallback() {
+            @Override
+            public void onSuccess(InWardPatListBean inWardPatListBean) {
+                hideLoadingTip();
+                patInfoList = inWardPatListBean.getPatInfoList();
+                patListAdapter.setNewData(patInfoList);
+                if (patInfoList.size() > 0) {
+                    getModelList(patInfoList.get(0));
+                }
+            }
 
+            @Override
+            public void onFail(String code, String msg) {
+                hideLoadFailTip();
+                showToast("error" + code + ":" + msg);
+            }
+        });
 
     }
 
@@ -82,7 +129,38 @@ public class PatNurRecordFragment extends BaseFragment {
             bundle = intent.getExtras();
             String scanInfo = bundle.getString("data");
 
+            for (int i = 0; i < patInfoList.size(); i++) {
+                patInfoListBean = patInfoList.get(i);
+                if (patInfoListBean.getRegNo().equals(scanInfo)) {
+                    patListAdapter.setSelectItem(i);
+                    patListAdapter.notifyDataSetChanged();
+                    recyPatnurrecordPat.scrollToPosition(i);
+                    getModelList(patInfoListBean);
+                    break;
+                }
+            }
+
         }
+    }
+
+    private void getModelList(InWardPatListBean.PatInfoListBean patInfoListBean) {
+        showLoadingTip(BaseActivity.LoadingType.FULL);
+        NurRecordOldApiManager.getModelList(patInfoListBean.getEpisodeId(), new NurRecordOldApiManager.RecModelListCallback() {
+            @Override
+            public void onSuccess(RecModelListBean recModelListBean) {
+                hideLoadFailTip();
+                menuListAdapter.setNewData(recModelListBean.getMenuList());
+                menuListAdapter.setPatInfoListBean(patInfoListBean);
+                menuListAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+                hideLoadFailTip();
+                showToast("error" + code + ":" + msg);
+            }
+        });
     }
 
 }

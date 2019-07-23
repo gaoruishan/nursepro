@@ -121,14 +121,16 @@ ext {
                     // 流式布局
                     "flowtag"                        : 'com.hyman:flowlayout-lib:1.1.2',
                     // 工具类
-                    "utilcode"                       : 'com.blankj:utilcode:1.24.0',
+                    "utilcode"                       : 'com.blankj:utilcode:1.25.0',
                     "EasySwipeMenuLayout"            : 'com.github.anzaizai:EasySwipeMenuLayout:1.1.4',
                     //通知
                     "notificationLib"                : 'cn.yc:notificationLib:1.0.2',
                     //ViewPagerIndicator
                     "ViewPagerIndicator"             : 'com.shizhefei:ViewPagerIndicator:1.1.9',
                     //XML解析
-                    "dom4j"                          : 'org.dom4j:dom4j:2.1.1'
+                    "dom4j"                          : 'org.dom4j:dom4j:2.1.1',
+                    //水平竖直滚动ScrollView
+                    "HVScrollView"                   : 'com.shizhefei:HVScrollView:1.0.1'
 
     ]
 }

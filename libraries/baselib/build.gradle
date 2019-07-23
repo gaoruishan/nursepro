@@ -53,6 +53,7 @@ dependencies {
     debugApi rootProject.ext.dependencies["debugLeakcanary"]
     releaseApi rootProject.ext.dependencies["releaseLeakcanary"]
 
+    api rootProject.ext.dependencies["HVScrollView"]
     api rootProject.ext.dependencies["ViewPagerIndicator"]
     api rootProject.ext.dependencies["dom4j"]
 

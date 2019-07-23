@@ -24,6 +24,7 @@ import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
 import com.base.commlibs.constant.Action;
 import com.blankj.utilcode.util.ConvertUtils;
+import com.blankj.utilcode.util.StringUtils;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.utils.XmlParseInterface;
 import com.dhcc.nursepro.workarea.nurrecordold.api.NurRecordOldApiManager;
@@ -41,13 +42,13 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * NurRecordOldFragment
+ * NurRecordPGDFragment
  * 护理病历老版XML解析样式
  *
  * @author Devlix126
  * created at 2019/7/4 11:22
  */
-public class NurRecordOldFragment extends BaseFragment implements View.OnClickListener {
+public class NurRecordPGDFragment extends BaseFragment implements View.OnClickListener {
     public String threeDataStr = "";
     public String scanUserId = "";
     private ScrollIndicatorView nurrecordIndicator;
@@ -58,7 +59,7 @@ public class NurRecordOldFragment extends BaseFragment implements View.OnClickLi
     private String episodeID = "";
     private String emrCode = "";
     private String pgdId = "";
-    private int pagesize = 0;
+    private int modelNum = 0;
     private Map<String, Object> PatIn = new HashMap<>();
     private Map<String, Object> CNHVal = new HashMap<>();
     private Map<String, Object> CNHtb = new HashMap<>();
@@ -68,7 +69,7 @@ public class NurRecordOldFragment extends BaseFragment implements View.OnClickLi
 
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_nur_record_old, container, false);
+        return inflater.inflate(R.layout.fragment_nur_record_pgd, container, false);
     }
 
     @Override
@@ -84,24 +85,22 @@ public class NurRecordOldFragment extends BaseFragment implements View.OnClickLi
         xmlParseInterface.CNHLB = CNHLB;
         xmlParseInterface.CNHtb = CNHtb;
         xmlParseInterface.CNHVal = CNHVal;
-        //        if (getArguments() != null) {
-        //            episodeID = getArguments().getString("EpisodeID");
-        //            emrCode = getArguments().getString("EMRCode");
-        //
-        //            if (StringUtils.isEmpty(episodeID)) {
-        //                getEmrPatInfo();
-        //            } else {
-        //                getPGDId();
-        //
-        //            }
-        //        }
-        pagesize = 2;
-        episodeID = "396";
-        emrCode = "DHCNURXHPGD";
+
+
+        if (getArguments() != null) {
+            episodeID = getArguments().getString("EpisodeID");
+            emrCode = getArguments().getString("EMRCode");
+            modelNum = Integer.parseInt(getArguments().getString("ModelNum"));
+            if (StringUtils.isEmpty(episodeID)) {
+                getEmrPatInfo();
+            } else {
+                getPGDId();
+
+            }
+        }
+
         initview(view);
         initAdapter();
-        getPGDId();
-
 
     }
 
@@ -242,6 +241,8 @@ public class NurRecordOldFragment extends BaseFragment implements View.OnClickLi
     }
 
     private void getPGDId() {
+        showLoadingTip(BaseActivity.LoadingType.FULL);
+
         NurRecordOldApiManager.getPGDId(episodeID, emrCode, new NurRecordOldApiManager.RecDataCallback() {
             @Override
             public void onSuccess(RecDataBean recDataBean) {
@@ -346,8 +347,8 @@ public class NurRecordOldFragment extends BaseFragment implements View.OnClickLi
     private void initview(View view) {
 
 
-        nurrecordIndicator = view.findViewById(R.id.nurrecord_indicator);
-        nurrecordViewPager = view.findViewById(R.id.nurrecord_viewPager);
+        nurrecordIndicator = view.findViewById(R.id.nurrecord_pgd_indicator);
+        nurrecordViewPager = view.findViewById(R.id.nurrecord_pgd_viewPager);
 
         float unSelectSize = 13;
         float selectSize = unSelectSize * 1.2f;
@@ -415,6 +416,7 @@ public class NurRecordOldFragment extends BaseFragment implements View.OnClickLi
     public void getScanMsg(Intent intent) {
         super.getScanMsg(intent);
         if (Action.NUR_RECORD_XML_VIEW.equals(intent.getAction())) {
+            hideLoadingTip();
             searchcontrol(Objects.requireNonNull(getActivity()).findViewById(intent.getIntExtra("viewId", -1)));
         }
 
@@ -429,7 +431,7 @@ public class NurRecordOldFragment extends BaseFragment implements View.OnClickLi
 
         @Override
         public int getCount() {
-            return pagesize;
+            return modelNum;
         }
 
         @Override
@@ -451,7 +453,7 @@ public class NurRecordOldFragment extends BaseFragment implements View.OnClickLi
 
         @Override
         public Fragment getFragmentForPage(int position) {
-            NurRecordViewPagerFragment fragment = NurRecordViewPagerFragment.newInstance(episodeID, emrCode + "_PDA." + (position + 1), xmlParseInterface);
+            NurRecordViewPagerFragment fragment = NurRecordViewPagerFragment.newInstance(episodeID, emrCode + "_PDA." + (position + 1));
             fragmentList.add(fragment);
             return fragment;
         }

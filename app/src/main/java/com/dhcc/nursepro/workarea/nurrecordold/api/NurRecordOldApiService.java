@@ -14,14 +14,28 @@ import java.util.HashMap;
  */
 public class NurRecordOldApiService {
 
-    public static void getPatNurRecordList(final ServiceCallBack callback) {
+    public static void getInWardPatList(final ServiceCallBack callback) {
         SPUtils spUtils = SPUtils.getInstance();
         HashMap<String, String> properties = new HashMap<>();
         properties.put("wardId", spUtils.getString(SharedPreference.WARDID));
+        properties.put("userId", spUtils.getString(SharedPreference.USERID));
+
+
+        WebServiceUtils.callWebService("getInWardPatList", properties, new WebServiceUtils.WebServiceCallBack() {
+            @Override
+            public void callBack(String result) {
+                callback.onResult(result);
+            }
+        });
+    }
+
+    public static void getModelList(String episodeID, final ServiceCallBack callback) {
+        SPUtils spUtils = SPUtils.getInstance();
+        HashMap<String, String> properties = new HashMap<>();
         properties.put("locId", spUtils.getString(SharedPreference.LOCID));
+        properties.put("episodeId", episodeID);
 
-
-        WebServiceUtils.callWebService("", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService("getModelList", properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -101,7 +115,7 @@ public class NurRecordOldApiService {
     }
 
     //保存评估单内容
-    public static void savePGDData(String parr,String pgdId, final ServiceCallBack callback) {
+    public static void savePGDData(String parr, String pgdId, final ServiceCallBack callback) {
         HashMap<String, String> properties = new HashMap<>();
         properties.put("parr", parr);
         properties.put("pgdId", pgdId);
@@ -113,6 +127,52 @@ public class NurRecordOldApiService {
             }
         });
     }
+
+    //获取记录单列表
+    public static void getCareRecComm(String parr, final ServiceCallBack callback) {
+        HashMap<String, String> properties = new HashMap<>();
+        properties.put("parr", parr);
+
+        WebServiceUtils.callWebService("getCareRecComm", properties, new WebServiceUtils.WebServiceCallBack() {
+            @Override
+            public void callBack(String result) {
+                callback.onResult(result);
+            }
+        });
+    }
+
+    //获取记录单数据
+    public static void getJLDVal(String par, String rw, final ServiceCallBack callback) {
+        HashMap<String, String> properties = new HashMap<>();
+        properties.put("par", par);
+        properties.put("rw", rw);
+
+        WebServiceUtils.callWebService("getJLDData", properties, new WebServiceUtils.WebServiceCallBack() {
+            @Override
+            public void callBack(String result) {
+                callback.onResult(result);
+            }
+        });
+    }
+
+    //保存记录单数据
+    public static void saveJLDData(String parr, String episodeID, String emrCode, final ServiceCallBack callback) {
+        HashMap<String, String> properties = new HashMap<>();
+        //episodeID, parr, userId, recTyp, userGroup
+        properties.put("parr", parr);
+        properties.put("episodeID", episodeID);
+        properties.put("userId", SPUtils.getInstance().getString(SharedPreference.USERID));
+        properties.put("recTyp", emrCode);
+        properties.put("userGroup", "");
+
+        WebServiceUtils.callWebService("saveJLDData", properties, new WebServiceUtils.WebServiceCallBack() {
+            @Override
+            public void callBack(String result) {
+                callback.onResult(result);
+            }
+        });
+    }
+
 
     public interface ServiceCallBack {
         void onResult(String jsonStr);

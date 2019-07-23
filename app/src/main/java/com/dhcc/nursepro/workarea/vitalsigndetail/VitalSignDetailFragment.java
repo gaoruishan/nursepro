@@ -97,7 +97,7 @@ public class VitalSignDetailFragment extends BaseFragment implements View.OnClic
         recyclerView = view.findViewById(R.id.recy_vitalsign_detail);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        vitalSignDetailAdapter = new VitalSignDetailAdapter(new ArrayList<Map>(),getContext());
+        vitalSignDetailAdapter = new VitalSignDetailAdapter(new ArrayList<>(),getContext());
         recyclerView.setAdapter(vitalSignDetailAdapter);
         vitalSignDetailAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override

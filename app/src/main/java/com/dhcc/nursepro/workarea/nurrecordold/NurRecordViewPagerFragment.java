@@ -40,7 +40,7 @@ public class NurRecordViewPagerFragment extends BaseFragment{
         initData();
     }
 
-    public static NurRecordViewPagerFragment newInstance(String episodeID, String emrCode, XmlParseInterface xmlParseInterface) {
+    public static NurRecordViewPagerFragment newInstance(String episodeID, String emrCode) {
         NurRecordViewPagerFragment fragment = new NurRecordViewPagerFragment();
         Bundle args = new Bundle();
         args.putString("EPISODEID", episodeID);

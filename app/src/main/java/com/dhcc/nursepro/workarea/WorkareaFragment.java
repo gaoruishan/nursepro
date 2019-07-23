@@ -10,12 +10,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.base.commlibs.BaseActivity;
+import com.base.commlibs.BaseFragment;
 import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.base.commlibs.BaseActivity;
-import com.base.commlibs.BaseFragment;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.allotbed.AllotBedFragment;
 import com.dhcc.nursepro.workarea.bedmap.BedMapFragment;
@@ -93,11 +93,11 @@ public class WorkareaFragment extends BaseFragment {
             @Override
             public void onSuccess(MainConfigBean mainConfigBean) {
                 ItemNameList = mainConfigBean.getMainConfig();
-//                ItemNameList.add("DRUGHANDOVER");
-//                ItemNameList.add("DRUGPREPARATION");
-//                ItemNameList.add("RLREG");
+                //                ItemNameList.add("DRUGHANDOVER");
+                //                ItemNameList.add("DRUGPREPARATION");
+                //                ItemNameList.add("RLREG");
                 patEventsAdapter.setNewData(ItemNameList);
-                SPUtils.getInstance().put(SharedPreference.BLOODSCANTIMES,mainConfigBean.getScantimes());
+                SPUtils.getInstance().put(SharedPreference.BLOODSCANTIMES, mainConfigBean.getScantimes());
             }
 
             @Override
