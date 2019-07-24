@@ -11,6 +11,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.nurrecordold.NurRecordJLDListFragment;
+import com.dhcc.nursepro.workarea.nurrecordold.NurRecordMPGDListFragment;
 import com.dhcc.nursepro.workarea.nurrecordold.NurRecordPGDFragment;
 import com.dhcc.nursepro.workarea.nurrecordold.bean.InWardPatListBean;
 import com.dhcc.nursepro.workarea.nurrecordold.bean.RecModelListBean;
@@ -63,10 +64,13 @@ public class NurRecordMenuListAdapter extends BaseQuickAdapter<RecModelListBean.
                     bundle.putString("EMRCode", modelListBean.getModelCode());
                     bundle.putString("ModelNum", modelListBean.getModelNum());
                     bundle.putSerializable("ModelListBean", modelListBean);
-                    if (Objects.requireNonNull(modelListBean).getModelType().equals("2")) {
-                        baseFragment.startFragment(NurRecordPGDFragment.class, bundle);
-                    } else {
+                    if (Objects.requireNonNull(modelListBean).getModelType().equals("1")) {
                         baseFragment.startFragment(NurRecordJLDListFragment.class, bundle);
+                    } else if (Objects.requireNonNull(modelListBean).getModelType().equals("2")) {
+                        baseFragment.startFragment(NurRecordPGDFragment.class, bundle);
+                    } else if (Objects.requireNonNull(modelListBean).getModelType().equals("3")) {
+                        baseFragment.startFragment(NurRecordMPGDListFragment.class, bundle);
+
                     }
                 }
             }

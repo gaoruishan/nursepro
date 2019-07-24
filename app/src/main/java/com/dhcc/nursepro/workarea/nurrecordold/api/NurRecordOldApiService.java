@@ -105,6 +105,7 @@ public class NurRecordOldApiService {
     public static void getEmrPatinfo(String episodeID, String emrCode, final ServiceCallBack callback) {
         HashMap<String, String> properties = new HashMap<>();
         properties.put("episodeId", episodeID);
+        properties.put("emrCode", emrCode);
 
         WebServiceUtils.callWebService("getEmrPatinfo", properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
@@ -166,6 +167,47 @@ public class NurRecordOldApiService {
         properties.put("userGroup", "");
 
         WebServiceUtils.callWebService("saveJLDData", properties, new WebServiceUtils.WebServiceCallBack() {
+            @Override
+            public void callBack(String result) {
+                callback.onResult(result);
+            }
+        });
+    }
+
+    //获取多次评估单列表
+    public static void getMPGDList(String parr, final ServiceCallBack callback) {
+        HashMap<String, String> properties = new HashMap<>();
+        properties.put("parr", parr);
+
+        WebServiceUtils.callWebService("getMultiPGDList", properties, new WebServiceUtils.WebServiceCallBack() {
+            @Override
+            public void callBack(String result) {
+                callback.onResult(result);
+            }
+        });
+    }
+
+    //获取多次评估单数据
+    public static void getMPGDVal(String par, String rw, final ServiceCallBack callback) {
+        HashMap<String, String> properties = new HashMap<>();
+        properties.put("par", par);
+        properties.put("rw", rw);
+
+        WebServiceUtils.callWebService("getMultiPGDData", properties, new WebServiceUtils.WebServiceCallBack() {
+            @Override
+            public void callBack(String result) {
+                callback.onResult(result);
+            }
+        });
+    }
+
+    //保存评估单内容
+    public static void saveMPGDData(String parr, String pgdId, final ServiceCallBack callback) {
+        HashMap<String, String> properties = new HashMap<>();
+        properties.put("parr", parr);
+        properties.put("pgdId", pgdId);
+
+        WebServiceUtils.callWebService("savePGDData", properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);

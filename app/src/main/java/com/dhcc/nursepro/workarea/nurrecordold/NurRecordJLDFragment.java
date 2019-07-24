@@ -26,6 +26,7 @@ import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.StringUtils;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.utils.XmlParseInterface;
 import com.dhcc.nursepro.workarea.nurrecordold.api.NurRecordOldApiManager;
@@ -46,6 +47,7 @@ import java.util.Objects;
 
 /**
  * NurRecordJLDFragment
+ * 护理病历-记录单
  *
  * @author Devlix126
  * created at 2019/7/22 14:10
@@ -58,20 +60,20 @@ public class NurRecordJLDFragment extends BaseFragment implements View.OnClickLi
     private String episodeID = "";
     private RecModelListBean.MenuListBean.ModelListBean modelListBean;
 
+    private String bedNo = "";
+    private String patName = "";
+    private String emrCode = "";
+    private String recId = "";
+
     private Map<String, Object> PatRelItm = new HashMap<>();
     private Map<String, Object> PatIn = new HashMap<>();
     private Map<String, Object> CNHtb = new HashMap<>();
     private Map<String, Object> CNHLB = new HashMap<>();
     private Map<String, Object> CNHVal = new HashMap<>();
 
-    private String bedNo = "";
-    private String patName = "";
-    private String emrCode = "";
-    private String recId = "";
-    private String recData = "";
 
     private List<NurRecordViewPagerFragment> fragmentList = new ArrayList<>();
-    private int modelNum;
+    private int modelNum = 0;
 
     private XmlParseInterface xmlParseInterface = new XmlParseInterface();
 
@@ -107,10 +109,10 @@ public class NurRecordJLDFragment extends BaseFragment implements View.OnClickLi
         xmlParseInterface.CNHVal = CNHVal;
         //        bedno=intent.getExtras().getString("bedno");
         //        PatName=intent.getExtras().getString("PatName");
-        if (!recId.equals("")) {
-            GetJLDVal(recId);
-        } else {
+        if (StringUtils.isEmpty(recId)) {
             getEmrPatInfo();
+        } else {
+            GetJLDVal(recId);
         }
 
 

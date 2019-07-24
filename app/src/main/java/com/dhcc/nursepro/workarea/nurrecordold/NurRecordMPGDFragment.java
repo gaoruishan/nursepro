@@ -24,10 +24,12 @@ import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
 import com.base.commlibs.constant.Action;
 import com.blankj.utilcode.util.ConvertUtils;
+import com.blankj.utilcode.util.StringUtils;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.utils.XmlParseInterface;
 import com.dhcc.nursepro.workarea.nurrecordold.api.NurRecordOldApiManager;
 import com.dhcc.nursepro.workarea.nurrecordold.bean.RecDataBean;
+import com.dhcc.nursepro.workarea.nurrecordold.bean.RecModelListBean;
 import com.shizhefei.view.indicator.IndicatorViewPager;
 import com.shizhefei.view.indicator.ScrollIndicatorView;
 import com.shizhefei.view.indicator.slidebar.ColorBar;
@@ -41,37 +43,40 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * NurRecordPGDFragment
- * 护理病历-评估单
+ * NurRecordMPGDFragment
+ * 护理病历-多次评估单
  *
  * @author Devlix126
- * created at 2019/7/4 11:22
+ * created at 2019/7/24 10:21
  */
-public class NurRecordPGDFragment extends BaseFragment implements View.OnClickListener {
+public class NurRecordMPGDFragment extends BaseFragment implements View.OnClickListener {
+
     public String threeDataStr = "";
     public String scanUserId = "";
     private ScrollIndicatorView nurrecordIndicator;
     private ViewPager nurrecordViewPager;
     private IndicatorViewPager indicatorViewPager;
     private XmlParseInterface xmlParseInterface = new XmlParseInterface();
-
     private String episodeID = "";
-    private String emrCode = "";
-    private String pgdId = "";
-    private int modelNum = 0;
+    private RecModelListBean.MenuListBean.ModelListBean modelListBean;
+
     private String bedNo = "";
     private String patName = "";
+    private String emrCode = "";
+    private String recId = "";
 
+    private Map<String, Object> PatRelItm = new HashMap<>();
     private Map<String, Object> PatIn = new HashMap<>();
     private Map<String, Object> CNHVal = new HashMap<>();
     private Map<String, Object> CNHtb = new HashMap<>();
     private Map<String, Object> CNHLB = new HashMap<>();
 
     private List<NurRecordViewPagerFragment> fragmentList = new ArrayList<>();
+    private int modelNum = 0;
 
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_nur_record_pgd, container, false);
+        return inflater.inflate(R.layout.fragment_nur_record_mpgd, container, false);
     }
 
     @Override
@@ -80,6 +85,7 @@ public class NurRecordPGDFragment extends BaseFragment implements View.OnClickLi
 
         if (getArguments() != null) {
             episodeID = getArguments().getString("EpisodeID");
+            recId = getArguments().getString("RecID");
             emrCode = getArguments().getString("EMRCode");
             modelNum = Integer.parseInt(getArguments().getString("ModelNum"));
             bedNo = getArguments().getString("BedNo");
@@ -98,7 +104,12 @@ public class NurRecordPGDFragment extends BaseFragment implements View.OnClickLi
         initview(view);
         initAdapter();
 
-        getPGDId();
+        if (StringUtils.isEmpty(recId)) {
+            getEmrPatInfo();
+        } else {
+            getMPGDVal(recId);
+        }
+
     }
 
     public void Sure() {
@@ -187,13 +198,25 @@ public class NurRecordPGDFragment extends BaseFragment implements View.OnClickLi
             }
         }
 
-        Map<String, Object> Parrm = new HashMap<String, Object>();
-        // String Param="&Code="+EmrCode+"&EpisodeId="+EpisodeID;
-        // EpisodeID, parr As %String, user, RecTyp, usergroup
+
         String parr = ret + "EmrUser|" + scanUserId + "^EmrCode|" + emrCode + "^EpisodeId|" + episodeID;
 
 
-        savePGDData(parr, pgdId.trim());
+        savePGDData(parr, recId.trim());
+    }
+
+    private void savePGDData(String parr, String pgdId) {
+        NurRecordOldApiManager.savePGDData(parr, pgdId, new NurRecordOldApiManager.RecDataCallback() {
+            @Override
+            public void onSuccess(RecDataBean recDataBean) {
+                showToast("保存成功");
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+                showToast("error" + code + ":" + msg);
+            }
+        });
     }
 
     private String GetMultiVal(String itm) {
@@ -223,41 +246,6 @@ public class NurRecordPGDFragment extends BaseFragment implements View.OnClickLi
         return ret;
     }
 
-    private void savePGDData(String parr, String pgdId) {
-        NurRecordOldApiManager.savePGDData(parr, pgdId, new NurRecordOldApiManager.RecDataCallback() {
-            @Override
-            public void onSuccess(RecDataBean recDataBean) {
-                showToast("保存成功");
-            }
-
-            @Override
-            public void onFail(String code, String msg) {
-                showToast("error" + code + ":" + msg);
-            }
-        });
-    }
-
-    private void getPGDId() {
-        showLoadingTip(BaseActivity.LoadingType.FULL);
-
-        NurRecordOldApiManager.getPGDId(episodeID, emrCode, new NurRecordOldApiManager.RecDataCallback() {
-            @Override
-            public void onSuccess(RecDataBean recDataBean) {
-                pgdId = recDataBean.getRetData();
-                if (pgdId.equals("")) {
-                    getEmrPatInfo();
-                } else {
-                    getPGDVal(pgdId);
-                }
-            }
-
-            @Override
-            public void onFail(String code, String msg) {
-                showToast("error" + code + ":" + msg);
-            }
-        });
-    }
-
     private void getEmrPatInfo() {
         NurRecordOldApiManager.getEmrPatinfo(episodeID, emrCode, new NurRecordOldApiManager.RecDataCallback() {
             @Override
@@ -278,6 +266,7 @@ public class NurRecordPGDFragment extends BaseFragment implements View.OnClickLi
                 }
 
                 xmlParseInterface.PatIn = PatIn;
+                xmlParseInterface.PatRelItm = PatRelItm;
                 xmlParseInterface.RetData = recData;
                 xmlParseInterface.EmrCode = emrCode;
                 xmlParseInterface.EpisodeID = episodeID;
@@ -298,8 +287,17 @@ public class NurRecordPGDFragment extends BaseFragment implements View.OnClickLi
         });
     }
 
-    private void getPGDVal(String PGDId) {
-        NurRecordOldApiManager.getPGDVal(PGDId, new NurRecordOldApiManager.RecDataCallback() {
+    private void getMPGDVal(String recId) {
+        String[] rec = recId.split("\\^");
+        String par = "";
+        String rw = "";
+        if (rec.length > 0) {
+            par = recId.split("\\^")[0];
+        }
+        if (rec.length > 1) {
+            rw = recId.split("\\^")[1];
+        }
+        NurRecordOldApiManager.getMPGDVal(par, rw, new NurRecordOldApiManager.RecDataCallback() {
             @Override
             public void onSuccess(RecDataBean recDataBean) {
                 String[] pat = recDataBean.getRetData().split("\\^");
@@ -321,7 +319,7 @@ public class NurRecordPGDFragment extends BaseFragment implements View.OnClickLi
                 xmlParseInterface.RetData = recDataBean.getRetData();
                 xmlParseInterface.EmrCode = emrCode;
                 xmlParseInterface.EpisodeID = episodeID;
-                xmlParseInterface.RecId = pgdId;
+                xmlParseInterface.RecId = recId;
 
                 for (int i = 0; i < fragmentList.size(); i++) {
                     fragmentList.get(i).setXmlParseInterface(xmlParseInterface);
@@ -344,8 +342,8 @@ public class NurRecordPGDFragment extends BaseFragment implements View.OnClickLi
     private void initview(View view) {
 
 
-        nurrecordIndicator = view.findViewById(R.id.nurrecord_pgd_indicator);
-        nurrecordViewPager = view.findViewById(R.id.nurrecord_pgd_viewPager);
+        nurrecordIndicator = view.findViewById(R.id.nurrecord_mpgd_indicator);
+        nurrecordViewPager = view.findViewById(R.id.nurrecord_mpgd_viewPager);
 
         float unSelectSize = 13;
         float selectSize = unSelectSize * 1.2f;
@@ -367,7 +365,7 @@ public class NurRecordPGDFragment extends BaseFragment implements View.OnClickLi
                 //syncInfo();
                 break;
             case "btnSave":
-                if (pgdId.equals("")) {
+                if (recId.equals("")) {
                     v.setClickable(false);
                 }
                 Sure();

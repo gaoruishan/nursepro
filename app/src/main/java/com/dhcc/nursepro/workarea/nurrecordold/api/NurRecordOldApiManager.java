@@ -372,6 +372,104 @@ public class NurRecordOldApiManager {
         });
     }
 
+    public static void getMPGDList(String parr, final CareRecCommCallback callback) {
+        NurRecordOldApiService.getMPGDList(parr, new NurRecordOldApiService.ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                Gson gson = new Gson();
+                if (jsonStr.isEmpty()) {
+                    callback.onFail("-1", "网络错误，请求数据为空");
+                } else {
+                    try {
+                        CareRecCommListBean careRecCommListBean = gson.fromJson(jsonStr, CareRecCommListBean.class);
+                        Map JsonMap = gson.fromJson(jsonStr, Map.class);
+                        careRecCommListBean.setMap(JsonMap);
+                        if (ObjectUtils.isEmpty(careRecCommListBean)) {
+                            callback.onFail("-3", "网络错误，数据解析为空");
+                        } else {
+                            if ("0".equals(careRecCommListBean.getStatus())) {
+                                if (callback != null) {
+                                    callback.onSuccess(careRecCommListBean);
+                                }
+                            } else {
+                                if (callback != null) {
+                                    callback.onFail(careRecCommListBean.getMsgcode(), careRecCommListBean.getMsg());
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        callback.onFail("-2", "网络错误，数据解析失败");
+                    }
+
+                }
+            }
+        });
+    }
+
+    public static void getMPGDVal(String par, String rw, final RecDataCallback callback) {
+        NurRecordOldApiService.getMPGDVal(par, rw, new NurRecordOldApiService.ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                Gson gson = new Gson();
+                if (jsonStr.isEmpty()) {
+                    callback.onFail("-1", "网络错误，请求数据为空");
+                } else {
+                    try {
+                        RecDataBean recDataBean = gson.fromJson(jsonStr, RecDataBean.class);
+                        if (ObjectUtils.isEmpty(recDataBean)) {
+                            callback.onFail("-3", "网络错误，数据解析为空");
+                        } else {
+                            if ("0".equals(recDataBean.getStatus())) {
+                                if (callback != null) {
+                                    callback.onSuccess(recDataBean);
+                                }
+                            } else {
+                                if (callback != null) {
+                                    callback.onFail(recDataBean.getMsgcode(), recDataBean.getMsg());
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        callback.onFail("-2", "网络错误，数据解析失败");
+                    }
+
+                }
+            }
+        });
+    }
+
+    public static void saveMPGDData(String parr, String episodeID, final RecDataCallback callback) {
+        NurRecordOldApiService.saveMPGDData(parr, episodeID, new NurRecordOldApiService.ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                Gson gson = new Gson();
+                if (jsonStr.isEmpty()) {
+                    callback.onFail("-1", "网络错误，请求数据为空");
+                } else {
+                    try {
+                        RecDataBean recDataBean = gson.fromJson(jsonStr, RecDataBean.class);
+                        if (ObjectUtils.isEmpty(recDataBean)) {
+                            callback.onFail("-3", "网络错误，数据解析为空");
+                        } else {
+                            if ("0".equals(recDataBean.getStatus())) {
+                                if (callback != null) {
+                                    callback.onSuccess(recDataBean);
+                                }
+                            } else {
+                                if (callback != null) {
+                                    callback.onFail(recDataBean.getMsgcode(), recDataBean.getMsg());
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        callback.onFail("-2", "网络错误，数据解析失败");
+                    }
+
+                }
+            }
+        });
+    }
+
     public interface CommonCallBack {
         void onFail(String code, String msg);
     }

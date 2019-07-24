@@ -23,7 +23,7 @@ import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.workarea.nurrecordold.adapter.JLDListDetailAdapter;
+import com.dhcc.nursepro.workarea.nurrecordold.adapter.MPGDListDetailAdapter;
 import com.dhcc.nursepro.workarea.nurrecordold.api.NurRecordOldApiManager;
 import com.dhcc.nursepro.workarea.nurrecordold.bean.CareRecCommListBean;
 import com.dhcc.nursepro.workarea.nurrecordold.bean.RecModelListBean;
@@ -33,20 +33,21 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * NurRecordJLDListFragment
- * 护理病历-记录单列表
+ * NurRecordMPGDListFragment
+ * 护理病历-评估单列表
+ *
  * @author Devlix126
- * created at 2019/7/20 16:56
+ * created at 2019/7/24 10:21
  */
-public class NurRecordJLDListFragment extends BaseFragment {
-    private LinearLayout llJldlistTitle;
-    private RecyclerView recyJldlistDetail;
+public class NurRecordMPGDListFragment extends BaseFragment {
+    private LinearLayout llMPgdlistTitle;
+    private RecyclerView recyMPgdlistDetail;
 
-    private JLDListDetailAdapter jldListDetailAdapter;
+    private MPGDListDetailAdapter mpgdListDetailAdapter;
 
     private String episodeID = "";
-    private String bedNo= "";
-    private String patName= "";
+    private String bedNo = "";
+    private String patName = "";
     private String emrCode = "";
     private String modelNum = "";
     private RecModelListBean.MenuListBean.ModelListBean modelListBean;
@@ -54,7 +55,7 @@ public class NurRecordJLDListFragment extends BaseFragment {
 
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_nur_record_jldlist, container, false);
+        return inflater.inflate(R.layout.fragment_nur_record_mpgdlist, container, false);
     }
 
     @Override
@@ -93,7 +94,7 @@ public class NurRecordJLDListFragment extends BaseFragment {
                 bundle.putSerializable("ModelListBean", modelListBean);
                 bundle.putString("BedNo", bedNo);
                 bundle.putString("PatName", patName);
-                startFragment(NurRecordJLDFragment.class, bundle);
+                startFragment(NurRecordMPGDFragment.class, bundle);
             }
         });
         setToolbarRightCustomView(viewright);
@@ -110,17 +111,17 @@ public class NurRecordJLDListFragment extends BaseFragment {
 
     private void initView(View view) {
 
-        llJldlistTitle = view.findViewById(R.id.ll_jldlist_title);
-        llJldlistTitle.setMinimumWidth(ScreenUtils.getAppScreenWidth());
-        recyJldlistDetail = view.findViewById(R.id.recy_jldlist_detail);
-        recyJldlistDetail.setHasFixedSize(true);
-        recyJldlistDetail.setLayoutManager(new LinearLayoutManager(getActivity()));
+        llMPgdlistTitle = view.findViewById(R.id.ll_mpgdlist_title);
+        llMPgdlistTitle.setMinimumWidth(ScreenUtils.getAppScreenWidth());
+        recyMPgdlistDetail = view.findViewById(R.id.recy_mpgdlist_detail);
+        recyMPgdlistDetail.setHasFixedSize(true);
+        recyMPgdlistDetail.setLayoutManager(new LinearLayoutManager(getActivity()));
 
     }
 
     private void initAdapter() {
-        jldListDetailAdapter = new JLDListDetailAdapter(new ArrayList<>(), getActivity());
-        jldListDetailAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+        mpgdListDetailAdapter = new MPGDListDetailAdapter(new ArrayList<>(), getActivity());
+        mpgdListDetailAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Map itm = (Map) adapter.getItem(position);
@@ -143,10 +144,10 @@ public class NurRecordJLDListFragment extends BaseFragment {
                 bundle.putString("nodeEmrcode", "DHCNUR"
                         + SPUtils.getInstance().getString(SharedPreference.LOCID));
 
-                startFragment(NurRecordJLDFragment.class, bundle);
+                startFragment(NurRecordMPGDFragment.class, bundle);
             }
         });
-        recyJldlistDetail.setAdapter(jldListDetailAdapter);
+        recyMPgdlistDetail.setAdapter(mpgdListDetailAdapter);
 
     }
 
@@ -154,30 +155,29 @@ public class NurRecordJLDListFragment extends BaseFragment {
         //&parr=640^2019-07-16^0:00^2019-7-22^23:59^DHCNURSSKHL^false
         if (modelListBean != null) {
             String parr = episodeID + "^" + TimeUtils.date2String(TimeUtils.getDate(System.currentTimeMillis(), -6, TimeConstants.DAY), "yyyy-MM-dd") + "^00:00^" + TimeUtils.date2String(TimeUtils.getDate(System.currentTimeMillis(), 0, TimeConstants.DAY), "yyyy-MM-dd") + "^23:59^" + modelListBean.getModelCode() + "^false";
-            if (modelListBean.getGetListMth().equals("getCareRecComm")) {
 
-                NurRecordOldApiManager.getCareRecComm(parr, new NurRecordOldApiManager.CareRecCommCallback() {
-                    @Override
-                    public void onSuccess(CareRecCommListBean careRecCommListBean) {
-                        initTitle(careRecCommListBean.getTitleList());
-                        jldListDetailAdapter.setListTitle(careRecCommListBean.getTitleList());
-                        listMap = (List<Map>) careRecCommListBean.getMap().get("dataList");
-                        jldListDetailAdapter.setNewData(listMap);
-                        jldListDetailAdapter.notifyDataSetChanged();
-                    }
+            NurRecordOldApiManager.getMPGDList(parr, new NurRecordOldApiManager.CareRecCommCallback() {
+                @Override
+                public void onSuccess(CareRecCommListBean careRecCommListBean) {
+                    initTitle(careRecCommListBean.getTitleList());
+                    mpgdListDetailAdapter.setListTitle(careRecCommListBean.getTitleList());
+                    listMap = (List<Map>) careRecCommListBean.getMap().get("dataList");
+                    mpgdListDetailAdapter.setNewData(listMap);
+                    mpgdListDetailAdapter.notifyDataSetChanged();
+                }
 
-                    @Override
-                    public void onFail(String code, String msg) {
-                        showToast("error" + code + ":" + msg);
-                    }
-                });
-            }
+                @Override
+                public void onFail(String code, String msg) {
+                    showToast("error" + code + ":" + msg);
+                }
+            });
+
         }
     }
 
 
     private void initTitle(List<CareRecCommListBean.TitleListBean> titleListBeans) {
-        llJldlistTitle.removeAllViews();
+        llMPgdlistTitle.removeAllViews();
         int width = ConvertUtils.dp2px(80);
         int height = ConvertUtils.dp2px(60);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, height);
@@ -188,7 +188,7 @@ public class NurRecordJLDListFragment extends BaseFragment {
             textView.setGravity(Gravity.CENTER);
             textView.setTextColor(ContextCompat.getColor(getActivity(), R.color.white));
             textView.setTextSize(14);
-            llJldlistTitle.addView(textView);
+            llMPgdlistTitle.addView(textView);
         }
     }
 
