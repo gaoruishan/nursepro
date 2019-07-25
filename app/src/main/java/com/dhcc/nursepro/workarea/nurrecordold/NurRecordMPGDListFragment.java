@@ -156,7 +156,7 @@ public class NurRecordMPGDListFragment extends BaseFragment {
         if (modelListBean != null) {
             String parr = episodeID + "^" + TimeUtils.date2String(TimeUtils.getDate(System.currentTimeMillis(), -6, TimeConstants.DAY), "yyyy-MM-dd") + "^00:00^" + TimeUtils.date2String(TimeUtils.getDate(System.currentTimeMillis(), 0, TimeConstants.DAY), "yyyy-MM-dd") + "^23:59^" + modelListBean.getModelCode() + "^false";
 
-            NurRecordOldApiManager.getMPGDList(parr, new NurRecordOldApiManager.CareRecCommCallback() {
+            NurRecordOldApiManager.getMPGDList(parr, modelListBean.getGetListMth(), new NurRecordOldApiManager.CareRecCommCallback() {
                 @Override
                 public void onSuccess(CareRecCommListBean careRecCommListBean) {
                     initTitle(careRecCommListBean.getTitleList());

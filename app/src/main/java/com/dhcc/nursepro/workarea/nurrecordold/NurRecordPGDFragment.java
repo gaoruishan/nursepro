@@ -28,6 +28,7 @@ import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.utils.XmlParseInterface;
 import com.dhcc.nursepro.workarea.nurrecordold.api.NurRecordOldApiManager;
 import com.dhcc.nursepro.workarea.nurrecordold.bean.RecDataBean;
+import com.dhcc.nursepro.workarea.nurrecordold.bean.RecModelListBean;
 import com.shizhefei.view.indicator.IndicatorViewPager;
 import com.shizhefei.view.indicator.ScrollIndicatorView;
 import com.shizhefei.view.indicator.slidebar.ColorBar;
@@ -61,6 +62,7 @@ public class NurRecordPGDFragment extends BaseFragment implements View.OnClickLi
     private int modelNum = 0;
     private String bedNo = "";
     private String patName = "";
+    private RecModelListBean.MenuListBean.ModelListBean modelListBean;
 
     private Map<String, Object> PatIn = new HashMap<>();
     private Map<String, Object> CNHVal = new HashMap<>();
@@ -82,6 +84,7 @@ public class NurRecordPGDFragment extends BaseFragment implements View.OnClickLi
             episodeID = getArguments().getString("EpisodeID");
             emrCode = getArguments().getString("EMRCode");
             modelNum = Integer.parseInt(getArguments().getString("ModelNum"));
+            modelListBean = (RecModelListBean.MenuListBean.ModelListBean) getArguments().getSerializable("ModelListBean");
             bedNo = getArguments().getString("BedNo");
             patName = getArguments().getString("PatName");
         }
@@ -224,7 +227,7 @@ public class NurRecordPGDFragment extends BaseFragment implements View.OnClickLi
     }
 
     private void savePGDData(String parr, String pgdId) {
-        NurRecordOldApiManager.savePGDData(parr, pgdId, new NurRecordOldApiManager.RecDataCallback() {
+        NurRecordOldApiManager.savePGDData(parr, pgdId, modelListBean.getSaveMth(), new NurRecordOldApiManager.RecDataCallback() {
             @Override
             public void onSuccess(RecDataBean recDataBean) {
                 showToast("保存成功");
@@ -299,7 +302,7 @@ public class NurRecordPGDFragment extends BaseFragment implements View.OnClickLi
     }
 
     private void getPGDVal(String PGDId) {
-        NurRecordOldApiManager.getPGDVal(PGDId, new NurRecordOldApiManager.RecDataCallback() {
+        NurRecordOldApiManager.getPGDVal(PGDId, modelListBean.getGetValMth(), new NurRecordOldApiManager.RecDataCallback() {
             @Override
             public void onSuccess(RecDataBean recDataBean) {
                 String[] pat = recDataBean.getRetData().split("\\^");

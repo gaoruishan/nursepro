@@ -160,7 +160,7 @@ public class NurRecordJLDFragment extends BaseFragment implements View.OnClickLi
     private void GetJLDVal(String recId) {
         String par = recId.split("\\^")[0];
         String rw = recId.split("\\^")[1];
-        NurRecordOldApiManager.getJLDVal(par, rw, new NurRecordOldApiManager.RecDataCallback() {
+        NurRecordOldApiManager.getJLDVal(par, rw, modelListBean.getGetValMth(), new NurRecordOldApiManager.RecDataCallback() {
             @Override
             public void onSuccess(RecDataBean recDataBean) {
                 String recData = recDataBean.getRetData();
@@ -345,7 +345,7 @@ public class NurRecordJLDFragment extends BaseFragment implements View.OnClickLi
             if (itm.substring(0, 1).equals("S") || itm.substring(0, 1).equals("G")) {
                 EditText ed = (EditText) CNHtb.get(entry.getKey().toString());
                 if (entry.getKey().toString().equals("User")) {
-                    CNHVal.put(cname, SPUtils.getInstance().getString(SharedPreference.USERID));
+                    CNHVal.put(cname, userId);
                 } else {
                     CNHVal.put(cname, ed.getText());
                 }
@@ -381,7 +381,7 @@ public class NurRecordJLDFragment extends BaseFragment implements View.OnClickLi
 
         String parr = ret + "RecBed|" + bedNo + "^RecLoc|" + SPUtils.getInstance().getString(SharedPreference.LOCID);
 
-        NurRecordOldApiManager.saveJLDData(parr, episodeID, emrCode, new NurRecordOldApiManager.RecDataCallback() {
+        NurRecordOldApiManager.saveJLDData(parr, episodeID, emrCode, modelListBean.getSaveMth(), new NurRecordOldApiManager.RecDataCallback() {
             @Override
             public void onSuccess(RecDataBean recDataBean) {
                 showToast("保存成功");

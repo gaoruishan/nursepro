@@ -35,6 +35,7 @@ import java.util.Map;
 /**
  * NurRecordJLDListFragment
  * 护理病历-记录单列表
+ *
  * @author Devlix126
  * created at 2019/7/20 16:56
  */
@@ -45,8 +46,8 @@ public class NurRecordJLDListFragment extends BaseFragment {
     private JLDListDetailAdapter jldListDetailAdapter;
 
     private String episodeID = "";
-    private String bedNo= "";
-    private String patName= "";
+    private String bedNo = "";
+    private String patName = "";
     private String emrCode = "";
     private String modelNum = "";
     private RecModelListBean.MenuListBean.ModelListBean modelListBean;
@@ -154,24 +155,23 @@ public class NurRecordJLDListFragment extends BaseFragment {
         //&parr=640^2019-07-16^0:00^2019-7-22^23:59^DHCNURSSKHL^false
         if (modelListBean != null) {
             String parr = episodeID + "^" + TimeUtils.date2String(TimeUtils.getDate(System.currentTimeMillis(), -6, TimeConstants.DAY), "yyyy-MM-dd") + "^00:00^" + TimeUtils.date2String(TimeUtils.getDate(System.currentTimeMillis(), 0, TimeConstants.DAY), "yyyy-MM-dd") + "^23:59^" + modelListBean.getModelCode() + "^false";
-            if (modelListBean.getGetListMth().equals("getCareRecComm")) {
 
-                NurRecordOldApiManager.getCareRecComm(parr, new NurRecordOldApiManager.CareRecCommCallback() {
-                    @Override
-                    public void onSuccess(CareRecCommListBean careRecCommListBean) {
-                        initTitle(careRecCommListBean.getTitleList());
-                        jldListDetailAdapter.setListTitle(careRecCommListBean.getTitleList());
-                        listMap = (List<Map>) careRecCommListBean.getMap().get("dataList");
-                        jldListDetailAdapter.setNewData(listMap);
-                        jldListDetailAdapter.notifyDataSetChanged();
-                    }
+            NurRecordOldApiManager.getCareRecComm(parr, modelListBean.getGetListMth(), new NurRecordOldApiManager.CareRecCommCallback() {
+                @Override
+                public void onSuccess(CareRecCommListBean careRecCommListBean) {
+                    initTitle(careRecCommListBean.getTitleList());
+                    jldListDetailAdapter.setListTitle(careRecCommListBean.getTitleList());
+                    listMap = (List<Map>) careRecCommListBean.getMap().get("dataList");
+                    jldListDetailAdapter.setNewData(listMap);
+                    jldListDetailAdapter.notifyDataSetChanged();
+                }
 
-                    @Override
-                    public void onFail(String code, String msg) {
-                        showToast("error" + code + ":" + msg);
-                    }
-                });
-            }
+                @Override
+                public void onFail(String code, String msg) {
+                    showToast("error" + code + ":" + msg);
+                }
+            });
+
         }
     }
 

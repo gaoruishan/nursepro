@@ -59,12 +59,12 @@ public class NurRecordOldApiService {
     }
 
     //获取评估单Value
-    public static void getPGDVal(String pgdId, final ServiceCallBack callback) {
+    public static void getPGDVal(String pgdId, String methodName, final ServiceCallBack callback) {
 
         HashMap<String, String> properties = new HashMap<>();
         properties.put("pgdId", pgdId);
 
-        WebServiceUtils.callWebService("getPGDVal", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(methodName, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -116,12 +116,12 @@ public class NurRecordOldApiService {
     }
 
     //保存评估单内容
-    public static void savePGDData(String parr, String pgdId, final ServiceCallBack callback) {
+    public static void savePGDData(String parr, String pgdId, String methodName, final ServiceCallBack callback) {
         HashMap<String, String> properties = new HashMap<>();
         properties.put("parr", parr);
         properties.put("pgdId", pgdId);
 
-        WebServiceUtils.callWebService("savePGDData", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(methodName, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -130,11 +130,11 @@ public class NurRecordOldApiService {
     }
 
     //获取记录单列表
-    public static void getCareRecComm(String parr, final ServiceCallBack callback) {
+    public static void getCareRecComm(String parr, String methodName, final ServiceCallBack callback) {
         HashMap<String, String> properties = new HashMap<>();
         properties.put("parr", parr);
 
-        WebServiceUtils.callWebService("getCareRecComm", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(methodName, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -143,12 +143,12 @@ public class NurRecordOldApiService {
     }
 
     //获取记录单数据
-    public static void getJLDVal(String par, String rw, final ServiceCallBack callback) {
+    public static void getJLDVal(String par, String rw, String methodName, final ServiceCallBack callback) {
         HashMap<String, String> properties = new HashMap<>();
         properties.put("par", par);
         properties.put("rw", rw);
 
-        WebServiceUtils.callWebService("getJLDData", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(methodName, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -157,7 +157,7 @@ public class NurRecordOldApiService {
     }
 
     //保存记录单数据
-    public static void saveJLDData(String parr, String episodeID, String emrCode, final ServiceCallBack callback) {
+    public static void saveJLDData(String parr, String episodeID, String emrCode, String methodName, final ServiceCallBack callback) {
         HashMap<String, String> properties = new HashMap<>();
         //episodeID, parr, userId, recTyp, userGroup
         properties.put("parr", parr);
@@ -166,7 +166,7 @@ public class NurRecordOldApiService {
         properties.put("recTyp", emrCode);
         properties.put("userGroup", "");
 
-        WebServiceUtils.callWebService("saveJLDData", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(methodName, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -175,11 +175,11 @@ public class NurRecordOldApiService {
     }
 
     //获取多次评估单列表
-    public static void getMPGDList(String parr, final ServiceCallBack callback) {
+    public static void getMPGDList(String parr, String methodName, final ServiceCallBack callback) {
         HashMap<String, String> properties = new HashMap<>();
         properties.put("parr", parr);
 
-        WebServiceUtils.callWebService("getMultiPGDList", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(methodName, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -188,12 +188,12 @@ public class NurRecordOldApiService {
     }
 
     //获取多次评估单数据
-    public static void getMPGDVal(String par, String rw, final ServiceCallBack callback) {
+    public static void getMPGDVal(String par, String rw, String methodName,final ServiceCallBack callback) {
         HashMap<String, String> properties = new HashMap<>();
         properties.put("par", par);
         properties.put("rw", rw);
 
-        WebServiceUtils.callWebService("getMultiPGDData", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(methodName, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -202,12 +202,12 @@ public class NurRecordOldApiService {
     }
 
     //保存评估单内容
-    public static void saveMPGDData(String parr, String pgdId, final ServiceCallBack callback) {
+    public static void saveMPGDData(String parr, String pgdId, String methodName, final ServiceCallBack callback) {
         HashMap<String, String> properties = new HashMap<>();
         properties.put("parr", parr);
         properties.put("pgdId", pgdId);
 
-        WebServiceUtils.callWebService("savePGDData", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(methodName, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);

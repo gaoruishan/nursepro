@@ -114,8 +114,8 @@ public class NurRecordOldApiManager {
         });
     }
 
-    public static void getPGDVal(String pgdId, final RecDataCallback callback) {
-        NurRecordOldApiService.getPGDVal(pgdId, new NurRecordOldApiService.ServiceCallBack() {
+    public static void getPGDVal(String pgdId, String methodName, final RecDataCallback callback) {
+        NurRecordOldApiService.getPGDVal(pgdId, methodName, new NurRecordOldApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();
@@ -242,8 +242,8 @@ public class NurRecordOldApiManager {
         });
     }
 
-    public static void savePGDData(String parr, String pgdId, final RecDataCallback callback) {
-        NurRecordOldApiService.savePGDData(parr, pgdId, new NurRecordOldApiService.ServiceCallBack() {
+    public static void savePGDData(String parr, String pgdId, String methodName, final RecDataCallback callback) {
+        NurRecordOldApiService.savePGDData(parr, pgdId, methodName, new NurRecordOldApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();
@@ -274,8 +274,8 @@ public class NurRecordOldApiManager {
         });
     }
 
-    public static void getCareRecComm(String parr, final CareRecCommCallback callback) {
-        NurRecordOldApiService.getCareRecComm(parr, new NurRecordOldApiService.ServiceCallBack() {
+    public static void getCareRecComm(String parr, String methodName, final CareRecCommCallback callback) {
+        NurRecordOldApiService.getCareRecComm(parr, methodName, new NurRecordOldApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();
@@ -308,8 +308,8 @@ public class NurRecordOldApiManager {
         });
     }
 
-    public static void getJLDVal(String par, String rw, final RecDataCallback callback) {
-        NurRecordOldApiService.getJLDVal(par, rw, new NurRecordOldApiService.ServiceCallBack() {
+    public static void getJLDVal(String par, String rw, String methodName, final RecDataCallback callback) {
+        NurRecordOldApiService.getJLDVal(par, rw, methodName, new NurRecordOldApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();
@@ -340,8 +340,8 @@ public class NurRecordOldApiManager {
         });
     }
 
-    public static void saveJLDData(String parr, String episodeID, String emrCode, final RecDataCallback callback) {
-        NurRecordOldApiService.saveJLDData(parr, episodeID, emrCode, new NurRecordOldApiService.ServiceCallBack() {
+    public static void saveJLDData(String parr, String episodeID, String emrCode, String methodName, final RecDataCallback callback) {
+        NurRecordOldApiService.saveJLDData(parr, episodeID, emrCode, methodName, new NurRecordOldApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();
@@ -372,8 +372,8 @@ public class NurRecordOldApiManager {
         });
     }
 
-    public static void getMPGDList(String parr, final CareRecCommCallback callback) {
-        NurRecordOldApiService.getMPGDList(parr, new NurRecordOldApiService.ServiceCallBack() {
+    public static void getMPGDList(String parr, String methodName, final CareRecCommCallback callback) {
+        NurRecordOldApiService.getMPGDList(parr, methodName, new NurRecordOldApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();
@@ -406,8 +406,8 @@ public class NurRecordOldApiManager {
         });
     }
 
-    public static void getMPGDVal(String par, String rw, final RecDataCallback callback) {
-        NurRecordOldApiService.getMPGDVal(par, rw, new NurRecordOldApiService.ServiceCallBack() {
+    public static void getMPGDVal(String par, String rw, String methodName, final RecDataCallback callback) {
+        NurRecordOldApiService.getMPGDVal(par, rw, methodName, new NurRecordOldApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();
@@ -438,8 +438,8 @@ public class NurRecordOldApiManager {
         });
     }
 
-    public static void saveMPGDData(String parr, String episodeID, final RecDataCallback callback) {
-        NurRecordOldApiService.saveMPGDData(parr, episodeID, new NurRecordOldApiService.ServiceCallBack() {
+    public static void saveMPGDData(String parr, String pgdId, String methodName, final RecDataCallback callback) {
+        NurRecordOldApiService.saveMPGDData(parr, pgdId, methodName, new NurRecordOldApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();

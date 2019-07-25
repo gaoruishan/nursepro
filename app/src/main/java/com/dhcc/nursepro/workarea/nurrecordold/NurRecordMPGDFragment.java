@@ -23,7 +23,9 @@ import android.widget.TextView;
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
 import com.base.commlibs.constant.Action;
+import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.ConvertUtils;
+import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.utils.XmlParseInterface;
@@ -88,6 +90,7 @@ public class NurRecordMPGDFragment extends BaseFragment implements View.OnClickL
             recId = getArguments().getString("RecID");
             emrCode = getArguments().getString("EMRCode");
             modelNum = Integer.parseInt(getArguments().getString("ModelNum"));
+            modelListBean = (RecModelListBean.MenuListBean.ModelListBean) getArguments().getSerializable("ModelListBean");
             bedNo = getArguments().getString("BedNo");
             patName = getArguments().getString("PatName");
         }
@@ -199,14 +202,14 @@ public class NurRecordMPGDFragment extends BaseFragment implements View.OnClickL
         }
 
 
-        String parr = ret + "EmrUser|" + scanUserId + "^EmrCode|" + emrCode + "^EpisodeId|" + episodeID;
+        String parr = ret + "EmrUser|" + SPUtils.getInstance().getString(SharedPreference.USERID) + "^EmrCode|" + emrCode + "^EpisodeId|" + episodeID;
 
-
-        savePGDData(parr, recId.trim());
+        //保存存在问题，覆盖之前评估单
+        saveMPGDData(parr, recId.trim());
     }
 
-    private void savePGDData(String parr, String pgdId) {
-        NurRecordOldApiManager.savePGDData(parr, pgdId, new NurRecordOldApiManager.RecDataCallback() {
+    private void saveMPGDData(String parr, String pgdId) {
+        NurRecordOldApiManager.saveMPGDData(parr, pgdId, modelListBean.getSaveMth(), new NurRecordOldApiManager.RecDataCallback() {
             @Override
             public void onSuccess(RecDataBean recDataBean) {
                 showToast("保存成功");
@@ -297,7 +300,7 @@ public class NurRecordMPGDFragment extends BaseFragment implements View.OnClickL
         if (rec.length > 1) {
             rw = recId.split("\\^")[1];
         }
-        NurRecordOldApiManager.getMPGDVal(par, rw, new NurRecordOldApiManager.RecDataCallback() {
+        NurRecordOldApiManager.getMPGDVal(par, rw, modelListBean.getGetValMth(), new NurRecordOldApiManager.RecDataCallback() {
             @Override
             public void onSuccess(RecDataBean recDataBean) {
                 String[] pat = recDataBean.getRetData().split("\\^");
