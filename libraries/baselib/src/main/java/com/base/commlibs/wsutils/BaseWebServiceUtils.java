@@ -56,18 +56,19 @@ public class BaseWebServiceUtils {
         String url = getServiceUrl(NUR_OPPDA_SERVICE);
         callWebService(url, methodName, properties, webServiceCallBack);
     }
+
     /**
      * PDA护士站服务器地址
      */
     public static void callWebPDAService(final String methodName,
-                                      HashMap<String, String> properties,
-                                      final WebServiceCallBack webServiceCallBack) {
+                                         HashMap<String, String> properties,
+                                         final WebServiceCallBack webServiceCallBack) {
         // 创建HttpTransportSE对象，传递WebService服务器地址,默认Nur.PDA.WebService.cls
         String url = getServiceUrl(NUR_PDA_SERVICE);
         callWebService(url, methodName, properties, webServiceCallBack);
     }
 
-    public static void callWebPDAService(String Cls,final String methodName,
+    public static void callWebPDAService(String Cls, final String methodName,
                                          HashMap<String, String> properties,
                                          final WebServiceCallBack webServiceCallBack) {
         // 创建HttpTransportSE对象，传递WebService服务器地址,默认Nur.PDA.WebService.cls
@@ -111,7 +112,7 @@ public class BaseWebServiceUtils {
                 Map.Entry<String, String> entry = it.next();
                 if (entry != null && entry.getValue() != null) {
                     //替换双竖杆
-//                    String value = entry.getValue().replaceAll("\\|\\|", "-");
+                    //                    String value = entry.getValue().replaceAll("\\|\\|", "-");
                     String value = entry.getValue();
                     soapObject.addProperty(entry.getKey(), value);
                 }
@@ -144,15 +145,13 @@ public class BaseWebServiceUtils {
 
         // 用于子线程与主线程通信的Handler
         final Handler mHandler = new Handler() {
-
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 // 将返回值回调到callBack的参数中
-                LogUtils.e(msg.obj);
+                LogUtils.json(LogUtils.E, msg.obj);
                 webServiceCallBack.callBack((String) msg.obj);
             }
-
         };
         Log.e("json", "submit... ");
         // 开启线程去访问WebService

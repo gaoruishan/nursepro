@@ -27,7 +27,6 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.blankj.utilcode.util.ConvertUtils;
 import com.dhcc.nursepro.R;
@@ -373,54 +372,154 @@ public class XmlParseInterface implements Serializable {
                     });
 
                 }
+                if ((nod.getName().substring(0, 1).equals("R"))) {
+                    /**/
+                    int SingEW = 0;
+                    //                    if (SingleEdit != null) {
+                    //                        if (SingleEdit.containsKey(CName)) {
+                    //                            final TextView btn5 = new TextView(context);
+                    //
+                    //                            btn5.setText("E");
+                    //                            btn5.setBackgroundResource(R.drawable.nur_record_btn_bg);
+                    //                            btn5.setTextColor(android.graphics.Color
+                    //                                    .parseColor("#ff000000"));
+                    //                            btn5.setGravity(Gravity.CENTER);
+                    //
+                    //                            btn5.setTag(CName);
+                    //                            if (fontunit.equals("World")) {
+                    //                                btn5.setTextSize(TypedValue.COMPLEX_UNIT_DIP,
+                    //                                        (fontsz));//
+                    //                            } else {
+                    //                                btn5.setTextSize(TypedValue.COMPLEX_UNIT_SP,
+                    //                                        (fontsz));//
+                    //                            }
+                    //
+                    //                            SingEW = 40;
+                    //                            // ConV.put(CName,txtstr);
+                    //                            // if (!txtstr.equals(""))
+                    //                            // btn5.setText(getMultiVal(txtstr));
+                    //                            // ConRel.put(i,CName);
+                    //                            // CNHtb.put(CName, btn5);
+                    //                            // IniMultiData(meddatanod.element(nod.getName()),CName,txtstr);
+                    //                            abslayout.addView(
+                    //                                    btn5,
+                    //                                    getlayparam(Iwidth, (int) (Iheight * 1.3), Ileft, Itop));
+                    //                            btn5.setOnClickListener(new OnClickListener() {
+                    //                                public void onClick(View v) {
+                    //                                    // TODO Auto-generated method stub
+                    //                                    // MultiChoiceID.clear();
+                    //                                    try {
+                    //                                        Button sp = (Button) CNHtb.get(btn5.getTag());
+                    //                                        ShowSpinSel(sp, context);
+                    //                                    } catch (Exception e) {
+                    //
+                    //                                    }
+                    //                                    return;
+                    //                                }
+                    //                            });
+                    //                        }
+                    //                    }
+
+                    final TextView btn6 = new TextView(context);
+                    // if (!txtstr.equals("")) btn.setText(txtstr); //by pan
+                    // 20140519
+                    if (!txtstr.equals("!"))
+                        btn6.setText(getRadioVal(txtstr));
+                    else
+                        btn6.setText("请选择");
+                    if (fontunit.equals("World")) {
+                        btn6.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (fontsz));//
+                    } else {
+                        btn6.setTextSize(TypedValue.COMPLEX_UNIT_SP, (fontsz));//
+                    }
+
+                    btn6.setTag(CName);
+                    btn6.setBackgroundResource(R.drawable.nur_record_btn_bg);
+                    btn6.setTextColor(android.graphics.Color.parseColor("#ff000000"));
+                    btn6.setGravity(Gravity.CENTER);
+
+
+                    //                    CNHVal.put(CName, CName + "|" + txtstr + "!" + txtstr);
+                    // ConV.put(CName,txtstr);
+                    // if (!txtstr.equals("")) btn.setText(txtstr); //by pan
+                    // 20140519
+
+                    // ConRel.put(i,CName);
+                    CNHtb.put(CName, btn6);
+                    IniMultiData(meddatanod.element(nod.getName()), CName, txtstr);
+                    abslayout.addView(btn6, getlayparam(Iwidth, (int) (Iheight * 1.3), Ileft, Itop));
+                    btn6.setOnClickListener(new OnClickListener() {
+                        public void onClick(View v) {
+                            // TODO Auto-generated method stub
+                            // MultiChoiceID.clear();
+                            Element itmnod = meddatanod.element(nod.getName());
+
+                            if (itmnod.element("Itms") != null) {
+                                String code = IfConRadio(btn6.getTag().toString());
+
+                                if (!code.equals("")) {
+                                    dataitmnod = meddatanod.element(code); // 关联数据Radio
+                                } else {
+                                    dataitmnod = null;
+                                }
+                                if (dataitmnod == null) {
+                                    ShowRadio(itmnod, context, btn6);
+                                } else
+                                    showMDialog(itmnod, context, btn6);
+                                // sDatas=itmlist;
+                            }
+
+                        }
+                    });
+                }
                 if ((nod.getName().substring(0, 1).equals("O"))) {
                     /**/
                     int SingEW = 0;
-                    if (SingleEdit != null) {
-                        if (SingleEdit.containsKey(CName)) {
-                            final TextView btn5 = new TextView(context);
-
-                            btn5.setText("E");
-                            btn5.setBackgroundResource(R.drawable.nur_record_btn_bg);
-                            btn5.setTextColor(android.graphics.Color
-                                    .parseColor("#ff000000"));
-                            btn5.setGravity(Gravity.CENTER);
-
-                            btn5.setTag(CName);
-                            if (fontunit.equals("World")) {
-                                btn5.setTextSize(TypedValue.COMPLEX_UNIT_DIP,
-                                        (fontsz));//
-                            } else {
-                                btn5.setTextSize(TypedValue.COMPLEX_UNIT_SP,
-                                        (fontsz));//
-                            }
-
-                            SingEW = 40;
-                            // ConV.put(CName,txtstr);
-                            // if (!txtstr.equals(""))
-                            // btn5.setText(getMultiVal(txtstr));
-                            // ConRel.put(i,CName);
-                            // CNHtb.put(CName, btn5);
-                            // IniMultiData(meddatanod.element(nod.getName()),CName,txtstr);
-                            abslayout.addView(
-                                    btn5,
-                                    getlayparam(Iwidth, (int) (Iheight * 1.3), Ileft, Itop));
-                            btn5.setOnClickListener(new OnClickListener() {
-                                public void onClick(View v) {
-                                    // TODO Auto-generated method stub
-                                    // MultiChoiceID.clear();
-                                    try {
-                                        Button sp = (Button) CNHtb.get(btn5
-                                                .getTag());
-                                        ShowSpinSel(sp, context);
-                                    } catch (Exception e) {
-
-                                    }
-                                    return;
-                                }
-                            });
-                        }
-                    }
+                    //                    if (SingleEdit != null) {
+                    //                        if (SingleEdit.containsKey(CName)) {
+                    //                            final TextView btn5 = new TextView(context);
+                    //
+                    //                            btn5.setText("E");
+                    //                            btn5.setBackgroundResource(R.drawable.nur_record_btn_bg);
+                    //                            btn5.setTextColor(android.graphics.Color
+                    //                                    .parseColor("#ff000000"));
+                    //                            btn5.setGravity(Gravity.CENTER);
+                    //
+                    //                            btn5.setTag(CName);
+                    //                            if (fontunit.equals("World")) {
+                    //                                btn5.setTextSize(TypedValue.COMPLEX_UNIT_DIP,
+                    //                                        (fontsz));//
+                    //                            } else {
+                    //                                btn5.setTextSize(TypedValue.COMPLEX_UNIT_SP,
+                    //                                        (fontsz));//
+                    //                            }
+                    //
+                    //                            SingEW = 40;
+                    //                            // ConV.put(CName,txtstr);
+                    //                            // if (!txtstr.equals(""))
+                    //                            // btn5.setText(getMultiVal(txtstr));
+                    //                            // ConRel.put(i,CName);
+                    //                            // CNHtb.put(CName, btn5);
+                    //                            // IniMultiData(meddatanod.element(nod.getName()),CName,txtstr);
+                    //                            abslayout.addView(
+                    //                                    btn5,
+                    //                                    getlayparam(Iwidth, (int) (Iheight * 1.3), Ileft, Itop));
+                    //                            btn5.setOnClickListener(new OnClickListener() {
+                    //                                public void onClick(View v) {
+                    //                                    // TODO Auto-generated method stub
+                    //                                    // MultiChoiceID.clear();
+                    //                                    try {
+                    //                                        Button sp = (Button) CNHtb.get(btn5
+                    //                                                .getTag());
+                    //                                        ShowSpinSel(sp, context);
+                    //                                    } catch (Exception e) {
+                    //
+                    //                                    }
+                    //                                    return;
+                    //                                }
+                    //                            });
+                    //                        }
+                    //                    }
 
                     final TextView btn = new TextView(context);
                     // if (!txtstr.equals("")) btn.setText(txtstr); //by pan
@@ -486,12 +585,27 @@ public class XmlParseInterface implements Serializable {
 
     }
 
+    private String getRadioVal(String itm) {
+        String ret = "";
+        if (itm.equals("")) {
+            return "";
+        }
+        String[] val = itm.split(";");
+        for (int i = 0; i < val.length; i++) {
+            if (!val[i].equals("")) {
+                ret = val[i];
+                break;
+            }
+        }
+        return ret;
+    }
+
     private String GetComVal(String itm) {
         String ret = "";
         if (itm == "")
             return "";
         String[] aa = itm.split("\\|");
-        String[] val = aa[1].split("\\!");
+        String[] val = aa[1].split("!");
         if (val.length == 0)
             return "";
         ret = val[0];
@@ -532,8 +646,7 @@ public class XmlParseInterface implements Serializable {
                     });
             dialog07.create().show();
         } catch (Exception e) {
-
-            Toast.makeText(context, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
         }
 
     }
@@ -596,10 +709,8 @@ public class XmlParseInterface implements Serializable {
                         }
                     });
             dialog07.create().show();
-            return;
         } catch (Exception e) {
-
-            Toast.makeText(context, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
         }
 
     }
@@ -707,8 +818,7 @@ public class XmlParseInterface implements Serializable {
             localAlertDialog.getWindow().clearFlags(
                     WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
         } catch (Exception e) {
-
-            Toast.makeText(context, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
         }
 
     }
@@ -728,8 +838,7 @@ public class XmlParseInterface implements Serializable {
             EditText level = (EditText) CNHtb.get(LevelCode);
             level.setText(getlevel(num) + "");
         } catch (Exception e) {
-
-            Toast.makeText(mContext, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
         }
 
     }
@@ -770,8 +879,7 @@ public class XmlParseInterface implements Serializable {
                 }
             }
         } catch (Exception e) {
-
-            Toast.makeText(mContext, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
         }
 
         return ret;
@@ -832,8 +940,7 @@ public class XmlParseInterface implements Serializable {
 
             }
         } catch (Exception e) {
-
-            Toast.makeText(mContext, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
         }
 
         return ret;
@@ -1475,9 +1582,10 @@ public class XmlParseInterface implements Serializable {
                             public void onTimeSet(TimePicker view, int hourOfDay,
                                                   int minute) {
                                 // et.setText("您选择了："+hourOfDay+"时"+minute+"分");
-                                btn.setText(hourOfDay + ":" + minute);
-                                CNHVal.put((String) btn.getTag(), hourOfDay + ":"
-                                        + minute);
+                                DecimalFormat df = new DecimalFormat("00");
+                                String timeStr = df.format(hourOfDay) + ":" + df.format(minute);
+                                btn.setText(timeStr);
+                                CNHVal.put((String) btn.getTag(), timeStr);
                             }
                         }, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE),
                         false);

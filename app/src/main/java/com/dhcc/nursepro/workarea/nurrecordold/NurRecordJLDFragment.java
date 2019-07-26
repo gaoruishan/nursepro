@@ -271,6 +271,26 @@ public class NurRecordJLDFragment extends BaseFragment implements View.OnClickLi
         return ret;
     }
 
+
+    private String getRadioVal(String itm) {
+        String[] aa = itm.split("\\^");
+        String ret = "";
+        for (int i = 0; i < aa.length; i++) {
+            if (aa[i].equals("")) {
+                continue;
+            }
+            String[] bb = aa[i].split("\\|");
+            if (bb.length > 1) {
+                if (!bb[1].equals("")) {
+                    ret = ret + bb[1] + ";";
+                }
+            } else {
+                ret = ret + ";";
+            }
+        }
+        return ret;
+    }
+
     public void getcon() {
         Iterator iter = CNHLB.entrySet().iterator();// 先获取这个map的set序列，再或者这个序列的迭代器
         String itm = "";
@@ -367,14 +387,16 @@ public class NurRecordJLDFragment extends BaseFragment implements View.OnClickLi
                 // Toast.makeText(context, itmtxt, 100).show();
                 ret = ret + cname + "|" + GetComVal(CNHVal.get(cname).toString()) + "^";
             }
-            if (itm.substring(0, 1).equals("M") || itm.substring(0, 1).equals("I") || itm.substring(0, 1).equals("O"))
+            if (itm.substring(0, 1).equals("R")) {
+                ret = ret + cname + "|" + getRadioVal(CNHVal.get(cname).toString()) + "^";
+            }
+
+            if (itm.substring(0, 1).equals("M") || itm.substring(0, 1).equals("I") || itm.substring(0, 1).equals("O") || itm.substring(0, 1).equals("R")) {
                 continue;
+            }
+
             if (CNHVal.containsKey(cname)) {
-				/*if (cname.equals("CareDate")) {
-					ret = ret + cname + "|" + MobileCom.ChangeDate(CNHVal.get(cname).toString()) + "^";
-				} else {*/
                 ret = ret + cname + "|" + CNHVal.get(cname).toString() + "^";
-                //}
             }
 
         }

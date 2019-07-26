@@ -162,42 +162,16 @@ public class NurRecordMPGDFragment extends BaseFragment implements View.OnClickL
                 ret = ret + cname + "|" + GetComVal(CNHVal.get(cname).toString()) + "^";
             }
 
-            if (itm.substring(0, 1).equals("M") || itm.substring(0, 1).equals("I") || itm.substring(0, 1).equals("O"))
+            if (itm.substring(0, 1).equals("R")) {
+                ret = ret + cname + "|" + getRadioVal(CNHVal.get(cname).toString()) + "^";
+            }
+
+            if (itm.substring(0, 1).equals("M") || itm.substring(0, 1).equals("I") || itm.substring(0, 1).equals("O") || itm.substring(0, 1).equals("R")) {
                 continue;
+            }
+
             if (CNHVal.containsKey(cname)) {
-    				/*if (cname.equals("CareDate")) {
-    					ret = ret + cname + "|" + MobileCom.ChangeDate(CNHVal.get(cname).toString()) + "^";
-    				} else {*/
                 ret = ret + cname + "|" + CNHVal.get(cname).toString() + "^";
-                //体温
-                if ("Item22".equals(cname)) {
-                    threeDataStr += "^Item1|" + CNHVal.get(cname).toString();
-                }
-                //脉搏
-                if ("Item23".equals(cname)) {
-                    threeDataStr += "^Item7|" + CNHVal.get(cname).toString();
-                }
-                //呼吸
-                if ("Item24".equals(cname)) {
-                    threeDataStr += "^Item4|" + CNHVal.get(cname).toString();
-                }
-                //收缩压
-                if ("Item25".equals(cname)) {
-                    threeDataStr += "^Item5|" + CNHVal.get(cname).toString();
-                }
-                //舒张压
-                if ("Item111".equals(cname)) {
-                    threeDataStr += "^Item6|" + CNHVal.get(cname).toString();
-                }
-                //体重
-                if ("Item27".equals(cname)) {
-                    threeDataStr += "^Item2|" + CNHVal.get(cname).toString();
-                }
-                //体重
-                if ("Item26".equals(cname)) {
-                    threeDataStr += "^Item25|" + CNHVal.get(cname).toString();
-                }
-                //}
             }
         }
 
@@ -206,6 +180,25 @@ public class NurRecordMPGDFragment extends BaseFragment implements View.OnClickL
 
         //保存存在问题，覆盖之前评估单
         saveMPGDData(parr, recId.trim());
+    }
+
+    private String getRadioVal(String itm) {
+        String[] aa = itm.split("\\^");
+        String ret = "";
+        for (int i = 0; i < aa.length; i++) {
+            if (aa[i].equals("")) {
+                continue;
+            }
+            String[] bb = aa[i].split("\\|");
+            if (bb.length > 1) {
+                if (!bb[1].equals("")) {
+                    ret = ret + bb[1] + ";";
+                }
+            } else {
+                ret = ret + ";";
+            }
+        }
+        return ret;
     }
 
     private void saveMPGDData(String parr, String pgdId) {
