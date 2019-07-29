@@ -217,6 +217,7 @@ public class OrderSearchFragment extends BaseFragment implements View.OnClickLis
                 hideLoadingTip();
                 patientAdapter.loadMoreFail();
                 showToast("error" + code + ":" + msg);
+                askCount = 0;
             }
         });
 

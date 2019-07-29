@@ -181,7 +181,7 @@
                 android:paddingEnd="3dp"
                 android:paddingStart="3dp"
                 android:paddingTop="1dp"
-                android:text="皮"
+                android:text="敏"
                 android:textColor="@color/white" />
         </LinearLayout>
 
