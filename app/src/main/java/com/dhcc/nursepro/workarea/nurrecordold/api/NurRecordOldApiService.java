@@ -115,6 +115,21 @@ public class NurRecordOldApiService {
         });
     }
 
+    //点击按钮同步信息
+    public static void linkEmrData(String episodeID, String emrCode, final ServiceCallBack callback) {
+        HashMap<String, String> properties = new HashMap<>();
+        properties.put("episodeId", episodeID);
+        properties.put("emrCode", emrCode);
+
+        WebServiceUtils.callWebService("linkEmrData", properties, new WebServiceUtils.WebServiceCallBack() {
+            @Override
+            public void callBack(String result) {
+                callback.onResult(result);
+            }
+        });
+    }
+
+
     //保存评估单内容
     public static void savePGDData(String parr, String pgdId, String methodName, final ServiceCallBack callback) {
         HashMap<String, String> properties = new HashMap<>();

@@ -29,6 +29,7 @@ import com.dhcc.nursepro.utils.XmlParseInterface;
 import com.dhcc.nursepro.workarea.nurrecordold.api.NurRecordOldApiManager;
 import com.dhcc.nursepro.workarea.nurrecordold.bean.RecDataBean;
 import com.dhcc.nursepro.workarea.nurrecordold.bean.RecModelListBean;
+import com.dhcc.nursepro.workarea.nurrecordold.bean.SyncEmrData;
 import com.shizhefei.view.indicator.IndicatorViewPager;
 import com.shizhefei.view.indicator.ScrollIndicatorView;
 import com.shizhefei.view.indicator.slidebar.ColorBar;
@@ -220,6 +221,7 @@ public class NurRecordPGDFragment extends BaseFragment implements View.OnClickLi
         return ret;
     }
 
+
     private void savePGDData(String parr, String pgdId) {
         NurRecordOldApiManager.savePGDData(parr, pgdId, modelListBean.getSaveMth(), new NurRecordOldApiManager.RecDataCallback() {
             @Override
@@ -359,9 +361,9 @@ public class NurRecordPGDFragment extends BaseFragment implements View.OnClickLi
     public void onClick(View v) {
 
         switch ((String) v.getTag()) {
-            case "btntbjbxx":
-                //入出院评估单同步基本信息
-                //syncInfo();
+            case "btnLink":
+                //同步信息
+                linkEmrData();
                 break;
             case "btnSave":
                 if (pgdId.equals("")) {
@@ -376,6 +378,27 @@ public class NurRecordPGDFragment extends BaseFragment implements View.OnClickLi
                 break;
         }
 
+    }
+
+    private void linkEmrData() {
+        NurRecordOldApiManager.linkEmrData(episodeID, emrCode, new NurRecordOldApiManager.SyncEmrDataCallback() {
+            @Override
+            public void onSuccess(SyncEmrData syncEmrData) {
+                List<SyncEmrData.ItemListBean> syncItemList = syncEmrData.getItemList();
+                for (int i = 0; i < syncItemList.size(); i++) {
+                    String key = syncItemList.get(i).getItemCode();
+                    String value = syncItemList.get(i).getItemValue();
+                    if (CNHtb.get(key) != null && CNHtb.get(key) instanceof EditText) {
+                        ((EditText) CNHtb.get(key)).setText(value);
+                    }
+                }
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+                showToast("error" + code + ":" + msg);
+            }
+        });
     }
 
     private void searchcontrol(ViewGroup vv) {

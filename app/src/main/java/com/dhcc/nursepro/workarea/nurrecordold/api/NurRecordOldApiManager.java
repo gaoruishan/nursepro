@@ -5,6 +5,7 @@ import com.dhcc.nursepro.workarea.nurrecordold.bean.CareRecCommListBean;
 import com.dhcc.nursepro.workarea.nurrecordold.bean.InWardPatListBean;
 import com.dhcc.nursepro.workarea.nurrecordold.bean.RecDataBean;
 import com.dhcc.nursepro.workarea.nurrecordold.bean.RecModelListBean;
+import com.dhcc.nursepro.workarea.nurrecordold.bean.SyncEmrData;
 import com.google.gson.Gson;
 
 import java.util.Map;
@@ -230,6 +231,38 @@ public class NurRecordOldApiManager {
                             } else {
                                 if (callback != null) {
                                     callback.onFail(recDataBean.getMsgcode(), recDataBean.getMsg());
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        callback.onFail("-2", "网络错误，数据解析失败");
+                    }
+
+                }
+            }
+        });
+    }
+
+    public static void linkEmrData(String episodeID, String emrCode, final SyncEmrDataCallback callback) {
+        NurRecordOldApiService.linkEmrData(episodeID, emrCode, new NurRecordOldApiService.ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                Gson gson = new Gson();
+                if (jsonStr.isEmpty()) {
+                    callback.onFail("-1", "网络错误，请求数据为空");
+                } else {
+                    try {
+                        SyncEmrData syncEmrData = gson.fromJson(jsonStr, SyncEmrData.class);
+                        if (ObjectUtils.isEmpty(syncEmrData)) {
+                            callback.onFail("-3", "网络错误，数据解析为空");
+                        } else {
+                            if ("0".equals(syncEmrData.getStatus())) {
+                                if (callback != null) {
+                                    callback.onSuccess(syncEmrData);
+                                }
+                            } else {
+                                if (callback != null) {
+                                    callback.onFail(syncEmrData.getMsgcode(), syncEmrData.getMsg());
                                 }
                             }
                         }
@@ -484,6 +517,10 @@ public class NurRecordOldApiManager {
 
     public interface RecDataCallback extends CommonCallBack {
         void onSuccess(RecDataBean recDataBean);
+    }
+
+    public interface SyncEmrDataCallback extends CommonCallBack {
+        void onSuccess(SyncEmrData syncEmrData);
     }
 
     public interface CareRecCommCallback extends CommonCallBack {
