@@ -852,7 +852,9 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         patsAdapter.setNewData(patsListBeanFilter);
         patsAdapter.setSelectItem(0);
         recPatlist.scrollToPosition(0);
-        episodeId = patsListBeanFilter.get(0).getEpisodeId();
+        if (patsListBeanFilter.size()>0){
+            episodeId = patsListBeanFilter.get(0).getEpisodeId();
+        }
         initDataAll();
         patsAdapter.notifyDataSetChanged();
     }
