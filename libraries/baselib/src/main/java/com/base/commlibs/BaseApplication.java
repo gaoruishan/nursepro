@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 
+import com.base.commlibs.utils.CrashHandler;
 import com.squareup.leakcanary.LeakCanary;
 
 import java.util.ArrayList;
@@ -80,6 +81,8 @@ public class BaseApplication extends Application implements Application.Activity
     @Override
     public void onCreate() {
         super.onCreate();
+        //崩溃日志-SD卡中dhc_crash文件
+        CrashHandler.getInstance().init(this);
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
 //        builder.detectFileUriExposure();
@@ -95,6 +98,17 @@ public class BaseApplication extends Application implements Application.Activity
         return sMe;
     }
 
+    /**
+     * 销毁所有Activity
+     */
+    public static void finishAll() {
+        for (Activity activity : sActivities) {
+            if (!activity.isFinishing()) {
+                activity.finish();
+            }
+        }
+        sActivities.clear();
+    }
     @Override
     public void onActivityCreated(Activity activity, Bundle bundle) {
         if (activity instanceof BaseActivity) {
