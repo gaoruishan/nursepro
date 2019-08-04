@@ -96,6 +96,7 @@ public class WorkareaFragment extends BaseFragment {
                 //                ItemNameList.add("DRUGHANDOVER");
                 //                ItemNameList.add("DRUGPREPARATION");
                 //                ItemNameList.add("RLREG");
+                //                ItemNameList.add("MODELDETAIL");
                 patEventsAdapter.setNewData(ItemNameList);
                 SPUtils.getInstance().put(SharedPreference.BLOODSCANTIMES, mainConfigBean.getScantimes());
             }

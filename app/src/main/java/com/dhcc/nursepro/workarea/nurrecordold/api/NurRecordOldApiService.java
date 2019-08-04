@@ -176,7 +176,7 @@ public class NurRecordOldApiService {
         HashMap<String, String> properties = new HashMap<>();
         //episodeID, parr, userId, recTyp, userGroup
         properties.put("parr", parr);
-        properties.put("episodeID", episodeID);
+        properties.put("episodeId", episodeID);
         properties.put("userId", SPUtils.getInstance().getString(SharedPreference.USERID));
         properties.put("recTyp", emrCode);
         properties.put("userGroup", "");
