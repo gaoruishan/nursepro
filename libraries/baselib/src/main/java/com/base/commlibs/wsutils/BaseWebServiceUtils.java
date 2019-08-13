@@ -1,5 +1,8 @@
 package com.base.commlibs.wsutils;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -271,6 +274,18 @@ public class BaseWebServiceUtils {
         }
 
         return retData;
+    }
+
+    /**
+     * 启动浏览器
+     * @param context
+     */
+    public static void openBrowser(Context context) {
+        Intent intent = new Intent();
+        String url = getServiceUrl(NUR_OPPDA_SERVICE);
+        intent.setData(Uri.parse(url));
+        intent.setAction(Intent.ACTION_VIEW);
+        context.startActivity(intent);
     }
 
 

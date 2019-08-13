@@ -162,16 +162,18 @@ public class PatrolFragment extends BaseInfusionFragment implements View.OnClick
                     tourContent = tourContent + "^WorkInfusionMeasure|" + edMeasure.getText().toString();
                 }
             }
-            //结束
+            //异常结束-弹框
             if (PatrolBean.State_Finsh.equals(csvSelectStatus.getSelect())) {
                 final String finalOeoreId = oeoreId;
                 final String finalTourContent = tourContent;
-                DialogFactory.showCommDialog(getActivity(), "您确定'结束'输液?", "确定", 0, new View.OnClickListener() {
+                DialogFactory.showCommOkCancelDialog(getActivity(), "提示","您确定'结束'输液?", "取消","确定", null, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         tourOrd(finalOeoreId, speed,  distantTime, finalTourContent);
                     }
                 });
+            }else {
+                tourOrd(oeoreId, speed,  distantTime, tourContent);
             }
         }
     }

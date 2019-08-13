@@ -49,6 +49,10 @@ public class EditTextScanHelper {
      * @return
      */
     public void dispatchEventListener(int keyCode, int action) {
+        if (keyCode == KeyEvent.KEYCODE_DEL) {
+            //删除不处理
+            return;
+        }
         if (action == KeyEvent.ACTION_DOWN) {
             //巧夺焦点
             editText.setFocusable(true);

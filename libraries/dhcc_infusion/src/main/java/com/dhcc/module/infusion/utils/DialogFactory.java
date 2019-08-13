@@ -20,6 +20,8 @@ import com.dhcc.module.infusion.R;
  */
 public class DialogFactory extends CommDialog {
 
+    private static Dialog dialog;
+
     /**
      * 显示一般的'确认/取消'
      * @param context
@@ -55,6 +57,21 @@ public class DialogFactory extends CommDialog {
         View view = getView(context, R.layout.comm_dialog_layout);
         Dialog dialog = getCommDialog(context, view);
         setImage(iv, view,R.id.iv_comm);
+        setText(txt, view, R.id.tv_txt_comm);
+        setCommTextViewClick(ok, l, dialog, view,R.id.tv_ok_comm);
+        // 3秒自动消失
+        autoDialogDismiss(dialog, autoDismiss);
+        return dialog;
+    }
+    public static Dialog showCommDialog(Context context, String txt, String ok,  @Nullable final View.OnClickListener l, boolean... autoDismiss) {
+        View view = getView(context, R.layout.comm_dialog_layout);
+        if (dialog != null&&dialog.isShowing()) {
+            dialog.cancel();
+        }
+        dialog = getCommDialog(context, view);
+        // 可取消
+        dialog.setCanceledOnTouchOutside(true);
+        view.findViewById(R.id.iv_comm).setVisibility(View.GONE);
         setText(txt, view, R.id.tv_txt_comm);
         setCommTextViewClick(ok, l, dialog, view,R.id.tv_ok_comm);
         // 3秒自动消失

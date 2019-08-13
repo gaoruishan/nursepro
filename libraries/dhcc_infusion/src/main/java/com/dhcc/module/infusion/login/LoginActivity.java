@@ -22,6 +22,7 @@ import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.UserUtil;
+import com.base.commlibs.wsutils.BaseWebServiceUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.db.GreenDaoHelper;
@@ -31,6 +32,7 @@ import com.dhcc.module.infusion.login.bean.ScanCodeBean;
 import com.dhcc.module.infusion.login.windowpicker.Ward;
 import com.dhcc.module.infusion.login.windowpicker.Window;
 import com.dhcc.module.infusion.login.windowpicker.WindowPicker;
+import com.dhcc.module.infusion.utils.DialogFactory;
 import com.dhcc.module.infusion.utils.TransBroadcastUtil;
 import com.google.gson.Gson;
 
@@ -96,6 +98,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         }
     }
 
+    public void openBrowser(View v) {
+        BaseWebServiceUtils.openBrowser(this);
+    }
     private void getBroadcastList() {
         LoginApiManager.getBroadcastList(new CommonCallBack<ScanCodeBean>() {
             @Override
@@ -473,7 +478,21 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
             @Override
             public void onFail(String code, String msg) {
-                Toast.makeText(LoginActivity.this, "error" + code + ":" + msg, Toast.LENGTH_SHORT).show();
+                if ("-1".equals(code)) {
+                    DialogFactory.showCommDialog(LoginActivity.this,
+                            "1,检查用户名及密码是否正确\n" +
+                                    "2,检查【设置IP地址】是否正确\n" +
+                                    "3,检查【病区】是否有登录的权限\n" +
+                                    "4,检查PDA连接是否上指定无线WIFI\n" +
+                                    "5,点击【测试】打开浏览器", "测试",
+                            new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    BaseWebServiceUtils.openBrowser(LoginActivity.this);
+                                }
+                            });
+
+                }
             }
 
         });

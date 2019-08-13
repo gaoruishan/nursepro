@@ -43,6 +43,23 @@ public class ParserUtil<T extends CommResult> {
     }
 
     /**
+     * json解析
+     * @param jsonStr
+     * @param callback
+     * @param clz
+     * @param strNull 自定义null提示
+     * @return
+     */
+    public T parserResult(String jsonStr, CommonCallBack callback, Class<T> clz,String strNull) {
+        if (jsonStr.isEmpty()) {
+            showToast(callback, strNull, "-1");
+        } else {
+            parserResult(jsonStr, callback, clz);
+        }
+        return null;
+    }
+
+    /**
      * 错误Toast提示
      * @param callback
      * @param msg

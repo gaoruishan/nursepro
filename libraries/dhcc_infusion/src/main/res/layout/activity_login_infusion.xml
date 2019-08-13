@@ -12,6 +12,7 @@
         android:layout_height="@dimen/dp_60"
         android:layout_marginTop="@dimen/dp_12">
         <ImageView
+            android:onClick="openBrowser"
             android:layout_width="@dimen/dp_60"
             android:layout_height="@dimen/dp_60"
             android:src="@drawable/infusion_login_logo" />

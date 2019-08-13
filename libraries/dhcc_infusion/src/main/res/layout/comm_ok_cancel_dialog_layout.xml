@@ -50,8 +50,9 @@
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:text="提示消息"
+                        android:gravity="center"
                         android:textColor="#FF4A4A4A"
-                        android:textSize="@dimen/sp_15"/>
+                        android:textSize="@dimen/sp_18"/>
 
                 </LinearLayout>
             </ScrollView>
