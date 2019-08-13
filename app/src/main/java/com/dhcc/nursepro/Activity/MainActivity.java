@@ -47,8 +47,6 @@ import com.dhcc.nursepro.setting.SettingFragment;
 import com.dhcc.nursepro.workarea.MServiceNewOrd;
 import com.dhcc.nursepro.workarea.WorkareaFragment;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends BaseActivity implements RadioButton.OnCheckedChangeListener {
@@ -85,9 +83,6 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
     private IntentFilter mainfilter = new IntentFilter();
 
     // 新医嘱提示
-    private NotificationManager nm;
-    private List<HashMap<String,String>> localList =new ArrayList<>();
-    RequestDialog requestDialog;
     private NotificationManager notificationManager;
 
     @Override
@@ -102,13 +97,14 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         Intent i = new Intent(this, MServiceNewOrd.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startService(i);
-        nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
         //应用无操作定时退出
-        int exitTime = spUtils.getInt(SharedPreference.EXITTIME,0);
+        int exitTime = spUtils.getInt(SharedPreference.EXITTIME, 0);
         if (exitTime > 0) {
             startTimer();
         }
+
     }
 
     @Override
@@ -119,6 +115,11 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         if (mainReceiver != null) {
             unregisterReceiver(mainReceiver);
         }
+
+        if (notificationManager != null) {
+            notificationManager.cancel(1);
+        }
+
     }
 
     @Override
@@ -135,6 +136,25 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
             registerReceiver(mainReceiver, mainfilter);
         }
     }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        onParseIntent();
+
+    }
+
+    private void onParseIntent() {
+        Intent messageIntent = getIntent();
+        if (messageIntent != null) {
+            if (messageIntent.getIntExtra("message", 0) == 1) {
+                switchMainTab(TAB_MESSAGE);
+                setRbMessageTitle();
+            }
+        }
+    }
+
 
     /**
      * 更新
@@ -256,7 +276,6 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
             drawable.setBounds(8, 0, drawable.getIntrinsicWidth() + 8, drawable.getIntrinsicHeight());
             showNotification(this);
         }
-//        showNotification(this);
         rbMessage.setCompoundDrawables(null, drawable, null, null);
     }
 
@@ -312,32 +331,6 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
                 int messageNum = msgs.getNewOrdPatList().size() + msgs.getAbnormalPatList().size() + msgs.getConPatList().size();
                 setmessage(messageNum);
 
-//                requestDialog.dismiss();
-//                String strlocalreq = spUtils.getString(SharedPreference.LOCALREQUEST,"");
-//                if (strlocalreq.length()>1){
-//                    requestDialog = new RequestDialog(MainActivity.this);
-//                    requestDialog.setPatInfo(strlocalreq);
-//                    requestDialog.setSureOnclickListener(new RequestDialog.onSureOnclickListener() {
-//                        @Override
-//                        public void onSureClick() {
-//                            requestDialog.dismiss();
-//                            spUtils.put(SharedPreference.LOCALREQUEST,"");
-//                            showToast(strlocalreq);
-//                        }
-//                    });
-//                    requestDialog.setCancelOnclickListener(new RequestDialog.onCancelOnclickListener() {
-//                        @Override
-//                        public void onCancelClick() {
-//                            requestDialog.dismiss();
-//                        }
-//                    });
-//                    requestDialog.show();
-//
-//                }
-
-
-
-
             }
 
             @Override
@@ -346,13 +339,30 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
             }
         });
     }
+
     private void showNotification(Context context) {
-        Boolean bLight = spUtils.getBoolean(SharedPreference.LIGHT,true);
-        Boolean bSound =spUtils.getBoolean(SharedPreference.SOUND,true);
-        Boolean bVibrator =spUtils.getBoolean(SharedPreference.VIBRATOR,true);
-        Notification.Builder builder = new Notification.Builder(context);
+        Boolean bLight = spUtils.getBoolean(SharedPreference.LIGHT, true);
+        Boolean bSound = spUtils.getBoolean(SharedPreference.SOUND, true);
+        Boolean bVibrator = spUtils.getBoolean(SharedPreference.VIBRATOR, true);
+
+        Notification.Builder builder;
+        if (Build.VERSION.SDK_INT >= 26) {
+
+            NotificationChannel channel = new NotificationChannel("nursepro", "channel_name", NotificationManager.IMPORTANCE_HIGH);
+            if (notificationManager != null) {
+                notificationManager.createNotificationChannel(channel);
+            }
+            builder = new Notification.Builder(context, "nursepro");
+        } else {
+            builder = new Notification.Builder(context);
+        }
+
+
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra("message", 1);
+
         /**设置通知左边的大图标**/
-        builder .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher))
+        builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher))
                 /**设置通知右边的小图标**/
                 .setSmallIcon(R.drawable.ic_launcher)
                 /**通知首次出现在通知栏，带上升动画效果的**/
@@ -370,74 +380,32 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
                 /**设置他为一个正在进行的通知。他们通常是用来表示一个后台任务,用户积极参与(如播放音乐)或以某种方式正在等待,因此占用设备(如一个文件下载,同步操作,主动网络连接)**/
                 .setOngoing(false)
                 /**向通知添加声音、闪灯和振动效果的最简单、最一致的方式是使用当前的用户默认设置，使用defaults属性，可以组合：**/
-//                .setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND | Notification.DEFAULT_LIGHTS)
-                .setContentIntent(PendingIntent.getActivity(context, 1, new Intent(context, MainActivity.class), PendingIntent.FLAG_CANCEL_CURRENT))
+                //                .setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND | Notification.DEFAULT_LIGHTS)
+                .setContentIntent(PendingIntent.getActivity(context, 1, intent, PendingIntent.FLAG_CANCEL_CURRENT))
                 .build();
         //        if (LoginUser.SoundF == true)
-//        builder.setDefaults(Notification.DEFAULT_VIBRATE |Notification.DEFAULT_SOUND|Notification.DEFAULT_LIGHTS);
+        //        builder.setDefaults(Notification.DEFAULT_VIBRATE |Notification.DEFAULT_SOUND|Notification.DEFAULT_LIGHTS);
         Notification notification = builder.getNotification();
-//        notification.defaults |= Notification.DEFAULT_SOUND;
-//        //        if (LoginUser.VibrateF == true)
-        if (bVibrator){
+        //        notification.defaults |= Notification.DEFAULT_SOUND;
+        //        //        if (LoginUser.VibrateF == true)
+        if (bVibrator) {
             notification.defaults |= Notification.DEFAULT_VIBRATE;
         }
-        if (bSound){
+        if (bSound) {
             notification.defaults |= Notification.DEFAULT_SOUND;
         }
-        if (bLight){
+        if (bLight) {
             notification.defaults |= Notification.DEFAULT_LIGHTS;
         }
 
-//        //        if (LoginUser.LigthF == true)
-//
+        //        //        if (LoginUser.LigthF == true)
+        //
 
-//        notification.flags |= Notification.FLAG_INSISTENT;
-        notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
-        /**发起通知**/
-        notificationManager.notify(1, notification);
-    }
-
-    private void Qnotify() {
-
-
-        NotificationManager manager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
-        //新建Notification.Builder对象
-        Notification.Builder builder = new Notification.Builder(this);
-        //PendingIntent点击通知后所跳转的页面
-        PendingIntent intent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0);
-        builder.setContentTitle("消息");
-        builder.setContentText("有新医嘱！");
-        builder.setSmallIcon(R.mipmap.ic_launcher);
-        //执行intent
-        builder.setContentIntent(intent);
-
-        builder.setVibrate(new long[]{0, 2000, 500, 2000});
-
-        builder.setDefaults(Notification.DEFAULT_SOUND);
-        //        Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-        //        builder.setSound(uri);
-
-        builder.setDefaults(Notification.DEFAULT_LIGHTS);
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel("to-do", "消息",
-                    NotificationManager.IMPORTANCE_HIGH);
-            channel.enableLights(true);
-            channel.enableVibration(true);
-            channel.setVibrationPattern(new long[]{0, 2000, 500, 2000});
-            channel.setSound(null, null);
-            manager.createNotificationChannel(channel);
-            builder.setChannelId("to-do");
+        //        notification.flags |= Notification.FLAG_INSISTENT;
+        //      发起通知
+        if (notificationManager != null) {
+            notificationManager.notify(1, notification);
         }
-
-        //将builder对象转换为普通的notification
-        Notification notification = builder.getNotification();
-        //点击通知后通知消失
-        notification.flags |= Notification.FLAG_AUTO_CANCEL;
-        //运行notification
-        manager.notify(1, notification);
-
     }
 
     /**
