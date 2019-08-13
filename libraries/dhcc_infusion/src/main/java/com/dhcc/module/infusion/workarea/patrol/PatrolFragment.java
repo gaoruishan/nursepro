@@ -16,15 +16,15 @@ import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.utils.AdapterFactory;
 import com.dhcc.module.infusion.utils.DialogFactory;
 import com.dhcc.module.infusion.utils.RecyclerViewHelper;
-import com.dhcc.res.infusion.CustomPatView;
-import com.dhcc.res.infusion.CustomScanView;
-import com.dhcc.res.infusion.CustomSelectView;
-import com.dhcc.res.infusion.CustomSpeedView;
 import com.dhcc.module.infusion.workarea.comm.BaseInfusionFragment;
 import com.dhcc.module.infusion.workarea.patrol.adapter.InfusionTourAdapter;
 import com.dhcc.module.infusion.workarea.patrol.adapter.PatrolOrdListAdapter;
 import com.dhcc.module.infusion.workarea.patrol.api.PatrolApiManager;
 import com.dhcc.module.infusion.workarea.patrol.bean.PatrolBean;
+import com.dhcc.res.infusion.CustomPatView;
+import com.dhcc.res.infusion.CustomScanView;
+import com.dhcc.res.infusion.CustomSelectView;
+import com.dhcc.res.infusion.CustomSpeedView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +73,6 @@ public class PatrolFragment extends BaseInfusionFragment implements View.OnClick
         tourAdapter = AdapterFactory.getInfusionTour();
         rvPatrolStatus.setAdapter(tourAdapter);
         csvScan.setTitle("请扫描瓶签/信息卡").setWarning("请您使用扫码设备，扫描药品瓶签/信息卡");
-
     }
 
     @Override
@@ -149,12 +148,12 @@ public class PatrolFragment extends BaseInfusionFragment implements View.OnClick
             if (mBean != null) {
                 oeoreId = mBean.getCurOeoreId();
             }
-            int speed = csvSpeed.getSpeed();
+            final int speed = csvSpeed.getSpeed();
             if (speed <= 0) {
                 ToastUtils.showShort("请调节滴速");
                 return;
             }
-            String distantTime = csvSelectTime.getSelect();
+            final String distantTime = csvSelectTime.getSelect();
 
             String tourContent = "WorkInfusionState|" + csvSelectStatus.getSelect();
             if (PatrolBean.State_Pause.equals(csvSelectStatus.getSelect())) {
@@ -163,21 +162,35 @@ public class PatrolFragment extends BaseInfusionFragment implements View.OnClick
                     tourContent = tourContent + "^WorkInfusionMeasure|" + edMeasure.getText().toString();
                 }
             }
-            PatrolApiManager.tourOrd(oeoreId, distantTime, speed + "", "", tourContent, new CommonCallBack<CommResult>() {
-                @Override
-                public void onFail(String code, String msg) {
-                    ToastUtils.showShort(msg);
-                }
-
-                @Override
-                public void onSuccess(CommResult bean, String type) {
-//                    csvScan.setVisibility(View.VISIBLE);
-                    if (scanInfo != null) {
-                        getOrdList(scanInfo);
+            //结束
+            if (PatrolBean.State_Finsh.equals(csvSelectStatus.getSelect())) {
+                final String finalOeoreId = oeoreId;
+                final String finalTourContent = tourContent;
+                DialogFactory.showCommDialog(getActivity(), "您确定'结束'输液?", "确定", 0, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        tourOrd(finalOeoreId, speed,  distantTime, finalTourContent);
                     }
-                    DialogFactory.showCommDialog(getActivity(), "巡视成功", "", 0, null, true);
-                }
-            });
+                });
+            }
         }
+    }
+
+    private void tourOrd(String oeoreId, int speed, String distantTime, String tourContent) {
+        PatrolApiManager.tourOrd(oeoreId, distantTime, speed + "", "", tourContent, new CommonCallBack<CommResult>() {
+            @Override
+            public void onFail(String code, String msg) {
+                ToastUtils.showShort(msg);
+            }
+
+            @Override
+            public void onSuccess(CommResult bean, String type) {
+//                    csvScan.setVisibility(View.VISIBLE);
+                if (scanInfo != null) {
+                    getOrdList(scanInfo);
+                }
+                DialogFactory.showCommDialog(getActivity(), "巡视成功", "", 0, null, true);
+            }
+        });
     }
 }

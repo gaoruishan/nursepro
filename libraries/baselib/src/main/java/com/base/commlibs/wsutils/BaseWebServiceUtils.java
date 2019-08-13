@@ -54,6 +54,15 @@ public class BaseWebServiceUtils {
                                            final WebServiceCallBack webServiceCallBack) {
         // 创建HttpTransportSE对象，传递WebService服务器地址,默认Nur.PDA.WebService.cls
         String url = getServiceUrl(NUR_OPPDA_SERVICE);
+        if (properties != null) {//替换双竖杆
+            for (Iterator<Map.Entry<String, String>> it = properties.entrySet().iterator(); it.hasNext(); ) {
+                Map.Entry<String, String> entry = it.next();
+                if (entry != null && entry.getValue() != null) {
+                    String value = entry.getValue().replaceAll("\\|\\|", "-");
+                    entry.setValue(value);
+                }
+            }
+        }
         callWebService(url, methodName, properties, webServiceCallBack);
     }
 
@@ -123,8 +132,8 @@ public class BaseWebServiceUtils {
         final SoapSerializationEnvelope soapEnvelope = new SoapSerializationEnvelope(
                 SoapEnvelope.VER11);
         soapEnvelope.bodyOut = soapObject;
-        Log.e("url", url);
-        Log.e("json params", soapObject.toString());
+        LogUtils.e(url);
+        LogUtils.e(soapObject.toString());
 
 
         String userNamestr = "dhwebservice";

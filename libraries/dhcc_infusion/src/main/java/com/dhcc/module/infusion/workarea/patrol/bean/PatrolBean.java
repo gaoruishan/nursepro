@@ -14,6 +14,7 @@ import java.util.List;
 public class PatrolBean extends CommResult {
 
     public static final String State_Pause ="暂停";
+    public static final String State_Finsh ="结束";
 
     /**
      * CurOeoreId : 568-3-1

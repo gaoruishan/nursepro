@@ -34,6 +34,8 @@
         <activity
             android:name="com.dhcc.infusion.MainActivity"
             android:launchMode="singleTask"
+            android:configChanges="orientation|keyboardHidden|screenSize|locale|layoutDirection"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.dhcc.intent.action.main"/>
