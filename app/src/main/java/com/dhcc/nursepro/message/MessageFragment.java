@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
@@ -202,7 +201,7 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
         MessageApiManager.getSkinTestMessage(new CommonCallBack<MessageSkinBean>() {
             @Override
             public void onFail(String code, String msg) {
-                showToast(msg);
+                showToast("error" + code + ":" + msg);
             }
 
             @Override
@@ -341,8 +340,7 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
 
                 @Override
                 public void onFail(String code, String msg) {
-                    Toast.makeText(getActivity(), code + "-消息获取失败：" + msg, Toast.LENGTH_SHORT).show();
-                    Log.v("1111111nohid", "222");
+                    showToast("error" + code + ":" + msg);
                 }
             });
         }
