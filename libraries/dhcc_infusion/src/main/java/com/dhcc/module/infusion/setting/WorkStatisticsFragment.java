@@ -95,7 +95,7 @@ public class WorkStatisticsFragment extends BaseFragment{
         SettingApiManeger.getWorkload(dayStart, dayEnd, new CommonCallBack<WorkStatisticsBean>() {
             @Override
             public void onFail(String code, String msg) {
-                ToastUtils.showShort(msg);
+                showToast(msg);
             }
 
             @Override

@@ -84,7 +84,7 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
         PunctureApiManager.getOrdList(regNo, curOeoreId, scanInfo, new CommonCallBack<PunctureBean>() {
             @Override
             public void onFail(String code, String msg) {
-                ToastUtils.showShort(msg);
+                showToast(msg);
                 helper.setVisible(R.id.ll_puncture_status, false);
             }
 

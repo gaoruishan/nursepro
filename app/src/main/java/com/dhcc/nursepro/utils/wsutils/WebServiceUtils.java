@@ -22,7 +22,6 @@ public class WebServiceUtils {
                                       final WebServiceCallBack webServiceCallBack) {
         // 创建HttpTransportSE对象，传递WebService服务器地址
         String url = "http://" + SPUtils.getInstance().getString(SharedPreference.WEBIP) +SPUtils.getInstance().getString(SharedPreference.WEBPATH)+"/Nur.PDA.WebService.cls";
-        SharedPreference.MethodName = methodName;
         BaseWebServiceUtils.callWebService(url,methodName,properties,webServiceCallBack);
     }
 

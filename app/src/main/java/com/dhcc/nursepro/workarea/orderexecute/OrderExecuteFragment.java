@@ -947,7 +947,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
         OrderExecuteApiManager.skinTime(oeoreId, observeTime,note, new CommonCallBack<CommResult>() {
             @Override
             public void onFail(String code, String msg) {
-                ToastUtils.showShort(msg);
+                showToast(msg);
             }
 
             @Override

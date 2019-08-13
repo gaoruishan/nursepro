@@ -64,7 +64,7 @@ public class DosingFragment extends BaseInfusionFragment implements View.OnClick
         DosingApiManager.getOrdList("", oeoreId, new CommonCallBack<DosingBean>() {
             @Override
             public void onFail(String code, String msg) {
-                ToastUtils.showShort(msg);
+                showToast(msg);
             }
 
             @Override

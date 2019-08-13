@@ -72,7 +72,7 @@ public class MedicalDetailFragment extends BaseFragment {
         WorkAreaApiManager.getOrdInfo(OeoreId, new CommonCallBack<OrdInfoBean>() {
             @Override
             public void onFail(String code, String msg) {
-                ToastUtils.showShort(msg);
+                showToast(msg);
             }
 
             @Override

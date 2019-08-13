@@ -19,7 +19,6 @@ import com.base.commlibs.MessageEvent;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.RecyclerViewHelper;
-import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.message.adapter.MessageAbnormalAdapter;
@@ -203,7 +202,7 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
         MessageApiManager.getSkinTestMessage(new CommonCallBack<MessageSkinBean>() {
             @Override
             public void onFail(String code, String msg) {
-                ToastUtils.showShort(msg);
+                showToast(msg);
             }
 
             @Override

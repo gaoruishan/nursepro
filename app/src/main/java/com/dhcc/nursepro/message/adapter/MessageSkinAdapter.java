@@ -5,10 +5,10 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.base.commlibs.BaseActivity;
 import com.base.commlibs.MessageEvent;
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
-import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.nursepro.R;
@@ -94,7 +94,9 @@ public class MessageSkinAdapter extends BaseQuickAdapter<MessageSkinBean.SkinTim
                 MessageApiManager.setSkinTestResult(OeoreId, skinTest, auditUserId, new CommonCallBack<CommResult>() {
                     @Override
                     public void onFail(String code, String msg) {
-                        ToastUtils.showShort(msg);
+                        if (mContext instanceof BaseActivity) {
+                            ((BaseActivity)mContext).showToast(msg);
+                        }
                     }
 
                     @Override

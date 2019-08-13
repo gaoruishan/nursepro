@@ -108,6 +108,7 @@ public class BaseWebServiceUtils {
      * @param webServiceCallBack 回调接口
      */
     public static void callWebService(String url, final String methodName, HashMap<String, String> properties, final WebServiceCallBack webServiceCallBack) {
+        SharedPreference.MethodName = methodName;
         final HttpTransportSE httpTransportSE = new HttpTransportSE(url);
 
 

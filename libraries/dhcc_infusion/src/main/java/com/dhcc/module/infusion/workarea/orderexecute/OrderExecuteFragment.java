@@ -146,7 +146,7 @@ public class OrderExecuteFragment extends BaseInfusionFragment {
         OrderExecuteApiManager.getScanInfo("", scanInfo, new CommonCallBack<OrdScanInfoBean>() {
             @Override
             public void onFail(String code, String msg) {
-                ToastUtils.showShort(msg);
+                showToast(msg);
             }
 
             @Override
@@ -180,7 +180,7 @@ public class OrderExecuteFragment extends BaseInfusionFragment {
             @Override
             public void onFail(String code, String msg) {
                 hideLoadingTip();
-                ToastUtils.showShort(msg);
+                showToast(msg);
             }
 
             @Override

@@ -62,7 +62,7 @@ public class MessageFragment extends BaseFragment implements CustomTabView.OnTab
         MessageApiManager.getInfusionMessage(new CommonCallBack<MessageInfusionBean>() {
             @Override
             public void onFail(String code, String msg) {
-                ToastUtils.showShort(msg);
+                showToast(msg);
             }
 
             @Override
@@ -79,7 +79,7 @@ public class MessageFragment extends BaseFragment implements CustomTabView.OnTab
         MessageApiManager.getSkinTestMessage(new CommonCallBack<MessageSkinBean>() {
             @Override
             public void onFail(String code, String msg) {
-                ToastUtils.showShort(msg);
+                showToast(msg);
             }
 
             @Override
