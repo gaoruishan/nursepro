@@ -10,7 +10,6 @@ import android.widget.EditText;
 
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
-import com.blankj.utilcode.util.ToastUtils;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.utils.AdapterFactory;
 import com.dhcc.module.infusion.utils.DialogFactory;
@@ -64,7 +63,6 @@ public class DosingFragment extends BaseInfusionFragment implements View.OnClick
         DosingApiManager.getOrdList("", oeoreId, new CommonCallBack<DosingBean>() {
             @Override
             public void onFail(String code, String msg) {
-                showToast(msg);
             }
 
             @Override

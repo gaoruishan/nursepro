@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import com.base.commlibs.BaseFragment;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.http.CommonCallBack;
-import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.message.adapter.MessageInfusionAdapter;
@@ -25,9 +24,9 @@ import com.dhcc.module.infusion.message.bean.MessageSkinBean;
 import com.dhcc.module.infusion.message.bean.NotifyMessageBean;
 import com.dhcc.module.infusion.utils.AdapterFactory;
 import com.dhcc.module.infusion.utils.RecyclerViewHelper;
+import com.dhcc.module.infusion.workarea.PatInfoFragment;
 import com.dhcc.res.infusion.CustomPatView;
 import com.dhcc.res.infusion.CustomTabView;
-import com.dhcc.module.infusion.workarea.PatInfoFragment;
 
 import java.util.List;
 
@@ -62,7 +61,6 @@ public class MessageFragment extends BaseFragment implements CustomTabView.OnTab
         MessageApiManager.getInfusionMessage(new CommonCallBack<MessageInfusionBean>() {
             @Override
             public void onFail(String code, String msg) {
-                showToast(msg);
             }
 
             @Override
@@ -79,7 +77,6 @@ public class MessageFragment extends BaseFragment implements CustomTabView.OnTab
         MessageApiManager.getSkinTestMessage(new CommonCallBack<MessageSkinBean>() {
             @Override
             public void onFail(String code, String msg) {
-                showToast(msg);
             }
 
             @Override
@@ -96,7 +93,6 @@ public class MessageFragment extends BaseFragment implements CustomTabView.OnTab
         MessageApiManager.getNotifyMessage(new CommonCallBack<NotifyMessageBean>() {
             @Override
             public void onFail(String code, String msg) {
-                showToast("error" + code + ":" + msg);
             }
 
             @Override

@@ -9,16 +9,15 @@ import android.view.View;
 
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
-import com.blankj.utilcode.util.ToastUtils;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.utils.AdapterFactory;
 import com.dhcc.module.infusion.utils.DialogFactory;
 import com.dhcc.module.infusion.utils.RecyclerViewHelper;
-import com.dhcc.res.infusion.CustomPatView;
-import com.dhcc.res.infusion.CustomScanView;
 import com.dhcc.module.infusion.workarea.comm.BaseInfusionFragment;
 import com.dhcc.module.infusion.workarea.needles.api.NeedlesApiManager;
 import com.dhcc.module.infusion.workarea.patrol.adapter.PatrolOrdListAdapter;
+import com.dhcc.res.infusion.CustomPatView;
+import com.dhcc.res.infusion.CustomScanView;
 
 /**
  * 拔针
@@ -62,7 +61,7 @@ public class NeedlesFragment extends BaseInfusionFragment implements View.OnClic
         NeedlesApiManager.getFinishOrdList("", "", scanInfo, new CommonCallBack<NeedlesBean>() {
             @Override
             public void onFail(String code, String msg) {
-                showToast(msg);
+
             }
 
             @Override
@@ -94,7 +93,7 @@ public class NeedlesFragment extends BaseInfusionFragment implements View.OnClic
             NeedlesApiManager.extractOrd(oeoreId, new CommonCallBack<CommResult>() {
                 @Override
                 public void onFail(String code, String msg) {
-                    showToast(msg);
+
                 }
 
                 @Override

@@ -61,7 +61,7 @@ public class PatInfoFragment extends BaseFragment {
         WorkAreaApiManager.getPatInfo(regNo, new CommonCallBack<PatDetailBean>() {
             @Override
             public void onFail(String code, String msg) {
-                showToast(msg);
+
             }
 
             @Override

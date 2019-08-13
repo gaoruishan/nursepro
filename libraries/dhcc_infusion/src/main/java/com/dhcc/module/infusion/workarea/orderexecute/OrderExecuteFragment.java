@@ -15,7 +15,6 @@ import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.RecyclerViewHelper;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
-import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.workarea.comm.BaseInfusionFragment;
@@ -146,7 +145,7 @@ public class OrderExecuteFragment extends BaseInfusionFragment {
         OrderExecuteApiManager.getScanInfo("", scanInfo, new CommonCallBack<OrdScanInfoBean>() {
             @Override
             public void onFail(String code, String msg) {
-                showToast(msg);
+
             }
 
             @Override
@@ -180,7 +179,7 @@ public class OrderExecuteFragment extends BaseInfusionFragment {
             @Override
             public void onFail(String code, String msg) {
                 hideLoadingTip();
-                showToast(msg);
+
             }
 
             @Override
