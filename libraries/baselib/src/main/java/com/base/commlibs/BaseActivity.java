@@ -33,10 +33,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -45,7 +43,6 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -59,7 +56,6 @@ import com.base.commlibs.base.BasePushDialog;
 import com.base.commlibs.base.BaseTopLoadingView;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
-import com.base.commlibs.utils.EditTextScanHelper;
 import com.blankj.utilcode.util.SPUtils;
 import com.noober.background.BackgroundLibrary;
 
@@ -139,7 +135,7 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
     // 用于监听网络改变
     private NetworkStatusReceiver mNetworkStatusReceiver;
     private String mRequestTag;
-    private EditTextScanHelper scanHelper;
+//    private EditTextScanHelper scanHelper;
 
     // 登录成功，开始计时
     protected static void startTimer() {
@@ -248,26 +244,26 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
             }
         });
         sAllActivitys.add(this);
-        //添加Scan帮助类
-        addScanEditText();
-    }
-    protected void addScanEditText() {
-        scanHelper = new EditTextScanHelper();
-        EditText editText = scanHelper.addEditTextInputListener(this, new EditTextScanHelper.OnScanListener() {
-            @Override
-            public void onResult(String code) {
-                Log.e(TAG,"(BaseActivity.java:259) "+code);
-                Intent intent = new Intent();
-                intent.putExtra("data", code);
-                intent.setAction(Action.DEVICE_SCAN_CODE);
-                Bundle bundle = intent.getExtras();
-                bundle.putString("data",code);
-                sendBroadcast(intent);
-            }
-        });
-        if (mContainer != null) {
-            mContainer.addView(editText);
-        }
+//        //添加Scan帮助类
+//        addScanEditText();
+//    }
+//    protected void addScanEditText() {
+//        scanHelper = new EditTextScanHelper();
+//        EditText editText = scanHelper.addEditTextInputListener(this, new EditTextScanHelper.OnScanListener() {
+//            @Override
+//            public void onResult(String code) {
+//                Log.e(TAG,"(BaseActivity.java:259) "+code);
+//                Intent intent = new Intent();
+//                intent.putExtra("data", code);
+//                intent.setAction(Action.DEVICE_SCAN_CODE);
+//                Bundle bundle = intent.getExtras();
+//                bundle.putString("data",code);
+//                sendBroadcast(intent);
+//            }
+//        });
+//        if (mContainer != null) {
+//            mContainer.addView(editText);
+//        }
     }
 
     // 每当用户接触了屏幕，都会执行此方法
@@ -547,11 +543,11 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         });
     }
 
-    @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
-        scanHelper.dispatchEventListener(event.getKeyCode(),event.getAction());
-        return super.dispatchKeyEvent(event);
-    }
+//    @Override
+//    public boolean dispatchKeyEvent(KeyEvent event) {
+//        scanHelper.dispatchEventListener(event.getKeyCode(),event.getAction());
+//        return super.dispatchKeyEvent(event);
+//    }
 
     /**
      * 隐藏Toolbar的导航按钮

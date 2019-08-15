@@ -1,7 +1,9 @@
 package com.dhcc.nursepro.setting.adapter;
 
 import android.support.annotation.Nullable;
-import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -26,11 +28,23 @@ public class SettingBedsAdapter extends BaseQuickAdapter<SettingBedListBean.BedL
 
     @Override
     protected void convert(BaseViewHolder helper, SettingBedListBean.BedListBean.GroupListBean item) {
+        LinearLayout llBed = helper.getView(R.id.ll_settingbeds);
         TextView tvBedSelectBed = helper.getView(R.id.tv_settingbeds_bed);
+        ImageView imgBedSex = helper.getView(R.id.img_settingbeds_sex);
         if ("0".equals(item.getSelect())) {
+            llBed.setSelected(false);
             tvBedSelectBed.setSelected(false);
         } else {
+            llBed.setSelected(true);
             tvBedSelectBed.setSelected(true);
+        }
+
+        if (item.getPatSex() == null || "".equals(item.getPatSex())) {
+            imgBedSex.setVisibility(View.INVISIBLE);
+        } else if ("男".equals(item.getPatSex())) {
+            imgBedSex.setImageResource(R.drawable.sex_male);
+        } else {
+            imgBedSex.setImageResource(R.drawable.sex_female);
         }
 
         tvBedSelectBed.setText(item.getBedCode());

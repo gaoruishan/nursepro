@@ -1,6 +1,9 @@
 package com.dhcc.nursepro.workarea.bedselect.adapter;
 
 import android.support.annotation.Nullable;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -24,12 +27,24 @@ public class BedListAdapter extends BaseQuickAdapter<BedSelectListBean.BedListBe
 
     @Override
     protected void convert(BaseViewHolder helper, BedSelectListBean.BedListBean.GroupListBean item) {
-        TextView tvBedSelectBed = helper.getView(R.id.tv_bedselect_bed);
 
+        LinearLayout llBedSelect = helper.getView(R.id.ll_bedselect);
+        TextView tvBedSelectBed = helper.getView(R.id.tv_bedselect_bed);
+        ImageView imgBedSelectSex = helper.getView(R.id.img_bedselect_sex);
         if ("0".equals(item.getSelect())) {
+            llBedSelect.setSelected(false);
             tvBedSelectBed.setSelected(false);
         } else {
+            llBedSelect.setSelected(true);
             tvBedSelectBed.setSelected(true);
+        }
+
+        if (item.getPatSex() == null || "".equals(item.getPatSex())) {
+            imgBedSelectSex.setVisibility(View.INVISIBLE);
+        } else if ("男".equals(item.getPatSex())) {
+            imgBedSelectSex.setImageResource(R.drawable.sex_male);
+        } else {
+            imgBedSelectSex.setImageResource(R.drawable.sex_female);
         }
 
         tvBedSelectBed.setText(item.getBedCode());
