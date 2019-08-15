@@ -1,31 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:tools="http://schemas.android.com/tools"
-android:id="@+id/ll_bedselect"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:background="@drawable/bg_bed_selector"
-android:orientation="horizontal">
-
-<TextView
-    android:id="@+id/tv_bedselect_bed"
-    android:layout_width="0dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_bedselect"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_weight="1"
-    android:gravity="center"
-    android:paddingTop="16dp"
-    android:paddingBottom="16dp"
-    android:textColor="@drawable/textcolor_itembed_selector"
-    tools:text="01床" />
+    android:background="@drawable/bg_bed_selector"
+    android:orientation="horizontal">
 
-<ImageView
-    android:id="@+id/img_bedselect_sex"
-    android:layout_width="28dp"
-    android:layout_height="28dp"
-    android:layout_gravity="center"
-    android:layout_marginStart="8dp"
-    android:layout_marginEnd="8dp"
-    android:background="#ffffff"
-    android:padding="4dp"
-    tools:src="@drawable/sex_male" />
+    <TextView
+        android:id="@+id/tv_bedselect_bed"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:textColor="@drawable/textcolor_itembed_selector"
+        tools:text="01床" />
+
+    <ImageView
+        android:id="@+id/img_bedselect_sex"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:padding="2dp"
+        tools:src="@drawable/man" />
 </LinearLayout>

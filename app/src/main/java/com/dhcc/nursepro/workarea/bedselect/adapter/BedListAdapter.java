@@ -42,9 +42,9 @@ public class BedListAdapter extends BaseQuickAdapter<BedSelectListBean.BedListBe
         if (item.getPatSex() == null || "".equals(item.getPatSex())) {
             imgBedSelectSex.setVisibility(View.INVISIBLE);
         } else if ("男".equals(item.getPatSex())) {
-            imgBedSelectSex.setImageResource(R.drawable.sex_male);
+            imgBedSelectSex.setImageResource(R.drawable.man);
         } else {
-            imgBedSelectSex.setImageResource(R.drawable.sex_female);
+            imgBedSelectSex.setImageResource(R.drawable.woman);
         }
 
         tvBedSelectBed.setText(item.getBedCode());
