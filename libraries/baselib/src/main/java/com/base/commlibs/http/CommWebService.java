@@ -63,14 +63,15 @@ public class CommWebService {
      * 解析CommResult方法
      * @param jsonStr
      * @param callback
+     * @param dealOnFail 默认提示, 当dealOnFail=true 不吐司
      */
-    public static void parserCommResult(String jsonStr, CommonCallBack callback) {
+    public static void parserCommResult(String jsonStr, CommonCallBack callback,boolean... dealOnFail) {
         ParserUtil<CommResult> parserUtil = new ParserUtil<>();
         CommResult bean = parserUtil.parserResult(jsonStr, callback, CommResult.class);
         if (bean == null) {
             return;
         }
-        parserUtil.parserStatus(bean, callback);
+        parserUtil.parserStatus(bean, callback,dealOnFail);
     }
 
     /**

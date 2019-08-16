@@ -73,18 +73,24 @@ public final class ClipboardUtils {
         // 获取系统剪贴板
         ClipboardManager clipboard = (ClipboardManager) Utils.getApp().getSystemService(Context.CLIPBOARD_SERVICE);
         // 添加剪贴板数据改变监听器
-        clipboard.addPrimaryClipChangedListener(new ClipboardManager.OnPrimaryClipChangedListener() {
-            @Override
-            public void onPrimaryClipChanged() {
-                // 剪贴板中的数据被改变，此方法将被回调
-                Log.e(TAG,"onPrimaryClipChanged()");
-                if (what != null) {
-                    what.onPrimaryClipChanged();
-                }
-            }
-        });
+        if (clipboard != null && what != null) {
+            clipboard.addPrimaryClipChangedListener(what);
+        }
         // 移除指定的剪贴板数据改变监听器
         // clipboard.removePrimaryClipChangedListener(listener);
+    }
+
+    /**
+     * 移除监听器
+     * @param listener
+     */
+    public static void removePrimaryClipChangedListener(ClipboardManager.OnPrimaryClipChangedListener listener) {
+        // 获取系统剪贴板
+        ClipboardManager clipboard = (ClipboardManager) Utils.getApp().getSystemService(Context.CLIPBOARD_SERVICE);
+        // 移除指定的剪贴板数据改变监听器
+        if (clipboard != null) {
+            clipboard.removePrimaryClipChangedListener(listener);
+        }
     }
 
     /**

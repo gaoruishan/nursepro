@@ -28,8 +28,9 @@ public class SettingWayFragment extends BaseFragment implements View.OnClickList
     private RelativeLayout rlLight;
     private RelativeLayout rlSound;
     private RelativeLayout rlVibrator;
-    private Boolean bLight,bSound,bVibrator;
-    private ImageView imgLight,imgSound,imgVibrator;
+    private RelativeLayout rlSettingScan;
+    private Boolean bLight,bSound,bVibrator,multiScan;
+    private ImageView imgLight,imgSound,imgVibrator, imgSettingScan;
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_setting_way_infusion, container, false);
@@ -54,9 +55,7 @@ public class SettingWayFragment extends BaseFragment implements View.OnClickList
         viewright.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                spUtils.put(SharedPreference.LIGHT,bLight);
-                spUtils.put(SharedPreference.SOUND,bSound);
-                spUtils.put(SharedPreference.VIBRATOR,bVibrator);
+                saveSP();
                 finish();
             }
         });
@@ -64,6 +63,14 @@ public class SettingWayFragment extends BaseFragment implements View.OnClickList
         initView(view);
 
     }
+
+    private void saveSP() {
+        spUtils.put(SharedPreference.LIGHT,bLight);
+        spUtils.put(SharedPreference.SOUND,bSound);
+        spUtils.put(SharedPreference.VIBRATOR,bVibrator);
+        spUtils.put(SharedPreference.MUlTISCAN,multiScan);
+    }
+
     private void initView(View view){
         rlLight = view.findViewById(R.id.rl_setting_light);
         rlLight.setOnClickListener(this);
@@ -71,15 +78,19 @@ public class SettingWayFragment extends BaseFragment implements View.OnClickList
         rlSound.setOnClickListener(this);
         rlVibrator = view.findViewById(R.id.rl_setting_vibrator);
         rlVibrator.setOnClickListener(this);
+        rlSettingScan = view.findViewById(R.id.rl_setting_scan);
+        rlSettingScan.setOnClickListener(this);
         imgLight = view.findViewById(R.id.img_setting_light);
         imgSound = view.findViewById(R.id.img_setting_sound);
         imgVibrator =view.findViewById(R.id.img_setting_vibrator);
+        imgSettingScan =view.findViewById(R.id.img_setting_scan);
 
 
         bLight = spUtils.getBoolean(SharedPreference.LIGHT,true);
         bSound = spUtils.getBoolean(SharedPreference.SOUND,true);
-       bVibrator =  spUtils.getBoolean(SharedPreference.VIBRATOR,true);
-
+        bVibrator =  spUtils.getBoolean(SharedPreference.VIBRATOR,true);
+        multiScan =  spUtils.getBoolean(SharedPreference.MUlTISCAN,false);
+        imgSettingScan.setImageResource(multiScan?R.drawable.icon_selected_infusion:R.drawable.icon_unselected_infusion);
         if (bLight){
             imgLight.setImageResource(R.drawable.icon_selected_infusion);
         }else {
@@ -126,6 +137,10 @@ public class SettingWayFragment extends BaseFragment implements View.OnClickList
                 bVibrator = true;
                 imgVibrator.setImageResource(R.drawable.icon_selected_infusion);
             }
+        }
+        if (v.getId() == R.id.rl_setting_scan) {
+            multiScan = !multiScan;
+            imgSettingScan.setImageResource(multiScan?R.drawable.icon_selected_infusion:R.drawable.icon_unselected_infusion);
         }
     }
 }

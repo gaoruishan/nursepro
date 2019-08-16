@@ -19,7 +19,7 @@ public class LoginApiManager {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<LoginBean> parserUtil = new ParserUtil<>();
-                LoginBean bean = parserUtil.parserResult(jsonStr, callBack, LoginBean.class);
+                LoginBean bean = parserUtil.parserResult(jsonStr, callBack, LoginBean.class,"");
                 if (bean == null) return;
                 parserUtil.parserStatus(bean, callBack);
             }

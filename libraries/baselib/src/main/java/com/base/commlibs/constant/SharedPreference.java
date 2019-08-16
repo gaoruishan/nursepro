@@ -40,6 +40,7 @@ public class SharedPreference {
     public static final String LIGHT = "LIGHT";
     public static final String SOUND = "SOUND";
     public static final String VIBRATOR = "VIBRATOR";
+    public static final String MUlTISCAN = "MUlTISCAN";
 
 
     public static final String EXITTIME = "EXITTIME";

@@ -48,7 +48,7 @@ public class DosingApiManager {
         DosingApiService.despensingOrd(oeoreId, type, userCode, password, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
-                CommWebService.parserCommResult(jsonStr,callback);
+                CommWebService.parserCommResult(jsonStr,callback,true);
             }
         });
     }
