@@ -512,6 +512,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
 
         } else {
             //选择框
+            config.getOptions().add("删除");
             final OptionView optionView = new OptionView(getActivity(), config.getOptions());
 
             optionView.setTextSize(16);
@@ -527,6 +528,17 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
                 @Override
                 public void onClick(View v) {
                     mKeyboard.setVisibility(View.GONE);
+                    optionView.picker.setOnOptionPickListener(new OptionPicker.OnOptionPickListener() {
+                        @Override
+                        public void onOptionPicked(int index, String item) {
+//                            config.setSendValue(config.getItemCode() + "|" + item);
+                            if (item.equals("删除")) {
+                                optionView.setText("");
+                            } else {
+                                optionView.setText(item);
+                            }
+                        }
+                    });
                     optionView.showPicker();
                 }
             });
