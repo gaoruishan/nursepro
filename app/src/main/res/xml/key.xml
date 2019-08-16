@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
-    android:horizontalGap="1.56%p"
-    android:keyHeight="8%p"
+    android:horizontalGap="1.6%p"
+    android:keyHeight="9%p"
     android:keyWidth="17.5%p"
     android:verticalGap="1%p" >
 
+    <Row
+        android:keyHeight="1dp"
+        ></Row>
     <Row>
         <Key
             android:verticalGap="1dp"
@@ -12,7 +15,6 @@
             android:keyOutputText="36."
             android:keyLabel="36." />
         <Key
-            android:horizontalGap="2.5%p"
             android:keyWidth="18%p"
             android:codes="49"
             android:keyLabel="1" />
@@ -25,13 +27,15 @@
             android:codes="51"
             android:keyLabel="3" />
         <Key
-            android:horizontalGap="2.5%p"
-            android:keyWidth="20%p"
-            android:keyHeight="17%p"
+            android:keyWidth="19%p"
+            android:keyHeight="19%p"
             android:codes="-5"
             android:isRepeatable="true"
             android:keyLabel="删除" />
-
+        <Key
+            android:keyWidth="0%p"
+            android:codes="46"
+            android:keyLabel="" />
     </Row>
     <Row>
         <Key
@@ -40,7 +44,6 @@
             android:keyOutputText="37."
             android:keyLabel="37." />
         <Key
-            android:horizontalGap="2.5%p"
             android:keyWidth="18%p"
             android:codes="52"
             android:keyLabel="4" />
@@ -60,7 +63,6 @@
             android:keyOutputText="38."
             android:keyLabel="38." />
         <Key
-            android:horizontalGap="2.5%p"
             android:codes="55"
             android:keyWidth="18%p"
             android:keyLabel="7" />
@@ -73,11 +75,14 @@
             android:codes="57"
             android:keyLabel="9" />
         <Key
-            android:horizontalGap="2.5%p"
-            android:keyWidth="20%p"
-            android:keyHeight="17%p"
+            android:keyWidth="19%p"
+            android:keyHeight="19%p"
             android:codes="-4"
             android:keyLabel="确定" />
+        <Key
+            android:keyWidth="0%p"
+            android:codes="46"
+            android:keyLabel="" />
     </Row>
     <Row>
         <Key
@@ -86,7 +91,6 @@
             android:keyOutputText="39."
             android:keyLabel="39." />
         <Key
-            android:horizontalGap="2.5%p"
             android:keyWidth="18%p"
             android:keyOutputText="40."
             android:keyLabel="40." />
@@ -100,5 +104,7 @@
             android:keyLabel="0" />
 
     </Row>
-
+    <Row
+        android:keyHeight="1dp"
+        ></Row>
 </Keyboard>

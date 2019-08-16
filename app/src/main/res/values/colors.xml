@@ -119,5 +119,5 @@
     <color name="drugpreparation_text_selected_color">#62ABFF</color>
     <color name="drugpreparation_text_color">#4A4A4A</color>
 
-
+    <color name="keybgcolor">#E1E1E1</color>
 </resources>

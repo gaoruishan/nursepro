@@ -49,25 +49,42 @@ public class DIYKeyboardView extends KeyboardView {
             paint.setAntiAlias(true);
             for (Keyboard.Key key : keys) {
                 if (key.codes[0] == -4) {
-                    Drawable dr = getContext().getResources().getDrawable(R.drawable.keyboard_blue);
+                    Drawable dr = getContext().getResources().getDrawable(R.drawable.bg_rectangle_seagreen);
                     dr.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
                     dr.draw(canvas);
-                } else {
-                    Drawable dr = getContext().getResources().getDrawable(R.drawable.keyboard_white);
-                    dr.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
-                    dr.draw(canvas);
+                }else if (key.codes[0] == -5){
+                    if (key.pressed){
+                        Drawable dr = getContext().getResources().getDrawable(R.drawable.bg_rectangle_deeporange);
+                        dr.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
+                        dr.draw(canvas);
+                    }else {
+                        Drawable dr = getContext().getResources().getDrawable(R.drawable.bg_rectangle_orange);
+                        dr.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
+                        dr.draw(canvas);
+                    }
+
+                }else {
+                    if (key.pressed){
+                        Drawable dr = getContext().getResources().getDrawable(R.drawable.bg_rectangle_deepblue);
+                        dr.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
+                        dr.draw(canvas);
+                    }else {
+                        Drawable dr = getContext().getResources().getDrawable(R.drawable.bg_rectangle_blue);
+                        dr.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
+                        dr.draw(canvas);
+                    }
                 }
                 if (key.label != null) {
                     if (key.codes[0] == -4 ||
                             key.codes[0] == -5) {
-                        paint.setTextSize(22 * 2);
+                        paint.setTextSize(28 * 2);
                     } else {
-                        paint.setTextSize(23 * 2);
+                        paint.setTextSize(29 * 2);
                     }
                     if (key.codes[0] == -4) {
                         paint.setColor(getContext().getResources().getColor(android.R.color.white));
                     } else {
-                        paint.setColor(getContext().getResources().getColor(R.color.blue));
+                        paint.setColor(getContext().getResources().getColor(R.color.white));
                     }
                     Rect rect = new Rect(key.x, key.y, key.x + key.width, key.y + key.height);
                     Paint.FontMetricsInt fontMetrics = paint.getFontMetricsInt();
