@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * app配置工具类
  * @author:gaoruishan
  * @date:202019-06-22/14:33
  * @email:grs0515@163.com
@@ -111,5 +112,13 @@ public class AppUtil {
         if(!TextUtils.isEmpty(userCode)){
             SPUtils.getInstance().put(SharedPreference.REMEM_USERCODE, userCode);
         }
+    }
+
+    /**
+     * 是否支持多种扫描方式
+     * @return
+     */
+    public static boolean isMultiScan() {
+        return SPUtils.getInstance().getBoolean(SharedPreference.MUlTISCAN, false);
     }
 }

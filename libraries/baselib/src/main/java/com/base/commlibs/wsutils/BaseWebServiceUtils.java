@@ -29,6 +29,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
+
 public class BaseWebServiceUtils {
 
     public static final String DEFAULT_IP = "10.1.5.87";
@@ -48,6 +49,8 @@ public class BaseWebServiceUtils {
             .newFixedThreadPool(5);
     // 命名空间
     private static final String NAMESPACE = "http://www.dhcc.com.cn";
+    // 默认超时时间
+    private static final int TIME_OUT = 10*1000;
 
     /**
      * OPPDA门诊服务器地址
@@ -112,7 +115,7 @@ public class BaseWebServiceUtils {
      */
     public static void callWebService(String url, final String methodName, HashMap<String, String> properties, final WebServiceCallBack webServiceCallBack) {
         SharedPreference.MethodName = methodName;
-        final HttpTransportSE httpTransportSE = new HttpTransportSE(url);
+        final HttpTransportSE httpTransportSE = new HttpTransportSE(url,TIME_OUT);
 
 
         // 创建SoapObject对象

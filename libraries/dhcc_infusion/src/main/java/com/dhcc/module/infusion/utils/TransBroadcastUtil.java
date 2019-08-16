@@ -4,12 +4,12 @@ import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 
+import com.base.commlibs.bean.BroadcastListBean;
 import com.base.commlibs.constant.Action;
 import com.blankj.utilcode.util.StringUtils;
-import com.base.commlibs.bean.BroadcastListBean;
 
 import java.util.List;
 import java.util.Objects;
@@ -48,12 +48,12 @@ public class TransBroadcastUtil {
     //    }
 
     public static void setScanActionList(List<BroadcastListBean> broadcastListBeans) {
-        broadcastList = broadcastListBeans;
-        IntentFilter filter = new IntentFilter();
-        for (int i = 0; i < broadcastList.size(); i++) {
-            filter.addAction(broadcastList.get(i).getAction());
-        }
-        mContext.registerReceiver(mReceiver, filter);
+//        broadcastList = broadcastListBeans;
+//        IntentFilter filter = new IntentFilter();
+//        for (int i = 0; i < broadcastList.size(); i++) {
+//            filter.addAction(broadcastList.get(i).getAction());
+//        }
+//        mContext.registerReceiver(mReceiver, filter);
     }
 
     public static void init(Context context) {
@@ -69,8 +69,9 @@ public class TransBroadcastUtil {
         @SuppressLint("NewApi")
         @Override
         public void onReceive(Context context, Intent intent) {
+            Log.e("TAG","(BaseReceiver.java:909) 广播码"+intent.toString());
             if (StringUtils.isEmpty(scanAction)) {
-                for (int i = 0; i < broadcastList.size(); i++) {
+                for (int i = 0; broadcastList!=null&&i < broadcastList.size(); i++) {
                     if (Objects.requireNonNull(intent.getAction()).equals(broadcastList.get(i).getAction())) {
                         scanAction = broadcastList.get(i).getAction();
                         scanKey = broadcastList.get(i).getDecode();

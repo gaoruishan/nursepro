@@ -2,16 +2,22 @@ package com.base.commlibs.utils;
 
 import android.app.Activity;
 import android.content.ClipboardManager;
+import android.content.Context;
 import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.blankj.utilcode.util.KeyboardUtils;
+import com.blankj.utilcode.util.Utils;
+
 /**
+ * 支持剪贴板,扫描光标位置,模拟键盘三种扫码方式
  * @author:gaoruishan
  * @date:202019-08-09/15:11
  * @email:grs0515@163.com
@@ -20,6 +26,10 @@ public class EditTextScanHelper {
 
     private static final String TAG = EditTextScanHelper.class.getSimpleName();
     private static final int DELAY_MILLIS = 300;
+    //上次点击的时间
+    private static long lastClickTime = 0;
+    //时间间隔
+    private static int spaceTime = 300;
     /**
      * 按键监听
      * @return
@@ -41,6 +51,18 @@ public class EditTextScanHelper {
      * 扫描事件.
      **/
     private MTextWatcher textwatcher = new MTextWatcher();
+    private ClipboardManager.OnPrimaryClipChangedListener clipChangedListener;
+    private ClipboardManager clipboard;
+    private boolean isFocus;
+    private boolean isClipBoardText;
+
+    public static boolean isOkClick() {
+        long currentTime = System.currentTimeMillis();
+        boolean isAllowClick;//是否允许点击
+        isAllowClick = currentTime - lastClickTime >= spaceTime;
+        lastClickTime = currentTime;
+        return isAllowClick;
+    }
 
     /**
      * 在dispatchKeyEvent添加
@@ -49,37 +71,92 @@ public class EditTextScanHelper {
      * @return
      */
     public void dispatchEventListener(int keyCode, int action) {
-        if (keyCode == KeyEvent.KEYCODE_DEL) {
+        if (keyCode == KeyEvent.KEYCODE_DEL || keyCode == KeyEvent.KEYCODE_BACK) {
             //删除不处理
             return;
         }
+
+        if (keyCode == KeyEvent.KEYCODE_ENTER && !isFocus) {
+            //换行符 + editText没有焦点
+            return;
+        }
+        if (keyCode >= KeyEvent.KEYCODE_0 && keyCode <= KeyEvent.KEYCODE_9) {
+            //处理数字输入-谷歌输入法
+            return;
+        }
+        Log.e(TAG, "(EditTextScanHelper.java:58) keyCode=" + keyCode + ",action=" + action);
         if (action == KeyEvent.ACTION_DOWN) {
             //巧夺焦点
-            editText.setFocusable(true);
-            editText.setClickable(true);
-            editText.requestFocus();
+            reqFocus();
             String barcode = editText.getText().toString().replaceAll("\n", "");
-            if (TextUtils.isEmpty(barcode)) {//如果为空,从剪切板获取
-                ClipboardUtils.addPrimaryClipChangedListener(new ClipboardManager.OnPrimaryClipChangedListener() {
-                    @Override
-                    public void onPrimaryClipChanged() {
-                        CharSequence text = ClipboardUtils.getText();
-                        setOnResult(text.toString());
-                    }
-                });
+            if (TextUtils.isEmpty(barcode)) {
+                //如果为空,从剪切板获取
+                dealClipBoardText();
             }
             //成为PDA按键模拟-结束符(制表,换行)
             if (keyCode == KeyEvent.KEYCODE_TAB || keyCode == KeyEvent.KEYCODE_ENTER) {
-                setOnResult(barcode);
+                Log.e(TAG, " 模拟键盘");
+                setOnResult(barcode);//2,模拟键盘
             }
         }
     }
 
-    private void setOnResult(String s) {
-        if (mListener != null && !TextUtils.isEmpty(s)) {
-            mListener.onResult(s);
-            EditTextScanHelper.this.editText.setText("");
+    /**
+     * 强制请求焦点
+     */
+    private void reqFocus() {
+        editText.setFocusable(true);
+        editText.setClickable(true);
+        editText.requestFocus();
+        //隐藏软键盘
+        KeyboardUtils.hideSoftInput(editText);
+    }
+
+    private void dealClipBoardText() {
+        isClipBoardText = false;
+        //先移除
+        removePrimaryClipChangedListener();
+        clipChangedListener = new ClipboardManager.OnPrimaryClipChangedListener() {
+            @Override
+            public void onPrimaryClipChanged() {
+                isClipBoardText = true;
+                CharSequence text = ClipboardUtils.getText();
+                Log.e(TAG, " 剪贴板"+text);
+                setOnResult(text.toString());//1,剪贴板
+            }
+        };
+        clipboard = (ClipboardManager) Utils.getApp().getSystemService(Context.CLIPBOARD_SERVICE);
+        // 添加剪贴板数据改变监听器
+        if (clipboard != null) {
+            clipboard.addPrimaryClipChangedListener(clipChangedListener);
         }
+    }
+
+    /**
+     * 回调Scan结果
+     * @param s 有数据至少四位
+     */
+    private void setOnResult(String s) {
+        KeyboardUtils.hideSoftInput(editText);
+        if (mListener != null && !TextUtils.isEmpty(s) && s.length() > 2) {
+            if (isOkClick()) {
+                mListener.onResult(s);
+            }
+        }
+        editText.setText("");
+    }
+
+    /**
+     * 移除剪切板监听
+     */
+    public void removePrimaryClipChangedListener() {
+        if (clipChangedListener != null && clipboard != null) {
+            clipboard.removePrimaryClipChangedListener(clipChangedListener);
+        }
+    }
+
+    public EditText getEditText() {
+        return editText;
     }
 
     /**
@@ -88,7 +165,7 @@ public class EditTextScanHelper {
      * @param listener
      * @return
      */
-    public EditText addEditTextInputListener(Activity context, OnScanListener listener) {
+    public void addEditTextInputListener(Activity context, OnScanListener listener) {
         this.mListener = listener;
         editText = new EditText(context);
         //一个点
@@ -100,22 +177,16 @@ public class EditTextScanHelper {
         editText.setBackgroundColor(color);
         editText.setTextColor(color);
         editText.setTextSize(1.0f);
-        editText.setFocusable(true);
-        editText.setClickable(true);
-        editText.requestFocus();
+        reqFocus();
         editText.addTextChangedListener(textwatcher);
         editText.setOnKeyListener(onKeyListener);
-        return editText;
-    }
+        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                isFocus = hasFocus;
+            }
+        });
 
-    public void addEditTextInputListener(final EditText editText, OnScanListener listener) {
-        this.mListener = listener;
-        this.editText = editText;
-        this.editText.setFocusable(true);
-        this.editText.setClickable(true);
-        this.editText.requestFocus();
-        this.editText.addTextChangedListener(textwatcher);
-        this.editText.setOnKeyListener(onKeyListener);
     }
 
     /**
@@ -148,18 +219,20 @@ public class EditTextScanHelper {
             isAutoScan = false;
             if (start == 0 && before == 0 && count > 1) {
                 // 当扫描一个字符时，会出错
-//                Log.e(TAG, "(MTextWatcher.java:46) 当扫描事件触发的时候");
+//                Log.e(TAG, "(MTextWatcher.java:46) 当扫描事件触发的时候"+ s);
                 isAutoScan = true;
             } else {
                 // 为手动输入触发的事件.
-//                Log.e(TAG, "(MTextWatcher.java:46) 为手动输入触发的事件");
+                isFocus = true;
+//                Log.e(TAG, "(MTextWatcher.java:46) 为手动输入触发的事件 " + s);
             }
         }
 
         @Override
         public void afterTextChanged(Editable s) {
             if (!TextUtils.isEmpty(s) && isAutoScan) {
-                setOnResult(s.toString());
+                Log.e(TAG, " 扫描光标位置"+s.toString());
+                setOnResult(s.toString());//3,扫描光标位置
             }
         }
     }

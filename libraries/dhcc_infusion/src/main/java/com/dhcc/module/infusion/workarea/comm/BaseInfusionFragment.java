@@ -13,9 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
 import com.blankj.utilcode.util.ToastUtils;
 import com.dhcc.module.infusion.R;
+import com.dhcc.module.infusion.utils.AppUtil;
 import com.dhcc.module.infusion.workarea.dosing.bean.OrdListBean;
 
 import java.util.ArrayList;
@@ -38,6 +40,9 @@ public abstract class BaseInfusionFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         mContext = this.getActivity();
         setCommToolBar();
+        if (mContext instanceof BaseActivity) {
+            ((BaseActivity) mContext).openMultiScan(AppUtil.isMultiScan());
+        }
     }
 
     private void setCommToolBar() {
@@ -52,7 +57,7 @@ public abstract class BaseInfusionFragment extends BaseFragment {
     public void getScanMsg(Intent intent) {
         super.getScanMsg(intent);
         scanInfo = doScanInfo(intent);
-        if (scanInfo.contains("-")) {
+        if (scanInfo != null && scanInfo.contains("-")) {
             scanInfo = scanInfo.replaceAll("-", "\\|\\|");
         }
     }

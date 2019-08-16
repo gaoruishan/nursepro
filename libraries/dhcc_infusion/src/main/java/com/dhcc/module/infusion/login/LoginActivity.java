@@ -23,6 +23,7 @@ import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.UserUtil;
 import com.base.commlibs.wsutils.BaseWebServiceUtils;
+import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.db.GreenDaoHelper;
@@ -32,6 +33,7 @@ import com.dhcc.module.infusion.login.bean.ScanCodeBean;
 import com.dhcc.module.infusion.login.windowpicker.Ward;
 import com.dhcc.module.infusion.login.windowpicker.Window;
 import com.dhcc.module.infusion.login.windowpicker.WindowPicker;
+import com.dhcc.module.infusion.utils.AppUtil;
 import com.dhcc.module.infusion.utils.DialogFactory;
 import com.dhcc.module.infusion.utils.TransBroadcastUtil;
 import com.google.gson.Gson;
@@ -45,6 +47,8 @@ import java.util.regex.Pattern;
 
 import cn.qqtheme.framework.picker.LinkagePicker;
 import cn.qqtheme.framework.widget.WheelView;
+
+import static com.base.commlibs.http.ParserUtil.ERR_CODE_1;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
 
@@ -88,6 +92,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         registerScanMsgReceiver();
         //获取广播码
         getBroadcastList();
+        openMultiScan(AppUtil.isMultiScan());
     }
 
     @Override
@@ -96,6 +101,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         if (mReceiver != null) {
             unregisterReceiver(mReceiver);
         }
+        KeyboardUtils.hideSoftInput(this);
     }
 
     public void openBrowser(View v) {
@@ -136,6 +142,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         if (scanInfo != null) {
             etLoginUsercode.setText("");
             etLoginUsercode.setText(scanInfo);
+            //隐藏键盘
+            KeyboardUtils.hideSoftInput(etLoginUsercode);
             scanFlag = "1";//扫码-scanFlag不为空
             initData("login", null);
         }
@@ -382,10 +390,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
 
     private void initData(final String action, final InfusionInfo nurseInfo) {
+        showLoadingTip(LoadingType.FULL);
         nurseInfoList = GreenDaoHelper.getDaoSession().getInfusionInfoDao().queryBuilder().list();
         LoginApiManager.getLogin(userCode, password, logonWardId, scanFlag,new CommonCallBack<LoginBean>() {
             @Override
             public void onSuccess(final LoginBean loginBean, String type) {
+                hideLoadingTip();
                 listaaa = new ArrayList();
                 mapaaa = new HashMap();
                 //保存科室列表，设置界面更换病区会用到
@@ -478,13 +488,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
             @Override
             public void onFail(String code, String msg) {
-                if ("-1".equals(code)) {
+                hideLoadingTip();
+                if (ERR_CODE_1.equals(code)) {
                     DialogFactory.showCommDialog(LoginActivity.this,
-                            "1,检查用户名及密码是否正确\n" +
-                                    "2,检查【设置IP地址】是否正确\n" +
-                                    "3,检查【病区】是否有登录的权限\n" +
-                                    "4,检查PDA连接是否上指定无线WIFI\n" +
-                                    "5,点击【测试】打开浏览器", "测试",
+                                    "1,检查【设置IP地址】是否正确\n" +
+                                    "2,检查PDA连接是否上指定无线WIFI\n" +
+                                    "3,点击【测试】打开浏览器", "测试",
                             new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
