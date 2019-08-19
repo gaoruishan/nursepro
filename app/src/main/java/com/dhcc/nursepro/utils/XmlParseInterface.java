@@ -23,6 +23,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -112,7 +113,21 @@ public class XmlParseInterface implements Serializable {
             // normal解析
             Element instancenod = root.element("InstanceData");
             final Element meddatanod = root.element("MetaData");
-            List listChild = instancenod.elements();// 所有的Item节点
+            List<Element> listChild = instancenod.elements();// 所有的Item节点
+            List<Element> listChildGroup = new ArrayList();//group节点暂存
+
+            Iterator<Element> it = listChild.iterator();
+            while (it.hasNext()) {
+                Element element = it.next(); // next() 返回下一个元素
+                if (element.attributeValue("type") != null && element.attributeValue("type").equals("System.Windows.Forms.GroupBox")) {
+                    listChildGroup.add(element);
+                    it.remove();// remove() 移除元素
+                }
+            }
+
+            listChildGroup.addAll(listChild);
+            listChild = listChildGroup;
+
             for (int i = 0; i < listChild.size(); i++) {
                 final Element nod = (Element) listChild.get(i);
                 if (nod.attribute("type") == null)
@@ -178,7 +193,7 @@ public class XmlParseInterface implements Serializable {
                     }
                     lb.setTextColor(android.graphics.Color
                             .parseColor("#ff000000"));
-                    lb.setGravity(Gravity.CENTER_HORIZONTAL);
+                    // lb.setGravity(Gravity.CENTER_HORIZONTAL);
                     // lb.setTextSize(TypedValue.COMPLEX_UNIT_PX,22); //22像素
                     if (fontunit.equals("World")) {
                         lb.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (fontsz));//
@@ -187,8 +202,16 @@ public class XmlParseInterface implements Serializable {
                     }
                     lb.setText(txtstr);
                     abslayout.addView(lb,
-                            getlayparam(Iwidth, Iheight * 2, Ileft, Itop));
+                            getlayparam(Iwidth, (int) (Iheight * 1.3), Ileft, Itop));
                 }
+
+                if (contyp.equals("System.Windows.Forms.GroupBox")) {
+                    LinearLayout llGroup = new LinearLayout(context);
+                    llGroup.setBackgroundColor(context.getResources().getColor(R.color.nurrecordold_left_bgcolor));
+                    abslayout.addView(llGroup,
+                            getlayparam(Iwidth, Iheight, Ileft, Itop));
+                }
+
                 if ((nod.getName().substring(0, 1).equals("C"))) {
                     TextView btn = new TextView(context);
                     btn.setBackgroundResource(R.drawable.nur_record_btn_bg);

@@ -28,7 +28,7 @@ ext {
                     "recyclerview-v7"                : "com.android.support:recyclerview-v7:${android["androidSupportSdkVersion"]}",
                     "gson"                           : 'com.google.code.gson:gson:2.8.5',
                     //方法数超过65535解决方法64K MultiDex分包方法
-                    "multidex"                       : 'com.android.support:multidex:1.0.2',
+                    "multidex"                       : 'com.android.support:multidex:1.0.3',
 
                     //路由
                     "arouter_api"                    : 'com.alibaba:arouter-api:1.2.4',
