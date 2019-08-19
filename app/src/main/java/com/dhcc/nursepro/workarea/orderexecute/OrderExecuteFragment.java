@@ -28,7 +28,6 @@ import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
-import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.utils.DialogFactory;
@@ -50,6 +49,7 @@ import java.util.List;
 /**
  * OrderExecuteFragment
  * 医嘱执行/处理
+ *
  * @author DevLix126
  * created at 2018/8/31 10:21
  */
@@ -283,7 +283,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                             ordersBeanList.remove(0);
                             execOrderDialog.setChildOrders(ordersBeanList);
                         }
-                        execOrderDialog.setOrderInfoEx(ordersBean.getSttDateTime() + " " + ordersBean.getPhcinDesc() + " " + ordersBean.getCtcpDesc());
+                        execOrderDialog.setOrderInfoEx(ordersBean.getSttDateTime() + " " + ordersBean.getPhcinDesc() + " " + ordersBean.getCtcpDesc() + "");
                         execOrderDialog.show();
                         execOrderDialog.setSureOnclickListener(new OrderExecOrderDialog.onSureOnclickListener() {
                             @Override
@@ -905,7 +905,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 @Override
                 public void data(Object[] args) {
                     super.data(args);
-                    doSkinTime((String)args[0],(String)args[1]);
+                    doSkinTime((String) args[0], (String) args[1]);
                 }
             });
             return;
@@ -926,9 +926,9 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 skinUserCode = skinResultOrderDialog.getNurName();
                 skinUserPass = skinResultOrderDialog.getNurPass();
                 String userId = spUtils.getString(SharedPreference.USERCODE);
-                if (skinUserCode.equals(userId)){
+                if (skinUserCode.equals(userId)) {
                     showToast("请其他护士进行双签");
-                }else {
+                } else {
                     skinResultOrderDialog.dismiss();
                     execOrSeeOrder();
                 }
@@ -944,7 +944,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     }
 
     private void doSkinTime(String observeTime, String note) {
-        OrderExecuteApiManager.skinTime(oeoreId, observeTime,note, new CommonCallBack<CommResult>() {
+        OrderExecuteApiManager.skinTime(oeoreId, observeTime, note, new CommonCallBack<CommResult>() {
             @Override
             public void onFail(String code, String msg) {
                 showToast(msg);
@@ -988,13 +988,13 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
             handleCode = "N";
         }
         if (Action.DEVICE_SCAN_CODE.equals(intent.getAction())) {
-                Bundle bundle = new Bundle();
-                bundle = intent.getExtras();
-                scanInfo = bundle.getString("data");
-                getScanInfo();
-                if (execResultDialog != null && execResultDialog.isShowing()) {
-                    execResultDialog.dismiss();
-                }
+            Bundle bundle = new Bundle();
+            bundle = intent.getExtras();
+            scanInfo = bundle.getString("data");
+            getScanInfo();
+            if (execResultDialog != null && execResultDialog.isShowing()) {
+                execResultDialog.dismiss();
+            }
         }
 
     }
