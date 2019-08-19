@@ -6,6 +6,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -80,6 +82,8 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
     private LinearLayout llPreNex;
     private KeyboardView mKeyboard;
 
+
+
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_vital_sign_record, container, false);
@@ -138,6 +142,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
         tv_next.setOnClickListener(this);
         tv_pre = view.findViewById(R.id.tv_vitalsign_record_pre);
         tv_pre.setOnClickListener(this);
+
 
         //右上角保存按钮
         View viewright = View.inflate(getActivity(), R.layout.view_fratoolbar_right, null);
@@ -505,6 +510,65 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
                     return false;
                 }
             });
+            edText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if (config.getNormalValueRangFrom()!=null){
+                        if (config.getErrorValueLowTo()!=null){
+                            if (isNumber(edText.getText().toString()+"")){
+                                double edDou = Double.parseDouble(edText.getText().toString());
+                                if (edDou > Double.parseDouble(config.getErrorValueHightFrom()) || edDou<Double.parseDouble(config.getErrorValueLowTo())){
+                                    edText.setBackground(getResources().getDrawable(R.drawable.vital_sign_inputerror_bg));
+                                }else if ((Double.parseDouble(config.getErrorValueLowTo())<edDou && edDou<Double.parseDouble(config.getNormalValueRangFrom()) )
+                                        || (edDou<Double.parseDouble(config.getErrorValueHightFrom()) && edDou>Double.parseDouble(config.getNormalValueRangTo()))){
+                                    edText.setBackgroundResource(R.drawable.vital_sign_inputwarning_bg);
+                                }else {
+                                    edText.setBackgroundResource(R.drawable.vital_sign_input_bg);
+                                }
+                            }else {
+                                edText.setBackgroundResource(R.drawable.vital_sign_input_bg);
+                                if (config.getSymbol() != null) {
+                                    if (config.getSymbol().size() > 0) {
+                                        edText.setBackgroundResource(R.drawable.vital_sign_input_bggreen);
+                                    }
+                                }
+                            };
+                        }else {
+                            if (isNumber(edText.getText().toString()+"")){
+                                double edDou = Double.parseDouble(edText.getText().toString());
+                                if ( edDou<Double.parseDouble(config.getNormalValueRangFrom())
+                                        || edDou>Double.parseDouble(config.getNormalValueRangTo())){
+                                    edText.setBackgroundResource(R.drawable.vital_sign_inputwarning_bg);
+                                }else {
+                                    edText.setBackgroundResource(R.drawable.vital_sign_input_bg);
+                                }
+                            }else {
+                                edText.setBackgroundResource(R.drawable.vital_sign_input_bg);
+                                if (config.getSymbol() != null) {
+                                    if (config.getSymbol().size() > 0) {
+                                        edText.setBackgroundResource(R.drawable.vital_sign_input_bggreen);
+                                    }
+                                }
+                            };
+                        }
+
+
+                    }
+//
+
+                }
+            });
+
             layout.addView(edText);
 
             viewItemMap.put(config.getCode(), edText);
@@ -551,7 +615,19 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
 
         return layout;
     }
-
+    public boolean isNumber (Object obj) {
+        if (obj instanceof Number) {
+            return true;
+        } else if (obj instanceof String){
+            try{
+                Double.parseDouble((String)obj);
+                return true;
+            }catch (Exception e) {
+                return false;
+            }
+        }
+        return false;
+    }
     private LinearLayout dramEmptyItem() {
         LinearLayout layout = new LinearLayout(getContext());
 
