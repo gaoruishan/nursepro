@@ -25,6 +25,15 @@ public class UserUtil {
     private static final String LOGONLOCTYPE = "E";
 
     /**
+     * 是否存在UserID
+     * @return
+     */
+    public static boolean isExistUserId() {
+        String userId = SPUtils.getInstance().getString(SharedPreference.USERID);
+        return !TextUtils.isEmpty(userId);
+    }
+
+    /**
      * 获取科室窗口
      * @return
      */

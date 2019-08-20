@@ -85,7 +85,7 @@ public class RecyclerViewHelper {
      * @param recyclerView
      * @param spanCount    一行多少个
      */
-    public static void setGridRecyclerView(Context mContext, RecyclerView recyclerView, int spanCount, boolean orientation) {
+    public static void setGridRecyclerView(Context mContext, RecyclerView recyclerView, int spanCount,@DrawableRes int id, boolean orientation) {
         //布局管理器所需参数，上下文
         GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, spanCount);
         //B 通过布局管理器，可以控制条目排列顺序  true：反向显示  false：正常显示(默认)
@@ -95,10 +95,11 @@ public class RecyclerViewHelper {
         //设置布局管理器 ， 参数 linearLayout
         recyclerView.setLayoutManager(gridLayoutManager);
         //添加自定义分割线
-        DividerItemDecoration divider = new DividerItemDecoration(mContext, DividerItemDecoration.HORIZONTAL);
-//        divider.setDrawable(ContextCompat.getDrawable(mContext, R.drawable.timepicker_sel_text_item));
-        recyclerView.addItemDecoration(divider);
-
+        if (id != 0) {
+            DividerItemDecoration divider = new DividerItemDecoration(mContext, DividerItemDecoration.HORIZONTAL);
+            divider.setDrawable(ContextCompat.getDrawable(mContext, id));
+            recyclerView.addItemDecoration(divider);
+        }
         //滚动监听
         if (orientation) {
             setRecyclerScrollListener(recyclerView, gridLayoutManager);

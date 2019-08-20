@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -48,12 +49,12 @@ public class TransBroadcastUtil {
     //    }
 
     public static void setScanActionList(List<BroadcastListBean> broadcastListBeans) {
-//        broadcastList = broadcastListBeans;
-//        IntentFilter filter = new IntentFilter();
-//        for (int i = 0; i < broadcastList.size(); i++) {
-//            filter.addAction(broadcastList.get(i).getAction());
-//        }
-//        mContext.registerReceiver(mReceiver, filter);
+        broadcastList = broadcastListBeans;
+        IntentFilter filter = new IntentFilter();
+        for (int i = 0; i < broadcastList.size(); i++) {
+            filter.addAction(broadcastList.get(i).getAction());
+        }
+        mContext.registerReceiver(mReceiver, filter);
     }
 
     public static void init(Context context) {

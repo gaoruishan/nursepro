@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
+import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
@@ -32,6 +33,7 @@ public class BaseHelper {
     public static final int TAG_OBJ = 10002;
     protected Activity mContext;
     private SparseArray<View> mViews;
+    protected static final String TAG = "BaseHelper";
 
     /**
      * 获取宿主Activity
@@ -40,6 +42,25 @@ public class BaseHelper {
     public BaseHelper(Activity activity) {
         this.mContext = activity;
         mViews = new SparseArray<View>();
+        initView(mContext);
+    }
+
+    /**
+     * 初始化View
+     * @param mContext
+     */
+    protected void initView(Activity mContext) {
+
+    }
+
+    /**
+     * 查找View
+     * @param resId View的id
+     * @param t     指定View类类型
+     * @return
+     */
+    public static <T extends View> T f(Activity mContext, @IdRes int resId, Class<T> t) {
+        return (T) mContext.findViewById(resId);
     }
 
     /**
@@ -80,6 +101,24 @@ public class BaseHelper {
     }
 
     /**
+     * 获取颜色
+     * @param id
+     * @return
+     */
+    public int getColor(@ColorRes int id) {
+        return ContextCompat.getColor(mContext, id);
+    }
+
+    /**
+     * 获取字体大小
+     * @param id
+     * @return
+     */
+    public float getDimension(@DimenRes int id) {
+        return mContext.getResources().getDimension(id);
+    }
+
+    /**
      * 设置隐藏-前缀
      * @param id
      * @param txt
@@ -102,10 +141,10 @@ public class BaseHelper {
     /**
      * 查找View
      * @param resId View的id
-     * @param t 指定View类类型
+     * @param t     指定View类类型
      * @return
      */
-    protected <T extends View> T f(@IdRes int resId,Class<T>... t) {
+    protected <T extends View> T f(@IdRes int resId, Class<T>... t) {
         View view = mViews.get(resId);
         if (view == null) {
             view = mContext.findViewById(resId);
@@ -113,15 +152,7 @@ public class BaseHelper {
         }
         return (T) view;
     }
-    /**
-     * 查找View
-     * @param resId View的id
-     * @param t 指定View类类型
-     * @return
-     */
-    public static  <T extends View> T f(Activity mContext,@IdRes int resId, Class<T> t) {
-        return  (T)mContext.findViewById(resId);
-    }
+
     /**
      * 使用时:res 和txt数组 必须对应一直
      * @param id
@@ -169,7 +200,7 @@ public class BaseHelper {
      * @param txt
      */
     public void setTextData(@NonNull View parent, @IdRes int id, String txt, @ColorInt int... color) {
-        setTextData(parent.findViewById(id), txt,color);
+        setTextData(parent.findViewById(id), txt, color);
     }
 
     private void setTextData(View view, String txt, @ColorInt int... color) {
@@ -177,10 +208,10 @@ public class BaseHelper {
             return;
         }
         if (view instanceof TextView) {
-            setText(txt, (TextView) view,color);
+            setText(txt, (TextView) view, color);
         }
         if (view instanceof EditText) {
-            setText(txt, (EditText) view,color);
+            setText(txt, (EditText) view, color);
         }
     }
 
@@ -200,7 +231,7 @@ public class BaseHelper {
      * @param txt
      */
     public void setTextData(@IdRes int id, String txt, @ColorInt int... color) {
-        setTextData(f(id), txt,color);
+        setTextData(f(id), txt, color);
     }
 
     /**

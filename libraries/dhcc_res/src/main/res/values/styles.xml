@@ -34,4 +34,24 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0.5dp</item>
     </style>
+
+    <style name="dhcc_AnimationLeftFade">
+        <item name="android:windowEnterAnimation">@anim/dhcc_pop_left_in</item>
+        <item name="android:windowExitAnimation">@anim/dhcc_pop_left_out</item>
+    </style>
+
+    <style name="dhcc_AnimationRightFade">
+        <item name="android:windowEnterAnimation">@anim/dhcc_pop_right_in</item>
+        <item name="android:windowExitAnimation">@anim/dhcc_pop_right_out</item>
+    </style>
+
+    <style name="dhcc_AnimationBottomFade">
+        <item name="android:windowEnterAnimation">@anim/dhcc_pop_bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/dhcc_pop_bottom_out</item>
+    </style>
+
+    <style name="dhcc_AnimationTopFade">
+        <item name="android:windowEnterAnimation">@anim/dhcc_pop_top_in</item>
+        <item name="android:windowExitAnimation">@anim/dhcc_pop_top_out</item>
+    </style>
 </resources>

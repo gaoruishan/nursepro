@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,7 @@ import com.dhcc.nursepro.workarea.orderexecute.api.OrderExecuteApiManager;
 import com.dhcc.nursepro.workarea.orderexecute.bean.OrderExecResultBean;
 import com.dhcc.nursepro.workarea.orderexecute.bean.OrderExecuteBean;
 import com.dhcc.nursepro.workarea.orderexecute.bean.ScanResultBean;
+import com.dhcc.nursepro.workarea.orderexecute.presenter.OrdExeFilterPresenter;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
@@ -164,6 +166,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     private String orderSaveInfo = "";
     private StringBuffer sbTimeSaveInfo;
     private String timeSaveInfo = "";
+    private OrdExeFilterPresenter helper;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -196,6 +199,14 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
         //提示音集合
         soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 100);
         soundPoolMap.put(1, soundPool.load(getContext(), R.raw.notice22, 1));
+        helper = new OrdExeFilterPresenter(this.getActivity());
+        helper.setOnSelectCallBackListener(new OrdExeFilterPresenter.OnSelectCallBackListener() {
+
+            @Override
+            public void onSelect(String s) {
+                Log.e(TAG,"(OrderExecuteFragment.java:206) "+s);
+            }
+        });
     }
 
     private void getScanInfo() {
@@ -203,6 +214,8 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
         OrderExecuteApiManager.getScanMsg(episodeId, scanInfo, new OrderExecuteApiManager.GetScanCallBack() {
             @Override
             public void onSuccess(ScanResultBean scanResultBean) {
+                //添加筛选
+                setToolbarRightCustomView(helper.getRightTextView());
                 //PAT 扫腕带返回患者信息
                 //ORD 扫医嘱条码返回医嘱信息
                 if ("PAT".equals(scanResultBean.getFlag())) {
@@ -391,6 +404,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 sheetCode = ((OrderExecuteBean.SheetListBean) adapter.getItem(position)).getCode();
+                helper.setOrdTypeSelectedCode(sheetCode);
                 asyncInitData();
 
                 //左侧刷新分类选中状态显示
@@ -490,6 +504,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
 
                 //左侧列表判断有无默认值，有的话滑动到默认值类型
                 if (!"".equals(orderExecuteBean.getSheetDefCode())) {
+                    helper.setOrdTypeSelectedCode(orderExecuteBean.getSheetDefCode());
                     orderTypeAdapter.setSelectedCode(orderExecuteBean.getSheetDefCode());
                 }
                 orderTypeAdapter.setNewData(sheetList);

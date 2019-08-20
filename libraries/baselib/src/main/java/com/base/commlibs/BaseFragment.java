@@ -354,6 +354,7 @@ public class BaseFragment extends Fragment {
                     new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
                             FrameLayout.LayoutParams.MATCH_PARENT));
         }
+        Log.e(TAG,"("+this.getClass().getSimpleName()+".java:35) ");
         return mContainer;
     }
 

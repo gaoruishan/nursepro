@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
 import com.base.commlibs.constant.SharedPreference;
+import com.base.commlibs.utils.DataCache;
 import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -99,6 +100,7 @@ public class WorkareaFragment extends BaseFragment {
                 //                ItemNameList.add("MODELDETAIL");
                 patEventsAdapter.setNewData(ItemNameList);
                 SPUtils.getInstance().put(SharedPreference.BLOODSCANTIMES, mainConfigBean.getScantimes());
+                DataCache.saveJson(mainConfigBean,SharedPreference.DATA_MAIN_CONFIG);
             }
 
             @Override

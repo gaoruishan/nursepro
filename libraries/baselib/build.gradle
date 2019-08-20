@@ -8,7 +8,7 @@ android {
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
-
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
@@ -37,6 +37,7 @@ dependencies {
     api rootProject.ext.dependencies["support-v4"]
     api rootProject.ext.dependencies["design"]
     api rootProject.ext.dependencies["gson"]
+    api rootProject.ext.dependencies["multidex"]
 
     // 背景
     api rootProject.ext.dependencies['backgroundLibrary']

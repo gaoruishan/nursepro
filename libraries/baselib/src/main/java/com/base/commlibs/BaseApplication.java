@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
+import android.support.multidex.MultiDex;
 
 import com.base.commlibs.utils.CrashHandler;
 import com.squareup.leakcanary.LeakCanary;
@@ -36,6 +37,12 @@ public class BaseApplication extends Application implements Application.Activity
 
     public static Context getContext() {
         return context;
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 
     /**
