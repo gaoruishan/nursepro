@@ -32,7 +32,8 @@ public class PopWindowUtil extends BasePopWindow {
 
     @NonNull
     private static PopupWindow getPopupWindow(final Activity mContext, final EnumLocation from, View popupWindowView) {
-        boolean hasNavigationBar = checkDeviceHasNavigationBar(mContext);
+//        boolean hasNavigationBar = checkDeviceHasNavigationBar(mContext);
+        boolean hasNavigationBar = false;
         //销毁
         closePopWindow();
         //内容，高度，宽度

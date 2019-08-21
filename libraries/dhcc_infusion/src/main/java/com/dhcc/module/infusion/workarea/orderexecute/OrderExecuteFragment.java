@@ -32,6 +32,7 @@ import com.jzxiang.pickerview.listener.OnDateSetListener;
 import java.util.List;
 
 /**
+ * 医嘱执行
  * @author:gaoruishan
  * @date:202019-07-04/10:23
  * @email:grs0515@163.com
@@ -109,9 +110,7 @@ public class OrderExecuteFragment extends BaseInfusionFragment {
         }, new OnDateSetListener() {
             @Override
             public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
-                String end = TimeUtils.millis2String(millseconds);
-                endDate = end.substring(0, 10);
-                endTime = end.substring(11, 16);
+                getEndDateTime(TimeUtils.millis2String(millseconds));
                 getOrdList();
             }
         });
@@ -150,11 +149,8 @@ public class OrderExecuteFragment extends BaseInfusionFragment {
 
             @Override
             public void onSuccess(OrdScanInfoBean bean, String type) {
-                //PAT 扫腕带返回患者信息
-                //ORD 扫医嘱条码返回医嘱信息
+                f(R.id.custom_scan).setVisibility(View.GONE);
                 if ("PAT".equals(bean.getFlag())) {
-                    f(R.id.custom_scan).setVisibility(View.GONE);
-//                    f(R.id.rl_orderexecute_scan).setVisibility(View.GONE);
                     OrdScanInfoBean.PatInfoBean patInfoBean = bean.getPatInfo();
                     episodeId = patInfoBean.getEpisodeID();
                     regNo = patInfoBean.getRegNo();

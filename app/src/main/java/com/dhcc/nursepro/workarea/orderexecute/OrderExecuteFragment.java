@@ -11,7 +11,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -166,7 +165,8 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     private String orderSaveInfo = "";
     private StringBuffer sbTimeSaveInfo;
     private String timeSaveInfo = "";
-    private OrdExeFilterPresenter helper;
+    private OrdExeFilterPresenter presenter;
+    private String screenParts="";
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -199,12 +199,14 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
         //提示音集合
         soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 100);
         soundPoolMap.put(1, soundPool.load(getContext(), R.raw.notice22, 1));
-        helper = new OrdExeFilterPresenter(this.getActivity());
-        helper.setOnSelectCallBackListener(new OrdExeFilterPresenter.OnSelectCallBackListener() {
+        //添加筛选
+        presenter = new OrdExeFilterPresenter(this.getActivity());
+        presenter.setOnSelectCallBackListener(new OrdExeFilterPresenter.OnSelectCallBackListener() {
 
             @Override
             public void onSelect(String s) {
-                Log.e(TAG,"(OrderExecuteFragment.java:206) "+s);
+                screenParts = s;
+                asyncInitData();
             }
         });
     }
@@ -215,7 +217,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
             @Override
             public void onSuccess(ScanResultBean scanResultBean) {
                 //添加筛选
-                setToolbarRightCustomView(helper.getRightTextView());
+                setToolbarRightCustomView(presenter.getRightTextView());
                 //PAT 扫腕带返回患者信息
                 //ORD 扫医嘱条码返回医嘱信息
                 if ("PAT".equals(scanResultBean.getFlag())) {
@@ -404,7 +406,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 sheetCode = ((OrderExecuteBean.SheetListBean) adapter.getItem(position)).getCode();
-                helper.setOrdTypeSelectedCode(sheetCode);
+                presenter.setOrdTypeSelectedCode(sheetCode);
                 asyncInitData();
 
                 //左侧刷新分类选中状态显示
@@ -447,7 +449,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
 
     private void asyncInitData() {
         showLoadingTip(BaseActivity.LoadingType.FULL);
-        OrderExecuteApiManager.getOrder(regNo, sheetCode, startDate, startTime, endDate, endTime, new OrderExecuteApiManager.GetOrderCallback() {
+        OrderExecuteApiManager.getOrder(regNo, sheetCode, startDate, startTime, endDate, endTime,screenParts, new OrderExecuteApiManager.GetOrderCallback() {
             @Override
             public void onSuccess(OrderExecuteBean orderExecuteBean) {
                 hideLoadingTip();
@@ -504,7 +506,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
 
                 //左侧列表判断有无默认值，有的话滑动到默认值类型
                 if (!"".equals(orderExecuteBean.getSheetDefCode())) {
-                    helper.setOrdTypeSelectedCode(orderExecuteBean.getSheetDefCode());
+                    presenter.setOrdTypeSelectedCode(orderExecuteBean.getSheetDefCode());
                     orderTypeAdapter.setSelectedCode(orderExecuteBean.getSheetDefCode());
                 }
                 orderTypeAdapter.setNewData(sheetList);

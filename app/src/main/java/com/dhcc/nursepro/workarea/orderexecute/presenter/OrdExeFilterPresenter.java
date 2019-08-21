@@ -3,6 +3,7 @@ package com.dhcc.nursepro.workarea.orderexecute.presenter;
 import android.app.Activity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -86,11 +87,11 @@ public class OrdExeFilterPresenter extends BaseHelper {
                     for (MainConfigBean.ScreenPartsBean bean : ordExeFilterAdapter.getData()) {
                         for (CommBean b : bean.getListBean()) {
                             if (b.isShow()) {
-                                builder.append(bean.getKeyCode()).append("=").append(b.getName()).append("^");
+                                builder.append(bean.getKeyCode()).append("|").append(b.getName()).append("!");
                             }
                         }
                     }
-                    if (onSelectCallBackListener != null) {
+                    if (onSelectCallBackListener != null && !TextUtils.isEmpty(builder.toString())) {
                         onSelectCallBackListener.onSelect(builder.toString());
                     }
                 }
@@ -128,13 +129,13 @@ public class OrdExeFilterPresenter extends BaseHelper {
     public void setOrdTypeSelectedCode(String sheetCode) {
         this.sheetCode = sheetCode;
         List<MainConfigBean.ScreenPartsBean> data = new ArrayList<>();
-        for (MainConfigBean.ScreenPartsBean bean:screenParts) {
+        for (MainConfigBean.ScreenPartsBean bean : screenParts) {
             String danjuStr = bean.getDanjuStr();
             //取出所有单据
             List<String> strings = new ArrayList<>();
-            if (danjuStr!=null&&danjuStr.contains("!")) {
+            if (danjuStr != null && danjuStr.contains("!")) {
                 strings = Arrays.asList(danjuStr.split("!"));
-            }else {
+            } else {
                 strings.add(danjuStr);
             }
             //遍历匹配,添加

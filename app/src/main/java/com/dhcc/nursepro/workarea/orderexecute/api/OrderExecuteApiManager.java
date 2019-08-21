@@ -49,8 +49,8 @@ public class OrderExecuteApiManager {
         });
     }
 
-    public static void getOrder(String regNo, String sheetCode, String startDate, String startTime, String endDate, String endTime, final GetOrderCallback callback) {
-        OrderExecuteApiService.getOrder(regNo, sheetCode, startDate, startTime, endDate, endTime, new OrderExecuteApiService.ServiceCallBack() {
+    public static void getOrder(String regNo, String sheetCode, String startDate, String startTime, String endDate, String endTime,String screenParts, final GetOrderCallback callback) {
+        OrderExecuteApiService.getOrder(regNo, sheetCode, startDate, startTime, endDate, endTime,screenParts, new OrderExecuteApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();

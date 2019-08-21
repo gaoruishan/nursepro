@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/ll_orderexecute_noselectbottom"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="#9b9b9b"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_bottom_noselecttext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            tools:text="请您选择需执行的医嘱"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_orderexecute_selectbottom"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="#4a4a4a"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="16dp">
+
+        <LinearLayout
+            android:id="@+id/ll_orderexecute_selectnum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tv_bottom_selecttext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                tools:text="已选择2个"/>
+
+            <View
+                android:id="@+id/view_bottom_handleline"
+                android:layout_width="1dp"
+                android:layout_height="16dp"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                android:background="@color/white"/>
+
+            <TextView
+                android:id="@+id/tv_bottom_handletype"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="接受"
+                android:textColor="@color/white"/>
+
+            <ImageView
+                android:id="@+id/img_bottom_handlesure"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginBottom="1dp"
+                android:src="@drawable/dhcc_icon_bottom_selected"/>
+        </LinearLayout>
+
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+
+        <TextView
+            android:id="@+id/tv_bottom_undo"
+            android:layout_width="90dp"
+            android:layout_height="match_parent"
+            android:background="#4a90e2"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            tools:text="撤销执行"/>
+
+        <TextView
+            android:id="@+id/tv_bottom_todo"
+            android:layout_width="90dp"
+            android:layout_height="match_parent"
+            android:background="#62abff"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            tools:text="执行"/>
+    </LinearLayout>
+</LinearLayout>

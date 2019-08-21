@@ -35,7 +35,7 @@ public class OrderExecuteApiService {
         });
     }
 
-    public static void getOrder(String regNo, String sheetCode, String startDate, String startTime, String endDate, String endTime, final ServiceCallBack callback) {
+    public static void getOrder(String regNo, String sheetCode, String startDate, String startTime, String endDate, String endTime, String screenParts,final ServiceCallBack callback) {
         SPUtils spUtils = SPUtils.getInstance();
         HashMap<String, String> properties = new HashMap<>();
         properties.put("wardId", spUtils.getString(SharedPreference.WARDID));
@@ -53,6 +53,7 @@ public class OrderExecuteApiService {
         properties.put("startTime", startTime);
         properties.put("endDate", endDate);
         properties.put("endTime", endTime);
+        properties.put("screenParts", screenParts);
 
         WebServiceUtils.callWebService("getOrders", properties, new WebServiceUtils.WebServiceCallBack() {
             @Override

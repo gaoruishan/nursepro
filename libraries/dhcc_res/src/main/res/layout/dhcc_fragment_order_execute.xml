@@ -9,7 +9,8 @@
     <com.dhcc.res.infusion.CustomScanView
         android:id="@+id/custom_scan"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -53,48 +54,6 @@
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:orientation="vertical"/>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_32"
-                    android:background="@color/white"
-                    android:visibility="gone"
-                    android:gravity="center">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_1"
-                        android:layout_marginEnd="@dimen/dp_8"
-                        android:src="@drawable/dhcc_icon_time_bottom"/>
-
-                    <TextView
-                        android:id="@+id/tv_orderexecute_startdatetime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/dhcc_orderexecute_text_color"
-                        android:textSize="@dimen/sp_12"
-                        tools:text="2018-08-23 10:00"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_8"
-                        android:layout_marginTop="@dimen/dp_1"
-                        android:layout_marginEnd="@dimen/dp_8"
-                        android:text="至"
-                        android:textColor="#62abff"
-                        android:textSize="@dimen/sp_13"/>
-
-                    <TextView
-                        android:id="@+id/tv_orderexecute_enddatetime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/dhcc_orderexecute_text_color"
-                        android:textSize="@dimen/sp_12"
-                        tools:text="2018-08-23 10:00"/>
-
-                </LinearLayout>
-
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_5"
@@ -110,98 +69,9 @@
             </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/ll_orderexecute_noselectbottom"
+        <com.dhcc.res.infusion.CustomOrdExeBottomView
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_50"
-            android:layout_alignParentBottom="true"
-            android:background="#9b9b9b"
-            android:gravity="center_vertical"
-            android:paddingStart="@dimen/dp_16"
-            android:visibility="gone"
-        >
-
-            <TextView
-                android:id="@+id/tv_bottom_noselecttext"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                tools:text="请您选择需执行的医嘱"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_orderexecute_selectbottom"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_50"
-            android:layout_alignParentBottom="true"
-            android:background="#4a4a4a"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingStart="@dimen/dp_16">
-
-            <LinearLayout
-                android:id="@+id/ll_orderexecute_selectnum"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/tv_bottom_selecttext"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    tools:text="已选择2个"/>
-
-                <View
-                    android:id="@+id/view_bottom_handleline"
-                    android:layout_width="@dimen/dp_1"
-                    android:layout_height="@dimen/dp_16"
-                    android:layout_marginStart="@dimen/dp_6"
-                    android:layout_marginEnd="@dimen/dp_6"
-                    android:background="@color/white"/>
-
-                <TextView
-                    android:id="@+id/tv_bottom_handletype"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="接受"
-                    android:textColor="@color/white"/>
-
-                <ImageView
-                    android:id="@+id/img_bottom_handlesure"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp_6"
-                    android:layout_marginBottom="@dimen/dp_1"
-                    android:src="@drawable/dhcc_icon_bottom_selected"/>
-            </LinearLayout>
-
-
-            <View
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="match_parent"
-                android:layout_weight="1"/>
-
-
-            <TextView
-                android:id="@+id/tv_bottom_undo"
-                android:layout_width="@dimen/dp_90"
-                android:layout_height="match_parent"
-                android:background="#4a90e2"
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:textSize="@dimen/sp_16"
-                tools:text="撤销执行"/>
-
-            <TextView
-                android:id="@+id/tv_bottom_todo"
-                android:layout_width="@dimen/dp_90"
-                android:layout_height="match_parent"
-                android:background="#62abff"
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:textSize="@dimen/sp_16"
-                tools:text="执行"/>
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            android:orientation="vertical"/>
     </LinearLayout>
 </LinearLayout>
