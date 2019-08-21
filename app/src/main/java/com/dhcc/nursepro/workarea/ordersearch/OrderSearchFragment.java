@@ -13,14 +13,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.base.commlibs.BaseActivity;
+import com.base.commlibs.BaseFragment;
+import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.base.commlibs.BaseActivity;
-import com.base.commlibs.BaseFragment;
 import com.dhcc.nursepro.R;
-import com.base.commlibs.constant.SharedPreference;
 import com.dhcc.nursepro.workarea.bedselect.BedSelectFragment;
+import com.dhcc.nursepro.workarea.orderexecute.presenter.OrdExeFilterPresenter;
 import com.dhcc.nursepro.workarea.ordersearch.adapter.OrderSearchOrderTypeAdapter;
 import com.dhcc.nursepro.workarea.ordersearch.adapter.OrderSearchPatientAdapter;
 import com.dhcc.nursepro.workarea.ordersearch.api.OrderSearchApiManager;
@@ -64,6 +65,8 @@ public class OrderSearchFragment extends BaseFragment implements View.OnClickLis
     private String pageNo = "1";
 
     private int askCount = 0;
+    private OrdExeFilterPresenter presenter;
+    private String screenParts;
 
 
     @Override
@@ -81,7 +84,13 @@ public class OrderSearchFragment extends BaseFragment implements View.OnClickLis
         setToolbarCenterTitle(getString(R.string.title_ordersearch), 0xffffffff, 17);
         View viewright = View.inflate(getActivity(), R.layout.view_toolbar_img_right, null);
         ImageView imageView = viewright.findViewById(R.id.img_toolbar_right);
-
+        ImageView imgToolbarRightFilter = viewright.findViewById(R.id.img_toolbar_right_filter);
+        imgToolbarRightFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.openPopWindow();
+            }
+        });
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,6 +117,17 @@ public class OrderSearchFragment extends BaseFragment implements View.OnClickLis
                 asyncInitData();
             }
         }, 300);
+
+        //添加筛选
+        presenter = new OrdExeFilterPresenter(this.getActivity());
+        presenter.setOnSelectCallBackListener(new OrdExeFilterPresenter.OnSelectCallBackListener() {
+
+            @Override
+            public void onSelect(String s) {
+                screenParts = s;
+                asyncInitData();
+            }
+        });
     }
 
     @Override
@@ -149,6 +169,7 @@ public class OrderSearchFragment extends BaseFragment implements View.OnClickLis
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 sheetCode = ((OrderSearchBean.SheetListBean) adapter.getItem(position)).getCode();
+                presenter.setOrdTypeSelectedCode(sheetCode);
                 pageNo = "1";
                 asyncInitData();
 
@@ -169,7 +190,7 @@ public class OrderSearchFragment extends BaseFragment implements View.OnClickLis
 
     private void asyncInitData() {
         showLoadingTip(BaseActivity.LoadingType.FULL);
-        OrderSearchApiManager.getOrder(bedStr, regNo, sheetCode, pageNo, startDate, startTime, endDate, endTime, new OrderSearchApiManager.GetOrderCallback() {
+        OrderSearchApiManager.getOrder(bedStr, regNo, sheetCode, pageNo, startDate, startTime, endDate, endTime, screenParts,new OrderSearchApiManager.GetOrderCallback() {
             @Override
             public void onSuccess(OrderSearchBean orderSearchBean) {
                 hideLoadingTip();
@@ -180,6 +201,7 @@ public class OrderSearchFragment extends BaseFragment implements View.OnClickLis
 
                     //左侧列表判断有无默认值，有的话滑动到默认值类型
                     if (!"".equals(orderSearchBean.getSheetDefCode())) {
+                        presenter.setOrdTypeSelectedCode(orderSearchBean.getSheetDefCode());
                         orderTypeAdapter.setSelectedCode(orderSearchBean.getSheetDefCode());
                     }
                     orderTypeAdapter.setNewData(sheetList);

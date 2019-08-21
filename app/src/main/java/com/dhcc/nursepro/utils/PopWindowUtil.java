@@ -78,7 +78,7 @@ public class PopWindowUtil extends BasePopWindow {
             popupWindow.showAtLocation(mContext.getWindow().getDecorView(), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
         }
         //设置背景半透明
-        backgroundAlpha(mContext, 0.5f);
+//        backgroundAlpha(mContext, 0.5f);
         //关闭事件
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override

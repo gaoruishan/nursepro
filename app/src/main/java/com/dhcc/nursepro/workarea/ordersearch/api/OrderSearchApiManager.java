@@ -11,8 +11,8 @@ import com.google.gson.Gson;
  * @date 2018/8/24
  */
 public class OrderSearchApiManager {
-    public static void getOrder(String bedStr, String regNo, String sheetCode, String pageNo, String startDate, String startTime, String endDate, String endTime, final GetOrderCallback callback) {
-        OrderSearchApiService.getOrder(bedStr, regNo, sheetCode, pageNo, startDate, startTime, endDate, endTime, new OrderSearchApiService.ServiceCallBack() {
+    public static void getOrder(String bedStr, String regNo, String sheetCode, String pageNo, String startDate, String startTime, String endDate, String endTime, String screenParts,final GetOrderCallback callback) {
+        OrderSearchApiService.getOrder(bedStr, regNo, sheetCode, pageNo, startDate, startTime, endDate, endTime, screenParts,new OrderSearchApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();

@@ -4,11 +4,10 @@ import android.app.Activity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ImageView;
 
 import com.base.commlibs.bean.CommBean;
 import com.base.commlibs.constant.SharedPreference;
@@ -104,22 +103,28 @@ public class OrdExeFilterPresenter extends BaseHelper {
      * @return
      */
     public View getRightTextView() {
-        TextView textView = new TextView(mContext);
+//        TextView textView = new TextView(mContext);
+        ImageView textView = new ImageView(mContext);
+        textView.setImageResource(R.drawable.dhcc_filter_big_write);
         ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
         textView.setLayoutParams(layoutParams);
-        textView.setTextColor(getColor(R.color.white));
-        textView.setGravity(Gravity.CENTER_VERTICAL);
+//        textView.setTextColor(getColor(R.color.white));
+//        textView.setGravity(Gravity.CENTER_VERTICAL);
         textView.setPadding(20, 0, 20, 0);
-        textView.setTextSize(15);
-        textView.setText("筛选");
+//        textView.setTextSize(15);
+//        textView.setText("筛选");
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PopWindowUtil.setMask(mContext, View.VISIBLE);
-                PopWindowUtil.initPopupWindow(mContext, BasePopWindow.EnumLocation.RIGHT, contentView);
+                openPopWindow();
             }
         });
         return textView;
+    }
+
+    public void openPopWindow() {
+        PopWindowUtil.setMask(mContext, View.VISIBLE);
+        PopWindowUtil.initPopupWindow(mContext, BasePopWindow.EnumLocation.RIGHT, contentView);
     }
 
     /**
