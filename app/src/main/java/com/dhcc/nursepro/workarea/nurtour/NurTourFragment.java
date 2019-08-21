@@ -1581,6 +1581,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                             config.setSendValue(config.getItemCode() + "|" + item);
                             if (item.equals("清空")) {
                                 optionView.setText("");
+                                config.setSendValue(config.getItemCode() + "|");
                             } else {
                                 optionView.setText(item);
                             }
