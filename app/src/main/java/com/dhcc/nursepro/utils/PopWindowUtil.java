@@ -85,6 +85,7 @@ public class PopWindowUtil extends BasePopWindow {
             public void onDismiss() {
                 setMask(mContext, View.INVISIBLE);
                 backgroundAlpha(mContext, 1f);
+                closePopWindow();
             }
         });
 
