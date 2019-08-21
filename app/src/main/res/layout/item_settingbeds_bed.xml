@@ -13,8 +13,9 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:textSize="16sp"
         android:textColor="@drawable/textcolor_itembed_selector"
         tools:text="01床" />
 
