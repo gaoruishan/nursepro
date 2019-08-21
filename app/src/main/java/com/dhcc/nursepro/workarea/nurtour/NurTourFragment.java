@@ -618,7 +618,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 
             @Override
             public void onFail(String code, String msg) {
-                showToast(code + "--" + msg);
+                showToast("error"+code + "--" + msg);
                 hideLoadFailTip();
             }
         });
@@ -667,7 +667,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 
             @Override
             public void onFail(String code, String msg) {
-                showToast(code + "--" + msg);
+                showToast("error"+code + "--" + msg);
                 hideLoadFailTip();
             }
         });
