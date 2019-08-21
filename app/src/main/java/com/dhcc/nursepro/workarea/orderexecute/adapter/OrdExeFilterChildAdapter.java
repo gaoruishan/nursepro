@@ -32,9 +32,11 @@ public class OrdExeFilterChildAdapter extends BaseQuickAdapter<CommBean, BaseVie
             public void onClick(View v) {
                 if ("Single".equals(keyType)) {
                     for (CommBean b : getData()) {
-                        b.setShow(false);
+                        if (!b.getName().equals(item.getName())) {
+                            b.setShow(false);
+                        }
                     }
-                    item.setShow(true);
+                    item.setShow(!item.isShow());
                 }
                 if ("Multiple".equals(keyType)) {
                     item.setShow(!item.isShow());

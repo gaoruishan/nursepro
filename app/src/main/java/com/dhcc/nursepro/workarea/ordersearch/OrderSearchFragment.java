@@ -125,6 +125,7 @@ public class OrderSearchFragment extends BaseFragment implements View.OnClickLis
             @Override
             public void onSelect(String s) {
                 screenParts = s;
+                pageNo = "1";
                 asyncInitData();
             }
         });

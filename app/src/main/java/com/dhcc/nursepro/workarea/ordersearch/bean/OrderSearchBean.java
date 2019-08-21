@@ -883,7 +883,7 @@ public class OrderSearchBean implements Serializable {
                     this.xDateTime = xDateTime;
                 }
 
-                public static class ExamInfoBean {
+                public static class ExamInfoBean implements Serializable {
 
                 }
             }

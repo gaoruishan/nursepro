@@ -47,8 +47,12 @@ public class OrderInfoDetailFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Bundle bundle = getArguments();
-        detailColums = (List<OrderSearchBean.DetailColumsBean>) bundle.getSerializable("detailcolums");
-        orderInfoBean = (OrderSearchBean.OrdersBean.PatOrdsBean.OrderInfoBean) bundle.getSerializable("patorderinfo");
+        if (bundle!=null&&bundle.getSerializable("detailcolums") != null) {
+            detailColums = (List<OrderSearchBean.DetailColumsBean>) bundle.getSerializable("detailcolums");
+        }
+        if (bundle!=null&&bundle.getSerializable("patorderinfo") != null) {
+            orderInfoBean = (OrderSearchBean.OrdersBean.PatOrdsBean.OrderInfoBean) bundle.getSerializable("patorderinfo");
+        }
 
         setStatusBarBackgroundViewVisibility(true, 0xffffffff);
         setToolbarType(BaseActivity.ToolbarType.TOP);

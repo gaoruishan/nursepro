@@ -84,14 +84,22 @@ public class OrdExeFilterPresenter extends BaseHelper {
                     PopWindowUtil.closePopWindow();
                     StringBuilder builder = new StringBuilder();
                     for (MainConfigBean.ScreenPartsBean bean : ordExeFilterAdapter.getData()) {
+                        String showStr = "";
                         for (CommBean b : bean.getListBean()) {
                             if (b.isShow()) {
-                                builder.append(bean.getKeyCode()).append("|").append(b.getName()).append("!");
+                                showStr += b.getName() + "!";
                             }
                         }
+                        if (showStr.length() > 1) {
+                            builder.append(bean.getKeyCode()).append("|").append(showStr).append("^");
+                        }
                     }
-                    if (onSelectCallBackListener != null && !TextUtils.isEmpty(builder.toString())) {
-                        onSelectCallBackListener.onSelect(builder.toString());
+                    String str = builder.toString();
+                    if (str.length() > 1) {//去掉尾^
+                        str = str.substring(0, str.length() - 1);
+                    }
+                    if (onSelectCallBackListener != null && !TextUtils.isEmpty(str)) {
+                        onSelectCallBackListener.onSelect(str);
                     }
                 }
             });

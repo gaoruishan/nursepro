@@ -47,8 +47,12 @@ public class OrderSearchPatientOrderAdapter extends BaseQuickAdapter<List<OrderS
                 OrderSearchBean.OrdersBean.PatOrdsBean patOrdsBean = (OrderSearchBean.OrdersBean.PatOrdsBean) adapter.getItem(position);
 
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("detailcolums", (Serializable) detailColums);
-                bundle.putSerializable("patorderinfo", patOrdsBean.getOrderInfo());
+                if (detailColums != null) {
+                    bundle.putSerializable("detailcolums", (Serializable) detailColums);
+                }
+                if (patOrdsBean!=null&&patOrdsBean.getOrderInfo() != null) {
+                    bundle.putSerializable("patorderinfo", patOrdsBean.getOrderInfo());
+                }
                 ((BaseActivity)mContext).startFragment(OrderInfoDetailFragment.class, bundle);
 
             }
