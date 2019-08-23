@@ -12,7 +12,6 @@ import android.widget.AbsoluteLayout;
 import com.base.commlibs.BaseFragment;
 import com.base.commlibs.constant.Action;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.utils.XmlParseInterface;
 import com.dhcc.nursepro.workarea.nurrecordold.api.NurRecordOldApiManager;
 import com.dhcc.nursepro.workarea.nurrecordold.bean.RecDataBean;
 

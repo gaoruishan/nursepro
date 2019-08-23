@@ -28,7 +28,6 @@ import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.utils.XmlParseInterface;
 import com.dhcc.nursepro.workarea.nurrecordold.api.NurRecordOldApiManager;
 import com.dhcc.nursepro.workarea.nurrecordold.bean.RecDataBean;
 import com.dhcc.nursepro.workarea.nurrecordold.bean.RecModelListBean;

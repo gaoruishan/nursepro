@@ -230,6 +230,20 @@ public class NurRecordOldApiService {
         });
     }
 
+    //获取单据View 默认值/关联/跳转 内容
+    public static void getItemConfigByEmrCode(String episodeId, String emrCode, final ServiceCallBack callback) {
+        HashMap<String, String> properties = new HashMap<>();
+        properties.put("episodeId", episodeId);
+        properties.put("emrCode", emrCode);
+
+        WebServiceUtils.callWebService("getItemConfigByEmrCode", properties, new WebServiceUtils.WebServiceCallBack() {
+            @Override
+            public void callBack(String result) {
+                callback.onResult(result);
+            }
+        });
+    }
+
 
     public interface ServiceCallBack {
         void onResult(String jsonStr);

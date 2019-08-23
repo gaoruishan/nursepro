@@ -28,10 +28,11 @@ import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.utils.XmlParseInterface;
 import com.dhcc.nursepro.workarea.nurrecordold.api.NurRecordOldApiManager;
+import com.dhcc.nursepro.workarea.nurrecordold.bean.ItemConfigbyEmrCodeBean;
 import com.dhcc.nursepro.workarea.nurrecordold.bean.RecDataBean;
 import com.dhcc.nursepro.workarea.nurrecordold.bean.RecModelListBean;
+import com.dhcc.nursepro.workarea.nurrecordold.bean.ScoreStatisticsBean;
 import com.shizhefei.view.indicator.IndicatorViewPager;
 import com.shizhefei.view.indicator.ScrollIndicatorView;
 import com.shizhefei.view.indicator.slidebar.ColorBar;
@@ -76,6 +77,9 @@ public class NurRecordMPGDFragment extends BaseFragment implements View.OnClickL
     private List<NurRecordViewPagerFragment> fragmentList = new ArrayList<>();
     private int modelNum = 0;
 
+    private List<ItemConfigbyEmrCodeBean.ItemSetListBean> itemSetList = new ArrayList<>();
+    private List<ScoreStatisticsBean> scoreStatistics = new ArrayList<>();
+
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_nur_record_mpgd, container, false);
@@ -107,12 +111,29 @@ public class NurRecordMPGDFragment extends BaseFragment implements View.OnClickL
         initview(view);
         initAdapter();
 
+        //获取Item关联配置
+        getItemConfigByEmrCode();
+
         if (StringUtils.isEmpty(recId)) {
             getEmrPatInfo();
         } else {
             getMPGDVal(recId);
         }
+    }
 
+    private void getItemConfigByEmrCode() {
+        NurRecordOldApiManager.getItemConfigByEmrCode(episodeID, emrCode, new NurRecordOldApiManager.ItemConfigByEmrCodeCallback() {
+            @Override
+            public void onSuccess(ItemConfigbyEmrCodeBean itemConfigbyEmrCodeBean) {
+                itemSetList = itemConfigbyEmrCodeBean.getItemSetList();
+                xmlParseInterface.itemSetList = itemSetList;
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+                showToast("error" + code + ":" + msg);
+            }
+        });
     }
 
     public void Sure() {
@@ -175,10 +196,8 @@ public class NurRecordMPGDFragment extends BaseFragment implements View.OnClickL
             }
         }
 
-
         String parr = ret + "EmrUser|" + SPUtils.getInstance().getString(SharedPreference.USERID) + "^EmrCode|" + emrCode + "^EpisodeId|" + episodeID;
 
-        //保存存在问题，覆盖之前评估单
         saveMPGDData(parr, recId.trim());
     }
 
@@ -388,6 +407,8 @@ public class NurRecordMPGDFragment extends BaseFragment implements View.OnClickL
                 }
 
             }
+
+
             if (vv.getChildAt(i) instanceof LinearLayout) {
                 searchcontrol((ViewGroup) vv.getChildAt(i));
             }
@@ -409,6 +430,11 @@ public class NurRecordMPGDFragment extends BaseFragment implements View.OnClickL
         if (Action.NUR_RECORD_XML_VIEW.equals(intent.getAction())) {
             hideLoadingTip();
             searchcontrol(Objects.requireNonNull(getActivity()).findViewById(intent.getIntExtra("viewId", -1)));
+
+
+
+            showToast(xmlParseInterface.scoreStatistics.toString());
+
         }
 
     }

@@ -1,4 +1,4 @@
-package com.dhcc.nursepro.utils;
+package com.dhcc.nursepro.workarea.nurrecordold;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -32,6 +32,8 @@ import android.widget.TimePicker;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.nurrecordold.adapter.CommList;
+import com.dhcc.nursepro.workarea.nurrecordold.bean.ItemConfigbyEmrCodeBean;
+import com.dhcc.nursepro.workarea.nurrecordold.bean.ScoreStatisticsBean;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -77,6 +79,8 @@ public class XmlParseInterface implements Serializable {
     public String EpisodeID = ""; // 腕带
     public Handler handler = null;
     public String RetData = null;
+    public List<ItemConfigbyEmrCodeBean.ItemSetListBean> itemSetList = new ArrayList<>();
+    public List<ScoreStatisticsBean> scoreStatistics = new ArrayList<>();
     ArrayList<Integer> MultiChoiceID = new ArrayList<Integer>();// 记录多选选中的id号
     Map<Integer, Object> AdapterArr = new HashMap<Integer, Object>();
     Map<String, String> ConV = new HashMap<String, String>();
@@ -129,7 +133,7 @@ public class XmlParseInterface implements Serializable {
             listChild = listChildGroup;
 
             for (int i = 0; i < listChild.size(); i++) {
-                final Element nod = (Element) listChild.get(i);
+                final Element nod = listChild.get(i);
                 if (nod.attribute("type") == null)
                     continue;
                 Element metaNod = null;
@@ -332,6 +336,7 @@ public class XmlParseInterface implements Serializable {
                     txt.setTag(CName);
 
                     // String tagv=(String)txt.getTag();
+                    CNHVal.put(CName, txtstr);
                     CNHtb.put(CName, txt);
                     // ConV.put(CName,txtstr);
                     // ConRel.put(i,CName);
@@ -446,10 +451,34 @@ public class XmlParseInterface implements Serializable {
                     final TextView btn6 = new TextView(context);
                     // if (!txtstr.equals("")) btn.setText(txtstr); //by pan
                     // 20140519
-                    if (!txtstr.equals("!"))
-                        btn6.setText(getRadioVal(txtstr));
-                    else
+                    if (txtstr.equals("")) {
                         btn6.setText("请选择");
+                    } else {
+                        btn6.setText(getRadioVal(txtstr));
+                    }
+
+                    for (int j = 0; j < itemSetList.size(); j++) {
+                        ItemConfigbyEmrCodeBean.ItemSetListBean itemSetListBean = itemSetList.get(j);
+                        if (CName.equals(itemSetListBean.getItemCode())) {
+                            ScoreStatisticsBean scoreStatisticsBean = new ScoreStatisticsBean(itemSetListBean.getItemCode(), itemSetListBean.getLinkCode());
+                            String txtstrr = txtstr.replace(";", "");
+                            if (!txtstrr.equals("")) {
+                                List itmlist = meddatanod.element(nod.getName()).element("Itms").elements();
+                                for (int k = 0; k < itmlist.size(); k++) {
+                                    Element nodx = (Element) itmlist.get(k);
+                                    String[] noditm = nodx.getStringValue().split("\\|");
+                                    if (noditm[0].equals(txtstrr)) {
+                                        scoreStatisticsBean.setScoreNew(noditm[1]);
+                                        break;
+                                    }
+                                }
+                            }
+                            scoreStatistics.add(scoreStatisticsBean);
+                            break;
+                        }
+                    }
+
+
                     if (fontunit.equals("World")) {
                         btn6.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (fontsz));//
                     } else {
@@ -623,19 +652,6 @@ public class XmlParseInterface implements Serializable {
         return ret;
     }
 
-    private String GetComVal(String itm) {
-        String ret = "";
-        if (itm == "")
-            return "";
-        String[] aa = itm.split("\\|");
-        String[] val = aa[1].split("!");
-        if (val.length == 0)
-            return "";
-        ret = val[0];
-        return ret;
-    }
-
-
     private void ShowEdit(final EditText sp, final Context context) {
         try {
             LayoutInflater factory = LayoutInflater.from(context);
@@ -646,7 +662,7 @@ public class XmlParseInterface implements Serializable {
             dialog07.setTitle("编辑");
             dialog07.setView(view);
             final String cname = (String) sp.getTag();
-            final EditText txt = (EditText) view.findViewById(R.id.Desc);
+            final EditText txt = view.findViewById(R.id.Desc);
 
             txt.setText(sp.getText());
 
@@ -684,7 +700,7 @@ public class XmlParseInterface implements Serializable {
             dialog07.setTitle("编辑");
             dialog07.setView(view);
             final String cname = (String) sp.getTag();
-            final EditText txt = (EditText) view.findViewById(R.id.Desc);
+            final EditText txt = view.findViewById(R.id.Desc);
 
             txt.setText(GetComVal(CNHVal.get(cname).toString()));
             txt.setFocusable(true);
@@ -701,7 +717,7 @@ public class XmlParseInterface implements Serializable {
                                     + txt.getText());
                             sp.setText(txt.getText());
                             if (SingleEdit.containsKey(cname)) {
-                                String val = SingleEdit.get(cname).toString();
+                                String val = SingleEdit.get(cname);
                                 if (!val.equals(cname)) {
                                     String[] arr = val.split("\\^");
                                     int sel = -1;
@@ -736,6 +752,18 @@ public class XmlParseInterface implements Serializable {
             e.printStackTrace();
         }
 
+    }
+
+    private String GetComVal(String itm) {
+        String ret = "";
+        if (itm == "")
+            return "";
+        String[] aa = itm.split("\\|");
+        String[] val = aa[1].split("!");
+        if (val.length == 0)
+            return "";
+        ret = val[0];
+        return ret;
     }
 
     private String getmultival(String itm) {
@@ -826,6 +854,38 @@ public class XmlParseInterface implements Serializable {
                             // CNHVal.put(comname,
                             // comname+"|"+m_Items[mSingleChoiceID]+"!"+m_Items[mSingleChoiceID]);
                             Con.setText(m_Items[mSingleChoiceID]);
+
+
+                            for (int i = 0; i < scoreStatistics.size(); i++) {
+                                ScoreStatisticsBean scoreStatisticsBean = scoreStatistics.get(i);
+
+                                if (comname.equals(scoreStatisticsBean.getViewCode())) {
+                                    scoreStatistics.get(i).setScoreOld(scoreStatisticsBean.getScoreNew());
+                                    if (m_Items[mSingleChoiceID].equals("")) {
+                                        scoreStatistics.get(i).setScoreNew("0");
+                                    } else {
+                                        for (int j = 0; j < itmlist.size(); j++) {
+                                            Element nodx = (Element) itmlist.get(j);
+                                            String[] noditm = nodx.getStringValue().split("\\|");
+                                            if (noditm[0].equals(m_Items[mSingleChoiceID])) {
+                                                scoreStatistics.get(i).setScoreNew(noditm[1]);
+                                                break;
+                                            }
+                                        }
+                                    }
+
+                                    TextView textView = (TextView) CNHtb.get(scoreStatisticsBean.getResultViewCode());
+                                    String scoreStr = (String) CNHVal.get(scoreStatisticsBean.getResultViewCode());
+                                    if (scoreStr.equals("")) {
+                                        scoreStr = "0";
+                                    }
+                                    int scoreInt = Integer.valueOf(scoreStr) - Integer.valueOf(scoreStatistics.get(i).getScoreOld()) + Integer.valueOf(scoreStatistics.get(i).getScoreNew());
+                                    scoreStr = scoreInt + "";
+                                    textView.setText(scoreStr);
+                                    CNHVal.put(scoreStatisticsBean.getResultViewCode(), scoreStr);
+
+                                }
+                            }
 
                         }
                     });
@@ -930,7 +990,7 @@ public class XmlParseInterface implements Serializable {
             if (!ret.equals("")) {
                 int sum = 0;
                 if (ret.substring(0, 1).equals("I")) {
-                    String[] arr = MultiRadio.get(ret).toString().split("\\^");
+                    String[] arr = MultiRadio.get(ret).split("\\^");
                     for (int i = 0; i < arr.length; i++) {
                         if (arr[i].equals(""))
                             continue;
@@ -942,7 +1002,7 @@ public class XmlParseInterface implements Serializable {
                     EditText txt = (EditText) CNHtb.get(ret);
                     txt.setText(sum + "");
                 }
-                String[] arritm = RadioFenZhi.get(ret).toString().split("\\^");
+                String[] arritm = RadioFenZhi.get(ret).split("\\^");
                 for (int i = 0; i < arritm.length; i++) {
                     if (arritm[i].equals(""))
                         continue;
@@ -1000,7 +1060,7 @@ public class XmlParseInterface implements Serializable {
         }
         if (SingleEdit != null) {
             if (SingleEdit.containsKey(comname)) {
-                String val = SingleEdit.get(comname).toString();
+                String val = SingleEdit.get(comname);
                 if (!val.equals(comname)) {
                     String[] arr = val.split("\\^");
                     for (int i = 0; i < arr.length; i++) {
@@ -1047,7 +1107,7 @@ public class XmlParseInterface implements Serializable {
                         if (SingleEdit != null) {
                             if (SingleEdit.containsKey(comname)) {
                                 SingleSel.put(comname, mSingleChoiceID);
-                                String val = SingleEdit.get(comname).toString();
+                                String val = SingleEdit.get(comname);
 
                                 if (!val.equals(comname)) {
                                     String[] arr = val.split("\\^");
