@@ -3,7 +3,6 @@ package com.dhcc.nursepro.workarea.orderexecute.presenter;
 import android.app.Activity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,9 @@ import com.dhcc.nursepro.workarea.workareabean.MainConfigBean;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 医嘱执行帮助类
@@ -98,7 +99,7 @@ public class OrdExeFilterPresenter extends BaseHelper {
                     if (str.length() > 1) {//去掉尾^
                         str = str.substring(0, str.length() - 1);
                     }
-                    if (onSelectCallBackListener != null && !TextUtils.isEmpty(str)) {
+                    if (onSelectCallBackListener != null) {
                         onSelectCallBackListener.onSelect(str);
                     }
                 }
@@ -130,6 +131,9 @@ public class OrdExeFilterPresenter extends BaseHelper {
         return textView;
     }
 
+    /**
+     * 打开PopWindow
+     */
     public void openPopWindow() {
         PopWindowUtil.setMask(mContext, View.VISIBLE);
         PopWindowUtil.initPopupWindow(mContext, BasePopWindow.EnumLocation.RIGHT, contentView);
@@ -141,8 +145,11 @@ public class OrdExeFilterPresenter extends BaseHelper {
      */
     public void setOrdTypeSelectedCode(String sheetCode) {
         this.sheetCode = sheetCode;
+//        MainConfigBean json = DataCache.getJson(MainConfigBean.class, SharedPreference.DATA_MAIN_CONFIG);
         List<MainConfigBean.ScreenPartsBean> data = new ArrayList<>();
+        Map<String, MainConfigBean.ScreenPartsBean> dataMap = new HashMap<>();
         for (MainConfigBean.ScreenPartsBean bean : screenParts) {
+            bean.setListBean(null);//恢复默认
             String danjuStr = bean.getDanjuStr();
             //取出所有单据
             List<String> strings = new ArrayList<>();
@@ -154,10 +161,20 @@ public class OrdExeFilterPresenter extends BaseHelper {
             //遍历匹配,添加
             for (String s : strings) {
                 if (s.equals(sheetCode)) {
-                    data.add(bean);
+//                    data.add(bean);
+                    dataMap.put(bean.getKeyCode(), bean);
                 }
             }
+            if (bean.isCommonKey()) {
+                dataMap.put(bean.getKeyCode(), bean);
+            }
         }
+        for (Map.Entry<String, MainConfigBean.ScreenPartsBean> entry : dataMap.entrySet()) {
+            String mapKey = entry.getKey();
+            MainConfigBean.ScreenPartsBean mapValue = entry.getValue();
+            System.out.println(mapKey + ":" + mapValue.toString());
+        }
+        data.addAll(dataMap.values());
 //        ordExeFilterAdapter.replaceData(data);
         ordExeFilterAdapter = new OrdExeFilterAdapter(data);
         recyclerView.setAdapter(ordExeFilterAdapter);
