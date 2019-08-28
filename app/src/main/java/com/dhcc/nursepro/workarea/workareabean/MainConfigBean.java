@@ -84,7 +84,28 @@ public class MainConfigBean {
         private String keyValue;
         private String danjuStr;
         private String keyDesc;
+        private boolean commonKey;
         private List<CommBean> listBean;
+
+        @Override
+        public String toString() {
+            return "ScreenPartsBean{" +
+                    "keyCode='" + keyCode + '\'' +
+                    ", keyType='" + keyType + '\'' +
+                    ", keyValue='" + keyValue + '\'' +
+                    ", danjuStr='" + danjuStr + '\'' +
+                    ", keyDesc='" + keyDesc + '\'' +
+                    ", commonKey=" + commonKey +
+                    '}';
+        }
+
+        public boolean isCommonKey() {
+            return commonKey;
+        }
+
+        public void setCommonKey(boolean commonKey) {
+            this.commonKey = commonKey;
+        }
 
         public String getDanjuStr() {
             return danjuStr == null ? "" : danjuStr;

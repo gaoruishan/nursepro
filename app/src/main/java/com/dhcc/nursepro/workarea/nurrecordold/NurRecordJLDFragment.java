@@ -29,8 +29,10 @@ import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.nurrecordold.api.NurRecordOldApiManager;
+import com.dhcc.nursepro.workarea.nurrecordold.bean.ItemConfigbyEmrCodeBean;
 import com.dhcc.nursepro.workarea.nurrecordold.bean.RecDataBean;
 import com.dhcc.nursepro.workarea.nurrecordold.bean.RecModelListBean;
+import com.dhcc.nursepro.workarea.nurrecordold.bean.SyncEmrData;
 import com.shizhefei.view.indicator.IndicatorViewPager;
 import com.shizhefei.view.indicator.ScrollIndicatorView;
 import com.shizhefei.view.indicator.slidebar.ColorBar;
@@ -77,11 +79,6 @@ public class NurRecordJLDFragment extends BaseFragment implements View.OnClickLi
     private XmlParseInterface xmlParseInterface = new XmlParseInterface();
 
     @Override
-    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_nur_record_jld, container, false);
-    }
-
-    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
@@ -106,8 +103,8 @@ public class NurRecordJLDFragment extends BaseFragment implements View.OnClickLi
         xmlParseInterface.CNHLB = CNHLB;
         xmlParseInterface.CNHtb = CNHtb;
         xmlParseInterface.CNHVal = CNHVal;
-        //        bedno=intent.getExtras().getString("bedno");
-        //        PatName=intent.getExtras().getString("PatName");
+
+        getItemConfigByEmrCode();
         if (StringUtils.isEmpty(recId)) {
             getEmrPatInfo();
         } else {
@@ -115,6 +112,39 @@ public class NurRecordJLDFragment extends BaseFragment implements View.OnClickLi
         }
 
 
+    }
+
+    private void initView(View view) {
+
+
+        nurrecordJldIndicator = view.findViewById(R.id.nurrecord_jld_indicator);
+        nurrecordJldViewPager = view.findViewById(R.id.nurrecord_jld_viewPager);
+        float unSelectSize = 13;
+        float selectSize = unSelectSize * 1.2f;
+        nurrecordJldIndicator.setOnTransitionListener(new OnTransitionTextListener().setColor(0xFF62ABFF, Color.GRAY).setSize(selectSize, unSelectSize));
+
+        nurrecordJldIndicator.setScrollBar(new ColorBar(getActivity(), 0xFF62ABFF, 4));
+
+        nurrecordJldViewPager.setOffscreenPageLimit(10);
+        indicatorViewPager = new IndicatorViewPager(nurrecordJldIndicator, nurrecordJldViewPager);
+    }
+
+    private void initAdapter() {
+        indicatorViewPager.setAdapter(new MyAdapter(getFragmentManager()));
+    }
+
+    private void getItemConfigByEmrCode() {
+        NurRecordOldApiManager.getItemConfigByEmrCode(episodeID, emrCode, new NurRecordOldApiManager.ItemConfigByEmrCodeCallback() {
+            @Override
+            public void onSuccess(ItemConfigbyEmrCodeBean itemConfigbyEmrCodeBean) {
+                xmlParseInterface.itemSetList = itemConfigbyEmrCodeBean.getItemSetList();
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+                showToast("error" + code + ":" + msg);
+            }
+        });
     }
 
     private void getEmrPatInfo() {
@@ -195,25 +225,6 @@ public class NurRecordJLDFragment extends BaseFragment implements View.OnClickLi
         });
     }
 
-    private void initView(View view) {
-
-
-        nurrecordJldIndicator = view.findViewById(R.id.nurrecord_jld_indicator);
-        nurrecordJldViewPager = view.findViewById(R.id.nurrecord_jld_viewPager);
-        float unSelectSize = 13;
-        float selectSize = unSelectSize * 1.2f;
-        nurrecordJldIndicator.setOnTransitionListener(new OnTransitionTextListener().setColor(0xFF62ABFF, Color.GRAY).setSize(selectSize, unSelectSize));
-
-        nurrecordJldIndicator.setScrollBar(new ColorBar(getActivity(), 0xFF62ABFF, 4));
-
-        nurrecordJldViewPager.setOffscreenPageLimit(10);
-        indicatorViewPager = new IndicatorViewPager(nurrecordJldIndicator, nurrecordJldViewPager);
-    }
-
-    private void initAdapter() {
-        indicatorViewPager.setAdapter(new MyAdapter(getFragmentManager()));
-    }
-
     private void searchcontrol(ViewGroup vv) {
         for (int i = 0; i < vv.getChildCount(); i++) {
 
@@ -243,53 +254,6 @@ public class NurRecordJLDFragment extends BaseFragment implements View.OnClickLi
 
     }
 
-    private String GetMultiVal(String itm) {
-        String[] aa = itm.split("\\^");
-        String ret = "";
-        for (int i = 0; i < aa.length; i++) {
-            if (aa[i] == "")
-                continue;
-            String[] bb = aa[i].split("\\|");
-            if (bb.length > 1) {
-                if (bb[1] != "")
-                    ret = ret + bb[1] + ";";
-            }
-        }
-        return ret;
-    }
-
-    private String GetComVal(String itm) {
-        String ret = "";
-        if (itm == "")
-            return "";
-        String[] aa = itm.split("\\|");
-        String[] val = aa[1].split("!");
-        if (val.length == 0)
-            return "";
-        ret = val[0];
-        return ret;
-    }
-
-
-    private String getRadioVal(String itm) {
-        String[] aa = itm.split("\\^");
-        String ret = "";
-        for (int i = 0; i < aa.length; i++) {
-            if (aa[i].equals("")) {
-                continue;
-            }
-            String[] bb = aa[i].split("\\|");
-            if (bb.length > 1) {
-                if (!bb[1].equals("")) {
-                    ret = ret + bb[1] + ";";
-                }
-            } else {
-                ret = ret + ";";
-            }
-        }
-        return ret;
-    }
-
     public void getcon() {
         Iterator iter = CNHLB.entrySet().iterator();// 先获取这个map的set序列，再或者这个序列的迭代器
         String itm = "";
@@ -313,27 +277,41 @@ public class NurRecordJLDFragment extends BaseFragment implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        //点击页签
-        //        if(v.getTag() instanceof Integer) {
-        //            Integer ttag = (Integer) v.getTag();
-        //            orientateItemView(ttag-1);
-        //            return;
-        //        }
         if ((v.getTag() instanceof String)) {
             String ttag = (String) v.getTag();
-            if (ttag.equals("btnSave")) {
+            if (ttag.contains("btnLink")) {
+                linkEmrData();
+            } else if (ttag.contains("btnSave")) {
                 if (recId.equals("")) {
                     v.setClickable(false);
                 }
                 Sure(SPUtils.getInstance().getString(SharedPreference.USERID));
-                return;
-            }
-            if (ttag.equals("btnCancel")) {
-                this.finish();
-                return;
+            } else if (ttag.contains("btnCancel")) {
+                finish();
             }
         }
 
+    }
+
+    private void linkEmrData() {
+        NurRecordOldApiManager.linkEmrData(episodeID, emrCode, new NurRecordOldApiManager.SyncEmrDataCallback() {
+            @Override
+            public void onSuccess(SyncEmrData syncEmrData) {
+                List<SyncEmrData.ItemListBean> syncItemList = syncEmrData.getItemList();
+                for (int i = 0; i < syncItemList.size(); i++) {
+                    String key = syncItemList.get(i).getItemCode();
+                    String value = syncItemList.get(i).getItemValue();
+                    if (CNHtb.get(key) != null && CNHtb.get(key) instanceof EditText) {
+                        ((EditText) CNHtb.get(key)).setText(value);
+                    }
+                }
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+                showToast("error" + code + ":" + msg);
+            }
+        });
     }
 
     public void Sure(String userId) {
@@ -418,6 +396,52 @@ public class NurRecordJLDFragment extends BaseFragment implements View.OnClickLi
 
     }
 
+    private String GetMultiVal(String itm) {
+        String[] aa = itm.split("\\^");
+        String ret = "";
+        for (int i = 0; i < aa.length; i++) {
+            if (aa[i] == "")
+                continue;
+            String[] bb = aa[i].split("\\|");
+            if (bb.length > 1) {
+                if (bb[1] != "")
+                    ret = ret + bb[1] + ";";
+            }
+        }
+        return ret;
+    }
+
+    private String GetComVal(String itm) {
+        String ret = "";
+        if (itm == "")
+            return "";
+        String[] aa = itm.split("\\|");
+        String[] val = aa[1].split("!");
+        if (val.length == 0)
+            return "";
+        ret = val[0];
+        return ret;
+    }
+
+    private String getRadioVal(String itm) {
+        String[] aa = itm.split("\\^");
+        String ret = "";
+        for (int i = 0; i < aa.length; i++) {
+            if (aa[i].equals("")) {
+                continue;
+            }
+            String[] bb = aa[i].split("\\|");
+            if (bb.length > 1) {
+                if (!bb[1].equals("")) {
+                    ret = ret + bb[1] + ";";
+                }
+            } else {
+                ret = ret + ";";
+            }
+        }
+        return ret;
+    }
+
     @Override
     public void getScanMsg(Intent intent) {
         super.getScanMsg(intent);
@@ -426,6 +450,11 @@ public class NurRecordJLDFragment extends BaseFragment implements View.OnClickLi
             searchcontrol(Objects.requireNonNull(getActivity()).findViewById(intent.getIntExtra("viewId", -1)));
         }
 
+    }
+
+    @Override
+    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_nur_record_jld, container, false);
     }
 
     private class MyAdapter extends IndicatorViewPager.IndicatorFragmentPagerAdapter {

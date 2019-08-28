@@ -32,7 +32,7 @@ import com.dhcc.nursepro.workarea.nurrecordold.api.NurRecordOldApiManager;
 import com.dhcc.nursepro.workarea.nurrecordold.bean.ItemConfigbyEmrCodeBean;
 import com.dhcc.nursepro.workarea.nurrecordold.bean.RecDataBean;
 import com.dhcc.nursepro.workarea.nurrecordold.bean.RecModelListBean;
-import com.dhcc.nursepro.workarea.nurrecordold.bean.ScoreStatisticsBean;
+import com.dhcc.nursepro.workarea.nurrecordold.bean.SyncEmrData;
 import com.shizhefei.view.indicator.IndicatorViewPager;
 import com.shizhefei.view.indicator.ScrollIndicatorView;
 import com.shizhefei.view.indicator.slidebar.ColorBar;
@@ -77,14 +77,6 @@ public class NurRecordMPGDFragment extends BaseFragment implements View.OnClickL
     private List<NurRecordViewPagerFragment> fragmentList = new ArrayList<>();
     private int modelNum = 0;
 
-    private List<ItemConfigbyEmrCodeBean.ItemSetListBean> itemSetList = new ArrayList<>();
-    private List<ScoreStatisticsBean> scoreStatistics = new ArrayList<>();
-
-    @Override
-    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_nur_record_mpgd, container, false);
-    }
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -121,12 +113,32 @@ public class NurRecordMPGDFragment extends BaseFragment implements View.OnClickL
         }
     }
 
+    private void initview(View view) {
+
+
+        nurrecordIndicator = view.findViewById(R.id.nurrecord_mpgd_indicator);
+        nurrecordViewPager = view.findViewById(R.id.nurrecord_mpgd_viewPager);
+
+        float unSelectSize = 13;
+        float selectSize = unSelectSize * 1.2f;
+        nurrecordIndicator.setOnTransitionListener(new OnTransitionTextListener().setColor(0xFF62ABFF, Color.GRAY).setSize(selectSize, unSelectSize));
+
+        nurrecordIndicator.setScrollBar(new ColorBar(getActivity(), 0xFF62ABFF, 4));
+
+        nurrecordViewPager.setOffscreenPageLimit(10);
+        indicatorViewPager = new IndicatorViewPager(nurrecordIndicator, nurrecordViewPager);
+
+    }
+
+    private void initAdapter() {
+        indicatorViewPager.setAdapter(new MyAdapter(getFragmentManager()));
+    }
+
     private void getItemConfigByEmrCode() {
         NurRecordOldApiManager.getItemConfigByEmrCode(episodeID, emrCode, new NurRecordOldApiManager.ItemConfigByEmrCodeCallback() {
             @Override
             public void onSuccess(ItemConfigbyEmrCodeBean itemConfigbyEmrCodeBean) {
-                itemSetList = itemConfigbyEmrCodeBean.getItemSetList();
-                xmlParseInterface.itemSetList = itemSetList;
+                xmlParseInterface.itemSetList = itemConfigbyEmrCodeBean.getItemSetList();
             }
 
             @Override
@@ -134,131 +146,6 @@ public class NurRecordMPGDFragment extends BaseFragment implements View.OnClickL
                 showToast("error" + code + ":" + msg);
             }
         });
-    }
-
-    public void Sure() {
-        Iterator iter = CNHLB.entrySet().iterator();// 先获取这个map的set序列，再或者这个序列的迭代器
-        String itm = "";
-        String ret = "";
-        threeDataStr = "";
-        /*
-         * O现在不是用“a!a”那么存的,直接存的是a M还是val1;val2;val3;...
-         */
-        while (iter.hasNext()) {
-            Map.Entry entry = (Map.Entry) iter.next(); // 得到这个序列的映射项，就是set中的类型，HashMap都是Map.Entry类型（详情见map接口声明）
-            String cname = entry.getKey().toString();
-
-            itm = (String) entry.getValue();
-            if (itm.substring(0, 1).equals("B"))
-                continue;
-            if (itm.substring(0, 1).equals("S") || itm.substring(0, 1).equals("G")) {
-                EditText ed = (EditText) CNHtb.get(entry.getKey().toString());
-                if (entry.getKey().toString().equals("User")) {
-                    //                    CNHVal.put(cname, LoginUser.UserDR);
-                } else {
-                    CNHVal.put(cname, ed.getText());
-                }
-                ///出入院评估单责任护士
-
-            }
-            if (itm.substring(0, 1).equals("D")) {
-                TextView ed = (TextView) CNHtb.get(entry.getKey().toString());
-                if (!ed.getText().toString().equals("")) {
-                }
-                CNHVal.put(cname, ed.getText());
-
-            }
-
-            if (itm.substring(0, 1).equals("M")) {
-                // Toast.makeText(context, itmtxt, 100).show();
-                ret = ret + cname + "|" + GetMultiVal(CNHVal.get(cname).toString()) + "^";
-            }
-            if (itm.substring(0, 1).equals("O") || itm.substring(0, 1).equals("I")) {
-                TextView ed = (TextView) CNHtb.get(entry.getKey().toString());
-                if (ed != null) {
-                    //关联元素自动赋值的
-                    CNHVal.put(cname, cname + "|" + ed.getText() + "!" + ed.getText());
-                }
-                // Toast.makeText(context, itmtxt, 100).show();
-                ret = ret + cname + "|" + GetComVal(CNHVal.get(cname).toString()) + "^";
-            }
-
-            if (itm.substring(0, 1).equals("R")) {
-                ret = ret + cname + "|" + getRadioVal(CNHVal.get(cname).toString()) + "^";
-            }
-
-            if (itm.substring(0, 1).equals("M") || itm.substring(0, 1).equals("I") || itm.substring(0, 1).equals("O") || itm.substring(0, 1).equals("R")) {
-                continue;
-            }
-
-            if (CNHVal.containsKey(cname)) {
-                ret = ret + cname + "|" + CNHVal.get(cname).toString() + "^";
-            }
-        }
-
-        String parr = ret + "EmrUser|" + SPUtils.getInstance().getString(SharedPreference.USERID) + "^EmrCode|" + emrCode + "^EpisodeId|" + episodeID;
-
-        saveMPGDData(parr, recId.trim());
-    }
-
-    private String getRadioVal(String itm) {
-        String[] aa = itm.split("\\^");
-        String ret = "";
-        for (int i = 0; i < aa.length; i++) {
-            if (aa[i].equals("")) {
-                continue;
-            }
-            String[] bb = aa[i].split("\\|");
-            if (bb.length > 1) {
-                if (!bb[1].equals("")) {
-                    ret = ret + bb[1] + ";";
-                }
-            } else {
-                ret = ret + ";";
-            }
-        }
-        return ret;
-    }
-
-    private void saveMPGDData(String parr, String pgdId) {
-        NurRecordOldApiManager.saveMPGDData(parr, pgdId, modelListBean.getSaveMth(), new NurRecordOldApiManager.RecDataCallback() {
-            @Override
-            public void onSuccess(RecDataBean recDataBean) {
-                showToast("保存成功");
-            }
-
-            @Override
-            public void onFail(String code, String msg) {
-                showToast("error" + code + ":" + msg);
-            }
-        });
-    }
-
-    private String GetMultiVal(String itm) {
-        String[] aa = itm.split("\\^");
-        String ret = "";
-        for (int i = 0; i < aa.length; i++) {
-            if (aa[i] == "")
-                continue;
-            String[] bb = aa[i].split("\\|");
-            if (bb.length > 1) {
-                if (bb[1] != "")
-                    ret = ret + bb[1] + ";";
-            }
-        }
-        return ret;
-    }
-
-    private String GetComVal(String itm) {
-        String ret = "";
-        if (itm == "")
-            return "";
-        String[] aa = itm.split("\\|");
-        String[] val = aa[1].split("!");
-        if (val.length == 0)
-            return "";
-        ret = val[0];
-        return ret;
     }
 
     private void getEmrPatInfo() {
@@ -349,49 +236,204 @@ public class NurRecordMPGDFragment extends BaseFragment implements View.OnClickL
         });
     }
 
-
-    private void initAdapter() {
-        indicatorViewPager.setAdapter(new MyAdapter(getFragmentManager()));
-    }
-
-    private void initview(View view) {
-
-
-        nurrecordIndicator = view.findViewById(R.id.nurrecord_mpgd_indicator);
-        nurrecordViewPager = view.findViewById(R.id.nurrecord_mpgd_viewPager);
-
-        float unSelectSize = 13;
-        float selectSize = unSelectSize * 1.2f;
-        nurrecordIndicator.setOnTransitionListener(new OnTransitionTextListener().setColor(0xFF62ABFF, Color.GRAY).setSize(selectSize, unSelectSize));
-
-        nurrecordIndicator.setScrollBar(new ColorBar(getActivity(), 0xFF62ABFF, 4));
-
-        nurrecordViewPager.setOffscreenPageLimit(10);
-        indicatorViewPager = new IndicatorViewPager(nurrecordIndicator, nurrecordViewPager);
-
-    }
-
     @Override
     public void onClick(View v) {
-
-        switch ((String) v.getTag()) {
-            case "btntbjbxx":
-                //入出院评估单同步基本信息
-                //syncInfo();
-                break;
-            case "btnSave":
+        if ((v.getTag() instanceof String)) {
+            String ttag = (String) v.getTag();
+            if (ttag.contains("btnLink")) {
+                linkEmrData();
+            } else if (ttag.contains("btnSkip")) {
+//                RecModelListBean.MenuListBean.ModelListBean modelListBeanSkip = new RecModelListBean.MenuListBean.ModelListBean();
+//                String skipViewCode = "";
+//                for (int i = 0; i < xmlParseInterface.itemSetList.size(); i++) {
+//                    ItemConfigbyEmrCodeBean.ItemSetListBean itemSetListBean = xmlParseInterface.itemSetList.get(i);
+//
+//                    if (itemSetListBean.getItemCode().equals(ttag)) {
+//                        modelListBeanSkip.setGetListMth(itemSetListBean.getModeInfo().getGetListMth());
+//                        modelListBeanSkip.setGetValMth(itemSetListBean.getModeInfo().getGetValMth());
+//                        modelListBeanSkip.setLinkModel(itemSetListBean.getModeInfo().getLinkModel());
+//                        modelListBeanSkip.setModelCode(itemSetListBean.getModeInfo().getModelCode());
+//                        modelListBeanSkip.setModelName(itemSetListBean.getModeInfo().getModelName());
+//                        modelListBeanSkip.setModelNum(itemSetListBean.getModeInfo().getModelNum());
+//                        modelListBeanSkip.setModelType(itemSetListBean.getModeInfo().getModelType());
+//                        modelListBeanSkip.setSaveMth(itemSetListBean.getModeInfo().getSaveMth());
+//                    }
+//                    skipViewCode = itemSetListBean.getLinkNote();
+//                }
+//
+//                Bundle bundle = new Bundle();
+//                bundle.putString("EpisodeID", episodeID);
+//                bundle.putString("BedNo", bedNo);
+//                bundle.putString("PatName", patName);
+//
+//                bundle.putString("EMRCode", modelListBeanSkip.getModelCode());
+//                bundle.putString("ModelNum", modelListBeanSkip.getModelNum());
+//                bundle.putSerializable("ModelListBean", modelListBeanSkip);
+//                bundle.putString("skipViewCode", skipViewCode);
+//                bundle.putString("RecID", "");
+//                if (Objects.requireNonNull(modelListBeanSkip).getModelType().equals("1")) {
+//                    startFragment(NurRecordJLDFragment.class, bundle);
+//                } else if (Objects.requireNonNull(modelListBeanSkip).getModelType().equals("2")) {
+//                    startFragment(NurRecordPGDFragment.class, bundle);
+//                } else if (Objects.requireNonNull(modelListBeanSkip).getModelType().equals("3")) {
+//                    startFragment(NurRecordMPGDFragment.class, bundle);
+//
+//                }
+            } else if (ttag.contains("btnSave")) {
                 if (recId.equals("")) {
                     v.setClickable(false);
                 }
                 Sure();
-                break;
-            case "btnCancel":
+            } else if (ttag.contains("btnCancel")) {
                 finish();
-                break;
-            default:
-                break;
+            }
+        }
+    }
+
+    private void linkEmrData() {
+        NurRecordOldApiManager.linkEmrData(episodeID, emrCode, new NurRecordOldApiManager.SyncEmrDataCallback() {
+            @Override
+            public void onSuccess(SyncEmrData syncEmrData) {
+                List<SyncEmrData.ItemListBean> syncItemList = syncEmrData.getItemList();
+                for (int i = 0; i < syncItemList.size(); i++) {
+                    String key = syncItemList.get(i).getItemCode();
+                    String value = syncItemList.get(i).getItemValue();
+                    if (CNHtb.get(key) != null && CNHtb.get(key) instanceof EditText) {
+                        ((EditText) CNHtb.get(key)).setText(value);
+                    }
+                }
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+                showToast("error" + code + ":" + msg);
+            }
+        });
+    }
+
+    public void Sure() {
+        Iterator iter = CNHLB.entrySet().iterator();// 先获取这个map的set序列，再或者这个序列的迭代器
+        String itm = "";
+        String ret = "";
+        threeDataStr = "";
+        /*
+         * O现在不是用“a!a”那么存的,直接存的是a M还是val1;val2;val3;...
+         */
+        while (iter.hasNext()) {
+            Map.Entry entry = (Map.Entry) iter.next(); // 得到这个序列的映射项，就是set中的类型，HashMap都是Map.Entry类型（详情见map接口声明）
+            String cname = entry.getKey().toString();
+
+            itm = (String) entry.getValue();
+            if (itm.substring(0, 1).equals("B"))
+                continue;
+            if (itm.substring(0, 1).equals("S") || itm.substring(0, 1).equals("G")) {
+                EditText ed = (EditText) CNHtb.get(entry.getKey().toString());
+                if (entry.getKey().toString().equals("User")) {
+                    //                    CNHVal.put(cname, LoginUser.UserDR);
+                } else {
+                    CNHVal.put(cname, ed.getText());
+                }
+                ///出入院评估单责任护士
+
+            }
+            if (itm.substring(0, 1).equals("D")) {
+                TextView ed = (TextView) CNHtb.get(entry.getKey().toString());
+                if (!ed.getText().toString().equals("")) {
+                }
+                CNHVal.put(cname, ed.getText());
+
+            }
+
+            if (itm.substring(0, 1).equals("M")) {
+                // Toast.makeText(context, itmtxt, 100).show();
+                ret = ret + cname + "|" + GetMultiVal(CNHVal.get(cname).toString()) + "^";
+            }
+            if (itm.substring(0, 1).equals("O") || itm.substring(0, 1).equals("I")) {
+                TextView ed = (TextView) CNHtb.get(entry.getKey().toString());
+                if (ed != null) {
+                    //关联元素自动赋值的
+                    CNHVal.put(cname, cname + "|" + ed.getText() + "!" + ed.getText());
+                }
+                // Toast.makeText(context, itmtxt, 100).show();
+                ret = ret + cname + "|" + GetComVal(CNHVal.get(cname).toString()) + "^";
+            }
+
+            if (itm.substring(0, 1).equals("R")) {
+                ret = ret + cname + "|" + getRadioVal(CNHVal.get(cname).toString()) + "^";
+            }
+
+            if (itm.substring(0, 1).equals("M") || itm.substring(0, 1).equals("I") || itm.substring(0, 1).equals("O") || itm.substring(0, 1).equals("R")) {
+                continue;
+            }
+
+            if (CNHVal.containsKey(cname)) {
+                ret = ret + cname + "|" + CNHVal.get(cname).toString() + "^";
+            }
         }
 
+        String parr = ret + "EmrUser|" + SPUtils.getInstance().getString(SharedPreference.USERID) + "^EmrCode|" + emrCode + "^EpisodeId|" + episodeID;
+
+        saveMPGDData(parr, recId.trim());
+    }
+
+    private String GetMultiVal(String itm) {
+        String[] aa = itm.split("\\^");
+        String ret = "";
+        for (int i = 0; i < aa.length; i++) {
+            if (aa[i] == "")
+                continue;
+            String[] bb = aa[i].split("\\|");
+            if (bb.length > 1) {
+                if (bb[1] != "")
+                    ret = ret + bb[1] + ";";
+            }
+        }
+        return ret;
+    }
+
+    private String GetComVal(String itm) {
+        String ret = "";
+        if (itm == "")
+            return "";
+        String[] aa = itm.split("\\|");
+        String[] val = aa[1].split("!");
+        if (val.length == 0)
+            return "";
+        ret = val[0];
+        return ret;
+    }
+
+    private String getRadioVal(String itm) {
+        String[] aa = itm.split("\\^");
+        String ret = "";
+        for (int i = 0; i < aa.length; i++) {
+            if (aa[i].equals("")) {
+                continue;
+            }
+            String[] bb = aa[i].split("\\|");
+            if (bb.length > 1) {
+                if (!bb[1].equals("")) {
+                    ret = ret + bb[1] + ";";
+                }
+            } else {
+                ret = ret + ";";
+            }
+        }
+        return ret;
+    }
+
+    private void saveMPGDData(String parr, String pgdId) {
+        NurRecordOldApiManager.saveMPGDData(parr, pgdId, modelListBean.getSaveMth(), new NurRecordOldApiManager.RecDataCallback() {
+            @Override
+            public void onSuccess(RecDataBean recDataBean) {
+                showToast("保存成功");
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+                showToast("error" + code + ":" + msg);
+            }
+        });
     }
 
     private void searchcontrol(ViewGroup vv) {
@@ -431,12 +473,13 @@ public class NurRecordMPGDFragment extends BaseFragment implements View.OnClickL
             hideLoadingTip();
             searchcontrol(Objects.requireNonNull(getActivity()).findViewById(intent.getIntExtra("viewId", -1)));
 
-
-
-            showToast(xmlParseInterface.scoreStatistics.toString());
-
         }
 
+    }
+
+    @Override
+    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_nur_record_mpgd, container, false);
     }
 
     private class MyAdapter extends IndicatorViewPager.IndicatorFragmentPagerAdapter {

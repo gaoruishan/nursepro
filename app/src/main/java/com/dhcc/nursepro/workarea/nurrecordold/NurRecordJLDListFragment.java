@@ -54,11 +54,6 @@ public class NurRecordJLDListFragment extends BaseFragment {
     private List<Map> listMap = new ArrayList<>();
 
     @Override
-    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_nur_record_jldlist, container, false);
-    }
-
-    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
@@ -103,12 +98,6 @@ public class NurRecordJLDListFragment extends BaseFragment {
         initAdapter();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        initData();
-    }
-
     private void initView(View view) {
 
         llJldlistTitle = view.findViewById(R.id.ll_jldlist_title);
@@ -149,6 +138,17 @@ public class NurRecordJLDListFragment extends BaseFragment {
         });
         recyJldlistDetail.setAdapter(jldListDetailAdapter);
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initData();
+    }
+
+    @Override
+    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_nur_record_jldlist, container, false);
     }
 
     private void initData() {

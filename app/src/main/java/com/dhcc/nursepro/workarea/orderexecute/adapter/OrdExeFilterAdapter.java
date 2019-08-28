@@ -27,22 +27,24 @@ public class OrdExeFilterAdapter extends BaseQuickAdapter<MainConfigBean.ScreenP
     @Override
     protected void convert(BaseViewHolder helper, MainConfigBean.ScreenPartsBean item) {
         RecyclerView recyclerView = helper.getView(R.id.dhcc_rv);
-        helper.setText(R.id.tv_title,item.getKeyDesc());
+        helper.setText(R.id.tv_title, item.getKeyDesc());
         RecyclerViewHelper.setGridRecyclerView(mContext, recyclerView, 3, 0, false);
         if (!TextUtils.isEmpty(item.getKeyValue())) {
-            List<String> values = new ArrayList<>();
-            if (item.getKeyValue().contains("!")) {
-                String[] split = item.getKeyValue().split("!");
-                values = Arrays.asList(split);
-            } else {
-                values.add(item.getKeyValue());
+            if (item.getListBean() == null || item.getListBean().size() == 0) {
+                List<String> values = new ArrayList<>();
+                if (item.getKeyValue().contains("!")) {
+                    String[] split = item.getKeyValue().split("!");
+                    values = Arrays.asList(split);
+                } else {
+                    values.add(item.getKeyValue());
+                }
+                List<CommBean> list = new ArrayList<>();
+                for (String s : values) {
+                    list.add(new CommBean(s));
+                }
+                //添加到Item中,用于保存数据
+                item.setListBean(list);
             }
-            List<CommBean> list = new ArrayList<>();
-            for (String s : values) {
-                list.add(new CommBean(s));
-            }
-            //添加到Item中,用于保存数据
-            item.setListBean(list);
             OrdExeFilterChildAdapter adapter = new OrdExeFilterChildAdapter(item.getListBean());
             adapter.setDataType(item.getKeyType());
             recyclerView.setAdapter(adapter);

@@ -345,10 +345,39 @@ public class XmlParseInterface implements Serializable {
                 if ((nod.getName().substring(0, 1).equals("M"))) {
 
                     final TextView btn5 = new TextView(context);
+
                     if (!txtstr.equals(""))
-                        btn5.setText(txtstr);
+                        btn5.setText(getMultiVal(txtstr));
                     else
                         btn5.setText("请选择");
+
+                    for (int j = 0; j < itemSetList.size(); j++) {
+                        ItemConfigbyEmrCodeBean.ItemSetListBean itemSetListBean = itemSetList.get(j);
+                        if (itemSetListBean.getLinkType().equals("2") && CName.equals(itemSetListBean.getItemCode())) {
+                            ScoreStatisticsBean scoreStatisticsBean = new ScoreStatisticsBean(itemSetListBean.getItemCode(), itemSetListBean.getLinkCode());
+                            String[] txtstrr = {};
+                            if (!txtstr.equals("")) {
+                                txtstrr = getMultiVal(txtstr).split(",");
+                            }
+                            if (txtstrr.length > 0) {
+                                int score = 0;
+                                List itmlist = meddatanod.element(nod.getName()).element("Itms").elements();
+                                for (int k = 0; k < itmlist.size(); k++) {
+                                    Element nodx = (Element) itmlist.get(k);
+                                    String[] noditm = nodx.getStringValue().split("\\|");
+                                    for (int l = 0; l < txtstrr.length; l++) {
+                                        if (txtstrr[l].equals(noditm[0]) && noditm.length > 1) {
+                                            score = score + Integer.valueOf(noditm[1]);
+                                        }
+                                    }
+                                }
+                                scoreStatisticsBean.setScoreNew(score + "");
+                            }
+                            scoreStatistics.add(scoreStatisticsBean);
+                            break;
+                        }
+                    }
+
                     btn5.setTag(CName);
                     btn5.setBackgroundResource(R.drawable.nur_record_btn_bg);
                     btn5.setTextColor(android.graphics.Color
@@ -361,10 +390,7 @@ public class XmlParseInterface implements Serializable {
                         btn5.setTextSize(TypedValue.COMPLEX_UNIT_SP, (fontsz));//
                     }
 
-                    // ConV.put(CName,txtstr);
-                    if (!txtstr.equals(""))
-                        btn5.setText(getMultiVal(txtstr));
-                    // ConRel.put(i,CName);
+
                     CNHtb.put(CName, btn5);
                     IniMultiData(meddatanod.element(nod.getName()), CName,
                             txtstr);
@@ -451,7 +477,7 @@ public class XmlParseInterface implements Serializable {
                     final TextView btn6 = new TextView(context);
                     // if (!txtstr.equals("")) btn.setText(txtstr); //by pan
                     // 20140519
-                    if (txtstr.equals("")) {
+                    if (txtstr.replaceAll(";", "").equals("")) {
                         btn6.setText("请选择");
                     } else {
                         btn6.setText(getRadioVal(txtstr));
@@ -459,7 +485,7 @@ public class XmlParseInterface implements Serializable {
 
                     for (int j = 0; j < itemSetList.size(); j++) {
                         ItemConfigbyEmrCodeBean.ItemSetListBean itemSetListBean = itemSetList.get(j);
-                        if (CName.equals(itemSetListBean.getItemCode())) {
+                        if (itemSetListBean.getLinkType().equals("2") && CName.equals(itemSetListBean.getItemCode())) {
                             ScoreStatisticsBean scoreStatisticsBean = new ScoreStatisticsBean(itemSetListBean.getItemCode(), itemSetListBean.getLinkCode());
                             String txtstrr = txtstr.replace(";", "");
                             if (!txtstrr.equals("")) {
@@ -574,12 +600,34 @@ public class XmlParseInterface implements Serializable {
                     //                    }
 
                     final TextView btn = new TextView(context);
-                    // if (!txtstr.equals("")) btn.setText(txtstr); //by pan
-                    // 20140519
-                    if (!txtstr.equals("!"))
-                        btn.setText(txtstr.split("!")[0]);
-                    else
+
+                    if (txtstr.replaceAll("!", "").equals("")) {
                         btn.setText("请选择");
+                    } else {
+                        btn.setText(txtstr.split("!")[0]);
+                    }
+
+                    for (int j = 0; j < itemSetList.size(); j++) {
+                        ItemConfigbyEmrCodeBean.ItemSetListBean itemSetListBean = itemSetList.get(j);
+                        if (itemSetListBean.getLinkType().equals("2") && CName.equals(itemSetListBean.getItemCode())) {
+                            ScoreStatisticsBean scoreStatisticsBean = new ScoreStatisticsBean(itemSetListBean.getItemCode(), itemSetListBean.getLinkCode());
+                            String txtstrr = txtstr.replace("!", "");
+                            if (!txtstrr.equals("")) {
+                                List itmlist = meddatanod.element(nod.getName()).element("Itms").elements();
+                                for (int k = 0; k < itmlist.size(); k++) {
+                                    Element nodx = (Element) itmlist.get(k);
+                                    String[] noditm = nodx.getStringValue().split("\\|");
+                                    if (noditm[0].equals(txtstrr)) {
+                                        scoreStatisticsBean.setScoreNew(noditm[1]);
+                                        break;
+                                    }
+                                }
+                            }
+                            scoreStatistics.add(scoreStatisticsBean);
+                            break;
+                        }
+                    }
+
                     if (fontunit.equals("World")) {
                         btn.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (fontsz));//
                     } else {
@@ -592,12 +640,6 @@ public class XmlParseInterface implements Serializable {
                     btn.setGravity(Gravity.CENTER);
 
                     CNHVal.put(CName, CName + "|" + txtstr + "!" + txtstr);
-                    // ConV.put(CName,txtstr);
-                    // if (!txtstr.equals("")) btn.setText(txtstr); //by pan
-                    // 20140519
-                    if (!txtstr.equals("!"))
-                        btn.setText(txtstr.split("!")[0]);
-                    // ConRel.put(i,CName);
                     CNHtb.put(CName, btn);
                     // IniMultiData(meddatanod.element(nod.getName()),CName,txtstr);
                     abslayout.addView(btn, getlayparam(Iwidth, (int) (Iheight * 1.3), Ileft, Itop));
@@ -867,7 +909,7 @@ public class XmlParseInterface implements Serializable {
                                         for (int j = 0; j < itmlist.size(); j++) {
                                             Element nodx = (Element) itmlist.get(j);
                                             String[] noditm = nodx.getStringValue().split("\\|");
-                                            if (noditm[0].equals(m_Items[mSingleChoiceID])) {
+                                            if (noditm[0].equals(m_Items[mSingleChoiceID]) && noditm.length > 1) {
                                                 scoreStatistics.get(i).setScoreNew(noditm[1]);
                                                 break;
                                             }
@@ -1041,7 +1083,7 @@ public class XmlParseInterface implements Serializable {
         final String[] m_Items2 = new String[itmlist.size() + 1];
         for (int j = 0; j < itmlist.size(); j++) {
             Element nodx = (Element) itmlist.get(j);
-            m_Items[j] = nodx.getStringValue();
+            m_Items[j] = nodx.getStringValue().split("\\|")[0];
             if (m_Items[j].equals(sel))
                 mSingleChoiceID = j;
             // 设置选项
@@ -1103,7 +1145,39 @@ public class XmlParseInterface implements Serializable {
                                 + m_Items[mSingleChoiceID] + "!"
                                 + m_Items[mSingleChoiceID]);
                         //FIXME
-                        Con.setText(m_Items[mSingleChoiceID]);
+                        Con.setText(m_Items[mSingleChoiceID].split("\\|")[0]);
+
+                        for (int i = 0; i < scoreStatistics.size(); i++) {
+                            ScoreStatisticsBean scoreStatisticsBean = scoreStatistics.get(i);
+
+                            if (comname.equals(scoreStatisticsBean.getViewCode())) {
+                                scoreStatistics.get(i).setScoreOld(scoreStatisticsBean.getScoreNew());
+                                if (m_Items[mSingleChoiceID].equals("")) {
+                                    scoreStatistics.get(i).setScoreNew("0");
+                                } else {
+                                    for (int j = 0; j < itmlist.size(); j++) {
+                                        Element nodx = (Element) itmlist.get(j);
+                                        String[] noditm = nodx.getStringValue().split("\\|");
+                                        if (noditm[0].equals(m_Items[mSingleChoiceID]) && noditm.length > 1) {
+                                            scoreStatistics.get(i).setScoreNew(noditm[1]);
+                                            break;
+                                        }
+                                    }
+                                }
+
+                                TextView textView = (TextView) CNHtb.get(scoreStatisticsBean.getResultViewCode());
+                                String scoreStr = (String) CNHVal.get(scoreStatisticsBean.getResultViewCode());
+                                if (scoreStr.equals("")) {
+                                    scoreStr = "0";
+                                }
+                                int scoreInt = Integer.valueOf(scoreStr) - Integer.valueOf(scoreStatistics.get(i).getScoreOld()) + Integer.valueOf(scoreStatistics.get(i).getScoreNew());
+                                scoreStr = scoreInt + "";
+                                textView.setText(scoreStr);
+                                CNHVal.put(scoreStatisticsBean.getResultViewCode(), scoreStr);
+
+                            }
+                        }
+
                         if (SingleEdit != null) {
                             if (SingleEdit.containsKey(comname)) {
                                 SingleSel.put(comname, mSingleChoiceID);
@@ -1367,9 +1441,48 @@ public class XmlParseInterface implements Serializable {
                             // String cname=(String)CNHLB.get(gtag);
                             CNHVal.put(gtag, itm);
                             PatIn.put(gtag, itmval);
-                            Con.setText(itmtxt);
+                            Con.setText(getMultiTxt(itmtxt));
                         }
-                        countRelationVal();
+
+                        for (int i = 0; i < scoreStatistics.size(); i++) {
+                            ScoreStatisticsBean scoreStatisticsBean = scoreStatistics.get(i);
+
+                            if (gtag.equals(scoreStatisticsBean.getViewCode())) {
+                                scoreStatistics.get(i).setScoreOld(scoreStatisticsBean.getScoreNew());
+
+                                if (itmtxt.equals("")) {
+                                    scoreStatistics.get(i).setScoreNew("0");
+                                } else {
+                                    String[] txtstrr = itmtxt.split(",");
+                                    int score = 0;
+                                    List itmlist = itmnod.element("Itms").elements();
+                                    for (int k = 0; k < itmlist.size(); k++) {
+                                        Element nodx = (Element) itmlist.get(k);
+                                        String[] noditm = nodx.getStringValue().split("\\|");
+                                        for (int l = 0; l < txtstrr.length; l++) {
+                                            if (txtstrr[l].equals(noditm[0]) && noditm.length > 1) {
+                                                score = score + Integer.valueOf(noditm[1]);
+                                            }
+                                        }
+                                    }
+                                    scoreStatistics.get(i).setScoreNew(score + "");
+                                }
+
+                                TextView textView = (TextView) CNHtb.get(scoreStatisticsBean.getResultViewCode());
+                                String scoreStr = (String) CNHVal.get(scoreStatisticsBean.getResultViewCode());
+                                if (scoreStr.equals("")) {
+                                    scoreStr = "0";
+                                }
+                                int scoreInt = Integer.valueOf(scoreStr) - Integer.valueOf(scoreStatistics.get(i).getScoreOld()) + Integer.valueOf(scoreStatistics.get(i).getScoreNew());
+                                scoreStr = scoreInt + "";
+                                textView.setText(scoreStr);
+                                CNHVal.put(scoreStatisticsBean.getResultViewCode(), scoreStr);
+
+                            }
+                        }
+
+
+                        //                        countRelationVal();
                     }
                 }).setNegativeButton("取消", null).create();
         lv = ad.getListView();
@@ -1639,10 +1752,7 @@ public class XmlParseInterface implements Serializable {
                         new DatePickerDialog.OnDateSetListener() {
                             public void onDateSet(DatePicker dp, int year,
                                                   int month, int dayOfMonth) {
-                                // et.setText("您选择了：" + year + "年" + (month+1) + "月"
-                                // + dayOfMonth + "日");
-                                // SimpleDateFormat dateformat1=new
-                                // SimpleDateFormat("yyyy-MM-dd HH:mm:ss E");
+
                                 DecimalFormat df = new DecimalFormat("00");
                                 // String datestr=DateFormat.format("yyyy-MM-dd",
                                 // Calendar.getInstance()).toString();
@@ -1681,6 +1791,20 @@ public class XmlParseInterface implements Serializable {
 
     private String getMultiVal(String stritm) {
         String[] itm = stritm.split(";");
+        String ret = "";
+        for (int i = 0; i < itm.length; i++) {
+            if (itm[i].equals(""))
+                continue;
+            if ((i + 1) == itm.length)
+                ret = ret + itm[i];
+            else
+                ret = ret + itm[i] + ",";
+        }
+        return ret;
+    }
+
+    private String getMultiTxt(String stritm) {
+        String[] itm = stritm.split(",");
         String ret = "";
         for (int i = 0; i < itm.length; i++) {
             if (itm[i].equals(""))

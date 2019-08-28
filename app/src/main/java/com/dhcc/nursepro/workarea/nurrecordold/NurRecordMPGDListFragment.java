@@ -54,11 +54,6 @@ public class NurRecordMPGDListFragment extends BaseFragment {
     private List<Map> listMap = new ArrayList<>();
 
     @Override
-    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_nur_record_mpgdlist, container, false);
-    }
-
-    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
@@ -103,12 +98,6 @@ public class NurRecordMPGDListFragment extends BaseFragment {
         initAdapter();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        initData();
-    }
-
     private void initView(View view) {
 
         llMPgdlistTitle = view.findViewById(R.id.ll_mpgdlist_title);
@@ -149,6 +138,17 @@ public class NurRecordMPGDListFragment extends BaseFragment {
         });
         recyMPgdlistDetail.setAdapter(mpgdListDetailAdapter);
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initData();
+    }
+
+    @Override
+    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_nur_record_mpgdlist, container, false);
     }
 
     private void initData() {
