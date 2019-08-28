@@ -40,12 +40,6 @@ public class PatNurRecordFragment extends BaseFragment {
     private InWardPatListBean.PatInfoListBean patInfoListBean;
     private NurRecordMenuListAdapter menuListAdapter;
 
-
-    @Override
-    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_pat_nur_record, container, false);
-    }
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -120,6 +114,25 @@ public class PatNurRecordFragment extends BaseFragment {
 
     }
 
+    private void getModelList(InWardPatListBean.PatInfoListBean patInfoListBean) {
+        showLoadingTip(BaseActivity.LoadingType.FULL);
+        NurRecordOldApiManager.getModelList(patInfoListBean.getEpisodeId(), new NurRecordOldApiManager.RecModelListCallback() {
+            @Override
+            public void onSuccess(RecModelListBean recModelListBean) {
+                hideLoadFailTip();
+                menuListAdapter.setNewData(recModelListBean.getMenuList());
+                menuListAdapter.setPatInfoListBean(patInfoListBean);
+                menuListAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+                hideLoadFailTip();
+                showToast("error" + code + ":" + msg);
+            }
+        });
+    }
 
     @Override
     public void getScanMsg(Intent intent) {
@@ -143,24 +156,9 @@ public class PatNurRecordFragment extends BaseFragment {
         }
     }
 
-    private void getModelList(InWardPatListBean.PatInfoListBean patInfoListBean) {
-        showLoadingTip(BaseActivity.LoadingType.FULL);
-        NurRecordOldApiManager.getModelList(patInfoListBean.getEpisodeId(), new NurRecordOldApiManager.RecModelListCallback() {
-            @Override
-            public void onSuccess(RecModelListBean recModelListBean) {
-                hideLoadFailTip();
-                menuListAdapter.setNewData(recModelListBean.getMenuList());
-                menuListAdapter.setPatInfoListBean(patInfoListBean);
-                menuListAdapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onFail(String code, String msg) {
-                hideLoadFailTip();
-                showToast("error" + code + ":" + msg);
-            }
-        });
+    @Override
+    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_pat_nur_record, container, false);
     }
 
 }

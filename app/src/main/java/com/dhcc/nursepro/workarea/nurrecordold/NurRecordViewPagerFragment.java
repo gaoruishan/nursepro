@@ -26,17 +26,12 @@ import java.util.Objects;
  * @author Devlix126
  * created at 2019/7/10 14:26
  */
-public class NurRecordViewPagerFragment extends BaseFragment{
+public class NurRecordViewPagerFragment extends BaseFragment {
     private AbsoluteLayout absoluelayout;
     private String episodeID = "";
     private String emrCode = "";
     private XmlParseInterface xmlParseInterface;
     private String xml = "";
-
-    public void setXmlParseInterface(XmlParseInterface xmlParseInterface) {
-        this.xmlParseInterface = xmlParseInterface;
-        initData();
-    }
 
     public static NurRecordViewPagerFragment newInstance(String episodeID, String emrCode) {
         NurRecordViewPagerFragment fragment = new NurRecordViewPagerFragment();
@@ -45,6 +40,38 @@ public class NurRecordViewPagerFragment extends BaseFragment{
         args.putString("EMRCODE", emrCode);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public void setXmlParseInterface(XmlParseInterface xmlParseInterface) {
+        this.xmlParseInterface = xmlParseInterface;
+        initData();
+    }
+
+    private void initData() {
+        NurRecordOldApiManager.getEmrXML(episodeID, emrCode, new NurRecordOldApiManager.RecDataCallback() {
+            @Override
+            public void onSuccess(RecDataBean recDataBean) {
+                xml = recDataBean.getRetData();
+                try {
+                    xmlParseInterface.DocParseXml(xml, getActivity(),
+                            absoluelayout);
+
+                    Intent xmlIntent = new Intent();
+                    xmlIntent.setAction(Action.NUR_RECORD_XML_VIEW);
+                    xmlIntent.putExtra("xmlStr", xml);
+                    xmlIntent.putExtra("viewId", absoluelayout.getId());
+                    Objects.requireNonNull(getActivity()).sendBroadcast(xmlIntent);
+                } catch (DocumentException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+                showToast("error" + code + ":" + msg);
+            }
+        });
+
     }
 
     @Override
@@ -66,43 +93,16 @@ public class NurRecordViewPagerFragment extends BaseFragment{
 
     private void initview(View view) {
         absoluelayout = view.findViewById(R.id.absoluelayout);
-//        DisplayMetrics dm = new DisplayMetrics();
-//        getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
-//        int widthPixels = dm.widthPixels;
-//        int heightPixels = dm.heightPixels;
-//        float density = dm.density;
-//        int screenWidth = (int) (widthPixels * density);
-//        int screenHeight = (int) (heightPixels * density);
-//
-//        Log.d(TAG, "initview: " + widthPixels + "~~~" + heightPixels);
-//        Log.d(TAG, "initview: " + screenWidth + "~~~" + screenHeight);
-
-    }
-
-    private void initData() {
-        NurRecordOldApiManager.getEmrXML(episodeID, emrCode, new NurRecordOldApiManager.RecDataCallback() {
-            @Override
-            public void onSuccess(RecDataBean recDataBean) {
-                xml = recDataBean.getRetData();
-                try {
-                    xmlParseInterface.DocParseXml(xml, getActivity(),
-                            absoluelayout);
-
-                    Intent xmlIntent = new Intent();
-                    xmlIntent.setAction(Action.NUR_RECORD_XML_VIEW);
-                    xmlIntent.putExtra("xmlStr", xml);
-                    xmlIntent.putExtra("viewId",absoluelayout.getId());
-                    Objects.requireNonNull(getActivity()).sendBroadcast(xmlIntent);
-                } catch (DocumentException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFail(String code, String msg) {
-                showToast("error" + code + ":" + msg);
-            }
-        });
+        //        DisplayMetrics dm = new DisplayMetrics();
+        //        getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
+        //        int widthPixels = dm.widthPixels;
+        //        int heightPixels = dm.heightPixels;
+        //        float density = dm.density;
+        //        int screenWidth = (int) (widthPixels * density);
+        //        int screenHeight = (int) (heightPixels * density);
+        //
+        //        Log.d(TAG, "initview: " + widthPixels + "~~~" + heightPixels);
+        //        Log.d(TAG, "initview: " + screenWidth + "~~~" + screenHeight);
 
     }
 
