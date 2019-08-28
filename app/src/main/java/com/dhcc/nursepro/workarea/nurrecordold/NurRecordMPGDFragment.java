@@ -331,7 +331,19 @@ public class NurRecordMPGDFragment extends BaseFragment implements View.OnClickL
                 if (entry.getKey().toString().equals("User")) {
                     //                    CNHVal.put(cname, LoginUser.UserDR);
                 } else {
-                    CNHVal.put(cname, ed.getText());
+                    String edtxt = ed.getText().toString();
+                    for (int i = 0; i < xmlParseInterface.itemSetList.size(); i++) {
+                        ItemConfigbyEmrCodeBean.ItemSetListBean itemSetListBean = xmlParseInterface.itemSetList.get(i);
+                        if (itemSetListBean.getLinkType().equals("4") && cname.equals(itemSetListBean.getItemCode())) {
+                            if (StringUtils.isEmpty(edtxt)) {
+                                ed.setBackgroundResource(R.drawable.nur_record_inputerror_bg);
+                                showToast("请填写必填项数据");
+                                return;
+                            }
+                        }
+                    }
+
+                    CNHVal.put(cname, edtxt);
                 }
                 ///出入院评估单责任护士
 

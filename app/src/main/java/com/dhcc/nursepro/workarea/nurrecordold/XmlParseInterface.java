@@ -8,8 +8,11 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.InputType;
 import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -184,10 +187,7 @@ public class XmlParseInterface implements Serializable {
                 CNHLB.put(CName, nod.getName());
                 String a = CName;
                 String b = nod.getName();
-                if (contyp.equals("System.Windows.Forms.Label")) // (ReportDesign
-                // == true)
-                // &&
-                {
+                if (contyp.equals("System.Windows.Forms.Label")) {
                     TextView lb = new TextView(context);
                     if (OBJBlankItm != null) {
                         if (OBJBlankItm.containsKey(txtstr)) {
@@ -290,19 +290,7 @@ public class XmlParseInterface implements Serializable {
                 if ((nod.getName().substring(0, 1).equals("S") || (nod
                         .getName().substring(0, 1).equals("G")))) {
                     final EditText txt = new EditText(context);
-                    //                    txt.setOnClickListener(new OnClickListener() {
-                    //                        public void onClick(View v) {
-                    //                            // TODO Auto-generated method stub
-                    //                            // MultiChoiceID.clear();
-                    //                            try {
-                    //                                EditText sp = (EditText) CNHtb.get(txt.getTag());
-                    //                                ShowEdit(sp, context);
-                    //                            } catch (Exception e) {
-                    //
-                    //                            }
-                    //                            return;
-                    //                        }
-                    //                    });
+
                     if (nod.getName().substring(0, 1).equals("G")) {
                         txt.setOnTouchListener(new View.OnTouchListener() {
                             @Override
@@ -318,6 +306,7 @@ public class XmlParseInterface implements Serializable {
                             }
                         });
                     }
+
                     txt.setBackgroundResource(R.drawable.nur_record_input_bg);
                     txt.setTextColor(android.graphics.Color
                             .parseColor("#ff000000"));
@@ -329,7 +318,33 @@ public class XmlParseInterface implements Serializable {
                     } else {
                         txt.setTextSize(TypedValue.COMPLEX_UNIT_SP, (fontsz));//
                     }
+
+                    for (int j = 0; j < itemSetList.size(); j++) {
+                        ItemConfigbyEmrCodeBean.ItemSetListBean itemSetListBean = itemSetList.get(j);
+                        if (itemSetListBean.getLinkType().equals("5") && CName.equals(itemSetListBean.getItemCode())) {
+                            txt.setInputType(InputType.TYPE_CLASS_NUMBER);
+                        }
+                    }
+
+                    txt.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable s) {
+                            txt.setBackgroundResource(R.drawable.nur_record_input_bg);
+                        }
+                    });
+
                     txt.setText(txtstr);
+
 
                     abslayout.addView(txt,
                             getlayparam(Iwidth, (int) (Iheight * 1.3), Ileft, Itop));

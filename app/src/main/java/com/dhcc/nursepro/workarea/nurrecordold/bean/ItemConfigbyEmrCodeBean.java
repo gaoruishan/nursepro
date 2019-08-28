@@ -5,7 +5,7 @@ import java.util.List;
 public class ItemConfigbyEmrCodeBean {
 
     /**
-     * ItemSetList : [{"ItemCode":"btnSkip","LinkCode":"DHCNURXHPGD","LinkNote":"Item14!Item1","LinkType":"3","ModeInfo":{"getListMth":"","getValMth":"getPGDVal","linkModel":"DHCNURXHPGD","modelCode":"DHCNURXHPGD","modelName":"入院评估单","modelNum":"3","modelType":"2","saveMth":"savePGDData"}},{"ItemCode":"Item26","LinkCode":"Item13","LinkNote":"","LinkType":"2","ModeInfo":{}},{"ItemCode":"Item25","LinkCode":"Item13","LinkNote":"","LinkType":"2","ModeInfo":{}},{"ItemCode":"Item27","LinkCode":"Item13","LinkNote":"","LinkType":"2","ModeInfo":{}},{"ItemCode":"Item28","LinkCode":"Item13","LinkNote":"","LinkType":"2","ModeInfo":{}},{"ItemCode":"Item29","LinkCode":"Item13","LinkNote":"","LinkType":"2","ModeInfo":{}},{"ItemCode":"Item30","LinkCode":"Item13","LinkNote":"","LinkType":"2","ModeInfo":{}}]
+     * ItemSetList : [{"ItemCode":"btnSkip","LinkCode":"DHCNURXHPGD","LinkCodeId":"296","LinkNote":"Item14!Item1","LinkType":"3","ModeInfo":{"getListMth":"","getValMth":"getPGDVal","linkModel":"","modelCode":"DHCNURXHPGD","modelName":"入院评估单","modelNum":"3","modelType":"2","saveMth":"savePGDData"}},{"ItemCode":"Item26","LinkCode":"Item13","LinkCodeId":"296","LinkNote":"","LinkType":"2","ModeInfo":{}},{"ItemCode":"Item25","LinkCode":"Item13","LinkCodeId":"296","LinkNote":"","LinkType":"2","ModeInfo":{}},{"ItemCode":"Item27","LinkCode":"Item13","LinkCodeId":"296","LinkNote":"","LinkType":"2","ModeInfo":{}},{"ItemCode":"Item28","LinkCode":"Item13","LinkCodeId":"296","LinkNote":"","LinkType":"2","ModeInfo":{}},{"ItemCode":"Item29","LinkCode":"Item13","LinkCodeId":"296","LinkNote":"","LinkType":"2","ModeInfo":{}},{"ItemCode":"Item30","LinkCode":"Item13","LinkCodeId":"296","LinkNote":"","LinkType":"2","ModeInfo":{}},{"ItemCode":"Item15","LinkCode":"Item20","LinkCodeId":"296","LinkNote":"","LinkType":"2","ModeInfo":{}},{"ItemCode":"Item16","LinkCode":"Item20","LinkCodeId":"296","LinkNote":"","LinkType":"2","ModeInfo":{}},{"ItemCode":"Item17","LinkCode":"Item20","LinkCodeId":"296","LinkNote":"","LinkType":"2","ModeInfo":{}},{"ItemCode":"Item18","LinkCode":"Item20","LinkCodeId":"296","LinkNote":"","LinkType":"2","ModeInfo":{}},{"ItemCode":"Item19","LinkCode":"Item20","LinkCodeId":"296","LinkNote":"","LinkType":"2","ModeInfo":{}},{"ItemCode":"Item1","LinkCode":"Item1","LinkCodeId":"296","LinkNote":"","LinkType":"4","ModeInfo":{}}]
      * Status : 0
      * msg : 成功
      * msgcode : 999999
@@ -52,13 +52,21 @@ public class ItemConfigbyEmrCodeBean {
         /**
          * ItemCode : btnSkip
          * LinkCode : DHCNURXHPGD
+         * LinkCodeId : 296
          * LinkNote : Item14!Item1
          * LinkType : 3
-         * ModeInfo : {"getListMth":"","getValMth":"getPGDVal","linkModel":"DHCNURXHPGD","modelCode":"DHCNURXHPGD","modelName":"入院评估单","modelNum":"3","modelType":"2","saveMth":"savePGDData"}
+         * ModeInfo : {"getListMth":"","getValMth":"getPGDVal","linkModel":"","modelCode":"DHCNURXHPGD","modelName":"入院评估单","modelNum":"3","modelType":"2","saveMth":"savePGDData"}
          */
+
+        // LinkType : 1     默认值
+        // LinkType : 2     计分
+        // LinkType : 3     跳转
+        // LinkType : 4     必填项
+        // LinkType : 5     输入类型-限定数字
 
         private String ItemCode;
         private String LinkCode;
+        private String LinkCodeId;
         private String LinkNote;
         private String LinkType;
         private ModeInfoBean ModeInfo;
@@ -77,6 +85,14 @@ public class ItemConfigbyEmrCodeBean {
 
         public void setLinkCode(String LinkCode) {
             this.LinkCode = LinkCode;
+        }
+
+        public String getLinkCodeId() {
+            return LinkCodeId;
+        }
+
+        public void setLinkCodeId(String LinkCodeId) {
+            this.LinkCodeId = LinkCodeId;
         }
 
         public String getLinkNote() {
@@ -107,7 +123,7 @@ public class ItemConfigbyEmrCodeBean {
             /**
              * getListMth :
              * getValMth : getPGDVal
-             * linkModel : DHCNURXHPGD
+             * linkModel :
              * modelCode : DHCNURXHPGD
              * modelName : 入院评估单
              * modelNum : 3
