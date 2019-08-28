@@ -28,7 +28,7 @@
             android:layout_width="@dimen/dp_35"
             android:layout_height="@dimen/dp_35"
             android:layout_gravity="center"
-            android:padding="@dimen/dp_12"
+            android:padding="@dimen/dp_10"
             android:src="@drawable/dhcc_filter_close"/>
     </LinearLayout>
     <View
