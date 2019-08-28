@@ -101,9 +101,9 @@ public class BaseFragment extends Fragment {
 
         mfilter.addAction(Action.DEVICE_SCAN_CODE);
         mfilter.addAction(Action.NEWMESSAGE_SERVICE);
-        mfilter.addAction(Action.ORDER_HANDLE_ACCEPT);
-        mfilter.addAction(Action.ORDER_HANDLE_REFUSE);
-        mfilter.addAction(Action.ORDER_HANDLE_COMPLETE);
+        mfilter.addAction(Action.ORDER_HANDLE_TYPE);
+//        mfilter.addAction(Action.ORDER_HANDLE_REFUSE);
+//        mfilter.addAction(Action.ORDER_HANDLE_COMPLETE);
         mfilter.addAction(Action.SKIN_TEST_YANG);
         mfilter.addAction(Action.SKIN_TEST_YIN);
         mfilter.addAction(Action.DOSING_REVIEW);

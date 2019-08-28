@@ -218,25 +218,13 @@
                     android:layout_weight="1"/>
 
 
-                <TextView
-                    android:id="@+id/tv_bottom_undo"
-                    android:layout_width="90dp"
+                <LinearLayout
+                    android:id="@+id/ll_orderexecute_btn"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="#4a90e2"
-                    android:gravity="center"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    tools:text="撤销执行"/>
+                    android:orientation="horizontal">
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tv_bottom_todo"
-                    android:layout_width="90dp"
-                    android:layout_height="match_parent"
-                    android:background="#62abff"
-                    android:gravity="center"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    tools:text="执行"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

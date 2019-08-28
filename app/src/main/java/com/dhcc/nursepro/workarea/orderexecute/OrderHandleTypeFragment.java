@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import com.base.commlibs.BaseFragment;
 import com.dhcc.nursepro.R;
 import com.base.commlibs.constant.Action;
@@ -19,10 +21,8 @@ import com.base.commlibs.constant.Action;
  * @author DevLix126
  * created at 2018/9/4 11:22
  */
-public class OrderHandleTypeFragment extends BaseFragment implements View.OnClickListener {
-    private LinearLayout llPopupAccept;
-    private LinearLayout llPopupRefuse;
-    private LinearLayout llPopupComplete;
+public class OrderHandleTypeFragment extends BaseFragment {
+    private LinearLayout lltype;
 
     private Intent intent = new Intent();
 
@@ -39,40 +39,32 @@ public class OrderHandleTypeFragment extends BaseFragment implements View.OnClic
     }
 
     private void initView(View view) {
-        llPopupAccept = view.findViewById(R.id.ll_popup_accept);
-        llPopupRefuse = view.findViewById(R.id.ll_popup_refuse);
-        llPopupComplete = view.findViewById(R.id.ll_popup_complete);
+        lltype = view.findViewById(R.id.ll_handle_types);
+        lltype.removeAllViews();
+        for (int i = 0; i <OrderExecuteFragment.typelist.size() ; i++) {
+            View item_view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_order_handle_type_item, null);
+            TextView tvtype = item_view.findViewById(R.id.tv_handle_type);
+            String stAll = OrderExecuteFragment.typelist.get(i).toString();
+            String sttype =  stAll.substring(stAll.indexOf("|")+1,stAll.length());
+            String stcode = stAll.substring(0,stAll.indexOf("|"));
+            tvtype.setText(sttype);
+            LinearLayout llpoptype = item_view.findViewById(R.id.ll_pop_type);
+            llpoptype.setSelected(false);
+            tvtype.setTag(stcode);
+            llpoptype.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    llpoptype.setSelected(true);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("handledesc",tvtype.getText().toString());
+                    bundle.putString("handlecode",tvtype.getTag().toString());
+                    intent.putExtras(bundle);
+                    intent.setAction(Action.ORDER_HANDLE_TYPE);
+                    getActivity().sendBroadcast(intent);
+                }
+            });
 
-        llPopupAccept.setOnClickListener(this);
-        llPopupRefuse.setOnClickListener(this);
-        llPopupComplete.setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.ll_popup_accept:
-                llPopupAccept.setSelected(true);
-                llPopupRefuse.setSelected(false);
-                llPopupComplete.setSelected(false);
-                intent.setAction(Action.ORDER_HANDLE_ACCEPT);
-                break;
-            case R.id.ll_popup_refuse:
-                llPopupAccept.setSelected(false);
-                llPopupRefuse.setSelected(true);
-                llPopupComplete.setSelected(false);
-                intent.setAction(Action.ORDER_HANDLE_REFUSE);
-                break;
-            case R.id.ll_popup_complete:
-                llPopupAccept.setSelected(false);
-                llPopupRefuse.setSelected(false);
-                llPopupComplete.setSelected(true);
-                intent.setAction(Action.ORDER_HANDLE_COMPLETE);
-                break;
-            default:
-                break;
+            lltype.addView(item_view);
         }
-        getActivity().sendBroadcast(intent);
-
     }
 }

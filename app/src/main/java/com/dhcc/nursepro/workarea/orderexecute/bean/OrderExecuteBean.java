@@ -109,6 +109,14 @@ public class OrderExecuteBean implements Serializable {
         private String code;
         private String desc;
         private String singleFlag;
+        private String execode;
+        public String getExecode() {
+            return execode;
+        }
+
+        public void setExecode(String execode) {
+            this.execode = execode;
+        }
 
         public String getCode() {
             return code;

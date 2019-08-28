@@ -21,12 +21,13 @@ public class Action {
     public static final String DEVICE_SCAN_CODE = appName+"broadcast";
 
     //医嘱处理
-    //接受
-    public static final String ORDER_HANDLE_ACCEPT = appName+".order.handle.accept.Action";
-    //拒绝
-    public static final String ORDER_HANDLE_REFUSE = appName+".order.handle.refuse.Action";
-    //完成
-    public static final String ORDER_HANDLE_COMPLETE = appName+".order.handle.complete.Action";
+    public static final String ORDER_HANDLE_TYPE= appName+".order.handle.handletype.Action";
+//    //接受
+//    public static final String ORDER_HANDLE_ACCEPT = appName+".order.handle.accept.Action";
+//    //拒绝
+//    public static final String ORDER_HANDLE_REFUSE = appName+".order.handle.refuse.Action";
+//    //完成
+//    public static final String ORDER_HANDLE_COMPLETE = appName+".order.handle.complete.Action";
 
     //皮试结果
     //阳性
