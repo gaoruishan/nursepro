@@ -649,7 +649,6 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 } else {
                     orderDescs = orderDescs + patOrders.get(i).get(j).getOrderInfo().getArcimDesc() + "\n";
                 }
-
             }
             if (patOrders.get(i) != null && patOrders.get(i).get(0) != null && patOrders.get(i).get(0).getSelect() != null && "1".equals(patOrders.get(i).get(0).getSelect())) {
                 if (selectCount == 0) {
@@ -678,9 +677,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
             llOrderexecuteNoselectbottom.setVisibility(View.GONE);
             llOrderexecuteSelectbottom.setVisibility(View.VISIBLE);
             tvBottomSelecttext.setText("已选择" + selectCount + "个");
-
         }
-
 
     }
 
@@ -690,7 +687,6 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
             case R.id.tv_orderexecute_startdatetime:
                 etChangeFlag = "START";
                 chooseTime(TimeUtils.string2Millis(tvOrderexecuteStartdatetime.getText().toString() + ":00"));
-
                 break;
             case R.id.tv_orderexecute_enddatetime:
                 etChangeFlag = "END";
@@ -705,7 +701,6 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     }
 
     private void chooseTime(long currentTimeMillis) {
-
         DateUtils.chooseDateTime(currentTimeMillis,getContext(), getFragmentManager(), new OnDateSetListener() {
             @Override
             public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
@@ -864,17 +859,6 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
             basePushDialog.dismiss();
             tvBottomHandletype.setText(bundleDesc);
             handleCode = budleCode;
-        }
-
-        if (Action.SKIN_TEST_YANG.equals(intent.getAction())) {
-            basePushDialog.dismiss();
-            tvBottomHandletype.setText("阳性");
-            handleCode = "Y";
-        }
-        if (Action.SKIN_TEST_YIN.equals(intent.getAction())) {
-            basePushDialog.dismiss();
-            tvBottomHandletype.setText("阴性");
-            handleCode = "N";
         }
         if (Action.DEVICE_SCAN_CODE.equals(intent.getAction())) {
             Bundle bundle = new Bundle();
