@@ -379,7 +379,6 @@ public class NurRecordPGDFragment extends BaseFragment implements View.OnClickLi
     }
 
     private void getPGDId() {
-        showLoadingTip(BaseActivity.LoadingType.FULL);
 
         NurRecordOldApiManager.getPGDId(episodeID, emrCode, new NurRecordOldApiManager.RecDataCallback() {
             @Override

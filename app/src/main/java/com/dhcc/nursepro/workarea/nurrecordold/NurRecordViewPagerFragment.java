@@ -11,6 +11,7 @@ import android.widget.AbsoluteLayout;
 
 import com.base.commlibs.BaseFragment;
 import com.base.commlibs.constant.Action;
+import com.blankj.utilcode.util.StringUtils;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.nurrecordold.api.NurRecordOldApiManager;
 import com.dhcc.nursepro.workarea.nurrecordold.bean.RecDataBean;
@@ -44,6 +45,8 @@ public class NurRecordViewPagerFragment extends BaseFragment {
 
     public void setXmlParseInterface(XmlParseInterface xmlParseInterface) {
         this.xmlParseInterface = xmlParseInterface;
+
+        initData();
     }
 
     @Override
@@ -66,8 +69,6 @@ public class NurRecordViewPagerFragment extends BaseFragment {
         absoluelayout = view.findViewById(R.id.absoluelayout);
         absoluelayout.setId(View.generateViewId());
 
-        initData();
-
         //        DisplayMetrics dm = new DisplayMetrics();
         //        getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
         //        int widthPixels = dm.widthPixels;
@@ -86,6 +87,10 @@ public class NurRecordViewPagerFragment extends BaseFragment {
             @Override
             public void onSuccess(RecDataBean recDataBean) {
                 xml = recDataBean.getRetData();
+                if (StringUtils.isEmpty(xml)) {
+//                    showToast(emrCode+"页"+"未获取到布局配置");
+                    return;
+                }
                 try {
                     xmlParseInterface.DocParseXml(xml, getActivity(),
                             absoluelayout);
