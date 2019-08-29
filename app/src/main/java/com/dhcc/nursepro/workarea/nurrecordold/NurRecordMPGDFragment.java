@@ -123,9 +123,6 @@ public class NurRecordMPGDFragment extends BaseFragment implements View.OnClickL
 
                 }
             } else if (ttag.contains("btnSave")) {
-                if (recId.equals("")) {
-                    v.setClickable(false);
-                }
                 Sure();
             } else if (ttag.contains("btnCancel")) {
                 finish();

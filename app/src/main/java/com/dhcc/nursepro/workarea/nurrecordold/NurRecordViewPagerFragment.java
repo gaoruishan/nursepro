@@ -44,7 +44,41 @@ public class NurRecordViewPagerFragment extends BaseFragment {
 
     public void setXmlParseInterface(XmlParseInterface xmlParseInterface) {
         this.xmlParseInterface = xmlParseInterface;
+    }
+
+    @Override
+    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_nur_record_view_pager, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        if (getArguments() != null) {
+            emrCode = getArguments().getString("EMRCODE");
+        }
+        initview(view);
+
+    }
+
+    private void initview(View view) {
+        absoluelayout = view.findViewById(R.id.absoluelayout);
+        absoluelayout.setId(View.generateViewId());
+
         initData();
+
+        //        DisplayMetrics dm = new DisplayMetrics();
+        //        getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
+        //        int widthPixels = dm.widthPixels;
+        //        int heightPixels = dm.heightPixels;
+        //        float density = dm.density;
+        //        int screenWidth = (int) (widthPixels * density);
+        //        int screenHeight = (int) (heightPixels * density);
+        //
+        //        Log.d(TAG, "initview: " + widthPixels + "~~~" + heightPixels);
+        //        Log.d(TAG, "initview: " + screenWidth + "~~~" + screenHeight);
+
     }
 
     private void initData() {
@@ -71,38 +105,6 @@ public class NurRecordViewPagerFragment extends BaseFragment {
                 showToast("error" + code + ":" + msg);
             }
         });
-
-    }
-
-    @Override
-    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_nur_record_view_pager, container, false);
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        if (getArguments() != null) {
-            emrCode = getArguments().getString("EMRCODE");
-        }
-
-        initview(view);
-
-    }
-
-    private void initview(View view) {
-        absoluelayout = view.findViewById(R.id.absoluelayout);
-        //        DisplayMetrics dm = new DisplayMetrics();
-        //        getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
-        //        int widthPixels = dm.widthPixels;
-        //        int heightPixels = dm.heightPixels;
-        //        float density = dm.density;
-        //        int screenWidth = (int) (widthPixels * density);
-        //        int screenHeight = (int) (heightPixels * density);
-        //
-        //        Log.d(TAG, "initview: " + widthPixels + "~~~" + heightPixels);
-        //        Log.d(TAG, "initview: " + screenWidth + "~~~" + screenHeight);
 
     }
 

@@ -174,9 +174,6 @@ public class NurRecordJLDFragment extends BaseFragment implements View.OnClickLi
 
                 }
             } else if (ttag.contains("btnSave")) {
-                if (recId.equals("")) {
-                    v.setClickable(false);
-                }
                 Sure(SPUtils.getInstance().getString(SharedPreference.USERID));
             } else if (ttag.contains("btnCancel")) {
                 finish();

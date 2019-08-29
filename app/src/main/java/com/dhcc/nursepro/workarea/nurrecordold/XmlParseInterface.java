@@ -227,10 +227,6 @@ public class XmlParseInterface implements Serializable {
                             .parseColor("#ff000000"));
                     btn.setGravity(Gravity.CENTER);
                     btn.setTag(CName);
-                    // CNHVal.put(CName, txtstr);
-                    if (!Pos.equals(""))
-                        CNHLB.put(CName, Pos);
-                    // lb.setTextSize(TypedValue.COMPLEX_UNIT_PX,22); //22像素
 
                     if (fontunit.equals("World")) {
                         btn.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (fontsz));//
@@ -902,13 +898,13 @@ public class XmlParseInterface implements Serializable {
 
                             CNHVal.put(comname, itm);
                             PatIn.put(comname, m_Items[mSingleChoiceID]);
-                            if (RadioFenZhi != null) {
-                                if (FN.containsKey(mSingleChoiceID)) {
-                                    RadioFenZhi.put(comname,
-                                            FN.get(mSingleChoiceID));
-                                    CountSum();
-                                }
-                            }
+//                            if (RadioFenZhi != null) {
+//                                if (FN.containsKey(mSingleChoiceID)) {
+//                                    RadioFenZhi.put(comname,
+//                                            FN.get(mSingleChoiceID));
+//                                    CountSum();
+//                                }
+//                            }
                             // Con.setText(itmtxt);
                             // CNHVal.put(comname,
                             // comname+"|"+m_Items[mSingleChoiceID]+"!"+m_Items[mSingleChoiceID]);
@@ -965,25 +961,25 @@ public class XmlParseInterface implements Serializable {
 
     }
 
-    private void CountSum() {
-        try {
-            Iterator iter = RadioFenZhi.entrySet().iterator();// 先获取这个map的set序列，再或者这个序列的迭代器
-            String itm = "";
-            Integer num = 0;
-            while (iter.hasNext()) {
-                Map.Entry entry = (Map.Entry) iter.next(); // 得到这个序列的映射项，就是set中的类型，HashMap都是Map.Entry类型（详情见map接口声明）
-                // Integer key = (Integer)entry.getKey(); //获得key
-                num = num + Integer.valueOf(entry.getValue().toString().trim());
-            }
-            EditText sumtxt = (EditText) CNHtb.get(FenZhiCode);
-            sumtxt.setText(num + "");
-            EditText level = (EditText) CNHtb.get(LevelCode);
-            level.setText(getlevel(num) + "");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
+//    private void CountSum() {
+//        try {
+//            Iterator iter = RadioFenZhi.entrySet().iterator();// 先获取这个map的set序列，再或者这个序列的迭代器
+//            String itm = "";
+//            Integer num = 0;
+//            while (iter.hasNext()) {
+//                Map.Entry entry = (Map.Entry) iter.next(); // 得到这个序列的映射项，就是set中的类型，HashMap都是Map.Entry类型（详情见map接口声明）
+//                // Integer key = (Integer)entry.getKey(); //获得key
+//                num = num + Integer.valueOf(entry.getValue().toString().trim());
+//            }
+//            EditText sumtxt = (EditText) CNHtb.get(FenZhiCode);
+//            sumtxt.setText(num + "");
+//            EditText level = (EditText) CNHtb.get(LevelCode);
+//            level.setText(getlevel(num) + "");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
 
     private Integer getlevel(int num) {
         int level = 3;
