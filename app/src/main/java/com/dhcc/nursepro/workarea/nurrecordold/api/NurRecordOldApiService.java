@@ -203,7 +203,7 @@ public class NurRecordOldApiService {
     }
 
     //获取多次评估单数据
-    public static void getMPGDVal(String par, String rw, String methodName,final ServiceCallBack callback) {
+    public static void getMPGDVal(String par, String rw, String methodName, final ServiceCallBack callback) {
         HashMap<String, String> properties = new HashMap<>();
         properties.put("par", par);
         properties.put("rw", rw);
