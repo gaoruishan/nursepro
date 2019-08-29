@@ -211,14 +211,18 @@ public class XmlParseInterface implements Serializable {
 
                 if (contyp.equals("System.Windows.Forms.GroupBox")) {
                     LinearLayout llGroup = new LinearLayout(context);
-                    llGroup.setBackgroundColor(context.getResources().getColor(R.color.nurrecordold_left_bgcolor));
+                    llGroup.setBackgroundResource(R.drawable.nur_record_group_bg);
                     abslayout.addView(llGroup,
                             getlayparam(Iwidth, Iheight, Ileft, Itop));
                 }
 
                 if ((nod.getName().substring(0, 1).equals("C"))) {
                     TextView btn = new TextView(context);
-                    btn.setBackgroundResource(R.drawable.nur_record_btn_bg);
+                    if (CName.contains("btn")) {
+                        btn.setBackgroundResource(R.drawable.nur_record_btn_bg_selector);
+                    } else {
+                        btn.setBackgroundResource(R.drawable.nur_record_btn_bg);
+                    }
                     btn.setTextColor(android.graphics.Color
                             .parseColor("#ff000000"));
                     btn.setGravity(Gravity.CENTER);
@@ -515,7 +519,6 @@ public class XmlParseInterface implements Serializable {
                                 }
                             }
                             scoreStatistics.add(scoreStatisticsBean);
-                            break;
                         }
                     }
 
@@ -639,7 +642,6 @@ public class XmlParseInterface implements Serializable {
                                 }
                             }
                             scoreStatistics.add(scoreStatisticsBean);
-                            break;
                         }
                     }
 
