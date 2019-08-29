@@ -80,7 +80,8 @@ public class MessageSkinAdapter extends BaseQuickAdapter<MessageSkinBean.SkinTim
                 showDialog(skinResutl, testStartTime, finalTestBetweenTime, finalTestEndTime, item);
             }
         });
-
+        //医嘱信息
+//        rv_item_msg_skin
     }
 
     private void showDialog(String skinResutl, String testStartTime, String finalTestBetweenTime, String finalTestEndTime, MessageSkinBean.SkinTimeListBean item) {
@@ -90,8 +91,9 @@ public class MessageSkinAdapter extends BaseQuickAdapter<MessageSkinBean.SkinTim
                 String OeoreId = item.getOeoreId();
                 String skinTest = (String) args[0];
                 String auditUserId = (String) args[1];
+                String auditPassword = (String) args[2];
                 // 请求
-                MessageApiManager.setSkinTestResult(OeoreId, skinTest, auditUserId, new CommonCallBack<CommResult>() {
+                MessageApiManager.setSkinTestResult(OeoreId, skinTest, auditUserId,auditPassword, new CommonCallBack<CommResult>() {
                     @Override
                     public void onFail(String code, String msg) {
                         if (mContext instanceof BaseActivity) {

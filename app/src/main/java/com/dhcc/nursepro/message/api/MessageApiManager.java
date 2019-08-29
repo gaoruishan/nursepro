@@ -32,8 +32,8 @@ public class MessageApiManager {
      * Input： oeoreId:执行记录ID
      * other:	w ##class(Nur.OPPDA.Order).setSkinTestResult("656||4||1","Y",1)
      */
-    public static void setSkinTestResult(String oeoreId, String skinTest,String auditUserId, final com.base.commlibs.http.CommonCallBack<CommResult> callBack) {
-        MessageApiService.setSkinTestResult(oeoreId, skinTest, auditUserId,new ServiceCallBack() {
+    public static void setSkinTestResult(String oeoreId, String skinTest,String auditUserId,String auditPassword, final com.base.commlibs.http.CommonCallBack<CommResult> callBack) {
+        MessageApiService.setSkinTestResult(oeoreId, skinTest, auditUserId,auditPassword,new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 CommWebService.parserCommResult(jsonStr, callBack);

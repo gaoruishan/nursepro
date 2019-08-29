@@ -287,8 +287,9 @@ public class DialogFactory {
 //                setSkinResult(v, stv2, stv1);
                  String skinTest = v.getId() == R.id.stv1 ? "N" : "Y";
                 String text = getText(view, R.id.et_skin_num);
+                String pwd = getText(view, R.id.et_skin_pwd);
                 if (clickListener != null) {
-                    clickListener.data(new Object[]{skinTest,text});
+                    clickListener.data(new Object[]{skinTest,text,pwd});
                     dialog.cancel();
                 }
             }
