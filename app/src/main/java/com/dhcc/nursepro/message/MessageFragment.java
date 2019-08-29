@@ -208,8 +208,8 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
             public void onSuccess(MessageSkinBean bean, String type) {
                 if (bean.getSkinTimeList() != null && bean.getSkinTimeList().size() > 0) {
                     switchSkinMessage(false);
-                    messageSkinAdapter.replaceData(bean.getSkinTimeList());
                 }
+                messageSkinAdapter.replaceData(bean.getSkinTimeList());
             }
         });
     }
