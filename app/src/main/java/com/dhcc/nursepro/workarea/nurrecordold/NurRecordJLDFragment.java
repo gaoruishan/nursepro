@@ -134,9 +134,9 @@ public class NurRecordJLDFragment extends BaseFragment implements View.OnClickLi
     public void onClick(View v) {
         if ((v.getTag() instanceof String)) {
             String ttag = (String) v.getTag();
-            if (ttag.contains("btnLink")) {
+            if (ttag.contains("btnLink")||ttag.contains("butLink")) {
                 linkEmrData();
-            } else if (ttag.contains("btnSkip")) {
+            } else if (ttag.contains("btnSkip")||ttag.contains("butSkip")) {
                 RecModelListBean.MenuListBean.ModelListBean modelListBeanSkip = new RecModelListBean.MenuListBean.ModelListBean();
                 String skipViewCode = "";
                 for (int i = 0; i < xmlParseInterface.itemSetList.size(); i++) {
@@ -173,9 +173,9 @@ public class NurRecordJLDFragment extends BaseFragment implements View.OnClickLi
                     startFragment(NurRecordMPGDFragment.class, bundle);
 
                 }
-            } else if (ttag.contains("btnSave")) {
+            } else if (ttag.contains("btnSave")||ttag.contains("butSave")) {
                 Sure(SPUtils.getInstance().getString(SharedPreference.USERID));
-            } else if (ttag.contains("btnCancel")) {
+            } else if (ttag.contains("btnCancel")||ttag.contains("butCancel")) {
                 finish();
             }
         }

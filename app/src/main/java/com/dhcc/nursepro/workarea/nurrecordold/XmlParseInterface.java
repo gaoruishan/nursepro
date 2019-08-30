@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.InputType;
@@ -199,6 +200,7 @@ public class XmlParseInterface implements Serializable {
                             .parseColor("#ff000000"));
                     // lb.setGravity(Gravity.CENTER_HORIZONTAL);
                     // lb.setTextSize(TypedValue.COMPLEX_UNIT_PX,22); //22像素
+
                     if (fontunit.equals("World")) {
                         lb.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (fontsz));//
                     } else {
@@ -216,9 +218,23 @@ public class XmlParseInterface implements Serializable {
                             getlayparam(Iwidth, Iheight, Ileft, Itop));
                 }
 
+                if (contyp.equals("DesignForm.QVline")) {
+                    View vLine = new LinearLayout(context);
+                    vLine.setBackgroundColor(Color.parseColor("#DADADA"));
+                    abslayout.addView(vLine,
+                            getlayparam(ConvertUtils.dp2px(1), Iheight, Ileft, Itop));
+                }
+
+                if (contyp.equals("DesignForm.QHLine")) {
+                    View hLine = new LinearLayout(context);
+                    hLine.setBackgroundColor(Color.parseColor("#DADADA"));
+                    abslayout.addView(hLine,
+                            getlayparam(Iwidth, ConvertUtils.dp2px(1), Ileft, Itop));
+                }
+
                 if ((nod.getName().substring(0, 1).equals("C"))) {
                     TextView btn = new TextView(context);
-                    if (CName.contains("btn")) {
+                    if (CName.contains("btn") || CName.contains("but")) {
                         btn.setBackgroundResource(R.drawable.nur_record_btn_bg_selector);
                     } else {
                         btn.setBackgroundResource(R.drawable.nur_record_btn_bg);
@@ -898,13 +914,13 @@ public class XmlParseInterface implements Serializable {
 
                             CNHVal.put(comname, itm);
                             PatIn.put(comname, m_Items[mSingleChoiceID]);
-//                            if (RadioFenZhi != null) {
-//                                if (FN.containsKey(mSingleChoiceID)) {
-//                                    RadioFenZhi.put(comname,
-//                                            FN.get(mSingleChoiceID));
-//                                    CountSum();
-//                                }
-//                            }
+                            //                            if (RadioFenZhi != null) {
+                            //                                if (FN.containsKey(mSingleChoiceID)) {
+                            //                                    RadioFenZhi.put(comname,
+                            //                                            FN.get(mSingleChoiceID));
+                            //                                    CountSum();
+                            //                                }
+                            //                            }
                             // Con.setText(itmtxt);
                             // CNHVal.put(comname,
                             // comname+"|"+m_Items[mSingleChoiceID]+"!"+m_Items[mSingleChoiceID]);
@@ -961,25 +977,25 @@ public class XmlParseInterface implements Serializable {
 
     }
 
-//    private void CountSum() {
-//        try {
-//            Iterator iter = RadioFenZhi.entrySet().iterator();// 先获取这个map的set序列，再或者这个序列的迭代器
-//            String itm = "";
-//            Integer num = 0;
-//            while (iter.hasNext()) {
-//                Map.Entry entry = (Map.Entry) iter.next(); // 得到这个序列的映射项，就是set中的类型，HashMap都是Map.Entry类型（详情见map接口声明）
-//                // Integer key = (Integer)entry.getKey(); //获得key
-//                num = num + Integer.valueOf(entry.getValue().toString().trim());
-//            }
-//            EditText sumtxt = (EditText) CNHtb.get(FenZhiCode);
-//            sumtxt.setText(num + "");
-//            EditText level = (EditText) CNHtb.get(LevelCode);
-//            level.setText(getlevel(num) + "");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//    }
+    //    private void CountSum() {
+    //        try {
+    //            Iterator iter = RadioFenZhi.entrySet().iterator();// 先获取这个map的set序列，再或者这个序列的迭代器
+    //            String itm = "";
+    //            Integer num = 0;
+    //            while (iter.hasNext()) {
+    //                Map.Entry entry = (Map.Entry) iter.next(); // 得到这个序列的映射项，就是set中的类型，HashMap都是Map.Entry类型（详情见map接口声明）
+    //                // Integer key = (Integer)entry.getKey(); //获得key
+    //                num = num + Integer.valueOf(entry.getValue().toString().trim());
+    //            }
+    //            EditText sumtxt = (EditText) CNHtb.get(FenZhiCode);
+    //            sumtxt.setText(num + "");
+    //            EditText level = (EditText) CNHtb.get(LevelCode);
+    //            level.setText(getlevel(num) + "");
+    //        } catch (Exception e) {
+    //            e.printStackTrace();
+    //        }
+    //
+    //    }
 
     private Integer getlevel(int num) {
         int level = 3;
