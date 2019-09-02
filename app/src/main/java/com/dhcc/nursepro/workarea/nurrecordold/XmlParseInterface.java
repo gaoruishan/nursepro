@@ -405,7 +405,6 @@ public class XmlParseInterface implements Serializable {
                                 scoreStatisticsBean.setScoreNew(score + "");
                             }
                             scoreStatistics.add(scoreStatisticsBean);
-                            break;
                         }
                     }
 
