@@ -2,6 +2,7 @@ package com.dhcc.nursepro.setting;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,11 +11,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.blankj.utilcode.util.SPUtils;
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
-import com.dhcc.nursepro.R;
 import com.base.commlibs.constant.SharedPreference;
+import com.blankj.utilcode.util.SPUtils;
+import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.greendao.DaoSession;
 import com.dhcc.nursepro.greendao.GreenDaoHelper;
 import com.dhcc.nursepro.login.LoginActivity;
@@ -39,6 +40,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 
     DaoSession daoSession = GreenDaoHelper.getDaoSession();
     private SPUtils spUtils = SPUtils.getInstance();
+    private TextView tvNurseProVersion;
     private TextView tvUserName;
     private TextView tvLoc;
     private TextView tvRelogin;
@@ -49,6 +51,8 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     private NurseInfo loginNurseInfo;
     private List<Map<String, String>> locsList;
     private List<NurseInfo> nurseInfoList;
+
+    private SettingVersionDialog settingVersionDialog;
 
 
     @Override
@@ -72,6 +76,8 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     }
 
     private void initView(View view) {
+        tvNurseProVersion = view.findViewById(R.id.tv_setting_aboutus);
+        tvNurseProVersion.setOnClickListener(this);
         tvUserName = view.findViewById(R.id.tv_setting_username);
         tvUserName.setText(spUtils.getString(SharedPreference.USERNAME));
         tvLoc = view.findViewById(R.id.tv_setting_loc);
@@ -95,6 +101,9 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.tv_setting_aboutus:
+                showVersionDialog();
+                break;
             case R.id.tv_setting_loc:
                 if (nurseInfoList != null && nurseInfoList.size() > 0) {
                     String userCode = spUtils.getString(SharedPreference.USERCODE);
@@ -129,6 +138,22 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
             default:
                 break;
         }
+    }
+
+    private void showVersionDialog() {
+        if (settingVersionDialog != null && settingVersionDialog.isShowing()) {
+            settingVersionDialog.dismiss();
+        }
+
+        settingVersionDialog = new SettingVersionDialog(getActivity());
+        settingVersionDialog.setCanceledOnTouchOutside(true);
+        settingVersionDialog.show();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                settingVersionDialog.dismiss();
+            }
+        }, 3000);
     }
 
     private void changeLoc() {
