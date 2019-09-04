@@ -484,7 +484,7 @@ public class NurRecordPGDFragment extends BaseFragment implements View.OnClickLi
                 // btn.setWidth(180);
                 // btn.setHeight(120);
                 String tag = (String) btn.getTag();
-                if (tag != null && tag.contains("btn")) {
+                if (tag != null && (tag.contains("btn")||tag.contains("but"))) {
                     btn.setOnClickListener(this);
                 }
 
