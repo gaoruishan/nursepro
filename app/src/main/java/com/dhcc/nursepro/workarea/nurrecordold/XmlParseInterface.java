@@ -12,7 +12,6 @@ import android.os.Handler;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.SpannableString;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -206,6 +205,7 @@ public class XmlParseInterface implements Serializable {
                     } else {
                         lb.setTextSize(TypedValue.COMPLEX_UNIT_SP, (fontsz));//
                     }
+                    lb.setTextIsSelectable(true);
                     lb.setText(txtstr);
                     abslayout.addView(lb,
                             getlayparam(Iwidth, (int) (Iheight * 1.3), Ileft, Itop));
@@ -327,8 +327,6 @@ public class XmlParseInterface implements Serializable {
                     txt.setTextColor(android.graphics.Color
                             .parseColor("#ff000000"));
                     txt.setGravity(Gravity.CENTER);
-                    txt.setSingleLine();
-                    txt.setEllipsize(TextUtils.TruncateAt.END);
                     if (fontunit.equals("World")) {
                         txt.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (fontsz));//
                     } else {
