@@ -9,7 +9,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
@@ -1177,7 +1176,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 //                edText.setTextColor(getResources().getColor(R.color.nurrecord_edit_defaultvalue_color));
 //                edText.setText(config.getPatInfo());
 //            }
-            edText.setInputType(InputType.TYPE_CLASS_NUMBER);
+//            edText.setInputType(InputType.TYPE_CLASS_NUMBER);
             //根据默认内容优先级填入默认值
             if (StringUtils.isEmpty(config.getPatInfo())) {
                 edText.setText(config.getItemdeValue());
