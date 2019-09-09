@@ -164,7 +164,7 @@ public class XmlParseInterface implements Serializable {
                 int Itop = ConvertUtils.dp2px(Float.parseFloat(top));
                 int Iwidth = ConvertUtils.dp2px(Float.parseFloat(width)) + 10;
                 int Iheight = ConvertUtils.dp2px(Float.parseFloat(height)) - 5;
-                final int fontsz = Integer.valueOf(fontsize);
+                final int fontsz = Integer.valueOf(fontsize.trim());
                 //                final int fontsz = ConvertUtils.dp2px(Float.parseFloat(fontsize)) - 3;
                 String CName = nod.getName();
                 if (RelName != "")
@@ -396,7 +396,7 @@ public class XmlParseInterface implements Serializable {
                                     String[] noditm = nodx.getStringValue().split("\\|");
                                     for (int l = 0; l < txtstrr.length; l++) {
                                         if (txtstrr[l].equals(noditm[0]) && noditm.length > 1) {
-                                            score = score + Integer.valueOf(noditm[1]);
+                                            score = score + Integer.valueOf(noditm[1].trim());
                                         }
                                     }
                                 }
@@ -522,7 +522,7 @@ public class XmlParseInterface implements Serializable {
                                     Element nodx = (Element) itmlist.get(k);
                                     String[] noditm = nodx.getStringValue().split("\\|");
                                     if (noditm[0].equals(txtstrr)) {
-                                        scoreStatisticsBean.setScoreNew(noditm[1]);
+                                        scoreStatisticsBean.setScoreNew(noditm[1].trim());
                                         break;
                                     }
                                 }
@@ -645,7 +645,7 @@ public class XmlParseInterface implements Serializable {
                                     Element nodx = (Element) itmlist.get(k);
                                     String[] noditm = nodx.getStringValue().split("\\|");
                                     if (noditm[0].equals(txtstrr)) {
-                                        scoreStatisticsBean.setScoreNew(noditm[1]);
+                                        scoreStatisticsBean.setScoreNew(noditm[1].trim());
                                         break;
                                     }
                                 }
@@ -936,7 +936,7 @@ public class XmlParseInterface implements Serializable {
                                             Element nodx = (Element) itmlist.get(j);
                                             String[] noditm = nodx.getStringValue().split("\\|");
                                             if (noditm[0].equals(m_Items[mSingleChoiceID]) && noditm.length > 1) {
-                                                scoreStatistics.get(i).setScoreNew(noditm[1]);
+                                                scoreStatistics.get(i).setScoreNew(noditm[1].trim());
                                                 break;
                                             }
                                         }
@@ -1064,7 +1064,7 @@ public class XmlParseInterface implements Serializable {
                             continue;
                         String val = GetComVal(CNHVal.get(arr[i]).toString());
                         if (!val.equals("")) {
-                            sum = sum + Integer.valueOf(val);
+                            sum = sum + Integer.valueOf(val.trim());
                         }
                     }
                     EditText txt = (EditText) CNHtb.get(ret);
@@ -1185,7 +1185,7 @@ public class XmlParseInterface implements Serializable {
                                         Element nodx = (Element) itmlist.get(j);
                                         String[] noditm = nodx.getStringValue().split("\\|");
                                         if (noditm[0].equals(m_Items[mSingleChoiceID]) && noditm.length > 1) {
-                                            scoreStatistics.get(i).setScoreNew(noditm[1]);
+                                            scoreStatistics.get(i).setScoreNew(noditm[1].trim());
                                             break;
                                         }
                                     }
@@ -1487,7 +1487,7 @@ public class XmlParseInterface implements Serializable {
                                         String[] noditm = nodx.getStringValue().split("\\|");
                                         for (int l = 0; l < txtstrr.length; l++) {
                                             if (txtstrr[l].equals(noditm[0]) && noditm.length > 1) {
-                                                score = score + Integer.valueOf(noditm[1]);
+                                                score = score + Integer.valueOf(noditm[1].trim());
                                             }
                                         }
                                     }
