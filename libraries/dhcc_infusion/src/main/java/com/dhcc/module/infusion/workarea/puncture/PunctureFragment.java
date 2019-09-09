@@ -84,7 +84,7 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
         PunctureApiManager.getOrdList(regNo, curOeoreId, scanInfo, new CommonCallBack<PunctureBean>() {
             @Override
             public void onFail(String code, String msg) {
-
+                onFailThings();
                 helper.setVisible(R.id.ll_puncture_status, false);
             }
 
@@ -185,6 +185,7 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
         PunctureApiManager.punctureOrd(curOeoreId, select, speed, part, new CommonCallBack<CommResult>() {
             @Override
             public void onFail(String code, String msg) {
+                onFailThings();
                 DialogFactory.showCommDialog(getActivity(), msg, "确定", R.drawable.icon_popup_error_patient, null);
             }
 

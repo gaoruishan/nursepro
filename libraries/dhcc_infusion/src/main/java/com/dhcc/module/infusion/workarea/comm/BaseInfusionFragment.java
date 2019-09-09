@@ -15,15 +15,16 @@ import android.view.ViewGroup;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
+import com.base.commlibs.utils.AppUtil;
 import com.blankj.utilcode.util.ToastUtils;
 import com.dhcc.module.infusion.R;
-import com.dhcc.module.infusion.utils.AppUtil;
 import com.dhcc.module.infusion.workarea.dosing.bean.OrdListBean;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 主页-各个模块的父类
  * @author:gaoruishan
  * @date:202019-06-20/16:38
  * @email:grs0515@163.com
@@ -43,6 +44,7 @@ public abstract class BaseInfusionFragment extends BaseFragment {
         if (mContext instanceof BaseActivity) {
             ((BaseActivity) mContext).openMultiScan(AppUtil.isMultiScan());
         }
+        AppUtil.initPlay(mContext, 0);
     }
 
     private void setCommToolBar() {
@@ -51,6 +53,10 @@ public abstract class BaseInfusionFragment extends BaseFragment {
         setToolbarBottomLineVisibility(true);
         showToolbarNavigationIcon(R.drawable.icon_back_blue);
         mContext.findViewById(R.id.toolbar_bottom_line).setBackgroundColor(ContextCompat.getColor(mContext, R.color.blue_dark2));
+    }
+
+    protected void onFailThings() {
+        AppUtil.playSound(mContext, 0);
     }
 
     @Override

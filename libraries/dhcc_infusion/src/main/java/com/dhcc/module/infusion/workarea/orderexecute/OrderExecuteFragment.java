@@ -144,7 +144,7 @@ public class OrderExecuteFragment extends BaseInfusionFragment {
         OrderExecuteApiManager.getScanInfo("", scanInfo, new CommonCallBack<OrdScanInfoBean>() {
             @Override
             public void onFail(String code, String msg) {
-
+                onFailThings();
             }
 
             @Override
@@ -175,7 +175,7 @@ public class OrderExecuteFragment extends BaseInfusionFragment {
             @Override
             public void onFail(String code, String msg) {
                 hideLoadingTip();
-
+                onFailThings();
             }
 
             @Override
