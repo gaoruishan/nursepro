@@ -61,7 +61,7 @@ public class NeedlesFragment extends BaseInfusionFragment implements View.OnClic
         NeedlesApiManager.getFinishOrdList("", "", scanInfo, new CommonCallBack<NeedlesBean>() {
             @Override
             public void onFail(String code, String msg) {
-
+                onFailThings();
             }
 
             @Override
@@ -93,7 +93,7 @@ public class NeedlesFragment extends BaseInfusionFragment implements View.OnClic
             NeedlesApiManager.extractOrd(oeoreId, new CommonCallBack<CommResult>() {
                 @Override
                 public void onFail(String code, String msg) {
-
+                    onFailThings();
                 }
 
                 @Override
