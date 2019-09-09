@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:layout_above="@+id/ky_keyboard">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="65dp"
@@ -60,32 +61,34 @@
 
         </ScrollView>
 
-        <LinearLayout
-            android:id="@+id/ll_vitalsign_prenex"
-            android:layout_width="match_parent"
-            android:layout_height="49dp"
-            android:orientation="horizontal">
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_vitalsign_prenex"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        >
 
-            <TextView
-                android:id="@+id/tv_vitalsign_record_pre"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="上一位"
-                android:textColor="@color/white"
-                android:gravity="center"
-                android:background="@color/vital_sign_record_pre_color"/>
-            <TextView
-                android:id="@+id/tv_vitalsign_record_next"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="下一位"
-                android:textColor="@color/white"
-                android:gravity="center"
-                android:background="@color/vital_sign_record_next_color"/>
+        <TextView
+            android:id="@+id/tv_vitalsign_record_pre"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="上一位"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:background="@color/vital_sign_record_pre_color"/>
+        <TextView
+            android:id="@+id/tv_vitalsign_record_next"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="下一位"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:background="@color/vital_sign_record_next_color"/>
 
-        </LinearLayout>
     </LinearLayout>
 
     <com.dhcc.nursepro.utils.view.DIYKeyboardView
