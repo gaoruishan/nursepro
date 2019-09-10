@@ -46,7 +46,6 @@ import org.dom4j.Element;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -165,7 +164,6 @@ public class XmlParseInterface implements Serializable {
                 int Iwidth = ConvertUtils.dp2px(Float.parseFloat(width)) + 10;
                 int Iheight = ConvertUtils.dp2px(Float.parseFloat(height)) - 5;
                 final int fontsz = Integer.valueOf(fontsize.trim());
-                //                final int fontsz = ConvertUtils.dp2px(Float.parseFloat(fontsize)) - 3;
                 String CName = nod.getName();
                 if (RelName != "")
                     CName = RelName;
@@ -191,14 +189,11 @@ public class XmlParseInterface implements Serializable {
                     TextView lb = new TextView(context);
                     if (OBJBlankItm != null) {
                         if (OBJBlankItm.containsKey(txtstr)) {
-                            // CNHtb.put(CName, lb); ///设置空白栏
                             CNHtb.put(OBJBlankItm.get(txtstr).toString(), lb);
                         }
                     }
                     lb.setTextColor(android.graphics.Color
                             .parseColor("#ff000000"));
-                    // lb.setGravity(Gravity.CENTER_HORIZONTAL);
-                    // lb.setTextSize(TypedValue.COMPLEX_UNIT_PX,22); //22像素
 
                     if (fontunit.equals("World")) {
                         lb.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (fontsz));//
@@ -271,14 +266,8 @@ public class XmlParseInterface implements Serializable {
                     } else {
                         dbtn.setTextSize(TypedValue.COMPLEX_UNIT_SP, (fontsz));//
                     }
-
-                    // String tagv=(String)dbtn.getTag();
                     CNHtb.put(CName, dbtn);
-                    // ConV.put(CName,txtstr);
-                    // ConRel.put(i,CName);
                     if (dflag.equals("Y")) {
-                        // else if (txtstr.equals(""))//dbtn.setText(
-                        // mobilecom.GetDate("d"));
                         dbtn.setText(txtstr);
                         CNHVal.put(CName, dbtn.getText());
                         dbtn.setOnClickListener(new OnClickListener() {
@@ -289,8 +278,6 @@ public class XmlParseInterface implements Serializable {
 
                     }
                     if (tflag.equals("Y")) {
-                        // elseif (txtstr.equals(""))dbtn.setText(
-                        // mobilecom.GetDate("t"));
                         dbtn.setText(txtstr);
                         CNHVal.put(CName, dbtn.getText());
                         dbtn.setOnClickListener(new OnClickListener() {
@@ -364,11 +351,8 @@ public class XmlParseInterface implements Serializable {
                             getlayparam(Iwidth, (int) (Iheight * 1.3), Ileft, Itop));
                     txt.setTag(CName);
 
-                    // String tagv=(String)txt.getTag();
                     CNHVal.put(CName, txtstr);
                     CNHtb.put(CName, txt);
-                    // ConV.put(CName,txtstr);
-                    // ConRel.put(i,CName);
 
                 }
                 if ((nod.getName().substring(0, 1).equals("M"))) {
@@ -431,8 +415,6 @@ public class XmlParseInterface implements Serializable {
                             getlayparam(Iwidth, Iheight, Ileft, Itop));
                     btn5.setOnClickListener(new OnClickListener() {
                         public void onClick(View v) {
-                            // TODO Auto-generated method stub
-                            // MultiChoiceID.clear();
                             Element itmnod = meddatanod.element(nod.getName());
                             String[] m_Items;
                             if (itmnod.element("Itms") != null) {
@@ -445,8 +427,6 @@ public class XmlParseInterface implements Serializable {
                                 } else {
                                     showDialog(itmnod, 1, context, btn5);
                                 }
-
-                                // sDatas=itmlist;
                             }
 
                             return;
@@ -455,56 +435,9 @@ public class XmlParseInterface implements Serializable {
 
                 }
                 if ((nod.getName().substring(0, 1).equals("R"))) {
-                    /**/
-                    int SingEW = 0;
-                    //                    if (SingleEdit != null) {
-                    //                        if (SingleEdit.containsKey(CName)) {
-                    //                            final TextView btn5 = new TextView(context);
-                    //
-                    //                            btn5.setText("E");
-                    //                            btn5.setBackgroundResource(R.drawable.nur_record_btn_bg);
-                    //                            btn5.setTextColor(android.graphics.Color
-                    //                                    .parseColor("#ff000000"));
-                    //                            btn5.setGravity(Gravity.CENTER);
-                    //
-                    //                            btn5.setTag(CName);
-                    //                            if (fontunit.equals("World")) {
-                    //                                btn5.setTextSize(TypedValue.COMPLEX_UNIT_DIP,
-                    //                                        (fontsz));//
-                    //                            } else {
-                    //                                btn5.setTextSize(TypedValue.COMPLEX_UNIT_SP,
-                    //                                        (fontsz));//
-                    //                            }
-                    //
-                    //                            SingEW = 40;
-                    //                            // ConV.put(CName,txtstr);
-                    //                            // if (!txtstr.equals(""))
-                    //                            // btn5.setText(getMultiVal(txtstr));
-                    //                            // ConRel.put(i,CName);
-                    //                            // CNHtb.put(CName, btn5);
-                    //                            // IniMultiData(meddatanod.element(nod.getName()),CName,txtstr);
-                    //                            abslayout.addView(
-                    //                                    btn5,
-                    //                                    getlayparam(Iwidth, (int) (Iheight * 1.3), Ileft, Itop));
-                    //                            btn5.setOnClickListener(new OnClickListener() {
-                    //                                public void onClick(View v) {
-                    //                                    // TODO Auto-generated method stub
-                    //                                    // MultiChoiceID.clear();
-                    //                                    try {
-                    //                                        Button sp = (Button) CNHtb.get(btn5.getTag());
-                    //                                        ShowSpinSel(sp, context);
-                    //                                    } catch (Exception e) {
-                    //
-                    //                                    }
-                    //                                    return;
-                    //                                }
-                    //                            });
-                    //                        }
-                    //                    }
 
                     final TextView btn6 = new TextView(context);
-                    // if (!txtstr.equals("")) btn.setText(txtstr); //by pan
-                    // 20140519
+
                     if (txtstr.replaceAll(";", "").equals("")) {
                         btn6.setText("请选择");
                     } else {
@@ -543,20 +476,12 @@ public class XmlParseInterface implements Serializable {
                     btn6.setTextColor(android.graphics.Color.parseColor("#ff000000"));
                     btn6.setGravity(Gravity.CENTER);
 
-
-                    //                    CNHVal.put(CName, CName + "|" + txtstr + "!" + txtstr);
-                    // ConV.put(CName,txtstr);
-                    // if (!txtstr.equals("")) btn.setText(txtstr); //by pan
-                    // 20140519
-
-                    // ConRel.put(i,CName);
                     CNHtb.put(CName, btn6);
                     IniMultiData(meddatanod.element(nod.getName()), CName, txtstr);
                     abslayout.addView(btn6, getlayparam(Iwidth, (int) (Iheight * 1.3), Ileft, Itop));
                     btn6.setOnClickListener(new OnClickListener() {
                         public void onClick(View v) {
-                            // TODO Auto-generated method stub
-                            // MultiChoiceID.clear();
+
                             Element itmnod = meddatanod.element(nod.getName());
 
                             if (itmnod.element("Itms") != null) {
@@ -571,60 +496,12 @@ public class XmlParseInterface implements Serializable {
                                     ShowRadio(itmnod, context, btn6);
                                 } else
                                     showMDialog(itmnod, context, btn6);
-                                // sDatas=itmlist;
                             }
 
                         }
                     });
                 }
                 if ((nod.getName().substring(0, 1).equals("O"))) {
-                    /**/
-                    int SingEW = 0;
-                    //                    if (SingleEdit != null) {
-                    //                        if (SingleEdit.containsKey(CName)) {
-                    //                            final TextView btn5 = new TextView(context);
-                    //
-                    //                            btn5.setText("E");
-                    //                            btn5.setBackgroundResource(R.drawable.nur_record_btn_bg);
-                    //                            btn5.setTextColor(android.graphics.Color
-                    //                                    .parseColor("#ff000000"));
-                    //                            btn5.setGravity(Gravity.CENTER);
-                    //
-                    //                            btn5.setTag(CName);
-                    //                            if (fontunit.equals("World")) {
-                    //                                btn5.setTextSize(TypedValue.COMPLEX_UNIT_DIP,
-                    //                                        (fontsz));//
-                    //                            } else {
-                    //                                btn5.setTextSize(TypedValue.COMPLEX_UNIT_SP,
-                    //                                        (fontsz));//
-                    //                            }
-                    //
-                    //                            SingEW = 40;
-                    //                            // ConV.put(CName,txtstr);
-                    //                            // if (!txtstr.equals(""))
-                    //                            // btn5.setText(getMultiVal(txtstr));
-                    //                            // ConRel.put(i,CName);
-                    //                            // CNHtb.put(CName, btn5);
-                    //                            // IniMultiData(meddatanod.element(nod.getName()),CName,txtstr);
-                    //                            abslayout.addView(
-                    //                                    btn5,
-                    //                                    getlayparam(Iwidth, (int) (Iheight * 1.3), Ileft, Itop));
-                    //                            btn5.setOnClickListener(new OnClickListener() {
-                    //                                public void onClick(View v) {
-                    //                                    // TODO Auto-generated method stub
-                    //                                    // MultiChoiceID.clear();
-                    //                                    try {
-                    //                                        Button sp = (Button) CNHtb.get(btn5
-                    //                                                .getTag());
-                    //                                        ShowSpinSel(sp, context);
-                    //                                    } catch (Exception e) {
-                    //
-                    //                                    }
-                    //                                    return;
-                    //                                }
-                    //                            });
-                    //                        }
-                    //                    }
 
                     final TextView btn = new TextView(context);
 
@@ -667,12 +544,9 @@ public class XmlParseInterface implements Serializable {
 
                     CNHVal.put(CName, CName + "|" + txtstr + "!" + txtstr);
                     CNHtb.put(CName, btn);
-                    // IniMultiData(meddatanod.element(nod.getName()),CName,txtstr);
                     abslayout.addView(btn, getlayparam(Iwidth, (int) (Iheight * 1.3), Ileft, Itop));
                     btn.setOnClickListener(new OnClickListener() {
                         public void onClick(View v) {
-                            // TODO Auto-generated method stub
-                            // MultiChoiceID.clear();
                             Element itmnod = meddatanod.element(nod.getName());
                             String[] m_Items;
                             if (itmnod.element("Itms") != null) {
@@ -687,7 +561,6 @@ public class XmlParseInterface implements Serializable {
                                     ShowRadioDialog(itmnod, context, btn);
                                 } else
                                     showMDialog(itmnod, context, btn);
-                                // sDatas=itmlist;
                             }
 
                         }
@@ -726,7 +599,6 @@ public class XmlParseInterface implements Serializable {
             final View view = factory.inflate(R.layout.edcomm_item, null);// 获得自定义对话框
 
             AlertDialog.Builder dialog07 = new AlertDialog.Builder(context);
-            // dialog07.setIcon(R.drawable.qq);
             dialog07.setTitle("编辑");
             dialog07.setView(view);
             final String cname = (String) sp.getTag();
@@ -746,9 +618,6 @@ public class XmlParseInterface implements Serializable {
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog,
                                             int whichButton) {
-                            // Toast.makeText(dialog_demo.this, "你选择了取消",
-                            // Toast.LENGTH_LONG).show();
-                            // showDialog("你选择了取消");
                         }
                     });
             dialog07.create().show();
@@ -764,7 +633,6 @@ public class XmlParseInterface implements Serializable {
             final View view = factory.inflate(R.layout.edcomm_item, null);// 获得自定义对话框
 
             AlertDialog.Builder dialog07 = new AlertDialog.Builder(context);
-            // dialog07.setIcon(R.drawable.qq);
             dialog07.setTitle("编辑");
             dialog07.setView(view);
             final String cname = (String) sp.getTag();
@@ -810,9 +678,6 @@ public class XmlParseInterface implements Serializable {
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog,
                                             int whichButton) {
-                            // Toast.makeText(dialog_demo.this, "你选择了取消",
-                            // Toast.LENGTH_LONG).show();
-                            // showDialog("你选择了取消");
                         }
                     });
             dialog07.create().show();
@@ -852,7 +717,6 @@ public class XmlParseInterface implements Serializable {
         try {
             List itmlist = itmnod.element("Itms").elements();
             final String comname = (String) Con.getTag();
-            // String itmsel=(String) PatIn.get(comname);
             String sel = (String) PatIn.get(comname);
             sel = getmultival(sel);
             mSingleChoiceID = 0;
@@ -874,25 +738,18 @@ public class XmlParseInterface implements Serializable {
             m_Items[itmlist.size()] = "";
             AlertDialog.Builder localBuilder = new AlertDialog.Builder(context);
 
-            // / final CommList listadapter = new CommList(context,sData);
             localBuilder.setSingleChoiceItems(m_Items, mSingleChoiceID,
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog,
                                             int whichButton) {
                             mSingleChoiceID = whichButton;
-                            // mSingleChoiceID = whichButton;
-                            // showDialog("你选择的id为" + whichButton + " , " +
-                            // m_Items[whichButton]);
                         }
                     });
-            // localBuilder.setAdapter(listadapter, new
-            // PopupListener(listadapter));
             localBuilder.setPositiveButton("确定",
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            // String aa=(String)listadapter.getItem(which);
-                            // String bb=aa;
+
                             String itm = "";
                             String itmtxt = "";
                             String itmval = "";
@@ -911,16 +768,7 @@ public class XmlParseInterface implements Serializable {
 
                             CNHVal.put(comname, itm);
                             PatIn.put(comname, m_Items[mSingleChoiceID]);
-                            //                            if (RadioFenZhi != null) {
-                            //                                if (FN.containsKey(mSingleChoiceID)) {
-                            //                                    RadioFenZhi.put(comname,
-                            //                                            FN.get(mSingleChoiceID));
-                            //                                    CountSum();
-                            //                                }
-                            //                            }
-                            // Con.setText(itmtxt);
-                            // CNHVal.put(comname,
-                            // comname+"|"+m_Items[mSingleChoiceID]+"!"+m_Items[mSingleChoiceID]);
+
                             Con.setText(m_Items[mSingleChoiceID]);
 
 
@@ -971,40 +819,6 @@ public class XmlParseInterface implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-    }
-
-    //    private void CountSum() {
-    //        try {
-    //            Iterator iter = RadioFenZhi.entrySet().iterator();// 先获取这个map的set序列，再或者这个序列的迭代器
-    //            String itm = "";
-    //            Integer num = 0;
-    //            while (iter.hasNext()) {
-    //                Map.Entry entry = (Map.Entry) iter.next(); // 得到这个序列的映射项，就是set中的类型，HashMap都是Map.Entry类型（详情见map接口声明）
-    //                // Integer key = (Integer)entry.getKey(); //获得key
-    //                num = num + Integer.valueOf(entry.getValue().toString().trim());
-    //            }
-    //            EditText sumtxt = (EditText) CNHtb.get(FenZhiCode);
-    //            sumtxt.setText(num + "");
-    //            EditText level = (EditText) CNHtb.get(LevelCode);
-    //            level.setText(getlevel(num) + "");
-    //        } catch (Exception e) {
-    //            e.printStackTrace();
-    //        }
-    //
-    //    }
-
-    private Integer getlevel(int num) {
-        int level = 3;
-        if (num <= 40)
-            level = 3;
-        if ((num > 40) && (num <= 60))
-            level = 2;
-        if ((num > 60) && (num <= 99))
-            level = 1;
-        if (num > 99)
-            level = 0;
-        return level;
 
     }
 
@@ -1144,7 +958,6 @@ public class XmlParseInterface implements Serializable {
 
         AlertDialog.Builder localBuilder = new AlertDialog.Builder(context);
 
-        // / final CommList listadapter = new CommList(context,sData);
         if (dataitmnod != null) {
             System.arraycopy(m_Items1, 0, m_Items2, 0, m_Items1.length);
         } else {
@@ -1154,12 +967,9 @@ public class XmlParseInterface implements Serializable {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         mSingleChoiceID = whichButton;
-                        // mSingleChoiceID = whichButton;
-                        // showDialog("你选择的id为" + whichButton + " , " +
-                        // m_Items[whichButton]);
+
                     }
                 });
-        // localBuilder.setAdapter(listadapter, new PopupListener(listadapter));
         localBuilder.setPositiveButton("确定",
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -1224,8 +1034,6 @@ public class XmlParseInterface implements Serializable {
                         if (MultiRadio != null) {
                             ifcontaincode(comname);
                         }
-                        //自动计算关联元素
-                        countRelationVal();
 
                     }
                 });
@@ -1233,46 +1041,10 @@ public class XmlParseInterface implements Serializable {
 
         AlertDialog localAlertDialog = localBuilder.create();
         localAlertDialog.setTitle("选择");
-        // localAlertDialog.setCanceledOnTouchOutside(false);
-        /*
-         * lv=localAlertDialog.getListView();
-         * lv.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
-         *
-         * lv.requestFocus(); lv.setItemsCanFocus(false);
-         * lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-         *
-         * lv.setOnItemClickListener(new OnItemClickListener() {
-         *
-         * @Override public void onItemClick(AdapterView<?> arg0, View view, int
-         * position, long id) { String aa=(String)listadapter.getItem(position);
-         * EditText txt=(EditText)view.findViewById(R.id.Desc);
-         * lv.setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);
-         * txt.requestFocus();
-         * ((InputMethodManager)context.getSystemService(context
-         * .INPUT_METHOD_SERVICE)) .toggleSoftInput(0,
-         * InputMethodManager.HIDE_NOT_ALWAYS);
-         * //querytyeadapter.SetCurrPos(position);// 更新当前行 //ViewHolder vHolder
-         * = (ViewHolder)view.getTag();
-         * //在每次获取点击的item时将对应的checkBox状态改变，同时修改map的值 // vHolder.Radio1.toggle();
-         *
-         * } });
-         */
-
-        // lv.setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);
         localAlertDialog.show();
 
         localAlertDialog.getWindow().clearFlags(
                 WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-        /*
-         * Timer timer = new Timer(); timer.schedule(new TimerTask() {
-         *
-         * @Override public void run() {
-         *
-         * ((InputMethodManager)context.getSystemService(context.
-         * INPUT_METHOD_SERVICE)) .toggleSoftInput(0,
-         * InputMethodManager.HIDE_NOT_ALWAYS); } }, Toast.LENGTH_SHORT);
-         */
-
     }
 
     private void IniMultiData(Element itmnod, String Cname, String txtstr) {
@@ -1300,14 +1072,11 @@ public class XmlParseInterface implements Serializable {
 
         }
         CNHVal.put(Cname, itm);
-        // MultiData.put(Cname, Data);
 
     }
 
     private void initimultiRadio(Element itmnod, String Cname, String txtstr) {
-        // ee
         List itmlist = itmnod.element("Itms").elements();
-        // String itmsel=(String) PatIn.get(comname);
         String sel = (String) PatIn.get(Cname);
         sel = getmultival(sel);
         final String[] m_Items = new String[itmlist.size() + 1];
@@ -1392,7 +1161,6 @@ public class XmlParseInterface implements Serializable {
                                     }
 
                                 } else {
-                                    // MultiChoiceID.remove(whichButton);
                                     if (whichButton == (choiceItems.length - 1)) {
                                         AdapterArr.clear();
                                         lv.clearChoices();
@@ -1403,11 +1171,9 @@ public class XmlParseInterface implements Serializable {
                                                 lv.setItemChecked(i, false);
                                             }
                                         }
-                                        // MultiChoiceID.clear();
 
                                     } else {
                                         AdapterArr.remove(whichButton);
-                                        // MultiChoiceID.remove(whichButton);
                                     }
 
                                 }
@@ -1417,21 +1183,8 @@ public class XmlParseInterface implements Serializable {
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // dealRel(tempList, sourceStatus, tempStatus,
-                        // classesId);//更新数据
-                        // Iterator iter = AdapterArr.entrySet().iterator()
-                        // ;//先获取这个map的set序列，再或者这个序列的迭代器
                         String itm = "";
                         String itmtxt = "";
-                        /*
-                         * while(iter.hasNext()){ Map.Entry entry =
-                         * (Map.Entry)iter.next();
-                         * //得到这个序列的映射项，就是set中的类型，HashMap都是Map
-                         * .Entry类型（详情见map接口声明） //Integer key =
-                         * (Integer)entry.getKey(); //获得key
-                         * itm=itm+"^"+entry.getValue();
-                         * itmtxt=itmtxt+entry.getValue()+","; }
-                         */
                         String gtag = (String) Con.getTag();
                         itm = "";
                         String itmval = "";
@@ -1450,19 +1203,6 @@ public class XmlParseInterface implements Serializable {
 
                         }
 
-                        // Toast.makeText(context, itm,Toast.LENGTH_SHORT).show();
-                        /*
-                         * for (int i=0;i<sData.size();i++) { String
-                         * itmname=gtag+"_"+(i+1);
-                         *
-                         * if(AdapterArr.containsKey(i)) {
-                         * itm=itm+itmname+"|"+sData.get(i)+"^";
-                         * itmtxt=itmtxt+sData.get(i)+",";
-                         * itmval=itmval+sData.get(i)+";"; }else{
-                         * itm=itm+itmname+"|^"; itmval=itmval+";"; }
-                         *
-                         * }
-                         */
                         if (CNHLB.containsKey(gtag)) {
                             // String cname=(String)CNHLB.get(gtag);
                             CNHVal.put(gtag, itm);
@@ -1506,65 +1246,10 @@ public class XmlParseInterface implements Serializable {
 
                             }
                         }
-
-
-                        //                        countRelationVal();
                     }
                 }).setNegativeButton("取消", null).create();
         lv = ad.getListView();
         ad.show();
-
-        /*
-         * AlertDialog.Builder dialog05 = new AlertDialog.Builder( context); //
-         * Builder ad = new
-         * AlertDialog.Builder(context).setIcon(R.drawable.a).setTitle("选择省份") ;
-         *
-         * dialog05.setTitle("请选择");
-         *
-         *
-         * dialog05.setMultiChoiceItems(choiceItems, tempStatus, new
-         * DialogInterface.OnMultiChoiceClickListener() { public void
-         * onClick(DialogInterface dialog, int whichButton, boolean isChecked) {
-         * if (isChecked) { MultiChoiceID.add(whichButton);
-         * AdapterArr.put(whichButton, choiceItems[whichButton]);
-         *
-         * } else { //MultiChoiceID.remove(whichButton);
-         * AdapterArr.remove(whichButton);
-         *
-         * }
-         *
-         * } }); dialog05.setPositiveButton("全选", new
-         * DialogInterface.OnClickListener() {
-         *
-         * @Override public void onClick(DialogInterface dialog, int which) {
-         * for (int i=0;i<sData.size();i++) {
-         *
-         * } } }); dialog05.setPositiveButton("确定", new
-         * DialogInterface.OnClickListener() {
-         *
-         * @Override public void onClick(DialogInterface dialog, int which) { //
-         * dealRel(tempList, sourceStatus, tempStatus, classesId);//更新数据
-         * //Iterator iter = AdapterArr.entrySet().iterator()
-         * ;//先获取这个map的set序列，再或者这个序列的迭代器 String itm=""; String itmtxt=""; /*
-         * while(iter.hasNext()){ Map.Entry entry = (Map.Entry)iter.next();
-         * //得到这个序列的映射项，就是set中的类型，HashMap都是Map.Entry类型（详情见map接口声明） //Integer key
-         * = (Integer)entry.getKey(); //获得key itm=itm+"^"+entry.getValue();
-         * itmtxt=itmtxt+entry.getValue()+","; } String
-         * gtag=(String)Con.getTag(); itm=""; String itmval=""; for (int
-         * i=0;i<sData.size();i++) { String itmname=gtag+"_"+(i+1);
-         *
-         * if(AdapterArr.containsKey(i)) { itm=itm+itmname+"|"+sData.get(i)+"^";
-         * itmtxt=itmtxt+sData.get(i)+","; itmval=itmval+sData.get(i)+";";
-         * }else{ itm=itm+itmname+"|^"; itmval=itmval+";"; }
-         *
-         * } if (CNHLB.containsKey(gtag)) { // String
-         * cname=(String)CNHLB.get(gtag); CNHVal.put(gtag, itm); PatIn.put(gtag,
-         * itmval); Con.setText(itmtxt); }
-         *
-         * } }); dialog05.setNegativeButton("取消", null);// 设置对话框[否定]按钮
-         * dialog05.show();
-         */
-        // Toast.makeText(context, itm,Toast.LENGTH_SHORT).show();
 
     }
 
@@ -1691,7 +1376,6 @@ public class XmlParseInterface implements Serializable {
                                     }
 
                                 } else {
-                                    // MultiChoiceID.remove(whichButton);
                                     if (whichButton == (choiceItems.length - 1)) {
                                         AdapterArr.clear();
                                         lv.clearChoices();
@@ -1702,11 +1386,9 @@ public class XmlParseInterface implements Serializable {
                                                 lv.setItemChecked(i, false);
                                             }
                                         }
-                                        // MultiChoiceID.clear();
 
                                     } else {
                                         AdapterArr.remove(whichButton);
-                                        // MultiChoiceID.remove(whichButton);
                                     }
 
                                 }
@@ -1716,21 +1398,8 @@ public class XmlParseInterface implements Serializable {
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // dealRel(tempList, sourceStatus, tempStatus,
-                        // classesId);//更新数据
-                        // Iterator iter = AdapterArr.entrySet().iterator()
-                        // ;//先获取这个map的set序列，再或者这个序列的迭代器
                         String itm = "";
                         String itmtxt = "";
-                        /*
-                         * while(iter.hasNext()){ Map.Entry entry =
-                         * (Map.Entry)iter.next();
-                         * //得到这个序列的映射项，就是set中的类型，HashMap都是Map
-                         * .Entry类型（详情见map接口声明） //Integer key =
-                         * (Integer)entry.getKey(); //获得key
-                         * itm=itm+"^"+entry.getValue();
-                         * itmtxt=itmtxt+entry.getValue()+","; }
-                         */
                         String gtag = (String) Con.getTag();
                         itm = "";
                         String itmval = "";
@@ -1750,18 +1419,14 @@ public class XmlParseInterface implements Serializable {
                         }
 
                         if (CNHLB.containsKey(gtag)) {
-                            // String cname=(String)CNHLB.get(gtag);
                             CNHVal.put(gtag, gtag + "|" + itmtxt + "!" + itmtxt);
 
-                            // CNHVal.put(gtag, itm);
                             PatIn.put(gtag, itmval);
                             Con.setText(itmtxt);
                         }
                         if (MultiRadio != null) {
                             ifcontaincode(gtag);
                         }
-                        countRelationVal();
-
                     }
                 }).setNegativeButton("取消", null).create();
         lv = ad.getListView();
@@ -1780,8 +1445,6 @@ public class XmlParseInterface implements Serializable {
                                                   int month, int dayOfMonth) {
 
                                 DecimalFormat df = new DecimalFormat("00");
-                                // String datestr=DateFormat.format("yyyy-MM-dd",
-                                // Calendar.getInstance()).toString();
 
                                 String datestr = year + "-" + df.format(month + 1)
                                         + "-" + df.format(dayOfMonth);
@@ -1800,7 +1463,6 @@ public class XmlParseInterface implements Serializable {
                         new TimePickerDialog.OnTimeSetListener() {
                             public void onTimeSet(TimePicker view, int hourOfDay,
                                                   int minute) {
-                                // et.setText("您选择了："+hourOfDay+"时"+minute+"分");
                                 DecimalFormat df = new DecimalFormat("00");
                                 String timeStr = df.format(hourOfDay) + ":" + df.format(minute);
                                 btn.setText(timeStr);
@@ -1811,8 +1473,6 @@ public class XmlParseInterface implements Serializable {
                 dialog.show();
                 break;
         }
-
-        // return dialog;
     }
 
     private String getMultiVal(String stritm) {
@@ -1849,7 +1509,6 @@ public class XmlParseInterface implements Serializable {
         String itmtxt = "";
         while (iter.hasNext()) {
             Map.Entry entry = (Map.Entry) iter.next(); // 得到这个序列的映射项，就是set中的类型，HashMap都是Map.Entry类型（详情见map接口声明）
-            // Integer key = (Integer)entry.getKey(); //获得key
             itm = itm + "^" + entry.getValue();
             itmtxt = itmtxt + entry.getValue() + ",";
         }
@@ -1895,277 +1554,6 @@ public class XmlParseInterface implements Serializable {
         return 0;
     }
 
-    //计算关联元素的值
-    private void countRelationVal() {
-        int total = 0;
-        //儿童跌倒HD评估量表
-        if (("DHCNURPGD_HEDDZCFXZHPGB").equals(EmrCode)) {
-            Button button = (Button) CNHtb.get("Item21");
-            total = handleRelationVal(EmrCode, button);
-            button = (Button) CNHtb.get("Item26");
-            total += handleRelationVal(EmrCode, button);
-            button = (Button) CNHtb.get("Item31");
-            total += handleRelationVal(EmrCode, button);
-            button = (Button) CNHtb.get("Item36");
-            total += handleRelationVal(EmrCode, button);
-            button = (Button) CNHtb.get("Item41");
-            total += handleRelationVal(EmrCode, button);
-            button = (Button) CNHtb.get("Item46");
-            total += handleRelationVal(EmrCode, button);
-            button = (Button) CNHtb.get("Item51");
-            total += handleRelationVal(EmrCode, button);
-
-
-            TextView totalTv = (TextView) CNHtb.get("Item56");
-            if (totalTv != null)
-                totalTv.setText(String.valueOf(total));
-            //低风险
-            List<String> list7 = Arrays.asList("Item61", "Item71", "Item76", "Item81", "Item86", "Item91", "Item96", "Item101", "Item106", "Item111", "Item116");
-            //高风险
-            List<String> list12 = Arrays.asList("Item66", "Item121", "Item126", "Item131", "Item136", "Item141", "Item146", "Item151");
-            if (total >= 0 && total < 7) {
-                for (String value : list7) {
-                    button = (Button) CNHtb.get(value);
-                    if (button != null)
-                        button.setText("");
-                }
-
-                for (String value : list12) {
-                    button = (Button) CNHtb.get(value);
-                    if (button != null)
-                        button.setText("");
-                }
-            } else if (total >= 7 && total <= 11) {
-
-                for (String value : list7) {
-                    button = (Button) CNHtb.get(value);
-                    if (button != null)
-                        button.setText("√");
-                }
-
-                for (String value : list12) {
-                    button = (Button) CNHtb.get(value);
-                    if (button != null)
-                        button.setText("");
-                }
-
-            } else if (total > 11) {
-                for (int i = 0; i < list7.size(); i++) {
-                    button = (Button) CNHtb.get(list7.get(i));
-                    if (button != null) {
-                        if (i == 0)
-                            button.setText("");
-                        else
-                            button.setText("√");
-                    }
-                }
-
-                for (String value : list12) {
-                    button = (Button) CNHtb.get(value);
-                    if (button != null)
-                        button.setText("√");
-                }
-            }
-
-        }
-        //儿童压力性损伤Braden-Q
-        if (("DHCNURPGD_ETYCFXPGLB").equals(EmrCode)) {
-            Button button = (Button) CNHtb.get("Item15");
-            total = handleRelationVal(EmrCode, button);
-            button = (Button) CNHtb.get("Item16");
-            total += handleRelationVal(EmrCode, button);
-            button = (Button) CNHtb.get("Item17");
-            total += handleRelationVal(EmrCode, button);
-            button = (Button) CNHtb.get("Item18");
-            total += handleRelationVal(EmrCode, button);
-            button = (Button) CNHtb.get("Item19");
-            total += handleRelationVal(EmrCode, button);
-            button = (Button) CNHtb.get("Item20");
-            total += handleRelationVal(EmrCode, button);
-            button = (Button) CNHtb.get("Item118");
-            total += handleRelationVal(EmrCode, button);
-
-            TextView totalTv = (TextView) CNHtb.get("Item110");
-            if (totalTv != null)
-                totalTv.setText(String.valueOf(total));
-
-        }
-        //压力性损伤Braden
-        if (("DHCNURPGD_ycfswxyslhpg").equals(EmrCode)) {
-            Button button = (Button) CNHtb.get("Item15");
-            total = handleRelationVal(EmrCode, button);
-            button = (Button) CNHtb.get("Item16");
-            total += handleRelationVal(EmrCode, button);
-            button = (Button) CNHtb.get("Item17");
-            total += handleRelationVal(EmrCode, button);
-            button = (Button) CNHtb.get("Item18");
-            total += handleRelationVal(EmrCode, button);
-            button = (Button) CNHtb.get("Item19");
-            total += handleRelationVal(EmrCode, button);
-            button = (Button) CNHtb.get("Item20");
-            total += handleRelationVal(EmrCode, button);
-
-            TextView totalTv = (TextView) CNHtb.get("Item110");
-            if (totalTv != null)
-                totalTv.setText(String.valueOf(total));
-
-        }
-        //跌倒Morse危险评分
-        if (("DHCNURPGDMorseDD").equals(EmrCode)) {
-            Button button = (Button) CNHtb.get("Item187");
-            total = handleRelationVal(EmrCode, button);
-            button = (Button) CNHtb.get("Item19");
-            total += handleRelationVal(EmrCode, button);
-            button = (Button) CNHtb.get("Item24");
-            total += handleRelationVal(EmrCode, button);
-            button = (Button) CNHtb.get("Item29");
-            total += handleRelationVal(EmrCode, button);
-            button = (Button) CNHtb.get("Item34");
-            total += handleRelationVal(EmrCode, button);
-            button = (Button) CNHtb.get("Item39");
-            total += handleRelationVal(EmrCode, button);
-            button = (Button) CNHtb.get("Item44");
-            total += handleRelationVal(EmrCode, button);
-            button = (Button) CNHtb.get("Item49");
-            total += handleRelationVal(EmrCode, button);
-            button = (Button) CNHtb.get("Item54");
-            total += handleRelationVal(EmrCode, button);
-            button = (Button) CNHtb.get("Item190");
-            total += handleRelationVal(EmrCode, button);
-
-            TextView totalTv = (TextView) CNHtb.get("Item60");
-            if (totalTv != null)
-                totalTv.setText(String.valueOf(total));
-            //无风险
-            List<String> list0 = Arrays.asList("Item74");
-            //低风险
-            List<String> list25 = Arrays.asList("Item79", "Item176", "Item170", "Item99", "Item104", "Item109", "Item114", "Item119");
-            //高风险
-            List<String> list45 = Arrays.asList("Item84", "Item124", "Item129", "Item134", "Item139", "Item144", "Item149", "Item154");
-            if (total >= 0 && total <= 24) {
-                button = (Button) CNHtb.get(list0.get(0));
-                if (button != null)
-                    button.setText("√");
-
-                for (String value : list25) {
-                    button = (Button) CNHtb.get(value);
-                    if (button != null)
-                        button.setText("");
-                }
-
-                for (String value : list45) {
-                    button = (Button) CNHtb.get(value);
-                    if (button != null)
-                        button.setText("");
-                }
-
-            } else if (total > 24 && total <= 44) {
-                button = (Button) CNHtb.get(list0.get(0));
-                if (button != null)
-                    button.setText("");
-
-                for (String value : list25) {
-                    button = (Button) CNHtb.get(value);
-                    if (button != null)
-                        button.setText("√");
-                }
-
-                for (String value : list45) {
-                    button = (Button) CNHtb.get(value);
-                    if (button != null)
-                        button.setText("");
-                }
-            } else if (total > 44) {
-                button = (Button) CNHtb.get(list0.get(0));
-                if (button != null)
-                    button.setText("");
-
-                for (int i = 0; i < list25.size(); i++) {
-                    button = (Button) CNHtb.get(list25.get(i));
-                    if (button != null) {
-                        if (i == 0)
-                            button.setText("");
-                        else
-                            button.setText("√");
-                    }
-                }
-
-                for (String value : list45) {
-                    button = (Button) CNHtb.get(value);
-                    if (button != null)
-                        button.setText("√");
-                }
-            }
-
-        }
-        //营养筛查
-        if (("DHCNURXHPGD_YYSC").equals(EmrCode)) {
-            Button button = (Button) CNHtb.get("Item101");
-            total = handleRelationVal(EmrCode, button);
-            button = (Button) CNHtb.get("Item102");
-            total += handleRelationVal(EmrCode, button);
-            button = (Button) CNHtb.get("Item103");
-            total += handleRelationVal(EmrCode, button);
-            button = (Button) CNHtb.get("Item104");
-            total += handleRelationVal(EmrCode, button);
-            button = (Button) CNHtb.get("Item105");
-            total += handleRelationVal(EmrCode, button);
-            button = (Button) CNHtb.get("Item106");
-            total += handleRelationVal(EmrCode, button);
-            button = (Button) CNHtb.get("Item107");
-            total += handleRelationVal(EmrCode, button);
-            button = (Button) CNHtb.get("Item108");
-            total += handleRelationVal(EmrCode, button);
-
-            TextView totalTv = (TextView) CNHtb.get("Item109");
-            if (totalTv != null)
-                totalTv.setText(String.valueOf(total));
-        }
-        //日常生活能力
-        if (("DHCNURPGD_rcshzlnlBARTHLEpf").equals(EmrCode)) {
-            Button button = (Button) CNHtb.get("Item74");
-            total = handleRelationVal(EmrCode, button);
-            button = (Button) CNHtb.get("Item78");
-            total += handleRelationVal(EmrCode, button);
-            button = (Button) CNHtb.get("Item82");
-            total += handleRelationVal(EmrCode, button);
-            button = (Button) CNHtb.get("Item86");
-            total += handleRelationVal(EmrCode, button);
-            button = (Button) CNHtb.get("Item90");
-            total += handleRelationVal(EmrCode, button);
-            button = (Button) CNHtb.get("Item94");
-            total += handleRelationVal(EmrCode, button);
-            button = (Button) CNHtb.get("Item98");
-            total += handleRelationVal(EmrCode, button);
-            button = (Button) CNHtb.get("Item102");
-            total += handleRelationVal(EmrCode, button);
-            button = (Button) CNHtb.get("Item106");
-            total += handleRelationVal(EmrCode, button);
-            button = (Button) CNHtb.get("Item110");
-            total += handleRelationVal(EmrCode, button);
-
-            TextView totalTv = (TextView) CNHtb.get("Item114");
-            if (totalTv != null)
-                totalTv.setText(String.valueOf(total));
-
-            totalTv = (TextView) CNHtb.get("Item118");
-            if (totalTv != null) {
-                if (total <= 40) {
-                    totalTv.setText("重度依赖");
-                } else if (total <= 60) {
-                    totalTv.setText("中度依赖");
-                } else if (total <= 99) {
-                    totalTv.setText("轻度依赖");
-                } else if (total == 100) {
-                    totalTv.setText("无需依赖");
-                }
-
-            }
-        }
-
-
-    }
-
     class PopupListener implements DialogInterface.OnClickListener {
         CommList mAdapter;
 
@@ -2177,16 +1565,6 @@ public class XmlParseInterface implements Serializable {
         @Override
         public void onClick(DialogInterface dialog, int which) {
             Map itm = (Map) mAdapter.getItem(which);
-            /*
-             * LoginUser.UserGroupID=itm.get("GroupID").toString();
-             * LoginUser.UserLoc=itm.get("LocID").toString();
-             * LogonLoc.setText(itm.get("LocDesc").toString());
-             * LoginUser.WardID=itm.get("WardID").toString(); Drawable draw =
-             * getResources().getDrawable(R.drawable.loc_item);
-             * //LogonLoc.setBackground(draw);
-             * LogonLoc.setBackgroundDrawable(draw);
-             */
-
         }
     }
 }
