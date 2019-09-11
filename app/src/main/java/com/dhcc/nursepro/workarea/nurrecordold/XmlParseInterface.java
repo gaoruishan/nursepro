@@ -1186,7 +1186,6 @@ public class XmlParseInterface implements Serializable {
                         String itm = "";
                         String itmtxt = "";
                         String gtag = (String) Con.getTag();
-                        itm = "";
                         String itmval = "";
 
                         for (int i = 0; i < (choiceItems.length - 1); i++) {

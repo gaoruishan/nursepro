@@ -79,9 +79,9 @@ public class NurRecordPGDFragment extends BaseFragment implements View.OnClickLi
     public void onClick(View v) {
         if ((v.getTag() instanceof String)) {
             String ttag = (String) v.getTag();
-            if (ttag.contains("btnLink")||ttag.contains("butLink")) {
+            if (ttag.contains("btnLink") || ttag.contains("butLink")) {
                 linkEmrData();
-            } else if (ttag.contains("btnSkip")||ttag.contains("butSkip")) {
+            } else if (ttag.contains("btnSkip") || ttag.contains("butSkip")) {
                 RecModelListBean.MenuListBean.ModelListBean modelListBeanSkip = new RecModelListBean.MenuListBean.ModelListBean();
                 String skipViewCode = "";
                 String modelCode = "";
@@ -123,9 +123,9 @@ public class NurRecordPGDFragment extends BaseFragment implements View.OnClickLi
                 } else if (modelListBeanSkip.getModelType().equals("3")) {
                     startFragment(NurRecordMPGDFragment.class, bundle, 1);
                 }
-            } else if (ttag.contains("btnSave")||ttag.contains("butSave")) {
+            } else if (ttag.contains("btnSave") || ttag.contains("butSave")) {
                 Sure();
-            } else if (ttag.contains("btnCancel")||ttag.contains("butCancel")) {
+            } else if (ttag.contains("btnCancel") || ttag.contains("butCancel")) {
                 finish();
             }
         }
@@ -259,13 +259,16 @@ public class NurRecordPGDFragment extends BaseFragment implements View.OnClickLi
         String[] aa = itm.split("\\^");
         String ret = "";
         for (int i = 0; i < aa.length; i++) {
-            if (aa[i] == "")
+            if (aa[i].equals(""))
                 continue;
             String[] bb = aa[i].split("\\|");
             if (bb.length > 1) {
-                if (bb[1] != "")
-                    ret = ret + bb[1] + ";";
+                if (!bb[1].equals(""))
+                    ret = ret + bb[1] + ",";
             }
+        }
+        if (ret.endsWith(",")) {
+            ret = ret.substring(0, ret.length() - 1);
         }
         return ret;
     }
@@ -484,7 +487,7 @@ public class NurRecordPGDFragment extends BaseFragment implements View.OnClickLi
                 // btn.setWidth(180);
                 // btn.setHeight(120);
                 String tag = (String) btn.getTag();
-                if (tag != null && (tag.contains("btn")||tag.contains("but"))) {
+                if (tag != null && (tag.contains("btn") || tag.contains("but"))) {
                     btn.setOnClickListener(this);
                 }
 

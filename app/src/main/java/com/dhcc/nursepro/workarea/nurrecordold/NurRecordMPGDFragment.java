@@ -254,13 +254,16 @@ public class NurRecordMPGDFragment extends BaseFragment implements View.OnClickL
         String[] aa = itm.split("\\^");
         String ret = "";
         for (int i = 0; i < aa.length; i++) {
-            if (aa[i] == "")
+            if (aa[i].equals(""))
                 continue;
             String[] bb = aa[i].split("\\|");
             if (bb.length > 1) {
-                if (bb[1] != "")
-                    ret = ret + bb[1] + ";";
+                if (!bb[1].equals(""))
+                    ret = ret + bb[1] + ",";
             }
+        }
+        if (ret.endsWith(",")) {
+            ret = ret.substring(0, ret.length() - 1);
         }
         return ret;
     }
