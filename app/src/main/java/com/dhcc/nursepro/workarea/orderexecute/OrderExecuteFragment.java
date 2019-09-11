@@ -244,8 +244,8 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                         ScanResultBean.PatInfoBean patInfoBean = scanResultBean.getPatInfo();
                         episodeId = patInfoBean.getEpisodeID();
                         regNo = patInfoBean.getRegNo();
-                        tvOrderexecutePatinfo.setText("".equals(patInfoBean.getBedCode()) ? "未分床  " + patInfoBean.getName() : patInfoBean.getBedCode() + "  " + patInfoBean.getName());
-                        patInfo = patInfoBean.getBedCode() + "-" + patInfoBean.getName() + "-" + patInfoBean.getSex() + "-" + patInfoBean.getAge();
+                        tvOrderexecutePatinfo.setText("".equals(patInfoBean.getBedCode()) ? "未分床  " + patInfoBean.getName() + "  " + patInfoBean.getSex() + "  " + patInfoBean.getAge() : patInfoBean.getBedCode().replace("床", "") + "床  " + patInfoBean.getName() + "  " + patInfoBean.getSex() + "  " + patInfoBean.getAge());
+                        patInfo = "".equals(patInfoBean.getBedCode()) ? "未分床-" + patInfoBean.getName() + "-" + patInfoBean.getSex() + "-" + patInfoBean.getAge() : patInfoBean.getBedCode().replace("床", "") + "床-" + patInfoBean.getName() + "-" + patInfoBean.getSex() + "-" + patInfoBean.getAge();
                         patSaveInfo = patInfoBean.getBedCode() + "-" + patInfoBean.getName();
                         getView().postDelayed(new Runnable() {
                             @Override
