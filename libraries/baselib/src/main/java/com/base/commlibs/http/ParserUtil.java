@@ -1,5 +1,6 @@
 package com.base.commlibs.http;
 
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.base.commlibs.constant.SharedPreference;
@@ -17,23 +18,23 @@ public class ParserUtil<T extends CommResult> {
     public static final String ERR_CODE_1 = "-1";
     public static final String ERR_CODE_2 = "-2";
     public static final String ERR_CODE_3 = "-3";
-    private static final String TAG = ParserUtil.class.getSimpleName();
     public static final String CODE_OK = "0";
+    private static final String TAG = ParserUtil.class.getSimpleName();
     private Gson gson = new Gson();
 
     public ParserUtil() {
     }
 
     /**
-     * json解析
-     * @param jsonStr
+     * 1.1,json解析-strNull控制是否有提示
+     * @param jsonStr  当返回null或者""时
      * @param callback
      * @param clz
-     * @param strNull  自定义null提示
+     * @param strNull  自定义null 不提示Toast
      * @return
      */
-    public T parserResult(String jsonStr, CommonCallBack callback, Class<T> clz, String strNull) {
-        if (jsonStr.isEmpty()) {
+    public T parserResult(String jsonStr, @NonNull CommonCallBack callback, Class<T> clz, String strNull) {
+        if (jsonStr == null || jsonStr.isEmpty()) {
             showToast(callback, strNull, ERR_CODE_1);
         } else {
             return parserResult(jsonStr, callback, clz);
@@ -49,17 +50,18 @@ public class ParserUtil<T extends CommResult> {
      */
     private void showToast(CommonCallBack callback, String msg, String code) {
         callback.onFail(code, msg);
-        if (!TextUtils.isEmpty(msg)) {//如果为null不提示
+        //如果为null不提示
+        if (!TextUtils.isEmpty(msg)) {
             ToastUtils.showShort("error  " + code + ":" + msg + "_" + SharedPreference.MethodName);
         }
     }
 
     /**
-     * json解析
-     * @param jsonStr
+     * 1,json解析-带有提示
+     * @param jsonStr  当返回null或者""时
      * @param callback
      */
-    public T parserResult(String jsonStr, CommonCallBack callback, Class<T> clz) {
+    public T parserResult(String jsonStr,@NonNull CommonCallBack callback, Class<T> clz) {
         if (jsonStr.isEmpty()) {
             showToast(callback, "网络错误，请求数据为空", ERR_CODE_1);
         } else {
@@ -79,23 +81,20 @@ public class ParserUtil<T extends CommResult> {
     }
 
     /**
-     * 解析状态码
+     * 2,解析状态码
      * @param bean
      * @param callback
      * @param dealOnFail 默认提示, 当dealOnFail=true 不吐司
      */
-    public void parserStatus(T bean, CommonCallBack<T> callback, boolean... dealOnFail) {
+    public void parserStatus(T bean,@NonNull CommonCallBack<T> callback, boolean... dealOnFail) {
         if (CODE_OK.equals(bean.getStatus())) {
-            if (callback != null) {
-                callback.onSuccess(bean, bean.getClass().getSimpleName());
-            }
+            callback.onSuccess(bean, bean.getClass().getSimpleName());
         } else {
-            if (callback != null) {
-                callback.onFail(bean.getMsgcode(), bean.getMsg());
-                boolean isDealOnFail = dealOnFail != null && dealOnFail.length > 0 && dealOnFail[0];
-                if (!isDealOnFail) {//有数据 且为true-->不提示
-                    ToastUtils.showShort(bean.getMsg());
-                }
+            callback.onFail(bean.getMsgcode(), bean.getMsg());
+            boolean isDealOnFail = dealOnFail != null && dealOnFail.length > 0 && dealOnFail[0];
+            //有数据 且为true-->不提示
+            if (!isDealOnFail) {
+                ToastUtils.showShort(bean.getMsg());
             }
         }
     }

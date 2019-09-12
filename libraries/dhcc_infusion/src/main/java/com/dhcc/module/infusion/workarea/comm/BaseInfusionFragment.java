@@ -44,7 +44,7 @@ public abstract class BaseInfusionFragment extends BaseFragment {
         if (mContext instanceof BaseActivity) {
             ((BaseActivity) mContext).openMultiScan(AppUtil.isMultiScan());
         }
-        AppUtil.initPlay(mContext, 0);
+        AppUtil.initPlay(mContext, 0, R.raw.operate_success);
     }
 
     private void setCommToolBar() {
@@ -57,6 +57,10 @@ public abstract class BaseInfusionFragment extends BaseFragment {
 
     protected void onFailThings() {
         AppUtil.playSound(mContext, 0);
+    }
+
+    protected void onSuccessThings() {
+        AppUtil.playSound(mContext, R.raw.operate_success);
     }
 
     @Override
@@ -115,6 +119,7 @@ public abstract class BaseInfusionFragment extends BaseFragment {
         if (!isContain) {
             if (!TextUtils.isEmpty(s)) {
                 ToastUtils.showShort(s);
+                onFailThings();
             }
             //隐藏"确定"按钮
             if (tvOk != null) {

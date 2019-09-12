@@ -15,12 +15,6 @@ import com.dhcc.module.infusion.workarea.comm.bean.PatDetailBean;
  */
 public class DosingApiManager {
 
-    public static final String Despensing = "Despensing";
-    public static final String Audit = "Audit";
-    public static final String OrdState_1 = "未配液";
-    public static final String GETORDLIST = "1";
-    public static final String DESPENSINGORD = "2";
-
     /**
      * Description:  按接单号查询医嘱
      * Input：       regNo:登记号,oeoreId:执行记录ID,userId:用户ID,locId:科室ID

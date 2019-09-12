@@ -198,6 +198,7 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
                 }
                 setToolbarCenterTitle("穿刺");
                 DialogFactory.showCommDialog(getActivity(), "穿刺成功", "", 0, null, true);
+                onSuccessThings();
             }
         });
     }

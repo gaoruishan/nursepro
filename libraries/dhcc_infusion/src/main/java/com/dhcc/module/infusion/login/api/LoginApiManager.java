@@ -31,8 +31,7 @@ public class LoginApiManager {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<ScanCodeBean> parserUtil = new ParserUtil<>();
-                ScanCodeBean bean = parserUtil.parserResult(jsonStr, callBack,
-                        ScanCodeBean.class,"网络错误，请检查IP配置");
+                ScanCodeBean bean = parserUtil.parserResult(jsonStr, callBack, ScanCodeBean.class,"");
                 if (bean == null) return;
                 parserUtil.parserStatus(bean, callBack);
             }

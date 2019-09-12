@@ -103,6 +103,7 @@ public class NeedlesFragment extends BaseInfusionFragment implements View.OnClic
                         getOrdList(scanInfo);
                     }
                     DialogFactory.showCommDialog(getActivity(), "拔针成功", "", 0, null, true);
+                    onSuccessThings();
                 }
             });
         }

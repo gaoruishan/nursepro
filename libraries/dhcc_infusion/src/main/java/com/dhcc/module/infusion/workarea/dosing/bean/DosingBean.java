@@ -11,6 +11,14 @@ import java.util.List;
  */
 public class DosingBean extends CommResult {
 
+    public final static String Single = "Single";
+    public final static String All = "All";
+    public static final String Despensing = "Despensing";
+    public static final String Audit = "Audit";
+    public static final String OrdState_1 = "未配液";
+    public static final String OrdState_2 = "已配液";
+    public static final String OrdState_3 = "已复核";
+
     /**
      * msg : 成功
      * msgcode :
@@ -20,8 +28,16 @@ public class DosingBean extends CommResult {
      */
 
     private String ordState;
+    private String scanFlag;
     private List<OrdListBean> ordList;
 
+    public String getScanFlag() {
+        return scanFlag == null ? "" : scanFlag;
+    }
+
+    public void setScanFlag(String scanFlag) {
+        this.scanFlag = scanFlag;
+    }
 
     public String getOrdState() {
         return ordState;

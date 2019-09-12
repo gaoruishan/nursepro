@@ -192,6 +192,7 @@ public class PatrolFragment extends BaseInfusionFragment implements View.OnClick
                     getOrdList(scanInfo);
                 }
                 DialogFactory.showCommDialog(getActivity(), "巡视成功", "", 0, null, true);
+                onSuccessThings();
             }
         });
     }

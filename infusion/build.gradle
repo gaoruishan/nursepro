@@ -18,6 +18,7 @@ android {
             keyPassword 'cdeffg@2018'
             storeFile file('../sign/ControlKey.jks')
             storePassword 'cdeffg@2018'
+            v2SigningEnabled false
         }
     }
 
