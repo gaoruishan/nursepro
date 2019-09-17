@@ -66,6 +66,7 @@ public class NurRecordPGDFragment extends BaseFragment implements View.OnClickLi
     private String patName = "";
     private String linkViewCode = "";
     private String linkViewValue = "";
+    private String skipRecId = "";
     private RecModelListBean.MenuListBean.ModelListBean modelListBean;
 
     private Map<String, Object> PatIn = new HashMap<>();
@@ -85,14 +86,14 @@ public class NurRecordPGDFragment extends BaseFragment implements View.OnClickLi
                 RecModelListBean.MenuListBean.ModelListBean modelListBeanSkip = new RecModelListBean.MenuListBean.ModelListBean();
                 String skipViewCode = "";
                 String modelCode = "";
-                String recId = "";
+                skipRecId = "";
                 for (int i = 0; i < xmlParseInterface.itemSetList.size(); i++) {
                     ItemConfigbyEmrCodeBean.ItemSetListBean itemSetListBean = xmlParseInterface.itemSetList.get(i);
 
                     if (itemSetListBean.getItemCode().equals(ttag)) {
                         skipViewCode = itemSetListBean.getLinkNote();
                         modelCode = itemSetListBean.getLinkCode();
-                        recId = itemSetListBean.getLinkCodeId();
+                        skipRecId = itemSetListBean.getLinkCodeId();
 
                         modelListBeanSkip.setGetListMth(itemSetListBean.getModeInfo().getGetListMth());
                         modelListBeanSkip.setGetValMth(itemSetListBean.getModeInfo().getGetValMth());
@@ -115,7 +116,7 @@ public class NurRecordPGDFragment extends BaseFragment implements View.OnClickLi
                 bundle.putString("ModelNum", modelListBeanSkip.getModelNum());
                 bundle.putSerializable("ModelListBean", modelListBeanSkip);
                 bundle.putString("skipViewCode", skipViewCode);
-                bundle.putString("RecID", recId);
+                bundle.putString("RecID", skipRecId);
                 if (modelListBeanSkip.getModelType().equals("1")) {
                     startFragment(NurRecordJLDFragment.class, bundle, 1);
                 } else if (modelListBeanSkip.getModelType().equals("2")) {

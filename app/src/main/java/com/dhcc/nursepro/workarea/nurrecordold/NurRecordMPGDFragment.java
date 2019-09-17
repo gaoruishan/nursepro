@@ -69,6 +69,7 @@ public class NurRecordMPGDFragment extends BaseFragment implements View.OnClickL
     private String recId = "";
     private String linkViewCode = "";
     private String linkViewValue = "";
+    private String skipRecId = "";
 
     private Map<String, Object> PatRelItm = new HashMap<>();
     private Map<String, Object> PatIn = new HashMap<>();
@@ -83,14 +84,18 @@ public class NurRecordMPGDFragment extends BaseFragment implements View.OnClickL
     public void onClick(View v) {
         if ((v.getTag() instanceof String)) {
             String ttag = (String) v.getTag();
-            if (ttag.contains("btnLink")||ttag.contains("butLink")) {
+            if (ttag.contains("btnLink") || ttag.contains("butLink")) {
                 linkEmrData();
-            } else if (ttag.contains("btnSkip")||ttag.contains("butSkip")) {
+            } else if (ttag.contains("btnSkip") || ttag.contains("butSkip")) {
                 RecModelListBean.MenuListBean.ModelListBean modelListBeanSkip = new RecModelListBean.MenuListBean.ModelListBean();
                 String skipViewCode = "";
+                String modelCode = "";
+                skipRecId = "";
                 for (int i = 0; i < xmlParseInterface.itemSetList.size(); i++) {
                     ItemConfigbyEmrCodeBean.ItemSetListBean itemSetListBean = xmlParseInterface.itemSetList.get(i);
-
+                    skipViewCode = itemSetListBean.getLinkNote();
+                    modelCode = itemSetListBean.getLinkCode();
+                    skipRecId = itemSetListBean.getLinkCodeId();
                     if (itemSetListBean.getItemCode().equals(ttag)) {
                         modelListBeanSkip.setGetListMth(itemSetListBean.getModeInfo().getGetListMth());
                         modelListBeanSkip.setGetValMth(itemSetListBean.getModeInfo().getGetValMth());
@@ -101,7 +106,6 @@ public class NurRecordMPGDFragment extends BaseFragment implements View.OnClickL
                         modelListBeanSkip.setModelType(itemSetListBean.getModeInfo().getModelType());
                         modelListBeanSkip.setSaveMth(itemSetListBean.getModeInfo().getSaveMth());
                     }
-                    skipViewCode = itemSetListBean.getLinkNote();
                 }
 
                 Bundle bundle = new Bundle();
@@ -109,22 +113,21 @@ public class NurRecordMPGDFragment extends BaseFragment implements View.OnClickL
                 bundle.putString("BedNo", bedNo);
                 bundle.putString("PatName", patName);
 
-                bundle.putString("EMRCode", modelListBeanSkip.getModelCode());
+                bundle.putString("EMRCode", modelCode);
                 bundle.putString("ModelNum", modelListBeanSkip.getModelNum());
                 bundle.putSerializable("ModelListBean", modelListBeanSkip);
                 bundle.putString("skipViewCode", skipViewCode);
-                bundle.putString("RecID", "");
-                if (Objects.requireNonNull(modelListBeanSkip).getModelType().equals("1")) {
-                    startFragment(NurRecordJLDFragment.class, bundle);
-                } else if (Objects.requireNonNull(modelListBeanSkip).getModelType().equals("2")) {
-                    startFragment(NurRecordPGDFragment.class, bundle);
-                } else if (Objects.requireNonNull(modelListBeanSkip).getModelType().equals("3")) {
-                    startFragment(NurRecordMPGDFragment.class, bundle);
-
+                bundle.putString("RecID", skipRecId);
+                if (modelListBeanSkip.getModelType().equals("1")) {
+                    startFragment(NurRecordJLDFragment.class, bundle, 1);
+                } else if (modelListBeanSkip.getModelType().equals("2")) {
+                    startFragment(NurRecordPGDFragment.class, bundle, 1);
+                } else if (modelListBeanSkip.getModelType().equals("3")) {
+                    startFragment(NurRecordMPGDFragment.class, bundle, 1);
                 }
-            } else if (ttag.contains("btnSave")||ttag.contains("butSave")) {
+            } else if (ttag.contains("btnSave") || ttag.contains("butSave")) {
                 Sure();
-            } else if (ttag.contains("btnCancel")||ttag.contains("butCancel")) {
+            } else if (ttag.contains("btnCancel") || ttag.contains("butCancel")) {
                 finish();
             }
         }
@@ -301,7 +304,7 @@ public class NurRecordMPGDFragment extends BaseFragment implements View.OnClickL
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+        //        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == 2) {
             String key = data.getStringExtra("linkViewCode").split("!")[0];
             String value = data.getStringExtra("linkViewValue");
@@ -480,7 +483,7 @@ public class NurRecordMPGDFragment extends BaseFragment implements View.OnClickL
                 // btn.setWidth(180);
                 // btn.setHeight(120);
                 String tag = (String) btn.getTag();
-                if (tag != null && (tag.contains("btn")||tag.contains("but"))) {
+                if (tag != null && (tag.contains("btn") || tag.contains("but"))) {
                     btn.setOnClickListener(this);
                 }
 
