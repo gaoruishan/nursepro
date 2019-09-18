@@ -93,10 +93,12 @@ public class NurRecordMPGDFragment extends BaseFragment implements View.OnClickL
                 skipRecId = "";
                 for (int i = 0; i < xmlParseInterface.itemSetList.size(); i++) {
                     ItemConfigbyEmrCodeBean.ItemSetListBean itemSetListBean = xmlParseInterface.itemSetList.get(i);
-                    skipViewCode = itemSetListBean.getLinkNote();
-                    modelCode = itemSetListBean.getLinkCode();
-                    skipRecId = itemSetListBean.getLinkCodeId();
+
                     if (itemSetListBean.getItemCode().equals(ttag)) {
+                        skipViewCode = itemSetListBean.getLinkNote();
+                        modelCode = itemSetListBean.getLinkCode();
+                        skipRecId = itemSetListBean.getLinkCodeId();
+
                         modelListBeanSkip.setGetListMth(itemSetListBean.getModeInfo().getGetListMth());
                         modelListBeanSkip.setGetValMth(itemSetListBean.getModeInfo().getGetValMth());
                         modelListBeanSkip.setLinkModel(itemSetListBean.getModeInfo().getLinkModel());
@@ -105,6 +107,7 @@ public class NurRecordMPGDFragment extends BaseFragment implements View.OnClickL
                         modelListBeanSkip.setModelNum(itemSetListBean.getModeInfo().getModelNum());
                         modelListBeanSkip.setModelType(itemSetListBean.getModeInfo().getModelType());
                         modelListBeanSkip.setSaveMth(itemSetListBean.getModeInfo().getSaveMth());
+                        break;
                     }
                 }
 
