@@ -174,5 +174,90 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/ll_drporderinfo_prepareinfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_drprepareinfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:textColor="@color/ordersearch_text_color"
+            android:textSize="12sp"
+            android:text="配液：" />
+        <TextView
+            android:id="@+id/tv_drprepareinfodate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:textColor="@color/ordersearch_text_color"
+            android:textSize="12sp"
+            tools:text="2018-08-25" />
+        <TextView
+            android:id="@+id/tv_drprepareinfotime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:textColor="@color/ordersearch_text_color"
+            android:textSize="12sp"
+            tools:text="08:00" />
+
+        <TextView
+            android:id="@+id/tv_drprepareinfouser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/ordersearch_text_color"
+            android:textSize="12sp"
+            tools:text="严医生" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_drporderinfo_verifyinfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_drverifyinfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:textColor="@color/ordersearch_text_color"
+            android:textSize="12sp"
+            android:text="复核：" />
+        <TextView
+            android:id="@+id/tv_drverifyinfodate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:textColor="@color/ordersearch_text_color"
+            android:textSize="12sp"
+            tools:text="2018-08-25" />
+        <TextView
+            android:id="@+id/tv_drverifyinfotime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:textColor="@color/ordersearch_text_color"
+            android:textSize="12sp"
+            tools:text="08:00" />
+
+        <TextView
+            android:id="@+id/tv_drverifyinfouser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/ordersearch_text_color"
+            android:textSize="12sp"
+            tools:text="严医生" />
+
+    </LinearLayout>
+
 
 </LinearLayout>

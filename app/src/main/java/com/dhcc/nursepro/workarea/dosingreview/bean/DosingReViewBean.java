@@ -201,8 +201,14 @@ public class DosingReViewBean {
                 private String DspStat;
                 private String Durat;
                 private String EncryptLevel;
+                private String FuHeDate;
+                private String FuHeTime;
+                private String FuHeUser;
                 private String ID;
                 private String PatLevel;
+                private String PeiYeDate;
+                private String PeiYeTime;
+                private String PeiYeUser;
                 private String PreDisDateTime;
                 private String admLoc;
                 private String age;
@@ -282,6 +288,30 @@ public class DosingReViewBean {
                     this.EncryptLevel = EncryptLevel;
                 }
 
+                public String getFuHeDate() {
+                    return FuHeDate;
+                }
+
+                public void setFuHeDate(String FuHeDate) {
+                    this.FuHeDate = FuHeDate;
+                }
+
+                public String getFuHeTime() {
+                    return FuHeTime;
+                }
+
+                public void setFuHeTime(String FuHeTime) {
+                    this.FuHeTime = FuHeTime;
+                }
+
+                public String getFuHeUser() {
+                    return FuHeUser;
+                }
+
+                public void setFuHeUser(String FuHeUser) {
+                    this.FuHeUser = FuHeUser;
+                }
+
                 public String getID() {
                     return ID;
                 }
@@ -296,6 +326,30 @@ public class DosingReViewBean {
 
                 public void setPatLevel(String PatLevel) {
                     this.PatLevel = PatLevel;
+                }
+
+                public String getPeiYeDate() {
+                    return PeiYeDate;
+                }
+
+                public void setPeiYeDate(String PeiYeDate) {
+                    this.PeiYeDate = PeiYeDate;
+                }
+
+                public String getPeiYeTime() {
+                    return PeiYeTime;
+                }
+
+                public void setPeiYeTime(String PeiYeTime) {
+                    this.PeiYeTime = PeiYeTime;
+                }
+
+                public String getPeiYeUser() {
+                    return PeiYeUser;
+                }
+
+                public void setPeiYeUser(String PeiYeUser) {
+                    this.PeiYeUser = PeiYeUser;
                 }
 
                 public String getPreDisDateTime() {

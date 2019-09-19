@@ -38,6 +38,19 @@ public class DosingReviewPatientOrderInfoAdapter extends BaseQuickAdapter<Dosing
         TextView tvOrderPrepare = helper.getView(R.id.tv_drporderinfo_orderprepare);
         TextView tvOrderVerify = helper.getView(R.id.tv_drporderinfo_orderverify);
 
+        //配液、复核信息
+        LinearLayout llDrporderinfoPrepareinfo = helper.getView(R.id.ll_drporderinfo_prepareinfo);
+        TextView tvDrprepareinfo = helper.getView(R.id.tv_drprepareinfo);
+        TextView tvDrprepareinfodate = helper.getView(R.id.tv_drprepareinfodate);
+        TextView tvDrprepareinfotime = helper.getView(R.id.tv_drprepareinfotime);
+        TextView tvDrprepareinfouser = helper.getView(R.id.tv_drprepareinfouser);
+        LinearLayout llDrporderinfoVerifyinfo = helper.getView(R.id.ll_drporderinfo_verifyinfo);
+        TextView tvDrverifyinfo = helper.getView(R.id.tv_drverifyinfo);
+        TextView tvDrverifyinfodate = helper.getView(R.id.tv_drverifyinfodate);
+        TextView tvDrverifyinfotime = helper.getView(R.id.tv_drverifyinfotime);
+        TextView tvDrverifyinfouser = helper.getView(R.id.tv_drverifyinfouser);
+
+
         if ("Y".equals(item.getOrderInfo().getPreparedFlag())) {
             tvOrderPrepare.setText("已配液");
             tvOrderPrepare.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_dosingreview_4));
@@ -65,6 +78,27 @@ public class DosingReviewPatientOrderInfoAdapter extends BaseQuickAdapter<Dosing
                     .setText(R.id.tv_drporderinfo_orderdose, orderInfoBean.getDoseQtyUnit())
                     .setText(R.id.tv_drporderinfo_orderfrequency, orderInfoBean.getPhcfrCode())
                     .setText(R.id.tv_drporderinfo_ordercreator, orderInfoBean.getCtcpDesc());
+
+            if (orderInfoBean.getPreparedFlag().equals("Y")) {
+                llDrporderinfoPrepareinfo.setVisibility(View.VISIBLE);
+                tvDrprepareinfo.setText("配液：");
+                tvDrprepareinfodate.setText(orderInfoBean.getPeiYeDate());
+                tvDrprepareinfotime.setText(orderInfoBean.getPeiYeTime());
+                tvDrprepareinfouser.setText(orderInfoBean.getPeiYeUser());
+            } else {
+                llDrporderinfoPrepareinfo.setVisibility(View.GONE);
+            }
+
+            if (orderInfoBean.getVerifyFlag().equals("Y")) {
+                llDrporderinfoVerifyinfo.setVisibility(View.VISIBLE);
+                tvDrverifyinfo.setText("复核：");
+                tvDrverifyinfodate.setText(orderInfoBean.getFuHeDate());
+                tvDrverifyinfotime.setText(orderInfoBean.getFuHeTime());
+                tvDrverifyinfouser.setText(orderInfoBean.getFuHeUser());
+            } else {
+                llDrporderinfoVerifyinfo.setVisibility(View.GONE);
+            }
+
         } else {
             llorderinfosingle.setVisibility(View.GONE);
 
@@ -83,6 +117,27 @@ public class DosingReviewPatientOrderInfoAdapter extends BaseQuickAdapter<Dosing
                         .setText(R.id.tv_drporderinfo_orderoperate2, orderInfoBean.getPhcinDesc())
                         .setText(R.id.tv_drporderinfo_orderfrequency2, orderInfoBean.getPhcfrCode())
                         .setText(R.id.tv_drporderinfo_ordercreator2, orderInfoBean.getCtcpDesc());
+
+                if (orderInfoBean.getPreparedFlag().equals("Y")) {
+                    llDrporderinfoPrepareinfo.setVisibility(View.VISIBLE);
+                    tvDrprepareinfo.setText("配液：");
+                    tvDrprepareinfodate.setText(orderInfoBean.getPeiYeDate());
+                    tvDrprepareinfotime.setText(orderInfoBean.getPeiYeTime());
+                    tvDrprepareinfouser.setText(orderInfoBean.getPeiYeUser());
+                } else {
+                    llDrporderinfoPrepareinfo.setVisibility(View.GONE);
+                }
+
+                if (orderInfoBean.getVerifyFlag().equals("Y")) {
+                    llDrporderinfoVerifyinfo.setVisibility(View.VISIBLE);
+                    tvDrverifyinfo.setText("复核：");
+                    tvDrverifyinfodate.setText(orderInfoBean.getFuHeDate());
+                    tvDrverifyinfotime.setText(orderInfoBean.getFuHeTime());
+                    tvDrverifyinfouser.setText(orderInfoBean.getFuHeUser());
+                } else {
+                    llDrporderinfoVerifyinfo.setVisibility(View.GONE);
+                }
+
             } else {
                 llorderinfomulti1.setVisibility(View.VISIBLE);
                 helper.setText(R.id.tv_drporderinfo_orderdose1, orderInfoBean.getDoseQtyUnit());
