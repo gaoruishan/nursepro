@@ -175,7 +175,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                     String episodeId = (String) patientInfo.get("episodeId");
                     Bundle bundle = new Bundle();
                     bundle.putString("episodeId", episodeId);
-
+                    bundle.putSerializable("timeList", (Serializable) timeFilterList);
                     startFragment(VitalSignDetailFragment.class, bundle);
 
                 }
