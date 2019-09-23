@@ -192,7 +192,7 @@ public class XmlParseInterface implements Serializable {
                             CNHtb.put(OBJBlankItm.get(txtstr).toString(), lb);
                         }
                     }
-                    lb.setTextColor(android.graphics.Color
+                    lb.setTextColor(Color
                             .parseColor("#ff000000"));
 
                     if (fontunit.equals("World")) {
@@ -234,7 +234,7 @@ public class XmlParseInterface implements Serializable {
                     } else {
                         btn.setBackgroundResource(R.drawable.nur_record_btn_bg);
                     }
-                    btn.setTextColor(android.graphics.Color
+                    btn.setTextColor(Color
                             .parseColor("#ff000000"));
                     btn.setGravity(Gravity.CENTER);
                     btn.setTag(CName);
@@ -256,7 +256,7 @@ public class XmlParseInterface implements Serializable {
                     String dflag = metaNod.attributeValue("DateFlag");
                     String tflag = metaNod.attributeValue("TimeFlag");
                     dbtn.setBackgroundResource(R.drawable.nur_record_btn_bg);
-                    dbtn.setTextColor(android.graphics.Color
+                    dbtn.setTextColor(Color
                             .parseColor("#ff000000"));
                     dbtn.setGravity(Gravity.CENTER);
 
@@ -311,7 +311,7 @@ public class XmlParseInterface implements Serializable {
                     }
 
                     txt.setBackgroundResource(R.drawable.nur_record_input_bg);
-                    txt.setTextColor(android.graphics.Color
+                    txt.setTextColor(Color
                             .parseColor("#ff000000"));
                     txt.setGravity(Gravity.CENTER);
                     if (fontunit.equals("World")) {
@@ -323,7 +323,7 @@ public class XmlParseInterface implements Serializable {
                     for (int j = 0; j < itemSetList.size(); j++) {
                         ItemConfigbyEmrCodeBean.ItemSetListBean itemSetListBean = itemSetList.get(j);
                         if (itemSetListBean.getLinkType().equals("5") && CName.equals(itemSetListBean.getItemCode())) {
-                            txt.setInputType(InputType.TYPE_CLASS_NUMBER);
+                            txt.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
                         }
                     }
 
@@ -392,7 +392,7 @@ public class XmlParseInterface implements Serializable {
 
                     btn5.setTag(CName);
                     btn5.setBackgroundResource(R.drawable.nur_record_btn_bg);
-                    btn5.setTextColor(android.graphics.Color
+                    btn5.setTextColor(Color
                             .parseColor("#ff000000"));
                     btn5.setGravity(Gravity.CENTER);
 
@@ -473,7 +473,7 @@ public class XmlParseInterface implements Serializable {
 
                     btn6.setTag(CName);
                     btn6.setBackgroundResource(R.drawable.nur_record_btn_bg);
-                    btn6.setTextColor(android.graphics.Color.parseColor("#ff000000"));
+                    btn6.setTextColor(Color.parseColor("#ff000000"));
                     btn6.setGravity(Gravity.CENTER);
 
                     CNHtb.put(CName, btn6);
@@ -539,7 +539,7 @@ public class XmlParseInterface implements Serializable {
 
                     btn.setTag(CName);
                     btn.setBackgroundResource(R.drawable.nur_record_btn_bg);
-                    btn.setTextColor(android.graphics.Color.parseColor("#ff000000"));
+                    btn.setTextColor(Color.parseColor("#ff000000"));
                     btn.setGravity(Gravity.CENTER);
 
                     CNHVal.put(CName, CName + "|" + txtstr + "!" + txtstr);

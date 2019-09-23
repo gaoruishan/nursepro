@@ -234,7 +234,9 @@ public class NurRecordMPGDFragment extends BaseFragment implements View.OnClickL
         NurRecordOldApiManager.saveMPGDData(parr, recId.trim(), modelListBean.getSaveMth(), new NurRecordOldApiManager.RecDataCallback() {
             @Override
             public void onSuccess(RecDataBean recDataBean) {
+                recId = recDataBean.getRetData();
                 showToast("保存成功");
+
                 if (!StringUtils.isEmpty(linkViewCode)) {
                     EditText ed = (EditText) CNHtb.get(linkViewCode.split("!")[1]);
                     if (ed != null) {
