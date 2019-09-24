@@ -247,13 +247,28 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
 
         for (int i = 0; i < recordInfo.getTempList().size(); i++) {
             VitalSignRecordBean.TempListBean temp = recordInfo.getTempList().get(i);
+            VitalSignRecordBean.TempConfigBean config = recordInfo.getTempConfig().get(i);
             String code = temp.getCode();
             View view = viewItemMap.get(temp.getCode());
             String value = "";
 
             if (view instanceof EditText) {
-                EditText ed = (EditText) view;
-                value = ed.getText().toString();
+                EditText edText = (EditText) view;
+                value = edText.getText().toString();
+
+                //检查输入数据范围
+                if (config.getNormalValueRangFrom()!=null){
+                    if (config.getErrorValueLowTo()!=null){
+                        if (isNumber(edText.getText().toString()+"")){
+                            double edDou = Double.parseDouble(edText.getText().toString());
+                            if (edDou > Double.parseDouble(config.getErrorValueHightFrom()) || edDou<Double.parseDouble(config.getErrorValueLowTo())){
+                                showToast("请检查输入数值");
+                                return;
+                            }
+                        }
+                    }
+                }
+
             } else {
                 OptionView op = (OptionView) view;
                 value = op.getText().toString();
@@ -559,7 +574,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
                                         edText.setBackgroundResource(R.drawable.vital_sign_input_bggreen);
                                     }
                                 }
-                            };
+                            }
                         }
 
 
