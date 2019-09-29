@@ -82,7 +82,7 @@ public class OrderExecuteApiManager {
         });
     }
 
-    public static void execOrSeeOrder(String starttime, String orderDesc, String patInfo, String scanFlag, String batch, String auditUserCode, String auditUserPass, String oeoreId, String execStatusCode, final ExecOrSeeOrderCallback callback) {
+    public static void execOrSeeOrder(String barCode,String starttime, String orderDesc, String patInfo, String scanFlag, String batch, String auditUserCode, String auditUserPass, String oeoreId, String execStatusCode, final ExecOrSeeOrderCallback callback) {
 
         SPUtils spUtils = SPUtils.getInstance();
 
@@ -98,6 +98,7 @@ public class OrderExecuteApiManager {
         properties.put("userId", spUtils.getString(SharedPreference.USERID));
         properties.put("userDeptId", spUtils.getString(SharedPreference.LOCID));
         properties.put("wardId", spUtils.getString(SharedPreference.WARDID));
+        properties.put("barCode",barCode);
 
 
         Log.i("OrderExecute", "execOrSeeOrder: " + properties.toString());
@@ -116,7 +117,7 @@ public class OrderExecuteApiManager {
         properties.put("starttime", starttime);
 
 
-        OrderExecuteApiService.execOrSeeOrder(scanFlag, batch, auditUserCode, auditUserPass, oeoreId, execStatusCode, new OrderExecuteApiService.ServiceCallBack() {
+        OrderExecuteApiService.execOrSeeOrder(barCode,scanFlag, batch, auditUserCode, auditUserPass, oeoreId, execStatusCode, new OrderExecuteApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
 

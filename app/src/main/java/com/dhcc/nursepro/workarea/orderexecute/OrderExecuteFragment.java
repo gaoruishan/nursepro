@@ -89,6 +89,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
 
     private SPUtils spUtils = SPUtils.getInstance();
     private String scanInfo = "";
+    private String barCode = "";
     //    private String regNo = "0000000129";
     private String regNo = "";
     private String sheetCode = "";
@@ -574,7 +575,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
      * 扫码执行
      */
     private void execOrSeeOrderScan(String creattime, String order, String oeoreIdScan, String execStatusCodeScan) {
-        OrderExecuteApiManager.execOrSeeOrder(creattime, order, patSaveInfo, "1", "", "", "", oeoreIdScan, execStatusCodeScan, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
+        OrderExecuteApiManager.execOrSeeOrder(barCode,creattime, order, patSaveInfo, "1", "", "", "", oeoreIdScan, execStatusCodeScan, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
             @Override
             public void onSuccess(OrderExecResultBean orderExecResultBean) {
 
@@ -730,7 +731,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     }
 
     private void execOrSeeOrder() {
-        OrderExecuteApiManager.execOrSeeOrder(timeSaveInfo, orderSaveInfo, patSaveInfo, "0", skinBatch, skinUserCode, skinUserPass, oeoreId, execStatusCode, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
+        OrderExecuteApiManager.execOrSeeOrder("",timeSaveInfo, orderSaveInfo, patSaveInfo, "0", skinBatch, skinUserCode, skinUserPass, oeoreId, execStatusCode, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
             @Override
             public void onSuccess(OrderExecResultBean orderExecResultBean) {
                 skinBatch = "";
@@ -864,6 +865,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
             Bundle bundle = new Bundle();
             bundle = intent.getExtras();
             scanInfo = bundle.getString("data");
+            barCode = bundle.getString("data");
             getScanInfo();
             if (execResultDialog != null && execResultDialog.isShowing()) {
                 execResultDialog.dismiss();
