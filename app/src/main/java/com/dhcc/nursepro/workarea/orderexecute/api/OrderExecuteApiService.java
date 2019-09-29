@@ -64,7 +64,7 @@ public class OrderExecuteApiService {
 
     }
 
-    public static void execOrSeeOrder(String scanFlag, String batch, String auditUserCode, String auditUserPass, String oeoreId, String execStatusCode, final ServiceCallBack callBack) {
+    public static void execOrSeeOrder(String barCode,String scanFlag, String batch, String auditUserCode, String auditUserPass, String oeoreId, String execStatusCode, final ServiceCallBack callBack) {
         SPUtils spUtils = SPUtils.getInstance();
         HashMap<String, String> properties = new HashMap<>();
         properties.put("scanFlag", scanFlag);
@@ -76,6 +76,7 @@ public class OrderExecuteApiService {
         properties.put("userId", spUtils.getString(SharedPreference.USERID));
         properties.put("userDeptId", spUtils.getString(SharedPreference.LOCID));
         properties.put("wardId", spUtils.getString(SharedPreference.WARDID));
+        properties.put("barCode",barCode);
 
         WebServiceUtils.callWebService("execOrSeeOrder", properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
