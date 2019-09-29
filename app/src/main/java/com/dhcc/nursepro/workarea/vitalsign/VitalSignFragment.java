@@ -139,15 +139,12 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
 
                 Map patientInfo = displayList.get(position);
-
+                //将列表数据存储在sp，避免Intent传输数据过大报错
+                Gson gson = new Gson();
+                String  displayListJsonStr = gson.toJson(displayList);
+                spUtils.put(SharedPreference.DISPLAYLIST, displayListJsonStr);
                 if (view.getId() == R.id.tv_vitalsign_vitalsign_record) {
                     //体征录入
-
-                    //将列表数据存储在sp，避免Intent传输数据过大报错
-                    Gson gson = new Gson();
-                    String  displayListJsonStr = gson.toJson(displayList);
-                    spUtils.put(SharedPreference.DISPLAYLIST, displayListJsonStr);
-
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("info", (Serializable) patientInfo);
                     bundle.putString("time", timeFilterStr);
@@ -175,7 +172,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                     String episodeId = (String) patientInfo.get("episodeId");
                     Bundle bundle = new Bundle();
                     bundle.putString("episodeId", episodeId);
-                    bundle.putSerializable("timeList", (Serializable) timeFilterList);
+                    bundle.putInt("index", position);
                     startFragment(VitalSignDetailFragment.class, bundle);
 
                 }
