@@ -323,7 +323,7 @@ public class XmlParseInterface implements Serializable {
                     for (int j = 0; j < itemSetList.size(); j++) {
                         ItemConfigbyEmrCodeBean.ItemSetListBean itemSetListBean = itemSetList.get(j);
                         if (itemSetListBean.getLinkType().equals("5") && CName.equals(itemSetListBean.getItemCode())) {
-                            txt.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                            txt.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
                         }
                     }
 
