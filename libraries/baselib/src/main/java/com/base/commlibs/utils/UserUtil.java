@@ -1,6 +1,7 @@
 package com.base.commlibs.utils;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.base.commlibs.bean.LoginBean;
 import com.base.commlibs.constant.SharedPreference;
@@ -20,6 +21,8 @@ import java.util.Map;
  * @email:grs0515@163.com
  */
 public class UserUtil {
+
+    private static final String TAG = UserUtil.class.getSimpleName();
 
     // 登陆类型
     private static final String LOGONLOCTYPE = "E";
@@ -66,6 +69,17 @@ public class UserUtil {
      * @return
      */
     public static String checkWebIp() {
+        //检查sd中是否有
+        CommFile.read(SharedPreference.WEBIP, new SimpleCallBack<String>() {
+            @Override
+            public void call(String result, int type) {
+                Log.e(TAG,"(UserUtil.java:73) "+result);
+                if(!TextUtils.isEmpty(result)){
+                    SPUtils.getInstance().put(SharedPreference.WEBIP, result);
+                }
+            }
+        });
+        //检查sp中是否有
         String ipstr = SPUtils.getInstance().getString(SharedPreference.WEBIP, "noIp");
         if ("noIp".equals(ipstr)) {
             ipstr = BaseWebServiceUtils.DEFAULT_IP;
@@ -79,6 +93,16 @@ public class UserUtil {
      * @return
      */
     public static String checkWebPath() {
+        //检查sd中是否有
+        CommFile.read(SharedPreference.WEBPATH, new SimpleCallBack<String>() {
+            @Override
+            public void call(String result, int type) {
+                Log.e(TAG,"(UserUtil.java:100) "+result);
+                if(!TextUtils.isEmpty(result)){
+                    SPUtils.getInstance().put(SharedPreference.WEBPATH, result);
+                }
+            }
+        });
         String webPath = SPUtils.getInstance().getString(SharedPreference.WEBPATH);
         if (TextUtils.isEmpty(webPath)) {
             webPath = BaseWebServiceUtils.DTHEALTH_WEB;
@@ -102,9 +126,11 @@ public class UserUtil {
     public static void setWebIpAndPath(String ip, String path) {
         if (!TextUtils.isEmpty(ip)) {
             SPUtils.getInstance().put(SharedPreference.WEBIP, ip);
+            CommFile.write(SharedPreference.WEBIP,ip);
         }
         if (!TextUtils.isEmpty(path)) {
             SPUtils.getInstance().put(SharedPreference.WEBPATH, path);
+            CommFile.write(SharedPreference.WEBPATH,path);
         }
     }
 

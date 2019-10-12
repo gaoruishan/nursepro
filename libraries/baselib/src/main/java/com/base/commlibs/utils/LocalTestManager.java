@@ -1,0 +1,60 @@
+package com.base.commlibs.utils;
+
+import com.base.commlibs.wsutils.BaseWebServiceUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * 加载本地测试json
+ * @author:gaoruishan
+ * @date:202019-10-11/16:04
+ * @email:grs0515@163.com
+ */
+public class LocalTestManager {
+    // 是否开启测试
+    public static boolean TEST = false;
+    private static List<String> l = new ArrayList<>();
+
+    static {
+        //对应的方法名
+        l.add("getInfusionMessage");
+        l.add("getOrdList");
+    }
+
+    /**
+     * 添加方法名的集合
+     * @param l
+     */
+    public static void setMethodNameList(List<String> l) {
+        l.clear();
+        l.addAll(l);
+    }
+
+    /**
+     * 加载本地json
+     * @param methodName
+     * @param webServiceCallBack
+     */
+    public static void callLocalJson(String methodName, BaseWebServiceUtils.WebServiceCallBack webServiceCallBack) {
+        CommRes.readJson(methodName + ".json", new CommRes.CallRes<String>() {
+            @Override
+            public void call(String s, String json) {
+                webServiceCallBack.callBack(json);
+            }
+        });
+
+    }
+
+    /**
+     * 判断是否是测试的methodName
+     * @param methodName
+     * @return
+     */
+    public static boolean isTest(String methodName) {
+        if (TEST) {
+            return l.contains(methodName);
+        }
+        return false;
+    }
+}

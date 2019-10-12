@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.base.commlibs.constant.SharedPreference;
+import com.base.commlibs.utils.LocalTestManager;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.SPUtils;
 
@@ -32,7 +33,7 @@ import java.util.concurrent.Executors;
 
 public class BaseWebServiceUtils {
 
-    public static final String DEFAULT_IP = "10.1.5.87";
+    public static final String DEFAULT_IP = "10.1.5.187";
     public static final String DTHEALTH_WEB = "/imedical/web";
     //    public static final String WEB_SERVER_URL = "http://10.1.5.87/dthealth/web/Nur.PDA.WebService.cls";
     // 门诊输液新接口
@@ -114,6 +115,11 @@ public class BaseWebServiceUtils {
      * @param webServiceCallBack 回调接口
      */
     public static void callWebService(String url, final String methodName, HashMap<String, String> properties, final WebServiceCallBack webServiceCallBack) {
+        // 添加本地json测试
+        if (LocalTestManager.isTest(methodName)) {
+            LocalTestManager.callLocalJson(methodName,webServiceCallBack);
+            return;
+        }
         SharedPreference.MethodName = methodName;
         final HttpTransportSE httpTransportSE = new HttpTransportSE(url,TIME_OUT);
 

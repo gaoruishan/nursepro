@@ -1,6 +1,8 @@
 package com.base.commlibs.utils;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.RawRes;
 
@@ -48,6 +50,18 @@ public class CommRes {
         }).start();
     }
 
+    public static void readJson(String name, final CallRes<String> callRes) {
+        MsgHandler handler = new MsgHandler(callRes);
+        new ResThread(name, ResType.Assets, new CallResString() {
+            @Override
+            public void call(String s) {
+                Message message = new Message();
+                message.obj = s;
+                handler.sendMessage(message);
+            }
+        }).start();
+    }
+
     /**
      * 资源类型
      */
@@ -67,6 +81,20 @@ public class CommRes {
 
     private interface CallResString {
         void call(String t);
+    }
+
+    private static class MsgHandler extends Handler {
+        private CallRes<String> callRes;
+
+        MsgHandler(CallRes<String> callRes) {
+            this.callRes = callRes;
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            callRes.call(null, (String) msg.obj);
+        }
     }
 
     private static class ResThread extends Thread {
