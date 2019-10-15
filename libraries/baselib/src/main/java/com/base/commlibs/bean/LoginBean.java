@@ -24,8 +24,19 @@ public class LoginBean extends CommResult {
     private String schStDateTime;
     private String userId;
     private String userName;
+    //消息皮试双签配置: 默认是"" 不开启; "1" 开启
+    private String msgSkinFlag;
     private List<BroadcastListBean> broadcastList;
     private List<LocsBean> locs;
+
+    public String getMsgSkinFlag() {
+        return msgSkinFlag == null ? "" : msgSkinFlag;
+    }
+
+    public void setMsgSkinFlag(String msgSkinFlag) {
+        this.msgSkinFlag = msgSkinFlag;
+    }
+
     public String getSchEnDateTime() {
         return schEnDateTime;
     }
