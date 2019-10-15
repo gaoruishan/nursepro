@@ -188,6 +188,7 @@ public class UserUtil {
      */
     public static void setUserInfo(LoginBean loginBean) {
         List<LoginBean.LocsBean> locs = loginBean.getLocs();
+        SPUtils.getInstance().put(SharedPreference.LOG_FLAG, loginBean.getLogFlag());
         SPUtils.getInstance().put(SharedPreference.MSG_SKIN_FLAG, loginBean.getMsgSkinFlag());
         SPUtils.getInstance().put(SharedPreference.USERID, loginBean.getUserId());
         SPUtils.getInstance().put(SharedPreference.USERNAME, loginBean.getUserName());

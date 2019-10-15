@@ -172,6 +172,7 @@ public class BaseWebServiceUtils {
                 super.handleMessage(msg);
                 // 将返回值回调到callBack的参数中
                 LogUtils.json(LogUtils.E, msg.obj);
+                LocalTestManager.isSave(methodName,(String) msg.obj);
                 webServiceCallBack.callBack((String) msg.obj);
             }
         };

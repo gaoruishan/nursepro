@@ -68,4 +68,6 @@ public class SharedPreference {
     public static  final String DATA_MAIN_CONFIG = "DATAMAINCONFIG";
 
     public static final String MSG_SKIN_FLAG = "MSG_SKIN_FLAG";
+
+    public static final String LOG_FLAG = "LOG_FLAG";
 }

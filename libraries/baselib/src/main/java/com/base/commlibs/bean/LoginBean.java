@@ -26,8 +26,18 @@ public class LoginBean extends CommResult {
     private String userName;
     //消息皮试双签配置: 默认是"" 不开启; "1" 开启
     private String msgSkinFlag;
+    //输出json: 默认是"" 不开启; "1" 开启
+    private String logFlag;
     private List<BroadcastListBean> broadcastList;
     private List<LocsBean> locs;
+
+    public String getLogFlag() {
+        return logFlag == null ? "" : logFlag;
+    }
+
+    public void setLogFlag(String logFlag) {
+        this.logFlag = logFlag;
+    }
 
     public String getMsgSkinFlag() {
         return msgSkinFlag == null ? "" : msgSkinFlag;
