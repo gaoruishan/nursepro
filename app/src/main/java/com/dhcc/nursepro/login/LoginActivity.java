@@ -22,7 +22,6 @@ import com.base.commlibs.BaseActivity;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.utils.UserUtil;
-import com.base.commlibs.wsutils.BaseWebServiceUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.dhcc.nursepro.Activity.MainActivity;
@@ -60,9 +59,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private LinearLayout llLoginRememberme;
     private List<NurseInfo> nurseInfoList;
     private NurseInfo loginNurseInfo;
-    private String userCode;
-    private String password;
-    private String logonWardId;
+    private String userCode = "";
+    private String password = "";
+    private String logonWardId = "";
 
     private boolean remem = false;
     private String rememUserCode;
@@ -309,14 +308,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             case R.id.tv_login_setip:
                 showDialog = new SetIPDialog(this);
                 showDialog.setTitle("结果");
-                showDialog.setMessage(spUtils.getString(SharedPreference.WEBIP),spUtils.getString(SharedPreference.WEBPATH));
+                showDialog.setMessage(spUtils.getString(SharedPreference.WEBIP), spUtils.getString(SharedPreference.WEBPATH));
                 showDialog.setYesOnclickListener("确定", new SetIPDialog.onYesOnclickListener() {
                     @Override
                     public void onYesClick() {
                         if (isIP(showDialog.getIp())) {
-                            if (TextUtils.isEmpty(showDialog.getAddr())){
+                            if (TextUtils.isEmpty(showDialog.getAddr())) {
                                 showToast("资源路径不能为空");
-                            }else {
+                            } else {
                                 spUtils.put(SharedPreference.WEBIP, showDialog.getIp());
                                 spUtils.put(SharedPreference.WEBPATH, showDialog.getAddr());
                                 showDialog.dismiss();
@@ -389,7 +388,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private void initData(final String action, final NurseInfo nurseInfo) {
 
         //判断是否存在广播码信息，若无，再次请求广播码
-        if(!hasBroadCastConfig) {
+        if (!hasBroadCastConfig) {
             getBroadCastConfig();
         }
 
@@ -422,74 +421,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
                     //登录
                 } else if ("login".equals(action)) {
-                    //保存自动退出时长及检查时间间隔
-                    if (StringUtils.isEmpty(loginBean.getCloseTime())) {
-                        spUtils.put(SharedPreference.EXITTIME, 0);
-                    } else {
-                        spUtils.put(SharedPreference.EXITTIME, Integer.valueOf(loginBean.getCloseTime()));
-                    }
-
-                    if (StringUtils.isEmpty(loginBean.getCheckTime())) {
-                        spUtils.put(SharedPreference.CHECKTIME, 1000);
-                    } else {
-                        spUtils.put(SharedPreference.CHECKTIME, Integer.valueOf(loginBean.getCheckTime()));
-                    }
-
-                    LoginBean.LocsBean locsBean = loginBean.getLocs().get(0);
-
-                    if (nurseInfo == null) {
-                        loginNurseInfo = new NurseInfo(null, loginBean.getSchEnDateTime(), loginBean.getSchStDateTime(), loginBean.getStatus(), loginBean.getUserId(), userCode, loginBean.getUserName(), locsBean.getGroupDesc(), locsBean.getGroupId(), locsBean.getHospitalRowId(), locsBean.getLinkLoc(), locsBean.getLocDesc(), locsBean.getLocId(), locsBean.getWardId());
-                    } else {
-                        loginNurseInfo = nurseInfo;
-                        loginNurseInfo.setSchStDateTime(loginBean.getSchStDateTime());
-                        loginNurseInfo.setSchEnDateTime(loginBean.getSchEnDateTime());
-                    }
-
-                    //本地数据库已存储用户登录数据
-                    if (nurseInfoList != null && nurseInfoList.size() > 0) {
-                        int k = 0, l = 0;
-                        for (k = 0; k < nurseInfoList.size(); k++) {
-                            NurseInfo nurseInfo1 = nurseInfoList.get(k);
-                            //判断本地数据库是否已保存用户登录信息
-                            if (userCode.equals(nurseInfo1.getUserCode())) {
-                                //                                Toast.makeText(LoginActivity.this,"login----已存在,使用已保存数据", Toast.LENGTH_SHORT).show();
-                                for (l = 0; l < loginBean.getLocs().size(); l++) {
-                                    //判断本地数据库保存的登录病区是否在登录成功返回的病区列表里面
-                                    if (nurseInfo1.getLocId().equals(loginBean.getLocs().get(l).getLocId()) && nurseInfo1.getWardId().equals(loginBean.getLocs().get(l).getWardId())) {
-                                        break;
-                                    }
-                                }
-                                //本地数据库保存的登录病区不在登录成功返回的可登录病区列表里面，提示消息，弹窗选择病区
-                                if (l >= loginBean.getLocs().size()) {
-                                    showToast("已取消默认病区登录权限，请重新选择病区登录");
-                                    showLocPicker(nurseInfo1, loginBean);
-                                }
-                                break;
-                            }
-                        }
-                        //本地数据库已保存用户信息且用户的登录病区存在于登陆成功返回的可登录病区列表，
-                        if (k < nurseInfoList.size() && l < loginBean.getLocs().size()) {
-                            saveUserInfo();
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                            finish();
-                        }
-
-                        //本地数据库未保存用户信息，数据库添加用户数据，SP设置用户数据，跳转页面
-                        if (k >= nurseInfoList.size()) {
-                            //                            Toast.makeText(LoginActivity.this, "login----不存在，插入新数据", Toast.LENGTH_SHORT).show();
-                            daoSession.getNurseInfoDao().insert(loginNurseInfo);
-                            saveUserInfo();
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                            finish();
-                        }
-                    } else {
-                        //本地数据库未存储用户登录数据，数据库添加用户数据，SP设置用户数据，跳转页面
-                        //                        Toast.makeText(LoginActivity.this, "login----不存在，插入新数据", Toast.LENGTH_SHORT).show();
-                        daoSession.getNurseInfoDao().insert(loginNurseInfo);
-                        saveUserInfo();
-                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                        finish();
-                    }
+                    LoginSuccess(loginBean, nurseInfo);
                 }
 
             }
@@ -499,6 +431,77 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 showToast("error" + code + ":" + msg);
             }
         });
+    }
+
+    private void LoginSuccess(LoginBean loginBean, NurseInfo nurseInfo) {
+        //保存自动退出时长及检查时间间隔
+        if (StringUtils.isEmpty(loginBean.getCloseTime())) {
+            spUtils.put(SharedPreference.EXITTIME, 0);
+        } else {
+            spUtils.put(SharedPreference.EXITTIME, Integer.valueOf(loginBean.getCloseTime()));
+        }
+
+        if (StringUtils.isEmpty(loginBean.getCheckTime())) {
+            spUtils.put(SharedPreference.CHECKTIME, 1000);
+        } else {
+            spUtils.put(SharedPreference.CHECKTIME, Integer.valueOf(loginBean.getCheckTime()));
+        }
+
+        LoginBean.LocsBean locsBean = loginBean.getLocs().get(0);
+
+        if (nurseInfo == null) {
+            loginNurseInfo = new NurseInfo(null, loginBean.getSchEnDateTime(), loginBean.getSchStDateTime(), loginBean.getStatus(), loginBean.getUserId(), userCode, loginBean.getUserName(), locsBean.getGroupDesc(), locsBean.getGroupId(), locsBean.getHospitalRowId(), locsBean.getLinkLoc(), locsBean.getLocDesc(), locsBean.getLocId(), locsBean.getWardId());
+        } else {
+            loginNurseInfo = nurseInfo;
+            loginNurseInfo.setSchStDateTime(loginBean.getSchStDateTime());
+            loginNurseInfo.setSchEnDateTime(loginBean.getSchEnDateTime());
+        }
+
+        //本地数据库已存储用户登录数据
+        if (nurseInfoList != null && nurseInfoList.size() > 0) {
+            int k = 0, l = 0;
+            for (k = 0; k < nurseInfoList.size(); k++) {
+                NurseInfo nurseInfo1 = nurseInfoList.get(k);
+                //判断本地数据库是否已保存用户登录信息
+                if (userCode.equals(nurseInfo1.getUserCode())) {
+                    //                                Toast.makeText(LoginActivity.this,"login----已存在,使用已保存数据", Toast.LENGTH_SHORT).show();
+                    for (l = 0; l < loginBean.getLocs().size(); l++) {
+                        //判断本地数据库保存的登录病区是否在登录成功返回的病区列表里面
+                        if (nurseInfo1.getLocId().equals(loginBean.getLocs().get(l).getLocId()) && nurseInfo1.getWardId().equals(loginBean.getLocs().get(l).getWardId())) {
+                            break;
+                        }
+                    }
+                    //本地数据库保存的登录病区不在登录成功返回的可登录病区列表里面，提示消息，弹窗选择病区
+                    if (l >= loginBean.getLocs().size()) {
+                        showToast("已取消默认病区登录权限，请重新选择病区登录");
+                        showLocPicker(nurseInfo1, loginBean);
+                    }
+                    break;
+                }
+            }
+            //本地数据库已保存用户信息且用户的登录病区存在于登陆成功返回的可登录病区列表，
+            if (k < nurseInfoList.size() && l < loginBean.getLocs().size()) {
+                saveUserInfo();
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                finish();
+            }
+
+            //本地数据库未保存用户信息，数据库添加用户数据，SP设置用户数据，跳转页面
+            if (k >= nurseInfoList.size()) {
+                //                            Toast.makeText(LoginActivity.this, "login----不存在，插入新数据", Toast.LENGTH_SHORT).show();
+                daoSession.getNurseInfoDao().insert(loginNurseInfo);
+                saveUserInfo();
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                finish();
+            }
+        } else {
+            //本地数据库未存储用户登录数据，数据库添加用户数据，SP设置用户数据，跳转页面
+            //                        Toast.makeText(LoginActivity.this, "login----不存在，插入新数据", Toast.LENGTH_SHORT).show();
+            daoSession.getNurseInfoDao().insert(loginNurseInfo);
+            saveUserInfo();
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            finish();
+        }
     }
 
     /**
@@ -621,31 +624,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         @Override
         public void onReceive(Context context, Intent intent) {
             if (Action.DEVICE_SCAN_CODE.equals(intent.getAction())) {
-                    Bundle bundle = new Bundle();
-                    bundle = intent.getExtras();
-                    String scanInfo = bundle.getString("data");
+                Bundle bundle = new Bundle();
+                bundle = intent.getExtras();
 
-                    LoginApiManager.GetUserPwd(scanInfo, new LoginApiManager.GetUserPwdCallback() {
-                        @Override
-                        public void onSuccess(LoginBean loginBean) {
-                            LoginApiManager.ScanLogon(scanInfo, new LoginApiManager.ScanLogonCallback() {
-                                @Override
-                                public void onSuccess(LoginBean loginBean) {
+                etLoginUsercode.setText("");
+                etLoginPassword.setText("");
 
-                                }
+                userCode = bundle.getString("data", "");
 
-                                @Override
-                                public void onFail(String code, String msg) {
-
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onFail(String code, String msg) {
-                            Toast.makeText(LoginActivity.this, "error" + code + ":" + msg, Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                initData("login", null);
             }
         }
     }

@@ -42,7 +42,7 @@ public class LoginApiService {
 
         HashMap<String, String> properties = new HashMap<String, String>();
         properties.put("userCode", userCode);
-        WebServiceUtils.callWebService("scanlogon", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService("ScanLogon", properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -50,7 +50,6 @@ public class LoginApiService {
         });
 
     }
-
 
 
     public static void getLogin(String userCode, String password, String logonWardId, final ServiceCallBack callback) {
