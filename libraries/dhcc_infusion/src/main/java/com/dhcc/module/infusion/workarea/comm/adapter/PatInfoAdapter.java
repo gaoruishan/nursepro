@@ -12,7 +12,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.utils.AdapterFactory;
 import com.dhcc.module.infusion.utils.RecyclerViewHelper;
-import com.dhcc.module.infusion.utils.ViewUtil;
+import com.base.commlibs.utils.ViewUtil;
 import com.dhcc.module.infusion.view.SelectorImageView;
 import com.dhcc.module.infusion.workarea.comm.bean.PatDetailBean;
 import com.dhcc.module.infusion.workarea.dosing.adapter.CommDosingAdapter;

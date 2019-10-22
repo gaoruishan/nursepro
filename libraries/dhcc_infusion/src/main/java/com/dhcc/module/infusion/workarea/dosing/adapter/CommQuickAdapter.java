@@ -19,7 +19,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.utils.RecyclerViewHelper;
-import com.dhcc.module.infusion.utils.ViewUtil;
+import com.base.commlibs.utils.ViewUtil;
 import com.dhcc.module.infusion.view.SelectTextView;
 import com.dhcc.module.infusion.workarea.MedicalDetailFragment;
 import com.dhcc.module.infusion.workarea.dosing.bean.OeoreGroupBean;

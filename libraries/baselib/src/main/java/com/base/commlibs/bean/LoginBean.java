@@ -6,7 +6,6 @@ import java.util.List;
 
 /**
  * LoginBean
- *
  * @author DevLix126
  * @date 2018/8/13
  */
@@ -165,7 +164,7 @@ public class LoginBean extends CommResult {
         }
 
         public String getWardId() {
-            return wardId;
+            return wardId == null ? "" : wardId;
         }
 
         public void setWardId(String wardId) {

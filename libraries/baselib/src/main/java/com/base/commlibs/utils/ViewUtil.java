@@ -1,4 +1,4 @@
-package com.dhcc.module.infusion.utils;
+package com.base.commlibs.utils;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
@@ -51,8 +51,8 @@ public class ViewUtil {
     private static final int CYAN = 0xff80ffff;
     private static final int GREEN = 0xff80ff80;
     private static final String TAG = ViewUtil.class.getSimpleName();
-    static long lastClickTime = 0;//上次点击的时间
-    static int spaceTime = 1000;//时间间隔
+    private static long lastClickTime = 0;//上次点击的时间
+    private static int spaceTime = 1000;//时间间隔
 
     /**
      * 隐藏/显示布局

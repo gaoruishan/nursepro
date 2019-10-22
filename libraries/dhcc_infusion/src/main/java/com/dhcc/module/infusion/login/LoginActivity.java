@@ -35,7 +35,7 @@ import com.dhcc.module.infusion.login.windowpicker.Ward;
 import com.dhcc.module.infusion.login.windowpicker.Window;
 import com.dhcc.module.infusion.login.windowpicker.WindowPicker;
 import com.dhcc.module.infusion.utils.DialogFactory;
-import com.dhcc.module.infusion.utils.TransBroadcastUtil;
+import com.base.commlibs.utils.TransBroadcastUtil;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;

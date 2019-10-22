@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ExtraTranslation">
+    <string name="app_name_health">东华康复</string>
+    <string name="tabbar_setting">设置</string>
+    <string name="tabbar_workarea">主页</string>
+    <string name="tabbar_message">消息</string>
+</resources>

@@ -63,6 +63,16 @@ public class UserUtil {
             SPUtils.getInstance().put(SharedPreference.WINDOWNAME, name);
         }
     }
+    /**
+     * 设置科室/窗口名称
+     * @param locDesc
+     */
+    public static void setLocWindowName(String locDesc,String name) {
+        if (!TextUtils.isEmpty(locDesc)) {
+            SPUtils.getInstance().put(SharedPreference.LOCDESC,locDesc);
+        }
+        setWindowName(name);
+    }
 
     /**
      * 检查IP

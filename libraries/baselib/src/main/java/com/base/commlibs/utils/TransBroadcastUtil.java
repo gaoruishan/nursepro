@@ -1,4 +1,4 @@
-package com.dhcc.module.infusion.utils;
+package com.base.commlibs.utils;
 
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
@@ -41,13 +41,10 @@ public class TransBroadcastUtil {
         return mTransBroadcastUtil;
     }
 
-    //    public static void setScanAction(String scanActionStr) {
-    //        scanAction = scanActionStr;
-    //        IntentFilter filter = new IntentFilter();
-    //        filter.addAction(scanAction);
-    //        mContext.registerReceiver(mReceiver, filter);
-    //    }
-
+    /**
+     * LoginActivity中设置广播码
+     * @param broadcastListBeans
+     */
     public static void setScanActionList(List<BroadcastListBean> broadcastListBeans) {
         broadcastList = broadcastListBeans;
         IntentFilter filter = new IntentFilter();
@@ -57,10 +54,18 @@ public class TransBroadcastUtil {
         mContext.registerReceiver(mReceiver, filter);
     }
 
+    /**
+     * Application注册
+     * @param context
+     */
     public static void init(Context context) {
         mContext = context;
     }
 
+    /**
+     * Application取消注册
+     * @param context
+     */
     public static void unreg(Context context) {
         mContext.unregisterReceiver(mReceiver);
     }
