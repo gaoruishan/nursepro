@@ -43,7 +43,16 @@ public class MessageSkinBean extends CommResult {
         private String PatSex;
         private String SkinResutl;
         private String TestStartTime;//
+        private boolean select;
         private List<OeoreGroupBean> OeoreGroup;
+
+        public boolean isSelect() {
+            return select;
+        }
+
+        public void setSelect(boolean select) {
+            this.select = select;
+        }
 
         public String getObserveTime() {
             return ObserveTime;

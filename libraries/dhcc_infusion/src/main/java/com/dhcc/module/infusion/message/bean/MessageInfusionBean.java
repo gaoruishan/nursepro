@@ -1,7 +1,7 @@
 package com.dhcc.module.infusion.message.bean;
 
-import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.base.commlibs.http.CommResult;
+import com.chad.library.adapter.base.entity.MultiItemEntity;
 
 import java.util.List;
 
@@ -51,7 +51,15 @@ public class MessageInfusionBean extends CommResult implements MultiItemEntity {
         private String PatRegNo;
         private String PatSex;
         private String overTime;
+        private boolean select;
 
+        public boolean isSelect() {
+            return select;
+        }
+
+        public void setSelect(boolean select) {
+            this.select = select;
+        }
         public String getPatName() {
             return PatName;
         }

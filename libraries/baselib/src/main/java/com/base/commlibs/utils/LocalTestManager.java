@@ -17,12 +17,13 @@ import java.util.List;
  */
 public class LocalTestManager {
     // 是否开启测试
-    public static boolean TEST = false;
+    private final static boolean TEST = false;
     private static List<String> l = new ArrayList<>();
 
     static {
         //对应的方法名
         l.add("getInfusionMessage");
+        l.add("getSkinTestMessage");
         l.add("getOrdList");
     }
 

@@ -44,6 +44,7 @@ public class MessageSkinAdapter extends BaseQuickAdapter<MessageSkinBean.SkinTim
     @Override
     protected void convert(BaseViewHolder helper, final MessageSkinBean.SkinTimeListBean item) {
         helper.setVisible(R.id.ll_count, !TextUtils.isEmpty(item.getOverTime()));
+        helper.getView(R.id.ll_message_content).setSelected(item.isSelect());
         if (!TextUtils.isEmpty(item.getOverTime())) {
             CountView cvCount = helper.getView(R.id.cv_count);
             cvCount.getTitleName().setVisibility(View.GONE);
