@@ -584,7 +584,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                 .setYearText("年")
                 .setMonthText("月")
                 .setDayText("日")
-                .setHourText("：00")
+                .setHourText("时")
                 .setMinuteText("分")
                 .setCyclic(false)
                 .setMinMillseconds(currentTimeMillis - tenYears)
@@ -599,13 +599,12 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
         mDialogAll.settype(1);
         //取时间前两个字符转为int（02，06...）
 
-        List<String> hours = new ArrayList();
+        List<String> timeList = new ArrayList();
         for (int i = 0; i < timeFilterList.size(); i++) {
             String str = (String) ((Map) timeFilterList.get(i)).get("time");
-            hours.add(str);
+            timeList.add(str);
         }
-
-        mDialogAll.setintHour(hours);
+        mDialogAll.setmHourMinute(timeList);
 
         mDialogAll.show(getFragmentManager(), "ALL");
 
