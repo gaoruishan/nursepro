@@ -1,0 +1,29 @@
+{
+  "desc": "主页模块配置",
+  "list": [
+    {
+      "id": 100,
+      "name": "患者列表",
+      "image": "infusion_main_py",
+      "fragment": "com.dhcc.module.health.workarea.patlist.PatientListFragment"
+    },
+    {
+      "id": 101,
+      "name": "医嘱执行",
+      "image": "health_order_excute",
+      "fragment": "com.dhcc.module.health.workarea.orderexecute.OrderExecuteFragment"
+    },
+    {
+      "id": 102,
+      "name": "生命体征",
+      "image": "health_vital_sign",
+      "fragment": "com.dhcc.module.health.workarea.vitalsign.VitalSignsFragment"
+    },
+    {
+      "id": 103,
+      "name": "医嘱单",
+      "image": "health_doc_order_list",
+      "fragment": "com.dhcc.module.health.workarea.orderlist.DoctorOrderListFragment"
+    }
+  ]
+}

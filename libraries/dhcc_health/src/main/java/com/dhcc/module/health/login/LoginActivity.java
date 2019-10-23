@@ -57,30 +57,22 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(com.grs.dhcc_res.R.layout.dhcc_activity_login);
+        initView();
         setToolbarType(ToolbarType.HIDE);
         UserUtil.checkWebIp();
         UserUtil.checkWebPath();
         UserUtil.setLoginLocType();
-        boolean remem = SPUtils.getInstance().getBoolean(SharedPreference.REMEM);
+        final boolean remem = SPUtils.getInstance().getBoolean(SharedPreference.REMEM);
         final String rememUserCode = SPUtils.getInstance().getString(SharedPreference.REMEM_USERCODE);
-
+        llLoginRememberme.setSelected(remem);
+        checkRemeberMe(null, rememUserCode, remem);
         cletUser = findViewById(com.grs.dhcc_res.R.id.clet_user);
         cletUser.setTextName("账户").setEditInputType(InputType.TYPE_CLASS_TEXT)
                 .checkRememberMe(remem, rememUserCode)
                 .setTextChangedListener(new SimpleCallBack<String>() {
                     @Override
                     public void call(String result, int type) {
-                        if (rememUserCode.equals(result)) {
-                            String locDesc = SPUtils.getInstance().getString(SharedPreference.LOCDESC);
-                            logonWardId = SPUtils.getInstance().getString(SharedPreference.WARDID);
-                            if (!TextUtils.isEmpty(locDesc)) {
-                                tvLoginWard.setText(locDesc + " " + UserUtil.getWindowName());
-                                tvLoginWard.setTextColor(Color.parseColor("#000000"));
-                            }
-                        } else {
-                            tvLoginWard.setText("请选择登录病区");
-                            tvLoginWard.setTextColor(Color.parseColor("#9b9b9b"));
-                        }
+                        checkRemeberMe(result, rememUserCode, false);
                     }
                 });
 
@@ -88,8 +80,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         cletPsw.setTextName("密码").setEditInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD)
                 .checkRememberMe(remem, rememUserCode);
 
+    }
+
+    private void initView() {
         llLoginRememberme = findViewById(com.grs.dhcc_res.R.id.ll_login_rememberme);
-        llLoginRememberme.setSelected(remem);
         llLoginRememberme.setOnClickListener(this);
         findViewById(R.id.tv_login_setip).setOnClickListener(this);
         TextView tvLogin = findViewById(R.id.tv_login_login);
@@ -97,6 +91,20 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         tvLogin.setSelected(true);
         tvLoginWard = findViewById(R.id.tv_login_ward);
         tvLoginWard.setOnClickListener(this);
+    }
+
+    private void checkRemeberMe(String result, String rememUserCode, boolean remem) {
+        if (rememUserCode.equals(result) || remem) {
+            String locDesc = SPUtils.getInstance().getString(SharedPreference.LOCDESC);
+            logonWardId = SPUtils.getInstance().getString(SharedPreference.WARDID);
+            if (!TextUtils.isEmpty(locDesc)) {
+                tvLoginWard.setText(locDesc + " " + UserUtil.getWindowName());
+                tvLoginWard.setTextColor(Color.parseColor("#000000"));
+            }
+        } else {
+            tvLoginWard.setText("请选择登录病区");
+            tvLoginWard.setTextColor(Color.parseColor("#9b9b9b"));
+        }
     }
 
     @Override

@@ -6,6 +6,6 @@
         <bitmap
             android:gravity="bottom|fill_horizontal"
 
-            android:src="@drawable/loading"/>
+            android:src="@drawable/dhcc_loading"/>
     </item>
 </layer-list>

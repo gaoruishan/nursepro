@@ -1,71 +1,63 @@
-package com.dhcc.module.infusion.workarea;
+package com.dhcc.res.nurse;
 
-import android.os.Bundle;
+import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.AttributeSet;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
 import com.base.commlibs.utils.CommRes;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.dhcc.module.infusion.R;
 import com.dhcc.res.nurse.bean.ConfigWorkArea;
+import com.grs.dhcc_res.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 主页
+ * 主页模块
  * @author:gaoruishan
- * @date:202019-05-22/15:16
+ * @date:202019-10-23/16:01
  * @email:grs0515@163.com
  */
-public class WorkAreaFragment extends BaseFragment {
-    public static final String DOSING = "DOSING";
-    public static final String PUNCTURE = "PUNCTURE";
-    public static final String PATRAL = "PATRAL";
-    public static final String CONTINUE = "CONTINUE";
-    public static final String NEEDLES = "WITHDRAWALOFNEEDLES";
-    private RecyclerView recConfig;
-    private List<ConfigWorkArea.ListBean> ItemNameList = new ArrayList<>();
-    private WorkAreaAdapter patEventsAdapter;
+public class CustomWorkAreaLayout extends LinearLayout {
 
+    private static final String TAG = CustomWorkAreaLayout.class.getSimpleName();
+    public RecyclerView rvWorkArea;
+    public WorkAreaAdapter patEventsAdapter;
 
-    @Override
-    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_workarea_infusion, container, false);
+    public CustomWorkAreaLayout(Context context) {
+        this(context, null);
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        setStatusBarBackgroundViewVisibility(false, 0xffffffff);
-        setToolbarType(BaseActivity.ToolbarType.HIDE);
-        initView(view);
-        CommRes.readJson("config_work_area.json", ConfigWorkArea.class, new CommRes.CallRes<ConfigWorkArea>() {
-            @Override
-            public void call(ConfigWorkArea conf, String s) {
-                patEventsAdapter.setNewData(conf.getList());
-            }
-        });
-
+    public CustomWorkAreaLayout(Context context, @Nullable AttributeSet attrs) {
+        this(context, attrs, 0);
     }
 
-    private void initView(View view) {
-        recConfig = view.findViewById(R.id.recy_workarea);
-        recConfig.setHasFixedSize(true);
-        recConfig.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-        patEventsAdapter = new WorkAreaAdapter(null);
-        recConfig.setAdapter(patEventsAdapter);
+    public CustomWorkAreaLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        View view = View.inflate(context, R.layout.custom_work_area_layout, null);
+        LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1);
+        view.setLayoutParams(layoutParams);
+        addView(view);
+        setOrientation(VERTICAL);
+        rvWorkArea = view.findViewById(R.id.rv_work_area);
+        rvWorkArea.setHasFixedSize(true);
+    }
+
+    public void initData(final BaseFragment context, List<ConfigWorkArea.ListBean> list) {
+
+        rvWorkArea.setLayoutManager(new GridLayoutManager(context.getActivity(), 3));
+        patEventsAdapter = new WorkAreaAdapter(list);
+        rvWorkArea.setAdapter(patEventsAdapter);
         patEventsAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -74,7 +66,7 @@ public class WorkAreaFragment extends BaseFragment {
                     //fragment 不为空, 且必须继承BaseFragment
                     if (item != null && !TextUtils.isEmpty(item.getFragment())) {
                         Class<? extends BaseFragment> aClass = (Class<? extends BaseFragment>) Class.forName(item.getFragment());
-                        startFragment(aClass);
+                        context.startFragment(aClass);
                     }
                 } catch (Exception e) {
                     Log.e(TAG,e.toString());
@@ -85,7 +77,7 @@ public class WorkAreaFragment extends BaseFragment {
 
     public class WorkAreaAdapter extends BaseQuickAdapter<ConfigWorkArea.ListBean, BaseViewHolder> {
         WorkAreaAdapter(@Nullable List<ConfigWorkArea.ListBean> data) {
-            super(R.layout.item_workarea, data);
+            super(R.layout.dhcc_item_workarea, data);
         }
 
         @Override

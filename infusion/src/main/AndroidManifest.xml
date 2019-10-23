@@ -21,7 +21,7 @@
 
         <activity android:name="com.dhcc.infusion.SplashActivity"
                   android:screenOrientation="portrait"
-                  android:theme="@style/StartAppTheme">
+                  android:theme="@style/SplashAppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

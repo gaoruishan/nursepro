@@ -26,9 +26,8 @@
         android:layout_height="wrap_content"
         android:src="@drawable/dhcc_img_blueline"
         />
-    <android.support.v7.widget.RecyclerView
+    <com.dhcc.res.nurse.CustomWorkAreaLayout
+        android:id="@+id/cwa_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/recy_workarea"
-       />
+        android:layout_height="match_parent"/>
 </LinearLayout>
