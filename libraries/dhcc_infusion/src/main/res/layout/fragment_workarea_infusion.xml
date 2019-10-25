@@ -7,13 +7,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_157"
-        android:background="@drawable/picture_workarea"
+        android:background="@drawable/dhcc_picture_workarea"
         android:gravity="center"
         >
         <TextView
             android:layout_width="@dimen/dp_290"
             android:layout_height="@dimen/dp_45"
-            android:background="@drawable/back_tv_workarea"
+            android:background="@drawable/dhcc_back_tv_workarea"
             android:text="有时是治愈；常常是帮助；总是去安慰。"
             android:textSize="@dimen/sp_14"
             android:textColor="@color/white"
@@ -24,7 +24,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/img_blueline"
+        android:src="@drawable/dhcc_img_blueline"
         />
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"

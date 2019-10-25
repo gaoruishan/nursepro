@@ -34,7 +34,7 @@ import java.util.Map;
 public class CrashHandler implements Thread.UncaughtExceptionHandler {
     private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 0x100;
     //日志文件夹名
-    public static final String DHC_CRASH = "dhc_crash";
+    private static final String DHC_CRASH = "dhc_crash";
     //默认异常处理器
     private Thread.UncaughtExceptionHandler mDefaultHandler;
     //单例模式

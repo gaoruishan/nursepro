@@ -94,6 +94,19 @@ public class MessageEvent {
         this.args = args;
     }
 
+    @Override
+    public String toString() {
+        return "MessageEvent{" +
+                "tag=" + tag +
+                ", message='" + message + '\'' +
+                ", args=" + args +
+                ", type=" + type +
+                ", postion=" + postion +
+                ", offSet=" + offSet +
+                ", object=" + object +
+                '}';
+    }
+
     public  enum MessageType {
         NONE,
         SHOW_LOADING,

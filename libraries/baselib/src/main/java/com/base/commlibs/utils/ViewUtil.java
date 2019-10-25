@@ -6,6 +6,7 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
@@ -78,6 +79,25 @@ public class ViewUtil {
         itemView.setLayoutParams(param);
     }
 
+    /**
+     * 获取Selector
+     * @param context
+     * @param idNormal
+     * @param idPress
+     * @return
+     */
+    public static Drawable getSelectorDrawable(Context context, int idNormal, int idPress) {
+        StateListDrawable drawable = new StateListDrawable();
+        Drawable normal = context.getResources().getDrawable(idNormal);
+        Drawable press = context.getResources().getDrawable(idPress);
+//        drawable.addState(new int[]{android.R.attr.state_pressed}, press);
+//        drawable.addState(new int[]{-android.R.attr.state_pressed}, normal);
+//        drawable.addState(new int[]{android.R.attr.state_selected}, press);
+//        drawable.addState(new int[]{-android.R.attr.state_selected}, normal);
+        drawable.addState(new int[]{android.R.attr.state_checked}, press);
+        drawable.addState(new int[]{-android.R.attr.state_checked}, normal);
+        return drawable;
+    }
     /**
      * 显示小红点
      * @param context

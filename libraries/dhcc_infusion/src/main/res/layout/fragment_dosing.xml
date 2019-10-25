@@ -73,12 +73,15 @@
             </LinearLayout>
 
         </LinearLayout>
+        <com.dhcc.res.infusion.CustomPatView
+            android:id="@+id/cpv_pat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
         <View
             android:layout_width="match_parent"
-            android:layout_height="0.8dp"
-            android:layout_alignBottom="@+id/fragment"
-            android:layout_alignParentBottom="true"
-            android:background="@color/blue_dark2"/>
+            android:layout_height="@dimen/dp_10"
+            android:background="@color/white"/>
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

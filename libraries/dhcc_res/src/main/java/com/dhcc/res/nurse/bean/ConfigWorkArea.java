@@ -1,8 +1,9 @@
-package com.dhcc.module.infusion.config;
+package com.dhcc.res.nurse.bean;
 
 import java.util.List;
 
 /**
+ * 主页配置Bean
  * @author:gaoruishan
  * @date:202019-07-04/11:16
  * @email:grs0515@163.com
