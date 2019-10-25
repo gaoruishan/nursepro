@@ -135,6 +135,7 @@ public class LabPatsFragment extends BaseFragment implements View.OnClickListene
     private void showSelectedPats(List<PatsListBean.PatInfoListBean> listPats) {
         patListAdapterAll.setNewData(listPats);
         patListAdapterAll.notifyDataSetChanged();
+        recall.scrollToPosition(0);
         if (listPats.size() < 1) {
             llEmpty.setVisibility(View.VISIBLE);
         } else {

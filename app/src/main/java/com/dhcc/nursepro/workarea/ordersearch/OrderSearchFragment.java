@@ -217,6 +217,7 @@ public class OrderSearchFragment extends BaseFragment implements View.OnClickLis
 
                     patientAdapter.setDetailColums(detailColums);
                     patientAdapter.setNewData(orders);
+                    recyOrdersearchPatorder.scrollToPosition(0);
                     if (orders.size() == 0) {
                         patientAdapter.loadMoreEnd();
                     } else {
