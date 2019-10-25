@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.qqtheme.framework.picker.LinkagePicker;
+import cn.qqtheme.framework.picker.OptionPicker;
 
 /**
  * 登陆页
@@ -61,7 +62,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         setToolbarType(ToolbarType.HIDE);
         UserUtil.checkWebIp();
         UserUtil.checkWebPath();
-        UserUtil.setLoginLocType();
+        UserUtil.setLoginLocType(UserUtil.LOGONLOCTYPE_HEALTH);
         final boolean remem = SPUtils.getInstance().getBoolean(SharedPreference.REMEM);
         final String rememUserCode = SPUtils.getInstance().getString(SharedPreference.REMEM_USERCODE);
         llLoginRememberme.setSelected(remem);
@@ -127,7 +128,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         // getBroadcastList();
                         showDialog.dismiss();
                     } else {
-                        showToast("IP格式不正确，请重新输入");
+                        ToastUtils.showShort("IP格式不正确，请重新输入");
                     }
                 }
             });
@@ -199,30 +200,44 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         for (LoginBean.LocsBean loc : locs) {
             String locDesc = loc.getLocDesc();
             firstList.add(locDesc);
-            List<String> list = new ArrayList<>();
-            for (LoginBean.LocsBean.WinListBean winListBean : loc.getWinList()) {
-                list.add(winListBean.getWinDesc());
+            if (loc.getWinList() != null) {
+                List<String> list = new ArrayList<>();
+                for (LoginBean.LocsBean.WinListBean winListBean : loc.getWinList()) {
+                    list.add(winListBean.getWinDesc());
+                }
+                listMap.put(locDesc, list);
             }
-            listMap.put(locDesc, list);
         }
         wardBean.setFirstList(firstList);
         wardBean.setListMap(listMap);
         wardBean.setFirstString(SPUtils.getInstance().getString(SharedPreference.LOCDESC));
         wardBean.setSecondString(SPUtils.getInstance().getString(SharedPreference.WINDOWNAME));
-
-        CustomSelectPicker.onWardPicker(this, wardBean, new LinkagePicker.OnStringPickListener() {
-            @Override
-            public void onPicked(String locDesc, String second, String third) {
-                UserUtil.setLocWindowName(locDesc, second);
-                for (LoginBean.LocsBean loc : locs) {
-                    if (loc.getLocDesc().equals(locDesc)) {
-                        UserUtil.setLocsUserInfo(cletUser.getTextString(), loc.getHospitalRowId(), loc.getGroupId(),
-                                loc.getGroupDesc(), loc.getLinkLoc(), loc.getLocId(), loc.getLocDesc(), loc.getWardId());
-                        logonWardId = loc.getWardId();
-                    }
+        if (wardBean.getListMap() == null || wardBean.getListMap().size() == 0) {
+            CustomSelectPicker.onOptionPicker(this, wardBean, new OptionPicker.OnOptionPickListener() {
+                @Override
+                public void onOptionPicked(int index, String locDesc) {
+                    saveInfoAndLogin(locDesc, null, locs);
                 }
-                initData(LOGIN);
+            });
+        } else {
+            CustomSelectPicker.onWardPicker(this, wardBean, new LinkagePicker.OnStringPickListener() {
+                @Override
+                public void onPicked(String locDesc, String second, String third) {
+                    saveInfoAndLogin(locDesc, second, locs);
+                }
+            });
+        }
+    }
+
+    private void saveInfoAndLogin(String locDesc, String second, List<LoginBean.LocsBean> locs) {
+        UserUtil.setLocWindowName(locDesc, second);
+        for (LoginBean.LocsBean loc : locs) {
+            if (loc.getLocDesc().equals(locDesc)) {
+                UserUtil.setLocsUserInfo(cletUser.getTextString(), loc.getHospitalRowId(), loc.getGroupId(),
+                        loc.getGroupDesc(), loc.getLinkLoc(), loc.getLocId(), loc.getLocDesc(), loc.getWardId());
+                logonWardId = loc.getWardId();
             }
-        });
+        }
+        initData(LOGIN);
     }
 }

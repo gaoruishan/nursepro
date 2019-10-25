@@ -22,9 +22,9 @@ import java.util.Map;
  */
 public class UserUtil {
 
+    public static final String LOGONLOCTYPE_HEALTH = "W";
     private static final String TAG = UserUtil.class.getSimpleName();
-
-    // 登陆类型
+    // 登陆类型:E 是门诊输液
     private static final String LOGONLOCTYPE = "E";
 
     /**
@@ -47,9 +47,13 @@ public class UserUtil {
             java.lang.reflect.Type typeWin = new TypeToken<HashMap<String, List>>() {
             }.getType();
             String winjson = SPUtils.getInstance().getString(SharedPreference.WINSLISTJSON);
-            Map<String, List> mapWins = new Gson().fromJson(winjson, typeWin);
-            //默认第一个窗口
-            return mapWins.get(locdesc).get(0).toString();
+            if (!TextUtils.isEmpty(winjson)) {
+                Map<String, List> mapWins = new Gson().fromJson(winjson, typeWin);
+                //默认第一个窗口
+                if (mapWins.get(locdesc) != null && mapWins.get(locdesc).size() > 0) {
+                    return mapWins.get(locdesc).get(0).toString();
+                }
+            }
         }
         return windName;
     }
@@ -61,15 +65,18 @@ public class UserUtil {
     public static void setWindowName(String name) {
         if (!TextUtils.isEmpty(name)) {
             SPUtils.getInstance().put(SharedPreference.WINDOWNAME, name);
+        } else {
+            SPUtils.getInstance().put(SharedPreference.WINDOWNAME, "");
         }
     }
+
     /**
      * 设置科室/窗口名称
      * @param locDesc
      */
-    public static void setLocWindowName(String locDesc,String name) {
+    public static void setLocWindowName(String locDesc, String name) {
         if (!TextUtils.isEmpty(locDesc)) {
-            SPUtils.getInstance().put(SharedPreference.LOCDESC,locDesc);
+            SPUtils.getInstance().put(SharedPreference.LOCDESC, locDesc);
         }
         setWindowName(name);
     }
@@ -83,8 +90,8 @@ public class UserUtil {
         CommFile.read(SharedPreference.WEBIP, new SimpleCallBack<String>() {
             @Override
             public void call(String result, int type) {
-                Log.e(TAG,"(UserUtil.java:73) "+result);
-                if(!TextUtils.isEmpty(result)){
+                Log.e(TAG, "(UserUtil.java:73) " + result);
+                if (!TextUtils.isEmpty(result)) {
                     SPUtils.getInstance().put(SharedPreference.WEBIP, result);
                 }
             }
@@ -107,8 +114,8 @@ public class UserUtil {
         CommFile.read(SharedPreference.WEBPATH, new SimpleCallBack<String>() {
             @Override
             public void call(String result, int type) {
-                Log.e(TAG,"(UserUtil.java:100) "+result);
-                if(!TextUtils.isEmpty(result)){
+                Log.e(TAG, "(UserUtil.java:100) " + result);
+                if (!TextUtils.isEmpty(result)) {
                     SPUtils.getInstance().put(SharedPreference.WEBPATH, result);
                 }
             }
@@ -128,6 +135,12 @@ public class UserUtil {
         SPUtils.getInstance().put(SharedPreference.LOGONLOCTYPE, LOGONLOCTYPE);
     }
 
+    public static void setLoginLocType(String logonloctype) {
+        if (logonloctype != null) {
+            SPUtils.getInstance().put(SharedPreference.LOGONLOCTYPE, logonloctype);
+        }
+    }
+
     /**
      * 设置IP和Path
      * @param ip
@@ -136,11 +149,11 @@ public class UserUtil {
     public static void setWebIpAndPath(String ip, String path) {
         if (!TextUtils.isEmpty(ip)) {
             SPUtils.getInstance().put(SharedPreference.WEBIP, ip);
-            CommFile.write(SharedPreference.WEBIP,ip);
+            CommFile.write(SharedPreference.WEBIP, ip);
         }
         if (!TextUtils.isEmpty(path)) {
             SPUtils.getInstance().put(SharedPreference.WEBPATH, path);
-            CommFile.write(SharedPreference.WEBPATH,path);
+            CommFile.write(SharedPreference.WEBPATH, path);
         }
     }
 
@@ -188,7 +201,7 @@ public class UserUtil {
         SPUtils.getInstance().put(SharedPreference.GROUPDESC, groupDesc);
         SPUtils.getInstance().put(SharedPreference.LINKLOC, linkLoc);
         SPUtils.getInstance().put(SharedPreference.LOCID, locId);
-        SPUtils.getInstance().put(SharedPreference.LOCDESC,locDesc);
+        SPUtils.getInstance().put(SharedPreference.LOCDESC, locDesc);
         SPUtils.getInstance().put(SharedPreference.WARDID, wardId);
     }
 
@@ -203,6 +216,7 @@ public class UserUtil {
         SPUtils.getInstance().put(SharedPreference.USERID, loginBean.getUserId());
         SPUtils.getInstance().put(SharedPreference.USERNAME, loginBean.getUserName());
         SPUtils.getInstance().put(SharedPreference.SCHSTDATETIME, loginBean.getSchStDateTime());
-        SPUtils.getInstance().put(SharedPreference.SCHENDATETIME,loginBean.getSchEnDateTime());
+        SPUtils.getInstance().put(SharedPreference.SCHENDATETIME, loginBean.getSchEnDateTime());
     }
+
 }

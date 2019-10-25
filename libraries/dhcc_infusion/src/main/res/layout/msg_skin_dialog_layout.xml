@@ -33,12 +33,12 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="@dimen/dp_1"
                 android:background="@color/blue"/>
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scrollbarSize="2dp"
+                android:scrollbarSize="@dimen/dp_2"
                 android:layout_marginBottom="@dimen/dp_20"
                 android:layout_marginTop="@dimen/dp_20"
                 android:scrollbarThumbVertical="@color/blue">
@@ -51,8 +51,8 @@
                         android:id="@+id/tv_message"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
+                        android:layout_marginLeft="@dimen/dp_20"
+                        android:layout_marginRight="@dimen/dp_20"
                         android:text="提示消息"
                         android:gravity="center"
                         android:textColor="#FF4A4A4A"
@@ -80,7 +80,7 @@
                         android:layout_width="@dimen/dp_80"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginEnd="8dp"
+                        android:layout_marginEnd="@dimen/dp_8"
                         android:gravity="center"
                         android:text="复核账户: "
                         android:textColor="#FF4A4A4A"
@@ -110,7 +110,7 @@
                         android:layout_width="@dimen/dp_80"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginEnd="8dp"
+                        android:layout_marginEnd="@dimen/dp_8"
                         android:gravity="center"
                         android:text="复核密码: "
                         android:textColor="#FF4A4A4A"
@@ -140,7 +140,7 @@
 
             <Button
                 android:id="@+id/btn_no"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/dp_0"
                 android:layout_height="@dimen/dp_45"
                 android:layout_weight="1"
                 android:background="@null"
@@ -152,13 +152,13 @@
                 app:bl_corners_radius="@dimen/dp_6"
                 app:bl_solid_color="#FFFFFF"
                 app:bl_stroke_color="#62ABFF"
-                app:bl_stroke_width="1dp"
+                app:bl_stroke_width="@dimen/dp_1"
                 tools:ignore="MissingPrefix"/>
 
 
             <Button
                 android:id="@+id/btn_yes"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/dp_0"
                 android:layout_height="@dimen/dp_45"
                 android:layout_marginLeft="@dimen/dp_20"
                 android:layout_weight="1"

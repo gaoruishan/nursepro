@@ -58,6 +58,20 @@ public class CommWebService {
             }
         });
     }
+    /**
+     * 统一(康复)
+     * @param methodName
+     * @param properties
+     * @param callBack
+     */
+    public static void callHealth(String methodName, HashMap<String, String> properties, final ServiceCallBack callBack) {
+        BaseWebServiceUtils.callWebPDAService(methodName, properties, new BaseWebServiceUtils.WebServiceCallBack() {
+            @Override
+            public void callBack(String result) {
+                callBack.onResult(result);
+            }
+        });
+    }
 
     /**
      * 解析CommResult方法

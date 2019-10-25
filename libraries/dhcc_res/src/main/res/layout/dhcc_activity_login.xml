@@ -82,12 +82,12 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="@dimen/dp_1"
             android:background="#d5d5d5" />
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="@dimen/dp_0"
             android:layout_weight="1" />
 
         <TextView
@@ -131,7 +131,7 @@
                     android:text="记住我" />
             </LinearLayout>
             <View
-                android:layout_width="1dp"
+                android:layout_width="@dimen/dp_1"
                 android:layout_height="match_parent"
                 android:background="@color/blue"
                 android:layout_marginLeft="@dimen/dp_8"

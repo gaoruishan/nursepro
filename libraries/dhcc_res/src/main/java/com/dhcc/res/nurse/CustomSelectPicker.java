@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 
 import cn.qqtheme.framework.picker.LinkagePicker;
+import cn.qqtheme.framework.picker.OptionPicker;
+import cn.qqtheme.framework.widget.WheelView;
 
 /**
  * 封装自定义选择器
@@ -27,7 +29,7 @@ public class CustomSelectPicker {
      * @param listener
      */
     public static void onWardPicker(Activity activity, WardBean bean, LinkagePicker.OnStringPickListener listener) {
-        onLinkagePicker(activity, bean.getFirstList(), bean.getFirstIndex(),bean.getSecondIndex(), bean.getFirstLabel(), bean.getSecondLabel(), bean.getListMap(), listener);
+        onLinkagePicker(activity, bean.getFirstList(), bean.getFirstIndex(), bean.getSecondIndex(), bean.getFirstLabel(), bean.getSecondLabel(), bean.getListMap(), listener);
     }
 
     /**
@@ -75,11 +77,30 @@ public class CustomSelectPicker {
         LinkagePicker picker = new LinkagePicker(activity, provider);
         picker.setCycleDisable(true);
         //设置标签
-        if(!TextUtils.isEmpty(firstLabel)&&!TextUtils.isEmpty(secondLabel)){
+        if (!TextUtils.isEmpty(firstLabel) && !TextUtils.isEmpty(secondLabel)) {
             picker.setLabel(firstLabel, secondLabel);
         }
         picker.setSelectedIndex(firstIndex, secondIndex);
         picker.setOnStringPickListener(listener);
+        picker.show();
+    }
+
+    public static void onOptionPicker(Activity activity, WardBean bean, OptionPicker.OnOptionPickListener listener) {
+        if (bean == null || bean.getFirstList() == null) {
+            return;
+        }
+        List<String> partList = bean.getFirstList();
+        String[] locDesc = new String[partList.size()];
+        for (int i = 0; i < partList.size(); i++) {
+            locDesc[i] = partList.get(i);
+        }
+        OptionPicker picker = new OptionPicker(activity, locDesc);
+        picker.setCanceledOnTouchOutside(false);
+        picker.setDividerRatio(WheelView.DividerConfig.FILL);
+        picker.setSelectedIndex(0);
+        picker.setCycleDisable(true);
+        picker.setTextSize(20);
+        picker.setOnOptionPickListener(listener);
         picker.show();
     }
 }
