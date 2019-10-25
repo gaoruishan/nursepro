@@ -12,14 +12,13 @@ import android.view.ViewGroup;
 import com.base.commlibs.BaseFragment;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.BaseHelper;
-import com.blankj.utilcode.util.ToastUtils;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.utils.AdapterFactory;
 import com.dhcc.module.infusion.utils.RecyclerViewHelper;
-import com.dhcc.res.infusion.CustomPatView;
 import com.dhcc.module.infusion.workarea.comm.adapter.PatInfoAdapter;
 import com.dhcc.module.infusion.workarea.comm.api.WorkAreaApiManager;
 import com.dhcc.module.infusion.workarea.comm.bean.PatDetailBean;
+import com.dhcc.res.infusion.CustomPatView;
 
 /**
  * 患者信息
@@ -66,9 +65,8 @@ public class PatInfoFragment extends BaseFragment {
 
             @Override
             public void onSuccess(PatDetailBean bean, String type) {
-                cpvPat.setPatName(bean.getPatInfo().getPatName())
-                        .setAge(bean.getPatInfo().getPatAge())
-                        .setRegNo(bean.getPatInfo().getPatRegNo());
+                cpvPat.setPatName(bean.getPatInfo().getPatName()).setAge(bean.getPatInfo().getPatAge())
+                        .setRegNo(bean.getPatInfo().getPatRegNo()).setSeat(bean.getPatInfo().getPatSeat());
                 cpvPat.setImgSexResource(CustomPatView.getPatSexDrawable(bean.getPatInfo().getPatSex()));
                 helper.setTextData(R.id.tv_last_num, bean.getLeftTreatNum());
                 patInfoAdapter.replaceData(bean.getRecOrdList());
