@@ -1,7 +1,10 @@
 package com.dhcc.module.health.workarea.orderexecute;
 
+import android.content.Intent;
+
 import com.base.commlibs.comm.BaseCommFragment;
 import com.dhcc.module.health.R;
+import com.dhcc.res.infusion.CustomScanView;
 
 /**
  * 医嘱执行
@@ -10,6 +13,9 @@ import com.dhcc.module.health.R;
  * @email:grs0515@163.com
  */
 public class OrderExecuteFragment extends BaseCommFragment {
+
+    private CustomScanView csv;
+
     @Override
     protected void initDatas() {
         setToolbarCenterTitle("医嘱执行");
@@ -17,6 +23,18 @@ public class OrderExecuteFragment extends BaseCommFragment {
 
     @Override
     protected void initViews() {
+        csv = f(R.id.csv, CustomScanView.class);
+    }
+
+    @Override
+    public void getScanMsg(Intent intent) {
+        super.getScanMsg(intent);
+        if (scanInfo != null) {
+            getScanOrdList();
+        }
+    }
+
+    private void getScanOrdList() {
 
     }
 
