@@ -32,6 +32,7 @@ public class CustomBottomBarLayout extends LinearLayout implements CompoundButto
     private static final int TAB_WORKAREA = 9001;
     private static final int TAB_MESSAGE = 9002;
     private static final int TAB_SETTING = 9003;
+    private View line;
     private Context mContext;
     private LinearLayout bottomGroup;
     private RadioButton rbWorkarea;
@@ -57,6 +58,7 @@ public class CustomBottomBarLayout extends LinearLayout implements CompoundButto
         this.mContext = context;
         View view = View.inflate(context, R.layout.custom_bottom_bar_layout, null);
         bottomGroup = view.findViewById(R.id.llBottomGroup);
+        line = view.findViewById(R.id.v_line);
         addView(view);
         setOrientation(VERTICAL);
     }
@@ -66,8 +68,15 @@ public class CustomBottomBarLayout extends LinearLayout implements CompoundButto
         super.onFinishInflate();
     }
 
-
-    public CustomBottomBarLayout addTab(Fragment fragment, String name,int idNormal, int idPress) {
+    /**
+     * 添加Tab
+     * @param fragment
+     * @param name
+     * @param idNormal
+     * @param idPress
+     * @return
+     */
+    public CustomBottomBarLayout addTab(Fragment fragment, String name, int idNormal, int idPress) {
         if (mFragmentsList == null) {
             mFragmentsList = new ArrayList<>();
         }
@@ -82,13 +91,29 @@ public class CustomBottomBarLayout extends LinearLayout implements CompoundButto
         View tabView = View.inflate(mContext, R.layout.custom_bottom_bar_tab, null);
         LayoutParams layoutParams = new LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1);
         tabView.setLayoutParams(layoutParams);
-        RadioButton bottomBarTab =tabView.findViewById(R.id.bottom_bar_tab);
-        addSelectorFromDrawable(mContext,idNormal,idPress,bottomBarTab);
+        RadioButton bottomBarTab = tabView.findViewById(R.id.bottom_bar_tab);
+        addSelectorFromDrawable(mContext, idNormal, idPress, bottomBarTab);
         mTabViews.add(tabView);
         return this;
     }
 
-    public CustomBottomBarLayout init(FragmentManager mFragmentManager,int selectIndex) {
+    /**
+     * 从 drawable 获取图片 id 给 RadioButton 添加 selector
+     * @param context     调用方法的 Activity
+     * @param idNormal    默认图片的 id
+     * @param idPress     点击图片的 id
+     * @param radioButton 点击的 view
+     */
+    public void addSelectorFromDrawable(Context context, int idNormal, int idPress, RadioButton radioButton) {
+        Drawable[] compoundDrawables = radioButton.getCompoundDrawables();
+        Drawable drawableTop = compoundDrawables[1];
+        Rect bounds = drawableTop.getBounds();
+        Drawable selectorDrawable = ViewUtil.getSelectorDrawable(context, idNormal, idPress);
+        selectorDrawable.setBounds(bounds);
+        radioButton.setCompoundDrawables(null, selectorDrawable, null, null);
+    }
+
+    public CustomBottomBarLayout init(FragmentManager mFragmentManager, int selectIndex) {
         this.mFragmentManager = mFragmentManager;
 
         for (int i = mFragmentsList.size() - 1; i >= 0; i--) {
@@ -107,15 +132,11 @@ public class CustomBottomBarLayout extends LinearLayout implements CompoundButto
         return this;
     }
 
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if (isChecked) {
-            int tag = (int) buttonView.getTag();
-            switchFragment(tag);
-        }
-    }
-
-
+    /**
+     * 切换Tab
+     * @param tag
+     * @return
+     */
     public CustomBottomBarLayout switchFragment(int tag) {
         if (mFragmentsList == null || mTabViews == null) {
             return this;
@@ -133,20 +154,20 @@ public class CustomBottomBarLayout extends LinearLayout implements CompoundButto
         return this;
     }
 
-    /**
-     * 从 drawable 获取图片 id 给 RadioButton 添加 selector
-     * @param context  调用方法的 Activity
-     * @param idNormal 默认图片的 id
-     * @param idPress  点击图片的 id
-     * @param radioButton       点击的 view
-     */
-    public void addSelectorFromDrawable(Context context, int idNormal, int idPress, RadioButton radioButton) {
-        Drawable[] compoundDrawables = radioButton.getCompoundDrawables();
-        Drawable drawableTop = compoundDrawables[1];
-        Rect bounds = drawableTop.getBounds();
-        Drawable selectorDrawable = ViewUtil.getSelectorDrawable(context, idNormal, idPress);
-        selectorDrawable.setBounds(bounds);
-        radioButton.setCompoundDrawables(null, selectorDrawable, null, null);
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (isChecked) {
+            int tag = (int) buttonView.getTag();
+            switchFragment(tag);
+        }
+    }
+
+    public CustomBottomBarLayout onlyOneFragment(boolean onlyOne) {
+        if (mFragmentsList != null && mFragmentsList.size() == 1 && onlyOne) {
+            line.setVisibility(GONE);
+            bottomGroup.setVisibility(GONE);
+        }
+        return this;
     }
 
 

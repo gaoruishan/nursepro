@@ -64,14 +64,14 @@ public class CustomDateTimeView extends LinearLayout implements View.OnClickList
         tv.setText(s);
     }
 
-    public long getStartDateTime() {
+    private long getStartDateTime() {
         if (startDateTime == 0) {
             return System.currentTimeMillis() - ONE_DAY;
         }
         return startDateTime;
     }
 
-    public long getEndDateTime() {
+    private long getEndDateTime() {
         if (endDateTime == 0) {
             return System.currentTimeMillis();
         }
@@ -112,7 +112,7 @@ public class CustomDateTimeView extends LinearLayout implements View.OnClickList
         }
     }
 
-    public void chooseTime(long currentTimeMillis, OnDateSetListener listener) {
+    private void chooseTime(long currentTimeMillis, OnDateSetListener listener) {
         long tenYears = 10L * 365 * 1000 * 60 * 60 * 24L;
         TimePickerDialog.Builder builder = new TimePickerDialog.Builder();
         if (isShowTime) {

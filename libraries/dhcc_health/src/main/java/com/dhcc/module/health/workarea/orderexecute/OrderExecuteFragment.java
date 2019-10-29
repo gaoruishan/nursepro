@@ -24,6 +24,7 @@ public class OrderExecuteFragment extends BaseCommFragment {
     @Override
     protected void initViews() {
         csv = f(R.id.csv, CustomScanView.class);
+        csv.setTitle("请扫描腕带").setWarning("请使用扫描设备,扫描病人腕带");
     }
 
     @Override
