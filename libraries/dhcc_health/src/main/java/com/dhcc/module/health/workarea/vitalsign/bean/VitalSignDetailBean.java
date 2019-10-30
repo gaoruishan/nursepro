@@ -141,6 +141,15 @@ public class VitalSignDetailBean extends CommResult {
         private String time;
         private String uriVolume;
         private String weight;
+        private String dateTime;
+
+        public String getDateTime() {
+            return dateTime == null ? "" : dateTime;
+        }
+
+        public void setDateTime(String dateTime) {
+            this.dateTime = dateTime;
+        }
 
         public String getBarthel() {
             return Barthel;
