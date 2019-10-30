@@ -31,6 +31,7 @@ public class CustomLoginEditText extends LinearLayout implements View.OnClickLis
     private ImageView imgLoginPasswordShowhideCa;
     private TextView tvName;
     private SimpleCallBack<String> callBack;
+    private TextWatcher textWatcher;
 
     public CustomLoginEditText(Context context) {
         this(context, null);
@@ -53,11 +54,12 @@ public class CustomLoginEditText extends LinearLayout implements View.OnClickLis
         super.onFinishInflate();
         tvName = findViewById(R.id.tv_name);
         etLoginPasswordCa = findViewById(R.id.et_login_password_ca);
+//        etLoginPasswordCa.setSelection(etLoginPasswordCa.getText().length());
         imgLoginPasswordClearCa = findViewById(R.id.img_login_password_clear_ca);
         imgLoginPasswordShowhideCa = findViewById(R.id.img_login_password_showhide_ca);
         imgLoginPasswordClearCa.setOnClickListener(this);
         imgLoginPasswordShowhideCa.setOnClickListener(this);
-        etLoginPasswordCa.addTextChangedListener(new TextWatcher() {
+        textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -81,7 +83,18 @@ public class CustomLoginEditText extends LinearLayout implements View.OnClickLis
                     callBack.call(password, 0);
                 }
             }
-        });
+        };
+        etLoginPasswordCa.addTextChangedListener(textWatcher);
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        if (etLoginPasswordCa != null) {
+            etLoginPasswordCa.removeTextChangedListener(textWatcher);
+            textWatcher = null;
+            etLoginPasswordCa.setOnEditorActionListener(null);
+        }
+        super.onDetachedFromWindow();
     }
 
     public CustomLoginEditText setTextChangedListener(SimpleCallBack<String> callBack) {
@@ -143,7 +156,7 @@ public class CustomLoginEditText extends LinearLayout implements View.OnClickLis
         if (remem) {
             if (isText) {
                 etLoginPasswordCa.setText(rememUserCode);
-            }else {
+            } else {
                 etLoginPasswordCa.requestFocus();
             }
         }

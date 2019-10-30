@@ -46,8 +46,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     public static final String LOGIN = "login";
     public static final String WARD = "ward";
-    private CustomLoginEditText cletUser;
-    private CustomLoginEditText cletPsw;
     private String scanFlag = "";
     private TextView tvLoginWard;
     private String logonWardId;
@@ -59,6 +57,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(com.grs.dhcc_res.R.layout.dhcc_activity_login);
         initView();
+//        BarUtils.setStatusBarVisibility(this, false);
         setToolbarType(ToolbarType.HIDE);
         UserUtil.checkWebIp();
         UserUtil.checkWebPath();
@@ -67,8 +66,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         final String rememUserCode = SPUtils.getInstance().getString(SharedPreference.REMEM_USERCODE);
         llLoginRememberme.setSelected(remem);
         checkRemeberMe(null, rememUserCode, remem);
-        cletUser = findViewById(com.grs.dhcc_res.R.id.clet_user);
-        cletUser.setTextName("账户").setEditInputType(InputType.TYPE_CLASS_TEXT)
+        getCustomUserEditText().setTextName("账户").setEditInputType(InputType.TYPE_CLASS_TEXT)
                 .checkRememberMe(remem, rememUserCode)
                 .setTextChangedListener(new SimpleCallBack<String>() {
                     @Override
@@ -77,8 +75,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     }
                 });
 
-        cletPsw = findViewById(com.grs.dhcc_res.R.id.clet_psw);
-        cletPsw.setTextName("密码").setEditInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD)
+        getCustomPswEditText().setTextName("密码").setEditInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD)
                 .checkRememberMe(remem, rememUserCode);
 
     }
@@ -106,6 +103,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             tvLoginWard.setText("请选择登录病区");
             tvLoginWard.setTextColor(Color.parseColor("#9b9b9b"));
         }
+    }
+
+    private CustomLoginEditText getCustomUserEditText() {
+        return findViewById(com.grs.dhcc_res.R.id.clet_user);
+    }
+
+    private CustomLoginEditText getCustomPswEditText() {
+        return findViewById(com.grs.dhcc_res.R.id.clet_psw);
     }
 
     @Override
@@ -153,11 +158,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private boolean checkRequst() {
-        if (TextUtils.isEmpty(cletUser.getTextString())) {
+        if (TextUtils.isEmpty(getCustomUserEditText().getTextString())) {
             ToastUtils.showShort("请输入账户");
             return true;
         }
-        if (TextUtils.isEmpty(cletPsw.getTextString())) {
+        if (TextUtils.isEmpty(getCustomPswEditText().getTextString())) {
             ToastUtils.showShort("请输入密码");
             return true;
         }
@@ -166,28 +171,28 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     private void initData(final String action) {
         showLoadingTip(LoadingType.FULL);
-        LoginApiManager.getLogin(cletUser.getTextString(), cletPsw.getTextString(), logonWardId, scanFlag, new CommonCallBack<LoginBean>() {
+        LoginApiManager.getLogin(getCustomUserEditText().getTextString(), getCustomPswEditText().getTextString(), logonWardId, scanFlag, new CommonCallBack<LoginBean>() {
             @Override
             public void onFail(String code, String msg) {
                 hideLoadingTip();
             }
 
             @Override
-            public void onSuccess(LoginBean bean, String type) {
+            public void onSuccess(final LoginBean bean, String type) {
                 hideLoadingTip();
 
                 if (WARD.equalsIgnoreCase(action)) {
                     showWardPicker(bean.getLocs());
                 }
                 if (LOGIN.equalsIgnoreCase(action)) {
-                    //保存
                     UserUtil.setUserInfo(bean);
                     DataCache.saveJson(bean, LoginBean.class.getSimpleName());
-                    UserUtil.setRememberUserCode(llLoginRememberme.isSelected(), cletUser.getTextString());
+                    UserUtil.setRememberUserCode(llLoginRememberme.isSelected(), getCustomUserEditText().getTextString());
                     List<BroadcastListBean> broadcastList = bean.getBroadcastList();
                     TransBroadcastUtil.setScanActionList(broadcastList);
                     startActivity(new Intent(Action.MainActivity));
                     finish();
+
                 }
             }
         });
@@ -233,7 +238,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         UserUtil.setLocWindowName(locDesc, second);
         for (LoginBean.LocsBean loc : locs) {
             if (loc.getLocDesc().equals(locDesc)) {
-                UserUtil.setLocsUserInfo(cletUser.getTextString(), loc.getHospitalRowId(), loc.getGroupId(),
+                UserUtil.setLocsUserInfo(getCustomUserEditText().getTextString(), loc.getHospitalRowId(), loc.getGroupId(),
                         loc.getGroupDesc(), loc.getLinkLoc(), loc.getLocId(), loc.getLocDesc(), loc.getWardId());
                 logonWardId = loc.getWardId();
             }

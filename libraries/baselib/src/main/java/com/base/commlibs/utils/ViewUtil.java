@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
+import android.support.annotation.LayoutRes;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputFilter;
@@ -25,11 +26,17 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.GsonUtils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.noober.background.drawable.DrawableCreator;
 
+import java.lang.reflect.Type;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -368,6 +375,36 @@ public class ViewUtil {
     public static void setBgRadiusColor(TextView view,int dp, String color,String textColor) {
         setBgRadiusColor(view,dp,color);
         view.setTextColor(Color.parseColor(textColor));
+    }
+
+    /**
+     * 加载布局
+     * @param context
+     * @param layoutRes
+     * @return
+     */
+    public static View inflate(Context context,@LayoutRes int layoutRes) {
+        View view = View.inflate(context,layoutRes, null);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1);
+        view.setLayoutParams(layoutParams);
+        return view;
+    }
+
+    /**
+     * 将对象转map
+     * @param object
+     * @return
+     */
+    public static  Map<String, Object> objectToMap(Object object) {
+        Map<String, Object> map = null;
+        if (object != null) {
+            String json = GsonUtils.toJson(object);
+            if(!TextUtils.isEmpty(json)){
+                Type jsontype = new TypeToken<Map<String, Object>>() {}.getType();
+                map = new Gson().fromJson(json, jsontype);
+            }
+        }
+        return map;
     }
 
     /**

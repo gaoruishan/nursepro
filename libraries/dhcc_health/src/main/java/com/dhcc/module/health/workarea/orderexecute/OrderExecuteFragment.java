@@ -14,7 +14,7 @@ import com.dhcc.res.infusion.CustomScanView;
  */
 public class OrderExecuteFragment extends BaseCommFragment {
 
-    private CustomScanView csv;
+    private CustomScanView customScan;
 
     @Override
     protected void initDatas() {
@@ -23,8 +23,8 @@ public class OrderExecuteFragment extends BaseCommFragment {
 
     @Override
     protected void initViews() {
-        csv = f(R.id.csv, CustomScanView.class);
-        csv.setTitle("请扫描腕带").setWarning("请使用扫描设备,扫描病人腕带");
+        customScan = f(R.id.custom_scan, CustomScanView.class);
+        customScan.setTitle("请扫描腕带").setWarning("请使用扫描设备,扫描病人腕带");
     }
 
     @Override
