@@ -10,23 +10,26 @@
     app:rightMenuView="@+id/ll_message_rightmenu">
 
     <LinearLayout
+        android:background="@drawable/infusion_bg_select_selector"
         android:id="@+id/ll_message_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
         android:orientation="vertical"
+        android:paddingRight="@dimen/dp_3"
+        android:paddingLeft="@dimen/dp_3"
+        android:paddingBottom="@dimen/dp_2"
         android:paddingTop="@dimen/dp_15">
         <include layout="@layout/item_message_comm"/>
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="@dimen/dp_1"
             android:layout_marginTop="@dimen/dp_15"
             android:background="#ECECEC"/>
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ll_message_rightmenu"
-        android:layout_width="100dp"
+        android:layout_width="@dimen/dp_100"
         android:layout_height="match_parent"
         android:background="@android:color/holo_red_light"
         android:gravity="center">
@@ -36,7 +39,7 @@
             android:layout_height="wrap_content"
             android:text="已读"
             android:textColor="@color/white"
-            android:textSize="16sp"/>
+            android:textSize="@dimen/sp_16"/>
 
     </LinearLayout>
 

@@ -1,6 +1,5 @@
 package com.base.commlibs.utils;
 
-import android.app.Activity;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.graphics.Color;
@@ -26,10 +25,6 @@ public class EditTextScanHelper {
 
     private static final String TAG = EditTextScanHelper.class.getSimpleName();
     private static final int DELAY_MILLIS = 300;
-    //上次点击的时间
-    private static long lastClickTime = 0;
-    //时间间隔
-    private static int spaceTime = 300;
     /**
      * 按键监听
      * @return
@@ -45,18 +40,26 @@ public class EditTextScanHelper {
             return false;
         }
     };
+    //上次点击的时间
+    private long lastClickTime = 0;
+    //时间间隔
+    private int spaceTime = 300;
     private OnScanListener mListener;
     private EditText editText;
     /**
      * 扫描事件.
      **/
-    private MTextWatcher textwatcher = new MTextWatcher();
+    private MTextWatcher textwatcher;
     private ClipboardManager.OnPrimaryClipChangedListener clipChangedListener;
     private ClipboardManager clipboard;
     private boolean isFocus;
     private boolean isClipBoardText;
 
-    public static boolean isOkClick() {
+    public EditTextScanHelper() {
+        textwatcher = new MTextWatcher();
+    }
+
+    public boolean isOkClick() {
         long currentTime = System.currentTimeMillis();
         boolean isAllowClick;//是否允许点击
         isAllowClick = currentTime - lastClickTime >= spaceTime;
@@ -101,17 +104,6 @@ public class EditTextScanHelper {
         }
     }
 
-    /**
-     * 强制请求焦点
-     */
-    private void reqFocus() {
-        editText.setFocusable(true);
-        editText.setClickable(true);
-        editText.requestFocus();
-        //隐藏软键盘
-        KeyboardUtils.hideSoftInput(editText);
-    }
-
     private void dealClipBoardText() {
         isClipBoardText = false;
         //先移除
@@ -121,7 +113,7 @@ public class EditTextScanHelper {
             public void onPrimaryClipChanged() {
                 isClipBoardText = true;
                 CharSequence text = ClipboardUtils.getText();
-                Log.e(TAG, " 剪贴板"+text);
+                Log.e(TAG, " 剪贴板" + text);
                 setOnResult(text.toString());//1,剪贴板
             }
         };
@@ -165,7 +157,7 @@ public class EditTextScanHelper {
      * @param listener
      * @return
      */
-    public void addEditTextInputListener(Activity context, OnScanListener listener) {
+    public void addEditTextInputListener(Context context, OnScanListener listener) {
         this.mListener = listener;
         editText = new EditText(context);
         //一个点
@@ -187,6 +179,17 @@ public class EditTextScanHelper {
             }
         });
 
+    }
+
+    /**
+     * 强制请求焦点
+     */
+    private void reqFocus() {
+        editText.setFocusable(true);
+        editText.setClickable(true);
+        editText.requestFocus();
+        //隐藏软键盘
+        KeyboardUtils.hideSoftInput(editText);
     }
 
     /**
@@ -231,7 +234,7 @@ public class EditTextScanHelper {
         @Override
         public void afterTextChanged(Editable s) {
             if (!TextUtils.isEmpty(s) && isAutoScan) {
-                Log.e(TAG, " 扫描光标位置"+s.toString());
+                Log.e(TAG, " 扫描光标位置" + s.toString());
                 setOnResult(s.toString());//3,扫描光标位置
             }
         }

@@ -34,24 +34,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="@dimen/dp_8"
             android:textColor="#FF4A4A4A"
             android:textSize="@dimen/sp_16"
             tools:text="马亭"/>
 
         <ImageView
             android:id="@+id/img_message_sex"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="@dimen/dp_20"
+            android:layout_height="@dimen/dp_20"
             android:layout_gravity="center"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="@dimen/dp_8"
             android:src="@drawable/dhcc_sex_male"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:textSize="18sp"
+            android:layout_marginEnd="@dimen/dp_8"
+            android:textSize="@dimen/sp_18"
             android:visibility="gone"
             tools:text="普通外科一"/>
 

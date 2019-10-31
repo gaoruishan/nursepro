@@ -31,6 +31,24 @@ public class CommDialog {
     protected static final String TAG = CommDialog.class.getSimpleName();
 
     /**
+     * 统一接口回调
+     */
+    public abstract static class CommClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+
+        }
+
+        public void data(Object[] args) {
+
+        }
+
+        public void data(int i,String s,Object obj) {
+
+        }
+    }
+
+    /**
      * 获取一个简单Dialog - 居中/不可取消
      * @param context
      * @param view
@@ -128,6 +146,26 @@ public class CommDialog {
                     if (dialog != null) {
                         dialog.cancel();
                     }
+                    if (okClick != null) {
+                        okClick.onClick(v);
+                    }
+                }
+            });
+            if (!TextUtils.isEmpty(btnTxt)) {
+                btn.setText(btnTxt);
+            }
+        }
+    }
+    public static void setCommButtonClick(String btnTxt, @Nullable View.OnClickListener okClick,View view, int btnId) {
+        if (btnId == 0 || view == null) {
+            return;
+        }
+        Button btn = view.findViewById(btnId);
+        if (btn != null) {
+            btn.setVisibility(View.VISIBLE);
+            btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
                     if (okClick != null) {
                         okClick.onClick(v);
                     }

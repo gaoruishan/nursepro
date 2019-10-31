@@ -29,24 +29,34 @@
             android:src="@drawable/dhcc_sex_female"/>
         <TextView
             android:id="@+id/tv_age"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/dp_20"
-            android:layout_weight="1"
+            android:layout_marginRight="@dimen/dp_10"
             android:paddingLeft="@dimen/dp_10"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:textSize="@dimen/sp_15"
-            tools:text="12"
-        />
+            tools:text="年龄"
+            />
+        <TextView
+            android:id="@+id/tv_seat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:singleLine="true"
+            android:ellipsize="end"
+            tools:text="座号"
+            />
         <TextView
             android:id="@+id/tv_regno"
-            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/dp_20"
             android:gravity="right"
-            android:textSize="@dimen/sp_15"
-            tools:text="34353545"
-        />
+            android:singleLine="true"
+            android:ellipsize="end"
+            tools:text="登记号"
+            />
     </LinearLayout>
     <View
         android:layout_width="match_parent"

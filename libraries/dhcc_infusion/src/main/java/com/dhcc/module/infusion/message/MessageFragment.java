@@ -42,6 +42,8 @@ public class MessageFragment extends BaseFragment implements CustomTabView.OnTab
     private MessageInfusionAdapter messageInfusionAdapter;
     private MessageSkinAdapter messageSkinAdapter;
     private int mCurrentPosition;
+    private RecyclerView rvMsgInfusion;
+    private RecyclerView rvMsgSkin;
 
     @SuppressLint("NewApi")
     @Override
@@ -49,6 +51,34 @@ public class MessageFragment extends BaseFragment implements CustomTabView.OnTab
         super.getScanMsg(intent);
         if (Action.NEWMESSAGE_SERVICE.equals(intent.getAction())) {
             initData();
+        }
+        if (Action.DEVICE_SCAN_CODE.equals(intent.getAction())) {
+            String scanInfo = doScanInfo(intent);
+            if (messageInfusionAdapter != null) {
+                List<MessageInfusionBean.InfusionTimeListBean> data = messageInfusionAdapter.getData();
+                for (int i = 0; i < data.size(); i++) {
+                    MessageInfusionBean.InfusionTimeListBean bean = data.get(i);
+                    bean.setSelect(false);
+                    if (bean.getPatRegNo().equals(scanInfo)) {
+                        bean.setSelect(true);
+                        rvMsgInfusion.scrollToPosition(i);
+                        messageInfusionAdapter.notifyItemChanged(i);
+                       // startPatInfoFragment(messageInfusionAdapter,i);
+                    }
+                }
+            }
+            if (messageSkinAdapter != null) {
+                List<MessageSkinBean.SkinTimeListBean> data = messageSkinAdapter.getData();
+                for (int i = 0; i < data.size(); i++) {
+                    MessageSkinBean.SkinTimeListBean bean = data.get(i);
+                    bean.setSelect(false);
+                    if (bean.getPatRegNo().equals(scanInfo)) {
+                        bean.setSelect(true);
+                        rvMsgSkin.scrollToPosition(i);
+                        messageInfusionAdapter.notifyItemChanged(i);
+                    }
+                }
+            }
         }
     }
 
@@ -119,6 +149,7 @@ public class MessageFragment extends BaseFragment implements CustomTabView.OnTab
         } else {
             initData();
             mfilter.addAction(Action.NEWMESSAGE_SERVICE);
+            mfilter.addAction(Action.DEVICE_SCAN_CODE);
             if (mReceiver != null && getActivity() != null) {
                 getActivity().getApplicationContext().registerReceiver(mReceiver, mfilter);
             }
@@ -137,8 +168,8 @@ public class MessageFragment extends BaseFragment implements CustomTabView.OnTab
         CustomTabView ctv = view.findViewById(R.id.ctv);
         ctv.setTabText(new String[]{"皮试", "输液"});
         ctv.setOnTabClickLisenter(this);
-        RecyclerView rvMsgSkin = RecyclerViewHelper.get(getActivity(), R.id.rv_msg_skin);
-        RecyclerView rvMsgInfusion = RecyclerViewHelper.get(getActivity(), R.id.rv_msg_infusion);
+        rvMsgSkin = RecyclerViewHelper.get(getActivity(), R.id.rv_msg_skin);
+        rvMsgInfusion = RecyclerViewHelper.get(getActivity(), R.id.rv_msg_infusion);
         recyclerViews = new RecyclerView[]{rvMsgSkin, rvMsgInfusion};
         messageInfusionAdapter = AdapterFactory.getMessageInfusion();
         messageSkinAdapter = AdapterFactory.getMessageSkin();
@@ -172,6 +203,11 @@ public class MessageFragment extends BaseFragment implements CustomTabView.OnTab
     @Override
     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
         if (adapter instanceof MessageInfusionAdapter) {
+            startPatInfoFragment(adapter, position);
+        }
+    }
+
+    private void startPatInfoFragment(BaseQuickAdapter adapter, int position) {
             Bundle bundle = new Bundle();
             MessageInfusionBean.InfusionTimeListBean bean = (MessageInfusionBean.InfusionTimeListBean) adapter.getData().get(position);
             if (!TextUtils.isEmpty(bean.getPatRegNo())) {
@@ -179,5 +215,4 @@ public class MessageFragment extends BaseFragment implements CustomTabView.OnTab
                 CustomPatView.startPatInfoFragment(getContext(), PatInfoFragment.class.getName(), bundle);
             }
         }
-    }
 }

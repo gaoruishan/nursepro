@@ -20,7 +20,9 @@ import com.jzxiang.pickerview.data.WheelCalendar;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by jzxiang on 16/4/19.
@@ -31,28 +33,45 @@ public class TimePickerDialog extends DialogFragment implements View.OnClickList
     private long mCurrentMillSeconds;
     private int type;
 
-    private int[] a = {2,6,10,14,18,22} ;
+    private int[] a = {2,6,10,14,18,22};
+    private int[] b = {0,59};
 
     public void settype(int type){
         this.type = type;
     }
 
-    public void setintHour(String[] stringhours){
-        int[] a1 = new int[stringhours.length];
-        for (int i = 0;i<stringhours.length;i++){
-            String strNum = stringhours[i].substring(0,2);
-            a1[i] = Integer.parseInt(strNum);
+    public void setmHourMinute(List<String> timeList) {
+        int[] a1 = new int[timeList.size()];
+        int[] b1 = new int[timeList.size()];
+
+
+        for (int i = 0; i < timeList.size(); i ++){
+            a1[i] = Integer.valueOf(timeList.get(i).split(":")[0]);
+            b1[i] = Integer.valueOf(timeList.get(i).split(":")[1]);
         }
         this.a = a1;
+        this.b = unique(b1);
     }
 
-    public void setintHour(List<String> hoursList){
-        int[] a1 = new int[hoursList.size()];
-        for (int i = 0; i < hoursList.size(); i ++){
-            String strNum = hoursList.get(i).substring(0,2);
-            a1[i] = Integer.parseInt(strNum);
+    /**
+     * 数组去重
+     * @param nums
+     * @return
+     */
+    public static int[] unique(int[] nums) {
+        if (nums.length == 0) {
+            return new int[0];
         }
-        this.a = a1;
+        Set<Integer> set = new HashSet<Integer>();
+        int index = 0;
+        for (int i = 0, len = nums.length; i < len; i++) {
+            if (set.add(nums[i])) {
+                nums[index++] = nums[i];
+            }
+        }
+        int[] b = new int[index];
+        System.arraycopy(nums, 0, b, 0, index);
+        return b;
     }
 
 
@@ -111,7 +130,7 @@ public class TimePickerDialog extends DialogFragment implements View.OnClickList
         toolbar.setBackgroundColor(mPickerConfig.mThemeColor);
 
         if (type == 1){
-            mTimeWheel = new TimeWheel(1,a,view, mPickerConfig);
+            mTimeWheel = new TimeWheel(1,a,b,view, mPickerConfig);
         }else {
             mTimeWheel = new TimeWheel(view, mPickerConfig);
         }
@@ -127,7 +146,7 @@ public class TimePickerDialog extends DialogFragment implements View.OnClickList
             sureClicked();
         }
     }
-    
+
     /*
     * @desc This method returns the current milliseconds. If current milliseconds is not set,
     *       this will return the system milliseconds.
@@ -142,8 +161,8 @@ public class TimePickerDialog extends DialogFragment implements View.OnClickList
     }
 
     /*
-    * @desc This method is called when onClick method is invoked by sure button. A Calendar instance is created and 
-    *       initialized. 
+    * @desc This method is called when onClick method is invoked by sure button. A Calendar instance is created and
+    *       initialized.
     * @param none
     * @return none
     */

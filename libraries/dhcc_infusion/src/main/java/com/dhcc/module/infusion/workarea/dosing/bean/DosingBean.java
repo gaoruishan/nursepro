@@ -1,6 +1,7 @@
 package com.dhcc.module.infusion.workarea.dosing.bean;
 
 import com.base.commlibs.http.CommResult;
+import com.dhcc.module.infusion.workarea.comm.bean.PatInfoBean;
 
 import java.util.List;
 
@@ -27,9 +28,18 @@ public class DosingBean extends CommResult {
      * status : 0
      */
 
+    private PatInfoBean PatInfo;
     private String ordState;
     private String scanFlag;
     private List<OrdListBean> ordList;
+
+    public PatInfoBean getPatInfo() {
+        return PatInfo;
+    }
+
+    public void setPatInfo(PatInfoBean PatInfo) {
+        this.PatInfo = PatInfo;
+    }
 
     public String getScanFlag() {
         return scanFlag == null ? "" : scanFlag;

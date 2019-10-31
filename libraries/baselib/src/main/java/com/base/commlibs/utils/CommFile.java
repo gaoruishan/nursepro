@@ -76,7 +76,7 @@ public class CommFile {
      * @param finalName
      * @return
      */
-    public static String getTimeMillsNameLog(String finalName) {
+    public static String getLogName(String finalName) {
         return finalName + "_" + System.currentTimeMillis() + ".log";
     }
 

@@ -107,7 +107,7 @@ ext {
                     //拍照&相册
                     "takephoto"                      : 'com.jph.takephoto:takephoto_library:4.0.3',
                     //背景shape.xml
-                    "backgroundLibrary"              : 'com.noober.background:core:1.5.4',
+                    "backgroundLibrary"              : 'com.noober.background:core:1.6.0',
                     //htmlImgText
                     "htmlText"                       : 'com.github.limedroid:XRichText:v1.0.0',
                     //内存泄露LeakCanary

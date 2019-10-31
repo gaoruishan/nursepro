@@ -8,7 +8,7 @@
     android:paddingBottom="@dimen/dp_10">
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/dp_1"
         android:background="@color/blue_light"/>
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"

@@ -1,6 +1,10 @@
 package com.base.commlibs.utils;
 
+import android.text.TextUtils;
+
+import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.wsutils.BaseWebServiceUtils;
+import com.blankj.utilcode.util.SPUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,12 +17,13 @@ import java.util.List;
  */
 public class LocalTestManager {
     // 是否开启测试
-    public static boolean TEST = false;
+    private final static boolean TEST = false;
     private static List<String> l = new ArrayList<>();
 
     static {
         //对应的方法名
         l.add("getInfusionMessage");
+        l.add("getSkinTestMessage");
         l.add("getOrdList");
     }
 
@@ -56,5 +61,17 @@ public class LocalTestManager {
             return l.contains(methodName);
         }
         return false;
+    }
+
+    /**
+     * 是否保存json
+     * @param methodName
+     * @param obj
+     */
+    public static void isSave(String methodName, String obj) {
+        String logFlag = SPUtils.getInstance().getString(SharedPreference.LOG_FLAG);
+        if(!TextUtils.isEmpty(logFlag)){
+        	CommFile.write(methodName,obj);
+        }
     }
 }

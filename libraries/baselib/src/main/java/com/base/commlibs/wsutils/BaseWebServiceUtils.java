@@ -33,7 +33,7 @@ import java.util.concurrent.Executors;
 
 public class BaseWebServiceUtils {
 
-    public static final String DEFAULT_IP = "10.1.5.187";
+    public static final String DEFAULT_IP = "10.1.5.87";
     public static final String DTHEALTH_WEB = "/imedical/web";
     //    public static final String WEB_SERVER_URL = "http://10.1.5.87/dthealth/web/Nur.PDA.WebService.cls";
     // 门诊输液新接口
@@ -172,6 +172,7 @@ public class BaseWebServiceUtils {
                 super.handleMessage(msg);
                 // 将返回值回调到callBack的参数中
                 LogUtils.json(LogUtils.E, msg.obj);
+                LocalTestManager.isSave(methodName,(String) msg.obj);
                 webServiceCallBack.callBack((String) msg.obj);
             }
         };

@@ -39,11 +39,17 @@ public class MessageApiService {
      * Input： oeoreId:执行记录ID
      * other:	w ##class(Nur.OPPDA.Order).setSkinTestResult("656||4||1","Y",1)
      */
-    public static void setSkinTestResult(String oeoreId, String skinTest, com.base.commlibs.http.ServiceCallBack callBack) {
+    public static void setSkinTestResult(String oeoreId, String skinTest,String auditUserId,String auditPassword, com.base.commlibs.http.ServiceCallBack callBack) {
         HashMap<String, String> properties = CommWebService.addUserId(null);
         if(!TextUtils.isEmpty(oeoreId)){
             properties.put("oeoreId",oeoreId);
             properties.put("skinTest", skinTest);
+            if(!TextUtils.isEmpty(auditUserId)){
+                properties.put("auditUserId", auditUserId);
+            }
+            if(!TextUtils.isEmpty(auditPassword)){
+                properties.put("auditPassword", auditPassword);
+            }
             CommWebService.call("setSkinTestResult", properties, callBack);
         }
     }

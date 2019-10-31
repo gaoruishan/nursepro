@@ -201,8 +201,6 @@ public class VitalSignDetailFragment extends BaseFragment implements View.OnClic
                 .setYearText("年")
                 .setMonthText("月")
                 .setDayText("日")
-                .setHourText("：00")
-                .setMinuteText("分")
                 .setCyclic(false)
                 .setMinMillseconds(currentTimeMillis - tenYears)
                 .setMaxMillseconds(currentTimeMillis + tenYears)
@@ -213,7 +211,6 @@ public class VitalSignDetailFragment extends BaseFragment implements View.OnClic
                 .setWheelItemTextSelectorColor(getResources().getColor(R.color.blue))
                 .setWheelItemTextSize(12)
                 .build();
-        mDialogAll.settype(1);
 
         mDialogAll.show(getActivity().getSupportFragmentManager(), "ALL");
     }

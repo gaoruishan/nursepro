@@ -7,14 +7,13 @@
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.VIBRATE">
-    </uses-permission>
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
         android:name="com.dhcc.infusion.NApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name_dhcc"
+        android:label="@string/app_name_infusion"
         android:roundIcon="@drawable/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
@@ -22,7 +21,7 @@
 
         <activity android:name="com.dhcc.infusion.SplashActivity"
                   android:screenOrientation="portrait"
-                  android:theme="@style/StartAppTheme">
+                  android:theme="@style/SplashAppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -40,7 +39,7 @@
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="com.dhcc.intent.action.main"/>
+                <action android:name="com.dhcc.infusion.main"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>

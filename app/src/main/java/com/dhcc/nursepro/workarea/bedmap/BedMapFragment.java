@@ -260,6 +260,7 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
         }
 
         bedMapPatientAdapter.setNewData(displayList);
+        recyBedmapPatient.scrollToPosition(0);
 
     }
 

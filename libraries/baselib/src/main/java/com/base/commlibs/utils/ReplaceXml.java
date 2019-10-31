@@ -19,22 +19,26 @@ public class ReplaceXml {
     // 最大替换sp值
     private static final int MAX_SP = 40;
     //TODO 指定module位置
-//    private static String MODULE_RES_LAYOUT = "/libraries/baselib";
-    private static String MODULE_RES_LAYOUT = "/libraries/dhcc_res";
+
+    private final static String[] MODULE_RES_LAYOUTS = {
+            "/libraries/baselib", "/libraries/dhcc_res"
+            , "/libraries/dhcc_health", "/libraries/dhcc_infusion"
+    };
 
     public static void main(String[] args) {
-        MODULE_RES_LAYOUT = System.getProperty("user.dir") + MODULE_RES_LAYOUT + "/src/main/res/layout/";
+        for (String moduleResLayout : MODULE_RES_LAYOUTS) {
+            String resLayout = System.getProperty("user.dir") + moduleResLayout + "/src/main/res/layout/";
+            //读取layout目录下文件
+            replaceAll(resLayout);
+        }
         //读取指定文件
 //        new FileThread(replace_xml).start();
-        //读取layout目录下文件
-        replaceAll();
-
     }
 
-    private static void replaceAll() {
-        List<File> files = FileUtils.listFilesInDir(MODULE_RES_LAYOUT);
+    private static void replaceAll(String resLayout) {
+        List<File> files = FileUtils.listFilesInDir(resLayout);
         for (File f : files) {
-            new FileThread(f.getName()).start();
+            new FileThread(f.getName(), resLayout).start();
         }
     }
 
@@ -42,9 +46,9 @@ public class ReplaceXml {
         private final String path;
         private final String name;
 
-        FileThread(String name) {
+        FileThread(String name, String resLayout) {
             this.name = name;
-            this.path = MODULE_RES_LAYOUT + name;
+            this.path = resLayout + name;
         }
 
         @Override

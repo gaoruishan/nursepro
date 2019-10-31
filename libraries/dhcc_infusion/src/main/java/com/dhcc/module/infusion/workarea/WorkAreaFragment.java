@@ -18,7 +18,7 @@ import com.base.commlibs.utils.CommRes;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.module.infusion.R;
-import com.dhcc.module.infusion.config.ConfigWorkArea;
+import com.dhcc.res.nurse.bean.ConfigWorkArea;
 
 import java.util.ArrayList;
 import java.util.List;

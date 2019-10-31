@@ -15,7 +15,11 @@ public class Action {
     /**
      * MainActivity
      */
-    public static final String MainActivity = "com.dhcc.intent.action.main";
+    public static final String MainActivity = appName+".main";
+    /**
+     * LoginActivity
+     */
+    public static final String LoginActivity = appName+".login";
 
     //扫码
     public static final String DEVICE_SCAN_CODE = appName+"broadcast";

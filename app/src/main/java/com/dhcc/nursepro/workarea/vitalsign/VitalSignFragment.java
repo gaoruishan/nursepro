@@ -12,14 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.base.commlibs.BaseActivity;
+import com.base.commlibs.BaseFragment;
+import com.base.commlibs.constant.Action;
+import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.base.commlibs.BaseActivity;
-import com.base.commlibs.BaseFragment;
 import com.dhcc.nursepro.R;
-import com.base.commlibs.constant.Action;
-import com.base.commlibs.constant.SharedPreference;
 import com.dhcc.nursepro.workarea.allotbed.api.AllotBedApiManager;
 import com.dhcc.nursepro.workarea.allotbed.bean.GetScanPatsBean;
 import com.dhcc.nursepro.workarea.patevents.PatEventsFragment;
@@ -141,7 +141,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                 Map patientInfo = displayList.get(position);
                 //将列表数据存储在sp，避免Intent传输数据过大报错
                 Gson gson = new Gson();
-                String  displayListJsonStr = gson.toJson(displayList);
+                String displayListJsonStr = gson.toJson(displayList);
                 spUtils.put(SharedPreference.DISPLAYLIST, displayListJsonStr);
                 if (view.getId() == R.id.tv_vitalsign_vitalsign_record) {
                     //体征录入
@@ -499,17 +499,20 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                     if ((getScanPatsBean.getPatInfo().getRegNo()).equals(displayList.get(i).get("regNo"))) {
 
                         Map patientInfo = displayList.get(i);
+                        //将列表数据存储在sp，避免Intent传输数据过大报错
+                        Gson gson = new Gson();
+                        String displayListJsonStr = gson.toJson(displayList);
+                        spUtils.put(SharedPreference.DISPLAYLIST, displayListJsonStr);
+
                         //体征录入
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("info", (Serializable) patientInfo);
                         bundle.putString("time", timeFilterStr);
                         bundle.putString("date", dateFilterStr);
                         bundle.putInt("index", i);
-                        bundle.putSerializable("list", (Serializable) displayList);
                         bundle.putSerializable("timeList", (Serializable) timeFilterList);
 
                         startFragment(VitalSignRecordFragment.class, bundle);
-
                     }
                 }
             }
@@ -581,7 +584,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                 .setYearText("年")
                 .setMonthText("月")
                 .setDayText("日")
-                .setHourText("：00")
+                .setHourText("时")
                 .setMinuteText("分")
                 .setCyclic(false)
                 .setMinMillseconds(currentTimeMillis - tenYears)
@@ -596,13 +599,12 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
         mDialogAll.settype(1);
         //取时间前两个字符转为int（02，06...）
 
-        List<String> hours = new ArrayList();
+        List<String> timeList = new ArrayList();
         for (int i = 0; i < timeFilterList.size(); i++) {
             String str = (String) ((Map) timeFilterList.get(i)).get("time");
-            hours.add(str);
+            timeList.add(str);
         }
-
-        mDialogAll.setintHour(hours);
+        mDialogAll.setmHourMinute(timeList);
 
         mDialogAll.show(getFragmentManager(), "ALL");
 

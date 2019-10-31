@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name_dhcc">门急诊输液</string>
+    <string name="app_name_infusion">门急诊输液</string>
 
 
     <string name="tabbar_setting">设置</string>

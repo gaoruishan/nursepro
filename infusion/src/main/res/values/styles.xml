@@ -1,12 +1,6 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorPrimary</item>
-    </style>
+
     <!--自定义dialog背景全透明无边框theme -->
     <style name="MyDialog" parent="android:style/Theme.Dialog">
         <!--背景颜色及和透明程度-->
@@ -22,13 +16,6 @@
         <item name="android:backgroundDimEnabled">true</item>
     </style>
 
-
-    <style name="StartAppTheme" parent="AppTheme">
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:windowBackground">@drawable/loading_splash</item>
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
-    </style>
     <!-- 对话框样式-->
     <style name="BaseDialog" parent="Theme.AppCompat.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
@@ -40,16 +27,7 @@
         <item name="android:windowCloseOnTouchOutside">true</item>
         <item name="android:windowSoftInputMode">stateAlwaysHidden|adjustPan</item>
     </style>
-    <!-- 手势右滑退出样式 -->
-    <style name="AppTheme.Slide">
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:colorBackgroundCacheHint">@null</item>
-        <item name="android:windowFrame">@null</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowAnimationStyle">@style/SlideAnimation</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowNoTitle">true</item>
-    </style>
+
     <!-- 手势右滑退出动画 -->
     <style name="SlideAnimation" parent="@android:style/Animation.Activity">
     </style>

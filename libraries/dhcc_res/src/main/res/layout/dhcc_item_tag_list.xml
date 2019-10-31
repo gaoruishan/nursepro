@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.noober.background.view.BLTextView
+        android:id="@+id/tv_tag"
+        android:layout_width="@dimen/dp_45"
+        android:layout_height="@dimen/dp_25"
+        android:layout_margin="@dimen/dp_12"
+        android:gravity="center"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:textSize="@dimen/dp_13"
+        app:bl_corners_radius="@dimen/dp_3"
+        app:bl_stroke_width="@dimen/dp_1"
+        app:bl_selected_stroke_color="@color/blue"
+        app:bl_selected_textColor="@color/blue"
+        app:bl_unSelected_stroke_color="@color/text_color_gray_6"
+        app:bl_unSelected_textColor="@color/text_color_gray_6"
+        tools:ignore="MissingPrefix"
+        tools:text="全部" />
+
+</LinearLayout>
+    
+

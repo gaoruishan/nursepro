@@ -26,6 +26,7 @@ public class TimeWheel {
     TimeRepository mRepository;
     private int type=0;
     private int[] a ;
+    private int[] b ;
     OnWheelChangedListener yearListener = new OnWheelChangedListener() {
         @Override
         public void onChanged(WheelView wheel, int oldValue, int newValue) {
@@ -58,9 +59,10 @@ public class TimeWheel {
         mContext = view.getContext();
         initialize(view);
     }
-    public TimeWheel(int type,int[] a,View view, PickerConfig pickerConfig) {
+    public TimeWheel(int type,int[] a,int[] b,View view, PickerConfig pickerConfig) {
         this.type = type;
         this.a = a;
+        this.b = b;
         mPickerConfig = pickerConfig;
         mRepository = new TimeRepository(pickerConfig);
         mContext = view.getContext();
@@ -83,9 +85,6 @@ public class TimeWheel {
         day = view.findViewById(R.id.day);
         hour = view.findViewById(R.id.hour);
         minute = view.findViewById(R.id.minute);
-        if (type == 1){
-            minute.setVisibility(View.GONE);
-        }
 
         switch (mPickerConfig.mType) {
             case ALL:
@@ -255,9 +254,14 @@ public class TimeWheel {
 
         int minMinute = mRepository.getMinMinute(curYear, curMonth, curDay, curHour);
         int maxMinute = mRepository.getMaxMinute(curYear, curMonth, curDay, curHour);
-
+        int maxmore = 0;
         if (type == 1){
-            mMinuteAdapter = new NumericWheelAdapter(mContext, 0, 0, PickerContants.FORMAT, mPickerConfig.mMinute);
+            if (b.length>10){
+                maxmore = maxmore+10;
+            }else {
+                maxmore = b.length;
+            }
+            mMinuteAdapter = new NumericWheelAdapter(mContext, 100, 100+maxmore-1, PickerContants.FORMAT, mPickerConfig.mMinute,b);
         }else {
              mMinuteAdapter = new NumericWheelAdapter(mContext, minMinute, maxMinute, PickerContants.FORMAT, mPickerConfig.mMinute);
             }
@@ -304,7 +308,7 @@ public class TimeWheel {
         int curHour = getCurrentHour();
 //qqq
         if (type == 1){
-            return 0;
+            return b[minute.getCurrentItem()];
         }else {
             return minute.getCurrentItem() + mRepository.getMinMinute(curYear, curMonth, curDay, curHour);
         }

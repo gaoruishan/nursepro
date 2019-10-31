@@ -1,0 +1,183 @@
+{
+  "msg": "成功",
+  "msgcode": "",
+  "status": 0,
+  "SkinTimeList": [
+    {
+      "ObserveTime": "1200",
+      "OeoreGroup": [
+        {
+          "ArcimDesc": "氯化钠注射液[1g:10ml]",
+          "DoseQtyUnit": "1 g",
+          "PhOrdQtyUnit": "1 支"
+        },
+        {
+          "ArcimDesc": "注射用头孢米诺钠[0.5G]()",
+          "DoseQtyUnit": "1 g",
+          "PhOrdQtyUnit": "2 支"
+        }
+      ],
+      "OeoreId": "11",
+      "OverTime": "1173",
+      "PatName": "井尔",
+      "PatRegNo": "0000000264",
+      "PatSex": "男",
+      "SkinResutl": "",
+      "TestStartTime": "09:06:57"
+    },
+    {
+      "ObserveTime": "1200",
+      "OeoreGroup": [
+        {
+          "ArcimDesc": "氯化钠注射液[1g:10ml]",
+          "DoseQtyUnit": "1 g",
+          "PhOrdQtyUnit": "1 支"
+        },
+        {
+          "ArcimDesc": "注射用头孢米诺钠[0.5G]()",
+          "DoseQtyUnit": "1 g",
+          "PhOrdQtyUnit": "2 支"
+        }
+      ],
+      "OeoreId": "11",
+      "OverTime": "1173",
+      "PatName": "井尔",
+      "PatRegNo": "0000000264",
+      "PatSex": "男",
+      "SkinResutl": "",
+      "TestStartTime": "09:06:57"
+    },
+    {
+      "ObserveTime": "1200",
+      "OeoreGroup": [
+        {
+          "ArcimDesc": "氯化钠注射液[1g:10ml]",
+          "DoseQtyUnit": "1 g",
+          "PhOrdQtyUnit": "1 支"
+        },
+        {
+          "ArcimDesc": "注射用头孢米诺钠[0.5G]()",
+          "DoseQtyUnit": "1 g",
+          "PhOrdQtyUnit": "2 支"
+        }
+      ],
+      "OeoreId": "11",
+      "OverTime": "1173",
+      "PatName": "井尔",
+      "PatRegNo": "0000000264",
+      "PatSex": "男",
+      "SkinResutl": "",
+      "TestStartTime": "09:06:57"
+    },
+    {
+      "ObserveTime": "1200",
+      "OeoreGroup": [
+        {
+          "ArcimDesc": "氯化钠注射液[1g:10ml]",
+          "DoseQtyUnit": "1 g",
+          "PhOrdQtyUnit": "1 支"
+        },
+        {
+          "ArcimDesc": "注射用头孢米诺钠[0.5G]()",
+          "DoseQtyUnit": "1 g",
+          "PhOrdQtyUnit": "2 支"
+        }
+      ],
+      "OeoreId": "11",
+      "OverTime": "1173",
+      "PatName": "井尔",
+      "PatRegNo": "0000000264",
+      "PatSex": "男",
+      "SkinResutl": "",
+      "TestStartTime": "09:06:57"
+    },
+    {
+      "ObserveTime": "1200",
+      "OeoreGroup": [
+        {
+          "ArcimDesc": "氯化钠注射液[1g:10ml]",
+          "DoseQtyUnit": "1 g",
+          "PhOrdQtyUnit": "1 支"
+        },
+        {
+          "ArcimDesc": "注射用头孢米诺钠[0.5G]()",
+          "DoseQtyUnit": "1 g",
+          "PhOrdQtyUnit": "2 支"
+        }
+      ],
+      "OeoreId": "11",
+      "OverTime": "1173",
+      "PatName": "井尔4",
+      "PatRegNo": "0000000004",
+      "PatSex": "男",
+      "SkinResutl": "",
+      "TestStartTime": "09:06:57"
+    },
+    {
+      "ObserveTime": "1200",
+      "OeoreGroup": [
+        {
+          "ArcimDesc": "氯化钠注射液[1g:10ml]",
+          "DoseQtyUnit": "1 g",
+          "PhOrdQtyUnit": "1 支"
+        },
+        {
+          "ArcimDesc": "注射用头孢米诺钠[0.5G]()",
+          "DoseQtyUnit": "1 g",
+          "PhOrdQtyUnit": "2 支"
+        }
+      ],
+      "OeoreId": "11",
+      "OverTime": "1173",
+      "PatName": "井尔3",
+      "PatRegNo": "0000000003",
+      "PatSex": "男",
+      "SkinResutl": "",
+      "TestStartTime": "09:06:57"
+    },
+    {
+      "ObserveTime": "1200",
+      "OeoreGroup": [
+        {
+          "ArcimDesc": "氯化钠注射液[1g:10ml]",
+          "DoseQtyUnit": "1 g",
+          "PhOrdQtyUnit": "1 支"
+        },
+        {
+          "ArcimDesc": "注射用头孢米诺钠[0.5G]()",
+          "DoseQtyUnit": "1 g",
+          "PhOrdQtyUnit": "2 支"
+        }
+      ],
+      "OeoreId": "11",
+      "OverTime": "1173",
+      "PatName": "井尔2",
+      "PatRegNo": "0000000002",
+      "PatSex": "男",
+      "SkinResutl": "",
+      "TestStartTime": "09:06:57"
+    },
+    {
+      "ObserveTime": "1200",
+      "OeoreGroup": [
+        {
+          "ArcimDesc": "氯化钠注射液[1g:10ml]",
+          "DoseQtyUnit": "1 g",
+          "PhOrdQtyUnit": "1 支"
+        },
+        {
+          "ArcimDesc": "注射用头孢米诺钠[0.5G]()",
+          "DoseQtyUnit": "1 g",
+          "PhOrdQtyUnit": "2 支"
+        }
+      ],
+      "OeoreId": "11",
+      "OverTime": "1173",
+      "PatName": "井尔1",
+      "PatRegNo": "0000000002",
+      "PatSex": "男",
+      "SkinResutl": "",
+      "TestStartTime": "09:06:57"
+    }
+  ]
+}

@@ -1,4 +1,30 @@
 <resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+    <!--    全屏-->
+    <style name="SplashAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">@drawable/loading_splash</item>
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+    <!-- 手势右滑退出样式 -->
+    <style name="AppTheme.Slide">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@style/SlideAnimation</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+    <!-- 手势右滑退出动画 -->
+    <style name="SlideAnimation" parent="@android:style/Animation.Activity"/>
 
     <!--自定义dialog背景全透明无边框theme -->
     <style name="MyDialog" parent="android:style/Theme.Dialog">
@@ -36,9 +62,11 @@
         <item name="android:layout_marginTop">@dimen/dp_12</item>
         <item name="android:textStyle">bold</item>
     </style>
-    <style name="Line" >
+
+    <style name="Line">
         <item name="android:background">@color/user_attr_line_color</item>
     </style>
+
     <style name="Line.H">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0.5dp</item>

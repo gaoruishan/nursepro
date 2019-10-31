@@ -5,7 +5,7 @@ import android.os.Handler;
 import com.base.commlibs.BaseApplication;
 import com.blankj.utilcode.util.Utils;
 import com.dhcc.module.infusion.db.GreenDaoHelper;
-import com.dhcc.module.infusion.utils.TransBroadcastUtil;
+import com.base.commlibs.utils.TransBroadcastUtil;
 import com.facebook.drawee.backends.pipeline.Fresco;
 
 import java.util.concurrent.Executors;

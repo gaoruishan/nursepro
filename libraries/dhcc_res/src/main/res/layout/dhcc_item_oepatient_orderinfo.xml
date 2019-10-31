@@ -10,9 +10,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/dhcc_bg_oval_green"
-        android:paddingBottom="1dp"
-        android:paddingEnd="8dp"
-        android:paddingStart="8dp"
+        android:paddingBottom="@dimen/dp_1"
+        android:paddingEnd="@dimen/dp_8"
+        android:paddingStart="@dimen/dp_8"
         android:textColor="@color/white"
         tools:text="皮试" />
 
@@ -20,9 +20,9 @@
         android:id="@+id/tv_oeporderinfo_ordername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/dp_10"
         android:textColor="@color/dhcc_ordersearch_text_color"
-        android:textSize="15sp"
+        android:textSize="@dimen/sp_15"
         android:textStyle="bold"
         tools:text="阿德福韦片T(10mg*14片)" />
 
@@ -31,42 +31,42 @@
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="@dimen/dp_5">
 
         <TextView
             android:id="@+id/tv_oeporderinfo_orderdatetime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="6dp"
+            android:layout_marginEnd="@dimen/dp_6"
             android:textColor="@color/dhcc_ordersearch_text_color"
-            android:textSize="12sp"
+            android:textSize="@dimen/sp_12"
             tools:text="2018-08-25 08:00" />
 
         <TextView
             android:id="@+id/tv_oeporderinfo_orderoperate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="6dp"
+            android:layout_marginEnd="@dimen/dp_6"
             android:textColor="@color/dhcc_ordersearch_text_color"
-            android:textSize="12sp"
+            android:textSize="@dimen/sp_12"
             tools:text="皮试" />
 
         <TextView
             android:id="@+id/tv_oeporderinfo_orderdose"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="6dp"
+            android:layout_marginEnd="@dimen/dp_6"
             android:textColor="@color/dhcc_ordersearch_text_color"
-            android:textSize="12sp"
+            android:textSize="@dimen/sp_12"
             tools:text="10mg" />
 
         <TextView
             android:id="@+id/tv_oeporderinfo_orderfrequency"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="6dp"
+            android:layout_marginEnd="@dimen/dp_6"
             android:textColor="@color/dhcc_ordersearch_text_color"
-            android:textSize="12sp"
+            android:textSize="@dimen/sp_12"
             tools:text="QD" />
 
         <TextView
@@ -74,7 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/dhcc_ordersearch_text_color"
-            android:textSize="12sp"
+            android:textSize="@dimen/sp_12"
             tools:text="严医生" />
 
 
@@ -85,15 +85,15 @@
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="@dimen/dp_5">
 
         <TextView
             android:id="@+id/tv_oeporderinfo_orderdose1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="6dp"
+            android:layout_marginEnd="@dimen/dp_6"
             android:textColor="@color/dhcc_ordersearch_text_color"
-            android:textSize="12sp"
+            android:textSize="@dimen/sp_12"
             tools:text="10mg" />
 
 
@@ -102,9 +102,9 @@
         android:id="@+id/line_oeporderinfo_multiorder"
         android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="3dp"
+        android:layout_height="@dimen/dp_2"
+        android:layout_marginTop="@dimen/dp_5"
+        android:layout_marginBottom="@dimen/dp_3"
         android:background="@drawable/dhcc_line_dash"
         android:layerType="software" />
     <LinearLayout
@@ -112,33 +112,33 @@
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="@dimen/dp_5">
 
         <TextView
             android:id="@+id/tv_oeporderinfo_orderdatetime2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="6dp"
+            android:layout_marginEnd="@dimen/dp_6"
             android:textColor="@color/dhcc_ordersearch_text_color"
-            android:textSize="12sp"
+            android:textSize="@dimen/sp_12"
             tools:text="2018-08-25 08:00" />
 
         <TextView
             android:id="@+id/tv_oeporderinfo_orderoperate2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="6dp"
+            android:layout_marginEnd="@dimen/dp_6"
             android:textColor="@color/dhcc_ordersearch_text_color"
-            android:textSize="12sp"
+            android:textSize="@dimen/sp_12"
             tools:text="皮试" />
 
         <TextView
             android:id="@+id/tv_oeporderinfo_orderfrequency2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="6dp"
+            android:layout_marginEnd="@dimen/dp_6"
             android:textColor="@color/dhcc_ordersearch_text_color"
-            android:textSize="12sp"
+            android:textSize="@dimen/sp_12"
             tools:text="QD" />
 
         <TextView
@@ -146,7 +146,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/dhcc_ordersearch_text_color"
-            android:textSize="12sp"
+            android:textSize="@dimen/sp_12"
             tools:text="严医生" />
 
 

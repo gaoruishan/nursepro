@@ -42,11 +42,9 @@ import com.dhcc.nursepro.workarea.orderexecute.bean.OrderExecuteBean;
 import com.dhcc.nursepro.workarea.orderexecute.bean.ScanResultBean;
 import com.dhcc.nursepro.workarea.orderexecute.presenter.OrdExeFilterPresenter;
 import com.jzxiang.pickerview.TimePickerDialog;
-import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -542,6 +540,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 }
                 patientOrderAdapter.setNewData(patOrders);
                 patientOrderAdapter.loadMoreEnd();
+                recyOrderexecutePatorder.scrollToPosition(0);
 
                 //左侧列表判断有无默认值，有的话滑动到默认值类型
                 if (!"".equals(orderExecuteBean.getSheetDefCode())) {

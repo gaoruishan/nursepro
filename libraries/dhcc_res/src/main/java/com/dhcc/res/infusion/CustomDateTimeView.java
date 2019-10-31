@@ -64,26 +64,44 @@ public class CustomDateTimeView extends LinearLayout implements View.OnClickList
         tv.setText(s);
     }
 
-    public long getStartDateTime() {
+    public String getStartDateTimeText() {
+        if (tvChooseDateStart != null) {
+           return tvChooseDateStart.getText().toString();
+        }
+        return "";
+    }
+
+    public String getEndDateTimeText() {
+        if (tvChooseDateEnd != null) {
+           return tvChooseDateEnd.getText().toString();
+        }
+        return "";
+    }
+
+    private long getStartDateTime() {
         if (startDateTime == 0) {
             return System.currentTimeMillis() - ONE_DAY;
         }
         return startDateTime;
     }
 
-    public long getEndDateTime() {
+    private long getEndDateTime() {
         if (endDateTime == 0) {
             return System.currentTimeMillis();
         }
         return endDateTime;
     }
 
-    public void setEndDateTime(long endDateTime) {
+    public CustomDateTimeView setEndDateTime(long endDateTime) {
         this.endDateTime = endDateTime;
+        setChooseText(getEndDateTime(), tvChooseDateEnd);
+        return this;
     }
 
-    public void setStartDateTime(long startDateTime) {
+    public CustomDateTimeView setStartDateTime(long startDateTime) {
         this.startDateTime = startDateTime;
+        setChooseText(getStartDateTime(), tvChooseDateStart);
+        return this;
     }
 
     @Override
@@ -112,7 +130,7 @@ public class CustomDateTimeView extends LinearLayout implements View.OnClickList
         }
     }
 
-    public void chooseTime(long currentTimeMillis, OnDateSetListener listener) {
+    private void chooseTime(long currentTimeMillis, OnDateSetListener listener) {
         long tenYears = 10L * 365 * 1000 * 60 * 60 * 24L;
         TimePickerDialog.Builder builder = new TimePickerDialog.Builder();
         if (isShowTime) {
@@ -149,8 +167,9 @@ public class CustomDateTimeView extends LinearLayout implements View.OnClickList
         isShowTime = showTime;
     }
 
-    public void setOnDateSetListener(OnDateSetListener startClick,OnDateSetListener endClick) {
+    public CustomDateTimeView setOnDateSetListener(OnDateSetListener startClick,OnDateSetListener endClick) {
         this.startClick = startClick;
         this.endClick = endClick;
+        return this;
     }
 }

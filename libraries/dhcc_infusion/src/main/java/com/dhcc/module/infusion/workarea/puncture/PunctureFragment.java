@@ -98,9 +98,8 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
                 // 隐藏扫码页
                 helper.setVisible(R.id.csv, false);
                 if (bean.getPatInfo() != null) {
-                    cpvPat.setPatName(bean.getPatInfo().getPatName())
-                            .setRegNo(bean.getPatInfo().getPatRegNo())
-                            .setAge(bean.getPatInfo().getPatAge())
+                    cpvPat.setPatName(bean.getPatInfo().getPatName()).setRegNo(bean.getPatInfo().getPatRegNo())
+                            .setAge(bean.getPatInfo().getPatAge()).setSeat(bean.getPatInfo().getPatSeat())
                             .setImgSexResource(bean.getPatInfo().getPatSexDrawable());
                 }
                 csvSpeed.setSpeed(bean.getDefautSpeed());

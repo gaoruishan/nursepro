@@ -8,11 +8,11 @@
     <LinearLayout
         android:id="@+id/ll_orderexecute_noselectbottom"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/dp_50"
         android:layout_alignParentBottom="true"
         android:background="#9b9b9b"
         android:gravity="center_vertical"
-        android:paddingStart="16dp"
+        android:paddingStart="@dimen/dp_16"
         android:visibility="gone">
 
         <TextView
@@ -26,12 +26,12 @@
     <LinearLayout
         android:id="@+id/ll_orderexecute_selectbottom"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/dp_50"
         android:layout_alignParentBottom="true"
         android:background="#4a4a4a"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingStart="16dp">
+        android:paddingStart="@dimen/dp_16">
 
         <LinearLayout
             android:id="@+id/ll_orderexecute_selectnum"
@@ -47,10 +47,10 @@
 
             <View
                 android:id="@+id/view_bottom_handleline"
-                android:layout_width="1dp"
-                android:layout_height="16dp"
-                android:layout_marginStart="6dp"
-                android:layout_marginEnd="6dp"
+                android:layout_width="@dimen/dp_1"
+                android:layout_height="@dimen/dp_16"
+                android:layout_marginStart="@dimen/dp_6"
+                android:layout_marginEnd="@dimen/dp_6"
                 android:background="@color/white"/>
 
             <TextView
@@ -65,36 +65,36 @@
                 android:id="@+id/img_bottom_handlesure"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:layout_marginBottom="1dp"
+                android:layout_marginStart="@dimen/dp_6"
+                android:layout_marginBottom="@dimen/dp_1"
                 android:src="@drawable/dhcc_icon_bottom_selected"/>
         </LinearLayout>
 
 
         <View
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dp_0"
             android:layout_height="match_parent"
             android:layout_weight="1"/>
 
 
         <TextView
             android:id="@+id/tv_bottom_undo"
-            android:layout_width="90dp"
+            android:layout_width="@dimen/dp_90"
             android:layout_height="match_parent"
             android:background="#4a90e2"
             android:gravity="center"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="@dimen/sp_16"
             tools:text="撤销执行"/>
 
         <TextView
             android:id="@+id/tv_bottom_todo"
-            android:layout_width="90dp"
+            android:layout_width="@dimen/dp_90"
             android:layout_height="match_parent"
             android:background="#62abff"
             android:gravity="center"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="@dimen/sp_16"
             tools:text="执行"/>
     </LinearLayout>
 </LinearLayout>

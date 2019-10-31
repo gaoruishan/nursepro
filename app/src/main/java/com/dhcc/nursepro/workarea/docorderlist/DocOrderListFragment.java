@@ -284,7 +284,7 @@ public class DocOrderListFragment extends BaseFragment {
 
         ordersAdapter.setNewData(orderListShow);
         ordersAdapter.notifyDataSetChanged();
-
+        recOrders.scrollToPosition(0);
 
     }
 

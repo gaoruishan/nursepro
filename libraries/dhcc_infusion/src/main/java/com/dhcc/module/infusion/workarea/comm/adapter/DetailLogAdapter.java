@@ -9,7 +9,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.utils.RecyclerViewHelper;
-import com.dhcc.module.infusion.utils.ViewUtil;
+import com.base.commlibs.utils.ViewUtil;
 import com.dhcc.module.infusion.workarea.comm.bean.OrdInfoBean;
 import com.dhcc.module.infusion.workarea.dosing.adapter.CommQuickAdapter;
 

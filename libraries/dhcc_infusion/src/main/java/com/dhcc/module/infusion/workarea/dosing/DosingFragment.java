@@ -20,6 +20,7 @@ import com.dhcc.module.infusion.workarea.dosing.adapter.CommDosingAdapter;
 import com.dhcc.module.infusion.workarea.dosing.api.DosingApiManager;
 import com.dhcc.module.infusion.workarea.dosing.bean.DosingBean;
 import com.dhcc.module.infusion.workarea.dosing.bean.OrdListBean;
+import com.dhcc.res.infusion.CustomPatView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,7 @@ public class DosingFragment extends BaseInfusionFragment implements View.OnClick
     private CommDosingAdapter commDosingAdapter;
     private View tvOk;
     private String reqType;
-
+    private CustomPatView cpvPat;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -45,9 +46,10 @@ public class DosingFragment extends BaseInfusionFragment implements View.OnClick
         setToolbarCenterTitle("配液");
 //        addPatListToToolbarRight();
         tvOk = f(R.id.tv_ok);
+        cpvPat = mContainerChild.findViewById(R.id.cpv_pat);
         tvOk.setOnClickListener(this);
 //        f(R.id.tv_ok_all).setOnClickListener(this);
-        rvDosing = RecyclerViewHelper.get(this.getActivity(), R.id.rv_dosing);
+        rvDosing = RecyclerViewHelper.get(mContext, R.id.rv_dosing);
         commDosingAdapter = AdapterFactory.getCommDosingOrdList();
         rvDosing.setAdapter(commDosingAdapter);
     }
@@ -76,6 +78,11 @@ public class DosingFragment extends BaseInfusionFragment implements View.OnClick
             @Override
             public void onSuccess(DosingBean bean, String type) {
                 mContainerChild.findViewById(R.id.csv).setVisibility(View.GONE);
+                if (bean.getPatInfo() != null) {
+                    cpvPat.setRegNo(bean.getPatInfo().getPatRegNo()).setPatName(bean.getPatInfo().getPatName())
+                            .setAge(bean.getPatInfo().getPatAge()).setSeat(bean.getPatInfo().getPatSeat())
+                            .setImgSexResource(CustomPatView.getPatSexDrawable(bean.getPatInfo().getPatSex()));
+                }
 //                tvOk.setVisibility(View.VISIBLE);
                 commDosingAdapter.replaceData(bean.getOrdList());
                 // 当前

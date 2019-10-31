@@ -137,6 +137,7 @@ public class CheckPatsFragment extends BaseFragment implements View.OnClickListe
     private void showSelectedPats(List<CheckPatsListBean.PatInfoListBean> listShow) {
         patListAdapterAll.setNewData(listShow);
         patListAdapterAll.notifyDataSetChanged();
+        recall.scrollToPosition(0);
         if (listShow.size() < 1) {
             llEmpty.setVisibility(View.VISIBLE);
         } else {
