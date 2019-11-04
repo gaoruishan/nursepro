@@ -509,19 +509,35 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
                 }
             }
             //自定义键盘
-            edText.setOnTouchListener(new View.OnTouchListener() {
+//            edText.setOnTouchListener(new View.OnTouchListener() {
+//                @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+//                @Override
+//                public boolean onTouch(View v, MotionEvent event) {
+//                    if (titleTV.getText().toString().contains("℃")) {
+//                        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+//                        imm.hideSoftInputFromWindow(edText.getWindowToken(), 0);
+//                        new KeyBoardUtil(mKeyboard, edText).showKeyboard();
+//                    } else {
+//                        mKeyboard.setVisibility(View.GONE);
+//
+//                    }
+//                    return false;
+//                }
+//            });
+            edText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                 @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    if (titleTV.getText().toString().contains("℃")) {
-                        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                        imm.hideSoftInputFromWindow(edText.getWindowToken(), 0);
-                        new KeyBoardUtil(mKeyboard, edText).showKeyboard();
-                    } else {
-                        mKeyboard.setVisibility(View.GONE);
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if (hasFocus) {
+                        if (titleTV.getText().toString().contains("℃")) {
+                            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(edText.getWindowToken(), 0);
+                            new KeyBoardUtil(mKeyboard, edText).showKeyboard();
+                        } else {
+                            mKeyboard.setVisibility(View.GONE);
 
+                        }
                     }
-                    return false;
                 }
             });
             edText.addTextChangedListener(new TextWatcher() {
