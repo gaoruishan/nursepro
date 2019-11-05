@@ -90,8 +90,6 @@ public class WorkareaFragment extends BaseFragment {
 
     private void initData() {
         HashMap<String, String> properties = new HashMap<String, String>();
-        properties.put("groupId",SPUtils.getInstance().getString(SharedPreference.GROUPID));
-        properties.put("locId",SPUtils.getInstance().getString(SharedPreference.LOCID));
         WorkareaApiManager.getMainConfig(properties, "getMainConfig", new WorkareaApiManager.GetMainconfigCallback() {
             @Override
             public void onSuccess(MainConfigBean mainConfigBean) {
