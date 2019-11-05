@@ -191,19 +191,14 @@ public class NurRecordMPGDFragment extends BaseFragment implements View.OnClickL
 
                     CNHVal.put(cname, edtxt);
                 }
-                ///出入院评估单责任护士
 
             }
             if (itm.substring(0, 1).equals("D")) {
                 TextView ed = (TextView) CNHtb.get(entry.getKey().toString());
-                if (!ed.getText().toString().equals("")) {
-                }
                 CNHVal.put(cname, ed.getText());
-
             }
 
             if (itm.substring(0, 1).equals("M")) {
-                // Toast.makeText(context, itmtxt, 100).show();
                 ret = ret + cname + "|" + GetMultiVal(CNHVal.get(cname).toString()) + "^";
             }
             if (itm.substring(0, 1).equals("O") || itm.substring(0, 1).equals("I")) {
@@ -212,7 +207,6 @@ public class NurRecordMPGDFragment extends BaseFragment implements View.OnClickL
                     //关联元素自动赋值的
                     CNHVal.put(cname, cname + "|" + ed.getText() + "!" + ed.getText());
                 }
-                // Toast.makeText(context, itmtxt, 100).show();
                 ret = ret + cname + "|" + GetComVal(CNHVal.get(cname).toString()) + "^";
             }
 
@@ -281,10 +275,12 @@ public class NurRecordMPGDFragment extends BaseFragment implements View.OnClickL
         if (itm == "")
             return "";
         String[] aa = itm.split("\\|");
-        String[] val = aa[1].split("!");
-        if (val.length == 0)
-            return "";
-        ret = val[0];
+        if (aa.length > 1) {
+            String[] val = aa[1].split("!");
+            if (val.length == 0)
+                return "";
+            ret = val[0];
+        }
         return ret;
     }
 

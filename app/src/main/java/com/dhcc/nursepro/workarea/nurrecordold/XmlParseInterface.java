@@ -362,7 +362,7 @@ public class XmlParseInterface implements Serializable {
                     if (!txtstr.equals(""))
                         btn5.setText(getMultiVal(txtstr));
                     else
-                        btn5.setText("请选择");
+                        btn5.setText("");
 
                     for (int j = 0; j < itemSetList.size(); j++) {
                         ItemConfigbyEmrCodeBean.ItemSetListBean itemSetListBean = itemSetList.get(j);
@@ -439,7 +439,7 @@ public class XmlParseInterface implements Serializable {
                     final TextView btn6 = new TextView(context);
 
                     if (txtstr.replaceAll(";", "").equals("")) {
-                        btn6.setText("请选择");
+                        btn6.setText("");
                     } else {
                         btn6.setText(getRadioVal(txtstr));
                     }
@@ -506,7 +506,7 @@ public class XmlParseInterface implements Serializable {
                     final TextView btn = new TextView(context);
 
                     if (txtstr.replaceAll("!", "").equals("")) {
-                        btn.setText("请选择");
+                        btn.setText("");
                     } else {
                         btn.setText(txtstr.split("!")[0]);
                     }

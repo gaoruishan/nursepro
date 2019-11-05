@@ -106,6 +106,7 @@ public class NurRecordOldApiService {
         HashMap<String, String> properties = new HashMap<>();
         properties.put("episodeId", episodeID);
         properties.put("emrCode", emrCode);
+        properties.put("userId", SPUtils.getInstance().getString(SharedPreference.USERID));
 
         WebServiceUtils.callWebService("getEmrPatinfo", properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
