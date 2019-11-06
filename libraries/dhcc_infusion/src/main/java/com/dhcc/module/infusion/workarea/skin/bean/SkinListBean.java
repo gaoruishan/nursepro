@@ -134,7 +134,7 @@ public class SkinListBean extends CommResult {
         }
 
         public String getNotes() {
-            return Notes;
+            return Notes == null ? "" : Notes;
         }
 
         public void setNotes(String Notes) {
@@ -142,7 +142,7 @@ public class SkinListBean extends CommResult {
         }
 
         public String getObserveTime() {
-            return ObserveTime;
+            return ObserveTime == null ? "" : ObserveTime;
         }
 
         public void setObserveTime(String ObserveTime) {
@@ -182,7 +182,7 @@ public class SkinListBean extends CommResult {
         }
 
         public String getTestMethod() {
-            return TestMethod;
+            return TestMethod == null ? "" : TestMethod;
         }
 
         public void setTestMethod(String TestMethod) {
@@ -198,7 +198,7 @@ public class SkinListBean extends CommResult {
         }
 
         public String getTestStartTime() {
-            return TestStartTime;
+            return TestStartTime == null ? "" : TestStartTime;
         }
 
         public void setTestStartTime(String TestStartTime) {
@@ -206,7 +206,7 @@ public class SkinListBean extends CommResult {
         }
 
         public String getTestUser() {
-            return TestUser;
+            return TestUser == null ? "" : TestUser;
         }
 
         public void setTestUser(String TestUser) {

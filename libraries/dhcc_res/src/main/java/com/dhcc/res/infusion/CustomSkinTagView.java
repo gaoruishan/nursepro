@@ -22,6 +22,8 @@ import com.noober.background.view.BLLinearLayout;
  */
 public class CustomSkinTagView extends BaseView {
 
+    public static final String YIN = "阴";
+    public static final String YANG = "阳";
     private  View rlGroup;
     private TextView tvName;
     private BLLinearLayout blCircleOut, blCircleIn;
@@ -55,11 +57,13 @@ public class CustomSkinTagView extends BaseView {
     public void setTextWithColor(String s) {
         if (!TextUtils.isEmpty(s)) {
             rlGroup.setVisibility(VISIBLE);
-            if (s.contains("阴")) {
+            if (s.contains(YIN)) {
+                setText(YIN);
                 setTextColor(yinColor);
                 setCircleColor(yinColor);
             }
-            if (s.contains("阳")) {
+            if (s.contains(YANG)) {
+                setText(YANG);
                 setTextColor(yangColor);
                 setCircleColor(yangColor);
             }

@@ -16,8 +16,14 @@ import java.util.HashMap;
  */
 public class SkinApiManager {
 
-    public static void getSkinList(String regNo, String stDate,String enDate,final CommonCallBack<SkinListBean> callBack) {
+    /**
+     * Description:  皮试医嘱查询
+     * Input：       locId:科室Id
+     * other:		 w ##class(Nur.OPPDA.SkinTest).getSkinOrdList("0000000020","1","2019-11-04",,"2019-11-05",0)
+     */
+    public static void getSkinList(String regNo, String stDate, String enDate, final CommonCallBack<SkinListBean> callBack) {
         HashMap<String, String> properties = CommWebService.addUserId(null);
+        CommWebService.addHospitalId(properties);
         properties.put("regNo", regNo);
         properties.put("startDate", stDate);
         properties.put("endDate", enDate);
@@ -26,8 +32,8 @@ public class SkinApiManager {
             public void onResult(String jsonStr) {
                 ParserUtil<SkinListBean> parserUtil = new ParserUtil<>();
                 SkinListBean bean = parserUtil.parserResult(jsonStr, callBack, SkinListBean.class);
-                if (bean==null) return;
-                parserUtil.parserStatus(bean,callBack);
+                if (bean == null) return;
+                parserUtil.parserStatus(bean, callBack);
             }
         });
     }
@@ -39,7 +45,6 @@ public class SkinApiManager {
      */
     public static void skinTime(String oeoriId, String observeTime, String note, final com.base.commlibs.http.CommonCallBack<CommResult> callBack) {
         HashMap<String, String> properties = CommWebService.addUserId(null);
-        CommWebService.addHospitalId(properties);
         CommWebService.addLocId(properties);
         properties.put("oeoriId", oeoriId);
         properties.put("observeTime", observeTime);

@@ -9,6 +9,7 @@ import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.CommDialog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.module.infusion.R;
+import com.dhcc.module.infusion.message.api.MessageApiManager;
 import com.dhcc.module.infusion.utils.DialogFactory;
 import com.dhcc.module.infusion.utils.RecyclerViewHelper;
 import com.dhcc.module.infusion.workarea.comm.BaseInfusionFragment;
@@ -55,7 +56,7 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
                 showSkinCount();
             }
         }));
-        beans.add(new ClickBean("执行", new View.OnClickListener() {
+        beans.add(new ClickBean("置皮试结果", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 exeOrderSkin();
@@ -64,12 +65,24 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
         bottomView.addBottomView(beans);
     }
 
+    private SkinListBean.OrdListBean getSelectBean() {
+        for (SkinListBean.OrdListBean bean : skinAdapter.getData()) {
+            if (bean.isSelect()) {
+                return bean;
+            }
+        }
+        return null;
+    }
+
     private void showSkinCount() {
+        final SkinListBean.OrdListBean selectBean = getSelectBean();
+        if (selectBean == null) {
+            return;
+        }
         DialogFactory.showCountTime(mContext, new CommDialog.CommClickListener() {
             @Override
             public void data(Object[] args) {
-                String oeoreId = "";
-                SkinApiManager.skinTime(oeoreId, (String) args[0], (String) args[1], new CommonCallBack<CommResult>() {
+                SkinApiManager.skinTime(selectBean.getOeoriId(), (String) args[0], (String) args[1], new CommonCallBack<CommResult>() {
                     @Override
                     public void onFail(String code, String msg) {
 
@@ -77,17 +90,39 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
 
                     @Override
                     public void onSuccess(CommResult bean, String type) {
-                        DialogFactory.showCommDialog(getActivity(), bean.getMsg(), null, 0, null, true);
-                        getOrdList();//刷新
+                        refresh(bean);
                     }
                 });
             }
         });
     }
 
-    private void exeOrderSkin() {
-        SkinListBean.OrdListBean selectBean = getSelectBean();
+    private void refresh(CommResult bean) {
+        DialogFactory.showCommDialog(getActivity(), bean.getMsg(), null, 0, null, true);
+        getOrdList();//刷新
+    }
 
+    private void exeOrderSkin() {
+        final SkinListBean.OrdListBean selectBean = getSelectBean();
+        if (selectBean == null) {
+            return;
+        }
+        DialogFactory.showSkinYinYangDialog(mContext, "置皮试结果", "", "", null, new CommDialog.CommClickListener() {
+            @Override
+            public void data(Object[] args) {
+                MessageApiManager.setSkinTestResult(selectBean.getOeoriId(), (String) args[2],(String) args[0],(String) args[1], new CommonCallBack<CommResult>() {
+                    @Override
+                    public void onFail(String code, String msg) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(CommResult bean, String type) {
+                        refresh(bean);
+                    }
+                });
+            }
+        });
     }
 
     private void getOrdList() {
@@ -107,15 +142,6 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
                 }
             }
         });
-    }
-
-    private SkinListBean.OrdListBean getSelectBean() {
-        for (SkinListBean.OrdListBean bean : skinAdapter.getData()) {
-            if (bean.isSelect()) {
-                return bean;
-            }
-        }
-        return null;
     }
 
     @Override
