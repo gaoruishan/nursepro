@@ -106,7 +106,7 @@ public class AppUtil {
      */
     public static void playSound(Context context, int resId) {
 
-        AudioManager mgr = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        AudioManager mgr = (AudioManager) context.getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
 
         float streamVolumeCurrent = mgr.getStreamVolume(AudioManager.STREAM_MUSIC);
 

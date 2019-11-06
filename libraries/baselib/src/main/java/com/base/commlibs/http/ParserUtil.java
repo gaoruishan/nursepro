@@ -3,9 +3,11 @@ package com.base.commlibs.http;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import com.base.commlibs.R;
 import com.base.commlibs.constant.SharedPreference;
+import com.base.commlibs.utils.CommDialog;
+import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ObjectUtils;
-import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
 
 /**
@@ -52,7 +54,8 @@ public class ParserUtil<T extends CommResult> {
         callback.onFail(code, msg);
         //如果为null不提示
         if (!TextUtils.isEmpty(msg)) {
-            ToastUtils.showShort("error  " + code + ":" + msg + "_" + SharedPreference.MethodName);
+            //ToastUtils.showShort("error  " + code + ":" + msg + "_" + SharedPreference.MethodName);
+            CommDialog.showCommDialog(ActivityUtils.getTopActivity(), "error  " + code + ":" + msg + "_" + SharedPreference.MethodName, "", R.drawable.icon_popup_error_patient, null,true);
         }
     }
 
@@ -94,7 +97,9 @@ public class ParserUtil<T extends CommResult> {
             boolean isDealOnFail = dealOnFail != null && dealOnFail.length > 0 && dealOnFail[0];
             //有数据 且为true-->不提示
             if (!isDealOnFail) {
-                ToastUtils.showShort(bean.getMsg());
+                //TODO 替换Dialog
+                //ToastUtils.showShort(bean.getMsg());
+                CommDialog.showCommDialog(ActivityUtils.getTopActivity(), bean.getMsg(), "", R.drawable.icon_popup_error_patient, null,true);
             }
         }
     }

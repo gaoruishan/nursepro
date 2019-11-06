@@ -16,8 +16,10 @@ import android.view.ViewGroup;
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
 import com.base.commlibs.utils.AppUtil;
+import com.base.commlibs.utils.BaseHelper;
 import com.blankj.utilcode.util.ToastUtils;
 import com.dhcc.module.infusion.R;
+import com.dhcc.module.infusion.utils.ViewGlobal;
 import com.dhcc.module.infusion.workarea.dosing.bean.OrdListBean;
 
 import java.util.ArrayList;
@@ -35,6 +37,7 @@ public abstract class BaseInfusionFragment extends BaseFragment {
     protected String scanInfo;
     protected Activity mContext;
     protected List<String> listId;
+    protected BaseHelper helper;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -43,8 +46,20 @@ public abstract class BaseInfusionFragment extends BaseFragment {
         setCommToolBar();
         if (mContext instanceof BaseActivity) {
             ((BaseActivity) mContext).openMultiScan(AppUtil.isMultiScan());
+            ((BaseActivity) mContext).addGlobalView(ViewGlobal.createInfusionGlobal(mContext));
         }
         AppUtil.initPlay(mContext, 0, R.raw.operate_success);
+        helper = new BaseHelper(mContext);
+        initViews();
+        initDatas();
+    }
+
+    protected void initDatas() {
+
+    }
+
+    protected void initViews() {
+
     }
 
     private void setCommToolBar() {
@@ -78,6 +93,14 @@ public abstract class BaseInfusionFragment extends BaseFragment {
             return inflater.inflate(setLayout(), container, false);
         }
         return null;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        if (helper != null) {
+            helper.removeView();
+        }
     }
 
     /**

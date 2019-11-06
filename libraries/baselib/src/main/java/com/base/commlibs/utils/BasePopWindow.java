@@ -59,7 +59,7 @@ public class BasePopWindow {
     @SuppressWarnings("deprecation")
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     public static Point getScreenSize(Context context) {
-        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        WindowManager windowManager = (WindowManager) context.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
         Display display = windowManager.getDefaultDisplay();
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB_MR2) {
             return new Point(display.getWidth(), display.getHeight());

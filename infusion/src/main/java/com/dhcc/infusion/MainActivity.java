@@ -93,13 +93,14 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         setContentView(R.layout.activity_main);
         spUtils = SPUtils.getInstance();
 
+      //  addGlobalView(ViewGlobal.createInfusionGlobal(this));
         //此处为暂时调用，应该在登录成功后初始化tabviews
         initTabView();
 
         Intent i = new Intent(this, MServiceNewOrd.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startService(i);
-        nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        nm = (NotificationManager) getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
         //请求SD卡权限
         PermissionUtils.permission(PermissionConstants.STORAGE).request();
     }
@@ -458,7 +459,7 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
 //
 
 //        notification.flags |= Notification.FLAG_INSISTENT;
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) context.getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
         /**发起通知**/
         notificationManager.notify(1, notification);
     }

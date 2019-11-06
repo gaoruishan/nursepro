@@ -141,6 +141,7 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
     private EditTextScanHelper scanHelper;
     //是否支持多种扫描方法
     private boolean multiScanState = false;
+    protected LinearLayout llGlobal;
 
     // 登录成功，开始计时
     protected static void startTimer() {
@@ -236,6 +237,7 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         mToolbarLeftContainer = findViewById(R.id.toolbar_left_container);
         mToolbarRightContainer = findViewById(R.id.toolbar_right_container);
         mContainer = findViewById(R.id.container);
+        llGlobal = findViewById(R.id.ll_global);
         setToolbarBackground(new ColorDrawable(0xffffffff));
         initStatusBarBackgroundView();
         initBackAction();
@@ -266,6 +268,17 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         });
         if (mContainer != null) {
             mContainer.addView(scanHelper.getEditText());
+        }
+    }
+    /**
+     * 添加全局View
+     * @return
+     */
+    public void addGlobalView(View view) {
+        llGlobal.setVisibility(view!=null?View.VISIBLE:View.GONE);
+        if (view != null) {
+            llGlobal.removeAllViews();
+            llGlobal.addView(view);
         }
     }
 

@@ -1,27 +1,23 @@
 package com.dhcc.module.infusion.workarea;
 
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
-import com.base.commlibs.BaseFragment;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.BaseHelper;
-import com.blankj.utilcode.util.ToastUtils;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.utils.AdapterFactory;
 import com.dhcc.module.infusion.utils.RecyclerViewHelper;
-import com.dhcc.res.infusion.CustomOrdStateView;
+import com.dhcc.module.infusion.workarea.comm.BaseInfusionFragment;
 import com.dhcc.module.infusion.workarea.comm.adapter.DetailLogAdapter;
 import com.dhcc.module.infusion.workarea.comm.api.WorkAreaApiManager;
 import com.dhcc.module.infusion.workarea.comm.bean.OrdInfoBean;
 import com.dhcc.module.infusion.workarea.dosing.adapter.CommQuickAdapter;
+import com.dhcc.res.infusion.CustomOrdStateView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,7 +31,7 @@ import java.util.Set;
  * @date:202019-04-30/11:42
  * @email:grs0515@163.com
  */
-public class MedicalDetailFragment extends BaseFragment {
+public class MedicalDetailFragment extends BaseInfusionFragment {
     public final static String STATE_1 = "未配液";
     public final static String[] STATE_2 = {"已配液", "已复核"};
     public final static String STATE_3 = "输液中";
@@ -48,16 +44,13 @@ public class MedicalDetailFragment extends BaseFragment {
     private RecyclerView rvOrdList;
 
     @Override
-    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_medical_detail, container);
+    protected int setLayout() {
+        return R.layout.fragment_medical_detail;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setStatusBarBackgroundViewVisibility(true, 0xffffffff);
-        setToolbarBackground(new ColorDrawable(0xffffffff));
-        showToolbarNavigationIcon(R.drawable.icon_back_blue);
         setToolbarCenterTitle("医嘱详情");
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -65,8 +58,8 @@ public class MedicalDetailFragment extends BaseFragment {
         }
         helper = new BaseHelper(this.getActivity());
         cosvState = mContainerChild.findViewById(R.id.cosv_state);
-        rvOrdList = RecyclerViewHelper.get(this.getActivity(), R.id.rv_ord_list);
-        RecyclerView rvStepLog = RecyclerViewHelper.get(this.getActivity(), R.id.rv_step_log);
+        rvOrdList = RecyclerViewHelper.get(mContext, R.id.rv_ord_list);
+        RecyclerView rvStepLog = RecyclerViewHelper.get(mContext, R.id.rv_step_log);
         detailLogAdapter = AdapterFactory.getDetailLogAdapter();
         rvStepLog.setAdapter(detailLogAdapter);
         WorkAreaApiManager.getOrdInfo(OeoreId, new CommonCallBack<OrdInfoBean>() {

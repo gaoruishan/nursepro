@@ -30,6 +30,12 @@
       "name": "拔针",
       "image": "infusion_main_bz",
       "fragment": "com.dhcc.module.infusion.workarea.needles.NeedlesFragment"
+    },
+    {
+      "id": 105,
+      "name": "皮试",
+      "image": "infusion_main_bz",
+      "fragment": "com.dhcc.module.infusion.workarea.skin.SkinFragment"
     }
   ]
 }
