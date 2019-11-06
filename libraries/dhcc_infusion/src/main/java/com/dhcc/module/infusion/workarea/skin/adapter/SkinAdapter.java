@@ -25,7 +25,7 @@ public class SkinAdapter extends BaseQuickAdapter<SkinListBean.OrdListBean, Base
     @Override
     protected void convert(BaseViewHolder helper, SkinListBean.OrdListBean item) {
         CustomSkinTagView customSkinTag = helper.getView(R.id.custom_skin_tag);
-        customSkinTag.setText("皮").setTextColor("#ff00ff00").setCircleColor("#666666");
+        customSkinTag.setTextWithColor(item.getTestResult());
         helper.addOnClickListener(R.id.iv_select);
         helper.setText(R.id.tv_name, item.getArcimDesc())
                 .setText(R.id.tv_time, item.getCreateDateTime())

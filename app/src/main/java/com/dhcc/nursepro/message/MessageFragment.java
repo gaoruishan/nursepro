@@ -201,7 +201,7 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
         MessageApiManager.getSkinTestMessage(new CommonCallBack<MessageSkinBean>() {
             @Override
             public void onFail(String code, String msg) {
-                showToast("error" + code + ":" + msg);
+              ///  showToast("error" + code + ":" + msg);
             }
 
             @Override

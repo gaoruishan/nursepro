@@ -59,22 +59,22 @@ public class SkinListBean extends CommResult {
          * TestUser :
          */
 
-        private String ArcimDesc;
-        private String CreateDateTime;
-        private String CtcpDesc;
-        private String DisposeStatDesc;
-        private String DoseQtyUnit;
-        private String EpisodeID;
-        private String Notes;
-        private String ObserveTime;
-        private String OeoriId;
-        private String PhOrdQtyUnit;
-        private String PhcinDesc;
-        private String TestDateTime;
-        private String TestMethod;
-        private String TestResult;
-        private String TestStartTime;
-        private String TestUser;
+        private String ArcimDesc; //医嘱名称
+        private String CreateDateTime;//医嘱创建时间
+        private String CtcpDesc; //医生
+        private String DisposeStatDesc;//处置状态
+        private String DoseQtyUnit;//剂量
+        private String EpisodeID;//就诊号
+        private String Notes;//备注
+        private String ObserveTime;//观察时间
+        private String OeoriId;//执行记录ID
+        private String PhOrdQtyUnit; //总量
+        private String PhcinDesc; //用法
+        private String TestDateTime; //皮试时间
+        private String TestMethod;//皮试方法
+        private String TestResult;//皮试结果
+        private String TestStartTime;//皮试开始时间
+        private String TestUser;//皮试人
         private boolean select;
 
         public boolean isSelect() {

@@ -55,7 +55,7 @@ public class ParserUtil<T extends CommResult> {
         //如果为null不提示
         if (!TextUtils.isEmpty(msg)) {
             //ToastUtils.showShort("error  " + code + ":" + msg + "_" + SharedPreference.MethodName);
-            CommDialog.showCommDialog(ActivityUtils.getTopActivity(), "error  " + code + ":" + msg + "_" + SharedPreference.MethodName, "", R.drawable.icon_popup_error_patient, null,true);
+            CommDialog.showCommDialog(ActivityUtils.getTopActivity(), "error  " + code + ":" + msg + "_" + SharedPreference.MethodName, "", R.drawable.icon_popup_error_patient, null, true);
         }
     }
 
@@ -64,8 +64,8 @@ public class ParserUtil<T extends CommResult> {
      * @param jsonStr  当返回null或者""时
      * @param callback
      */
-    public T parserResult(String jsonStr,@NonNull CommonCallBack callback, Class<T> clz) {
-        if (jsonStr.isEmpty()) {
+    public T parserResult(String jsonStr, @NonNull CommonCallBack callback, Class<T> clz) {
+        if (jsonStr == null || jsonStr.isEmpty()) {
             showToast(callback, "网络错误，请求数据为空", ERR_CODE_1);
         } else {
             try {
@@ -89,7 +89,7 @@ public class ParserUtil<T extends CommResult> {
      * @param callback
      * @param dealOnFail 默认提示, 当dealOnFail=true 不吐司
      */
-    public void parserStatus(T bean,@NonNull CommonCallBack<T> callback, boolean... dealOnFail) {
+    public void parserStatus(T bean, @NonNull CommonCallBack<T> callback, boolean... dealOnFail) {
         if (CODE_OK.equals(bean.getStatus())) {
             callback.onSuccess(bean, bean.getClass().getSimpleName());
         } else {
@@ -99,7 +99,7 @@ public class ParserUtil<T extends CommResult> {
             if (!isDealOnFail) {
                 //TODO 替换Dialog
                 //ToastUtils.showShort(bean.getMsg());
-                CommDialog.showCommDialog(ActivityUtils.getTopActivity(), bean.getMsg(), "", R.drawable.icon_popup_error_patient, null,true);
+                CommDialog.showCommDialog(ActivityUtils.getTopActivity(), bean.getMsg(), "", R.drawable.icon_popup_error_patient, null, true);
             }
         }
     }

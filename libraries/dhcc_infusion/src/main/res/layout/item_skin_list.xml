@@ -132,7 +132,7 @@
                     android:textSize="@dimen/sp_16" />
 
 
-                    <TextVie
+                    <TextView
                         android:id="@+id/tv_skin_between"
                         android:layout_width="@dimen/dp_60"
                         android:layout_height="wrap_content"

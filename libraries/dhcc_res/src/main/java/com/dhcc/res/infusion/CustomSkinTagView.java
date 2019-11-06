@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.TextView;
 
 import com.dhcc.res.BaseView;
@@ -21,8 +22,11 @@ import com.noober.background.view.BLLinearLayout;
  */
 public class CustomSkinTagView extends BaseView {
 
+    private  View rlGroup;
     private TextView tvName;
     private BLLinearLayout blCircleOut, blCircleIn;
+    private String yinColor = "#16C295";
+    private String yangColor = "#FF6EA4";
 
     public CustomSkinTagView(Context context) {
         this(context, null);
@@ -35,6 +39,7 @@ public class CustomSkinTagView extends BaseView {
     public CustomSkinTagView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         tvName = findViewById(R.id.tv_text);
+        rlGroup = findViewById(R.id.rl_group);
         //圆环
         blCircleOut = findViewById(R.id.bl_circle_out);
         blCircleIn = findViewById(R.id.bl_circle_in);
@@ -46,6 +51,24 @@ public class CustomSkinTagView extends BaseView {
         }
         return this;
     }
+
+    public void setTextWithColor(String s) {
+        if (!TextUtils.isEmpty(s)) {
+            rlGroup.setVisibility(VISIBLE);
+            if (s.contains("阴")) {
+                setTextColor(yinColor);
+                setCircleColor(yinColor);
+            }
+            if (s.contains("阳")) {
+                setTextColor(yangColor);
+                setCircleColor(yangColor);
+            }
+        }else {
+            rlGroup.setVisibility(GONE);
+        }
+
+    }
+
     public CustomSkinTagView setTextColor(String color) {
         if (!TextUtils.isEmpty(color)) {
             tvName.setTextColor(android.graphics.Color.parseColor(color));
