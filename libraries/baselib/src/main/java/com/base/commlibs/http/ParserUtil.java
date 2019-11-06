@@ -36,7 +36,10 @@ public class ParserUtil<T extends CommResult> {
      * @return
      */
     public T parserResult(String jsonStr, @NonNull CommonCallBack callback, Class<T> clz, String strNull) {
-        if (jsonStr == null || jsonStr.isEmpty()) {
+        if (jsonStr == null) {
+            return null;
+        }
+        if (jsonStr.isEmpty()) {
             showToast(callback, strNull, ERR_CODE_1);
         } else {
             return parserResult(jsonStr, callback, clz);
@@ -65,7 +68,10 @@ public class ParserUtil<T extends CommResult> {
      * @param callback
      */
     public T parserResult(String jsonStr, @NonNull CommonCallBack callback, Class<T> clz) {
-        if (jsonStr == null || jsonStr.isEmpty()) {
+        if (jsonStr == null) {
+            return null;
+        }
+        if (jsonStr.isEmpty()) {
             showToast(callback, "网络错误，请求数据为空", ERR_CODE_1);
         } else {
             try {
