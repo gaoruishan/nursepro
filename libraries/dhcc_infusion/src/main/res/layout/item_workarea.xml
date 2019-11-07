@@ -11,7 +11,7 @@
         android:id="@+id/icon_workarea"
         android:layout_width="@dimen/dp_50"
         android:layout_height="@dimen/dp_50"
-        android:src="@drawable/icon_bedmap"
+        android:src="@drawable/dhcc_login_logo"
         android:layout_marginTop="@dimen/dp_20"/>
     <TextView
         android:id="@+id/tv_workarea"

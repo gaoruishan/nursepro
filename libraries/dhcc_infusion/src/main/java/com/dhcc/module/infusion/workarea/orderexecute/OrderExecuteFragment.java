@@ -1,6 +1,5 @@
 package com.dhcc.module.infusion.workarea.orderexecute;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -132,14 +131,7 @@ public class OrderExecuteFragment extends BaseInfusionFragment {
     }
 
     @Override
-    public void getScanMsg(Intent intent) {
-        super.getScanMsg(intent);
-        if (scanInfo != null) {
-            getOrdList();
-        }
-    }
-
-    private void getOrdList() {
+    protected void getOrdList() {
         OrderExecuteApiManager.getScanInfo("", scanInfo, new CommonCallBack<OrdScanInfoBean>() {
             @Override
             public void onFail(String code, String msg) {

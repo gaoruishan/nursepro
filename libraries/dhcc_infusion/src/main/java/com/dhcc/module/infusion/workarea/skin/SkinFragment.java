@@ -1,6 +1,5 @@
 package com.dhcc.module.infusion.workarea.skin;
 
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -48,7 +47,7 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
         skinAdapter = new SkinAdapter(null);
         skinAdapter.setOnItemChildClickListener(this);
         recyclerView.setAdapter(skinAdapter);
-        bottomView.setNoSelectVisibility(getSelectBean() == null);
+        bottomView.setNoSelectVisibility(skinAdapter.getSelectBean() == null);
         List<ClickBean> beans = new ArrayList<>();
         beans.add(new ClickBean("皮试计时", new View.OnClickListener() {
             @Override
@@ -65,17 +64,9 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
         bottomView.addBottomView(beans);
     }
 
-    private SkinListBean.OrdListBean getSelectBean() {
-        for (SkinListBean.OrdListBean bean : skinAdapter.getData()) {
-            if (bean.isSelect()) {
-                return bean;
-            }
-        }
-        return null;
-    }
 
     private void showSkinCount() {
-        final SkinListBean.OrdListBean selectBean = getSelectBean();
+        final SkinListBean.OrdListBean selectBean = skinAdapter.getSelectBean();
         if (selectBean == null) {
             return;
         }
@@ -97,13 +88,10 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
         });
     }
 
-    private void refresh(CommResult bean) {
-        DialogFactory.showCommDialog(getActivity(), bean.getMsg(), null, 0, null, true);
-        getOrdList();//刷新
-    }
+
 
     private void exeOrderSkin() {
-        final SkinListBean.OrdListBean selectBean = getSelectBean();
+        final SkinListBean.OrdListBean selectBean = skinAdapter.getSelectBean();
         if (selectBean == null) {
             return;
         }
@@ -125,7 +113,8 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
         });
     }
 
-    private void getOrdList() {
+    @Override
+    protected void getOrdList() {
         SkinApiManager.getSkinList(scanInfo, customDate.getStartDateTimeText(), customDate.getEndDateTimeText(), new CommonCallBack<SkinListBean>() {
             @Override
             public void onFail(String code, String msg) {
@@ -166,13 +155,7 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
                 });
     }
 
-    @Override
-    public void getScanMsg(Intent intent) {
-        super.getScanMsg(intent);
-        if (scanInfo != null) {
-            getOrdList();
-        }
-    }
+
 
     @Override
     protected int setLayout() {
@@ -192,7 +175,7 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
                 }
             }
             skinAdapter.notifyDataSetChanged();
-            SkinListBean.OrdListBean selectBean = getSelectBean();
+            SkinListBean.OrdListBean selectBean = skinAdapter.getSelectBean();
             bottomView.setNoSelectVisibility(selectBean == null);
             if (selectBean != null) {
                 bottomView.setSelectText("已选择1个");

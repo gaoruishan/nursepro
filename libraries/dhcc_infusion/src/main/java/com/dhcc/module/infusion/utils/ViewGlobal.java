@@ -1,7 +1,9 @@
 package com.dhcc.module.infusion.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -9,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.base.commlibs.UniversalActivity;
+import com.blankj.utilcode.util.ActivityUtils;
 import com.dhcc.module.infusion.R;
 
 
@@ -19,6 +22,7 @@ import com.dhcc.module.infusion.R;
  */
 public class ViewGlobal {
     private static final String TAG = ViewGlobal.class.getSimpleName();
+    private static final String ACTIVITY = "com.base.commlibs.UniversalActivity";
 
     /**
      * 添加
@@ -33,27 +37,38 @@ public class ViewGlobal {
             child.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    try {
-                        //fragment 不为空, 且必须继承BaseFragment
-                        if (!TextUtils.isEmpty((String) tag)) {
-                            Intent intent = new Intent(context, UniversalActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                            intent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-                            intent.putExtra(UniversalActivity.RootFragmentClassName, (String) tag);
-                            intent.putExtra(UniversalActivity.RootFragmentArgs, "");
-                            context.startActivity(intent);
-                        }
-//                        for (BaseActivity activity : BaseApplication.getActivities()) {
-//                            Log.e(TAG,"(ViewGlobal.java:47) "+activity.getComponentName());
-//                            Log.e(TAG,"(ViewGlobal.java:47) "+activity.getLocalClassName());
-//                        }
-                    } catch (Exception e) {
-                        Log.e(TAG, e.toString());
-                    }
+                    startAndFinishFragment((String) tag, context);
                 }
             });
         }
 
         return view;
+    }
+
+    /**
+     * 结束其他,再启动
+     * @param tag
+     * @param context
+     */
+    public static void startAndFinishFragment(String tag, Context context) {
+        try {
+            //fragment 不为空, 且必须继承BaseFragment
+            if (!TextUtils.isEmpty(tag)) {
+                //结束其他com.base.commlibs.UniversalActivity
+                for (Activity activity : ActivityUtils.getActivityList()) {
+                    if (ACTIVITY.equals(activity.getLocalClassName())) {
+                        activity.finish();
+                    }
+                }
+                Intent intent = new Intent(context, UniversalActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra(UniversalActivity.RootFragmentClassName, tag);
+                Bundle bundle = new Bundle();
+                intent.putExtra(UniversalActivity.RootFragmentArgs, bundle);
+                context.startActivity(intent);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, e.toString());
+        }
     }
 }

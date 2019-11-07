@@ -15,10 +15,12 @@ import android.view.ViewGroup;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
+import com.base.commlibs.http.CommResult;
 import com.base.commlibs.utils.AppUtil;
 import com.base.commlibs.utils.BaseHelper;
 import com.blankj.utilcode.util.ToastUtils;
 import com.dhcc.module.infusion.R;
+import com.dhcc.module.infusion.utils.DialogFactory;
 import com.dhcc.module.infusion.utils.ViewGlobal;
 import com.dhcc.module.infusion.workarea.dosing.bean.OrdListBean;
 
@@ -85,8 +87,27 @@ public abstract class BaseInfusionFragment extends BaseFragment {
         if (scanInfo != null && scanInfo.contains("-")) {
             scanInfo = scanInfo.replaceAll("-", "\\|\\|");
         }
+        //获取列表
+        if (!TextUtils.isEmpty(scanInfo)) {
+            getOrdList();
+        }
     }
 
+    /**
+     * 获取信息列表
+     */
+    protected void getOrdList() {
+
+    }
+
+    /**
+     * 刷新
+     * @param bean
+     */
+    protected void refresh(CommResult bean) {
+        DialogFactory.showCommDialog(getActivity(), bean.getMsg(), null, 0, null, true);
+        getOrdList();
+    }
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (setLayout() != 0) {

@@ -25,6 +25,15 @@ public class SkinAdapter extends BaseQuickAdapter<SkinListBean.OrdListBean, Base
         super(R.layout.item_skin_list, data);
     }
 
+    public SkinListBean.OrdListBean getSelectBean() {
+        for (SkinListBean.OrdListBean bean : getData()) {
+            if (bean.isSelect()) {
+                return bean;
+            }
+        }
+        return null;
+    }
+
     @Override
     protected void convert(BaseViewHolder helper, SkinListBean.OrdListBean item) {
         CustomSkinTagView customSkinTag = helper.getView(R.id.custom_skin_tag);
@@ -44,8 +53,8 @@ public class SkinAdapter extends BaseQuickAdapter<SkinListBean.OrdListBean, Base
         String observeTime = item.getObserveTime();
         String testStartTime = item.getTestStartTime();
         helper.setGone(R.id.ll_time, !TextUtils.isEmpty(observeTime))
-                .setGone(R.id.tv_user,!TextUtils.isEmpty(item.getTestUser()))
-                .setGone(R.id.tv_method,!TextUtils.isEmpty(item.getTestMethod()))
+                .setGone(R.id.tv_user, !TextUtils.isEmpty(item.getTestUser()))
+                .setGone(R.id.tv_method, !TextUtils.isEmpty(item.getTestMethod()))
                 .setGone(R.id.v_line_time, !TextUtils.isEmpty(observeTime));
         ViewUtil.setBetweenTime(
                 (TextView) helper.getView(R.id.tv_skin_between),

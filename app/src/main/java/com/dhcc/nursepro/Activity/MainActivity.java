@@ -112,14 +112,20 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         super.onDestroy();
         Intent i = new Intent(this, MServiceNewOrd.class);
         stopService(i);
-        if (mainReceiver != null) {
-            unregisterReceiver(mainReceiver);
-        }
 
         if (notificationManager != null) {
             notificationManager.cancel(1);
         }
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //后台 不接收消息
+        if (mainReceiver != null) {
+            unregisterReceiver(mainReceiver);
+        }
     }
 
     @Override
