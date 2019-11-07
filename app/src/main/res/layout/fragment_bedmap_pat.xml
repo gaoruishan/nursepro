@@ -211,6 +211,29 @@
                     android:layout_height="20dp"
                     android:src="@drawable/right" />
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_bedmappat_daypaylist"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="住院日清单"
+                    android:textColor="#4a4a4a"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/right" />
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/ll_bedmappat_order"

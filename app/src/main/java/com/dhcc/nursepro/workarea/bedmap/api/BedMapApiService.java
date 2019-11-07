@@ -39,7 +39,16 @@ public class BedMapApiService {
             }
         });
     }
+    public static void getDayPayList(HashMap<String,String> map,String MethodName, final BedMapApiService.ServiceCallBack callback ){
 
+        WebServiceUtils.callWebService(MethodName, map, new WebServiceUtils.WebServiceCallBack() {
+            @Override
+            public void callBack(String result) {
+                callback.onResult(result);
+            }
+        });
+
+    }
     public interface ServiceCallBack {
         void onResult(String jsonStr);
     }
