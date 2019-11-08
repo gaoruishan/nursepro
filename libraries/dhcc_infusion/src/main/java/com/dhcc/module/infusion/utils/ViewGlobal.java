@@ -6,16 +6,22 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.base.commlibs.UniversalActivity;
+import com.base.commlibs.constant.SharedPreference;
+import com.base.commlibs.utils.DataCache;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.dhcc.module.infusion.R;
+import com.dhcc.module.infusion.workarea.comm.bean.MainConfigBean;
+import com.dhcc.res.nurse.bean.ConfigBean;
+import com.noober.background.view.BLTextView;
 
 
 /**
+ * 动态加载全局的View
  * @author:gaoruishan
  * @date:202019-11-04/11:26
  * @email:grs0515@163.com
@@ -30,19 +36,25 @@ public class ViewGlobal {
      * @return
      */
     public static View createInfusionGlobal(final Context context) {
-        LinearLayout view = (LinearLayout) View.inflate(context, R.layout.infusion_global_view, null);
-        for (int i = 0; i < view.getChildCount(); i++) {
-            TextView child = (TextView) view.getChildAt(i);
-            final Object tag = child.getTag();
-            child.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startAndFinishFragment((String) tag, context);
-                }
-            });
+        LinearLayout linearLayout = new LinearLayout(context);
+        linearLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        MainConfigBean json = DataCache.getJson(MainConfigBean.class, SharedPreference.DATA_MAIN_CONFIG);
+        if (json != null && json.getMainList() != null) {
+            for (final ConfigBean bean : json.getMainList()) {
+                BLTextView tvName = (BLTextView) LayoutInflater.from(context).inflate(R.layout.dhcc_infusion_global_view,linearLayout,false);
+                tvName.setText(bean.getName());
+                linearLayout.addView(tvName);
+                tvName.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startAndFinishFragment(bean.getFragment(), context);
+                    }
+                });
+            }
         }
 
-        return view;
+        return linearLayout;
     }
 
     /**

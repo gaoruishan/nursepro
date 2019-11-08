@@ -66,7 +66,7 @@ public class WorkAreaApiManager {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<MainConfigBean> parser = new ParserUtil<>();
-                MainConfigBean bean = parser.parserResult(jsonStr, callback, MainConfigBean.class);
+                MainConfigBean bean = parser.parserResult(jsonStr, callback, MainConfigBean.class,"");
                 if (bean == null) return;
                 parser.parserStatus(bean, callback);
             }

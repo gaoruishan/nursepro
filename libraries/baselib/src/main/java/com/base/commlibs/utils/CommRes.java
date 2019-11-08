@@ -24,7 +24,8 @@ public class CommRes {
      * @param imageName
      * @return
      */
-    public static @DrawableRes int getDrawableRes(Context context, String imageName) {
+    public static @DrawableRes
+    int getDrawableRes(Context context, String imageName) {
         return context.getResources().getIdentifier(imageName, "drawable", context.getPackageName());
     }
 
@@ -37,9 +38,9 @@ public class CommRes {
      * @param <T>
      */
     public static <T> void readJson(String name, final Class<T> clz, final CallRes<T> callRes) {
-        new ResThread(name, ResType.Assets, new CallResString() {
+        readJson(name, new CommRes.CallRes<String>() {
             @Override
-            public void call(String s) {
+            public void call(String s, String json) {
                 try {
                     T t = new Gson().fromJson(s, clz);
                     callRes.call(t, s);
@@ -47,7 +48,7 @@ public class CommRes {
                     callRes.call(null, s);
                 }
             }
-        }).start();
+        });
     }
 
     public static void readJson(String name, final CallRes<String> callRes) {
@@ -93,7 +94,7 @@ public class CommRes {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            callRes.call(null, (String) msg.obj);
+            callRes.call((String) msg.obj, (String) msg.obj);
         }
     }
 

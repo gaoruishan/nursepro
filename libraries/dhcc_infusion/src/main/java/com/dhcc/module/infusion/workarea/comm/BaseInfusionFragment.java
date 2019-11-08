@@ -105,6 +105,7 @@ public abstract class BaseInfusionFragment extends BaseFragment {
      * @param bean
      */
     protected void refresh(CommResult bean) {
+        onSuccessThings();
         DialogFactory.showCommDialog(getActivity(), bean.getMsg(), null, 0, null, true);
         getOrdList();
     }

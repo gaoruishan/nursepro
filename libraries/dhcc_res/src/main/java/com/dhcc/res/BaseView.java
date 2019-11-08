@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +49,7 @@ public abstract class BaseView extends LinearLayout {
         TAG = this.getClass().getSimpleName();
         int contentView = setContentView();
         if (contentView != 0) {
-            view = inflate(context, contentView);
+            view = inflate(context, contentView,this);
             addView(view);
         }
         setOrientation(VERTICAL);
@@ -71,13 +72,16 @@ public abstract class BaseView extends LinearLayout {
      * @param layoutRes
      * @return
      */
-    public  View inflate(Context context,@LayoutRes int layoutRes) {
-        View view = View.inflate(context,layoutRes, null);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1);
-        view.setLayoutParams(layoutParams);
-        return view;
+    public static View inflate(Context context, @LayoutRes int layoutRes, @Nullable ViewGroup root) {
+        return LayoutInflater.from(context).inflate(layoutRes,root,false);
     }
-    public  View inflate(Context context,@LayoutRes int layoutRes,int width, int height, float... weight) {
+
+    @SafeVarargs
+    protected final <T extends View> T inflate(@LayoutRes int layoutRes, @Nullable ViewGroup root, Class<T>... t) {
+        return (T) LayoutInflater.from(mContext).inflate(layoutRes,root,false);
+    }
+
+    protected  View inflate(Context context,@LayoutRes int layoutRes,int width, int height, float... weight) {
         View view = View.inflate(context,layoutRes, null);
         LinearLayout.LayoutParams layoutParams;
         if (weight != null && weight.length > 0) {

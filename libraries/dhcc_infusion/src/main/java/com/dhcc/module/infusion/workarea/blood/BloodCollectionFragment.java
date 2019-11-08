@@ -12,6 +12,22 @@ import com.dhcc.module.infusion.workarea.comm.BaseInfusionFragment;
 public class BloodCollectionFragment extends BaseInfusionFragment {
 
     @Override
+    protected void initDatas() {
+        super.initDatas();
+        setToolbarCenterTitle("采血");
+    }
+
+    @Override
+    protected void initViews() {
+        super.initViews();
+    }
+
+    @Override
+    protected void getOrdList() {
+        super.getOrdList();
+    }
+
+    @Override
     protected int setLayout() {
         return R.layout.fragment_blood_collection;
     }

@@ -415,20 +415,32 @@ public class ViewUtil {
         if (!TextUtils.isEmpty(observeTime)) {
             if (isInteger(observeTime)) {
                 observeView.setText(Integer.valueOf(observeTime) / 60 + "分钟");
-                SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
-                formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
-                try {
-                    Date parse = formatter.parse(testStartTime);
-                    long l = parse.getTime() + Integer.valueOf(observeTime) * 1000;
-                    String format = formatter.format(new Date(l));
-                    endView.setText(format + "");
-                } catch (ParseException e) {
-                }
-            }else {
+                setBetweenTime(endView, observeTime, testStartTime,1000);
+            } else if (observeTime.contains("分钟")) {
+                observeView.setText(observeTime);
+                observeTime = observeTime.replace("分钟", "");
+                setBetweenTime(endView, observeTime, testStartTime,60000);
+            } else {
                 observeView.setText(observeTime);
                 endView.setText("");
             }
+        }
+    }
 
+    private static void setBetweenTime(TextView endView, String observeTime, String testStartTime,int off) {
+        SimpleDateFormat formatter;
+        if (testStartTime.contains(" ")) {
+            formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        }else {
+            formatter = new SimpleDateFormat("HH:mm:ss");
+        }
+        formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
+        try {
+            Date parse = formatter.parse(testStartTime);
+            long l = parse.getTime() + Integer.valueOf(observeTime) * off;
+            String format = formatter.format(new Date(l));
+            endView.setText(format + "");
+        } catch (ParseException e) {
         }
     }
     /*

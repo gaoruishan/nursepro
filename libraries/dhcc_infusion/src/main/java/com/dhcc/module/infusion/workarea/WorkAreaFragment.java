@@ -14,8 +14,10 @@ import android.widget.TextView;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
+import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.CommRes;
+import com.base.commlibs.utils.DataCache;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.module.infusion.R;
@@ -65,6 +67,7 @@ public class WorkAreaFragment extends BaseFragment {
                 CommRes.readJson("config_work_area.json", MainConfigBean.class, new CommRes.CallRes<MainConfigBean>() {
                     @Override
                     public void call(MainConfigBean conf, String s) {
+                        DataCache.saveJson(conf, SharedPreference.DATA_MAIN_CONFIG);
                         patEventsAdapter.setNewData(conf.getMainList());
                     }
                 });
@@ -72,6 +75,7 @@ public class WorkAreaFragment extends BaseFragment {
 
             @Override
             public void onSuccess(MainConfigBean bean, String type) {
+                DataCache.saveJson(bean, SharedPreference.DATA_MAIN_CONFIG);
                 patEventsAdapter.setNewData(bean.getMainList());
             }
         });

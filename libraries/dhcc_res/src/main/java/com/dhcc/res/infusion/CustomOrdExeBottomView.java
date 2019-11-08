@@ -50,8 +50,7 @@ public class CustomOrdExeBottomView extends BaseView {
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
                 ClickBean bean = list.get(i);
-                int width = getDimen(R.dimen.dp_80);
-                TextView tv = (TextView) inflate(mContext, R.layout.dhcc_ord_exe_buttom_tv, width, LayoutParams.MATCH_PARENT);
+                TextView tv = inflate(R.layout.dhcc_ord_exe_buttom_tv, llBottom, TextView.class);
                 tv.setText(bean.getText());
                 tv.setOnClickListener(bean.getListener());
                 if (i % 2 == 0) {

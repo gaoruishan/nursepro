@@ -76,7 +76,7 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
                 SkinApiManager.skinTime(selectBean.getOeoriId(), (String) args[0], (String) args[1], new CommonCallBack<CommResult>() {
                     @Override
                     public void onFail(String code, String msg) {
-
+                        onFailThings();
                     }
 
                     @Override
@@ -101,7 +101,7 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
                 MessageApiManager.setSkinTestResult(selectBean.getOeoriId(), (String) args[2],(String) args[0],(String) args[1], new CommonCallBack<CommResult>() {
                     @Override
                     public void onFail(String code, String msg) {
-
+                        onFailThings();
                     }
 
                     @Override

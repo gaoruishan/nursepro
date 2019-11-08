@@ -29,12 +29,6 @@
       "id": "104",
       "image": "infusion_main_bz",
       "name": "拔针"
-    },
-    {
-      "fragment": "com.dhcc.module.infusion.workarea.skin.SkinFragment",
-      "id": "105",
-      "image": "infusion_main_skin",
-      "name": "皮试"
     }
   ],
   "msg": "",
