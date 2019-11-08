@@ -15,6 +15,7 @@ import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
 import com.base.commlibs.R;
 import com.base.commlibs.utils.AppUtil;
+import com.base.commlibs.utils.BaseHelper;
 
 import java.util.List;
 
@@ -30,17 +31,25 @@ public abstract class BaseCommFragment extends BaseFragment implements View.OnCl
     protected String scanInfo;
     protected Activity mContext;
     protected List<String> listId;
+    protected BaseHelper helper;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mContext = this.getActivity();
+        helper = new BaseHelper(mContext);
         setCommToolBar();
         initViews();
         initConfig();
         initDatas();
     }
-
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        if (helper != null) {
+            helper.removeView();
+        }
+    }
     /**
      * 初始化配置-子类重写方法 添加额外方法;
      * 例如: initPlay()提示音

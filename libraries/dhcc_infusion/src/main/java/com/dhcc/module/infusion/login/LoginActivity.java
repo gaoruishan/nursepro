@@ -86,19 +86,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         UserUtil.setLoginLocType();
         nurseInfoList = GreenDaoHelper.getDaoSession().getInfusionInfoDao().queryBuilder().list();
         initView();
-        //注册扫码监听
-        registerScanMsgReceiver();
         //获取广播码
         getBroadcastList();
         openMultiScan(AppUtil.isMultiScan());
     }
 
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mReceiver != null) {
-            unregisterReceiver(mReceiver);
-        }
         KeyboardUtils.hideSoftInput(this);
     }
 
@@ -120,8 +116,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        if (mReceiver != null) {
+            unregisterReceiver(mReceiver);
+        }
+    }
+
+    @Override
     protected void onResume(@Nullable Bundle args) {
         super.onResume(args);
+        //注册扫码监听
+        registerScanMsgReceiver();
         remem = SPUtils.getInstance().getBoolean(SharedPreference.REMEM);
         if (remem) {
             llLoginRememberme.setSelected(true);

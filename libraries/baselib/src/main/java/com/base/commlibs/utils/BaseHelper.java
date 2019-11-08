@@ -123,7 +123,7 @@ public class BaseHelper {
      * @param id
      * @param txt
      */
-    public void setTextDataWithGone(@IdRes int id, String txt, String... preFix) {
+    public BaseHelper setTextDataWithGone(@IdRes int id, String txt, String... preFix) {
         TextView textView = f(id);
         if (textView != null) {
             if (!TextUtils.isEmpty(txt)) {
@@ -136,6 +136,7 @@ public class BaseHelper {
                 textView.setVisibility(View.GONE);
             }
         }
+        return this;
     }
 
     /**
@@ -148,6 +149,9 @@ public class BaseHelper {
         View view = mViews.get(resId);
         if (view == null) {
             view = mContext.findViewById(resId);
+            if (view == null) {
+                return null;
+            }
             mViews.put(resId, view);
         }
         return (T) view;
@@ -159,7 +163,7 @@ public class BaseHelper {
      * @param res
      * @param txt
      */
-    public void setTextDataWithGone(@IdRes int id, @StringRes int res, Object[] txt) {
+    public BaseHelper setTextDataWithGone(@IdRes int id, @StringRes int res, Object[] txt) {
         TextView textView = f(id);
         if (textView != null && txt != null) {
             if (txt.length > 0 && txt instanceof String[]) {
@@ -168,7 +172,7 @@ public class BaseHelper {
                 for (String s : strings) {
                     if (TextUtils.isEmpty(s)) {
                         textView.setVisibility(View.GONE);
-                        return;
+                        break;
                     }
                 }
                 textView.setVisibility(View.VISIBLE);
@@ -179,18 +183,33 @@ public class BaseHelper {
                 textView.setVisibility(View.GONE);
             }
         }
+        return this;
     }
 
-    public void addOnClickListener(@Nullable View.OnClickListener l, @IdRes final int viewId) {
+    /**
+     * 添加点击事件
+     * @param l
+     * @param viewId
+     * @return
+     */
+    public BaseHelper addOnClickListener(@Nullable View.OnClickListener l, @IdRes final int viewId) {
         f(viewId).setOnClickListener(l);
+        return this;
     }
 
-    public void addOnClickListener(@Nullable View.OnClickListener l, @IdRes final int... viewIds) {
+    /**
+     * 添加多个点击事件
+     * @param l
+     * @param viewIds
+     * @return
+     */
+    public BaseHelper addOnClickListener(@Nullable View.OnClickListener l, @IdRes final int... viewIds) {
         if (viewIds != null && viewIds.length > 0) {
             for (int viewId : viewIds) {
                 f(viewId).setOnClickListener(l);
             }
         }
+        return this;
     }
 
     /**
@@ -199,13 +218,13 @@ public class BaseHelper {
      * @param id
      * @param txt
      */
-    public void setTextData(@NonNull View parent, @IdRes int id, String txt, @ColorInt int... color) {
-        setTextData(parent.findViewById(id), txt, color);
+    public BaseHelper setTextData(@NonNull View parent, @IdRes int id, String txt, @ColorInt int... color) {
+      return setTextData(parent.findViewById(id), txt, color);
     }
 
-    private void setTextData(View view, String txt, @ColorInt int... color) {
+    private BaseHelper setTextData(View view, String txt, @ColorInt int... color) {
         if (view == null) {
-            return;
+            return this;
         }
         if (view instanceof TextView) {
             setText(txt, (TextView) view, color);
@@ -213,9 +232,10 @@ public class BaseHelper {
         if (view instanceof EditText) {
             setText(txt, (EditText) view, color);
         }
+        return this;
     }
 
-    private void setText(String txt, TextView textView, @ColorInt int... color) {
+    private BaseHelper setText(String txt, TextView textView, @ColorInt int... color) {
         if (textView != null && !TextUtils.isEmpty(txt)) {
             textView.setVisibility(View.VISIBLE);
             textView.setText(txt);
@@ -223,6 +243,7 @@ public class BaseHelper {
                 textView.setTextColor(color[0]);
             }
         }
+        return this;
     }
 
     /**
@@ -230,8 +251,8 @@ public class BaseHelper {
      * @param id
      * @param txt
      */
-    public void setTextData(@IdRes int id, String txt, @ColorInt int... color) {
-        setTextData(f(id), txt, color);
+    public BaseHelper setTextData(@IdRes int id, String txt, @ColorInt int... color) {
+       return setTextData(f(id), txt, color);
     }
 
     /**
@@ -248,6 +269,12 @@ public class BaseHelper {
         return this;
     }
 
+    /**
+     * 设置背景颜色
+     * @param viewId id
+     * @param id R.color.write
+     * @return
+     */
     public BaseHelper setBackgroundColor(@IdRes int viewId, @ColorRes int id) {
         View view = f(viewId);
         if (view != null && id != 0) {
@@ -256,6 +283,12 @@ public class BaseHelper {
         return this;
     }
 
+    /**
+     * 设置背景图片
+     * @param viewId
+     * @param backgroundRes
+     * @return
+     */
     public BaseHelper setBackgroundRes(@IdRes int viewId, @DrawableRes int backgroundRes) {
         View view = f(viewId);
         if (view != null) {
@@ -278,11 +311,12 @@ public class BaseHelper {
      * @param viewId
      * @param visible
      */
-    public void setVisible(@IdRes int viewId, boolean visible) {
+    public BaseHelper setVisible(@IdRes int viewId, boolean visible) {
         View view = f(viewId);
         if (view != null) {
             view.setVisibility(visible ? View.VISIBLE : View.GONE);
         }
+        return this;
     }
 
     /**
@@ -290,23 +324,25 @@ public class BaseHelper {
      * @param id
      * @param url
      */
-    public void setImageUrl(@IdRes int id, String url) {
+    public BaseHelper setImageUrl(@IdRes int id, String url) {
         ImageView imageView = f(id);
-        setImage(url, imageView);
+        return setImage(url, imageView);
     }
 
-    private void setImage(String url, ImageView imageView) {
+    private BaseHelper setImage(String url, ImageView imageView) {
         if (imageView != null && !TextUtils.isEmpty(url)) {
             // TODO 添加图片库
 //			ImageUtil.getInstance().setView(imageView).setUrl(url).build();
         }
+        return this;
     }
 
-    public void setImageResource(@IdRes int id, @DrawableRes int resId) {
+    public BaseHelper setImageResource(@IdRes int id, @DrawableRes int resId) {
         ImageView imageView = f(id);
         if (resId != 0) {
             imageView.setImageResource(resId);
         }
+        return this;
     }
 
     /**
@@ -315,9 +351,9 @@ public class BaseHelper {
      * @param id
      * @param url
      */
-    public void setImageUrl(@NonNull View parent, @IdRes int id, String url) {
+    public BaseHelper setImageUrl(@NonNull View parent, @IdRes int id, String url) {
         ImageView imageView = parent.findViewById(id);
-        setImage(url, imageView);
+        return setImage(url, imageView);
     }
 
     /**
@@ -325,11 +361,12 @@ public class BaseHelper {
      * @param id
      * @param l
      */
-    public void setOnClickListener(@IdRes int id, @Nullable View.OnClickListener l) {
+    public BaseHelper setOnClickListener(@IdRes int id, @Nullable View.OnClickListener l) {
         View view = f(id);
         if (view != null) {
             view.setOnClickListener(l);
         }
+        return this;
     }
 
     /**
@@ -347,7 +384,7 @@ public class BaseHelper {
                 return ((EditText) view).getText().toString();
             }
         }
-        return null;
+        return "";
     }
 
     /**

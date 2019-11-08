@@ -144,4 +144,10 @@ public class CustomPatView extends LinearLayout {
         }
         return this;
     }
+    public CustomPatView setPatSex(String sex) {
+        if (!TextUtils.isEmpty(sex)) {
+            this.imgSex.setImageResource(getPatSexDrawable(sex));
+        }
+        return this;
+    }
 }

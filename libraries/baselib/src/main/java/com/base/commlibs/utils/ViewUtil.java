@@ -36,7 +36,11 @@ import com.google.gson.reflect.TypeToken;
 import com.noober.background.drawable.DrawableCreator;
 
 import java.lang.reflect.Type;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -347,14 +351,14 @@ public class ViewUtil {
     public static void hideKeyBoard(AppCompatActivity activity) {
         View view = activity.getWindow().peekDecorView();
         if (view != null) {
-            InputMethodManager inputmanger = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager inputmanger = (InputMethodManager) activity.getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
             inputmanger.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 
     // 显示输入
     public static void showKeyBoard(FragmentActivity activity) {
-        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) activity.getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
 
     }
@@ -407,6 +411,36 @@ public class ViewUtil {
         return map;
     }
 
+    public static void setBetweenTime(TextView observeView, TextView endView,String observeTime, String testStartTime) {
+        if (!TextUtils.isEmpty(observeTime)) {
+            if (isInteger(observeTime)) {
+                observeView.setText(Integer.valueOf(observeTime) / 60 + "分钟");
+                SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+                formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
+                try {
+                    Date parse = formatter.parse(testStartTime);
+                    long l = parse.getTime() + Integer.valueOf(observeTime) * 1000;
+                    String format = formatter.format(new Date(l));
+                    endView.setText(format + "");
+                } catch (ParseException e) {
+                }
+            }else {
+                observeView.setText(observeTime);
+                endView.setText("");
+            }
+
+        }
+    }
+    /*
+     * 判断是否为整数
+     * @param str 传入的字符串
+     * @return 是整数返回true,否则返回false
+     */
+
+    public static boolean isInteger(String str) {
+        Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");
+        return pattern.matcher(str).matches();
+    }
     /**
      * 设置背景
      * @param view

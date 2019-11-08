@@ -3,7 +3,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.dhcc.res.infusion.CustomPatView
+            android:id="@+id/custom_pat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
+        <com.dhcc.res.infusion.CustomDateTimeView
+            android:id="@+id/custom_date"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:background="@color/bg_blue_light"
+            android:layout_height="wrap_content"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
     <com.dhcc.res.infusion.CustomScanView
         android:id="@+id/custom_scan"
         android:layout_width="match_parent"

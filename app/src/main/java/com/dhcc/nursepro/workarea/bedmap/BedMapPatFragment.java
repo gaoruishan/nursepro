@@ -51,6 +51,7 @@ public class BedMapPatFragment extends BaseFragment implements View.OnClickListe
     private LinearLayout llBedmappatTestresult;
     private LinearLayout llBedmappatInspectionreport;
     private LinearLayout llBedmappatEventsearch;
+    private LinearLayout llBedmapDayPayList;
 
 
     private BedMapBean.PatInfoListBean patInfoListBean;
@@ -122,6 +123,8 @@ public class BedMapPatFragment extends BaseFragment implements View.OnClickListe
         llBedmappatInspectionreport.setOnClickListener(this);
         llBedmappatEventsearch = view.findViewById(R.id.ll_bedmappat_eventsearch);
         llBedmappatEventsearch.setOnClickListener(this);
+        llBedmapDayPayList = view.findViewById(R.id.ll_bedmappat_daypaylist);
+        llBedmapDayPayList.setOnClickListener(this);
         
     }
 
@@ -211,6 +214,10 @@ public class BedMapPatFragment extends BaseFragment implements View.OnClickListe
             case R.id.ll_bedmappat_info://基本信息
                 bundle.putString("jsonmap",jsonMap);
                 startFragment(BedMapPatInfoFragment.class,bundle);
+                break;
+            case R.id.ll_bedmappat_daypaylist://日清单
+                bundle.putString("episodeId",patInfoListBean.getEpisodeId());
+                startFragment(DayPayListFragment.class,bundle);
                 break;
             case R.id.ll_bedmappat_order://医嘱单
                 bundle.putString("episodeid",patInfoListBean.getEpisodeId());

@@ -60,7 +60,7 @@
                 android:textSize="@dimen/sp_14"
                 android:textColor="#c5C5C5" />
 
-            <EditText
+            <com.dhcc.res.CustomEditText
                 android:id="@+id/et_login_usercode"
                 android:layout_width="@dimen/dp_0"
                 android:layout_weight="1"
@@ -101,7 +101,7 @@
                 android:textSize="@dimen/sp_14"
                 android:textColor="#c5C5C5" />
 
-            <EditText
+            <com.dhcc.res.CustomEditText
                 android:id="@+id/et_login_password"
                 android:layout_width="@dimen/dp_0"
                 android:layout_weight="1"

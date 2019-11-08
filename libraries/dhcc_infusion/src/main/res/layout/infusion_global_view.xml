@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.noober.background.view.BLTextView
+        android:id="@+id/tv_dosing"
+        android:layout_width="@dimen/dp_50"
+        android:layout_height="@dimen/dp_50"
+        android:layout_marginTop="@dimen/dp_2"
+        android:gravity="center"
+        android:tag="com.dhcc.module.infusion.workarea.dosing.DosingFragment"
+        android:text="配液"
+        android:textColor="@color/blue"
+        app:bl_corners_bottomLeftRadius="@dimen/dp_25"
+        app:bl_corners_topLeftRadius="@dimen/dp_25"
+        app:bl_solid_color="@color/black_half_transprent"
+        android:textSize="@dimen/sp_16"
+        android:textStyle="bold" />
+
+    <com.noober.background.view.BLTextView
+        android:id="@+id/tv_puncture"
+        android:layout_width="@dimen/dp_50"
+        android:layout_height="@dimen/dp_50"
+        android:layout_marginTop="@dimen/dp_2"
+        android:gravity="center"
+        android:tag="com.dhcc.module.infusion.workarea.puncture.PunctureFragment"
+        android:text="穿刺"
+        app:bl_corners_bottomLeftRadius="@dimen/dp_25"
+        app:bl_corners_topLeftRadius="@dimen/dp_25"
+        app:bl_solid_color="@color/black_half_transprent"
+        android:textColor="@color/blue"
+        android:textSize="@dimen/sp_16"
+        android:textStyle="bold" />
+
+    <com.noober.background.view.BLTextView
+        android:id="@+id/tv_patrol"
+        android:layout_width="@dimen/dp_50"
+        android:layout_height="@dimen/dp_50"
+        android:layout_marginTop="@dimen/dp_2"
+        android:gravity="center"
+        app:bl_corners_bottomLeftRadius="@dimen/dp_25"
+        app:bl_corners_topLeftRadius="@dimen/dp_25"
+        app:bl_solid_color="@color/black_half_transprent"
+        android:tag="com.dhcc.module.infusion.workarea.patrol.PatrolFragment"
+        android:text="巡视"
+        android:textColor="@color/blue"
+        android:textSize="@dimen/sp_16"
+        android:textStyle="bold" />
+
+    <com.noober.background.view.BLTextView
+        android:id="@+id/tv_continues"
+        android:layout_width="@dimen/dp_50"
+        android:layout_height="@dimen/dp_50"
+        android:layout_marginTop="@dimen/dp_2"
+        android:gravity="center"
+        app:bl_corners_bottomLeftRadius="@dimen/dp_25"
+        app:bl_corners_topLeftRadius="@dimen/dp_25"
+        app:bl_solid_color="@color/black_half_transprent"
+        android:tag="com.dhcc.module.infusion.workarea.continues.ContinueFragment"
+        android:text="续液"
+        android:textColor="@color/blue"
+        android:textSize="@dimen/sp_16"
+        android:textStyle="bold" />
+
+    <com.noober.background.view.BLTextView
+        android:id="@+id/tv_needles"
+        android:layout_width="@dimen/dp_50"
+        android:layout_height="@dimen/dp_50"
+        android:layout_marginTop="@dimen/dp_2"
+        android:gravity="center"
+        app:bl_corners_bottomLeftRadius="@dimen/dp_25"
+        app:bl_corners_topLeftRadius="@dimen/dp_25"
+        app:bl_solid_color="@color/black_half_transprent"
+        android:tag="com.dhcc.module.infusion.workarea.needles.NeedlesFragment"
+        android:text="拔针"
+        android:textColor="@color/blue"
+        android:textSize="@dimen/sp_16"
+        android:textStyle="bold" />
+
+    <com.noober.background.view.BLTextView
+        android:id="@+id/tv_skin"
+        android:layout_width="@dimen/dp_50"
+        android:layout_height="@dimen/dp_50"
+        android:layout_marginTop="@dimen/dp_2"
+        android:gravity="center"
+        app:bl_corners_bottomLeftRadius="@dimen/dp_25"
+        app:bl_corners_topLeftRadius="@dimen/dp_25"
+        app:bl_solid_color="@color/black_half_transprent"
+        android:tag="com.dhcc.module.infusion.workarea.skin.SkinFragment"
+        android:text="皮试"
+        android:textColor="@color/blue"
+        android:textSize="@dimen/sp_16"
+        android:textStyle="bold" />
+</LinearLayout>

@@ -34,7 +34,7 @@ public class MyService extends Service {
         super.onCreate();
         context = this;
         Toast.makeText(this, "----", Toast.LENGTH_LONG).show();
-        vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        vibrator = (Vibrator) getApplicationContext().getSystemService(VIBRATOR_SERVICE);
         vibrator.vibrate(30);
 
         //扫描广播
@@ -84,7 +84,7 @@ public class MyService extends Service {
         //        if (LoginUser.LigthF == true)
         notification.defaults |= Notification.DEFAULT_LIGHTS;
         notification.flags |= Notification.FLAG_INSISTENT;
-        notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+        notificationManager = (NotificationManager) context.getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
         /**发起通知**/
         notificationManager.notify(1, notification);
     }

@@ -14,10 +14,14 @@ import android.widget.TextView;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
+import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.CommRes;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.module.infusion.R;
+import com.dhcc.module.infusion.workarea.comm.api.WorkAreaApiManager;
+import com.dhcc.module.infusion.workarea.comm.bean.MainConfigBean;
+import com.dhcc.res.nurse.bean.ConfigBean;
 import com.dhcc.res.nurse.bean.ConfigWorkArea;
 
 import java.util.ArrayList;
@@ -51,13 +55,26 @@ public class WorkAreaFragment extends BaseFragment {
         setStatusBarBackgroundViewVisibility(false, 0xffffffff);
         setToolbarType(BaseActivity.ToolbarType.HIDE);
         initView(view);
-        CommRes.readJson("config_work_area.json", ConfigWorkArea.class, new CommRes.CallRes<ConfigWorkArea>() {
+        getMainConfig();
+    }
+
+    private void getMainConfig() {
+        WorkAreaApiManager.getMainConfig(new CommonCallBack<MainConfigBean>() {
             @Override
-            public void call(ConfigWorkArea conf, String s) {
-                patEventsAdapter.setNewData(conf.getList());
+            public void onFail(String code, String msg) {
+                CommRes.readJson("config_work_area.json", MainConfigBean.class, new CommRes.CallRes<MainConfigBean>() {
+                    @Override
+                    public void call(MainConfigBean conf, String s) {
+                        patEventsAdapter.setNewData(conf.getMainList());
+                    }
+                });
+            }
+
+            @Override
+            public void onSuccess(MainConfigBean bean, String type) {
+                patEventsAdapter.setNewData(bean.getMainList());
             }
         });
-
     }
 
     private void initView(View view) {
@@ -69,7 +86,7 @@ public class WorkAreaFragment extends BaseFragment {
         patEventsAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ConfigWorkArea.ListBean item = patEventsAdapter.getItem(position);
+                ConfigBean item = patEventsAdapter.getItem(position);
                 try {
                     //fragment 不为空, 且必须继承BaseFragment
                     if (item != null && !TextUtils.isEmpty(item.getFragment())) {
@@ -83,13 +100,13 @@ public class WorkAreaFragment extends BaseFragment {
         });
     }
 
-    public class WorkAreaAdapter extends BaseQuickAdapter<ConfigWorkArea.ListBean, BaseViewHolder> {
-        WorkAreaAdapter(@Nullable List<ConfigWorkArea.ListBean> data) {
+    public class WorkAreaAdapter extends BaseQuickAdapter<ConfigBean, BaseViewHolder> {
+        WorkAreaAdapter(@Nullable List<ConfigBean> data) {
             super(R.layout.item_workarea, data);
         }
 
         @Override
-        protected void convert(BaseViewHolder helper, ConfigWorkArea.ListBean item) {
+        protected void convert(BaseViewHolder helper, ConfigBean item) {
             TextView tvItem = helper.getView(R.id.tv_workarea);
             ImageView imageView = helper.getView(R.id.icon_workarea);
             tvItem.setText(item.getName());

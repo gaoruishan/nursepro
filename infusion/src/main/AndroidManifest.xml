@@ -16,6 +16,7 @@
         android:label="@string/app_name_infusion"
         android:roundIcon="@drawable/ic_launcher"
         android:supportsRtl="true"
+        android:screenOrientation="portrait"
         android:theme="@style/AppTheme"
         tools:replace="android:label">
 
@@ -49,8 +50,8 @@
             android:configChanges="orientation|keyboardHidden|screenSize|locale|layoutDirection"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Slide"
+            android:allowTaskReparenting="true"
             android:windowSoftInputMode="adjustPan"/>
-        <activity android:name="com.base.commlibs.BaseActivity"/>
 
         <service
             android:name="com.base.commlibs.service.MyService"

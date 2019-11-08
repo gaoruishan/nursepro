@@ -1,0 +1,67 @@
+{
+  "msg": "成功",
+  "msgcode": "",
+  "ordList": [
+    {
+      "ArcimDesc": "____注射用青霉素钠[400万U] ( )",
+      "CreateDateTime": "2019-11-05 10:07:52",
+      "CtcpDesc": "医生01",
+      "DisposeStatDesc": "皮试",
+      "DoseQtyUnit": "800 万IU",
+      "EpisodeID": "661",
+      "Notes": " ",
+      "ObserveTime": "",
+      "OeoriId": "637||6||1",
+      "PhOrdQtyUnit": "800 万IU",
+      "PhcinDesc": "静脉滴注(皮试)",
+      "TestDateTime": " ",
+      "TestMethod": "",
+      "TestResult": "",
+      "TestStartTime": "",
+      "TestUser": ""
+    },
+    {
+      "ArcimDesc": "注射用青霉素钠[80万U] ( )",
+      "CreateDateTime": "2019-11-04 12:33:06",
+      "CtcpDesc": "医生01",
+      "DisposeStatDesc": "皮试",
+      "DoseQtyUnit": "80 万IU",
+      "EpisodeID": "660",
+      "Notes": " ",
+      "ObserveTime": "",
+      "OeoriId": "636||4||1",
+      "PhOrdQtyUnit": "80 万IU",
+      "PhcinDesc": "皮试(皮试)",
+      "TestDateTime": " ",
+      "TestMethod": "",
+      "TestResult": "",
+      "TestStartTime": "",
+      "TestUser": ""
+    },
+    {
+      "ArcimDesc": "注射用青霉素钠[400万U] ( )",
+      "CreateDateTime": "2019-11-04 14:31:33",
+      "CtcpDesc": "医生01",
+      "DisposeStatDesc": "皮试",
+      "DoseQtyUnit": "800 万IU",
+      "EpisodeID": "660",
+      "Notes": " ",
+      "ObserveTime": "20分钟",
+      "OeoriId": "636||5||1",
+      "PhOrdQtyUnit": "800 万IU",
+      "PhcinDesc": "静脉注射(皮试)",
+      "TestDateTime": " ",
+      "TestMethod": "",
+      "TestResult": "",
+      "TestStartTime": "2019-11-04 15:00:18",
+      "TestUser": ""
+    }
+  ],
+  "patInfo": {
+    "PatAge": "27岁",
+    "PatName": "第一",
+    "PatRegNo": "0000000020",
+    "PatSex": "女"
+  },
+  "status": "0"
+}

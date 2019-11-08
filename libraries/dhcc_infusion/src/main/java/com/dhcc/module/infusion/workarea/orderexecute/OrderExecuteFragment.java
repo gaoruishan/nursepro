@@ -1,6 +1,5 @@
 package com.dhcc.module.infusion.workarea.orderexecute;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -78,9 +77,9 @@ public class OrderExecuteFragment extends BaseInfusionFragment {
                 OrderExecuteBean.OrdersBean.PatOrdsBean patOrdsBean = patOrders.get(position).get(0);
                 if (view.getId() == R.id.ll_oepat_orderselect) {
                     if ("PSD".equals(sheetCode)) {
-                        f(R.id.ll_orderexecute_selectnum).setVisibility(View.GONE);
+                        f(R.id.ll_select_num).setVisibility(View.GONE);
                     } else {
-                        f(R.id.ll_orderexecute_selectnum).setVisibility(View.VISIBLE);
+                        f(R.id.ll_select_num).setVisibility(View.VISIBLE);
                     }
 
                     if (patOrdsBean.getSelect() == null || "0".equals(patOrdsBean.getSelect()) || "".equals(patOrdsBean.getSelect())) {
@@ -89,8 +88,7 @@ public class OrderExecuteFragment extends BaseInfusionFragment {
                         patOrdsBean.setSelect("0");
                     }
                     patientOrderAdapter.notifyItemChanged(position);
-                    if (f(R.id.ll_orderexecute_selectnum).getVisibility() == View.VISIBLE || f(R.id.ll_orderexecute_noselectbottom).getVisibility() == View.VISIBLE) {
-                        refreshBottom();
+                    if (f(R.id.ll_select_num).getVisibility() == View.VISIBLE || f(R.id.ll_no_select).getVisibility() == View.VISIBLE) {
                     }
 
                 }
@@ -133,14 +131,7 @@ public class OrderExecuteFragment extends BaseInfusionFragment {
     }
 
     @Override
-    public void getScanMsg(Intent intent) {
-        super.getScanMsg(intent);
-        if (scanInfo != null) {
-            getOrdList();
-        }
-    }
-
-    private void getOrdList() {
+    protected void getOrdList() {
         OrderExecuteApiManager.getScanInfo("", scanInfo, new CommonCallBack<OrdScanInfoBean>() {
             @Override
             public void onFail(String code, String msg) {
@@ -190,23 +181,23 @@ public class OrderExecuteFragment extends BaseInfusionFragment {
                 List<OrderExecuteBean.ButtonsBean> buttons = bean.getButtons();
 
                 if (buttons.size() == 0) {
-                    f(R.id.ll_orderexecute_noselectbottom).setVisibility(View.GONE);
-                    f(R.id.ll_orderexecute_selectbottom).setVisibility(View.GONE);
+                    f(R.id.ll_no_select).setVisibility(View.GONE);
+                    f(R.id.ll_select).setVisibility(View.GONE);
                 } else {
-                    f(R.id.ll_orderexecute_noselectbottom).setVisibility(View.VISIBLE);
-                    f(R.id.ll_orderexecute_selectbottom).setVisibility(View.GONE);
+                    f(R.id.ll_no_select).setVisibility(View.VISIBLE);
+                    f(R.id.ll_select).setVisibility(View.GONE);
                     int exectype = 1;
                     String handleCode = "Y";
                     if (buttons.get(0).getDesc().contains("处理")) {
-                        f(R.id.tv_bottom_noselecttext, TextView.class).setText("请您选择需处理的医嘱");
+                        f(R.id.tv_no_select_text, TextView.class).setText("请您选择需处理的医嘱");
                         exectype = 0;
                         handleCode = "A";
-                        f(R.id.tv_bottom_handletype, TextView.class).setText("接受");
+                        f(R.id.tv_type, TextView.class).setText("接受");
                         setVisible(View.VISIBLE);
                     } else {
-                        f(R.id.tv_bottom_noselecttext, TextView.class).setText("请您选择需执行的医嘱");
+                        f(R.id.tv_no_select_text, TextView.class).setText("请您选择需执行的医嘱");
                         if ("PSD".equals(sheetCode)) {
-                            f(R.id.tv_bottom_handletype, TextView.class).setText("阳性");
+                            f(R.id.tv_type, TextView.class).setText("阳性");
                             setVisible(View.VISIBLE);
                         } else {
                             setVisible(View.GONE);
@@ -229,97 +220,12 @@ public class OrderExecuteFragment extends BaseInfusionFragment {
         });
     }
 
-    public void refreshBottom() {
-//        sbOeoreId = new StringBuffer();
-//        sbOrderSaveInfo = new StringBuffer();
-//        sbTimeSaveInfo = new StringBuffer();
-        int selectCount = 0;
-        for (int i = 0; i < patOrders.size(); i++) {
-            if (patOrders.get(i) == null) return;
-            String orderDescs = "";
-            for (int j = 0; j < patOrders.get(i).size(); j++) {
-                if (j == patOrders.get(i).size() - 1) {
-                    orderDescs = orderDescs + patOrders.get(i).get(j).getOrderInfo().getArcimDesc();
-                } else {
-                    orderDescs = orderDescs + patOrders.get(i).get(j).getOrderInfo().getArcimDesc() + "\n";
-                }
-            }
-            if (patOrders.get(i).get(0) != null && patOrders.get(i).get(0).getSelect() != null && "1".equals(patOrders.get(i).get(0).getSelect())) {
-                if (selectCount == 0) {
-//                    sbOeoreId.append(patOrders.get(i).get(0).getOrderInfo().getID());
-//                    sbOrderSaveInfo.append(orderDescs);
-//                    sbTimeSaveInfo.append(patOrders.get(i).get(0).getOrderInfo().getSttDateTime());
-                } else {
-//                    sbOeoreId.append("^" + patOrders.get(i).get(0).getOrderInfo().getID());
-//                    sbOrderSaveInfo.append("^" + orderDescs);
-//                    sbTimeSaveInfo.append("^" + patOrders.get(i).get(0).getOrderInfo().getSttDateTime());
-                }
-                selectCount++;
-            }
-        }
-//        oeoreId = sbOeoreId.toString();
-//        orderSaveInfo = sbOrderSaveInfo.toString();
-//        timeSaveInfo = sbTimeSaveInfo.toString();
-        f(R.id.ll_orderexecute_noselectbottom).setVisibility(selectCount == 0 ? View.VISIBLE : View.GONE);
-        f(R.id.ll_orderexecute_selectbottom).setVisibility(selectCount == 0 ? View.GONE : View.VISIBLE);
-        String desc0 = buttons.get(0).getDesc();
-        String desc0Replace = desc0.replace("医嘱", "");
-        if (selectCount == 0) {
-            if (desc0.contains("执行")) {
-                f(R.id.tv_bottom_noselecttext, TextView.class).setText("请您选择需执行的医嘱");
-            } else {
-                f(R.id.tv_bottom_noselecttext, TextView.class).setText("请您选择需处理的医嘱");
-            }
-        } else {
-            f(R.id.tv_bottom_selecttext, TextView.class).setText("已选择" + selectCount + "个");
-            if (buttons.size() == 1) {
-                if (desc0.startsWith("撤销")) {
-                    //撤销处理/执行
-                    setBottomTodo(true, desc0Replace, false, null);
-//                    if (exectype == 0) {
-//                        execStatusCode = "";
-//                    } else {
-//                        execStatusCode = "C";
-//                    }
-                } else {
-                    //处理/执行
-                    setBottomTodo(false, null, true, desc0Replace);
-//                    if (exectype == 0) {
-//                        execStatusCode = handleCode;
-//                    } else {
-//                        if ("PSD".equals(sheetCode)) {
-//                            execStatusCode = handleCode;
-//                        } else {
-//                            execStatusCode = "F";
-//                        }
-//                    }
-                }
-            } else if (buttons.size() == 2) {
-                setBottomTodo(true, buttons.get(1).getDesc().replace("医嘱", "")
-                        , true, desc0Replace);
-            } else if (buttons.size() == 3) {
-                setBottomTodo(true, buttons.get(1).getDesc().replace("医嘱", "")
-                        , true, desc0Replace);
-                String singleFlag = buttons.get(2).getSingleFlag();
-            }
-
-        }
-    }
 
     private void setVisible(int visible) {
-        f(R.id.view_bottom_handleline).setVisibility(visible);
-        f(R.id.tv_bottom_handletype).setVisibility(visible);
-        f(R.id.img_bottom_handlesure).setVisibility(visible);
+        f(R.id.view_line).setVisibility(visible);
+        f(R.id.tv_type).setVisibility(visible);
+        f(R.id.img_sure).setVisibility(visible);
     }
 
-    private void setBottomTodo(boolean undo, String undoTxt, boolean todo, String todoTxt) {
-        f(R.id.tv_bottom_undo).setVisibility(undo ? View.VISIBLE : View.GONE);
-        if (!TextUtils.isEmpty(undoTxt)) {
-            f(R.id.tv_bottom_undo, TextView.class).setText(undoTxt);
-        }
-        f(R.id.tv_bottom_todo).setVisibility(todo ? View.VISIBLE : View.GONE);
-        if (!TextUtils.isEmpty(todoTxt)) {
-            f(R.id.tv_bottom_todo, TextView.class).setText(todoTxt);
-        }
-    }
+
 }

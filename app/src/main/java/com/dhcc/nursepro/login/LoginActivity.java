@@ -213,6 +213,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //后台 不接收扫码
         if (loginReceiver != null) {
             unregisterReceiver(loginReceiver);
         }

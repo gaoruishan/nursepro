@@ -120,4 +120,5 @@
     <color name="drugpreparation_text_color">#4A4A4A</color>
 
     <color name="keybgcolor">#E1E1E1</color>
+    <color name="darkorange">#FF8C00</color>
 </resources>

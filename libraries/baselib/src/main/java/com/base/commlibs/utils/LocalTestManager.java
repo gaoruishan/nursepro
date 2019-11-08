@@ -2,6 +2,7 @@ package com.base.commlibs.utils;
 
 import android.text.TextUtils;
 
+import com.base.commlibs.BuildConfig;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.wsutils.BaseWebServiceUtils;
 import com.blankj.utilcode.util.SPUtils;
@@ -17,14 +18,14 @@ import java.util.List;
  */
 public class LocalTestManager {
     // 是否开启测试
-    private final static boolean TEST = false;
+    private final static boolean TEST = BuildConfig.DEBUG;
     private static List<String> l = new ArrayList<>();
 
     static {
         //对应的方法名
-        l.add("getInfusionMessage");
-        l.add("getSkinTestMessage");
-        l.add("getOrdList");
+//        l.add("getInfusionMessage");
+//        l.add("getSkinTestMessage");
+//        l.add("getOrdList");
     }
 
     /**

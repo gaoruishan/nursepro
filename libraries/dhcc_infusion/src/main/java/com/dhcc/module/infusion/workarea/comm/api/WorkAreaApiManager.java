@@ -1,10 +1,14 @@
 package com.dhcc.module.infusion.workarea.comm.api;
 
+import com.base.commlibs.http.CommWebService;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.http.ParserUtil;
 import com.base.commlibs.http.ServiceCallBack;
+import com.dhcc.module.infusion.workarea.comm.bean.MainConfigBean;
 import com.dhcc.module.infusion.workarea.comm.bean.OrdInfoBean;
 import com.dhcc.module.infusion.workarea.comm.bean.PatDetailBean;
+
+import java.util.HashMap;
 
 /**
  * @author:gaoruishan
@@ -47,4 +51,25 @@ public class WorkAreaApiManager {
         });
     }
 
+    /**
+     * /// Creator: 		lmm
+     * /// CreatDate: 		2019-11-07
+     * /// Description: 	主页面模块配置
+     * /// Input：
+     * /// Return：   	    ##class(Nur.OPPDA.Logon).getMainConfig()
+     */
+    public static void getMainConfig(final CommonCallBack<MainConfigBean> callback) {
+        HashMap<String, String> properties = CommWebService.addUserId(null);
+        CommWebService.addGroupId(properties);
+        CommWebService.addLocId(properties);
+        CommWebService.call("getMainConfig", properties, new ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                ParserUtil<MainConfigBean> parser = new ParserUtil<>();
+                MainConfigBean bean = parser.parserResult(jsonStr, callback, MainConfigBean.class);
+                if (bean == null) return;
+                parser.parserStatus(bean, callback);
+            }
+        });
+    }
 }

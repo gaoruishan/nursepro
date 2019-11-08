@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
     <LinearLayout
-        android:id="@+id/ll_orderexecute_noselectbottom"
+        android:id="@+id/ll_no_select"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_50"
         android:layout_alignParentBottom="true"
@@ -16,15 +16,15 @@
         android:visibility="gone">
 
         <TextView
-            android:id="@+id/tv_bottom_noselecttext"
+            android:id="@+id/tv_no_select_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
-            tools:text="请您选择需执行的医嘱"/>
+            android:text="请您选择需执行的"/>
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/ll_orderexecute_selectbottom"
+        android:id="@+id/ll_select"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_50"
         android:layout_alignParentBottom="true"
@@ -34,67 +34,62 @@
         android:paddingStart="@dimen/dp_16">
 
         <LinearLayout
-            android:id="@+id/ll_orderexecute_selectnum"
+            android:id="@+id/ll_select_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
-                android:id="@+id/tv_bottom_selecttext"
+                android:id="@+id/tv_select_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 tools:text="已选择2个"/>
 
-            <View
-                android:id="@+id/view_bottom_handleline"
-                android:layout_width="@dimen/dp_1"
-                android:layout_height="@dimen/dp_16"
-                android:layout_marginStart="@dimen/dp_6"
-                android:layout_marginEnd="@dimen/dp_6"
-                android:background="@color/white"/>
-
-            <TextView
-                android:id="@+id/tv_bottom_handletype"
+            <LinearLayout
+                android:visibility="invisible"
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="接受"
-                android:textColor="@color/white"/>
+                android:layout_height="wrap_content">
+                <View
+                    android:id="@+id/view_line"
+                    android:layout_width="@dimen/dp_1"
+                    android:layout_height="@dimen/dp_16"
+                    android:layout_marginStart="@dimen/dp_6"
+                    android:layout_marginEnd="@dimen/dp_6"
+                    android:background="@color/white"/>
 
-            <ImageView
-                android:id="@+id/img_bottom_handlesure"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_6"
-                android:layout_marginBottom="@dimen/dp_1"
-                android:src="@drawable/dhcc_icon_bottom_selected"/>
+                <TextView
+                    android:id="@+id/tv_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="接受"
+                    android:textColor="@color/white"/>
+
+                <ImageView
+                    android:id="@+id/img_sure"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_6"
+                    android:layout_marginBottom="@dimen/dp_1"
+                    android:src="@drawable/dhcc_icon_bottom_selected"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:id="@+id/ll_bottom"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_width="match_parent"
+            android:gravity="right"
+            android:layout_height="match_parent"
+         >
+
+
         </LinearLayout>
 
 
-        <View
-            android:layout_width="@dimen/dp_0"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
 
-
-        <TextView
-            android:id="@+id/tv_bottom_undo"
-            android:layout_width="@dimen/dp_90"
-            android:layout_height="match_parent"
-            android:background="#4a90e2"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:textSize="@dimen/sp_16"
-            tools:text="撤销执行"/>
-
-        <TextView
-            android:id="@+id/tv_bottom_todo"
-            android:layout_width="@dimen/dp_90"
-            android:layout_height="match_parent"
-            android:background="#62abff"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:textSize="@dimen/sp_16"
-            tools:text="执行"/>
     </LinearLayout>
 </LinearLayout>

@@ -5,12 +5,14 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dhcc.res.BaseView;
+import com.dhcc.res.infusion.bean.ClickBean;
 import com.grs.dhcc_res.R;
+
+import java.util.List;
 
 /**
  * 医嘱执行底部按钮
@@ -18,44 +20,50 @@ import com.grs.dhcc_res.R;
  * @date:202019-08-20/14:21
  * @email:grs0515@163.com
  */
-public class CustomOrdExeBottomView extends BaseView implements View.OnClickListener {
+public class CustomOrdExeBottomView extends BaseView {
 
-    private LinearLayout llOrderexecuteNoselectbottom;
-    private LinearLayout llOrderexecuteSelectbottom;
-    private LinearLayout llorderexecuteselectnum;
-    private TextView tvBottomNoselecttext;
-    private TextView tvBottomSelecttext;
-    public TextView tvBottomHandletype;
-    private View viewBottomHandleline;
-    private ImageView imgBottomHandlesure;
-    public TextView tvBottomUndo;
-    public TextView tvBottomTodo;
-
+    public TextView tvType;
+    private LinearLayout llBottom;
+    private LinearLayout llNoSelect;
+    private LinearLayout llSelect;
+    private TextView tvNoSelectText;
+    private TextView tvSelectText;
 
     public CustomOrdExeBottomView(Context context) {
-        super(context);
+        this(context, null);
     }
 
     public CustomOrdExeBottomView(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, 0);
     }
 
     public CustomOrdExeBottomView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        llOrderexecuteNoselectbottom = view.findViewById(R.id.ll_orderexecute_noselectbottom);
-        llorderexecuteselectnum = view.findViewById(R.id.ll_orderexecute_selectnum);
-        tvBottomNoselecttext = view.findViewById(R.id.tv_bottom_noselecttext);
-        llOrderexecuteSelectbottom = view.findViewById(R.id.ll_orderexecute_selectbottom);
-        tvBottomSelecttext = view.findViewById(R.id.tv_bottom_selecttext);
-        tvBottomHandletype = view.findViewById(R.id.tv_bottom_handletype);
-//        tvBottomHandletype.setOnClickListener(this);
-        viewBottomHandleline = view.findViewById(R.id.view_bottom_handleline);
-        imgBottomHandlesure = view.findViewById(R.id.img_bottom_handlesure);
-        tvBottomUndo = view.findViewById(R.id.tv_bottom_undo);
-        tvBottomTodo = view.findViewById(R.id.tv_bottom_todo);
-//        tvBottomUndo.setOnClickListener(this);
-//        tvBottomTodo.setOnClickListener(this);
     }
+
+
+    /**
+     * 添加底部按钮
+     * @param list
+     */
+    public void addBottomView(List<ClickBean> list) {
+        if (list != null) {
+            for (int i = 0; i < list.size(); i++) {
+                ClickBean bean = list.get(i);
+                int width = getDimen(R.dimen.dp_80);
+                TextView tv = (TextView) inflate(mContext, R.layout.dhcc_ord_exe_buttom_tv, width, LayoutParams.MATCH_PARENT);
+                tv.setText(bean.getText());
+                tv.setOnClickListener(bean.getListener());
+                if (i % 2 == 0) {
+                    setBackGroundColor(tv, R.color.blue_dark);
+                } else {
+                    setBackGroundColor(tv, R.color.blue);
+                }
+                llBottom.addView(tv);
+            }
+        }
+    }
+
 
     @Override
     protected int setContentView() {
@@ -65,61 +73,35 @@ public class CustomOrdExeBottomView extends BaseView implements View.OnClickList
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
+        llNoSelect = view.findViewById(R.id.ll_no_select);
+        tvNoSelectText = view.findViewById(R.id.tv_no_select_text);
+        llSelect = view.findViewById(R.id.ll_select);
+        tvSelectText = view.findViewById(R.id.tv_select_text);
+        tvType = view.findViewById(R.id.tv_type);
+        llBottom = view.findViewById(R.id.ll_bottom);
     }
 
-    public boolean isRefreshButtom() {
-        return llOrderexecuteSelectbottom.getVisibility() == View.VISIBLE || llOrderexecuteNoselectbottom.getVisibility() == View.VISIBLE;
+
+    public void setNoSelectVisibility(boolean noSelect) {
+        llNoSelect.setVisibility(noSelect ? VISIBLE : GONE);
+        llSelect.setVisibility(noSelect ? GONE : VISIBLE);
     }
 
-    public void isVisibilitySelectBottomLayout(int noselectbottom, int selectbottom) {
-        llOrderexecuteNoselectbottom.setVisibility(noselectbottom);
-        llOrderexecuteSelectbottom.setVisibility(selectbottom);
+    public void setNoSelectText(String s) {
+        tvNoSelectText.setText(s);
     }
 
-    public void isVisibilitySelectNum(boolean gone) {
-        llorderexecuteselectnum.setVisibility(gone ? View.GONE : VISIBLE);
+    public void setSelectText(String s) {
+        tvSelectText.setText(s);
     }
 
-    public void setTvBottomNoSelectText(String s) {
-        tvBottomNoselecttext.setText(s);
-    }
 
-    public void setTvBottomSelectText(String s) {
-        tvBottomSelecttext.setText(s);
-    }
-
-    @Override
-    public void onClick(View v) {
-
-    }
-
-    public void setTvBottomHandleType(String s) {
+    public void setType(String s) {
         if (!TextUtils.isEmpty(s)) {
-            tvBottomHandletype.setVisibility(View.VISIBLE);
-            tvBottomHandletype.setText(s);
+            tvType.setVisibility(View.VISIBLE);
+            tvType.setText(s);
         }
     }
 
-    public void setVisibilityTvBottomHandleType(int visibale) {
-        tvBottomHandletype.setVisibility(visibale);
-    }
 
-    public void setVisibilityBottomHandleLine(int visible) {
-        viewBottomHandleline.setVisibility(visible);
-    }
-
-    public void setVisibilityImgBottomHandleSure(int visible) {
-        imgBottomHandlesure.setVisibility(visible);
-    }
-
-    public void setBottomTodo(boolean undoVisibility, String undoTxt, boolean todoVisibility, String todoTxt) {
-        tvBottomUndo.setVisibility(undoVisibility ? View.VISIBLE : View.GONE);
-        if (!TextUtils.isEmpty(undoTxt)) {
-            tvBottomUndo.setText(undoTxt);
-        }
-        tvBottomTodo.setVisibility(todoVisibility ? View.VISIBLE : View.GONE);
-        if (!TextUtils.isEmpty(todoTxt)) {
-            tvBottomTodo.setText(todoTxt);
-        }
-    }
 }

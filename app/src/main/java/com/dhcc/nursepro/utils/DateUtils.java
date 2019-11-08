@@ -151,6 +151,42 @@ public class DateUtils {
 
     }
 
+    /**
+     * 选择日期---年月日
+     * @param context           the context
+     * @param fragmentManager   the fragment manager
+     * @param onDateSetListener the on date set listener
+     *                          currMills 默认选中事件
+     */
+    public static void chooseDate(long currMills,Context context,FragmentManager fragmentManager,OnDateSetListener onDateSetListener) {
+        long tenYears = 10L * 365 * 1000 * 60 * 60 * 24L;
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+
+        TimePickerDialog mDialogAll = new TimePickerDialog.Builder()
+                .setCallBack(onDateSetListener)
+                .setCancelStringId("取消")
+                .setSureStringId("确认")
+                .setTitleStringId("日期")
+                .setYearText("年")
+                .setMonthText("月")
+                .setDayText("日")
+                .setCyclic(false)
+                .setMinMillseconds(System.currentTimeMillis() - tenYears)
+                .setCurrentMillseconds(currMills)
+                .setThemeColor(context.getResources().getColor(R.color.colorPrimary))
+                .setType(Type.YEAR_MONTH_DAY)
+                .setWheelItemTextNormalColor(context.getResources().getColor(R.color.timetimepicker_default_text_color))
+                .setWheelItemTextSelectorColor(context.getResources().getColor(R.color.colorPrimaryDark))
+                .setWheelItemTextSize(12)
+                .build();
+        mDialogAll.show(fragmentManager, "ALL");
+
+    }
+
+
 
     /**
      * 选择时间---时分
