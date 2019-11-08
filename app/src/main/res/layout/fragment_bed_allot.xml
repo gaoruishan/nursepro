@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -29,148 +29,213 @@
             android:id="@+id/tv_frapat_warningtitle"
             android:layout_width="wrap_content"
             android:layout_height="22dp"
-            android:layout_centerInParent="true"
             android:layout_above="@+id/tv_frapat_warning"
+            android:layout_centerInParent="true"
             android:layout_marginBottom="30dp"
-            android:textStyle="bold"
             android:text="请扫描腕带"
             android:textColor="#FF62ABFF"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
         <ImageView
             android:layout_width="60dp"
             android:layout_height="91dp"
-            android:layout_centerInParent="true"
             android:layout_above="@+id/tv_frapat_warningtitle"
+            android:layout_centerInParent="true"
             android:layout_marginBottom="@dimen/dp_10"
             android:src="@drawable/icon_patient_scan" />
 
     </RelativeLayout>
-    <View
+    <ScrollView
+        android:id="@+id/scroll_bedallot"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/blue_light"></View>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:background="@color/white">
-        <TextView
-            android:id="@+id/tv_allotbed_pat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="患者1"
-            android:gravity="center"
-            android:layout_marginLeft="20dp"
-            />
-        <ImageView
-            android:id="@+id/img_allotbed_sex"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/sex_female"
-            android:layout_marginLeft="20dp"/>
-        <TextView
-            android:id="@+id/tv_allotbed_regno"
+        android:layout_height="match_parent"
+        android:layout_above="@id/ky_keyboard"
+        android:visibility="gone">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="right"
-            android:text="34353545"
-            android:layout_marginRight="20dp"
-            />
-    </LinearLayout>
+            android:orientation="vertical">
 
-    <LinearLayout
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/blue_light"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_allotbed_pat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:gravity="center"
+                    tools:text="患者1" />
+
+                <ImageView
+                    android:id="@+id/img_allotbed_sex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:src="@drawable/sex_female" />
+
+                <TextView
+                    android:id="@+id/tv_allotbed_regno"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:gravity="right"
+                    android:text="34353545" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginRight="25dp"
+                        android:gravity="center"
+                        android:text="主管医生"
+                        android:textSize="@dimen/sp_14" />
+
+                    <TextView
+                        android:id="@+id/tv_allotbed_maindoc"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:gravity="center"
+                        android:text="请选择"
+                        android:textColor="#FF4A4A4A"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:gravity="center" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp">
+
+                        <View
+                            android:layout_width="15dp"
+                            android:layout_height="30dp"
+                            android:layout_centerInParent="true"
+                            android:background="@drawable/icon_selectarrow"></View>
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginRight="25dp"
+                        android:gravity="center"
+                        android:text="主管护士"
+                        android:textSize="@dimen/sp_14" />
+
+                    <TextView
+                        android:id="@+id/tv_allotbed_mainnur"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:gravity="center"
+                        android:text="请选择"
+                        android:textColor="#FF4A4A4A"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.3"></LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="床位选择" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recy_allotbed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <LinearLayout
+                android:id="@+id/ll_firstbehos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/white"
+                    android:text="入院体征录入" />
+
+                <LinearLayout
+                    android:id="@+id/ll_vitalsign_record"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+    <com.dhcc.nursepro.utils.view.DIYKeyboardView
+        android:id="@+id/ky_keyboard"
         android:layout_width="match_parent"
-        android:layout_height="110dp"
-        android:background="@color/white"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal">
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:gravity="center"
-                android:text="主管医生"
-                android:textSize="@dimen/sp_14"
-                android:layout_marginRight="25dp"
-                />
-            <TextView
-                android:id="@+id/tv_allotbed_maindoc"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:text="请选择"
-                android:textSize="15sp"
-                android:textColor="#FF4A4A4A"
-                android:textStyle="bold"
-                android:gravity="center" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:gravity="center"/>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="60dp">
-                <View
-                    android:layout_width="15dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/icon_selectarrow"
-                    android:layout_centerInParent="true"
-                    ></View>
-            </RelativeLayout>
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:gravity="center"
-                android:text="主管护士"
-                android:textSize="@dimen/sp_14"
-                android:layout_marginRight="25dp"/>
-            <TextView
-                android:id="@+id/tv_allotbed_mainnur"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:text="请选择"
-                android:textSize="15sp"
-                android:textColor="#FF4A4A4A"
-                android:textStyle="bold"
-                android:gravity="center" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.3"></LinearLayout>
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="床位选择"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="15dp"
-        />
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recy_allotbed"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </android.support.v7.widget.RecyclerView>
-
-
-</LinearLayout>
+        android:layout_alignParentBottom="true"
+        android:background="#E1E1E1"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:keyBackground="@color/keybgcolor"
+        android:keyTextColor="@color/blue"
+        android:keyTextSize="20sp"
+        android:shadowColor="#E1E1E1"
+        android:shadowRadius="0.0" />
+</RelativeLayout>
