@@ -14,6 +14,7 @@
         android:paddingBottom="16dp"
         android:paddingTop="16dp"
         android:layout_marginTop="20dp"
+        android:textSize="16sp"
         android:textColor="@drawable/textcolor_itembed_selector"
         tools:text="目录1" />
 

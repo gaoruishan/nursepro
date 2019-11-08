@@ -1,6 +1,7 @@
 package com.dhcc.nursepro.workarea.nurrecordold.adapter;
 
 import android.support.annotation.Nullable;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -16,8 +17,14 @@ public class NurRecordModelListAdapter extends BaseQuickAdapter<RecModelListBean
     }
     @Override
     protected void convert(BaseViewHolder helper, RecModelListBean.MenuListBean.ModelListBean item) {
-        helper.setText(R.id.tv_modellist,item.getModelName())
-                .addOnClickListener(R.id.tv_modellist);
+        TextView tvModelName = helper.getView(R.id.tv_modellist);
+        if (item.getWStatus().equals("0")) {
+            tvModelName.setTextColor(mContext.getResources().getColor(R.color.blue));
+        } else {
+            tvModelName.setTextColor(mContext.getResources().getColor(R.color.black));
+        }
+        tvModelName.setText(item.getModelName());
+        helper.addOnClickListener(R.id.tv_modellist);
 
     }
 }

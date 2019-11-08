@@ -17,6 +17,7 @@ public class RecModelListBean {
     private String status;
     private List<MenuListBean> menuList;
 
+
     public String getMsg() {
         return msg;
     }
