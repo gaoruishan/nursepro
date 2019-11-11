@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -43,6 +44,10 @@ public class OrderExecOrderDialog extends Dialog {
 
     private onSureOnclickListener sureOnclickListener;
     private onCancelOnclickListener cancelOnclickListener;
+    private View llMsg;
+    private TextView tvPopupMsg;
+    private String msgInfo;
+    private String canExeFlag;
 
 
     public OrderExecOrderDialog(Context context) {
@@ -55,8 +60,12 @@ public class OrderExecOrderDialog extends Dialog {
         this.childOrders = childOrders;
     }
 
+
     public void setPatInfo(String patInfo) {
         this.patInfo = patInfo;
+    }
+    public void setPopMsgInfo(String msgInfo) {
+        this.msgInfo = msgInfo;
     }
 
     public void setOrderUnit(String orderUnit) {
@@ -112,6 +121,8 @@ public class OrderExecOrderDialog extends Dialog {
         tvPopupOrderinfoex = findViewById(R.id.tv_popup_orderinfoex);
         tvPopupOrderexec = findViewById(R.id.tv_popup_orderexec);
         tvPopupOrdercancel = findViewById(R.id.tv_popup_ordercancel);
+        llMsg = findViewById(R.id.ll_msg);
+        tvPopupMsg = findViewById(R.id.tv_popup_msg);
 
         //提高展示效率
         recyPopupChildOrderInfo.setHasFixedSize(true);
@@ -145,7 +156,16 @@ public class OrderExecOrderDialog extends Dialog {
         if (orderInfoEx != null) {
             tvPopupOrderinfoex.setText(orderInfoEx);
         }
-
+        if(!TextUtils.isEmpty(msgInfo)){
+        	llMsg.setVisibility(View.VISIBLE);
+        	tvPopupMsg.setText(msgInfo);
+        }
+        //canExeFlag 0 不能 1 能
+        if(!"1".equals(canExeFlag)){
+            tvPopupOrderexec.setEnabled(false);
+            tvPopupOrderexec.setClickable(false);
+            tvPopupOrderexec.setBackgroundResource(R.drawable.bg_dialog_cancel);
+        }
     }
 
     private void initEvent() {
@@ -165,6 +185,10 @@ public class OrderExecOrderDialog extends Dialog {
                 }
             }
         });
+    }
+
+    public void setCanExeFlag(String canExeFlag) {
+        this.canExeFlag = canExeFlag;
     }
 
     /**

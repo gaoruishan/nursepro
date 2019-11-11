@@ -1,14 +1,24 @@
 package com.base.commlibs.utils;
 
+import android.annotation.SuppressLint;
+import android.os.Build;
 import android.text.TextUtils;
 
 import com.base.commlibs.BuildConfig;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.wsutils.BaseWebServiceUtils;
+import com.blankj.utilcode.util.AppUtils;
+import com.blankj.utilcode.util.NetworkUtils;
+import com.blankj.utilcode.util.ObjectUtils;
 import com.blankj.utilcode.util.SPUtils;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.WeakHashMap;
 
 /**
  * 加载本地测试json
@@ -19,7 +29,12 @@ import java.util.List;
 public class LocalTestManager {
     // 是否开启测试
     private final static boolean TEST = BuildConfig.DEBUG;
+    @SuppressLint("SimpleDateFormat")
+    private static final Format FORMAT = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+    //请求次数
+    private static final int REQ_NUM = 3;
     private static List<String> l = new ArrayList<>();
+    private static Map<String, Integer> errNum = new WeakHashMap<>();
 
     static {
         //对应的方法名
@@ -65,14 +80,83 @@ public class LocalTestManager {
     }
 
     /**
-     * 是否保存json
+     * 是否保存json-日志
      * @param methodName
      * @param obj
      */
-    public static void isSave(String methodName, String obj) {
-        String logFlag = SPUtils.getInstance().getString(SharedPreference.LOG_FLAG);
-        if(!TextUtils.isEmpty(logFlag)){
-        	CommFile.write(methodName,obj);
+    public static void saveLog(String methodName, String obj) {
+        if (isLogFlag()) {
+            CommFile.write(methodName, getCommLog() + obj);
+        }
+    }
+
+    /**
+     * 是否开启log
+     * @return
+     */
+    public static boolean isLogFlag() {
+        return !TextUtils.isEmpty(SPUtils.getInstance().getString(SharedPreference.LOG_FLAG));
+    }
+
+    public static String getCommLog() {
+        final String time = FORMAT.format(new Date(System.currentTimeMillis()));
+        final StringBuilder sb = new StringBuilder();
+        final String head =
+                "\n************* Log Head ****************" +
+                        "\nTime       : " + time +
+                        "\nDevice Manufacturer: " + Build.MANUFACTURER +
+                        "\nDevice Model       : " + Build.MODEL +
+                        "\nAndroid Version    : " + Build.VERSION.RELEASE +
+                        "\nAndroid SDK        : " + Build.VERSION.SDK_INT +
+                        "\nApp VersionName    : " + AppUtils.getAppVersionName() +
+                        "\nApp VersionCode    : " + AppUtils.getAppVersionCode() +
+                        "\nApp isConnected    : " + NetworkUtils.isConnected() +
+                        "\nApp isMobileData    : " + NetworkUtils.isMobileData() +
+                        "\nApp isWifiConnected    : " + NetworkUtils.isWifiConnected() +
+                        "\nApp getNetworkType    : " + NetworkUtils.getNetworkType() +
+                        "\n************* Log Head ****************\n\n";
+        sb.append(head);
+        return sb.toString();
+    }
+
+    public static void clear() {
+        errNum.clear();//清空
+    }
+
+    /**
+     * 判断是否再次请求
+     * @param methodName
+     * @param obj
+     * @return
+     */
+    public static boolean isRequest(String methodName, Object obj) {
+        //有数据直接返回
+        if (!ObjectUtils.isEmpty(obj)) {
+            return false;
+        }
+        Integer integer = errNum.get(methodName);
+        if (integer == null) {
+            integer = 1;
+        }
+        //请求次数==2 返回; 并置1
+        if (integer >= REQ_NUM) {
+            errNum.put(methodName, 1);
+            return false;
+        }
+        integer += 1;
+        errNum.put(methodName, integer);
+        //保存
+        saveLog(methodName,(String) obj);
+        return true;
+    }
+
+
+    /**
+     * 保存spUtils日志
+     */
+    public static void saveSpUtils() {
+        if (isLogFlag()) {
+            CommFile.write("spUtils", SPUtils.getInstance().getAll().toString());
         }
     }
 }

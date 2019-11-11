@@ -13,11 +13,13 @@
         android:layout_height="@dimen/dp_30"
         android:gravity="center"
         android:text="测试"
+        app:bl_selected_textColor="@color/blue_dark"
+        app:bl_unSelected_textColor="@color/text_color_black"
         app:bl_corners_radius="@dimen/dp_4"
         app:bl_selected_stroke_color="@color/blue_dark"
         app:bl_stroke_width="@dimen/dp_1"
-        app:bl_unSelected_drawable="@color/text_white"
-        app:bl_selected_drawable="@color/blue_light"
+        app:bl_unSelected_drawable="@color/text_color_gray_e"
+        app:bl_selected_drawable="@color/blue_dark2"
         app:bl_unSelected_stroke_color="@color/text_black_light"/>
 
 

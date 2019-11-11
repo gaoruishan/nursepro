@@ -194,6 +194,8 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
         OrderExecuteApiManager.getScanMsg(episodeId, scanInfo, new OrderExecuteApiManager.GetScanCallBack() {
             @Override
             public void onSuccess(ScanResultBean scanResultBean) {
+                //提示信息
+                String msg = scanResultBean.getMsg();
                 //添加筛选
                 setToolbarRightCustomView(presenter.getRightTextView());
                 //PAT 扫腕带返回患者信息
@@ -270,12 +272,9 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                         execOrderDialog.setPatInfo(patInfo);
                         List<ScanResultBean.OrdersBean> ordersBeanList = scanResultBean.getOrders();
                         ScanResultBean.OrdersBean ordersBean = ordersBeanList.get(0);
-                        execOrderDialog.setOrderInfo(ordersBean.getArcimDesc());
-                        execOrderDialog.setOrderUnit(ordersBean.getDoseQtyUnit());
-                        if (ordersBeanList.size() > 1) {
-                            ordersBeanList.remove(0);
-                            execOrderDialog.setChildOrders(ordersBeanList);
-                        }
+                        execOrderDialog.setChildOrders(ordersBeanList);
+                        execOrderDialog.setPopMsgInfo(msg);
+                        execOrderDialog.setCanExeFlag(scanResultBean.getCanExeFlag());
                         execOrderDialog.setOrderInfoEx(ordersBean.getSttDateTime() + " " + ordersBean.getPhcinDesc() + " " + ordersBean.getCtcpDesc() + "");
                         execOrderDialog.show();
                         execOrderDialog.setSureOnclickListener(new OrderExecOrderDialog.onSureOnclickListener() {

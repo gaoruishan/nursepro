@@ -3,6 +3,7 @@ package com.base.commlibs;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
@@ -39,15 +40,8 @@ public class BaseApplication extends Application implements Application.Activity
         return context;
     }
 
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        MultiDex.install(this);
-    }
-
     /**
      * 请求权限
-     *
      * @param permission 申请的权限名称
      */
     public static void requestPermission(final String permission) {
@@ -70,7 +64,6 @@ public class BaseApplication extends Application implements Application.Activity
 
     /**
      * 请求权限
-     *
      * @param permission     申请的权限名称
      * @param requestMessage 申请权限提示框中提示文本
      */
@@ -85,6 +78,24 @@ public class BaseApplication extends Application implements Application.Activity
         return activityCount;
     }
 
+    /**
+     * 销毁所有Activity
+     */
+    public static void finishAll() {
+        for (Activity activity : sActivities) {
+            if (!activity.isFinishing()) {
+                activity.finish();
+            }
+        }
+        sActivities.clear();
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -92,7 +103,13 @@ public class BaseApplication extends Application implements Application.Activity
         CrashHandler.getInstance().init(this);
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
-//        builder.detectFileUriExposure();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            builder.detectFileUriExposure();
+        }
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                .permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
 
         getApp().registerActivityLifecycleCallbacks(this);
         //检测内存泄露
@@ -105,17 +122,6 @@ public class BaseApplication extends Application implements Application.Activity
         return sMe;
     }
 
-    /**
-     * 销毁所有Activity
-     */
-    public static void finishAll() {
-        for (Activity activity : sActivities) {
-            if (!activity.isFinishing()) {
-                activity.finish();
-            }
-        }
-        sActivities.clear();
-    }
     @Override
     public void onActivityCreated(Activity activity, Bundle bundle) {
         if (activity instanceof BaseActivity) {

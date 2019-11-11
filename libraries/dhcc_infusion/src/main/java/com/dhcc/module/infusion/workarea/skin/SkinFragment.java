@@ -18,6 +18,7 @@ import com.dhcc.module.infusion.workarea.skin.bean.SkinListBean;
 import com.dhcc.res.infusion.CustomDateTimeView;
 import com.dhcc.res.infusion.CustomOrdExeBottomView;
 import com.dhcc.res.infusion.CustomPatView;
+import com.dhcc.res.infusion.CustomScanView;
 import com.dhcc.res.infusion.bean.ClickBean;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
@@ -140,6 +141,8 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
         customDate = f(R.id.custom_date, CustomDateTimeView.class);
         bottomView = f(R.id.custom_bottom, CustomOrdExeBottomView.class);
         customPat = f(R.id.custom_pat, CustomPatView.class);
+        f(R.id.custom_scan, CustomScanView.class).setTitle("请扫描腕带")
+                .setWarning("请您使用扫码设备，扫描病人腕带");
         customDate.setEndDateTime(System.currentTimeMillis())
                 .setStartDateTime(System.currentTimeMillis())
                 .setOnDateSetListener(new OnDateSetListener() {

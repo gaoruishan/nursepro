@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="320dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/dp_320"
     android:layout_height="wrap_content"
     android:layout_marginStart="20dp"
     android:layout_marginEnd="20dp"
@@ -34,11 +35,37 @@
             android:textSize="15sp"
             android:textStyle="bold"
             tools:text="06床-苏患者-男-62岁-02791538" />
+        <LinearLayout
+            android:id="@+id/ll_msg"
+            android:visibility="gone"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="提示信息"
+                android:textColor="#9B9B9B" />
+
+            <TextView
+                android:id="@+id/tv_popup_msg"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="10dp"
+                android:background="#F5FAFF"
+                android:gravity="center"
+                android:textColor="#4A4A4A"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                tools:text="06床-苏患者-男-62岁-02791538" />
+
+        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:text="医嘱信息"
             android:textColor="#9B9B9B" />
 
@@ -55,8 +82,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:gravity="center_vertical"
                 android:layout_marginTop="16dp">
-
                 <TextView
                     android:id="@+id/tv_popup_orderinfo"
                     android:layout_width="0dp"

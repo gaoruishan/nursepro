@@ -17,7 +17,17 @@ public class ScanResultBean {
     private String msgcode;
     private PatInfoBean patInfo;
     private String status;
+    private String canExeFlag;
     private List<OrdersBean> orders;
+
+    public String getCanExeFlag() {
+        return canExeFlag == null ? "" : canExeFlag;
+    }
+
+    public void setCanExeFlag(String canExeFlag) {
+        this.canExeFlag = canExeFlag;
+    }
+
     /**
      * diagFlag : 1
      * orders : [{"DspStat":"","Durat":"","EncryptLevel":"","ID":"91||6||1","PatLevel":"","PreDisDateTime":"","admLoc":"内分泌科","age":"30岁","arcimDesc":"手术申请：","bedCode":"14","cancelReason":"药物过敏","createDateTime":"2018-03-26 09:33:29","ctcpDesc":"医生01","doseQtyUnit":"","examInfo":{},"execCtcpDesc":"医生01","execDateTime":"03-27 13:40","execID":"91||6||1","execXDateTime":"2018-05-03 19:32:46","execXUserDesc":"护士01","flowSpeed":"","labNo":"","medCareNo":"100056","no":"5","notes":"拟于2018-03-26 03:30:00,在下行一氧化氮疗法","notifyClinician":"","oecprDesc":"临时医嘱","orcatDesc":"嘱托","ordDep":"内分泌科","ordID":"91||6","ordStatDesc":"撤销","ordTyp":"N","patIdentity":"全自费","patName":"王伟测试","phOrdQtyUnit":"1 ","phcfrCode":"","phcinDesc":"","placerNo":"","preparedFlag":"N","prescNo":"","price":"0.00","printFlag":"","reclocDesc":"内分泌科","regNo":"0000000129 ","seeOrderUserDateTime":"2018-09-12 10:45:09","seeOrderUserName":"护士01","seqNo":"91||6","skinTestInfo":"","skinTestNumber":"","specCollDateTime":"","specDesc":"","sttDate":"03-26","sttDateTime":"2018-03-26 09:33:29","sttTime":"09:33","totalAmount":"0.00","tubeColor":"","verifyFlag":"N","xCtcpDesc":"医生01","xDateTime":"2018-03-27 13:40:09"}]
@@ -577,6 +587,40 @@ public class ScanResultBean {
         private String tubeColor;
         private String xCtcpDesc;
         private String xDateTime;
+        private String exeStColor;
+        private String exeStatus;
+
+        public String getxCtcpDesc() {
+            return xCtcpDesc == null ? "" : xCtcpDesc;
+        }
+
+        public void setxCtcpDesc(String xCtcpDesc) {
+            this.xCtcpDesc = xCtcpDesc;
+        }
+
+        public String getxDateTime() {
+            return xDateTime == null ? "" : xDateTime;
+        }
+
+        public void setxDateTime(String xDateTime) {
+            this.xDateTime = xDateTime;
+        }
+
+        public String getExeStColor() {
+            return exeStColor == null ? "" : exeStColor;
+        }
+
+        public void setExeStColor(String exeStColor) {
+            this.exeStColor = exeStColor;
+        }
+
+        public String getExeStatus() {
+            return exeStatus == null ? "" : exeStatus;
+        }
+
+        public void setExeStatus(String exeStatus) {
+            this.exeStatus = exeStatus;
+        }
 
         public String getDspStat() {
             return DspStat;
