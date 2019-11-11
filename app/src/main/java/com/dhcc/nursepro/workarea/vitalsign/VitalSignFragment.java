@@ -596,15 +596,16 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                 .setWheelItemTextSelectorColor(getResources().getColor(R.color.colorPrimaryDark))
                 .setWheelItemTextSize(12)
                 .build();
-        mDialogAll.settype(1);
-        //取时间前两个字符转为int（02，06...）
 
-        List<String> timeList = new ArrayList();
-        for (int i = 0; i < timeFilterList.size(); i++) {
-            String str = (String) ((Map) timeFilterList.get(i)).get("time");
-            timeList.add(str);
-        }
-        mDialogAll.setmHourMinute(timeList);
+//        mDialogAll.settype(1);
+//        //取时间前两个字符转为int（02，06...）
+//
+//        List<String> timeList = new ArrayList();
+//        for (int i = 0; i < timeFilterList.size(); i++) {
+//            String str = (String) ((Map) timeFilterList.get(i)).get("time");
+//            timeList.add(str);
+//        }
+//        mDialogAll.setmHourMinute(timeList);
 
         mDialogAll.show(getFragmentManager(), "ALL");
 

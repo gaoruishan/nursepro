@@ -13,10 +13,7 @@ import java.util.HashMap;
  */
 public class AllotBedApiService {
 
-    public interface ServiceCallBack {
-        void onResult(String jsonStr);
-    }
-    public static void getAllotBedMsg(HashMap<String,String> map, String MethodName, final ServiceCallBack callback ){
+    public static void getAllotBedMsg(HashMap<String, String> map, String MethodName, final ServiceCallBack callback) {
 
         WebServiceUtils.callWebService(MethodName, map, new WebServiceUtils.WebServiceCallBack() {
             @Override
@@ -25,6 +22,36 @@ public class AllotBedApiService {
             }
         });
 
+    }
+
+    public static void isFirstToBed(String episodeId, final ServiceCallBack callBack) {
+
+        HashMap<String, String> properties = new HashMap<>();
+        properties.put("episodeID", episodeId);
+
+        WebServiceUtils.callWebService("isFirstToBed", properties, new WebServiceUtils.WebServiceCallBack() {
+            @Override
+            public void callBack(String result) {
+                callBack.onResult(result);
+            }
+        });
+    }
+
+    public static void firstBeHosTemData(String episodeId, final ServiceCallBack callBack) {
+
+        HashMap<String, String> properties = new HashMap<>();
+        properties.put("episodeId", episodeId);
+
+        WebServiceUtils.callWebService("firstBeHosTemData", properties, new WebServiceUtils.WebServiceCallBack() {
+            @Override
+            public void callBack(String result) {
+                callBack.onResult(result);
+            }
+        });
+    }
+
+    public interface ServiceCallBack {
+        void onResult(String jsonStr);
     }
 
 }

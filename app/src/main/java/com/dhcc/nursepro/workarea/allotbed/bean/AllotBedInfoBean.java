@@ -25,6 +25,11 @@ public class AllotBedInfoBean {
     private List<DoctorListBean> doctorList;
     private List<EmptyBedListBean> emptyBedList;
     private List<NurseListBean> nurseList;
+    /**
+     * set :
+     */
+
+    private String set;
 
     public String getMsg() {
         return msg;
@@ -72,6 +77,14 @@ public class AllotBedInfoBean {
 
     public void setNurseList(List<NurseListBean> nurseList) {
         this.nurseList = nurseList;
+    }
+
+    public String getSet() {
+        return set;
+    }
+
+    public void setSet(String set) {
+        this.set = set;
     }
 
     public static class DoctorListBean {

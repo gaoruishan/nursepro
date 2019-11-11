@@ -10,7 +10,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -208,15 +207,15 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
                 .setWheelItemTextSelectorColor(getResources().getColor(R.color.colorPrimaryDark))
                 .setWheelItemTextSize(12)
                 .build();
-        mDialogAll.settype(1);
-        //取时间前两个字符转为int（02，06...）
-
-        List<String> timeList = new ArrayList();
-        for (int i = 0; i < timeFilterList.size(); i++) {
-            String str = (String) ((Map) timeFilterList.get(i)).get("time");
-            timeList.add(str);
-        }
-        mDialogAll.setmHourMinute(timeList);
+//        mDialogAll.settype(1);
+//        //取时间前两个字符转为int（02，06...）
+//
+//        List<String> timeList = new ArrayList();
+//        for (int i = 0; i < timeFilterList.size(); i++) {
+//            String str = (String) ((Map) timeFilterList.get(i)).get("time");
+//            timeList.add(str);
+//        }
+//        mDialogAll.setmHourMinute(timeList);
 
         mDialogAll.show(getFragmentManager(), "ALL");
 
