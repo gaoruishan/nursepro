@@ -32,12 +32,12 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="@dimen/dp_1"
                 android:background="@color/blue_light"/>
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scrollbarSize="2dp"
+                android:scrollbarSize="@dimen/dp_2"
                 android:scrollbarThumbVertical="@color/blue">
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -67,7 +67,7 @@
                         android:id="@+id/fl_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="@dimen/dp_10"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
                         android:background="#F5FAFF">
@@ -115,7 +115,7 @@
 
             <Button
                 android:id="@+id/btn_no"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/dp_0"
                 android:layout_height="@dimen/dp_45"
                 android:layout_weight="1"
                 android:background="@null"
@@ -127,13 +127,13 @@
                 app:bl_corners_radius="@dimen/dp_6"
                 app:bl_solid_color="#FFFFFF"
                 app:bl_stroke_color="#62ABFF"
-                app:bl_stroke_width="1dp"
+                app:bl_stroke_width="@dimen/dp_1"
                 tools:ignore="MissingPrefix"/>
 
 
             <Button
                 android:id="@+id/btn_yes"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/dp_0"
                 android:layout_height="@dimen/dp_45"
                 android:layout_marginLeft="@dimen/dp_20"
                 android:layout_weight="1"

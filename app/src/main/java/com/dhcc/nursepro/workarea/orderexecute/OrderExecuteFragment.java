@@ -382,6 +382,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
         orderTypeAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                screenParts = "";
                 sheetCode = ((OrderExecuteBean.SheetListBean) adapter.getItem(position)).getCode();
                 presenter.setOrdTypeSelectedCode(sheetCode);
                 asyncInitData();

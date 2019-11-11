@@ -7,5 +7,5 @@
     android:background="#4a90e2"
     android:gravity="center"
     android:textColor="@color/white"
-    android:textSize="@dimen/sp_16"
+    android:textSize="@dimen/sp_15"
     tools:text="撤销执行" />

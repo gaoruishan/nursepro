@@ -48,15 +48,15 @@
                     android:orientation="vertical">
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
+                        android:layout_height="@dimen/dp_50"
                         android:orientation="horizontal"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp">
+                        android:layout_marginLeft="@dimen/dp_20"
+                        android:layout_marginRight="@dimen/dp_20">
 <!--                        android:background="@drawable/bg_skinresult_select"-->
 <!--                        android:textColor="@drawable/textcolor_blood_end_selector"-->
                         <com.noober.background.view.BLTextView
                             android:id="@+id/tv_skin_yin"
-                            android:layout_width="0dp"
+                            android:layout_width="@dimen/dp_0"
                             android:layout_weight="1"
                             android:layout_height="match_parent"
                             android:gravity="center"
@@ -72,7 +72,7 @@
                             />
                         <com.noober.background.view.BLTextView
                             android:id="@+id/tv_skin_yang"
-                            android:layout_width="0dp"
+                            android:layout_width="@dimen/dp_0"
                             android:layout_weight="1"
                             android:layout_height="match_parent"
                             android:gravity="center"
