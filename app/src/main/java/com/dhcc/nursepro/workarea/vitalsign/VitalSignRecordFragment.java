@@ -248,6 +248,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
             VitalSignRecordBean.TempListBean temp = recordInfo.getTempList().get(i);
             VitalSignRecordBean.TempConfigBean config = recordInfo.getTempConfig().get(i);
             String code = temp.getCode();
+            String defValue = temp.getValue();
             View view = viewItemMap.get(temp.getCode());
             String value = "";
 
@@ -278,8 +279,9 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
             HashMap<String, String> resItem = new HashMap<>();
             resItem.put("code", code);
             resItem.put("value", value);
-
-            resList.add(resItem);
+            if (!value.equals(defValue)){
+                resList.add(resItem);
+            }
         }
 
         Gson gson = new Gson();
