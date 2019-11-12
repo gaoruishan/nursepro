@@ -43,8 +43,44 @@ public class MessageSkinBean extends CommResult {
         private String PatSex;
         private String SkinResutl;
         private String TestStartTime;//
+        private String skinTestCtcpDesc;
+        private String skinTestDateTime;
+        private String skinTestAuditCtcpDesc;
+        private String skinTestAuditDateTime;
         private boolean select;
         private List<OeoreGroupBean> OeoreGroup;
+
+        public String getSkinTestCtcpDesc() {
+            return skinTestCtcpDesc == null ? "" : skinTestCtcpDesc;
+        }
+
+        public void setSkinTestCtcpDesc(String skinTestCtcpDesc) {
+            this.skinTestCtcpDesc = skinTestCtcpDesc;
+        }
+
+        public String getSkinTestDateTime() {
+            return skinTestDateTime == null ? "" : skinTestDateTime;
+        }
+
+        public void setSkinTestDateTime(String skinTestDateTime) {
+            this.skinTestDateTime = skinTestDateTime;
+        }
+
+        public String getSkinTestAuditCtcpDesc() {
+            return skinTestAuditCtcpDesc == null ? "" : skinTestAuditCtcpDesc;
+        }
+
+        public void setSkinTestAuditCtcpDesc(String skinTestAuditCtcpDesc) {
+            this.skinTestAuditCtcpDesc = skinTestAuditCtcpDesc;
+        }
+
+        public String getSkinTestAuditDateTime() {
+            return skinTestAuditDateTime == null ? "" : skinTestAuditDateTime;
+        }
+
+        public void setSkinTestAuditDateTime(String skinTestAuditDateTime) {
+            this.skinTestAuditDateTime = skinTestAuditDateTime;
+        }
 
         public boolean isSelect() {
             return select;

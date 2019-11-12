@@ -15,7 +15,6 @@
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/dp_15"
         android:paddingRight="@dimen/dp_15"
-        android:text="1002003004"
         android:textColor="#FF4A4A4A"
         android:textSize="@dimen/sp_13"
         tools:text="01床"/>
