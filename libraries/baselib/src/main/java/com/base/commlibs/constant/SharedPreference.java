@@ -70,4 +70,6 @@ public class SharedPreference {
     public static final String MSG_SKIN_FLAG = "MSG_SKIN_FLAG";
 
     public static final String LOG_FLAG = "LOG_FLAG";
+    //通知
+    public static final String MSG_NOTICE_FLAG = "MSG_NOTICE_FLAG";
 }

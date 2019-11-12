@@ -212,11 +212,18 @@ public class UserUtil {
     public static void setUserInfo(LoginBean loginBean) {
         List<LoginBean.LocsBean> locs = loginBean.getLocs();
         SPUtils.getInstance().put(SharedPreference.LOG_FLAG, loginBean.getLogFlag());
+        SPUtils.getInstance().put(SharedPreference.MSG_NOTICE_FLAG, loginBean.getMsgNoticeFlag());
         SPUtils.getInstance().put(SharedPreference.MSG_SKIN_FLAG, loginBean.getMsgSkinFlag());
         SPUtils.getInstance().put(SharedPreference.USERID, loginBean.getUserId());
         SPUtils.getInstance().put(SharedPreference.USERNAME, loginBean.getUserName());
         SPUtils.getInstance().put(SharedPreference.SCHSTDATETIME, loginBean.getSchStDateTime());
         SPUtils.getInstance().put(SharedPreference.SCHENDATETIME, loginBean.getSchEnDateTime());
     }
-
+    /**
+     * 是否开启log
+     * @return
+     */
+    public static boolean isMsgNoticeFlag() {
+        return !TextUtils.isEmpty(SPUtils.getInstance().getString(SharedPreference.MSG_NOTICE_FLAG));
+    }
 }

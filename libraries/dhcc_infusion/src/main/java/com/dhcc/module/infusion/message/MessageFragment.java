@@ -1,8 +1,6 @@
 package com.dhcc.module.infusion.message;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -35,9 +33,6 @@ import java.util.List;
  * 消息页面
  */
 public class MessageFragment extends BaseFragment implements CustomTabView.OnTabClickLisenter, BaseQuickAdapter.OnItemChildClickListener {
-    //登陆成功后所有的广播信息全部注销了，在此重新注册
-    protected BaseReceiver mReceiver;
-    protected IntentFilter mfilter;
     private RecyclerView[] recyclerViews;
     private MessageInfusionAdapter messageInfusionAdapter;
     private MessageSkinAdapter messageSkinAdapter;
@@ -45,7 +40,6 @@ public class MessageFragment extends BaseFragment implements CustomTabView.OnTab
     private RecyclerView rvMsgInfusion;
     private RecyclerView rvMsgSkin;
 
-    @SuppressLint("NewApi")
     @Override
     public void getScanMsg(Intent intent) {
         super.getScanMsg(intent);
@@ -75,7 +69,7 @@ public class MessageFragment extends BaseFragment implements CustomTabView.OnTab
                     if (bean.getPatRegNo().equals(scanInfo)) {
                         bean.setSelect(true);
                         rvMsgSkin.scrollToPosition(i);
-                        messageInfusionAdapter.notifyItemChanged(i);
+                        messageSkinAdapter.notifyItemChanged(i);
                     }
                 }
             }
@@ -142,17 +136,8 @@ public class MessageFragment extends BaseFragment implements CustomTabView.OnTab
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (hidden) {// 隐藏时,解除注册 onDestroy不再添加
-            if (mReceiver != null && getActivity() != null) {
-                getActivity().getApplicationContext().unregisterReceiver(mReceiver);
-            }
-        } else {
+        if (!hidden) {
             initData();
-            mfilter.addAction(Action.NEWMESSAGE_SERVICE);
-            mfilter.addAction(Action.DEVICE_SCAN_CODE);
-            if (mReceiver != null && getActivity() != null) {
-                getActivity().getApplicationContext().registerReceiver(mReceiver, mfilter);
-            }
         }
     }
 
@@ -162,8 +147,6 @@ public class MessageFragment extends BaseFragment implements CustomTabView.OnTab
         if (getActivity() == null) {
             return;
         }
-        mReceiver = new BaseReceiver();
-        mfilter = new IntentFilter();
         setStatusBarBackgroundViewVisibility(false, 0xffffffff);
         CustomTabView ctv = view.findViewById(R.id.ctv);
         ctv.setTabText(new String[]{"皮试", "输液"});
@@ -178,7 +161,8 @@ public class MessageFragment extends BaseFragment implements CustomTabView.OnTab
         messageInfusionAdapter.setOnItemChildClickListener(this);
         setSwitchRecycleView(0);
         initData();
-        getActivity().getApplicationContext().registerReceiver(mReceiver, mfilter);
+        //调用注册广播(虽然继承了baseFragment,但父类不是UniversalActivity)
+        onPreActivityCreate(null,null);
     }
 
     private void setSwitchRecycleView(int pst) {

@@ -10,6 +10,15 @@ public class SheetListBean implements Serializable {
 
     private String code;
     private String desc;
+    private boolean select;
+
+    public boolean isSelect() {
+        return select;
+    }
+
+    public void setSelect(boolean select) {
+        this.select = select;
+    }
 
     public String getCode() {
         return code == null ? "" : code;
@@ -25,5 +34,14 @@ public class SheetListBean implements Serializable {
 
     public void setDesc(String desc) {
         this.desc = desc;
+    }
+
+    @Override
+    public String toString() {
+        return "SheetListBean{" +
+                "code='" + code + '\'' +
+                ", desc='" + desc + '\'' +
+                ", select=" + select +
+                '}';
     }
 }

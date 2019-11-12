@@ -27,8 +27,18 @@ public class LoginBean extends CommResult {
     private String msgSkinFlag;
     //输出json: 默认是"" 不开启; "1" 开启
     private String logFlag;
+    //开启后台消息通知: 默认是"" 不开启; "1" 开启
+    private String msgNoticeFlag;
     private List<BroadcastListBean> broadcastList;
     private List<LocsBean> locs;
+
+    public String getMsgNoticeFlag() {
+        return msgNoticeFlag == null ? "" : msgNoticeFlag;
+    }
+
+    public void setMsgNoticeFlag(String msgNoticeFlag) {
+        this.msgNoticeFlag = msgNoticeFlag;
+    }
 
     public String getLogFlag() {
         return logFlag == null ? "" : logFlag;

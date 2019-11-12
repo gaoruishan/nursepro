@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -12,6 +13,7 @@ import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.BaseHelper;
+import com.base.commlibs.utils.SimpleCallBack;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.dhcc.module.infusion.R;
@@ -24,7 +26,9 @@ import com.dhcc.module.infusion.workarea.puncture.api.PunctureApiManager;
 import com.dhcc.res.infusion.CustomPatView;
 import com.dhcc.res.infusion.CustomSelectView;
 import com.dhcc.res.infusion.CustomSpeedView;
+import com.dhcc.res.infusion.bean.SheetListBean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.qqtheme.framework.picker.OptionPicker;
@@ -122,6 +126,16 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
                     helper.setVisible(R.id.ll_puncture_status, true);
                     csvSelect.setTitle("预计结束时间");
                     csvSelect.setSelectTime(PunctureFragment.this.getFragmentManager(), bean.getDistantDate(), bean.getDistantTime(), null);
+                    List<SheetListBean> listBeans = new ArrayList<>();
+                    listBeans.add(new SheetListBean());
+                    listBeans.add(new SheetListBean());
+                    listBeans.add(new SheetListBean());
+                    csvSpeed.setChannelList(listBeans, new SimpleCallBack<SheetListBean>() {
+                        @Override
+                        public void call(SheetListBean result, int type) {
+                            Log.e(TAG,"(PunctureFragment.java:133) "+result);
+                        }
+                    });
                 }
             }
         });

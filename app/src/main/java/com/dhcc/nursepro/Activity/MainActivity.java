@@ -35,6 +35,8 @@ import com.allenliu.versionchecklib.v2.callback.CustomVersionDialogListener;
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
+import com.blankj.utilcode.constant.PermissionConstants;
+import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.nursepro.Activity.update.BaseDialog;
 import com.dhcc.nursepro.Activity.update.api.UpdateApiManager;
@@ -104,7 +106,8 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         if (exitTime > 0) {
             startTimer();
         }
-
+        //请求SD卡权限
+        PermissionUtils.permission(PermissionConstants.STORAGE).request();
     }
 
     @Override
@@ -116,16 +119,18 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         if (notificationManager != null) {
             notificationManager.cancel(1);
         }
-
+        if (mainReceiver != null) {
+            unregisterReceiver(mainReceiver);
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         //后台 不接收消息
-        if (mainReceiver != null) {
-            unregisterReceiver(mainReceiver);
-        }
+//        if (mainReceiver != null) {
+//            unregisterReceiver(mainReceiver);
+//        }
     }
 
     @Override

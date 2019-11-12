@@ -36,6 +36,7 @@ import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.service.MServiceNewOrd;
+import com.base.commlibs.utils.UserUtil;
 import com.blankj.utilcode.constant.PermissionConstants;
 import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.SPUtils;
@@ -115,7 +116,7 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
     @Override
     protected void onPause() {
         super.onPause();
-        if (mainReceiver != null) {
+        if (mainReceiver != null&& !UserUtil.isMsgNoticeFlag()) {
             unregisterReceiver(mainReceiver);
         }
     }
@@ -397,7 +398,7 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         MessageApiManager.getNotifyMessage(new CommonCallBack<NotifyMessageBean>() {
             @Override
             public void onFail(String code, String msg) {
-                showToast("error" + code + ":" + msg);
+
             }
 
             @Override
