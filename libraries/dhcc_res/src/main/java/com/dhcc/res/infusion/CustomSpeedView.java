@@ -75,24 +75,17 @@ public class CustomSpeedView extends LinearLayout implements View.OnClickListene
         llChannel.setVisibility(GONE);
         if (list != null && list.size() > 0) {
             llChannel.setVisibility(VISIBLE);
-            list.get(0).setSelect(true);//默认第一个选中
+            //默认第一个选中
+            list.get(0).setSelect(true);
             RecyclerViewHelper.setGridRecyclerView(getContext(), rvList, 4, 0, false);
             final ChannelAdapter channelAdapter = new ChannelAdapter(list);
             rvList.setAdapter(channelAdapter);
-            channelAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                    for (int i = 0; i < list.size(); i++) {
-                        channelAdapter.getData().get(position).setSelect(i == position);
-                    }
-                    SheetListBean bean = channelAdapter.getData().get(position);
-                    selectChannel = bean.getDesc();
-                    channelAdapter.notifyDataSetChanged();
-                    if (callBack != null) {
-                        callBack.call(bean, 0);
-                    }
-                }
-            });
+//            channelAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+//                @Override
+//                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+//
+//                }
+//            });
         }
         return this;
     }
@@ -147,6 +140,18 @@ public class CustomSpeedView extends LinearLayout implements View.OnClickListene
         protected void convert(BaseViewHolder helper, SheetListBean item) {
             helper.getView(R.id.iv_icon).setSelected(item.isSelect());
             helper.setText(R.id.tv_name, item.getDesc());
+            final int position = helper.getAdapterPosition();
+            helper.getView(R.id.ll_item).setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    for (int i = 0; i < getData().size(); i++) {
+                        getData().get(i).setSelect(i == position);
+                    }
+                    SheetListBean bean = getData().get(position);
+                    selectChannel = bean.getDesc();
+                    notifyDataSetChanged();
+                }
+            });
         }
     }
 }

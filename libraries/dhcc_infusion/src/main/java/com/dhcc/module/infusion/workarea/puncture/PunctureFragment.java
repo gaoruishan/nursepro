@@ -24,7 +24,6 @@ import com.dhcc.module.infusion.workarea.puncture.api.PunctureApiManager;
 import com.dhcc.res.infusion.CustomPatView;
 import com.dhcc.res.infusion.CustomSelectView;
 import com.dhcc.res.infusion.CustomSpeedView;
-import com.dhcc.res.infusion.bean.SheetListBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -126,17 +125,17 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
                     helper.setVisible(R.id.ll_puncture_status, true);
                     csvSelect.setTitle("预计结束时间");
                     csvSelect.setSelectTime(PunctureFragment.this.getFragmentManager(), bean.getDistantDate(), bean.getDistantTime(), null);
-                    List<SheetListBean> listBeans = new ArrayList<>();
-                    SheetListBean sheetListBean = new SheetListBean();
-                    sheetListBean.setDesc("通道");
-                    SheetListBean sheetListBean1 = new SheetListBean();
-                    sheetListBean1.setDesc("通道1");
-                    SheetListBean sheetListBean2 = new SheetListBean();
-                    sheetListBean2.setDesc("通道2");
-                    listBeans.add(sheetListBean);
-                    listBeans.add(sheetListBean1);
-                    listBeans.add(sheetListBean2);
-                    csvSpeed.setChannelList(listBeans, null);
+//                    List<SheetListBean> listBeans = new ArrayList<>();
+//                    SheetListBean sheetListBean = new SheetListBean();
+//                    sheetListBean.setDesc("通道");
+//                    SheetListBean sheetListBean1 = new SheetListBean();
+//                    sheetListBean1.setDesc("通道1");
+//                    SheetListBean sheetListBean2 = new SheetListBean();
+//                    sheetListBean2.setDesc("通道2");
+//                    listBeans.add(sheetListBean);
+//                    listBeans.add(sheetListBean1);
+//                    listBeans.add(sheetListBean2);
+//                    csvSpeed.setChannelList(listBeans, null);
                 }
             }
         });
