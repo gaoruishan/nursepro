@@ -8,6 +8,7 @@ import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -51,7 +52,7 @@ public class CustomSelectView extends LinearLayout {
 
     public CustomSelectView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        view = View.inflate(context, R.layout.custom_select_view, null);
+        view = LayoutInflater.from(context).inflate(R.layout.custom_select_view,this,false);
         addView(view);
         setOrientation(VERTICAL);
         setBackgroundColor(ContextCompat.getColor(context, R.color.white));

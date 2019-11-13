@@ -30,11 +30,12 @@ import java.util.List;
 public class CustomSpeedView extends LinearLayout implements View.OnClickListener {
 
 
-    private LinearLayout view;
+    private View view;
     private LinearLayout llRemove, llAdd;
     private TextView tvSpeed;
     private View llChannel;
     private RecyclerView rvList;
+    private String selectChannel;
 
     public CustomSpeedView(Context context) {
         this(context, null);
@@ -46,7 +47,7 @@ public class CustomSpeedView extends LinearLayout implements View.OnClickListene
 
     public CustomSpeedView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        view = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.custom_speed_view, null);
+        view = LayoutInflater.from(context).inflate(R.layout.custom_speed_view, this, false);
         addView(view);
         setOrientation(VERTICAL);
         setBackgroundColor(ContextCompat.getColor(context, R.color.white));
@@ -70,18 +71,23 @@ public class CustomSpeedView extends LinearLayout implements View.OnClickListene
      * @param callBack
      * @return
      */
-    public CustomSpeedView setChannelList(List<SheetListBean> list, final SimpleCallBack<SheetListBean> callBack) {
-//        llChannel.setVisibility(GONE);
+    public CustomSpeedView setChannelList(final List<SheetListBean> list, final SimpleCallBack<SheetListBean> callBack) {
+        llChannel.setVisibility(GONE);
         if (list != null && list.size() > 0) {
             llChannel.setVisibility(VISIBLE);
+            list.get(0).setSelect(true);//默认第一个选中
             RecyclerViewHelper.setGridRecyclerView(getContext(), rvList, 4, 0, false);
-            ChannelAdapter channelAdapter = new ChannelAdapter(list);
+            final ChannelAdapter channelAdapter = new ChannelAdapter(list);
             rvList.setAdapter(channelAdapter);
-            channelAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            channelAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                 @Override
-                public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                    SheetListBean bean = (SheetListBean) adapter.getData().get(position);
-
+                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                    for (int i = 0; i < list.size(); i++) {
+                        channelAdapter.getData().get(position).setSelect(i == position);
+                    }
+                    SheetListBean bean = channelAdapter.getData().get(position);
+                    selectChannel = bean.getDesc();
+                    channelAdapter.notifyDataSetChanged();
                     if (callBack != null) {
                         callBack.call(bean, 0);
                     }
@@ -89,6 +95,10 @@ public class CustomSpeedView extends LinearLayout implements View.OnClickListene
             });
         }
         return this;
+    }
+
+    public String getSelectChannel() {
+        return selectChannel == null ? "" : selectChannel;
     }
 
     @Override
