@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:padding="@dimen/dp_10"
     android:orientation="vertical">
+
     <RelativeLayout
         android:gravity="center_vertical"
         android:layout_width="match_parent"
@@ -27,13 +28,19 @@
             android:layout_marginRight="@dimen/dp_50"
             android:textSize="@dimen/sp_12"
             android:paddingRight="@dimen/dp_5"
+            android:paddingTop="@dimen/dp_2"
+            android:paddingBottom="@dimen/dp_2"
             android:textColor="@color/white"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/dp_30"/>
+            android:layout_height="wrap_content"/>
     </RelativeLayout>
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <LinearLayout
         android:id="@+id/ll_info"
@@ -87,5 +94,14 @@
 
 
     </LinearLayout>
+
+    <View
+        android:id="@+id/line_oeporderinfo_multiorder"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_2"
+        android:layout_marginTop="@dimen/dp_5"
+        android:layout_marginBottom="@dimen/dp_3"
+        android:background="@drawable/dhcc_line_dash"
+        android:layerType="software" />
 
 </LinearLayout>
