@@ -8,7 +8,7 @@
 
     <!--扫码-->
     <com.dhcc.res.infusion.CustomScanView
-        android:id="@+id/csv_scan"
+        android:id="@+id/custom_scan"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
     />

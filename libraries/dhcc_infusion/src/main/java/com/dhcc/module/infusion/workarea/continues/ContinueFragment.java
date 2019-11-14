@@ -41,7 +41,7 @@ public class ContinueFragment extends BaseInfusionFragment implements View.OnCli
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setToolbarCenterTitle("续液");
-        csvScan = mContainerChild.findViewById(R.id.csv_scan);
+        csvScan = mContainerChild.findViewById(R.id.custom_scan);
         cpvPat = mContainerChild.findViewById(R.id.cpv_pat);
         csvSpeed = mContainerChild.findViewById(R.id.csv_speed);
         mContainerChild.findViewById(R.id.tv_ok).setOnClickListener(this);

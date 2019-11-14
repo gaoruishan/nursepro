@@ -77,7 +77,7 @@ public class DosingFragment extends BaseInfusionFragment implements View.OnClick
 
             @Override
             public void onSuccess(DosingBean bean, String type) {
-                mContainerChild.findViewById(R.id.csv).setVisibility(View.GONE);
+                mContainerChild.findViewById(R.id.custom_scan).setVisibility(View.GONE);
                 if (bean.getPatInfo() != null) {
                     cpvPat.setRegNo(bean.getPatInfo().getPatRegNo()).setPatName(bean.getPatInfo().getPatName())
                             .setAge(bean.getPatInfo().getPatAge()).setSeat(bean.getPatInfo().getPatSeat())

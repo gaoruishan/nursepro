@@ -57,7 +57,7 @@ public class PatrolFragment extends BaseInfusionFragment implements View.OnClick
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setToolbarCenterTitle("巡视");
-        csvScan = mContainerChild.findViewById(R.id.csv_scan);
+        csvScan = mContainerChild.findViewById(R.id.custom_scan);
         cpvPat = mContainerChild.findViewById(R.id.cpv_pat);
         csvSpeed = mContainerChild.findViewById(R.id.csv_speed);
         csvSelectTime = mContainerChild.findViewById(R.id.csv_select_time);

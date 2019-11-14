@@ -25,7 +25,7 @@
             android:text="需处理临嘱"
             android:gravity="center"
             android:paddingLeft="@dimen/dp_5"
-            android:layout_marginRight="@dimen/dp_50"
+            android:layout_marginRight="@dimen/dp_20"
             android:textSize="@dimen/sp_12"
             android:paddingRight="@dimen/dp_5"
             android:paddingTop="@dimen/dp_2"

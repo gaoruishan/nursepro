@@ -35,7 +35,7 @@ public class NeedlesFragment extends BaseInfusionFragment implements View.OnClic
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setToolbarCenterTitle("拔针");
-        csvScan = mContainerChild.findViewById(R.id.csv_scan);
+        csvScan = mContainerChild.findViewById(R.id.custom_scan);
         cpvPat = mContainerChild.findViewById(R.id.cpv_pat);
         mContainerChild.findViewById(R.id.tv_ok).setOnClickListener(this);
         csvScan.setTitle("请扫描瓶签/信息卡").setWarning("请您使用扫码设备，扫描药品瓶签/信息卡");

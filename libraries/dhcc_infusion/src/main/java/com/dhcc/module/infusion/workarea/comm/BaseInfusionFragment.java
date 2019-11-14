@@ -23,6 +23,7 @@ import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.utils.DialogFactory;
 import com.dhcc.module.infusion.utils.ViewGlobal;
 import com.dhcc.module.infusion.workarea.dosing.bean.OrdListBean;
+import com.dhcc.res.infusion.CustomScanView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +38,7 @@ public abstract class BaseInfusionFragment extends BaseFragment {
 
     protected static final String PROMPT_NO_ORD = "本次接单任务无此瓶贴,请核对!";
     protected String scanInfo;
+    protected String scanInfoTemp;
     protected Activity mContext;
     protected List<String> listId;
     protected BaseHelper helper;
@@ -54,6 +56,11 @@ public abstract class BaseInfusionFragment extends BaseFragment {
         helper = new BaseHelper(mContext);
         initViews();
         initDatas();
+        //容错
+        CustomScanView scanView = f(R.id.custom_scan, CustomScanView.class);
+        if (scanView != null) {
+            scanView.setVisibility(View.VISIBLE);
+        }
     }
 
     protected void initDatas() {
@@ -89,14 +96,14 @@ public abstract class BaseInfusionFragment extends BaseFragment {
         }
         //获取列表
         if (!TextUtils.isEmpty(scanInfo)) {
-            getOrdList();
+            getScanOrdList();
         }
     }
 
     /**
      * 获取信息列表
      */
-    protected void getOrdList() {
+    protected void getScanOrdList() {
 
     }
 
@@ -107,7 +114,7 @@ public abstract class BaseInfusionFragment extends BaseFragment {
     protected void refresh(CommResult bean) {
         onSuccessThings();
         DialogFactory.showCommDialog(getActivity(), bean.getMsg(), null, 0, null, true);
-        getOrdList();
+        getScanOrdList();
     }
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

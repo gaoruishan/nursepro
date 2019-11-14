@@ -43,6 +43,8 @@ public class CustomScanView extends LinearLayout {
         setGravity(Gravity.CENTER);
         setOrientation(VERTICAL);
         setBackgroundColor(ContextCompat.getColor(context,R.color.white));
+        //设置统一的id
+        setId(R.id.custom_scan);
     }
 
     @Override

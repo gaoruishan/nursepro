@@ -103,13 +103,13 @@ public class OrderExecuteFragment extends BaseInfusionFragment {
             @Override
             public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
                 getStartDateTime(TimeUtils.millis2String(millseconds));
-                getOrdList();
+                getScanOrdList();
             }
         }, new OnDateSetListener() {
             @Override
             public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
                 getEndDateTime(TimeUtils.millis2String(millseconds));
-                getOrdList();
+                getScanOrdList();
             }
         });
         getStartDateTime(spUtils.getString(SharedPreference.SCHSTDATETIME));
@@ -131,7 +131,7 @@ public class OrderExecuteFragment extends BaseInfusionFragment {
     }
 
     @Override
-    protected void getOrdList() {
+    protected void getScanOrdList() {
         OrderExecuteApiManager.getScanInfo("", scanInfo, new CommonCallBack<OrdScanInfoBean>() {
             @Override
             public void onFail(String code, String msg) {

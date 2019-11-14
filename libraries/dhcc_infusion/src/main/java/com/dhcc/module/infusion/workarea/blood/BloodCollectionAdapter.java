@@ -36,7 +36,7 @@ public class BloodCollectionAdapter extends BaseQuickAdapter<BloodCollectBean.Or
         TextView blTvStatus = helper.getView(R.id.bl_tv_status);
         String labColor = item.getLabColor();
         if(TextUtils.isEmpty(item.getLabColor())){
-            labColor = "#C9E2FF";
+            labColor = "#62ABFF";
         }
         Drawable drawable = new DrawableCreator.Builder()
                 .setSolidColor(Color.parseColor(labColor))

@@ -95,7 +95,7 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
                 punctureAdapter.replaceData(bean.getOrdList());
                 punctureAdapter.setCurrentScanInfo(scanInfo);
                 // 隐藏扫码页
-                helper.setVisible(R.id.csv, false);
+                helper.setVisible(R.id.custom_scan, false);
                 if (bean.getPatInfo() != null) {
                     cpvPat.setPatName(bean.getPatInfo().getPatName()).setRegNo(bean.getPatInfo().getPatRegNo())
                             .setAge(bean.getPatInfo().getPatAge()).setSeat(bean.getPatInfo().getPatSeat())

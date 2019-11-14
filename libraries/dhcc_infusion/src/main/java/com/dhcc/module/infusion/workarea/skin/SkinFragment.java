@@ -115,7 +115,7 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
     }
 
     @Override
-    protected void getOrdList() {
+    protected void getScanOrdList() {
         SkinApiManager.getSkinList(scanInfo, customDate.getStartDateTimeText(), customDate.getEndDateTimeText(), new CommonCallBack<SkinListBean>() {
             @Override
             public void onFail(String code, String msg) {
@@ -148,12 +148,12 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
                 .setOnDateSetListener(new OnDateSetListener() {
                     @Override
                     public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
-                        getOrdList();
+                        getScanOrdList();
                     }
                 }, new OnDateSetListener() {
                     @Override
                     public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
-                        getOrdList();
+                        getScanOrdList();
                     }
                 });
     }
