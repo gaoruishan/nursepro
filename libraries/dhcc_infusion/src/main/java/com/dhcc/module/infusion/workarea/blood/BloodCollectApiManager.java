@@ -13,7 +13,7 @@ import java.util.HashMap;
  * @date:202019-11-13/15:50
  * @email:grs0515@163.com
  */
-public class BloodCollectManager {
+public class BloodCollectApiManager {
     /**
      * 获取采血列表
      * @param regNo

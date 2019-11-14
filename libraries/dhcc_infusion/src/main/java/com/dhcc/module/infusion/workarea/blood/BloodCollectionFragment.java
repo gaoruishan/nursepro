@@ -89,7 +89,7 @@ public class BloodCollectionFragment extends BaseInfusionFragment {
     }
 
     private void exeLabOrd() {
-        BloodCollectManager.exeLabOrd(scanInfo, new CommonCallBack<CommResult>() {
+        BloodCollectApiManager.exeLabOrd(scanInfo, new CommonCallBack<CommResult>() {
             @Override
             public void onFail(String code, String msg) {
                 onFailThings();
@@ -106,7 +106,7 @@ public class BloodCollectionFragment extends BaseInfusionFragment {
 
     private void getLabOrdList() {
         exeFlag = customOnOff.isSelect() ? "0" : "1";
-        BloodCollectManager.getLabOrdList(scanInfo, customDate.getStartDateTimeText(), customDate.getEndDateTimeText(), exeFlag, new CommonCallBack<BloodCollectBean>() {
+        BloodCollectApiManager.getLabOrdList(scanInfo, customDate.getStartDateTimeText(), customDate.getEndDateTimeText(), exeFlag, new CommonCallBack<BloodCollectBean>() {
             @Override
             public void onFail(String code, String msg) {
                 onFailThings();
