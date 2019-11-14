@@ -9,6 +9,7 @@ import com.base.commlibs.utils.CommDialog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.message.api.MessageApiManager;
+import com.dhcc.module.infusion.utils.AdapterFactory;
 import com.dhcc.module.infusion.utils.DialogFactory;
 import com.dhcc.module.infusion.utils.RecyclerViewHelper;
 import com.dhcc.module.infusion.workarea.comm.BaseInfusionFragment;
@@ -45,7 +46,8 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
     protected void initDatas() {
         super.initDatas();
         setToolbarCenterTitle("皮试");
-        skinAdapter = new SkinAdapter(null);
+
+        skinAdapter = AdapterFactory.getSkinAdapter();
         skinAdapter.setOnItemChildClickListener(this);
         recyclerView.setAdapter(skinAdapter);
         bottomView.setNoSelectVisibility(skinAdapter.getSelectBean() == null);

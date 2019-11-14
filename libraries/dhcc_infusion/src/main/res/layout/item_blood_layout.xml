@@ -3,10 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/dp_10"
+    android:paddingRight="@dimen/dp_10"
+    android:paddingLeft="@dimen/dp_10"
+    android:layout_marginBottom="@dimen/dp_5"
+    android:layout_marginTop="@dimen/dp_5"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <LinearLayout
         android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -14,8 +17,8 @@
             android:id="@+id/tv_lab_no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/dp_8"
+            android:layout_weight="1"
             tools:text="1000003770 "
             android:textColor="#FF4A4A4A"
             android:textSize="@dimen/sp_16" />
@@ -31,11 +34,9 @@
             android:paddingTop="@dimen/dp_2"
             android:paddingBottom="@dimen/dp_2"
             android:textColor="@color/white"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-    </RelativeLayout>
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_item"

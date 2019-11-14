@@ -39,6 +39,9 @@ public abstract class BaseInfusionFragment extends BaseFragment {
     protected static final String PROMPT_NO_ORD = "本次接单任务无此瓶贴,请核对!";
     protected String scanInfo;
     protected String scanInfoTemp;
+    protected String episodeId = "";
+    //执行开关: 0 未执行; 1已执行
+    protected String exeFlag = "0";
     protected Activity mContext;
     protected List<String> listId;
     protected BaseHelper helper;
@@ -63,14 +66,6 @@ public abstract class BaseInfusionFragment extends BaseFragment {
         }
     }
 
-    protected void initDatas() {
-
-    }
-
-    protected void initViews() {
-
-    }
-
     private void setCommToolBar() {
         setStatusBarBackgroundViewVisibility(true, 0xffffffff);
         setToolbarBackground(new ColorDrawable(0xffffffff));
@@ -79,12 +74,20 @@ public abstract class BaseInfusionFragment extends BaseFragment {
         mContext.findViewById(R.id.toolbar_bottom_line).setBackgroundColor(ContextCompat.getColor(mContext, R.color.blue_dark2));
     }
 
-    protected void onFailThings() {
-        AppUtil.playSound(mContext, 0);
+    protected void initViews() {
+
     }
 
-    protected void onSuccessThings() {
-        AppUtil.playSound(mContext, R.raw.operate_success);
+    protected void initDatas() {
+
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        if (helper != null) {
+            helper.removeView();
+        }
     }
 
     @Override
@@ -107,6 +110,21 @@ public abstract class BaseInfusionFragment extends BaseFragment {
 
     }
 
+    @Override
+    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if (setLayout() != 0) {
+            return inflater.inflate(setLayout(), container, false);
+        }
+        return null;
+    }
+
+    /**
+     * 设置布局
+     * @return
+     */
+    protected abstract @LayoutRes
+    int setLayout();
+
     /**
      * 刷新
      * @param bean
@@ -116,28 +134,10 @@ public abstract class BaseInfusionFragment extends BaseFragment {
         DialogFactory.showCommDialog(getActivity(), bean.getMsg(), null, 0, null, true);
         getScanOrdList();
     }
-    @Override
-    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if (setLayout() != 0) {
-            return inflater.inflate(setLayout(), container, false);
-        }
-        return null;
-    }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        if (helper != null) {
-            helper.removeView();
-        }
+    protected void onSuccessThings() {
+        AppUtil.playSound(mContext, R.raw.operate_success);
     }
-
-    /**
-     * 设置布局
-     * @return
-     */
-    protected abstract @LayoutRes
-    int setLayout();
 
     /**
      * 校验列表中的OeoreId
@@ -183,6 +183,10 @@ public abstract class BaseInfusionFragment extends BaseFragment {
             tvOk.setVisibility(View.VISIBLE);
         }
         return false;
+    }
+
+    protected void onFailThings() {
+        AppUtil.playSound(mContext, 0);
     }
 
     /**

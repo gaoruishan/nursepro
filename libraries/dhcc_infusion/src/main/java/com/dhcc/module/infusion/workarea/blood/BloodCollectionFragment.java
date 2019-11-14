@@ -6,7 +6,9 @@ import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.SimpleCallBack;
 import com.dhcc.module.infusion.R;
+import com.dhcc.module.infusion.utils.AdapterFactory;
 import com.dhcc.module.infusion.utils.RecyclerViewHelper;
+import com.dhcc.module.infusion.workarea.blood.adapter.BaseBloodQuickAdapter;
 import com.dhcc.module.infusion.workarea.comm.BaseInfusionFragment;
 import com.dhcc.res.infusion.CustomDateTimeView;
 import com.dhcc.res.infusion.CustomOnOffView;
@@ -25,17 +27,16 @@ public class BloodCollectionFragment extends BaseInfusionFragment {
 
     private RecyclerView recyclerView;
     private CustomDateTimeView customDate;
-    private BloodCollectionAdapter collectionAdapter;
+    private BaseBloodQuickAdapter collectionAdapter;
     private CustomPatView customPat;
-    //执行开关: 0 未执行; 1已执行
-    private String exeFlag = "0";
     private CustomOnOffView customOnOff;
 
     @Override
     protected void initDatas() {
         super.initDatas();
         setToolbarCenterTitle("采血");
-        collectionAdapter = new BloodCollectionAdapter(null);
+
+        collectionAdapter = AdapterFactory.getBloodAdapter();
         recyclerView.setAdapter(collectionAdapter);
     }
 
@@ -75,6 +76,7 @@ public class BloodCollectionFragment extends BaseInfusionFragment {
     @Override
     protected void getScanOrdList() {
         super.getScanOrdList();
+
         //第一次扫码
         if (scanInfoTemp == null) {
             getLabOrdList();
@@ -115,7 +117,7 @@ public class BloodCollectionFragment extends BaseInfusionFragment {
             @Override
             public void onSuccess(BloodCollectBean bean, String type) {
                 helper.setVisible(R.id.custom_scan, false);
-                if (bean.getOrdList() != null && bean.getOrdList().size() > 0) {
+                if (bean.getOrdList() != null) {
                     scanInfoTemp = scanInfo;
                     collectionAdapter.setNewData(bean.getOrdList());
                 }

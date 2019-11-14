@@ -21,8 +21,9 @@ import java.util.List;
  */
 public class SkinAdapter extends BaseQuickAdapter<SkinListBean.OrdListBean, BaseViewHolder> {
 
-    public SkinAdapter(@Nullable List<SkinListBean.OrdListBean> data) {
-        super(R.layout.item_skin_list, data);
+
+    public SkinAdapter(int layoutResId, @Nullable List<SkinListBean.OrdListBean> data) {
+        super(layoutResId, data);
     }
 
     public SkinListBean.OrdListBean getSelectBean() {

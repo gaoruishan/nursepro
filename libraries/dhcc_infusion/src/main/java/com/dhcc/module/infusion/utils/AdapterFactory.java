@@ -4,11 +4,15 @@ import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.message.adapter.MessageInfusionAdapter;
 import com.dhcc.module.infusion.message.adapter.MessageSkinAdapter;
 import com.dhcc.module.infusion.setting.adapter.WorkStatisticsAdapter;
+import com.dhcc.module.infusion.workarea.blood.adapter.BaseBloodQuickAdapter;
+import com.dhcc.module.infusion.workarea.blood.adapter.BloodCollectionAdapter;
 import com.dhcc.module.infusion.workarea.comm.adapter.DetailLogAdapter;
 import com.dhcc.module.infusion.workarea.comm.adapter.PatInfoAdapter;
 import com.dhcc.module.infusion.workarea.dosing.adapter.CommDosingAdapter;
+import com.dhcc.module.infusion.workarea.inject.InjectAdapter;
 import com.dhcc.module.infusion.workarea.patrol.adapter.InfusionTourAdapter;
 import com.dhcc.module.infusion.workarea.patrol.adapter.PatrolOrdListAdapter;
+import com.dhcc.module.infusion.workarea.skin.adapter.SkinAdapter;
 
 /**
  * 管理适配器
@@ -24,6 +28,7 @@ public class AdapterFactory {
     public static PatrolOrdListAdapter getCommPatrolOrdList() {
         return new PatrolOrdListAdapter(R.layout.item_comm_patrol, null);
     }
+
     /**
      * 获取巡视情况
      * @return
@@ -31,6 +36,7 @@ public class AdapterFactory {
     public static InfusionTourAdapter getInfusionTour() {
         return new InfusionTourAdapter(R.layout.item_infusion_tour, null);
     }
+
     /**
      * 流程列表
      * @return
@@ -38,6 +44,7 @@ public class AdapterFactory {
     public static DetailLogAdapter getDetailLogAdapter() {
         return new DetailLogAdapter(R.layout.item_ord_detail_log, null);
     }
+
     /**
      * 配液列表 /穿刺列表 /续液列表
      * @return
@@ -78,4 +85,26 @@ public class AdapterFactory {
         return new WorkStatisticsAdapter(R.layout.item_work_statistics, null);
     }
 
+    /**
+     * 皮试
+     * @return
+     */
+    public static SkinAdapter getSkinAdapter() {
+        return new SkinAdapter(R.layout.item_skin_list, null);
+    }
+
+    /**
+     * 采血
+     * @return
+     */
+    public static BaseBloodQuickAdapter getBloodAdapter() {
+        return new BloodCollectionAdapter(R.layout.item_blood_layout, null);
+    }
+    /**
+     * 注射
+     * @return
+     */
+    public static BaseBloodQuickAdapter getInjectAdapter() {
+        return new InjectAdapter(R.layout.item_blood_layout, null);
+    }
 }
