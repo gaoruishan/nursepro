@@ -1,19 +1,23 @@
 package com.dhcc.module.infusion.workarea.blood;
 
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.SimpleCallBack;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.utils.AdapterFactory;
+import com.dhcc.module.infusion.utils.DialogFactory;
 import com.dhcc.module.infusion.utils.RecyclerViewHelper;
 import com.dhcc.module.infusion.workarea.blood.adapter.BaseBloodQuickAdapter;
+import com.dhcc.module.infusion.workarea.blood.bean.BloodCollectBean;
 import com.dhcc.module.infusion.workarea.comm.BaseInfusionFragment;
+import com.dhcc.module.infusion.workarea.comm.bean.ScanInfoBean;
+import com.dhcc.module.infusion.workarea.inject.InjectApiManager;
 import com.dhcc.res.infusion.CustomDateTimeView;
 import com.dhcc.res.infusion.CustomOnOffView;
 import com.dhcc.res.infusion.CustomPatView;
-import com.dhcc.res.infusion.CustomScanView;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 
@@ -32,16 +36,6 @@ public class BloodCollectionFragment extends BaseInfusionFragment {
     private CustomOnOffView customOnOff;
 
     @Override
-    protected void initDatas() {
-        super.initDatas();
-        setToolbarCenterTitle("采血");
-
-        collectionAdapter = AdapterFactory.getBloodAdapter();
-        recyclerView.setAdapter(collectionAdapter);
-    }
-
-
-    @Override
     protected void initViews() {
         super.initViews();
         recyclerView = RecyclerViewHelper.get(mContext, R.id.rv_list);
@@ -55,8 +49,7 @@ public class BloodCollectionFragment extends BaseInfusionFragment {
                         getLabOrdList();
                     }
                 });
-        f(R.id.custom_scan, CustomScanView.class).setTitle("请扫描腕带")
-                .setWarning("请您使用扫码设备，扫描病人腕带");
+        showScanPatHand();
         customDate.setEndDateTime(System.currentTimeMillis())
                 .setStartDateTime(System.currentTimeMillis())
                 .setOnDateSetListener(new OnDateSetListener() {
@@ -74,15 +67,45 @@ public class BloodCollectionFragment extends BaseInfusionFragment {
     }
 
     @Override
+    protected void initDatas() {
+        super.initDatas();
+
+        collectionAdapter = AdapterFactory.getBloodAdapter();
+        recyclerView.setAdapter(collectionAdapter);
+    }
+
+    @Override
     protected void getScanOrdList() {
         super.getScanOrdList();
+        InjectApiManager.getScanInfo(regNo, scanInfo, new CommonCallBack<ScanInfoBean>() {
+            @Override
+            public void onFail(String code, String msg) {
+                onFailThings();
+            }
 
-        //第一次扫码
-        if (scanInfoTemp == null) {
-            getLabOrdList();
-        } else {
-            exeLabOrd();
-        }
+            @Override
+            public void onSuccess(ScanInfoBean bean, String type) {
+                //PAT 扫腕带返回患者信息
+                if ("PAT".equals(bean.getFlag())) {
+                    regNo = scanInfo;
+                    getLabOrdList();
+                }
+                //ORD 扫医嘱条码返回医嘱信息
+                if ("ORD".equals(bean.getFlag())) {
+                    //弹框
+                    if ("1".equals(bean.getDiagFlag())) {
+                        DialogFactory.showPatInfo(mContext, bean, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                exeLabOrd();
+                            }
+                        });
+                    } else {
+                        exeLabOrd();
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -90,7 +113,7 @@ public class BloodCollectionFragment extends BaseInfusionFragment {
         return R.layout.fragment_blood_collection;
     }
 
-    private void exeLabOrd() {
+    protected void exeLabOrd() {
         BloodCollectApiManager.exeLabOrd(scanInfo, new CommonCallBack<CommResult>() {
             @Override
             public void onFail(String code, String msg) {
@@ -100,15 +123,15 @@ public class BloodCollectionFragment extends BaseInfusionFragment {
             @Override
             public void onSuccess(CommResult bean, String type) {
                 onSuccessThings();
-                scanInfoTemp = null;
-                refresh(bean);
+                DialogFactory.showCommDialog(getActivity(), bean.getMsg(), null, 0, null, true);
+                getLabOrdList();
             }
         });
     }
 
-    private void getLabOrdList() {
+    protected void getLabOrdList() {
         exeFlag = customOnOff.isSelect() ? "0" : "1";
-        BloodCollectApiManager.getLabOrdList(scanInfo, customDate.getStartDateTimeText(), customDate.getEndDateTimeText(), exeFlag, new CommonCallBack<BloodCollectBean>() {
+        BloodCollectApiManager.getLabOrdList(regNo, customDate.getStartDateTimeText(), customDate.getEndDateTimeText(), exeFlag, new CommonCallBack<BloodCollectBean>() {
             @Override
             public void onFail(String code, String msg) {
                 onFailThings();
@@ -118,13 +141,9 @@ public class BloodCollectionFragment extends BaseInfusionFragment {
             public void onSuccess(BloodCollectBean bean, String type) {
                 helper.setVisible(R.id.custom_scan, false);
                 if (bean.getOrdList() != null) {
-                    scanInfoTemp = scanInfo;
                     collectionAdapter.setNewData(bean.getOrdList());
                 }
-                if (bean.getPatInfo() != null) {
-                    customPat.setAge(bean.getPatInfo().getPatAge()).setPatName(bean.getPatInfo().getPatName())
-                            .setRegNo(bean.getPatInfo().getPatRegNo()).setPatSex(bean.getPatInfo().getPatSex());
-                }
+                setCustomPatViewData(customPat, bean.getPatInfo());
             }
         });
     }

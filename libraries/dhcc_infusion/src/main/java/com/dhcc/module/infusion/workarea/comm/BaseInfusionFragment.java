@@ -15,15 +15,21 @@ import android.view.ViewGroup;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
+import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.utils.AppUtil;
 import com.base.commlibs.utils.BaseHelper;
+import com.base.commlibs.utils.DataCache;
 import com.blankj.utilcode.util.ToastUtils;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.utils.DialogFactory;
 import com.dhcc.module.infusion.utils.ViewGlobal;
+import com.dhcc.module.infusion.workarea.comm.bean.MainConfigBean;
+import com.dhcc.module.infusion.workarea.comm.bean.PatInfoBean;
 import com.dhcc.module.infusion.workarea.dosing.bean.OrdListBean;
+import com.dhcc.res.infusion.CustomPatView;
 import com.dhcc.res.infusion.CustomScanView;
+import com.dhcc.res.nurse.bean.ConfigBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,10 +42,16 @@ import java.util.List;
  */
 public abstract class BaseInfusionFragment extends BaseFragment {
 
+    public static final String SCAN_HAND = "请扫描腕带";
+    public static final String SCAN_PAT_HAND = "请您使用扫码设备，扫描病人腕带";
+    public static final String SCAN_LABEL = "请扫描瓶贴";
+    public static final String SCAN_DRUG_LABEL = "请您使用扫码设备，扫描药品瓶签";
     protected static final String PROMPT_NO_ORD = "本次接单任务无此瓶贴,请核对!";
+
     protected String scanInfo;
     protected String scanInfoTemp;
     protected String episodeId = "";
+    protected String regNo = "";
     //执行开关: 0 未执行; 1已执行
     protected String exeFlag = "0";
     protected Activity mContext;
@@ -64,6 +76,8 @@ public abstract class BaseInfusionFragment extends BaseFragment {
         if (scanView != null) {
             scanView.setVisibility(View.VISIBLE);
         }
+        //加载配置
+        initConfig();
     }
 
     private void setCommToolBar() {
@@ -82,6 +96,19 @@ public abstract class BaseInfusionFragment extends BaseFragment {
 
     }
 
+    private void initConfig() {
+        MainConfigBean json = DataCache.getJson(MainConfigBean.class, SharedPreference.DATA_MAIN_CONFIG);
+        if (json != null) {// 设置fragment标题名
+            String curClass = this.getClass().getSimpleName();
+            for (ConfigBean configBean : json.getMainList()) {
+                if (configBean.getFragment().contains(curClass)) {
+                    setToolbarCenterTitle(configBean.getName());
+                    break;
+                }
+            }
+        }
+    }
+
     @Override
     public void onDetach() {
         super.onDetach();
@@ -90,15 +117,55 @@ public abstract class BaseInfusionFragment extends BaseFragment {
         }
     }
 
+    /**
+     * 设置病人标签
+     * @param customPat
+     * @param bean
+     */
+    protected void setCustomPatViewData(CustomPatView customPat, PatInfoBean bean) {
+        if (bean != null && customPat != null) {
+            customPat.setRegNo(bean.getPatRegNo()).setPatName(bean.getPatName())
+                    .setAge(bean.getPatAge()).setSeat(bean.getPatSeat()).setPatSex(bean.getPatSex());
+        }
+    }
+
+    /**
+     * 显示瓶贴Scan界面
+     */
+    protected void showScanLabel() {
+        CustomScanView scanView = f(R.id.custom_scan, CustomScanView.class);
+        if (scanView != null) {
+            scanView.setTitle(SCAN_LABEL).setWarning(SCAN_DRUG_LABEL);
+        }
+    }
+
+    /**
+     * 显示腕带Scan界面
+     */
+    protected void showScanPatHand() {
+        CustomScanView scanView = f(R.id.custom_scan, CustomScanView.class);
+        if (scanView != null) {
+            scanView.setTitle(SCAN_HAND).setWarning(SCAN_PAT_HAND);
+        }
+    }
+
+    /**
+     * 隐藏Scan界面
+     */
+    protected void hideScanView() {
+        helper.setVisible(R.id.custom_scan, false);
+    }
+
     @Override
     public void getScanMsg(Intent intent) {
         super.getScanMsg(intent);
-        scanInfo = doScanInfo(intent);
+        String scanInfo = doScanInfo(intent);
         if (scanInfo != null && scanInfo.contains("-")) {
             scanInfo = scanInfo.replaceAll("-", "\\|\\|");
         }
         //获取列表
         if (!TextUtils.isEmpty(scanInfo)) {
+            this.scanInfo = scanInfo;
             getScanOrdList();
         }
     }
@@ -126,17 +193,24 @@ public abstract class BaseInfusionFragment extends BaseFragment {
     int setLayout();
 
     /**
-     * 刷新
+     * 刷新-扫码调用一次接口
      * @param bean
      */
     protected void refresh(CommResult bean) {
         onSuccessThings();
-        DialogFactory.showCommDialog(getActivity(), bean.getMsg(), null, 0, null, true);
+        showToast(bean.getMsg());
         getScanOrdList();
     }
 
-    protected void onSuccessThings() {
+    protected void onSuccessThings(CommResult... bean) {
         AppUtil.playSound(mContext, R.raw.operate_success);
+        if (bean != null && bean.length > 0) {
+            showToast(bean[0].getMsg());
+        }
+    }
+
+    protected void showToast(String msg) {
+        DialogFactory.showCommDialog(getActivity(), msg, null, 0, null, true);
     }
 
     /**

@@ -43,7 +43,6 @@ public class DosingFragment extends BaseInfusionFragment implements View.OnClick
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setToolbarCenterTitle("配液");
 //        addPatListToToolbarRight();
         tvOk = f(R.id.tv_ok);
         cpvPat = mContainerChild.findViewById(R.id.cpv_pat);
@@ -78,11 +77,7 @@ public class DosingFragment extends BaseInfusionFragment implements View.OnClick
             @Override
             public void onSuccess(DosingBean bean, String type) {
                 mContainerChild.findViewById(R.id.custom_scan).setVisibility(View.GONE);
-                if (bean.getPatInfo() != null) {
-                    cpvPat.setRegNo(bean.getPatInfo().getPatRegNo()).setPatName(bean.getPatInfo().getPatName())
-                            .setAge(bean.getPatInfo().getPatAge()).setSeat(bean.getPatInfo().getPatSeat())
-                            .setImgSexResource(CustomPatView.getPatSexDrawable(bean.getPatInfo().getPatSex()));
-                }
+                setCustomPatViewData(cpvPat,bean.getPatInfo());
 //                tvOk.setVisibility(View.VISIBLE);
                 commDosingAdapter.replaceData(bean.getOrdList());
                 // 当前

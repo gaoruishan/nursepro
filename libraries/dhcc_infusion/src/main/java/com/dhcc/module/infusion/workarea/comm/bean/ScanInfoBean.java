@@ -23,8 +23,8 @@ public class ScanInfoBean extends CommResult {
     private String canExeFlag;
     private String diagFlag;
     private String flag;
-    private ScanPatInfoBean patInfo;
-    private List<OrdersBean> orders;
+    private PatInfoBean patInfo;
+    private List<PatOrdersBean> orders;
 
     public String getCanExeFlag() {
         return canExeFlag;
@@ -50,23 +50,21 @@ public class ScanInfoBean extends CommResult {
         this.flag = flag;
     }
 
-    public ScanPatInfoBean getPatInfo() {
+    public PatInfoBean getPatInfo() {
         return patInfo;
     }
 
-    public void setPatInfo(ScanPatInfoBean patInfo) {
+    public void setPatInfo(PatInfoBean patInfo) {
         this.patInfo = patInfo;
     }
 
-    public List<OrdersBean> getOrders() {
+    public List<PatOrdersBean> getOrders() {
         return orders;
     }
 
-    public void setOrders(List<OrdersBean> orders) {
+    public void setOrders(List<PatOrdersBean> orders) {
         this.orders = orders;
     }
 
 
-    public static class OrdersBean {
-    }
 }

@@ -36,6 +36,9 @@ public class RecyclerViewHelper {
     public static void setDefaultRecyclerView(Context mContext, RecyclerView recyclerView, @DrawableRes int id) {
         setDefaultRecyclerView(mContext, recyclerView, id, LinearLayoutManager.VERTICAL);
     }
+    public static void setDefaultRecyclerView(Context mContext, RecyclerView recyclerView) {
+        setDefaultRecyclerView(mContext, recyclerView, 0, LinearLayoutManager.VERTICAL);
+    }
     public static void setDefaultRecyclerView2(Context mContext, RecyclerView recyclerView, @DrawableRes int id) {
         LinearLayoutManager linearLayoutManager = setCommDefaultOpthions(mContext, recyclerView, id, LinearLayoutManager.VERTICAL);
         setRecyclerScrollListener(recyclerView,linearLayoutManager);

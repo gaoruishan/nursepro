@@ -14,7 +14,6 @@ import com.dhcc.module.infusion.workarea.comm.bean.ScanInfoBean;
 import com.dhcc.res.infusion.CustomDateTimeView;
 import com.dhcc.res.infusion.CustomOnOffView;
 import com.dhcc.res.infusion.CustomPatView;
-import com.dhcc.res.infusion.CustomScanView;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 
@@ -26,11 +25,11 @@ import com.jzxiang.pickerview.listener.OnDateSetListener;
  */
 public class InjectFragment extends BaseInfusionFragment {
 
-    private RecyclerView recyclerView;
-    private CustomDateTimeView customDate;
-    private CustomPatView customPat;
-    private CustomOnOffView customOnOff;
-    private BaseBloodQuickAdapter injectAdapter;
+    protected RecyclerView recyclerView;
+    protected CustomDateTimeView customDate;
+    protected CustomPatView customPat;
+    protected CustomOnOffView customOnOff;
+    protected BaseBloodQuickAdapter injectAdapter;
 
     @Override
     protected void initViews() {
@@ -46,8 +45,7 @@ public class InjectFragment extends BaseInfusionFragment {
                         getInjectOrdList();
                     }
                 });
-        f(R.id.custom_scan, CustomScanView.class).setTitle("请扫描腕带")
-                .setWarning("请您使用扫码设备，扫描病人腕带");
+        showScanPatHand();
         customDate.setEndDateTime(System.currentTimeMillis())
                 .setStartDateTime(System.currentTimeMillis())
                 .setOnDateSetListener(new OnDateSetListener() {
@@ -63,10 +61,10 @@ public class InjectFragment extends BaseInfusionFragment {
                 });
     }
 
+
     @Override
     protected void initDatas() {
         super.initDatas();
-        setToolbarCenterTitle("注射");
 
         injectAdapter = AdapterFactory.getInjectAdapter();
         recyclerView.setAdapter(injectAdapter);
@@ -75,7 +73,7 @@ public class InjectFragment extends BaseInfusionFragment {
     @Override
     protected void getScanOrdList() {
         super.getScanOrdList();
-        InjectApiManager.getScanInfo(episodeId, scanInfo, exeFlag, new CommonCallBack<ScanInfoBean>() {
+        InjectApiManager.getScanInfo(regNo, scanInfo, new CommonCallBack<ScanInfoBean>() {
             @Override
             public void onFail(String code, String msg) {
                 onFailThings();
@@ -85,18 +83,13 @@ public class InjectFragment extends BaseInfusionFragment {
             public void onSuccess(ScanInfoBean bean, String type) {
                 //PAT 扫腕带返回患者信息
                 if ("PAT".equals(bean.getFlag())) {
+                    regNo = scanInfo;
                     getInjectOrdList();
                 }
                 //ORD 扫医嘱条码返回医嘱信息
                 if ("ORD".equals(bean.getFlag())) {
                     exeInjectOrd();
                 }
-                //第一次扫码
-//                if (scanInfoTemp == null) {
-//                    getInjectOrdList();
-//                } else {
-//                    exeInjectOrd();
-//                }
             }
         });
     }
@@ -111,7 +104,7 @@ public class InjectFragment extends BaseInfusionFragment {
             @Override
             public void onSuccess(CommResult bean, String type) {
                 scanInfo = scanInfoTemp;
-                refresh(bean);
+                getInjectOrdList();
                 scanInfoTemp = null;
             }
         });
@@ -122,9 +115,9 @@ public class InjectFragment extends BaseInfusionFragment {
         return R.layout.fragment_inject;
     }
 
-    private void getInjectOrdList() {
+    protected void getInjectOrdList() {
         exeFlag = customOnOff.isSelect() ? "0" : "1";
-        InjectApiManager.getInjectOrdList(scanInfo, customDate.getStartDateTimeText(), customDate.getEndDateTimeText(), exeFlag, new CommonCallBack<InjectListBean>() {
+        InjectApiManager.getInjectOrdList(scanInfo, customDate.getStartDateTimeText(), customDate.getEndDateTimeText(), exeFlag,"", new CommonCallBack<InjectListBean>() {
             @Override
             public void onFail(String code, String msg) {
                 onFailThings();
@@ -137,10 +130,7 @@ public class InjectFragment extends BaseInfusionFragment {
                     scanInfoTemp = scanInfo;
                     injectAdapter.setNewData(bean.getOrdList());
                 }
-                if (bean.getPatInfo() != null) {
-                    customPat.setAge(bean.getPatInfo().getPatAge()).setPatName(bean.getPatInfo().getPatName())
-                            .setRegNo(bean.getPatInfo().getPatRegNo()).setPatSex(bean.getPatInfo().getPatSex());
-                }
+                setCustomPatViewData(customPat,bean.getPatInfo());
             }
         });
     }

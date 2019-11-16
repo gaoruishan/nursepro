@@ -1,8 +1,10 @@
 package com.dhcc.module.infusion.utils;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,9 @@ import com.base.commlibs.utils.CommDialog;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.dhcc.module.infusion.R;
+import com.dhcc.module.infusion.workarea.blood.adapter.PatInfoDialogAdapter;
+import com.dhcc.module.infusion.workarea.comm.bean.PatOrdersBean;
+import com.dhcc.module.infusion.workarea.comm.bean.ScanInfoBean;
 import com.nex3z.flowlayout.FlowLayout;
 
 
@@ -49,13 +54,14 @@ public class DialogFactory extends CommDialog {
         showCenterWindow(dialog, view);
         return dialog;
     }
+
     /**
      * 皮试计时
      * @param context
      * @param okClick
      */
     public static void showCountTime(Context context, final CommClickListener okClick) {
-        String[] arr = {"15分钟", "20分钟","30分钟" ,"45分钟", "1小时", "1.5小时", "2小时","3小时"};
+        String[] arr = {"15分钟", "20分钟", "30分钟", "45分钟", "1小时", "1.5小时", "2小时", "3小时"};
         final TextView[] tvArr = new TextView[arr.length];
         final Dialog dialog = new Dialog(context, R.style.MyDialog);
         dialog.setCanceledOnTouchOutside(true);
@@ -92,11 +98,11 @@ public class DialogFactory extends CommDialog {
                     String txt = null;
                     for (TextView view1 : tvArr) {
                         if (view1.isSelected()) {
-                            txt= view1.getText().toString();
+                            txt = view1.getText().toString();
                             break;
                         }
                     }
-                    okClick.data(new Object[]{txt,s});
+                    okClick.data(new Object[]{txt, s});
                 } else {
                     ToastUtils.showShort("请输入批号");
                 }
@@ -156,23 +162,23 @@ public class DialogFactory extends CommDialog {
         dialog.setCanceledOnTouchOutside(true);
         final View view = LayoutInflater.from(context).inflate(R.layout.show_skin_dialog_layout, null);
         setText(title, view, R.id.tv_title);
-       final View tvSkinYin = view.findViewById(R.id.tv_skin_yin);
-       final View tvSkinYang = view.findViewById(R.id.tv_skin_yang);
-       tvSkinYin.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               tvSkinYin.setSelected(true);
-               tvSkinYang.setSelected(false);
-           }
-       });
-       tvSkinYang.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               tvSkinYang.setSelected(true);
-               tvSkinYin.setSelected(false);
-           }
-       });
-       View llAudit = view.findViewById(R.id.ll_audit);
+        final View tvSkinYin = view.findViewById(R.id.tv_skin_yin);
+        final View tvSkinYang = view.findViewById(R.id.tv_skin_yang);
+        tvSkinYin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tvSkinYin.setSelected(true);
+                tvSkinYang.setSelected(false);
+            }
+        });
+        tvSkinYang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tvSkinYang.setSelected(true);
+                tvSkinYin.setSelected(false);
+            }
+        });
+        View llAudit = view.findViewById(R.id.ll_audit);
         //配置布局
         final boolean msgSkinFlag = !TextUtils.isEmpty(SPUtils.getInstance().getString(SharedPreference.MSG_SKIN_FLAG));
         llAudit.setVisibility(msgSkinFlag ? View.VISIBLE : View.GONE);
@@ -192,15 +198,15 @@ public class DialogFactory extends CommDialog {
                 }
                 // 阳性:Y/+ 阴性:N/-
                 String testSkin = tvSkinYin.isSelected() ? "N" : "";
-                if(TextUtils.isEmpty(testSkin)){
-                     testSkin = tvSkinYang.isSelected() ? "Y" : "";
+                if (TextUtils.isEmpty(testSkin)) {
+                    testSkin = tvSkinYang.isSelected() ? "Y" : "";
                 }
-                if(TextUtils.isEmpty(testSkin)){
+                if (TextUtils.isEmpty(testSkin)) {
                     ToastUtils.showShort("请选择皮试结果");
-                	return;
+                    return;
                 }
                 if (okClick != null) {
-                    okClick.data(new Object[]{user, pwd,testSkin});
+                    okClick.data(new Object[]{user, pwd, testSkin});
                     dialog.cancel();
                 }
             }
@@ -210,6 +216,42 @@ public class DialogFactory extends CommDialog {
         return dialog;
     }
 
-
-
+    /**
+     * 显示病人信息
+     * @param context
+     * @param bean
+     * @param okClick
+     * @return
+     */
+    public static Dialog showPatInfo(Activity context, ScanInfoBean bean, @Nullable View.OnClickListener okClick) {
+        if (bean == null || bean.getOrders() == null
+                || bean.getOrders().size() == 0) {
+            return null;
+        }
+        final Dialog dialog = new Dialog(context, R.style.MyDialog);
+        dialog.setCanceledOnTouchOutside(false);
+        View view = LayoutInflater.from(context).inflate(R.layout.dialog_pat_info_layout, null);
+        setVisible(view, R.id.ll_msg, !TextUtils.isEmpty(bean.getMsg()));
+        setText(bean.getMsg(), view, R.id.tv_popup_msg);
+        PatOrdersBean ordersBean = bean.getOrders().get(0);
+        setText(ordersBean.getSttDateTime() + " " + ordersBean.getPhcinDesc() + " " + ordersBean.getCtcpDesc() + ""
+                , view, R.id.tv_popup_extra);
+        String patInfo = "".equals(ordersBean.getBedCode()) ?
+                "未分床-" + ordersBean.getPatName() + "-" + ordersBean.getAge()
+                : ordersBean.getBedCode().replace("床", "") + "床-" + ordersBean.getPatName() + "-" + ordersBean.getAge();
+        setText(patInfo,view,R.id.tv_pat_info);
+        setCommButtonClick("", null, dialog, view, R.id.tv_popup_cancel);
+        setCommButtonClick("", okClick, dialog, view, R.id.tv_popup_ok);
+        //canExeFlag 0 不能 1 能
+        if (!"1".equals(bean.getCanExeFlag())) {
+            getView(view, R.id.tv_popup_ok).setEnabled(false);
+            getView(view, R.id.tv_popup_ok).setClickable(false);
+            getView(view, R.id.tv_popup_ok).setBackgroundResource(R.drawable.dhcc_bg_dialog_cancel);
+        }
+        RecyclerView recyclerView = (RecyclerView) getView(view, R.id.rv_popup_child_info);
+        RecyclerViewHelper.setDefaultRecyclerView(context, recyclerView);
+        recyclerView.setAdapter(new PatInfoDialogAdapter(bean.getOrders()));
+        showCenterWindow(dialog, view);
+        return dialog;
+    }
 }

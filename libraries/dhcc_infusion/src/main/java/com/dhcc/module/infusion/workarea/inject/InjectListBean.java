@@ -1,7 +1,7 @@
 package com.dhcc.module.infusion.workarea.inject;
 
 import com.base.commlibs.http.CommResult;
-import com.dhcc.module.infusion.workarea.blood.BloodOrdListBean;
+import com.dhcc.module.infusion.workarea.blood.bean.BloodOrdListBean;
 import com.dhcc.module.infusion.workarea.comm.bean.PatInfoBean;
 
 import java.util.List;
@@ -19,10 +19,38 @@ public class InjectListBean extends CommResult {
      */
 
     private PatInfoBean patInfo;
+    private String curOeoreId;
+    //按钮类型/描述
+    private String btnType;
+    private String btnDesc;
     private List<BloodOrdListBean> ordList;
+
+    public String getBtnType() {
+        return btnType == null ? "" : btnType;
+    }
+
+    public void setBtnType(String btnType) {
+        this.btnType = btnType;
+    }
+
+    public String getBtnDesc() {
+        return btnDesc == null ? "" : btnDesc;
+    }
+
+    public void setBtnDesc(String btnDesc) {
+        this.btnDesc = btnDesc;
+    }
 
     public PatInfoBean getPatInfo() {
         return patInfo;
+    }
+
+    public String getCurOeoreId() {
+        return curOeoreId == null ? "" : curOeoreId;
+    }
+
+    public void setCurOeoreId(String curOeoreId) {
+        this.curOeoreId = curOeoreId;
     }
 
     public void setPatInfo(PatInfoBean patInfo) {

@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -41,7 +40,31 @@ public class CommDialog {
         }
 
     }
-
+    /**
+     * 查找View
+     * @param resId View的id
+     * @return
+     */
+    protected static View getView(View view, @IdRes int resId) {
+        if (view != null) {
+            view = view.findViewById(resId);
+            if (view == null) {
+                return null;
+            }
+        }
+        return view;
+    }
+    /**
+     * 隐藏或显示
+     * @param viewId
+     * @param visible
+     */
+    public  static void setVisible(View parent,@IdRes int viewId, boolean visible) {
+        View view = getView(parent,viewId);
+        if (view != null) {
+            view.setVisibility(visible ? View.VISIBLE : View.GONE);
+        }
+    }
     /**
      * 显示一般的'确认/取消'
      * @param context
@@ -186,7 +209,7 @@ public class CommDialog {
         if (btnId == 0 || view == null) {
             return;
         }
-        Button btn = view.findViewById(btnId);
+        TextView btn = view.findViewById(btnId);
         if (btn != null) {
             btn.setVisibility(View.VISIBLE);
             btn.setOnClickListener(new View.OnClickListener() {
@@ -209,7 +232,7 @@ public class CommDialog {
         if (btnId == 0 || view == null) {
             return;
         }
-        Button btn = view.findViewById(btnId);
+        TextView btn = view.findViewById(btnId);
         if (btn != null) {
             btn.setVisibility(View.VISIBLE);
             btn.setOnClickListener(new View.OnClickListener() {

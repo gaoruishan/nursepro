@@ -19,13 +19,14 @@ public class InjectApiManager extends BaseApiManager {
     /**
      * 获取注射列表信息
      */
-    public static void getInjectOrdList(String regNo, String stDate, String enDate, String exeFlag, final CommonCallBack<InjectListBean> callBack) {
+    public static void getInjectOrdList(String regNo, String stDate, String enDate, String exeFlag,String barCode, final CommonCallBack<InjectListBean> callBack) {
         HashMap<String, String> properties = CommWebService.addUserId(null);
         CommWebService.addHospitalId(properties);
         properties.put("regNo", regNo);
         properties.put("exeFlag", exeFlag);
         properties.put("startDate", stDate);
         properties.put("endDate", enDate);
+        properties.put("barCode", barCode);
         CommWebService.call("getInjectOrdList", properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {

@@ -40,7 +40,6 @@ public class ContinueFragment extends BaseInfusionFragment implements View.OnCli
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setToolbarCenterTitle("续液");
         csvScan = mContainerChild.findViewById(R.id.custom_scan);
         cpvPat = mContainerChild.findViewById(R.id.cpv_pat);
         csvSpeed = mContainerChild.findViewById(R.id.csv_speed);
@@ -97,11 +96,7 @@ public class ContinueFragment extends BaseInfusionFragment implements View.OnCli
                     }
                 }
                 csvScan.setVisibility(View.GONE);
-                if (bean.getPatInfo() != null) {
-                    cpvPat.setRegNo(bean.getPatInfo().getPatRegNo()).setPatName(bean.getPatInfo().getPatName())
-                            .setAge(bean.getPatInfo().getPatAge()).setSeat(bean.getPatInfo().getPatSeat())
-                            .setImgSexResource(CustomPatView.getPatSexDrawable(bean.getPatInfo().getPatSex()));
-                }
+                setCustomPatViewData(cpvPat,bean.getPatInfo());
                 csvSpeed.setSpeed(bean.getDefautSpeed());
                 commDosingAdapter.setCurrentScanInfo(scanInfo);
                 commDosingAdapter.replaceData(bean.getOrdList());

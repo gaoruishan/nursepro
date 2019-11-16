@@ -50,7 +50,6 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setToolbarCenterTitle("穿刺");
 
         helper = new BaseHelper(mContext);
         rvPuncture = RecyclerViewHelper.get(mContext, R.id.rv_puncture);
@@ -96,11 +95,8 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
                 punctureAdapter.setCurrentScanInfo(scanInfo);
                 // 隐藏扫码页
                 helper.setVisible(R.id.custom_scan, false);
-                if (bean.getPatInfo() != null) {
-                    cpvPat.setPatName(bean.getPatInfo().getPatName()).setRegNo(bean.getPatInfo().getPatRegNo())
-                            .setAge(bean.getPatInfo().getPatAge()).setSeat(bean.getPatInfo().getPatSeat())
-                            .setImgSexResource(bean.getPatInfo().getPatSexDrawable());
-                }
+                setCustomPatViewData(cpvPat,bean.getPatInfo());
+
                 csvSpeed.setSpeed(bean.getDefautSpeed());
                 // 第一次扫码
                 mBean = bean;

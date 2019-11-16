@@ -27,7 +27,7 @@ public class MessageApiManager {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<MessageInfusionBean> parserUtil = new ParserUtil<>();
-                MessageInfusionBean bean = parserUtil.parserResult(jsonStr, callBack, MessageInfusionBean.class);
+                MessageInfusionBean bean = parserUtil.parserResult(jsonStr, callBack, MessageInfusionBean.class,"");
                 if (bean == null) return;
                 parserUtil.parserStatus(bean, callBack);
             }
@@ -44,7 +44,7 @@ public class MessageApiManager {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<MessageSkinBean> parserUtil = new ParserUtil<>();
-                MessageSkinBean bean = parserUtil.parserResult(jsonStr, callBack, MessageSkinBean.class);
+                MessageSkinBean bean = parserUtil.parserResult(jsonStr, callBack, MessageSkinBean.class,"");
                 if (bean == null) return;
                 parserUtil.parserStatus(bean, callBack);
             }

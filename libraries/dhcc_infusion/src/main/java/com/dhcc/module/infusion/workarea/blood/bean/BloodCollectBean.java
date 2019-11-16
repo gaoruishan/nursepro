@@ -1,4 +1,4 @@
-package com.dhcc.module.infusion.workarea.blood;
+package com.dhcc.module.infusion.workarea.blood.bean;
 
 import com.base.commlibs.http.CommResult;
 import com.dhcc.module.infusion.workarea.comm.bean.PatInfoBean;
