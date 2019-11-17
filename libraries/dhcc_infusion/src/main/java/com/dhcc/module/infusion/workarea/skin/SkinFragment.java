@@ -116,7 +116,7 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
 
     @Override
     protected void getScanOrdList() {
-        SkinApiManager.getSkinList(scanInfo, customDate.getStartDateTimeText(), customDate.getEndDateTimeText(), new CommonCallBack<SkinListBean>() {
+        SkinApiManager.getSkinList(scanInfo, customDate.getStartDateTimeText(), customDate.getEndDateTimeText(),null, new CommonCallBack<SkinListBean>() {
             @Override
             public void onFail(String code, String msg) {
                 onFailThings();

@@ -149,7 +149,7 @@
                 android:paddingTop="8dp"
                 android:paddingEnd="36dp"
                 android:paddingBottom="8dp"
-                android:text="执行"
+                android:text="确定"
                 android:textColor="@color/white"
                 android:textSize="17sp" />
         </LinearLayout>

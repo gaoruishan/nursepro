@@ -7,6 +7,7 @@ import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -45,6 +46,12 @@ public class CustomScanView extends LinearLayout {
         setBackgroundColor(ContextCompat.getColor(context,R.color.white));
         //设置统一的id
         setId(R.id.custom_scan);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        //不可点击
+        return true;
     }
 
     @Override

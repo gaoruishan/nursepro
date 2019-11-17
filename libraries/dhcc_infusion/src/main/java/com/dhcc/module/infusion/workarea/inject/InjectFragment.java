@@ -1,12 +1,15 @@
 package com.dhcc.module.infusion.workarea.inject;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.view.View;
 
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.SimpleCallBack;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.utils.AdapterFactory;
+import com.dhcc.module.infusion.utils.DialogFactory;
 import com.dhcc.module.infusion.utils.RecyclerViewHelper;
 import com.dhcc.module.infusion.workarea.blood.adapter.BaseBloodQuickAdapter;
 import com.dhcc.module.infusion.workarea.comm.BaseInfusionFragment;
@@ -82,13 +85,22 @@ public class InjectFragment extends BaseInfusionFragment {
             @Override
             public void onSuccess(ScanInfoBean bean, String type) {
                 //PAT 扫腕带返回患者信息
-                if ("PAT".equals(bean.getFlag())) {
-                    regNo = scanInfo;
+                if (PAT.equals(bean.getFlag())) {
                     getInjectOrdList();
                 }
                 //ORD 扫医嘱条码返回医嘱信息
-                if ("ORD".equals(bean.getFlag())) {
-                    exeInjectOrd();
+                if (ORD.equals(bean.getFlag())) {
+                    //弹框
+                    if ("1".equals(bean.getDiagFlag())) {
+                        DialogFactory.showPatInfo(mContext, bean, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                exeInjectOrd();
+                            }
+                        });
+                    }else {
+                        exeInjectOrd();
+                    }
                 }
             }
         });
@@ -117,6 +129,11 @@ public class InjectFragment extends BaseInfusionFragment {
 
     protected void getInjectOrdList() {
         exeFlag = customOnOff.isSelect() ? "0" : "1";
+        String scanInfo = this.scanInfo;
+        if(!TextUtils.isEmpty(regNo)){
+            // 防止标签重新赋值
+            scanInfo = regNo;
+        }
         InjectApiManager.getInjectOrdList(scanInfo, customDate.getStartDateTimeText(), customDate.getEndDateTimeText(), exeFlag,"", new CommonCallBack<InjectListBean>() {
             @Override
             public void onFail(String code, String msg) {
@@ -127,9 +144,9 @@ public class InjectFragment extends BaseInfusionFragment {
             public void onSuccess(InjectListBean bean, String type) {
                 helper.setVisible(R.id.custom_scan, false);
                 if (bean.getOrdList() != null) {
-                    scanInfoTemp = scanInfo;
                     injectAdapter.setNewData(bean.getOrdList());
                 }
+                regNo = bean.getPatInfo().getPatRegNo();
                 setCustomPatViewData(customPat,bean.getPatInfo());
             }
         });

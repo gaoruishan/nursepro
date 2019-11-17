@@ -93,7 +93,10 @@ public class DialogFactory extends CommDialog {
             @Override
             public void onClick(View v) {
                 String s = etSkinNum.getText().toString();
-                if (okClick != null && !TextUtils.isEmpty(s)) {
+                if (TextUtils.isEmpty(s)) {
+                    s = "";
+                }
+                if (okClick != null ) {
                     dialog.cancel();
                     String txt = null;
                     for (TextView view1 : tvArr) {
@@ -236,8 +239,7 @@ public class DialogFactory extends CommDialog {
         PatOrdersBean ordersBean = bean.getOrders().get(0);
         setText(ordersBean.getSttDateTime() + " " + ordersBean.getPhcinDesc() + " " + ordersBean.getCtcpDesc() + ""
                 , view, R.id.tv_popup_extra);
-        String patInfo = "".equals(ordersBean.getBedCode()) ?
-                "未分床-" + ordersBean.getPatName() + "-" + ordersBean.getAge()
+        String patInfo = "".equals(ordersBean.getBedCode()) ? ordersBean.getPatName() + "-" + ordersBean.getAge()
                 : ordersBean.getBedCode().replace("床", "") + "床-" + ordersBean.getPatName() + "-" + ordersBean.getAge();
         setText(patInfo,view,R.id.tv_pat_info);
         setCommButtonClick("", null, dialog, view, R.id.tv_popup_cancel);

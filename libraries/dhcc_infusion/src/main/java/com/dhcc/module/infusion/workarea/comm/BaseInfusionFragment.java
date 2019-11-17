@@ -48,6 +48,9 @@ public abstract class BaseInfusionFragment extends BaseFragment {
     public static final String SCAN_DRUG_LABEL = "请您使用扫码设备，扫描药品瓶签";
     protected static final String PROMPT_NO_ORD = "本次接单任务无此瓶贴,请核对!";
 
+    public static final String PAT = "PAT";
+    public static final String ORD = "ORD";
+
     protected String scanInfo;
     protected String scanInfoTemp;
     protected String episodeId = "";

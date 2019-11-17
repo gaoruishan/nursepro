@@ -72,14 +72,19 @@
 
         </RelativeLayout>
 <!--    全局悬浮    -->
-    <LinearLayout
-        android:id="@+id/ll_global"
-        android:layout_width="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:orientation="vertical"
-        android:layout_height="wrap_content">
+        <ScrollView
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/dp_50"
+            android:layout_marginBottom="@dimen/dp_50"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:id="@+id/ll_global"
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:layout_height="wrap_content"/>
+        </ScrollView>
 
-    </LinearLayout>
     </RelativeLayout>
 </LinearLayout>

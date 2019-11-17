@@ -4,6 +4,7 @@ import com.base.commlibs.http.CommResult;
 import com.dhcc.module.infusion.workarea.comm.bean.PatInfoBean;
 import com.dhcc.module.infusion.workarea.dosing.bean.OrdListBean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,7 +35,19 @@ public class PunctureBean extends CommResult {
     private String DistantDate;
     private PatInfoBean PatInfo;
     private List<PunturePartListBean> PunturePartList;
+    private List<PuntureToolListBean> PuntureToolList;
     private List<OrdListBean> ordList;
+
+    public List<PuntureToolListBean> getPuntureToolList() {
+        if (PuntureToolList == null) {
+            return new ArrayList<>();
+        }
+        return PuntureToolList;
+    }
+
+    public void setPuntureToolList(List<PuntureToolListBean> puntureToolList) {
+        PuntureToolList = puntureToolList;
+    }
 
     public String getDistantDate() {
         return DistantDate == null ? "" : DistantDate;
@@ -115,6 +128,21 @@ public class PunctureBean extends CommResult {
 
         public void setPunturePart(String PunturePart) {
             this.PunturePart = PunturePart;
+        }
+    }
+    public static class PuntureToolListBean {
+        /**
+         * PunturePart : 手背
+         */
+
+        private String PuntureTool;
+
+        public String getPuntureTool() {
+            return PuntureTool;
+        }
+
+        public void setPuntureTool(String PunturePart) {
+            this.PuntureTool = PunturePart;
         }
     }
 

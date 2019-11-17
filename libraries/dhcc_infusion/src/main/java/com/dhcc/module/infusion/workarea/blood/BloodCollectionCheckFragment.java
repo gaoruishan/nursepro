@@ -11,11 +11,7 @@ import com.dhcc.module.infusion.utils.DialogFactory;
  * @email:grs0515@163.com
  */
 public class BloodCollectionCheckFragment extends BloodCollectionFragment {
-    @Override
-    protected void initDatas() {
-        super.initDatas();
 
-    }
 
     /**
      * 只需要重写-执行方法

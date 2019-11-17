@@ -29,11 +29,11 @@ import com.jzxiang.pickerview.listener.OnDateSetListener;
  */
 public class BloodCollectionFragment extends BaseInfusionFragment {
 
-    private RecyclerView recyclerView;
-    private CustomDateTimeView customDate;
-    private BaseBloodQuickAdapter collectionAdapter;
-    private CustomPatView customPat;
-    private CustomOnOffView customOnOff;
+    protected RecyclerView recyclerView;
+    protected CustomDateTimeView customDate;
+    protected BaseBloodQuickAdapter collectionAdapter;
+    protected CustomPatView customPat;
+    protected CustomOnOffView customOnOff;
 
     @Override
     protected void initViews() {
@@ -86,12 +86,12 @@ public class BloodCollectionFragment extends BaseInfusionFragment {
             @Override
             public void onSuccess(ScanInfoBean bean, String type) {
                 //PAT 扫腕带返回患者信息
-                if ("PAT".equals(bean.getFlag())) {
+                if (PAT.equals(bean.getFlag())) {
                     regNo = scanInfo;
                     getLabOrdList();
                 }
                 //ORD 扫医嘱条码返回医嘱信息
-                if ("ORD".equals(bean.getFlag())) {
+                if (ORD.equals(bean.getFlag())) {
                     //弹框
                     if ("1".equals(bean.getDiagFlag())) {
                         DialogFactory.showPatInfo(mContext, bean, new View.OnClickListener() {

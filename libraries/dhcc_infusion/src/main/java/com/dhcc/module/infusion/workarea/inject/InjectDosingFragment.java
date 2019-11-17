@@ -87,7 +87,8 @@ public class InjectDosingFragment extends InjectFragment {
                     injectAdapter.setCurrentScanInfo(bean.getCurOeoreId());
                     injectAdapter.setNewData(bean.getOrdList());
                 }
-                if (!"err".equals(bean.getBtnDesc())) {
+                helper.setTextData(R.id.tv_ok, "确认");
+                if (!"err".equals(bean.getBtnType())) {
                     helper.setTextData(R.id.tv_ok, bean.getBtnDesc());
                 }
                 setCustomPatViewData(customPat, bean.getPatInfo());

@@ -5,9 +5,9 @@ import android.text.TextUtils;
 import android.widget.TextView;
 
 import com.base.commlibs.utils.ViewUtil;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.module.infusion.R;
+import com.dhcc.module.infusion.workarea.blood.adapter.BaseBloodQuickAdapter;
 import com.dhcc.module.infusion.workarea.skin.bean.SkinListBean;
 import com.dhcc.res.infusion.CustomSkinTagView;
 
@@ -19,8 +19,11 @@ import java.util.List;
  * @date:202019-11-04/15:33
  * @email:grs0515@163.com
  */
-public class SkinAdapter extends BaseQuickAdapter<SkinListBean.OrdListBean, BaseViewHolder> {
+public class SkinAdapter extends BaseBloodQuickAdapter<SkinListBean.OrdListBean, BaseViewHolder> {
 
+
+    private boolean hideSelectButton;
+    private String scanInfo;
 
     public SkinAdapter(int layoutResId, @Nullable List<SkinListBean.OrdListBean> data) {
         super(layoutResId, data);
@@ -62,7 +65,14 @@ public class SkinAdapter extends BaseQuickAdapter<SkinListBean.OrdListBean, Base
                 (TextView) helper.getView(R.id.tv_skin_time_end),
                 observeTime, testStartTime);
         helper.getView(R.id.iv_select).setSelected(item.isSelect());
+        //隐藏选择框
+        helper.setGone(R.id.iv_select, !hideSelectButton);
+        helper.setGone(R.id.v_block, hideSelectButton);
+        setSkinDosingData(helper, item);
     }
 
+    public void setHideSelectButton(boolean hideSelectButton) {
+        this.hideSelectButton = hideSelectButton;
+    }
 
 }

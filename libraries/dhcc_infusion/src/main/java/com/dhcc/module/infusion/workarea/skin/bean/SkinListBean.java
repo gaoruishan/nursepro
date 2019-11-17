@@ -20,7 +20,34 @@ public class SkinListBean extends CommResult {
 
     private PatInfoBean patInfo;
     private List<OrdListBean> ordList;
+    //按钮类型/描述
+    private String btnType;
+    private String btnDesc;
+    private String curOeoreId;
 
+    public String getCurOeoreId() {
+        return curOeoreId == null ? "" : curOeoreId;
+    }
+
+    public void setCurOeoreId(String curOeoreId) {
+        this.curOeoreId = curOeoreId;
+    }
+
+    public String getBtnType() {
+        return btnType == null ? "" : btnType;
+    }
+
+    public void setBtnType(String btnType) {
+        this.btnType = btnType;
+    }
+
+    public String getBtnDesc() {
+        return btnDesc == null ? "" : btnDesc;
+    }
+
+    public void setBtnDesc(String btnDesc) {
+        this.btnDesc = btnDesc;
+    }
 
     public PatInfoBean getPatInfo() {
         return patInfo;
@@ -76,6 +103,43 @@ public class SkinListBean extends CommResult {
         private String TestStartTime;//皮试开始时间
         private String TestUser;//皮试人
         private boolean select;
+        //配液/复核
+        private String desUser;
+        private String auditUser;
+        private String desDateTime;
+        private String auditDateTime;
+
+        public String getAuditDateTime() {
+            return auditDateTime == null ? "" : auditDateTime;
+        }
+
+        public void setAuditDateTime(String auditDateTime) {
+            this.auditDateTime = auditDateTime;
+        }
+
+        public String getDesDateTime() {
+            return desDateTime == null ? "" : desDateTime;
+        }
+
+        public void setDesDateTime(String desDateTime) {
+            this.desDateTime = desDateTime;
+        }
+
+        public String getDesUser() {
+            return desUser == null ? "" : desUser;
+        }
+
+        public void setDesUser(String desUser) {
+            this.desUser = desUser;
+        }
+
+        public String getAuditUser() {
+            return auditUser == null ? "" : auditUser;
+        }
+
+        public void setAuditUser(String auditUser) {
+            this.auditUser = auditUser;
+        }
 
         public boolean isSelect() {
             return select;

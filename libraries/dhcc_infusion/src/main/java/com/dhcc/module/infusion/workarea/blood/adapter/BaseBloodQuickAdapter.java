@@ -6,17 +6,20 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.workarea.blood.bean.BloodOrdListBean;
+import com.dhcc.module.infusion.workarea.skin.bean.SkinListBean;
 import com.noober.background.drawable.DrawableCreator;
 
 import java.util.List;
 
 /**
+ * 是皮试/采血/配液的父类
  * @author:gaoruishan
  * @date:202019-11-14/15:26
  * @email:grs0515@163.com
@@ -61,22 +64,75 @@ public abstract class BaseBloodQuickAdapter<T, K extends BaseViewHolder> extends
         blTvStatus.setBackground(drawable);
         helper.setGone(R.id.tv_time, !TextUtils.isEmpty(item.getCreateDateTime()));
         helper.setGone(R.id.bl_tv_status, !TextUtils.isEmpty(item.getDisposeStatDesc()));
+
+        //采血复核
+        setBloodCheckData(helper,item);
     }
 
+    /**
+     * 采血复核
+     */
+    protected void setBloodCheckData(BaseViewHolder helper, BloodOrdListBean item) {
+        helper.setGone(R.id.ll_lab, !TextUtils.isEmpty(item.getAuditLabUser()));
+        helper.setText(R.id.tv_status_lab, "核")
+                .setText(R.id.tv_lab_user, item.getAuditLabUser())
+                .setText(R.id.tv_lab_time, item.getAuditLabDateTime());
+    }
+
+    /**
+     * 注射配液
+     */
     protected void setInjectDosingData(BaseViewHolder helper, BloodOrdListBean item) {
         //选中
         RecyclerView rvItem = helper.getView(R.id.rv_item);
-        if (rvItem != null) {
-            int select = ContextCompat.getColor(mContext, R.color.blue_dark2);
-            int unselect = ContextCompat.getColor(mContext, R.color.white);
-            rvItem.setBackgroundColor(item.getOeoriId().equals(scanInfo) ? select : unselect);
-        }
+        String oeoriId = item.getOeoriId();
+        setBackgroundColor(rvItem, oeoriId, R.color.blue_dark2, R.color.white);
         //配液状态
-        helper.setGone(R.id.tv_status, !TextUtils.isEmpty(item.getDesUser()));
-        helper.setText(R.id.tv_status, "配");
-        if(!TextUtils.isEmpty(item.getAuditUser())){
-            helper.setText(R.id.tv_status, "复");
-        }
+        String desUser = item.getDesUser();
+        String desDateTime = item.getDesDateTime();
+
+        //复核状态
+        String auditUser = item.getAuditUser();
+        String auditDateTime = item.getAuditDateTime();
+
+        setDosingAuditData(helper, desUser, desDateTime, auditUser, auditDateTime);
     }
 
+    private void setDosingAuditData(BaseViewHolder helper, String desUser, String desDateTime, String auditUser, String auditDateTime) {
+        helper.setGone(R.id.ll_dosing, !TextUtils.isEmpty(desUser));
+        helper.setText(R.id.tv_status_dosing, "配")
+                .setText(R.id.tv_dosing_user, desUser)
+                .setText(R.id.tv_dosing_time, desDateTime);
+        helper.setGone(R.id.ll_audit, !TextUtils.isEmpty(auditUser));
+        helper.setText(R.id.tv_status_audit, "核")
+                .setText(R.id.tv_audit_user, auditUser)
+                .setText(R.id.tv_audit_time,auditDateTime );
+    }
+
+    /**
+     * 皮试配液
+     */
+    protected void setSkinDosingData(BaseViewHolder helper, SkinListBean.OrdListBean item) {
+        //选中
+        View llBgSelect = helper.getView(R.id.ll_bg_select);
+        String oeoriId = item.getOeoriId();
+        setBackgroundColor(llBgSelect, oeoriId, R.color.blue_dark2, R.color.white);
+        //配液状态
+        String desUser = item.getDesUser();
+        String desDateTime = item.getDesDateTime();
+
+        //复核状态
+        String auditUser = item.getAuditUser();
+        String auditDateTime = item.getAuditDateTime();
+
+        setDosingAuditData(helper, desUser, desDateTime, auditUser, auditDateTime);
+    }
+
+    private void setBackgroundColor(View llBgSelect, String oeoriId, int p, int p2) {
+        if (llBgSelect != null) {
+            int select = ContextCompat.getColor(mContext, p);
+            int unselect = ContextCompat.getColor(mContext, p2);
+            llBgSelect.setBackgroundColor(oeoriId.equals(scanInfo) ? select : unselect);
+        }
+    }
 }

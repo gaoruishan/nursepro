@@ -34,7 +34,44 @@ public class BloodOrdListBean {
     //配液/复核
     private String desUser;
     private String auditUser;
+    private String desDateTime;
+    private String auditDateTime;
+    //采血核对
+    private String AuditLabUser;
+    private String AuditLabDateTime;
     private List<ArcimDescListBean> ArcimDescList;
+
+    public String getDesDateTime() {
+        return desDateTime == null ? "" : desDateTime;
+    }
+
+    public void setDesDateTime(String desDateTime) {
+        this.desDateTime = desDateTime;
+    }
+
+    public String getAuditDateTime() {
+        return auditDateTime == null ? "" : auditDateTime;
+    }
+
+    public void setAuditDateTime(String auditDateTime) {
+        this.auditDateTime = auditDateTime;
+    }
+
+    public String getAuditLabDateTime() {
+        return AuditLabDateTime == null ? "" : AuditLabDateTime;
+    }
+
+    public void setAuditLabDateTime(String auditLabDateTime) {
+        AuditLabDateTime = auditLabDateTime;
+    }
+
+    public String getAuditLabUser() {
+        return AuditLabUser == null ? "" : AuditLabUser;
+    }
+
+    public void setAuditLabUser(String auditLabUser) {
+        AuditLabUser = auditLabUser;
+    }
 
     public String getDesUser() {
         return desUser == null ? "" : desUser;
