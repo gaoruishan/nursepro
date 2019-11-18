@@ -9,6 +9,7 @@ import com.base.commlibs.utils.CommDialog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.message.api.MessageApiManager;
+import com.dhcc.module.infusion.utils.AdapterFactory;
 import com.dhcc.module.infusion.utils.DialogFactory;
 import com.dhcc.module.infusion.utils.RecyclerViewHelper;
 import com.dhcc.module.infusion.workarea.comm.BaseInfusionFragment;
@@ -18,7 +19,6 @@ import com.dhcc.module.infusion.workarea.skin.bean.SkinListBean;
 import com.dhcc.res.infusion.CustomDateTimeView;
 import com.dhcc.res.infusion.CustomOrdExeBottomView;
 import com.dhcc.res.infusion.CustomPatView;
-import com.dhcc.res.infusion.CustomScanView;
 import com.dhcc.res.infusion.bean.ClickBean;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
@@ -44,8 +44,8 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
     @Override
     protected void initDatas() {
         super.initDatas();
-        setToolbarCenterTitle("皮试");
-        skinAdapter = new SkinAdapter(null);
+
+        skinAdapter = AdapterFactory.getSkinAdapter();
         skinAdapter.setOnItemChildClickListener(this);
         recyclerView.setAdapter(skinAdapter);
         bottomView.setNoSelectVisibility(skinAdapter.getSelectBean() == null);
@@ -116,7 +116,7 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
 
     @Override
     protected void getScanOrdList() {
-        SkinApiManager.getSkinList(scanInfo, customDate.getStartDateTimeText(), customDate.getEndDateTimeText(), new CommonCallBack<SkinListBean>() {
+        SkinApiManager.getSkinList(scanInfo, customDate.getStartDateTimeText(), customDate.getEndDateTimeText(),null, new CommonCallBack<SkinListBean>() {
             @Override
             public void onFail(String code, String msg) {
                 onFailThings();
@@ -124,12 +124,9 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
 
             @Override
             public void onSuccess(SkinListBean bean, String type) {
-                helper.setVisible(R.id.custom_scan, false);
+                hideScanView();
                 skinAdapter.setNewData(bean.getOrdList());
-                if (bean.getPatInfo() != null) {
-                    customPat.setAge(bean.getPatInfo().getPatAge()).setPatName(bean.getPatInfo().getPatName())
-                            .setRegNo(bean.getPatInfo().getPatRegNo()).setPatSex(bean.getPatInfo().getPatSex());
-                }
+                setCustomPatViewData(customPat,bean.getPatInfo());
             }
         });
     }
@@ -141,8 +138,7 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
         customDate = f(R.id.custom_date, CustomDateTimeView.class);
         bottomView = f(R.id.custom_bottom, CustomOrdExeBottomView.class);
         customPat = f(R.id.custom_pat, CustomPatView.class);
-        f(R.id.custom_scan, CustomScanView.class).setTitle("请扫描腕带")
-                .setWarning("请您使用扫码设备，扫描病人腕带");
+        showScanPatHand();
         customDate.setEndDateTime(System.currentTimeMillis())
                 .setStartDateTime(System.currentTimeMillis())
                 .setOnDateSetListener(new OnDateSetListener() {

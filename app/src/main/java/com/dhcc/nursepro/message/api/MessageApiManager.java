@@ -46,7 +46,7 @@ public class MessageApiManager {
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();
                 if (jsonStr.isEmpty()) {
-                    callback.onFail("-1", "网络错误，请求数据为空");
+                   //去掉-后台时一直提示错误 callback.onFail("-1", "网络错误，请求数据为空");
                 } else {
                     try {
                         MessageBean message = gson.fromJson(jsonStr, MessageBean.class);

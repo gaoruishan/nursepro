@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.dhcc.res.infusion.CustomPatView
+            android:id="@+id/custom_pat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <com.dhcc.res.infusion.CustomDateTimeView
+            android:id="@+id/custom_date"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:background="@color/bg_blue_light"
+            android:layout_height="wrap_content"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_list"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"/>
+        <LinearLayout
+            android:id="@+id/ll_ok"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_ok"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_50"
+                android:layout_weight="1"
+                android:background="#FF62ABFF"
+                android:gravity="center"
+                android:text="确定"
+                android:textColor="#FFFFFFFF"
+                android:textSize="@dimen/sp_16" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <com.dhcc.res.infusion.CustomScanView
+        android:id="@+id/custom_scan"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</RelativeLayout>

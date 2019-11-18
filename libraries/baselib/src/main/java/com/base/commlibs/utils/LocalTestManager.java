@@ -32,7 +32,7 @@ public class LocalTestManager {
     @SuppressLint("SimpleDateFormat")
     private static final Format FORMAT = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
     //请求次数
-    private static final int REQ_NUM = 3;
+    private static final int REQ_NUM = 2;
     private static List<String> l = new ArrayList<>();
     private static Map<String, Integer> errNum = new WeakHashMap<>();
 

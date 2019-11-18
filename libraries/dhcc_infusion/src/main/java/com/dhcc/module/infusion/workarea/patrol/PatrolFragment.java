@@ -56,7 +56,6 @@ public class PatrolFragment extends BaseInfusionFragment implements View.OnClick
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setToolbarCenterTitle("巡视");
         csvScan = mContainerChild.findViewById(R.id.custom_scan);
         cpvPat = mContainerChild.findViewById(R.id.cpv_pat);
         csvSpeed = mContainerChild.findViewById(R.id.csv_speed);
@@ -104,11 +103,7 @@ public class PatrolFragment extends BaseInfusionFragment implements View.OnClick
                 }
                 mBean = bean;
                 csvScan.setVisibility(View.GONE);
-                if (bean.getPatInfo() != null) {
-                    cpvPat.setRegNo(bean.getPatInfo().getPatRegNo()).setPatName(bean.getPatInfo().getPatName())
-                            .setAge(bean.getPatInfo().getPatAge())
-                            .setImgSexResource(CustomPatView.getPatSexDrawable(bean.getPatInfo().getPatSex()));
-                }
+                setCustomPatViewData(cpvPat,bean.getPatInfo());
                 csvSpeed.setSpeed(bean.getDefautSpeed());
                 csvSelectTime.setTitle("预计结束时间").setSelectTime(getFragmentManager(), bean.getDistantDate(), bean.getDistantTime(), null);
                 List<PatrolBean.InfusionStateListBean> stateList = bean.getInfusionStateList();

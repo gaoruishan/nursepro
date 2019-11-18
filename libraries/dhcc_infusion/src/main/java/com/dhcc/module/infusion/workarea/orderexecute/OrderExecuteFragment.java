@@ -22,7 +22,6 @@ import com.dhcc.module.infusion.workarea.orderexecute.api.OrderExecuteApiManager
 import com.dhcc.module.infusion.workarea.orderexecute.bean.OrdScanInfoBean;
 import com.dhcc.module.infusion.workarea.orderexecute.bean.OrderExecuteBean;
 import com.dhcc.res.infusion.CustomDateTimeView;
-import com.dhcc.res.infusion.CustomScanView;
 import com.dhcc.res.infusion.CustomSheetListView;
 import com.dhcc.res.infusion.bean.SheetListBean;
 import com.jzxiang.pickerview.TimePickerDialog;
@@ -57,7 +56,7 @@ public class OrderExecuteFragment extends BaseInfusionFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setToolbarCenterTitle("医嘱执行");
-        f(R.id.custom_scan, CustomScanView.class).setTitle("请扫描腕带").setWarning("请您使用扫码设备，扫描病人腕带");
+        showScanPatHand();
         setDateTime();
         sheetListView = f(R.id.custom_sheet_list, CustomSheetListView.class);
         sheetListView.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {

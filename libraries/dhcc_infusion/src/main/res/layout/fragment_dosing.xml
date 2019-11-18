@@ -131,6 +131,7 @@
     <com.dhcc.res.infusion.CustomScanView
         android:id="@+id/custom_scan"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="match_parent"
     />
 </RelativeLayout>

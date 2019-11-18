@@ -44,12 +44,13 @@ public class PunctureApiService {
      * Input：       oeoreId:执行记录ID,userId:用户ID,locId:科室Id,distantTime:预计完成时间,ifSpeed:滴速,puncturePart:穿刺部位
      * other:		 w ##class(Nur.OPPDA.Execute).punctureOrd("568-3-1","1",1)
      */
-    public static void punctureOrd(String oeoreId, String distantTime, String ifSpeed, String puncturePart, ServiceCallBack callBack) {
+    public static void punctureOrd(String oeoreId, String distantTime, String ifSpeed, String puncturePart, String puntureTool,ServiceCallBack callBack) {
         HashMap<String, String> properties = new HashMap<>();
         properties.put("oeoreId", oeoreId);
         properties.put("distantTime", distantTime);
         properties.put("ifSpeed", ifSpeed);
         properties.put("puncturePart", puncturePart);
+        properties.put("puntureTool", puntureTool);
         CommWebService.callUserIdLocId("punctureOrd",properties,callBack);
     }
 
