@@ -1,6 +1,14 @@
 package com.dhcc.nursepro.workarea;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,9 +20,11 @@ import android.widget.TextView;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
+import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.utils.DataCache;
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.StringUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.nursepro.R;
@@ -34,7 +44,12 @@ import com.dhcc.nursepro.workarea.motherbabylink.MotherBabyLinkFragment;
 import com.dhcc.nursepro.workarea.nurrecordold.PatNurRecordFragment;
 import com.dhcc.nursepro.workarea.nurtour.NurTourFragment;
 import com.dhcc.nursepro.workarea.operation.OperationFragment;
+import com.dhcc.nursepro.workarea.orderexecute.OrderExecOrderDialog;
+import com.dhcc.nursepro.workarea.orderexecute.OrderExecResultDialog;
 import com.dhcc.nursepro.workarea.orderexecute.OrderExecuteFragment;
+import com.dhcc.nursepro.workarea.orderexecute.api.OrderExecuteApiManager;
+import com.dhcc.nursepro.workarea.orderexecute.bean.OrderExecResultBean;
+import com.dhcc.nursepro.workarea.orderexecute.bean.ScanResultBean;
 import com.dhcc.nursepro.workarea.ordersearch.OrderSearchFragment;
 import com.dhcc.nursepro.workarea.patevents.PatEventsFragment;
 import com.dhcc.nursepro.workarea.vitalsign.VitalSignFragment;
@@ -44,6 +59,7 @@ import com.dhcc.nursepro.workarea.workareabean.MainConfigBean;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * WorkareaFragment
@@ -54,6 +70,26 @@ public class WorkareaFragment extends BaseFragment {
     private List<String> ItemNameList = new ArrayList<String>();
     private WorkAreaAdapter patEventsAdapter;
 
+    //广播相关
+    private WorkAreaReceiver workAreaReceiver = new WorkAreaReceiver();
+    private IntentFilter workAreaFilter = new IntentFilter();
+
+    //功能扩展 医嘱执行相关数据
+    private SPUtils spUtils = SPUtils.getInstance();
+    private String episodeId = "";
+    private String regNo = "";
+    private String scanInfo = "";
+    private String barCode = "";
+    private String patInfo = "";
+    private String patSaveInfo = "";
+
+    //医嘱执行弹窗
+    private OrderExecOrderDialog execOrderDialog;
+    private OrderExecResultDialog execResultDialog;
+
+    //医嘱执行提示音
+    private SoundPool soundPool;
+    private HashMap<Integer, Integer> soundPoolMap = new HashMap<Integer, Integer>();
 
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -71,6 +107,27 @@ public class WorkareaFragment extends BaseFragment {
 
         initView(view);
         initData();
+
+        //提示音集合
+        soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 100);
+        soundPoolMap.put(1, soundPool.load(getContext(), R.raw.notice22, 1));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (workAreaReceiver != null) {
+            workAreaFilter.addAction(Action.DEVICE_SCAN_CODE);
+            Objects.requireNonNull(getContext()).registerReceiver(workAreaReceiver, workAreaFilter);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (workAreaReceiver != null) {
+            Objects.requireNonNull(getContext()).unregisterReceiver(workAreaReceiver);
+        }
     }
 
     private void initView(View view) {
@@ -100,7 +157,7 @@ public class WorkareaFragment extends BaseFragment {
                 //                ItemNameList.add("MODELDETAIL");
                 patEventsAdapter.setNewData(ItemNameList);
                 SPUtils.getInstance().put(SharedPreference.BLOODSCANTIMES, mainConfigBean.getScantimes());
-                DataCache.saveJson(mainConfigBean,SharedPreference.DATA_MAIN_CONFIG);
+                DataCache.saveJson(mainConfigBean, SharedPreference.DATA_MAIN_CONFIG);
             }
 
             @Override
@@ -296,5 +353,292 @@ public class WorkareaFragment extends BaseFragment {
                     break;
             }
         }
+    }
+
+    @Override
+    public void getScanMsg(Intent intent) {
+        super.getScanMsg(intent);
+
+        if (Action.DEVICE_SCAN_CODE.equals(intent.getAction())) {
+            Bundle bundle = new Bundle();
+            bundle = intent.getExtras();
+            scanInfo = bundle.getString("data");
+            barCode = bundle.getString("data");
+            getScanInfo();
+            if (execResultDialog != null && execResultDialog.isShowing()) {
+                execResultDialog.dismiss();
+            }
+        }
+
+    }
+
+    public class WorkAreaReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (Action.DEVICE_SCAN_CODE.equals(intent.getAction())) {
+                Bundle bundle = new Bundle();
+                bundle = intent.getExtras();
+
+                scanInfo = bundle.getString("data");
+                getScanInfo();
+                if (execResultDialog != null && execResultDialog.isShowing()) {
+                    execResultDialog.dismiss();
+                }
+            }
+        }
+    }
+
+    private void getScanInfo() {
+        OrderExecuteApiManager.getScanMsgByMain(episodeId, scanInfo, new OrderExecuteApiManager.GetScanCallBack() {
+            @Override
+            public void onSuccess(ScanResultBean scanResultBean) {
+                //提示信息
+                String msg = scanResultBean.getMsg();
+
+                //提示框
+                if (execOrderDialog == null) {
+                    execOrderDialog = new OrderExecOrderDialog(getActivity());
+
+                    execOrderDialog.setSureOnclickListener(new OrderExecOrderDialog.onSureOnclickListener() {
+                        @Override
+                        public void onSureClick() {
+                            execOrSeeOrderScan(execOrderDialog.getSttDateTime(), execOrderDialog.getArcimDesc(), execOrderDialog.getOrderId(), "F", execOrderDialog.getBedCode());
+                            execOrderDialog.dismiss();
+                        }
+                    });
+
+                    execOrderDialog.setCancelOnclickListener(new OrderExecOrderDialog.onCancelOnclickListener() {
+                        @Override
+                        public void onCancelClick() {
+                            execOrderDialog.dismiss();
+                        }
+                    });
+                    execOrderDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            episodeId = "";
+                            scanInfo = "";
+                            execOrderDialog = null;
+                        }
+                    });
+                }
+
+                //PAT 扫腕带返回患者信息
+                //ORD 扫医嘱条码返回医嘱信息
+                if ("PAT".equals(scanResultBean.getFlag())) {
+
+                    if ("104999".equals(scanResultBean.getMsgcode())) {
+
+                        if (execResultDialog != null && execResultDialog.isShowing()) {
+                            execResultDialog.dismiss();
+                        }
+                        execResultDialog = new OrderExecResultDialog(getActivity());
+                        execResultDialog.setExecresult(scanResultBean.getMsg() + "是否继续执行医嘱？");
+                        execResultDialog.setImgId(R.drawable.icon_popup_error_patient);
+                        execResultDialog.setSureVisible(View.VISIBLE);
+                        execResultDialog.setCancleVisible(View.VISIBLE);
+                        execResultDialog.setSureOnclickListener(new OrderExecResultDialog.onSureOnclickListener() {
+                            @Override
+                            public void onSureClick() {
+                                execResultDialog.dismiss();
+                                ScanResultBean.PatInfoBean patInfoBean = scanResultBean.getPatInfo();
+                                episodeId = patInfoBean.getEpisodeID();
+                                regNo = patInfoBean.getRegNo();
+
+                                patInfo = patInfoBean.getBedCode() + "-" + patInfoBean.getName() + "-" + patInfoBean.getSex() + "-" + patInfoBean.getAge();
+                                patSaveInfo = patInfoBean.getBedCode() + "-" + patInfoBean.getName();
+                            }
+                        });
+                        execResultDialog.setCancelOnclickListener(new OrderExecResultDialog.onCancelOnclickListener() {
+                            @Override
+                            public void onCancelClick() {
+                                execResultDialog.dismiss();
+                            }
+                        });
+                        execResultDialog.show();
+
+                    } else {
+                        ScanResultBean.PatInfoBean patInfoBean = scanResultBean.getPatInfo();
+                        episodeId = patInfoBean.getEpisodeID();
+                        regNo = patInfoBean.getRegNo();
+                        patInfo = "".equals(patInfoBean.getBedCode()) ? "未分床-" + patInfoBean.getName() + "-" + patInfoBean.getSex() + "-" + patInfoBean.getAge() : patInfoBean.getBedCode().replace("床", "") + "床-" + patInfoBean.getName() + "-" + patInfoBean.getSex() + "-" + patInfoBean.getAge();
+                        patSaveInfo = patInfoBean.getBedCode() + "-" + patInfoBean.getName();
+                        execOrderDialog.setPatInfo(patInfo);
+                        if (execOrderDialog != null && !execOrderDialog.isShowing()) {
+                            execOrderDialog.show();
+                        }
+                    }
+
+                } else {
+                    barCode = scanInfo;
+                    if (execResultDialog != null && execResultDialog.isShowing()) {
+                        execResultDialog.dismiss();
+                    }
+
+                    if ("1".equals(scanResultBean.getDiagFlag())) {
+
+                        List<ScanResultBean.OrdersBean> ordersBeanList = scanResultBean.getOrders();
+                        ScanResultBean.OrdersBean ordersBean = ordersBeanList.get(0);
+                        execOrderDialog.setChildOrders(ordersBeanList);
+                        execOrderDialog.setPopMsgInfo(msg);
+                        execOrderDialog.setCanExeFlag(scanResultBean.getCanExeFlag());
+                        execOrderDialog.setOrderInfoEx(ordersBean.getSttDateTime() + " " + ordersBean.getPhcinDesc() + " " + ordersBean.getCtcpDesc() + "");
+
+                        //功能区扫码 附加数据
+                        execOrderDialog.setSttDateTime(ordersBean.getSttDateTime());
+                        execOrderDialog.setArcimDesc(ordersBean.getArcimDesc());
+                        execOrderDialog.setOrderId(ordersBean.getID());
+                        execOrderDialog.setBedCode(ordersBean.getBedCode());
+
+                        if (execOrderDialog != null && !execOrderDialog.isShowing()) {
+                            execOrderDialog.show();
+                        }
+
+                    } else {
+                        execResultDialog = new OrderExecResultDialog(getActivity());
+                        execResultDialog.setExecresult("扫码执行成功");
+                        execResultDialog.setImgId(R.drawable.icon_popup_sucess);
+                        execResultDialog.setSureVisible(View.GONE);
+                        execResultDialog.setCancleVisible(View.GONE);
+                        execResultDialog.show();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                execResultDialog.dismiss();
+                            }
+                        }, 1000);
+                    }
+
+
+                }
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+
+                playSound(1, 0);
+                if (execOrderDialog != null && execOrderDialog.isShowing()) {
+                    execOrderDialog.dismiss();
+                }
+                if (execResultDialog != null && execResultDialog.isShowing()) {
+                    execResultDialog.dismiss();
+                }
+                execResultDialog = new OrderExecResultDialog(getActivity());
+                execResultDialog.setExecresult(msg);
+                execResultDialog.setImgId(R.drawable.icon_popup_error_patient);
+                execResultDialog.setSureVisible(View.VISIBLE);
+                execResultDialog.setCancleVisible(View.GONE);
+                execResultDialog.setSureOnclickListener(new OrderExecResultDialog.onSureOnclickListener() {
+                    @Override
+                    public void onSureClick() {
+                        execResultDialog.dismiss();
+                    }
+                });
+                execResultDialog.show();
+            }
+        });
+
+    }
+
+    /**
+     * 扫码执行
+     */
+    private void execOrSeeOrderScan(String creattime, String order, String oeoreIdScan, String execStatusCodeScan, String bedCode) {
+        if (StringUtils.isEmpty(patSaveInfo)) {
+            if (execResultDialog != null && execResultDialog.isShowing()) {
+                execResultDialog.dismiss();
+            }
+            playSound(1, 0);
+            execResultDialog = new OrderExecResultDialog(getActivity());
+            execResultDialog.setExecresult("请扫描患者腕带");
+            execResultDialog.setImgId(R.drawable.icon_popup_error_patient);
+            execResultDialog.setSureVisible(View.VISIBLE);
+            execResultDialog.setCancleVisible(View.GONE);
+            execResultDialog.setSureOnclickListener(new OrderExecResultDialog.onSureOnclickListener() {
+                @Override
+                public void onSureClick() {
+                    execResultDialog.dismiss();
+                }
+            });
+            execResultDialog.show();
+            return;
+        } else if (!patSaveInfo.split("-")[0].equals(bedCode)) {
+            if (execResultDialog != null && execResultDialog.isShowing()) {
+                execResultDialog.dismiss();
+            }
+            playSound(1, 0);
+            execResultDialog = new OrderExecResultDialog(getActivity());
+            execResultDialog.setExecresult("非此患者医嘱，请检查患者与医嘱对应关系");
+            execResultDialog.setImgId(R.drawable.icon_popup_error_patient);
+            execResultDialog.setSureVisible(View.VISIBLE);
+            execResultDialog.setCancleVisible(View.GONE);
+            execResultDialog.setSureOnclickListener(new OrderExecResultDialog.onSureOnclickListener() {
+                @Override
+                public void onSureClick() {
+                    execResultDialog.dismiss();
+                }
+            });
+            execResultDialog.show();
+            return;
+        }
+        OrderExecuteApiManager.execOrSeeOrder(barCode, creattime, order, patSaveInfo, "1", "", "", "", oeoreIdScan, execStatusCodeScan, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
+            @Override
+            public void onSuccess(OrderExecResultBean orderExecResultBean) {
+                barCode = "";
+
+                if (execResultDialog != null && execResultDialog.isShowing()) {
+                    execResultDialog.dismiss();
+                }
+
+                execResultDialog = new OrderExecResultDialog(getActivity());
+                execResultDialog.setExecresult("扫码执行成功");
+                execResultDialog.setImgId(R.drawable.icon_popup_sucess);
+                execResultDialog.setSureVisible(View.GONE);
+                execResultDialog.setCancleVisible(View.GONE);
+                execResultDialog.show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        execResultDialog.dismiss();
+                    }
+                }, 1000);
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+                playSound(1, 0);
+                if (execResultDialog != null && execResultDialog.isShowing()) {
+                    execResultDialog.dismiss();
+                }
+                execResultDialog = new OrderExecResultDialog(getActivity());
+                execResultDialog.setExecresult(msg);
+                execResultDialog.setImgId(R.drawable.icon_popup_error_patient);
+                execResultDialog.setSureVisible(View.VISIBLE);
+                execResultDialog.setCancleVisible(View.GONE);
+                execResultDialog.setSureOnclickListener(new OrderExecResultDialog.onSureOnclickListener() {
+                    @Override
+                    public void onSureClick() {
+                        execResultDialog.dismiss();
+                    }
+                });
+                execResultDialog.show();
+            }
+        });
+    }
+
+    public void playSound(int sound, int loop) {
+
+        AudioManager mgr = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);
+
+        float streamVolumeCurrent = mgr.getStreamVolume(AudioManager.STREAM_MUSIC);
+
+        float streamVolumeMax = mgr.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+
+        float volume = streamVolumeCurrent / streamVolumeMax;
+
+        soundPool.play(soundPoolMap.get(sound), volume, volume, 1, loop, 1f);
+
+        //参数：1、Map中取值   2、当前音量     3、最大音量  4、优先级   5、重播次数   6、播放速度
+
     }
 }

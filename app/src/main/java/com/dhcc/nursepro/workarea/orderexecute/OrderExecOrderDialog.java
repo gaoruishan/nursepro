@@ -49,6 +49,43 @@ public class OrderExecOrderDialog extends Dialog {
     private String msgInfo;
     private String canExeFlag;
 
+    //功能区扫码 附加数据
+    private String sttDateTime = "";
+    private String arcimDesc = "";
+    private String orderId = "";
+    private String bedCode = "";
+
+    public String getBedCode() {
+        return bedCode;
+    }
+
+    public void setBedCode(String bedCode) {
+        this.bedCode = bedCode;
+    }
+
+    public String getSttDateTime() {
+        return sttDateTime;
+    }
+
+    public void setSttDateTime(String sttDateTime) {
+        this.sttDateTime = sttDateTime;
+    }
+
+    public String getArcimDesc() {
+        return arcimDesc;
+    }
+
+    public void setArcimDesc(String arcimDesc) {
+        this.arcimDesc = arcimDesc;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
 
     public OrderExecOrderDialog(Context context) {
         super(context, R.style.MyDialog);
@@ -58,26 +95,64 @@ public class OrderExecOrderDialog extends Dialog {
 
     public void setChildOrders(List<ScanResultBean.OrdersBean> childOrders) {
         this.childOrders = childOrders;
+        if (childOrders != null && childOrders.size() > 0 && recyPopupChildOrderInfo != null && adapter != null) {
+            adapter.setNewData(childOrders);
+        }
     }
 
 
     public void setPatInfo(String patInfo) {
         this.patInfo = patInfo;
+        if (patInfo != null && tvPopupPatinfo != null) {
+            tvPopupPatinfo.setText(patInfo);
+        }
     }
+
     public void setPopMsgInfo(String msgInfo) {
         this.msgInfo = msgInfo;
+        if (!TextUtils.isEmpty(msgInfo) && llMsg != null && tvPopupMsg != null) {
+            llMsg.setVisibility(View.VISIBLE);
+            tvPopupMsg.setText(msgInfo);
+        }
     }
 
     public void setOrderUnit(String orderUnit) {
         this.orderUnit = orderUnit;
+        if (orderUnit != null && tvPopupOrderunit != null) {
+            tvPopupOrderunit.setText(orderUnit);
+        }
     }
 
     public void setOrderInfo(String orderInfo) {
         this.orderInfo = orderInfo;
+        if (orderInfo != null && tvPopupOrderinfo != null) {
+            tvPopupOrderinfo.setText(orderInfo);
+        }
     }
 
     public void setOrderInfoEx(String orderInfoEx) {
         this.orderInfoEx = orderInfoEx;
+        if (orderInfoEx != null && tvPopupOrderinfoex != null) {
+            tvPopupOrderinfoex.setText(orderInfoEx);
+        }
+    }
+
+    public void setCanExeFlag(String canExeFlag) {
+        this.canExeFlag = canExeFlag;
+
+        //canExeFlag 0 不能 1 能
+        if (tvPopupOrderexec != null) {
+            if ("0".equals(canExeFlag)) {
+                tvPopupOrderexec.setEnabled(false);
+                tvPopupOrderexec.setClickable(false);
+                tvPopupOrderexec.setBackgroundResource(R.drawable.bg_dialog_cancel);
+            } else {
+                tvPopupOrderexec.setEnabled(true);
+                tvPopupOrderexec.setClickable(true);
+                tvPopupOrderexec.setBackgroundResource(R.drawable.bg_dialog_sure);
+            }
+        }
+
     }
 
     /**
@@ -156,12 +231,14 @@ public class OrderExecOrderDialog extends Dialog {
         if (orderInfoEx != null) {
             tvPopupOrderinfoex.setText(orderInfoEx);
         }
-        if(!TextUtils.isEmpty(msgInfo)){
-        	llMsg.setVisibility(View.VISIBLE);
-        	tvPopupMsg.setText(msgInfo);
+
+        if (!TextUtils.isEmpty(msgInfo)) {
+            llMsg.setVisibility(View.VISIBLE);
+            tvPopupMsg.setText(msgInfo);
         }
+
         //canExeFlag 0 不能 1 能
-        if(!"1".equals(canExeFlag)){
+        if (!"1".equals(canExeFlag)) {
             tvPopupOrderexec.setEnabled(false);
             tvPopupOrderexec.setClickable(false);
             tvPopupOrderexec.setBackgroundResource(R.drawable.bg_dialog_cancel);
@@ -187,9 +264,6 @@ public class OrderExecOrderDialog extends Dialog {
         });
     }
 
-    public void setCanExeFlag(String canExeFlag) {
-        this.canExeFlag = canExeFlag;
-    }
 
     /**
      * 设置确定按钮被点击的接口

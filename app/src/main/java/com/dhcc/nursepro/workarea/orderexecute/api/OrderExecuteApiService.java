@@ -107,6 +107,26 @@ public class OrderExecuteApiService {
 
     }
 
+    public static void getOrdersMsgByMain(String episodeId, String scanInfo, final ServiceCallBack callback) {
+        SPUtils spUtils = SPUtils.getInstance();
+        HashMap<String, String> properties = new HashMap<>();
+        if (!"".equals(episodeId)) {
+            properties.put("episodeId", episodeId);
+        }
+        properties.put("barcode", scanInfo);
+        properties.put("wardId", spUtils.getString(SharedPreference.WARDID));
+        properties.put("userId", spUtils.getString(SharedPreference.USERID));
+        properties.put("userDeptId", "");
+
+        WebServiceUtils.callWebService("getScanInfoByMain", properties, new WebServiceUtils.WebServiceCallBack() {
+            @Override
+            public void callBack(String result) {
+                callback.onResult(result);
+            }
+        });
+
+    }
+
 
     public interface ServiceCallBack {
         void onResult(String jsonStr);

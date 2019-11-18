@@ -255,6 +255,40 @@ public class OrderExecuteApiManager {
         });
     }
 
+    public static void getScanMsgByMain(String episodeId, String scanInfo, final GetScanCallBack callback) {
+
+        OrderExecuteApiService.getOrdersMsgByMain(episodeId, scanInfo, new OrderExecuteApiService.ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                Gson gson = new Gson();
+
+                if (jsonStr.isEmpty()) {
+                    callback.onFail("-1", "网络错误，请求数据为空");
+                } else {
+                    try {
+                        ScanResultBean scanResultBean = gson.fromJson(jsonStr, ScanResultBean.class);
+                        if (ObjectUtils.isEmpty(scanResultBean)) {
+                            callback.onFail("-3", "网络错误，数据解析为空");
+                        } else {
+                            if ("0".equals(scanResultBean.getStatus())) {
+                                if (callback != null) {
+                                    callback.onSuccess(scanResultBean);
+                                }
+                            } else {
+                                if (callback != null) {
+                                    callback.onFail(scanResultBean.getMsgcode(), scanResultBean.getMsg());
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        callback.onFail("-2", "网络错误，数据解析失败");
+                    }
+                }
+
+            }
+        });
+    }
+
     //扫描腕带,医嘱码
     public interface GetScanCallBack extends CommonCallBack {
         void onSuccess(ScanResultBean scanResultBean);
