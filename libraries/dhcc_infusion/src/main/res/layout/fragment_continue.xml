@@ -32,6 +32,11 @@
                 android:layout_marginTop="@dimen/dp_20"
                 android:orientation="vertical"
             />
+            <com.dhcc.res.infusion.CustomSelectView
+                android:id="@+id/custom_select_time"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/dp_20"
+                android:layout_height="wrap_content"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_ord_list"

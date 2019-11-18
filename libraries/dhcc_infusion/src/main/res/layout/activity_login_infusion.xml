@@ -8,14 +8,23 @@
 
 
     <RelativeLayout
-        android:layout_width="@dimen/dp_60"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/dp_60"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:layout_marginStart="@dimen/dp_16"
         android:layout_marginTop="@dimen/dp_12">
         <ImageView
-            android:onClick="openBrowser"
             android:layout_width="@dimen/dp_60"
             android:layout_height="@dimen/dp_60"
-            android:src="@drawable/infusion_login_logo" />
+            android:src="@drawable/dhcc_login_logo" />
+        <TextView
+            android:id="@+id/tv_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp_16"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            />
     </RelativeLayout>
 
     <LinearLayout

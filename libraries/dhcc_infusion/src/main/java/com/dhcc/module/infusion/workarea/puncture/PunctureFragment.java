@@ -22,6 +22,7 @@ import com.dhcc.module.infusion.workarea.comm.BaseInfusionFragment;
 import com.dhcc.module.infusion.workarea.dosing.adapter.CommDosingAdapter;
 import com.dhcc.module.infusion.workarea.puncture.api.PunctureApiManager;
 import com.dhcc.res.infusion.CustomPatView;
+import com.dhcc.res.infusion.CustomScanView;
 import com.dhcc.res.infusion.CustomSelectView;
 import com.dhcc.res.infusion.CustomSpeedView;
 
@@ -54,6 +55,7 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
 
         helper = new BaseHelper(mContext);
         rvPuncture = RecyclerViewHelper.get(mContext, R.id.rv_puncture);
+        CustomScanView customScan = mContainerChild.findViewById(R.id.custom_scan);
         csvSpeed = mContainerChild.findViewById(R.id.csv_speed);
         csvSelect = mContainerChild.findViewById(R.id.csv_select);
         cpvPat = mContainerChild.findViewById(R.id.cpv_pat);
@@ -62,6 +64,7 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
         helper.setOnClickListener(R.id.tv_ok, this);
         punctureAdapter = AdapterFactory.getCommDosingOrdList();
         rvPuncture.setAdapter(punctureAdapter);
+        customScan.setTitle("请扫描瓶签/信息卡").setWarning("请您使用扫码设备，扫描药品瓶签/信息卡");
         f(R.id.tv_user, TextView.class).setText(SPUtils.getInstance().getString(SharedPreference.USERNAME));
     }
 

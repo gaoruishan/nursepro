@@ -71,7 +71,7 @@ public class PatrolFragment extends BaseInfusionFragment implements View.OnClick
         rvPatrolStatus = RecyclerViewHelper.get(this.getActivity(), R.id.rv_patrol_status);
         tourAdapter = AdapterFactory.getInfusionTour();
         rvPatrolStatus.setAdapter(tourAdapter);
-        csvScan.setTitle("请扫描瓶签/信息卡").setWarning("请您使用扫码设备，扫描药品瓶签/信息卡");
+        showScanLabel();
     }
 
     @Override
