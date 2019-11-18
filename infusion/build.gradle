@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply from: "../plugin/build_pack.gradle"
+//apply from: "../plugin/build_pack.gradle"
 
 android {
     compileSdkVersion rootProject.android.compileSdkVersion
@@ -7,7 +7,7 @@ android {
         applicationId "com.dhcc.infusion"
         minSdkVersion rootProject.android.minSdkVersion
         targetSdkVersion rootProject.android.targetSdkVersion
-        versionCode 4
+        versionCode 5
         versionName "2.0"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -27,7 +27,7 @@ android {
         variant ->
             variant.outputs.all {
                 if (buildType.name == 'release') {
-                    outputFileName = "PDA_" + defaultConfig.versionCode + "_" + new Date().format("yyyy-MM-dd") + ".apk"
+                    outputFileName = "Infusion_PDA_" + defaultConfig.versionCode + "_" + new Date().format("yyyy-MM-dd") + ".apk"
                 }
             }
     }
