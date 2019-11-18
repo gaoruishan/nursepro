@@ -8,7 +8,7 @@ android {
         minSdkVersion rootProject.android.minSdkVersion
         targetSdkVersion rootProject.android.targetSdkVersion
         versionCode 4
-        versionName "1.3"
+        versionName "2.0"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -18,19 +18,19 @@ android {
             keyPassword 'cdeffg@2018'
             storeFile file('../sign/ControlKey.jks')
             storePassword 'cdeffg@2018'
-            v2SigningEnabled false
+            //v2SigningEnabled false
         }
     }
 
     //release版本输出包名自动追加版本号和版本名称
-//    applicationVariants.all {
-//        variant ->
-//            variant.outputs.all {
-//                if (buildType.name == 'release') {
-//                    outputFileName = "PDA_"+defaultConfig.applicationId+"_" + defaultConfig.versionCode + "_" + new Date().format("yyyy-MM-dd") + ".apk"
-//                }
-//            }
-//    }
+    applicationVariants.all {
+        variant ->
+            variant.outputs.all {
+                if (buildType.name == 'release') {
+                    outputFileName = "PDA_" + defaultConfig.versionCode + "_" + new Date().format("yyyy-MM-dd") + ".apk"
+                }
+            }
+    }
 
     buildTypes {
         release {

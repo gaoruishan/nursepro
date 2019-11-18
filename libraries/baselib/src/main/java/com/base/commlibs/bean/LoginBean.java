@@ -29,8 +29,18 @@ public class LoginBean extends CommResult {
     private String logFlag;
     //开启后台消息通知: 默认是"" 不开启; "1" 开启
     private String msgNoticeFlag;
+    //开启全局View: 默认是"" 不开启; "1" 开启
+    private String globalViewFlag;
     private List<BroadcastListBean> broadcastList;
     private List<LocsBean> locs;
+
+    public String getGlobalViewFlag() {
+        return globalViewFlag == null ? "" : globalViewFlag;
+    }
+
+    public void setGlobalViewFlag(String globalViewFlag) {
+        this.globalViewFlag = globalViewFlag;
+    }
 
     public String getMsgNoticeFlag() {
         return msgNoticeFlag == null ? "" : msgNoticeFlag;

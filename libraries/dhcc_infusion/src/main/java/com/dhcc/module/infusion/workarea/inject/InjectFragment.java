@@ -115,9 +115,8 @@ public class InjectFragment extends BaseInfusionFragment {
 
             @Override
             public void onSuccess(CommResult bean, String type) {
-                scanInfo = scanInfoTemp;
+                onSuccessThings(bean);
                 getInjectOrdList();
-                scanInfoTemp = null;
             }
         });
     }

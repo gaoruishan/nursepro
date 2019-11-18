@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import com.base.commlibs.UniversalActivity;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.utils.DataCache;
+import com.base.commlibs.utils.UserUtil;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.workarea.comm.bean.MainConfigBean;
@@ -36,6 +37,10 @@ public class ViewGlobal {
      * @return
      */
     public static View createInfusionGlobal(final Context context) {
+        //判断是否开启
+        if (!UserUtil.isShowGlobalView()) {
+            return null;
+        }
         LinearLayout linearLayout = new LinearLayout(context);
         linearLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         linearLayout.setOrientation(LinearLayout.VERTICAL);

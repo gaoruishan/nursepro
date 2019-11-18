@@ -212,6 +212,7 @@ public class UserUtil {
     public static void setUserInfo(LoginBean loginBean) {
         List<LoginBean.LocsBean> locs = loginBean.getLocs();
         SPUtils.getInstance().put(SharedPreference.LOG_FLAG, loginBean.getLogFlag());
+        SPUtils.getInstance().put(SharedPreference.GLOBAL_VIEW_FLAG, loginBean.getGlobalViewFlag());
         SPUtils.getInstance().put(SharedPreference.MSG_NOTICE_FLAG, loginBean.getMsgNoticeFlag());
         SPUtils.getInstance().put(SharedPreference.MSG_SKIN_FLAG, loginBean.getMsgSkinFlag());
         SPUtils.getInstance().put(SharedPreference.USERID, loginBean.getUserId());
@@ -225,5 +226,13 @@ public class UserUtil {
      */
     public static boolean isMsgNoticeFlag() {
         return !TextUtils.isEmpty(SPUtils.getInstance().getString(SharedPreference.MSG_NOTICE_FLAG));
+    }
+
+    /**
+     * 是否开启全局View
+     * @return
+     */
+    public static boolean isShowGlobalView() {
+        return !TextUtils.isEmpty(SPUtils.getInstance().getString(SharedPreference.GLOBAL_VIEW_FLAG));
     }
 }

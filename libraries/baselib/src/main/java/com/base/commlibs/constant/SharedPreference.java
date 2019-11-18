@@ -72,4 +72,6 @@ public class SharedPreference {
     public static final String LOG_FLAG = "LOG_FLAG";
     //通知
     public static final String MSG_NOTICE_FLAG = "MSG_NOTICE_FLAG";
+    //全局View
+    public static final String GLOBAL_VIEW_FLAG = "GLOBAL_VIEW_FLAG";
 }
