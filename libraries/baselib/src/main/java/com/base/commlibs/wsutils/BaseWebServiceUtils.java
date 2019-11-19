@@ -33,7 +33,7 @@ import java.util.concurrent.Executors;
 
 public class BaseWebServiceUtils {
 
-    public static final String DEFAULT_IP = "10.1.5.87";
+    public static final String DEFAULT_IP = "114.115.136.233";
     public static final String DTHEALTH_WEB = "/imedical/web";
     //    public static final String WEB_SERVER_URL = "http://10.1.5.87/dthealth/web/Nur.PDA.WebService.cls";
     // 门诊输液新接口

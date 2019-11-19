@@ -324,6 +324,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             } else {
                                 spUtils.put(SharedPreference.WEBIP, showDialog.getIp());
                                 spUtils.put(SharedPreference.WEBPATH, showDialog.getAddr());
+                                String ip = showDialog.getIp();
+                                UserUtil.setWebIpAndPath(ip,showDialog.getAddr());UserUtil.setWebIpAndPath(ip,showDialog.getAddr());
                                 showDialog.dismiss();
                                 getBroadCastConfig();
                             }
