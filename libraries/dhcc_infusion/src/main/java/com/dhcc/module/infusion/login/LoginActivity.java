@@ -22,8 +22,10 @@ import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.AppUtil;
+import com.base.commlibs.utils.TransBroadcastUtil;
 import com.base.commlibs.utils.UserUtil;
 import com.base.commlibs.wsutils.BaseWebServiceUtils;
+import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.module.infusion.R;
@@ -35,7 +37,6 @@ import com.dhcc.module.infusion.login.windowpicker.Ward;
 import com.dhcc.module.infusion.login.windowpicker.Window;
 import com.dhcc.module.infusion.login.windowpicker.WindowPicker;
 import com.dhcc.module.infusion.utils.DialogFactory;
-import com.base.commlibs.utils.TransBroadcastUtil;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -89,6 +90,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         //获取广播码
         getBroadcastList();
         openMultiScan(AppUtil.isMultiScan());
+        //版本号
+        ((TextView) findViewById(R.id.tv_version))
+                .setText("v" + AppUtils.getAppVersionName() + "." + AppUtils.getAppVersionCode());
     }
 
 
