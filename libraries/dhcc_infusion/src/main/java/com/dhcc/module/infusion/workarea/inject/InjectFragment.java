@@ -75,7 +75,7 @@ public class InjectFragment extends BaseInfusionFragment {
 
     @Override
     protected void getScanOrdList() {
-        super.getScanOrdList();
+
         InjectApiManager.getScanInfo(regNo, scanInfo, new CommonCallBack<ScanInfoBean>() {
             @Override
             public void onFail(String code, String msg) {

@@ -1,6 +1,5 @@
 package com.dhcc.module.infusion.workarea.continues;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -53,14 +52,11 @@ public class ContinueFragment extends BaseInfusionFragment implements View.OnCli
         rvOrdList.setAdapter(commDosingAdapter);
     }
 
-    @Override
-    public void getScanMsg(Intent intent) {
-        super.getScanMsg(intent);
-        if (scanInfo != null) {
-            getOrdList(scanInfo);
-        }
-    }
+   @Override
+    protected void getScanOrdList() {
 
+        getOrdList(scanInfo);
+    }
 
     @Override
     protected int setLayout() {

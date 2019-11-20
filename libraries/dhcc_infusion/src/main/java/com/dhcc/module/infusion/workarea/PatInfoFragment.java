@@ -64,5 +64,10 @@ public class PatInfoFragment extends BaseInfusionFragment {
         });
     }
 
+    @Override
+    protected void getScanOrdList() {
+
+    }
+
 
 }

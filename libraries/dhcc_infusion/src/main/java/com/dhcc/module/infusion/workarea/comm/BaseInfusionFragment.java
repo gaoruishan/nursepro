@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
+import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.utils.AppUtil;
@@ -46,11 +47,9 @@ public abstract class BaseInfusionFragment extends BaseFragment {
     public static final String SCAN_PAT_HAND = "请您使用扫码设备，扫描病人腕带";
     public static final String SCAN_LABEL = "请扫描瓶贴";
     public static final String SCAN_DRUG_LABEL = "请您使用扫码设备，扫描药品瓶签";
-    protected static final String PROMPT_NO_ORD = "本次接单任务无此瓶贴,请核对!";
-
     public static final String PAT = "PAT";
     public static final String ORD = "ORD";
-
+    protected static final String PROMPT_NO_ORD = "本次接单任务无此瓶贴,请核对!";
     protected String scanInfo;
     protected String scanInfoTemp;
     protected String episodeId = "";
@@ -166,19 +165,19 @@ public abstract class BaseInfusionFragment extends BaseFragment {
         if (scanInfo != null && scanInfo.contains("-")) {
             scanInfo = scanInfo.replaceAll("-", "\\|\\|");
         }
-        //获取列表
-        if (!TextUtils.isEmpty(scanInfo)) {
+        //扫码Action
+        if (Action.DEVICE_SCAN_CODE.equals(intent.getAction())
+                && !TextUtils.isEmpty(scanInfo)) {
             this.scanInfo = scanInfo;
+            //获取列表
             getScanOrdList();
         }
     }
 
     /**
-     * 获取信息列表
+     * 获取扫码Action信息
      */
-    protected void getScanOrdList() {
-
-    }
+    protected abstract void getScanOrdList();
 
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

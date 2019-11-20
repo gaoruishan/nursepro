@@ -94,7 +94,7 @@ public class SkinDosingFragment extends BaseInfusionFragment {
 
     @Override
     protected void getScanOrdList() {
-        super.getScanOrdList();
+
         SkinApiManager.getSkinList("", customDate.getStartDateTimeText(), customDate.getEndDateTimeText(),scanInfo, new CommonCallBack<SkinListBean>() {
             @Override
             public void onFail(String code, String msg) {

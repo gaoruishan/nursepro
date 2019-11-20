@@ -121,6 +121,11 @@ public class MedicalDetailFragment extends BaseInfusionFragment {
         });
     }
 
+    @Override
+    protected void getScanOrdList() {
+
+    }
+
     private List<OrdInfoBean.OrdInfoArrBean.OrdWorkListBean> getGroupOrdWork(List<OrdInfoBean.OrdInfoArrBean.OrdWorkListBean> ordWorkList) {
         Set<String> attrIdSet = new HashSet<>();
         for (OrdInfoBean.OrdInfoArrBean.OrdWorkListBean bean : ordWorkList) {

@@ -1,11 +1,13 @@
 package com.dhcc.module.infusion.workarea;
 
 
+import com.base.commlibs.utils.UserUtil;
 import com.dhcc.module.infusion.R;
 
 import java.util.Arrays;
 
 /**
+ * 门诊输液状态
  * @author:gaoruishan
  * @date:202019-10-12/11:39
  * @email:grs0515@163.com
@@ -37,6 +39,11 @@ public class OrdState {
      * @return
      */
     public static int getOrdStateColor(String ordState) {
+        //配置
+        if (!UserUtil.isOrdStateFlag()) {
+            return R.color.white;
+        }
+
         if (STATE_1.equals(ordState)) {
             return R.color.white;
         }

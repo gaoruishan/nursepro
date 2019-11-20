@@ -120,7 +120,7 @@ public class LocalTestManager {
     public static void saveLog(String methodName, String obj) {
         if (isLogFlag()) {
             String date = FORMAT.format(new Date(System.currentTimeMillis()));
-            String dhc = date + "/v" + APP_VERSION_CODE + "_" + methodName;
+            String dhc = date + "/v" + APP_VERSION_CODE + "_" + methodName+"_"+System.currentTimeMillis();
             CommFile.write(dhc, getCommLog() + obj);
         }
     }

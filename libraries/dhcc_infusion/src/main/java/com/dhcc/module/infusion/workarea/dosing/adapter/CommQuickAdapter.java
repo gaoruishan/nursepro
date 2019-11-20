@@ -3,6 +3,7 @@ package com.dhcc.module.infusion.workarea.dosing.adapter;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.annotation.ColorRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,13 +16,14 @@ import android.widget.TextView;
 
 import com.base.commlibs.BaseFragment;
 import com.base.commlibs.UniversalActivity;
+import com.base.commlibs.utils.ViewUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.utils.RecyclerViewHelper;
-import com.base.commlibs.utils.ViewUtil;
 import com.dhcc.module.infusion.view.SelectTextView;
 import com.dhcc.module.infusion.workarea.MedicalDetailFragment;
+import com.dhcc.module.infusion.workarea.OrdState;
 import com.dhcc.module.infusion.workarea.dosing.bean.OeoreGroupBean;
 import com.dhcc.module.infusion.workarea.dosing.bean.OrdListBean;
 
@@ -90,7 +92,9 @@ public abstract class CommQuickAdapter<T, K extends BaseViewHolder> extends Base
         RecyclerView rvChild = helper.getView(R.id.rv_child);
         //创建布局管理
         RecyclerViewHelper.setDefaultRecyclerView(mContext, rvChild, 0);
-        rvChild.setAdapter(new ChildAdapter(R.layout.item_posing_child, item.getOeoreSubList(), stv.isSelect()));
+        ChildAdapter childAdapter = new ChildAdapter(R.layout.item_posing_child, item.getOeoreSubList(), stv.isSelect());
+        childAdapter.setOrdState(item.getOrdState());
+        rvChild.setAdapter(childAdapter);
         //父item获取事件
         preventChildRecyclerViewClick(rvChild, helper.itemView);
     }
@@ -166,7 +170,9 @@ public abstract class CommQuickAdapter<T, K extends BaseViewHolder> extends Base
 
     public static class ChildAdapter extends BaseQuickAdapter<OeoreGroupBean, BaseViewHolder> {
 
-        private final boolean select;
+        private  boolean select;
+        private  @ColorRes
+        int color;
 
         public ChildAdapter(int layoutResId, @Nullable List<OeoreGroupBean> data, boolean select) {
             super(layoutResId, data);
@@ -181,6 +187,13 @@ public abstract class CommQuickAdapter<T, K extends BaseViewHolder> extends Base
                     + "   " + item.getPhOrdQtyUnit());
             tvTitle.setEnabled(false);
             tvTitle.setClickable(false);
+            if (color != 0) {
+                helper.setBackgroundColor(R.id.ll_item_child, ContextCompat.getColor(mContext, color));
+            }
+        }
+
+        public void setOrdState(String ordState) {
+          this.color=  OrdState.getOrdStateColor(ordState);
         }
     }
 

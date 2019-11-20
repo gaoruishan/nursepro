@@ -1,6 +1,11 @@
 package com.base.commlibs.utils;
 
+import android.text.TextUtils;
+import android.util.Log;
+
+import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.FileIOUtils;
+import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.PathUtils;
 
 /**
@@ -12,6 +17,7 @@ import com.blankj.utilcode.util.PathUtils;
 public class CommFile {
 
     public static final String IP = "ip";
+    public static final String TAG = "CommFile";
     private static final String ROOT_PATH = PathUtils.getExternalStoragePath() + "/dhc/";
 
     /**
@@ -50,7 +56,7 @@ public class CommFile {
 
     /**
      * 读取文件
-     * @param name 文件名
+     * @param name     文件名
      * @param callBack 回调
      */
     public static void read(String name, SimpleCallBack<String> callBack) {
@@ -91,5 +97,30 @@ public class CommFile {
             return finalName + "_" + System.currentTimeMillis() + ".json";
         }
         return finalName + ".json";
+    }
+
+    /**
+     * 删除日志
+     * @param code 版本号
+     */
+    public static void deleteLog(String code) {
+        if (!TextUtils.isEmpty(code)) {
+            try {
+                int i = Integer.parseInt(code);
+                if (AppUtils.getAppVersionCode() > i) {
+                    CommFile.delete(ROOT_PATH);
+                }
+            } catch (Exception e) {
+
+            }
+        }
+    }
+
+    /**
+     * 删除日志
+     */
+    public static void delete(String path) {
+        Log.e(TAG, "(CommFile.java:103) delete");
+        FileUtils.delete(path);
     }
 }

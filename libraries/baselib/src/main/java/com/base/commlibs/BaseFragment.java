@@ -907,6 +907,7 @@ public class BaseFragment extends Fragment {
     public class BaseReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
+            Log.e(TAG,"(BaseReceiver.java:910) "+intent.toString());
             getScanMsg(intent);
         }
     }

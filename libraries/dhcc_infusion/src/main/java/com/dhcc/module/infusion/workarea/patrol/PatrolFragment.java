@@ -74,12 +74,10 @@ public class PatrolFragment extends BaseInfusionFragment implements View.OnClick
         showScanLabel();
     }
 
-    @Override
-    public void getScanMsg(Intent intent) {
-        super.getScanMsg(intent);
-        if (scanInfo != null) {
-            getOrdList(scanInfo);
-        }
+   @Override
+    protected void getScanOrdList() {
+
+        getOrdList(scanInfo);
     }
 
     @Override

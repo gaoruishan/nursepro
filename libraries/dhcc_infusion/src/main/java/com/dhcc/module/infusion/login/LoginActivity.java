@@ -25,7 +25,6 @@ import com.base.commlibs.utils.AppUtil;
 import com.base.commlibs.utils.TransBroadcastUtil;
 import com.base.commlibs.utils.UserUtil;
 import com.base.commlibs.wsutils.BaseWebServiceUtils;
-import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.module.infusion.R;
@@ -91,8 +90,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         getBroadcastList();
         openMultiScan(AppUtil.isMultiScan());
         //版本号
-        ((TextView) findViewById(R.id.tv_version))
-                .setText("v" + AppUtils.getAppVersionName() + "." + AppUtils.getAppVersionCode());
+        ((TextView) findViewById(R.id.tv_version)).setText(UserUtil.getVersion());
+        //版本处理
+//        UserUtil.checkLogVersion();
     }
 
 

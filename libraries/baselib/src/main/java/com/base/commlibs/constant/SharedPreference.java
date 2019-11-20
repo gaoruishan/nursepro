@@ -66,12 +66,15 @@ public class SharedPreference {
     public static  final String BLOODSCANTIMES = "BLOODSCANTIMES";
 
     public static  final String DATA_MAIN_CONFIG = "DATAMAINCONFIG";
-
+    public static  final String APP_VERSION_CODE = "APP_VERSION_CODE";
+    //皮试双签
     public static final String MSG_SKIN_FLAG = "MSG_SKIN_FLAG";
-
+    //日志
     public static final String LOG_FLAG = "LOG_FLAG";
     //通知
     public static final String MSG_NOTICE_FLAG = "MSG_NOTICE_FLAG";
     //全局View
     public static final String GLOBAL_VIEW_FLAG = "GLOBAL_VIEW_FLAG";
+    //输液背景状态
+    public static final String ORD_STATE_FLAG = "ORD_STATE_FLAG";
 }

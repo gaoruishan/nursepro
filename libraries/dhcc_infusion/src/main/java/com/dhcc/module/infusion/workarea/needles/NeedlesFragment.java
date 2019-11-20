@@ -43,12 +43,10 @@ public class NeedlesFragment extends BaseInfusionFragment implements View.OnClic
         rvOrdList.setAdapter(commPatrolAdapter);
     }
 
-    @Override
-    public void getScanMsg(Intent intent) {
-        super.getScanMsg(intent);
-        if (scanInfo != null) {
-            getOrdList(scanInfo);
-        }
+   @Override
+    protected void getScanOrdList() {
+
+        getOrdList(scanInfo);
     }
 
     @Override
