@@ -39,9 +39,10 @@ public class LocalTestManager {
 
     static {
         //对应的方法名
-        l.add("getInfusionMessage");
+//        l.add("getInfusionMessage");
 //        l.add("getSkinTestMessage");
 //        l.add("getOrdList");
+//        l.add("getSkinOrdList");
     }
 
     /**

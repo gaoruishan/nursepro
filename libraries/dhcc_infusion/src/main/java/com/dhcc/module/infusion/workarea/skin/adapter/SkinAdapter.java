@@ -43,8 +43,8 @@ public class SkinAdapter extends BaseBloodQuickAdapter<SkinListBean.OrdListBean,
         CustomSkinTagView customSkinTag = helper.getView(R.id.custom_skin_tag);
         customSkinTag.setTextWithColor(item.getTestResult());
         helper.addOnClickListener(R.id.iv_select);
-        helper.setText(R.id.tv_name, item.getArcimDesc())
-                .setText(R.id.tv_time, item.getCreateDateTime())
+
+        helper.setText(R.id.tv_time, item.getCreateDateTime())
                 .setText(R.id.tv_operate, item.getDisposeStatDesc())
                 .setText(R.id.tv_type, item.getPhcinDesc())
                 .setText(R.id.tv_dose, item.getDoseQtyUnit())
@@ -69,6 +69,8 @@ public class SkinAdapter extends BaseBloodQuickAdapter<SkinListBean.OrdListBean,
         helper.setGone(R.id.iv_select, !hideSelectButton);
         helper.setGone(R.id.v_block, hideSelectButton);
         setSkinDosingData(helper, item);
+
+        setInjectChildAdapter(helper, item.getArcimDescList());
     }
 
     public void setHideSelectButton(boolean hideSelectButton) {

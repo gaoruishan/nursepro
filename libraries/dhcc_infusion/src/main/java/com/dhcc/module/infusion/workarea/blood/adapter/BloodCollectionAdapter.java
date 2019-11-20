@@ -7,6 +7,7 @@ import com.base.commlibs.utils.RecyclerViewHelper;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.module.infusion.R;
+import com.dhcc.module.infusion.workarea.blood.bean.ArcimDescListBean;
 import com.dhcc.module.infusion.workarea.blood.bean.BloodOrdListBean;
 
 import java.util.List;
@@ -33,14 +34,14 @@ public class BloodCollectionAdapter extends BaseBloodQuickAdapter<BloodOrdListBe
         rvItem.setAdapter(childAdapter);
     }
 
-    private class BloodCollectionChildAdapter extends BaseQuickAdapter<BloodOrdListBean.ArcimDescListBean, BaseViewHolder> {
+    private class BloodCollectionChildAdapter extends BaseQuickAdapter<ArcimDescListBean, BaseViewHolder> {
 
-        BloodCollectionChildAdapter(@Nullable List<BloodOrdListBean.ArcimDescListBean> data) {
+        BloodCollectionChildAdapter(@Nullable List<ArcimDescListBean> data) {
             super(R.layout.item_blood_child_layout, data);
         }
 
         @Override
-        protected void convert(BaseViewHolder helper, BloodOrdListBean.ArcimDescListBean item) {
+        protected void convert(BaseViewHolder helper, ArcimDescListBean item) {
             helper.setText(R.id.tv_name, item.getArcimDesc());
         }
     }

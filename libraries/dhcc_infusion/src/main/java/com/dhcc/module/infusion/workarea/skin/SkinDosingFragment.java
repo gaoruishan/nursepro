@@ -9,7 +9,6 @@ import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.utils.AdapterFactory;
 import com.dhcc.module.infusion.utils.RecyclerViewHelper;
 import com.dhcc.module.infusion.workarea.comm.BaseInfusionFragment;
-import com.dhcc.module.infusion.workarea.dosing.api.DosingApiManager;
 import com.dhcc.module.infusion.workarea.skin.adapter.SkinAdapter;
 import com.dhcc.module.infusion.workarea.skin.api.SkinApiManager;
 import com.dhcc.module.infusion.workarea.skin.bean.SkinListBean;
@@ -58,7 +57,7 @@ public class SkinDosingFragment extends BaseInfusionFragment {
             return;
         }
 
-        DosingApiManager.despensingOrd(scanInfo, mBean.getBtnType(), "", "", new CommonCallBack<CommResult>() {
+        SkinApiManager.skinDespensingOrd(scanInfo, mBean.getBtnType(), "", "", new CommonCallBack<CommResult>() {
             @Override
             public void onFail(String code, String msg) {
                 onFailThings();

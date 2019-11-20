@@ -3,7 +3,18 @@
   "msgcode": "",
   "ordList": [
     {
-      "ArcimDesc": "____注射用青霉素钠[400万U] ( )",
+      "ArcimDescList":[
+        {
+          "ArcimDesc":"氯化钠注射液[[塑瓶][0.9%×10ml]",
+          "DoseQtyUnit":"1 支",
+          "PhOrdQtyUnit":"1 支"
+        },
+        {
+          "ArcimDesc":"注射用青霉素钠[80万单位]",
+          "DoseQtyUnit":"80 万单位",
+          "PhOrdQtyUnit":"1 支"
+        }
+      ],
       "CreateDateTime": "2019-11-05 10:07:52",
       "CtcpDesc": "医生01",
       "DisposeStatDesc": "皮试",
@@ -21,7 +32,18 @@
       "TestUser": ""
     },
     {
-      "ArcimDesc": "注射用青霉素钠[80万U] ( )",
+      "ArcimDescList":[
+        {
+          "ArcimDesc":"氯化钠注射液[[塑瓶][0.9%×10ml]",
+          "DoseQtyUnit":"1 支",
+          "PhOrdQtyUnit":"1 支"
+        },
+        {
+          "ArcimDesc":"注射用青霉素钠[80万单位]",
+          "DoseQtyUnit":"80 万单位",
+          "PhOrdQtyUnit":"1 支"
+        }
+      ],
       "CreateDateTime": "2019-11-04 12:33:06",
       "CtcpDesc": "医生01",
       "DisposeStatDesc": "皮试",
@@ -39,7 +61,18 @@
       "TestUser": ""
     },
     {
-      "ArcimDesc": "注射用青霉素钠[400万U] ( )",
+      "ArcimDescList":[
+        {
+          "ArcimDesc":"氯化钠注射液[[塑瓶][0.9%×10ml]",
+          "DoseQtyUnit":"1 支",
+          "PhOrdQtyUnit":"1 支"
+        },
+        {
+          "ArcimDesc":"注射用青霉素钠[80万单位]",
+          "DoseQtyUnit":"80 万单位",
+          "PhOrdQtyUnit":"1 支"
+        }
+      ],
       "CreateDateTime": "2019-11-04 14:31:33",
       "CtcpDesc": "医生01",
       "DisposeStatDesc": "皮试",
