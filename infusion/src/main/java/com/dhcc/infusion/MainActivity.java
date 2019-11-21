@@ -37,8 +37,6 @@ import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.service.MServiceNewOrd;
 import com.base.commlibs.utils.UserUtil;
-import com.blankj.utilcode.constant.PermissionConstants;
-import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.infusion.update.BaseDialog;
 import com.dhcc.infusion.update.api.UpdateApiManager;
@@ -102,8 +100,6 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startService(i);
         nm = (NotificationManager) getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
-        //请求SD卡权限
-        PermissionUtils.permission(PermissionConstants.STORAGE).request();
     }
 
     @Override

@@ -25,7 +25,9 @@ import com.base.commlibs.utils.AppUtil;
 import com.base.commlibs.utils.TransBroadcastUtil;
 import com.base.commlibs.utils.UserUtil;
 import com.base.commlibs.wsutils.BaseWebServiceUtils;
+import com.blankj.utilcode.constant.PermissionConstants;
 import com.blankj.utilcode.util.KeyboardUtils;
+import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.db.GreenDaoHelper;
@@ -89,10 +91,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         //获取广播码
         getBroadcastList();
         openMultiScan(AppUtil.isMultiScan());
+        //请求SD卡权限
+        PermissionUtils.permission(PermissionConstants.STORAGE).request();
         //版本号
         ((TextView) findViewById(R.id.tv_version)).setText(UserUtil.getVersion());
         //版本处理
-//        UserUtil.checkLogVersion();
+        if (PermissionUtils.isGranted(PermissionConstants.STORAGE)) {
+            UserUtil.checkLogVersion();
+        }
     }
 
 

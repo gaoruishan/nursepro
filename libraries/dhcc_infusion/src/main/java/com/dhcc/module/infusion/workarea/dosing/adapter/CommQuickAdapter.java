@@ -189,6 +189,11 @@ public abstract class CommQuickAdapter<T, K extends BaseViewHolder> extends Base
             tvTitle.setClickable(false);
             if (color != 0) {
                 helper.setBackgroundColor(R.id.ll_item_child, ContextCompat.getColor(mContext, color));
+            }else {
+                //选中的背景变色
+                if (select) {
+                    helper.setBackgroundColor(R.id.ll_item_child, ContextCompat.getColor(mContext, R.color.dhcc_blue_dark2));
+                }
             }
         }
 

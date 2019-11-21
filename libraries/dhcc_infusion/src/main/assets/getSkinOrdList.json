@@ -3,18 +3,6 @@
   "msgcode": "",
   "ordList": [
     {
-      "ArcimDescList":[
-        {
-          "ArcimDesc":"氯化钠注射液[[塑瓶][0.9%×10ml]",
-          "DoseQtyUnit":"1 支",
-          "PhOrdQtyUnit":"1 支"
-        },
-        {
-          "ArcimDesc":"注射用青霉素钠[80万单位]",
-          "DoseQtyUnit":"80 万单位",
-          "PhOrdQtyUnit":"1 支"
-        }
-      ],
       "CreateDateTime": "2019-11-05 10:07:52",
       "CtcpDesc": "医生01",
       "DisposeStatDesc": "皮试",
@@ -27,7 +15,7 @@
       "PhcinDesc": "静脉滴注(皮试)",
       "TestDateTime": " ",
       "TestMethod": "",
-      "TestResult": "",
+      "TestResult": "阳",
       "TestStartTime": "",
       "TestUser": ""
     },
@@ -75,7 +63,7 @@
       ],
       "CreateDateTime": "2019-11-04 14:31:33",
       "CtcpDesc": "医生01",
-      "DisposeStatDesc": "皮试",
+      "DisposeStatDesc": "皮试阴性",
       "DoseQtyUnit": "800 万IU",
       "EpisodeID": "660",
       "Notes": " ",
@@ -83,11 +71,11 @@
       "OeoriId": "636||5||1",
       "PhOrdQtyUnit": "800 万IU",
       "PhcinDesc": "静脉注射(皮试)",
-      "TestDateTime": " ",
+      "TestDateTime": "2019-11-21 08:41:04",
       "TestMethod": "",
-      "TestResult": "",
+      "TestResult": "阴性",
       "TestStartTime": "2019-11-04 15:00:18",
-      "TestUser": ""
+      "TestUser": "护士01"
     }
   ],
   "patInfo": {

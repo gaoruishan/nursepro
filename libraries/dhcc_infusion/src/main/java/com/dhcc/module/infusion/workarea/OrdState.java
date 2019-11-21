@@ -41,7 +41,7 @@ public class OrdState {
     public static int getOrdStateColor(String ordState) {
         //配置
         if (!UserUtil.isOrdStateFlag()) {
-            return R.color.white;
+            return 0;
         }
 
         if (STATE_1.equals(ordState)) {

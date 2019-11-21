@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -47,7 +48,9 @@ public class ViewGlobal {
         MainConfigBean json = DataCache.getJson(MainConfigBean.class, SharedPreference.DATA_MAIN_CONFIG);
         if (json != null && json.getMainList() != null) {
             for (final ConfigBean bean : json.getMainList()) {
-                BLTextView tvName = (BLTextView) LayoutInflater.from(context).inflate(R.layout.dhcc_infusion_global_view,linearLayout,false);
+                BLTextView tvName = (BLTextView) LayoutInflater.from(context).inflate(R.layout.dhcc_infusion_global_view, linearLayout, false);
+                int dimen = bean.getName().length() > 2 ? R.dimen.sp_14 : R.dimen.sp_16;
+                tvName.setTextSize(TypedValue.COMPLEX_UNIT_PX,context.getResources().getDimension(dimen));
                 tvName.setText(bean.getName());
                 linearLayout.addView(tvName);
                 tvName.setOnClickListener(new View.OnClickListener() {

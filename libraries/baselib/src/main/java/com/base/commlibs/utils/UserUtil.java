@@ -111,7 +111,6 @@ public class UserUtil {
      */
     public static void checkLogVersion() {
         String code = SPUtils.getInstance().getString(SharedPreference.APP_VERSION_CODE);
-        Log.e(TAG,"(UserUtil.java:110) "+code);
         if (!TextUtils.isEmpty(code)) {
             CommFile.deleteLog(code);
         }else {
@@ -119,7 +118,6 @@ public class UserUtil {
             CommFile.read(SharedPreference.APP_VERSION_CODE, new SimpleCallBack<String>() {
                 @Override
                 public void call(String result, int type) {
-                    Log.e(TAG, "(UserUtil.java:110) " + result);
                     CommFile.deleteLog(result);
                 }
             });

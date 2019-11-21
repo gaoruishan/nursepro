@@ -5,7 +5,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -65,25 +67,54 @@ public class DialogFactory extends CommDialog {
         final TextView[] tvArr = new TextView[arr.length];
         final Dialog dialog = new Dialog(context, R.style.MyDialog);
         dialog.setCanceledOnTouchOutside(true);
-        View view = LayoutInflater.from(context).inflate(R.layout.dhcc_count_time_dialog_layout, null);
+        final View view = LayoutInflater.from(context).inflate(R.layout.dhcc_count_time_dialog_layout, null);
         FlowLayout flLayout = view.findViewById(R.id.fl_layout);
-        final EditText etSkinNum = view.findViewById(R.id.et_skin_num);
+        final EditText etSkinTime = view.findViewById(R.id.et_skin_time);
         for (int i = 0; i < arr.length; i++) {
             View child = LayoutInflater.from(context).inflate(R.layout.dhcc_count_time_dialog_item_tv, null);
             TextView tvName = child.findViewById(R.id.tv_name);
             tvName.setText(arr[i]);
+            tvName.setTag(i);
             tvArr[i] = tvName;
             tvName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    for (View view1 : tvArr) {
-                        view1.setSelected(false);
+                  int pst= (int) v.getTag();
+                    for (int j = 0; j < tvArr.length; j++) {
+                        if (j != pst) {
+                            tvArr[j].setSelected(false);
+                        }
                     }
-                    v.setSelected(true);
+                    boolean selected = v.isSelected();
+                    v.setSelected(!selected);
                 }
             });
             flLayout.addView(child);
         }
+        etSkinTime.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s != null && !TextUtils.isEmpty(s.toString())) {
+                    if ("0".equals(s.toString())||"00".equals(s.toString())) {
+                        etSkinTime.setText("");
+                        return;
+                    }
+                    for (int j = 0; j < tvArr.length; j++) {
+                        tvArr[j].setSelected(false);
+                    }
+                }
+            }
+        });
         setText("设置皮试时间", view, R.id.tv_title);
         setCommButtonClick("取消", null, dialog, view, R.id.btn_no);
         Button btnYes = view.findViewById(R.id.btn_yes);
@@ -92,12 +123,12 @@ public class DialogFactory extends CommDialog {
         btnYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String s = etSkinNum.getText().toString();
+                String s = getText(view, R.id.et_skin_num);
+                String etTimeText = getText(view, R.id.et_skin_time);
                 if (TextUtils.isEmpty(s)) {
                     s = "";
                 }
                 if (okClick != null ) {
-                    dialog.cancel();
                     String txt = null;
                     for (TextView view1 : tvArr) {
                         if (view1.isSelected()) {
@@ -105,9 +136,12 @@ public class DialogFactory extends CommDialog {
                             break;
                         }
                     }
+                    if (txt == null&&TextUtils.isEmpty(etTimeText)) {
+                        ToastUtils.showShort("请选择或输入计时时间");
+                        return;
+                    }
+                    dialog.cancel();
                     okClick.data(new Object[]{txt, s});
-                } else {
-                    ToastUtils.showShort("请输入批号");
                 }
             }
         });
