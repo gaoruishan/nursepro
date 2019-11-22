@@ -46,7 +46,11 @@
       "TestMethod": "",
       "TestResult": "",
       "TestStartTime": "",
-      "TestUser": ""
+      "TestUser": "",
+      "desUser": "护士01",
+      "auditUser": "护士01",
+      "desDateTime": "2019-11-04 12:33:06",
+      "auditDateTime": "2019-11-04 12:33:06"
     },
     {
       "ArcimDescList":[

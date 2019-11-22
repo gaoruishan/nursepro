@@ -4,7 +4,7 @@
     {
       "id": 100,
       "name": "患者列表",
-      "image": "infusion_main_py",
+      "image": "health_pat_list",
       "fragment": "com.dhcc.module.health.workarea.patlist.PatientListFragment"
     },
     {

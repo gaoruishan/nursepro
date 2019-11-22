@@ -136,9 +136,12 @@ public class DialogFactory extends CommDialog {
                             break;
                         }
                     }
-                    if (txt == null&&TextUtils.isEmpty(etTimeText)) {
+                    if (txt == null && TextUtils.isEmpty(etTimeText)) {
                         ToastUtils.showShort("请选择或输入计时时间");
                         return;
+                    }
+                    if (txt == null) {
+                        txt = etTimeText;
                     }
                     dialog.cancel();
                     okClick.data(new Object[]{txt, s});

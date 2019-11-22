@@ -83,9 +83,9 @@ public class ContinueFragment extends BaseInfusionFragment implements View.OnCli
                 }
                 // 第一次扫码
                 mBean = bean;
+                f(R.id.tv_ok).setVisibility(View.GONE);
                 if (scanInfo1 == null) {
                     scanInfo1 = scanInfo;
-                    f(R.id.tv_ok).setVisibility(View.GONE);
                 } else if (!TextUtils.isEmpty(bean.getCurRegNo())
                         && !TextUtils.isEmpty(bean.getCurOeoreId())) {
                     f(R.id.tv_ok).setVisibility(View.VISIBLE);

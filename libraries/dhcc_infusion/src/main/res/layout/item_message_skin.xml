@@ -41,7 +41,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="09:06:57"
+            tools:text="09:06:57"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -56,7 +56,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="20分钟"
+                tools:text="20分钟"
                 android:textColor="@color/blue"
                 android:textSize="@dimen/sp_12" />
 
@@ -75,7 +75,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="19:06:57"
+            tools:text="19:06:57"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -94,6 +94,7 @@
             android:layout_marginRight="@dimen/dp_17"
             android:layout_weight="1"
             android:text="阴性"
+            android:gravity="center"
             app:selectedIcon="@drawable/select_cricle_icon"
             app:selectedTextColor="@color/blue_dark" />
 
@@ -104,6 +105,7 @@
             android:layout_marginLeft="@dimen/dp_17"
             android:layout_weight="1"
             android:text="阳性"
+            android:gravity="center"
             app:selectedIcon="@drawable/select_cricle_icon"
             app:selectedTextColor="@color/blue_dark" />
 

@@ -1,16 +1,17 @@
 package com.dhcc.module.health.workarea.orderexecute;
 
-import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 
 import com.base.commlibs.comm.BaseCommFragment;
+import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.RecyclerViewHelper;
 import com.blankj.utilcode.util.TimeUtils;
 import com.dhcc.module.health.R;
 import com.dhcc.module.health.workarea.orderexecute.adapter.OrderExecuteAdapter;
+import com.dhcc.module.health.workarea.orderexecute.bean.OrdExecuteBean;
 import com.dhcc.res.infusion.CustomDateTimeView;
 import com.dhcc.res.infusion.CustomPatView;
 import com.dhcc.res.infusion.CustomScanView;
@@ -62,12 +63,27 @@ public class OrderExecuteFragment extends BaseCommFragment {
                 });
     }
 
+
     @Override
-    public void getScanMsg(Intent intent) {
-        super.getScanMsg(intent);
-        if (scanInfo != null) {
-            getScanOrdList();
-        }
+    protected void getScanOrdList() {
+        super.getScanOrdList();
+        OrderExecuteApiManager.getHealthOrdInfo(scanInfo, customDate.getStartDateTimeText(), customDate.getEndDateTimeText(), "", new CommonCallBack<OrdExecuteBean>() {
+            @Override
+            public void onFail(String code, String msg) {
+
+            }
+
+            @Override
+            public void onSuccess(OrdExecuteBean bean, String type) {
+                customScan.setVisibility(View.GONE);
+                orderExecuteAdapter.setNewData(bean.getOrdList());
+                if (bean.getPatInfo() != null && customPat != null) {
+                    customPat.setRegNo(bean.getPatInfo().getPatRegNo()).setPatName(bean.getPatInfo().getPatName())
+                            .setAge(bean.getPatInfo().getPatAge()).setPatSex(bean.getPatInfo().getPatSex());
+                }
+            }
+        });
+
     }
 
     @Override
@@ -75,7 +91,4 @@ public class OrderExecuteFragment extends BaseCommFragment {
         return R.layout.health_fragment_order_execute;
     }
 
-    private void getScanOrdList() {
-        customScan.setVisibility(View.GONE);
-    }
 }

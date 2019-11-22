@@ -43,6 +43,7 @@ public class LocalTestManager {
 //        l.add("getSkinTestMessage");
 //        l.add("getOrdList");
 //        l.add("getSkinOrdList");
+        l.add("getHealthOrdInfo");
     }
 
     /**
