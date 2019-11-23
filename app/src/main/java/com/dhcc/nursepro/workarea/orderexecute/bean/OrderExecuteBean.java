@@ -336,6 +336,8 @@ public class OrderExecuteBean implements Serializable {
                 private String seeOrderUserDateTime;
                 private String seeOrderUserName;
                 private String seqNo;
+                private String skinColor;
+                private String skinResult;
                 private String skinTestInfo;
                 private String skinTestNumber;
                 private String specCollDateTime;
@@ -680,6 +682,22 @@ public class OrderExecuteBean implements Serializable {
 
                 public void setSeqNo(String seqNo) {
                     this.seqNo = seqNo;
+                }
+
+                public String getSkinColor() {
+                    return skinColor;
+                }
+
+                public void setSkinColor(String skinColor) {
+                    this.skinColor = skinColor;
+                }
+
+                public String getSkinResult() {
+                    return skinResult;
+                }
+
+                public void setSkinResult(String skinResult) {
+                    this.skinResult = skinResult;
                 }
 
                 public String getSkinTestInfo() {

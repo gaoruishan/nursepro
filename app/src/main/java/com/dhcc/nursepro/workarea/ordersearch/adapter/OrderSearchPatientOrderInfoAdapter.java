@@ -71,15 +71,24 @@ public class OrderSearchPatientOrderInfoAdapter extends BaseQuickAdapter<OrderSe
                     .setText(R.id.tv_notes, orderInfoBean.getNotes());
         } else {
             llorderinfosingle.setVisibility(View.GONE);
-            llSkintestResult.setVisibility(View.GONE);
 
             if (helper.getLayoutPosition() == 0) {
                 tvOrderType.setVisibility(View.VISIBLE);
                 String[] typeStr = orderInfoBean.getDisposeStatCode().split("\\^");
                 tvOrderType.setText(typeStr[0]);
                 myGrad.setColor(Color.parseColor(typeStr[1]));
+
+                if (orderInfoBean.getSkinResult() != null) {
+                    llSkintestResult.setVisibility(View.VISIBLE);
+                    tvSkintestResult.setText(orderInfoBean.getSkinResult());
+                    tvSkintestResult.setTextColor(Color.parseColor(orderInfoBean.getSkinColor()));
+                    skintestResultGrad.setStroke(ConvertUtils.dp2px(5), Color.parseColor(orderInfoBean.getSkinColor()));
+                } else {
+                    llSkintestResult.setVisibility(View.GONE);
+                }
             } else {
                 tvOrderType.setVisibility(View.GONE);
+                llSkintestResult.setVisibility(View.GONE);
             }
             helper.setText(R.id.tv_osporderinfo_ordername, orderInfoBean.getArcimDesc());
             if (helper.getLayoutPosition() == size - 1) {

@@ -7,9 +7,11 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ConvertUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.view.RotateTextView;
 import com.dhcc.nursepro.workarea.orderexecute.bean.OrderExecuteBean;
 
 import java.util.List;
@@ -50,6 +52,10 @@ public class OrderExecutePatientOrderInfoAdapter extends BaseQuickAdapter<OrderE
         TextView tvOrderType = helper.getView(R.id.tv_oeporderinfo_ordertype);
         GradientDrawable myGrad = (GradientDrawable)tvOrderType.getBackground();
 
+        LinearLayout llSkintestResult = helper.getView(R.id.ll_skintest_result);
+        RotateTextView tvSkintestResult = helper.getView(R.id.tv_skintest_result);
+        GradientDrawable skintestResultGrad = (GradientDrawable) llSkintestResult.getBackground();
+
         if (size == 1) {
             llorderinfosingle.setVisibility(View.VISIBLE);
             llorderinfomulti1.setVisibility(View.GONE);
@@ -58,6 +64,16 @@ public class OrderExecutePatientOrderInfoAdapter extends BaseQuickAdapter<OrderE
             String[] typeStr = orderInfoBean.getDisposeStatCode().split("\\^");
             tvOrderType.setText(typeStr[0]);
             myGrad.setColor(Color.parseColor(typeStr[1]));
+
+            if (orderInfoBean.getSkinResult() != null) {
+                llSkintestResult.setVisibility(View.VISIBLE);
+                tvSkintestResult.setText(orderInfoBean.getSkinResult());
+                tvSkintestResult.setTextColor(Color.parseColor(orderInfoBean.getSkinColor()));
+                skintestResultGrad.setStroke(ConvertUtils.dp2px(5), Color.parseColor(orderInfoBean.getSkinColor()));
+            } else {
+                llSkintestResult.setVisibility(View.GONE);
+            }
+
             helper.setText(R.id.tv_oeporderinfo_ordername, orderInfoBean.getArcimDesc())
                     .setText(R.id.tv_oeporderinfo_orderdatetime, orderInfoBean.getSttDateTime())
                     .setText(R.id.tv_oeporderinfo_orderoperate, orderInfoBean.getPhcinDesc())
@@ -72,8 +88,18 @@ public class OrderExecutePatientOrderInfoAdapter extends BaseQuickAdapter<OrderE
                 String[] typeStr = orderInfoBean.getDisposeStatCode().split("\\^");
                 tvOrderType.setText(typeStr[0]);
                 myGrad.setColor(Color.parseColor(typeStr[1]));
+
+                if (orderInfoBean.getSkinResult() != null) {
+                    llSkintestResult.setVisibility(View.VISIBLE);
+                    tvSkintestResult.setText(orderInfoBean.getSkinResult());
+                    tvSkintestResult.setTextColor(Color.parseColor(orderInfoBean.getSkinColor()));
+                    skintestResultGrad.setStroke(ConvertUtils.dp2px(5), Color.parseColor(orderInfoBean.getSkinColor()));
+                } else {
+                    llSkintestResult.setVisibility(View.GONE);
+                }
             } else {
                 tvOrderType.setVisibility(View.GONE);
+                llSkintestResult.setVisibility(View.GONE);
             }
             helper.setText(R.id.tv_oeporderinfo_ordername, orderInfoBean.getArcimDesc());
             if (helper.getLayoutPosition() == size - 1) {

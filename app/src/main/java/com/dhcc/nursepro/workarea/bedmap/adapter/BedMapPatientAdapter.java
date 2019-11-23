@@ -1,9 +1,9 @@
 package com.dhcc.nursepro.workarea.bedmap.adapter;
 
+import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextPaint;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -58,19 +58,26 @@ public class BedMapPatientAdapter extends BaseQuickAdapter<BedMapBean.PatInfoLis
         //设置的布局管理
         recySkinOrder.setLayoutManager(new LinearLayoutManager(mContext));
 
-        if ("1".equals(item.getLongOrd())) {
-            tvLongOrd.setVisibility(View.VISIBLE);
-        } else {
-            tvLongOrd.setVisibility(View.GONE);
-        }
-        if ("1".equals(item.getTempOrd())) {
-            tvTempOrd.setVisibility(View.VISIBLE);
-        } else {
-            tvTempOrd.setVisibility(View.GONE);
-        }
+        //隐藏除护理等级之外信息
+        tvLongOrd.setVisibility(View.GONE);
+        line1.setVisibility(View.GONE);
+        tvTempOrd.setVisibility(View.GONE);
+        line2.setVisibility(View.GONE);
 
 
-//
+//        if ("1".equals(item.getLongOrd())) {
+//            tvLongOrd.setVisibility(View.VISIBLE);
+//        } else {
+//            tvLongOrd.setVisibility(View.GONE);
+//        }
+//        if ("1".equals(item.getTempOrd())) {
+//            tvTempOrd.setVisibility(View.VISIBLE);
+//        } else {
+//            tvTempOrd.setVisibility(View.GONE);
+//        }
+
+
+//        进食状况
 //        if ("".equals(item.getDiet()) || item.getDiet().isEmpty()) {
 //            line11.setVisibility(View.GONE);
 //            tvDiet.setVisibility(View.GONE);
@@ -82,26 +89,37 @@ public class BedMapPatientAdapter extends BaseQuickAdapter<BedMapBean.PatInfoLis
 
         if ("".equals(item.getCareLevel())) {
             tvCareLevel.setVisibility(View.GONE);
-
         } else {
             tvCareLevel.setVisibility(View.VISIBLE);
+
+            if (item.getCareLevel().equals("特级护理")) {
+                tvCareLevel.setTextColor(Color.parseColor("#FF8C00"));
+            } else if(item.getCareLevel().equals("一级护理")){
+                tvCareLevel.setTextColor(Color.parseColor("#FF0000"));
+            } else if (item.getCareLevel().equals("二级护理")) {
+                tvCareLevel.setTextColor(Color.parseColor("#0000FF"));
+            } else {
+                tvCareLevel.setTextColor(Color.parseColor("#00BD4C"));
+            }
+
             tvCareLevel.setText(item.getCareLevel());
         }
-        if ("".equals(item.getCareLevel())) {
-            line2.setVisibility(View.GONE);
-            if ("0".equals(item.getTempOrd())) {
-                line1.setVisibility(View.GONE);
-            } else {
-                line1.setVisibility(View.VISIBLE);
-            }
-        } else {
-            line2.setVisibility(View.VISIBLE);
-            if ("0".equals(item.getTempOrd())) {
-                line1.setVisibility(View.GONE);
-            } else {
-                line1.setVisibility(View.VISIBLE);
-            }
-        }
+
+//        if ("".equals(item.getCareLevel())) {
+//            line2.setVisibility(View.GONE);
+//            if ("0".equals(item.getTempOrd())) {
+//                line1.setVisibility(View.GONE);
+//            } else {
+//                line1.setVisibility(View.VISIBLE);
+//            }
+//        } else {
+//            line2.setVisibility(View.VISIBLE);
+//            if ("0".equals(item.getTempOrd())) {
+//                line1.setVisibility(View.GONE);
+//            } else {
+//                line1.setVisibility(View.VISIBLE);
+//            }
+//        }
 
         if ("男".equals(item.getSex())) {
             patientSex.setImageResource(R.drawable.sex_male);
