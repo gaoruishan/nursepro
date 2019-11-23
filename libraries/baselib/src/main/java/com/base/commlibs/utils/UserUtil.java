@@ -6,6 +6,7 @@ import android.util.Log;
 import com.base.commlibs.bean.LoginBean;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.wsutils.BaseWebServiceUtils;
+import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -103,6 +104,24 @@ public class UserUtil {
             SPUtils.getInstance().put(SharedPreference.WEBIP, ipstr);
         }
         return ipstr;
+    }
+
+    /**
+     * 检查日志版本
+     */
+    public static void checkLogVersion() {
+        String code = SPUtils.getInstance().getString(SharedPreference.APP_VERSION_CODE);
+        if (!TextUtils.isEmpty(code)) {
+            CommFile.deleteLog(code);
+        }else {
+            //检查sd中是否有
+            CommFile.read(SharedPreference.APP_VERSION_CODE, new SimpleCallBack<String>() {
+                @Override
+                public void call(String result, int type) {
+                    CommFile.deleteLog(result);
+                }
+            });
+        }
     }
 
     /**
@@ -215,11 +234,17 @@ public class UserUtil {
         SPUtils.getInstance().put(SharedPreference.GLOBAL_VIEW_FLAG, loginBean.getGlobalViewFlag());
         SPUtils.getInstance().put(SharedPreference.MSG_NOTICE_FLAG, loginBean.getMsgNoticeFlag());
         SPUtils.getInstance().put(SharedPreference.MSG_SKIN_FLAG, loginBean.getMsgSkinFlag());
+        SPUtils.getInstance().put(SharedPreference.ORD_STATE_FLAG, loginBean.getOrdStateFlag());
         SPUtils.getInstance().put(SharedPreference.USERID, loginBean.getUserId());
         SPUtils.getInstance().put(SharedPreference.USERNAME, loginBean.getUserName());
         SPUtils.getInstance().put(SharedPreference.SCHSTDATETIME, loginBean.getSchStDateTime());
         SPUtils.getInstance().put(SharedPreference.SCHENDATETIME, loginBean.getSchEnDateTime());
+        //配置
+        SPUtils.getInstance().put(SharedPreference.APP_VERSION_CODE, AppUtils.getAppVersionCode()+"");
+        CommFile.write(SharedPreference.APP_VERSION_CODE,  AppUtils.getAppVersionCode()+"");
     }
+
+
     /**
      * 是否开启log
      * @return
@@ -234,5 +259,20 @@ public class UserUtil {
      */
     public static boolean isShowGlobalView() {
         return !TextUtils.isEmpty(SPUtils.getInstance().getString(SharedPreference.GLOBAL_VIEW_FLAG));
+    }
+    /**
+     * 输液背景状态
+     * @return
+     */
+    public static boolean isOrdStateFlag() {
+        return !TextUtils.isEmpty(SPUtils.getInstance().getString(SharedPreference.ORD_STATE_FLAG));
+    }
+
+    /**
+     * 获取版本
+     * @return
+     */
+    public static String getVersion() {
+        return "v" + AppUtils.getAppVersionName() + "." + AppUtils.getAppVersionCode();
     }
 }

@@ -1,6 +1,5 @@
 package com.base.commlibs.utils;
 
-import android.annotation.SuppressLint;
 import android.os.Build;
 import android.text.TextUtils;
 
@@ -29,18 +28,22 @@ import java.util.WeakHashMap;
 public class LocalTestManager {
     // 是否开启测试
     private final static boolean TEST = BuildConfig.DEBUG;
-    @SuppressLint("SimpleDateFormat")
-    private static final Format FORMAT = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+
     //请求次数
     private static final int REQ_NUM = 2;
+    private static final Format FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+    private static final Format FORMAT_1 = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+    private static final int APP_VERSION_CODE = AppUtils.getAppVersionCode();
     private static List<String> l = new ArrayList<>();
     private static Map<String, Integer> errNum = new WeakHashMap<>();
 
     static {
         //对应的方法名
-        l.add("getInfusionMessage");
+//        l.add("getInfusionMessage");
 //        l.add("getSkinTestMessage");
 //        l.add("getOrdList");
+//        l.add("getSkinOrdList");
+        l.add("getHealthOrdInfo");
     }
 
     /**
@@ -79,46 +82,6 @@ public class LocalTestManager {
         return false;
     }
 
-    /**
-     * 是否保存json-日志
-     * @param methodName
-     * @param obj
-     */
-    public static void saveLog(String methodName, String obj) {
-        if (isLogFlag()) {
-            CommFile.write(methodName, getCommLog() + obj);
-        }
-    }
-
-    /**
-     * 是否开启log
-     * @return
-     */
-    public static boolean isLogFlag() {
-        return !TextUtils.isEmpty(SPUtils.getInstance().getString(SharedPreference.LOG_FLAG));
-    }
-
-    public static String getCommLog() {
-        final String time = FORMAT.format(new Date(System.currentTimeMillis()));
-        final StringBuilder sb = new StringBuilder();
-        final String head =
-                "\n************* Log Head ****************" +
-                        "\nTime       : " + time +
-                        "\nDevice Manufacturer: " + Build.MANUFACTURER +
-                        "\nDevice Model       : " + Build.MODEL +
-                        "\nAndroid Version    : " + Build.VERSION.RELEASE +
-                        "\nAndroid SDK        : " + Build.VERSION.SDK_INT +
-                        "\nApp VersionName    : " + AppUtils.getAppVersionName() +
-                        "\nApp VersionCode    : " + AppUtils.getAppVersionCode() +
-                        "\nApp isConnected    : " + NetworkUtils.isConnected() +
-                        "\nApp isMobileData    : " + NetworkUtils.isMobileData() +
-                        "\nApp isWifiConnected    : " + NetworkUtils.isWifiConnected() +
-                        "\nApp getNetworkType    : " + NetworkUtils.getNetworkType() +
-                        "\n************* Log Head ****************\n\n";
-        sb.append(head);
-        return sb.toString();
-    }
-
     public static void clear() {
         errNum.clear();//清空
     }
@@ -146,10 +109,55 @@ public class LocalTestManager {
         integer += 1;
         errNum.put(methodName, integer);
         //保存
-        saveLog(methodName,(String) obj);
+        saveLog(methodName, (String) obj);
         return true;
     }
 
+    /**
+     * 是否保存json-日志
+     * @param methodName
+     * @param obj
+     */
+    public static void saveLog(String methodName, String obj) {
+        if (isLogFlag()) {
+            String date = FORMAT.format(new Date(System.currentTimeMillis()));
+            String dhc = date + "/v" + APP_VERSION_CODE + "_" + methodName+"_"+System.currentTimeMillis();
+            CommFile.write(dhc, getCommLog() + obj);
+        }
+    }
+
+    /**
+     * 是否开启log
+     * @return
+     */
+    public static boolean isLogFlag() {
+        return !TextUtils.isEmpty(SPUtils.getInstance().getString(SharedPreference.LOG_FLAG));
+    }
+
+    /**
+     * log的公共部分
+     * @return
+     */
+    private static String getCommLog() {
+        final String time = FORMAT_1.format(new Date(System.currentTimeMillis()));
+        final StringBuilder sb = new StringBuilder();
+        final String head =
+                "\n************* Log Head ****************" +
+                        "\nTime       : " + time +
+                        "\nDevice Manufacturer: " + Build.MANUFACTURER +
+                        "\nDevice Model       : " + Build.MODEL +
+                        "\nAndroid Version    : " + Build.VERSION.RELEASE +
+                        "\nAndroid SDK        : " + Build.VERSION.SDK_INT +
+                        "\nApp VersionName    : " + AppUtils.getAppVersionName() +
+                        "\nApp VersionCode    : " + AppUtils.getAppVersionCode() +
+                        "\nApp isConnected    : " + NetworkUtils.isConnected() +
+                        "\nApp isMobileData    : " + NetworkUtils.isMobileData() +
+                        "\nApp isWifiConnected    : " + NetworkUtils.isWifiConnected() +
+                        "\nApp getNetworkType    : " + NetworkUtils.getNetworkType() +
+                        "\n************* Log Head ****************\n\n";
+        sb.append(head);
+        return sb.toString();
+    }
 
     /**
      * 保存spUtils日志

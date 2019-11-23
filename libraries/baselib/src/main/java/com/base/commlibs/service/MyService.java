@@ -15,6 +15,7 @@ import android.os.IBinder;
 import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.base.commlibs.R;
@@ -93,6 +94,7 @@ public class MyService extends Service {
     public class DataReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
+            Log.e("MyService","(DataReceiver.java:97) "+intent.toString());
             if (intent.getAction().equals(Action.DEVICE_SCAN_CODE)) {
                 Bundle bundle = new Bundle();
                 bundle = intent.getExtras();

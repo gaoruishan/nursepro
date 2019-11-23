@@ -1,5 +1,7 @@
 package com.dhcc.module.infusion.workarea.skin.api;
 
+import android.text.TextUtils;
+
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommWebService;
 import com.base.commlibs.http.CommonCallBack;
@@ -39,6 +41,31 @@ public class SkinApiManager {
         });
     }
 
+    /**
+     * 皮试配液
+     * @param oeoreId
+     * @param type
+     * @param userCode
+     * @param password
+     * @param callback
+     */
+    public static void skinDespensingOrd(String oeoreId, String type, String userCode, String password, final CommonCallBack<CommResult> callback) {
+        HashMap<String, String> properties = new HashMap<>();
+        properties.put("oeoreId", oeoreId);
+        properties.put("type", type);
+        if (!TextUtils.isEmpty(userCode)) {
+            properties.put("userCode", userCode);
+        }
+        if (!TextUtils.isEmpty(password)) {
+            properties.put("password", password);
+        }
+        CommWebService.callUserIdLocId("skinDespensingOrd", properties, new ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                CommWebService.parserCommResult(jsonStr,callback,true);
+            }
+        });
+    }
     /**
      * Description: 皮试计时
      * Input：	oeoriId 执行记录Id

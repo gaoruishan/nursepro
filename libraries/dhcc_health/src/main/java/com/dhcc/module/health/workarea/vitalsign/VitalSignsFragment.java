@@ -1,6 +1,5 @@
 package com.dhcc.module.health.workarea.vitalsign;
 
-import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,7 +13,7 @@ import com.base.commlibs.utils.ViewUtil;
 import com.blankj.utilcode.util.TimeUtils;
 import com.dhcc.module.health.R;
 import com.dhcc.module.health.workarea.vitalsign.adapter.VitalListAdapter;
-import com.dhcc.module.health.workarea.vitalsign.api.VitalSignsManager;
+import com.dhcc.module.health.workarea.vitalsign.api.VitalSignsApiManager;
 import com.dhcc.module.health.workarea.vitalsign.bean.VitalSignDetailBean;
 import com.dhcc.res.infusion.CustomDateTimeView;
 import com.dhcc.res.infusion.CustomScanView;
@@ -72,22 +71,16 @@ public class VitalSignsFragment extends BaseCommFragment {
                 });
     }
 
-    @Override
-    public void getScanMsg(Intent intent) {
-        super.getScanMsg(intent);
-        if (scanInfo != null) {
-            getScanOrdList();
-        }
-    }
 
     @Override
     protected int setLayout() {
         return R.layout.health_fragment_vital_signs;
     }
 
-    private void getScanOrdList() {
+    @Override
+    protected void getScanOrdList() {
         showLoadingTip(BaseActivity.LoadingType.FULL);
-        VitalSignsManager.getPatTempDetail(scanInfo, customDate.getStartDateTimeText(), customDate.getEndDateTimeText(), new CommonCallBack<VitalSignDetailBean>() {
+        VitalSignsApiManager.getPatTempDetail(scanInfo, customDate.getStartDateTimeText(), customDate.getEndDateTimeText(), new CommonCallBack<VitalSignDetailBean>() {
             @Override
             public void onFail(String code, String msg) {
                 hideLoadingTip();

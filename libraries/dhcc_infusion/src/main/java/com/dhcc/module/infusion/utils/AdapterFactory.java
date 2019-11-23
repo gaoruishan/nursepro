@@ -9,7 +9,7 @@ import com.dhcc.module.infusion.workarea.blood.adapter.BloodCollectionAdapter;
 import com.dhcc.module.infusion.workarea.comm.adapter.DetailLogAdapter;
 import com.dhcc.module.infusion.workarea.comm.adapter.PatInfoAdapter;
 import com.dhcc.module.infusion.workarea.dosing.adapter.CommDosingAdapter;
-import com.dhcc.module.infusion.workarea.inject.InjectAdapter;
+import com.dhcc.module.infusion.workarea.inject.adapter.InjectAdapter;
 import com.dhcc.module.infusion.workarea.patrol.adapter.InfusionTourAdapter;
 import com.dhcc.module.infusion.workarea.patrol.adapter.PatrolOrdListAdapter;
 import com.dhcc.module.infusion.workarea.skin.adapter.SkinAdapter;

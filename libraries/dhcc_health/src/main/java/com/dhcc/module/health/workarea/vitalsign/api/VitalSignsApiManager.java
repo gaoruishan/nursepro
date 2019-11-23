@@ -13,7 +13,7 @@ import java.util.HashMap;
  * @date:202019-10-29/11:06
  * @email:grs0515@163.com
  */
-public class VitalSignsManager {
+public class VitalSignsApiManager {
     /**
      * Description: 获取患者体征明细
      * Creator: JYW

@@ -1,6 +1,5 @@
 package com.dhcc.module.infusion.workarea.dosing;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -53,12 +52,10 @@ public class DosingFragment extends BaseInfusionFragment implements View.OnClick
         rvDosing.setAdapter(commDosingAdapter);
     }
 
-    @Override
-    public void getScanMsg(Intent intent) {
-        super.getScanMsg(intent);
-        if (scanInfo != null) {
-            getOrdList(scanInfo);
-        }
+   @Override
+    protected void getScanOrdList() {
+
+        getOrdList(scanInfo);
     }
 
     @Override

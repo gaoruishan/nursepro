@@ -1,6 +1,5 @@
 package com.dhcc.module.infusion.workarea.continues;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,12 +14,13 @@ import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.utils.AdapterFactory;
 import com.dhcc.module.infusion.utils.DialogFactory;
 import com.dhcc.module.infusion.utils.RecyclerViewHelper;
-import com.dhcc.res.infusion.CustomPatView;
-import com.dhcc.res.infusion.CustomScanView;
-import com.dhcc.res.infusion.CustomSpeedView;
 import com.dhcc.module.infusion.workarea.comm.BaseInfusionFragment;
 import com.dhcc.module.infusion.workarea.continues.api.ContinueApiManager;
 import com.dhcc.module.infusion.workarea.dosing.adapter.CommDosingAdapter;
+import com.dhcc.res.infusion.CustomPatView;
+import com.dhcc.res.infusion.CustomScanView;
+import com.dhcc.res.infusion.CustomSelectView;
+import com.dhcc.res.infusion.CustomSpeedView;
 
 /**
  * 续液
@@ -36,6 +36,7 @@ public class ContinueFragment extends BaseInfusionFragment implements View.OnCli
     private CommDosingAdapter commDosingAdapter;
     private ContinueBean mBean;
     private String scanInfo1;
+    private CustomSelectView customSelectTime;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -43,6 +44,7 @@ public class ContinueFragment extends BaseInfusionFragment implements View.OnCli
         csvScan = mContainerChild.findViewById(R.id.custom_scan);
         cpvPat = mContainerChild.findViewById(R.id.cpv_pat);
         csvSpeed = mContainerChild.findViewById(R.id.csv_speed);
+        customSelectTime = mContainerChild.findViewById(R.id.custom_select_time);
         mContainerChild.findViewById(R.id.tv_ok).setOnClickListener(this);
         csvScan.setTitle("请扫描瓶签/信息卡").setWarning("请您使用扫码设备，扫描药品瓶签/信息卡");
         RecyclerView rvOrdList = RecyclerViewHelper.get(this.getActivity(), R.id.rv_ord_list);
@@ -50,14 +52,11 @@ public class ContinueFragment extends BaseInfusionFragment implements View.OnCli
         rvOrdList.setAdapter(commDosingAdapter);
     }
 
-    @Override
-    public void getScanMsg(Intent intent) {
-        super.getScanMsg(intent);
-        if (scanInfo != null) {
-            getOrdList(scanInfo);
-        }
-    }
+   @Override
+    protected void getScanOrdList() {
 
+        getOrdList(scanInfo);
+    }
 
     @Override
     protected int setLayout() {
@@ -84,9 +83,9 @@ public class ContinueFragment extends BaseInfusionFragment implements View.OnCli
                 }
                 // 第一次扫码
                 mBean = bean;
+                f(R.id.tv_ok).setVisibility(View.GONE);
                 if (scanInfo1 == null) {
                     scanInfo1 = scanInfo;
-                    f(R.id.tv_ok).setVisibility(View.GONE);
                 } else if (!TextUtils.isEmpty(bean.getCurRegNo())
                         && !TextUtils.isEmpty(bean.getCurOeoreId())) {
                     f(R.id.tv_ok).setVisibility(View.VISIBLE);
@@ -95,6 +94,8 @@ public class ContinueFragment extends BaseInfusionFragment implements View.OnCli
                         f(R.id.tv_ok).setVisibility(View.GONE);
                     }
                 }
+                customSelectTime.setTitle("预计结束时间");
+                customSelectTime.setSelectTime(ContinueFragment.this.getFragmentManager(), bean.getDistantDate(), bean.getDistantTime(), null);
                 csvScan.setVisibility(View.GONE);
                 setCustomPatViewData(cpvPat,bean.getPatInfo());
                 csvSpeed.setSpeed(bean.getDefautSpeed());
@@ -112,6 +113,9 @@ public class ContinueFragment extends BaseInfusionFragment implements View.OnCli
             String distantTime = "";
             if (mBean != null) {
                 oeoreId = mBean.getCurOeoreId();
+            }
+            distantTime = customSelectTime.getSelect();
+            if(TextUtils.isEmpty(distantTime)){
                 distantTime = mBean.getDistantDate() + " " + mBean.getDistantTime();
             }
             int speed = csvSpeed.getSpeed();

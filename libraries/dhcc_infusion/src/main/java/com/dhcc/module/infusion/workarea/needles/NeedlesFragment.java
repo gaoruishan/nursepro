@@ -37,18 +37,16 @@ public class NeedlesFragment extends BaseInfusionFragment implements View.OnClic
         csvScan = mContainerChild.findViewById(R.id.custom_scan);
         cpvPat = mContainerChild.findViewById(R.id.cpv_pat);
         mContainerChild.findViewById(R.id.tv_ok).setOnClickListener(this);
-        csvScan.setTitle("请扫描瓶签/信息卡").setWarning("请您使用扫码设备，扫描药品瓶签/信息卡");
-        RecyclerView rvOrdList = RecyclerViewHelper.get(this.getActivity(), R.id.rv_ord_list);
+        showScanLabel();
+        RecyclerView rvOrdList = RecyclerViewHelper.get(mContext, R.id.rv_ord_list);
         commPatrolAdapter = AdapterFactory.getCommPatrolOrdList();
         rvOrdList.setAdapter(commPatrolAdapter);
     }
 
-    @Override
-    public void getScanMsg(Intent intent) {
-        super.getScanMsg(intent);
-        if (scanInfo != null) {
-            getOrdList(scanInfo);
-        }
+   @Override
+    protected void getScanOrdList() {
+
+        getOrdList(scanInfo);
     }
 
     @Override

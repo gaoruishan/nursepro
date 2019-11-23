@@ -15,7 +15,7 @@ import java.util.HashMap;
  * @date:202019-10-25/10:37
  * @email:grs0515@163.com
  */
-public class DoctorOrderListManager {
+public class DocOrdListApiManager {
     /**
      * Description: 病区病人列表
      * Creator: JYW

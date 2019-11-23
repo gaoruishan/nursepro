@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginTop="@dimen/dp_3"
+    android:orientation="horizontal">
+    <TextView
+        android:id="@+id/tv_shift_key"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/dp_12"
+        android:textColor="@color/black"
+        android:layout_marginLeft="@dimen/dp_3"
+        tools:text="名称">
+
+    </TextView>
+    <TextView
+        android:layout_marginLeft="@dimen/dp_2"
+        android:id="@+id/tv_shift_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/dp_12"
+        android:textColor="@color/black"
+        tools:text="code">
+
+    </TextView>
+
+</LinearLayout>

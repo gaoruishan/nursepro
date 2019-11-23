@@ -10,7 +10,7 @@ import com.base.commlibs.utils.RecyclerViewHelper;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.module.health.R;
 import com.dhcc.module.health.workarea.orderlist.adapter.DocOrderListOrdersAdapter;
-import com.dhcc.module.health.workarea.orderlist.api.DoctorOrderListManager;
+import com.dhcc.module.health.workarea.orderlist.api.DocOrdListApiManager;
 import com.dhcc.module.health.workarea.orderlist.bean.DocOrderListBean;
 import com.dhcc.module.health.workarea.orderlist.bean.DocOrdersPatsListBean;
 import com.dhcc.res.infusion.CustomSheetListView;
@@ -25,7 +25,7 @@ import java.util.List;
  * @date:202019-10-23/16:43
  * @email:grs0515@163.com
  */
-public class DoctorOrderListFragment extends BaseCommFragment {
+public class DocOrderListFragment extends BaseCommFragment {
 
     public static final String ALL = "全部";
     private CustomSheetListView customSheetList;
@@ -63,7 +63,7 @@ public class DoctorOrderListFragment extends BaseCommFragment {
 
     private void getInWardPatList() {
         showLoadingTip(BaseActivity.LoadingType.FULL);
-        DoctorOrderListManager.getInWardPatList(new CommonCallBack<DocOrdersPatsListBean>() {
+        DocOrdListApiManager.getInWardPatList(new CommonCallBack<DocOrdersPatsListBean>() {
             @Override
             public void onFail(String code, String msg) {
                 hideLoadingTip();
@@ -91,7 +91,7 @@ public class DoctorOrderListFragment extends BaseCommFragment {
     }
 
     private void getDocOrderList(String episodeId) {
-        DoctorOrderListManager.getDocOrderList(episodeId, new CommonCallBack<DocOrderListBean>() {
+        DocOrdListApiManager.getDocOrderList(episodeId, new CommonCallBack<DocOrderListBean>() {
             @Override
             public void onFail(String code, String msg) {
 

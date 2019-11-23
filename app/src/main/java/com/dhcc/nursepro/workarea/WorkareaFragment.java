@@ -52,6 +52,7 @@ import com.dhcc.nursepro.workarea.orderexecute.bean.OrderExecResultBean;
 import com.dhcc.nursepro.workarea.orderexecute.bean.ScanResultBean;
 import com.dhcc.nursepro.workarea.ordersearch.OrderSearchFragment;
 import com.dhcc.nursepro.workarea.patevents.PatEventsFragment;
+import com.dhcc.nursepro.workarea.shift.ShiftFragment;
 import com.dhcc.nursepro.workarea.vitalsign.VitalSignFragment;
 import com.dhcc.nursepro.workarea.workareaapi.WorkareaApiManager;
 import com.dhcc.nursepro.workarea.workareabean.MainConfigBean;
@@ -253,6 +254,9 @@ public class WorkareaFragment extends BaseFragment {
             case "RLREG":
                 startFragment(RLRegFragment.class);
                 break;
+            case "SHIFT":
+                startFragment(ShiftFragment.class);
+                break;
             default:
 
                 break;
@@ -347,6 +351,10 @@ public class WorkareaFragment extends BaseFragment {
                     break;
                 case "RLREG":
                     tvItem.setText("余液登记");
+                    imageView.setImageResource(R.drawable.icon_drugrlreg);
+                    break;
+                case "SHIFT":
+                    tvItem.setText("交班本");
                     imageView.setImageResource(R.drawable.icon_drugrlreg);
                     break;
                 default:

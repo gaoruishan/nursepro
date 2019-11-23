@@ -4,14 +4,17 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
+import com.base.commlibs.utils.RecyclerViewHelper;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.module.infusion.R;
+import com.dhcc.module.infusion.workarea.blood.bean.ArcimDescListBean;
 import com.dhcc.module.infusion.workarea.blood.bean.BloodOrdListBean;
 import com.dhcc.module.infusion.workarea.skin.bean.SkinListBean;
 import com.noober.background.drawable.DrawableCreator;
@@ -133,6 +136,36 @@ public abstract class BaseBloodQuickAdapter<T, K extends BaseViewHolder> extends
             int select = ContextCompat.getColor(mContext, p);
             int unselect = ContextCompat.getColor(mContext, p2);
             llBgSelect.setBackgroundColor(oeoriId.equals(scanInfo) ? select : unselect);
+        }
+    }
+
+    /**
+     * 设置注射条目
+     * @param helper
+     * @param arcimDescList
+     */
+    protected void setInjectChildAdapter(BaseViewHolder helper, List<ArcimDescListBean> arcimDescList) {
+        RecyclerView rvItem = helper.getView(R.id.rv_item);
+        if (rvItem != null) {
+            RecyclerViewHelper.setDefaultRecyclerView(mContext, rvItem, 0, LinearLayoutManager.VERTICAL);
+            InjectChildAdapter childAdapter = new InjectChildAdapter(arcimDescList);
+            rvItem.setAdapter(childAdapter);
+        }
+    }
+
+    /**
+     * 简单条目(注射)
+     */
+    public class InjectChildAdapter extends BaseQuickAdapter<ArcimDescListBean, BaseViewHolder> {
+
+        public InjectChildAdapter(@Nullable List<ArcimDescListBean> data) {
+            super(R.layout.item_inject_child_layout, data);
+        }
+
+        @Override
+        protected void convert(BaseViewHolder helper, ArcimDescListBean item) {
+            helper.setText(R.id.tv_title, item.getArcimDesc())
+                    .setText(R.id.tv_content, item.getDoseQtyUnit() + "      " + item.getPhOrdQtyUnit());
         }
     }
 }

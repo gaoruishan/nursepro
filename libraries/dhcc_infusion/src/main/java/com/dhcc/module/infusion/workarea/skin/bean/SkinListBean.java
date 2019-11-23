@@ -1,8 +1,10 @@
 package com.dhcc.module.infusion.workarea.skin.bean;
 
 import com.base.commlibs.http.CommResult;
+import com.dhcc.module.infusion.workarea.blood.bean.ArcimDescListBean;
 import com.dhcc.module.infusion.workarea.comm.bean.PatInfoBean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -65,7 +67,6 @@ public class SkinListBean extends CommResult {
         this.ordList = ordList;
     }
 
-
     public static class OrdListBean {
         /**
          * ArcimDesc : ____注射用青霉素钠[400万U] ( )
@@ -86,7 +87,7 @@ public class SkinListBean extends CommResult {
          * TestUser :
          */
 
-        private String ArcimDesc; //医嘱名称
+        private List<ArcimDescListBean> ArcimDescList; //医嘱名称
         private String CreateDateTime;//医嘱创建时间
         private String CtcpDesc; //医生
         private String DisposeStatDesc;//处置状态
@@ -108,6 +109,17 @@ public class SkinListBean extends CommResult {
         private String auditUser;
         private String desDateTime;
         private String auditDateTime;
+
+        public List<ArcimDescListBean> getArcimDescList() {
+            if (ArcimDescList == null) {
+                return new ArrayList<>();
+            }
+            return ArcimDescList;
+        }
+
+        public void setArcimDescList(List<ArcimDescListBean> arcimDescList) {
+            ArcimDescList = arcimDescList;
+        }
 
         public String getAuditDateTime() {
             return auditDateTime == null ? "" : auditDateTime;
@@ -149,13 +161,6 @@ public class SkinListBean extends CommResult {
             this.select = select;
         }
 
-        public String getArcimDesc() {
-            return ArcimDesc;
-        }
-
-        public void setArcimDesc(String ArcimDesc) {
-            this.ArcimDesc = ArcimDesc;
-        }
 
         public String getCreateDateTime() {
             return CreateDateTime;

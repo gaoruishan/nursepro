@@ -16,13 +16,10 @@ import com.blankj.utilcode.util.SPUtils;
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
-import org.ksoap2.transport.HttpResponseException;
 import org.ksoap2.transport.HttpTransportSE;
 import org.kxml2.kdom.Element;
 import org.kxml2.kdom.Node;
-import org.xmlpull.v1.XmlPullParserException;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -33,7 +30,7 @@ import java.util.concurrent.Executors;
 
 public class BaseWebServiceUtils {
 
-    public static final String DEFAULT_IP = "10.1.5.87";
+    public static final String DEFAULT_IP = "114.115.136.233";
     public static final String DTHEALTH_WEB = "/imedical/web";
     //    public static final String WEB_SERVER_URL = "http://10.1.5.87/dthealth/web/Nur.PDA.WebService.cls";
     // 门诊输液新接口
@@ -203,12 +200,10 @@ public class BaseWebServiceUtils {
                         jsonstr = obj.toString();
 
                     }
-                } catch (HttpResponseException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (XmlPullParserException e) {
-                    e.printStackTrace();
+                } catch (Exception e) {
+                    //捕获异常 保存日志
+                    Log.e("json", "Exception= "+jsonstr+e.toString());
+                    LocalTestManager.saveLog(methodName,jsonstr+"\n Exception= \n"+e.toString());
                 } finally {
                     // 将获取的消息利用Handler发送到主线程
                     mHandler.sendMessage(mHandler.obtainMessage(0,

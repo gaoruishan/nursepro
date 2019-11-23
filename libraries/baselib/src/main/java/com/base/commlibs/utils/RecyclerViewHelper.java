@@ -38,6 +38,9 @@ public class RecyclerViewHelper {
     public static void setDefaultRecyclerView(Context mContext, RecyclerView recyclerView, @DrawableRes int id, @RecyclerView.Orientation int orientation) {
         setCommDefaultOpthions(mContext, recyclerView, id, orientation);
     }
+    public static void setDefaultRecyclerView(Context mContext, RecyclerView recyclerView) {
+        setDefaultRecyclerView(mContext, recyclerView, 0, LinearLayoutManager.VERTICAL);
+    }
 
     private static LinearLayoutManager setCommDefaultOpthions(Context mContext, RecyclerView recyclerView, @DrawableRes int id, @RecyclerView.Orientation int orientation) {
         //解决嵌套滚动问题

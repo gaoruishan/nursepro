@@ -7,7 +7,7 @@ android {
         applicationId "com.dhcc.infusion"
         minSdkVersion rootProject.android.minSdkVersion
         targetSdkVersion rootProject.android.targetSdkVersion
-        versionCode 5
+        versionCode 6
         versionName "2.0"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -26,7 +26,7 @@ android {
     applicationVariants.all {
         variant ->
             variant.outputs.all {
-                if (buildType.name == 'release') {
+                if (buildType.name == 'release'||buildType.name == 'debug') {
                     outputFileName = "Infusion_PDA_" + defaultConfig.versionCode + "_" + new Date().format("yyyy-MM-dd") + ".apk"
                 }
             }

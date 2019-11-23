@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
 import com.base.commlibs.R;
+import com.base.commlibs.constant.Action;
 import com.base.commlibs.utils.AppUtil;
 import com.base.commlibs.utils.BaseHelper;
 
@@ -111,6 +112,16 @@ public abstract class BaseCommFragment extends BaseFragment implements View.OnCl
         if (scanInfo != null && scanInfo.contains("-")) {
             scanInfo = scanInfo.replaceAll("-", "\\|\\|");
         }
+        if (Action.DEVICE_SCAN_CODE.equals(intent.getAction()) && scanInfo != null) {
+            getScanOrdList();
+        }
+    }
+
+    /**
+     * 扫码Action
+     */
+    protected void getScanOrdList() {
+
     }
 
     @Override

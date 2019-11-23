@@ -31,8 +31,18 @@ public class LoginBean extends CommResult {
     private String msgNoticeFlag;
     //开启全局View: 默认是"" 不开启; "1" 开启
     private String globalViewFlag;
+    //输液背景状态: 默认是"" 不开启; "1" 开启
+    private String ordStateFlag;
     private List<BroadcastListBean> broadcastList;
     private List<LocsBean> locs;
+
+    public String getOrdStateFlag() {
+        return ordStateFlag == null ? "" : ordStateFlag;
+    }
+
+    public void setOrdStateFlag(String ordStateFlag) {
+        this.ordStateFlag = ordStateFlag;
+    }
 
     public String getGlobalViewFlag() {
         return globalViewFlag == null ? "" : globalViewFlag;
