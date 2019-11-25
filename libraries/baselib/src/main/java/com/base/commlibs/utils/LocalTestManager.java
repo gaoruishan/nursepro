@@ -109,12 +109,12 @@ public class LocalTestManager {
         integer += 1;
         errNum.put(methodName, integer);
         //保存
-        saveLog(methodName, (String) obj);
+        saveLog(methodName+"_null", (String) obj);
         return true;
     }
 
     /**
-     * 是否保存json-日志
+     * 保存json-日志
      * @param methodName
      * @param obj
      */
@@ -123,6 +123,18 @@ public class LocalTestManager {
             String date = FORMAT.format(new Date(System.currentTimeMillis()));
             String dhc = date + "/v" + APP_VERSION_CODE + "_" + methodName+"_"+System.currentTimeMillis();
             CommFile.write(dhc, getCommLog() + obj);
+        }
+    }
+
+    /**
+     * 保存json-数据不为null,带有"_data"
+     * @param methodName
+     * @param obj
+     */
+    public static void saveNotNullLog(String methodName, String obj) {
+        //有数据
+        if (!ObjectUtils.isEmpty(obj)) {
+            saveLog(methodName+"_data",obj);
         }
     }
 

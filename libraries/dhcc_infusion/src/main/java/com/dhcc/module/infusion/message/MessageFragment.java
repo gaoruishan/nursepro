@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.base.commlibs.BaseFragment;
+import com.base.commlibs.MessageEvent;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.http.CommonCallBack;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -25,6 +27,10 @@ import com.dhcc.module.infusion.utils.RecyclerViewHelper;
 import com.dhcc.module.infusion.workarea.PatInfoFragment;
 import com.dhcc.res.infusion.CustomPatView;
 import com.dhcc.res.infusion.CustomTabView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -163,8 +169,21 @@ public class MessageFragment extends BaseFragment implements CustomTabView.OnTab
         initData();
         //调用注册广播(虽然继承了baseFragment,但父类不是UniversalActivity)
         onPreActivityCreate(null,null);
+        //注册事件总线
+        EventBus.getDefault().register(this);
     }
-
+    /**
+     * 接收事件- 更新数据
+     *
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void updateData(MessageEvent event) {
+        Log.e(getClass().getSimpleName(), "updateData:" + event.getType());
+        if (event.getType() == MessageEvent.MessageType.REQUEST_APP_MESSAGE_LIST) {
+            initData();
+        }
+    }
     private void setSwitchRecycleView(int pst) {
         mCurrentPosition = pst;
         f(R.id.ll_empty).setVisibility(View.GONE);

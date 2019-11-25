@@ -141,7 +141,7 @@ public class DialogFactory extends CommDialog {
                         return;
                     }
                     if (txt == null) {
-                        txt = etTimeText;
+                        txt = etTimeText+"分钟";
                     }
                     dialog.cancel();
                     okClick.data(new Object[]{txt, s});
@@ -279,6 +279,7 @@ public class DialogFactory extends CommDialog {
         String patInfo = "".equals(ordersBean.getBedCode()) ? ordersBean.getPatName() + "-" + ordersBean.getAge()
                 : ordersBean.getBedCode().replace("床", "") + "床-" + ordersBean.getPatName() + "-" + ordersBean.getAge();
         setText(patInfo,view,R.id.tv_pat_info);
+        setText("医嘱信息("+bean.getOrders().size()+")",view,R.id.tv_info_name);
         setCommButtonClick("", null, dialog, view, R.id.tv_popup_cancel);
         setCommButtonClick("", okClick, dialog, view, R.id.tv_popup_ok);
         //canExeFlag 0 不能 1 能

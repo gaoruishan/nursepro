@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.base.commlibs.MessageEvent;
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.CommDialog;
@@ -20,6 +21,8 @@ import com.dhcc.module.infusion.view.SelectTextView;
 import com.dhcc.module.infusion.workarea.dosing.adapter.CommQuickAdapter;
 import com.dhcc.res.infusion.CountView;
 import com.dhcc.res.infusion.CustomPatView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -96,7 +99,7 @@ public class MessageSkinAdapter extends BaseQuickAdapter<MessageSkinBean.SkinTim
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog(v, item.getPatName() +" '"+ item.getOeoreGroup().get(0).getArcimDesc()+"'", stv2, stv1);
+                showDialog(v, item.getPatName() , stv2, stv1);
             }
         };
         stv1.setTag(item.getOeoreId());
@@ -115,7 +118,7 @@ public class MessageSkinAdapter extends BaseQuickAdapter<MessageSkinBean.SkinTim
         // 阳性:Y/+ 阴性:N/-
         final String skinTest = v.getId() == R.id.stv1 ? "N" : "Y";
         String skinName = skinTest.equals("N") ? "阴性" : "阳性";
-        DialogFactory.showSkinDialog(mContext, "皮试结果", content + "  的皮试结果为“" + skinName + "”。", "取消", "确定", null, new CommDialog.CommClickListener() {
+        DialogFactory.showSkinDialog(mContext, "皮试结果", content + "的皮试结果为“" + skinName + "”。", "取消", "确定", null, new CommDialog.CommClickListener() {
             @Override
             public void data(Object[] args) {
                 super.data(args);
@@ -141,6 +144,7 @@ public class MessageSkinAdapter extends BaseQuickAdapter<MessageSkinBean.SkinTim
             @Override
             public void onSuccess(CommResult bean, String type) {
                 setSkinResult(v, stv2, stv1);
+                EventBus.getDefault().post(new MessageEvent(MessageEvent.MessageType.REQUEST_APP_MESSAGE_LIST));
             }
         });
     }

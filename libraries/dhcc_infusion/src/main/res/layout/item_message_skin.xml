@@ -84,29 +84,28 @@
         android:layout_height="@dimen/dp_50"
         android:layout_marginLeft="@dimen/dp_15"
         android:layout_marginRight="@dimen/dp_15"
+        android:gravity="center"
         android:orientation="horizontal">
         <!--private int selectedBg = R.drawable.infustion_radius_bg_selected;-->
         <!--private int unSelectedBg = R.drawable.infustion_radius_bg_unselect;-->
         <com.dhcc.module.infusion.view.SelectTextView
             android:id="@+id/stv1"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/dp_130"
             android:layout_height="@dimen/dp_40"
             android:layout_marginRight="@dimen/dp_17"
-            android:layout_weight="1"
             android:text="阴性"
             android:gravity="center"
-            app:selectedIcon="@drawable/select_cricle_icon"
+            app:selectedBg="@drawable/dhcc_bg_selected"
             app:selectedTextColor="@color/blue_dark" />
 
         <com.dhcc.module.infusion.view.SelectTextView
             android:id="@+id/stv2"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/dp_130"
             android:layout_height="@dimen/dp_40"
             android:layout_marginLeft="@dimen/dp_17"
-            android:layout_weight="1"
             android:text="阳性"
             android:gravity="center"
-            app:selectedIcon="@drawable/select_cricle_icon"
+            app:selectedBg="@drawable/dhcc_bg_selected"
             app:selectedTextColor="@color/blue_dark" />
 
     </LinearLayout>

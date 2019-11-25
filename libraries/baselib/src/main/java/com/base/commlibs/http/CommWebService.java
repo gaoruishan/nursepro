@@ -1,6 +1,7 @@
 package com.base.commlibs.http;
 
 import com.base.commlibs.constant.SharedPreference;
+import com.base.commlibs.utils.LocalTestManager;
 import com.base.commlibs.wsutils.BaseWebServiceUtils;
 import com.blankj.utilcode.util.SPUtils;
 
@@ -39,6 +40,7 @@ public class CommWebService {
         BaseWebServiceUtils.callWebOPPDAService(methodName, properties, new BaseWebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
+                LocalTestManager.saveNotNullLog(methodName,result);
                 callBack.onResult(result);
             }
         });

@@ -14,7 +14,7 @@
     android:paddingTop="@dimen/dp_20"
     android:paddingEnd="@dimen/dp_15"
     android:paddingBottom="@dimen/dp_30">
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
@@ -71,6 +71,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/tv_info_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_10"
@@ -187,7 +188,7 @@
             </LinearLayout>
 
         </LinearLayout>
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 
 
 
