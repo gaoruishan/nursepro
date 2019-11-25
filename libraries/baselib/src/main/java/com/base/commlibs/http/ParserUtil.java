@@ -82,6 +82,7 @@ public class ParserUtil<T extends CommResult> {
                     return t;
                 }
             } catch (Exception e) {
+                e.printStackTrace();
                 showToast(callback, "网络错误，数据解析失败", ERR_CODE_2);
             }
 

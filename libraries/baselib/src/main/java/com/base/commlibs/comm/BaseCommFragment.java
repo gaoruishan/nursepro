@@ -88,7 +88,7 @@ public abstract class BaseCommFragment extends BaseFragment implements View.OnCl
     /**
      * 设置统一标题
      */
-    private void setCommToolBar() {
+    public void setCommToolBar() {
         setStatusBarBackgroundViewVisibility(true, 0xffffffff);
         setToolbarBackground(new ColorDrawable(0xffffffff));
         setToolbarBottomLineVisibility(true);
