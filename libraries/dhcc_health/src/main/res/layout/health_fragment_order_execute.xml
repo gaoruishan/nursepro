@@ -13,6 +13,7 @@
             android:layout_height="wrap_content"/>
 
         <com.dhcc.res.infusion.CustomDateTimeView
+            android:visibility="gone"
             android:id="@+id/custom_date"
             android:layout_width="match_parent"
             android:gravity="center"

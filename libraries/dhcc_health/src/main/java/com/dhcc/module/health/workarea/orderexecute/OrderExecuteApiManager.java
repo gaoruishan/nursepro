@@ -1,10 +1,12 @@
 package com.dhcc.module.health.workarea.orderexecute;
 
+import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommWebService;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.http.ParserUtil;
 import com.base.commlibs.http.ServiceCallBack;
-import com.dhcc.module.health.workarea.orderexecute.bean.OrdExecuteBean;
+import com.blankj.utilcode.util.SPUtils;
+import com.dhcc.module.health.workarea.orderexecute.bean.OrdListBean;
 
 import java.util.HashMap;
 
@@ -19,19 +21,19 @@ public class OrderExecuteApiManager {
     /**
      * 获取扫码信息
      */
-    public static void getHealthOrdInfo(String regNo, String stDate, String enDate,String exeFlag, final CommonCallBack<OrdExecuteBean> callBack) {
+    public static void getHealthOrdInfo(String regNo, String stDate, String enDate,String exeFlag, final CommonCallBack<OrdListBean> callBack) {
         HashMap<String, String> properties = CommWebService.addUserId(null);
-        CommWebService.addLocId(properties);
+//        CommWebService.addLocId(properties);
         properties.put("regNo", regNo);
       //  properties.put("exeFlag", exeFlag);
-        properties.put("startDate", stDate);
-        properties.put("endDate", enDate);
-        CommWebService.call("getHealthOrdInfo", properties, new ServiceCallBack() {
+        properties.put("LogonID", SPUtils.getInstance().getString(SharedPreference.WARDID));
+//        properties.put("endDate", enDate);
+        CommWebService.callHealth("getOrdByRegNo", properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
-                ParserUtil<OrdExecuteBean> parserUtil = new ParserUtil<>();
-                OrdExecuteBean bean = parserUtil.parserResult(jsonStr, callBack, OrdExecuteBean.class);
-                if (bean == null) return;
+                ParserUtil<OrdListBean> parserUtil = new ParserUtil<>();
+                OrdListBean bean = parserUtil.parserResult(jsonStr, callBack, OrdListBean.class);
+                if (bean == null){ return ;}
                 parserUtil.parserStatus(bean, callBack);
             }
         });

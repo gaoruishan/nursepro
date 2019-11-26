@@ -159,9 +159,9 @@ public class PatientListFragment extends BaseCommFragment{
                 for (int i = 0; i <ordersList.size() ; i++) {
                     if (ordersList.get(i).getSelect().equals("1")){
                         if (appStrs == null){
-                            appStrs = ordersList.get(i).getOrderFreq();
+                            appStrs = ordersList.get(i).getAppdr();
                         }else {
-                            appStrs = appStrs+"^"+ordersList.get(i).getOrderFreq();
+                            appStrs = appStrs+"^"+ordersList.get(i).getAppdr();
                         }
                     }
                 }

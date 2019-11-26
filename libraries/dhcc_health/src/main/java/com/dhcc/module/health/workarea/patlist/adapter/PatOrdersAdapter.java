@@ -27,7 +27,12 @@ public class PatOrdersAdapter extends BaseQuickAdapter<PatOrdersBean.CureInfoLis
         }
         @Override
         protected void convert(BaseViewHolder helper, PatOrdersBean.CureInfoListBean item) {
-                helper.setText(R.id.tv_order_info, item.getOrderBillFlag());
+                helper.setText(R.id.tv_order_info, item.getOrderStatus())
+                        .setText(R.id.tv_pat_info,item.getPatientName())
+                        .setText(R.id.tv_pat_status,item.getOrderStatusCode())
+                        .setText(R.id.tv_order_type,item.getDCAOEORIDR())
+                        .setText(R.id.tv_order_amount,item.getAdmType())
+                        .setText(R.id.tv_order_admstatus,item.getAdmVisitStatus());
                 LinearLayout llSel = helper.getView(R.id.ll_oepat_orderselect);
                 if (item.getSelect().equals("1")){
                         llSel.setSelected(true);

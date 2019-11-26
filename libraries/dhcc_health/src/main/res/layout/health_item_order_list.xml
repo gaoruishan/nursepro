@@ -2,25 +2,46 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/dp_45"
-    android:gravity="center"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
     android:background="@color/white"
     android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_44"
+        android:layout_height="@dimen/dp_24"
         android:orientation="horizontal"
         android:gravity="center">
         <TextView
-            android:id="@+id/tv_order_info"
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_pat_info"
+            android:layout_width="@dimen/dp_40"
             android:layout_height="@dimen/dp_30"
             android:gravity="center_vertical"
             android:textColor="@color/black"
-            android:textSize="13sp"
-            tools:text="医嘱111"
+            android:textSize="12sp"
+            tools:text="张三"
             android:layout_marginLeft="@dimen/dp_10"
             ></TextView>
+        <TextView
+            android:id="@+id/tv_order_type"
+            android:layout_width="@dimen/dp_55"
+            android:layout_height="@dimen/dp_30"
+            android:gravity="center_vertical"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            tools:text="长期"
+            android:layout_marginLeft="@dimen/dp_10"
+            ></TextView>
+        <TextView
+            android:id="@+id/tv_pat_status"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_30"
+            android:gravity="center_vertical"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            tools:text="核实"
+            android:layout_marginLeft="@dimen/dp_10"
+            ></TextView>
+
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
@@ -38,6 +59,42 @@
                 />
         </LinearLayout>
     </LinearLayout>
+    <TextView
+        android:id="@+id/tv_order_info"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_20"
+        android:gravity="center_vertical"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        tools:text="医嘱111"
+        android:layout_marginLeft="@dimen/dp_10"
+        ></TextView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_20"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tv_order_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            tools:text="剂量"
+            android:layout_marginLeft="@dimen/dp_5"
+            android:textSize="12sp"
+            android:textColor="@color/black"
+            ></TextView>
+        <TextView
+            android:id="@+id/tv_order_admstatus"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            tools:text="中医治疗"
+            android:layout_marginLeft="@dimen/dp_5"
+            android:textSize="12sp"
+            android:textColor="@color/black"
+            ></TextView>
+    </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"

@@ -12,6 +12,7 @@ import com.blankj.utilcode.util.TimeUtils;
 import com.dhcc.module.health.R;
 import com.dhcc.module.health.workarea.orderexecute.adapter.OrderExecuteAdapter;
 import com.dhcc.module.health.workarea.orderexecute.bean.OrdExecuteBean;
+import com.dhcc.module.health.workarea.orderexecute.bean.OrdListBean;
 import com.dhcc.res.infusion.CustomDateTimeView;
 import com.dhcc.res.infusion.CustomPatView;
 import com.dhcc.res.infusion.CustomScanView;
@@ -67,19 +68,20 @@ public class OrderExecuteFragment extends BaseCommFragment {
     @Override
     protected void getScanOrdList() {
         super.getScanOrdList();
-        OrderExecuteApiManager.getHealthOrdInfo(scanInfo, customDate.getStartDateTimeText(), customDate.getEndDateTimeText(), "", new CommonCallBack<OrdExecuteBean>() {
+        showToast(scanInfo);
+        OrderExecuteApiManager.getHealthOrdInfo(scanInfo, customDate.getStartDateTimeText(), customDate.getEndDateTimeText(), "", new CommonCallBack<OrdListBean>() {
             @Override
             public void onFail(String code, String msg) {
 
             }
 
             @Override
-            public void onSuccess(OrdExecuteBean bean, String type) {
+            public void onSuccess(OrdListBean bean, String type) {
                 customScan.setVisibility(View.GONE);
-                orderExecuteAdapter.setNewData(bean.getOrdList());
-                if (bean.getPatInfo() != null && customPat != null) {
-                    customPat.setRegNo(bean.getPatInfo().getPatRegNo()).setPatName(bean.getPatInfo().getPatName())
-                            .setAge(bean.getPatInfo().getPatAge()).setPatSex(bean.getPatInfo().getPatSex());
+                orderExecuteAdapter.setNewData(bean.getCureInfoList());
+                if (bean.getPatInfoList() != null && customPat != null) {
+                    customPat.setRegNo(bean.getPatInfoList().get(0).getPapmiNo()).setPatName(bean.getPatInfoList().get(0).getName())
+                            .setAge(bean.getPatInfoList().get(0).getAgeDesc()).setPatSex(bean.getPatInfoList().get(0).getSex());
                 }
             }
         });
