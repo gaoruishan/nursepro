@@ -170,43 +170,172 @@ public class NurRecordMPGDFragment extends BaseFragment implements View.OnClickL
             String cname = entry.getKey().toString();
 
             itm = (String) entry.getValue();
-            if (itm.substring(0, 1).equals("B"))
+            if (itm.substring(0, 1).equals("B")) {
                 continue;
+            }
+
+            //必填项 S元素G元素判断
             if (itm.substring(0, 1).equals("S") || itm.substring(0, 1).equals("G")) {
                 EditText ed = (EditText) CNHtb.get(entry.getKey().toString());
-                if (entry.getKey().toString().equals("User")) {
-                    //                    CNHVal.put(cname, LoginUser.UserDR);
-                } else {
-                    String edtxt = ed.getText().toString();
-                    for (int i = 0; i < xmlParseInterface.itemSetList.size(); i++) {
-                        ItemConfigbyEmrCodeBean.ItemSetListBean itemSetListBean = xmlParseInterface.itemSetList.get(i);
-                        if (itemSetListBean.getLinkType().equals("4") && cname.equals(itemSetListBean.getItemCode())) {
-                            if (StringUtils.isEmpty(edtxt)) {
-                                ed.setBackgroundResource(R.drawable.nur_record_inputerror_bg);
-                                showToast("请填写必填项数据");
-                                return;
-                            }
+
+                String edtxt = ed.getText().toString();
+                for (int i = 0; i < xmlParseInterface.itemSetList.size(); i++) {
+                    ItemConfigbyEmrCodeBean.ItemSetListBean itemSetListBean = xmlParseInterface.itemSetList.get(i);
+                    if (itemSetListBean.getLinkType().equals("4") && cname.equals(itemSetListBean.getItemCode())) {
+                        if (StringUtils.isEmpty(edtxt)) {
+                            ed.setBackgroundResource(R.drawable.nur_record_inputerror_bg);
+                            showToast("请填写必填项数据");
+                            return;
                         }
                     }
-
-                    CNHVal.put(cname, edtxt);
                 }
 
+                CNHVal.put(cname, edtxt);
+
+
             }
+
+            //必填项 D元素判断
             if (itm.substring(0, 1).equals("D")) {
-                TextView ed = (TextView) CNHtb.get(entry.getKey().toString());
-                CNHVal.put(cname, ed.getText());
+                TextView tvDateTime = (TextView) CNHtb.get(entry.getKey().toString());
+                String tvStr = tvDateTime.getText().toString();
+                for (int i = 0; i < xmlParseInterface.itemSetList.size(); i++) {
+                    ItemConfigbyEmrCodeBean.ItemSetListBean itemSetListBean = xmlParseInterface.itemSetList.get(i);
+                    if (itemSetListBean.getLinkType().equals("4") && cname.equals(itemSetListBean.getItemCode())) {
+                        if (StringUtils.isEmpty(tvStr)) {
+                            tvDateTime.setBackgroundResource(R.drawable.nur_record_btnerror_bg);
+                            showToast("请填写必填项数据");
+                            return;
+                        }
+                    }
+                }
+                CNHVal.put(cname, tvDateTime.getText());
+            }
+
+            //必填项 分值控制选择判断
+            //DHCNURPGD_ZYBRYCWXYSPGBZLYY_PDA.1
+            // <S138 Title=\"总分\" RelName=\"Item10\"
+
+            // <_Label141 type=\"System.Windows.Forms.Label\" text=\"预防措施\"
+
+            // <_Label143 type=\"System.Windows.Forms.Label\" text=\"定时变换体位\"   Item21
+            // <_Label144 type=\"System.Windows.Forms.Label\" text=\"保持皮肤清洁无汗液\"    Item22
+            // <_Label145 type=\"System.Windows.Forms.Label\" text=\"保持衣服和床单清洁干燥无褶皱\"   Item24
+            // <_Label146 type=\"System.Windows.Forms.Label\" text=\"严密观察皮肤并做好交接\"  Item25
+            // <_Label147 type=\"System.Windows.Forms.Label\" text=\"贴膜保护受压部位皮肤\"   Item26
+            // <_Label148 type=\"System.Windows.Forms.Label\" text=\"使用软垫垫于骨隆凸部位\"  Item27
+            // <_Label149 type=\"System.Windows.Forms.Label\" text=\"使用放压疮气垫\"  Item28
+            // <_Label151 type=\"System.Windows.Forms.Label\" text=\"填写《压疮高危人群报告表》\"    Item29
+            // <_Label152 type=\"System.Windows.Forms.Label\" text=\"请专科会诊\"    Item119
+            // <_Label153 type=\"System.Windows.Forms.Label\" text=\"床头使用高危标识\" Item120
+            // <S159 Title=\"其他\" RelName=\"Item113\"    Item130
+
+            if (emrCode.equals("DHCNURPGD_ZYBRYCWXYSPGBZLYY") && entry.getKey().toString().equals("Item10")) {
+                int selectNum = 0;
+                Boolean canSave = false;
+                EditText edScore = (EditText) CNHtb.get("Item10");
+                int score = Integer.parseInt(StringUtils.isEmpty(edScore.getText().toString()) ? "0" : edScore.getText().toString());
+
+                TextView tvRadio21 = (TextView) CNHtb.get("Item21");
+                String tvStr21 = tvRadio21.getText().toString();
+                if (!StringUtils.isEmpty(tvStr21)) {
+                    canSave = true;
+                }
+                TextView tvRadio22 = (TextView) CNHtb.get("Item22");
+                String tvStr22 = tvRadio22.getText().toString();
+                if (!StringUtils.isEmpty(tvStr22)) {
+                    canSave = true;
+                }
+                TextView tvRadio24 = (TextView) CNHtb.get("Item24");
+                String tvStr24 = tvRadio24.getText().toString();
+                if (!StringUtils.isEmpty(tvStr24)) {
+                    canSave = true;
+                }
+                TextView tvRadio25 = (TextView) CNHtb.get("Item25");
+                String tvStr25 = tvRadio25.getText().toString();
+                if (!StringUtils.isEmpty(tvStr25)) {
+                    canSave = true;
+                }
+                TextView tvRadio26 = (TextView) CNHtb.get("Item26");
+                String tvStr26 = tvRadio26.getText().toString();
+                if (!StringUtils.isEmpty(tvStr26)) {
+                    canSave = true;
+                }
+                TextView tvRadio27 = (TextView) CNHtb.get("Item27");
+                String tvStr27 = tvRadio27.getText().toString();
+                if (!StringUtils.isEmpty(tvStr27)) {
+                    canSave = true;
+                }
+                TextView tvRadio28 = (TextView) CNHtb.get("Item28");
+                String tvStr28 = tvRadio28.getText().toString();
+                if (!StringUtils.isEmpty(tvStr28)) {
+                    canSave = true;
+                }
+                TextView tvRadio29 = (TextView) CNHtb.get("Item29");
+                String tvStr29 = tvRadio29.getText().toString();
+                if (!StringUtils.isEmpty(tvStr29)) {
+                    canSave = true;
+                    selectNum++;
+                }
+                TextView tvRadio119 = (TextView) CNHtb.get("Item119");
+                String tvStr119 = tvRadio119.getText().toString();
+                if (!StringUtils.isEmpty(tvStr119)) {
+                    canSave = true;
+                    selectNum++;
+                }
+                TextView tvRadio120 = (TextView) CNHtb.get("Item120");
+                String tvStr120 = tvRadio120.getText().toString();
+                if (!StringUtils.isEmpty(tvStr120)) {
+                    canSave = true;
+                    selectNum++;
+                }
+
+                EditText edOther113 = (EditText) CNHtb.get("Item113");
+                String edStr113 = edOther113.getText().toString();
+                TextView tvRadio130 = (TextView) CNHtb.get("Item130");
+                String tvStr130 = tvRadio130.getText().toString();
+
+                if (!StringUtils.isEmpty(edStr113) && !StringUtils.isEmpty(tvStr130)) {
+                    canSave = true;
+                }
+
+
+                if (score > 12 && score < 19) {
+                    if (!canSave) {
+                        showToast("此评分必须选择对应预防措施");
+                        return;
+                    }
+                } else if (score < 13) {
+                    if (selectNum < 3) {
+                        showToast("此评分必须选择填写《压疮高危人群报告表》、请专科会诊、床头使用高危标识");
+                        return;
+                    }
+                }
+
+
             }
 
             if (itm.substring(0, 1).equals("M")) {
                 ret = ret + cname + "|" + GetMultiVal(CNHVal.get(cname).toString()) + "^";
             }
             if (itm.substring(0, 1).equals("O") || itm.substring(0, 1).equals("I")) {
-                TextView ed = (TextView) CNHtb.get(entry.getKey().toString());
-                if (ed != null) {
-                    //关联元素自动赋值的
-                    CNHVal.put(cname, cname + "|" + ed.getText() + "!" + ed.getText());
+                TextView tvRadio = (TextView) CNHtb.get(entry.getKey().toString());
+
+                String tvStr = tvRadio.getText().toString();
+                for (int i = 0; i < xmlParseInterface.itemSetList.size(); i++) {
+                    ItemConfigbyEmrCodeBean.ItemSetListBean itemSetListBean = xmlParseInterface.itemSetList.get(i);
+                    if (itemSetListBean.getLinkType().equals("4") && cname.equals(itemSetListBean.getItemCode())) {
+                        if (StringUtils.isEmpty(tvStr)) {
+                            tvRadio.setBackgroundResource(R.drawable.nur_record_btnerror_bg);
+                            showToast("请填写必填项数据");
+                            return;
+                        }
+                    }
                 }
+
+                //关联元素自动赋值的
+                CNHVal.put(cname, cname + "|" + tvStr + "!" + tvStr);
+
                 ret = ret + cname + "|" + GetComVal(CNHVal.get(cname).toString()) + "^";
             }
 
@@ -256,12 +385,14 @@ public class NurRecordMPGDFragment extends BaseFragment implements View.OnClickL
         String[] aa = itm.split("\\^");
         String ret = "";
         for (int i = 0; i < aa.length; i++) {
-            if (aa[i].equals(""))
+            if (aa[i].equals("")) {
                 continue;
+            }
             String[] bb = aa[i].split("\\|");
             if (bb.length > 1) {
-                if (!bb[1].equals(""))
+                if (!bb[1].equals("")) {
                     ret = ret + bb[1] + ";";
+                }
             }
         }
         if (ret.endsWith(";")) {
@@ -272,13 +403,15 @@ public class NurRecordMPGDFragment extends BaseFragment implements View.OnClickL
 
     private String GetComVal(String itm) {
         String ret = "";
-        if (itm == "")
+        if (itm == "") {
             return "";
+        }
         String[] aa = itm.split("\\|");
         if (aa.length > 1) {
             String[] val = aa[1].split("!");
-            if (val.length == 0)
+            if (val.length == 0) {
                 return "";
+            }
             ret = val[0];
         }
         return ret;
@@ -396,14 +529,16 @@ public class NurRecordMPGDFragment extends BaseFragment implements View.OnClickL
                 String[] pat = recData.split("\\^");
                 for (int i = 0; i < pat.length; i++) {
                     String[] itm = pat[i].split("\\|");
-                    if (itm.length > 1)
+                    if (itm.length > 1) {
                         CNHVal.put(itm[0], itm[1]);
-                    else
+                    } else {
                         CNHVal.put(itm[0], "");
-                    if (itm.length > 1)
+                    }
+                    if (itm.length > 1) {
                         PatIn.put(itm[0], itm[1]);
-                    else
+                    } else {
                         PatIn.put(itm[0], "");
+                    }
 
                 }
 
@@ -445,14 +580,16 @@ public class NurRecordMPGDFragment extends BaseFragment implements View.OnClickL
                 String[] pat = recDataBean.getRetData().split("\\^");
                 for (int i = 0; i < pat.length; i++) {
                     String[] itm = pat[i].split("\\|");
-                    if (itm.length > 1)
+                    if (itm.length > 1) {
                         CNHVal.put(itm[0], itm[1]);
-                    else
+                    } else {
                         CNHVal.put(itm[0], "");
-                    if (itm.length > 1)
+                    }
+                    if (itm.length > 1) {
                         PatIn.put(itm[0], itm[1]);
-                    else
+                    } else {
                         PatIn.put(itm[0], "");
+                    }
 
                 }
                 xmlParseInterface.PatIn = PatIn;

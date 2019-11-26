@@ -232,43 +232,67 @@ public class NurRecordJLDFragment extends BaseFragment implements View.OnClickLi
             String cname = entry.getKey().toString();
 
             itm = (String) entry.getValue();
-            if (itm.substring(0, 1).equals("B"))
+            if (itm.substring(0, 1).equals("B")) {
                 continue;
+            }
             if (itm.substring(0, 1).equals("S") || itm.substring(0, 1).equals("G")) {
                 EditText ed = (EditText) CNHtb.get(entry.getKey().toString());
-                if (entry.getKey().toString().equals("User")) {
-                    CNHVal.put(cname, userId);
-                } else {
-                    String edtxt = ed.getText().toString();
-                    for (int i = 0; i < xmlParseInterface.itemSetList.size(); i++) {
-                        ItemConfigbyEmrCodeBean.ItemSetListBean itemSetListBean = xmlParseInterface.itemSetList.get(i);
-                        if (itemSetListBean.getLinkType().equals("4") && cname.equals(itemSetListBean.getItemCode())) {
-                            if (StringUtils.isEmpty(edtxt)) {
-                                ed.setBackgroundResource(R.drawable.nur_record_inputerror_bg);
-                                showToast("请填写必填项数据");
-                                return;
-                            }
+
+                String edtxt = ed.getText().toString();
+                for (int i = 0; i < xmlParseInterface.itemSetList.size(); i++) {
+                    ItemConfigbyEmrCodeBean.ItemSetListBean itemSetListBean = xmlParseInterface.itemSetList.get(i);
+                    if (itemSetListBean.getLinkType().equals("4") && cname.equals(itemSetListBean.getItemCode())) {
+                        if (StringUtils.isEmpty(edtxt)) {
+                            ed.setBackgroundResource(R.drawable.nur_record_inputerror_bg);
+                            showToast("请填写必填项数据");
+                            return;
                         }
                     }
-
-                    CNHVal.put(cname, edtxt);
                 }
+
+                CNHVal.put(cname, edtxt);
+
 
             }
             if (itm.substring(0, 1).equals("D")) {
-                TextView ed = (TextView) CNHtb.get(entry.getKey().toString());
-                CNHVal.put(cname, ed.getText());
+                TextView tvDateTime = (TextView) CNHtb.get(entry.getKey().toString());
+                String tvStr = tvDateTime.getText().toString();
+                for (int i = 0; i < xmlParseInterface.itemSetList.size(); i++) {
+                    ItemConfigbyEmrCodeBean.ItemSetListBean itemSetListBean = xmlParseInterface.itemSetList.get(i);
+                    if (itemSetListBean.getLinkType().equals("4") && cname.equals(itemSetListBean.getItemCode())) {
+                        if (StringUtils.isEmpty(tvStr)) {
+                            tvDateTime.setBackgroundResource(R.drawable.nur_record_btnerror_bg);
+                            showToast("请填写必填项数据");
+                            return;
+                        }
+                    }
+                }
+                CNHVal.put(cname, tvDateTime.getText());
+
             }
 
             if (itm.substring(0, 1).equals("M")) {
                 ret = ret + cname + "|" + GetMultiVal(CNHVal.get(cname).toString()) + "^";
             }
+
             if (itm.substring(0, 1).equals("O") || itm.substring(0, 1).equals("I")) {
-                TextView ed = (TextView) CNHtb.get(entry.getKey().toString());
-                if (ed != null) {
-                    //关联元素自动赋值的
-                    CNHVal.put(cname, cname + "|" + ed.getText() + "!" + ed.getText());
+                TextView tvRadio = (TextView) CNHtb.get(entry.getKey().toString());
+
+                String tvStr = tvRadio.getText().toString();
+                for (int i = 0; i < xmlParseInterface.itemSetList.size(); i++) {
+                    ItemConfigbyEmrCodeBean.ItemSetListBean itemSetListBean = xmlParseInterface.itemSetList.get(i);
+                    if (itemSetListBean.getLinkType().equals("4") && cname.equals(itemSetListBean.getItemCode())) {
+                        if (StringUtils.isEmpty(tvStr)) {
+                            tvRadio.setBackgroundResource(R.drawable.nur_record_btnerror_bg);
+                            showToast("请填写必填项数据");
+                            return;
+                        }
+                    }
                 }
+
+                //关联元素自动赋值的
+                CNHVal.put(cname, cname + "|" + tvStr + "!" + tvStr);
+
                 ret = ret + cname + "|" + GetComVal(CNHVal.get(cname).toString()) + "^";
             }
             if (itm.substring(0, 1).equals("R")) {
@@ -319,12 +343,14 @@ public class NurRecordJLDFragment extends BaseFragment implements View.OnClickLi
         String[] aa = itm.split("\\^");
         String ret = "";
         for (int i = 0; i < aa.length; i++) {
-            if (aa[i].equals(""))
+            if (aa[i].equals("")) {
                 continue;
+            }
             String[] bb = aa[i].split("\\|");
             if (bb.length > 1) {
-                if (!bb[1].equals(""))
+                if (!bb[1].equals("")) {
                     ret = ret + bb[1] + ",";
+                }
             }
         }
         if (ret.endsWith(",")) {
@@ -335,13 +361,15 @@ public class NurRecordJLDFragment extends BaseFragment implements View.OnClickLi
 
     private String GetComVal(String itm) {
         String ret = "";
-        if (itm == "")
+        if (itm == "") {
             return "";
+        }
         String[] aa = itm.split("\\|");
         if (aa.length > 1) {
             String[] val = aa[1].split("!");
-            if (val.length == 0)
+            if (val.length == 0) {
                 return "";
+            }
             ret = val[0];
         }
         return ret;
@@ -457,14 +485,16 @@ public class NurRecordJLDFragment extends BaseFragment implements View.OnClickLi
                 String[] pat = recData.split("\\^");
                 for (int i = 0; i < pat.length; i++) {
                     String[] itm = pat[i].split("\\|");
-                    if (itm.length > 1)
+                    if (itm.length > 1) {
                         CNHVal.put(itm[0], itm[1]);
-                    else
+                    } else {
                         CNHVal.put(itm[0], "");
-                    if (itm.length > 1)
+                    }
+                    if (itm.length > 1) {
                         PatIn.put(itm[0], itm[1]);
-                    else
+                    } else {
                         PatIn.put(itm[0], "");
+                    }
 
                 }
 
@@ -498,14 +528,16 @@ public class NurRecordJLDFragment extends BaseFragment implements View.OnClickLi
                 String[] pat = recData.split("\\^");
                 for (int i = 0; i < pat.length; i++) {
                     String[] itm = pat[i].split("\\|");
-                    if (itm.length > 1)
+                    if (itm.length > 1) {
                         CNHVal.put(itm[0], itm[1]);
-                    else
+                    } else {
                         CNHVal.put(itm[0], "");
-                    if (itm.length > 1)
+                    }
+                    if (itm.length > 1) {
                         PatIn.put(itm[0], itm[1]);
-                    else
+                    } else {
                         PatIn.put(itm[0], "");
+                    }
 
                 }
                 xmlParseInterface.PatIn = PatIn;

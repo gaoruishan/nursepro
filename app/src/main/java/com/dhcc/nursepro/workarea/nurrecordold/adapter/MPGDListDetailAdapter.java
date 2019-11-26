@@ -17,15 +17,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class MPGDListDetailAdapter extends BaseQuickAdapter <Map,BaseViewHolder>{
+public class MPGDListDetailAdapter extends BaseQuickAdapter<Map, BaseViewHolder> {
     Context context;
-    private List<CareRecCommListBean.TitleListBean> listTitle =new ArrayList<>();
+    private List<CareRecCommListBean.TitleListBean> listTitle = new ArrayList<>();
 
     public MPGDListDetailAdapter(@Nullable List<Map> data, Context context) {
-        super(R.layout.item_mpgdlist_detail,data);
+        super(R.layout.item_mpgdlist_detail, data);
         this.context = context;
     }
-    public void setListTitle(List<CareRecCommListBean.TitleListBean> listTitle){
+
+    public void setListTitle(List<CareRecCommListBean.TitleListBean> listTitle) {
         this.listTitle = listTitle;
     }
 
@@ -40,11 +41,11 @@ public class MPGDListDetailAdapter extends BaseQuickAdapter <Map,BaseViewHolder>
 
         for (int i = 0; i < listTitle.size(); i++) {
             TextView textView = new TextView(context);
-            String tvstr = item.get((listTitle.get(i).getTitleCode())+"")+"";
+            String tvstr = item.get((listTitle.get(i).getTitleCode()) + "") + "";
             textView.setText(tvstr);
             textView.setLayoutParams(params);
             textView.setGravity(Gravity.CENTER);
-            textView.setTextColor(ContextCompat.getColor(context,R.color.black));
+            textView.setTextColor(ContextCompat.getColor(context, R.color.black));
             textView.setTextSize(14);
             lldatalist.addView(textView);
         }

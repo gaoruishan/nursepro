@@ -34,7 +34,7 @@ public class NurRecordPatListAdapter extends BaseQuickAdapter<InWardPatListBean.
 
     @Override
     protected void convert(BaseViewHolder helper, InWardPatListBean.PatInfoListBean item) {
-        helper.setText(R.id.tv_nurrecord_patinfo, item.getBedCode()+" "+item.getName());
+        helper.setText(R.id.tv_nurrecord_patinfo, item.getBedCode() + " " + item.getName());
         LinearLayout llPatientType = helper.getView(R.id.ll_nurrecord_patinfo);
         View viewPatientType = helper.getView(R.id.view_nurrecord_patinfo);
         TextView tvPat = helper.getView(R.id.tv_nurrecord_patinfo);

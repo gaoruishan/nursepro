@@ -33,6 +33,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.blankj.utilcode.util.ConvertUtils;
+import com.blankj.utilcode.util.StringUtils;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.nurrecordold.adapter.CommList;
 import com.dhcc.nursepro.workarea.nurrecordold.bean.ItemConfigbyEmrCodeBean;
@@ -136,11 +137,13 @@ public class XmlParseInterface implements Serializable {
 
             for (int i = 0; i < listChild.size(); i++) {
                 final Element nod = listChild.get(i);
-                if (nod.attribute("type") == null)
+                if (nod.attribute("type") == null) {
                     continue;
+                }
                 Element metaNod = null;
-                if (meddatanod.element(nod.getName()) != null)
+                if (meddatanod.element(nod.getName()) != null) {
                     metaNod = meddatanod.element(nod.getName());
+                }
                 String RelName = "";
                 String Pos = "";
                 if (metaNod != null) {
@@ -165,19 +168,22 @@ public class XmlParseInterface implements Serializable {
                 int Iheight = ConvertUtils.dp2px(Float.parseFloat(height)) - 5;
                 final int fontsz = Integer.valueOf(fontsize.trim());
                 String CName = nod.getName();
-                if (RelName != "")
+                if (RelName != "") {
                     CName = RelName;
+                }
                 CNHVal.put(CName, txtstr);
                 if (RecId.equals("")) {
                     if (PatRelItm.containsKey(CName)) {
-                        if (PatIn.get(PatRelItm.get(CName)) != null)
+                        if (PatIn.get(PatRelItm.get(CName)) != null) {
                             txtstr = (String) PatIn.get(PatRelItm.get(CName));
+                        }
 
                     }
                 } else {
                     if (PatIn.containsKey(CName)) {
-                        if (PatIn.get(CName) != null)
+                        if (PatIn.get(CName) != null) {
                             txtstr = PatIn.get(CName).toString();
+                        }
                     }
 
                 }
@@ -262,9 +268,9 @@ public class XmlParseInterface implements Serializable {
 
                     dbtn.setTag(CName);
                     if (fontunit.equals("World")) {
-                        dbtn.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (fontsz));//
+                        dbtn.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (fontsz));
                     } else {
-                        dbtn.setTextSize(TypedValue.COMPLEX_UNIT_SP, (fontsz));//
+                        dbtn.setTextSize(TypedValue.COMPLEX_UNIT_SP, (fontsz));
                     }
                     CNHtb.put(CName, dbtn);
                     if (dflag.equals("Y")) {
@@ -272,6 +278,7 @@ public class XmlParseInterface implements Serializable {
                         CNHVal.put(CName, dbtn.getText());
                         dbtn.setOnClickListener(new OnClickListener() {
                             public void onClick(View v) {
+                                dbtn.setBackgroundResource(R.drawable.nur_record_btn_bg);
                                 ShowDateTime(DATE_DIALOG, context, dbtn);
                             }
                         });
@@ -282,6 +289,7 @@ public class XmlParseInterface implements Serializable {
                         CNHVal.put(CName, dbtn.getText());
                         dbtn.setOnClickListener(new OnClickListener() {
                             public void onClick(View v) {
+                                dbtn.setBackgroundResource(R.drawable.nur_record_btn_bg);
                                 ShowDateTime(TIME_DIALOG, context, dbtn);
                             }
                         });
@@ -293,7 +301,7 @@ public class XmlParseInterface implements Serializable {
                 if ((nod.getName().substring(0, 1).equals("S") || (nod
                         .getName().substring(0, 1).equals("G")))) {
                     final EditText txt = new EditText(context);
-
+                    txt.setTag(CName);
                     if (nod.getName().substring(0, 1).equals("G")) {
                         txt.setOnTouchListener(new View.OnTouchListener() {
                             @Override
@@ -323,7 +331,7 @@ public class XmlParseInterface implements Serializable {
                     for (int j = 0; j < itemSetList.size(); j++) {
                         ItemConfigbyEmrCodeBean.ItemSetListBean itemSetListBean = itemSetList.get(j);
                         if (itemSetListBean.getLinkType().equals("5") && CName.equals(itemSetListBean.getItemCode())) {
-                            txt.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                            txt.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
                         }
                     }
 
@@ -341,15 +349,90 @@ public class XmlParseInterface implements Serializable {
                         @Override
                         public void afterTextChanged(Editable s) {
                             txt.setBackgroundResource(R.drawable.nur_record_input_bg);
+
+//                            //添加系数计算
+//                            for (int i = 0; i < scoreStatistics.size(); i++) {
+//                                ScoreStatisticsBean scoreStatisticsBean = scoreStatistics.get(i);
+//
+//                                if (txt.getTag().equals(scoreStatisticsBean.getViewCode())) {
+//                                    scoreStatistics.get(i).setScoreOld(scoreStatisticsBean.getScoreNew());
+//
+//                                    if (s.toString().equals("")) {
+//                                        scoreStatistics.get(i).setScoreNew("0");
+//                                    } else {
+//                                        scoreStatistics.get(i).setScoreNew(Integer.valueOf(s.toString()) * Integer.valueOf(scoreStatisticsBean.getStatisticNote()) + "");
+//                                    }
+//
+//
+//                                    TextView textView = (TextView) CNHtb.get(scoreStatisticsBean.getResultViewCode());
+//                                    String scoreStr = (String) CNHVal.get(scoreStatisticsBean.getResultViewCode());
+//                                    if (textView != null && scoreStr != null) {
+//                                        if (scoreStr.equals("")) {
+//                                            scoreStr = "0";
+//                                        }
+//                                        int scoreInt = Integer.valueOf(scoreStr) - Integer.valueOf(scoreStatistics.get(i).getScoreOld()) + Integer.valueOf(scoreStatistics.get(i).getScoreNew());
+//                                        scoreStr = scoreInt + "";
+//                                        textView.setText(scoreStr);
+//                                        CNHVal.put(scoreStatisticsBean.getResultViewCode(), scoreStr);
+//                                    }
+//
+//                                }
+//                            }
+
+
+                            //说明关联  1-3|!4-6|√
+                            for (int j = 0; j < itemSetList.size(); j++) {
+                                ItemConfigbyEmrCodeBean.ItemSetListBean itemSetListBean = itemSetList.get(j);
+                                if (itemSetListBean.getLinkType().equals("11") && txt.getTag().equals(itemSetListBean.getItemCode())) {
+                                    String linkNote = itemSetListBean.getLinkNote();
+                                    TextView tvLinked = (TextView) CNHtb.get(itemSetListBean.getLinkCode());
+                                    if (tvLinked != null) {
+                                        tvLinked.setText("");
+                                        String[] notes = linkNote.split("!");
+                                        for (int k = 0; k < notes.length; k++) {
+                                            String[] noteChilds = notes[k].split("\\|");
+                                            if (noteChilds.length == 2) {
+                                                int low = Integer.parseInt(noteChilds[0].split("-")[0]);
+                                                int high = Integer.parseInt(noteChilds[0].split("-")[1]);
+                                                int text = 0;
+                                                if (!StringUtils.isEmpty(s.toString())) {
+                                                    text = Integer.parseInt(s.toString());
+                                                }
+
+                                                if (text >= low && text <= high) {
+                                                    tvLinked.setText(noteChilds[1]);
+                                                    break;
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
                         }
                     });
+
+//                  //添加系数计算
+                    //                    for (int j = 0; j < itemSetList.size(); j++) {
+                    //                        ItemConfigbyEmrCodeBean.ItemSetListBean itemSetListBean = itemSetList.get(j);
+                    //                        if (itemSetListBean.getLinkType().equals("10") && CName.equals(itemSetListBean.getItemCode())) {
+                    //                            ScoreStatisticsBean scoreStatisticsBean = new ScoreStatisticsBean(itemSetListBean.getItemCode(), itemSetListBean.getLinkCode(), itemSetListBean.getLinkNote());
+                    //                            if (txtstr.equals("")) {
+                    //                                scoreStatisticsBean.setScoreNew("0");
+                    //                            } else {
+                    //                                scoreStatisticsBean.setScoreNew(Integer.valueOf(txtstr) * Integer.valueOf(itemSetListBean.getLinkNote()) + "");
+                    //                            }
+                    //
+                    //                            scoreStatistics.add(scoreStatisticsBean);
+                    //                        }
+                    //                    }
 
                     txt.setText(txtstr);
 
 
                     abslayout.addView(txt,
                             getlayparam(Iwidth, (int) (Iheight * 1.3), Ileft, Itop));
-                    txt.setTag(CName);
 
                     CNHVal.put(CName, txtstr);
                     CNHtb.put(CName, txt);
@@ -359,10 +442,11 @@ public class XmlParseInterface implements Serializable {
 
                     final TextView btn5 = new TextView(context);
 
-                    if (!txtstr.equals(""))
+                    if (!txtstr.equals("")) {
                         btn5.setText(getMultiVal(txtstr));
-                    else
+                    } else {
                         btn5.setText("");
+                    }
 
                     for (int j = 0; j < itemSetList.size(); j++) {
                         ItemConfigbyEmrCodeBean.ItemSetListBean itemSetListBean = itemSetList.get(j);
@@ -407,13 +491,15 @@ public class XmlParseInterface implements Serializable {
                     IniMultiData(meddatanod.element(nod.getName()), CName,
                             txtstr);
                     if (RadioFenZhi != null) {
-                        if (RadioFenZhi.containsKey(CName))
+                        if (RadioFenZhi.containsKey(CName)) {
                             initimultiRadio(meddatanod.element(nod.getName()),
                                     CName, txtstr);
+                        }
                     }
                     abslayout.addView(btn5,
                             getlayparam(Iwidth, Iheight, Ileft, Itop));
                     btn5.setOnClickListener(new OnClickListener() {
+                        @Override
                         public void onClick(View v) {
                             Element itmnod = meddatanod.element(nod.getName());
                             String[] m_Items;
@@ -480,6 +566,7 @@ public class XmlParseInterface implements Serializable {
                     IniMultiData(meddatanod.element(nod.getName()), CName, txtstr);
                     abslayout.addView(btn6, getlayparam(Iwidth, (int) (Iheight * 1.3), Ileft, Itop));
                     btn6.setOnClickListener(new OnClickListener() {
+                        @Override
                         public void onClick(View v) {
 
                             Element itmnod = meddatanod.element(nod.getName());
@@ -494,8 +581,9 @@ public class XmlParseInterface implements Serializable {
                                 }
                                 if (dataitmnod == null) {
                                     ShowRadio(itmnod, context, btn6);
-                                } else
+                                } else {
                                     showMDialog(itmnod, context, btn6);
+                                }
                             }
 
                         }
@@ -546,7 +634,9 @@ public class XmlParseInterface implements Serializable {
                     CNHtb.put(CName, btn);
                     abslayout.addView(btn, getlayparam(Iwidth, (int) (Iheight * 1.3), Ileft, Itop));
                     btn.setOnClickListener(new OnClickListener() {
+                        @Override
                         public void onClick(View v) {
+                            btn.setBackgroundResource(R.drawable.nur_record_btn_bg);
                             Element itmnod = meddatanod.element(nod.getName());
                             String[] m_Items;
                             if (itmnod.element("Itms") != null) {
@@ -559,8 +649,9 @@ public class XmlParseInterface implements Serializable {
                                 }
                                 if (dataitmnod == null) {
                                     ShowRadioDialog(itmnod, context, btn);
-                                } else
+                                } else {
                                     showMDialog(itmnod, context, btn);
+                                }
                             }
 
                         }
@@ -608,6 +699,7 @@ public class XmlParseInterface implements Serializable {
 
             dialog07.setPositiveButton("确定",
                     new DialogInterface.OnClickListener() {
+                        @Override
                         public void onClick(DialogInterface dialog,
                                             int whichButton) {
                             sp.setText(txt.getText());
@@ -616,6 +708,7 @@ public class XmlParseInterface implements Serializable {
                     });
             dialog07.setNegativeButton("取消",
                     new DialogInterface.OnClickListener() {
+                        @Override
                         public void onClick(DialogInterface dialog,
                                             int whichButton) {
                         }
@@ -643,8 +736,9 @@ public class XmlParseInterface implements Serializable {
             txt.setFocusableInTouchMode(true);
             txt.requestFocus();
             InputMethodManager manager = ((InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE));
-            if (manager != null)
+            if (manager != null) {
                 manager.showSoftInput(txt, 0);
+            }
             dialog07.setPositiveButton("确定",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog,
@@ -657,13 +751,15 @@ public class XmlParseInterface implements Serializable {
                                 if (!val.equals(cname)) {
                                     String[] arr = val.split("\\^");
                                     int sel = -1;
-                                    if (SingleSel.containsKey(cname))
+                                    if (SingleSel.containsKey(cname)) {
                                         sel = SingleSel.get(cname);
+                                    }
                                     for (int i = 0; i < arr.length; i++) {
                                         if (sel == i) {
-                                            if (SingleData.containsKey(arr[i]))
+                                            if (SingleData.containsKey(arr[i])) {
                                                 SingleData.put(arr[i], txt
                                                         .getText().toString());
+                                            }
 
                                         }
 
@@ -676,6 +772,7 @@ public class XmlParseInterface implements Serializable {
                     });
             dialog07.setNegativeButton("取消",
                     new DialogInterface.OnClickListener() {
+                        @Override
                         public void onClick(DialogInterface dialog,
                                             int whichButton) {
                         }
@@ -689,19 +786,22 @@ public class XmlParseInterface implements Serializable {
 
     private String GetComVal(String itm) {
         String ret = "";
-        if (itm == "")
+        if (itm == "") {
             return "";
+        }
         String[] aa = itm.split("\\|");
         String[] val = aa[1].split("!");
-        if (val.length == 0)
+        if (val.length == 0) {
             return "";
+        }
         ret = val[0];
         return ret;
     }
 
     private String getmultival(String itm) {
-        if (itm == null)
+        if (itm == null) {
             return "";
+        }
         String[] aa = itm.split(";");
         String ret = "";
         for (int i = 0; i < aa.length; i++) {
@@ -726,12 +826,14 @@ public class XmlParseInterface implements Serializable {
                 Element nodx = (Element) itmlist.get(j);
                 String[] noditm = nodx.getStringValue().split("\\|");
                 String itmnn = noditm[0];
-                if (noditm.length > 1)
+                if (noditm.length > 1) {
                     FN.put(j, noditm[1]); // 分值
+                }
 
                 m_Items[j] = itmnn;
-                if (m_Items[j].equals(sel))
+                if (m_Items[j].equals(sel)) {
                     mSingleChoiceID = j;
+                }
                 // 设置选项
 
             }
@@ -740,6 +842,7 @@ public class XmlParseInterface implements Serializable {
 
             localBuilder.setSingleChoiceItems(m_Items, mSingleChoiceID,
                     new DialogInterface.OnClickListener() {
+                        @Override
                         public void onClick(DialogInterface dialog,
                                             int whichButton) {
                             mSingleChoiceID = whichButton;
@@ -792,7 +895,7 @@ public class XmlParseInterface implements Serializable {
 
                                     TextView textView = (TextView) CNHtb.get(scoreStatisticsBean.getResultViewCode());
                                     String scoreStr = (String) CNHVal.get(scoreStatisticsBean.getResultViewCode());
-                                    if (scoreStr.equals("")) {
+                                    if (scoreStr == null || scoreStr.equals("")) {
                                         scoreStr = "0";
                                     }
                                     int scoreInt = Integer.valueOf(scoreStr) - Integer.valueOf(scoreStatistics.get(i).getScoreOld()) + Integer.valueOf(scoreStatistics.get(i).getScoreNew());
@@ -826,8 +929,9 @@ public class XmlParseInterface implements Serializable {
 
         String ret = "";
         try {
-            if (RadioData == null)
+            if (RadioData == null) {
                 return ret;
+            }
             Iterator iter = RadioData.entrySet().iterator();// 先获取这个map的set序列，再或者这个序列的迭代器
             // /查询对饮的触发点
             while (iter.hasNext()) {
@@ -835,8 +939,9 @@ public class XmlParseInterface implements Serializable {
                 // Integer key = (Integer)entry.getKey(); //获得key
                 String[] arr = entry.getValue().toString().split("\\^");
                 for (int i = 0; i < arr.length; i++) {
-                    if (arr[i].equals(""))
+                    if (arr[i].equals("")) {
                         continue;
+                    }
                     if (cname.equals(arr[i])) {
                         ret = entry.getKey().toString();
                         break;
@@ -861,8 +966,9 @@ public class XmlParseInterface implements Serializable {
                 // Integer key = (Integer)entry.getKey(); //获得key
                 String[] arr = entry.getValue().toString().split("\\^");
                 for (int i = 0; i < arr.length; i++) {
-                    if (arr[i].equals(""))
+                    if (arr[i].equals("")) {
                         continue;
+                    }
                     if (cname.equals(arr[i])) {
                         ret = entry.getKey().toString();
                         break;
@@ -874,8 +980,9 @@ public class XmlParseInterface implements Serializable {
                 if (ret.substring(0, 1).equals("I")) {
                     String[] arr = MultiRadio.get(ret).split("\\^");
                     for (int i = 0; i < arr.length; i++) {
-                        if (arr[i].equals(""))
+                        if (arr[i].equals("")) {
                             continue;
+                        }
                         String val = GetComVal(CNHVal.get(arr[i]).toString());
                         if (!val.equals("")) {
                             sum = sum + Integer.valueOf(val.trim());
@@ -886,19 +993,22 @@ public class XmlParseInterface implements Serializable {
                 }
                 String[] arritm = RadioFenZhi.get(ret).split("\\^");
                 for (int i = 0; i < arritm.length; i++) {
-                    if (arritm[i].equals(""))
+                    if (arritm[i].equals("")) {
                         continue;
+                    }
                     String[] itm = arritm[i].split("\\|");
                     if (itm[2].equals("D")) {
                         Button btn = (Button) CNHtb.get(itm[0]);
-                        if (btn.getText().toString().equals(""))
+                        if (btn.getText().toString().equals("")) {
                             btn.setText(itm[1]);
+                        }
 
                     }
                     if (itm[2].equals("S")) {
                         EditText btn = (EditText) CNHtb.get(itm[0]);
-                        if (btn.getText().toString().equals(""))
+                        if (btn.getText().toString().equals("")) {
                             btn.setText(itm[1]);
+                        }
 
                     }
                 }
@@ -924,8 +1034,9 @@ public class XmlParseInterface implements Serializable {
         for (int j = 0; j < itmlist.size(); j++) {
             Element nodx = (Element) itmlist.get(j);
             m_Items[j] = nodx.getStringValue().split("\\|")[0];
-            if (m_Items[j].equals(sel))
+            if (m_Items[j].equals(sel)) {
                 mSingleChoiceID = j;
+            }
             // 设置选项
 
         }
@@ -946,8 +1057,9 @@ public class XmlParseInterface implements Serializable {
                 if (!val.equals(comname)) {
                     String[] arr = val.split("\\^");
                     for (int i = 0; i < arr.length; i++) {
-                        if (SingleData.containsKey(arr[i]))
+                        if (SingleData.containsKey(arr[i])) {
                             m_Items[i] = SingleData.get(arr[i]);
+                        }
                     }
 
                 }
@@ -965,6 +1077,7 @@ public class XmlParseInterface implements Serializable {
         }
         localBuilder.setSingleChoiceItems(m_Items2, mSingleChoiceID,
                 new DialogInterface.OnClickListener() {
+                    @Override
                     public void onClick(DialogInterface dialog, int whichButton) {
                         mSingleChoiceID = whichButton;
 
@@ -1003,7 +1116,7 @@ public class XmlParseInterface implements Serializable {
 
                                 TextView textView = (TextView) CNHtb.get(scoreStatisticsBean.getResultViewCode());
                                 String scoreStr = (String) CNHVal.get(scoreStatisticsBean.getResultViewCode());
-                                if (scoreStr.equals("")) {
+                                if (scoreStr == null || scoreStr.equals("")) {
                                     scoreStr = "0";
                                 }
                                 int scoreInt = Integer.valueOf(scoreStr) - Integer.valueOf(scoreStatistics.get(i).getScoreOld()) + Integer.valueOf(scoreStatistics.get(i).getScoreNew());
@@ -1050,12 +1163,13 @@ public class XmlParseInterface implements Serializable {
     private void IniMultiData(Element itmnod, String Cname, String txtstr) {
         List itmlist = itmnod.element("Itms").elements();
         List<CharSequence> Data = new ArrayList<CharSequence>();
-        String[] SelItm = txtstr.split("\\;");
+        String[] SelItm = txtstr.split(";");
         Map<String, Object> MSelItm = new HashMap<String, Object>();
         String itm = "";
         for (int i = 0; i < SelItm.length; i++) {
-            if (SelItm[i].equals(""))
+            if (SelItm[i].equals("")) {
                 continue;
+            }
             MSelItm.put(SelItm[i], "");
         }
         for (int j = 0; j < itmlist.size(); j++) {
@@ -1105,8 +1219,9 @@ public class XmlParseInterface implements Serializable {
         if (PatIn.containsKey(cname)) {
             String[] selitm = PatIn.get(cname).toString().split(";");
             for (int i = 0; i < selitm.length; i++) {
-                if (selitm[i].equals(""))
+                if (selitm[i].equals("")) {
                     continue;
+                }
                 SelItm.put(selitm[i], "");
             }
         }
@@ -1142,6 +1257,7 @@ public class XmlParseInterface implements Serializable {
         AlertDialog ad = new AlertDialog.Builder(context)
                 .setMultiChoiceItems(choiceItems, tempStatus,
                         new DialogInterface.OnMultiChoiceClickListener() {
+                            @Override
                             public void onClick(DialogInterface dialog,
                                                 int whichButton, boolean isChecked) {
 
@@ -1162,16 +1278,11 @@ public class XmlParseInterface implements Serializable {
 
                                 } else {
                                     if (whichButton == (choiceItems.length - 1)) {
-                                        AdapterArr.clear();
-                                        lv.clearChoices();
                                         for (int i = 0; i < choiceItems.length; i++) {
-                                            if (lv.isItemChecked(i)) {
-                                                lv.setItemChecked(i, false);
-                                            } else {
-                                                lv.setItemChecked(i, false);
-                                            }
+                                            lv.setItemChecked(i,false);
+                                            tempStatus[i] = false;
                                         }
-
+                                        AdapterArr.clear();
                                     } else {
                                         AdapterArr.remove(whichButton);
                                     }
@@ -1235,7 +1346,7 @@ public class XmlParseInterface implements Serializable {
 
                                 TextView textView = (TextView) CNHtb.get(scoreStatisticsBean.getResultViewCode());
                                 String scoreStr = (String) CNHVal.get(scoreStatisticsBean.getResultViewCode());
-                                if (scoreStr.equals("")) {
+                                if (scoreStr == null || scoreStr.equals("")) {
                                     scoreStr = "0";
                                 }
                                 int scoreInt = Integer.valueOf(scoreStr) - Integer.valueOf(scoreStatistics.get(i).getScoreOld()) + Integer.valueOf(scoreStatistics.get(i).getScoreNew());
@@ -1271,8 +1382,9 @@ public class XmlParseInterface implements Serializable {
         if (PatIn.containsKey(cname)) {
             String[] selitm = PatIn.get(cname).toString().split(";");
             for (int i = 0; i < selitm.length; i++) {
-                if (selitm[i].equals(""))
+                if (selitm[i].equals("")) {
                     continue;
+                }
                 SelItm.put(selitm[i], "");
             }
         }
@@ -1440,6 +1552,7 @@ public class XmlParseInterface implements Serializable {
                 c = Calendar.getInstance();
                 dialog = new DatePickerDialog(context,
                         new DatePickerDialog.OnDateSetListener() {
+                            @Override
                             public void onDateSet(DatePicker dp, int year,
                                                   int month, int dayOfMonth) {
 
@@ -1460,6 +1573,7 @@ public class XmlParseInterface implements Serializable {
                 c = Calendar.getInstance();
                 dialog = new TimePickerDialog(context,
                         new TimePickerDialog.OnTimeSetListener() {
+                            @Override
                             public void onTimeSet(TimePicker view, int hourOfDay,
                                                   int minute) {
                                 DecimalFormat df = new DecimalFormat("00");
@@ -1478,12 +1592,14 @@ public class XmlParseInterface implements Serializable {
         String[] itm = stritm.split(";");
         String ret = "";
         for (int i = 0; i < itm.length; i++) {
-            if (itm[i].equals(""))
+            if (itm[i].equals("")) {
                 continue;
-            if ((i + 1) == itm.length)
+            }
+            if ((i + 1) == itm.length) {
                 ret = ret + itm[i];
-            else
+            } else {
                 ret = ret + itm[i] + ",";
+            }
         }
         return ret;
     }
@@ -1492,12 +1608,14 @@ public class XmlParseInterface implements Serializable {
         String[] itm = stritm.split(",");
         String ret = "";
         for (int i = 0; i < itm.length; i++) {
-            if (itm[i].equals(""))
+            if (itm[i].equals("")) {
                 continue;
-            if ((i + 1) == itm.length)
+            }
+            if ((i + 1) == itm.length) {
                 ret = ret + itm[i];
-            else
+            } else {
                 ret = ret + itm[i] + ",";
+            }
         }
         return ret;
     }
