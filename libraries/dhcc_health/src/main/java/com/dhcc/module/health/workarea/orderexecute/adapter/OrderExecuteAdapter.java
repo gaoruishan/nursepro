@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.base.commlibs.utils.RecyclerViewHelper;
@@ -47,6 +48,15 @@ public class OrderExecuteAdapter extends BaseQuickAdapter<OrdListBean.CureInfoLi
         blTvStatus.setBackground(drawable);
         helper.setGone(R.id.tv_time, !TextUtils.isEmpty(item.getOrderSttDate()));
         helper.setGone(R.id.bl_tv_status, !TextUtils.isEmpty(item.getOrderStatusCode()));
+
+        LinearLayout llSel = helper.getView(R.id.ll_exec_orderselect);
+        if (item.getSelect().equals("1")){
+            llSel.setSelected(true);
+        }else {
+            llSel.setSelected(false);
+        }
+
+
 
 //        boolean isList = item.getArcimDescList() != null && item.getArcimDescList().size() > 0;
 //        helper.setGone(R.id.rv_item, isList);

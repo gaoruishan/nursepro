@@ -79,7 +79,15 @@ public class OrdListBean extends CommResult {
         private String reloc;
         private String sumDose;
         private String tradmesage;
+        private String select="0";
 
+        public String getSelect() {
+            return select;
+        }
+
+        public void setSelect(String select) {
+            this.select = select;
+        }
         public String getAdmType() {
             return AdmType;
         }

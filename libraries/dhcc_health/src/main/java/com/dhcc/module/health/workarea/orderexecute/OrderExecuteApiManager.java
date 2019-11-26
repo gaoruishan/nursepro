@@ -1,6 +1,7 @@
 package com.dhcc.module.health.workarea.orderexecute;
 
 import com.base.commlibs.constant.SharedPreference;
+import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommWebService;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.http.ParserUtil;
@@ -33,6 +34,28 @@ public class OrderExecuteApiManager {
             public void onResult(String jsonStr) {
                 ParserUtil<OrdListBean> parserUtil = new ParserUtil<>();
                 OrdListBean bean = parserUtil.parserResult(jsonStr, callBack, OrdListBean.class);
+                if (bean == null){ return ;}
+                parserUtil.parserStatus(bean, callBack);
+            }
+        });
+    }
+
+
+    /**
+     * 执行医嘱，返回执行结果
+     */
+    public static void getHealthExecuResult(String ordStr,final CommonCallBack<CommResult> callBack) {
+        HashMap<String, String> properties = CommWebService.addUserId(null);
+        CommWebService.addWardId(properties);
+        properties.put("ordStr","41||84");
+        properties.put("userDeptId","150");
+        properties.put("execDate","34234");
+        properties.put("execTime","2343");
+        CommWebService.callHealth("execOrdByordStr", properties, new ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                ParserUtil<CommResult> parserUtil = new ParserUtil<>();
+                CommResult bean = parserUtil.parserResult(jsonStr, callBack, CommResult.class);
                 if (bean == null){ return ;}
                 parserUtil.parserStatus(bean, callBack);
             }

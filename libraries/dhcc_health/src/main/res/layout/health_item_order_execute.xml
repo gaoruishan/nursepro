@@ -38,6 +38,24 @@
             android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"></View>
+
+        <LinearLayout
+            android:id="@+id/ll_exec_orderselect"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
+            android:gravity="center"
+            android:layout_marginRight="@dimen/dp_3">
+            <ImageView
+                android:layout_width="@dimen/dp_15"
+                android:layout_height="@dimen/dp_15"
+                android:background="@drawable/icon_orderexec_selector"
+                />
+        </LinearLayout>
+
     </LinearLayout>
     <TextView
         android:id="@+id/tv_name"
