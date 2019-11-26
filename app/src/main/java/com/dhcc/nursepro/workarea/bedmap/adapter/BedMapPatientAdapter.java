@@ -19,6 +19,7 @@ import java.util.List;
 /**
  * BedMapPatientAdapter
  * 床位图-患者adapter
+ *
  * @author DevLix126
  * @date 2018/8/11
  */
@@ -50,6 +51,7 @@ public class BedMapPatientAdapter extends BaseQuickAdapter<BedMapBean.PatInfoLis
         TextView tvArrears = helper.getView(R.id.tv_bedmap_patient_arrears);
         TextView tvCriticalValue = helper.getView(R.id.tv_bedmap_patient_criticalvalue);
         TextView tvSkinTest = helper.getView(R.id.tv_bedmap_patient_skintest);
+        TextView tvFever = helper.getView(R.id.tv_bedmap_patient_fever);
 
         LinearLayout llSkinOrder = helper.getView(R.id.ll_bedmap_patient_skinorder);
         RecyclerView recySkinOrder = helper.getView(R.id.recy_bedmap_patient_skinorder);
@@ -107,14 +109,19 @@ public class BedMapPatientAdapter extends BaseQuickAdapter<BedMapBean.PatInfoLis
 
 //        if ("".equals(item.getCareLevel())) {
 //            line2.setVisibility(View.GONE);
-//            if ("0".equals(item.getTempOrd())) {
+//            if ("0".equals(item.getLongOrd()) || "0".equals(item.getTempOrd())) {
 //                line1.setVisibility(View.GONE);
 //            } else {
 //                line1.setVisibility(View.VISIBLE);
 //            }
 //        } else {
-//            line2.setVisibility(View.VISIBLE);
 //            if ("0".equals(item.getTempOrd())) {
+//                line2.setVisibility(View.GONE);
+//            } else {
+//                line2.setVisibility(View.VISIBLE);
+//            }
+//
+//            if ("0".equals(item.getLongOrd())) {
 //                line1.setVisibility(View.GONE);
 //            } else {
 //                line1.setVisibility(View.VISIBLE);
@@ -159,6 +166,12 @@ public class BedMapPatientAdapter extends BaseQuickAdapter<BedMapBean.PatInfoLis
             tvSkinTest.setVisibility(View.VISIBLE);
         } else {
             tvSkinTest.setVisibility(View.GONE);
+        }
+
+        if ("1".equals(item.getFever())) {
+            tvFever.setVisibility(View.VISIBLE);
+        } else {
+            tvFever.setVisibility(View.GONE);
         }
 
         List<BedMapBean.PatInfoListBean.SkinOrdBean> skinOrdBeanList = item.getSkinOrd();

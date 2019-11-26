@@ -1,17 +1,13 @@
 package com.dhcc.nursepro.workarea.vitalsign.adapter;
 
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.workarea.vitalsign.bean.VitalSignBean;
 
 import java.util.List;
 import java.util.Map;
@@ -45,6 +41,7 @@ public class VitalSignPatientAdapter extends BaseQuickAdapter<Map, BaseViewHolde
         TextView tvArrears = helper.getView(R.id.tv_vitalsign_patient_arrears);
         TextView tvCriticalValue = helper.getView(R.id.tv_vitalsign_patient_criticalvalue);
         TextView tvSkinTest = helper.getView(R.id.tv_vitalsign_patient_skintest);
+        TextView tvFever = helper.getView(R.id.tv_vitalsign_patient_fever);
 
         //体征录入
         helper.addOnClickListener(R.id.tv_vitalsign_vitalsign_record);
@@ -56,7 +53,7 @@ public class VitalSignPatientAdapter extends BaseQuickAdapter<Map, BaseViewHolde
         //item点击事件
         helper.addOnClickListener(R.id.ll_vitalsign_content);
 
-        if ("1".equals(item.get("lognOrd"))) {
+        if ("1".equals(item.get("longOrd"))) {
             tvLongOrd.setVisibility(View.VISIBLE);
         } else {
             tvLongOrd.setVisibility(View.GONE);
@@ -66,24 +63,29 @@ public class VitalSignPatientAdapter extends BaseQuickAdapter<Map, BaseViewHolde
         } else {
             tvTempOrd.setVisibility(View.GONE);
         }
-        if ("".equals(item.get("cateLevel"))) {
+        if ("".equals(item.get("careLevel"))) {
             tvCareLevel.setVisibility(View.GONE);
 
         } else {
             tvCareLevel.setVisibility(View.VISIBLE);
-            tvCareLevel.setText((String)item.get("cateLevel"));
+            tvCareLevel.setText((String)item.get("careLevel"));
         }
 
-        if ("".equals(item.get("cateLevel"))) {
+        if ("".equals(item.get("careLevel"))) {
             line2.setVisibility(View.GONE);
-            if ("0".equals(item.get("tempOrd"))) {
+            if ("0".equals(item.get("longOrd")) || "0".equals(item.get("longOrd"))) {
                 line1.setVisibility(View.GONE);
             } else {
                 line1.setVisibility(View.VISIBLE);
             }
         } else {
-            line2.setVisibility(View.VISIBLE);
             if ("0".equals(item.get("tempOrd"))) {
+                line2.setVisibility(View.GONE);
+            } else {
+                line2.setVisibility(View.VISIBLE);
+            }
+
+            if ("0".equals(item.get("longOrd"))) {
                 line1.setVisibility(View.GONE);
             } else {
                 line1.setVisibility(View.VISIBLE);
@@ -128,7 +130,12 @@ public class VitalSignPatientAdapter extends BaseQuickAdapter<Map, BaseViewHolde
             tvSkinTest.setVisibility(View.VISIBLE);
         } else {
             tvSkinTest.setVisibility(View.GONE);
+        }
 
+        if ("1".equals(item.get("fever"))) {
+            tvFever.setVisibility(View.VISIBLE);
+        } else {
+            tvFever.setVisibility(View.GONE);
         }
 
     }

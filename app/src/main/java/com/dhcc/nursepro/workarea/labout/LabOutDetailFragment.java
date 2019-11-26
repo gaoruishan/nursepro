@@ -159,6 +159,9 @@ public class LabOutDetailFragment extends BaseFragment {
             map.put("containerNo", etLaboutContainer.getText().toString());
             map.put("transUserId", "3");
         }
+
+        //检验打包添加护士工号密码验证内容
+
         LabOutApiManager.delOrdMsg(map, "delOrExchange", new LabOutApiManager.delOrdCallBack() {
             @Override
             public void onSuccess(DelOrderBean delOrderBean) {

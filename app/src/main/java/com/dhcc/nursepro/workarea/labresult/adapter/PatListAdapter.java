@@ -12,10 +12,10 @@ import com.dhcc.nursepro.workarea.labresult.bean.PatsListBean;
 
 import java.util.List;
 
-public class PatListAdapter extends BaseQuickAdapter <PatsListBean.PatInfoListBean,BaseViewHolder>{
+public class PatListAdapter extends BaseQuickAdapter<PatsListBean.PatInfoListBean, BaseViewHolder> {
 
     public PatListAdapter(@Nullable List<PatsListBean.PatInfoListBean> data) {
-        super(R.layout.item_pats_lab,data);
+        super(R.layout.item_pats_lab, data);
     }
 
     @Override
@@ -39,6 +39,8 @@ public class PatListAdapter extends BaseQuickAdapter <PatsListBean.PatInfoListBe
         TextView tvArrears = helper.getView(R.id.tv_bedmap_patient_arrears);
         TextView tvCriticalValue = helper.getView(R.id.tv_bedmap_patient_criticalvalue);
         TextView tvSkinTest = helper.getView(R.id.tv_bedmap_patient_skintest);
+        TextView tvFever = helper.getView(R.id.tv_bedmap_patient_fever);
+
         if ("1".equals(item.getLongOrd())) {
             tvLongOrd.setVisibility(View.VISIBLE);
         } else {
@@ -59,14 +61,19 @@ public class PatListAdapter extends BaseQuickAdapter <PatsListBean.PatInfoListBe
 
         if ("".equals(item.getCareLevel())) {
             line2.setVisibility(View.GONE);
-            if ("0".equals(item.getTempOrd())) {
+            if ("0".equals(item.getLongOrd()) || "0".equals(item.getTempOrd())) {
                 line1.setVisibility(View.GONE);
             } else {
                 line1.setVisibility(View.VISIBLE);
             }
         } else {
-            line2.setVisibility(View.VISIBLE);
             if ("0".equals(item.getTempOrd())) {
+                line2.setVisibility(View.GONE);
+            } else {
+                line2.setVisibility(View.VISIBLE);
+            }
+
+            if ("0".equals(item.getLongOrd())) {
                 line1.setVisibility(View.GONE);
             } else {
                 line1.setVisibility(View.VISIBLE);
@@ -106,10 +113,17 @@ public class PatListAdapter extends BaseQuickAdapter <PatsListBean.PatInfoListBe
         } else {
             tvCriticalValue.setVisibility(View.GONE);
         }
+
         if ("1".equals(item.getGotAllergy())) {
             tvSkinTest.setVisibility(View.VISIBLE);
         } else {
             tvSkinTest.setVisibility(View.GONE);
+        }
+
+        if ("1".equals(item.getFever())) {
+            tvFever.setVisibility(View.VISIBLE);
+        } else {
+            tvFever.setVisibility(View.GONE);
         }
 
 

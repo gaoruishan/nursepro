@@ -9,10 +9,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="6dp"
-        android:paddingEnd="12dp"
         android:paddingStart="12dp"
-        android:paddingTop="12dp">
+        android:paddingTop="12dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="6dp">
 
         <TextView
             android:id="@+id/tv_bedmap_patient_bedno"
@@ -38,38 +38,40 @@
             android:id="@+id/line_bedmap_patient_1"
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:layout_marginEnd="6dp"
             android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
             android:background="@color/bedmap_text_color" />
 
         <TextView
             android:id="@+id/tv_bedmap_patient_temporder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="短期"
+            android:text="临时"
             android:textColor="@color/bedmap_text_color" />
+
         <View
-            android:visibility="gone"
             android:id="@+id/line_bedmap_patient_11"
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:layout_marginEnd="6dp"
             android:layout_marginStart="6dp"
-            android:background="@color/bedmap_text_color" />
+            android:layout_marginEnd="6dp"
+            android:background="@color/bedmap_text_color"
+            android:visibility="gone" />
 
         <TextView
-            android:visibility="gone"
             android:id="@+id/tv_bedmap_patient_diet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/bedmap_text_color"
+            android:visibility="gone"
             tools:text="流食" />
+
         <View
             android:id="@+id/line_bedmap_patient_2"
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:layout_marginEnd="6dp"
             android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
             android:background="@color/bedmap_text_color" />
 
         <TextView
@@ -84,10 +86,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingBottom="12dp"
-        android:paddingEnd="12dp"
         android:paddingStart="16dp"
-        android:paddingTop="6dp">
+        android:paddingTop="6dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="12dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -125,10 +127,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_rectangle_blue"
-                android:paddingBottom="2dp"
-                android:paddingEnd="3dp"
                 android:paddingStart="3dp"
                 android:paddingTop="1dp"
+                android:paddingEnd="3dp"
+                android:paddingBottom="2dp"
                 android:text="术"
                 android:textColor="@color/white" />
 
@@ -138,10 +140,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
                 android:background="@drawable/bg_rectangle_red"
-                android:paddingBottom="2dp"
-                android:paddingEnd="3dp"
                 android:paddingStart="3dp"
                 android:paddingTop="1dp"
+                android:paddingEnd="3dp"
+                android:paddingBottom="2dp"
                 android:text="危"
                 android:textColor="@color/white" />
 
@@ -151,10 +153,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
                 android:background="@drawable/bg_rectangle_yellow"
-                android:paddingBottom="2dp"
-                android:paddingEnd="3dp"
                 android:paddingStart="3dp"
                 android:paddingTop="1dp"
+                android:paddingEnd="3dp"
+                android:paddingBottom="2dp"
                 android:text="欠"
                 android:textColor="@color/white" />
 
@@ -164,10 +166,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
                 android:background="@drawable/bg_rectangle_orange"
-                android:paddingBottom="2dp"
-                android:paddingEnd="3dp"
                 android:paddingStart="3dp"
                 android:paddingTop="1dp"
+                android:paddingEnd="3dp"
+                android:paddingBottom="2dp"
                 android:text="急"
                 android:textColor="@color/white" />
 
@@ -177,11 +179,24 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
                 android:background="@drawable/bg_rectangle_green"
-                android:paddingBottom="2dp"
-                android:paddingEnd="3dp"
                 android:paddingStart="3dp"
                 android:paddingTop="1dp"
+                android:paddingEnd="3dp"
+                android:paddingBottom="2dp"
                 android:text="敏"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/tv_bedmap_patient_fever"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:background="@drawable/bg_rectangle_red2"
+                android:paddingStart="3dp"
+                android:paddingTop="1dp"
+                android:paddingEnd="3dp"
+                android:paddingBottom="2dp"
+                android:text="热"
                 android:textColor="@color/white" />
         </LinearLayout>
 
@@ -189,8 +204,8 @@
             android:id="@+id/line_bedmap_patient"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginBottom="6dp"
             android:layout_marginTop="4dp"
+            android:layout_marginBottom="6dp"
             android:background="#ECECEC" />
 
         <LinearLayout
@@ -202,10 +217,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_oval_skintest"
-                android:paddingBottom="2dp"
-                android:paddingEnd="10dp"
                 android:paddingStart="10dp"
                 android:paddingTop="2dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="2dp"
                 android:text="皮试"
                 android:textColor="@color/white" />
 
