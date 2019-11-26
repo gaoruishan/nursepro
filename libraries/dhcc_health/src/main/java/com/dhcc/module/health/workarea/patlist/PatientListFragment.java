@@ -6,10 +6,12 @@ import android.widget.TextView;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.comm.BaseCommFragment;
+import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.RecyclerViewHelper;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.module.health.R;
+import com.dhcc.module.health.workarea.orderexecute.OrderExecuteApiManager;
 import com.dhcc.module.health.workarea.orderlist.adapter.DocOrderListOrdersAdapter;
 import com.dhcc.module.health.workarea.patlist.adapter.PatListAdapter;
 import com.dhcc.module.health.workarea.patlist.adapter.PatOrdersAdapter;
@@ -68,9 +70,7 @@ public class PatientListFragment extends BaseCommFragment{
         PatListManager.getPatList(new CommonCallBack<PatListBean>() {
             @Override
             public void onFail(String code, String msg) {
-
                 hideLoadingTip();
-                showToast(code+msg);
             }
 
             @Override
@@ -85,6 +85,7 @@ public class PatientListFragment extends BaseCommFragment{
     }
 
     private void getOrders(){
+        showLoadingTip(BaseActivity.LoadingType.FULL);
         String appStr = null;
         for (int i = 0; i <patsList.size() ; i++) {
             if (patsList.get(i).getSelect().equals("1")){
@@ -100,7 +101,6 @@ public class PatientListFragment extends BaseCommFragment{
             @Override
             public void onFail(String code, String msg) {
                 hideLoadingTip();
-                showToast(code+msg);
             }
 
             @Override
@@ -153,24 +153,44 @@ public class PatientListFragment extends BaseCommFragment{
         super.onClick(v);
         if (v.getId() == R.id.tv_execu_sure) {
             String appStrs = null;
-            if (ordersList.size()<1){
+            int patNum = 0;
+            for (int i = 0; i <patsList.size() ; i++) {
+                if (patsList.get(i).getSelect().equals("1")){
+                    patNum++;
+                }
+            }
+            if (patNum<1){
                showToast("未选择患者，无法执行医嘱");
             }else {
                 for (int i = 0; i <ordersList.size() ; i++) {
                     if (ordersList.get(i).getSelect().equals("1")){
                         if (appStrs == null){
-                            appStrs = ordersList.get(i).getAppdr();
+                            appStrs = ordersList.get(i).getDCAOEORIDR();
                         }else {
-                            appStrs = appStrs+"^"+ordersList.get(i).getAppdr();
+                            appStrs = appStrs+"^"+ordersList.get(i).getDCAOEORIDR();
                         }
                     }
                 }
-
             }
             if (appStrs ==null){
                 showToast("未选择医嘱，无法执行医嘱");
             }else {
-                showToast(appStrs);
+//                showToast(appStrs);
+                showLoadingTip(BaseActivity.LoadingType.FULL);
+                OrderExecuteApiManager.getHealthExecuResult(appStrs, new CommonCallBack<CommResult>() {
+                    @Override
+                    public void onFail(String code, String msg) {
+                        hideLoadingTip();
+                    }
+
+                    @Override
+                    public void onSuccess(CommResult bean, String type) {
+                        hideLoadingTip();
+                        showToast(bean.getMsg());
+                        getOrders();
+                    }
+                });
+
             }
 
         }
