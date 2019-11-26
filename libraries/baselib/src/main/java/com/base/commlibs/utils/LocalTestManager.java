@@ -33,7 +33,20 @@ public class LocalTestManager {
     private static final int REQ_NUM = 2;
     private static final Format FORMAT = new SimpleDateFormat("yyyy-MM-dd");
     private static final Format FORMAT_1 = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+    //日志
     private static final int APP_VERSION_CODE = AppUtils.getAppVersionCode();
+    private static final String APP_VERSION_NAME = AppUtils.getAppVersionName();
+    private static final boolean APP_IS_CONNECTED = NetworkUtils.isConnected();
+    private static final boolean APP_IS_MOBILE = NetworkUtils.isMobileData();
+    private static final boolean APP_IS_WIFI_CONNECTED = NetworkUtils.isWifiConnected();
+    private static final NetworkUtils.NetworkType APP_NET_TYPE = NetworkUtils.getNetworkType();
+    //用户
+    private static final String USER_CODE = SPUtils.getInstance().getString(SharedPreference.USERCODE);
+    private static final String USER_NAME = SPUtils.getInstance().getString(SharedPreference.USERNAME);
+    private static final String USER_LOCID = SPUtils.getInstance().getString(SharedPreference.LOCID);
+    private static final String USER_WARDID = SPUtils.getInstance().getString(SharedPreference.WARDID);
+    private static final String USER_USERID = SPUtils.getInstance().getString(SharedPreference.USERID);
+    private static final String USER_LOCDESC = SPUtils.getInstance().getString(SharedPreference.LOCDESC);
     private static List<String> l = new ArrayList<>();
     private static Map<String, Integer> errNum = new WeakHashMap<>();
 
@@ -109,7 +122,7 @@ public class LocalTestManager {
         integer += 1;
         errNum.put(methodName, integer);
         //保存
-        saveLog(methodName+"_null", (String) obj);
+        saveLog(methodName + "_null", (String) obj);
         return true;
     }
 
@@ -121,20 +134,9 @@ public class LocalTestManager {
     public static void saveLog(String methodName, String obj) {
         if (isLogFlag()) {
             String date = FORMAT.format(new Date(System.currentTimeMillis()));
-            String dhc = date + "/v" + APP_VERSION_CODE + "_" + methodName+"_"+System.currentTimeMillis();
+            String dir = date + "/v" + APP_VERSION_CODE + "_" + methodName + "/";
+            String dhc = dir + methodName + "_" + System.currentTimeMillis() + ".log";
             CommFile.write(dhc, getCommLog() + obj);
-        }
-    }
-
-    /**
-     * 保存json-数据不为null,带有"_data"
-     * @param methodName
-     * @param obj
-     */
-    public static void saveNotNullLog(String methodName, String obj) {
-        //有数据
-        if (!ObjectUtils.isEmpty(obj)) {
-            saveLog(methodName+"_data",obj);
         }
     }
 
@@ -160,15 +162,34 @@ public class LocalTestManager {
                         "\nDevice Model       : " + Build.MODEL +
                         "\nAndroid Version    : " + Build.VERSION.RELEASE +
                         "\nAndroid SDK        : " + Build.VERSION.SDK_INT +
-                        "\nApp VersionName    : " + AppUtils.getAppVersionName() +
-                        "\nApp VersionCode    : " + AppUtils.getAppVersionCode() +
-                        "\nApp isConnected    : " + NetworkUtils.isConnected() +
-                        "\nApp isMobileData    : " + NetworkUtils.isMobileData() +
-                        "\nApp isWifiConnected    : " + NetworkUtils.isWifiConnected() +
-                        "\nApp getNetworkType    : " + NetworkUtils.getNetworkType() +
+                        "\nApp VersionName    : " + APP_VERSION_NAME +
+                        "\nApp VersionCode    : " + APP_VERSION_CODE +
+                        "\nApp isConnected    : " + APP_IS_CONNECTED +
+                        "\nApp isMobileData    : " + APP_IS_MOBILE +
+                        "\nApp isWifiConnected    : " + APP_IS_WIFI_CONNECTED +
+                        "\nApp getNetworkType    : " + APP_NET_TYPE +
+                        "\nApp getNetworkType    : " + APP_NET_TYPE +
+                        "\nUser USER_CODE    : " + USER_CODE +
+                        "\nUser USER_NAME    : " + USER_NAME +
+                        "\nUser USER_USERID    : " + USER_USERID +
+                        "\nUser USER_LOCID    : " + USER_LOCID +
+                        "\nUser USER_LOCDESC    : " + USER_LOCDESC +
+                        "\nUser USER_WARDID    : " + USER_WARDID +
                         "\n************* Log Head ****************\n\n";
         sb.append(head);
         return sb.toString();
+    }
+
+    /**
+     * 保存json-数据不为null,带有"_data"
+     * @param methodName
+     * @param obj
+     */
+    public static void saveNotNullLog(String methodName, String obj) {
+        //有数据
+        if (!ObjectUtils.isEmpty(obj)) {
+            saveLog(methodName + "_data", obj);
+        }
     }
 
     /**
