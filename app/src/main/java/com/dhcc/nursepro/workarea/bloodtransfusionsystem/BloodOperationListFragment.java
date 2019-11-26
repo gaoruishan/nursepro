@@ -11,13 +11,13 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.base.commlibs.BaseActivity;
+import com.base.commlibs.BaseFragment;
+import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.base.commlibs.BaseActivity;
-import com.base.commlibs.BaseFragment;
 import com.dhcc.nursepro.R;
-import com.base.commlibs.constant.SharedPreference;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.adapter.BloodOperationListAdapter;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.api.BloodTSApiManager;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bean.BloodOperationListBean;
@@ -52,7 +52,7 @@ public class BloodOperationListFragment extends BaseFragment implements View.OnC
     private String type = "R";
     private String searchDate;
 
-    private List<BloodOperationListBean.BloodListBean> bloodOperationList =new ArrayList<>();
+    private List<BloodOperationListBean.BloodListBean> bloodOperationList = new ArrayList<>();
     private BloodOperationListAdapter operationListAdapter;
 
 

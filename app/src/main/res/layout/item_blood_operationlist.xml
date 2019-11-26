@@ -28,6 +28,18 @@
                 android:textColor="@color/white"
                 tools:text="已回收" />
 
+            <TextView
+                android:id="@+id/tv_item_bloodop_bagno"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_oval_white"
+                android:layout_marginStart="8dp"
+                android:paddingStart="10dp"
+                android:paddingTop="2dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="2dp"
+                tools:text="01" />
+
             <View
                 android:layout_width="0dp"
                 android:layout_height="1dp"

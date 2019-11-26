@@ -82,7 +82,7 @@
                     android:id="@+id/tv_bedmappat_temporder"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="短期"
+                    android:text="临时"
                     android:textColor="@color/bedmap_text_color" />
 
                 <View
@@ -170,7 +170,20 @@
                     android:paddingEnd="3dp"
                     android:paddingStart="3dp"
                     android:paddingTop="1dp"
-                    android:text="皮"
+                    android:text="敏"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/tv_bedmappat_fever"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:background="@drawable/bg_rectangle_red2"
+                    android:paddingBottom="2dp"
+                    android:paddingEnd="3dp"
+                    android:paddingStart="3dp"
+                    android:paddingTop="1dp"
+                    android:text="热"
                     android:textColor="@color/white" />
             </LinearLayout>
 

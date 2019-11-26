@@ -163,11 +163,14 @@ public class EndSucessDialog extends Dialog implements View.OnClickListener {
 
     public String getEndType() {
         return endType;
-    }    @Override
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_endsucess_end:
                 endType = "E";
+                stopReason = "";
                 tvEnd.setSelected(true);
                 tvCenterStop.setSelected(false);
                 tvReason.setSelected(false);
@@ -215,8 +218,5 @@ public class EndSucessDialog extends Dialog implements View.OnClickListener {
     public interface onNoOnclickListener {
         void onNoClick();
     }
-
-
-
 
 }

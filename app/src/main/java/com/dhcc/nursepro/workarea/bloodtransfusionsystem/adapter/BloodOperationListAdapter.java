@@ -1,7 +1,6 @@
 package com.dhcc.nursepro.workarea.bloodtransfusionsystem.adapter;
 
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -47,10 +46,10 @@ public class BloodOperationListAdapter extends BaseQuickAdapter<BloodOperationLi
             tvStatus.setText("输注中");
             tvStatus.setBackgroundResource(R.drawable.bg_oval_yellow);
         } else if (item.getStatus().equals("输血结束")) {
-            if (TextUtils.isEmpty(item.getStopReason())) {
+            if ("E".equals(item.getEndType())) {
                 tvStatus.setText("已完成");
                 tvStatus.setBackgroundResource(R.drawable.bg_oval_greenlight);
-            } else {
+            } else if ("Z".equals(item.getEndType())) {
                 tvStatus.setText("已终止");
                 tvStatus.setBackgroundResource(R.drawable.bg_oval_red);
             }
@@ -60,16 +59,17 @@ public class BloodOperationListAdapter extends BaseQuickAdapter<BloodOperationLi
 
         }
 
-        if (TextUtils.isEmpty(item.getStopReason())) {
+        if ("E".equals(item.getEndType())) {
             line.setVisibility(View.GONE);
             bloodStopReason.setVisibility(View.GONE);
-        } else {
+        } else if ("Z".equals(item.getEndType())) {
             line.setVisibility(View.VISIBLE);
             bloodStopReason.setVisibility(View.VISIBLE);
-            bloodStopReason.setText("终止原因："+item.getStopReason());
+            bloodStopReason.setText("终止原因：" + item.getStopReason());
         }
 
-        helper.setText(R.id.tv_item_bloodop_patinfo, item.getBedCode() + "  " + item.getPatName())
+        helper.setText(R.id.tv_item_bloodop_bagno, item.getBloodBagNo())
+                .setText(R.id.tv_item_bloodop_patinfo, item.getBedCode() + "  " + item.getPatName())
                 .setText(R.id.tv_item_bloodop_productdesc, item.getBloodProducDesc())
                 .setText(R.id.tv_item_bloodop_bloodtype, item.getBldTyp())
                 .setText(R.id.tv_item_bloodop_patbloodtype, item.getPatBldTyp());
