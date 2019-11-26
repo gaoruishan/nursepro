@@ -165,72 +165,72 @@ public class BloodSignFragment extends BaseFragment {
     public void getScanMsg(Intent intent) {
         super.getScanMsg(intent);
         if (Action.DEVICE_SCAN_CODE.equals(intent.getAction())) {
-                    Bundle bundle = new Bundle();
-                    bundle = intent.getExtras();
-                    String scanStr = bundle.getString("data");
+            Bundle bundle = new Bundle();
+            bundle = intent.getExtras();
+            String scanStr = bundle.getString("data");
 
-                    String scanTimes = SPUtils.getInstance().getString(SharedPreference.BLOODSCANTIMES,"2");
-                    if (scanTimes.equals("1")){
-                        scanOrder = 3;
-                        BloodTSApiManager.getBloodInfo(scanStr, "", new BloodTSApiManager.GetBloodInfoCallback() {
-                            @Override
-                            public void onSuccess(BloodInfoBean bloodInfoBean) {
-                                tvBloodsignBloodbaginfo.setText(scanStr);
-                                imgBloodbag.setSelected(true);
-                                lineBlood1.setSelected(true);
+            String scanTimes = SPUtils.getInstance().getString(SharedPreference.BLOODSCANTIMES, "2");
+            if (scanTimes.equals("1")) {
+                scanOrder = 3;
+                BloodTSApiManager.getBloodInfo(scanStr, "", new BloodTSApiManager.GetBloodInfoCallback() {
+                    @Override
+                    public void onSuccess(BloodInfoBean bloodInfoBean) {
+                        tvBloodsignBloodbaginfo.setText(scanStr);
+                        imgBloodbag.setSelected(true);
+                        lineBlood1.setSelected(true);
 
-                                bloodInfo = bloodInfoBean.getBlooInfo();
-                                tvBloodsignBloodproductinfo.setText(bloodProductId + "-" + bloodInfo.getProductDesc() + "-" + bloodInfo.getBloodGroup());
-                                tvBloodsignBloodpatientinfo.setText(bloodInfo.getWardDesc() + "-" + bloodInfo.getBedCode() + "-" + bloodInfo.getPatName() + "-" + bloodInfo.getBloodGroup());
-                                tvBloodscantip.setText("请点击确认签收血袋");
-                                imgBloodproduct.setSelected(true);
-                                lineBlood2.setSelected(true);
-                                imgBloodpatient.setSelected(true);
-                                tvBloodSure.setSelected(true);
-                            }
-
-                            @Override
-                            public void onFail(String code, String msg) {
-                                showToast("error" + code + ":" + msg);
-                                clearScanInfo();
-                            }
-                        });
-
-                    }else {
-                        if (scanOrder == 1) {
-                            scanOrder++;
-                            bloodbagId = scanStr;
-                            tvBloodsignBloodbaginfo.setText(bloodbagId);
-                            tvBloodscantip.setText("请扫描血制品条码");
-                            imgBloodbag.setSelected(true);
-                            lineBlood1.setSelected(true);
-
-
-                        } else if (scanOrder == 2) {
-                            scanOrder++;
-                            bloodProductId = scanStr;
-                            BloodTSApiManager.getBloodInfo(bloodbagId, bloodProductId, new BloodTSApiManager.GetBloodInfoCallback() {
-                                @Override
-                                public void onSuccess(BloodInfoBean bloodInfoBean) {
-                                    bloodInfo = bloodInfoBean.getBlooInfo();
-                                    tvBloodsignBloodproductinfo.setText(bloodProductId + "-" + bloodInfo.getProductDesc() + "-" + bloodInfo.getBloodGroup());
-                                    tvBloodsignBloodpatientinfo.setText(bloodInfo.getWardDesc() + "-" + bloodInfo.getBedCode() + "-" + bloodInfo.getPatName() + "-" + bloodInfo.getBloodGroup());
-                                    tvBloodscantip.setText("请点击确认签收血袋");
-                                    imgBloodproduct.setSelected(true);
-                                    lineBlood2.setSelected(true);
-                                    imgBloodpatient.setSelected(true);
-                                    tvBloodSure.setSelected(true);
-                                }
-
-                                @Override
-                                public void onFail(String code, String msg) {
-                                    showToast("error" + code + ":" + msg);
-                                    clearScanInfo();
-                                }
-                            });
-                        }
+                        bloodInfo = bloodInfoBean.getBlooInfo();
+                        tvBloodsignBloodproductinfo.setText(bloodProductId + "-" + bloodInfo.getProductDesc() + "-" + bloodInfo.getBloodGroup());
+                        tvBloodsignBloodpatientinfo.setText(bloodInfo.getWardDesc() + "-" + bloodInfo.getBedCode() + "-" + bloodInfo.getPatName() + "-" + bloodInfo.getPatientId() + "-" + bloodInfo.getBloodGroup());
+                        tvBloodscantip.setText("请点击确认签收血袋");
+                        imgBloodproduct.setSelected(true);
+                        lineBlood2.setSelected(true);
+                        imgBloodpatient.setSelected(true);
+                        tvBloodSure.setSelected(true);
                     }
 
+                    @Override
+                    public void onFail(String code, String msg) {
+                        showToast("error" + code + ":" + msg);
+                        clearScanInfo();
+                    }
+                });
+
+            } else {
+                if (scanOrder == 1) {
+                    scanOrder++;
+                    bloodbagId = scanStr;
+                    tvBloodsignBloodbaginfo.setText(bloodbagId);
+                    tvBloodscantip.setText("请扫描血制品条码");
+                    imgBloodbag.setSelected(true);
+                    lineBlood1.setSelected(true);
+
+
+                } else if (scanOrder == 2) {
+                    scanOrder++;
+                    bloodProductId = scanStr;
+                    BloodTSApiManager.getBloodInfo(bloodbagId, bloodProductId, new BloodTSApiManager.GetBloodInfoCallback() {
+                        @Override
+                        public void onSuccess(BloodInfoBean bloodInfoBean) {
+                            bloodInfo = bloodInfoBean.getBlooInfo();
+                            tvBloodsignBloodproductinfo.setText(bloodProductId + "-" + bloodInfo.getProductDesc() + "-" + bloodInfo.getBloodGroup());
+                            tvBloodsignBloodpatientinfo.setText(bloodInfo.getWardDesc() + "-" + bloodInfo.getBedCode() + "-" + bloodInfo.getPatName() + "-" + bloodInfo.getPatientId() + "-" + bloodInfo.getBloodGroup());
+                            tvBloodscantip.setText("请点击确认签收血袋");
+                            imgBloodproduct.setSelected(true);
+                            lineBlood2.setSelected(true);
+                            imgBloodpatient.setSelected(true);
+                            tvBloodSure.setSelected(true);
+                        }
+
+                        @Override
+                        public void onFail(String code, String msg) {
+                            showToast("error" + code + ":" + msg);
+                            clearScanInfo();
+                        }
+                    });
+                }
             }
+
+        }
     }
 }

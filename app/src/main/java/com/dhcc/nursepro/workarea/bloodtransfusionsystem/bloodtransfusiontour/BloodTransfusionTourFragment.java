@@ -180,10 +180,10 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
         llBloodtranstourSelecttime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (tvBloodtranstourTranstime.getText().toString().contains("0")) {
-                    chooseTime(TimeUtils.string2Millis(tvBloodtranstourTranstime.getText().toString() + " 00:00:00"));
+                if ("请点击选择时间".equals(tvBloodtranstourTranstime.getText().toString())) {
+                    chooseTime(TimeUtils.string2Millis(SPUtils.getInstance().getString(SharedPreference.SCHSTDATETIME)));
                 } else {
-                    chooseTime(TimeUtils.string2Millis(SPUtils.getInstance().getString(SharedPreference.SCHSTDATETIME).replace("/", "-").replace(",", " ")));
+                    chooseTime(TimeUtils.string2Millis(tvBloodtranstourTranstime.getText().toString() + ":00"));
                 }
             }
         });
@@ -192,21 +192,25 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
         etBloodtranstourBloodtransrate = view.findViewById(R.id.et_bloodtranstour_bloodtransrate);
         tvBloodtranstourIsexist = view.findViewById(R.id.tv_bloodtranstour_isexist);
         switchBloodtranstourIsexist = view.findViewById(R.id.switch_bloodtranstour_isexist);
+        etBloodtranstourAdversereactions = view.findViewById(R.id.et_bloodtranstour_adversereactions);
+        etBloodtranstourAdversereactions.setFocusable(false);
+
         switchBloodtranstourIsexist.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     tvBloodtranstourIsexist.setText("有");
                     tvBloodtranstourIsexist.setSelected(true);
-                    etBloodtranstourAdversereactions.setEnabled(true);
+                    etBloodtranstourAdversereactions.setFocusable(true);
+                    etBloodtranstourAdversereactions.setFocusableInTouchMode(true);
                 } else {
                     tvBloodtranstourIsexist.setText("无");
                     tvBloodtranstourIsexist.setSelected(false);
-                    etBloodtranstourAdversereactions.setEnabled(false);
+                    etBloodtranstourAdversereactions.setText("");
+                    etBloodtranstourAdversereactions.setFocusable(false);
                 }
             }
         });
-        etBloodtranstourAdversereactions = view.findViewById(R.id.et_bloodtranstour_adversereactions);
 
     }
 
@@ -274,45 +278,45 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
     public void getScanMsg(Intent intent) {
         super.getScanMsg(intent);
         if (Action.DEVICE_SCAN_CODE.equals(intent.getAction())) {
-                Bundle bundle = new Bundle();
-                bundle = intent.getExtras();
-                String scanStr = bundle.getString("data");
+            Bundle bundle = new Bundle();
+            bundle = intent.getExtras();
+            String scanStr = bundle.getString("data");
 
-                if (SPUtils.getInstance().getString(SharedPreference.BLOODSCANTIMES).equals("1")){
+            if (SPUtils.getInstance().getString(SharedPreference.BLOODSCANTIMES).equals("1")) {
+                bloodbagId = scanStr;
+                tvBloodtranstourBloodbaginfo.setText(bloodbagId);
+                //                    tvBloodscantip.setText("请扫描血制品条码");
+                imgBloodbag.setSelected(true);
+                lineBlood1.setSelected(true);
+                getBloodInfo(bloodbagId, "");
+            } else {
+                if (scanOrder == 1) {
+                    scanOrder++;
                     bloodbagId = scanStr;
                     tvBloodtranstourBloodbaginfo.setText(bloodbagId);
-//                    tvBloodscantip.setText("请扫描血制品条码");
+                    tvBloodscantip.setText("请扫描血制品条码");
                     imgBloodbag.setSelected(true);
                     lineBlood1.setSelected(true);
-                    getBloodInfo(bloodbagId,"");
-                }else {
-                    if (scanOrder == 1) {
-                        scanOrder++;
-                        bloodbagId = scanStr;
-                        tvBloodtranstourBloodbaginfo.setText(bloodbagId);
-                        tvBloodscantip.setText("请扫描血制品条码");
-                        imgBloodbag.setSelected(true);
-                        lineBlood1.setSelected(true);
-                    } else if (scanOrder == 2) {
-                        scanOrder++;
-                        bloodProductId = scanStr;
-                        getBloodInfo(bloodbagId,bloodProductId);
-                    }
+                } else if (scanOrder == 2) {
+                    scanOrder++;
+                    bloodProductId = scanStr;
+                    getBloodInfo(bloodbagId, bloodProductId);
                 }
+            }
 
         }
 
     }
 
 
-    private void getBloodInfo(String bloodbag,String bloodProduct){
+    private void getBloodInfo(String bloodbag, String bloodProduct) {
         BloodTSApiManager.getBloodInfo(bloodbag, bloodProduct, new BloodTSApiManager.GetBloodInfoCallback() {
             @Override
             public void onSuccess(BloodInfoBean bloodInfoBean) {
                 bloodInfo = bloodInfoBean.getBlooInfo();
                 bloodRowId = bloodInfo.getBloodRowId();
                 tvBloodtranstourBloodproductinfo.setText(bloodProductId + "-" + bloodInfo.getProductDesc() + "-" + bloodInfo.getBloodGroup());
-                tvBloodtranstourBloodpatientinfo.setText(bloodInfo.getWardDesc() + "-" + bloodInfo.getBedCode() + "-" + bloodInfo.getPatName() + "-" + bloodInfo.getBloodGroup());
+                tvBloodtranstourBloodpatientinfo.setText(bloodInfo.getWardDesc() + "-" + bloodInfo.getBedCode() + "-" + bloodInfo.getPatName() + "-" + bloodInfo.getPatientId() + "-" + bloodInfo.getBloodGroup());
                 tvBloodscantip.setText("请填写输血巡视内容");
                 imgBloodproduct.setSelected(true);
                 lineBlood2.setSelected(true);

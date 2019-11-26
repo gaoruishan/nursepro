@@ -168,15 +168,15 @@ public class BloodTransfusionDetailFragment extends BaseFragment {
                 } else {
                     llBlooddetailTransend.setSelected(true);
                     llBlooddetailTransenderror.setSelected(true);
-                    if (TextUtils.isEmpty(bloodTransDetailBean.getStopReason())) {
+                    if ("E".equals(bloodTransDetailBean.getEndType())) {
                         tvBlooddetailTransenddate.setText(bloodTransDetailBean.getTransEdDate());
                         tvBlooddetailTransendtime.setText(bloodTransDetailBean.getTransEdTime());
                         tvBlooddetailTransendnurse.setText(bloodTransDetailBean.getTransEdUser());
-                    } else {
+                    } else if ("Z".equals(bloodTransDetailBean.getEndType())) {
                         tvBlooddetailTransenderrordate.setText(bloodTransDetailBean.getTransEdDate());
                         tvBlooddetailTransenderrortime.setText(bloodTransDetailBean.getTransEdTime());
                         tvBlooddetailTransenderrornurse.setText(bloodTransDetailBean.getTransEdUser());
-                        tvBlooddetailTransenderrorReason.setText("终止原因："+bloodTransDetailBean.getStopReason());
+                        tvBlooddetailTransenderrorReason.setText("终止原因：" + bloodTransDetailBean.getStopReason());
                     }
                 }
                 if (TextUtils.isEmpty(bloodTransDetailBean.getTransRecycleDate())) {
