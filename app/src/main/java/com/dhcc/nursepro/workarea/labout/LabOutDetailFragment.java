@@ -2,6 +2,7 @@ package com.dhcc.nursepro.workarea.labout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,13 +12,14 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.SPUtils;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
-import com.dhcc.nursepro.R;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
+import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.StringUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.labout.adapter.LabOutDetailAdapter;
 import com.dhcc.nursepro.workarea.labout.api.LabOutApiManager;
 import com.dhcc.nursepro.workarea.labout.bean.DelOrderBean;
@@ -38,11 +40,15 @@ public class LabOutDetailFragment extends BaseFragment {
 
     private RecyclerView recaddLabOut;
     private LabOutDetailAdapter labOutDetailAdapter;
-    private List<LabOutDetailBean.DetailListBean> listBeans =new ArrayList<>();
+    private List<LabOutDetailBean.DetailListBean> listBeans = new ArrayList<>();
 
     private String carryNo = "", carryLocDr = "", carryLabNo = "", DelSend = "", saveFlag = "", carryFlag = "";
     private SPUtils spUtils = SPUtils.getInstance();
 
+    private LabOutVerifyDialog labOutVerifyDialog;
+    private LabOutResultDialog labOutResultDialog;
+    private String HGUserCode, HGPW;
+    private String type = "0";
 
 
     @Override
@@ -151,29 +157,87 @@ public class LabOutDetailFragment extends BaseFragment {
             showToast("检验包为空，无法进行操作");
             return;
         }
+
+        //检验打包添加护士工号密码验证内容
+        if (labOutVerifyDialog != null && labOutVerifyDialog.isShowing()) {
+            labOutVerifyDialog.dismiss();
+        }
+        labOutVerifyDialog = new LabOutVerifyDialog(getActivity());
+        labOutVerifyDialog.setSureOnclickListener(new LabOutVerifyDialog.onSureOnclickListener() {
+            @Override
+            public void onSureClick() {
+                HGUserCode = labOutVerifyDialog.getHGUserCode();
+                HGPW = labOutVerifyDialog.getHGPW();
+                if ("0".equals(type) && (StringUtils.isEmpty(HGUserCode) || StringUtils.isEmpty(HGPW))) {
+                    showToast("请填写护工工号、密码后再发送");
+                } else if ("1".equals(type) && StringUtils.isEmpty(HGUserCode)) {
+                    showToast("未扫描到护工工号，请重试\n或者取消，重新点击发送，手动输入护工工号和密码");
+                } else {
+                    labOutVerifyDialog.dismiss();
+                    labOutSend();
+                }
+            }
+        });
+        labOutVerifyDialog.setCancelOnclickListener(new LabOutVerifyDialog.onCancelOnclickListener() {
+            @Override
+            public void onCancelClick() {
+                labOutVerifyDialog.dismiss();
+            }
+        });
+        labOutVerifyDialog.show();
+    }
+
+    private void labOutSend() {
         showLoadingTip(BaseActivity.LoadingType.FULL);
 
         HashMap<String, String> map = new HashMap<>();
         map.put("carryNo", carryNo);
         if ("0".equals(carryFlag)) {
             map.put("containerNo", etLaboutContainer.getText().toString());
-            map.put("transUserId", "3");
+            map.put("transUserId", spUtils.getString(SharedPreference.USERID));
+            map.put("HGUserCode", HGUserCode);
+            map.put("HGPW", HGPW);
+            map.put("Type", type);
         }
-
-        //检验打包添加护士工号密码验证内容
 
         LabOutApiManager.delOrdMsg(map, "delOrExchange", new LabOutApiManager.delOrdCallBack() {
             @Override
             public void onSuccess(DelOrderBean delOrderBean) {
                 hideLoadFailTip();
-                showToast(delOrderBean.getMsg());
-                initData();
+                labOutResultDialog = new LabOutResultDialog(getActivity());
+                labOutResultDialog.setExecresult(delOrderBean.getMsg());
+                labOutResultDialog.setImgId(R.drawable.icon_popup_sucess);
+                labOutResultDialog.setSureVisible(View.GONE);
+                labOutResultDialog.setCancleVisible(View.GONE);
+                labOutResultDialog.show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        labOutResultDialog.dismiss();
+                        initData();
+                    }
+                }, 1000);
+
             }
 
             @Override
             public void onFail(String code, String msg) {
                 hideLoadFailTip();
-                showToast("error" + code + ":" + msg);
+                if (labOutResultDialog != null && labOutResultDialog.isShowing()) {
+                    labOutResultDialog.dismiss();
+                }
+                labOutResultDialog = new LabOutResultDialog(getActivity());
+                labOutResultDialog.setExecresult(msg);
+                labOutResultDialog.setImgId(R.drawable.icon_popup_error_patient);
+                labOutResultDialog.setSureVisible(View.VISIBLE);
+                labOutResultDialog.setCancleVisible(View.GONE);
+                labOutResultDialog.setSureOnclickListener(new LabOutResultDialog.onSureOnclickListener() {
+                    @Override
+                    public void onSureClick() {
+                        labOutResultDialog.dismiss();
+                    }
+                });
+                labOutResultDialog.show();
             }
         });
 
@@ -185,11 +249,16 @@ public class LabOutDetailFragment extends BaseFragment {
         if (Objects.requireNonNull(intent.getAction()).equals(Action.DEVICE_SCAN_CODE)) {
             Bundle bundle = new Bundle();
             bundle = intent.getExtras();
-            carryLocDr = spUtils.getString(SharedPreference.LOCID);
-            carryLabNo = bundle != null ? bundle.getString("data") : "";
-            saveFlag = "1";
-            initData();
+            if (labOutVerifyDialog != null && labOutVerifyDialog.isShowing()) {
+                type = "1";
+                labOutVerifyDialog.setHGUserCode(bundle != null ? bundle.getString("data") : "");
 
+            } else {
+                carryLocDr = spUtils.getString(SharedPreference.LOCID);
+                carryLabNo = bundle != null ? bundle.getString("data") : "";
+                saveFlag = "1";
+                initData();
+            }
         }
 
     }
