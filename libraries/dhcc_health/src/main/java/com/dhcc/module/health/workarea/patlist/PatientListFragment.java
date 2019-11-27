@@ -77,8 +77,10 @@ public class PatientListFragment extends BaseCommFragment{
             public void onSuccess(PatListBean bean, String type) {
                 hideLoadingTip();
                 patsList = bean.getPatInfoList();
-                patsList.get(0).setSelect("1");
-                patListAdapter.setNewData(patsList);
+                if (patsList.size()>0){
+                    patsList.get(0).setSelect("1");
+                    patListAdapter.setNewData(patsList);
+                }
                 getOrders();
             }
         });
