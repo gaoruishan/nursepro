@@ -24,7 +24,7 @@ public class LoginApiManager {
         properties.put("logonWardId", logonWardId);
         properties.put("scanFlag", scanFlag);
         properties.put("logonLocType", SPUtils.getInstance().getString(SharedPreference.LOGONLOCTYPE));
-        CommWebService.callHealth("Logon", properties, new ServiceCallBack() {
+        CommWebService.callHealth("OTLogon", properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<LoginBean> parserUtil = new ParserUtil<>();
