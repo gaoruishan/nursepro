@@ -4,12 +4,15 @@ import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import com.base.commlibs.MessageEvent;
+import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.CommDialog;
+import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.module.infusion.R;
@@ -53,12 +56,21 @@ public class MessageSkinAdapter extends BaseQuickAdapter<MessageSkinBean.SkinTim
                 .setText(R.id.tv_skin_test_time,item.getSkinTestDateTime())
                 .setText(R.id.tv_skin_test_audit_time,item.getSkinTestAuditDateTime())
                 .setText(R.id.tv_skin_test_audit, item.getSkinTestAuditCtcpDesc());
+        //计时View
         if (!TextUtils.isEmpty(item.getOverTime())) {
             CountView cvCount = helper.getView(R.id.cv_count);
             cvCount.getTitleName().setVisibility(View.GONE);
             cvCount.getOneDay().setTextColor(Color.parseColor("#FFFF6EA4"));
             cvCount.getOneDay().setTextSize(mContext.getResources().getDimension(R.dimen.dp_13));
             cvCount.start(Long.valueOf(item.getOverTime()), CountView.ONE_DAY);
+            cvCount.setOnCountViewStatusListener(new CountView.OnCountViewStatusListener() {
+                @Override
+                public void onStop() {
+                    Log.e(TAG,"(MessageSkinAdapter.java:67) onStop"+Thread.currentThread());
+
+                    EventBus.getDefault().post(new MessageEvent(MessageEvent.MessageType.NOTIFY_MESSAGE));
+                }
+            });
         }
         helper.setText(R.id.tv_message_regno, item.getPatRegNo())
                 .setText(R.id.tv_message_name, item.getPatName())
@@ -118,7 +130,9 @@ public class MessageSkinAdapter extends BaseQuickAdapter<MessageSkinBean.SkinTim
         // 阳性:Y/+ 阴性:N/-
         final String skinTest = v.getId() == R.id.stv1 ? "N" : "Y";
         String skinName = skinTest.equals("N") ? "阴性" : "阳性";
-        DialogFactory.showSkinDialog(mContext, "皮试结果", content + "的皮试结果为“" + skinName + "”。", "取消", "确定", null, new CommDialog.CommClickListener() {
+        //配置布局
+        final boolean msgSkinFlag = !TextUtils.isEmpty(SPUtils.getInstance().getString(SharedPreference.MSG_SKIN_FLAG));
+        DialogFactory.showSkinDialog(mContext, "皮试结果", content + "的皮试结果为“" + skinName + "”。", "取消", "确定", msgSkinFlag,null, new CommDialog.CommClickListener() {
             @Override
             public void data(Object[] args) {
                 super.data(args);

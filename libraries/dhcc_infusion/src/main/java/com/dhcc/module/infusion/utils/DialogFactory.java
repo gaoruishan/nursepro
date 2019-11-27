@@ -79,7 +79,7 @@ public class DialogFactory extends CommDialog {
             tvName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                  int pst= (int) v.getTag();
+                    int pst = (int) v.getTag();
                     for (int j = 0; j < tvArr.length; j++) {
                         if (j != pst) {
                             tvArr[j].setSelected(false);
@@ -105,7 +105,7 @@ public class DialogFactory extends CommDialog {
             @Override
             public void afterTextChanged(Editable s) {
                 if (s != null && !TextUtils.isEmpty(s.toString())) {
-                    if ("0".equals(s.toString())||"00".equals(s.toString())) {
+                    if ("0".equals(s.toString()) || "00".equals(s.toString())) {
                         etSkinTime.setText("");
                         return;
                     }
@@ -128,7 +128,7 @@ public class DialogFactory extends CommDialog {
                 if (TextUtils.isEmpty(s)) {
                     s = "";
                 }
-                if (okClick != null ) {
+                if (okClick != null) {
                     String txt = null;
                     for (TextView view1 : tvArr) {
                         if (view1.isSelected()) {
@@ -141,7 +141,7 @@ public class DialogFactory extends CommDialog {
                         return;
                     }
                     if (txt == null) {
-                        txt = etTimeText+"分钟";
+                        txt = etTimeText + "分钟";
                     }
                     dialog.cancel();
                     okClick.data(new Object[]{txt, s});
@@ -152,7 +152,7 @@ public class DialogFactory extends CommDialog {
     }
 
     /**
-     * 消息-置皮试结果
+     * 消息-置皮试结果/采血复核
      * @param context
      * @param title
      * @param txt
@@ -162,15 +162,13 @@ public class DialogFactory extends CommDialog {
      * @param okClick
      * @return
      */
-    public static Dialog showSkinDialog(Context context, String title, String txt, String cancel, String ok, @Nullable final View.OnClickListener cancelClick, @Nullable final CommClickListener okClick) {
+    public static Dialog showSkinDialog(Context context, String title, String txt, String cancel, String ok, final boolean msgSkinFlag, @Nullable final View.OnClickListener cancelClick, @Nullable final CommClickListener okClick) {
         final Dialog dialog = new Dialog(context, R.style.MyDialog);
         dialog.setCanceledOnTouchOutside(true);
         final View view = LayoutInflater.from(context).inflate(R.layout.msg_skin_dialog_layout, null);
         setText(title, view, R.id.tv_title);
         setText(txt, view, R.id.tv_message);
         View llAudit = view.findViewById(R.id.ll_audit);
-        //配置布局
-        final boolean msgSkinFlag = !TextUtils.isEmpty(SPUtils.getInstance().getString(SharedPreference.MSG_SKIN_FLAG));
         llAudit.setVisibility(msgSkinFlag ? View.VISIBLE : View.GONE);
         setCommButtonClick(cancel, cancelClick, dialog, view, R.id.btn_no);
         View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -278,8 +276,8 @@ public class DialogFactory extends CommDialog {
                 , view, R.id.tv_popup_extra);
         String patInfo = "".equals(ordersBean.getBedCode()) ? ordersBean.getPatName() + "-" + ordersBean.getAge()
                 : ordersBean.getBedCode().replace("床", "") + "床-" + ordersBean.getPatName() + "-" + ordersBean.getAge();
-        setText(patInfo,view,R.id.tv_pat_info);
-        setText("医嘱信息("+bean.getOrders().size()+")",view,R.id.tv_info_name);
+        setText(patInfo, view, R.id.tv_pat_info);
+        setText("医嘱信息(" + bean.getOrders().size() + ")", view, R.id.tv_info_name);
         setCommButtonClick("", null, dialog, view, R.id.tv_popup_cancel);
         setCommButtonClick("", okClick, dialog, view, R.id.tv_popup_ok);
         //canExeFlag 0 不能 1 能

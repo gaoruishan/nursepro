@@ -33,8 +33,18 @@ public class LoginBean extends CommResult {
     private String globalViewFlag;
     //输液背景状态: 默认是"" 不开启; "1" 开启
     private String ordStateFlag;
+    //采血复核: 默认是"" 不开启; "1" 开启
+    private String bloodCheckFlag;
     private List<BroadcastListBean> broadcastList;
     private List<LocsBean> locs;
+
+    public String getBloodCheckFlag() {
+        return bloodCheckFlag == null ? "" : bloodCheckFlag;
+    }
+
+    public void setBloodCheckFlag(String bloodCheckFlag) {
+        this.bloodCheckFlag = bloodCheckFlag;
+    }
 
     public String getOrdStateFlag() {
         return ordStateFlag == null ? "" : ordStateFlag;

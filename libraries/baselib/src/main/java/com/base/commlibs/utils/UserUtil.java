@@ -235,6 +235,7 @@ public class UserUtil {
         SPUtils.getInstance().put(SharedPreference.MSG_NOTICE_FLAG, loginBean.getMsgNoticeFlag());
         SPUtils.getInstance().put(SharedPreference.MSG_SKIN_FLAG, loginBean.getMsgSkinFlag());
         SPUtils.getInstance().put(SharedPreference.ORD_STATE_FLAG, loginBean.getOrdStateFlag());
+        SPUtils.getInstance().put(SharedPreference.BLOOD_CHECK_FLAG, loginBean.getBloodCheckFlag());
         SPUtils.getInstance().put(SharedPreference.USERID, loginBean.getUserId());
         SPUtils.getInstance().put(SharedPreference.USERNAME, loginBean.getUserName());
         SPUtils.getInstance().put(SharedPreference.SCHSTDATETIME, loginBean.getSchStDateTime());
@@ -244,6 +245,14 @@ public class UserUtil {
         CommFile.write(SharedPreference.APP_VERSION_CODE,  AppUtils.getAppVersionCode()+"");
     }
 
+
+    /**
+     * 是否采血复核
+     * @return
+     */
+    public static boolean isBloodCheckFlag() {
+        return !TextUtils.isEmpty(SPUtils.getInstance().getString(SharedPreference.BLOOD_CHECK_FLAG));
+    }
 
     /**
      * 是否开启log

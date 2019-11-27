@@ -77,4 +77,6 @@ public class SharedPreference {
     public static final String GLOBAL_VIEW_FLAG = "GLOBAL_VIEW_FLAG";
     //输液背景状态
     public static final String ORD_STATE_FLAG = "ORD_STATE_FLAG";
+    //采血复核
+    public static final String BLOOD_CHECK_FLAG = "BLOOD_CHECK_FLAG";
 }

@@ -52,7 +52,7 @@ public class ContinueFragment extends BaseInfusionFragment implements View.OnCli
         rvOrdList.setAdapter(commDosingAdapter);
     }
 
-   @Override
+    @Override
     protected void getScanOrdList() {
 
         getOrdList(scanInfo);
@@ -83,21 +83,13 @@ public class ContinueFragment extends BaseInfusionFragment implements View.OnCli
                 }
                 // 第一次扫码
                 mBean = bean;
-                f(R.id.tv_ok).setVisibility(View.GONE);
-                if (scanInfo1 == null) {
-                    scanInfo1 = scanInfo;
-                } else if (!TextUtils.isEmpty(bean.getCurRegNo())
-                        && !TextUtils.isEmpty(bean.getCurOeoreId())) {
-                    f(R.id.tv_ok).setVisibility(View.VISIBLE);
-                    //再次检查
-                    if (!forIsContain(bean.getOrdList(), scanInfo1)) {
-                        f(R.id.tv_ok).setVisibility(View.GONE);
-                    }
-                }
+                //两次验证
+                auditOrdInfo(bean.getOrdList(),bean.getCurRegNo(),bean.getCurOeoreId());
+
                 customSelectTime.setTitle("预计结束时间");
                 customSelectTime.setSelectTime(ContinueFragment.this.getFragmentManager(), bean.getDistantDate(), bean.getDistantTime(), null);
                 csvScan.setVisibility(View.GONE);
-                setCustomPatViewData(cpvPat,bean.getPatInfo());
+                setCustomPatViewData(cpvPat, bean.getPatInfo());
                 csvSpeed.setSpeed(bean.getDefautSpeed());
                 commDosingAdapter.setCurrentScanInfo(scanInfo);
                 commDosingAdapter.replaceData(bean.getOrdList());
@@ -115,7 +107,7 @@ public class ContinueFragment extends BaseInfusionFragment implements View.OnCli
                 oeoreId = mBean.getCurOeoreId();
             }
             distantTime = customSelectTime.getSelect();
-            if(TextUtils.isEmpty(distantTime)){
+            if (TextUtils.isEmpty(distantTime)) {
                 distantTime = mBean.getDistantDate() + " " + mBean.getDistantTime();
             }
             int speed = csvSpeed.getSpeed();

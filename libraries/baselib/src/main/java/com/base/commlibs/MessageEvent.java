@@ -120,5 +120,6 @@ public class MessageEvent {
         REQUEST_REFRESH_BIZ_LIST,
         CHAT_ROOM_CLICK_AVATAR,
         UPDATE_BOTTOM_UNREAD_NUM,
+        NOTIFY_MESSAGE
     }
 }

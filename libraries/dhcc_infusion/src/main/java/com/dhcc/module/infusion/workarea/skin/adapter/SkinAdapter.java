@@ -1,6 +1,7 @@
 package com.dhcc.module.infusion.workarea.skin.adapter;
 
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.widget.TextView;
 
@@ -23,7 +24,6 @@ public class SkinAdapter extends BaseBloodQuickAdapter<SkinListBean.OrdListBean,
 
 
     private boolean hideSelectButton;
-    private String scanInfo;
 
     public SkinAdapter(int layoutResId, @Nullable List<SkinListBean.OrdListBean> data) {
         super(layoutResId, data);
@@ -37,6 +37,24 @@ public class SkinAdapter extends BaseBloodQuickAdapter<SkinListBean.OrdListBean,
         }
         return null;
     }
+    public int getSelectBeanPosition() {
+        for (int i = 0; i < getData().size(); i++) {
+            if (getData().get(i).isSelect()) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    @Override
+    public void setCurrentScanInfo(String scanInfo) {
+        super.setCurrentScanInfo(scanInfo);
+        for (SkinListBean.OrdListBean bean : getData()) {
+            bean.setSelect(bean.getOeoriId().equals(scanInfo));
+        }
+        notifyDataSetChanged();
+    }
+
 
     @Override
     protected void convert(BaseViewHolder helper, SkinListBean.OrdListBean item) {
@@ -68,9 +86,14 @@ public class SkinAdapter extends BaseBloodQuickAdapter<SkinListBean.OrdListBean,
         //隐藏选择框
         helper.setGone(R.id.iv_select, !hideSelectButton);
         helper.setGone(R.id.v_block, hideSelectButton);
+
         setSkinDosingData(helper, item);
 
         setInjectChildAdapter(helper, item.getArcimDescList());
+
+        //选中
+        RecyclerView rvItem = helper.getView(R.id.rv_item);
+        setBackgroundColor(rvItem, item.isSelect(), R.color.blue_dark2, R.color.white);
     }
 
     public void setHideSelectButton(boolean hideSelectButton) {

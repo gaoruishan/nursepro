@@ -2,6 +2,8 @@ package com.dhcc.module.infusion.workarea.blood;
 
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
+import com.base.commlibs.utils.CommDialog;
+import com.base.commlibs.utils.UserUtil;
 import com.dhcc.module.infusion.utils.DialogFactory;
 
 /**
@@ -18,7 +20,23 @@ public class BloodCollectionCheckFragment extends BloodCollectionFragment {
      */
     @Override
     protected void exeLabOrd() {
-        BloodCollectApiManager.auditOrd(scanInfo, new CommonCallBack<CommResult>() {
+        if (UserUtil.isBloodCheckFlag()) {
+            DialogFactory.showSkinDialog(mContext, "采血复核",  "", "取消", "确定", true,null, new CommDialog.CommClickListener() {
+                @Override
+                public void data(Object[] args) {
+                    super.data(args);
+                    String user = (String) args[0];
+                    String psw = (String) args[1];
+                    auditOrd(user,psw);
+                }
+            });
+        }else {
+            auditOrd(null, null);
+        }
+    }
+
+    private void auditOrd(String user, String psw) {
+        BloodCollectApiManager.auditOrd(scanInfo,user,psw, new CommonCallBack<CommResult>() {
             @Override
             public void onFail(String code, String msg) {
                 onFailThings();
