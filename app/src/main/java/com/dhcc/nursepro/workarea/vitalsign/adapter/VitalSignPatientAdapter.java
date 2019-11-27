@@ -73,10 +73,10 @@ public class VitalSignPatientAdapter extends BaseQuickAdapter<Map, BaseViewHolde
 
         if ("".equals(item.get("careLevel"))) {
             line2.setVisibility(View.GONE);
-            if ("0".equals(item.get("longOrd")) || "0".equals(item.get("longOrd"))) {
-                line1.setVisibility(View.GONE);
-            } else {
+            if ("1".equals(item.get("longOrd")) && "1".equals(item.get("tempOrd"))) {
                 line1.setVisibility(View.VISIBLE);
+            } else {
+                line1.setVisibility(View.GONE);
             }
         } else {
             if ("0".equals(item.get("tempOrd"))) {
