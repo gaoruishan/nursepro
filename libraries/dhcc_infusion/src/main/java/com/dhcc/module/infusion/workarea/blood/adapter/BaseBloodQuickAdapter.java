@@ -29,7 +29,7 @@ import java.util.List;
  */
 public abstract class BaseBloodQuickAdapter<T, K extends BaseViewHolder> extends BaseQuickAdapter<T, K> {
 
-    private String scanInfo;
+    protected String scanInfo;
 
     public BaseBloodQuickAdapter(int layoutResId, @Nullable List<T> data) {
         super(layoutResId, data);
@@ -131,11 +131,18 @@ public abstract class BaseBloodQuickAdapter<T, K extends BaseViewHolder> extends
         setDosingAuditData(helper, desUser, desDateTime, auditUser, auditDateTime);
     }
 
-    private void setBackgroundColor(View llBgSelect, String oeoriId, int p, int p2) {
+    protected void setBackgroundColor(View llBgSelect, String oeoriId, int p, int p2) {
         if (llBgSelect != null) {
             int select = ContextCompat.getColor(mContext, p);
             int unselect = ContextCompat.getColor(mContext, p2);
             llBgSelect.setBackgroundColor(oeoriId.equals(scanInfo) ? select : unselect);
+        }
+    }
+    protected void setBackgroundColor(View llBgSelect, boolean oeoriId, int p, int p2) {
+        if (llBgSelect != null) {
+            int select = ContextCompat.getColor(mContext, p);
+            int unselect = ContextCompat.getColor(mContext, p2);
+            llBgSelect.setBackgroundColor(oeoriId ? select : unselect);
         }
     }
 

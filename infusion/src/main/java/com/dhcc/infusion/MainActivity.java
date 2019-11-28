@@ -32,6 +32,7 @@ import com.allenliu.versionchecklib.v2.builder.UIData;
 import com.allenliu.versionchecklib.v2.callback.CustomDownloadFailedListener;
 import com.allenliu.versionchecklib.v2.callback.CustomVersionDialogListener;
 import com.base.commlibs.BaseActivity;
+import com.base.commlibs.MessageEvent;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommonCallBack;
@@ -46,6 +47,10 @@ import com.dhcc.module.infusion.message.api.MessageApiManager;
 import com.dhcc.module.infusion.message.bean.NotifyMessageBean;
 import com.dhcc.module.infusion.setting.SettingFragment;
 import com.dhcc.module.infusion.workarea.WorkAreaFragment;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -100,6 +105,9 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startService(i);
         nm = (NotificationManager) getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
+
+        //注册事件总线
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -107,6 +115,8 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         super.onDestroy();
         Intent i = new Intent(this, MServiceNewOrd.class);
         stopService(i);
+        //注册事件总线
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -410,7 +420,20 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
             }
         });
     }
-
+    /**
+     * 接收事件- 更新数据
+     *
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void updateData(MessageEvent event) {
+        if (event.getType() == MessageEvent.MessageType.NOTIFY_MESSAGE) {
+            Log.e(getClass().getSimpleName(), "updateData:" + event.getType());
+            showNotification(this);
+//            NotificationUtils.cancelAll();
+//            NotificationUtils.create();
+        }
+    }
     private void showNotification(Context context) {
         Boolean bLight = spUtils.getBoolean(SharedPreference.LIGHT, true);
         Boolean bSound = spUtils.getBoolean(SharedPreference.SOUND, true);

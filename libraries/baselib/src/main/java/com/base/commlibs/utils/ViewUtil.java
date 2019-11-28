@@ -36,6 +36,7 @@ import com.google.gson.reflect.TypeToken;
 import com.noober.background.drawable.DrawableCreator;
 
 import java.lang.reflect.Type;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -58,6 +59,7 @@ import static java.util.regex.Pattern.compile;
 public class ViewUtil {
 
 
+    public static final String FORMAT_0_00 = "0.00";
     private static final int RED = 0xffFF8080;
     private static final int BLUE = 0xff8080FF;
     private static final int CYAN = 0xff80ffff;
@@ -453,6 +455,17 @@ public class ViewUtil {
         Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");
         return pattern.matcher(str).matches();
     }
+
+    public static void setFormatFloat(TextView tv, float f) {
+        //构造方法的字符格式这里如果小数不足2位,会以0补足.
+        DecimalFormat decimalFormat = new DecimalFormat(FORMAT_0_00);
+        //format 返回的是字符串
+        if (tv != null && f > 0) {
+            String s = decimalFormat.format(f);
+            tv.setText(s);
+        }
+    }
+
     /**
      * 设置背景
      * @param view

@@ -39,18 +39,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scrollbarSize="@dimen/dp_2"
-                android:layout_marginBottom="@dimen/dp_20"
+                android:layout_marginBottom="@dimen/dp_10"
                 android:layout_marginTop="@dimen/dp_20"
                 android:scrollbarThumbVertical="@color/blue">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dp_10"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:layout_marginLeft="@dimen/dp_10"
                     android:orientation="vertical">
                     <TextView
                         android:id="@+id/tv_message"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dp_10"
                         android:layout_marginLeft="@dimen/dp_20"
                         android:layout_marginRight="@dimen/dp_20"
                         android:text="提示消息"
@@ -63,7 +65,6 @@
             <LinearLayout
                 android:id="@+id/ll_audit"
                 android:orientation="vertical"
-                android:visibility="gone"
                 android:paddingBottom="@dimen/dp_30"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">

@@ -15,8 +15,10 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.base.commlibs.utils.ViewUtil;
 import com.grs.dhcc_res.R;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
@@ -55,6 +57,21 @@ public class CountView extends LinearLayout {
     private LinearLayout rootView;
     private int dayNum;
     private OnCountViewStatusListener listener;
+    private Handler handlerStop = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == STOP) {
+                if (handler != null) {
+                    handler.removeCallbacks(runnable);
+                }
+                if (listener != null) {
+                    listener.onStop();
+                }
+                Log.e(TAG, "handleMessage: ");
+            }
+        }
+    };
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
@@ -69,24 +86,18 @@ public class CountView extends LinearLayout {
             if (llDayCounting.getVisibility() == View.VISIBLE) {
                 setFillTimeText();
             } else {
-                tvDay.setText(mTime / OFFSET + "");
+                if (mTime < OFFSET) {
+                    ViewUtil.setFormatFloat(tvDay, (float) mTime / OFFSET);
+                    DecimalFormat decimalFormat = new DecimalFormat("0.0");
+                    String s = decimalFormat.format((float) mTime / OFFSET);
+                    tvDay.setText(s + "");
+                } else {
+                    tvDay.setText(mTime / OFFSET + "");
+                }
             }
 
             if (mTime > 0) {
                 handler.postDelayed(this, DELAY_MILLIS);
-            }
-        }
-    };
-    private Handler handlerStop = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if (msg.what == STOP) {
-                stop();
-                if (listener != null) {
-                    listener.onStop();
-                }
-                Log.e(TAG, "handleMessage: ");
             }
         }
     };
@@ -178,6 +189,7 @@ public class CountView extends LinearLayout {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
+        Log.e(TAG, "(CountView.java:178) onDetachedFromWindow");
         stop();// 停止
     }
 
@@ -185,9 +197,6 @@ public class CountView extends LinearLayout {
      * 停止
      */
     public void stop() {
-        if (listener != null) {
-            listener.onStop();
-        }
         if (handler != null) {
             handler.removeCallbacks(runnable);
         }
@@ -211,8 +220,10 @@ public class CountView extends LinearLayout {
             Log.e(TAG, "start: time < 0");
             return;
         }
-        // 先停止
-        stop();
+        // 先移除
+        if (handler != null) {
+            handler.removeCallbacks(runnable);
+        }
         llDayCounting.setVisibility(VISIBLE);
         //单个显示
         if (type == ONE_DAY) {
@@ -245,18 +256,19 @@ public class CountView extends LinearLayout {
         return tvTitleName;
     }
 
-    public void setTitleName(String txt,@Size(min = 1) String color,@DimenRes int  size) {
-        if(!TextUtils.isEmpty(txt)){
+    public void setTitleName(String txt, @Size(min = 1) String color, @DimenRes int size) {
+        if (!TextUtils.isEmpty(txt)) {
             tvTitleName.setVisibility(VISIBLE);
             tvTitleName.setText(txt);
         }
-        if(!TextUtils.isEmpty(color)){
+        if (!TextUtils.isEmpty(color)) {
             tvTitleName.setTextColor(Color.parseColor(color));
         }
         if (size != 0) {
             tvTitleName.setTextSize(getContext().getResources().getDimension(size));
         }
     }
+
     /***
      * OneDay模式下TextView
      * @return

@@ -54,6 +54,7 @@ public abstract class BaseInfusionFragment extends BaseFragment {
     protected String scanInfoTemp;
     protected String episodeId = "";
     protected String regNo = "";
+    protected String barCode="";
     //执行开关: 0 未执行; 1已执行
     protected String exeFlag = "0";
     protected Activity mContext;
@@ -213,6 +214,22 @@ public abstract class BaseInfusionFragment extends BaseFragment {
 
     protected void showToast(String msg) {
         DialogFactory.showCommDialog(getActivity(), msg, null, 0, null, true);
+    }
+    /**
+     * 两次验证
+     * @param ordList
+     * @param curRegNo
+     * @param curOeoreId
+     */
+    protected void auditOrdInfo(List<OrdListBean> ordList, String curRegNo, String curOeoreId) {
+        f(R.id.tv_ok).setVisibility(View.GONE);
+        if (!TextUtils.isEmpty(curRegNo) && !TextUtils.isEmpty(curOeoreId)) {
+            f(R.id.tv_ok).setVisibility(View.VISIBLE);
+            //再次检查
+            if (!forIsContain(ordList,curOeoreId)) {
+                f(R.id.tv_ok).setVisibility(View.GONE);
+            }
+        }
     }
 
     /**

@@ -72,8 +72,12 @@ public class DocOrderListFragment extends BaseCommFragment {
             @Override
             public void onSuccess(DocOrdersPatsListBean bean, String type) {
                 hideLoadingTip();
-                initSheetListData(bean);
-                getDocOrderList(bean.getPatInfoList().get(0).getEpisodeId());
+                if (bean != null) {
+                    initSheetListData(bean);
+                    if (bean.getPatInfoList() != null && bean.getPatInfoList().size() > 0) {
+                        getDocOrderList(bean.getPatInfoList().get(0).getEpisodeId());
+                    }
+                }
             }
         });
     }

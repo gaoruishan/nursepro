@@ -1,6 +1,5 @@
 package com.dhcc.module.infusion.workarea.patrol;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -86,7 +85,13 @@ public class PatrolFragment extends BaseInfusionFragment implements View.OnClick
     }
 
     private void getOrdList(final String scanInfo) {
-        PatrolApiManager.getTourOrdList("", "", scanInfo, new CommonCallBack<PatrolBean>() {
+        String regNo = "";
+        String curOeoreId = "";
+        if (mBean != null) {
+            regNo = mBean.getCurRegNo();
+            curOeoreId = mBean.getCurOeoreId();
+        }
+        PatrolApiManager.getTourOrdList(regNo, curOeoreId, scanInfo, new CommonCallBack<PatrolBean>() {
 
 
             @Override
@@ -101,6 +106,8 @@ public class PatrolFragment extends BaseInfusionFragment implements View.OnClick
                 }
                 mBean = bean;
                 csvScan.setVisibility(View.GONE);
+                //两次验证
+//                auditOrdInfo(bean.getOrdList(),bean.getCurRegNo(),bean.getCurOeoreId());
                 setCustomPatViewData(cpvPat,bean.getPatInfo());
                 csvSpeed.setSpeed(bean.getDefautSpeed());
                 csvSelectTime.setTitle("预计结束时间").setSelectTime(getFragmentManager(), bean.getDistantDate(), bean.getDistantTime(), null);

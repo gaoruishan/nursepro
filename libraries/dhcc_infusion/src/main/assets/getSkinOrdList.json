@@ -3,23 +3,6 @@
   "msgcode": "",
   "ordList": [
     {
-      "CreateDateTime": "2019-11-05 10:07:52",
-      "CtcpDesc": "医生01",
-      "DisposeStatDesc": "皮试",
-      "DoseQtyUnit": "800 万IU",
-      "EpisodeID": "661",
-      "Notes": " ",
-      "ObserveTime": "",
-      "OeoriId": "637||6||1",
-      "PhOrdQtyUnit": "800 万IU",
-      "PhcinDesc": "静脉滴注(皮试)",
-      "TestDateTime": " ",
-      "TestMethod": "",
-      "TestResult": "阳",
-      "TestStartTime": "",
-      "TestUser": ""
-    },
-    {
       "ArcimDescList":[
         {
           "ArcimDesc":"氯化钠注射液[[塑瓶][0.9%×10ml]",

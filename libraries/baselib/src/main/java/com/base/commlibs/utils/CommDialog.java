@@ -279,7 +279,9 @@ public class CommDialog {
             return;
         }
         TextView tvTitle = view.findViewById(id);
+        tvTitle.setVisibility(View.GONE);
         if (!TextUtils.isEmpty(txt)) {
+            tvTitle.setVisibility(View.VISIBLE);
             tvTitle.setText(txt);
         }
     }

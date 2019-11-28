@@ -108,7 +108,7 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
                 } else if (!TextUtils.isEmpty(bean.getCurRegNo())
                         && !TextUtils.isEmpty(bean.getCurOeoreId())) {
                     //再次检查
-                    if (!forIsContain(bean.getOrdList(),scanInfo1)){
+                    if (!forIsContain(bean.getOrdList(),bean.getCurOeoreId())){
                        return;
                     }
                     //显示穿刺情况

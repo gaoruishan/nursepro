@@ -1,6 +1,5 @@
 package com.dhcc.module.infusion.workarea.needles;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -43,7 +42,7 @@ public class NeedlesFragment extends BaseInfusionFragment implements View.OnClic
         rvOrdList.setAdapter(commPatrolAdapter);
     }
 
-   @Override
+    @Override
     protected void getScanOrdList() {
 
         getOrdList(scanInfo);
@@ -55,7 +54,13 @@ public class NeedlesFragment extends BaseInfusionFragment implements View.OnClic
     }
 
     private void getOrdList(final String scanInfo) {
-        NeedlesApiManager.getFinishOrdList("", "", scanInfo, new CommonCallBack<NeedlesBean>() {
+        String regNo = "";
+        String curOeoreId = "";
+        if (mBean != null) {
+            regNo = mBean.getCurRegNo();
+            curOeoreId = mBean.getCurOeoreId();
+        }
+        NeedlesApiManager.getFinishOrdList(regNo, curOeoreId, scanInfo, new CommonCallBack<NeedlesBean>() {
             @Override
             public void onFail(String code, String msg) {
                 onFailThings();
@@ -68,7 +73,9 @@ public class NeedlesFragment extends BaseInfusionFragment implements View.OnClic
                 }
                 mBean = bean;
                 csvScan.setVisibility(View.GONE);
-                setCustomPatViewData(cpvPat,bean.getPatInfo());
+                //两次验证
+                auditOrdInfo(bean.getOrdList(),bean.getCurRegNo(),bean.getCurOeoreId());
+                setCustomPatViewData(cpvPat, bean.getPatInfo());
                 commPatrolAdapter.setCurrentScanInfo(scanInfo);
                 commPatrolAdapter.replaceData(bean.getOrdList());
             }

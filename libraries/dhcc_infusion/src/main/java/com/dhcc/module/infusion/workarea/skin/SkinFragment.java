@@ -39,7 +39,30 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
     private CustomOrdExeBottomView bottomView;
     private SkinAdapter skinAdapter;
     private CustomPatView customPat;
+    private SkinListBean mBean;
 
+    @Override
+    protected void initViews() {
+        super.initViews();
+        recyclerView = RecyclerViewHelper.get(mContext, R.id.rv_list);
+        customDate = f(R.id.custom_date, CustomDateTimeView.class);
+        bottomView = f(R.id.custom_bottom, CustomOrdExeBottomView.class);
+        customPat = f(R.id.custom_pat, CustomPatView.class);
+        showScanPatHand();
+        customDate.setEndDateTime(System.currentTimeMillis())
+                .setStartDateTime(System.currentTimeMillis())
+                .setOnDateSetListener(new OnDateSetListener() {
+                    @Override
+                    public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
+                        getScanOrdList();
+                    }
+                }, new OnDateSetListener() {
+                    @Override
+                    public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
+                        getScanOrdList();
+                    }
+                });
+    }
 
     @Override
     protected void initDatas() {
@@ -65,7 +88,6 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
         bottomView.addBottomView(beans);
     }
 
-
     private void showSkinCount() {
         final SkinListBean.OrdListBean selectBean = skinAdapter.getSelectBean();
         if (selectBean == null) {
@@ -89,8 +111,6 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
         });
     }
 
-
-
     private void exeOrderSkin() {
         final SkinListBean.OrdListBean selectBean = skinAdapter.getSelectBean();
         if (selectBean == null) {
@@ -99,7 +119,7 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
         DialogFactory.showSkinYinYangDialog(mContext, "置皮试结果", "", "", null, new CommDialog.CommClickListener() {
             @Override
             public void data(Object[] args) {
-                MessageApiManager.setSkinTestResult(selectBean.getOeoriId(), (String) args[2],(String) args[0],(String) args[1], new CommonCallBack<CommResult>() {
+                MessageApiManager.setSkinTestResult(selectBean.getOeoriId(), (String) args[2], (String) args[0], (String) args[1], new CommonCallBack<CommResult>() {
                     @Override
                     public void onFail(String code, String msg) {
                         onFailThings();
@@ -116,45 +136,29 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
 
     @Override
     protected void getScanOrdList() {
-        SkinApiManager.getSkinList(scanInfo, customDate.getStartDateTimeText(), customDate.getEndDateTimeText(),null, new CommonCallBack<SkinListBean>() {
-            @Override
-            public void onFail(String code, String msg) {
-                onFailThings();
-            }
+        //第二次 扫瓶贴
+        if (mBean != null && scanInfo.contains("||")) {
+            skinAdapter.setCurrentScanInfo(scanInfo);
+            recyclerView.scrollToPosition(skinAdapter.getSelectBeanPosition());
+            refreshBottomView();
+        } else {
+            SkinApiManager.getSkinList(scanInfo, customDate.getStartDateTimeText(), customDate.getEndDateTimeText(), barCode, new CommonCallBack<SkinListBean>() {
+                @Override
+                public void onFail(String code, String msg) {
+                    onFailThings();
+                }
 
-            @Override
-            public void onSuccess(SkinListBean bean, String type) {
-                hideScanView();
-                skinAdapter.setNewData(bean.getOrdList());
-                setCustomPatViewData(customPat,bean.getPatInfo());
-            }
-        });
+                @Override
+                public void onSuccess(SkinListBean bean, String type) {
+                    mBean = bean;
+                    hideScanView();
+                    skinAdapter.setNewData(bean.getOrdList());
+                    setCustomPatViewData(customPat, bean.getPatInfo());
+                }
+            });
+        }
+
     }
-
-    @Override
-    protected void initViews() {
-        super.initViews();
-        recyclerView = RecyclerViewHelper.get(mContext, R.id.rv_list);
-        customDate = f(R.id.custom_date, CustomDateTimeView.class);
-        bottomView = f(R.id.custom_bottom, CustomOrdExeBottomView.class);
-        customPat = f(R.id.custom_pat, CustomPatView.class);
-        showScanPatHand();
-        customDate.setEndDateTime(System.currentTimeMillis())
-                .setStartDateTime(System.currentTimeMillis())
-                .setOnDateSetListener(new OnDateSetListener() {
-                    @Override
-                    public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
-                        getScanOrdList();
-                    }
-                }, new OnDateSetListener() {
-                    @Override
-                    public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
-                        getScanOrdList();
-                    }
-                });
-    }
-
-
 
     @Override
     protected int setLayout() {
@@ -174,11 +178,15 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
                 }
             }
             skinAdapter.notifyDataSetChanged();
-            SkinListBean.OrdListBean selectBean = skinAdapter.getSelectBean();
-            bottomView.setNoSelectVisibility(selectBean == null);
-            if (selectBean != null) {
-                bottomView.setSelectText("已选择1个");
-            }
+            refreshBottomView();
+        }
+    }
+
+    private void refreshBottomView() {
+        SkinListBean.OrdListBean selectBean = skinAdapter.getSelectBean();
+        bottomView.setNoSelectVisibility(selectBean == null);
+        if (selectBean != null) {
+            bottomView.setSelectText("已选择1个");
         }
     }
 }

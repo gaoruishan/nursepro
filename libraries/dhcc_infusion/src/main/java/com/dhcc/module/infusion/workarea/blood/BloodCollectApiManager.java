@@ -1,5 +1,7 @@
 package com.dhcc.module.infusion.workarea.blood;
 
+import android.text.TextUtils;
+
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommWebService;
 import com.base.commlibs.http.CommonCallBack;
@@ -58,10 +60,16 @@ public class BloodCollectApiManager extends BaseApiManager {
     /**
      * 核对信息
      */
-    public static void auditOrd(String barCode, final CommonCallBack<CommResult> callBack) {
+    public static void auditOrd(String barCode,String auditUserId,String auditPassword, final CommonCallBack<CommResult> callBack) {
         HashMap<String, String> properties = CommWebService.addUserId(null);
         CommWebService.addLocId(properties);
         properties.put("barCode", barCode);
+        if(!TextUtils.isEmpty(auditUserId)){
+            properties.put("auditUserId", auditUserId);
+        }
+        if(!TextUtils.isEmpty(auditPassword)){
+            properties.put("auditPassword", auditPassword);
+        }
         CommWebService.call("auditOrd", properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
