@@ -46,8 +46,9 @@ public class OrderExecuteAdapter extends BaseQuickAdapter<OrdListBean.CureInfoLi
                 .setCornersRadius(mContext.getResources().getDimension(R.dimen.dp_10))
                 .build();
         blTvStatus.setBackground(drawable);
-        helper.setGone(R.id.tv_time, !TextUtils.isEmpty(item.getOrderSttDate()));
-        helper.setGone(R.id.bl_tv_status, !TextUtils.isEmpty(item.getOrderStatusCode()));
+//        helper.setGone(R.id.tv_time, !TextUtils.isEmpty(item.getOrderSttDate()));
+//        helper.setGone(R.id.bl_tv_status, !TextUtils.isEmpty(item.getOrderStatusCode()));
+        helper.setText(R.id.tv_name, item.getArcimDesc());
 
         LinearLayout llSel = helper.getView(R.id.ll_exec_orderselect);
         if (item.getSelect().equals("1")){
@@ -61,7 +62,6 @@ public class OrderExecuteAdapter extends BaseQuickAdapter<OrdListBean.CureInfoLi
 //        boolean isList = item.getArcimDescList() != null && item.getArcimDescList().size() > 0;
 //        helper.setGone(R.id.rv_item, isList);
 //        helper.setGone(R.id.tv_name, !isList);
-        helper.setText(R.id.tv_name, item.getOrderStatus());
 //        RecyclerView rvItem = helper.getView(R.id.rv_item);
 //        RecyclerViewHelper.setDefaultRecyclerView(mContext, rvItem);
 //        OrderExecuteChildAdapter childAdapter = new OrderExecuteChildAdapter(item.getArcimDescList());
