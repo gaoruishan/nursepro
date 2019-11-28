@@ -127,9 +127,9 @@ public class OrderExecuteFragment extends BaseCommFragment {
             for (int i = 0; i <ordersList.size() ; i++) {
                 if (ordersList.get(i).getSelect().equals("1")){
                     if (appStrs == null){
-                        appStrs = ordersList.get(i).getDCAOEORIDR();
+                        appStrs = ordersList.get(i).getAppdr();
                     }else {
-                        appStrs = appStrs+"^"+ordersList.get(i).getDCAOEORIDR();
+                        appStrs = appStrs+"^"+ordersList.get(i).getAppdr();
                     }
                 }
             }
