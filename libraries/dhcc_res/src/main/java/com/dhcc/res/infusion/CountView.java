@@ -77,7 +77,7 @@ public class CountView extends LinearLayout {
         public void run() {
             mTime--;
             //判断停止
-            if (mTime == 0) {
+            if (mTime <= 0) {
                 Log.e(TAG, "run: " + mTime);
                 handlerStop.sendEmptyMessage(STOP);
                 return;
@@ -189,7 +189,7 @@ public class CountView extends LinearLayout {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        Log.e(TAG, "(CountView.java:178) onDetachedFromWindow");
+        Log.e(TAG, "(CountView.java:178) onDetachedFromWindow=  "+getContext().getClass().getSimpleName());
         stop();// 停止
     }
 
@@ -216,10 +216,11 @@ public class CountView extends LinearLayout {
      * @param time 毫秒值
      */
     public void start(Long time, int type) {
-        if (time <= 0) {
+        if (time < 0) {
             Log.e(TAG, "start: time < 0");
             return;
         }
+        Log.e(TAG,"(CountView.java:225) start="+time);
         // 先移除
         if (handler != null) {
             handler.removeCallbacks(runnable);

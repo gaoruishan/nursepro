@@ -4,7 +4,7 @@
   "status": 0,
   "SkinTimeList": [
     {
-      "ObserveTime": "1200",
+      "ObserveTime": "120",
       "OeoreGroup": [
         {
           "ArcimDesc": "氯化钠注射液[1g:10ml]",
@@ -23,11 +23,11 @@
       "PatRegNo": "0000000264",
       "PatSex": "男",
       "SkinResutl": "-",
-      "skinTestDateTime": "2019-11-11 22:49",
+      "skinTestDateTime": "2019-11-28 18:11",
       "skinTestCtcpDesc": "护士01",
       "skinTestAuditCtcpDesc": "护士01",
       "skinTestAuditDateTime": "2019-11-11 22:22",
-      "TestStartTime": "09:06:57"
+      "TestStartTime": "20:05:57"
     },
     {
       "ObserveTime": "1200",
@@ -44,12 +44,12 @@
         }
       ],
       "OeoreId": "11",
-      "OverTime": "1173",
+      "OverTime": "573",
       "PatName": "井尔",
       "PatRegNo": "0000000264",
       "PatSex": "男",
       "SkinResutl": "",
-      "TestStartTime": "09:06:57"
+      "TestStartTime": "19:56:57"
     },
     {
       "ObserveTime": "1200",
@@ -66,12 +66,12 @@
         }
       ],
       "OeoreId": "11",
-      "OverTime": "1173",
+      "OverTime": "673",
       "PatName": "井尔",
       "PatRegNo": "0000000264",
       "PatSex": "男",
       "SkinResutl": "",
-      "TestStartTime": "09:06:57"
+      "TestStartTime": "19:58:57"
     },
     {
       "ObserveTime": "1200",
@@ -88,12 +88,12 @@
         }
       ],
       "OeoreId": "11",
-      "OverTime": "1173",
+      "OverTime": "773",
       "PatName": "井尔",
       "PatRegNo": "0000000264",
       "PatSex": "男",
       "SkinResutl": "",
-      "TestStartTime": "09:06:57"
+      "TestStartTime": "18:26:57"
     },
     {
       "ObserveTime": "1200",
@@ -110,7 +110,7 @@
         }
       ],
       "OeoreId": "11",
-      "OverTime": "1173",
+      "OverTime": "93",
       "PatName": "井尔4",
       "PatRegNo": "0000000004",
       "PatSex": "男",
@@ -132,7 +132,7 @@
         }
       ],
       "OeoreId": "11",
-      "OverTime": "1173",
+      "OverTime": "217",
       "PatName": "井尔3",
       "PatRegNo": "0000000003",
       "PatSex": "男",
@@ -154,7 +154,7 @@
         }
       ],
       "OeoreId": "11",
-      "OverTime": "1173",
+      "OverTime": "803",
       "PatName": "井尔2",
       "PatRegNo": "0000000002",
       "PatSex": "男",
@@ -176,7 +176,7 @@
         }
       ],
       "OeoreId": "11",
-      "OverTime": "1173",
+      "OverTime": "373",
       "PatName": "井尔1",
       "PatRegNo": "0000000002",
       "PatSex": "男",

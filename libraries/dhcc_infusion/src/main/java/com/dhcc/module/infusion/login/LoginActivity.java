@@ -1,9 +1,11 @@
 package com.dhcc.module.infusion.login;
 
+import android.Manifest;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -93,6 +95,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         openMultiScan(AppUtil.isMultiScan());
         //请求SD卡权限
         PermissionUtils.permission(PermissionConstants.STORAGE).request();
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.VIBRATE}, 0);
+
         //版本号
         ((TextView) findViewById(R.id.tv_version)).setText(UserUtil.getVersion());
         //版本处理

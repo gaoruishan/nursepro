@@ -37,8 +37,10 @@ import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.service.MServiceNewOrd;
+import com.base.commlibs.utils.AppUtil;
 import com.base.commlibs.utils.UserUtil;
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.VibrateUtils;
 import com.dhcc.infusion.update.BaseDialog;
 import com.dhcc.infusion.update.api.UpdateApiManager;
 import com.dhcc.infusion.update.bean.UpdateBean;
@@ -108,6 +110,7 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
 
         //注册事件总线
         EventBus.getDefault().register(this);
+        AppUtil.initPlay(this, 0, R.raw.notice_message);
     }
 
     @Override
@@ -429,9 +432,10 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
     public void updateData(MessageEvent event) {
         if (event.getType() == MessageEvent.MessageType.NOTIFY_MESSAGE) {
             Log.e(getClass().getSimpleName(), "updateData:" + event.getType());
+            AppUtil.playSound(this, R.raw.notice_message);
+//            NotificationUtils.create(this,1,new Intent(this, MainActivity.class),R.drawable.ic_launcher,"新消息","点击即可查看");
+            VibrateUtils.vibrate(3000);
             showNotification(this);
-//            NotificationUtils.cancelAll();
-//            NotificationUtils.create();
         }
     }
     private void showNotification(Context context) {

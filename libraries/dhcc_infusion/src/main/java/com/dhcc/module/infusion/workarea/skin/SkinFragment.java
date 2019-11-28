@@ -137,12 +137,14 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
     @Override
     protected void getScanOrdList() {
         //第二次 扫瓶贴
-        if (mBean != null && scanInfo.contains("||")) {
-            skinAdapter.setCurrentScanInfo(scanInfo);
-            recyclerView.scrollToPosition(skinAdapter.getSelectBeanPosition());
-            refreshBottomView();
+        if (mBean != null) {
+            if (scanInfo.contains("||")) {
+                skinAdapter.setCurrentScanInfo(scanInfo);
+                recyclerView.scrollToPosition(skinAdapter.getSelectBeanPosition());
+                refreshBottomView();
+            }
         } else {
-            SkinApiManager.getSkinList(scanInfo, customDate.getStartDateTimeText(), customDate.getEndDateTimeText(), barCode, new CommonCallBack<SkinListBean>() {
+            SkinApiManager.getSkinList(scanInfo, customDate.getStartDateTimeText(), customDate.getEndDateTimeText(), "", new CommonCallBack<SkinListBean>() {
                 @Override
                 public void onFail(String code, String msg) {
                     onFailThings();
@@ -150,7 +152,9 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
 
                 @Override
                 public void onSuccess(SkinListBean bean, String type) {
-                    mBean = bean;
+                    if (bean.getOrdList() != null && bean.getOrdList().size() > 0) {
+                        mBean = bean;
+                    }
                     hideScanView();
                     skinAdapter.setNewData(bean.getOrdList());
                     setCustomPatViewData(customPat, bean.getPatInfo());
@@ -163,6 +167,14 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
     @Override
     protected int setLayout() {
         return R.layout.fragment_skin;
+    }
+
+    private void refreshBottomView() {
+        SkinListBean.OrdListBean selectBean = skinAdapter.getSelectBean();
+        bottomView.setNoSelectVisibility(selectBean == null);
+        if (selectBean != null) {
+            bottomView.setSelectText("已选择1个");
+        }
     }
 
     @Override
@@ -179,14 +191,6 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
             }
             skinAdapter.notifyDataSetChanged();
             refreshBottomView();
-        }
-    }
-
-    private void refreshBottomView() {
-        SkinListBean.OrdListBean selectBean = skinAdapter.getSelectBean();
-        bottomView.setNoSelectVisibility(selectBean == null);
-        if (selectBean != null) {
-            bottomView.setSelectText("已选择1个");
         }
     }
 }

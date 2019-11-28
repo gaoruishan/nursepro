@@ -105,6 +105,7 @@ public class AppUtil {
      * @param resId
      */
     public static void playSound(Context context, int resId) {
+        if (soundIDMap==null) return;
 
         AudioManager mgr = (AudioManager) context.getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
 

@@ -40,7 +40,7 @@ public class CommWebService {
         BaseWebServiceUtils.callWebOPPDAService(methodName, properties, new BaseWebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
-                LocalTestManager.saveNotNullLog(methodName,result);
+                LocalTestManager.saveNotNullLog(methodName,properties+"\n\n"+result);
                 callBack.onResult(result);
             }
         });

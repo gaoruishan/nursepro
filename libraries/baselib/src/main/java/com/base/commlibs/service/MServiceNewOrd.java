@@ -29,8 +29,8 @@ public class MServiceNewOrd extends Service {
                         sendBroadcast(i);
                         removeMessages(0);
                         if (!isDestroy) {
-                            //这里想几秒刷新一次就写几秒
-                            sendEmptyMessageDelayed(0, 180000);
+                            //这里想3分钟s刷新消息列表
+                            sendEmptyMessageDelayed(0, 3 * 60 * 1000);
                             break;
                         }
                 }
