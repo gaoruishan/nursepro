@@ -46,11 +46,8 @@ public class OrderExecuteApiManager {
      */
     public static void getHealthExecuResult(String ordStr,final CommonCallBack<CommResult> callBack) {
         HashMap<String, String> properties = CommWebService.addUserId(null);
-        CommWebService.addWardId(properties);
         properties.put("ordStr",ordStr);
-        properties.put("userDeptId",SPUtils.getInstance().getString(SharedPreference.LOCID));
-        properties.put("execDate","");
-        properties.put("execTime","");
+        properties.put("LocDr",SPUtils.getInstance().getString(SharedPreference.LOCID));
         CommWebService.callHealth("execOrdByordStr", properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
