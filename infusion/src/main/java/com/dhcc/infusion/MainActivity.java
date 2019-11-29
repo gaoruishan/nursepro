@@ -15,6 +15,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -433,9 +434,14 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         if (event.getType() == MessageEvent.MessageType.NOTIFY_MESSAGE) {
             Log.e(getClass().getSimpleName(), "updateData:" + event.getType());
             AppUtil.playSound(this, R.raw.notice_message);
-//            NotificationUtils.create(this,1,new Intent(this, MainActivity.class),R.drawable.ic_launcher,"新消息","点击即可查看");
             VibrateUtils.vibrate(3000);
-            showNotification(this);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    showNotification(MainActivity.this);
+                }
+            },2000);
+
         }
     }
     private void showNotification(Context context) {

@@ -80,12 +80,18 @@ public class MessageSkinAdapter extends BaseQuickAdapter<MessageSkinBean.SkinTim
 
             SimpleDateFormat formatter1 = new SimpleDateFormat(HH_MM_SS);
             String formatNowTime = formatter1.format(new Date(System.currentTimeMillis()));
-
+            //结束时间> 现在时间
             long offTime = getFormatTime(formatEndTime) - getFormatTime(formatNowTime);
-
+            //现在时间> 开始时间
+            long offTime2 = getFormatTime(formatNowTime) - getFormatTime(testStartTime);
             CountView cvCount = helper.getView(R.id.cv_count);
-            helper.setVisible(R.id.ll_count, offTime > 0);
-            if (offTime > 0) {
+            //没有复核/复核人 并且时间大于0
+            boolean isOk = offTime >= 0 && offTime2 >= 0 && TextUtils.isEmpty(item.getSkinTestAuditDateTime())
+                    && TextUtils.isEmpty(item.getSkinTestDateTime())
+                    && TextUtils.isEmpty(item.getSkinTestAuditCtcpDesc())
+                    && TextUtils.isEmpty(item.getSkinTestCtcpDesc());
+            helper.setVisible(R.id.ll_count, isOk);
+            if (isOk) {
                 cvCount.getTitleName().setVisibility(View.GONE);
                 cvCount.getOneDay().setTextColor(Color.parseColor("#FFFF6EA4"));
                 cvCount.getOneDay().setTextSize(mContext.getResources().getDimension(R.dimen.dp_13));
@@ -101,10 +107,12 @@ public class MessageSkinAdapter extends BaseQuickAdapter<MessageSkinBean.SkinTim
         final SelectTextView stv1 = helper.getView(R.id.stv1);
         final SelectTextView stv2 = helper.getView(R.id.stv2);
 
-        if ("-".equals(item.getSkinResutl())) {//阴性
+        if ("-".equals(item.getSkinResutl())) {
+            //阴性
             setSelectState(stv1, true, false);
             setSelectState(stv2, false, true);
-        } else if ("+".equals(item.getSkinResutl())) {//阳性
+        } else if ("+".equals(item.getSkinResutl())) {
+            //阳性
             setSelectState(stv2, true, false);
             setSelectState(stv1, false, true);
         } else {

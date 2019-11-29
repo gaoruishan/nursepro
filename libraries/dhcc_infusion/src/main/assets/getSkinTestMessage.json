@@ -4,7 +4,7 @@
   "status": 0,
   "SkinTimeList": [
     {
-      "ObserveTime": "120",
+      "ObserveTime": "70",
       "OeoreGroup": [
         {
           "ArcimDesc": "氯化钠注射液[1g:10ml]",
@@ -23,11 +23,11 @@
       "PatRegNo": "0000000264",
       "PatSex": "男",
       "SkinResutl": "-",
-      "skinTestDateTime": "2019-11-28 18:11",
-      "skinTestCtcpDesc": "护士01",
-      "skinTestAuditCtcpDesc": "护士01",
-      "skinTestAuditDateTime": "2019-11-11 22:22",
-      "TestStartTime": "20:05:57"
+      "skinTestDateTime": "",
+      "skinTestAuditDateTime": "",
+      "skinTestCtcpDesc": "",
+      "skinTestAuditCtcpDesc": "",
+      "TestStartTime": "10:12:57"
     },
     {
       "ObserveTime": "1200",
@@ -49,6 +49,10 @@
       "PatRegNo": "0000000264",
       "PatSex": "男",
       "SkinResutl": "",
+      "skinTestDateTime": "2019-11-28 18:11",
+      "skinTestAuditDateTime": "2019-11-11 22:22",
+      "skinTestCtcpDesc": "护士01",
+      "skinTestAuditCtcpDesc": "护士01",
       "TestStartTime": "19:56:57"
     },
     {
@@ -70,6 +74,10 @@
       "PatName": "井尔",
       "PatRegNo": "0000000264",
       "PatSex": "男",
+      "skinTestDateTime": "2019-11-28 18:11",
+      "skinTestAuditDateTime": "2019-11-11 22:22",
+      "skinTestCtcpDesc": "护士01",
+      "skinTestAuditCtcpDesc": "护士01",
       "SkinResutl": "",
       "TestStartTime": "19:58:57"
     },
@@ -92,6 +100,10 @@
       "PatName": "井尔",
       "PatRegNo": "0000000264",
       "PatSex": "男",
+      "skinTestDateTime": "2019-11-28 18:11",
+      "skinTestAuditDateTime": "2019-11-11 22:22",
+      "skinTestCtcpDesc": "护士01",
+      "skinTestAuditCtcpDesc": "护士01",
       "SkinResutl": "",
       "TestStartTime": "18:26:57"
     },
@@ -181,7 +193,7 @@
       "PatRegNo": "0000000002",
       "PatSex": "男",
       "SkinResutl": "",
-      "TestStartTime": "09:06:57"
+      "TestStartTime": "19:06:57"
     }
   ]
 }
