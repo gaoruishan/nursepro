@@ -4,7 +4,6 @@ import com.base.commlibs.http.CommResult;
 import com.dhcc.module.infusion.workarea.comm.bean.PatInfoBean;
 import com.dhcc.module.infusion.workarea.dosing.bean.OrdListBean;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,9 +38,6 @@ public class PunctureBean extends CommResult {
     private List<OrdListBean> ordList;
 
     public List<PuntureToolListBean> getPuntureToolList() {
-        if (PuntureToolList == null) {
-            return new ArrayList<>();
-        }
         return PuntureToolList;
     }
 

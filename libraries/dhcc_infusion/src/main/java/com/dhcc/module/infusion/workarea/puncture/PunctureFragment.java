@@ -68,7 +68,7 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
     }
 
 
-   @Override
+    @Override
     protected void getScanOrdList() {
 
         getOrdList(scanInfo);
@@ -97,7 +97,7 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
                 punctureAdapter.setCurrentScanInfo(scanInfo);
                 // 隐藏扫码页
                 helper.setVisible(R.id.custom_scan, false);
-                setCustomPatViewData(cpvPat,bean.getPatInfo());
+                setCustomPatViewData(cpvPat, bean.getPatInfo());
 
                 csvSpeed.setSpeed(bean.getDefautSpeed());
                 // 第一次扫码
@@ -108,8 +108,8 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
                 } else if (!TextUtils.isEmpty(bean.getCurRegNo())
                         && !TextUtils.isEmpty(bean.getCurOeoreId())) {
                     //再次检查
-                    if (!forIsContain(bean.getOrdList(),bean.getCurOeoreId())){
-                       return;
+                    if (!forIsContain(bean.getOrdList(), bean.getCurOeoreId())) {
+                        return;
                     }
                     //显示穿刺情况
                     setToolbarCenterTitle("穿刺情况");
@@ -124,11 +124,13 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
                     csvSelect.setTitle("预计结束时间");
                     csvSelect.setSelectTime(PunctureFragment.this.getFragmentManager(), bean.getDistantDate(), bean.getDistantTime(), null);
                     //穿刺工具
+                    csvSelectTools.setVisibility(View.GONE);
                     if (bean.getPuntureToolList() != null) {
                         List<String> list = new ArrayList<>();
                         for (PunctureBean.PuntureToolListBean listBean : bean.getPuntureToolList()) {
                             list.add(listBean.getPuntureTool());
                         }
+                        csvSelectTools.setVisibility(list.size() > 0 ? View.VISIBLE : View.GONE);
                         csvSelectTools.setTitle("穿刺工具").setSelectData(mContext, list, null);
                     }
 //                    List<SheetListBean> listBeans = new ArrayList<>();
@@ -170,16 +172,16 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
             //穿刺工具
             String tool = csvSelectTools.getSelect();
             String select = csvSelect.getSelect();
-            punctureOrd(part, tool,speed + "", select);
+            punctureOrd(part, tool, speed + "", select);
         }
     }
 
-    private void punctureOrd(String part,String tool, String speed, String select) {
+    private void punctureOrd(String part, String tool, String speed, String select) {
         String curOeoreId = "";
         if (mBean != null) {
             curOeoreId = mBean.getCurOeoreId();
         }
-        PunctureApiManager.punctureOrd(curOeoreId, select, speed, part,tool, new CommonCallBack<CommResult>() {
+        PunctureApiManager.punctureOrd(curOeoreId, select, speed, part, tool, new CommonCallBack<CommResult>() {
             @Override
             public void onFail(String code, String msg) {
                 onFailThings();

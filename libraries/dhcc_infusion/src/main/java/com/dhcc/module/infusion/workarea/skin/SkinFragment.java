@@ -54,14 +54,20 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
                 .setOnDateSetListener(new OnDateSetListener() {
                     @Override
                     public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
-                        getScanOrdList();
+                        refreshSkinOrdList();
                     }
                 }, new OnDateSetListener() {
                     @Override
                     public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
-                        getScanOrdList();
+                        refreshSkinOrdList();
                     }
                 });
+    }
+
+    private void refreshSkinOrdList() {
+        if (mBean != null && mBean.getPatInfo() != null) {
+            getSkinList(mBean.getPatInfo().getPatRegNo());
+        }
     }
 
     @Override
@@ -104,7 +110,8 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
 
                     @Override
                     public void onSuccess(CommResult bean, String type) {
-                        refresh(bean);
+                        onSuccessThings(bean);
+                        refreshSkinOrdList();
                     }
                 });
             }
@@ -127,7 +134,8 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
 
                     @Override
                     public void onSuccess(CommResult bean, String type) {
-                        refresh(bean);
+                        onSuccessThings(bean);
+                        refreshSkinOrdList();
                     }
                 });
             }
@@ -144,22 +152,7 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
                 refreshBottomView();
             }
         } else {
-            SkinApiManager.getSkinList(scanInfo, customDate.getStartDateTimeText(), customDate.getEndDateTimeText(), "", new CommonCallBack<SkinListBean>() {
-                @Override
-                public void onFail(String code, String msg) {
-                    onFailThings();
-                }
-
-                @Override
-                public void onSuccess(SkinListBean bean, String type) {
-                    if (bean.getOrdList() != null && bean.getOrdList().size() > 0) {
-                        mBean = bean;
-                    }
-                    hideScanView();
-                    skinAdapter.setNewData(bean.getOrdList());
-                    setCustomPatViewData(customPat, bean.getPatInfo());
-                }
-            });
+            getSkinList(scanInfo);
         }
 
     }
@@ -175,6 +168,26 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
         if (selectBean != null) {
             bottomView.setSelectText("已选择1个");
         }
+    }
+
+    private void getSkinList(String regNo) {
+        SkinApiManager.getSkinList(regNo, customDate.getStartDateTimeText(), customDate.getEndDateTimeText(), "", new CommonCallBack<SkinListBean>() {
+            @Override
+            public void onFail(String code, String msg) {
+                onFailThings();
+            }
+
+            @Override
+            public void onSuccess(SkinListBean bean, String type) {
+                if (bean.getOrdList() != null && bean.getOrdList().size() > 0) {
+                    mBean = bean;
+                }
+                hideScanView();
+                skinAdapter.setNewData(bean.getOrdList());
+                setCustomPatViewData(customPat, bean.getPatInfo());
+                refreshBottomView();
+            }
+        });
     }
 
     @Override

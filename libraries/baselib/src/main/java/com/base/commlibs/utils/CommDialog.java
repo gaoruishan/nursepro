@@ -29,6 +29,7 @@ import com.base.commlibs.R;
 public class CommDialog {
 
     protected static final String TAG = CommDialog.class.getSimpleName();
+    private static Dialog commDialog;
 
     /**
      * 统一接口回调
@@ -97,14 +98,17 @@ public class CommDialog {
      */
     @SuppressLint("ResourceType")
     public static Dialog showCommDialog(Context context, String txt, String ok, @DrawableRes int iv, @Nullable final View.OnClickListener l, boolean... autoDismiss) {
+        if (commDialog != null) {
+            commDialog.cancel();
+        }
         View view = getView(context, R.layout.comm_dialog_layout);
-        Dialog dialog = getCommDialog(context, view);
+        commDialog = getCommDialog(context, view);
         setImage(iv, view, R.id.iv_comm);
         setText(txt, view, R.id.tv_txt_comm);
-        setCommTextViewClick(ok, l, dialog, view, R.id.tv_ok_comm);
+        setCommTextViewClick(ok, l, commDialog, view, R.id.tv_ok_comm);
         // 3秒自动消失
-        autoDialogDismiss(dialog, autoDismiss);
-        return dialog;
+        autoDialogDismiss(commDialog, autoDismiss);
+        return commDialog;
     }
 
     public static Dialog showCommDialog(Context context, String txt, String ok, @Nullable final View.OnClickListener l, boolean... autoDismiss) {
@@ -182,9 +186,7 @@ public class CommDialog {
             tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (dialog != null) {
-                        dialog.cancel();
-                    }
+                    cancel(dialog);
                     if (l != null) {
                         l.onClick(v);
                     }
@@ -215,9 +217,7 @@ public class CommDialog {
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (dialog != null) {
-                        dialog.cancel();
-                    }
+                    cancel(dialog);
                     if (okClick != null) {
                         okClick.onClick(v);
                     }
@@ -259,12 +259,16 @@ public class CommDialog {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if (dialog != null) {
-                        dialog.cancel();
-                    }
+                    cancel(dialog);
                 }
             }, 3000);
 
+        }
+    }
+
+    public static void cancel(Dialog dialog) {
+        if (dialog != null) {
+            dialog.cancel();
         }
     }
 

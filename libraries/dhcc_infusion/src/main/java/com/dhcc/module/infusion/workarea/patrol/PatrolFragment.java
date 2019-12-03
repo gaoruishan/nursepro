@@ -112,26 +112,30 @@ public class PatrolFragment extends BaseInfusionFragment implements View.OnClick
                 csvSpeed.setSpeed(bean.getDefautSpeed());
                 csvSelectTime.setTitle("预计结束时间").setSelectTime(getFragmentManager(), bean.getDistantDate(), bean.getDistantTime(), null);
                 List<PatrolBean.InfusionStateListBean> stateList = bean.getInfusionStateList();
-                List<String> list = new ArrayList<>();
-                for (PatrolBean.InfusionStateListBean b : stateList) {
-                    list.add(b.getInfusionState());
-                }
-                csvSelectStatus.setTitle("输液情况").setSelectData(getActivity(), list, new OptionPicker.OnOptionPickListener() {
-                    @Override
-                    public void onOptionPicked(int index, String item) {
-                        csvSelectReason.setVisibility(View.GONE);
-                        llMeasure.setVisibility(View.GONE);
-                        if (PatrolBean.State_Pause.equals(item)) {
-                            List<PatrolBean.InfusionReasonListBean> reasonList = bean.getInfusionReasonList();
-                            List<String> list = new ArrayList<>();
-                            for (PatrolBean.InfusionReasonListBean b : reasonList) {
-                                list.add(b.getInfusionReason());
-                            }
-                            llMeasure.setVisibility(View.VISIBLE);
-                            csvSelectReason.setTitle("暂停原因").setSelectData(getActivity(), list, null).setVisibility(View.VISIBLE);
-                        }
+                if (bean.getInfusionStateList() != null) {
+                    List<String> list = new ArrayList<>();
+                    for (PatrolBean.InfusionStateListBean b : stateList) {
+                        list.add(b.getInfusionState());
                     }
-                });
+                    csvSelectStatus.setTitle("输液情况").setSelectData(getActivity(), list, new OptionPicker.OnOptionPickListener() {
+                        @Override
+                        public void onOptionPicked(int index, String item) {
+                            csvSelectReason.setVisibility(View.GONE);
+                            llMeasure.setVisibility(View.GONE);
+                            if (PatrolBean.State_Pause.equals(item)) {
+                                List<PatrolBean.InfusionReasonListBean> reasonList = bean.getInfusionReasonList();
+                                if (reasonList != null) {
+                                    List<String> list = new ArrayList<>();
+                                    for (PatrolBean.InfusionReasonListBean b : reasonList) {
+                                        list.add(b.getInfusionReason());
+                                    }
+                                    llMeasure.setVisibility(View.VISIBLE);
+                                    csvSelectReason.setTitle("暂停原因").setSelectData(getActivity(), list, null).setVisibility(View.VISIBLE);
+                                }
+                            }
+                        }
+                    });
+                }
                 ordListAdapter.setCurrentScanInfo(scanInfo);
                 ordListAdapter.replaceData(bean.getOrdList());
                 boolean isShow = bean.getInfusionTourList() == null || bean.getInfusionTourList().size() == 0;
