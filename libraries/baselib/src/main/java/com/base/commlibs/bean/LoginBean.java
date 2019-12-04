@@ -1,7 +1,5 @@
 package com.base.commlibs.bean;
 
-import com.base.commlibs.http.CommResult;
-
 import java.util.List;
 
 /**
@@ -9,7 +7,7 @@ import java.util.List;
  * @author DevLix126
  * @date 2018/8/13
  */
-public class LoginBean extends CommResult {
+public class LoginBean extends ConfigBean {
     /**
      * broadcastList : [{"Action":"ACTION_CONTENT_NOTIFY_MOTO","Decode":"com.motorolasolutions.emdk.datawedge.data_string","Name":"摩托"},{"Action":"com.ge.action.barscan","Decode":"value","Name":"易迈海"},{"Action":"com.scanner.broadcast","Decode":"data","Name":"成为"},{"Action":"lachesis_barcode_value_notice_broadcast","Decode":"lachesis_barcode_value_notice_broadcast_data_string","Name":"新联"}]
      * locs : [{"WinList":[{"WinCode":"1","WinDesc":"窗口1"},{"WinCode":"2","WinDesc":"窗口2"}],"groupDesc":"门诊护士","groupId":"105","hospitalRowId":"","linkLoc":"","locDesc":"肝胆外科门诊 门诊护士","locId":"13","wardId":""},{"WinList":[{"WinCode":"1","WinDesc":"窗口1"},{"WinCode":"2","WinDesc":"窗口2"}],"groupDesc":"急诊输液护士","groupId":"175","hospitalRowId":"","linkLoc":"","locDesc":"急诊内科门诊 急诊输液护士","locId":"266","wardId":""},{"WinList":[{"WinCode":"1","WinDesc":"窗口1"},{"WinCode":"2","WinDesc":"窗口2"}],"groupDesc":"急诊分诊护士","groupId":"199","hospitalRowId":"","linkLoc":"","locDesc":"急诊内科门诊 急诊分诊护士","locId":"266","wardId":""},{"WinList":[{"WinCode":"1","WinDesc":"窗口1"},{"WinCode":"2","WinDesc":"窗口2"}],"groupDesc":"急诊治疗护士","groupId":"225","hospitalRowId":"","linkLoc":"","locDesc":"急诊内科门诊 急诊治疗护士","locId":"266","wardId":""},{"WinList":[{"WinCode":"1","WinDesc":"窗口1"},{"WinCode":"2","WinDesc":"窗口2"}],"groupDesc":"急诊分诊护士","groupId":"199","hospitalRowId":"","linkLoc":"","locDesc":"急诊外科门诊 急诊分诊护士","locId":"267","wardId":""},{"WinList":[{"WinCode":"1","WinDesc":"窗口1"},{"WinCode":"2","WinDesc":"窗口2"}],"groupDesc":"急诊输液护士","groupId":"175","hospitalRowId":"","linkLoc":"","locDesc":"急诊输液室 急诊输液护士","locId":"285","wardId":""},{"WinList":[{"WinCode":"1","WinDesc":"窗口1"},{"WinCode":"2","WinDesc":"窗口2"}],"groupDesc":"输液护士","groupId":"212","hospitalRowId":"","linkLoc":"","locDesc":"门诊输液室 输液护士","locId":"287","wardId":""},{"WinList":[{"WinCode":"1","WinDesc":"窗口1"},{"WinCode":"2","WinDesc":"窗口2"}],"groupDesc":"治疗护士","groupId":"213","hospitalRowId":"","linkLoc":"","locDesc":"门诊输液室 治疗护士","locId":"287","wardId":""},{"WinList":[{"WinCode":"1","WinDesc":"窗口1"},{"WinCode":"2","WinDesc":"窗口2"}],"groupDesc":"急诊输液护士（旧）（停用）","groupId":"227","hospitalRowId":"","linkLoc":"","locDesc":"门诊输液室 急诊输液护士（旧）（停用）","locId":"287","wardId":""},{"WinList":[{"WinCode":"1","WinDesc":"窗口1"},{"WinCode":"2","WinDesc":"窗口2"}],"groupDesc":"门诊护士","groupId":"105","hospitalRowId":"","linkLoc":"","locDesc":"呼吸内科门诊 门诊护士","locId":"2","wardId":""},{"WinList":[{"WinCode":"1","WinDesc":"窗口1"},{"WinCode":"2","WinDesc":"窗口2"}],"groupDesc":"分诊护士","groupId":"18","hospitalRowId":"","linkLoc":"","locDesc":"呼吸内科门诊 分诊护士","locId":"2","wardId":""},{"WinList":[{"WinCode":"1","WinDesc":"窗口1"},{"WinCode":"2","WinDesc":"窗口2"}],"groupDesc":"标本采集","groupId":"26","hospitalRowId":"","linkLoc":"","locDesc":"采血处 标本采集","locId":"354","wardId":""},{"WinList":[{"WinCode":"1","WinDesc":"窗口1"},{"WinCode":"2","WinDesc":"窗口2"}],"groupDesc":"治疗护士","groupId":"213","hospitalRowId":"","linkLoc":"","locDesc":"换药室 治疗护士","locId":"372","wardId":""},{"WinList":[{"WinCode":"1","WinDesc":"窗口1"},{"WinCode":"2","WinDesc":"窗口2"}],"groupDesc":"分诊护士","groupId":"18","hospitalRowId":"","linkLoc":"","locDesc":"消化内科门诊 分诊护士","locId":"3","wardId":""},{"WinList":[{"WinCode":"1","WinDesc":"窗口1"},{"WinCode":"2","WinDesc":"窗口2"}],"groupDesc":"护理部主任","groupId":"117","hospitalRowId":"","linkLoc":"","locDesc":"护理部 护理部主任","locId":"402","wardId":""},{"WinList":[{"WinCode":"1","WinDesc":"窗口1"},{"WinCode":"2","WinDesc":"窗口2"}],"groupDesc":"护理部","groupId":"69","hospitalRowId":"","linkLoc":"","locDesc":"护理部 护理部","locId":"402","wardId":""},{"WinList":[{"WinCode":"1","WinDesc":"窗口1"},{"WinCode":"2","WinDesc":"窗口2"}],"groupDesc":"分诊护士","groupId":"18","hospitalRowId":"","linkLoc":"","locDesc":"内分泌科门诊[分院] 分诊护士","locId":"56","wardId":""},{"WinList":[{"WinCode":"1","WinDesc":"窗口1"},{"WinCode":"2","WinDesc":"窗口2"}],"groupDesc":"门诊护士","groupId":"105","hospitalRowId":"","linkLoc":"","locDesc":"内分泌门诊 门诊护士","locId":"7","wardId":""},{"WinList":[{"WinCode":"1","WinDesc":"窗口1"},{"WinCode":"2","WinDesc":"窗口2"}],"groupDesc":"分诊护士","groupId":"18","hospitalRowId":"","linkLoc":"","locDesc":"内分泌门诊 分诊护士","locId":"7","wardId":""}]
@@ -23,68 +21,9 @@ public class LoginBean extends CommResult {
     private String schStDateTime;
     private String userId;
     private String userName;
-    //消息皮试双签配置: 默认是"" 不开启; "1" 开启
-    private String msgSkinFlag;
-    //输出json: 默认是"" 不开启; "1" 开启
-    private String logFlag;
-    //开启后台消息通知: 默认是"" 不开启; "1" 开启
-    private String msgNoticeFlag;
-    //开启全局View: 默认是"" 不开启; "1" 开启
-    private String globalViewFlag;
-    //输液背景状态: 默认是"" 不开启; "1" 开启
-    private String ordStateFlag;
-    //采血复核: 默认是"" 不开启; "1" 开启
-    private String bloodCheckFlag;
+
     private List<BroadcastListBean> broadcastList;
     private List<LocsBean> locs;
-
-    public String getBloodCheckFlag() {
-        return bloodCheckFlag == null ? "" : bloodCheckFlag;
-    }
-
-    public void setBloodCheckFlag(String bloodCheckFlag) {
-        this.bloodCheckFlag = bloodCheckFlag;
-    }
-
-    public String getOrdStateFlag() {
-        return ordStateFlag == null ? "" : ordStateFlag;
-    }
-
-    public void setOrdStateFlag(String ordStateFlag) {
-        this.ordStateFlag = ordStateFlag;
-    }
-
-    public String getGlobalViewFlag() {
-        return globalViewFlag == null ? "" : globalViewFlag;
-    }
-
-    public void setGlobalViewFlag(String globalViewFlag) {
-        this.globalViewFlag = globalViewFlag;
-    }
-
-    public String getMsgNoticeFlag() {
-        return msgNoticeFlag == null ? "" : msgNoticeFlag;
-    }
-
-    public void setMsgNoticeFlag(String msgNoticeFlag) {
-        this.msgNoticeFlag = msgNoticeFlag;
-    }
-
-    public String getLogFlag() {
-        return logFlag == null ? "" : logFlag;
-    }
-
-    public void setLogFlag(String logFlag) {
-        this.logFlag = logFlag;
-    }
-
-    public String getMsgSkinFlag() {
-        return msgSkinFlag == null ? "" : msgSkinFlag;
-    }
-
-    public void setMsgSkinFlag(String msgSkinFlag) {
-        this.msgSkinFlag = msgSkinFlag;
-    }
 
     public String getSchEnDateTime() {
         return schEnDateTime;

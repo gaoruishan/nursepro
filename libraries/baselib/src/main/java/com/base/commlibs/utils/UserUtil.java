@@ -113,7 +113,7 @@ public class UserUtil {
         String code = SPUtils.getInstance().getString(SharedPreference.APP_VERSION_CODE);
         if (!TextUtils.isEmpty(code)) {
             CommFile.deleteLog(code);
-        }else {
+        } else {
             //检查sd中是否有
             CommFile.read(SharedPreference.APP_VERSION_CODE, new SimpleCallBack<String>() {
                 @Override
@@ -236,13 +236,14 @@ public class UserUtil {
         SPUtils.getInstance().put(SharedPreference.MSG_SKIN_FLAG, loginBean.getMsgSkinFlag());
         SPUtils.getInstance().put(SharedPreference.ORD_STATE_FLAG, loginBean.getOrdStateFlag());
         SPUtils.getInstance().put(SharedPreference.BLOOD_CHECK_FLAG, loginBean.getBloodCheckFlag());
+        SPUtils.getInstance().put(SharedPreference.SKIN_DATE_OFFSET, loginBean.getSkinDateOffset());
         SPUtils.getInstance().put(SharedPreference.USERID, loginBean.getUserId());
         SPUtils.getInstance().put(SharedPreference.USERNAME, loginBean.getUserName());
         SPUtils.getInstance().put(SharedPreference.SCHSTDATETIME, loginBean.getSchStDateTime());
         SPUtils.getInstance().put(SharedPreference.SCHENDATETIME, loginBean.getSchEnDateTime());
         //配置
-        SPUtils.getInstance().put(SharedPreference.APP_VERSION_CODE, AppUtils.getAppVersionCode()+"");
-        CommFile.write(SharedPreference.APP_VERSION_CODE,  AppUtils.getAppVersionCode()+"");
+        SPUtils.getInstance().put(SharedPreference.APP_VERSION_CODE, AppUtils.getAppVersionCode() + "");
+        CommFile.write(SharedPreference.APP_VERSION_CODE, AppUtils.getAppVersionCode() + "");
     }
 
 
@@ -269,6 +270,7 @@ public class UserUtil {
     public static boolean isShowGlobalView() {
         return !TextUtils.isEmpty(SPUtils.getInstance().getString(SharedPreference.GLOBAL_VIEW_FLAG));
     }
+
     /**
      * 输液背景状态
      * @return
@@ -283,5 +285,18 @@ public class UserUtil {
      */
     public static String getVersion() {
         return "v" + AppUtils.getAppVersionName() + "." + AppUtils.getAppVersionCode();
+    }
+
+    /**
+     * 获取皮试差值
+     * @return
+     */
+    public static long getSkinTimeOffset() {
+        String string = SPUtils.getInstance().getString(SharedPreference.SKIN_DATE_OFFSET);
+        if (!TextUtils.isEmpty(string) && ViewUtil.isInteger(string)) {
+            int i = Integer.parseInt(string);
+            return i * 24 * 60 * 60 * 1000;
+        }
+        return 0;
     }
 }

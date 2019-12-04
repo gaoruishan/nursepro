@@ -6,6 +6,7 @@ import android.view.View;
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.CommDialog;
+import com.base.commlibs.utils.UserUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.message.api.MessageApiManager;
@@ -49,8 +50,10 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
         bottomView = f(R.id.custom_bottom, CustomOrdExeBottomView.class);
         customPat = f(R.id.custom_pat, CustomPatView.class);
         showScanPatHand();
+        //皮试时间差值
+        long startTime = System.currentTimeMillis() - UserUtil.getSkinTimeOffset();
         customDate.setEndDateTime(System.currentTimeMillis())
-                .setStartDateTime(System.currentTimeMillis())
+                .setStartDateTime(startTime)
                 .setOnDateSetListener(new OnDateSetListener() {
                     @Override
                     public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
