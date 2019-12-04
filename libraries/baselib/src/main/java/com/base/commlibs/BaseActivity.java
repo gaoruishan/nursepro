@@ -319,8 +319,13 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
      */
     protected void setStatusBarBackgroundViewVisibility(boolean show, int color) {
         if (mStatusBarBackgroundView != null) {
-            mStatusBarBackgroundView.setBackgroundColor(color);
-            mStatusBarBackgroundView.setVisibility(show ? View.VISIBLE : View.GONE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                mStatusBarBackgroundView.setBackgroundColor(color);
+                mStatusBarBackgroundView.setVisibility(show ? View.VISIBLE : View.GONE);
+            }else {
+                //sdk<19 隐藏
+                mStatusBarBackgroundView.setVisibility(View.GONE);
+            }
         }
     }
 
