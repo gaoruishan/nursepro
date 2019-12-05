@@ -165,7 +165,6 @@ public class DosingFragment extends BaseInfusionFragment implements View.OnClick
                 if (!isOnce[0]) {
                     isOnce[0] = true;
                     onFailThings();
-                    DialogFactory.showCommDialog(getActivity(), msg, "确定", R.drawable.icon_popup_error_patient, null);
                 }
             }
 
@@ -195,7 +194,6 @@ public class DosingFragment extends BaseInfusionFragment implements View.OnClick
             @Override
             public void onFail(String code, String msg) {
                 onFailThings();
-                DialogFactory.showCommDialog(getActivity(), msg, "确定", R.drawable.icon_popup_error_patient, null);
             }
 
             @Override

@@ -52,7 +52,7 @@ public class CustomSelectView extends LinearLayout {
 
     public CustomSelectView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        view = LayoutInflater.from(context).inflate(R.layout.custom_select_view,this,false);
+        view = LayoutInflater.from(context).inflate(R.layout.custom_select_view, this, false);
         addView(view);
         setOrientation(VERTICAL);
         setBackgroundColor(ContextCompat.getColor(context, R.color.white));
@@ -86,7 +86,7 @@ public class CustomSelectView extends LinearLayout {
      */
     public CustomSelectView setSelectData(final Activity activity, List<String> mSelectData, OptionPicker.OnOptionPickListener listener) {
         this.mSelectData = mSelectData;
-        if (mSelectData != null) {
+        if (mSelectData != null && mSelectData.size() > 0) {
             setSelect(mSelectData.get(0));
         }
         this.listener = listener;
@@ -149,29 +149,6 @@ public class CustomSelectView extends LinearLayout {
         return this;
     }
 
-    /**
-     * 设置提示文字
-     * @param warningText
-     */
-    public CustomSelectView setSelect(String warningText) {
-        if (!TextUtils.isEmpty(warningText)) {
-            this.tvPart.setVisibility(VISIBLE);
-            this.tvPart.setText(warningText);
-        }
-        return this;
-    }
-
-    /**
-     * 获取选择时间
-     * @return
-     */
-    public String getSelect() {
-        if (this.tvPart.getText() != null) {
-            return this.tvPart.getText().toString();
-        }
-        return "";
-    }
-
     private void chooseTime(FragmentManager manager, long currentTimeMillis, String title, final Type type) {
         long tenYears = 3L * 365 * 1000 * 60 * 60 * 24L;
 
@@ -211,6 +188,29 @@ public class CustomSelectView extends LinearLayout {
 
         mDialogAll.show(manager, "ALL");
 
+    }
+
+    /**
+     * 获取选择时间
+     * @return
+     */
+    public String getSelect() {
+        if (this.tvPart.getText() != null) {
+            return this.tvPart.getText().toString();
+        }
+        return "";
+    }
+
+    /**
+     * 设置提示文字
+     * @param warningText
+     */
+    public CustomSelectView setSelect(String warningText) {
+        if (!TextUtils.isEmpty(warningText)) {
+            this.tvPart.setVisibility(VISIBLE);
+            this.tvPart.setText(warningText);
+        }
+        return this;
     }
 
 

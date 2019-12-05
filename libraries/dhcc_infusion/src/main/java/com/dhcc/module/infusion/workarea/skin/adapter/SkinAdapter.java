@@ -47,6 +47,12 @@ public class SkinAdapter extends BaseBloodQuickAdapter<SkinListBean.OrdListBean,
     }
 
     @Override
+    public void setNewData(@Nullable List<SkinListBean.OrdListBean> data) {
+        scanInfo = null;
+        super.setNewData(data);
+    }
+
+    @Override
     public void setCurrentScanInfo(String scanInfo) {
         super.setCurrentScanInfo(scanInfo);
         for (SkinListBean.OrdListBean bean : getData()) {

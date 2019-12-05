@@ -44,7 +44,7 @@ public class PunctureApiManager {
         PunctureApiService.punctureOrd(oeoreId, distantTime, ifSpeed, puncturePart, puntureTool,new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
-                CommWebService.parserCommResult(jsonStr,callBack,true);
+                CommWebService.parserCommResult(jsonStr,callBack);
             }
         });
     }

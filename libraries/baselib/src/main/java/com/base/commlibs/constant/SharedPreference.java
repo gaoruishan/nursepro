@@ -79,4 +79,6 @@ public class SharedPreference {
     public static final String ORD_STATE_FLAG = "ORD_STATE_FLAG";
     //采血复核
     public static final String BLOOD_CHECK_FLAG = "BLOOD_CHECK_FLAG";
+    //皮试日期差值
+    public static final String SKIN_DATE_OFFSET = "SKIN_DATE_OFFSET";
 }

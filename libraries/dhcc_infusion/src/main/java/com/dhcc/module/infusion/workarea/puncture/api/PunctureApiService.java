@@ -50,7 +50,9 @@ public class PunctureApiService {
         properties.put("distantTime", distantTime);
         properties.put("ifSpeed", ifSpeed);
         properties.put("puncturePart", puncturePart);
-        properties.put("puntureTool", puntureTool);
+        if(!TextUtils.isEmpty(puntureTool)){
+            properties.put("puntureTool", puntureTool);
+        }
         CommWebService.callUserIdLocId("punctureOrd",properties,callBack);
     }
 

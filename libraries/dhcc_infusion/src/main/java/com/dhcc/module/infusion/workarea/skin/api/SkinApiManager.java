@@ -62,7 +62,7 @@ public class SkinApiManager {
         CommWebService.callUserIdLocId("skinDespensingOrd", properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
-                CommWebService.parserCommResult(jsonStr,callback,true);
+                CommWebService.parserCommResult(jsonStr,callback);
             }
         });
     }
