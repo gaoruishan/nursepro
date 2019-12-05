@@ -185,7 +185,6 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
             @Override
             public void onFail(String code, String msg) {
                 onFailThings();
-                DialogFactory.showCommDialog(getActivity(), msg, "确定", R.drawable.icon_popup_error_patient, null);
             }
 
             @Override
