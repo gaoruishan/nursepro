@@ -93,18 +93,13 @@ public class ParserUtil<T extends CommResult> {
      * 2,解析状态码
      * @param bean
      * @param callback
-     * @param dealOnFail 默认提示, 当dealOnFail=true 不吐司
      */
-    public void parserStatus(T bean, @NonNull CommonCallBack<T> callback, boolean... dealOnFail) {
+    public void parserStatus(T bean, @NonNull CommonCallBack<T> callback) {
         if (CODE_OK.equals(bean.getStatus())) {
             callback.onSuccess(bean, bean.getClass().getSimpleName());
         } else {
             callback.onFail(bean.getMsgcode(), bean.getMsg());
-            boolean isDealOnFail = dealOnFail != null && dealOnFail.length > 0 && dealOnFail[0];
-            //有数据 且为true-->不提示
-            if (!isDealOnFail) {
-                CommDialog.showCommDialog(ActivityUtils.getTopActivity(), bean.getMsg(), "", R.drawable.icon_popup_error_patient, null, true);
-            }
+            CommDialog.showCommDialog(ActivityUtils.getTopActivity(), bean.getMsg(), "", R.drawable.icon_popup_error_patient, null, true);
         }
     }
 }
