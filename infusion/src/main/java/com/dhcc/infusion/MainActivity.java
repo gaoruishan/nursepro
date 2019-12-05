@@ -1,8 +1,5 @@
 package com.dhcc.infusion;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -11,7 +8,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
@@ -91,8 +87,6 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
     private MainReceiver mainReceiver = new MainReceiver();
     private IntentFilter mainfilter = new IntentFilter();
 
-    // 新医嘱提示
-    private NotificationManager nm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,14 +94,13 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         setContentView(R.layout.activity_main);
         spUtils = SPUtils.getInstance();
 
-      //  addGlobalView(ViewGlobal.createInfusionGlobal(this));
+        //  addGlobalView(ViewGlobal.createInfusionGlobal(this));
         //此处为暂时调用，应该在登录成功后初始化tabviews
         initTabView();
 
         Intent i = new Intent(this, MServiceNewOrd.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startService(i);
-        nm = (NotificationManager) getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
 
         //注册事件总线
         EventBus.getDefault().register(this);
@@ -124,17 +117,17 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        if (mainReceiver != null&& !UserUtil.isMsgNoticeFlag()) {
-            unregisterReceiver(mainReceiver);
-        }
-    }
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.e(TAG, "(MainActivity.java:297) " + requestCode);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mainReceiver != null && !UserUtil.isMsgNoticeFlag()) {
+            unregisterReceiver(mainReceiver);
+        }
     }
 
     @Override
@@ -269,7 +262,7 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         } else {
             drawable = getResources().getDrawable(R.drawable.tabbar_item_havemessage_selector);
             drawable.setBounds(8, 0, drawable.getIntrinsicWidth() + 8, drawable.getIntrinsicHeight());
-            showNotification(this);
+            AppUtil.showNotification(MainActivity.this,new Intent(MainActivity.this, MainActivity.class));
         }
         rbMessage.setCompoundDrawables(null, drawable, null, null);
     }
@@ -424,79 +417,26 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
             }
         });
     }
+
+
     /**
      * 接收事件- 更新数据
-     *
      * @param event
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void updateData(MessageEvent event) {
         if (event.getType() == MessageEvent.MessageType.NOTIFY_MESSAGE) {
             Log.e(getClass().getSimpleName(), "updateData:" + event.getType());
+
             AppUtil.playSound(this, R.raw.notice_message);
             VibrateUtils.vibrate(3000);
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    showNotification(MainActivity.this);
+                    AppUtil.showNotification(MainActivity.this,new Intent(MainActivity.this, MainActivity.class));
                 }
-            },2000);
-
+            }, 2000);
         }
-    }
-    private void showNotification(Context context) {
-        Boolean bLight = spUtils.getBoolean(SharedPreference.LIGHT, true);
-        Boolean bSound = spUtils.getBoolean(SharedPreference.SOUND, true);
-        Boolean bVibrator = spUtils.getBoolean(SharedPreference.VIBRATOR, true);
-        Notification.Builder builder = new Notification.Builder(context);
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);           //添加为栈顶Activity
-        intent.putExtra(CLICK_PENDING_INTENT, true);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 1111, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-        /**设置通知左边的大图标**/
-        builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher))
-                /**设置通知右边的小图标**/
-                .setSmallIcon(R.drawable.ic_launcher)
-                /**通知首次出现在通知栏，带上升动画效果的**/
-                .setTicker("通知")
-                /**设置通知的标题**/
-                .setContentTitle("新消息")
-                /**设置通知的内容**/
-                .setContentText("点击即可查看")
-                /**通知产生的时间，会在通知信息里显示**/
-                .setWhen(System.currentTimeMillis())
-                /**设置该通知优先级**/
-                .setPriority(Notification.PRIORITY_DEFAULT)
-                /**设置这个标志当用户单击面板就可以让通知将自动取消**/
-                .setAutoCancel(true)
-                /**设置他为一个正在进行的通知。他们通常是用来表示一个后台任务,用户积极参与(如播放音乐)或以某种方式正在等待,因此占用设备(如一个文件下载,同步操作,主动网络连接)**/
-                .setOngoing(false)
-                /**向通知添加声音、闪灯和振动效果的最简单、最一致的方式是使用当前的用户默认设置，使用defaults属性，可以组合：**/
-//                .setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND | Notification.DEFAULT_LIGHTS)
-                .setContentIntent(pendingIntent)
-                .build();
-        //        if (LoginUser.SoundF == true)
-//        builder.setDefaults(Notification.DEFAULT_VIBRATE |Notification.DEFAULT_SOUND|Notification.DEFAULT_LIGHTS);
-        Notification notification = builder.getNotification();
-//        notification.defaults |= Notification.DEFAULT_SOUND;
-//        //        if (LoginUser.VibrateF == true)
-        if (bVibrator) {
-            notification.defaults |= Notification.DEFAULT_VIBRATE;
-        }
-        if (bSound) {
-            notification.defaults |= Notification.DEFAULT_SOUND;
-        }
-        if (bLight) {
-            notification.defaults |= Notification.DEFAULT_LIGHTS;
-        }
-
-//        //        if (LoginUser.LigthF == true)
-//
-
-//        notification.flags |= Notification.FLAG_INSISTENT;
-        NotificationManager notificationManager = (NotificationManager) context.getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
-        /**发起通知**/
-        notificationManager.notify(1, notification);
     }
 
     /**

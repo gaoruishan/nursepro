@@ -3,7 +3,6 @@ package com.dhcc.module.infusion.workarea.blood;
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.CommDialog;
-import com.base.commlibs.utils.UserUtil;
 import com.dhcc.module.infusion.utils.DialogFactory;
 
 /**
@@ -20,7 +19,7 @@ public class BloodCollectionCheckFragment extends BloodCollectionFragment {
      */
     @Override
     protected void exeLabOrd() {
-        if (UserUtil.isBloodCheckFlag()) {
+        if ("1".equals(bloodCheckFlag)) {
             DialogFactory.showSkinDialog(mContext, "采血复核",  "", "取消", "确定", true,null, new CommDialog.CommClickListener() {
                 @Override
                 public void data(Object[] args) {

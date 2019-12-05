@@ -4,7 +4,7 @@
   "status": 0,
   "SkinTimeList": [
     {
-      "ObserveTime": "70",
+      "ObserveTime": "170",
       "OeoreGroup": [
         {
           "ArcimDesc": "氯化钠注射液[1g:10ml]",
@@ -27,7 +27,7 @@
       "skinTestAuditDateTime": "",
       "skinTestCtcpDesc": "",
       "skinTestAuditCtcpDesc": "",
-      "TestStartTime": "10:12:57"
+      "TestStartTime": "16:03:57"
     },
     {
       "ObserveTime": "1200",

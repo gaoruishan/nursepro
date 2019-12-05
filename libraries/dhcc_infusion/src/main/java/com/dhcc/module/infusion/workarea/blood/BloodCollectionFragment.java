@@ -34,6 +34,7 @@ public class BloodCollectionFragment extends BaseInfusionFragment {
     protected BaseBloodQuickAdapter collectionAdapter;
     protected CustomPatView customPat;
     protected CustomOnOffView customOnOff;
+    protected String bloodCheckFlag;
 
     @Override
     protected void initViews() {
@@ -92,6 +93,7 @@ public class BloodCollectionFragment extends BaseInfusionFragment {
                 }
                 //ORD 扫医嘱条码返回医嘱信息
                 if (ORD.equals(bean.getFlag())) {
+                    bloodCheckFlag = bean.getBloodCheckFlag();
                     //弹框
                     if ("1".equals(bean.getDiagFlag())) {
                         DialogFactory.showPatInfo(mContext, bean, new View.OnClickListener() {

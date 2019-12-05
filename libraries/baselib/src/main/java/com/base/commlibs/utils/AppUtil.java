@@ -1,7 +1,13 @@
 package com.base.commlibs.utils;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.net.Uri;
@@ -20,6 +26,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static android.content.Context.NOTIFICATION_SERVICE;
 
 /**
  * app配置工具类
@@ -187,6 +195,78 @@ public class AppUtil {
         } else {
             return false;
         }
+    }
+
+    /**
+     * 消息通知栏
+     * @param context
+     * @param intent
+     */
+    public static void showNotification(Context context,Intent intent) {
+        Boolean bLight = SPUtils.getInstance().getBoolean(SharedPreference.LIGHT, true);
+        Boolean bSound = SPUtils.getInstance().getBoolean(SharedPreference.SOUND, true);
+        Boolean bVibrator = SPUtils.getInstance().getBoolean(SharedPreference.VIBRATOR, true);
+        NotificationManager notificationManager = (NotificationManager) context.getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
+        String NOTIFICATION_CHANNEL = context.getPackageName();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel notifyChannel = new NotificationChannel(NOTIFICATION_CHANNEL, "infusion",
+                    NotificationManager.IMPORTANCE_DEFAULT);
+            notifyChannel.setLightColor(Color.GREEN);
+            notifyChannel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
+            notificationManager.createNotificationChannel(notifyChannel);
+        }
+
+        Notification.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            builder = new Notification.Builder(context, NOTIFICATION_CHANNEL);
+        } else {
+            builder = new Notification.Builder(context);
+        }
+        //Intent intent = new Intent(context, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);           //添加为栈顶Activity
+        intent.putExtra("ClickPendingIntent", true);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 1111, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        /**设置通知左边的大图标**/
+        builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher_logo))
+                /**设置通知右边的小图标**/
+                .setSmallIcon(R.drawable.ic_launcher_logo)
+                /**通知首次出现在通知栏，带上升动画效果的**/
+                .setTicker("通知")
+                /**设置通知的标题**/
+                .setContentTitle("新消息")
+                /**设置通知的内容**/
+                .setContentText("点击即可查看")
+                /**通知产生的时间，会在通知信息里显示**/
+                .setWhen(System.currentTimeMillis())
+                /**设置该通知优先级**/
+                .setPriority(Notification.PRIORITY_DEFAULT)
+                /**设置这个标志当用户单击面板就可以让通知将自动取消**/
+                .setAutoCancel(true)
+                /**设置他为一个正在进行的通知。他们通常是用来表示一个后台任务,用户积极参与(如播放音乐)或以某种方式正在等待,因此占用设备(如一个文件下载,同步操作,主动网络连接)**/
+                .setOngoing(false)
+                /**向通知添加声音、闪灯和振动效果的最简单、最一致的方式是使用当前的用户默认设置，使用defaults属性，可以组合：**/
+//                .setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND | Notification.DEFAULT_LIGHTS)
+                .setContentIntent(pendingIntent)
+                .build();
+        //        if (LoginUser.SoundF == true)
+//        builder.setDefaults(Notification.DEFAULT_VIBRATE |Notification.DEFAULT_SOUND|Notification.DEFAULT_LIGHTS);
+        Notification notification = builder.getNotification();
+//        notification.defaults |= Notification.DEFAULT_SOUND;
+//        //        if (LoginUser.VibrateF == true)
+        if (bVibrator) {
+            notification.defaults |= Notification.DEFAULT_VIBRATE;
+        }
+        if (bSound) {
+            notification.defaults |= Notification.DEFAULT_SOUND;
+        }
+        if (bLight) {
+            notification.defaults |= Notification.DEFAULT_LIGHTS;
+        }
+
+//        //        if (LoginUser.LigthF == true)
+//        notification.flags |= Notification.FLAG_INSISTENT;
+        /**发起通知**/
+        notificationManager.notify(1, notification);
     }
 
 }
