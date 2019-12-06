@@ -72,7 +72,7 @@ public class ItemConfigbyEmrCodeBean {
         private ModeInfoBean ModeInfo;
 
         public String getItemCode() {
-            return ItemCode;
+            return ItemCode == null ? "" : ItemCode;
         }
 
         public void setItemCode(String ItemCode) {

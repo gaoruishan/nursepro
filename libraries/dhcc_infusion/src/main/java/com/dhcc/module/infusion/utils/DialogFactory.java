@@ -24,6 +24,8 @@ import com.dhcc.module.infusion.workarea.comm.bean.PatOrdersBean;
 import com.dhcc.module.infusion.workarea.comm.bean.ScanInfoBean;
 import com.nex3z.flowlayout.FlowLayout;
 
+import java.util.List;
+
 
 /**
  * 获取各种Dialog
@@ -33,6 +35,8 @@ import com.nex3z.flowlayout.FlowLayout;
  */
 public class DialogFactory extends CommDialog {
 
+
+    private static Dialog dialog;
 
     /**
      * 显示一般的'确认/取消'
@@ -46,7 +50,7 @@ public class DialogFactory extends CommDialog {
      * @return
      */
     public static Dialog showCommOkCancelDialog(Context context, String title, String txt, String cancel, String ok, @Nullable final View.OnClickListener cancelClick, @Nullable final View.OnClickListener okClick) {
-        final Dialog dialog = new Dialog(context, R.style.MyDialog);
+        dialog = getDialog(context);
         dialog.setCanceledOnTouchOutside(true);
         View view = LayoutInflater.from(context).inflate(R.layout.comm_ok_cancel_dialog_layout, null);
         setText(title, view, R.id.tv_title);
@@ -65,7 +69,7 @@ public class DialogFactory extends CommDialog {
     public static void showCountTime(Context context, final CommClickListener okClick) {
         String[] arr = {"15分钟", "20分钟", "30分钟", "45分钟", "1小时", "1.5小时", "2小时", "3小时"};
         final TextView[] tvArr = new TextView[arr.length];
-        final Dialog dialog = new Dialog(context, R.style.MyDialog);
+        dialog = getDialog(context);
         dialog.setCanceledOnTouchOutside(true);
         final View view = LayoutInflater.from(context).inflate(R.layout.dhcc_count_time_dialog_layout, null);
         FlowLayout flLayout = view.findViewById(R.id.fl_layout);
@@ -163,7 +167,7 @@ public class DialogFactory extends CommDialog {
      * @return
      */
     public static Dialog showSkinDialog(Context context, String title, String txt, String cancel, String ok, final boolean msgSkinFlag, @Nullable final View.OnClickListener cancelClick, @Nullable final CommClickListener okClick) {
-        final Dialog dialog = new Dialog(context, R.style.MyDialog);
+        dialog = getDialog(context);
         dialog.setCanceledOnTouchOutside(true);
         final View view = LayoutInflater.from(context).inflate(R.layout.msg_skin_dialog_layout, null);
         setText(title, view, R.id.tv_title);
@@ -196,7 +200,7 @@ public class DialogFactory extends CommDialog {
     }
 
     public static Dialog showSkinYinYangDialog(Context context, String title, String cancel, String ok, @Nullable final View.OnClickListener cancelClick, @Nullable final CommClickListener okClick) {
-        final Dialog dialog = new Dialog(context, R.style.MyDialog);
+        dialog = getDialog(context);
         dialog.setCanceledOnTouchOutside(true);
         final View view = LayoutInflater.from(context).inflate(R.layout.show_skin_dialog_layout, null);
         setText(title, view, R.id.tv_title);
@@ -262,34 +266,45 @@ public class DialogFactory extends CommDialog {
      * @return
      */
     public static Dialog showPatInfo(Activity context, ScanInfoBean bean, @Nullable View.OnClickListener okClick) {
-        if (bean == null || bean.getOrders() == null
-                || bean.getOrders().size() == 0) {
+        return showPatInfo(context, bean.getOrders(), bean.getMsg(), bean.getCanExeFlag(), okClick);
+    }
+
+    public static Dialog showPatInfo(Activity context, List<PatOrdersBean> orders, String msg, String canExeFlag, @Nullable View.OnClickListener okClick) {
+        if (orders == null
+                || orders.size() == 0) {
             return null;
         }
-        final Dialog dialog = new Dialog(context, R.style.MyDialog);
+        dialog = getDialog(context);
         dialog.setCanceledOnTouchOutside(false);
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_pat_info_layout, null);
-        setVisible(view, R.id.ll_msg, !TextUtils.isEmpty(bean.getMsg()));
-        setText(bean.getMsg(), view, R.id.tv_popup_msg);
-        PatOrdersBean ordersBean = bean.getOrders().get(0);
+        setVisible(view, R.id.ll_msg, !TextUtils.isEmpty(msg));
+        setText(msg, view, R.id.tv_popup_msg);
+        PatOrdersBean ordersBean = orders.get(0);
         setText(ordersBean.getSttDateTime() + " " + ordersBean.getPhcinDesc() + " " + ordersBean.getCtcpDesc() + ""
                 , view, R.id.tv_popup_extra);
         String patInfo = "".equals(ordersBean.getBedCode()) ? ordersBean.getPatName() + "-" + ordersBean.getAge()
                 : ordersBean.getBedCode().replace("床", "") + "床-" + ordersBean.getPatName() + "-" + ordersBean.getAge();
         setText(patInfo, view, R.id.tv_pat_info);
-        setText("医嘱信息(" + bean.getOrders().size() + ")", view, R.id.tv_info_name);
+        setText("医嘱信息(" + orders.size() + ")", view, R.id.tv_info_name);
         setCommButtonClick("", null, dialog, view, R.id.tv_popup_cancel);
         setCommButtonClick("", okClick, dialog, view, R.id.tv_popup_ok);
         //canExeFlag 0 不能 1 能
-        if (!"1".equals(bean.getCanExeFlag())) {
+        if (!"1".equals(canExeFlag)) {
             getView(view, R.id.tv_popup_ok).setEnabled(false);
             getView(view, R.id.tv_popup_ok).setClickable(false);
             getView(view, R.id.tv_popup_ok).setBackgroundResource(R.drawable.dhcc_bg_dialog_cancel);
         }
         RecyclerView recyclerView = (RecyclerView) getView(view, R.id.rv_popup_child_info);
         RecyclerViewHelper.setDefaultRecyclerView(context, recyclerView);
-        recyclerView.setAdapter(new PatInfoDialogAdapter(bean.getOrders()));
+        recyclerView.setAdapter(new PatInfoDialogAdapter(orders));
         showCenterWindow(dialog, view);
         return dialog;
+    }
+
+    private static Dialog getDialog(Context context) {
+        if (dialog != null) {
+            dialog.cancel();
+        }
+        return new Dialog(context, R.style.MyDialog);
     }
 }

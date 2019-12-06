@@ -157,7 +157,7 @@ public class RecModelListBean {
             }
 
             public String getModelType() {
-                return modelType;
+                return modelType == null ? "" : modelType;
             }
 
             public void setModelType(String modelType) {

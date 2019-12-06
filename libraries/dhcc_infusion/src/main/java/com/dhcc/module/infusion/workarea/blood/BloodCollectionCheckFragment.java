@@ -20,22 +20,24 @@ public class BloodCollectionCheckFragment extends BloodCollectionFragment {
     @Override
     protected void exeLabOrd() {
         if ("1".equals(bloodCheckFlag)) {
-            DialogFactory.showSkinDialog(mContext, "采血复核",  "", "取消", "确定", true,null, new CommDialog.CommClickListener() {
+            DialogFactory.showSkinDialog(mContext, "采血复核", "", "取消", "确定", true, null, new CommDialog.CommClickListener() {
                 @Override
                 public void data(Object[] args) {
                     super.data(args);
                     String user = (String) args[0];
                     String psw = (String) args[1];
-                    auditOrd(user,psw);
+                    auditOrd(user, psw);
                 }
             });
-        }else {
+        } else {
             auditOrd(null, null);
         }
     }
 
     private void auditOrd(String user, String psw) {
-        BloodCollectApiManager.auditOrd(scanInfo,user,psw, new CommonCallBack<CommResult>() {
+        String barCode = getLabNo();
+        //auditOrd{barCode=1000004052^1000004049; auditUserId=hs01; auditPassword=1; locId=249; userId=10211; }
+        BloodCollectApiManager.auditOrd(barCode, user, psw, new CommonCallBack<CommResult>() {
             @Override
             public void onFail(String code, String msg) {
                 onFailThings();

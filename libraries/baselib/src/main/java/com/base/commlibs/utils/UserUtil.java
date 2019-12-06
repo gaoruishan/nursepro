@@ -248,7 +248,7 @@ public class UserUtil {
 
 
     /**
-     * 是否采血复核
+     * 是否采血复核多次扫码
      * @return
      */
     public static boolean isBloodCheckFlag() {

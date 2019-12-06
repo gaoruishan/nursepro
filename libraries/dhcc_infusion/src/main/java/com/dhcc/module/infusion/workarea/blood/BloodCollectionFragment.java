@@ -6,6 +6,7 @@ import android.view.View;
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.SimpleCallBack;
+import com.base.commlibs.utils.UserUtil;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.utils.AdapterFactory;
 import com.dhcc.module.infusion.utils.DialogFactory;
@@ -13,6 +14,7 @@ import com.dhcc.module.infusion.utils.RecyclerViewHelper;
 import com.dhcc.module.infusion.workarea.blood.adapter.BaseBloodQuickAdapter;
 import com.dhcc.module.infusion.workarea.blood.bean.BloodCollectBean;
 import com.dhcc.module.infusion.workarea.comm.BaseInfusionFragment;
+import com.dhcc.module.infusion.workarea.comm.bean.PatOrdersBean;
 import com.dhcc.module.infusion.workarea.comm.bean.ScanInfoBean;
 import com.dhcc.module.infusion.workarea.inject.InjectApiManager;
 import com.dhcc.res.infusion.CustomDateTimeView;
@@ -20,6 +22,11 @@ import com.dhcc.res.infusion.CustomOnOffView;
 import com.dhcc.res.infusion.CustomPatView;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 采血模块
@@ -29,12 +36,21 @@ import com.jzxiang.pickerview.listener.OnDateSetListener;
  */
 public class BloodCollectionFragment extends BaseInfusionFragment {
 
+    private static Map<Integer, String> colors = new HashMap<>();
+
+    static {
+        colors.put(0, "#C9E2FF");
+        colors.put(1, "#4C95EF");
+    }
+
     protected RecyclerView recyclerView;
     protected CustomDateTimeView customDate;
     protected BaseBloodQuickAdapter collectionAdapter;
     protected CustomPatView customPat;
     protected CustomOnOffView customOnOff;
     protected String bloodCheckFlag;
+    protected List<PatOrdersBean> allScanInfoOrders = new ArrayList<>();
+    private int indexNum;
 
     @Override
     protected void initViews() {
@@ -89,14 +105,16 @@ public class BloodCollectionFragment extends BaseInfusionFragment {
                 //PAT 扫腕带返回患者信息
                 if (PAT.equals(bean.getFlag())) {
                     regNo = scanInfo;
+                    allScanInfoOrders.clear();
                     getLabOrdList();
                 }
                 //ORD 扫医嘱条码返回医嘱信息
                 if (ORD.equals(bean.getFlag())) {
                     bloodCheckFlag = bean.getBloodCheckFlag();
+                    doScanInfoOrders(bean);
                     //弹框
                     if ("1".equals(bean.getDiagFlag())) {
-                        DialogFactory.showPatInfo(mContext, bean, new View.OnClickListener() {
+                        DialogFactory.showPatInfo(mContext, allScanInfoOrders, bean.getMsg(), bean.getCanExeFlag(), new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 exeLabOrd();
@@ -110,13 +128,39 @@ public class BloodCollectionFragment extends BaseInfusionFragment {
         });
     }
 
-    @Override
-    protected int setLayout() {
-        return R.layout.fragment_blood_collection;
+    private void doScanInfoOrders(ScanInfoBean bean) {
+        if (indexNum > 1) {
+            indexNum = 0;
+        }
+        String color = colors.get(indexNum);
+        //配置支持多次扫码
+        if (!UserUtil.isBloodCheckFlag()) {
+            allScanInfoOrders.clear();
+        }
+        // 判空去重
+        if (bean.getOrders() != null && bean.getOrders().size() > 0) {
+            String labNo = bean.getOrders().get(0).getLabNo();
+            boolean has = false;
+            for (PatOrdersBean order : allScanInfoOrders) {
+                if (order.getLabNo().equals(labNo)) {
+                    has = true;
+                }
+            }
+            if (!has) {
+                //添加颜色
+                for (PatOrdersBean order : bean.getOrders()) {
+                    order.setTubeColorCode(color);
+                }
+                allScanInfoOrders.addAll(bean.getOrders());
+                indexNum++;
+            }
+        }
     }
 
     protected void exeLabOrd() {
-        BloodCollectApiManager.exeLabOrd(scanInfo, new CommonCallBack<CommResult>() {
+        String labNo = getLabNo();
+        //exeLabOrd{labNo=1000004052^1000004049; locId=249; userId=10211; }
+        BloodCollectApiManager.exeLabOrd(labNo, new CommonCallBack<CommResult>() {
             @Override
             public void onFail(String code, String msg) {
                 onFailThings();
@@ -129,6 +173,20 @@ public class BloodCollectionFragment extends BaseInfusionFragment {
                 getLabOrdList();
             }
         });
+    }
+
+    protected String getLabNo() {
+        String labNo = "";
+        for (PatOrdersBean order : allScanInfoOrders) {
+            labNo += order.getLabNo() + "^";
+        }
+        labNo = labNo.substring(0, labNo.length() - 1);
+        return labNo;
+    }
+
+    @Override
+    protected int setLayout() {
+        return R.layout.fragment_blood_collection;
     }
 
     protected void getLabOrdList() {

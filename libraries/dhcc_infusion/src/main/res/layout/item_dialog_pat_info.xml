@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginTop="@dimen/dp_6"
+    android:id="@+id/ll_bg"
+    android:padding="@dimen/dp_3"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <com.noober.background.view.BLTextView
