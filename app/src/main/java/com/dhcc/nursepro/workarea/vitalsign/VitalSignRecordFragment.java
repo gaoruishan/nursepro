@@ -1,6 +1,7 @@
 package com.dhcc.nursepro.workarea.vitalsign;
 
 import android.content.Context;
+import android.content.Intent;
 import android.inputmethodservice.KeyboardView;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
+import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.SPUtils;
@@ -77,10 +79,10 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
     private int SAVE_TEMP_VALUE_NORMAL = 0;
     private int SAVE_TEMP_VALUE_NEXT = 1;
     private int SAVE_TEMP_VALUE_PRE = 2;
+    private int SAVE_TEMP_VALUE_SCAN = 3;
 
     private LinearLayout llPreNex;
     private KeyboardView mKeyboard;
-
 
 
     @Override
@@ -207,15 +209,15 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
                 .setWheelItemTextSelectorColor(getResources().getColor(R.color.colorPrimaryDark))
                 .setWheelItemTextSize(12)
                 .build();
-//        mDialogAll.settype(1);
-//        //取时间前两个字符转为int（02，06...）
-//
-//        List<String> timeList = new ArrayList();
-//        for (int i = 0; i < timeFilterList.size(); i++) {
-//            String str = (String) ((Map) timeFilterList.get(i)).get("time");
-//            timeList.add(str);
-//        }
-//        mDialogAll.setmHourMinute(timeList);
+        //        mDialogAll.settype(1);
+        //        //取时间前两个字符转为int（02，06...）
+        //
+        //        List<String> timeList = new ArrayList();
+        //        for (int i = 0; i < timeFilterList.size(); i++) {
+        //            String str = (String) ((Map) timeFilterList.get(i)).get("time");
+        //            timeList.add(str);
+        //        }
+        //        mDialogAll.setmHourMinute(timeList);
 
         mDialogAll.show(getFragmentManager(), "ALL");
 
@@ -256,11 +258,11 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
                 value = edText.getText().toString();
 
                 //检查输入数据范围
-                if (config.getNormalValueRangFrom()!=null){
-                    if (config.getErrorValueLowTo()!=null){
-                        if (isNumber(edText.getText().toString()+"")){
+                if (config.getNormalValueRangFrom() != null) {
+                    if (config.getErrorValueLowTo() != null) {
+                        if (isNumber(edText.getText().toString() + "")) {
                             double edDou = Double.parseDouble(edText.getText().toString());
-                            if (edDou > Double.parseDouble(config.getErrorValueHightFrom()) || edDou<Double.parseDouble(config.getErrorValueLowTo())){
+                            if (edDou > Double.parseDouble(config.getErrorValueHightFrom()) || edDou < Double.parseDouble(config.getErrorValueLowTo())) {
                                 showToast("请检查输入数值");
                                 return;
                             }
@@ -278,7 +280,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
             HashMap<String, String> resItem = new HashMap<>();
             resItem.put("code", code);
             resItem.put("value", value);
-            if (!value.equals(defValue)){
+            if (!value.equals(defValue)) {
                 resList.add(resItem);
             }
         }
@@ -301,6 +303,8 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
                     switchPatient();
                 } else if (type == SAVE_TEMP_VALUE_PRE) {
                     patientIndex--;
+                    switchPatient();
+                } else if (type == SAVE_TEMP_VALUE_SCAN) {
                     switchPatient();
                 }
             }
@@ -510,21 +514,21 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
                 }
             }
             //自定义键盘
-//            edText.setOnTouchListener(new View.OnTouchListener() {
-//                @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-//                @Override
-//                public boolean onTouch(View v, MotionEvent event) {
-//                    if (titleTV.getText().toString().contains("℃")) {
-//                        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-//                        imm.hideSoftInputFromWindow(edText.getWindowToken(), 0);
-//                        new KeyBoardUtil(mKeyboard, edText).showKeyboard();
-//                    } else {
-//                        mKeyboard.setVisibility(View.GONE);
-//
-//                    }
-//                    return false;
-//                }
-//            });
+            //            edText.setOnTouchListener(new View.OnTouchListener() {
+            //                @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            //                @Override
+            //                public boolean onTouch(View v, MotionEvent event) {
+            //                    if (titleTV.getText().toString().contains("℃")) {
+            //                        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            //                        imm.hideSoftInputFromWindow(edText.getWindowToken(), 0);
+            //                        new KeyBoardUtil(mKeyboard, edText).showKeyboard();
+            //                    } else {
+            //                        mKeyboard.setVisibility(View.GONE);
+            //
+            //                    }
+            //                    return false;
+            //                }
+            //            });
             edText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                 @Override
@@ -536,7 +540,6 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
                             new KeyBoardUtil(mKeyboard, edText).showKeyboard();
                         } else {
                             mKeyboard.setVisibility(View.GONE);
-
                         }
                     }
                 }
@@ -554,36 +557,37 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
 
                 @Override
                 public void afterTextChanged(Editable s) {
-                    if (config.getNormalValueRangFrom()!=null){
-                        if (config.getErrorValueLowTo()!=null){
-                            if (isNumber(edText.getText().toString()+"")){
+                    if (config.getNormalValueRangFrom() != null) {
+                        if (config.getErrorValueLowTo() != null) {
+                            if (isNumber(edText.getText().toString() + "")) {
                                 double edDou = Double.parseDouble(edText.getText().toString());
-                                if (edDou > Double.parseDouble(config.getErrorValueHightFrom()) || edDou<Double.parseDouble(config.getErrorValueLowTo())){
+                                if (edDou > Double.parseDouble(config.getErrorValueHightFrom()) || edDou < Double.parseDouble(config.getErrorValueLowTo())) {
                                     edText.setBackground(getResources().getDrawable(R.drawable.vital_sign_inputerror_bg));
-                                }else if ((Double.parseDouble(config.getErrorValueLowTo())<edDou && edDou<Double.parseDouble(config.getNormalValueRangFrom()) )
-                                        || (edDou<Double.parseDouble(config.getErrorValueHightFrom()) && edDou>Double.parseDouble(config.getNormalValueRangTo()))){
+                                } else if ((Double.parseDouble(config.getErrorValueLowTo()) < edDou && edDou < Double.parseDouble(config.getNormalValueRangFrom()))
+                                        || (edDou < Double.parseDouble(config.getErrorValueHightFrom()) && edDou > Double.parseDouble(config.getNormalValueRangTo()))) {
                                     edText.setBackgroundResource(R.drawable.vital_sign_inputwarning_bg);
-                                }else {
+                                } else {
                                     edText.setBackgroundResource(R.drawable.vital_sign_input_bg);
                                 }
-                            }else {
+                            } else {
                                 edText.setBackgroundResource(R.drawable.vital_sign_input_bg);
                                 if (config.getSymbol() != null) {
                                     if (config.getSymbol().size() > 0) {
                                         edText.setBackgroundResource(R.drawable.vital_sign_input_bggreen);
                                     }
                                 }
-                            };
-                        }else {
-                            if (isNumber(edText.getText().toString()+"")){
+                            }
+                            ;
+                        } else {
+                            if (isNumber(edText.getText().toString() + "")) {
                                 double edDou = Double.parseDouble(edText.getText().toString());
-                                if ( edDou<Double.parseDouble(config.getNormalValueRangFrom())
-                                        || edDou>Double.parseDouble(config.getNormalValueRangTo())){
+                                if (edDou < Double.parseDouble(config.getNormalValueRangFrom())
+                                        || edDou > Double.parseDouble(config.getNormalValueRangTo())) {
                                     edText.setBackgroundResource(R.drawable.vital_sign_inputwarning_bg);
-                                }else {
+                                } else {
                                     edText.setBackgroundResource(R.drawable.vital_sign_input_bg);
                                 }
-                            }else {
+                            } else {
                                 edText.setBackgroundResource(R.drawable.vital_sign_input_bg);
                                 if (config.getSymbol() != null) {
                                     if (config.getSymbol().size() > 0) {
@@ -595,7 +599,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
 
 
                     }
-//
+                    //
 
                 }
             });
@@ -626,7 +630,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
                     optionView.picker.setOnOptionPickListener(new OptionPicker.OnOptionPickListener() {
                         @Override
                         public void onOptionPicked(int index, String item) {
-//                            config.setSendValue(config.getItemCode() + "|" + item);
+                            //                            config.setSendValue(config.getItemCode() + "|" + item);
                             if (item.equals("删除")) {
                                 optionView.setText("");
                             } else {
@@ -646,19 +650,21 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
 
         return layout;
     }
-    public boolean isNumber (Object obj) {
+
+    public boolean isNumber(Object obj) {
         if (obj instanceof Number) {
             return true;
-        } else if (obj instanceof String){
-            try{
-                Double.parseDouble((String)obj);
+        } else if (obj instanceof String) {
+            try {
+                Double.parseDouble((String) obj);
                 return true;
-            }catch (Exception e) {
+            } catch (Exception e) {
                 return false;
             }
         }
         return false;
     }
+
     private LinearLayout dramEmptyItem() {
         LinearLayout layout = new LinearLayout(getContext());
 
@@ -694,4 +700,21 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
         picker.show();
     }
 
+    @Override
+    public void getScanMsg(Intent intent) {
+        super.getScanMsg(intent);
+        if (Action.DEVICE_SCAN_CODE.equals(intent.getAction())) {
+            Bundle bundle = new Bundle();
+            bundle = intent.getExtras();
+            String scanInfo = bundle.getString("data");
+            //            patientIndex
+            for (int i = 0; i < patientList.size(); i++) {
+                if (scanInfo.equals(patientList.get(i).get("regNo"))) {
+                    patientIndex = i;
+                    break;
+                }
+            }
+            saveTempValue(SAVE_TEMP_VALUE_SCAN);
+        }
+    }
 }

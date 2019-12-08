@@ -381,7 +381,7 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
                 /**设置通知的标题**/
                 .setContentTitle("新消息")
                 /**设置通知的内容**/
-                .setContentText("有新医嘱")
+                .setContentText("请点击进入消息页面查看")
                 /**通知产生的时间，会在通知信息里显示**/
                 .setWhen(System.currentTimeMillis())
                 /**设置该通知优先级**/
@@ -394,11 +394,8 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
                 //                .setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND | Notification.DEFAULT_LIGHTS)
                 .setContentIntent(PendingIntent.getActivity(context, 1, intent, PendingIntent.FLAG_CANCEL_CURRENT))
                 .build();
-        //        if (LoginUser.SoundF == true)
-        //        builder.setDefaults(Notification.DEFAULT_VIBRATE |Notification.DEFAULT_SOUND|Notification.DEFAULT_LIGHTS);
+
         Notification notification = builder.getNotification();
-        //        notification.defaults |= Notification.DEFAULT_SOUND;
-        //        //        if (LoginUser.VibrateF == true)
         if (bVibrator) {
             notification.defaults |= Notification.DEFAULT_VIBRATE;
         }
@@ -409,10 +406,6 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
             notification.defaults |= Notification.DEFAULT_LIGHTS;
         }
 
-        //        //        if (LoginUser.LigthF == true)
-        //
-
-        //        notification.flags |= Notification.FLAG_INSISTENT;
         //      发起通知
         if (notificationManager != null) {
             notificationManager.notify(1, notification);

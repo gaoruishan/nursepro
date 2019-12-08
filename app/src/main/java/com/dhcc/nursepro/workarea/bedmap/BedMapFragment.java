@@ -75,6 +75,22 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
         //        hideToolbarNavigationIcon();
         setToolbarCenterTitle(getString(R.string.title_bedmap), 0xffffffff, 17);
 
+        //右上角保存按钮
+        View viewright = View.inflate(getActivity(), R.layout.view_fratoolbar_right, null);
+        TextView textView = viewright.findViewById(R.id.tv_fratoobar_right);
+        textView.setTextSize(15);
+        textView.setText("   刷新   ");
+        textView.setTextColor(getResources().getColor(R.color.white));
+        viewright.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                asyncInitData();
+
+            }
+        });
+        setToolbarRightCustomView(viewright);
+
+
         initView(view);
         initAdapter();
         view.postDelayed(new Runnable() {
@@ -218,7 +234,7 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
                 }
 
                 hideLoadingTip();
-                setData("", "inBedAll", "allPat");
+                setData(bedCode, topFilterStr, leftFilterStr);
             }
 
             @Override
