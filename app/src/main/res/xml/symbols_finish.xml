@@ -25,7 +25,7 @@
             android:keyHeight="17%p"
             android:codes="-5"
             android:isRepeatable="true"
-            android:keyLabel="删除" />
+            android:keyIcon="@drawable/dhcc_bg_login_remember_selector" />
 
     </Row>
     <Row>

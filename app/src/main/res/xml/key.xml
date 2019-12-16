@@ -30,8 +30,7 @@
             android:keyWidth="19%p"
             android:keyHeight="19%p"
             android:codes="-5"
-            android:isRepeatable="true"
-            android:keyLabel="删除" />
+            android:isRepeatable="true"  />
         <Key
             android:keyWidth="0%p"
             android:codes="46"

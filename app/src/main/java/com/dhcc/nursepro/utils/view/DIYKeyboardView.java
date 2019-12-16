@@ -44,7 +44,7 @@ public class DIYKeyboardView extends KeyboardView {
         if (keys != null && keys.size() > 0) {
             Paint paint = new Paint();
             paint.setTextAlign(Paint.Align.CENTER);
-            Typeface font = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD);
+            Typeface font = Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL);
             paint.setTypeface(font);
             paint.setAntiAlias(true);
             for (Keyboard.Key key : keys) {
@@ -54,22 +54,23 @@ public class DIYKeyboardView extends KeyboardView {
                     dr.draw(canvas);
                 }else if (key.codes[0] == -5){
                     if (key.pressed){
-                        Drawable dr = getContext().getResources().getDrawable(R.drawable.bg_rectangle_deeporange);
+                        Drawable dr = getContext().getResources().getDrawable(R.drawable.icon_delete_pressed);
                         dr.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
                         dr.draw(canvas);
                     }else {
-                        Drawable dr = getContext().getResources().getDrawable(R.drawable.bg_rectangle_orange);
+                        Drawable dr = getContext().getResources().getDrawable(R.drawable.icon_delete);
                         dr.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
                         dr.draw(canvas);
+
                     }
 
                 }else {
                     if (key.pressed){
-                        Drawable dr = getContext().getResources().getDrawable(R.drawable.bg_rectangle_deepblue);
+                        Drawable dr = getContext().getResources().getDrawable(R.drawable.bg_rectangle_deepwhite);
                         dr.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
                         dr.draw(canvas);
                     }else {
-                        Drawable dr = getContext().getResources().getDrawable(R.drawable.bg_rectangle_blue);
+                        Drawable dr = getContext().getResources().getDrawable(R.drawable.bg_rectangle_white);
                         dr.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
                         dr.draw(canvas);
                     }
@@ -83,8 +84,10 @@ public class DIYKeyboardView extends KeyboardView {
                     }
                     if (key.codes[0] == -4) {
                         paint.setColor(getContext().getResources().getColor(android.R.color.white));
-                    } else {
-                        paint.setColor(getContext().getResources().getColor(R.color.white));
+                    }else if (key.codes[0] == -5) {
+                        paint.setColor(getContext().getResources().getColor(android.R.color.white));
+                    }  else {
+                        paint.setColor(getContext().getResources().getColor(R.color.black));
                     }
                     Rect rect = new Rect(key.x, key.y, key.x + key.width, key.y + key.height);
                     Paint.FontMetricsInt fontMetrics = paint.getFontMetricsInt();

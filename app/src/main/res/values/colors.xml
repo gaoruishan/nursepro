@@ -121,4 +121,5 @@
 
     <color name="keybgcolor">#E1E1E1</color>
     <color name="darkorange">#FF8C00</color>
+    <color name="keyboardtext">#4A4A4A</color>
 </resources>
