@@ -40,13 +40,13 @@ public class OrderSearchOrderTypeAdapter extends BaseQuickAdapter<OrderSearchBea
             if (0 == helper.getAdapterPosition()) {
                 llOrderType.setSelected(true);
                 tvOrderType.setTextColor(mContext.getResources().getColor(R.color.ordersearch_left_text_selected_color));
-                tvOrderType.setTypeface(Typeface.DEFAULT_BOLD);
+//                tvOrderType.setTypeface(Typeface.DEFAULT_BOLD);
                 viewOrderType.setVisibility(View.VISIBLE);
 
             } else {
                 llOrderType.setSelected(false);
                 tvOrderType.setTextColor(mContext.getResources().getColor(R.color.ordersearch_left_text_normal_color));
-                tvOrderType.setTypeface(Typeface.DEFAULT);
+//                tvOrderType.setTypeface(Typeface.DEFAULT);
                 viewOrderType.setVisibility(View.INVISIBLE);
             }
         } else {
@@ -54,13 +54,13 @@ public class OrderSearchOrderTypeAdapter extends BaseQuickAdapter<OrderSearchBea
             if (selectedCode.equals(item.getCode())) {
                 llOrderType.setSelected(true);
                 tvOrderType.setTextColor(mContext.getResources().getColor(R.color.ordersearch_left_text_selected_color));
-                tvOrderType.setTypeface(Typeface.DEFAULT_BOLD);
+//                tvOrderType.setTypeface(Typeface.DEFAULT_BOLD);
                 viewOrderType.setVisibility(View.VISIBLE);
 
             } else {
                 llOrderType.setSelected(false);
                 tvOrderType.setTextColor(mContext.getResources().getColor(R.color.ordersearch_left_text_normal_color));
-                tvOrderType.setTypeface(Typeface.DEFAULT);
+//                tvOrderType.setTypeface(Typeface.DEFAULT);
                 viewOrderType.setVisibility(View.INVISIBLE);
             }
         }

@@ -44,13 +44,13 @@ public class BedMapPatientTypeAdapter extends BaseQuickAdapter<BedMapBean.LeftFi
         if (selectedPostion == helper.getAdapterPosition()) {
             llPatientType.setSelected(true);
             tvPat.setTextColor(mContext.getResources().getColor(R.color.bedmap_left_text_selected_color));
-            tvPat.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+//            tvPat.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
             viewPatientType.setVisibility(View.VISIBLE);
 
         } else {
             llPatientType.setSelected(false);
             tvPat.setTextColor(mContext.getResources().getColor(R.color.bedmap_left_text_normal_color));
-            tvPat.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+//            tvPat.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
             viewPatientType.setVisibility(View.INVISIBLE);
         }
 

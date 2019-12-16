@@ -2,6 +2,8 @@ package com.dhcc.nursepro.workarea.vitalsign.adapter;
 
 import android.graphics.Typeface;
 import android.support.annotation.Nullable;
+import android.view.Gravity;
+import android.view.View;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -38,11 +40,13 @@ public class VitalSignTypeAdapter extends BaseQuickAdapter<Map, BaseViewHolder> 
         if (isSelectedFilter(helper.getAdapterPosition())) {
             tvVitalSignType.setSelected(true);
             tvVitalSignType.setTextColor(mContext.getResources().getColor(R.color.vital_sign_type_selected_text));
-            tvVitalSignType.setTypeface(Typeface.DEFAULT_BOLD);
+//            tvVitalSignType.setTypeface(Typeface.DEFAULT_BOLD);
+            tvVitalSignType.setGravity(Gravity.CENTER);
         } else {
             tvVitalSignType.setSelected(false);
             tvVitalSignType.setTextColor(mContext.getResources().getColor(R.color.vital_sign_type_normal_text));
-            tvVitalSignType.setTypeface(Typeface.DEFAULT);
+//            tvVitalSignType.setTypeface(Typeface.DEFAULT);
+            tvVitalSignType.setGravity(Gravity.LEFT);
         }
     }
 
