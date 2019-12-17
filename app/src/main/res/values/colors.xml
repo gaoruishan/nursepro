@@ -69,7 +69,7 @@
 
     <color name="workarea_device_color">#ECECEC</color>
     <color name="patevents_device_color">#DADADA</color>
-    <color name="patevents_patbg_color">#DFEEFF</color>
+    <color name="patevents_patbg_color">#F5FAFF</color>
     <color name="patevents_tv_unsel_color">#FF9B9B9B</color>
     <color name="patevents_tv_date_color">#FF4A4A4A</color>
 

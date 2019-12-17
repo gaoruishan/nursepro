@@ -49,16 +49,16 @@
                     android:id="@+id/tv_labdetail_result"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:gravity="right"
                     android:textColor="@color/black"
                     android:textSize="14sp"
-                    android:text="26.4U/L"/>
+                    android:text="26.9874U/L"/>
                 <TextView
                     android:id="@+id/tv_labdetail_resultref"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_labdetail_result"
-                    android:gravity="center"
+                    android:gravity="right"
                     android:layout_marginTop="5dp"
                     android:textSize="@dimen/sp_12"
                     android:text="21.0-72"/>
