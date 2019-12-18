@@ -2,6 +2,7 @@ package com.dhcc.module.infusion.view;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -115,6 +116,14 @@ public class CustomSelectLocWindow extends LinearLayout implements View.OnClickL
         picker.setSelectedIndex(0);
         picker.setCycleDisable(true);
         picker.setTextSize(20);
+        picker.setTitleText("选择窗口");
+        picker.setTitleTextSize(16);
+        picker.setTitleTextColor(Color.parseColor("#FF62ABFF"));
+        picker.setSubmitTextSize(13);
+        picker.setSubmitTextColor(Color.parseColor("#FF62ABFF"));
+        picker.setDividerColor(Color.parseColor("#FF62ABFF"));
+        picker.setCancelTextSize(13);
+        picker.setCancelTextColor(Color.parseColor("#FFC8C8C8"));
         picker.setOnOptionPickListener(new OptionPicker.OnOptionPickListener() {
             @Override
             public void onOptionPicked(int index, String item) {
@@ -142,6 +151,14 @@ public class CustomSelectLocWindow extends LinearLayout implements View.OnClickL
         picker.setSelectedIndex(0);
         picker.setCycleDisable(true);
         picker.setTextSize(20);
+        picker.setTitleText("选择科室");
+        picker.setTitleTextSize(16);
+        picker.setTitleTextColor(Color.parseColor("#FF62ABFF"));
+        picker.setSubmitTextSize(13);
+        picker.setSubmitTextColor(Color.parseColor("#FF62ABFF"));
+        picker.setDividerColor(Color.parseColor("#FF62ABFF"));
+        picker.setCancelTextSize(13);
+        picker.setCancelTextColor(Color.parseColor("#FFC8C8C8"));
         picker.setOnOptionPickListener(new OptionPicker.OnOptionPickListener() {
             @Override
             public void onOptionPicked(int index, String item) {

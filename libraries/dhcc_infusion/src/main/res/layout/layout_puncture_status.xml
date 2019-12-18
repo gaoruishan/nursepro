@@ -23,7 +23,7 @@
 
         <com.dhcc.res.infusion.CustomSpeedView
             android:id="@+id/csv_speed"
-            android:layout_marginTop="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_15"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"/>
@@ -31,7 +31,7 @@
         <com.dhcc.res.infusion.CustomSelectView
             android:id="@+id/csv_select"
             android:layout_width="match_parent"
-            android:layout_marginTop="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_15"
             android:layout_height="wrap_content"/>
     </LinearLayout>
 
