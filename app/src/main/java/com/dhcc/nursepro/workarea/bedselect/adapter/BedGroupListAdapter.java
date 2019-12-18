@@ -78,7 +78,7 @@ public class BedGroupListAdapter extends BaseQuickAdapter<BedSelectListBean.BedL
                 } else {
                     groupListBean.setSelect("0");
                 }
-                bedListAdapter.notifyItemChanged(position);
+                bedListAdapter.notifyDataSetChanged();
             }
         });
         rectBedSelectBed.setAdapter(bedListAdapter);

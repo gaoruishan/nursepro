@@ -121,7 +121,7 @@ public class BedSelectFragment extends BaseFragment {
                     } else {
                         bedListBean.setSelect("0");
                     }
-                    bedGroupListAdapter.notifyItemChanged(position);
+                    bedGroupListAdapter.notifyDataSetChanged();
 
                     //                    if (view.isSelected()) {
                     //                        view.setSelected(false);
