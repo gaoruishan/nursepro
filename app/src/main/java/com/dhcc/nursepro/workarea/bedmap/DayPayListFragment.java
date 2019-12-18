@@ -27,6 +27,7 @@ import com.jzxiang.pickerview.listener.OnDateSetListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -41,7 +42,7 @@ public class DayPayListFragment extends BaseFragment {
     private RecyclerView recDayPayType;
     private DayPayTypeAdapter dayPayTypeAdapter;
     private TextView tvLoc,tvPrePay,tvTotalSum,tvBalance,tvInHosTime,tvPatName,tvChoosTime,tvInFee;
-    private LinearLayout llPayEmp;
+    private LinearLayout llPayEmp,llPayInfo;
     private String payDate = "";
     private String episodeId = "";
 
@@ -59,7 +60,7 @@ public class DayPayListFragment extends BaseFragment {
         setToolbarType(BaseActivity.ToolbarType.TOP);
         setToolbarBottomLineVisibility(false);
         //toolbar 背景 默认蓝色
-//        setToolbarBackground(new ColorDrawable(0xffffffff));
+        setToolbarBackground(new ColorDrawable(0xffffffff));
         //toolbar 导航按钮隐藏
         //        hideToolbarNavigationIcon();
         //toolbar 导航按钮显示 默认白色返回按钮
@@ -67,7 +68,7 @@ public class DayPayListFragment extends BaseFragment {
         //返回按钮img设置
         showToolbarNavigationIcon(R.drawable.icon_back_white);
         //toolbar 中间标题 默认黑色
-        setToolbarCenterTitle(getString(R.string.title_daypaylist),0xffffffff,17);
+        setToolbarCenterTitle(getString(R.string.title_daypaylist));
 
         Bundle bundle = getArguments();
         episodeId = bundle.getString("episodeId");
@@ -113,6 +114,7 @@ public class DayPayListFragment extends BaseFragment {
 
             }
         });
+        llPayInfo = view.findViewById(R.id.ll_pay_info);
         llPayEmp = view.findViewById(R.id.ll_paylist_empty);
         tvInFee =view.findViewById(R.id.tv_infee);
 
@@ -134,21 +136,24 @@ public class DayPayListFragment extends BaseFragment {
             @Override
             public void onSuccess(DayPayListBean dayPayListBean) {
 
-                tvPatName.setText(dayPayListBean.getPatInfo().getBedCode().replace("床","")+"床-"+dayPayListBean.getPatInfo().getName());
+                tvPatName.setText(dayPayListBean.getPatInfo().getBedCode().replace("床","")+"床  "+dayPayListBean.getPatInfo().getName());
                 tvLoc.setText(dayPayListBean.getPatInfo().getCtLocDesc());
                 tvInHosTime.setText(dayPayListBean.getPatInfo().getInHospDateTime());
                 tvPrePay.setText(dayPayListBean.getPatInfo().getPrepay());
                 tvBalance.setText(dayPayListBean.getPatInfo().getBalance());
                 tvTotalSum.setText(dayPayListBean.getPatInfo().getTotalSum());
                 tvInFee.setText(dayPayListBean.getPatInfo().getInfee());
-
-                dayPayTypeAdapter.setNewData(dayPayListBean.getPriceList());
-                dayPayTypeAdapter.notifyDataSetChanged();
                 if (dayPayListBean.getPriceList().size()<1){
                     llPayEmp.setVisibility(View.VISIBLE);
+                    llPayInfo.setVisibility(View.VISIBLE);
                 }else {
                     llPayEmp.setVisibility(View.GONE);
+                    llPayInfo.setVisibility(View.GONE);
                 }
+                dayPayTypeAdapter.setPayInfo(dayPayListBean.getPatInfo().getInHospDateTime(),dayPayListBean.getPatInfo().getPrepay(),dayPayListBean.getPatInfo().getBalance(),dayPayListBean.getPatInfo().getTotalSum());
+                dayPayTypeAdapter.setNewData(dayPayListBean.getPriceList());
+                dayPayTypeAdapter.notifyDataSetChanged();
+
             }
 
             @Override
