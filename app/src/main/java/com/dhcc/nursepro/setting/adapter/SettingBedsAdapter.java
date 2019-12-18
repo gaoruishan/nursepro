@@ -34,18 +34,27 @@ public class SettingBedsAdapter extends BaseQuickAdapter<SettingBedListBean.BedL
         if ("0".equals(item.getSelect())) {
             llBed.setSelected(false);
             tvBedSelectBed.setSelected(false);
+            if (item.getPatSex() == null || "".equals(item.getPatSex())) {
+                imgBedSex.setVisibility(View.INVISIBLE);
+            } else if ("男".equals(item.getPatSex())) {
+                imgBedSex.setImageResource(R.drawable.man);
+            } else {
+                imgBedSex.setImageResource(R.drawable.woman);
+            }
+
         } else {
             llBed.setSelected(true);
             tvBedSelectBed.setSelected(true);
+            if (item.getPatSex() == null || "".equals(item.getPatSex())) {
+                imgBedSex.setVisibility(View.INVISIBLE);
+            } else if ("男".equals(item.getPatSex())) {
+                imgBedSex.setImageResource(R.drawable.man_selected);
+            } else {
+                imgBedSex.setImageResource(R.drawable.woman_selected);
+            }
+
         }
 
-        if (item.getPatSex() == null || "".equals(item.getPatSex())) {
-            imgBedSex.setVisibility(View.INVISIBLE);
-        } else if ("男".equals(item.getPatSex())) {
-            imgBedSex.setImageResource(R.drawable.man);
-        } else {
-            imgBedSex.setImageResource(R.drawable.woman);
-        }
 
         tvBedSelectBed.setText(item.getBedCode());
     }

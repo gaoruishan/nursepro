@@ -14,7 +14,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/dp_45"
             android:orientation="horizontal">
 
             <TextView
@@ -23,11 +23,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:paddingTop="16dp"
-                android:paddingBottom="16dp"
                 android:text="全部"
                 android:textColor="@drawable/textcolor_item_bedmap_selector"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/tv_tour_nur"
@@ -35,11 +33,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:paddingTop="16dp"
-                android:paddingBottom="16dp"
                 android:text="护理巡视"
                 android:textColor="@drawable/textcolor_item_bedmap_selector"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/tv_tour_infusion"
@@ -47,11 +43,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:paddingTop="16dp"
-                android:paddingBottom="16dp"
                 android:text="输液巡视"
                 android:textColor="@drawable/textcolor_item_bedmap_selector"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:visibility="gone"
@@ -60,11 +54,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:paddingTop="16dp"
-                android:paddingBottom="16dp"
                 android:text="输血巡视"
                 android:textColor="@drawable/textcolor_item_bedmap_selector"
-                android:textSize="@dimen/sp_14" />
+                android:textSize="16sp" />
 
 
         </LinearLayout>

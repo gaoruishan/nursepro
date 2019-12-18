@@ -63,7 +63,7 @@
     </LinearLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:background="#FFF6F6F6"></View>
 
 
@@ -127,8 +127,9 @@
                 android:src="@drawable/icon_tourlist_selector"/>
         </LinearLayout>
     <View
+        android:id="@+id/view_tour_nurlist"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:background="#FFF6F6F6"></View>
 
     <LinearLayout
@@ -142,11 +143,9 @@
              android:layout_height="wrap_content"
              app:flChildSpacing="5dp"
              app:flRowSpacing="8dp" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="#FFF6F6F6"></View>
-
     </LinearLayout>
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:background="#FFF6F6F6"></View>
 </LinearLayout>

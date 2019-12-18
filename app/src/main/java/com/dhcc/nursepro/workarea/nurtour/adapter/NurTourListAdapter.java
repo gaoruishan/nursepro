@@ -77,6 +77,7 @@ public class NurTourListAdapter extends BaseQuickAdapter<GradeTourListBean.PatIn
         }
 
         LinearLayout llAccount = helper.getView(R.id.ll_tournurlist_detail);
+        View viewNur = helper.getView(R.id.view_tour_nurlist);
         llAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,14 +93,17 @@ public class NurTourListAdapter extends BaseQuickAdapter<GradeTourListBean.PatIn
         ImageView img = helper.getView(R.id.tv_tournurlist_img);
         img.setSelected(false);
         llAccount.setVisibility(View.GONE);
+        viewNur.setVisibility(View.GONE);
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (llAccount.getVisibility() == View.VISIBLE){
                     llAccount.setVisibility(View.GONE);
+                    viewNur.setVisibility(View.GONE);
                     img.setSelected(false);
                 }  else {
                     llAccount.setVisibility(View.VISIBLE);
+                    viewNur.setVisibility(View.VISIBLE);
                     img.setSelected(true);
                 }
             }

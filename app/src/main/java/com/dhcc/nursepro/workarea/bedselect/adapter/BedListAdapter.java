@@ -34,18 +34,26 @@ public class BedListAdapter extends BaseQuickAdapter<BedSelectListBean.BedListBe
         if ("0".equals(item.getSelect())) {
             llBedSelect.setSelected(false);
             tvBedSelectBed.setSelected(false);
+            if (item.getPatSex() == null || "".equals(item.getPatSex())) {
+                imgBedSelectSex.setVisibility(View.INVISIBLE);
+            } else if ("男".equals(item.getPatSex())) {
+                imgBedSelectSex.setImageResource(R.drawable.man);
+            } else {
+                imgBedSelectSex.setImageResource(R.drawable.woman);
+            }
         } else {
             llBedSelect.setSelected(true);
             tvBedSelectBed.setSelected(true);
+            if (item.getPatSex() == null || "".equals(item.getPatSex())) {
+                imgBedSelectSex.setVisibility(View.INVISIBLE);
+            } else if ("男".equals(item.getPatSex())) {
+                imgBedSelectSex.setImageResource(R.drawable.man_selected);
+            } else {
+                imgBedSelectSex.setImageResource(R.drawable.woman_selected);
+            }
         }
 
-        if (item.getPatSex() == null || "".equals(item.getPatSex())) {
-            imgBedSelectSex.setVisibility(View.INVISIBLE);
-        } else if ("男".equals(item.getPatSex())) {
-            imgBedSelectSex.setImageResource(R.drawable.man);
-        } else {
-            imgBedSelectSex.setImageResource(R.drawable.woman);
-        }
+
 
         tvBedSelectBed.setText(item.getBedCode());
     }

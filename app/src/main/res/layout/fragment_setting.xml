@@ -132,7 +132,7 @@
                 android:layout_height="0.5dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:background="@color/patevents_device_color" />
+                android:background="#ECECEC" />
 
             <RelativeLayout
                 android:background="@color/white"
@@ -166,7 +166,7 @@
                 android:layout_height="0.5dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:background="@color/patevents_device_color" />
+                android:background="#ECECEC" />
 
             <RelativeLayout
                 android:background="@color/white"
@@ -195,11 +195,12 @@
                 </ImageView>
             </RelativeLayout>
             <View
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:background="@color/patevents_device_color" />
+                android:background="#ECECEC" />
             <RelativeLayout
                 android:visibility="gone"
                 android:background="@color/white"
@@ -227,11 +228,12 @@
                 </ImageView>
             </RelativeLayout>
             <View
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:background="@color/patevents_device_color" />
+                android:background="#ECECEC" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
