@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -60,6 +61,7 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
     private EditText etBloodtranstourBloodtransrate;
     private TextView tvBloodtranstourIsexist;
     private SwitchCompat switchBloodtranstourIsexist;
+    private Button btnExist;
     private EditText etBloodtranstourAdversereactions;
 
     private String bloodbagId;
@@ -192,9 +194,29 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
         etBloodtranstourBloodtransrate = view.findViewById(R.id.et_bloodtranstour_bloodtransrate);
         tvBloodtranstourIsexist = view.findViewById(R.id.tv_bloodtranstour_isexist);
         switchBloodtranstourIsexist = view.findViewById(R.id.switch_bloodtranstour_isexist);
+        btnExist = view.findViewById(R.id.btn_isexist);
+        btnExist.setSelected(false);
         etBloodtranstourAdversereactions = view.findViewById(R.id.et_bloodtranstour_adversereactions);
         etBloodtranstourAdversereactions.setFocusable(false);
 
+        btnExist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (btnExist.isSelected()){
+                    btnExist.setSelected(false);
+                    tvBloodtranstourIsexist.setText("无");
+                    tvBloodtranstourIsexist.setSelected(false);
+                    etBloodtranstourAdversereactions.setText("");
+                    etBloodtranstourAdversereactions.setFocusable(false);
+                }else {
+                    btnExist.setSelected(true);
+                    tvBloodtranstourIsexist.setText("有");
+                    tvBloodtranstourIsexist.setSelected(true);
+                    etBloodtranstourAdversereactions.setFocusable(true);
+                    etBloodtranstourAdversereactions.setFocusableInTouchMode(true);
+                }
+            }
+        });
         switchBloodtranstourIsexist.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -264,6 +286,7 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
         etBloodtranstourBloodtransrate.setText("");
         tvBloodtranstourIsexist.setSelected(false);
         switchBloodtranstourIsexist.setChecked(false);
+        btnExist.setSelected(false);
         etBloodtranstourAdversereactions.setText("");
     }
 
