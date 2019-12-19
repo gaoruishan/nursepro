@@ -8,21 +8,25 @@
     android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_40"
-        android:layout_marginTop="@dimen/dp_20"
+        android:layout_height="@dimen/dp_70"
+        android:paddingTop="@dimen/dp_30"
         android:gravity="center"
         android:orientation="horizontal"
         android:paddingLeft="@dimen/dp_10"
-        android:paddingRight="@dimen/dp_10">
+        android:paddingRight="@dimen/dp_10"
+        android:background="@color/blue">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dp_35"
             android:layout_weight="1"
-            android:drawableLeft="@drawable/dhcc_filter_big"
-            android:drawablePadding="@dimen/dp_10"
+            android:drawableLeft="@drawable/dhcc_filter_big_write"
+            android:drawablePadding="@dimen/dp_5"
             android:gravity="center_vertical"
             android:text="筛选"
-            android:textSize="@dimen/sp_14"/>
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_14" />
+
         <ImageView
             android:id="@+id/iv_finish_filter"
             android:layout_width="@dimen/dp_35"
