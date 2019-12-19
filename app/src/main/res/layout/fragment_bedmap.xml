@@ -123,15 +123,19 @@
             android:background="@color/bedmap_left_bgcolor">
 
         </android.support.v7.widget.RecyclerView>
+            <com.dhcc.nursepro.view.ReFreshParent
+                android:id="@+id/refresh"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recy_bedmap_patient"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/white">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recy_bedmap_patient"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/white">
-
-        </android.support.v7.widget.RecyclerView>
+                </android.support.v7.widget.RecyclerView>
+            </com.dhcc.nursepro.view.ReFreshParent>
 
     </LinearLayout>
 

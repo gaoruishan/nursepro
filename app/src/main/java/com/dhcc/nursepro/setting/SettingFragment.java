@@ -131,9 +131,22 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 startFragment(LocalRequesetFragment.class);
                 break;
             case R.id.tv_setting_relogin:
-                Intent i = new Intent(getActivity(), LoginActivity.class);
-                startActivity(i);
-                finish();
+                SettingExitDialog settingExitDialog = new SettingExitDialog(getActivity());
+                settingExitDialog.setSureOnclickListener(new SettingExitDialog.onSureOnclickListener() {
+                    @Override
+                    public void onCancleClick() {
+                        settingExitDialog.dismiss();
+                    }
+                    @Override
+                    public void onSureClick() {
+                        settingExitDialog.dismiss();
+                        Intent i = new Intent(getActivity(), LoginActivity.class);
+                        startActivity(i);
+                        finish();
+                    }
+                });
+                settingExitDialog.show();
+
                 break;
             default:
                 break;

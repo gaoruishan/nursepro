@@ -6,6 +6,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -22,6 +23,7 @@ import com.base.commlibs.constant.Action;
 import com.blankj.utilcode.util.SizeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.view.ReFreshParent;
 import com.dhcc.nursepro.workarea.bedmap.adapter.BedMapPatientAdapter;
 import com.dhcc.nursepro.workarea.bedmap.adapter.BedMapPatientTypeAdapter;
 import com.dhcc.nursepro.workarea.bedmap.api.BedMapApiManager;
@@ -41,6 +43,8 @@ import java.util.Map;
  * @date 2018/8/11
  */
 public class BedMapFragment extends BaseFragment implements View.OnClickListener {
+//    private SwipeRefreshLayout swipe_labout;
+    private ReFreshParent refresh;
     private EditText etBedmapBedno;
     private TextView tvBedmapAllarea;
     private TextView tvBedmapAdminarea;
@@ -88,7 +92,7 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
 
             }
         });
-        setToolbarRightCustomView(viewright);
+//        setToolbarRightCustomView(viewright);
 
 
         initView(view);
@@ -104,6 +108,21 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
     }
 
     private void initView(View view) {
+//        swipe_labout = view.findViewById(R.id.swipe_labout);
+//        swipe_labout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                showToast("sssss");
+//                swipe_labout.setRefreshing(false);
+//            }
+//        });
+        refresh = view.findViewById(R.id.refresh);
+        refresh.setRefreshCompleteListener(new ReFreshParent.RefreshCompleteListener() {
+            @Override
+            public void refreshed() {
+                asyncInitData();
+            }
+        });
 
         //控制图标大小
         etBedmapBedno = view.findViewById(R.id.et_bedmap_bedno);
