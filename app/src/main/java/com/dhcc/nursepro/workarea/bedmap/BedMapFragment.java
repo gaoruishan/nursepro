@@ -58,6 +58,7 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
     private BedMapPatientAdapter bedMapPatientAdapter;
 
     private List<BedMapBean.LeftFilterBean> leftFilterBeanList =new ArrayList<>();
+    private List<BedMapBean.LeftFilterBean> leftFilterBeanListFirst =new ArrayList<>();
     private List<BedMapBean.PatInfoListBean> patInfoListBeanList =new ArrayList<>();
     private List<BedMapBean.TopFilterBean> topFilterBeanList =new ArrayList<>();
 
@@ -69,6 +70,7 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
     private String bedCode = "";
     private String topFilterStr = "inBedAll";
     private String leftFilterStr = "allPat";
+    private String leftFilterStrFirst = "allPat";
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -221,6 +223,9 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
 
                 topFilterBeanList = bedMapBean.getTopFilter();
                 leftFilterBeanList = bedMapBean.getLeftFilter();
+                if (bedMapBean.getLeftFilter().size()>0){
+                    leftFilterBeanListFirst.add(bedMapBean.getLeftFilter().get(0));
+                }
                 patInfoListBeanList = bedMapBean.getPatInfoList();
 
                 patInfoMapList = (List<Map<String, String>>) bedMapMap.get("patInfoList");
@@ -349,26 +354,40 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
         switch (v.getId()) {
             case R.id.tv_bedmap_allarea:
                 topFilterStr = "inBedAll";
+                bedMapPatientTypeAdapter.setNewData(leftFilterBeanList);
                 setTopFilterSelect(tvBedmapAllarea);
                 setData(bedCode, topFilterStr, leftFilterStr);
                 break;
             case R.id.tv_bedmap_adminarea:
                 topFilterStr = "manageInBed";
+                bedMapPatientTypeAdapter.setNewData(leftFilterBeanList);
                 setTopFilterSelect(tvBedmapAdminarea);
                 setData(bedCode, topFilterStr, leftFilterStr);
                 break;
             case R.id.tv_bedmap_nowoutarea:
                 topFilterStr = "todayOut";
+                leftFilterStr = "allPat";
+                bedMapPatientTypeAdapter.setNewData(leftFilterBeanListFirst);
+                bedMapPatientTypeAdapter.setSelectedPostion(0);
+                bedMapPatientTypeAdapter.notifyDataSetChanged();
                 setTopFilterSelect(tvBedmapNowoutarea);
                 setData(bedCode, topFilterStr, leftFilterStr);
                 break;
             case R.id.tv_bedmap_alloutarea:
                 topFilterStr = "allOut";
+                leftFilterStr = "allPat";
+                bedMapPatientTypeAdapter.setNewData(leftFilterBeanListFirst);
+                bedMapPatientTypeAdapter.setSelectedPostion(0);
+                bedMapPatientTypeAdapter.notifyDataSetChanged();
                 setTopFilterSelect(tvBedmapAlloutarea);
                 setData(bedCode, topFilterStr, leftFilterStr);
                 break;
             case R.id.tv_bedmap_waitarea:
                 topFilterStr = "wait";
+                leftFilterStr = "allPat";
+                bedMapPatientTypeAdapter.setNewData(leftFilterBeanListFirst);
+                bedMapPatientTypeAdapter.setSelectedPostion(0);
+                bedMapPatientTypeAdapter.notifyDataSetChanged();
                 setTopFilterSelect(tvBedmapWaitarea);
                 setData(bedCode, topFilterStr, leftFilterStr);
                 break;

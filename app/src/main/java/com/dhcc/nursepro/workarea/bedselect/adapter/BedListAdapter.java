@@ -30,26 +30,30 @@ public class BedListAdapter extends BaseQuickAdapter<BedSelectListBean.BedListBe
 
         LinearLayout llBedSelect = helper.getView(R.id.ll_bedselect);
         TextView tvBedSelectBed = helper.getView(R.id.tv_bedselect_bed);
-        ImageView imgBedSelectSex = helper.getView(R.id.img_bedselect_sex);
+        ImageView imgBedSex = helper.getView(R.id.img_bedselect_sex);
         if ("0".equals(item.getSelect())) {
             llBedSelect.setSelected(false);
             tvBedSelectBed.setSelected(false);
-            if (item.getPatSex() == null || "".equals(item.getPatSex())) {
-                imgBedSelectSex.setVisibility(View.INVISIBLE);
-            } else if ("男".equals(item.getPatSex())) {
-                imgBedSelectSex.setImageResource(R.drawable.man);
-            } else {
-                imgBedSelectSex.setImageResource(R.drawable.woman);
+            if ("男".equals(item.getPatSex())) {
+                imgBedSex.setVisibility(View.VISIBLE);
+                imgBedSex.setImageResource(R.drawable.man);
+            } else if ("女".equals(item.getPatSex()))  {
+                imgBedSex.setVisibility(View.VISIBLE);
+                imgBedSex.setImageResource(R.drawable.woman);
+            }else {
+                imgBedSex.setVisibility(View.INVISIBLE);
             }
         } else {
             llBedSelect.setSelected(true);
             tvBedSelectBed.setSelected(true);
-            if (item.getPatSex() == null || "".equals(item.getPatSex())) {
-                imgBedSelectSex.setVisibility(View.INVISIBLE);
-            } else if ("男".equals(item.getPatSex())) {
-                imgBedSelectSex.setImageResource(R.drawable.man_selected);
-            } else {
-                imgBedSelectSex.setImageResource(R.drawable.woman_selected);
+            if ("男".equals(item.getPatSex())) {
+                imgBedSex.setVisibility(View.VISIBLE);
+                imgBedSex.setImageResource(R.drawable.man);
+            } else if ("女".equals(item.getPatSex()))  {
+                imgBedSex.setVisibility(View.VISIBLE);
+                imgBedSex.setImageResource(R.drawable.woman);
+            }else {
+                imgBedSex.setVisibility(View.INVISIBLE);
             }
         }
 

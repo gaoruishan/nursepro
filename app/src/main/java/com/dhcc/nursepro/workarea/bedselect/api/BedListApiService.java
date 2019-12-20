@@ -21,7 +21,7 @@ public class BedListApiService {
         properties.put("userId", spUtils.getString(SharedPreference.USERID));
 
 
-        WebServiceUtils.callWebService("getBedList", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService("getBedListSelected", properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
