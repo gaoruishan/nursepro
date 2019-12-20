@@ -58,6 +58,7 @@ public class OrderSearchFragment extends BaseFragment implements View.OnClickLis
     private String bedStr = "";
     private String regNo = "";
     private String sheetCode = "";
+    private String sheetCodePresenter = "sheetCodePresenter";
     private String startDate;
     private String startTime;
     private String endDate;
@@ -170,7 +171,11 @@ public class OrderSearchFragment extends BaseFragment implements View.OnClickLis
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 sheetCode = ((OrderSearchBean.SheetListBean) adapter.getItem(position)).getCode();
-                presenter.setOrdTypeSelectedCode(sheetCode);
+                if (!sheetCode.equals(sheetCodePresenter)){
+                    sheetCodePresenter = sheetCode;
+                    presenter.setOrdTypeSelectedCode(sheetCode);
+                    screenParts = null;
+                }
                 pageNo = "1";
                 asyncInitData();
 
@@ -202,7 +207,11 @@ public class OrderSearchFragment extends BaseFragment implements View.OnClickLis
 
                     //左侧列表判断有无默认值，有的话滑动到默认值类型
                     if (!"".equals(orderSearchBean.getSheetDefCode())) {
-                        presenter.setOrdTypeSelectedCode(orderSearchBean.getSheetDefCode());
+                        if (!sheetCodePresenter.equals(orderSearchBean.getSheetDefCode())){
+                            sheetCodePresenter  = orderSearchBean.getSheetDefCode();
+                            presenter.setOrdTypeSelectedCode(orderSearchBean.getSheetDefCode());
+                            screenParts = null;
+                        }
                         orderTypeAdapter.setSelectedCode(orderSearchBean.getSheetDefCode());
                     }
                     orderTypeAdapter.setNewData(sheetList);

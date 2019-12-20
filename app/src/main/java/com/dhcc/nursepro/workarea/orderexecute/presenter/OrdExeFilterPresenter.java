@@ -35,6 +35,7 @@ public class OrdExeFilterPresenter extends BaseHelper {
 
     private View contentView;
     private List<MainConfigBean.ScreenPartsBean> screenParts;
+    private List<MainConfigBean.ScreenPartsBean> screenPartsClear = new ArrayList<>();
     private OnSelectCallBackListener onSelectCallBackListener;
     private String sheetCode;
     private OrdExeFilterAdapter ordExeFilterAdapter;
@@ -75,7 +76,12 @@ public class OrdExeFilterPresenter extends BaseHelper {
             tvFilterClearSelect.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ordExeFilterAdapter.replaceData(screenParts);
+                    for (int i = 0; i <screenPartsClear.size() ; i++) {
+                        for (int j = 0; j <screenPartsClear.get(i).getListBean().size() ; j++) {
+                            screenPartsClear.get(i).getListBean().get(j).setShow(false);
+                        }
+                    }
+                    ordExeFilterAdapter.replaceData(screenPartsClear);
                 }
             });
             View tvFilterOk = contentView.findViewById(R.id.tv_filter_ok);
@@ -176,6 +182,7 @@ public class OrdExeFilterPresenter extends BaseHelper {
         }
         data.addAll(dataMap.values());
 //        ordExeFilterAdapter.replaceData(data);
+        screenPartsClear = data;
         ordExeFilterAdapter = new OrdExeFilterAdapter(data);
         recyclerView.setAdapter(ordExeFilterAdapter);
     }

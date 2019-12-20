@@ -91,6 +91,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     //    private String regNo = "0000000129";
     private String regNo = "";
     private String sheetCode = "";
+    private String sheetCodePresenter = "sheetCodePresenter";
     private String startDate;
     private String startTime;
     private String endDate;
@@ -381,9 +382,12 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
         orderTypeAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                screenParts = "";
                 sheetCode = ((OrderExecuteBean.SheetListBean) adapter.getItem(position)).getCode();
-                presenter.setOrdTypeSelectedCode(sheetCode);
+                if (!sheetCode.equals(sheetCodePresenter)){
+                    sheetCodePresenter = sheetCode;
+                    presenter.setOrdTypeSelectedCode(sheetCode);
+                    screenParts = "";
+                }
                 asyncInitData();
 
                 //左侧刷新分类选中状态显示
@@ -544,7 +548,11 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
 
                 //左侧列表判断有无默认值，有的话滑动到默认值类型
                 if (!"".equals(orderExecuteBean.getSheetDefCode())) {
-                    presenter.setOrdTypeSelectedCode(orderExecuteBean.getSheetDefCode());
+                    if (!sheetCodePresenter.equals(orderExecuteBean.getSheetDefCode())){
+                        sheetCodePresenter  = orderExecuteBean.getSheetDefCode();
+                        presenter.setOrdTypeSelectedCode(orderExecuteBean.getSheetDefCode());
+                        screenParts = "";
+                    }
                     orderTypeAdapter.setSelectedCode(orderExecuteBean.getSheetDefCode());
                 }
                 orderTypeAdapter.setNewData(sheetList);
