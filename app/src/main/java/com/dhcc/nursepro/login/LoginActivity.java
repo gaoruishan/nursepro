@@ -574,7 +574,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         picker = new OptionPicker(LoginActivity.this, locDesc);
         picker.setCanceledOnTouchOutside(false);
         picker.setDividerRatio(WheelView.DividerConfig.FILL);
-        picker.setSelectedIndex(0);
+        Boolean ifLocRem = true;
+        for (int i = 0; i <locDesc.length ; i++) {
+            if (spUtils.getString(SharedPreference.LOCDESC).equals(locDesc[i])){
+                picker.setSelectedIndex(i);
+                ifLocRem = false;
+            }
+        }
+        if (ifLocRem){
+            picker.setSelectedIndex(0);
+        }
         picker.setCycleDisable(true);
         picker.setTextSize(20);
         picker.setOnOptionPickListener(new OptionPicker.OnOptionPickListener() {
