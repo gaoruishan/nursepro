@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.base.commlibs.constant.SharedPreference;
+import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.nursepro.R;
@@ -41,7 +43,17 @@ public class BedGroupListAdapter extends BaseQuickAdapter<BedSelectListBean.BedL
             }
         }
 
+        String bedsSelected = "";
+        bedsSelected = SPUtils.getInstance().getString(SharedPreference.ORDERSEARCHE_BEDSELECTED)+"";
+        String[] bedSelected = bedsSelected.split(";");
+        for (int i = 0; i < item.getGroupList().size(); i++) {
+            for (int k = 0; k <bedSelected.length ; k++) {
+                if (item.getGroupList().get(i).getBedId().equals(bedSelected[k])){
+                    item.getGroupList().get(i).setSelect("1");
+                }
+            }
 
+        }
         helper.setText(R.id.tv_bedselect_group, item.getGroupCode() + "区")
                 .addOnClickListener(R.id.ll_bedselect_group);
 

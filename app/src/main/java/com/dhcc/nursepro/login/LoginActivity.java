@@ -490,6 +490,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             //本地数据库已保存用户信息且用户的登录病区存在于登陆成功返回的可登录病区列表，
             if (k < nurseInfoList.size() && l < loginBean.getLocs().size()) {
                 saveUserInfo();
+                spUtils.put(SharedPreference.ORDERSEARCHE_BEDSELECTED,"");
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 finish();
             }
@@ -499,6 +500,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 //                            Toast.makeText(LoginActivity.this, "login----不存在，插入新数据", Toast.LENGTH_SHORT).show();
                 daoSession.getNurseInfoDao().insert(loginNurseInfo);
                 saveUserInfo();
+                spUtils.put(SharedPreference.ORDERSEARCHE_BEDSELECTED,"");
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 finish();
             }
@@ -507,6 +509,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             //                        Toast.makeText(LoginActivity.this, "login----不存在，插入新数据", Toast.LENGTH_SHORT).show();
             daoSession.getNurseInfoDao().insert(loginNurseInfo);
             saveUserInfo();
+            spUtils.put(SharedPreference.ORDERSEARCHE_BEDSELECTED,"");
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
         }

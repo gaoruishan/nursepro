@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.base.commlibs.constant.SharedPreference;
+import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
@@ -36,6 +38,8 @@ public class BedSelectFragment extends BaseFragment {
 
     private List<BedSelectListBean.BedListBean> bedList = new ArrayList<>();
     private BedGroupListAdapter bedGroupListAdapter;
+    private String bedsSelected = "";
+    private String bedsSelectedSave = "";
 
     //是否全选状态，暂不关联各组变更状态
     private boolean selectAll;
@@ -66,11 +70,13 @@ public class BedSelectFragment extends BaseFragment {
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putString("bedselectinfoStr", getBedSelectInfoStr());
+                SPUtils.getInstance().put(SharedPreference.ORDERSEARCHE_BEDSELECTED,bedsSelectedSave);
                 finish(bundle);
             }
         });
         setToolbarRightCustomView(viewright);
 
+        bedsSelected = SPUtils.getInstance().getString(SharedPreference.ORDERSEARCHE_BEDSELECTED)+"";
         initView(view);
         initAdapter();
         initData();
@@ -152,7 +158,6 @@ public class BedSelectFragment extends BaseFragment {
                 }
                 hideLoadingTip();
                 bedGroupListAdapter.setNewData(bedList);
-
             }
 
             @Override
@@ -172,6 +177,7 @@ public class BedSelectFragment extends BaseFragment {
                 BedSelectListBean.BedListBean.GroupListBean groupListBean = groupListBeanListLocal.get(j);
                 if (groupListBean.getSelect().equals("1")) {
 
+                    bedsSelectedSave = bedsSelectedSave+";"+groupListBean.getBedId();
                     if ("".equals(bedselectinfoStr.toString())) {
                         bedselectinfoStr.append("{\"bedList\":{\"" + groupListBean.getBedId() + "\":\"1\"");
                     } else {

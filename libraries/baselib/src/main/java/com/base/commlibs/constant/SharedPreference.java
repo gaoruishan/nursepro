@@ -81,4 +81,6 @@ public class SharedPreference {
     public static final String BLOOD_CHECK_FLAG = "BLOOD_CHECK_FLAG";
     //皮试日期差值
     public static final String SKIN_DATE_OFFSET = "SKIN_DATE_OFFSET";
+    //医嘱查询床位筛选记住筛选记录
+    public static final String ORDERSEARCHE_BEDSELECTED = "ORDERSEARCHE_BEDSELECTED";
 }
