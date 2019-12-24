@@ -84,6 +84,31 @@
 
 
         </LinearLayout>
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/ll_executed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:textColor="@color/ordersearch_text_color"
+                android:textSize="12sp"
+                android:text="执行时间：" />
+
+            <TextView
+                android:id="@+id/tv_executed_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:textColor="@color/ordersearch_text_color"
+                android:textSize="12sp"
+                tools:text="32112" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/ll_oeporderinfo_multiorder1"
@@ -156,6 +181,31 @@
                 android:textSize="12sp"
                 tools:text="严医生" />
 
+
+        </LinearLayout>
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/ll_executed2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:textColor="@color/ordersearch_text_color"
+                android:textSize="12sp"
+                android:text="执行时间：" />
+
+            <TextView
+                android:id="@+id/tv_executed_time2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:textColor="@color/ordersearch_text_color"
+                android:textSize="12sp"
+                tools:text="32112" />
 
         </LinearLayout>
 

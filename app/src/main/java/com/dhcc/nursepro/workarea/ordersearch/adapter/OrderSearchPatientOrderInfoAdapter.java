@@ -34,6 +34,7 @@ public class OrderSearchPatientOrderInfoAdapter extends BaseQuickAdapter<OrderSe
     protected void convert(BaseViewHolder helper, OrderSearchBean.OrdersBean.PatOrdsBean item) {
         OrderSearchBean.OrdersBean.PatOrdsBean.OrderInfoBean orderInfoBean = item.getOrderInfo();
         LinearLayout llorderinfosingle = helper.getView(R.id.ll_osporderinfo_singleorder);
+        LinearLayout llExe = helper.getView(R.id.ll_executed);
         LinearLayout llorderinfomulti1 = helper.getView(R.id.ll_osporderinfo_multiorder1);
         View lineorderinfomulti = helper.getView(R.id.line_osporderinfo_multiorder);
         LinearLayout llorderinfomulti2 = helper.getView(R.id.ll_osporderinfo_multiorder2);
@@ -46,6 +47,12 @@ public class OrderSearchPatientOrderInfoAdapter extends BaseQuickAdapter<OrderSe
 
         if (size == 1) {
             llorderinfosingle.setVisibility(View.VISIBLE);
+            if ( orderInfoBean.getExecDateTime() == null || orderInfoBean.getExecDateTime().equals("")){
+                llExe.setVisibility(View.GONE);
+            }else {
+                llExe.setVisibility(View.VISIBLE);
+                helper.setText(R.id.tv_executed_time,orderInfoBean.getExecDateTime());
+            }
             llorderinfomulti1.setVisibility(View.GONE);
             lineorderinfomulti.setVisibility(View.GONE);
             llorderinfomulti2.setVisibility(View.GONE);
@@ -71,7 +78,7 @@ public class OrderSearchPatientOrderInfoAdapter extends BaseQuickAdapter<OrderSe
                     .setText(R.id.tv_notes, orderInfoBean.getNotes());
         } else {
             llorderinfosingle.setVisibility(View.GONE);
-
+            llExe.setVisibility(View.GONE);
             if (helper.getLayoutPosition() == 0) {
                 tvOrderType.setVisibility(View.VISIBLE);
                 String[] typeStr = orderInfoBean.getDisposeStatCode().split("\\^");
@@ -95,6 +102,13 @@ public class OrderSearchPatientOrderInfoAdapter extends BaseQuickAdapter<OrderSe
                 llorderinfomulti1.setVisibility(View.VISIBLE);
                 lineorderinfomulti.setVisibility(View.VISIBLE);
                 llorderinfomulti2.setVisibility(View.VISIBLE);
+                LinearLayout llExe2 = helper.getView(R.id.ll_executed2);
+                if ( orderInfoBean.getExecDateTime() == null || orderInfoBean.getExecDateTime().equals("")){
+                    llExe2.setVisibility(View.GONE);
+                }else {
+                    llExe2.setVisibility(View.VISIBLE);
+                    helper.setText(R.id.tv_executed_time2,orderInfoBean.getExecDateTime());
+                }
                 helper.setText(R.id.tv_osporderinfo_orderdose1, orderInfoBean.getDoseQtyUnit())
                         .setText(R.id.tv_osporderinfo_orderdatetime2, orderInfoBean.getSttDateTime())
                         .setText(R.id.tv_osporderinfo_orderoperate2, orderInfoBean.getPhcinDesc())
