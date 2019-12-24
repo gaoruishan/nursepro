@@ -348,6 +348,24 @@ public class OrderExecuteBean implements Serializable {
                 private String xCtcpDesc;
                 private String xDateTime;
 
+                private String execCtcpDesc;
+                private String execDateTime;
+                public String getExecCtcpDesc() {
+                    return execCtcpDesc;
+                }
+
+                public void setExecCtcpDesc(String execCtcpDesc) {
+                    this.execCtcpDesc = execCtcpDesc;
+                }
+
+                public String getExecDateTime() {
+                    return execDateTime;
+                }
+
+                public void setExecDateTime(String execDateTime) {
+                    this.execDateTime = execDateTime;
+                }
+
                 public String getDspStat() {
                     return DspStat;
                 }

@@ -52,6 +52,7 @@ public class OrderSearchPatientOrderInfoAdapter extends BaseQuickAdapter<OrderSe
             }else {
                 llExe.setVisibility(View.VISIBLE);
                 helper.setText(R.id.tv_executed_time,orderInfoBean.getExecDateTime());
+                helper.setText(R.id.tv_executed_nur1,orderInfoBean.getExecCtcpDesc());
             }
             llorderinfomulti1.setVisibility(View.GONE);
             lineorderinfomulti.setVisibility(View.GONE);
@@ -108,6 +109,7 @@ public class OrderSearchPatientOrderInfoAdapter extends BaseQuickAdapter<OrderSe
                 }else {
                     llExe2.setVisibility(View.VISIBLE);
                     helper.setText(R.id.tv_executed_time2,orderInfoBean.getExecDateTime());
+                    helper.setText(R.id.tv_executed_nur1,orderInfoBean.getExecCtcpDesc());
                 }
                 helper.setText(R.id.tv_osporderinfo_orderdose1, orderInfoBean.getDoseQtyUnit())
                         .setText(R.id.tv_osporderinfo_orderdatetime2, orderInfoBean.getSttDateTime())

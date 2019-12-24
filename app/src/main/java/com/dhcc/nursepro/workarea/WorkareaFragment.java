@@ -68,7 +68,7 @@ import java.util.Objects;
  */
 public class WorkareaFragment extends BaseFragment {
     private RecyclerView recConfig;
-    private List<String> ItemNameList = new ArrayList<String>();
+    private List<MainConfigBean.MainListBean> ItemNameList = new ArrayList<MainConfigBean.MainListBean>();
     private WorkAreaAdapter patEventsAdapter;
 
     //广播相关
@@ -136,22 +136,24 @@ public class WorkareaFragment extends BaseFragment {
         recConfig = view.findViewById(R.id.recy_workarea);
         recConfig.setHasFixedSize(true);
         recConfig.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-        patEventsAdapter = new WorkAreaAdapter(new ArrayList<String>());
+        patEventsAdapter = new WorkAreaAdapter(new ArrayList<MainConfigBean.MainListBean>());
         recConfig.setAdapter(patEventsAdapter);
         patEventsAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                itemClick(ItemNameList.get(position) + "");
+                itemClick(ItemNameList.get(position).getModuleCode() + "");
             }
         });
     }
 
     private void initData() {
         HashMap<String, String> properties = new HashMap<String, String>();
+        properties.put("locId",SPUtils.getInstance().getString(SharedPreference.LOCID));
+        properties.put("groupId",SPUtils.getInstance().getString(SharedPreference.GROUPID));
         WorkareaApiManager.getMainConfig(properties, "getMainConfig", new WorkareaApiManager.GetMainconfigCallback() {
             @Override
             public void onSuccess(MainConfigBean mainConfigBean) {
-                ItemNameList = mainConfigBean.getMainConfig();
+                ItemNameList = mainConfigBean.getMainList();
                 //                ItemNameList.add("DRUGHANDOVER");
                 //                ItemNameList.add("DRUGPREPARATION");
                 //                ItemNameList.add("RLREG");
@@ -263,98 +265,98 @@ public class WorkareaFragment extends BaseFragment {
         }
     }
 
-    public class WorkAreaAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
-        public WorkAreaAdapter(@Nullable List<String> data) {
+    public class WorkAreaAdapter extends BaseQuickAdapter<MainConfigBean.MainListBean, BaseViewHolder> {
+        public WorkAreaAdapter(@Nullable List<MainConfigBean.MainListBean> data) {
             super(R.layout.item_workarea, data);
         }
 
         @Override
-        protected void convert(BaseViewHolder helper, String item) {
+        protected void convert(BaseViewHolder helper, MainConfigBean.MainListBean item) {
             TextView tvItem = helper.getView(R.id.tv_workarea);
             ImageView imageView = helper.getView(R.id.icon_workarea);
-            switch (item) {
+            switch (item.getModuleCode()) {
                 case "BEDMAP":
-                    tvItem.setText("床位图");
+                    tvItem.setText(item.getModuleDesc());
                     imageView.setImageResource(R.drawable.icon_bedmap);
                     break;
                 case "VITALSIGN":
-                    tvItem.setText("生命体征");
+                    tvItem.setText(item.getModuleDesc());
                     imageView.setImageResource(R.drawable.icon_vitalsign);
                     break;
                 case "EVENTS":
-                    tvItem.setText("事件登记");
+                    tvItem.setText(item.getModuleDesc());
                     imageView.setImageResource(R.drawable.icon_events);
                     break;
                 case "ORDERSEARCH":
-                    tvItem.setText("医嘱查询");
+                    tvItem.setText(item.getModuleDesc());
                     imageView.setImageResource(R.drawable.icon_orderserarch);
                     break;
                 case "ORDEREXECUTE":
-                    tvItem.setText("医嘱执行");
+                    tvItem.setText(item.getModuleDesc());
                     imageView.setImageResource(R.drawable.icon_orderexcute);
                     break;
                 case "CHECK":
-                    tvItem.setText("检查报告");
+                    tvItem.setText(item.getModuleDesc());
                     imageView.setImageResource(R.drawable.icon_check);
                     break;
                 case "LAB":
-                    tvItem.setText("检验结果");
+                    tvItem.setText(item.getModuleDesc());
                     imageView.setImageResource(R.drawable.icon_lab);
                     break;
                 case "OPERATION":
-                    tvItem.setText("手术查询");
+                    tvItem.setText(item.getModuleDesc());
                     imageView.setImageResource(R.drawable.icon_operation);
                     break;
                 case "LABOUT":
-                    tvItem.setText("检验打包");
+                    tvItem.setText(item.getModuleDesc());
                     imageView.setImageResource(R.drawable.icon_labout);
                     break;
                 case "DOSINGREVIEW":
-                    tvItem.setText("配液复核");
+                    tvItem.setText(item.getModuleDesc());
                     imageView.setImageResource(R.drawable.icon_dosingreview);
                     break;
                 case "ALLOTBED":
-                    tvItem.setText("入院分床");
+                    tvItem.setText(item.getModuleDesc());
                     imageView.setImageResource(R.drawable.icon_allotbed);
                     break;
                 case "DOCORDERLIST":
-                    tvItem.setText("医嘱单");
+                    tvItem.setText(item.getModuleDesc());
                     imageView.setImageResource(R.drawable.icon_docorderlist);
                     break;
                 case "BLOOD":
-                    tvItem.setText("输血系统");
+                    tvItem.setText(item.getModuleDesc());
                     imageView.setImageResource(R.drawable.icon_blood);
                     break;
                 case "MILK":
-                    tvItem.setText("母乳闭环");
+                    tvItem.setText(item.getModuleDesc());
                     imageView.setImageResource(R.drawable.icon_milk);
                     break;
                 case "MOTHERBABYLINK":
-                    tvItem.setText("母婴关联");
+                    tvItem.setText(item.getModuleDesc());
                     imageView.setImageResource(R.drawable.icon_motherbabylink);
                     break;
                 case "MODELDETAIL":
-                    tvItem.setText("护理病历");
+                    tvItem.setText(item.getModuleDesc());
                     imageView.setImageResource(R.drawable.icon_motherbabylink);
                     break;
                 case "NURTOUR":
-                    tvItem.setText("巡视");
+                    tvItem.setText(item.getModuleDesc());
                     imageView.setImageResource(R.drawable.icon_tour);
                     break;
                 case "DRUGHANDOVER":
-                    tvItem.setText("药品交接");
+                    tvItem.setText(item.getModuleDesc());
                     imageView.setImageResource(R.drawable.icon_drughandover);
                     break;
                 case "DRUGPREPARATION":
-                    tvItem.setText("取备用药");
+                    tvItem.setText(item.getModuleDesc());
                     imageView.setImageResource(R.drawable.icon_drugpreparation);
                     break;
                 case "RLREG":
-                    tvItem.setText("余液登记");
+                    tvItem.setText(item.getModuleDesc());
                     imageView.setImageResource(R.drawable.icon_drugrlreg);
                     break;
                 case "SHIFT":
-                    tvItem.setText("交班本");
+                    tvItem.setText(item.getModuleDesc());
                     imageView.setImageResource(R.drawable.icon_drugrlreg);
                     break;
                 default:

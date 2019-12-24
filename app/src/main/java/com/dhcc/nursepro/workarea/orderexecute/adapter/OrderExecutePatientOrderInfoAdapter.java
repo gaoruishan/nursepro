@@ -51,6 +51,7 @@ public class OrderExecutePatientOrderInfoAdapter extends BaseQuickAdapter<OrderE
         LinearLayout llorderinfomulti2 = helper.getView(R.id.ll_oeporderinfo_multiorder2);
         TextView tvOrderType = helper.getView(R.id.tv_oeporderinfo_ordertype);
         GradientDrawable myGrad = (GradientDrawable)tvOrderType.getBackground();
+        LinearLayout llExe = helper.getView(R.id.ll_executed);
 
         LinearLayout llSkintestResult = helper.getView(R.id.ll_skintest_result);
         RotateTextView tvSkintestResult = helper.getView(R.id.tv_skintest_result);
@@ -61,6 +62,13 @@ public class OrderExecutePatientOrderInfoAdapter extends BaseQuickAdapter<OrderE
             llorderinfomulti1.setVisibility(View.GONE);
             lineorderinfomulti.setVisibility(View.GONE);
             llorderinfomulti2.setVisibility(View.GONE);
+            if ( orderInfoBean.getExecDateTime() == null || orderInfoBean.getExecDateTime().equals("")){
+                llExe.setVisibility(View.GONE);
+            }else {
+                llExe.setVisibility(View.VISIBLE);
+                helper.setText(R.id.tv_executed_time,orderInfoBean.getExecDateTime());
+                helper.setText(R.id.tv_executed_nur1,orderInfoBean.getExecCtcpDesc());
+            }
             String[] typeStr = orderInfoBean.getDisposeStatCode().split("\\^");
             tvOrderType.setText(typeStr[0]);
             myGrad.setColor(Color.parseColor(typeStr[1]));
@@ -106,6 +114,14 @@ public class OrderExecutePatientOrderInfoAdapter extends BaseQuickAdapter<OrderE
                 llorderinfomulti1.setVisibility(View.VISIBLE);
                 lineorderinfomulti.setVisibility(View.VISIBLE);
                 llorderinfomulti2.setVisibility(View.VISIBLE);
+                LinearLayout llExe2 = helper.getView(R.id.ll_executed2);
+                if ( orderInfoBean.getExecDateTime() == null || orderInfoBean.getExecDateTime().equals("")){
+                    llExe2.setVisibility(View.GONE);
+                }else {
+                    llExe2.setVisibility(View.VISIBLE);
+                    helper.setText(R.id.tv_executed_time2,orderInfoBean.getExecDateTime());
+                    helper.setText(R.id.tv_executed_nur1,orderInfoBean.getExecCtcpDesc());
+                }
                 helper.setText(R.id.tv_oeporderinfo_orderdose1, orderInfoBean.getDoseQtyUnit())
                         .setText(R.id.tv_oeporderinfo_orderdatetime2, orderInfoBean.getSttDateTime())
                         .setText(R.id.tv_oeporderinfo_orderoperate2, orderInfoBean.getPhcinDesc())
