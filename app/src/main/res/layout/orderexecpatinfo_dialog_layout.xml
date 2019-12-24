@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/dp_320"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="20dp"
+    android:layout_marginEnd="20dp"
+    android:layout_marginTop="@dimen/dp_30"
+    android:layout_marginBottom="@dimen/dp_50"
+    android:background="@drawable/bg_dialog"
+    android:orientation="vertical"
+    android:paddingStart="15dp"
+    android:paddingTop="20dp"
+    android:paddingEnd="15dp"
+    android:paddingBottom="30dp">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="患者信息"
+                    android:textColor="#9B9B9B" />
+
+                <TextView
+                    android:id="@+id/tv_popup_patinfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="65dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#F5FAFF"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    tools:text="06床-苏患者-男-62岁-02791538" />
+                <LinearLayout
+                    android:id="@+id/ll_msg"
+                    android:visibility="gone"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="提示信息"
+                        android:textColor="#9B9B9B" />
+
+                    <TextView
+                        android:id="@+id/tv_popup_msg"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_marginTop="10dp"
+                        android:background="#F5FAFF"
+                        android:gravity="center"
+                        android:textColor="#4A4A4A"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        tools:text="06床-苏患者-男-62岁-02791538" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="35dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/tv_sure"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_dialog_sure"
+                        android:gravity="center"
+                        android:paddingStart="46dp"
+                        android:paddingTop="11dp"
+                        android:paddingEnd="46dp"
+                        android:paddingBottom="11dp"
+                        android:text="确定"
+                        android:textColor="@color/white"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

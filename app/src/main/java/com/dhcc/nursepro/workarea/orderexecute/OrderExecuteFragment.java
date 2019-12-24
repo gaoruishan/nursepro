@@ -255,6 +255,15 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                                 asyncInitData();
                             }
                         }, 300);
+                        PatInfoDialog patInfoDialog = new PatInfoDialog(getActivity());
+                        patInfoDialog.setPatInfo(patInfo);
+                        patInfoDialog.setSureOnclickListener(new PatInfoDialog.onSureOnclickListener() {
+                            @Override
+                            public void onSureClick() {
+                                patInfoDialog.dismiss();
+                            }
+                        });
+                        patInfoDialog.show();
                     }
 
                 } else {
