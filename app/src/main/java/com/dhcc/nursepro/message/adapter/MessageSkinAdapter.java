@@ -13,7 +13,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.message.api.MessageApiManager;
-import com.dhcc.nursepro.message.bean.MessageSkinBean;
+import com.dhcc.nursepro.message.bean.MessageBean;
 import com.dhcc.nursepro.utils.DialogFactory;
 import com.dhcc.nursepro.view.CountView;
 
@@ -31,17 +31,17 @@ import java.util.TimeZone;
  * @date:202019-04-23/15:57
  * @email:grs0515@163.com
  */
-public class MessageSkinAdapter extends BaseQuickAdapter<MessageSkinBean.SkinTimeListBean, BaseViewHolder> {
+public class MessageSkinAdapter extends BaseQuickAdapter<MessageBean.SkinTimeListBean, BaseViewHolder> {
     public static final String HH_MM_SS = "HH:mm:ss";
     public static final TimeZone GMT = TimeZone.getTimeZone("GMT");
 
 
-    public MessageSkinAdapter(@Nullable List<MessageSkinBean.SkinTimeListBean> data) {
+    public MessageSkinAdapter(@Nullable List<MessageBean.SkinTimeListBean> data) {
         super(R.layout.item_message_skin, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, final MessageSkinBean.SkinTimeListBean item) {
+    protected void convert(BaseViewHolder helper, final MessageBean.SkinTimeListBean item) {
         helper.setVisible(R.id.ll_count, !TextUtils.isEmpty(item.getOverTime()));
         if (!TextUtils.isEmpty(item.getOverTime())) {
             CountView cvCount = helper.getView(R.id.cv_count);
@@ -52,7 +52,7 @@ public class MessageSkinAdapter extends BaseQuickAdapter<MessageSkinBean.SkinTim
         }
         helper.setText(R.id.tv_message_regno, item.getPatRegNo())
                 .setText(R.id.tv_message_name, item.getPatName())
-                .setImageResource(R.id.img_message_sex, MessageSkinBean.getPatSexDrawable(item.getPatSex()));
+                .setImageResource(R.id.img_message_sex, MessageBean.getPatSexDrawable(item.getPatSex()));
 
         String skinResutl = item.getSkinResutl();
         String testStartTime = item.getTestStartTime();
@@ -84,7 +84,7 @@ public class MessageSkinAdapter extends BaseQuickAdapter<MessageSkinBean.SkinTim
 //        rv_item_msg_skin
     }
 
-    private void showDialog(String skinResutl, String testStartTime, String finalTestBetweenTime, String finalTestEndTime, MessageSkinBean.SkinTimeListBean item) {
+    private void showDialog(String skinResutl, String testStartTime, String finalTestBetweenTime, String finalTestEndTime, MessageBean.SkinTimeListBean item) {
         DialogFactory.showSetSkinDialog(mContext, skinResutl, testStartTime, finalTestBetweenTime, finalTestEndTime, new DialogFactory.CommClickListener() {
             @Override
             public void data(Object[] args) {

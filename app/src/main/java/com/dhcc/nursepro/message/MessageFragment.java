@@ -26,7 +26,6 @@ import com.dhcc.nursepro.message.adapter.MessageNewOrderAdapter;
 import com.dhcc.nursepro.message.adapter.MessageSkinAdapter;
 import com.dhcc.nursepro.message.api.MessageApiManager;
 import com.dhcc.nursepro.message.bean.MessageBean;
-import com.dhcc.nursepro.message.bean.MessageSkinBean;
 import com.dhcc.nursepro.message.bean.ReadMessageBean;
 
 import org.greenrobot.eventbus.EventBus;
@@ -55,7 +54,7 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
     private MessageNewOrderAdapter newOrderAdapter;
     private MessageAbnormalAdapter abnormalAdapter;
     private MessageConsultationAdapter consultationAdapter;
-    private MessageSkinAdapter messageSkinAdapter;
+    private MessageSkinAdapter messageSkinAdapter = new MessageSkinAdapter(new ArrayList<>());
     private RecyclerView recyMessageSkin;
 
     @Override
@@ -135,7 +134,7 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
             @Override
             public void onSuccess(MessageBean msgs) {
                 //请求皮试
-                getSkinTestMessage();
+//                getSkinTestMessage();
                 newOrdPatList = msgs.getNewOrdPatList();
                 abnormalPatList = msgs.getAbnormalPatList();
                 conPatList = msgs.getConPatList();
@@ -181,6 +180,11 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
                 tvMessageAbnormalCount.setText(abnormalAdapter.getItemCount() + "");
                 tvMessageConsultationCount.setText(consultationAdapter.getItemCount() + "");
 
+                if (msgs.getSkinTimeList() != null && msgs.getSkinTimeList().size() > 0) {
+                    switchSkinMessage(false);
+                }
+                messageSkinAdapter.replaceData(msgs.getSkinTimeList());
+
                 int messageNum = msgs.getNewOrdPatList().size() + msgs.getAbnormalPatList().size() + msgs.getConPatList().size();
                 setMessage(messageNum);
             }
@@ -195,24 +199,24 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
     /**
      * 请求皮试消息
      */
-    private void getSkinTestMessage() {
-        //初始化
-        switchSkinMessage(true);
-        MessageApiManager.getSkinTestMessage(new CommonCallBack<MessageSkinBean>() {
-            @Override
-            public void onFail(String code, String msg) {
-              ///  showToast("error" + code + ":" + msg);
-            }
-
-            @Override
-            public void onSuccess(MessageSkinBean bean, String type) {
-                if (bean.getSkinTimeList() != null && bean.getSkinTimeList().size() > 0) {
-                    switchSkinMessage(false);
-                }
-                messageSkinAdapter.replaceData(bean.getSkinTimeList());
-            }
-        });
-    }
+//    private void getSkinTestMessage() {
+//        //初始化
+//        switchSkinMessage(true);
+//        MessageApiManager.getSkinTestMessage(new CommonCallBack<MessageSkinBean>() {
+//            @Override
+//            public void onFail(String code, String msg) {
+//              ///  showToast("error" + code + ":" + msg);
+//            }
+//
+//            @Override
+//            public void onSuccess(MessageSkinBean bean, String type) {
+//                if (bean.getSkinTimeList() != null && bean.getSkinTimeList().size() > 0) {
+//                    switchSkinMessage(false);
+//                }
+//                messageSkinAdapter.replaceData(bean.getSkinTimeList());
+//            }
+//        });
+//    }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
@@ -247,7 +251,7 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
     @Subscribe
     public void updateList(MessageEvent event) {
         Log.e(getClass().getSimpleName(), "updateText:" + event.getType());
-        getSkinTestMessage();
+//        getSkinTestMessage();
     }
 
     private void initView(View view) {
@@ -325,7 +329,7 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
         recyMessageConsultation.setAdapter(consultationAdapter);
 
         recyMessageSkin = RecyclerViewHelper.get(getActivity(), R.id.recy_message_skin);
-        messageSkinAdapter = new MessageSkinAdapter(null);
+        messageSkinAdapter = new MessageSkinAdapter(new ArrayList<>());
         recyMessageSkin.setAdapter(messageSkinAdapter);
     }
 

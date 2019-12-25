@@ -1,12 +1,13 @@
 package com.dhcc.nursepro.message.api;
 
+import android.util.Log;
+
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommWebService;
 import com.base.commlibs.http.ParserUtil;
 import com.base.commlibs.http.ServiceCallBack;
 import com.blankj.utilcode.util.ObjectUtils;
 import com.dhcc.nursepro.message.bean.MessageBean;
-import com.dhcc.nursepro.message.bean.MessageSkinBean;
 import com.dhcc.nursepro.message.bean.ReadMessageBean;
 import com.google.gson.Gson;
 
@@ -16,17 +17,17 @@ public class MessageApiManager {
      * Input： locId:科室ID
      * other:	w ##class(Nur.OPPDA.Message).getSkinTestMessage("7")
      */
-    public static void getSkinTestMessage(final com.base.commlibs.http.CommonCallBack<MessageSkinBean> callBack) {
-        MessageApiService.getSkinTestMessage(new ServiceCallBack() {
-            @Override
-            public void onResult(String jsonStr) {
-                ParserUtil<MessageSkinBean> parserUtil = new ParserUtil<>();
-                MessageSkinBean bean = parserUtil.parserResult(jsonStr, callBack, MessageSkinBean.class);
-                if (bean == null) return;
-                parserUtil.parserStatus(bean, callBack);
-            }
-        });
-    }
+//    public static void getSkinTestMessage(final com.base.commlibs.http.CommonCallBack<MessageSkinBean> callBack) {
+//        MessageApiService.getSkinTestMessage(new ServiceCallBack() {
+//            @Override
+//            public void onResult(String jsonStr) {
+//                ParserUtil<MessageSkinBean> parserUtil = new ParserUtil<>();
+//                MessageSkinBean bean = parserUtil.parserResult(jsonStr, callBack, MessageSkinBean.class);
+//                if (bean == null) return;
+//                parserUtil.parserStatus(bean, callBack);
+//            }
+//        });
+//    }
     /**
      * Description: 置皮试结果
      * Input： oeoreId:执行记录ID
@@ -65,6 +66,7 @@ public class MessageApiManager {
                         }
                     } catch (Exception e) {
                         callback.onFail("-2","网络错误，数据解析失败");
+                        Log.e("shibai",e.toString());
                     }
                 }
             }

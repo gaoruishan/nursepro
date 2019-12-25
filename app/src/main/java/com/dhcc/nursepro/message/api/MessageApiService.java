@@ -55,6 +55,7 @@ public class MessageApiService {
         HashMap<String, String> properties = new HashMap<String, String>();
         properties.put("wardId", SPUtils.getInstance().getString(SharedPreference.WARDID));
         properties.put("userId", SPUtils.getInstance().getString(SharedPreference.USERID));
+        properties.put("locId", SPUtils.getInstance().getString(SharedPreference.LOCID));
         WebServiceUtils.callWebService("getNotifyList", properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {

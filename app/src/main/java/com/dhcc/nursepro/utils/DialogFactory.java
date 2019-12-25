@@ -232,7 +232,7 @@ public class DialogFactory {
             @Override
             public void onClick(View v) {
                 String s = etSkinNum.getText().toString();
-                if (okClick != null && !TextUtils.isEmpty(s)) {
+                if (okClick != null) {
                     dialog.cancel();
                     okClick.onClick(v);
                     String txt = null;
@@ -244,7 +244,7 @@ public class DialogFactory {
                     }
                     okClick.data(new Object[]{txt,s});
                 } else {
-                    ToastUtils.showShort("请输入批号");
+//                    ToastUtils.showShort("请输入批号");
                 }
             }
         });
