@@ -1084,8 +1084,14 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
                 ImageView imageView = inflate.findViewById(R.id.icon);
                 imageView.setVisibility(View.GONE);
                 TextView textView = inflate.findViewById(R.id.text);
-                                if (text.toString().contains("error")){
-                                    textView.setText(text+"_"+SharedPreference.MethodName);
+                                if (text.toString().contains("error") || text.toString().contains("err")){
+//                                    textView.setText(text+"_"+SharedPreference.MethodName);
+                                    String[] strMsg = text.toString().split(":");
+                                    if (strMsg.length>1){
+                                        textView.setText(strMsg[1]);
+                                    }else {
+                                        textView.setText(text.toString().replace("error","").replace("err",""));
+                                    }
                                 }else {
                                     textView.setText(text);
                                 }
