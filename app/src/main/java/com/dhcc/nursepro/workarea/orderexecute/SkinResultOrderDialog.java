@@ -139,7 +139,7 @@ public class SkinResultOrderDialog extends Dialog {
                     return;
                 }
                 if (StringUtils.isEmpty(etSkinNum.getText())){
-                    Toast.makeText(context,"未书写批号",Toast.LENGTH_LONG).show();
+//                    Toast.makeText(context,"未书写批号",Toast.LENGTH_LONG).show();
                 }
                 if (singleFlag.equals("Y")){
                     if (TextUtils.isEmpty(etNurname.getText()) || TextUtils.isEmpty(etNurpass.getText())){
