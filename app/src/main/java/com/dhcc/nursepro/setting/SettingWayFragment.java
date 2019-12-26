@@ -43,7 +43,7 @@ public class SettingWayFragment extends BaseFragment implements View.OnClickList
         setToolbarType(BaseActivity.ToolbarType.TOP);
         setToolbarBackground(new ColorDrawable(0xffffffff));
         showToolbarNavigationIcon(R.drawable.icon_back_blue);
-        setToolbarCenterTitle("提醒方式");
+        setToolbarCenterTitle("消息提醒");
         setToolbarBottomLineVisibility(false);
         //右上角保存按钮
         View viewright = View.inflate(getActivity(), R.layout.view_fratoolbar_right, null);

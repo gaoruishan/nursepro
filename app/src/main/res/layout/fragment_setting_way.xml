@@ -20,7 +20,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="灯光提示"
+                android:text="是否提醒"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
@@ -39,6 +39,7 @@
             </ImageView>
         </RelativeLayout>
         <View
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="@color/patevents_device_color"
@@ -47,6 +48,7 @@
             ></View>
 
         <RelativeLayout
+            android:visibility="gone"
             android:id="@+id/rl_setting_sound"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -72,6 +74,7 @@
             </ImageView>
         </RelativeLayout>
         <View
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="@color/patevents_device_color"
@@ -80,6 +83,7 @@
             ></View>
 
         <RelativeLayout
+            android:visibility="gone"
             android:id="@+id/rl_setting_vibrator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

@@ -252,8 +252,10 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
             MessageApiManager.getMessage(new MessageApiManager.GetMessageCallback() {
                 @Override
                 public void onSuccess(MessageBean msgs) {
-                    int messageNum = msgs.getNewOrdPatList().size() + msgs.getAbnormalPatList().size() + msgs.getConPatList().size();
-                    setMessage(messageNum);
+                    int messageNum = (msgs.getNewOrdPatList()!=null?msgs.getNewOrdPatList().size():0)
+                            + (msgs.getAbnormalPatList()!=null?msgs.getAbnormalPatList().size():0)
+                            + (msgs.getConPatList()!=null?msgs.getConPatList().size():0);
+                    setMessage(messageNum,msgs.getSoundFlag(),msgs.getVibrateFlag());
                 }
 
                 @Override

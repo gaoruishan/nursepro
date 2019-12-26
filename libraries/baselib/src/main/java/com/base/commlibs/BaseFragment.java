@@ -875,10 +875,10 @@ public class BaseFragment extends Fragment {
     /**
      * 更新消息信息
      */
-    public void setMessage(int messageNum) {
+    public void setMessage(int messageNum,String soundFlag,String vibrateFlag) {
         Activity activity = getActivity();
         if (activity != null && activity instanceof BaseActivity) {
-            ((BaseActivity) activity).setmessage(messageNum);
+            ((BaseActivity) activity).setmessage(messageNum,soundFlag,vibrateFlag);
         }
     }
 

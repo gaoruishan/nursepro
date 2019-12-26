@@ -51,9 +51,9 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
     private List<MessageBean.NewOrdPatListBean> newOrdPatList;
     private List<MessageBean.AbnormalPatListBean> abnormalPatList;
     private List<MessageBean.ConPatListBean> conPatList;
-    private MessageNewOrderAdapter newOrderAdapter;
-    private MessageAbnormalAdapter abnormalAdapter;
-    private MessageConsultationAdapter consultationAdapter;
+    private MessageNewOrderAdapter newOrderAdapter = new MessageNewOrderAdapter(new ArrayList<>());
+    private MessageAbnormalAdapter abnormalAdapter = new MessageAbnormalAdapter(new ArrayList<>());
+    private MessageConsultationAdapter consultationAdapter = new MessageConsultationAdapter(new ArrayList<>());
     private MessageSkinAdapter messageSkinAdapter = new MessageSkinAdapter(new ArrayList<>());
     private RecyclerView recyMessageSkin;
 
@@ -139,43 +139,61 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
                 abnormalPatList = msgs.getAbnormalPatList();
                 conPatList = msgs.getConPatList();
 
-                newOrderAdapter.setNewData(newOrdPatList);
-                abnormalAdapter.setNewData(abnormalPatList);
-                consultationAdapter.setNewData(conPatList);
-
-                if (newOrdPatList.size() == 0) {
+                if (newOrdPatList == null){
+                    newOrdPatList = new ArrayList<>();
+                    llMessageNeworderTitle.setVisibility(View.GONE);
+                    recyMessageNeworder.setVisibility(View.GONE);
+                } else if (newOrdPatList.size() == 0) {
+                    llMessageNeworderTitle.setVisibility(View.GONE);
                     llMessageNeworderTitle.setSelected(true);
                     recyMessageNeworder.setVisibility(View.GONE);
                     tvMessageNeworderCount.setVisibility(View.VISIBLE);
                     tvMessageNeworderCount.setText(newOrderAdapter.getItemCount() + "");
                 } else {
+                    llMessageNeworderTitle.setVisibility(View.GONE);
                     llMessageNeworderTitle.setSelected(false);
                     tvMessageNeworderCount.setVisibility(View.GONE);
                     recyMessageNeworder.setVisibility(View.VISIBLE);
                 }
 
-                if (abnormalPatList.size() == 0) {
+                if (abnormalPatList == null){
+                    abnormalPatList = new ArrayList<>();
+                    llMessageAbnormalTitle.setVisibility(View.GONE);
+                    recyMessageAbnormal.setVisibility(View.GONE);
+                } else if (abnormalPatList.size() == 0) {
+                    llMessageAbnormalTitle.setVisibility(View.VISIBLE);
                     llMessageAbnormalTitle.setSelected(true);
                     recyMessageAbnormal.setVisibility(View.GONE);
                     tvMessageAbnormalCount.setVisibility(View.VISIBLE);
                     tvMessageAbnormalCount.setText(abnormalAdapter.getItemCount() + "");
                 } else {
+                    llMessageAbnormalTitle.setVisibility(View.VISIBLE);
                     llMessageAbnormalTitle.setSelected(false);
                     tvMessageAbnormalCount.setVisibility(View.GONE);
                     recyMessageAbnormal.setVisibility(View.VISIBLE);
                 }
 
-                if (conPatList.size() == 0) {
+                if (conPatList == null){
+                    conPatList = new ArrayList<>();
+                    consultationAdapter.setNewData(new ArrayList<>());
+                    llMessageConsultationTitle.setVisibility(View.GONE);
+                    recyMessageConsultation.setVisibility(View.GONE);
+                } else if (conPatList.size() == 0) {
+                    llMessageConsultationTitle.setVisibility(View.VISIBLE);
                     llMessageConsultationTitle.setSelected(true);
                     recyMessageConsultation.setVisibility(View.GONE);
                     tvMessageConsultationCount.setVisibility(View.VISIBLE);
                     tvMessageConsultationCount.setText(consultationAdapter.getItemCount() + "");
                 } else {
+                    llMessageConsultationTitle.setVisibility(View.VISIBLE);
                     llMessageConsultationTitle.setSelected(false);
                     tvMessageConsultationCount.setVisibility(View.GONE);
                     recyMessageConsultation.setVisibility(View.VISIBLE);
                 }
 
+                newOrderAdapter.setNewData(newOrdPatList);
+                abnormalAdapter.setNewData(abnormalPatList);
+                consultationAdapter.setNewData(conPatList);
                 tvMessageNeworderCount.setText(newOrderAdapter.getItemCount() + "");
                 tvMessageAbnormalCount.setText(abnormalAdapter.getItemCount() + "");
                 tvMessageConsultationCount.setText(consultationAdapter.getItemCount() + "");
@@ -183,10 +201,15 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
                 if (msgs.getSkinTimeList() != null && msgs.getSkinTimeList().size() > 0) {
                     switchSkinMessage(false);
                 }
-                messageSkinAdapter.replaceData(msgs.getSkinTimeList());
+                if (msgs.getSkinTimeList() == null){
+                    f(R.id.ll_message_skin_title).setVisibility(View.GONE);
+                }else {
+                    f(R.id.ll_message_skin_title).setVisibility(View.VISIBLE);
+                    messageSkinAdapter.replaceData(msgs.getSkinTimeList());
+                }
 
-                int messageNum = msgs.getNewOrdPatList().size() + msgs.getAbnormalPatList().size() + msgs.getConPatList().size();
-                setMessage(messageNum);
+                int messageNum = newOrdPatList.size() + abnormalPatList.size() + conPatList.size();
+                setMessage(messageNum,msgs.getSoundFlag(),msgs.getVibrateFlag());
             }
 
             @Override
@@ -338,8 +361,10 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
             MessageApiManager.getMessage(new MessageApiManager.GetMessageCallback() {
                 @Override
                 public void onSuccess(MessageBean msgs) {
-                    int messageNum = msgs.getNewOrdPatList().size() + msgs.getAbnormalPatList().size() + msgs.getConPatList().size();
-                    setMessage(messageNum);
+                    int messageNum = (msgs.getNewOrdPatList()!=null?msgs.getNewOrdPatList().size():0)
+                            + (msgs.getAbnormalPatList()!=null?msgs.getAbnormalPatList().size():0)
+                            + (msgs.getConPatList()!=null?msgs.getConPatList().size():0);
+                    setMessage(messageNum,msgs.getSoundFlag(),msgs.getVibrateFlag());
                 }
 
                 @Override

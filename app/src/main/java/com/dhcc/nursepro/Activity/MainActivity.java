@@ -14,6 +14,9 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -21,6 +24,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NotificationCompat;
 import android.view.KeyEvent;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
@@ -274,8 +278,8 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
     }
 
     @Override
-    public void setmessage(int messageNum) {
-        super.setmessage(messageNum);
+    public void setmessage(int messageNum,String soundFlag,String vibrateFlag) {
+        super.setmessage(messageNum,soundFlag,vibrateFlag);
 
 
         Drawable drawable;
@@ -285,7 +289,7 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         } else {
             drawable = getResources().getDrawable(R.drawable.tabbar_item_havemessage_selector);
             drawable.setBounds(8, 0, drawable.getIntrinsicWidth() + 8, drawable.getIntrinsicHeight());
-            showNotification(this);
+            showNotification(this,soundFlag,vibrateFlag);
         }
         rbMessage.setCompoundDrawables(null, drawable, null, null);
     }
@@ -339,8 +343,10 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         MessageApiManager.getMessage(new MessageApiManager.GetMessageCallback() {
             @Override
             public void onSuccess(MessageBean msgs) {
-                int messageNum = msgs.getNewOrdPatList().size() + msgs.getAbnormalPatList().size() + msgs.getConPatList().size();
-                setmessage(messageNum);
+                int messageNum = (msgs.getNewOrdPatList()!=null?msgs.getNewOrdPatList().size():0)
+                        + (msgs.getAbnormalPatList()!=null?msgs.getAbnormalPatList().size():0)
+                        + (msgs.getConPatList()!=null?msgs.getConPatList().size():0);
+                setmessage(messageNum,msgs.getSoundFlag(),msgs.getVibrateFlag());
 
             }
 
@@ -351,10 +357,12 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         });
     }
 
-    private void showNotification(Context context) {
+    private void showNotification(Context context,String soundFlag,String vibrateFlag) {
         Boolean bLight = spUtils.getBoolean(SharedPreference.LIGHT, true);
-        Boolean bSound = spUtils.getBoolean(SharedPreference.SOUND, true);
-        Boolean bVibrator = spUtils.getBoolean(SharedPreference.VIBRATOR, true);
+//        Boolean bSound = spUtils.getBoolean(SharedPreference.SOUND, true);
+//        Boolean bVibrator = spUtils.getBoolean(SharedPreference.VIBRATOR, true);
+        Boolean bSound = spUtils.getBoolean(SharedPreference.LIGHT, true) && soundFlag.equals("1");
+        Boolean bVibrator =spUtils.getBoolean(SharedPreference.LIGHT, true) &&  vibrateFlag.equals("1");
 
         Notification.Builder builder;
         if (Build.VERSION.SDK_INT >= 26) {
@@ -405,13 +413,29 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         if (bLight) {
             notification.defaults |= Notification.DEFAULT_LIGHTS;
         }
-
+//        defaultMediaPlayer();
         //      发起通知
         if (notificationManager != null) {
             notificationManager.notify(1, notification);
         }
     }
 
+    /**
+     * 播放系统默认提示音
+     *
+     * @return MediaPlayer对象
+     *
+     * @throws Exception
+     */
+    public void defaultMediaPlayer(){
+        try {
+            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            Ringtone r = RingtoneManager.getRingtone(this, notification);
+            r.play();
+        }catch (Exception e){
+
+        }
+    }
     /**
      * radiobutton 点击监听事件
      *

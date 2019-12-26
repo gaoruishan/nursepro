@@ -251,8 +251,8 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
     }
 
     @Override
-    public void setmessage(int messageNum) {
-        super.setmessage(messageNum);
+    public void setmessage(int messageNum,String soundFlag,String vibrateFlag) {
+        super.setmessage(messageNum,"1","1");
 
 
         Drawable drawable;
@@ -413,7 +413,7 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
                     } catch (Exception e) {
                     }
                 }
-                setmessage(messageNum);
+                setmessage(messageNum,"1","1");
             }
         });
     }

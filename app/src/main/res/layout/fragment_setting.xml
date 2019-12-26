@@ -182,7 +182,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="20dp"
-                    android:text="提醒方式"
+                    android:text="消息提醒设置"
                     android:textColor="@color/text_view_text_color"
                     android:textSize="15sp" />
 

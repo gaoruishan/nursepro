@@ -22,7 +22,24 @@ public class MainConfigBean {
     private String status;
     private List<MainListBean> mainList;
     private List<ScreenPartsBean> screenParts;
+    private String schEnDateTime;
+    private String schStDateTime;
 
+    public String getSchEnDateTime() {
+        return schEnDateTime;
+    }
+
+    public void setSchEnDateTime(String schEnDateTime) {
+        this.schEnDateTime = schEnDateTime;
+    }
+
+    public String getSchStDateTime() {
+        return schStDateTime;
+    }
+
+    public void setSchStDateTime(String schStDateTime) {
+        this.schStDateTime = schStDateTime;
+    }
     public String getMsg() {
         return msg;
     }

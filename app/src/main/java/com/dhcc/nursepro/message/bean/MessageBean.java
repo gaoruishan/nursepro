@@ -21,6 +21,25 @@ public class MessageBean {
     private List<AbnormalPatListBean> abnormalPatList;
     private List<ConPatListBean> conPatList;
     private List<NewOrdPatListBean> newOrdPatList;
+    private String soundFlag;
+    private String vibrateFlag;
+
+    public String getSoundFlag() {
+        return soundFlag;
+    }
+
+    public void setSoundFlag(String soundFlag) {
+        this.soundFlag = soundFlag;
+    }
+
+    public String getVibrateFlag() {
+        return vibrateFlag;
+    }
+
+    public void setVibrateFlag(String vibrateFlag) {
+        this.vibrateFlag = vibrateFlag;
+    }
+
 
     public String getMsg() {
         return msg;

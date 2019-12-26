@@ -1393,7 +1393,7 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         }
     }
 
-    public void setmessage(int messageNum) {
+    public void setmessage(int messageNum,String soundFlag,String vibrateFlag) {
     }
 
     @Override

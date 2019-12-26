@@ -1,0 +1,229 @@
+package com.dhcc.nursepro.workarea;
+
+
+import android.app.Dialog;
+import android.content.Context;
+import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.workarea.workareaadapter.OrderExecuteOrderDialogAdapter;
+import com.dhcc.nursepro.workarea.workareabean.ScanResultBean;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * OrderExecOrderDialog
+ * 创建自定义的dialog
+ *
+ * @author Devlix126
+ * created at 2018/12/25 10:00
+ */
+public class WorkareaOperateDialog extends Dialog {
+    private Context context;
+    private TextView tvPopupPatinfo;
+    private RecyclerView recyPopupChildOrderInfo;
+    private TextView tvPopupOrderinfoex;
+    private LinearLayout llRemainingliquid;
+    private EditText edPopupRemainingliquid;
+    private LinearLayout llRemarkinfo;
+    private EditText edPopupRemarkinfo;
+    private ImageView imgRemarkinfoDrop;
+    private TextView tvPopupSure;
+    private TextView tvPopupOrdercancel;
+
+    private String patInfo = "";
+    private List<ScanResultBean.OrdersBean> childOrders = new ArrayList<>();
+    private String orderInfoEx = "";
+    private String orderId = "";
+    private String ifState = "";
+    //view显隐控制
+    private int ll1 = View.VISIBLE;
+    private int ll2 = View.VISIBLE;
+
+    private OrderExecuteOrderDialogAdapter adapter;
+
+    private onSureOnclickListener sureOnclickListener;
+    private onCancelOnclickListener cancelOnclickListener;
+
+    public WorkareaOperateDialog(Context context) {
+        super(context, R.style.MyDialog);
+        this.context = context;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+
+    public String getIfState() {
+        return ifState;
+    }
+
+    public void setIfState(String ifState) {
+        this.ifState = ifState;
+    }
+
+    public void setChildOrders(List<ScanResultBean.OrdersBean> childOrders) {
+        this.childOrders = childOrders;
+        if (childOrders != null && childOrders.size() > 0 && recyPopupChildOrderInfo != null && adapter != null) {
+            adapter.setNewData(childOrders);
+        }
+    }
+
+    public void setPatInfo(String patInfo) {
+        this.patInfo = patInfo;
+        if (patInfo != null && tvPopupPatinfo != null) {
+            tvPopupPatinfo.setText(patInfo);
+        }
+    }
+
+    public void setOrderInfoEx(String orderInfoEx) {
+        this.orderInfoEx = orderInfoEx;
+        if (orderInfoEx != null && tvPopupOrderinfoex != null) {
+            tvPopupOrderinfoex.setText(orderInfoEx);
+        }
+    }
+
+    public String getRemainingliquid() {
+        if (edPopupRemainingliquid != null) {
+            return edPopupRemainingliquid.getText().toString();
+        }
+        return "";
+    }
+
+    public String getRemarkinfo() {
+        if (edPopupRemarkinfo != null) {
+            return edPopupRemarkinfo.getText().toString();
+        }
+        return "";
+    }
+
+    public void setViewVisibility(int ll1, int ll2) {
+        this.ll1 = ll1;
+        this.ll2 = ll2;
+        if (llRemainingliquid != null && llRemarkinfo != null) {
+            llRemainingliquid.setVisibility(ll1);
+            llRemarkinfo.setVisibility(ll2);
+        }
+    }
+
+    /**
+     * 设置确定按钮的显示内容和监听
+     */
+    public void setSureOnclickListener(onSureOnclickListener onSureOnclickListener) {
+
+        this.sureOnclickListener = onSureOnclickListener;
+    }
+
+    /**
+     * 设置取消按钮的显示内容和监听
+     */
+    public void setCancelOnclickListener(onCancelOnclickListener onCancelOnclickListener) {
+
+        this.cancelOnclickListener = onCancelOnclickListener;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.workareaoperate_dialog_layout);
+        //按空白处不能取消动画
+        //            setCanceledOnTouchOutside(false);
+        setCanceledOnTouchOutside(true);
+        //初始化界面控件
+        initView();
+        //初始化adapter
+        initAdapter();
+        //初始化界面数据
+        initData();
+        //初始化界面控件的事件
+        initEvent();
+    }
+
+    private void initView() {
+        tvPopupPatinfo = findViewById(R.id.tv_popup_patinfo);
+        recyPopupChildOrderInfo = findViewById(R.id.recy_popup_childOrderInfo);
+        tvPopupOrderinfoex = findViewById(R.id.tv_popup_orderinfoex);
+        llRemainingliquid = findViewById(R.id.ll_remainingliquid);
+        edPopupRemainingliquid = findViewById(R.id.ed_popup_remainingliquid);
+        llRemarkinfo = findViewById(R.id.ll_remarkinfo);
+        edPopupRemarkinfo = findViewById(R.id.ed_popup_remarkinfo);
+        imgRemarkinfoDrop = findViewById(R.id.img_remarkinfo_drop);
+        tvPopupSure = findViewById(R.id.tv_popup_sure);
+        tvPopupOrdercancel = findViewById(R.id.tv_popup_ordercancel);
+
+        //提高展示效率
+        recyPopupChildOrderInfo.setHasFixedSize(true);
+        //设置的布局管理
+        recyPopupChildOrderInfo.setLayoutManager(new LinearLayoutManager(context));
+    }
+
+    private void initAdapter() {
+        adapter = new OrderExecuteOrderDialogAdapter(new ArrayList<>());
+        recyPopupChildOrderInfo.setAdapter(adapter);
+    }
+
+    private void initData() {
+
+        if (patInfo != null) {
+            tvPopupPatinfo.setText(patInfo);
+        }
+
+        if (childOrders != null && childOrders.size() > 0) {
+            adapter.setNewData(childOrders);
+        }
+
+        if (orderInfoEx != null) {
+            tvPopupOrderinfoex.setText(orderInfoEx);
+        }
+
+        llRemainingliquid.setVisibility(ll1);
+        llRemarkinfo.setVisibility(ll2);
+    }
+
+    private void initEvent() {
+        tvPopupSure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (sureOnclickListener != null) {
+                    sureOnclickListener.onSureClick();
+                }
+            }
+        });
+        tvPopupOrdercancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (cancelOnclickListener != null) {
+                    cancelOnclickListener.onCancelClick();
+                }
+            }
+        });
+    }
+
+
+    /**
+     * 设置确定按钮被点击的接口
+     */
+    public interface onSureOnclickListener {
+        void onSureClick();
+    }
+
+    /**
+     * 设置取消按钮被点击的接口
+     */
+    public interface onCancelOnclickListener {
+        void onCancelClick();
+    }
+
+}
