@@ -561,7 +561,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                 setTopFilterSelect(tvVitalSignWaitarea);
                 break;
             case R.id.tv_vitalsign_time:
-                chooseTime(TimeUtils.string2Millis(dateFilterStr + timeFilterStr + ":00"));
+                chooseTime(TimeUtils.string2Millis(dateFilterStr +  " " + timeFilterStr + ":00"));
                 break;
             default:
                 break;
