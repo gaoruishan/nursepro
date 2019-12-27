@@ -128,8 +128,10 @@ public class WorkareaFragment extends BaseFragment {
         WorkareaApiManager.getMainConfig(new WorkareaApiManager.GetMainconfigCallback() {
             @Override
             public void onSuccess(MainConfigBean mainConfigBean) {
-                spUtils.put(SharedPreference.SCHSTDATETIME, mainConfigBean.getSchStDateTime());
-                spUtils.put(SharedPreference.SCHENDATETIME, mainConfigBean.getSchEnDateTime());
+                if(mainConfigBean.getSchStDateTime() != null && mainConfigBean.getSchEnDateTime() != null){
+                    spUtils.put(SharedPreference.SCHSTDATETIME, mainConfigBean.getSchStDateTime());
+                    spUtils.put(SharedPreference.SCHENDATETIME, mainConfigBean.getSchEnDateTime());
+                }
                 ItemNameList = mainConfigBean.getMainList();
                 patEventsAdapter.setNewData(ItemNameList);
                 SPUtils.getInstance().put(SharedPreference.BLOODSCANTIMES, mainConfigBean.getScantimes());

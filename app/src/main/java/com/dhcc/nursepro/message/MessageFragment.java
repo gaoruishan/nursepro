@@ -200,6 +200,8 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
 
                 if (msgs.getSkinTimeList() != null && msgs.getSkinTimeList().size() > 0) {
                     switchSkinMessage(false);
+                }else {
+                    switchSkinMessage(true);
                 }
                 if (msgs.getSkinTimeList() == null){
                     f(R.id.ll_message_skin_title).setVisibility(View.GONE);

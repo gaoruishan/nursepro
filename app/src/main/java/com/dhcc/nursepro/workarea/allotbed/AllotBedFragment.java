@@ -118,7 +118,6 @@ public class AllotBedFragment extends BaseFragment implements View.OnClickListen
 
         initView(view);
         initAdapter();
-        initData();
 
     }
 
@@ -280,9 +279,13 @@ public class AllotBedFragment extends BaseFragment implements View.OnClickListen
                 TextView textView = view.findViewById(R.id.tv_bed_allot);
 
                 //              选中后可选其他，不可取消
-                emptyBedListAdapter.setSelectItem(position);
-                selectBedId = listBeans.get(position).getBedId();
-                emptyBedListAdapter.notifyDataSetChanged();
+                if (listBeans.get(position).getNoClickFlag().equals("1")){
+                    showToast(listBeans.get(position).getNote());
+                }else {
+                    emptyBedListAdapter.setSelectItem(position);
+                    selectBedId = listBeans.get(position).getBedId();
+                    emptyBedListAdapter.notifyDataSetChanged();
+                }
 
                 //选择后再次点击可取消选择
                 //                if (position == selectPosition){
@@ -312,6 +315,7 @@ public class AllotBedFragment extends BaseFragment implements View.OnClickListen
         map.put("wardId", spUtils.getString(SharedPreference.WARDID));
         map.put("locId", spUtils.getString(SharedPreference.LOCID));
         map.put("linkLocId", spUtils.getString(SharedPreference.LINKLOC));
+        map.put("episodeId", episodeIdNow);
         AllotBedApiManager.getAllotBed(map, "getAllotInfo", new AllotBedApiManager.getAllotBedCallBack() {
             @Override
             public void onSuccess(AllotBedInfoBean allotBedInfoBean) {
@@ -348,6 +352,7 @@ public class AllotBedFragment extends BaseFragment implements View.OnClickListen
 
                 ScanGetUserMsgBean.PatInfoBean patInfoBean = getScanPatsBean.getPatInfo();
                 episodeIdNow = patInfoBean.getEpisodeID();
+                initData();
                 tvPatInfo.setText("".equals(patInfoBean.getBedCode()) ? "未分床  " + patInfoBean.getName() : patInfoBean.getBedCode() + "  " + patInfoBean.getName());
                 tvMainDoc.setText("".equals(patInfoBean.getMainDoctor()) ? "请选择" : patInfoBean.getMainDoctor());
                 tvMainNur.setText("".equals(patInfoBean.getMainNurse()) ? "请选择" : patInfoBean.getMainNurse());

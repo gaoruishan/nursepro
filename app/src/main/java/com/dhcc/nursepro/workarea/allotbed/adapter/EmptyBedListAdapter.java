@@ -38,6 +38,9 @@ public class EmptyBedListAdapter extends BaseQuickAdapter<AllotBedInfoBean.Empty
         }else {
             textView.setSelected(false);
         }
+        if (item.getNoClickFlag().equals("1")){
+            textView.setBackground(mContext.getResources().getDrawable(R.drawable.bg_bed_noclick));
+        }
 
     }
 }

@@ -131,6 +131,25 @@ public class AllotBedInfoBean {
 
         private String bedCode;
         private String bedId;
+        private String noClickFlag;
+        private String note;
+
+        public String getNoClickFlag() {
+            return noClickFlag;
+        }
+
+        public void setNoClickFlag(String noClickFlag) {
+            this.noClickFlag = noClickFlag;
+        }
+
+        public String getNote() {
+            return note;
+        }
+
+        public void setNote(String bedId) {
+            this.note = note;
+        }
+
 
         public String getBedCode() {
             return bedCode;
