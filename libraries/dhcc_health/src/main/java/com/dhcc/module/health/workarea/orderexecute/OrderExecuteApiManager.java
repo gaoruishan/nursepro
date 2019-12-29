@@ -27,7 +27,8 @@ public class OrderExecuteApiManager {
 //        CommWebService.addLocId(properties);
         properties.put("regNo", regNo);
       //  properties.put("exeFlag", exeFlag);
-        properties.put("LogonID", SPUtils.getInstance().getString(SharedPreference.WARDID));
+        properties.put("userId", SPUtils.getInstance().getString(SharedPreference.USERID));
+        properties.put("logonID", SPUtils.getInstance().getString(SharedPreference.LOCID));
 //        properties.put("endDate", enDate);
         CommWebService.callHealth("getOrdByRegNo", properties, new ServiceCallBack() {
             @Override

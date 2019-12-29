@@ -29,7 +29,7 @@ public class PatListManager {
     public static void getPatList(final CommonCallBack<PatListBean> callBack) {
         HashMap<String, String> properties = new HashMap<>();
         properties.put("UserID", SPUtils.getInstance().getString(SharedPreference.USERID));
-        properties.put("LogonID", SPUtils.getInstance().getString(SharedPreference.WARDID));
+        properties.put("LogonID", SPUtils.getInstance().getString(SharedPreference.LOCID));
         CommWebService.callHealth("getRecoverPatList", properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
