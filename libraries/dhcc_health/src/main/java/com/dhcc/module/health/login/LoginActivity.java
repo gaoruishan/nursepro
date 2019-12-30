@@ -241,6 +241,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 UserUtil.setLocsUserInfo(getCustomUserEditText().getTextString(), loc.getHospitalRowId(), loc.getGroupId(),
                         loc.getGroupDesc(), loc.getLinkLoc(), loc.getLocId(), loc.getLocDesc(), loc.getWardId());
                 logonWardId = loc.getWardId();
+                SPUtils.getInstance().put(SharedPreference.LOCID,loc.getLocId());
             }
         }
         initData(LOGIN);

@@ -29,6 +29,7 @@
         android:layout_height="@dimen/dp_1"
         android:background="@color/text_line"></View>
     <LinearLayout
+        android:id="@+id/ll_sure"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_50"
         android:background="@color/blue_light"
