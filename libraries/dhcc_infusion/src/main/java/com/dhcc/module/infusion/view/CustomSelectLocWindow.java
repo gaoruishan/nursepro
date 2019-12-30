@@ -51,9 +51,11 @@ public class CustomSelectLocWindow extends LinearLayout implements View.OnClickL
     }
     public CustomSelectLocWindow(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        View view = LayoutInflater.from(context).inflate(R.layout.custom_select_loc_window, null);
+        View view = LayoutInflater.from(context).inflate(R.layout.custom_select_loc_window, this,false);
         addView(view);
         tvLoc = view.findViewById(R.id.tv_setting_loc);
+        TextView tvUser = view.findViewById(R.id.tv_user);
+        tvUser.setText(SPUtils.getInstance().getString(SharedPreference.USERNAME));
         tvLoc.setOnClickListener(this);
         tvLoc.setText(SPUtils.getInstance().getString(SharedPreference.LOCDESC));
         tvWin = view.findViewById(R.id.tv_setting_window);
