@@ -29,8 +29,8 @@ public class OrderListManager {
     public static void getPatList(final CommonCallBack<DocPatListBean> callBack) {
         HashMap<String, String> properties = new HashMap<>();
         properties.put("UserID", SPUtils.getInstance().getString(SharedPreference.USERID));
-//        properties.put("LogonID", SPUtils.getInstance().getString(SharedPreference.LOCID));
-        properties.put("locId", SPUtils.getInstance().getString(SharedPreference.LOCID));
+        properties.put("LogonID", SPUtils.getInstance().getString(SharedPreference.LOCID));
+//        properties.put("locId", SPUtils.getInstance().getString(SharedPreference.LOCID));
         CommWebService.callHealth("getRecoverPatList", properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
