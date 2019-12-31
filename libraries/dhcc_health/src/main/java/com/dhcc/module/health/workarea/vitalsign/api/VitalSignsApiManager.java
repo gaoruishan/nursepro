@@ -5,8 +5,10 @@ import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.http.ParserUtil;
 import com.base.commlibs.http.ServiceCallBack;
 import com.dhcc.module.health.workarea.vitalsign.bean.VitalSignDetailBean;
+import com.google.gson.Gson;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author:gaoruishan
@@ -30,6 +32,9 @@ public class VitalSignsApiManager {
             public void onResult(String jsonStr) {
                 ParserUtil<VitalSignDetailBean> parserUtil = new ParserUtil<>();
                 VitalSignDetailBean bean = parserUtil.parserResult(jsonStr, callBack, VitalSignDetailBean.class);
+                Gson gson = new Gson();
+                Map JsonMap = gson.fromJson(jsonStr,Map.class);
+                bean.setMap(JsonMap);
                 if (bean==null) return;
                 parserUtil.parserStatus(bean,callBack);
             }
