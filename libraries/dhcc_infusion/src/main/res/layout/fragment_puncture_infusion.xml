@@ -14,17 +14,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="@color/white">
-        <TextView
-            android:id="@+id/tv_user"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_15"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:layout_marginRight="@dimen/dp_10"
-            android:layout_gravity="center_vertical"
-            android:text="选择科室"
-        />
+
         <!--只需引入自定组件, 即可具有布局/业务功能-->
         <com.dhcc.module.infusion.view.CustomSelectLocWindow
             android:layout_width="match_parent"
@@ -32,8 +22,6 @@
             android:orientation="vertical"/>
 
     </LinearLayout>
-    <View android:layout_width="match_parent" android:layout_height="@dimen/dp_1"
-          android:background="@color/bg_blue_light"/>
     <!--扫码-->
     <com.dhcc.res.infusion.CustomScanView
         android:id="@+id/custom_scan"

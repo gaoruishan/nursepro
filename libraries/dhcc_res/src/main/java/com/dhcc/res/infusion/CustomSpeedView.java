@@ -4,12 +4,14 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.base.commlibs.utils.RecyclerViewHelper;
 import com.base.commlibs.utils.SimpleCallBack;
@@ -32,7 +34,7 @@ public class CustomSpeedView extends LinearLayout implements View.OnClickListene
 
     private View view;
     private LinearLayout llRemove, llAdd;
-    private TextView tvSpeed;
+    private EditText etSpeed;
     private View llChannel;
     private RecyclerView rvList;
     private String selectChannel;
@@ -60,9 +62,29 @@ public class CustomSpeedView extends LinearLayout implements View.OnClickListene
         llRemove.setOnClickListener(this);
         llAdd = view.findViewById(R.id.ll_add);
         llAdd.setOnClickListener(this);
-        tvSpeed = view.findViewById(R.id.tv_speed);
+        etSpeed = view.findViewById(R.id.et_speed);
         llChannel = view.findViewById(R.id.ll_channel);
         rvList = view.findViewById(R.id.rv_list);
+        etSpeed.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s != null && !TextUtils.isEmpty(s.toString())) {
+                    if ("0".equals(s.toString()) || "00".equals(s.toString())) {
+                        etSpeed.setText("");
+                    }
+                }
+            }
+        });
     }
 
     /**
@@ -111,7 +133,7 @@ public class CustomSpeedView extends LinearLayout implements View.OnClickListene
      * @return
      */
     public int getSpeed() {
-        String s = tvSpeed.getText().toString();
+        String s = etSpeed.getText().toString();
         if (!TextUtils.isEmpty(s)) {
             int integer = Integer.valueOf(s);
             return integer > 0 ? integer : 0;
@@ -125,7 +147,7 @@ public class CustomSpeedView extends LinearLayout implements View.OnClickListene
      */
     public CustomSpeedView setSpeed(String speed) {
         if (!TextUtils.isEmpty(speed)) {
-            tvSpeed.setText(speed);
+            etSpeed.setText(speed);
         }
         return this;
     }

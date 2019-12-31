@@ -17,7 +17,7 @@
       "id": 102,
       "name": "生命体征",
       "image": "health_vital_sign",
-      "fragment": "com.dhcc.module.health.workarea.vitalsign.VitalSignsFragment"
+      "fragment": "com.dhcc.module.health.workarea.vitalsigndetail.VitalSignDetailFragment"
     },
     {
       "id": 103,
