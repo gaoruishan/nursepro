@@ -36,7 +36,8 @@ public class OrderExecuteAdapter extends BaseQuickAdapter<OrdListBean.CureInfoLi
                 .setText(R.id.tv_frequency, item.getOrderFreq())
                 .setText(R.id.tv_creator, item.getUserAdd())
                 .setText(R.id.tv_operate, item.getHandelDesc())
-                .setText(R.id.tv_time, item.getOrderSttDate());
+                .setText(R.id.tv_time, item.getOrderSttDate())
+                .setGone(R.id.tv_patinfo,false);
         TextView blTvStatus = helper.getView(R.id.bl_tv_status);
         blTvStatus.setText(item.getOrderStatus());
 

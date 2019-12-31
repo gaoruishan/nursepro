@@ -1,5 +1,7 @@
 package com.dhcc.module.health.workarea.patlist.adapter;
 
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -10,6 +12,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.module.health.R;
 import com.dhcc.module.health.workarea.patlist.bean.PatListBean;
 import com.dhcc.module.health.workarea.patlist.bean.PatOrdersBean;
+import com.noober.background.drawable.DrawableCreator;
 
 import java.util.List;
 
@@ -23,22 +26,34 @@ import java.util.List;
 public class PatOrdersAdapter extends BaseQuickAdapter<PatOrdersBean.CureInfoListBean, BaseViewHolder> {
 
         public PatOrdersAdapter(@Nullable List<PatOrdersBean.CureInfoListBean> data) {
-                super(R.layout.health_item_order_list, data);
+                super(R.layout.health_item_order_execute, data);
         }
         @Override
         protected void convert(BaseViewHolder helper, PatOrdersBean.CureInfoListBean item) {
-                helper.setText(R.id.tv_order_info, item.getArcimDesc())
-                        .setText(R.id.tv_pat_info,item.getPatientName())
-                        .setText(R.id.tv_pat_status,item.getOrderStatus());
-//                        .setText(R.id.tv_order_type,item.getDCAOEORIDR())
-//                        .setText(R.id.tv_order_amount,item.getAdmType())
-//                        .setText(R.id.tv_order_admstatus,item.getAdmVisitStatus());
-                LinearLayout llSel = helper.getView(R.id.ll_oepat_orderselect);
+                helper.setText(R.id.tv_dose, item.getOrderDoseQty())
+                        .setText(R.id.tv_frequency, item.getOrderFreq())
+                        .setText(R.id.tv_creator, item.getUserAdd())
+                        .setText(R.id.tv_operate, item.getHandelDesc())
+                        .setText(R.id.tv_time, item.getOrderSttDate())
+                        .setText(R.id.tv_patinfo,item.getPatientName());
+                TextView blTvStatus = helper.getView(R.id.bl_tv_status);
+                blTvStatus.setText(item.getOrderStatus());
+
+                String labColor = "#62ABFF";
+                Drawable drawable = new DrawableCreator.Builder()
+                        .setSolidColor(Color.parseColor(labColor))
+                        .setCornersRadius(mContext.getResources().getDimension(R.dimen.dp_10))
+                        .build();
+                blTvStatus.setBackground(drawable);
+//        helper.setGone(R.id.tv_time, !TextUtils.isEmpty(item.getOrderSttDate()));
+//        helper.setGone(R.id.bl_tv_status, !TextUtils.isEmpty(item.getOrderStatusCode()));
+                helper.setText(R.id.tv_name, item.getArcimDesc());
+
+                LinearLayout llSel = helper.getView(R.id.ll_exec_orderselect);
                 if (item.getSelect().equals("1")){
                         llSel.setSelected(true);
                 }else {
                         llSel.setSelected(false);
                 }
-
         }
 }

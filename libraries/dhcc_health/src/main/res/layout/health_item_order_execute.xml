@@ -38,6 +38,14 @@
             android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/tv_patinfo"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="tom"
+            android:gravity="center"
+            android:layout_marginRight="@dimen/dp_3"
+            ></TextView>
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
