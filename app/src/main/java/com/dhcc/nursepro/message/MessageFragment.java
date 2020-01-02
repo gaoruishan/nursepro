@@ -144,13 +144,13 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
                     llMessageNeworderTitle.setVisibility(View.GONE);
                     recyMessageNeworder.setVisibility(View.GONE);
                 } else if (newOrdPatList.size() == 0) {
-                    llMessageNeworderTitle.setVisibility(View.GONE);
+                    llMessageNeworderTitle.setVisibility(View.VISIBLE);
                     llMessageNeworderTitle.setSelected(true);
                     recyMessageNeworder.setVisibility(View.GONE);
                     tvMessageNeworderCount.setVisibility(View.VISIBLE);
                     tvMessageNeworderCount.setText(newOrderAdapter.getItemCount() + "");
                 } else {
-                    llMessageNeworderTitle.setVisibility(View.GONE);
+                    llMessageNeworderTitle.setVisibility(View.VISIBLE);
                     llMessageNeworderTitle.setSelected(false);
                     tvMessageNeworderCount.setVisibility(View.GONE);
                     recyMessageNeworder.setVisibility(View.VISIBLE);
