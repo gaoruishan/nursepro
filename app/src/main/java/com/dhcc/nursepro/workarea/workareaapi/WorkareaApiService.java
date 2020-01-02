@@ -10,6 +10,8 @@ public class WorkareaApiService {
 
     public static void getMainConfig(final WorkareaApiService.ServiceCallBack callback) {
         HashMap<String, String> properties = new HashMap<String, String>();
+        properties.put("locId",SPUtils.getInstance().getString(SharedPreference.LOCID));
+        properties.put("groupId",SPUtils.getInstance().getString(SharedPreference.GROUPID));
         WebServiceUtils.callWebService("getMainConfig", properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
