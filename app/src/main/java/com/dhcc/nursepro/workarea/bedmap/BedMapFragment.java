@@ -224,13 +224,19 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
                 topFilterBeanList = bedMapBean.getTopFilter();
                 leftFilterBeanList = bedMapBean.getLeftFilter();
                 if (bedMapBean.getLeftFilter().size()>0){
+                    leftFilterBeanListFirst = new ArrayList<>();
                     leftFilterBeanListFirst.add(bedMapBean.getLeftFilter().get(0));
                 }
                 patInfoListBeanList = bedMapBean.getPatInfoList();
 
                 patInfoMapList = (List<Map<String, String>>) bedMapMap.get("patInfoList");
                 patInfoMapListShow = patInfoMapList;
-                bedMapPatientTypeAdapter.setNewData(leftFilterBeanList);
+                if (topFilterStr == "inBedAll" || topFilterStr == "manageInBed"){
+                    bedMapPatientTypeAdapter.setNewData(leftFilterBeanList);
+                }else {
+                    bedMapPatientTypeAdapter.setNewData(leftFilterBeanListFirst);
+                }
+
 
                 for (int i = 0; i < topFilterBeanList.size(); i++) {
                     BedMapBean.TopFilterBean topFilterBean = topFilterBeanList.get(i);
