@@ -12,6 +12,7 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -128,6 +129,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void afterTextChanged(Editable s) {
                 //如果有输入内容长度大于0那么显示clear按钮
+                etLoginPassword.setText("");
                 userCode = s + "";
                 if (userCode.length() > 0) {
                     imgLoginUsercodeClear.setVisibility(View.VISIBLE);
@@ -437,6 +439,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void onFail(String code, String msg) {
                 showToast("error" + code + ":" + msg);
+                if (msg.contains("无此用户")){
+//                    etLoginPassword.clearFocus();
+                    etLoginUsercode.requestFocus();
+                    etLoginPassword.setText("");
+                    InputMethodManager manager = ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE));
+                    if (manager != null) {manager.showSoftInput(etLoginUsercode, 0);}
+                }
             }
         });
     }
