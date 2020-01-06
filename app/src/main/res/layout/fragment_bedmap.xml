@@ -123,7 +123,7 @@
             android:background="@color/bedmap_left_bgcolor">
 
         </android.support.v7.widget.RecyclerView>
-            <com.dhcc.nursepro.view.ReFreshParent
+            <com.ufo.dwrefresh.view.DWRefreshLayout
                 android:id="@+id/refresh"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -135,7 +135,7 @@
                     android:background="@color/white">
 
                 </android.support.v7.widget.RecyclerView>
-            </com.dhcc.nursepro.view.ReFreshParent>
+            </com.ufo.dwrefresh.view.DWRefreshLayout>
 
     </LinearLayout>
 

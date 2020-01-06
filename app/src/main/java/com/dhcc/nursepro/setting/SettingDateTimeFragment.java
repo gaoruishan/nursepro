@@ -88,11 +88,11 @@ public class SettingDateTimeFragment extends BaseFragment implements View.OnClic
         switch (v.getId()){
             case R.id.tv_setting_starttime:
                 dateStr = "start";
-                chooseTime(TimeUtils.string2Millis(tvStart.getText().toString()));
+                chooseTime(TimeUtils.string2Millis(tvStart.getText().toString()+":00"));
                 break;
             case R.id.tv_setting_endtime:
                 dateStr = "end";
-                chooseTime(TimeUtils.string2Millis(tvEnd.getText().toString()));
+                chooseTime(TimeUtils.string2Millis(tvEnd.getText().toString()+":00"));
                 break;
             default:
                 break;
@@ -131,7 +131,7 @@ public class SettingDateTimeFragment extends BaseFragment implements View.OnClic
     @Override
     public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
         Date date = new Date(millseconds);
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//精确到分钟
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");//精确到分钟
         String time = format.format(date);
         if (dateStr.equals("start")) {
             tvStart.setText(time);

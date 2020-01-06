@@ -36,7 +36,7 @@
             android:id="@+id/tv_tip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text=" 下拉刷新"
+            android:text=" 释放刷新"
             android:textColor="#fff"
             android:textSize="15sp"/>
 

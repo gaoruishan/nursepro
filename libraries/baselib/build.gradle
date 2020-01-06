@@ -86,6 +86,8 @@ dependencies {
 
     //依赖库
     api project(':libraries:TimePickerDialog')
+    //下拉刷新
+    api ('com.ufo:DWRefreshLayout:0.9.6')
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

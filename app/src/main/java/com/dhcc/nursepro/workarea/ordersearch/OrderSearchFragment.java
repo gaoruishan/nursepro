@@ -334,7 +334,7 @@ public class OrderSearchFragment extends BaseFragment implements View.OnClickLis
                 break;
             case R.id.tv_ordersearch_enddatetime:
                 etChangeFlag = "END";
-                chooseTime(TimeUtils.string2Millis(tvOrdersearchStartdatetime.getText().toString() + ":00"));
+                chooseTime(TimeUtils.string2Millis(tvOrdersearchEnddatetime.getText().toString() + ":00"));
                 break;
             default:
                 break;

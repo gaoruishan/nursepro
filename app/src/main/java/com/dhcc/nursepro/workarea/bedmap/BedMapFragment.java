@@ -23,6 +23,7 @@ import com.base.commlibs.constant.Action;
 import com.blankj.utilcode.util.SizeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.view.DhcHeadRefreshView;
 import com.dhcc.nursepro.view.ReFreshParent;
 import com.dhcc.nursepro.workarea.bedmap.adapter.BedMapPatientAdapter;
 import com.dhcc.nursepro.workarea.bedmap.adapter.BedMapPatientTypeAdapter;
@@ -30,6 +31,7 @@ import com.dhcc.nursepro.workarea.bedmap.api.BedMapApiManager;
 import com.dhcc.nursepro.workarea.bedmap.bean.BedMapBean;
 import com.dhcc.nursepro.workarea.bedmap.bean.ScanResultBean;
 import com.google.gson.Gson;
+import com.ufo.dwrefresh.view.DWRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +46,7 @@ import java.util.Map;
  */
 public class BedMapFragment extends BaseFragment implements View.OnClickListener {
 //    private SwipeRefreshLayout swipe_labout;
-    private ReFreshParent refresh;
+    private DWRefreshLayout refresh;
     private EditText etBedmapBedno;
     private TextView tvBedmapAllarea;
     private TextView tvBedmapAdminarea;
@@ -119,10 +121,21 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
 //            }
 //        });
         refresh = view.findViewById(R.id.refresh);
-        refresh.setRefreshCompleteListener(new ReFreshParent.RefreshCompleteListener() {
+        DhcHeadRefreshView viewHead =new DhcHeadRefreshView(getActivity());
+        refresh.setHeadView(viewHead);
+        //禁止加载更多功能，默认是允许的
+        refresh.lockLoadMore(true);
+        refresh.setOnRefreshListener(new DWRefreshLayout.OnRefreshListener() {
             @Override
-            public void refreshed() {
+            public void onRefresh() {
+                //刷新回调
                 asyncInitData();
+                refresh.setRefresh(false);
+            }
+
+            @Override
+            public void onLoadMore() {
+                //加载更多回调
             }
         });
 
