@@ -46,7 +46,7 @@ public class VitalSignPatientAdapter extends BaseQuickAdapter<Map, BaseViewHolde
         //体征录入
         helper.addOnClickListener(R.id.tv_vitalsign_vitalsign_record);
         TextView tvRecord = helper.getView(R.id.tv_vitalsign_vitalsign_record);
-        tvRecord.setTextColor(mContext.getResources().getColor(R.color.black));
+        tvRecord.setTextColor(mContext.getResources().getColor(R.color.text_color_gray));
         for (int j = 0; j < ((List) item.get("needMeasureInfo")).size(); j++) {
             Map measureInfo = (Map) ((List) item.get("needMeasureInfo")).get(j);
             for (Object key : measureInfo.keySet()) {
