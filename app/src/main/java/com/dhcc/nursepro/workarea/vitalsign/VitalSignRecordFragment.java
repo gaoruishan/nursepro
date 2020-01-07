@@ -273,7 +273,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
                     if (config.getErrorValueLowTo() != null) {
                         if (isNumber(edText.getText().toString() + "")) {
                             double edDou = Double.parseDouble(edText.getText().toString());
-                            if (edDou > Double.parseDouble(config.getErrorValueHightFrom()) || edDou < Double.parseDouble(config.getErrorValueLowTo())) {
+                            if (edDou >= Double.parseDouble(config.getErrorValueHightFrom()) || edDou <= Double.parseDouble(config.getErrorValueLowTo())) {
                                 showToast("请检查输入数值");
                                 return;
                             }
@@ -632,7 +632,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
                         if (config.getErrorValueLowTo() != null) {
                             if (isNumber(edText.getText().toString() + "")) {
                                 double edDou = Double.parseDouble(edText.getText().toString());
-                                if (edDou > Double.parseDouble(config.getErrorValueHightFrom()) || edDou < Double.parseDouble(config.getErrorValueLowTo())) {
+                                if (edDou >= Double.parseDouble(config.getErrorValueHightFrom()) || edDou <= Double.parseDouble(config.getErrorValueLowTo())) {
                                     edText.setBackground(getResources().getDrawable(R.drawable.vital_sign_inputerror_bg));
                                 } else if ((Double.parseDouble(config.getErrorValueLowTo()) < edDou && edDou < Double.parseDouble(config.getNormalValueRangFrom()))
                                         || (edDou < Double.parseDouble(config.getErrorValueHightFrom()) && edDou > Double.parseDouble(config.getNormalValueRangTo()))) {
