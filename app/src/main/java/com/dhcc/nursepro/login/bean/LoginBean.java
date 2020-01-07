@@ -1,5 +1,7 @@
 package com.dhcc.nursepro.login.bean;
 
+import com.base.commlibs.bean.ConfigBean;
+
 import java.util.List;
 
 /**
@@ -8,7 +10,7 @@ import java.util.List;
  * @author DevLix126
  * @date 2018/8/13
  */
-public class LoginBean {
+public class LoginBean extends ConfigBean {
 
 
     /**
@@ -23,11 +25,8 @@ public class LoginBean {
      * userName : 护士01
      */
 
-    private String msg;
-    private String msgcode;
     private String schEnDateTime;
     private String schStDateTime;
-    private String status;
     private String userId;
     private String userName;
     private List<BroadcastListBean> broadcastList;
@@ -45,21 +44,6 @@ public class LoginBean {
     private String checkTime;
 
 
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-
-    public String getMsgcode() {
-        return msgcode;
-    }
-
-    public void setMsgcode(String msgcode) {
-        this.msgcode = msgcode;
-    }
 
     public String getSchEnDateTime() {
         return schEnDateTime;
@@ -75,14 +59,6 @@ public class LoginBean {
 
     public void setSchStDateTime(String schStDateTime) {
         this.schStDateTime = schStDateTime;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public String getUserId() {

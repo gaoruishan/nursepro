@@ -222,6 +222,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
             android:background="@drawable/vital_sign_border"
+            android:textColor="@color/text_color_gray"
             android:text="体征录入" />
 
         <TextView
@@ -230,6 +231,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
             android:background="@drawable/vital_sign_border"
+            android:textColor="@color/text_color_gray"
             android:text="事件登记" />
 
         <TextView

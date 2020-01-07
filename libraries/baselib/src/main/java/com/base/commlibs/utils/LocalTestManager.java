@@ -36,17 +36,8 @@ public class LocalTestManager {
     //日志
     private static final int APP_VERSION_CODE = AppUtils.getAppVersionCode();
     private static final String APP_VERSION_NAME = AppUtils.getAppVersionName();
-    private static final boolean APP_IS_CONNECTED = NetworkUtils.isConnected();
-    private static final boolean APP_IS_MOBILE = NetworkUtils.isMobileData();
-    private static final boolean APP_IS_WIFI_CONNECTED = NetworkUtils.isWifiConnected();
-    private static final NetworkUtils.NetworkType APP_NET_TYPE = NetworkUtils.getNetworkType();
-    //用户
-    private static final String USER_CODE = SPUtils.getInstance().getString(SharedPreference.USERCODE);
-    private static final String USER_NAME = SPUtils.getInstance().getString(SharedPreference.USERNAME);
-    private static final String USER_LOCID = SPUtils.getInstance().getString(SharedPreference.LOCID);
-    private static final String USER_WARDID = SPUtils.getInstance().getString(SharedPreference.WARDID);
-    private static final String USER_USERID = SPUtils.getInstance().getString(SharedPreference.USERID);
-    private static final String USER_LOCDESC = SPUtils.getInstance().getString(SharedPreference.LOCDESC);
+    private static final String APP_PACKAGE_NAME = AppUtils.getAppPackageName();
+
     private static List<String> l = new ArrayList<>();
     private static Map<String, Integer> errNum = new WeakHashMap<>();
 
@@ -105,9 +96,14 @@ public class LocalTestManager {
      * @param obj
      * @return
      */
-    public static boolean isRequest(String methodName, Object obj) {
+    public static boolean isRequest(String methodName, Object properties, Object obj) {
+        if (properties != null) {
+            properties = properties.toString();
+        }
         //有数据直接返回
         if (!ObjectUtils.isEmpty(obj)) {
+            //保存数据不为null
+            saveLog(methodName + "_data", properties + "\n\n" + obj);
             return false;
         }
         Integer integer = errNum.get(methodName);
@@ -122,7 +118,7 @@ public class LocalTestManager {
         integer += 1;
         errNum.put(methodName, integer);
         //保存
-        saveLog(methodName + "_null", (String) obj);
+        saveLog(methodName + "_null", properties + "\n\n" + obj);
         return true;
     }
 
@@ -133,8 +129,10 @@ public class LocalTestManager {
      */
     public static void saveLog(String methodName, String obj) {
         if (isLogFlag()) {
+            String[] split = APP_PACKAGE_NAME.split("\\.");
+            String packName = split[split.length - 1];
             String date = FORMAT.format(new Date(System.currentTimeMillis()));
-            String dir = date + "/v" + APP_VERSION_CODE + "_" + methodName + "/";
+            String dir = packName + "/" + date + "/v" + APP_VERSION_CODE + "_" + methodName + "/";
             String dhc = dir + methodName + "_" + System.currentTimeMillis() + ".log";
             CommFile.write(dhc, getCommLog() + obj);
         }
@@ -164,32 +162,19 @@ public class LocalTestManager {
                         "\nAndroid SDK        : " + Build.VERSION.SDK_INT +
                         "\nApp VersionName    : " + APP_VERSION_NAME +
                         "\nApp VersionCode    : " + APP_VERSION_CODE +
-                        "\nApp isConnected    : " + APP_IS_CONNECTED +
-                        "\nApp isMobileData    : " + APP_IS_MOBILE +
-                        "\nApp isWifiConnected    : " + APP_IS_WIFI_CONNECTED +
-                        "\nApp getNetworkType    : " + APP_NET_TYPE +
-                        "\nApp getNetworkType    : " + APP_NET_TYPE +
-                        "\nUser USER_CODE    : " + USER_CODE +
-                        "\nUser USER_NAME    : " + USER_NAME +
-                        "\nUser USER_USERID    : " + USER_USERID +
-                        "\nUser USER_LOCID    : " + USER_LOCID +
-                        "\nUser USER_LOCDESC    : " + USER_LOCDESC +
-                        "\nUser USER_WARDID    : " + USER_WARDID +
+                        "\nApp isConnected    : " + NetworkUtils.isConnected() +
+                        "\nApp isMobileData    : " + NetworkUtils.isMobileData() +
+                        "\nApp isWifiConnected    : " + NetworkUtils.isWifiConnected() +
+                        "\nApp getNetworkType    : " + NetworkUtils.getNetworkType() +
+                        "\nUser USER_CODE    : " + SPUtils.getInstance().getString(SharedPreference.USERCODE) +
+                        "\nUser USER_NAME    : " + SPUtils.getInstance().getString(SharedPreference.USERNAME) +
+                        "\nUser USER_USERID    : " + SPUtils.getInstance().getString(SharedPreference.USERID) +
+                        "\nUser USER_LOCID    : " + SPUtils.getInstance().getString(SharedPreference.LOCID) +
+                        "\nUser USER_LOCDESC    : " + SPUtils.getInstance().getString(SharedPreference.LOCDESC) +
+                        "\nUser USER_WARDID    : " + SPUtils.getInstance().getString(SharedPreference.WARDID) +
                         "\n************* Log Head ****************\n\n";
         sb.append(head);
         return sb.toString();
-    }
-
-    /**
-     * 保存json-数据不为null,带有"_data"
-     * @param methodName
-     * @param obj
-     */
-    public static void saveNotNullLog(String methodName, String obj) {
-        //有数据
-        if (!ObjectUtils.isEmpty(obj)) {
-            saveLog(methodName + "_data", obj);
-        }
     }
 
     /**

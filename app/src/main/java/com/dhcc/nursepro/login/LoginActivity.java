@@ -406,7 +406,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         LoginApiManager.getLogin(userCode, password, logonWardId, new LoginApiManager.GetLoginCallback() {
             @Override
             public void onSuccess(final LoginBean loginBean) {
-
+                UserUtil.setUserConfig(loginBean);
                 //保存科室列表，设置界面更换病区会用到
                 List<Map<String, String>> list = new ArrayList<>();
                 for (int i = 0; i < loginBean.getLocs().size(); i++) {
