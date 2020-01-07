@@ -1,5 +1,7 @@
 package com.dhcc.nursepro.workarea.vitalsign.api;
 
+import android.util.Log;
+
 import com.blankj.utilcode.util.ObjectUtils;
 import com.dhcc.nursepro.workarea.vitalsign.bean.VitalSignRecordBean;
 import com.dhcc.nursepro.workarea.vitalsign.bean.VitalSignSaveBean;
@@ -83,6 +85,7 @@ public class VitalSignApiManager {
                         }
                     } catch (Exception e) {
                         callback.onFail("-2", "网络错误，数据解析失败");
+                        Log.v("111111",e.toString());
                     }
                 }
             }

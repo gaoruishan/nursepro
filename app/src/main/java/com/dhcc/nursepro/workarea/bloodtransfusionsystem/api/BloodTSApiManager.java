@@ -4,6 +4,7 @@ import com.blankj.utilcode.util.ObjectUtils;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bean.BloodInfoBean;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bean.BloodOperationListBean;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bean.BloodOperationResultBean;
+import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bean.BloodTemDataBean;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bean.BloodTransDetailBean;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bean.PatWristInfoBean;
 import com.google.gson.Gson;
@@ -183,8 +184,8 @@ public class BloodTSApiManager {
         });
     }
 
-    public static void bloodPatrol(String bloodRowId, String recdate, String rectime, String speed, String effect, String situation, final BloodOperationResultCallback callback) {
-        BloodTSApiService.bloodPatrol(bloodRowId, recdate, rectime, speed, effect, situation, new BloodTSApiService.ServiceCallBack() {
+    public static void bloodPatrol(String bloodRowId, String recdate, String rectime, String speed, String effect, String situation,String dataArr, final BloodOperationResultCallback callback) {
+        BloodTSApiService.bloodPatrol(bloodRowId, recdate, rectime, speed, effect, situation,dataArr, new BloodTSApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();
@@ -347,6 +348,39 @@ public class BloodTSApiManager {
         });
     }
 
+    //巡视模板
+    public static void getBloodTemData(String episodeId, final BloodTemDataCallback callback) {
+        BloodTSApiService.getBloodTemData(episodeId, new BloodTSApiService.ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                Gson gson = new Gson();
+
+                if (jsonStr.isEmpty()) {
+                    callback.onFail("-1", "网络错误，请求数据为空");
+                } else {
+                    try {
+                        BloodTemDataBean bloodTemDataBean = gson.fromJson(jsonStr, BloodTemDataBean.class);
+                        if (ObjectUtils.isEmpty(bloodTemDataBean)) {
+                            callback.onFail("-3", "网络错误，数据解析为空");
+                        } else {
+                            if ("0".equals(bloodTemDataBean.getStatus())) {
+                                if (callback != null) {
+                                    callback.onSuccess(bloodTemDataBean);
+                                }
+                            } else {
+                                if (callback != null) {
+                                    callback.onFail(bloodTemDataBean.getMsgcode(), bloodTemDataBean.getMsg());
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        callback.onFail("-2", "网络错误，数据解析失败");
+                    }
+                }
+            }
+        });
+    }
+
     public interface CommonCallBack {
         void onFail(String code, String msg);
     }
@@ -369,5 +403,9 @@ public class BloodTSApiManager {
 
     public interface BloodTransDetailCallback extends CommonCallBack {
         void onSuccess(BloodTransDetailBean bloodTransDetailBean);
+    }
+
+    public interface BloodTemDataCallback extends CommonCallBack {
+        void onSuccess(BloodTemDataBean bloodTemDataBean);
     }
 }

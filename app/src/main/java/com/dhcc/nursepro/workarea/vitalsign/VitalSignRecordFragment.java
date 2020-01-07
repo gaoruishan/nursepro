@@ -2,13 +2,17 @@ package com.dhcc.nursepro.workarea.vitalsign;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.inputmethodservice.KeyboardView;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.text.Editable;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
+import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -84,6 +88,12 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
     private LinearLayout llPreNex;
     private KeyboardView mKeyboard;
 
+    private Map oldMap = new HashMap<String,String>();
+    private Map newMap = new HashMap<String,String>();
+
+    private Boolean ifSave=false;
+
+
 
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -154,6 +164,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
         viewright.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ifSave = true;
                 saveTempValue(SAVE_TEMP_VALUE_NORMAL);
             }
         });
@@ -288,16 +299,32 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
         Gson gson = new Gson();
         String result = gson.toJson(resList);
 
-        showLoadingTip(BaseActivity.LoadingType.FULL);
-
         waiting = true;
-
+        if (oldMap.equals(newMap )){
+            waiting = false;
+            if (ifSave){
+                ifSave = false;
+                showToast("没有可保存的内容");
+            }
+            if (type == SAVE_TEMP_VALUE_NEXT) {
+                patientIndex++;
+                switchPatient();
+            } else if (type == SAVE_TEMP_VALUE_PRE) {
+                patientIndex--;
+                switchPatient();
+            } else if (type == SAVE_TEMP_VALUE_SCAN) {
+                switchPatient();
+            }
+            return;
+        }
+        showLoadingTip(BaseActivity.LoadingType.FULL);
         VitalSignApiManager.saveTempData(curEpisodeId, timepoint, result, new VitalSignApiManager.SaveTempDataCallback() {
             @Override
             public void onSuccess(VitalSignSaveBean bean) {
                 hideLoadFailTip();
+                showToast("保存成功");
+                oldMap.putAll(newMap);
                 waiting = false;
-                showToast("保存成功 ");
                 if (type == SAVE_TEMP_VALUE_NEXT) {
                     patientIndex++;
                     switchPatient();
@@ -382,6 +409,10 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
             public void onSuccess(VitalSignRecordBean bean) {
                 recordInfo = bean;
 
+
+
+                oldMap = new HashMap<String,String>();
+                newMap = new HashMap<String,String>();
                 drawInputItems();
                 inputItemsValue();
 
@@ -463,9 +494,33 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
 
         layout.setLayoutParams(params);
 
+        for (int i = 0; i < recordInfo.getTempList().size(); i++) {
+            if (config.getCode().equals(recordInfo.getTempList().get(i).getCode())){
+                oldMap.put(config.getCode(),recordInfo.getTempList().get(i).getValue());
+                newMap.put(config.getCode(),recordInfo.getTempList().get(i).getValue());
+            }
+        }
 
         TextView titleTV = new TextView(getContext());
         titleTV.setText(config.getDesc());
+        titleTV.setTextColor(Color.parseColor("#000000"));
+//        if (config.getCode()recordInfo.getNeedMeasureCode().get(0).get)
+        for (int i = 0; i <recordInfo.getNeedMeasureCode().size() ; i++) {
+                if (recordInfo.getNeedMeasureCode().get(i).getItemcode().equals(config.getCode())){
+                    if (recordInfo.getNeedMeasureCode().get(i).getNeedFlag().equals("1")){
+                        String needMea = "*"+config.getDesc();
+                        SpannableStringBuilder builder = new SpannableStringBuilder(needMea);
+
+                        ForegroundColorSpan redSpan = new ForegroundColorSpan(Color.parseColor("#FFEA4300"));
+                        ForegroundColorSpan blackSpan = new ForegroundColorSpan(Color.parseColor("#000000"));
+
+                        builder.setSpan(redSpan, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                        builder.setSpan(blackSpan, 1, needMea.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                        titleTV.setText(builder);
+                    }
+                }
+        }
         //        titleTV.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
         if (config.getDesc().length() > 7) {
             titleTV.setTextSize(12);
@@ -529,6 +584,21 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
             //                    return false;
             //                }
             //            });
+            edText.setOnClickListener(new View.OnClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                @Override
+                public void onClick(View v) {
+                  if (v.hasFocus()){
+                      if (titleTV.getText().toString().contains("℃")) {
+                          InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                          imm.hideSoftInputFromWindow(edText.getWindowToken(), 0);
+                          new KeyBoardUtil(mKeyboard, edText).showKeyboard();
+                      } else {
+                          mKeyboard.setVisibility(View.GONE);
+                      }
+                  }
+                }
+            });
             edText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                 @Override
@@ -557,6 +627,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
 
                 @Override
                 public void afterTextChanged(Editable s) {
+                    newMap.put(config.getCode(),edText.getText().toString());
                     if (config.getNormalValueRangFrom() != null) {
                         if (config.getErrorValueLowTo() != null) {
                             if (isNumber(edText.getText().toString() + "")) {
@@ -633,8 +704,10 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
                             //                            config.setSendValue(config.getItemCode() + "|" + item);
                             if (item.equals("删除")) {
                                 optionView.setText("");
+                                newMap.put(config.getCode(),optionView.getText().toString());
                             } else {
                                 optionView.setText(item);
+                                newMap.put(config.getCode(),optionView.getText().toString());
                             }
                         }
                     });

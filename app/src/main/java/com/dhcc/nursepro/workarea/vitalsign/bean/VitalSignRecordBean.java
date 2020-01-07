@@ -228,4 +228,49 @@ public class VitalSignRecordBean {
             this.value = value;
         }
     }
+
+
+    private List<NeedMeasureCodeBean> needMeasureCode;
+    public List<NeedMeasureCodeBean> getNeedMeasureCode() {
+        return needMeasureCode;
+    }
+
+    public void setNeedMeasureCode(List<NeedMeasureCodeBean> needMeasureCode) {
+        this.needMeasureCode = needMeasureCode;
+    }
+    public static class NeedMeasureCodeBean {
+        /**
+         * itemcode : Fallrisk
+         * needFlag : 0
+         * needTimePoint : 02:00
+         */
+
+        private String itemcode;
+        private String needFlag;
+        private String needTimePoint;
+
+        public String getItemcode() {
+            return itemcode;
+        }
+
+        public void setItemcode(String itemcode) {
+            this.itemcode = itemcode;
+        }
+
+        public String getNeedFlag() {
+            return needFlag;
+        }
+
+        public void setNeedFlag(String needFlag) {
+            this.needFlag = needFlag;
+        }
+
+        public String getNeedTimePoint() {
+            return needTimePoint;
+        }
+
+        public void setNeedTimePoint(String needTimePoint) {
+            this.needTimePoint = needTimePoint;
+        }
+    }
 }

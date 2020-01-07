@@ -1,5 +1,6 @@
 package com.dhcc.nursepro.workarea.vitalsign.adapter;
 
+import android.annotation.SuppressLint;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,7 +19,6 @@ public class VitalSignPatientAdapter extends BaseQuickAdapter<Map, BaseViewHolde
     public VitalSignPatientAdapter(@Nullable List<Map> data) {
         super(R.layout.item_vitalsign_patient, data);
     }
-
     @Override
     protected void convert(BaseViewHolder helper, Map item) {
 
@@ -45,6 +45,16 @@ public class VitalSignPatientAdapter extends BaseQuickAdapter<Map, BaseViewHolde
 
         //体征录入
         helper.addOnClickListener(R.id.tv_vitalsign_vitalsign_record);
+        TextView tvRecord = helper.getView(R.id.tv_vitalsign_vitalsign_record);
+        tvRecord.setTextColor(mContext.getResources().getColor(R.color.black));
+        for (int j = 0; j < ((List) item.get("needMeasureInfo")).size(); j++) {
+            Map measureInfo = (Map) ((List) item.get("needMeasureInfo")).get(j);
+            for (Object key : measureInfo.keySet()) {
+                if ((measureInfo.get(key).toString()).equals("1")){
+                    tvRecord.setTextColor(mContext.getResources().getColor(R.color.blue));
+                }
+            }
+        }
         //事件登记
         helper.addOnClickListener(R.id.tv_vitalsign_event_record);
         //体温单预览

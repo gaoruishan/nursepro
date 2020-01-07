@@ -211,6 +211,25 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                 dateFilterStr = (String) map.get("datePoint");
                 tvVitalSignChooseTime.setText(dateFilterStr + "  " + timeFilterStr);
 
+
+
+                for (int i = 0; i <leftFilterList.size() ; i++) {
+                    String key = (String) ((Map)(leftFilterList.get(i))).get("code");
+                    int typeNum = 0 ;
+                    ((Map)(leftFilterList.get(i))).put("temNum",typeNum+"");
+                    for (int j = 0; j <patientList.size() ; j++) {
+                        List<Map> needMeasureList1 = (List<Map>) ((Map)( patientList.get(j))).get("needMeasureInfo");
+//                        for (int k = 0; k <needMeasureList1.size() ; k++) {
+                        if (needMeasureList1.size()>0){
+                            if (needMeasureList1.get(0).get(key).equals("1")){
+                                ((Map)(leftFilterList.get(i))).put("temNum",""+(++typeNum));
+//                            }
+                            }
+
+                        }
+                    }
+                }
+
                 typeAdapter.setNewData(leftFilterList);
 
                 for (int i = 0; i < topFilterList.size(); i++) {

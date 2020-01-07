@@ -115,7 +115,7 @@ public class BloodTSApiService {
      * @param effect    是否存在不良反应
      * @param situation 反应状况
      */
-    public static void bloodPatrol(String bloodRowId, String recdate, String rectime, String speed, String effect, String situation, final ServiceCallBack callback) {
+    public static void bloodPatrol(String bloodRowId, String recdate, String rectime, String speed, String effect, String situation,String dataArr, final ServiceCallBack callback) {
         HashMap<String, String> properties = new HashMap<>();
         properties.put("bloodRowId", bloodRowId);
         properties.put("recdate", recdate);
@@ -125,6 +125,7 @@ public class BloodTSApiService {
         properties.put("situation", situation);
         SPUtils spUtils = SPUtils.getInstance();
         properties.put("userId", spUtils.getString(SharedPreference.USERID));
+        properties.put("dataArr",dataArr);
 
         WebServiceUtils.callWebService("bloodPatrol", properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
@@ -201,6 +202,21 @@ public class BloodTSApiService {
         });
     }
 
+
+    /**
+     * 巡视模板
+     */
+    public static void getBloodTemData(String episodeId, final ServiceCallBack callback) {
+        HashMap<String, String> properties = new HashMap<>();
+        properties.put("episodeId", episodeId);
+
+        WebServiceUtils.callWebService("getBloodTemData", properties, new WebServiceUtils.WebServiceCallBack() {
+            @Override
+            public void callBack(String result) {
+                callback.onResult(result);
+            }
+        });
+    }
 
     public interface ServiceCallBack {
         void onResult(String jsonStr);

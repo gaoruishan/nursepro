@@ -1,5 +1,6 @@
 package com.dhcc.nursepro.workarea.vitalsign.api;
 
+import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.nursepro.utils.wsutils.WebServiceUtils;
 
@@ -56,6 +57,8 @@ public class VitalSignApiService {
         properties.put("episodeId", episodeId);
         //日期时间点
         properties.put("dateTimePoint", date);
+
+        properties.put("locId", SPUtils.getInstance().getString(SharedPreference.LOCID));
 
         WebServiceUtils.callWebService("getTempValue", properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
