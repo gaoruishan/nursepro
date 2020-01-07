@@ -37,6 +37,7 @@ import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.uiplugs.OptionView;
+import com.dhcc.nursepro.utils.DateUtils;
 import com.dhcc.nursepro.utils.KeyBoardUtil;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.BloodOperationResultDialog;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.api.BloodTSApiManager;
@@ -268,6 +269,7 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
             }
         });
         tvBloodtranstourTranstime = view.findViewById(R.id.tv_bloodtranstour_transtime);
+        tvBloodtranstourTranstime.setText(DateUtils.getDateTimeFromSystem());
         tvBloodtranstourNursename = view.findViewById(R.id.tv_bloodtranstour_nursename);
         etBloodtranstourBloodtransrate = view.findViewById(R.id.et_bloodtranstour_bloodtransrate);
         tvBloodtranstourIsexist = view.findViewById(R.id.tv_bloodtranstour_isexist);

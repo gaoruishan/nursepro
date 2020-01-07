@@ -90,7 +90,13 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
 
         //不用本地时间，用后台返回的时间
         //        initData();
-        view.postDelayed(new Runnable() {
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getView().postDelayed(new Runnable() {
             @Override
             public void run() {
                 asyncInitData();
