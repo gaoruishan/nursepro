@@ -3,6 +3,7 @@ package com.base.commlibs.utils;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.base.commlibs.bean.ConfigBean;
 import com.base.commlibs.bean.LoginBean;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.wsutils.BaseWebServiceUtils;
@@ -230,13 +231,7 @@ public class UserUtil {
      */
     public static void setUserInfo(LoginBean loginBean) {
         List<LoginBean.LocsBean> locs = loginBean.getLocs();
-        SPUtils.getInstance().put(SharedPreference.LOG_FLAG, loginBean.getLogFlag());
-        SPUtils.getInstance().put(SharedPreference.GLOBAL_VIEW_FLAG, loginBean.getGlobalViewFlag());
-        SPUtils.getInstance().put(SharedPreference.MSG_NOTICE_FLAG, loginBean.getMsgNoticeFlag());
-        SPUtils.getInstance().put(SharedPreference.MSG_SKIN_FLAG, loginBean.getMsgSkinFlag());
-        SPUtils.getInstance().put(SharedPreference.ORD_STATE_FLAG, loginBean.getOrdStateFlag());
-        SPUtils.getInstance().put(SharedPreference.BLOOD_CHECK_FLAG, loginBean.getBloodCheckFlag());
-        SPUtils.getInstance().put(SharedPreference.SKIN_DATE_OFFSET, loginBean.getSkinDateOffset());
+        setUserConfig(loginBean);
         SPUtils.getInstance().put(SharedPreference.USERID, loginBean.getUserId());
         SPUtils.getInstance().put(SharedPreference.USERNAME, loginBean.getUserName());
         SPUtils.getInstance().put(SharedPreference.SCHSTDATETIME, loginBean.getSchStDateTime());
@@ -244,6 +239,20 @@ public class UserUtil {
         //配置
         SPUtils.getInstance().put(SharedPreference.APP_VERSION_CODE, AppUtils.getAppVersionCode() + "");
         CommFile.write(SharedPreference.APP_VERSION_CODE, AppUtils.getAppVersionCode() + "");
+    }
+
+    /**
+     * 保存配置
+     * @param loginBean
+     */
+    public static void setUserConfig(ConfigBean loginBean) {
+        SPUtils.getInstance().put(SharedPreference.LOG_FLAG, loginBean.getLogFlag());
+        SPUtils.getInstance().put(SharedPreference.GLOBAL_VIEW_FLAG, loginBean.getGlobalViewFlag());
+        SPUtils.getInstance().put(SharedPreference.MSG_NOTICE_FLAG, loginBean.getMsgNoticeFlag());
+        SPUtils.getInstance().put(SharedPreference.MSG_SKIN_FLAG, loginBean.getMsgSkinFlag());
+        SPUtils.getInstance().put(SharedPreference.ORD_STATE_FLAG, loginBean.getOrdStateFlag());
+        SPUtils.getInstance().put(SharedPreference.BLOOD_CHECK_FLAG, loginBean.getBloodCheckFlag());
+        SPUtils.getInstance().put(SharedPreference.SKIN_DATE_OFFSET, loginBean.getSkinDateOffset());
     }
 
 
