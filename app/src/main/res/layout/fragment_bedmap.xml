@@ -123,19 +123,24 @@
             android:background="@color/bedmap_left_bgcolor">
 
         </android.support.v7.widget.RecyclerView>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
             <com.ufo.dwrefresh.view.DWRefreshLayout
                 android:id="@+id/refresh"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recy_bedmap_patient"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_marginEnd="85dp"
                     android:background="@color/white">
 
                 </android.support.v7.widget.RecyclerView>
             </com.ufo.dwrefresh.view.DWRefreshLayout>
+
+        </RelativeLayout>
 
     </LinearLayout>
 
