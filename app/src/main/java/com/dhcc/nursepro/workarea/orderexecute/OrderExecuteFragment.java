@@ -15,6 +15,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -151,6 +152,8 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     //点击的按钮的名称
     private String exeButtonDesc = "";
 
+    //记录皮试执行按钮，如果未置结果，不显示
+    private TextView btnSkinExe;
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -469,6 +472,10 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                     }
                     TextView tvButton = new TextView(getContext());
                     tvButton.setText(buttons.get(i).getDesc());
+                    btnSkinExe = null;
+                    if (buttons.get(i).getDesc().startsWith("执行")){
+                        btnSkinExe = tvButton;
+                    }
                     //        titleTV.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
 //                if (config.getItemDesc().length() > 7) {
 //                    titleTV.setTextSize(12);
@@ -653,10 +660,14 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     }
 
     public void refreshBottom() {
+
         sbOeoreId = new StringBuffer();
         sbOrderSaveInfo = new StringBuffer();
         sbTimeSaveInfo = new StringBuffer();
         selectCount = 0;
+        if (btnSkinExe != null){
+            btnSkinExe.setVisibility(View.VISIBLE);
+        }
         for (int i = 0; i < patOrders.size(); i++) {
 
             String orderDescs = "";
@@ -668,6 +679,13 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 }
             }
             if (patOrders.get(i) != null && patOrders.get(i).get(0) != null && patOrders.get(i).get(0).getSelect() != null && "1".equals(patOrders.get(i).get(0).getSelect())) {
+
+                if (btnSkinExe != null){
+                    if (patOrders.get(i).get(0).getOrderInfo().getDisposeStatCode().startsWith("皮试") && "皮".equals(patOrders.get(i).get(0).getOrderInfo().getSkinResult())){
+                        btnSkinExe.setVisibility(View.GONE);
+                    }
+                }
+
                 if (selectCount == 0) {
                     sbOeoreId.append(patOrders.get(i).get(0).getOrderInfo().getID());
                     //                    sbOrderSaveInfo.append(patOrders.get(i).get(0).getOrderInfo().getArcimDesc());

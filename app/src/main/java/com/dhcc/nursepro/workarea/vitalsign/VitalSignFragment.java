@@ -235,8 +235,13 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                         }
                     }
                 }
-
-                typeAdapter.setNewData(leftFilterList);
+                 List leftFilterListShow = new ArrayList();
+                for (int i = 0; i <leftFilterList.size() ; i++) {
+                    if (!((Map)(leftFilterList.get(i))).get("temNum").equals("0")){
+                        leftFilterListShow.add((Map)(leftFilterList.get(i)));
+                    }
+                }
+                typeAdapter.setNewData(leftFilterListShow);
 
                 for (int i = 0; i < topFilterList.size(); i++) {
                     Map filter = (Map) topFilterList.get(i);

@@ -187,7 +187,7 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
                                     if (config.getErrorValueLowTo() != null) {
                                         if (isNumber(edText.getText().toString() + "")) {
                                             double edDou = Double.parseDouble(edText.getText().toString());
-                                            if (edDou > Double.parseDouble(config.getErrorValueHightFrom()) || edDou < Double.parseDouble(config.getErrorValueLowTo())) {
+                                            if (edDou >= Double.parseDouble(config.getErrorValueHightFrom()) || edDou <= Double.parseDouble(config.getErrorValueLowTo())) {
                                                 showToast("请检查输入数值");
                                                 return;
                                             }
@@ -270,6 +270,9 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
         });
         tvBloodtranstourTranstime = view.findViewById(R.id.tv_bloodtranstour_transtime);
         tvBloodtranstourTranstime.setText(DateUtils.getDateTimeFromSystem());
+
+        recdate = DateUtils.getDateTimeFromSystem().substring(0, 10);
+        rectime = DateUtils.getDateTimeFromSystem().substring(11, 16);
         tvBloodtranstourNursename = view.findViewById(R.id.tv_bloodtranstour_nursename);
         etBloodtranstourBloodtransrate = view.findViewById(R.id.et_bloodtranstour_bloodtransrate);
         tvBloodtranstourIsexist = view.findViewById(R.id.tv_bloodtranstour_isexist);
@@ -655,7 +658,7 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
                         if (config.getErrorValueLowTo() != null) {
                             if (isNumber(edText.getText().toString() + "")) {
                                 double edDou = Double.parseDouble(edText.getText().toString());
-                                if (edDou > Double.parseDouble(config.getErrorValueHightFrom()) || edDou < Double.parseDouble(config.getErrorValueLowTo())) {
+                                if (edDou >= Double.parseDouble(config.getErrorValueHightFrom()) || edDou <= Double.parseDouble(config.getErrorValueLowTo())) {
                                     edText.setBackground(getResources().getDrawable(R.drawable.vital_sign_inputerror_bg));
                                 } else if ((Double.parseDouble(config.getErrorValueLowTo()) < edDou && edDou < Double.parseDouble(config.getNormalValueRangFrom()))
                                         || (edDou < Double.parseDouble(config.getErrorValueHightFrom()) && edDou > Double.parseDouble(config.getNormalValueRangTo()))) {

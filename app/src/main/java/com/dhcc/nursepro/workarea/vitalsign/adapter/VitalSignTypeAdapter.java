@@ -33,6 +33,11 @@ public class VitalSignTypeAdapter extends BaseQuickAdapter<Map, BaseViewHolder> 
     @Override
     protected void convert(BaseViewHolder helper, Map item) {
         helper.setText(R.id.tv_num,item.get("temNum") !=null? item.get("temNum")+"":"0");
+        if (item.get("temNum")==null || item.get("temNum").equals("0")){
+            helper.setVisible(R.id.tv_num,false);
+        }else {
+            helper.setVisible(R.id.tv_num,true);
+        }
 
         TextView tvVitalSignType = helper.getView(R.id.tv_vitalsign_type);
         tvVitalSignType.setText((String) item.get("desc"));
