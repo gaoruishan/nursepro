@@ -48,6 +48,7 @@
                 android:layout_marginRight="@dimen/dp_20"
                 android:gravity="center"
                 tools:text="15"
+                android:background="@drawable/bg_edit_line"
                 android:inputType="number"
                 android:digits="0123456789"
                 android:textColor="#FF4A4A4A"

@@ -39,7 +39,7 @@ public class ContinueApiService {
      * Input：       oeoreId:执行记录ID,userId:用户ID,locId:科室Id,distantTime:预计完成时间,ifSpeed:滴速,puncturePart:穿刺部位
      * other:		  w ##class(Nur.OPPDA.Change).changeOrd("568-3-1","4636",266,"2019-04-28 17:05:00",45,"脑后")
      */
-    public static void changeOrd(String oeoreId, String distantTime, String ifSpeed, String puncturePart, ServiceCallBack callBack) {
+    public static void changeOrd(String oeoreId, String distantTime, String ifSpeed, String puncturePart,String wayNo,String newWayFlag,ServiceCallBack callBack) {
         HashMap<String, String> properties = new HashMap<>();
         if (!TextUtils.isEmpty(oeoreId)) {
             properties.put("oeoreId", oeoreId);
@@ -49,6 +49,12 @@ public class ContinueApiService {
         }
         if (!TextUtils.isEmpty(puncturePart)) {
             properties.put("puncturePart", puncturePart);
+        }
+        if (!TextUtils.isEmpty(wayNo)) {
+            properties.put("wayNo", wayNo);
+        }
+        if (!TextUtils.isEmpty(newWayFlag)) {
+            properties.put("newWayFlag", newWayFlag);
         }
         properties.put("ifSpeed", ifSpeed);
         CommWebService.callUserIdLocId("changeOrd", properties, callBack);

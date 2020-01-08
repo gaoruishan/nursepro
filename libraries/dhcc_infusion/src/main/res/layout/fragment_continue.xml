@@ -8,6 +8,7 @@
     <!--扫码-->
     <com.dhcc.res.infusion.CustomScanView
         android:id="@+id/custom_scan"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
     />
@@ -32,6 +33,24 @@
                 android:layout_marginTop="@dimen/dp_15"
                 android:orientation="vertical"
             />
+            <RelativeLayout
+                android:id="@+id/rl_way"
+                android:layout_marginTop="@dimen/dp_15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.dhcc.res.infusion.CustomSelectView
+                    android:id="@+id/custom_select_channel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <com.dhcc.res.infusion.CustomOnOffView
+                    android:id="@+id/custom_on_off"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
             <com.dhcc.res.infusion.CustomSelectView
                 android:id="@+id/custom_select_time"
                 android:layout_width="match_parent"

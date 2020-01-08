@@ -24,6 +24,16 @@ public class CustomOnOffView extends BaseView {
     private Button btnChange;
     private String textOff = "", textOn = "";
     private SimpleCallBack<Boolean> callBack;
+    OnClickListener onClickListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            btnChange.setSelected(!btnChange.isSelected());
+            changeText();
+            if (callBack != null) {
+                callBack.call(btnChange.isSelected(), 0);
+            }
+        }
+    };
 
     public CustomOnOffView(Context context) {
         this(context, null);
@@ -36,19 +46,12 @@ public class CustomOnOffView extends BaseView {
     public CustomOnOffView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent));
+        setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
         btnChange = findViewById(R.id.btn_change);
         tvChange = findViewById(R.id.tv_change);
         btnChange.setSelected(true);
-        btnChange.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                btnChange.setSelected(!btnChange.isSelected());
-                changeText();
-                if (callBack != null) {
-                    callBack.call(btnChange.isSelected(),0);
-                }
-            }
-        });
+        btnChange.setOnClickListener(onClickListener);
+        setOnClickListener(onClickListener);
         changeText();
     }
 
@@ -60,9 +63,22 @@ public class CustomOnOffView extends BaseView {
         return btnChange.isSelected();
     }
 
+    public void setSelect(boolean select) {
+        btnChange.setSelected(select);
+    }
+
+    public void setDisEnable(boolean disEnable) {
+        btnChange.setEnabled(disEnable);
+        setEnabled(disEnable);
+    }
+
     public CustomOnOffView setShowSelectText(String on, String off) {
-        this.textOn = on;
-        this.textOff = off;
+        if (on != null) {
+            this.textOn = on;
+        }
+        if (off != null) {
+            this.textOff = off;
+        }
         changeText();
         return this;
     }

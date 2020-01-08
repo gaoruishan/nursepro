@@ -37,8 +37,8 @@ public class ContinueApiManager {
      * Input：       oeoreId:执行记录ID,userId:用户ID,locId:科室Id,distantTime:预计完成时间,ifSpeed:滴速,puncturePart:穿刺部位
      * other:		  w ##class(Nur.OPPDA.Change).changeOrd("568-3-1","4636",266,"2019-04-28 17:05:00",45,"脑后")
      */
-    public static void changeOrd(String oeoreId, String distantTime, String ifSpeed, String puncturePart, final CommonCallBack<CommResult> callBack) {
-        ContinueApiService.changeOrd(oeoreId, distantTime, ifSpeed, puncturePart, new ServiceCallBack() {
+    public static void changeOrd(String oeoreId, String distantTime, String ifSpeed, String puncturePart,String wayNo,String newWayFlag,final CommonCallBack<CommResult> callBack) {
+        ContinueApiService.changeOrd(oeoreId, distantTime, ifSpeed, puncturePart, wayNo, newWayFlag,new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 CommWebService.parserCommResult(jsonStr,callBack);

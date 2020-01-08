@@ -44,7 +44,7 @@ public class PunctureApiService {
      * Input：       oeoreId:执行记录ID,userId:用户ID,locId:科室Id,distantTime:预计完成时间,ifSpeed:滴速,puncturePart:穿刺部位
      * other:		 w ##class(Nur.OPPDA.Execute).punctureOrd("568-3-1","1",1)
      */
-    public static void punctureOrd(String oeoreId, String distantTime, String ifSpeed, String puncturePart, String puntureTool,ServiceCallBack callBack) {
+    public static void punctureOrd(String oeoreId, String distantTime, String ifSpeed, String puncturePart, String puntureTool,String wayNo,String newWayFlag,ServiceCallBack callBack) {
         HashMap<String, String> properties = new HashMap<>();
         properties.put("oeoreId", oeoreId);
         properties.put("distantTime", distantTime);
@@ -52,6 +52,12 @@ public class PunctureApiService {
         properties.put("puncturePart", puncturePart);
         if(!TextUtils.isEmpty(puntureTool)){
             properties.put("puntureTool", puntureTool);
+        }
+        if(!TextUtils.isEmpty(wayNo)){
+            properties.put("wayNo", wayNo);
+        }
+        if(!TextUtils.isEmpty(newWayFlag)){
+            properties.put("newWayFlag", newWayFlag);
         }
         CommWebService.callUserIdLocId("punctureOrd",properties,callBack);
     }

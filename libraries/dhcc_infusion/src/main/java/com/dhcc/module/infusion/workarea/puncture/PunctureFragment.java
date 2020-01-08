@@ -17,6 +17,7 @@ import com.dhcc.module.infusion.utils.RecyclerViewHelper;
 import com.dhcc.module.infusion.workarea.comm.BaseInfusionFragment;
 import com.dhcc.module.infusion.workarea.dosing.adapter.CommDosingAdapter;
 import com.dhcc.module.infusion.workarea.puncture.api.PunctureApiManager;
+import com.dhcc.res.infusion.CustomOnOffView;
 import com.dhcc.res.infusion.CustomPatView;
 import com.dhcc.res.infusion.CustomScanView;
 import com.dhcc.res.infusion.CustomSelectView;
@@ -34,6 +35,7 @@ import java.util.List;
  */
 public class PunctureFragment extends BaseInfusionFragment implements View.OnClickListener {
 
+    public static final String STR_WAY_NO = "通道";
     private PunctureBean mBean;
     private RecyclerView rvPuncture;
     private CommDosingAdapter punctureAdapter;
@@ -44,6 +46,8 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
     private CustomPatView cpvPat;
     private CustomSelectView csvSelectParts;
     private CustomSelectView csvSelectTools;
+    private CustomSelectView customSelectChannel;
+    private CustomOnOffView customOnOff;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -57,6 +61,10 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
         cpvPat = mContainerChild.findViewById(R.id.cpv_pat);
         csvSelectParts = mContainerChild.findViewById(R.id.csv_select_parts);
         csvSelectTools = mContainerChild.findViewById(R.id.csv_select_tools);
+        customSelectChannel = mContainerChild.findViewById(R.id.custom_select_channel);
+        customOnOff = mContainerChild.findViewById(R.id.custom_on_off);
+        customOnOff.setSelect(false);
+        customOnOff.setShowSelectText("开启新通道", "开启新通道");
         helper.setOnClickListener(R.id.tv_ok, this);
         punctureAdapter = AdapterFactory.getCommDosingOrdList();
         rvPuncture.setAdapter(punctureAdapter);
@@ -109,13 +117,7 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
                     }
                     //显示穿刺情况
                     setToolbarCenterTitle("穿刺情况");
-                    if (bean.getPunturePartList() != null) {
-                        List<String> list = new ArrayList<>();
-                        for (PunctureBean.PunturePartListBean listBean : bean.getPunturePartList()) {
-                            list.add(listBean.getPunturePart());
-                        }
-                        csvSelectParts.setTitle("穿刺部位").setSelectData(mContext, list, null);
-                    }
+                    csvSelectParts.setTitle("穿刺部位").setSelectData(mContext, bean.getPunturePartListString(), null);
                     helper.setVisible(R.id.ll_puncture_status, true);
                     csvSelect.setTitle("预计结束时间");
                     csvSelect.setSelectTime(PunctureFragment.this.getFragmentManager(), bean.getDistantDate(), bean.getDistantTime(), null);
@@ -129,17 +131,12 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
                         csvSelectTools.setVisibility(list.size() > 0 ? View.VISIBLE : View.GONE);
                         csvSelectTools.setTitle("穿刺工具").setSelectData(mContext, list, null);
                     }
-//                    List<SheetListBean> listBeans = new ArrayList<>();
-//                    SheetListBean sheetListBean = new SheetListBean();
-//                    sheetListBean.setDesc("通道");
-//                    SheetListBean sheetListBean1 = new SheetListBean();
-//                    sheetListBean1.setDesc("通道1");
-//                    SheetListBean sheetListBean2 = new SheetListBean();
-//                    sheetListBean2.setDesc("通道2");
-//                    listBeans.add(sheetListBean);
-//                    listBeans.add(sheetListBean1);
-//                    listBeans.add(sheetListBean2);
-//                    csvSpeed.setChannelList(listBeans, null);
+                    if (f(R.id.rl_way) != null) {
+                        f(R.id.rl_way).setVisibility(bean.getWayListString().size() > 0 ? View.VISIBLE : View.GONE);
+                    }
+                    customSelectChannel.setSelectData(mContext, bean.getWayListString(), null);
+                    //customSelectChannel.setDisEnable(!bean.getIsCurrentWayNo(), "当前输液为通道1");
+                    customOnOff.setDisEnable(!bean.getIsCurrentWayNo());
                 }
             }
         });
@@ -168,16 +165,19 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
             //穿刺工具
             String tool = csvSelectTools.getSelect();
             String select = csvSelect.getSelect();
-            punctureOrd(part, tool, speed + "", select);
+            //通道
+            String wayNo = customSelectChannel.getSelect().replace(STR_WAY_NO,"");
+            String newWayFlag = customOnOff.isSelect() ? "1" : "";
+            punctureOrd(part, tool, speed + "", select,wayNo,newWayFlag);
         }
     }
 
-    private void punctureOrd(String part, String tool, String speed, String select) {
+    private void punctureOrd(String part, String tool, String speed, String select,String wayNo,String newWayFlag) {
         String curOeoreId = "";
         if (mBean != null) {
             curOeoreId = mBean.getCurOeoreId();
         }
-        PunctureApiManager.punctureOrd(curOeoreId, select, speed, part, tool, new CommonCallBack<CommResult>() {
+        PunctureApiManager.punctureOrd(curOeoreId, select, speed, part, tool,wayNo,newWayFlag, new CommonCallBack<CommResult>() {
             @Override
             public void onFail(String code, String msg) {
                 onFailThings();
@@ -185,7 +185,6 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
 
             @Override
             public void onSuccess(CommResult bean, String type) {
-//                helper.setVisible(R.id.csv, true);
                 scanInfo1 = null;// 置空
                 if (scanInfo != null) {
                     getOrdList(scanInfo);

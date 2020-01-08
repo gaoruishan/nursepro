@@ -1,9 +1,10 @@
 package com.dhcc.module.infusion.workarea.puncture;
 
-import com.base.commlibs.http.CommResult;
+import com.dhcc.module.infusion.workarea.comm.bean.CommInfusionBean;
 import com.dhcc.module.infusion.workarea.comm.bean.PatInfoBean;
 import com.dhcc.module.infusion.workarea.dosing.bean.OrdListBean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,7 +12,7 @@ import java.util.List;
  * @date:202019-04-24/14:52
  * @email:grs0515@163.com
  */
-public class PunctureBean extends CommResult {
+public class PunctureBean extends CommInfusionBean {
 
 
     /**
@@ -27,15 +28,13 @@ public class PunctureBean extends CommResult {
      * status : 0
      */
 
-    private String CurOeoreId;
-    private String CurRegNo;
     private String DefautSpeed;
     private String DistantTime;
     private String DistantDate;
     private PatInfoBean PatInfo;
     private List<PunturePartListBean> PunturePartList;
     private List<PuntureToolListBean> PuntureToolList;
-    private List<OrdListBean> ordList;
+
 
     public List<PuntureToolListBean> getPuntureToolList() {
         return PuntureToolList;
@@ -93,14 +92,6 @@ public class PunctureBean extends CommResult {
         this.PatInfo = PatInfo;
     }
 
-    public List<PunturePartListBean> getPunturePartList() {
-        return PunturePartList;
-    }
-
-    public void setPunturePartList(List<PunturePartListBean> PunturePartList) {
-        this.PunturePartList = PunturePartList;
-    }
-
     public List<OrdListBean> getOrdList() {
         return ordList;
     }
@@ -109,7 +100,27 @@ public class PunctureBean extends CommResult {
         this.ordList = ordList;
     }
 
+    /**
+     * 获取穿刺部位
+     * @return
+     */
+    public List<String> getPunturePartListString() {
+        List<String> list = new ArrayList<>();
+        if (getPunturePartList() != null) {
+            for (PunctureBean.PunturePartListBean listBean : getPunturePartList()) {
+                list.add(listBean.getPunturePart());
+            }
+        }
+        return list;
+    }
 
+    public List<PunturePartListBean> getPunturePartList() {
+        return PunturePartList;
+    }
+
+    public void setPunturePartList(List<PunturePartListBean> PunturePartList) {
+        this.PunturePartList = PunturePartList;
+    }
 
     public static class PunturePartListBean {
         /**
@@ -126,6 +137,7 @@ public class PunctureBean extends CommResult {
             this.PunturePart = PunturePart;
         }
     }
+
     public static class PuntureToolListBean {
         /**
          * PunturePart : 手背

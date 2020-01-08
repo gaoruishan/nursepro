@@ -49,7 +49,7 @@ public class ViewGlobal {
         if (json != null && json.getMainList() != null) {
             for (final ConfigBean bean : json.getMainList()) {
                 BLTextView tvName = (BLTextView) LayoutInflater.from(context).inflate(R.layout.dhcc_infusion_global_view, linearLayout, false);
-                int dimen = bean.getName().length() > 2 ? R.dimen.sp_14 : R.dimen.sp_16;
+                int dimen = bean.getName().length() > 2 ? R.dimen.sp_13 : R.dimen.sp_15;
                 tvName.setTextSize(TypedValue.COMPLEX_UNIT_PX,context.getResources().getDimension(dimen));
                 tvName.setText(bean.getName());
                 linearLayout.addView(tvName);

@@ -15,8 +15,10 @@ import com.dhcc.module.infusion.utils.RecyclerViewHelper;
 import com.dhcc.module.infusion.workarea.comm.BaseInfusionFragment;
 import com.dhcc.module.infusion.workarea.needles.api.NeedlesApiManager;
 import com.dhcc.module.infusion.workarea.patrol.adapter.PatrolOrdListAdapter;
+import com.dhcc.res.infusion.CustomOnOffView;
 import com.dhcc.res.infusion.CustomPatView;
 import com.dhcc.res.infusion.CustomScanView;
+import com.dhcc.res.infusion.CustomSelectView;
 
 /**
  * 拔针
@@ -29,6 +31,8 @@ public class NeedlesFragment extends BaseInfusionFragment implements View.OnClic
     private CustomPatView cpvPat;
     private PatrolOrdListAdapter commPatrolAdapter;
     private NeedlesBean mBean;
+    private CustomSelectView customSelectChannel;
+    private CustomOnOffView customOnOff;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -36,6 +40,7 @@ public class NeedlesFragment extends BaseInfusionFragment implements View.OnClic
         csvScan = mContainerChild.findViewById(R.id.custom_scan);
         cpvPat = mContainerChild.findViewById(R.id.cpv_pat);
         mContainerChild.findViewById(R.id.tv_ok).setOnClickListener(this);
+        customSelectChannel = mContainerChild.findViewById(R.id.custom_select_channel);
         showScanLabel();
         RecyclerView rvOrdList = RecyclerViewHelper.get(mContext, R.id.rv_ord_list);
         commPatrolAdapter = AdapterFactory.getCommPatrolOrdList();
@@ -74,10 +79,14 @@ public class NeedlesFragment extends BaseInfusionFragment implements View.OnClic
                 mBean = bean;
                 csvScan.setVisibility(View.GONE);
                 //两次验证
-                auditOrdInfo(bean.getOrdList(),bean.getCurRegNo(),bean.getCurOeoreId());
+                auditOrdInfo(bean.getOrdList(), bean.getCurRegNo(), bean.getCurOeoreId());
                 setCustomPatViewData(cpvPat, bean.getPatInfo());
                 commPatrolAdapter.setCurrentScanInfo(scanInfo);
                 commPatrolAdapter.replaceData(bean.getOrdList());
+                if (f(R.id.rl_way) != null) {
+                    f(R.id.rl_way).setVisibility(bean.getWayListString().size() > 0 ? View.VISIBLE : View.GONE);
+                }
+                customSelectChannel.setSelectData(mContext, bean.getWayListString(), null);
             }
         });
     }

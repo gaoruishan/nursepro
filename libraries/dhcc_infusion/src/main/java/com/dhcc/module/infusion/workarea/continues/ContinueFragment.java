@@ -17,10 +17,13 @@ import com.dhcc.module.infusion.utils.RecyclerViewHelper;
 import com.dhcc.module.infusion.workarea.comm.BaseInfusionFragment;
 import com.dhcc.module.infusion.workarea.continues.api.ContinueApiManager;
 import com.dhcc.module.infusion.workarea.dosing.adapter.CommDosingAdapter;
+import com.dhcc.res.infusion.CustomOnOffView;
 import com.dhcc.res.infusion.CustomPatView;
 import com.dhcc.res.infusion.CustomScanView;
 import com.dhcc.res.infusion.CustomSelectView;
 import com.dhcc.res.infusion.CustomSpeedView;
+
+import static com.dhcc.module.infusion.workarea.puncture.PunctureFragment.STR_WAY_NO;
 
 /**
  * 续液
@@ -37,6 +40,8 @@ public class ContinueFragment extends BaseInfusionFragment implements View.OnCli
     private ContinueBean mBean;
     private String scanInfo1;
     private CustomSelectView customSelectTime;
+    private CustomOnOffView customOnOff;
+    private CustomSelectView customSelectChannel;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -47,7 +52,11 @@ public class ContinueFragment extends BaseInfusionFragment implements View.OnCli
         customSelectTime = mContainerChild.findViewById(R.id.custom_select_time);
         mContainerChild.findViewById(R.id.tv_ok).setOnClickListener(this);
         csvScan.setTitle("请扫描瓶签/信息卡").setWarning("请您使用扫码设备，扫描药品瓶签/信息卡");
-        RecyclerView rvOrdList = RecyclerViewHelper.get(this.getActivity(), R.id.rv_ord_list);
+        customSelectChannel = mContainerChild.findViewById(R.id.custom_select_channel);
+        customOnOff = mContainerChild.findViewById(R.id.custom_on_off);
+        customOnOff.setSelect(false);
+        customOnOff.setShowSelectText("开启新通道", "开启新通道");
+        RecyclerView rvOrdList = RecyclerViewHelper.get(mContext, R.id.rv_ord_list);
         commDosingAdapter = AdapterFactory.getCommDosingOrdList();
         rvOrdList.setAdapter(commDosingAdapter);
     }
@@ -84,8 +93,12 @@ public class ContinueFragment extends BaseInfusionFragment implements View.OnCli
                 // 第一次扫码
                 mBean = bean;
                 //两次验证
-                auditOrdInfo(bean.getOrdList(),bean.getCurRegNo(),bean.getCurOeoreId());
-
+                auditOrdInfo(bean.getOrdList(), bean.getCurRegNo(), bean.getCurOeoreId());
+                if (f(R.id.rl_way) != null) {
+                    f(R.id.rl_way).setVisibility(bean.getWayListString().size() > 0 ? View.VISIBLE : View.GONE);
+                }
+                customSelectChannel.setSelectData(mContext, bean.getWayListString(), null);
+                customOnOff.setDisEnable(!bean.getIsCurrentWayNo());
                 customSelectTime.setTitle("预计结束时间");
                 customSelectTime.setSelectTime(ContinueFragment.this.getFragmentManager(), bean.getDistantDate(), bean.getDistantTime(), null);
                 csvScan.setVisibility(View.GONE);
@@ -115,7 +128,10 @@ public class ContinueFragment extends BaseInfusionFragment implements View.OnCli
                 ToastUtils.showShort("请调节滴速");
                 return;
             }
-            ContinueApiManager.changeOrd(oeoreId, distantTime, speed + "", "", new CommonCallBack<CommResult>() {
+            //通道
+            String wayNo = customSelectChannel.getSelect().replace(STR_WAY_NO, "");
+            String newWayFlag = customOnOff.isSelect() ? "1" : "";
+            ContinueApiManager.changeOrd(oeoreId, distantTime, speed + "", "", wayNo, newWayFlag, new CommonCallBack<CommResult>() {
                 @Override
                 public void onFail(String code, String msg) {
                     onFailThings();
@@ -123,7 +139,6 @@ public class ContinueFragment extends BaseInfusionFragment implements View.OnCli
 
                 @Override
                 public void onSuccess(CommResult bean, String type) {
-//                    csvScan.setVisibility(View.VISIBLE);
                     if (scanInfo != null) {
                         getOrdList(scanInfo);
                     }

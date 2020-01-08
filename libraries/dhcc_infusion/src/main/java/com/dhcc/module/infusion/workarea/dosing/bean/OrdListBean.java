@@ -13,7 +13,16 @@ public class OrdListBean {
     private String Notes;
     private String OeoreId;
     private String OrdState;
+    private String wayNo;
     private List<OeoreGroupBean> OeoreSubList;
+
+    public String getWayNo() {
+        return wayNo == null ? "" : wayNo;
+    }
+
+    public void setWayNo(String wayNo) {
+        this.wayNo = wayNo;
+    }
 
     public String getNotes() {
         return Notes;

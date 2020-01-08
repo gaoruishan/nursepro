@@ -6,19 +6,21 @@
     android:gravity="center_vertical"
     android:orientation="horizontal">
 
+    <com.noober.background.view.BLButton
+        android:id="@+id/btn_change"
+        android:layout_width="@dimen/dp_20"
+        android:layout_height="@dimen/dp_20"
+        android:padding="@dimen/dp_3"
+        android:layout_marginRight="@dimen/dp_5"
+        app:bl_selected_drawable="@drawable/dhcc_checkbox_pressed"
+        app:bl_unSelected_drawable="@drawable/dhcc_checkbox_normal" />
+
     <TextView
         android:id="@+id/tv_change"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/dp_5"
         android:text="未执行"
         android:textColor="@color/black" />
 
-    <com.noober.background.view.BLButton
-        android:id="@+id/btn_change"
-        android:layout_width="@dimen/dp_40"
-        android:layout_height="@dimen/dp_40"
-        android:padding="@dimen/dp_3"
-        app:bl_selected_drawable="@drawable/dhcc_change_on"
-        app:bl_unSelected_drawable="@drawable/dhcc_change_off" />
+
 </LinearLayout>
