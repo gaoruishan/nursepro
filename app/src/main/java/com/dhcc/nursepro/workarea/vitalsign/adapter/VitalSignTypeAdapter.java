@@ -54,6 +54,7 @@ public class VitalSignTypeAdapter extends BaseQuickAdapter<Map, BaseViewHolder> 
 //            tvVitalSignType.setTypeface(Typeface.DEFAULT);
             tvVitalSignType.setGravity(Gravity.LEFT);
         }
+
     }
 
     public boolean isSelectedFilter(int position) {
@@ -85,6 +86,10 @@ public class VitalSignTypeAdapter extends BaseQuickAdapter<Map, BaseViewHolder> 
         if (bInArray == false) {
             filterList.add(Integer.valueOf(position));
         }
+    }
+
+    public void removeClick(int position){
+        filterList.remove(position);
     }
 
 }

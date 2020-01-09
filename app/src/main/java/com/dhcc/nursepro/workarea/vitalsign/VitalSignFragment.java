@@ -61,6 +61,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
     private ArrayList topFilterList = new ArrayList();
 
     private List leftFilterList = new ArrayList();
+    private List leftFilterListLast = new ArrayList();
 
     private List patientList = new ArrayList();
 
@@ -415,6 +416,30 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
 
         //左侧筛选项无选中状态，则全部显示
         if (typeAdapter.getFilterList().size() == 0) {
+            for (int i = 0; i <leftFilterList.size() ; i++) {
+                String key = (String) ((Map)(leftFilterList.get(i))).get("code");
+                int typeNum = 0 ;
+                ((Map)(leftFilterList.get(i))).put("temNum",typeNum+"");
+                for (int j = 0; j <displayList.size() ; j++) {
+                    List<Map> needMeasureList1 = (List<Map>) ((Map)( displayList.get(j))).get("needMeasureInfo");
+//                        for (int k = 0; k <needMeasureList1.size() ; k++) {
+                    if (needMeasureList1.size()>0){
+                        if (needMeasureList1.get(0).get(key).equals("1")){
+                            ((Map)(leftFilterList.get(i))).put("temNum",""+(++typeNum));
+//                            }
+                        }
+
+                    }
+                }
+            }
+            List leftFilterListShow = new ArrayList();
+            for (int i = 0; i <leftFilterList.size() ; i++) {
+                if (!((Map)(leftFilterList.get(i))).get("temNum").equals("0")){
+                    leftFilterListShow.add((Map)(leftFilterList.get(i)));
+                }
+            }
+            typeAdapter.setNewData(leftFilterListShow);
+
             patientAdapter.setNewData(displayList);
             tvResetting.setSelected(false);
             tvResetting.setText("筛选");
@@ -490,7 +515,29 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
 
 
         }
+        for (int i = 0; i <leftFilterList.size() ; i++) {
+            String key = (String) ((Map)(leftFilterList.get(i))).get("code");
+            int typeNum = 0 ;
+            ((Map)(leftFilterList.get(i))).put("temNum",typeNum+"");
+            for (int j = 0; j <displayList.size() ; j++) {
+                List<Map> needMeasureList1 = (List<Map>) ((Map)( displayList.get(j))).get("needMeasureInfo");
+//                        for (int k = 0; k <needMeasureList1.size() ; k++) {
+                if (needMeasureList1.size()>0){
+                    if (needMeasureList1.get(0).get(key).equals("1")){
+                        ((Map)(leftFilterList.get(i))).put("temNum",""+(++typeNum));
+//                            }
+                    }
 
+                }
+            }
+        }
+        List leftFilterListShow = new ArrayList();
+        for (int i = 0; i <leftFilterList.size() ; i++) {
+            if (!((Map)(leftFilterList.get(i))).get("temNum").equals("0")){
+                leftFilterListShow.add((Map)(leftFilterList.get(i)));
+            }
+        }
+        typeAdapter.setNewData(leftFilterListShow);
         patientAdapter.setNewData(displayList);
 
     }
@@ -564,30 +611,31 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_resetting:
-                if (bResetting) {
-                    List<Integer> filterList = new ArrayList<>();
-                    typeAdapter.setFilterList(filterList);
-                    typeAdapter.notifyDataSetChanged();
-                }
+               resetType();
                 break;
             case R.id.tv_vitalsign_allarea:
                 topFilterStr = "inBedAll";
+                resetType();
                 setTopFilterSelect(tvVitalSignAllarea);
                 break;
             case R.id.tv_vitalsign_adminarea:
                 topFilterStr = "manageInBed";
+                resetType();
                 setTopFilterSelect(tvVitalSignAdminarea);
                 break;
             case R.id.tv_vitalsign_nowoutarea:
                 topFilterStr = "todayOut";
+                resetType();
                 setTopFilterSelect(tvVitalSignNowoutarea);
                 break;
             case R.id.tv_vitalsign_alloutarea:
                 topFilterStr = "allOut";
+                resetType();
                 setTopFilterSelect(tvVitalSignAlloutarea);
                 break;
             case R.id.tv_vitalsign_waitarea:
                 topFilterStr = "wait";
+                resetType();
                 setTopFilterSelect(tvVitalSignWaitarea);
                 break;
             case R.id.tv_vitalsign_time:
@@ -597,6 +645,14 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                 break;
         }
         updatePatientData();
+    }
+
+    private void resetType(){
+        if (bResetting) {
+            List<Integer> filterList = new ArrayList<>();
+            typeAdapter.setFilterList(filterList);
+            typeAdapter.notifyDataSetChanged();
+        }
     }
 
     private void chooseTime(long currentTimeMillis) {
