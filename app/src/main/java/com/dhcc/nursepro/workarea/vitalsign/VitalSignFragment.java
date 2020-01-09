@@ -209,6 +209,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
         VitalSignApiManager.getVitalSignList(dateFilterStr, timeFilterStr, new VitalSignApiManager.GetVitalSignListCallback() {
             @Override
             public void onSuccess(Map<String, Object> map) {
+                resetType();
 
                 topFilterList = (ArrayList) map.get("topFilter");
                 leftFilterList = (ArrayList) map.get("leftFilter");
