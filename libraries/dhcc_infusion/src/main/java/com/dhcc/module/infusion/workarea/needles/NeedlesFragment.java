@@ -15,10 +15,8 @@ import com.dhcc.module.infusion.utils.RecyclerViewHelper;
 import com.dhcc.module.infusion.workarea.comm.BaseInfusionFragment;
 import com.dhcc.module.infusion.workarea.needles.api.NeedlesApiManager;
 import com.dhcc.module.infusion.workarea.patrol.adapter.PatrolOrdListAdapter;
-import com.dhcc.res.infusion.CustomOnOffView;
 import com.dhcc.res.infusion.CustomPatView;
 import com.dhcc.res.infusion.CustomScanView;
-import com.dhcc.res.infusion.CustomSelectView;
 
 /**
  * 拔针
@@ -31,8 +29,7 @@ public class NeedlesFragment extends BaseInfusionFragment implements View.OnClic
     private CustomPatView cpvPat;
     private PatrolOrdListAdapter commPatrolAdapter;
     private NeedlesBean mBean;
-    private CustomSelectView customSelectChannel;
-    private CustomOnOffView customOnOff;
+    private RecyclerView rvOrdList;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -40,9 +37,9 @@ public class NeedlesFragment extends BaseInfusionFragment implements View.OnClic
         csvScan = mContainerChild.findViewById(R.id.custom_scan);
         cpvPat = mContainerChild.findViewById(R.id.cpv_pat);
         mContainerChild.findViewById(R.id.tv_ok).setOnClickListener(this);
-        customSelectChannel = mContainerChild.findViewById(R.id.custom_select_channel);
+        setInitWayNo("关闭所有通道");
         showScanLabel();
-        RecyclerView rvOrdList = RecyclerViewHelper.get(mContext, R.id.rv_ord_list);
+        rvOrdList = RecyclerViewHelper.get(mContext, R.id.rv_ord_list);
         commPatrolAdapter = AdapterFactory.getCommPatrolOrdList();
         rvOrdList.setAdapter(commPatrolAdapter);
     }
@@ -81,11 +78,10 @@ public class NeedlesFragment extends BaseInfusionFragment implements View.OnClic
                 //两次验证
                 auditOrdInfo(bean.getOrdList(), bean.getCurRegNo(), bean.getCurOeoreId());
                 setCustomPatViewData(cpvPat, bean.getPatInfo());
-                commPatrolAdapter.setCurrentScanInfo(scanInfo);
                 commPatrolAdapter.replaceData(bean.getOrdList());
-                if (f(R.id.rl_way) != null) {
-                    f(R.id.rl_way).setVisibility(bean.getWayListString().size() > 0 ? View.VISIBLE : View.GONE);
-                }
+                commPatrolAdapter.setCurrentScanInfo(scanInfo);
+                scrollToPosition(rvOrdList,bean.getOrdList());
+                f(R.id.rl_way).setVisibility(bean.getWayListString().size() > 0 ? View.VISIBLE : View.GONE);
                 customSelectChannel.setSelectData(mContext, bean.getWayListString(), null);
             }
         });
@@ -95,11 +91,13 @@ public class NeedlesFragment extends BaseInfusionFragment implements View.OnClic
     public void onClick(View v) {
         if (v.getId() == R.id.tv_ok) {
             String oeoreId = "";
-            String distantTime = "";
             if (mBean != null) {
                 oeoreId = mBean.getCurOeoreId();
             }
-            NeedlesApiManager.extractOrd(oeoreId, new CommonCallBack<CommResult>() {
+            //通道
+            String wayNo = customSelectChannel.getSelect().replace(STR_WAY_NO, "");
+            String finishWayFlag = customOnOff.isSelect() ? "1" : "";
+            NeedlesApiManager.extractOrd(oeoreId, wayNo, finishWayFlag, new CommonCallBack<CommResult>() {
                 @Override
                 public void onFail(String code, String msg) {
                     onFailThings();

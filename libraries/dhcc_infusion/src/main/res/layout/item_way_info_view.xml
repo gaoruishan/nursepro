@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_way"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_50"
+    android:background="@color/white"
+    android:layout_marginTop="@dimen/dp_15">
+
+    <com.dhcc.res.infusion.CustomSelectView
+        android:id="@+id/custom_select_channel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.dhcc.res.infusion.CustomOnOffView
+        android:id="@+id/custom_on_off"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_45"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/dp_15" />
+
+</RelativeLayout>

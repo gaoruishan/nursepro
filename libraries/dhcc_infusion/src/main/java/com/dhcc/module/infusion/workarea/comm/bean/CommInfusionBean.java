@@ -40,6 +40,22 @@ public class CommInfusionBean extends CommResult {
     }
 
     /**
+     * 获取当前状态
+     * @param state
+     * @return
+     */
+    public boolean getCurrentOrdState(String state) {
+        if (ordList != null) {
+            for (OrdListBean ordListBean : ordList) {
+                if (ordListBean.getOeoreId().equals(CurOeoreId)) {
+                    return ordListBean.getOrdState().equals(state);
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
      * 获取通道
      * @return
      */

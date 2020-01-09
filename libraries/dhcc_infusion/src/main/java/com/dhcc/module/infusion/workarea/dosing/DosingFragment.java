@@ -79,6 +79,9 @@ public class DosingFragment extends BaseInfusionFragment implements View.OnClick
                 commDosingAdapter.replaceData(bean.getOrdList());
                 // 当前
                 commDosingAdapter.setCurrentScanInfo(scanInfo);
+                scrollToPosition(rvDosing,bean.getOrdList());
+
+//        rvMsgInfusion.scrollToPosition(i);
                 boolean equals = DosingBean.OrdState_1.equals(bean.getOrdState());
                 // 隐藏复核输入
 //                mContainerChild.findViewById(R.id.ll_review).setVisibility(equals ? View.GONE : View.VISIBLE);
@@ -91,6 +94,7 @@ public class DosingFragment extends BaseInfusionFragment implements View.OnClick
             }
         });
     }
+
 
     private void scanDespensingOrd(DosingBean bean, boolean... refresh) {
         if (refresh != null && refresh.length > 0 && refresh[0]) {

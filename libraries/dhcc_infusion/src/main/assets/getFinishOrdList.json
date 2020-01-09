@@ -1,0 +1,105 @@
+{
+  "CurOeoreId": "645||4||1",
+  "CurRegNo": "0000000020",
+  "PatInfo": {
+    "PatAge": "33岁",
+    "PatDiag": "伤寒",
+    "PatName": "第一",
+    "PatRegNo": "0000000020",
+    "PatSex": "女"
+  },
+  "lastIfFlag": "1",
+  "msg": "成功",
+  "msgcode": "",
+  "ordList": [
+    {
+      "Notes": "",
+      "OeoreId": "645||3||1",
+      "OeoreSubList": [
+        {
+          "ArcimDesc": "0.9%氯化钠注射液[500ml]",
+          "DoseQtyUnit": "500 ml",
+          "PhOrdQtyUnit": "3 瓶"
+        }
+      ],
+      "OrdState": "已输完"
+    },
+    {
+      "Notes": "",
+      "OeoreId": "645||4||1",
+      "OeoreSubList": [
+        {
+          "ArcimDesc": "10%葡萄糖注射液(塑瓶)[250ML]",
+          "DoseQtyUnit": "250 ml",
+          "PhOrdQtyUnit": "3 瓶"
+        }
+      ],
+      "OrdState": "输液中"
+    },
+    {
+      "Notes": "",
+      "OeoreId": "645||5||1",
+      "OeoreSubList": [
+        {
+          "ArcimDesc": "0.9%氯化钠注射液(塑瓶)[250ml]",
+          "DoseQtyUnit": "250 ml",
+          "PhOrdQtyUnit": "3 瓶"
+        }
+      ],
+      "OrdState": "未配液"
+    },
+    {
+      "Notes": "",
+      "OeoreId": "645||3||2",
+      "OeoreSubList": [
+        {
+          "ArcimDesc": "0.9%氯化钠注射液[500ml]",
+          "DoseQtyUnit": "500 ml",
+          "PhOrdQtyUnit": "3 瓶"
+        }
+      ],
+      "OrdState": "未配液"
+    },
+    {
+      "Notes": "",
+      "OeoreId": "645||3||3",
+      "OeoreSubList": [
+        {
+          "ArcimDesc": "0.9%氯化钠注射液[500ml]",
+          "DoseQtyUnit": "500 ml",
+          "PhOrdQtyUnit": "3 瓶"
+        }
+      ],
+      "OrdState": "未配液"
+    },
+    {
+      "Notes": "",
+      "OeoreId": "645||4||2",
+      "OeoreSubList": [
+        {
+          "ArcimDesc": "10%葡萄糖注射液(塑瓶)[250ML]",
+          "DoseQtyUnit": "250 ml",
+          "PhOrdQtyUnit": "3 瓶"
+        }
+      ],
+      "OrdState": "未配液"
+    },
+    {
+      "Notes": "",
+      "OeoreId": "645||4||3",
+      "OeoreSubList": [
+        {
+          "ArcimDesc": "10%葡萄糖注射液(塑瓶)[250ML]",
+          "DoseQtyUnit": "250 ml",
+          "PhOrdQtyUnit": "3 瓶"
+        }
+      ],
+      "OrdState": "未配液"
+    }
+  ],
+  "status": "0",
+  "wayList": {
+    "1": "1",
+    "2": "2"
+  }
+}

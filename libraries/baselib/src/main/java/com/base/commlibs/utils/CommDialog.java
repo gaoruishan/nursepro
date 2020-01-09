@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.base.commlibs.R;
+import com.blankj.utilcode.util.ActivityUtils;
 
 /**
  * @author:gaoruishan
@@ -30,6 +31,15 @@ public class CommDialog {
 
     protected static final String TAG = CommDialog.class.getSimpleName();
     private static Dialog commDialog;
+
+    /**
+     * 弹框
+     * @param strOrdIng
+     */
+    public static void showShort(String strOrdIng) {
+        CommDialog.showCommDialog(ActivityUtils.getTopActivity(), strOrdIng, "", com.base.commlibs.R.drawable.icon_popup_error_patient, null, true);
+
+    }
 
     /**
      * 统一接口回调

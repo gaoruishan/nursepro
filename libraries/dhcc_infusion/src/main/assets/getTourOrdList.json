@@ -1,0 +1,117 @@
+{
+  "CurOeoreId": "",
+  "CurRegNo": "0000000001",
+  "DefautSpeed": "",
+  "DistantDate": "",
+  "DistantTime": "",
+  "PatInfo": {
+    "PatAge": "33岁",
+    "PatDiag": "",
+    "PatName": "秦海贤",
+    "PatRegNo": "0000000001",
+    "PatSex": "男"
+  },
+  "infusionReasonList": [
+    {
+      "InfusionReason": "鼓针"
+    },
+    {
+      "InfusionReason": "原因1"
+    },
+    {
+      "InfusionReason": "原因2"
+    },
+    {
+      "InfusionReason": "原因3"
+    }
+  ],
+  "infusionStateList": [
+    {
+      "InfusionState": "正常"
+    },
+    {
+      "InfusionState": "暂停"
+    },
+    {
+      "InfusionState": "结束"
+    },
+    {
+      "InfusionState": "其他"
+    }
+  ],
+  "infusionTourList": [
+    {
+      "InfusionTourDate": "2019-04-28",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "",
+      "InfusionTourTime": "09/24/29",
+      "InfusionTourUser": "Demo Group"
+    }
+  ],
+  "msg": "成功",
+  "msgcode": "",
+  "ordList": [
+    {
+      "Notes": "",
+      "OeoreId": "638||3||8",
+      "OeoreSubList": [
+        {
+          "ArcimDesc": "0.9%氯化钠注射液[500ml]",
+          "DoseQtyUnit": "500 ml",
+          "PhOrdQtyUnit": "33 瓶"
+        }
+      ],
+      "OrdState": "待输液"
+    },
+    {
+      "Notes": "",
+      "OeoreId": "638||3||9",
+      "OeoreSubList": [
+        {
+          "ArcimDesc": "0.9%氯化钠注射液[500ml]",
+          "DoseQtyUnit": "500 ml",
+          "PhOrdQtyUnit": "33 瓶"
+        }
+      ],
+      "OrdState": "待输液"
+    },
+    {
+      "Notes": "",
+      "OeoreId": "638||3||4",
+      "OeoreSubList": [
+        {
+          "ArcimDesc": "0.9%氯化钠注射液[500ml]",
+          "DoseQtyUnit": "500 ml",
+          "PhOrdQtyUnit": "33 瓶"
+        }
+      ],
+      "OrdState": "待输液"
+    },
+    {
+      "Notes": "",
+      "OeoreId": "638||3||5",
+      "OeoreSubList": [
+        {
+          "ArcimDesc": "0.9%氯化钠注射液[500ml]",
+          "DoseQtyUnit": "500 ml",
+          "PhOrdQtyUnit": "33 瓶"
+        }
+      ],
+      "OrdState": "待输液"
+    },
+    {
+      "Notes": "",
+      "OeoreId": "638||3||6",
+      "OeoreSubList": [
+        {
+          "ArcimDesc": "0.9%氯化钠注射液[500ml]",
+          "DoseQtyUnit": "500 ml",
+          "PhOrdQtyUnit": "33 瓶"
+        }
+      ],
+      "OrdState": "待输液"
+    }
+  ],
+  "status": "0"
+}

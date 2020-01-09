@@ -8,6 +8,7 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.base.commlibs.http.CommResult;
 import com.base.commlibs.utils.AppUtil;
 import com.base.commlibs.utils.BaseHelper;
 import com.base.commlibs.utils.DataCache;
+import com.base.commlibs.utils.SimpleCallBack;
 import com.blankj.utilcode.util.ToastUtils;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.utils.DialogFactory;
@@ -28,8 +30,10 @@ import com.dhcc.module.infusion.utils.ViewGlobal;
 import com.dhcc.module.infusion.workarea.comm.bean.MainConfigBean;
 import com.dhcc.module.infusion.workarea.comm.bean.PatInfoBean;
 import com.dhcc.module.infusion.workarea.dosing.bean.OrdListBean;
+import com.dhcc.res.infusion.CustomOnOffView;
 import com.dhcc.res.infusion.CustomPatView;
 import com.dhcc.res.infusion.CustomScanView;
+import com.dhcc.res.infusion.CustomSelectView;
 import com.dhcc.res.nurse.bean.ConfigBean;
 
 import java.util.ArrayList;
@@ -43,6 +47,8 @@ import java.util.List;
  */
 public abstract class BaseInfusionFragment extends BaseFragment {
 
+    public static final String STR_ORD_ING = "当前输液中,不可穿刺";
+    public static final String STR_WAY_NO = "通道";
     public static final String SCAN_HAND = "请扫描腕带";
     public static final String SCAN_PAT_HAND = "请您使用扫码设备，扫描病人腕带";
     public static final String SCAN_LABEL = "请扫描瓶贴";
@@ -60,6 +66,8 @@ public abstract class BaseInfusionFragment extends BaseFragment {
     protected Activity mContext;
     protected List<String> listId;
     protected BaseHelper helper;
+    protected CustomSelectView customSelectChannel;
+    protected CustomOnOffView customOnOff;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -232,6 +240,38 @@ public abstract class BaseInfusionFragment extends BaseFragment {
         }
     }
 
+    /**
+     * 初始化通道
+     * @param str
+     */
+    protected void setInitWayNo(String str) {
+        customSelectChannel = mContainerChild.findViewById(R.id.custom_select_channel);
+        customOnOff = mContainerChild.findViewById(R.id.custom_on_off);
+        customOnOff.setSelect(false);
+        customOnOff.setShowSelectText(str, str);
+        customOnOff.setOnSelectListener(new SimpleCallBack<Boolean>() {
+            @Override
+            public void call(Boolean result, int type) {
+                customSelectChannel.setVisibility(result ? View.GONE : View.VISIBLE);
+            }
+        });
+    }
+
+    /**
+     * 滚动到指定位置
+     * @param recyclerView
+     * @param list
+     */
+    protected void scrollToPosition(RecyclerView recyclerView,List<OrdListBean> list) {
+        int pst = 0;
+        for (int i = 0; i < list.size(); i++) {
+            OrdListBean b = list.get(i);
+            if (b.getOeoreId().equals(scanInfo)) {
+                pst = i;
+            }
+        }
+        recyclerView.scrollToPosition(pst);
+    }
     /**
      * 校验列表中的OeoreId
      * @param list

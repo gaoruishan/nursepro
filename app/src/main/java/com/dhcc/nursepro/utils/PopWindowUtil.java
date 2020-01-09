@@ -2,6 +2,7 @@ package com.dhcc.nursepro.utils;
 
 import android.app.Activity;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -32,8 +33,7 @@ public class PopWindowUtil extends BasePopWindow {
 
     @NonNull
     private static PopupWindow getPopupWindow(final Activity mContext, final EnumLocation from, View popupWindowView) {
-//        boolean hasNavigationBar = checkDeviceHasNavigationBar(mContext);
-        boolean hasNavigationBar = false;
+        boolean hasNavigationBar = checkDeviceHasNavigationBar(mContext);
         //销毁
         closePopWindow();
         //内容，高度，宽度
@@ -46,7 +46,10 @@ public class PopWindowUtil extends BasePopWindow {
                     , true);
         }
         //虚拟键-多出一点
-        popupWindowView.setPadding(0, 0, 0, hasNavigationBar ? getActionBarHeight(mContext) - 22 : 0);
+        int offset = hasNavigationBar ? getNavigationBarSize(mContext).y : 0;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            popupWindowView.setPadding(0, 0, 0, offset);
+        }
         //设置弹出窗体需要软键盘
         popupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
         //设置模式，和Activity的一样，覆盖，调整大小。
@@ -106,19 +109,17 @@ public class PopWindowUtil extends BasePopWindow {
         return popupWindow;
     }
 
+    public static void closePopWindow() {
+        if (popupWindow != null) {
+            popupWindow.dismiss();
+            popupWindow = null;
+        }
+    }
 
     public static void setMask(Activity mContext, int invisible) {
         View mask = mContext.findViewById(R.id.mask);
         if (mask != null) {
             mask.setVisibility(invisible);
-        }
-    }
-
-
-    public static void closePopWindow() {
-        if (popupWindow != null) {
-            popupWindow.dismiss();
-            popupWindow = null;
         }
     }
 }

@@ -3,12 +3,14 @@ package com.dhcc.res.infusion;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.base.commlibs.utils.SimpleCallBack;
+import com.blankj.utilcode.util.ToastUtils;
 import com.dhcc.res.BaseView;
 import com.grs.dhcc_res.R;
 
@@ -27,6 +29,13 @@ public class CustomOnOffView extends BaseView {
     OnClickListener onClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
+            //不可点击
+            if (disEnable) {
+                if(!TextUtils.isEmpty(tips)){
+                    ToastUtils.showShort(tips);
+                }
+                return;
+            }
             btnChange.setSelected(!btnChange.isSelected());
             changeText();
             if (callBack != null) {
@@ -34,6 +43,8 @@ public class CustomOnOffView extends BaseView {
             }
         }
     };
+    private boolean disEnable;
+    private String tips;
 
     public CustomOnOffView(Context context) {
         this(context, null);
@@ -70,6 +81,11 @@ public class CustomOnOffView extends BaseView {
     public void setDisEnable(boolean disEnable) {
         btnChange.setEnabled(disEnable);
         setEnabled(disEnable);
+    }
+
+    public void setDisEnable(boolean disEnable, String tips) {
+        this.disEnable = disEnable;
+        this.tips = tips;
     }
 
     public CustomOnOffView setShowSelectText(String on, String off) {

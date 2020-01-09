@@ -64,7 +64,7 @@ public class PatrolFragment extends BaseInfusionFragment implements View.OnClick
         llMeasure = mContainerChild.findViewById(R.id.ll_measure);
         edMeasure = mContainerChild.findViewById(R.id.ed_measure);
         mContainerChild.findViewById(R.id.tv_ok).setOnClickListener(this);
-        rvOrdList = RecyclerViewHelper.get(this.getActivity(), R.id.rv_ord_list);
+        rvOrdList = RecyclerViewHelper.get(mContext, R.id.rv_ord_list);
         ordListAdapter = AdapterFactory.getCommPatrolOrdList();
         rvOrdList.setAdapter(ordListAdapter);
         rvPatrolStatus = RecyclerViewHelper.get(this.getActivity(), R.id.rv_patrol_status);
@@ -136,8 +136,9 @@ public class PatrolFragment extends BaseInfusionFragment implements View.OnClick
                         }
                     });
                 }
-                ordListAdapter.setCurrentScanInfo(scanInfo);
                 ordListAdapter.replaceData(bean.getOrdList());
+                ordListAdapter.setCurrentScanInfo(scanInfo);
+                scrollToPosition(rvOrdList,bean.getOrdList());
                 boolean isShow = bean.getInfusionTourList() == null || bean.getInfusionTourList().size() == 0;
                 mContainerChild.findViewById(R.id.ll_patrol_status).setVisibility(isShow ? View.GONE : View.VISIBLE);
                 tourAdapter.replaceData(bean.getInfusionTourList());

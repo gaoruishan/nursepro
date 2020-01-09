@@ -34,6 +34,7 @@ public class InfusionTourAdapter extends BaseQuickAdapter<InfusionTourListBean, 
 
         helper.setText(R.id.tv_date_time, item.getInfusionTourDate() + " " + item.getInfusionTourTime())
                 .setText(R.id.tv_state, item.getInfusionTourState())
+                .setText(R.id.tv_user, item.getInfusionTourUser())
                 .setText(R.id.tv_reason,item.getInfusionTourState()+"原因："+ item.getInfusionTourReason() )
                 .setText(R.id.tv_measure,"处理措施："+ item.getInfusionTourMeasure());
 

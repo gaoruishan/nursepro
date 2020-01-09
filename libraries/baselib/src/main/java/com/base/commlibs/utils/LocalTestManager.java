@@ -45,9 +45,10 @@ public class LocalTestManager {
         //对应的方法名
 //        l.add("getInfusionMessage");
 //        l.add("getSkinTestMessage");
-//        l.add("getOrdList");
+//        l.add("getOrdList");//配液
 //        l.add("getSkinOrdList");
-        l.add("getHealthOrdInfo");
+//        l.add("getTourOrdList");//巡视
+//        l.add("getFinishOrdList");//拔针
     }
 
     /**

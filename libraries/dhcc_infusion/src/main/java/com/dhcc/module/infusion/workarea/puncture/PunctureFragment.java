@@ -9,15 +9,16 @@ import android.view.View;
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.BaseHelper;
+import com.base.commlibs.utils.CommDialog;
 import com.blankj.utilcode.util.ToastUtils;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.utils.AdapterFactory;
 import com.dhcc.module.infusion.utils.DialogFactory;
 import com.dhcc.module.infusion.utils.RecyclerViewHelper;
+import com.dhcc.module.infusion.workarea.OrdState;
 import com.dhcc.module.infusion.workarea.comm.BaseInfusionFragment;
 import com.dhcc.module.infusion.workarea.dosing.adapter.CommDosingAdapter;
 import com.dhcc.module.infusion.workarea.puncture.api.PunctureApiManager;
-import com.dhcc.res.infusion.CustomOnOffView;
 import com.dhcc.res.infusion.CustomPatView;
 import com.dhcc.res.infusion.CustomScanView;
 import com.dhcc.res.infusion.CustomSelectView;
@@ -35,7 +36,6 @@ import java.util.List;
  */
 public class PunctureFragment extends BaseInfusionFragment implements View.OnClickListener {
 
-    public static final String STR_WAY_NO = "通道";
     private PunctureBean mBean;
     private RecyclerView rvPuncture;
     private CommDosingAdapter punctureAdapter;
@@ -46,8 +46,6 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
     private CustomPatView cpvPat;
     private CustomSelectView csvSelectParts;
     private CustomSelectView csvSelectTools;
-    private CustomSelectView customSelectChannel;
-    private CustomOnOffView customOnOff;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -61,14 +59,12 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
         cpvPat = mContainerChild.findViewById(R.id.cpv_pat);
         csvSelectParts = mContainerChild.findViewById(R.id.csv_select_parts);
         csvSelectTools = mContainerChild.findViewById(R.id.csv_select_tools);
-        customSelectChannel = mContainerChild.findViewById(R.id.custom_select_channel);
-        customOnOff = mContainerChild.findViewById(R.id.custom_on_off);
-        customOnOff.setSelect(false);
-        customOnOff.setShowSelectText("开启新通道", "开启新通道");
+        setInitWayNo("开启新通道");
         helper.setOnClickListener(R.id.tv_ok, this);
         punctureAdapter = AdapterFactory.getCommDosingOrdList();
         rvPuncture.setAdapter(punctureAdapter);
         customScan.setTitle("请扫描瓶签/信息卡").setWarning("请您使用扫码设备，扫描药品瓶签/信息卡");
+
     }
 
 
@@ -99,6 +95,7 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
                 }
                 punctureAdapter.replaceData(bean.getOrdList());
                 punctureAdapter.setCurrentScanInfo(scanInfo);
+                scrollToPosition(rvPuncture,bean.getOrdList());
                 // 隐藏扫码页
                 helper.setVisible(R.id.custom_scan, false);
                 setCustomPatViewData(cpvPat, bean.getPatInfo());
@@ -113,6 +110,11 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
                         && !TextUtils.isEmpty(bean.getCurOeoreId())) {
                     //再次检查
                     if (!forIsContain(bean.getOrdList(), bean.getCurOeoreId())) {
+                        return;
+                    }
+                    //输液中不可穿刺
+                    if ((bean.getIsCurrentWayNo() || bean.getCurrentOrdState(OrdState.STATE_3))) {
+                        CommDialog.showShort(STR_ORD_ING);
                         return;
                     }
                     //显示穿刺情况
@@ -131,12 +133,9 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
                         csvSelectTools.setVisibility(list.size() > 0 ? View.VISIBLE : View.GONE);
                         csvSelectTools.setTitle("穿刺工具").setSelectData(mContext, list, null);
                     }
-                    if (f(R.id.rl_way) != null) {
-                        f(R.id.rl_way).setVisibility(bean.getWayListString().size() > 0 ? View.VISIBLE : View.GONE);
-                    }
+                    f(R.id.rl_way).setVisibility(bean.getWayListString().size() > 0 ? View.VISIBLE : View.GONE);
                     customSelectChannel.setSelectData(mContext, bean.getWayListString(), null);
-                    //customSelectChannel.setDisEnable(!bean.getIsCurrentWayNo(), "当前输液为通道1");
-                    customOnOff.setDisEnable(!bean.getIsCurrentWayNo());
+                    customOnOff.setDisEnable(bean.getIsCurrentWayNo(), STR_ORD_ING);
                 }
             }
         });
@@ -166,18 +165,21 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
             String tool = csvSelectTools.getSelect();
             String select = csvSelect.getSelect();
             //通道
-            String wayNo = customSelectChannel.getSelect().replace(STR_WAY_NO,"");
+            String wayNo = customSelectChannel.getSelect().replace(STR_WAY_NO, "");
             String newWayFlag = customOnOff.isSelect() ? "1" : "";
-            punctureOrd(part, tool, speed + "", select,wayNo,newWayFlag);
+            if (customOnOff.isSelect()) {
+                wayNo = String.valueOf(mBean.getWayListString().size() + 1);
+            }
+            punctureOrd(part, tool, speed + "", select, wayNo, newWayFlag);
         }
     }
 
-    private void punctureOrd(String part, String tool, String speed, String select,String wayNo,String newWayFlag) {
+    private void punctureOrd(String part, String tool, String speed, String select, String wayNo, String newWayFlag) {
         String curOeoreId = "";
         if (mBean != null) {
             curOeoreId = mBean.getCurOeoreId();
         }
-        PunctureApiManager.punctureOrd(curOeoreId, select, speed, part, tool,wayNo,newWayFlag, new CommonCallBack<CommResult>() {
+        PunctureApiManager.punctureOrd(curOeoreId, select, speed, part, tool, wayNo, newWayFlag, new CommonCallBack<CommResult>() {
             @Override
             public void onFail(String code, String msg) {
                 onFailThings();

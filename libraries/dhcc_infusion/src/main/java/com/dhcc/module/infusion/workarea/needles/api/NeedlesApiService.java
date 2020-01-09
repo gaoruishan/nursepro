@@ -40,10 +40,16 @@ public class NeedlesApiService {
      * Input：       oeoreId:执行记录ID,userId:用户ID,locId:科室Id
      * other:		w ##class(Nur.OPPDA.Finish).extractOrd("568-3-1","4636",266)
      */
-    public static void extractOrd(String oeoreId , ServiceCallBack callBack) {
+    public static void extractOrd(String oeoreId , String wayNo,String finishWayFlag,ServiceCallBack callBack) {
         HashMap<String, String> properties = new HashMap<>();
         if (!TextUtils.isEmpty(oeoreId)) {
             properties.put("oeoreId", oeoreId);
+        }
+        if (!TextUtils.isEmpty(wayNo)) {
+            properties.put("wayNo", wayNo);
+        }
+        if (!TextUtils.isEmpty(finishWayFlag)) {
+            properties.put("finishWayFlag", finishWayFlag);
         }
         CommWebService.callUserIdLocId("extractOrd", properties,callBack);
 
