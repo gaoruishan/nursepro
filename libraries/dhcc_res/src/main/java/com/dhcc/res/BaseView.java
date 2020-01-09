@@ -1,8 +1,10 @@
 package com.dhcc.res;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.grs.dhcc_res.R;
+import com.noober.background.drawable.DrawableCreator;
 
 /**
  * 基础类View 的关键生命周期为 [改变可见性] --> 构造View
@@ -65,7 +68,15 @@ public abstract class BaseView extends LinearLayout {
             view.setBackgroundColor(ContextCompat.getColor(mContext, color));
         }
     }
-
+    public void setSelectDrawable(View view,@DrawableRes int selectId, @DrawableRes int unselectId) {
+        Drawable selectedDrawable = ContextCompat.getDrawable(mContext, selectId);
+        Drawable unSelectedDrawable = ContextCompat.getDrawable(mContext, unselectId);
+        Drawable drawable = new DrawableCreator.Builder()
+                .setSelectedDrawable(selectedDrawable)
+                .setUnSelectedDrawable(unSelectedDrawable)
+                .build();
+        view.setBackground(drawable);
+    }
     /**
      * 加载布局
      * @param context

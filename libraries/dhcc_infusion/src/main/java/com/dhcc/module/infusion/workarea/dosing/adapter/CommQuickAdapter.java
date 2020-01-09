@@ -64,12 +64,12 @@ public abstract class CommQuickAdapter<T, K extends BaseViewHolder> extends Base
         // 显示状态
         helper.setText(R.id.tv_state, item.getOrdState());
         if ("异常结束".equals(item.getOrdState())) {
-            helper.setTextColor(R.id.tv_state, ContextCompat.getColor(mContext,R.color.ic_ord_state_unexpect));
+            helper.setTextColor(R.id.tv_state, ContextCompat.getColor(mContext, R.color.ic_ord_state_unexpect));
         }
         // 医生说明
-        boolean empty = TextUtils.isEmpty(item.getNotes());
+        boolean empty = TextUtils.isEmpty(item.getNotes()) && TextUtils.isEmpty(item.getWayNo());
         helper.setGone(R.id.ll_notes, !empty);
-        helper.setText(R.id.tv_notes, "医生说明：" + item.getNotes());
+        helper.setText(R.id.tv_notes, "备注：" + item.getNotes() + " 通道" + item.getWayNo());
         // 选中状态
         SelectTextView stv = helper.getView(R.id.stv);
         stv.unSelect();
@@ -170,8 +170,8 @@ public abstract class CommQuickAdapter<T, K extends BaseViewHolder> extends Base
 
     public static class ChildAdapter extends BaseQuickAdapter<OeoreGroupBean, BaseViewHolder> {
 
-        private  boolean select;
-        private  @ColorRes
+        private boolean select;
+        private @ColorRes
         int color;
 
         public ChildAdapter(int layoutResId, @Nullable List<OeoreGroupBean> data, boolean select) {
@@ -189,7 +189,7 @@ public abstract class CommQuickAdapter<T, K extends BaseViewHolder> extends Base
             tvTitle.setClickable(false);
             if (color != 0) {
                 helper.setBackgroundColor(R.id.ll_item_child, ContextCompat.getColor(mContext, color));
-            }else {
+            } else {
                 //选中的背景变色
                 if (select) {
                     helper.setBackgroundColor(R.id.ll_item_child, ContextCompat.getColor(mContext, R.color.dhcc_blue_dark2));
@@ -198,7 +198,7 @@ public abstract class CommQuickAdapter<T, K extends BaseViewHolder> extends Base
         }
 
         public void setOrdState(String ordState) {
-          this.color=  OrdState.getOrdStateColor(ordState);
+            this.color = OrdState.getOrdStateColor(ordState);
         }
     }
 

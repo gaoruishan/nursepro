@@ -1,6 +1,6 @@
 package com.dhcc.module.infusion.workarea.needles;
 
-import com.base.commlibs.http.CommResult;
+import com.dhcc.module.infusion.workarea.comm.bean.CommInfusionBean;
 import com.dhcc.module.infusion.workarea.comm.bean.PatInfoBean;
 import com.dhcc.module.infusion.workarea.dosing.bean.OrdListBean;
 
@@ -11,7 +11,7 @@ import java.util.List;
  * @date:202019-04-29/13:44
  * @email:grs0515@163.com
  */
-public class NeedlesBean extends CommResult {
+public class NeedlesBean extends CommInfusionBean {
 
     /**
      * CurOeoreId : 568||3||1
@@ -24,11 +24,8 @@ public class NeedlesBean extends CommResult {
      * status : 0
      */
 
-    private String CurOeoreId;
-    private String CurRegNo;
     private PatInfoBean PatInfo;
     private String lastIfFlag;
-    private List<OrdListBean> ordList;
 
     public String getCurOeoreId() {
         return CurOeoreId;

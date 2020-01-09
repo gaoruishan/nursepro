@@ -45,14 +45,16 @@ public class PatrolOrdListAdapter extends CommQuickAdapter<OrdListBean, BaseView
         helper.setGone(R.id.siv_selector, true);
         helper.setGone(R.id.rv_child, sivSelector.isCheck());
         helper.setGone(R.id.v_block, !sivSelector.isCheck());
-        sivSelector.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sivSelector.toggle();
                 helper.setGone(R.id.rv_child, sivSelector.isCheck());
                 helper.setGone(R.id.v_block, !sivSelector.isCheck());
             }
-        });
+        };
+        helper.setOnClickListener(R.id.v_block, onClickListener);
+        sivSelector.setOnClickListener(onClickListener);
     }
 
     @Override

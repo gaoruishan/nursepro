@@ -40,8 +40,8 @@ public class PunctureApiManager {
      * Input：       oeoreId:执行记录ID,userId:用户ID,locId:科室Id,distantTime:预计完成时间,ifSpeed:滴速,puncturePart:穿刺部位
      * other:		 w ##class(Nur.OPPDA.Execute).punctureOrd("568-3-1","1",1)
      */
-    public static void punctureOrd(String oeoreId, String distantTime, String ifSpeed, String puncturePart,String puntureTool, final CommonCallBack<CommResult> callBack) {
-        PunctureApiService.punctureOrd(oeoreId, distantTime, ifSpeed, puncturePart, puntureTool,new ServiceCallBack() {
+    public static void punctureOrd(String oeoreId, String distantTime, String ifSpeed, String puncturePart,String puntureTool,String wayNo,String newWayFlag, final CommonCallBack<CommResult> callBack) {
+        PunctureApiService.punctureOrd(oeoreId, distantTime, ifSpeed, puncturePart, puntureTool,wayNo,newWayFlag,new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 CommWebService.parserCommResult(jsonStr,callBack);
