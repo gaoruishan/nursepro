@@ -3,6 +3,7 @@ package com.dhcc.nursepro.workarea;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -51,6 +52,7 @@ public class WorkareaOperateDialog extends Dialog {
     private int ll1 = View.VISIBLE;
     private int ll2 = View.VISIBLE;
     private int llSpeed = View.GONE;
+    private Boolean ifSpeedEdit = true;
     private EditText etSpeed;
 
     private OrderExecuteOrderDialogAdapter adapter;
@@ -148,14 +150,23 @@ public class WorkareaOperateDialog extends Dialog {
         return "";
     }
 
-    public void setViewVisibility(int ll1, int ll2, int llSpeed) {
+    public void setViewVisibility(int ll1, int ll2, int llSpeed,Boolean ifSpeedEdit) {
         this.ll1 = ll1;
         this.ll2 = ll2;
         this.llSpeed = llSpeed;
+        this.ifSpeedEdit = ifSpeedEdit;
         if (llRemainingliquid != null && llRemarkinfo != null && llSpiSpeed != null) {
             llRemainingliquid.setVisibility(ll1);
             llRemarkinfo.setVisibility(ll2);
             llSpiSpeed.setVisibility(llSpeed);
+            etSpeed.setEnabled(ifSpeedEdit);
+            spiSpeed.setEnabled(ifSpeedEdit);
+            spiSpeed.setSelected(ifSpeedEdit);
+            if (ifSpeedEdit){
+                etSpeed.setTextColor(Color.parseColor("#4A4A4A"));
+            }else {
+                etSpeed.setTextColor(Color.parseColor("#9B9B9B"));
+            }
         }
     }
 
@@ -268,6 +279,14 @@ public class WorkareaOperateDialog extends Dialog {
         }
         if (etSpeed != null){
             etSpeed.setText(speed);
+            etSpeed.setEnabled(ifSpeedEdit);
+            spiSpeed.setEnabled(ifSpeedEdit);
+            spiSpeed.setSelected(ifSpeedEdit);
+            if (ifSpeedEdit){
+                etSpeed.setTextColor(Color.parseColor("#4A4A4A"));
+            }else {
+                etSpeed.setTextColor(Color.parseColor("#9B9B9B"));
+            }
         }
 
     }

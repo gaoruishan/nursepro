@@ -314,7 +314,7 @@ public class WorkareaFragment extends BaseFragment {
                                 operateDialog.setPatInfo(orderDialog.getPatInfo());
                                 operateDialog.setChildOrders(orderDialog.getChildOrders());
                                 operateDialog.setOrderInfoEx(orderDialog.getOrderInfoEx());
-                                operateDialog.setViewVisibility(View.GONE, View.VISIBLE,View.VISIBLE);
+                                operateDialog.setViewVisibility(View.GONE, View.VISIBLE,View.VISIBLE,true);
 
                                 operateDialog.setSpeedUnit(scanResultBean.getFlowSpeedUnit());
                                 if (scanResultBean.getOrders().size()>0){
@@ -333,8 +333,8 @@ public class WorkareaFragment extends BaseFragment {
                                     public void onSureClick() {
 //                                        suspendOrd(operateDialog.getOrderId(), operateDialog.getIfState(), operateDialog.getRemarkinfo());
 //                                        operateDialog.dismiss();
-                                        tourOrd(orderDialog.getOrderId());
-                                        orderDialog.dismiss();
+                                        tourOrd(operateDialog.getOrderId());
+                                        operateDialog.dismiss();
                                     }
                                 });
                                 operateDialog.setCancelOnclickListener(new WorkareaOperateDialog.onCancelOnclickListener() {
@@ -361,7 +361,15 @@ public class WorkareaFragment extends BaseFragment {
                                 operateDialog.setPatInfo(orderDialog.getPatInfo());
                                 operateDialog.setChildOrders(orderDialog.getChildOrders());
                                 operateDialog.setOrderInfoEx(orderDialog.getOrderInfoEx());
-                                operateDialog.setViewVisibility(View.GONE, View.VISIBLE, View.GONE);
+                                if (scanResultBean.getOrders().size()>0){
+                                    operateDialog.setSpeed(scanResultBean.getOrders().get(0).getSpeedFlowRate());
+                                }
+                                List ls = new ArrayList<String>();
+                                for (int i = 0; i < scanResultBean.getSpeedUnitList().size(); i++) {
+                                    ls.add(scanResultBean.getSpeedUnitList().get(i).getUnitDesc());
+                                }
+                                operateDialog.setSpiList(ls);
+                                operateDialog.setViewVisibility(View.GONE, View.VISIBLE, View.VISIBLE,false);
                                 operateDialog.setOrderId(orderDialog.getOrderId());
                                 operateDialog.setIfState(orderDialog.getIfState());
 
@@ -392,7 +400,7 @@ public class WorkareaFragment extends BaseFragment {
                             operateDialog.setPatInfo(orderDialog.getPatInfo());
                             operateDialog.setChildOrders(orderDialog.getChildOrders());
                             operateDialog.setOrderInfoEx(orderDialog.getOrderInfoEx());
-                            operateDialog.setViewVisibility(View.VISIBLE, View.VISIBLE,View.GONE);
+                            operateDialog.setViewVisibility(View.VISIBLE, View.VISIBLE,View.GONE,true);
                             operateDialog.setOrderId(orderDialog.getOrderId());
                             operateDialog.setIfState(orderDialog.getIfState());
                             operateDialog.setSureOnclickListener(new WorkareaOperateDialog.onSureOnclickListener() {

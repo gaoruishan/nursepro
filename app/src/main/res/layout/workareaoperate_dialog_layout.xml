@@ -202,7 +202,7 @@
                             android:id="@+id/sp_speedunit"
                             android:layout_width="@dimen/dp_80"
                             android:layout_height="match_parent"
-                            android:background="@drawable/bg_spinner"
+                            android:background="@drawable/bg_mainorder_speed_select"
                             android:gravity="center"
                             android:paddingStart="@dimen/dp_5"
                             />
