@@ -310,9 +310,44 @@ public class WorkareaFragment extends BaseFragment {
                     orderDialog.setTourOnclickListener(new WorkareaOrderDialog.onTourOnclickListener() {
                         @Override
                         public void onTourClick() {
-                            tourOrd(orderDialog.getOrderId());
-                            orderDialog.dismiss();
-                        }
+                                operateDialog = new WorkareaOperateDialog(getActivity());
+                                operateDialog.setPatInfo(orderDialog.getPatInfo());
+                                operateDialog.setChildOrders(orderDialog.getChildOrders());
+                                operateDialog.setOrderInfoEx(orderDialog.getOrderInfoEx());
+                                operateDialog.setViewVisibility(View.GONE, View.VISIBLE,View.VISIBLE);
+
+                                operateDialog.setSpeedUnit(scanResultBean.getFlowSpeedUnit());
+                                if (scanResultBean.getOrders().size()>0){
+                                    operateDialog.setSpeed(scanResultBean.getOrders().get(0).getSpeedFlowRate());
+                                }
+                                List ls = new ArrayList<String>();
+                                for (int i = 0; i < scanResultBean.getSpeedUnitList().size(); i++) {
+                                    ls.add(scanResultBean.getSpeedUnitList().get(i).getUnitDesc());
+                                }
+                                operateDialog.setSpiList(ls);
+                                operateDialog.setOrderId(orderDialog.getOrderId());
+                                operateDialog.setIfState(orderDialog.getIfState());
+
+                                operateDialog.setSureOnclickListener(new WorkareaOperateDialog.onSureOnclickListener() {
+                                    @Override
+                                    public void onSureClick() {
+//                                        suspendOrd(operateDialog.getOrderId(), operateDialog.getIfState(), operateDialog.getRemarkinfo());
+//                                        operateDialog.dismiss();
+                                        tourOrd(orderDialog.getOrderId());
+                                        orderDialog.dismiss();
+                                    }
+                                });
+                                operateDialog.setCancelOnclickListener(new WorkareaOperateDialog.onCancelOnclickListener() {
+                                    @Override
+                                    public void onCancelClick() {
+                                        operateDialog.dismiss();
+                                    }
+                                });
+                                operateDialog.show();
+                                orderDialog.dismiss();
+                            }
+//                            tourOrd(orderDialog.getOrderId());
+//                            orderDialog.dismiss();
                     });
 
                     orderDialog.setSuspendContinueclickListenerOnclickListener(new WorkareaOrderDialog.onSuspendContinueclickListener() {
@@ -326,7 +361,7 @@ public class WorkareaFragment extends BaseFragment {
                                 operateDialog.setPatInfo(orderDialog.getPatInfo());
                                 operateDialog.setChildOrders(orderDialog.getChildOrders());
                                 operateDialog.setOrderInfoEx(orderDialog.getOrderInfoEx());
-                                operateDialog.setViewVisibility(View.GONE, View.VISIBLE);
+                                operateDialog.setViewVisibility(View.GONE, View.VISIBLE, View.GONE);
                                 operateDialog.setOrderId(orderDialog.getOrderId());
                                 operateDialog.setIfState(orderDialog.getIfState());
 
@@ -357,7 +392,7 @@ public class WorkareaFragment extends BaseFragment {
                             operateDialog.setPatInfo(orderDialog.getPatInfo());
                             operateDialog.setChildOrders(orderDialog.getChildOrders());
                             operateDialog.setOrderInfoEx(orderDialog.getOrderInfoEx());
-                            operateDialog.setViewVisibility(View.VISIBLE, View.VISIBLE);
+                            operateDialog.setViewVisibility(View.VISIBLE, View.VISIBLE,View.GONE);
                             operateDialog.setOrderId(orderDialog.getOrderId());
                             operateDialog.setIfState(orderDialog.getIfState());
                             operateDialog.setSureOnclickListener(new WorkareaOperateDialog.onSureOnclickListener() {

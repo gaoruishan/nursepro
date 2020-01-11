@@ -27,7 +27,6 @@
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:textColor="#4A4A4A"
-        android:textStyle="bold"
         tools:text="0.9%氯化钠注射液T(100ml*塑瓶)0.9%氯化钠注射液T(100ml*塑瓶)" />
 
     <TextView
@@ -35,7 +34,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#4A4A4A"
-        android:textStyle="bold"
         tools:text="100ml" />
 
 </LinearLayout>

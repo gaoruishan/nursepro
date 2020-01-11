@@ -30,6 +30,60 @@ public class ScanResultBean {
     private PatInfoBean patInfo;
     private String status;
     private List<OrdersBean> orders;
+    private List<SpeedUnitListBean> speedUnitList;
+    private String flowSpeed;
+    private String flowSpeedUnit;
+
+    public String getFlowSpeed() {
+        return flowSpeed;
+    }
+
+    public void setFlowSpeed(String flowSpeed) {
+        this.flowSpeed = flowSpeed;
+    }
+
+    public String getFlowSpeedUnit() {
+        return flowSpeedUnit;
+    }
+
+    public void setFlowSpeedUnit(String flowSpeedUnit) {
+        this.flowSpeedUnit = flowSpeedUnit;
+    }
+
+    public List<SpeedUnitListBean> getSpeedUnitList() {
+        return speedUnitList;
+    }
+
+    public void setSpeedUnitList(List<SpeedUnitListBean> speedUnitList) {
+        this.speedUnitList = speedUnitList;
+    }
+
+
+    public static class SpeedUnitListBean {
+        /**
+         * unitDesc : 滴/秒
+         * unitId : 1
+         */
+
+        private String unitDesc;
+        private String unitId;
+
+        public String getUnitDesc() {
+            return unitDesc;
+        }
+
+        public void setUnitDesc(String unitDesc) {
+            this.unitDesc = unitDesc;
+        }
+
+        public String getUnitId() {
+            return unitId;
+        }
+
+        public void setUnitId(String unitId) {
+            this.unitId = unitId;
+        }
+    }
 
 
     public String getBtnDesc() {
@@ -616,6 +670,15 @@ public class ScanResultBean {
         private String xDateTime;
         private String exeStColor;
         private String exeStatus;
+        private String speedFlowRate;
+
+        public String getSpeedFlowRate() {
+            return speedFlowRate;
+        }
+
+        public void setSpeedFlowRate(String speedFlowRate) {
+            this.speedFlowRate = speedFlowRate;
+        }
 
         public String getDspStat() {
             return DspStat;

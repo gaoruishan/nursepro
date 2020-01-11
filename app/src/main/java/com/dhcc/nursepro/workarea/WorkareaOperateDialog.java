@@ -7,9 +7,12 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.dhcc.nursepro.R;
@@ -47,11 +50,47 @@ public class WorkareaOperateDialog extends Dialog {
     //view显隐控制
     private int ll1 = View.VISIBLE;
     private int ll2 = View.VISIBLE;
+    private int llSpeed = View.GONE;
+    private EditText etSpeed;
 
     private OrderExecuteOrderDialogAdapter adapter;
 
     private onSureOnclickListener sureOnclickListener;
     private onCancelOnclickListener cancelOnclickListener;
+
+    private LinearLayout llSpiSpeed;
+    private Spinner spiSpeed;
+    private List spiList = new ArrayList<String>();
+    private String speedUnit = "";
+    private String speed = "";
+
+    public String getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(String speed) {
+        this.speed = speed;
+        if (etSpeed != null){
+            etSpeed.setText(speed);
+        }
+
+    }
+
+    public String getSpeedUnit() {
+        return speedUnit;
+    }
+
+    public void setSpeedUnit(String speed) {
+        this.speedUnit = speed;
+    }
+
+    public List getSpiList() {
+        return spiList;
+    }
+
+    public void setSpiList(List spiList) {
+        this.spiList = spiList;
+    }
 
     public WorkareaOperateDialog(Context context) {
         super(context, R.style.MyDialog);
@@ -109,12 +148,14 @@ public class WorkareaOperateDialog extends Dialog {
         return "";
     }
 
-    public void setViewVisibility(int ll1, int ll2) {
+    public void setViewVisibility(int ll1, int ll2, int llSpeed) {
         this.ll1 = ll1;
         this.ll2 = ll2;
-        if (llRemainingliquid != null && llRemarkinfo != null) {
+        this.llSpeed = llSpeed;
+        if (llRemainingliquid != null && llRemarkinfo != null && llSpiSpeed != null) {
             llRemainingliquid.setVisibility(ll1);
             llRemarkinfo.setVisibility(ll2);
+            llSpiSpeed.setVisibility(llSpeed);
         }
     }
 
@@ -167,6 +208,11 @@ public class WorkareaOperateDialog extends Dialog {
         recyPopupChildOrderInfo.setHasFixedSize(true);
         //设置的布局管理
         recyPopupChildOrderInfo.setLayoutManager(new LinearLayoutManager(context));
+
+        llSpiSpeed =findViewById(R.id.ll_speed);
+        spiSpeed = findViewById(R.id.sp_speedunit);
+        etSpeed = findViewById(R.id.et_speed);
+
     }
 
     private void initAdapter() {
@@ -190,6 +236,40 @@ public class WorkareaOperateDialog extends Dialog {
 
         llRemainingliquid.setVisibility(ll1);
         llRemarkinfo.setVisibility(ll2);
+        llSpiSpeed.setVisibility(llSpeed);
+
+        if (spiSpeed != null && spiList.size()>0){
+//            List ls = new ArrayList<String>();
+//            ls.add("滴/秒");
+//            ls.add("滴/分");
+            ArrayAdapter arr_adapter= new ArrayAdapter<String>(getContext(), R.layout.spinner_item, spiList);
+            //设置样式
+            arr_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spiSpeed.setAdapter(arr_adapter);
+            if (spiList.size()>0){
+                spiSpeed.setSelection(0);
+            }
+
+            for (int i = 0; i <spiList.size() ; i++) {
+                if (speedUnit.equals(spiList.get(i))){
+                    spiSpeed.setSelection(i);
+                }
+            }
+            spiSpeed.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    spiSpeed.setSelection(position);
+                }
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+        }
+        if (etSpeed != null){
+            etSpeed.setText(speed);
+        }
+
     }
 
     private void initEvent() {
