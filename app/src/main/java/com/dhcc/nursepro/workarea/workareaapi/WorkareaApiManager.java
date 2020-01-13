@@ -113,9 +113,9 @@ public class WorkareaApiManager {
 
     }
 
-    public static void tourOrd(String speed,String oeoreId, final OperateResultCallBack callback) {
+    public static void tourOrd(String speed,String reason,String oeoreId, final OperateResultCallBack callback) {
 
-        WorkareaApiService.tourOrd(speed,oeoreId, new WorkareaApiService.ServiceCallBack() {
+        WorkareaApiService.tourOrd(speed,reason,oeoreId, new WorkareaApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();
@@ -249,9 +249,9 @@ public class WorkareaApiManager {
         });
     }
 
-    public static void endOrd(String speed,String oeoreId, final OperateResultCallBack callback) {
+    public static void endOrd(String speed,String reason,String oeoreId, final OperateResultCallBack callback) {
 
-        WorkareaApiService.endOrd(speed,oeoreId, new WorkareaApiService.ServiceCallBack() {
+        WorkareaApiService.endOrd(speed,oeoreId,reason, new WorkareaApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();

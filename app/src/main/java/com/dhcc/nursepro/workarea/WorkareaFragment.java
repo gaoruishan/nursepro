@@ -98,6 +98,7 @@ public class WorkareaFragment extends BaseFragment {
     private String locId = "";
     private String groupId = "";
     private String ordSpeed = "";
+    private String reason = "";
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -338,6 +339,7 @@ public class WorkareaFragment extends BaseFragment {
 //                                        suspendOrd(operateDialog.getOrderId(), operateDialog.getIfState(), operateDialog.getRemarkinfo());
 //                                        operateDialog.dismiss();
                                         ordSpeed = operateDialog.getSpeed()+operateDialog.getSpeedUnit();
+                                        reason = operateDialog.getRemarkinfo();
                                         tourOrd(operateDialog.getOrderId());
                                         operateDialog.dismiss();
                                     }
@@ -473,6 +475,7 @@ public class WorkareaFragment extends BaseFragment {
 //                                        suspendOrd(operateDialog.getOrderId(), operateDialog.getIfState(), operateDialog.getRemarkinfo());
 //                                        operateDialog.dismiss();
                                     ordSpeed = operateDialog.getSpeed()+operateDialog.getSpeedUnit();
+                                    reason = operateDialog.getRemarkinfo();
                                     endOrd(operateDialog.getOrderId());
                                     operateDialog.dismiss();
                                 }
@@ -769,7 +772,7 @@ public class WorkareaFragment extends BaseFragment {
     }
 
     private void tourOrd(String orderId) {
-        WorkareaApiManager.tourOrd(ordSpeed,orderId, new WorkareaApiManager.OperateResultCallBack() {
+        WorkareaApiManager.tourOrd(ordSpeed,reason,orderId, new WorkareaApiManager.OperateResultCallBack() {
             @Override
             public void onSuccess(OperateResultBean operateResultBean) {
                 if (resultDialog != null && resultDialog.isShowing()) {
@@ -945,7 +948,7 @@ public class WorkareaFragment extends BaseFragment {
     }
 
     private void endOrd(String orderId) {
-        WorkareaApiManager.endOrd(ordSpeed,orderId, new WorkareaApiManager.OperateResultCallBack() {
+        WorkareaApiManager.endOrd(ordSpeed,reason,orderId, new WorkareaApiManager.OperateResultCallBack() {
             @Override
             public void onSuccess(OperateResultBean operateResultBean) {
                 if (resultDialog != null && resultDialog.isShowing()) {

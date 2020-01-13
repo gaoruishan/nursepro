@@ -78,9 +78,11 @@ public class WorkareaApiService {
      * @author Devlix126
      * created at 2019/11/27 16:27
      */
-    public static void tourOrd(String speed,String oeoreId, final ServiceCallBack callback) {
+    public static void tourOrd(String speed,String reason,String oeoreId, final ServiceCallBack callback) {
         SPUtils spUtils = SPUtils.getInstance();
         HashMap<String, String> properties = new HashMap<>();
+        properties.put("speed",speed);
+        properties.put("reason",reason);
         properties.put("oeoreId", oeoreId);
         properties.put("userId", spUtils.getString(SharedPreference.USERID));
         properties.put("locId", spUtils.getString(SharedPreference.LOCID));
@@ -103,6 +105,7 @@ public class WorkareaApiService {
     public static void suspendOrd(String speed,String oeoreId, String infusionState, String infusionReason, final ServiceCallBack callback) {
         SPUtils spUtils = SPUtils.getInstance();
         HashMap<String, String> properties = new HashMap<>();
+        properties.put("speed",speed);
         properties.put("oeoreId", oeoreId);
         properties.put("userId", spUtils.getString(SharedPreference.USERID));
         properties.put("locId", spUtils.getString(SharedPreference.LOCID));
@@ -149,6 +152,7 @@ public class WorkareaApiService {
     public static void stopOrd(String speed,String oeoreId, String infusionState, String ResidualQty, String infusionReason, final ServiceCallBack callback) {
         SPUtils spUtils = SPUtils.getInstance();
         HashMap<String, String> properties = new HashMap<>();
+        properties.put("speed",speed);
         properties.put("oeoreId", oeoreId);
         properties.put("userId", spUtils.getString(SharedPreference.USERID));
         properties.put("locId", spUtils.getString(SharedPreference.LOCID));
@@ -171,9 +175,11 @@ public class WorkareaApiService {
      * @author Devlix126
      * created at 2019/11/27 16:31
      */
-    public static void endOrd(String speed,String oeoreId, final ServiceCallBack callback) {
+    public static void endOrd(String speed,String reason,String oeoreId, final ServiceCallBack callback) {
         SPUtils spUtils = SPUtils.getInstance();
         HashMap<String, String> properties = new HashMap<>();
+        properties.put("speed",speed);
+        properties.put("reason",reason);
         properties.put("oeoreId", oeoreId);
         properties.put("userId", spUtils.getString(SharedPreference.USERID));
         properties.put("locId", spUtils.getString(SharedPreference.LOCID));
