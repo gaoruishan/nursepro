@@ -113,9 +113,9 @@ public class WorkareaApiManager {
 
     }
 
-    public static void tourOrd(String oeoreId, final OperateResultCallBack callback) {
+    public static void tourOrd(String speed,String oeoreId, final OperateResultCallBack callback) {
 
-        WorkareaApiService.tourOrd(oeoreId, new WorkareaApiService.ServiceCallBack() {
+        WorkareaApiService.tourOrd(speed,oeoreId, new WorkareaApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();
@@ -147,9 +147,9 @@ public class WorkareaApiManager {
         });
     }
 
-    public static void suspendOrd(String oeoreId, String infusionState, String infusionReason, final OperateResultCallBack callback) {
+    public static void suspendOrd(String speed,String oeoreId, String infusionState, String infusionReason, final OperateResultCallBack callback) {
 
-        WorkareaApiService.suspendOrd(oeoreId, infusionState, infusionReason, new WorkareaApiService.ServiceCallBack() {
+        WorkareaApiService.suspendOrd(speed,oeoreId, infusionState, infusionReason, new WorkareaApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();
@@ -181,9 +181,9 @@ public class WorkareaApiManager {
         });
     }
 
-    public static void continueOrd(String oeoreId, final OperateResultCallBack callback) {
+    public static void continueOrd(String speed,String oeoreId, final OperateResultCallBack callback) {
 
-        WorkareaApiService.continueOrd(oeoreId, new WorkareaApiService.ServiceCallBack() {
+        WorkareaApiService.continueOrd(speed,oeoreId, new WorkareaApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();
@@ -215,9 +215,9 @@ public class WorkareaApiManager {
         });
     }
 
-    public static void stopOrd(String oeoreId, String infusionState, String ResidualQty, String infusionReason, final OperateResultCallBack callback) {
+    public static void stopOrd(String speed,String oeoreId, String infusionState, String ResidualQty, String infusionReason, final OperateResultCallBack callback) {
 
-        WorkareaApiService.stopOrd(oeoreId, infusionState, ResidualQty, infusionReason, new WorkareaApiService.ServiceCallBack() {
+        WorkareaApiService.stopOrd(speed,oeoreId, infusionState, ResidualQty, infusionReason, new WorkareaApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();
@@ -249,9 +249,9 @@ public class WorkareaApiManager {
         });
     }
 
-    public static void endOrd(String oeoreId, final OperateResultCallBack callback) {
+    public static void endOrd(String speed,String oeoreId, final OperateResultCallBack callback) {
 
-        WorkareaApiService.endOrd(oeoreId, new WorkareaApiService.ServiceCallBack() {
+        WorkareaApiService.endOrd(speed,oeoreId, new WorkareaApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();

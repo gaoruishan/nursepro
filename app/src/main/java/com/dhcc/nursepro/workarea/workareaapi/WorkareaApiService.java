@@ -78,7 +78,7 @@ public class WorkareaApiService {
      * @author Devlix126
      * created at 2019/11/27 16:27
      */
-    public static void tourOrd(String oeoreId, final ServiceCallBack callback) {
+    public static void tourOrd(String speed,String oeoreId, final ServiceCallBack callback) {
         SPUtils spUtils = SPUtils.getInstance();
         HashMap<String, String> properties = new HashMap<>();
         properties.put("oeoreId", oeoreId);
@@ -100,7 +100,7 @@ public class WorkareaApiService {
      * @author Devlix126
      * created at 2019/11/27 16:24
      */
-    public static void suspendOrd(String oeoreId, String infusionState, String infusionReason, final ServiceCallBack callback) {
+    public static void suspendOrd(String speed,String oeoreId, String infusionState, String infusionReason, final ServiceCallBack callback) {
         SPUtils spUtils = SPUtils.getInstance();
         HashMap<String, String> properties = new HashMap<>();
         properties.put("oeoreId", oeoreId);
@@ -124,7 +124,7 @@ public class WorkareaApiService {
      * @author Devlix126
      * created at 2019/11/27 16:28
      */
-    public static void continueOrd(String oeoreId, final ServiceCallBack callback) {
+    public static void continueOrd(String speed,String oeoreId, final ServiceCallBack callback) {
         SPUtils spUtils = SPUtils.getInstance();
         HashMap<String, String> properties = new HashMap<>();
         properties.put("oeoreId", oeoreId);
@@ -146,7 +146,7 @@ public class WorkareaApiService {
      * @author Devlix126
      * created at 2019/11/27 16:30
      */
-    public static void stopOrd(String oeoreId, String infusionState, String ResidualQty, String infusionReason, final ServiceCallBack callback) {
+    public static void stopOrd(String speed,String oeoreId, String infusionState, String ResidualQty, String infusionReason, final ServiceCallBack callback) {
         SPUtils spUtils = SPUtils.getInstance();
         HashMap<String, String> properties = new HashMap<>();
         properties.put("oeoreId", oeoreId);
@@ -171,7 +171,7 @@ public class WorkareaApiService {
      * @author Devlix126
      * created at 2019/11/27 16:31
      */
-    public static void endOrd(String oeoreId, final ServiceCallBack callback) {
+    public static void endOrd(String speed,String oeoreId, final ServiceCallBack callback) {
         SPUtils spUtils = SPUtils.getInstance();
         HashMap<String, String> properties = new HashMap<>();
         properties.put("oeoreId", oeoreId);
