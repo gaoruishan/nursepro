@@ -235,7 +235,7 @@
             android:layout_height="match_parent"
             android:textColor="@color/white"
             android:text="2019-10-11"
-            android:textSize="@dimen/sp_14"
+            android:textSize="@dimen/sp_12"
             android:gravity="center_vertical|right"
             />
         <View
@@ -255,7 +255,7 @@
             android:text="当前总计："
             android:gravity="center"
             android:textColor="@color/white"
-            android:textSize="@dimen/sp_14"
+            android:textSize="@dimen/sp_12"
             />
         <TextView
             android:id="@+id/tv_infee"
@@ -266,7 +266,7 @@
             android:textColor="#FF6262"
             android:layout_marginLeft="@dimen/dp_2"
             android:layout_marginRight="@dimen/dp_5"
-            android:textSize="@dimen/sp_16"
+            android:textSize="@dimen/sp_12"
             />
     </LinearLayout>
 

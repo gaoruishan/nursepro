@@ -189,9 +189,11 @@ public class BedMapPatFragment extends BaseFragment implements View.OnClickListe
 
         if ("病危".equals(patInfoListBean.getIllState())) {
             tvBedmappatCritical.setVisibility(View.VISIBLE);
+            tvBedmappatCritical.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_red));
             tvBedmappatCritical.setText("危");
         } else if ("病重".equals(patInfoListBean.getIllState())) {
             tvBedmappatCritical.setVisibility(View.VISIBLE);
+            tvBedmappatCritical.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_red3));
             tvBedmappatCritical.setText("重");
         } else {
             tvBedmappatCritical.setVisibility(View.GONE);

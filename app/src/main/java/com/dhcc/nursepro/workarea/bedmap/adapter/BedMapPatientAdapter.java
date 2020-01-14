@@ -142,9 +142,11 @@ public class BedMapPatientAdapter extends BaseQuickAdapter<BedMapBean.PatInfoLis
 
         if ("病危".equals(item.getIllState())) {
             tvCritical.setVisibility(View.VISIBLE);
+            tvCritical.setBackground(mContext.getResources().getDrawable(R.drawable.bg_rectangle_red));
             tvCritical.setText("危");
         } else if ("病重".equals(item.getIllState())) {
             tvCritical.setVisibility(View.VISIBLE);
+            tvCritical.setBackground(mContext.getResources().getDrawable(R.drawable.bg_rectangle_red3));
             tvCritical.setText("重");
         } else {
             tvCritical.setVisibility(View.GONE);

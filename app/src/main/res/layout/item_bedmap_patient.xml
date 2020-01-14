@@ -198,6 +198,20 @@
                 android:paddingBottom="2dp"
                 android:text="热"
                 android:textColor="@color/white" />
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/tv_bedmap_patient_infect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:background="@drawable/bg_rectangle_infect"
+                android:paddingStart="3dp"
+                android:paddingTop="1dp"
+                android:paddingEnd="3dp"
+                android:paddingBottom="2dp"
+                android:text="传"
+                android:textColor="@color/white" />
         </LinearLayout>
 
         <View
