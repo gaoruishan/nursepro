@@ -157,8 +157,9 @@ public class BloodTSApiService {
     /**
      * 血袋回收
      */
-    public static void recycleBloodbag(String bloodRowId, final ServiceCallBack callback) {
+    public static void recycleBloodbag(String finalWhere,String bloodRowId, final ServiceCallBack callback) {
         HashMap<String, String> properties = new HashMap<>();
+        properties.put("finalWhere", finalWhere);
         properties.put("bloodRowId", bloodRowId);
         properties.put("userId", SPUtils.getInstance().getString(SharedPreference.USERID));
 

@@ -216,6 +216,7 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
                     BloodTSApiManager.bloodPatrol(bloodRowId, recdate, rectime, speed, effect, situation,result, new BloodTSApiManager.BloodOperationResultCallback() {
                         @Override
                         public void onSuccess(BloodOperationResultBean bloodOperationResult) {
+
                             showToast("输血巡视保存成功");
                             setToolbarRightView(0);
                             clearEditInfo();
@@ -223,6 +224,9 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
                             llBloodtranstourEdit.setVisibility(View.GONE);
                             llVitalsignRecord.removeAllViews();
                             viewItemMap.clear();
+                            if (mKeyboard != null){
+                                mKeyboard.setVisibility(View.GONE);
+                            }
                         }
 
                         @Override

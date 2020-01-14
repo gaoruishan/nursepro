@@ -82,11 +82,12 @@ public class OrderExecuteApiManager {
         });
     }
 
-    public static void execOrSeeOrder(String barCode,String starttime, String orderDesc, String patInfo, String scanFlag, String batch, String auditUserCode, String auditUserPass, String oeoreId, String execStatusCode, final ExecOrSeeOrderCallback callback) {
+    public static void execOrSeeOrder(String speed,String barCode,String starttime, String orderDesc, String patInfo, String scanFlag, String batch, String auditUserCode, String auditUserPass, String oeoreId, String execStatusCode, final ExecOrSeeOrderCallback callback) {
 
         SPUtils spUtils = SPUtils.getInstance();
 
         HashMap<String, String> properties = new HashMap<>();
+        properties.put("speed",speed);
         properties.put("orderInfo", orderDesc);
         properties.put("patInfo", patInfo);
         properties.put("scanFlag", scanFlag);
@@ -117,7 +118,7 @@ public class OrderExecuteApiManager {
         properties.put("starttime", starttime);
 
 
-        OrderExecuteApiService.execOrSeeOrder(barCode,scanFlag, batch, auditUserCode, auditUserPass, oeoreId, execStatusCode, new OrderExecuteApiService.ServiceCallBack() {
+        OrderExecuteApiService.execOrSeeOrder(speed,barCode,scanFlag, batch, auditUserCode, auditUserPass, oeoreId, execStatusCode, new OrderExecuteApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
 

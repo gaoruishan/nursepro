@@ -3,11 +3,16 @@ package com.dhcc.nursepro.workarea;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.StringUtils;
@@ -72,7 +77,46 @@ public class WorkareaOrderDialog extends Dialog {
     private onSuspendContinueclickListener suspendContinueclickListener;
     private onStopOnclickListener stopOnclickListener;
     private onEndOnclickListener endOnclickListener;
+    private LinearLayout llSpiSpeed;
+    private Spinner spiSpeed;
+    private List spiList = new ArrayList<String>();
+    private String speedUnit = "";
+    private String speed = "";
+    private int llSpeed = View.GONE;
+    private Boolean ifSpeedEdit = true;
+    private EditText etSpeed;
 
+    public String getSpeed() {
+        if (etSpeed != null){
+            return etSpeed.getText().toString();
+        }else {
+            return speed;
+        }
+    }
+
+    public void setSpeed(String speed) {
+        this.speed = speed;
+        if (etSpeed != null){
+            etSpeed.setText(speed);
+        }
+
+    }
+
+    public String getSpeedUnit() {
+        return speedUnit;
+    }
+
+    public void setSpeedUnit(String speed) {
+        this.speedUnit = speed;
+    }
+
+    public List getSpiList() {
+        return spiList;
+    }
+
+    public void setSpiList(List spiList) {
+        this.spiList = spiList;
+    }
     public WorkareaOrderDialog(Context context) {
         super(context, R.style.MyDialog);
         this.context = context;
@@ -194,7 +238,9 @@ public class WorkareaOrderDialog extends Dialog {
 
     public void setBtnType(String btnType) {
         this.btnType = btnType;
-        if (!StringUtils.isEmpty(btnType) && tvPopupOrderExec != null && llExbtn1 != null && llExbtn2 != null) {
+
+        if (!StringUtils.isEmpty(btnType) && tvPopupOrderExec != null && llExbtn1 != null && llExbtn2 != null && llSpiSpeed != null) {
+            llSpiSpeed.setVisibility(View.GONE);
             switch (btnType) {
                 case "peiye":
                     llExbtn.setVisibility(View.VISIBLE);
@@ -213,6 +259,7 @@ public class WorkareaOrderDialog extends Dialog {
                     llExbtn1.setVisibility(View.GONE);
                     llExbtn2.setVisibility(View.GONE);
                     tvPopupOrderExec.setText("执行");
+                    llSpiSpeed.setVisibility(View.VISIBLE);
                     break;
                 case "exed":
                     llExbtn.setVisibility(View.GONE);
@@ -377,6 +424,11 @@ public class WorkareaOrderDialog extends Dialog {
         recyPopupChildOrderInfo.setHasFixedSize(true);
         //设置的布局管理
         recyPopupChildOrderInfo.setLayoutManager(new LinearLayoutManager(context));
+
+
+        llSpiSpeed =findViewById(R.id.ll_speed);
+        spiSpeed = findViewById(R.id.sp_speedunit);
+        etSpeed = findViewById(R.id.et_speed);
     }
 
     private void initAdapter() {
@@ -411,7 +463,49 @@ public class WorkareaOrderDialog extends Dialog {
             tvPopupMsg.setText(msgInfo);
         }
 
+        llSpiSpeed.setVisibility(llSpeed);
+
+        if (spiSpeed != null && spiList.size()>0){
+//            List ls = new ArrayList<String>();
+//            ls.add("滴/秒");
+//            ls.add("滴/分");
+            ArrayAdapter arr_adapter= new ArrayAdapter<String>(getContext(), R.layout.spinner_item, spiList);
+            //设置样式
+            arr_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spiSpeed.setAdapter(arr_adapter);
+            if (spiList.size()>0){
+                spiSpeed.setSelection(0);
+            }
+
+            for (int i = 0; i <spiList.size() ; i++) {
+                if (speedUnit.equals(spiList.get(i))){
+                    spiSpeed.setSelection(i);
+                }
+            }
+            spiSpeed.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    spiSpeed.setSelection(position);
+                }
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+        }
+        if (etSpeed != null){
+            etSpeed.setText(speed);
+            etSpeed.setEnabled(ifSpeedEdit);
+            spiSpeed.setEnabled(ifSpeedEdit);
+            spiSpeed.setSelected(ifSpeedEdit);
+            if (ifSpeedEdit){
+                etSpeed.setTextColor(Color.parseColor("#4A4A4A"));
+            }else {
+                etSpeed.setTextColor(Color.parseColor("#9B9B9B"));
+            }
+        }
         //执行按钮文字变更
+        llSpiSpeed.setVisibility(View.GONE);
         switch (btnType) {
             case "peiye":
                 llExbtn.setVisibility(View.VISIBLE);
@@ -430,6 +524,7 @@ public class WorkareaOrderDialog extends Dialog {
                 llExbtn1.setVisibility(View.GONE);
                 llExbtn2.setVisibility(View.GONE);
                 tvPopupOrderExec.setText("执行");
+                llSpiSpeed.setVisibility(View.VISIBLE);
                 break;
             case "exed":
                 llExbtn.setVisibility(View.GONE);

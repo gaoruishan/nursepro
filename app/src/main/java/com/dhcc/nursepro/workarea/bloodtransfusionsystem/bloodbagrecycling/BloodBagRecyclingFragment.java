@@ -1,6 +1,7 @@
 package com.dhcc.nursepro.workarea.bloodtransfusionsystem.bloodbagrecycling;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import com.dhcc.nursepro.workarea.bloodtransfusionsystem.BloodOperationResultDia
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.api.BloodTSApiManager;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bean.BloodInfoBean;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bean.BloodOperationResultBean;
+import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bloodtransfusiontour.FinalWhereDialog;
 
 /**
  * BloodBagRecyclingFragment
@@ -153,50 +155,64 @@ public class BloodBagRecyclingFragment extends BaseFragment {
                     imgBloodproduct.setSelected(true);
                     lineBlood2.setSelected(true);
                     imgBloodpatient.setSelected(true);
-
-                    BloodTSApiManager.recycleBloodbag(bloodInfo.getBloodRowId(), new BloodTSApiManager.BloodOperationResultCallback() {
+                    FinalWhereDialog finalWhereDialog = new FinalWhereDialog(getActivity());
+                    finalWhereDialog.setYesOnclickListener("确定", new FinalWhereDialog.onYesOnclickListener() {
                         @Override
-                        public void onSuccess(BloodOperationResultBean bloodOperationResult) {
-                            if (bloodOperationResultDialog != null && bloodOperationResultDialog.isShowing()) {
-                                bloodOperationResultDialog.dismiss();
-                            }
-
-                            bloodOperationResultDialog = new BloodOperationResultDialog(getActivity());
-
-                            bloodOperationResultDialog.setExecresult("血袋回收成功");
-
-                            bloodOperationResultDialog.setImgId(R.drawable.icon_popup_sucess);
-                            bloodOperationResultDialog.setSureVisible(View.GONE);
-                            bloodOperationResultDialog.show();
-                            new Handler().postDelayed(new Runnable() {
+                        public void onYesClick() {
+                            finalWhereDialog.dismiss();
+                            BloodTSApiManager.recycleBloodbag(finalWhereDialog.getFinalWhere(),bloodInfo.getBloodRowId(), new BloodTSApiManager.BloodOperationResultCallback() {
                                 @Override
-                                public void run() {
-                                    clearScanInfo();
-                                    bloodOperationResultDialog.dismiss();
+                                public void onSuccess(BloodOperationResultBean bloodOperationResult) {
+                                    if (bloodOperationResultDialog != null && bloodOperationResultDialog.isShowing()) {
+                                        bloodOperationResultDialog.dismiss();
+                                    }
+
+                                    bloodOperationResultDialog = new BloodOperationResultDialog(getActivity());
+
+                                    bloodOperationResultDialog.setExecresult("血袋回收成功");
+
+                                    bloodOperationResultDialog.setImgId(R.drawable.icon_popup_sucess);
+                                    bloodOperationResultDialog.setSureVisible(View.GONE);
+                                    bloodOperationResultDialog.show();
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            clearScanInfo();
+                                            bloodOperationResultDialog.dismiss();
+                                        }
+                                    }, 1000);
                                 }
-                            }, 1000);
-                        }
 
-                        @Override
-                        public void onFail(String code, String msg) {
-                            if (bloodOperationResultDialog != null && bloodOperationResultDialog.isShowing()) {
-                                bloodOperationResultDialog.dismiss();
-                            }
-                            bloodOperationResultDialog = new BloodOperationResultDialog(getActivity());
-                            bloodOperationResultDialog.setExecresult(msg);
-                            bloodOperationResultDialog.setImgId(R.drawable.icon_popup_error_patient);
-                            bloodOperationResultDialog.setSureVisible(View.VISIBLE);
-                            bloodOperationResultDialog.setSureOnclickListener(new BloodOperationResultDialog.onSureOnclickListener() {
                                 @Override
-                                public void onSureClick() {
-                                    clearScanInfo();
-                                    bloodOperationResultDialog.dismiss();
+                                public void onFail(String code, String msg) {
+                                    if (bloodOperationResultDialog != null && bloodOperationResultDialog.isShowing()) {
+                                        bloodOperationResultDialog.dismiss();
+                                    }
+                                    bloodOperationResultDialog = new BloodOperationResultDialog(getActivity());
+                                    bloodOperationResultDialog.setExecresult(msg);
+                                    bloodOperationResultDialog.setImgId(R.drawable.icon_popup_error_patient);
+                                    bloodOperationResultDialog.setSureVisible(View.VISIBLE);
+                                    bloodOperationResultDialog.setSureOnclickListener(new BloodOperationResultDialog.onSureOnclickListener() {
+                                        @Override
+                                        public void onSureClick() {
+                                            clearScanInfo();
+                                            bloodOperationResultDialog.dismiss();
+                                        }
+                                    });
+                                    bloodOperationResultDialog.show();
                                 }
                             });
-                            bloodOperationResultDialog.show();
+
                         }
                     });
+                    finalWhereDialog.show();
 
+                    finalWhereDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogInterface dialog) {
+                            clearScanInfo();
+                        }
+                    });
 
                 }
 

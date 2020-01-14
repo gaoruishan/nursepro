@@ -250,8 +250,8 @@ public class BloodTSApiManager {
         });
     }
 
-    public static void recycleBloodbag(String bloodRowId, final BloodOperationResultCallback callback) {
-        BloodTSApiService.recycleBloodbag(bloodRowId, new BloodTSApiService.ServiceCallBack() {
+    public static void recycleBloodbag(String finalWhere,String bloodRowId, final BloodOperationResultCallback callback) {
+        BloodTSApiService.recycleBloodbag(finalWhere,bloodRowId, new BloodTSApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();

@@ -292,6 +292,7 @@ public class WorkareaFragment extends BaseFragment {
                         @Override
                         public void onSureClick() {
                             if ("exe".equals(orderDialog.getBtnType())) {
+                                ordSpeed = orderDialog.getSpeed();
                                 execOrSeeOrderScan(patSaveInfo, orderDialog.getSttDateTime(), orderDialog.getArcimDesc(), orderDialog.getOrderId(), "F", orderDialog.getBedCode());
                                 orderDialog.dismiss();
                             } else {
@@ -317,12 +318,9 @@ public class WorkareaFragment extends BaseFragment {
                                 operateDialog.setChildOrders(orderDialog.getChildOrders());
                                 operateDialog.setOrderInfoEx(orderDialog.getOrderInfoEx());
                                 operateDialog.setViewVisibility(View.GONE, View.VISIBLE,View.VISIBLE,true);
-
-                                operateDialog.setSpeedUnit(scanResultBean.getFlowSpeed()+"");
-                                if (scanResultBean.getOrders().size()>0){
-                                    operateDialog.setSpeed(scanResultBean.getOrders().get(0).getSpeedFlowRate()+"");
-                                    ordSpeed =scanResultBean.getFlowSpeed()+"";
-                                }
+                                operateDialog.setSpeedUnit(scanResultBean.getFlowSpeedUnit()+"");
+                                operateDialog.setSpeed(scanResultBean.getFlowSpeed()+"");
+                                ordSpeed =scanResultBean.getFlowSpeed()+"";
                                 List ls = new ArrayList<String>();
                                 if (scanResultBean.getSpeedUnitList() != null){
                                     for (int i = 0; i < scanResultBean.getSpeedUnitList().size(); i++) {
@@ -369,10 +367,8 @@ public class WorkareaFragment extends BaseFragment {
                                 operateDialog.setChildOrders(orderDialog.getChildOrders());
                                 operateDialog.setOrderInfoEx(orderDialog.getOrderInfoEx());
                                 operateDialog.setSpeedUnit(scanResultBean.getFlowSpeedUnit()+"");
-                                if (scanResultBean.getOrders().size()>0){
-                                    operateDialog.setSpeed(scanResultBean.getOrders().get(0).getSpeedFlowRate()+"");
-                                    ordSpeed =scanResultBean.getFlowSpeed()+"";
-                                }
+                                operateDialog.setSpeed(scanResultBean.getFlowSpeed()+"");
+                                ordSpeed =scanResultBean.getFlowSpeed()+"";
                                 List ls = new ArrayList<String>();
                                 if (scanResultBean.getSpeedUnitList() != null){
                                     for (int i = 0; i < scanResultBean.getSpeedUnitList().size(); i++) {
@@ -413,16 +409,15 @@ public class WorkareaFragment extends BaseFragment {
                             operateDialog.setChildOrders(orderDialog.getChildOrders());
                             operateDialog.setOrderInfoEx(orderDialog.getOrderInfoEx());
                             operateDialog.setSpeedUnit(scanResultBean.getFlowSpeedUnit()+"");
-                            if (scanResultBean.getOrders().size()>0){
-                                operateDialog.setSpeed(scanResultBean.getOrders().get(0).getSpeedFlowRate()+"");
-                                ordSpeed =scanResultBean.getFlowSpeed()+"";
-                            }
+                            operateDialog.setSpeed(scanResultBean.getFlowSpeed()+"");
+                            ordSpeed =scanResultBean.getFlowSpeed()+"";
                             List ls = new ArrayList<String>();
                             if (scanResultBean.getSpeedUnitList() != null){
                                 for (int i = 0; i < scanResultBean.getSpeedUnitList().size(); i++) {
                                     ls.add(scanResultBean.getSpeedUnitList().get(i).getUnitDesc());
                                 }
                             }
+                            operateDialog.setSpiList(ls);
                             operateDialog.setViewVisibility(View.VISIBLE, View.VISIBLE,View.VISIBLE,true);
                             operateDialog.setOrderId(orderDialog.getOrderId());
                             operateDialog.setIfState(orderDialog.getIfState());
@@ -453,12 +448,9 @@ public class WorkareaFragment extends BaseFragment {
                             operateDialog.setChildOrders(orderDialog.getChildOrders());
                             operateDialog.setOrderInfoEx(orderDialog.getOrderInfoEx());
                             operateDialog.setViewVisibility(View.GONE, View.VISIBLE,View.VISIBLE,true);
-
                             operateDialog.setSpeedUnit(scanResultBean.getFlowSpeedUnit()+"");
-                            if (scanResultBean.getOrders().size()>0){
-                                operateDialog.setSpeed(scanResultBean.getOrders().get(0).getSpeedFlowRate()+"");
-                                ordSpeed =scanResultBean.getFlowSpeed()+"";
-                            }
+                            operateDialog.setSpeed(scanResultBean.getFlowSpeed()+"");
+                            ordSpeed =scanResultBean.getFlowSpeed()+"";
                             List ls = new ArrayList<String>();
                             if (scanResultBean.getSpeedUnitList() != null){
                                 for (int i = 0; i < scanResultBean.getSpeedUnitList().size(); i++) {
@@ -588,6 +580,16 @@ public class WorkareaFragment extends BaseFragment {
                         orderDialog.setArcimDesc(ordersBean.getArcimDesc());
                         orderDialog.setOrderId(ordersBean.getID());
                         orderDialog.setBedCode(ordersBean.getBedCode());
+                        orderDialog.setSpeedUnit(scanResultBean.getFlowSpeedUnit()+"");
+                        orderDialog.setSpeed(scanResultBean.getFlowSpeed()+"");
+                        ordSpeed =scanResultBean.getFlowSpeed()+"";
+                        List ls = new ArrayList<String>();
+                        if (scanResultBean.getSpeedUnitList() != null){
+                            for (int i = 0; i < scanResultBean.getSpeedUnitList().size(); i++) {
+                                ls.add(scanResultBean.getSpeedUnitList().get(i).getUnitDesc());
+                            }
+                        }
+                        orderDialog.setSpiList(ls);
                         orderDialog.setBtnType(scanResultBean.getBtnType());
                         orderDialog.setIfState(scanResultBean.getIfState());
 
@@ -683,7 +685,7 @@ public class WorkareaFragment extends BaseFragment {
             return;
         }
 
-        OrderExecuteApiManager.execOrSeeOrder(barCode, creattime, order, execpatInfo, "1", "", "", "", oeoreIdScan, execStatusCodeScan, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
+        OrderExecuteApiManager.execOrSeeOrder(ordSpeed,barCode, creattime, order, execpatInfo, "1", "", "", "", oeoreIdScan, execStatusCodeScan, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
             @Override
             public void onSuccess(OrderExecResultBean orderExecResultBean) {
                 barCode = "";

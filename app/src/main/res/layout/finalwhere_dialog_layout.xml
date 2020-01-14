@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="320dp"
+    android:layout_height="390dp"
+    android:layout_marginBottom="40dp"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/shape_dialog">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:background="@drawable/showmsg_dialog_bg"
+            android:layout_above="@+id/ll_sure"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="15dp"
+                android:gravity="center"
+                android:text="回收去向"
+                android:textColor="#FF62ABFF"
+                android:textSize="18sp" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+                <TextView
+                    android:id="@+id/tv_throw"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_blood_end_selector"
+                    android:gravity="center"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:text="废弃"
+                    android:textColor="@drawable/textcolor_blood_end_selector"
+                    android:textSize="15sp"
+                    android:layout_marginRight="@dimen/dp_10"
+                    />
+                <TextView
+                    android:id="@+id/tv_lab"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_blood_end_selector"
+                    android:gravity="center"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:text="检验科"
+                    android:textColor="@drawable/textcolor_blood_end_selector"
+                    android:textSize="15sp"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+                <TextView
+                    android:id="@+id/tv_blood"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_blood_end_selector"
+                    android:gravity="center"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:text="血库"
+                    android:textColor="@drawable/textcolor_blood_end_selector"
+                    android:textSize="15sp"
+                    android:layout_marginRight="@dimen/dp_10"
+                    />
+                <TextView
+                    android:id="@+id/tv_other"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_blood_end_selector"
+                    android:gravity="center"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:text="其他"
+                    android:textColor="@drawable/textcolor_blood_end_selector"
+                    android:textSize="15sp"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_sure"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/shape_dialog"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/no"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="No"
+                android:visibility="gone"
+                android:textColor="#7D7D7D"
+                android:textSize="16sp" />
+
+
+            <Button
+                android:id="@+id/yes"
+                android:layout_width="130dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="25dp"
+                android:background="@drawable/shape_btn_sure"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="确定"
+                android:textColor="@color/white"
+                android:textSize="17sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+
+</RelativeLayout>

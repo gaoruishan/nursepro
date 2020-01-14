@@ -67,7 +67,11 @@ public class WorkareaOperateDialog extends Dialog {
     private String speed = "";
 
     public String getSpeed() {
-        return speed;
+        if (etSpeed != null){
+            return etSpeed.getText().toString();
+        }else {
+            return speed;
+        }
     }
 
     public void setSpeed(String speed) {
