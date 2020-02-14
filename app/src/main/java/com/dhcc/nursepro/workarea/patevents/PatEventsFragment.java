@@ -50,7 +50,7 @@ public class PatEventsFragment extends BaseFragment implements View.OnClickListe
         super.onViewCreated(view, savedInstanceState);
         setToolbarType(BaseActivity.ToolbarType.TOP);
         setToolbarBottomLineVisibility(true);
-        setToolbarCenterTitle(getString(R.string.title_patevents), 0x62ABFF, 17);
+        setToolbarCenterTitle(getString(R.string.title_patevents), 0xffffffff, 17);
 
         initView(view);
         initAdapter();

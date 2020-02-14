@@ -55,10 +55,9 @@ public class DayPayListFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //状态栏 背景 默认蓝色
-//        setStatusBarBackgroundViewVisibility(true, 0xffffffff);
+        setStatusBarBackgroundViewVisibility(true, 0xffffffff);
         //toolbar type
         setToolbarType(BaseActivity.ToolbarType.TOP);
-        setToolbarBottomLineVisibility(false);
         //toolbar 背景 默认蓝色
         setToolbarBackground(new ColorDrawable(0xffffffff));
         //toolbar 导航按钮隐藏
@@ -66,7 +65,7 @@ public class DayPayListFragment extends BaseFragment {
         //toolbar 导航按钮显示 默认白色返回按钮
         //        showToolbarNavigationIcon();
         //返回按钮img设置
-        showToolbarNavigationIcon(R.drawable.icon_back_white);
+        showToolbarNavigationIcon(R.drawable.icon_back_blue);
         //toolbar 中间标题 默认黑色
         setToolbarCenterTitle(getString(R.string.title_daypaylist));
 
