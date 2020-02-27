@@ -36,11 +36,6 @@ import java.util.List;
  * @email:grs0515@163.com
  */
 public class WorkAreaFragment extends BaseFragment {
-    public static final String DOSING = "DOSING";
-    public static final String PUNCTURE = "PUNCTURE";
-    public static final String PATRAL = "PATRAL";
-    public static final String CONTINUE = "CONTINUE";
-    public static final String NEEDLES = "WITHDRAWALOFNEEDLES";
     private RecyclerView recConfig;
     private List<ConfigWorkArea.ListBean> ItemNameList = new ArrayList<>();
     private WorkAreaAdapter patEventsAdapter;

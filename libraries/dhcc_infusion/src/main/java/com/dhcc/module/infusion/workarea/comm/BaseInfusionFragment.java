@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
@@ -21,6 +22,7 @@ import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.utils.AppUtil;
 import com.base.commlibs.utils.BaseHelper;
+import com.base.commlibs.utils.CommDialog;
 import com.base.commlibs.utils.DataCache;
 import com.base.commlibs.utils.SimpleCallBack;
 import com.blankj.utilcode.util.ToastUtils;
@@ -89,8 +91,9 @@ public abstract class BaseInfusionFragment extends BaseFragment {
         }
         //加载配置
         initConfig();
+        //手动输入
+        addHandInputToToolbarRight();
     }
-
     private void setCommToolBar() {
         setStatusBarBackgroundViewVisibility(true, 0xffffffff);
         setToolbarBackground(new ColorDrawable(0xffffffff));
@@ -191,7 +194,9 @@ public abstract class BaseInfusionFragment extends BaseFragment {
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (setLayout() != 0) {
-            return inflater.inflate(setLayout(), container, false);
+            View view = inflater.inflate(setLayout(), container, false);
+            view.setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.white));
+            return view;
         }
         return null;
     }
@@ -345,15 +350,25 @@ public abstract class BaseInfusionFragment extends BaseFragment {
     }
 
     /**
-     * 设置ToolBar 右侧-患者列表
+     * 设置ToolBar
      */
-    protected void addPatListToToolbarRight() {
+    protected void addHandInputToToolbarRight() {
         View view = LayoutInflater.from(mContext).inflate(R.layout.tv_custom_view, null);
+        TextView tv = view.findViewById(R.id.tv_txt);
+        tv.setText("手动输入");
         setToolbarRightCustomView(view);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                startFragment(PatListFragment.class);
+                DialogFactory.showTest(mContext, new CommDialog.CommClickListener() {
+                    @Override
+                    public void data(Object[] args) {
+                        if(!TextUtils.isEmpty((String) args[0])){
+                            scanInfo = (String) args[0];
+                            getScanOrdList();
+                        }
+                    }
+                });
             }
         });
     }

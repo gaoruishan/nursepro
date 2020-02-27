@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.Looper;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.base.commlibs.BaseApplication;
@@ -190,7 +191,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
 
         String result = writer1.toString();
         errorInfo.append(result);
-
+        Log.e("CrashHandler","(CrashHandler.java:194) "+errorInfo.toString());
         //当前时间
         long curTime = System.currentTimeMillis();
         String time = mDateFormat.format(new Date());
