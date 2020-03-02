@@ -16,8 +16,10 @@ import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
 import com.base.commlibs.MessageEvent;
 import com.base.commlibs.constant.Action;
-import com.base.commlibs.http.CommonCallBack;
+import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.utils.RecyclerViewHelper;
+import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.StringUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.message.adapter.MessageAbnormalAdapter;
@@ -56,6 +58,8 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
     private MessageConsultationAdapter consultationAdapter = new MessageConsultationAdapter(new ArrayList<>());
     private MessageSkinAdapter messageSkinAdapter = new MessageSkinAdapter(new ArrayList<>());
     private RecyclerView recyMessageSkin;
+
+    private SPUtils spUtils = SPUtils.getInstance();
 
     @Override
     public void onClick(View v) {
@@ -133,13 +137,26 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
         MessageApiManager.getMessage(new MessageApiManager.GetMessageCallback() {
             @Override
             public void onSuccess(MessageBean msgs) {
+                //更新时间，防止登录跨天
+                if (msgs.getSchStDateTime() != null && msgs.getSchEnDateTime() != null) {
+                    spUtils.put(SharedPreference.SCHSTDATETIME, msgs.getSchStDateTime());
+                    spUtils.put(SharedPreference.SCHENDATETIME, msgs.getSchEnDateTime());
+
+                    if (StringUtils.isEmpty(msgs.getCurDateTime())) {
+                        spUtils.put(SharedPreference.CURDATETIME, msgs.getSchStDateTime());
+                    } else {
+                        spUtils.put(SharedPreference.CURDATETIME, msgs.getCurDateTime());
+                    }
+                }
+
+
                 //请求皮试
-//                getSkinTestMessage();
+                //getSkinTestMessage();
                 newOrdPatList = msgs.getNewOrdPatList();
                 abnormalPatList = msgs.getAbnormalPatList();
                 conPatList = msgs.getConPatList();
 
-                if (newOrdPatList == null){
+                if (newOrdPatList == null) {
                     newOrdPatList = new ArrayList<>();
                     llMessageNeworderTitle.setVisibility(View.GONE);
                     recyMessageNeworder.setVisibility(View.GONE);
@@ -156,7 +173,7 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
                     recyMessageNeworder.setVisibility(View.VISIBLE);
                 }
 
-                if (abnormalPatList == null){
+                if (abnormalPatList == null) {
                     abnormalPatList = new ArrayList<>();
                     llMessageAbnormalTitle.setVisibility(View.GONE);
                     recyMessageAbnormal.setVisibility(View.GONE);
@@ -173,7 +190,7 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
                     recyMessageAbnormal.setVisibility(View.VISIBLE);
                 }
 
-                if (conPatList == null){
+                if (conPatList == null) {
                     conPatList = new ArrayList<>();
                     consultationAdapter.setNewData(new ArrayList<>());
                     llMessageConsultationTitle.setVisibility(View.GONE);
@@ -200,18 +217,18 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
 
                 if (msgs.getSkinTimeList() != null && msgs.getSkinTimeList().size() > 0) {
                     switchSkinMessage(false);
-                }else {
+                } else {
                     switchSkinMessage(true);
                 }
-                if (msgs.getSkinTimeList() == null){
+                if (msgs.getSkinTimeList() == null) {
                     f(R.id.ll_message_skin_title).setVisibility(View.GONE);
-                }else {
+                } else {
                     f(R.id.ll_message_skin_title).setVisibility(View.VISIBLE);
                     messageSkinAdapter.replaceData(msgs.getSkinTimeList());
                 }
 
                 int messageNum = newOrdPatList.size() + abnormalPatList.size() + conPatList.size();
-                setMessage(messageNum,msgs.getSoundFlag(),msgs.getVibrateFlag());
+                setMessage(messageNum, msgs.getSoundFlag(), msgs.getVibrateFlag());
             }
 
             @Override
@@ -224,25 +241,24 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
     /**
      * 请求皮试消息
      */
-//    private void getSkinTestMessage() {
-//        //初始化
-//        switchSkinMessage(true);
-//        MessageApiManager.getSkinTestMessage(new CommonCallBack<MessageSkinBean>() {
-//            @Override
-//            public void onFail(String code, String msg) {
-//              ///  showToast("error" + code + ":" + msg);
-//            }
-//
-//            @Override
-//            public void onSuccess(MessageSkinBean bean, String type) {
-//                if (bean.getSkinTimeList() != null && bean.getSkinTimeList().size() > 0) {
-//                    switchSkinMessage(false);
-//                }
-//                messageSkinAdapter.replaceData(bean.getSkinTimeList());
-//            }
-//        });
-//    }
-
+    //    private void getSkinTestMessage() {
+    //        //初始化
+    //        switchSkinMessage(true);
+    //        MessageApiManager.getSkinTestMessage(new CommonCallBack<MessageSkinBean>() {
+    //            @Override
+    //            public void onFail(String code, String msg) {
+    //              ///  showToast("error" + code + ":" + msg);
+    //            }
+    //
+    //            @Override
+    //            public void onSuccess(MessageSkinBean bean, String type) {
+    //                if (bean.getSkinTimeList() != null && bean.getSkinTimeList().size() > 0) {
+    //                    switchSkinMessage(false);
+    //                }
+    //                messageSkinAdapter.replaceData(bean.getSkinTimeList());
+    //            }
+    //        });
+    //    }
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
@@ -266,17 +282,6 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
         initData();
         //注册事件总线
         EventBus.getDefault().register(this);
-    }
-
-    /**
-     * 接收事件- 更新数据
-     *
-     * @param event
-     */
-    @Subscribe
-    public void updateList(MessageEvent event) {
-        Log.e(getClass().getSimpleName(), "updateText:" + event.getType());
-//        getSkinTestMessage();
     }
 
     private void initView(View view) {
@@ -363,10 +368,10 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
             MessageApiManager.getMessage(new MessageApiManager.GetMessageCallback() {
                 @Override
                 public void onSuccess(MessageBean msgs) {
-                    int messageNum = (msgs.getNewOrdPatList()!=null?msgs.getNewOrdPatList().size():0)
-                            + (msgs.getAbnormalPatList()!=null?msgs.getAbnormalPatList().size():0)
-                            + (msgs.getConPatList()!=null?msgs.getConPatList().size():0);
-                    setMessage(messageNum,msgs.getSoundFlag(),msgs.getVibrateFlag());
+                    int messageNum = (msgs.getNewOrdPatList() != null ? msgs.getNewOrdPatList().size() : 0)
+                            + (msgs.getAbnormalPatList() != null ? msgs.getAbnormalPatList().size() : 0)
+                            + (msgs.getConPatList() != null ? msgs.getConPatList().size() : 0);
+                    setMessage(messageNum, msgs.getSoundFlag(), msgs.getVibrateFlag());
                 }
 
                 @Override
@@ -375,5 +380,16 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
                 }
             });
         }
+    }
+
+    /**
+     * 接收事件- 更新数据
+     *
+     * @param event
+     */
+    @Subscribe
+    public void updateList(MessageEvent event) {
+        Log.e(getClass().getSimpleName(), "updateText:" + event.getType());
+        //        getSkinTestMessage();
     }
 }

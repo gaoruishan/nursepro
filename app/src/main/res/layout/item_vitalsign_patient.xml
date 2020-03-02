@@ -240,8 +240,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="24dp"
             android:background="@drawable/vital_sign_border"
-            android:text="体温单预览"
-            android:visibility="gone" />
+            android:text="体温单预览" />
 
     </LinearLayout>
 

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dhcc.nursepro">
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.VIBRATE" >
-    </uses-permission>
+    <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
 
     <application
         android:name=".NApplication"
@@ -17,44 +17,42 @@
         android:roundIcon="@drawable/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".Activity.SplashActivity"
+        <activity
+            android:name=".Activity.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/StartAppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".login.LoginActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".Activity.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|locale|layoutDirection"
-            android:windowSoftInputMode="adjustPan"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
-
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="com.base.commlibs.UniversalActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|locale|layoutDirection"
-            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Slide" />
+            android:theme="@style/AppTheme.Slide"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name="com.base.commlibs.BaseActivity" />
-
         <activity
             android:name=".Activity.NurseSetActivity"
             android:screenOrientation="portrait" />
+
         <service
             android:name=".Activity.MyService"
-            android:label="newOrdService"/>
+            android:label="newOrdService" />
         <service
             android:name=".workarea.MServiceNewOrd"
-            android:label="newOrdService"/>
+            android:label="newOrdService" />
     </application>
 
 </manifest>

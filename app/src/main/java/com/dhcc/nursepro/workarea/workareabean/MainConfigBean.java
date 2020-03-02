@@ -8,38 +8,47 @@ import java.util.List;
 public class MainConfigBean {
 
     /**
-     * mainList : [{"moduleCode":"BEDMAP","moduleDesc":"床位图"},{"moduleCode":"VITALSIGN","moduleDesc":"生命体征"},{"moduleCode":"EVENTS","moduleDesc":"事件管理"},{"moduleCode":"DOCORDERLIST","moduleDesc":"医嘱单"},{"moduleCode":"CHECK","moduleDesc":"检查报告"},{"moduleCode":"LAB","moduleDesc":"检验报告"},{"moduleCode":"LABOUT","moduleDesc":"检验打包"},{"moduleCode":"NURTOUR","moduleDesc":"护理巡视"},{"moduleCode":"DOSINGREVIEW","moduleDesc":"输液复核"},{"moduleCode":"DOCORDERLIST","moduleDesc":"手术申请"},{"moduleCode":"BLOOD","moduleDesc":"输血系统"}]
+     * curDateTime : 2020-03-02 11:04:20
+     * ifVoice : Y
+     * mainConfig : ["BEDMAP","ORDERSEARCH","ORDEREXECUTE","ALLOTBED","VITALSIGN","EVENTS","CHECK","DOCORDERLIST","OPERATION","LAB","LABOUT","BLOOD","DOSINGREVIEW","MODELDETAIL","NURTOUR"]
+     * mainList : [{"moduleCode":"ALLOTBED","moduleDesc":"入院分床"},{"moduleCode":"BEDMAP","moduleDesc":"床位图"},{"moduleCode":"VITALSIGN","moduleDesc":"生命体征"},{"moduleCode":"ORDERSEARCH","moduleDesc":"医嘱查询"},{"moduleCode":"ORDEREXECUTE","moduleDesc":"医嘱执行"},{"moduleCode":"EVENTS","moduleDesc":"事件管理"},{"moduleCode":"DOCORDERLIST","moduleDesc":"医嘱单"},{"moduleCode":"CHECK","moduleDesc":"检查报告"},{"moduleCode":"LAB","moduleDesc":"检验报告"},{"moduleCode":"LABOUT","moduleDesc":"检验打包"},{"moduleCode":"MODELDETAIL","moduleDesc":"护理病历"},{"moduleCode":"NURTOUR","moduleDesc":"护理巡视"},{"moduleCode":"DOSINGREVIEW","moduleDesc":"输液复核"},{"moduleCode":"OPERATION","moduleDesc":"手术申请"},{"moduleCode":"BLOOD","moduleDesc":"输血系统"},{"moduleCode":"PATRECREG","moduleDesc":"接诊登记"},{"moduleCode":"PATWARDREG","moduleDesc":"病区登记"}]
      * msg :
      * msgcode : 999999
      * scantimes : 2
+     * schEnDateTime : 2020-03-03 23:59
+     * schStDateTime : 2020-03-02 00:00
      * screenParts : [{"commonKey":"false","danjuStr":"DefaultSee!PSD!BLD","keyCode":"phcinDesc","keyDesc":"用法","keyType":"Multiple","keyValue":"注射!IV!DV"},{"commonKey":"false","danjuStr":"DefaultSee!PSD!BLD","keyCode":"ordType","keyDesc":"类型","keyType":"Multiple","keyValue":"药品!检验!其他"},{"commonKey":"false","danjuStr":"DefaultSee!PSD!BLD","keyCode":"oecprDesc","keyDesc":"优先级","keyType":"Single","keyValue":"长期!临时"},{"commonKey":"true","danjuStr":"DefaultSee!PSD!BLD","keyCode":"exeFlag","keyDesc":"执行状态","keyType":"Single","keyValue":"未执行!已执行"}]
      * status : 0
      */
 
+    private String curDateTime;
+    private String ifVoice;
     private String msg;
     private String msgcode;
     private String scantimes;
-    private String status;
-    private List<MainListBean> mainList;
-    private List<ScreenPartsBean> screenParts;
     private String schEnDateTime;
     private String schStDateTime;
+    private String status;
+    private List<String> mainConfig;
+    private List<MainListBean> mainList;
+    private List<ScreenPartsBean> screenParts;
 
-    public String getSchEnDateTime() {
-        return schEnDateTime;
+    public String getCurDateTime() {
+        return curDateTime;
     }
 
-    public void setSchEnDateTime(String schEnDateTime) {
-        this.schEnDateTime = schEnDateTime;
+    public void setCurDateTime(String curDateTime) {
+        this.curDateTime = curDateTime;
     }
 
-    public String getSchStDateTime() {
-        return schStDateTime;
+    public String getIfVoice() {
+        return ifVoice;
     }
 
-    public void setSchStDateTime(String schStDateTime) {
-        this.schStDateTime = schStDateTime;
+    public void setIfVoice(String ifVoice) {
+        this.ifVoice = ifVoice;
     }
+
     public String getMsg() {
         return msg;
     }
@@ -62,6 +71,22 @@ public class MainConfigBean {
 
     public void setScantimes(String scantimes) {
         this.scantimes = scantimes;
+    }
+
+    public String getSchEnDateTime() {
+        return schEnDateTime;
+    }
+
+    public void setSchEnDateTime(String schEnDateTime) {
+        this.schEnDateTime = schEnDateTime;
+    }
+
+    public String getSchStDateTime() {
+        return schStDateTime;
+    }
+
+    public void setSchStDateTime(String schStDateTime) {
+        this.schStDateTime = schStDateTime;
     }
 
     public String getStatus() {
@@ -90,8 +115,8 @@ public class MainConfigBean {
 
     public static class MainListBean {
         /**
-         * moduleCode : BEDMAP
-         * moduleDesc : 床位图
+         * moduleCode : ALLOTBED
+         * moduleDesc : 入院分床
          */
 
         private String moduleCode;
