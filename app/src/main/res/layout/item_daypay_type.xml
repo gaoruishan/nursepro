@@ -13,7 +13,7 @@
         >
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/dp_40"
+            android:layout_height="@dimen/dp_35"
             android:gravity="center_vertical"
             android:orientation="horizontal">
             <TextView
@@ -46,7 +46,7 @@
             android:background="#ECECEC"/>
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/dp_40"
+            android:layout_height="@dimen/dp_35"
             android:gravity="center_vertical"
             android:orientation="horizontal">
             <TextView
@@ -80,13 +80,13 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/dp_40"
+            android:layout_height="@dimen/dp_35"
             android:gravity="center_vertical"
             android:orientation="horizontal">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="费用："
+                android:text="总费用："
                 android:textColor="#ff4a4a4a"
                 android:textSize="15sp"
                 android:layout_marginLeft="@dimen/dp_10"
@@ -96,7 +96,7 @@
                 android:layout_height="1dp"
                 android:layout_weight="1"/>
             <TextView
-                android:id="@+id/tv_payed"
+                android:id="@+id/tv_infee"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="2019-01-20  09:26"
@@ -114,7 +114,7 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/dp_40"
+            android:layout_height="@dimen/dp_35"
             android:gravity="center_vertical"
             android:orientation="horizontal">
             <TextView
@@ -131,6 +131,40 @@
                 android:layout_weight="1"/>
             <TextView
                 android:id="@+id/tv_balance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="2019-01-20  09:26"
+                android:textColor="#ff000000"
+                android:textSize="15sp"
+                android:layout_marginRight="@dimen/dp_10"
+                />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
+            android:background="#ECECEC"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_35"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="当日费用："
+                android:textColor="#ff4a4a4a"
+                android:textSize="15sp"
+                android:layout_marginLeft="@dimen/dp_10"
+                />
+            <View
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="1dp"
+                android:layout_weight="1"/>
+            <TextView
+                android:id="@+id/tv_payed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="2019-01-20  09:26"

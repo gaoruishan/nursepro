@@ -25,15 +25,16 @@ import java.util.List;
 public class DayPayTypeAdapter extends BaseQuickAdapter<DayPayListBean.PriceListBean, BaseViewHolder> {
 
     private DayPayListAdapter dayPayListAdapter;
-    private String inHosTime,prePay,balance,totalSum;
+    private String inHosTime,prePay,balance,totalSum,inFee;
     public DayPayTypeAdapter(@Nullable List<DayPayListBean.PriceListBean> data) {
         super(R.layout.item_daypay_type, data);
     }
-    public void setPayInfo(String inHosTime,String prePay,String balance,String totalSum){
+    public void setPayInfo(String inHosTime,String prePay,String balance,String totalSum,String inFee){
         this.inHosTime = inHosTime;
         this.prePay = prePay;
         this.balance = balance;
         this.totalSum = totalSum;
+        this.inFee = inFee;
     }
 
     @Override
@@ -47,7 +48,8 @@ public class DayPayTypeAdapter extends BaseQuickAdapter<DayPayListBean.PriceList
             helper.setText(R.id.tv_inhostime,inHosTime)
                     .setText(R.id.tv_prepay,prePay)
                     .setText(R.id.tv_balance,balance)
-                    .setText(R.id.tv_payed,totalSum);
+                    .setText(R.id.tv_payed,totalSum)
+                    .setText(R.id.tv_infee,inFee);
         }else {
             llPayInfo.setVisibility(View.GONE);
         }

@@ -42,6 +42,7 @@ public class WorkareaOperateDialog extends Dialog {
     private ImageView imgRemarkinfoDrop;
     private TextView tvPopupSure;
     private TextView tvPopupOrdercancel;
+    private ImageView imgCancle;
 
     private String patInfo = "";
     private List<ScanResultBean.OrdersBean> childOrders = new ArrayList<>();
@@ -218,6 +219,13 @@ public class WorkareaOperateDialog extends Dialog {
         imgRemarkinfoDrop = findViewById(R.id.img_remarkinfo_drop);
         tvPopupSure = findViewById(R.id.tv_popup_sure);
         tvPopupOrdercancel = findViewById(R.id.tv_popup_ordercancel);
+        imgCancle = findViewById(R.id.img_cancle);
+        imgCancle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
 
         //提高展示效率
         recyPopupChildOrderInfo.setHasFixedSize(true);
@@ -329,4 +337,8 @@ public class WorkareaOperateDialog extends Dialog {
         void onCancelClick();
     }
 
+    @Override
+    public void setCanceledOnTouchOutside(boolean cancel) {
+        super.setCanceledOnTouchOutside(false);
+    }
 }

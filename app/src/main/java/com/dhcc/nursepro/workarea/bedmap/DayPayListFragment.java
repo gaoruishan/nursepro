@@ -140,7 +140,7 @@ public class DayPayListFragment extends BaseFragment {
                 tvInHosTime.setText(dayPayListBean.getPatInfo().getInHospDateTime());
                 tvPrePay.setText(dayPayListBean.getPatInfo().getPrepay());
                 tvBalance.setText(dayPayListBean.getPatInfo().getBalance());
-                tvTotalSum.setText(dayPayListBean.getPatInfo().getTotalSum());
+                tvTotalSum.setText(dayPayListBean.getPatInfo().getInfee());
                 tvInFee.setText(dayPayListBean.getPatInfo().getInfee());
                 if (dayPayListBean.getPriceList().size()<1){
                     llPayEmp.setVisibility(View.VISIBLE);
@@ -149,7 +149,7 @@ public class DayPayListFragment extends BaseFragment {
                     llPayEmp.setVisibility(View.GONE);
                     llPayInfo.setVisibility(View.GONE);
                 }
-                dayPayTypeAdapter.setPayInfo(dayPayListBean.getPatInfo().getInHospDateTime(),dayPayListBean.getPatInfo().getPrepay(),dayPayListBean.getPatInfo().getBalance(),dayPayListBean.getPatInfo().getTotalSum());
+                dayPayTypeAdapter.setPayInfo(dayPayListBean.getPatInfo().getInHospDateTime(),dayPayListBean.getPatInfo().getPrepay(),dayPayListBean.getPatInfo().getBalance(),dayPayListBean.getPatInfo().getTotalSum(),dayPayListBean.getPatInfo().getInfee());
                 dayPayTypeAdapter.setNewData(dayPayListBean.getPriceList());
                 dayPayTypeAdapter.notifyDataSetChanged();
 

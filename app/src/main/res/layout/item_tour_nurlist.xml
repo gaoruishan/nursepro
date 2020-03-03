@@ -109,8 +109,7 @@
                 android:textSize="13sp"/>
             <TextView
                 android:id="@+id/tv_tourall_nurse2"
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
@@ -119,12 +118,20 @@
                 android:layout_marginRight="10dp"
                 android:gravity="end"
                 android:textSize="13sp"/>
-            <ImageView
-                android:id="@+id/tv_tournurlist_img"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_marginEnd="8dp"
-                android:src="@drawable/icon_tourlist_selector"/>
+            <RelativeLayout
+                android:id="@+id/rl_img"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <ImageView
+                    android:id="@+id/tv_tournurlist_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="16dp"
+                    android:paddingEnd="8dp"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/icon_tourlist_selector"/>
+            </RelativeLayout>
+
         </LinearLayout>
     <View
         android:id="@+id/view_tour_nurlist"

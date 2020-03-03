@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -49,6 +50,7 @@ public class WorkareaOrderDialog extends Dialog {
     private LinearLayout llExbtn2;
     private TextView tvPopupOrderStop;
     private TextView tvPopupOrderEnd;
+    private ImageView imgCancle;
 
 
     private String patInfo = "";
@@ -419,6 +421,13 @@ public class WorkareaOrderDialog extends Dialog {
         llExbtn2 = findViewById(R.id.ll_exbtn2);
         tvPopupOrderStop = findViewById(R.id.tv_popup_order_stop);
         tvPopupOrderEnd = findViewById(R.id.tv_popup_order_end);
+        imgCancle = findViewById(R.id.img_cancle);
+        imgCancle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
 
         //提高展示效率
         recyPopupChildOrderInfo.setHasFixedSize(true);
@@ -669,5 +678,8 @@ public class WorkareaOrderDialog extends Dialog {
     public interface onEndOnclickListener {
         void onEndClick();
     }
-
+    @Override
+    public void setCanceledOnTouchOutside(boolean cancel) {
+        super.setCanceledOnTouchOutside(false);
+    }
 }

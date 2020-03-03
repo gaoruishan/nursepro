@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.ConvertUtils;
@@ -91,10 +92,11 @@ public class NurTourListAdapter extends BaseQuickAdapter<GradeTourListBean.PatIn
             }
         });
         ImageView img = helper.getView(R.id.tv_tournurlist_img);
+        RelativeLayout rlImg = helper.getView(R.id.rl_img);
         img.setSelected(false);
         llAccount.setVisibility(View.GONE);
         viewNur.setVisibility(View.GONE);
-        img.setOnClickListener(new View.OnClickListener() {
+        rlImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (llAccount.getVisibility() == View.VISIBLE){
