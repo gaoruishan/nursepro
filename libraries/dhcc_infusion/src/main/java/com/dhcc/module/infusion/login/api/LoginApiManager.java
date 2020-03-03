@@ -1,9 +1,10 @@
 package com.dhcc.module.infusion.login.api;
 
+import com.base.commlibs.bean.LoginBean;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.http.ParserUtil;
 import com.base.commlibs.http.ServiceCallBack;
-import com.base.commlibs.bean.LoginBean;
+import com.base.commlibs.utils.TransBroadcastUtil;
 import com.dhcc.module.infusion.login.bean.ScanCodeBean;
 
 /**
@@ -39,4 +40,17 @@ public class LoginApiManager {
     }
 
 
+    public static void initBroadcastList() {
+        LoginApiManager.getBroadcastList(new CommonCallBack<ScanCodeBean>() {
+            @Override
+            public void onFail(String code, String msg) {
+
+            }
+
+            @Override
+            public void onSuccess(ScanCodeBean bean, String type) {
+                TransBroadcastUtil.setScanActionList(bean.getBroadcastList());
+            }
+        });
+    }
 }

@@ -35,7 +35,6 @@ import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.db.GreenDaoHelper;
 import com.dhcc.module.infusion.db.InfusionInfo;
 import com.dhcc.module.infusion.login.api.LoginApiManager;
-import com.dhcc.module.infusion.login.bean.ScanCodeBean;
 import com.dhcc.module.infusion.login.windowpicker.Ward;
 import com.dhcc.module.infusion.login.windowpicker.Window;
 import com.dhcc.module.infusion.login.windowpicker.WindowPicker;
@@ -91,7 +90,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         nurseInfoList = GreenDaoHelper.getDaoSession().getInfusionInfoDao().queryBuilder().list();
         initView();
         //获取广播码
-        getBroadcastList();
+        LoginApiManager.initBroadcastList();
         openMultiScan(AppUtil.isMultiScan());
         //请求SD卡权限
         PermissionUtils.permission(PermissionConstants.STORAGE).request();
@@ -114,19 +113,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     public void openBrowser(View v) {
         BaseWebServiceUtils.openBrowser(this);
-    }
-    private void getBroadcastList() {
-        LoginApiManager.getBroadcastList(new CommonCallBack<ScanCodeBean>() {
-            @Override
-            public void onFail(String code, String msg) {
-
-            }
-
-            @Override
-            public void onSuccess(ScanCodeBean bean, String type) {
-                TransBroadcastUtil.setScanActionList(bean.getBroadcastList());
-            }
-        });
     }
 
     @Override
@@ -278,7 +264,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     if (AppUtil.isIP(ip)) {
                         UserUtil.setWebIpAndPath(ip,showDialog.getAddr());
                         //重写请求
-                        getBroadcastList();
+                        LoginApiManager.initBroadcastList();
                         showDialog.dismiss();
                     } else {
                         showToast("IP格式不正确，请重新输入");

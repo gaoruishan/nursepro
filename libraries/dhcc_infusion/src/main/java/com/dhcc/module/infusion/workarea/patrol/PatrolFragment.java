@@ -73,7 +73,7 @@ public class PatrolFragment extends BaseInfusionFragment implements View.OnClick
         showScanLabel();
     }
 
-   @Override
+    @Override
     protected void getScanOrdList() {
 
         getOrdList(scanInfo);
@@ -108,7 +108,7 @@ public class PatrolFragment extends BaseInfusionFragment implements View.OnClick
                 csvScan.setVisibility(View.GONE);
                 //两次验证
 //                auditOrdInfo(bean.getOrdList(),bean.getCurRegNo(),bean.getCurOeoreId());
-                setCustomPatViewData(cpvPat,bean.getPatInfo());
+                setCustomPatViewData(cpvPat, bean.getPatInfo());
                 csvSpeed.setSpeed(bean.getDefautSpeed());
                 csvSelectTime.setTitle("预计结束时间").setSelectTime(getFragmentManager(), bean.getDistantDate(), bean.getDistantTime(), null);
                 List<PatrolBean.InfusionStateListBean> stateList = bean.getInfusionStateList();
@@ -120,9 +120,10 @@ public class PatrolFragment extends BaseInfusionFragment implements View.OnClick
                     csvSelectStatus.setTitle("输液情况").setSelectData(getActivity(), list, new OptionPicker.OnOptionPickListener() {
                         @Override
                         public void onOptionPicked(int index, String item) {
+                            PatrolBean.InfusionStateListBean infusionStateListBean = stateList.get(index);
                             csvSelectReason.setVisibility(View.GONE);
                             llMeasure.setVisibility(View.GONE);
-                            if (PatrolBean.State_Pause.equals(item)) {
+                            if (PatrolBean.State_Pause.equals(item) || "1".equals(infusionStateListBean.getInfusionStateFlag())) {
                                 List<PatrolBean.InfusionReasonListBean> reasonList = bean.getInfusionReasonList();
                                 if (reasonList != null) {
                                     List<String> list = new ArrayList<>();
@@ -130,7 +131,7 @@ public class PatrolFragment extends BaseInfusionFragment implements View.OnClick
                                         list.add(b.getInfusionReason());
                                     }
                                     llMeasure.setVisibility(View.VISIBLE);
-                                    csvSelectReason.setTitle("暂停原因").setSelectData(getActivity(), list, null).setVisibility(View.VISIBLE);
+                                    csvSelectReason.setTitle(item + "原因").setSelectData(getActivity(), list, null).setVisibility(View.VISIBLE);
                                 }
                             }
                         }
@@ -138,7 +139,7 @@ public class PatrolFragment extends BaseInfusionFragment implements View.OnClick
                 }
                 ordListAdapter.replaceData(bean.getOrdList());
                 ordListAdapter.setCurrentScanInfo(scanInfo);
-                scrollToPosition(rvOrdList,bean.getOrdList());
+                scrollToPosition(rvOrdList, bean.getOrdList());
                 boolean isShow = bean.getInfusionTourList() == null || bean.getInfusionTourList().size() == 0;
                 mContainerChild.findViewById(R.id.ll_patrol_status).setVisibility(isShow ? View.GONE : View.VISIBLE);
                 tourAdapter.replaceData(bean.getInfusionTourList());
@@ -171,14 +172,14 @@ public class PatrolFragment extends BaseInfusionFragment implements View.OnClick
             if (PatrolBean.State_Finsh.equals(csvSelectStatus.getSelect())) {
                 final String finalOeoreId = oeoreId;
                 final String finalTourContent = tourContent;
-                DialogFactory.showCommOkCancelDialog(getActivity(), "提示","您确定'结束'输液?", "取消","确定", null, new View.OnClickListener() {
+                DialogFactory.showCommOkCancelDialog(getActivity(), "提示", "您确定'结束'输液?", "取消", "确定", null, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        tourOrd(finalOeoreId, speed,  distantTime, finalTourContent);
+                        tourOrd(finalOeoreId, speed, distantTime, finalTourContent);
                     }
                 });
-            }else {
-                tourOrd(oeoreId, speed,  distantTime, tourContent);
+            } else {
+                tourOrd(oeoreId, speed, distantTime, tourContent);
             }
         }
     }
