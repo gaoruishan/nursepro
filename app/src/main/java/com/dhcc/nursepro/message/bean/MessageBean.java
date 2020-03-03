@@ -23,6 +23,18 @@ public class MessageBean {
     private List<NewOrdPatListBean> newOrdPatList;
     private String soundFlag;
     private String vibrateFlag;
+    /**
+     * conPatList : []
+     * curDateTime : 2020-03-02 11:13:24
+     * newOrdPatList : []
+     * schEnDateTime : 2020-03-03 23:59
+     * schStDateTime : 2020-03-02 00:00
+     * skinTimeList : []
+     */
+
+    private String curDateTime;
+    private String schEnDateTime;
+    private String schStDateTime;
 
     public String getSoundFlag() {
         return soundFlag;
@@ -87,6 +99,30 @@ public class MessageBean {
 
     public void setNewOrdPatList(List<NewOrdPatListBean> newOrdPatList) {
         this.newOrdPatList = newOrdPatList;
+    }
+
+    public String getCurDateTime() {
+        return curDateTime;
+    }
+
+    public void setCurDateTime(String curDateTime) {
+        this.curDateTime = curDateTime;
+    }
+
+    public String getSchEnDateTime() {
+        return schEnDateTime;
+    }
+
+    public void setSchEnDateTime(String schEnDateTime) {
+        this.schEnDateTime = schEnDateTime;
+    }
+
+    public String getSchStDateTime() {
+        return schStDateTime;
+    }
+
+    public void setSchStDateTime(String schStDateTime) {
+        this.schStDateTime = schStDateTime;
     }
 
     public static class AbnormalPatListBean {
@@ -295,11 +331,11 @@ public class MessageBean {
 
     private List<SkinTimeListBean> skinTimeList;
 
-    public List<MessageBean.SkinTimeListBean> getSkinTimeList() {
+    public List<SkinTimeListBean> getSkinTimeList() {
         return skinTimeList;
     }
 
-    public void setSkinTimeList(List<MessageBean.SkinTimeListBean> SkinTimeList) {
+    public void setSkinTimeList(List<SkinTimeListBean> SkinTimeList) {
         this.skinTimeList = SkinTimeList;
     }
 

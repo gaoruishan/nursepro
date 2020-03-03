@@ -26,6 +26,7 @@ import com.dhcc.nursepro.workarea.patevents.PatEventsFragment;
 import com.dhcc.nursepro.workarea.vitalsign.adapter.VitalSignPatientAdapter;
 import com.dhcc.nursepro.workarea.vitalsign.adapter.VitalSignTypeAdapter;
 import com.dhcc.nursepro.workarea.vitalsign.api.VitalSignApiManager;
+import com.dhcc.nursepro.workarea.vitalsigndetail.VitalSignChartsDetailFragment;
 import com.dhcc.nursepro.workarea.vitalsigndetail.VitalSignDetailFragment;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.core.ImagePipeline;
@@ -170,9 +171,15 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                 } else if (view.getId() == R.id.tv_vitalsign_tmp_preview) {
                     //体温单预览
 
+//                    String episodeId = (String) patientInfo.get("episodeId");
+//                    //                    viewPatientTempImages("94");
+//                    viewPatientTempImages(episodeId);
+
                     String episodeId = (String) patientInfo.get("episodeId");
-                    //                    viewPatientTempImages("94");
-                    viewPatientTempImages(episodeId);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("episodeId", episodeId);
+                    bundle.putInt("index", position);
+                    startFragment(VitalSignChartsDetailFragment.class, bundle);
 
                 } else {
                     //普通点击

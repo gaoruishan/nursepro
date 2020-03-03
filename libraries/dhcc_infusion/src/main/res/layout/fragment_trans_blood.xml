@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40">
+            <TextView
+                android:layout_width="@dimen/dp_80"
+                android:text="复核"
+                android:gravity="center"
+                android:layout_height="@dimen/dp_30"/>
+            <TextView
+                android:layout_width="@dimen/dp_80"
+                android:text="穿刺"
+                android:gravity="center"
+                android:layout_height="@dimen/dp_30"/>
+            <TextView
+                android:layout_width="@dimen/dp_80"
+                android:text="输注"
+                android:gravity="center"
+                android:layout_height="@dimen/dp_30"/>
+            <TextView
+                android:layout_width="@dimen/dp_80"
+                android:text="巡视"
+                android:gravity="center"
+                android:layout_height="@dimen/dp_30"/>
+            <TextView
+                android:layout_width="@dimen/dp_80"
+                android:text="输血结束"
+                android:gravity="center"
+                android:layout_height="@dimen/dp_30"/>
+
+        </LinearLayout>
+    </HorizontalScrollView>
+</LinearLayout>

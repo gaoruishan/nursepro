@@ -86,7 +86,12 @@ public class LocalTestManager {
         }
         return false;
     }
-
+    public static boolean isTest() {
+        if (TEST) {
+            return !TextUtils.isEmpty(SPUtils.getInstance().getString(SharedPreference.USERID));
+        }
+        return false;
+    }
     public static void clear() {
         errNum.clear();//清空
     }

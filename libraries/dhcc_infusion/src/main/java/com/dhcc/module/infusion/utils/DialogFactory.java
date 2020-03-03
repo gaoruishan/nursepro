@@ -307,4 +307,23 @@ public class DialogFactory extends CommDialog {
         }
         return new Dialog(context, R.style.MyDialog);
     }
+
+    public static void showTest(Activity context, final CommClickListener okClick) {
+        dialog = getDialog(context);
+        dialog.setCanceledOnTouchOutside(true);
+        final View view = LayoutInflater.from(context).inflate(R.layout.test_dialog_layout, null);
+        TextView btn = view.findViewById(R.id.btn_yes);
+        btn.setVisibility(View.VISIBLE);
+        btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.cancel();
+                    if (okClick != null) {
+                        okClick.data(new Object[]{getText(view, R.id.et_txt)});
+                    }
+                }
+            });
+
+        showCenterWindow(dialog, view);
+    }
 }

@@ -146,6 +146,15 @@ public class PatrolBean extends CommResult {
          */
 
         private String InfusionState;
+        private String InfusionStateFlag;
+
+        public String getInfusionStateFlag() {
+            return InfusionStateFlag == null ? "" : InfusionStateFlag;
+        }
+
+        public void setInfusionStateFlag(String infusionStateFlag) {
+            InfusionStateFlag = infusionStateFlag;
+        }
 
         public String getInfusionState() {
             return InfusionState;

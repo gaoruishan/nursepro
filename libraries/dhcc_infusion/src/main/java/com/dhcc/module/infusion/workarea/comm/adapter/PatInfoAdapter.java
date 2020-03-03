@@ -50,16 +50,20 @@ public class PatInfoAdapter extends BaseQuickAdapter<PatDetailBean.RecOrdListBea
         commDosingAdapter.replaceData(item.getOrdList());
         //箭头切换
         final SelectorImageView sivSelector = helper.getView(R.id.siv_selector);
-        sivSelector.setOnSelectorListener(new View.OnClickListener() {
+        View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                sivSelector.toggle();
                 helper.setGone(R.id.rv_item_pat, sivSelector.isCheck());
                 helper.setGone(R.id.v_line_pat, !sivSelector.isCheck());
                 if (!PAT_STATE_2.equals(item.getRecOrdState())) {
                     helper.setGone(R.id.ll_bg_color, !sivSelector.isCheck());
                 }
             }
-        });
+        };
+        helper.getView(R.id.ll_head_sw).setOnClickListener(onClickListener);
+        helper.getView(R.id.tv_radius).setOnClickListener(onClickListener);
+        sivSelector.setOnClickListener(onClickListener);
         //完成/异常 显示--已完成--
         boolean b = PAT_STATE_3.equals(item.getRecOrdState()) || PAT_STATE_4.equals(item.getRecOrdState());
         helper.setGone(R.id.ll_drive_pat, false);

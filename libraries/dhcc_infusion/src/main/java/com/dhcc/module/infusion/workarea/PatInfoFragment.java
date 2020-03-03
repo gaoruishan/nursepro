@@ -28,6 +28,10 @@ public class PatInfoFragment extends BaseInfusionFragment {
     private PatInfoAdapter patInfoAdapter;
     private CustomPatView cpvPat;
 
+    @Override
+    protected void addHandInputToToolbarRight() {
+
+    }
 
     @Override
     protected int setLayout() {

@@ -44,6 +44,11 @@ public class MedicalDetailFragment extends BaseInfusionFragment {
     private RecyclerView rvOrdList;
 
     @Override
+    protected void addHandInputToToolbarRight() {
+        
+    }
+
+    @Override
     protected int setLayout() {
         return R.layout.fragment_medical_detail;
     }
@@ -129,14 +134,14 @@ public class MedicalDetailFragment extends BaseInfusionFragment {
     private List<OrdInfoBean.OrdInfoArrBean.OrdWorkListBean> getGroupOrdWork(List<OrdInfoBean.OrdInfoArrBean.OrdWorkListBean> ordWorkList) {
         Set<String> attrIdSet = new HashSet<>();
         for (OrdInfoBean.OrdInfoArrBean.OrdWorkListBean bean : ordWorkList) {
-            attrIdSet.add(bean.getWorkCode());
+            attrIdSet.add(bean.getWorkType());
         }
         List<OrdInfoBean.OrdInfoArrBean.OrdWorkListBean> allOrdWorkList = new ArrayList<>();
         for (String code : attrIdSet) {
             OrdInfoBean.OrdInfoArrBean.OrdWorkListBean ordWorkListBean = new OrdInfoBean.OrdInfoArrBean.OrdWorkListBean();
             List<OrdInfoBean.OrdInfoArrBean.OrdWorkListBean> childOrdWorkList = new ArrayList<>();
             for (OrdInfoBean.OrdInfoArrBean.OrdWorkListBean bean : ordWorkList) {
-                if (code.equals(bean.getWorkCode())) {
+                if (code.equals(bean.getWorkType())) {
                     childOrdWorkList.add(bean);
                 }
             }
