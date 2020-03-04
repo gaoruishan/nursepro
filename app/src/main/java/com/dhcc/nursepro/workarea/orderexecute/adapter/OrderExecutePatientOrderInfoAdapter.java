@@ -120,7 +120,7 @@ public class OrderExecutePatientOrderInfoAdapter extends BaseQuickAdapter<OrderE
                 }else {
                     llExe2.setVisibility(View.VISIBLE);
                     helper.setText(R.id.tv_executed_time2,orderInfoBean.getExecDateTime());
-                    helper.setText(R.id.tv_executed_nur1,orderInfoBean.getExecCtcpDesc());
+                    helper.setText(R.id.tv_executed_nur2,orderInfoBean.getExecCtcpDesc());
                 }
                 helper.setText(R.id.tv_oeporderinfo_orderdose1, orderInfoBean.getDoseQtyUnit())
                         .setText(R.id.tv_oeporderinfo_orderdatetime2, orderInfoBean.getSttDateTime())

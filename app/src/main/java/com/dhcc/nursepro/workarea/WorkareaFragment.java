@@ -581,6 +581,9 @@ public class WorkareaFragment extends BaseFragment {
                         if ("Y".equals(ordersBean.getVerifyFlag())) {
                             orderInfoEx = orderInfoEx + "\n" + "复核： " + ordersBean.getFuHeDate() + " " + ordersBean.getFuHeTime() + " " + ordersBean.getFuHeUser();
                         }
+                        if (ordersBean.getExecDateTime() != null && !ordersBean.getExecDateTime().equals("")&& ordersBean.getExecCtcpDesc()!=null&& !ordersBean.getExecCtcpDesc().equals("")){
+                            orderInfoEx = orderInfoEx +"\n"+"执行："+ordersBean.getExecDateTime()+" "+ordersBean.getExecCtcpDesc();
+                        }
                         orderDialog.setOrderInfoEx(orderInfoEx);
 
                         //功能区扫码 附加数据
