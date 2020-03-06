@@ -314,10 +314,12 @@ public class WorkareaOrderDialog extends Dialog {
                         tvPopupOrderExec.setEnabled(true);
                         tvPopupOrderExec.setClickable(true);
                         tvPopupOrderExec.setBackgroundResource(R.drawable.bg_dialog_sure);
+                        tvPopupMsg.setText(tvPopupMsg.getText().toString().replace(",请扫描患者腕带",""));
                     } else {
                         tvPopupOrderExec.setEnabled(false);
                         tvPopupOrderExec.setClickable(false);
                         tvPopupOrderExec.setBackgroundResource(R.drawable.bg_dialog_unclick);
+                        tvPopupMsg.setText(tvPopupMsg.getText()+",请扫描患者腕带");
                     }
                     break;
                 case "exed":
@@ -568,10 +570,12 @@ public class WorkareaOrderDialog extends Dialog {
                     tvPopupOrderExec.setEnabled(true);
                     tvPopupOrderExec.setClickable(true);
                     tvPopupOrderExec.setBackgroundResource(R.drawable.bg_dialog_sure);
+                    tvPopupMsg.setText(tvPopupMsg.getText().toString().replace(",请扫描患者腕带",""));
                 } else {
                     tvPopupOrderExec.setEnabled(false);
                     tvPopupOrderExec.setClickable(false);
                     tvPopupOrderExec.setBackgroundResource(R.drawable.bg_dialog_unclick);
+                    tvPopupMsg.setText(tvPopupMsg.getText()+",请扫描患者腕带");
                 }
                 break;
             case "exed":
