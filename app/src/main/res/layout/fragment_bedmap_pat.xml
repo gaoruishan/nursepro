@@ -110,81 +110,76 @@
 
                 <TextView
                     android:id="@+id/tv_bedmappat_operation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/dp_19"
+                    android:layout_height="@dimen/dp_20"
+                    android:gravity="center"
                     android:layout_marginEnd="6dp"
                     android:background="@drawable/bg_rectangle_blue"
-                    android:paddingBottom="2dp"
-                    android:paddingEnd="3dp"
-                    android:paddingStart="3dp"
-                    android:paddingTop="1dp"
                     android:text="术"
                     android:textColor="@color/white" />
 
                 <TextView
                     android:id="@+id/tv_bedmappat_critical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/dp_19"
+                    android:layout_height="@dimen/dp_20"
+                    android:gravity="center"
                     android:layout_marginEnd="6dp"
                     android:background="@drawable/bg_rectangle_red"
-                    android:paddingBottom="2dp"
-                    android:paddingEnd="3dp"
-                    android:paddingStart="3dp"
-                    android:paddingTop="1dp"
                     android:text="危"
                     android:textColor="@color/white" />
 
                 <TextView
                     android:id="@+id/tv_bedmappat_arrears"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/dp_19"
+                    android:layout_height="@dimen/dp_20"
+                    android:gravity="center"
                     android:layout_marginEnd="6dp"
                     android:background="@drawable/bg_rectangle_yellow"
-                    android:paddingBottom="2dp"
-                    android:paddingEnd="3dp"
-                    android:paddingStart="3dp"
-                    android:paddingTop="1dp"
                     android:text="欠"
                     android:textColor="@color/white" />
 
                 <TextView
                     android:id="@+id/tv_bedmappat_criticalvalue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/dp_19"
+                    android:layout_height="@dimen/dp_20"
+                    android:gravity="center"
                     android:layout_marginEnd="6dp"
                     android:background="@drawable/bg_rectangle_orange"
-                    android:paddingBottom="2dp"
-                    android:paddingEnd="3dp"
-                    android:paddingStart="3dp"
-                    android:paddingTop="1dp"
                     android:text="急"
                     android:textColor="@color/white" />
 
                 <TextView
                     android:id="@+id/tv_bedmappat_skintest"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/dp_19"
+                    android:layout_height="@dimen/dp_20"
+                    android:gravity="center"
                     android:layout_marginEnd="6dp"
                     android:background="@drawable/bg_rectangle_green"
-                    android:paddingBottom="2dp"
-                    android:paddingEnd="3dp"
-                    android:paddingStart="3dp"
-                    android:paddingTop="1dp"
                     android:text="敏"
                     android:textColor="@color/white" />
 
                 <TextView
                     android:id="@+id/tv_bedmappat_fever"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/dp_19"
+                    android:layout_height="@dimen/dp_20"
+                    android:gravity="center"
                     android:layout_marginEnd="6dp"
                     android:background="@drawable/bg_rectangle_red2"
-                    android:paddingBottom="2dp"
-                    android:paddingEnd="3dp"
-                    android:paddingStart="3dp"
-                    android:paddingTop="1dp"
                     android:text="热"
                     android:textColor="@color/white" />
+                <TextView
+                    android:id="@+id/tv_pat_epd_notreport"
+                    android:layout_width="@dimen/dp_19"
+                    android:layout_height="@dimen/dp_20"
+                    android:layout_marginEnd="6dp"
+                    android:gravity="center"
+                    android:background="@drawable/img_ept_notreport"/>
+                <TextView
+                    android:id="@+id/tv_pat_epd_report"
+                    android:layout_width="@dimen/dp_19"
+                    android:layout_height="@dimen/dp_20"
+                    android:gravity="center"
+                    android:background="@drawable/img_epd_report"/>
             </LinearLayout>
 
 

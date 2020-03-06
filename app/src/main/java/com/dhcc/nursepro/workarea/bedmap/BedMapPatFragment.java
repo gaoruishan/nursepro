@@ -46,6 +46,8 @@ public class BedMapPatFragment extends BaseFragment implements View.OnClickListe
     private TextView tvBedmappatCriticalvalue;
     private TextView tvBedmappatSkintest;
     private TextView tvBedmappatFever;
+    private TextView tvPatEpdReport;
+    private TextView tvPatEpdNotreport;
 
     private LinearLayout llBedmappatInfo;
     private LinearLayout llBedmappatOrder;
@@ -113,6 +115,8 @@ public class BedMapPatFragment extends BaseFragment implements View.OnClickListe
         tvBedmappatCriticalvalue = view.findViewById(R.id.tv_bedmappat_criticalvalue);
         tvBedmappatSkintest = view.findViewById(R.id.tv_bedmappat_skintest);
         tvBedmappatFever = view.findViewById(R.id.tv_bedmappat_fever);
+        tvPatEpdReport = view.findViewById(R.id.tv_pat_epd_report);
+        tvPatEpdNotreport = view.findViewById(R.id.tv_pat_epd_notreport);
         llBedmappatInfo = view.findViewById(R.id.ll_bedmappat_info);
         llBedmappatInfo.setOnClickListener(this);
         llBedmappatOrder = view.findViewById(R.id.ll_bedmappat_order);
@@ -222,6 +226,18 @@ public class BedMapPatFragment extends BaseFragment implements View.OnClickListe
             tvBedmappatFever.setVisibility(View.VISIBLE);
         } else {
             tvBedmappatFever.setVisibility(View.GONE);
+        }
+
+        if ("1".equals(patInfoListBean.getEpdReport())) {
+            tvPatEpdReport.setVisibility(View.VISIBLE);
+        } else {
+            tvPatEpdReport.setVisibility(View.GONE);
+        }
+
+        if ("1".equals(patInfoListBean.getEpdNotReport())) {
+            tvPatEpdNotreport.setVisibility(View.VISIBLE);
+        } else {
+            tvPatEpdNotreport.setVisibility(View.GONE);
         }
     }
 

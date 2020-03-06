@@ -52,7 +52,8 @@ public class BedMapPatientAdapter extends BaseQuickAdapter<BedMapBean.PatInfoLis
         TextView tvCriticalValue = helper.getView(R.id.tv_bedmap_patient_criticalvalue);
         TextView tvSkinTest = helper.getView(R.id.tv_bedmap_patient_skintest);
         TextView tvFever = helper.getView(R.id.tv_bedmap_patient_fever);
-
+        TextView tvEpdReport = helper.getView(R.id.tv_epd_report);
+        TextView tvEpdNotreport = helper.getView(R.id.tv_epd_notreport);
         LinearLayout llSkinOrder = helper.getView(R.id.ll_bedmap_patient_skinorder);
         RecyclerView recySkinOrder = helper.getView(R.id.recy_bedmap_patient_skinorder);
         //提高展示效率
@@ -174,6 +175,18 @@ public class BedMapPatientAdapter extends BaseQuickAdapter<BedMapBean.PatInfoLis
             tvFever.setVisibility(View.VISIBLE);
         } else {
             tvFever.setVisibility(View.GONE);
+        }
+
+        if ("1".equals(item.getEpdReport())) {
+            tvEpdReport.setVisibility(View.VISIBLE);
+        } else {
+            tvEpdReport.setVisibility(View.GONE);
+        }
+
+        if ("1".equals(item.getEpdNotReport())) {
+            tvEpdNotreport.setVisibility(View.VISIBLE);
+        } else {
+            tvEpdNotreport.setVisibility(View.GONE);
         }
 
         List<BedMapBean.PatInfoListBean.SkinOrdBean> skinOrdBeanList = item.getSkinOrd();

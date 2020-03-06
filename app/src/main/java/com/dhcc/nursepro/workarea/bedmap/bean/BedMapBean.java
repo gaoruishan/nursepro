@@ -166,6 +166,24 @@ public class BedMapBean implements Serializable {
         public String getAge() {
             return age;
         }
+        private String epdNotReport;
+        private String epdReport;
+
+        public String getEpdReport() {
+            return epdReport;
+        }
+
+        public void setEpdReport(String epdReport) {
+            this.epdReport = epdReport;
+        }
+
+        public String getEpdNotReport() {
+            return epdNotReport;
+        }
+
+        public void setEpdNotReport(String epdNotReport) {
+            this.epdNotReport = epdNotReport;
+        }
 
         public void setAge(String age) {
             this.age = age;
