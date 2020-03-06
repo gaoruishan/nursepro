@@ -45,7 +45,15 @@ public class OrderSearchPatientOrderInfoAdapter extends BaseQuickAdapter<OrderSe
         RotateTextView tvSkintestResult = helper.getView(R.id.tv_skintest_result);
         GradientDrawable skintestResultGrad = (GradientDrawable) llSkintestResult.getBackground();
 
+        //静配标志显示
+        TextView tvJp = helper.getView(R.id.tv_jp);
+
         if (size == 1) {
+            if (orderInfoBean.getFilteFlagExtend().equals("JP")){
+                tvJp.setVisibility(View.VISIBLE);
+            }else {
+                tvJp.setVisibility(View.GONE);
+            }
             llorderinfosingle.setVisibility(View.VISIBLE);
             if ( orderInfoBean.getExecDateTime() == null || orderInfoBean.getExecDateTime().equals("")){
                 llExe.setVisibility(View.GONE);
@@ -78,9 +86,15 @@ public class OrderSearchPatientOrderInfoAdapter extends BaseQuickAdapter<OrderSe
                     .setText(R.id.tv_osporderinfo_ordercreator, orderInfoBean.getCtcpDesc())
                     .setText(R.id.tv_notes, orderInfoBean.getNotes());
         } else {
+
             llorderinfosingle.setVisibility(View.GONE);
             llExe.setVisibility(View.GONE);
             if (helper.getLayoutPosition() == 0) {
+                if (orderInfoBean.getFilteFlagExtend().equals("JP")){
+                    tvJp.setVisibility(View.VISIBLE);
+                }else {
+                    tvJp.setVisibility(View.GONE);
+                }
                 tvOrderType.setVisibility(View.VISIBLE);
                 String[] typeStr = orderInfoBean.getDisposeStatCode().split("\\^");
                 tvOrderType.setText(typeStr[0]);
@@ -95,6 +109,7 @@ public class OrderSearchPatientOrderInfoAdapter extends BaseQuickAdapter<OrderSe
                     llSkintestResult.setVisibility(View.GONE);
                 }
             } else {
+                tvJp.setVisibility(View.GONE);
                 tvOrderType.setVisibility(View.GONE);
                 llSkintestResult.setVisibility(View.GONE);
             }

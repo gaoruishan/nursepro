@@ -354,7 +354,15 @@ public class OrderSearchBean implements Serializable {
                 private String verifyFlag;
                 private String xCtcpDesc;
                 private String xDateTime;
+                private String filteFlagExtend;
 
+                public String getFilteFlagExtend() {
+                    return filteFlagExtend;
+                }
+
+                public void setFilteFlagExtend(String filteFlagExtend) {
+                    this.filteFlagExtend = filteFlagExtend;
+                }
                 public String getDspStat() {
                     return DspStat;
                 }

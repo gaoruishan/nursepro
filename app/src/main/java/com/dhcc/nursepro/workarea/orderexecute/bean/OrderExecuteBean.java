@@ -350,6 +350,16 @@ public class OrderExecuteBean implements Serializable {
 
                 private String execCtcpDesc;
                 private String execDateTime;
+                private String filteFlagExtend;
+
+                public String getFilteFlagExtend() {
+                    return filteFlagExtend;
+                }
+
+                public void setFilteFlagExtend(String filteFlagExtend) {
+                    this.filteFlagExtend = filteFlagExtend;
+                }
+
                 public String getExecCtcpDesc() {
                     return execCtcpDesc;
                 }
