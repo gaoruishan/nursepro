@@ -7,6 +7,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -54,6 +56,7 @@ public class WorkareaOperateDialog extends Dialog {
     private int ll2 = View.VISIBLE;
     private int llSpeed = View.GONE;
     private Boolean ifSpeedEdit = true;
+    private int ifImgReasonShow = View.GONE;
     private EditText etSpeed;
 
     private OrderExecuteOrderDialogAdapter adapter;
@@ -62,8 +65,9 @@ public class WorkareaOperateDialog extends Dialog {
     private onCancelOnclickListener cancelOnclickListener;
 
     private LinearLayout llSpiSpeed;
-    private Spinner spiSpeed;
+    private Spinner spiSpeed,spiReason;
     private List spiList = new ArrayList<String>();
+    private List spiReList = new ArrayList<String>();
     private String speedUnit = "";
     private String speed = "";
 
@@ -97,6 +101,19 @@ public class WorkareaOperateDialog extends Dialog {
 
     public void setSpiList(List spiList) {
         this.spiList = spiList;
+    }
+
+    public List getSpiReList() {
+        return spiReList;
+    }
+
+    public void setSpiReList(List spiReList) {
+        this.spiReList = spiReList;
+        spiReList.add("删除");
+    }
+
+    public void setIfImgReasonShow(int ifImgReasonShow){
+        this.ifImgReasonShow = ifImgReasonShow;
     }
 
     public WorkareaOperateDialog(Context context) {
@@ -236,6 +253,8 @@ public class WorkareaOperateDialog extends Dialog {
         spiSpeed = findViewById(R.id.sp_speedunit);
         etSpeed = findViewById(R.id.et_speed);
 
+        spiReason = findViewById(R.id.sp_reason);
+
     }
 
     private void initAdapter() {
@@ -289,6 +308,40 @@ public class WorkareaOperateDialog extends Dialog {
                 }
             });
         }
+        if (spiReason != null && spiReList.size()>0){
+//            List ls = new ArrayList<String>();
+//            ls.add("滴/秒");
+//            ls.add("滴/分");
+            spiReason.setSelected(true);
+            ArrayAdapter arr_adapter= new ArrayAdapter<String>(getContext(), R.layout.spinner_reason_item, spiReList);
+            //设置样式
+            arr_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spiReason.setAdapter(arr_adapter);
+            if (spiReList.size()>0){
+                spiReason.setSelection(spiReList.size()-1);
+            }
+
+//            for (int i = 0; i <spiReList.size() ; i++) {
+//                if (speedUnit.equals(spiReList.get(i))){
+//                    spiReason.setSelection(i);
+//                }
+//            }
+            spiReason.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    edPopupRemarkinfo.setText(spiReList.get(position).toString());
+                    if (spiReList.get(position).toString().equals("删除")){
+                        edPopupRemarkinfo.setText("");
+                    }
+                }
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                }
+            });
+        }
+
+
+
         if (etSpeed != null){
             etSpeed.setText(speed);
             etSpeed.setEnabled(ifSpeedEdit);
@@ -300,6 +353,8 @@ public class WorkareaOperateDialog extends Dialog {
                 etSpeed.setTextColor(Color.parseColor("#9B9B9B"));
             }
         }
+
+        spiReason.setVisibility(ifImgReasonShow);
 
     }
 

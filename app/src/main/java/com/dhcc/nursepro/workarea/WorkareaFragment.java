@@ -322,6 +322,7 @@ public class WorkareaFragment extends BaseFragment {
                         @Override
                         public void onTourClick() {
                             operateDialog = new WorkareaOperateDialog(getActivity());
+                            operateDialog.setIfImgReasonShow(View.GONE);
                             operateDialog.setPatInfo(orderDialog.getPatInfo());
                             operateDialog.setChildOrders(orderDialog.getChildOrders());
                             operateDialog.setOrderInfoEx(orderDialog.getOrderInfoEx());
@@ -384,6 +385,14 @@ public class WorkareaFragment extends BaseFragment {
                                     }
                                 }
                                 operateDialog.setSpiList(ls);
+                                List lsReason = new ArrayList<String>();
+                                if (scanResultBean.getSpeedUnitList() != null) {
+                                    for (int i = 0; i < scanResultBean.getSuspendNoteList().size(); i++) {
+                                        lsReason.add(scanResultBean.getSuspendNoteList().get(i).getNoteData());
+                                    }
+                                }
+                                operateDialog.setSpiReList(lsReason);
+                                operateDialog.setIfImgReasonShow(View.VISIBLE);
                                 operateDialog.setViewVisibility(View.GONE, View.VISIBLE, View.VISIBLE, true);
                                 operateDialog.setOrderId(orderDialog.getOrderId());
                                 operateDialog.setIfState(orderDialog.getIfState());
@@ -426,6 +435,15 @@ public class WorkareaFragment extends BaseFragment {
                                 }
                             }
                             operateDialog.setSpiList(ls);
+
+                            List lsReason = new ArrayList<String>();
+                            if (scanResultBean.getSpeedUnitList() != null) {
+                                for (int i = 0; i < scanResultBean.getStopNoteList().size(); i++) {
+                                    lsReason.add(scanResultBean.getStopNoteList().get(i).getNoteData());
+                                }
+                            }
+                            operateDialog.setSpiReList(lsReason);
+                            operateDialog.setIfImgReasonShow(View.VISIBLE);
                             operateDialog.setViewVisibility(View.VISIBLE, View.VISIBLE, View.VISIBLE, true);
                             operateDialog.setOrderId(orderDialog.getOrderId());
                             operateDialog.setIfState(orderDialog.getIfState());
@@ -455,6 +473,7 @@ public class WorkareaFragment extends BaseFragment {
                             operateDialog.setPatInfo(orderDialog.getPatInfo());
                             operateDialog.setChildOrders(orderDialog.getChildOrders());
                             operateDialog.setOrderInfoEx(orderDialog.getOrderInfoEx());
+                            operateDialog.setIfImgReasonShow(View.GONE);
                             operateDialog.setViewVisibility(View.GONE, View.VISIBLE, View.VISIBLE, true);
                             operateDialog.setSpeedUnit(scanResultBean.getFlowSpeedUnit() + "");
                             operateDialog.setSpeed(scanResultBean.getFlowSpeed() + "");

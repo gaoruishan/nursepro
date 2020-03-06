@@ -33,6 +33,24 @@ public class ScanResultBean {
     private List<SpeedUnitListBean> speedUnitList;
     private String flowSpeed;
     private String flowSpeedUnit;
+    private List<StopNoteListBean> StopNoteList;
+    private List<SuspendNoteListBean> SuspendNoteList;
+
+    public List<StopNoteListBean> getStopNoteList() {
+        return StopNoteList;
+    }
+
+    public void setStopNoteList(List<StopNoteListBean> StopNoteList) {
+        this.StopNoteList = StopNoteList;
+    }
+
+    public List<SuspendNoteListBean> getSuspendNoteList() {
+        return SuspendNoteList;
+    }
+
+    public void setSuspendNoteList(List<SuspendNoteListBean> SuspendNoteList) {
+        this.SuspendNoteList = SuspendNoteList;
+    }
 
     public String getFlowSpeed() {
         return flowSpeed;
@@ -1120,4 +1138,56 @@ public class ScanResultBean {
             this.exeStatus = exeStatus;
         }
     }
+    public static class StopNoteListBean {
+        /**
+         * noteData : 鼓针
+         * noteId : 鼓针
+         */
+
+        private String noteData;
+        private String noteId;
+
+        public String getNoteData() {
+            return noteData;
+        }
+
+        public void setNoteData(String noteData) {
+            this.noteData = noteData;
+        }
+
+        public String getNoteId() {
+            return noteId;
+        }
+
+        public void setNoteId(String noteId) {
+            this.noteId = noteId;
+        }
+    }
+
+    public static class SuspendNoteListBean {
+        /**
+         * noteData : 鼓针
+         * noteId : 鼓针
+         */
+
+        private String noteData;
+        private String noteId;
+
+        public String getNoteData() {
+            return noteData;
+        }
+
+        public void setNoteData(String noteData) {
+            this.noteData = noteData;
+        }
+
+        public String getNoteId() {
+            return noteId;
+        }
+
+        public void setNoteId(String noteId) {
+            this.noteId = noteId;
+        }
+    }
+
 }

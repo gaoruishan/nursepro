@@ -245,11 +245,19 @@
                             android:layout_height="45dp"
                             android:layout_weight="1"
                             android:background="@null"
-                            android:gravity="right|center"
+                            android:gravity="center"
                             android:textColor="#4A4A4A"
                             android:layout_marginEnd="@dimen/dp_5"
                             android:textSize="15sp"
                             android:hint="请输入"  />
+                        <Spinner
+                            android:id="@+id/sp_reason"
+                            android:layout_width="@dimen/dp_40"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/bg_mainorder_speed_select"
+                            android:gravity="center"
+                            android:paddingStart="@dimen/dp_5"
+                            />
 
                         <ImageView
                             android:id="@+id/img_remarkinfo_drop"
