@@ -118,6 +118,36 @@ public class WorkareaOrderDialog extends Dialog {
 
     public void setSpiList(List spiList) {
         this.spiList = spiList;
+        if (spiSpeed != null && spiList.size()>0){
+//            List ls = new ArrayList<String>();
+//            ls.add("滴/秒");
+//            ls.add("滴/分");
+            ArrayAdapter arr_adapter= new ArrayAdapter<String>(getContext(), R.layout.spinner_item, spiList);
+            //设置样式
+            arr_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spiSpeed.setAdapter(arr_adapter);
+            if (spiList.size()>0){
+                spiSpeed.setSelection(0);
+            }
+
+            for (int i = 0; i <spiList.size() ; i++) {
+                if (speedUnit.equals(spiList.get(i))){
+                    spiSpeed.setSelection(i);
+                }
+            }
+            spiSpeed.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    spiSpeed.setSelection(position);
+                    speedUnit = spiList.get(position)+"";
+                }
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+        }
+
     }
     public WorkareaOrderDialog(Context context) {
         super(context, R.style.MyDialog);
@@ -497,6 +527,7 @@ public class WorkareaOrderDialog extends Dialog {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     spiSpeed.setSelection(position);
+                    speedUnit = spiList.get(position)+"";
                 }
                 @Override
                 public void onNothingSelected(AdapterView<?> parent) {

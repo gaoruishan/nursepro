@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.base.commlibs.BaseActivity;
 import com.blankj.utilcode.util.ToastUtils;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.view.SelectTextView;
@@ -289,8 +290,14 @@ public class DialogFactory {
                 String text = getText(view, R.id.et_skin_num);
                 String pwd = getText(view, R.id.et_skin_pwd);
                 if (clickListener != null) {
-                    clickListener.data(new Object[]{skinTest,text,pwd});
-                    dialog.cancel();
+
+                    if (text.length()<1 || pwd.length()<1){
+                        ((BaseActivity)context).showToast("请输入复核账号和密码");
+                    }else {
+                        clickListener.data(new Object[]{skinTest,text,pwd});
+                        dialog.cancel();
+                    }
+
                 }
             }
         };

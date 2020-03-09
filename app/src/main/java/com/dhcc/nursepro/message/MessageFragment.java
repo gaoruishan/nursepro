@@ -390,6 +390,8 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
     @Subscribe
     public void updateList(MessageEvent event) {
         Log.e(getClass().getSimpleName(), "updateText:" + event.getType());
-        //        getSkinTestMessage();
+        if (event.getType() == MessageEvent.MessageType.REQUEST_APP_MESSAGE_LIST) {
+            initData();
+        }
     }
 }

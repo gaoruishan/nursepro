@@ -35,6 +35,15 @@ public class ScanResultBean {
     private String flowSpeedUnit;
     private List<StopNoteListBean> StopNoteList;
     private List<SuspendNoteListBean> SuspendNoteList;
+    private List<TourNoteListBean> TourNoteList;
+
+    public List<TourNoteListBean> getTourNoteList() {
+        return TourNoteList;
+    }
+
+    public void setTourNoteList(List<TourNoteListBean> tourNoteList) {
+        TourNoteList = tourNoteList;
+    }
 
     public List<StopNoteListBean> getStopNoteList() {
         return StopNoteList;
@@ -1189,5 +1198,29 @@ public class ScanResultBean {
             this.noteId = noteId;
         }
     }
+    public static class TourNoteListBean {
+        /**
+         * noteData : 鼓针
+         * noteId : 鼓针
+         */
 
+        private String noteData;
+        private String noteId;
+
+        public String getNoteData() {
+            return noteData;
+        }
+
+        public void setNoteData(String noteData) {
+            this.noteData = noteData;
+        }
+
+        public String getNoteId() {
+            return noteId;
+        }
+
+        public void setNoteId(String noteId) {
+            this.noteId = noteId;
+        }
+    }
 }

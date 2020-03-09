@@ -85,6 +85,7 @@ public class WorkareaFragment extends BaseFragment {
     private String patSaveInfo = "";
     private String scanPat = "";
     private String curOeordId = "";
+    private ScanResultBean scanResultBean = new ScanResultBean();
 
     //医嘱执行弹窗
     private WorkareaOrderDialog orderDialog;
@@ -288,7 +289,8 @@ public class WorkareaFragment extends BaseFragment {
     private void getScanInfo() {
         WorkareaApiManager.getScanMsgByMain(episodeId, curOeordId, scanInfo, new WorkareaApiManager.GetScanCallBack() {
             @Override
-            public void onSuccess(ScanResultBean scanResultBean) {
+            public void onSuccess(ScanResultBean scanResultBeanFromWS) {
+                scanResultBean = scanResultBeanFromWS;
                 //提示信息
                 String msg = scanResultBean.getMsg();
 
@@ -300,7 +302,7 @@ public class WorkareaFragment extends BaseFragment {
                         @Override
                         public void onSureClick() {
                             if ("exe".equals(orderDialog.getBtnType())) {
-                                ordSpeed = orderDialog.getSpeed();
+                                ordSpeed = orderDialog.getSpeed() + " " +orderDialog.getSpeedUnit();
                                 execOrSeeOrderScan(patSaveInfo, orderDialog.getSttDateTime(), orderDialog.getArcimDesc(), orderDialog.getOrderId(), "F", orderDialog.getBedCode());
                                 orderDialog.dismiss();
                             } else {
@@ -337,6 +339,14 @@ public class WorkareaFragment extends BaseFragment {
                                 }
                             }
                             operateDialog.setSpiList(ls);
+                            List lsReason = new ArrayList<String>();
+                            if (scanResultBean.getTourNoteList() != null) {
+                                for (int i = 0; i < scanResultBean.getTourNoteList().size(); i++) {
+                                    lsReason.add(scanResultBean.getTourNoteList().get(i).getNoteData());
+                                }
+                            }
+                            operateDialog.setSpiReList(lsReason);
+                            operateDialog.setIfImgReasonShow(View.VISIBLE);
                             operateDialog.setOrderId(orderDialog.getOrderId());
                             operateDialog.setIfState(orderDialog.getIfState());
 
@@ -345,7 +355,7 @@ public class WorkareaFragment extends BaseFragment {
                                 public void onSureClick() {
                                     //                                        suspendOrd(operateDialog.getOrderId(), operateDialog.getIfState(), operateDialog.getRemarkinfo());
                                     //                                        operateDialog.dismiss();
-                                    ordSpeed = operateDialog.getSpeed() + operateDialog.getSpeedUnit();
+                                    ordSpeed = operateDialog.getSpeed() +" "+ operateDialog.getSpeedUnit();
                                     reason = operateDialog.getRemarkinfo();
                                     tourOrd(operateDialog.getOrderId());
                                     operateDialog.dismiss();
@@ -386,7 +396,7 @@ public class WorkareaFragment extends BaseFragment {
                                 }
                                 operateDialog.setSpiList(ls);
                                 List lsReason = new ArrayList<String>();
-                                if (scanResultBean.getSpeedUnitList() != null) {
+                                if (scanResultBean.getSuspendNoteList() != null) {
                                     for (int i = 0; i < scanResultBean.getSuspendNoteList().size(); i++) {
                                         lsReason.add(scanResultBean.getSuspendNoteList().get(i).getNoteData());
                                     }
@@ -400,7 +410,7 @@ public class WorkareaFragment extends BaseFragment {
                                 operateDialog.setSureOnclickListener(new WorkareaOperateDialog.onSureOnclickListener() {
                                     @Override
                                     public void onSureClick() {
-                                        ordSpeed = operateDialog.getSpeed() + operateDialog.getSpeedUnit();
+                                        ordSpeed = operateDialog.getSpeed() +" "+ operateDialog.getSpeedUnit();
                                         suspendOrd(operateDialog.getOrderId(), operateDialog.getIfState(), operateDialog.getRemarkinfo());
                                         operateDialog.dismiss();
                                     }
@@ -437,7 +447,7 @@ public class WorkareaFragment extends BaseFragment {
                             operateDialog.setSpiList(ls);
 
                             List lsReason = new ArrayList<String>();
-                            if (scanResultBean.getSpeedUnitList() != null) {
+                            if (scanResultBean.getStopNoteList() != null) {
                                 for (int i = 0; i < scanResultBean.getStopNoteList().size(); i++) {
                                     lsReason.add(scanResultBean.getStopNoteList().get(i).getNoteData());
                                 }
@@ -450,7 +460,7 @@ public class WorkareaFragment extends BaseFragment {
                             operateDialog.setSureOnclickListener(new WorkareaOperateDialog.onSureOnclickListener() {
                                 @Override
                                 public void onSureClick() {
-                                    ordSpeed = operateDialog.getSpeed() + operateDialog.getSpeedUnit();
+                                    ordSpeed = operateDialog.getSpeed() +" "+ operateDialog.getSpeedUnit();
                                     stopOrd(operateDialog.getOrderId(), operateDialog.getIfState(), operateDialog.getRemainingliquid(), operateDialog.getRemarkinfo());
                                     operateDialog.dismiss();
                                 }
@@ -493,7 +503,7 @@ public class WorkareaFragment extends BaseFragment {
                                 public void onSureClick() {
                                     //                                        suspendOrd(operateDialog.getOrderId(), operateDialog.getIfState(), operateDialog.getRemarkinfo());
                                     //                                        operateDialog.dismiss();
-                                    ordSpeed = operateDialog.getSpeed() + operateDialog.getSpeedUnit();
+                                    ordSpeed = operateDialog.getSpeed() +" "+ operateDialog.getSpeedUnit();
                                     reason = operateDialog.getRemarkinfo();
                                     endOrd(operateDialog.getOrderId());
                                     operateDialog.dismiss();

@@ -301,6 +301,7 @@ public class WorkareaOperateDialog extends Dialog {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     spiSpeed.setSelection(position);
+                    speedUnit = spiList.get(position)+"";
                 }
                 @Override
                 public void onNothingSelected(AdapterView<?> parent) {

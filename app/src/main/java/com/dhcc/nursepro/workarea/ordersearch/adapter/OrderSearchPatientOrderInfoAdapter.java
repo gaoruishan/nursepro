@@ -49,7 +49,7 @@ public class OrderSearchPatientOrderInfoAdapter extends BaseQuickAdapter<OrderSe
         TextView tvJp = helper.getView(R.id.tv_jp);
 
         if (size == 1) {
-            if (orderInfoBean.getFilteFlagExtend().equals("JP")){
+            if (orderInfoBean.getFilteFlagExtend()!=null&&orderInfoBean.getFilteFlagExtend().equals("JP")){
                 tvJp.setVisibility(View.VISIBLE);
             }else {
                 tvJp.setVisibility(View.GONE);
@@ -90,7 +90,7 @@ public class OrderSearchPatientOrderInfoAdapter extends BaseQuickAdapter<OrderSe
             llorderinfosingle.setVisibility(View.GONE);
             llExe.setVisibility(View.GONE);
             if (helper.getLayoutPosition() == 0) {
-                if (orderInfoBean.getFilteFlagExtend().equals("JP")){
+                if (orderInfoBean.getFilteFlagExtend()!=null&&orderInfoBean.getFilteFlagExtend().equals("JP")){
                     tvJp.setVisibility(View.VISIBLE);
                 }else {
                     tvJp.setVisibility(View.GONE);

@@ -42,13 +42,16 @@ public class MessageSkinAdapter extends BaseQuickAdapter<MessageBean.SkinTimeLis
 
     @Override
     protected void convert(BaseViewHolder helper, final MessageBean.SkinTimeListBean item) {
-        helper.setVisible(R.id.ll_count, !TextUtils.isEmpty(item.getOverTime()));
+        helper.setGone(R.id.ll_count, !TextUtils.isEmpty(item.getOverTime()))
+                .setGone(R.id.ll_overtime,TextUtils.isEmpty(item.getOverTime()))
+                .setGone(R.id.tv_overtime_tip,TextUtils.isEmpty(item.getOverTime()));;
         if (!TextUtils.isEmpty(item.getOverTime())) {
             CountView cvCount = helper.getView(R.id.cv_count);
             cvCount.getTitleName().setVisibility(View.GONE);
             cvCount.getOneDay().setTextColor(Color.parseColor("#FFFF6EA4"));
             cvCount.getOneDay().setTextSize(mContext.getResources().getDimension(R.dimen.dp_10));
             cvCount.start(Long.valueOf(item.getOverTime()), CountView.ONE_DAY);
+
         }
         helper.setText(R.id.tv_message_regno, item.getPatRegNo())
                 .setText(R.id.tv_message_name, item.getPatName())
@@ -70,6 +73,11 @@ public class MessageSkinAdapter extends BaseQuickAdapter<MessageBean.SkinTimeLis
             } catch (ParseException e) {
             }
         }
+        if (TextUtils.isEmpty(item.getOverTime())) {
+            helper.setText(R.id.tv_needtime,"需执行时间："+testEndTime);
+        }
+
+
         //置结果
         String finalTestBetweenTime = testBetweenTime;
         String finalTestEndTime = testEndTime;
@@ -97,7 +105,7 @@ public class MessageSkinAdapter extends BaseQuickAdapter<MessageBean.SkinTimeLis
                     @Override
                     public void onFail(String code, String msg) {
                         if (mContext instanceof BaseActivity) {
-                            ((BaseActivity)mContext).showToast(msg);
+//                            ((BaseActivity)mContext).showToast(msg);
                         }
                     }
 
