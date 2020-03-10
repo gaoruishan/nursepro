@@ -318,7 +318,8 @@ public class DateUtils {
         return System.currentTimeMillis();
     }
 
+
     public static String getDateTimeAgo(String dateTime,int nDay){
-       return getDateTimeByFromat(date2TimeStamp(dateTime,null)-86400000,null);
+       return getDateTimeByFromat(date2TimeStamp(dateTime,null)-86400000*nDay,null);
     }
 }
