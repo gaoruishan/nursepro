@@ -17,6 +17,7 @@ import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
 import com.dhcc.nursepro.R;
 import com.base.commlibs.constant.SharedPreference;
+import com.dhcc.nursepro.utils.DateUtils;
 import com.dhcc.nursepro.workarea.labout.adapter.LabOutAdapter;
 import com.dhcc.nursepro.workarea.labout.api.LabOutApiManager;
 import com.dhcc.nursepro.workarea.labout.bean.LabOutListAllBean;
@@ -190,8 +191,8 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
         tvEndDate = view.findViewById(R.id.tv_labout_enddate);
         tvEndDate.setOnClickListener(this);
 
-        tvStartDate.setText(spUtils.getString(SharedPreference.SCHSTDATETIME).substring(0, 10));
-        tvEndDate.setText(spUtils.getString(SharedPreference.SCHENDATETIME).substring(0, 10));
+        tvStartDate.setText(DateUtils.getDateTimeAgo(spUtils.getString(SharedPreference.CURDATETIME),1).substring(0, 10));
+        tvEndDate.setText(spUtils.getString(SharedPreference.CURDATETIME).substring(0, 10));
 
         show1 = view.findViewById(R.id.view_labout_show1);
         show2 = view.findViewById(R.id.view_labout_show2);

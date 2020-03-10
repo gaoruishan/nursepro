@@ -24,6 +24,17 @@ import java.util.Date;
  */
 public class DateUtils {
 
+
+    public static String getDateTimeByFromat(Long millseconds,String formatstr) {
+        if (formatstr == null || formatstr.isEmpty()) {
+            formatstr = "yyyy-MM-dd HH:mm:ss";
+        }
+        Date date = new Date(millseconds);
+        SimpleDateFormat format = new SimpleDateFormat(formatstr);
+        String time = format.format(date);
+        return time;
+    }
+
     /**
      * Gets date by millisecond.
      *
@@ -283,5 +294,31 @@ public class DateUtils {
 
         mDialogAll.show(fragmentManager, "ALL");
 
+    }
+
+    /**
+     * Date 2 time stamp string.
+     * 时间转成时间戳
+     * @param datetime   the date
+     * @param format the format
+     * @return the string
+     */
+    public static long date2TimeStamp(String datetime, String format) {
+        if (format == null || format.isEmpty()) {
+            format = "yyyy-MM-dd HH:mm:ss";
+        }
+        try {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
+            Date date = simpleDateFormat.parse(datetime);
+            long ts = date.getTime();
+            return ts;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return System.currentTimeMillis();
+    }
+
+    public static String getDateTimeAgo(String dateTime,int nDay){
+       return getDateTimeByFromat(date2TimeStamp(dateTime,null)-86400000,null);
     }
 }

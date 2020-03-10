@@ -62,10 +62,10 @@ public class OperationFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void initView(View view) {
-        startDate = SPUtils.getInstance().getString(SharedPreference.SCHSTDATETIME).substring(0, 10);
-        startTime =  SPUtils.getInstance().getString(SharedPreference.SCHSTDATETIME).substring(11, 16);
-        endDate = SPUtils.getInstance().getString(SharedPreference.SCHENDATETIME).substring(0, 10);
-        endTime = SPUtils.getInstance().getString(SharedPreference.SCHENDATETIME).substring(11, 16);
+        startDate = DateUtils.getDateTimeAgo(SPUtils.getInstance().getString(SharedPreference.CURDATETIME),1).substring(0, 10);
+        startTime =  DateUtils.getDateTimeAgo(SPUtils.getInstance().getString(SharedPreference.CURDATETIME),1).substring(11, 16);
+        endDate = SPUtils.getInstance().getString(SharedPreference.CURDATETIME).substring(0, 10);
+        endTime = SPUtils.getInstance().getString(SharedPreference.CURDATETIME).substring(11, 16);
         tvOrderexecuteStartdatetime = view.findViewById(R.id.tv_orderexecute_startdatetime);
         tvOrderexecuteEnddatetime = view.findViewById(R.id.tv_orderexecute_enddatetime);
         tvOrderexecuteStartdatetime.setText(startDate + " " + startTime);

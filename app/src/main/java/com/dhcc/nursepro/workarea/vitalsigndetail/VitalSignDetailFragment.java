@@ -20,6 +20,7 @@ import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.utils.DateUtils;
 import com.dhcc.nursepro.workarea.vitalsign.VitalSignRecordFragment;
 import com.dhcc.nursepro.workarea.vitalsigndetail.adapter.VitalSignDetailAdapter;
 import com.dhcc.nursepro.workarea.vitalsigndetail.api.VitalSignDetailApiManager;
@@ -57,8 +58,8 @@ public class VitalSignDetailFragment extends BaseFragment implements View.OnClic
         setToolbarBottomLineVisibility(true);
         setToolbarCenterTitle(getString(R.string.title_vitalsigndetail), 0xffffffff, 17);
 
-        stDate = spUtils.getString(SharedPreference.SCHSTDATETIME).substring(0, 10);
-        enDate = spUtils.getString(SharedPreference.SCHENDATETIME).substring(0, 10);
+        enDate = spUtils.getString(SharedPreference.CURDATETIME).substring(0, 10);
+        stDate = DateUtils.getDateTimeAgo(spUtils.getString(SharedPreference.CURDATETIME),1).substring(0, 10);
         Bundle bundle = getArguments();
         mBundle = bundle;
         episodeId = bundle.getString("episodeId");

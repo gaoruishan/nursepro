@@ -28,6 +28,7 @@ import com.blankj.utilcode.util.StringUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.utils.DateUtils;
 import com.dhcc.nursepro.workarea.allotbed.AllotBedFragment;
 import com.dhcc.nursepro.workarea.bedmap.BedMapFragment;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.BloodTransfusionSystemFragment;
@@ -150,7 +151,7 @@ public class WorkareaFragment extends BaseFragment {
                     spUtils.put(SharedPreference.SCHENDATETIME, mainConfigBean.getSchEnDateTime());
 
                     if (StringUtils.isEmpty(mainConfigBean.getCurDateTime())) {
-                        spUtils.put(SharedPreference.CURDATETIME, mainConfigBean.getSchStDateTime());
+                        spUtils.put(SharedPreference.CURDATETIME, mainConfigBean.getSchEnDateTime());
                     } else {
                         spUtils.put(SharedPreference.CURDATETIME, mainConfigBean.getCurDateTime());
                     }

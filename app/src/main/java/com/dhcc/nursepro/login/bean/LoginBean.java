@@ -43,7 +43,15 @@ public class LoginBean extends ConfigBean {
 
     private String checkTime;
 
+    private String curDateTime;
 
+    public String getCurDateTime() {
+        return curDateTime;
+    }
+
+    public void setCurDateTime(String curDateTime) {
+        this.curDateTime = curDateTime;
+    }
 
     public String getSchEnDateTime() {
         return schEnDateTime;

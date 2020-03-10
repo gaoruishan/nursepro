@@ -42,6 +42,7 @@ import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.constant.PermissionConstants;
 import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.StringUtils;
 import com.dhcc.nursepro.Activity.update.BaseDialog;
 import com.dhcc.nursepro.Activity.update.api.UpdateApiManager;
 import com.dhcc.nursepro.Activity.update.bean.UpdateBean;
@@ -346,6 +347,11 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
                 int messageNum = (msgs.getNewOrdPatList()!=null?msgs.getNewOrdPatList().size():0)
                         + (msgs.getAbnormalPatList()!=null?msgs.getAbnormalPatList().size():0)
                         + (msgs.getConPatList()!=null?msgs.getConPatList().size():0);
+                if (StringUtils.isEmpty(msgs.getCurDateTime())) {
+                    spUtils.put(SharedPreference.CURDATETIME, msgs.getSchEnDateTime());
+                } else {
+                    spUtils.put(SharedPreference.CURDATETIME, msgs.getCurDateTime());
+                }
                 setmessage(messageNum,msgs.getSoundFlag(),msgs.getVibrateFlag());
 
             }

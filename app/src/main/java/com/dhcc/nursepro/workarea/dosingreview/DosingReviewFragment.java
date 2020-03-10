@@ -21,6 +21,7 @@ import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.utils.DateUtils;
 import com.dhcc.nursepro.workarea.dosingreview.adapter.DosingReviewPatientAdapter;
 import com.dhcc.nursepro.workarea.dosingreview.api.DosingReviewApiManager;
 import com.dhcc.nursepro.workarea.dosingreview.bean.DosingReViewBean;
@@ -78,8 +79,8 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
         //        hideToolbarNavigationIcon();
         setToolbarCenterTitle(getString(R.string.title_dosingreview), 0xffffffff, 17);
 
-        startDate = spUtils.getString(SharedPreference.SCHSTDATETIME).substring(0, 10);
-        endDate = spUtils.getString(SharedPreference.SCHENDATETIME).substring(0, 10);
+        startDate = DateUtils.getDateTimeAgo(spUtils.getString(SharedPreference.CURDATETIME),1).substring(0, 10);
+        endDate = spUtils.getString(SharedPreference.CURDATETIME).substring(0, 10);
 
         initView(view);
         initAdapter();

@@ -143,7 +143,7 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
                     spUtils.put(SharedPreference.SCHENDATETIME, msgs.getSchEnDateTime());
 
                     if (StringUtils.isEmpty(msgs.getCurDateTime())) {
-                        spUtils.put(SharedPreference.CURDATETIME, msgs.getSchStDateTime());
+                        spUtils.put(SharedPreference.CURDATETIME, msgs.getSchEnDateTime());
                     } else {
                         spUtils.put(SharedPreference.CURDATETIME, msgs.getCurDateTime());
                     }

@@ -72,7 +72,7 @@ public class BloodOperationListFragment extends BaseFragment implements View.OnC
         setToolbarCenterTitle(getString(R.string.title_bloodtransfusionsearch));
         setToolbarBottomLineVisibility(false);
 
-        searchDate = SPUtils.getInstance().getString(SharedPreference.SCHSTDATETIME).substring(0, 10);
+        searchDate = SPUtils.getInstance().getString(SharedPreference.CURDATETIME).substring(0, 10);
         initView(view);
         initAdapter();
         view.postDelayed(new Runnable() {

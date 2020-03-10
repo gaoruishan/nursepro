@@ -407,6 +407,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void onSuccess(final LoginBean loginBean) {
                 UserUtil.setUserConfig(loginBean);
+                spUtils.put(SharedPreference.CURDATETIME,loginBean.getCurDateTime());
                 //保存科室列表，设置界面更换病区会用到
                 List<Map<String, String>> list = new ArrayList<>();
                 for (int i = 0; i < loginBean.getLocs().size(); i++) {
