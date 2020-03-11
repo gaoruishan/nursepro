@@ -38,6 +38,7 @@ import com.dhcc.nursepro.workarea.dosingreview.DosingReviewFragment;
 import com.dhcc.nursepro.workarea.drugloopsystem.drughandover.DrugHandoverFragment;
 import com.dhcc.nursepro.workarea.drugloopsystem.drugpreparation.DrugPreparationFragment;
 import com.dhcc.nursepro.workarea.drugloopsystem.residualliquidregistration.RLRegFragment;
+import com.dhcc.nursepro.workarea.infusiondrugreceive.DrugReceiveFragment;
 import com.dhcc.nursepro.workarea.labout.LabOutListFragment;
 import com.dhcc.nursepro.workarea.labresult.LabPatsFragment;
 import com.dhcc.nursepro.workarea.milkloopsystem_wenling.MilkLoopSystemFragment;
@@ -259,6 +260,9 @@ public class WorkareaFragment extends BaseFragment {
                 break;
             case "SHIFT":
                 startFragment(ShiftFragment.class);
+                break;
+            case "IFOrdRec":
+                startFragment(DrugReceiveFragment.class);
                 break;
             default:
                 break;
@@ -1162,6 +1166,11 @@ public class WorkareaFragment extends BaseFragment {
                     break;
                 case "SHIFT":
                     tvItem.setText("交班本");
+                    tvItem.setText(item.getModuleDesc());
+                    imageView.setImageResource(R.drawable.icon_drugrlreg);
+                    break;
+                case "IFOrdRec":
+                    tvItem.setText("药品接收");
                     tvItem.setText(item.getModuleDesc());
                     imageView.setImageResource(R.drawable.icon_drugrlreg);
                     break;

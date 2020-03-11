@@ -94,7 +94,7 @@
     <!-- 交班本查询 -->
     <string name="title_shift">交班本查询</string>
     <!-- 输液药品接收 -->
-    <string name="title_drugreceive">药品接收</string>
+    <string name="title_drugreceive">静配接收</string>
     <!-- 医嘱执行Button.settag-key值-->
     <string name="key_execode">key_execode</string>
     <string name="key_singleflag">key_singleflag</string>
