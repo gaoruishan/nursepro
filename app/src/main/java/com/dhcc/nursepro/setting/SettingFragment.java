@@ -166,7 +166,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
             public void run() {
                 settingVersionDialog.dismiss();
             }
-        }, 3000);
+        }, 5000);
     }
 
     private void changeLoc() {

@@ -61,9 +61,9 @@ public class SettingVersionDialog extends Dialog {
             PackageManager manager = context.getPackageManager();
             PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
             if (str.equals("VersionName")) {
-                return "版本号：V" + info.versionName;
+                return "产品名称  iMedical M-NIS " + info.versionName;
             } else if (str.equals("VersionCode")) {
-                return "开发标识：" + info.versionCode;
+                return "产品版本  V" + info.versionName +"."+ info.versionCode;
             } else {
                 return "";
             }
