@@ -71,8 +71,8 @@ public class DrugReceiveFragment extends BaseFragment implements View.OnClickLis
             }
         });
 //        setToolbarRightCustomView(viewright);
-        startDate = DateUtils.getDateTimeAgo(SPUtils.getInstance().getString(SharedPreference.CURDATETIME),1).substring(0,16);
-        endDate = SPUtils.getInstance().getString(SharedPreference.CURDATETIME).substring(0,16);
+        startDate = DateUtils.getDateTimeAgo(SPUtils.getInstance().getString(SharedPreference.CURDATETIME),1).substring(0,10);
+        endDate = SPUtils.getInstance().getString(SharedPreference.CURDATETIME).substring(0,10);
         initView(view);
         initData();
     }
@@ -149,7 +149,7 @@ public class DrugReceiveFragment extends BaseFragment implements View.OnClickLis
     }
 
     private void chooseTime(long currentTimeMillis,String etChangeFlag) {
-        DateUtils.chooseDateTime(currentTimeMillis,getContext(), getFragmentManager(), new OnDateSetListener() {
+        DateUtils.chooseDate(currentTimeMillis,getContext(), getFragmentManager(), new OnDateSetListener() {
             @Override
             public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
                 String date = TimeUtils.millis2String(millseconds).substring(0, 10);
@@ -159,12 +159,12 @@ public class DrugReceiveFragment extends BaseFragment implements View.OnClickLis
                     startDate = TimeUtils.millis2String(millseconds);
                     initData();
 
-                    tvStDate.setText(TimeUtils.millis2String(millseconds).substring(0, 16));
+                    tvStDate.setText(TimeUtils.millis2String(millseconds).substring(0, 10));
                 } else {
                     endDate = TimeUtils.millis2String(millseconds);
                     initData();
 
-                    tvEndDate.setText(TimeUtils.millis2String(millseconds).substring(0, 16));
+                    tvEndDate.setText(TimeUtils.millis2String(millseconds).substring(0, 10));
                 }
             }
         });
@@ -175,10 +175,10 @@ public class DrugReceiveFragment extends BaseFragment implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_iford_startdatetime:
-                chooseTime(TimeUtils.string2Millis(tvStDate.getText().toString() + ":00"),"START");
+                chooseTime(TimeUtils.string2Millis(tvStDate.getText().toString() + " 00:00:00"),"START");
                 break;
             case R.id.tv_iford_enddatetime:
-                chooseTime(TimeUtils.string2Millis(tvEndDate.getText().toString() + ":00"),"END");
+                chooseTime(TimeUtils.string2Millis(tvEndDate.getText().toString() + " 00:00:00"),"END");
                 break;
 
             default:
