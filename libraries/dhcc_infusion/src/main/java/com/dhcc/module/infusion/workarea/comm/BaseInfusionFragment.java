@@ -193,10 +193,11 @@ public abstract class BaseInfusionFragment extends BaseFragment {
 
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if (mContainer != null) {
+            mContainer.setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.white));
+        }
         if (setLayout() != 0) {
-            View view = inflater.inflate(setLayout(), container, false);
-            view.setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.white));
-            return view;
+            return inflater.inflate(setLayout(), container, false);
         }
         return null;
     }

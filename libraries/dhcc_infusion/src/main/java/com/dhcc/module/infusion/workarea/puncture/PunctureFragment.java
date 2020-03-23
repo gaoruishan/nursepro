@@ -156,9 +156,7 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
                 ToastUtils.showShort("请选择穿刺部位");
                 return;
             }
-            int speed = csvSpeed.getSpeed();
-            if (speed <= 0) {
-                ToastUtils.showShort("请调节滴速");
+            if (csvSpeed.isNotSpeed()) {
                 return;
             }
             //穿刺工具
@@ -170,7 +168,7 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
             if (customOnOff.isSelect()) {
                 wayNo = String.valueOf(mBean.getWayListString().size() + 1);
             }
-            punctureOrd(part, tool, speed + "", select, wayNo, newWayFlag);
+            punctureOrd(part, tool, csvSpeed.getSpeed() + "", select, wayNo, newWayFlag);
         }
     }
 

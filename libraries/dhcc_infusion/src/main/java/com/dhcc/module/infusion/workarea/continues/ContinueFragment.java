@@ -9,7 +9,6 @@ import android.view.View;
 
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
-import com.blankj.utilcode.util.ToastUtils;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.utils.AdapterFactory;
 import com.dhcc.module.infusion.utils.DialogFactory;
@@ -113,9 +112,7 @@ public class ContinueFragment extends BaseInfusionFragment implements View.OnCli
             if (TextUtils.isEmpty(distantTime)) {
                 distantTime = mBean.getDistantDate() + " " + mBean.getDistantTime();
             }
-            int speed = csvSpeed.getSpeed();
-            if (speed <= 0) {
-                ToastUtils.showShort("请调节滴速");
+            if (csvSpeed.isNotSpeed()) {
                 return;
             }
             //通道
@@ -124,7 +121,7 @@ public class ContinueFragment extends BaseInfusionFragment implements View.OnCli
             if (customOnOff.isSelect()) {
                 wayNo = String.valueOf(mBean.getWayListString().size() + 1);
             }
-            ContinueApiManager.changeOrd(oeoreId, distantTime, speed + "", "", wayNo, newWayFlag, new CommonCallBack<CommResult>() {
+            ContinueApiManager.changeOrd(oeoreId, distantTime, csvSpeed.getSpeed() + "", "", wayNo, newWayFlag, new CommonCallBack<CommResult>() {
                 @Override
                 public void onFail(String code, String msg) {
                     onFailThings();

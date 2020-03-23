@@ -47,7 +47,9 @@ public class LocalTestManager {
 //        l.add("getSkinTestMessage");
 //        l.add("getOrdList");//配液
 //        l.add("getSkinOrdList");
+//        l.add("getPunctOrdList");//穿刺
 //        l.add("getTourOrdList");//巡视
+//        l.add("getChangeOrdList");//续液
 //        l.add("getFinishOrdList");//拔针
     }
 

@@ -1,0 +1,95 @@
+{
+  "CurOeoreId": "",
+  "CurRegNo": "0000000020",
+  "DefautSpeed": "",
+  "DistantDate": "2020-03-23",
+  "DistantTime": "10:56:44",
+  "Msgcode": "999999",
+  "PatInfo": {
+    "PatAge": "20岁",
+    "PatDiag": "",
+    "PatName": "第一",
+    "PatRegNo": "0000000020",
+    "PatSex": "女"
+  },
+  "msg": "成功",
+  "ordList": [
+    {
+      "Notes": "",
+      "OeoreId": "603||3||1",
+      "OeoreSubList": [
+        {
+          "ArcimDesc": "0.9%氯化钠注射液(塑瓶)[250ml]",
+          "DoseQtyUnit": "250 ml",
+          "PhOrdQtyUnit": "7 瓶"
+        },
+        {
+          "ArcimDesc": "注射用青霉素钠[80万U]",
+          "DoseQtyUnit": "80 万IU",
+          "PhOrdQtyUnit": "7 支"
+        }
+      ],
+      "OrdState": "未配液",
+      "wayNo": ""
+    },
+    {
+      "Notes": "",
+      "OeoreId": "603||3||2",
+      "OeoreSubList": [
+        {
+          "ArcimDesc": "0.9%氯化钠注射液(塑瓶)[250ml]",
+          "DoseQtyUnit": "250 ml",
+          "PhOrdQtyUnit": "7 瓶"
+        },
+        {
+          "ArcimDesc": "注射用青霉素钠[80万U]",
+          "DoseQtyUnit": "80 万IU",
+          "PhOrdQtyUnit": "7 支"
+        }
+      ],
+      "OrdState": "未配液",
+      "wayNo": ""
+    },
+    {
+      "Notes": "",
+      "OeoreId": "603||3||3",
+      "OeoreSubList": [
+        {
+          "ArcimDesc": "0.9%氯化钠注射液(塑瓶)[250ml]",
+          "DoseQtyUnit": "250 ml",
+          "PhOrdQtyUnit": "7 瓶"
+        },
+        {
+          "ArcimDesc": "注射用青霉素钠[80万U]",
+          "DoseQtyUnit": "80 万IU",
+          "PhOrdQtyUnit": "7 支"
+        }
+      ],
+      "OrdState": "已输完",
+      "wayNo": ""
+    },
+    {
+      "Notes": "",
+      "OeoreId": "603||3||4",
+      "OeoreSubList": [
+        {
+          "ArcimDesc": "0.9%氯化钠注射液(塑瓶)[250ml]",
+          "DoseQtyUnit": "250 ml",
+          "PhOrdQtyUnit": "7 瓶"
+        },
+        {
+          "ArcimDesc": "注射用青霉素钠[80万U]",
+          "DoseQtyUnit": "80 万IU",
+          "PhOrdQtyUnit": "7 支"
+        }
+      ],
+      "OrdState": "已输完",
+      "wayNo": ""
+    }
+  ],
+  "status": "0",
+  "wayList": {
+    "1": "1",
+    "2": "2"
+  }
+}

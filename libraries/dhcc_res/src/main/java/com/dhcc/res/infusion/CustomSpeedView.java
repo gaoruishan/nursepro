@@ -3,7 +3,6 @@ package com.dhcc.res.infusion;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -13,14 +12,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-import com.base.commlibs.utils.RecyclerViewHelper;
-import com.base.commlibs.utils.SimpleCallBack;
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
-import com.dhcc.res.infusion.bean.SheetListBean;
+import com.blankj.utilcode.util.ToastUtils;
 import com.grs.dhcc_res.R;
-
-import java.util.List;
 
 
 /**
@@ -35,9 +28,6 @@ public class CustomSpeedView extends LinearLayout implements View.OnClickListene
     private View view;
     private LinearLayout llRemove, llAdd;
     private EditText etSpeed;
-    private View llChannel;
-    private RecyclerView rvList;
-    private String selectChannel;
 
     public CustomSpeedView(Context context) {
         this(context, null);
@@ -63,8 +53,6 @@ public class CustomSpeedView extends LinearLayout implements View.OnClickListene
         llAdd = view.findViewById(R.id.ll_add);
         llAdd.setOnClickListener(this);
         etSpeed = view.findViewById(R.id.et_speed);
-        llChannel = view.findViewById(R.id.ll_channel);
-        rvList = view.findViewById(R.id.rv_list);
         etSpeed.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -87,34 +75,6 @@ public class CustomSpeedView extends LinearLayout implements View.OnClickListene
         });
     }
 
-    /**
-     * 设置通道数据
-     * @param list
-     * @param callBack
-     * @return
-     */
-    public CustomSpeedView setChannelList(final List<SheetListBean> list, final SimpleCallBack<SheetListBean> callBack) {
-        llChannel.setVisibility(GONE);
-        if (list != null && list.size() > 0) {
-            llChannel.setVisibility(VISIBLE);
-            //默认第一个选中
-            list.get(0).setSelect(true);
-            RecyclerViewHelper.setGridRecyclerView(getContext(), rvList, 4, 0, false);
-            final ChannelAdapter channelAdapter = new ChannelAdapter(list);
-            rvList.setAdapter(channelAdapter);
-//            channelAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-//                @Override
-//                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-//
-//                }
-//            });
-        }
-        return this;
-    }
-
-    public String getSelectChannel() {
-        return selectChannel == null ? "" : selectChannel;
-    }
 
     @Override
     public void onClick(View v) {
@@ -146,34 +106,20 @@ public class CustomSpeedView extends LinearLayout implements View.OnClickListene
      * @param speed
      */
     public CustomSpeedView setSpeed(String speed) {
+        setVisibility(GONE);
         if (!TextUtils.isEmpty(speed)) {
+            setVisibility(VISIBLE);
             etSpeed.setText(speed);
         }
         return this;
     }
 
-    private class ChannelAdapter extends BaseQuickAdapter<SheetListBean, BaseViewHolder> {
-
-        public ChannelAdapter(@Nullable List<SheetListBean> data) {
-            super(R.layout.dhcc_item_speed_channel, data);
+    public boolean isNotSpeed() {
+        int speed = getSpeed();
+        if (speed <= 0 && getVisibility() == VISIBLE) {
+            ToastUtils.showShort("请调节滴速");
+            return true;
         }
-
-        @Override
-        protected void convert(BaseViewHolder helper, SheetListBean item) {
-            helper.getView(R.id.iv_icon).setSelected(item.isSelect());
-            helper.setText(R.id.tv_name, item.getDesc());
-            final int position = helper.getAdapterPosition();
-            helper.getView(R.id.ll_item).setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    for (int i = 0; i < getData().size(); i++) {
-                        getData().get(i).setSelect(i == position);
-                    }
-                    SheetListBean bean = getData().get(position);
-                    selectChannel = bean.getDesc();
-                    notifyDataSetChanged();
-                }
-            });
-        }
+        return false;
     }
 }

@@ -10,7 +10,6 @@ import android.widget.EditText;
 
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
-import com.blankj.utilcode.util.ToastUtils;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.utils.AdapterFactory;
 import com.dhcc.module.infusion.utils.DialogFactory;
@@ -154,9 +153,7 @@ public class PatrolFragment extends BaseInfusionFragment implements View.OnClick
             if (mBean != null) {
                 oeoreId = mBean.getCurOeoreId();
             }
-            final int speed = csvSpeed.getSpeed();
-            if (speed <= 0) {
-                ToastUtils.showShort("请调节滴速");
+            if (csvSpeed.isNotSpeed()) {
                 return;
             }
             final String distantTime = csvSelectTime.getSelect();
@@ -175,11 +172,11 @@ public class PatrolFragment extends BaseInfusionFragment implements View.OnClick
                 DialogFactory.showCommOkCancelDialog(getActivity(), "提示", "您确定'结束'输液?", "取消", "确定", null, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        tourOrd(finalOeoreId, speed, distantTime, finalTourContent);
+                        tourOrd(finalOeoreId, csvSpeed.getSpeed(), distantTime, finalTourContent);
                     }
                 });
             } else {
-                tourOrd(oeoreId, speed, distantTime, tourContent);
+                tourOrd(oeoreId, csvSpeed.getSpeed(), distantTime, tourContent);
             }
         }
     }
