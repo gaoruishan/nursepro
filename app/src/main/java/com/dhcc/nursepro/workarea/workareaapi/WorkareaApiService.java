@@ -175,7 +175,7 @@ public class WorkareaApiService {
      * @author Devlix126
      * created at 2019/11/27 16:31
      */
-    public static void endOrd(String speed,String reason,String oeoreId, final ServiceCallBack callback) {
+    public static void endOrd(String speed,String oeoreId,String reason, final ServiceCallBack callback) {
         SPUtils spUtils = SPUtils.getInstance();
         HashMap<String, String> properties = new HashMap<>();
         properties.put("speed",speed);
