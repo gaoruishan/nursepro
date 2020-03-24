@@ -349,7 +349,7 @@ public class WorkareaOrderDialog extends Dialog {
                         tvPopupOrderExec.setEnabled(false);
                         tvPopupOrderExec.setClickable(false);
                         tvPopupOrderExec.setBackgroundResource(R.drawable.bg_dialog_unclick);
-                        tvPopupMsg.setText(tvPopupMsg.getText()+",请扫描患者腕带");
+                        tvPopupMsg.setText(msgInfo+",请扫描患者腕带");
                     }
                     break;
                 case "exed":
@@ -606,7 +606,7 @@ public class WorkareaOrderDialog extends Dialog {
                     tvPopupOrderExec.setEnabled(false);
                     tvPopupOrderExec.setClickable(false);
                     tvPopupOrderExec.setBackgroundResource(R.drawable.bg_dialog_unclick);
-                    tvPopupMsg.setText(tvPopupMsg.getText()+",请扫描患者腕带");
+                    tvPopupMsg.setText(msgInfo+",请扫描患者腕带");
                 }
                 break;
             case "exed":
