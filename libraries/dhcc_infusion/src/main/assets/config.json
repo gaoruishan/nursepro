@@ -1,0 +1,27 @@
+{
+  "msg": "",
+  "msgcode": "999999",
+  "status": "0",
+  "notes":"将updateApp文件(包含apk和json配置)放入C:/DtHealth/app/dthis/web下面(根据项目目录修改 如imedical);allAppAddress修改对应服务器IP和apk文件名",
+  "desc": "说明:allUpdateFlag=1表示全部科室更新; 更新:1,判断locDesc或locId是否与登录用户匹配;  2,判断newVersion版本号是否大; 3,forceFlag=1表示强制更新,",
+  "allAppAddress": "http://192.168.1.108/imedical/web/updateApp/Infusion_PDA_17_2020-02-04.apk",
+  "allUpdateFlag": "",
+  "list": [
+    {
+      "wardId": "",
+      "locDesc": "急诊内科门诊",
+      "locId": "203",
+      "appAddress": "http://192.168.1.108/imedical/web/updateApp/Infusion_PDA_17_2020-02-04.apk",
+      "newVersion": "13",
+      "forceFlag": ""
+    },
+    {
+      "wardId": "",
+      "locDesc":"门诊输液室 ",
+      "locId":"",
+      "appAddress": "http://192.168.1.108/imedical/web/updateApp/Infusion_PDA_17_2020-02-04.apk",
+      "newVersion": "16",
+      "forceFlag": ""
+    }
+  ]
+}

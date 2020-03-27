@@ -12,6 +12,8 @@ import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.utils.LocalTestManager;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.SPUtils;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
@@ -73,6 +75,22 @@ public class BaseWebServiceUtils {
             return;
         }
         callWebService(url, methodName, properties, webServiceCallBack);
+    }
+
+    /**
+     * 使用json一个参数
+     * @param methodName
+     * @param properties
+     * @param webServiceCallBack
+     */
+    public static void callWebOPPDAServiceJson(final String methodName,
+                                               HashMap<String, String> properties,
+                                               final WebServiceCallBack webServiceCallBack) {
+        HashMap<String, String> propertiesTest = new HashMap<>();
+        //解决=的乱码问题
+        Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+        propertiesTest.put("json", gson.toJson(properties));
+        callWebOPPDAService(methodName, propertiesTest, webServiceCallBack);
     }
 
     /**

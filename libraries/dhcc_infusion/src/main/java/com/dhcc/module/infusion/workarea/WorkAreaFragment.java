@@ -18,6 +18,7 @@ import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.CommRes;
 import com.base.commlibs.utils.DataCache;
+import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.module.infusion.R;
@@ -61,19 +62,23 @@ public class WorkAreaFragment extends BaseFragment {
             public void onFail(String code, String msg) {
                 CommRes.readJson("config_work_area.json", MainConfigBean.class, new CommRes.CallRes<MainConfigBean>() {
                     @Override
-                    public void call(MainConfigBean conf, String s) {
-                        DataCache.saveJson(conf, SharedPreference.DATA_MAIN_CONFIG);
-                        patEventsAdapter.setNewData(conf.getMainList());
+                    public void call(MainConfigBean bean, String s) {
+                        setData(bean);
                     }
                 });
             }
 
             @Override
             public void onSuccess(MainConfigBean bean, String type) {
-                DataCache.saveJson(bean, SharedPreference.DATA_MAIN_CONFIG);
-                patEventsAdapter.setNewData(bean.getMainList());
+                setData(bean);
             }
         });
+    }
+
+    private void setData(MainConfigBean bean) {
+        DataCache.saveJson(bean, SharedPreference.DATA_MAIN_CONFIG);
+        patEventsAdapter.setNewData(bean.getMainList());
+        CommRes.loadDrawableOrNetwork(getActivity(),f(R.id.iv_home_pic, ImageView.class),bean.getHomePic());
     }
 
     private void initView(View view) {
@@ -94,6 +99,7 @@ public class WorkAreaFragment extends BaseFragment {
                     }
                 } catch (Exception e) {
                     Log.e(TAG,e.toString());
+                    ToastUtils.showShort("此模块未找到");
                 }
             }
         });
@@ -109,10 +115,7 @@ public class WorkAreaFragment extends BaseFragment {
             TextView tvItem = helper.getView(R.id.tv_workarea);
             ImageView imageView = helper.getView(R.id.icon_workarea);
             tvItem.setText(item.getName());
-            int drawableRes = CommRes.getDrawableRes(mContext, item.getImage());
-            if (drawableRes != 0) {
-                imageView.setImageResource(drawableRes);
-            }
+            CommRes.loadDrawableOrNetwork(mContext,imageView, item.getImage());
         }
     }
 }

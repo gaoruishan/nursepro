@@ -1,11 +1,13 @@
 package com.base.commlibs.utils;
 
+import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.FileIOUtils;
 import com.blankj.utilcode.util.FileUtils;
+import com.blankj.utilcode.util.ImageUtils;
 import com.blankj.utilcode.util.PathUtils;
 
 /**
@@ -49,11 +51,24 @@ public class CommFile {
         return name;
     }
 
+    public static boolean writeFile(String url, Bitmap bitmap) {
+        String name = getURLNameString(url);
+        Bitmap.CompressFormat format = Bitmap.CompressFormat.PNG;
+        if (name.contains(".jpg") || name.contains(".jpeg")) {
+            format = Bitmap.CompressFormat.JPEG;
+        }
+        String dhc = ROOT_PATH + name;
+        return ImageUtils.save(bitmap, dhc, format);
+    }
     private static boolean writeFile(String finalName, String json) {
         String dhc = ROOT_PATH + finalName;
         return FileIOUtils.writeFileFromString(dhc, json + "");
     }
 
+    public static Bitmap readBitmap(String url) {
+        String dhc = ROOT_PATH + getURLNameString(url);
+        return ImageUtils.getBitmap(dhc);
+    }
     /**
      * 读取文件
      * @param name     文件名

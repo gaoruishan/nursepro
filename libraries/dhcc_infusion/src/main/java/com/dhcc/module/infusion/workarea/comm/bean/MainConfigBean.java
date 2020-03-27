@@ -22,6 +22,15 @@ public class MainConfigBean extends CommResult {
 
     private List<ConfigBean> mainList;
 
+    private String homePic;
+
+    public String getHomePic() {
+        return homePic == null ? "" : homePic;
+    }
+
+    public void setHomePic(String homePic) {
+        this.homePic = homePic;
+    }
     public List<ConfigBean> getMainList() {
         return mainList;
     }

@@ -13,6 +13,8 @@ import java.util.Arrays;
  * @email:grs0515@163.com
  */
 public class OrdState {
+
+    //=================================门诊输液===================================
     //配液界面
     public final static String STATE_1 = "未配液";
     public final static String[] STATE_2 = {"已配液", "已复核"};
@@ -25,12 +27,12 @@ public class OrdState {
     //穿刺后
     public final static String STATE_3 = "输液中";
     //拔针后
-    public final static String[] STATE_4 = {"已完成", "已输完"};
+    public final static String[] STATE_4 = {"已完成", "已输完", "已执行"};
     public final static String[] STATE_5 = {"异常结束", "异常"};
 
 
-    public static final String State_Pause ="暂停";
-    public static final String State_Finsh ="结束";
+    public static final String State_Pause = "暂停";
+    public static final String State_Finsh = "结束";
 
 
     /**
@@ -44,12 +46,16 @@ public class OrdState {
             return 0;
         }
 
+        return getBgColor(ordState);
+    }
+
+    public static int getBgColor(String ordState) {
         if (STATE_1.equals(ordState)) {
             return R.color.white;
         }
         //未执行-绿色
         if (OrdState.STATE_3_NEEDLES_PRE.equals(ordState)
-                ||OrdState.STATE_3_PUNCTURE_PRE.equals(ordState)
+                || OrdState.STATE_3_PUNCTURE_PRE.equals(ordState)
                 || Arrays.asList(OrdState.STATE_2).contains(ordState)) {
             return R.color.state_green;
         }
@@ -63,7 +69,6 @@ public class OrdState {
         }
         return 0;
     }
-
 
 }
 

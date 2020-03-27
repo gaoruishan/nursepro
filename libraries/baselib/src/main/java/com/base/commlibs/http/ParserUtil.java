@@ -2,10 +2,12 @@ package com.base.commlibs.http;
 
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.base.commlibs.R;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.utils.CommDialog;
+import com.base.commlibs.utils.LocalTestManager;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ObjectUtils;
 import com.google.gson.Gson;
@@ -81,7 +83,8 @@ public class ParserUtil<T extends CommResult> {
                     return t;
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e("json", "Exception= "+e.toString());
+                LocalTestManager.saveLog(clz.getSimpleName(),"Exception= \n"+e.toString());
                 showToast(callback, "网络错误，数据解析失败", ERR_CODE_2);
             }
 
@@ -96,8 +99,10 @@ public class ParserUtil<T extends CommResult> {
      */
     public void parserStatus(T bean, @NonNull CommonCallBack<T> callback) {
         if (CODE_OK.equals(bean.getStatus())) {
+            Log.e(TAG,"(ParserUtil.java:102) onSuccess");
             callback.onSuccess(bean, bean.getClass().getSimpleName());
         } else {
+            Log.e(TAG,"(ParserUtil.java:105) onFail");
             callback.onFail(bean.getMsgcode(), bean.getMsg());
             CommDialog.showCommDialog(ActivityUtils.getTopActivity(), bean.getMsg(), "", R.drawable.icon_popup_error_patient, null, true);
         }

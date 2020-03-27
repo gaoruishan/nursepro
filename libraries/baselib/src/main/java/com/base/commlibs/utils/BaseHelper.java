@@ -318,6 +318,13 @@ public class BaseHelper {
         }
         return this;
     }
+    public BaseHelper setSelect(@IdRes int viewId, boolean visible) {
+        View view = f(viewId);
+        if (view != null) {
+            view.setSelected(visible);
+        }
+        return this;
+    }
 
     /**
      * 设置URL图片

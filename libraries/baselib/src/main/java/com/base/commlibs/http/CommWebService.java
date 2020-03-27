@@ -43,6 +43,14 @@ public class CommWebService {
             }
         });
     }
+    public static void callJson(String methodName, HashMap<String, String> properties, final ServiceCallBack callBack) {
+        BaseWebServiceUtils.callWebOPPDAServiceJson(methodName, properties, new BaseWebServiceUtils.WebServiceCallBack() {
+            @Override
+            public void callBack(String result) {
+                callBack.onResult(result);
+            }
+        });
+    }
 
     /**
      * 统一(护士站)

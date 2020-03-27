@@ -5,6 +5,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.RawRes;
+import android.text.TextUtils;
+import android.util.Log;
+import android.widget.ImageView;
 
 import com.blankj.utilcode.util.ResourceUtils;
 import com.google.gson.Gson;
@@ -17,6 +20,8 @@ import com.google.gson.JsonSyntaxException;
  * @email:grs0515@163.com
  */
 public class CommRes {
+
+    private static final String TAG = CommRes.class.getSimpleName();
 
     /**
      * 通过图片名称,获取drawable下
@@ -61,6 +66,27 @@ public class CommRes {
                 handler.sendMessage(message);
             }
         }).start();
+    }
+
+    /**
+     * 加载本地Drawable 或网络图片
+     * @param mContext
+     * @param imageView
+     * @param image
+     */
+    public static void loadDrawableOrNetwork(Context mContext, ImageView imageView, String image) {
+        if (TextUtils.isEmpty(image) || imageView == null) {
+            return;
+        }
+        Log.e(TAG,"(CommRes.java:79) "+image);
+        if (HttpUtil.isImage(image)) {
+            HttpUtil.bindImage(imageView, image);
+        }else {
+            int drawableRes = CommRes.getDrawableRes(mContext, image);
+            if (drawableRes != 0) {
+                imageView.setImageResource(drawableRes);
+            }
+        }
     }
 
     /**
