@@ -28,6 +28,7 @@ public class CustomSpeedView extends LinearLayout implements View.OnClickListene
     private View view;
     private LinearLayout llRemove, llAdd;
     private EditText etSpeed;
+    private OnClickListener listener;
 
     public CustomSpeedView(Context context) {
         this(context, null);
@@ -86,8 +87,14 @@ public class CustomSpeedView extends LinearLayout implements View.OnClickListene
             speed = speed + 1;
         }
         setSpeed(String.valueOf(speed));
+        if (listener != null) {
+            listener.onClick(v);
+        }
     }
 
+    public void setOnSpeedClickListener(OnClickListener listener) {
+        this.listener = listener;
+    }
     /**
      * 获取速度
      * @return

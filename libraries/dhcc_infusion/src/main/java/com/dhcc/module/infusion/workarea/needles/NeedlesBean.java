@@ -24,7 +24,7 @@ public class NeedlesBean extends CommInfusionBean {
      * status : 0
      */
 
-    private PatInfoBean PatInfo;
+    //最后一袋液体标记 1是 0不是
     private String lastIfFlag;
 
     public String getCurOeoreId() {

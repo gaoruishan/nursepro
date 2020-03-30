@@ -1,6 +1,6 @@
 package com.dhcc.module.infusion.workarea.patrol.bean;
 
-import com.base.commlibs.http.CommResult;
+import com.dhcc.module.infusion.workarea.comm.bean.CommInfusionBean;
 import com.dhcc.module.infusion.workarea.comm.bean.PatInfoBean;
 import com.dhcc.module.infusion.workarea.dosing.bean.OrdListBean;
 
@@ -11,7 +11,7 @@ import java.util.List;
  * @date:202019-04-28/09:09
  * @email:grs0515@163.com
  */
-public class PatrolBean extends CommResult {
+public class PatrolBean extends CommInfusionBean {
 
     public static final String State_Pause ="暂停";
     public static final String State_Finsh ="结束";
@@ -32,16 +32,12 @@ public class PatrolBean extends CommResult {
      * status : 0
      */
 
-    private String CurOeoreId;
-    private String CurRegNo;
     private String DefautSpeed;
     private String DistantDate;
     private String DistantTime;
-    private PatInfoBean PatInfo;
     private List<InfusionReasonListBean> infusionReasonList;
     private List<InfusionStateListBean> infusionStateList;
     private List<InfusionTourListBean> infusionTourList;
-    private List<OrdListBean> ordList;
 
     public String getCurOeoreId() {
         return CurOeoreId;

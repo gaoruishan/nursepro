@@ -29,7 +29,6 @@ public class ContinueBean extends CommInfusionBean {
     private String DefautSpeed;
     private String DistantDate;
     private String DistantTime;
-    private PatInfoBean PatInfo;
 
     public String getCurOeoreId() {
         return CurOeoreId;

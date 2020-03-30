@@ -99,8 +99,15 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
                 // 隐藏扫码页
                 helper.setVisible(R.id.custom_scan, false);
                 setCustomPatViewData(cpvPat, bean.getPatInfo());
-
-                csvSpeed.setSpeed(bean.getDefautSpeed());
+                //设置滴速 点击计时预计时间
+                csvSpeed.setSpeed(bean.getDefautSpeed()).setOnSpeedClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int speed = csvSpeed.getSpeed();
+                        String doseTime = bean.computeDoseTime(speed);
+                        csvSelect.setSelect(doseTime);
+                    }
+                });
                 // 第一次扫码
                 mBean = bean;
                 if (scanInfo1 == null) {

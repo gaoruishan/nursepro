@@ -12,11 +12,15 @@ import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.utils.AdapterFactory;
 import com.dhcc.module.infusion.utils.DialogFactory;
 import com.dhcc.module.infusion.utils.RecyclerViewHelper;
+import com.dhcc.module.infusion.workarea.OrdState;
 import com.dhcc.module.infusion.workarea.comm.BaseInfusionFragment;
+import com.dhcc.module.infusion.workarea.dosing.bean.OrdListBean;
 import com.dhcc.module.infusion.workarea.needles.api.NeedlesApiManager;
 import com.dhcc.module.infusion.workarea.patrol.adapter.PatrolOrdListAdapter;
 import com.dhcc.res.infusion.CustomPatView;
 import com.dhcc.res.infusion.CustomScanView;
+
+import java.util.List;
 
 /**
  * 拔针
@@ -97,22 +101,45 @@ public class NeedlesFragment extends BaseInfusionFragment implements View.OnClic
             //通道
             String wayNo = customSelectChannel.getSelect().replace(STR_WAY_NO, "");
             String finishWayFlag = customOnOff.isSelect() ? "1" : "";
-            NeedlesApiManager.extractOrd(oeoreId, wayNo, finishWayFlag, new CommonCallBack<CommResult>() {
-                @Override
-                public void onFail(String code, String msg) {
-                    onFailThings();
-                }
 
-                @Override
-                public void onSuccess(CommResult bean, String type) {
-//                    csvScan.setVisibility(View.VISIBLE);
-                    if (scanInfo != null) {
-                        getOrdList(scanInfo);
+            //拔针弹框
+            List<OrdListBean> data = commPatrolAdapter.getData();
+            boolean hasNoOrder = false;
+            for (OrdListBean bean : data) {
+                hasNoOrder = OrdState.checkFinish( bean.getOrdState());
+                if (hasNoOrder) break;
+            }
+            if (hasNoOrder && "0".equals(mBean.getLastIfFlag())) {
+                String finalOeoreId = oeoreId;
+                DialogFactory.showCommOkCancelDialog(getActivity(), "提示", "有'未完成'的输液,是否拔针?", "取消", "确定", null, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        extractOrd(finalOeoreId,wayNo,finishWayFlag);
                     }
-                    DialogFactory.showCommDialog(getActivity(), "拔针成功", "", 0, null, true);
-                    onSuccessThings();
-                }
-            });
+                });
+            } else {
+                extractOrd(oeoreId,wayNo,finishWayFlag);
+            }
         }
+    }
+
+
+    private void extractOrd(String oeoreId, String wayNo, String finishWayFlag) {
+        NeedlesApiManager.extractOrd(oeoreId, wayNo, finishWayFlag, new CommonCallBack<CommResult>() {
+            @Override
+            public void onFail(String code, String msg) {
+                onFailThings();
+            }
+
+            @Override
+            public void onSuccess(CommResult bean, String type) {
+//                    csvScan.setVisibility(View.VISIBLE);
+                if (scanInfo != null) {
+                    getOrdList(scanInfo);
+                }
+                DialogFactory.showCommDialog(getActivity(), "拔针成功", "", 0, null, true);
+                onSuccessThings();
+            }
+        });
     }
 }

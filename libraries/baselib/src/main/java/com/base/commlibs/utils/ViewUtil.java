@@ -430,6 +430,17 @@ public class ViewUtil {
     }
 
     private static void setBetweenTime(TextView endView, String observeTime, String testStartTime,int off) {
+       endView.setText(getBetweenTime(observeTime,testStartTime,off));
+    }
+
+    /**
+     * 获取时间格式
+     * @param observeTime
+     * @param testStartTime
+     * @param off
+     * @return
+     */
+    public static String getBetweenTime(String observeTime, String testStartTime,int off) {
         SimpleDateFormat formatter;
         if (testStartTime.contains(" ")) {
             formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -441,9 +452,10 @@ public class ViewUtil {
             Date parse = formatter.parse(testStartTime);
             long l = parse.getTime() + Integer.valueOf(observeTime) * off;
             String format = formatter.format(new Date(l));
-            endView.setText(format + "");
+            return format;
         } catch (ParseException e) {
         }
+        return "";
     }
     /*
      * 判断是否为整数

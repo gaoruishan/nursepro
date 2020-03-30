@@ -108,7 +108,15 @@ public class PatrolFragment extends BaseInfusionFragment implements View.OnClick
                 //两次验证
 //                auditOrdInfo(bean.getOrdList(),bean.getCurRegNo(),bean.getCurOeoreId());
                 setCustomPatViewData(cpvPat, bean.getPatInfo());
-                csvSpeed.setSpeed(bean.getDefautSpeed());
+                //设置滴速 点击计时预计时间
+                csvSpeed.setSpeed(bean.getDefautSpeed()).setOnSpeedClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int speed = csvSpeed.getSpeed();
+                        String doseTime = bean.computeDoseTime(speed);
+                        csvSelectTime.setSelect(doseTime);
+                    }
+                });
                 csvSelectTime.setTitle("预计结束时间").setSelectTime(getFragmentManager(), bean.getDistantDate(), bean.getDistantTime(), null);
                 List<PatrolBean.InfusionStateListBean> stateList = bean.getInfusionStateList();
                 if (bean.getInfusionStateList() != null) {

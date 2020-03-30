@@ -70,5 +70,13 @@ public class OrdState {
         return 0;
     }
 
+    public static boolean checkFinish( String state) {
+        if (OrdState.STATE_3_NEEDLES_PRE.equals(state)
+                || OrdState.STATE_1.equals(state)
+                || Arrays.asList(OrdState.STATE_2).contains(state)) {
+            return true;
+        }
+        return false;
+    }
 }
 

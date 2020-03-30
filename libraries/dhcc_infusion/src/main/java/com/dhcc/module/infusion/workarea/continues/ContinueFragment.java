@@ -92,7 +92,15 @@ public class ContinueFragment extends BaseInfusionFragment implements View.OnCli
                 customSelectTime.setSelectTime(ContinueFragment.this.getFragmentManager(), bean.getDistantDate(), bean.getDistantTime(), null);
                 csvScan.setVisibility(View.GONE);
                 setCustomPatViewData(cpvPat, bean.getPatInfo());
-                csvSpeed.setSpeed(bean.getDefautSpeed());
+                //设置滴速 点击计时预计时间
+                csvSpeed.setSpeed(bean.getDefautSpeed()).setOnSpeedClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int speed = csvSpeed.getSpeed();
+                        String doseTime = bean.computeDoseTime(speed);
+                        customSelectTime.setSelect(doseTime);
+                    }
+                });
                 commDosingAdapter.setCurrentScanInfo(scanInfo);
                 commDosingAdapter.replaceData(bean.getOrdList());
 

@@ -3,6 +3,7 @@ package com.dhcc.module.infusion.workarea.comm.bean;
 import android.text.TextUtils;
 
 import com.base.commlibs.http.CommResult;
+import com.base.commlibs.utils.ViewUtil;
 import com.dhcc.module.infusion.workarea.dosing.bean.OrdListBean;
 import com.dhcc.module.infusion.workarea.puncture.PunctureFragment;
 
@@ -21,8 +22,25 @@ public class CommInfusionBean extends CommResult {
 
     protected String CurOeoreId;
     protected String CurRegNo;
+    protected PatInfoBean PatInfo;
     protected List<OrdListBean> ordList;
+    protected String curDate;
+    protected String curTime;
+    //总输液量
+    protected String curSumDose;
     protected Map wayList;
+
+    public String computeDoseTime(int speed) {
+        if (!TextUtils.isEmpty(curSumDose) && speed > 0) {
+            //总耗时(分)
+            int sumMin = Integer.valueOf(curSumDose) * 15 / speed;
+            if (!TextUtils.isEmpty(curDate) && !TextUtils.isEmpty(curTime)) {
+                String testStartTime = curDate + " " + curTime;
+                return ViewUtil.getBetweenTime(sumMin+"", testStartTime, 60 * 1000);
+            }
+        }
+        return "";
+    }
 
     /**
      * 是否有通道

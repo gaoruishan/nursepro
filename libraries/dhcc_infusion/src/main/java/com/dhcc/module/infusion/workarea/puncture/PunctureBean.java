@@ -31,10 +31,32 @@ public class PunctureBean extends CommInfusionBean {
     private String DefautSpeed;
     private String DistantTime;
     private String DistantDate;
-    private PatInfoBean PatInfo;
     private List<PunturePartListBean> PunturePartList;
     private List<PuntureToolListBean> PuntureToolList;
 
+    public String getCurDate() {
+        return curDate == null ? "" : curDate;
+    }
+
+    public void setCurDate(String curDate) {
+        this.curDate = curDate;
+    }
+
+    public String getCurTime() {
+        return curTime == null ? "" : curTime;
+    }
+
+    public void setCurTime(String curTime) {
+        this.curTime = curTime;
+    }
+
+    public String getCurSumDose() {
+        return curSumDose == null ? "" : curSumDose;
+    }
+
+    public void setCurSumDose(String curSumDose) {
+        this.curSumDose = curSumDose;
+    }
 
     public List<PuntureToolListBean> getPuntureToolList() {
         return PuntureToolList;
