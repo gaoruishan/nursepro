@@ -101,9 +101,16 @@ public class VitalSignChartsDetailFragment extends BaseFragment implements View.
         vitalsignChartsdetail.getDescription().setEnabled(false);
 
         // enable touch gestures
-        vitalsignChartsdetail.setTouchEnabled(false);
+        vitalsignChartsdetail.setTouchEnabled(true);
 
         vitalsignChartsdetail.setDragDecelerationFrictionCoef(0.9f);
+
+        // create marker to display box when values are selected
+        MyMarkerView mv = new MyMarkerView(getActivity(), R.layout.custom_marker_view);
+
+        // Set the marker to the chart
+        mv.setChartView(vitalsignChartsdetail);
+        vitalsignChartsdetail.setMarker(mv);
 
         // enable scaling and dragging
         vitalsignChartsdetail.setDragEnabled(true);
@@ -231,11 +238,13 @@ public class VitalSignChartsDetailFragment extends BaseFragment implements View.
             set2 = (LineDataSet) vitalsignChartsdetail.getData().getDataSetByIndex(1);
             set1.setValues(values1);
             set2.setValues(values2);
+            set1.setDrawValues(false);
+            set2.setDrawValues(false);
             vitalsignChartsdetail.getData().notifyDataChanged();
             vitalsignChartsdetail.notifyDataSetChanged();
         } else {
             // create a dataset and give it a type
-            set1 = new LineDataSet(values1, "体温");
+            set1 = new LineDataSet(values1, "体温/℃");
 
             set1.setAxisDependency(YAxis.AxisDependency.LEFT);
             set1.setColor(ColorTemplate.getHoloBlue());
@@ -253,7 +262,7 @@ public class VitalSignChartsDetailFragment extends BaseFragment implements View.
 
 
             // create a dataset and give it a type
-            set2 = new LineDataSet(values2, "脉搏");
+            set2 = new LineDataSet(values2, "脉搏/次");
             set2.setAxisDependency(YAxis.AxisDependency.RIGHT);
             set2.setColor(Color.RED);
             set2.setCircleColor(Color.RED);
@@ -266,6 +275,8 @@ public class VitalSignChartsDetailFragment extends BaseFragment implements View.
             //set2.setFillFormatter(new MyFillFormatter(900f));
 
             // create a data object with the data sets
+            set1.setDrawValues(false);
+            set2.setDrawValues(false);
             LineData data = new LineData(set1, set2);
             data.setValueTextColor(Color.BLACK);
             data.setValueTextSize(10f);
@@ -273,7 +284,6 @@ public class VitalSignChartsDetailFragment extends BaseFragment implements View.
             // set data
             vitalsignChartsdetail.setData(data);
         }
-
     }
 
     @Override
