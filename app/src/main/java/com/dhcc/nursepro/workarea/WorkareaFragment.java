@@ -635,6 +635,7 @@ public class WorkareaFragment extends BaseFragment {
                             }
                         }
                         orderDialog.setSpiList(ls);
+                        orderDialog.setBtnExecText(scanResultBean.getBtnDesc());
                         orderDialog.setBtnType(scanResultBean.getBtnType());
                         orderDialog.setIfState(scanResultBean.getIfState());
 

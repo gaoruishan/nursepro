@@ -302,6 +302,7 @@ public class WorkareaOrderDialog extends Dialog {
                 default:
                     break;
             }
+            tvPopupOrderExec.setText(btnExecText);
         }
         setBtnExec(scanPat, canExeFlag);
     }
@@ -578,6 +579,7 @@ public class WorkareaOrderDialog extends Dialog {
                 break;
         }
 
+        tvPopupOrderExec.setText(btnExecText);
         //暂停继续按钮文字变更
         switch (ifState) {
             case "Suspend":

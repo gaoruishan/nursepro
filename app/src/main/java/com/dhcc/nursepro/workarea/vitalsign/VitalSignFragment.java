@@ -78,6 +78,8 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
 
     private SPUtils spUtils = SPUtils.getInstance();
 
+    private Boolean ifLoading = true;
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -211,7 +213,10 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void asyncInitData() {
-        showLoadingTip(BaseActivity.LoadingType.FULL);
+        if (ifLoading){
+            showLoadingTip(BaseActivity.LoadingType.FULL);
+            ifLoading = false;
+        }
 
         VitalSignApiManager.getVitalSignList(dateFilterStr, timeFilterStr, new VitalSignApiManager.GetVitalSignListCallback() {
             @Override
@@ -717,6 +722,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
             Boolean b2 = !time.equals(timeFilterStr);
             dateFilterStr = date;
             timeFilterStr = time;
+            ifLoading = true;
             asyncInitData();
         }
 
