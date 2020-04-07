@@ -1,6 +1,7 @@
 package com.dhcc.module.infusion.message.bean;
 
 import com.base.commlibs.http.CommResult;
+import com.blankj.utilcode.util.TimeUtils;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 
 import java.util.List;
@@ -32,6 +33,13 @@ public class MessageInfusionBean extends CommResult implements MultiItemEntity {
     }
 
     public List<InfusionTimeListBean> getInfusionTimeList() {
+        //设置请求时间
+        if (InfusionTimeList != null) {
+            for (InfusionTimeListBean bean : InfusionTimeList) {
+                //"yyyy-MM-dd HH:mm:ss"
+                bean.initDataTime = TimeUtils.getNowString();
+            }
+        }
         return InfusionTimeList;
     }
 
@@ -51,6 +59,7 @@ public class MessageInfusionBean extends CommResult implements MultiItemEntity {
         private String PatRegNo;
         private String PatSex;
         private String overTime;
+        private String initDataTime;
         private boolean select;
 
         public boolean isSelect() {
@@ -90,6 +99,14 @@ public class MessageInfusionBean extends CommResult implements MultiItemEntity {
 
         public void setOverTime(String overTime) {
             this.overTime = overTime;
+        }
+
+        public String getInitDataTime() {
+            return initDataTime;
+        }
+
+        public void setInitDataTime(String initDataTime) {
+            this.initDataTime = initDataTime;
         }
     }
 }

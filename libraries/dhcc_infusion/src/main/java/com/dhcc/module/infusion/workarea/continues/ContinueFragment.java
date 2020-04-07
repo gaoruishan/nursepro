@@ -44,7 +44,7 @@ public class ContinueFragment extends BaseInfusionFragment implements View.OnCli
         csvSpeed = mContainerChild.findViewById(R.id.csv_speed);
         customSelectTime = mContainerChild.findViewById(R.id.custom_select_time);
         mContainerChild.findViewById(R.id.tv_ok).setOnClickListener(this);
-        csvScan.setTitle("请扫描瓶签/信息卡").setWarning("请您使用扫码设备，扫描药品瓶签/信息卡");
+        showScanLabelOrCard();
         setInitWayNo("开启新通道");
         RecyclerView rvOrdList = RecyclerViewHelper.get(mContext, R.id.rv_ord_list);
         commDosingAdapter = AdapterFactory.getCommDosingOrdList();

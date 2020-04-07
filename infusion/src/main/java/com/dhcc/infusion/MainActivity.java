@@ -427,15 +427,19 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
     public void updateData(MessageEvent event) {
         if (event.getType() == MessageEvent.MessageType.NOTIFY_MESSAGE) {
             Log.e(getClass().getSimpleName(), "updateData:" + event.getType());
-
-            AppUtil.playSound(this, R.raw.notice_message);
-            VibrateUtils.vibrate(3000);
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     AppUtil.showNotification(MainActivity.this,new Intent(MainActivity.this, MainActivity.class));
                 }
             }, 2000);
+            try {
+                AppUtil.playSound(this, R.raw.notice_message);
+            } catch (Exception e) {
+
+            }
+            VibrateUtils.vibrate(3000);
+
         }
     }
 

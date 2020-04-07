@@ -1,6 +1,5 @@
 package com.dhcc.module.infusion.message.adapter;
 
-import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -11,10 +10,12 @@ import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.CommDialog;
+import com.base.commlibs.utils.ViewUtil;
 import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.module.infusion.R;
+import com.dhcc.module.infusion.message.MessageUtil;
 import com.dhcc.module.infusion.message.api.MessageApiManager;
 import com.dhcc.module.infusion.message.bean.MessageSkinBean;
 import com.dhcc.module.infusion.utils.DialogFactory;
@@ -26,11 +27,7 @@ import com.dhcc.res.infusion.CustomPatView;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 /**
  * 皮试列表适配器
@@ -39,8 +36,7 @@ import java.util.TimeZone;
  * @email:grs0515@163.com
  */
 public class MessageSkinAdapter extends BaseQuickAdapter<MessageSkinBean.SkinTimeListBean, BaseViewHolder> {
-    public static final String HH_MM_SS = "HH:mm:ss";
-    public static final TimeZone GMT = TimeZone.getTimeZone("GMT");
+
 
     public MessageSkinAdapter(int layoutResId, @Nullable List<MessageSkinBean.SkinTimeListBean> data) {
         super(layoutResId, data);
@@ -67,42 +63,17 @@ public class MessageSkinAdapter extends BaseQuickAdapter<MessageSkinBean.SkinTim
         //observeTime差值是固定的 单位s
         if (!TextUtils.isEmpty(observeTime)) {
             helper.setText(R.id.tv_skin_between, Integer.valueOf(observeTime) / 60 + "分钟");
-            SimpleDateFormat formatter = new SimpleDateFormat(HH_MM_SS);
-            formatter.setTimeZone(GMT);
-            String formatEndTime = null;
-            try {
-                Date parse = formatter.parse(testStartTime);
-                long endTimeMillis = parse.getTime() + Integer.valueOf(observeTime) * 1000;
-                formatEndTime = formatter.format(new Date(endTimeMillis));
-                helper.setText(R.id.tv_skin_time_end, formatEndTime + "");
-            } catch (ParseException e) {
-            }
+            String formatEndTime = ViewUtil.getBetweenTime(observeTime, testStartTime, 1000);
+            helper.setText(R.id.tv_skin_time_end, formatEndTime + "");
 
-            SimpleDateFormat formatter1 = new SimpleDateFormat(HH_MM_SS);
-            String formatNowTime = formatter1.format(new Date(System.currentTimeMillis()));
-            //结束时间> 现在时间
-            long offTime = getFormatTime(formatEndTime) - getFormatTime(formatNowTime);
-            //现在时间> 开始时间
-            long offTime2 = getFormatTime(formatNowTime) - getFormatTime(testStartTime);
-            CountView cvCount = helper.getView(R.id.cv_count);
-            //没有复核/复核人 并且时间大于0
-            boolean isOk = offTime >= 0 && offTime2 >= 0 && TextUtils.isEmpty(item.getSkinTestAuditDateTime())
+            boolean otherOk =  TextUtils.isEmpty(item.getSkinTestAuditDateTime())
                     && TextUtils.isEmpty(item.getSkinTestDateTime())
                     && TextUtils.isEmpty(item.getSkinTestAuditCtcpDesc())
                     && TextUtils.isEmpty(item.getSkinTestCtcpDesc());
+
+            CountView cvCount = helper.getView(R.id.cv_count);
+            boolean isOk = MessageUtil.setCountTime(mContext,cvCount, testStartTime, formatEndTime, otherOk);
             helper.setVisible(R.id.ll_count, isOk);
-            if (isOk) {
-                cvCount.getTitleName().setVisibility(View.GONE);
-                cvCount.getOneDay().setTextColor(Color.parseColor("#FFFF6EA4"));
-                cvCount.getOneDay().setTextSize(mContext.getResources().getDimension(R.dimen.dp_13));
-                cvCount.start(offTime, CountView.ONE_DAY);
-                cvCount.setOnCountViewStatusListener(new CountView.OnCountViewStatusListener() {
-                    @Override
-                    public void onStop() {
-                        EventBus.getDefault().post(new MessageEvent(MessageEvent.MessageType.NOTIFY_MESSAGE));
-                    }
-                });
-            }
         }
         final SelectTextView stv1 = helper.getView(R.id.stv1);
         final SelectTextView stv2 = helper.getView(R.id.stv2);
@@ -132,14 +103,6 @@ public class MessageSkinAdapter extends BaseQuickAdapter<MessageSkinBean.SkinTim
         stv2.setOnSelectorListener(onClickListener);
     }
 
-    private long getFormatTime(String formatTime) {
-        if (!TextUtils.isEmpty(formatTime)) {
-            String[] splitEndTime = formatTime.split(":");
-            return Integer.parseInt(splitEndTime[0]) * 3600
-                    + Integer.parseInt(splitEndTime[1]) * 60 + Integer.parseInt(splitEndTime[2]);
-        }
-        return 0;
-    }
 
     private void setSelectState(SelectTextView stv, boolean select, boolean enable) {
         stv.setToggle(select);

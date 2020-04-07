@@ -63,7 +63,7 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
         helper.setOnClickListener(R.id.tv_ok, this);
         punctureAdapter = AdapterFactory.getCommDosingOrdList();
         rvPuncture.setAdapter(punctureAdapter);
-        customScan.setTitle("请扫描瓶签/信息卡").setWarning("请您使用扫码设备，扫描药品瓶签/信息卡");
+        showScanLabelOrCard();
 
     }
 

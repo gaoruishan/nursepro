@@ -3,6 +3,7 @@ package com.dhcc.module.infusion.setting;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,13 +14,14 @@ import android.widget.TextView;
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
 import com.base.commlibs.constant.SharedPreference;
+import com.base.commlibs.dialog.SettingVersionDialog;
+import com.base.commlibs.utils.UserUtil;
 import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.db.GreenDaoHelper;
 import com.dhcc.module.infusion.db.InfusionInfo;
 import com.dhcc.module.infusion.greendao.DaoSession;
 import com.dhcc.module.infusion.login.LoginActivity;
-import com.base.commlibs.utils.UserUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -54,6 +56,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 
     private Map<String,List> mapWins;
     private View mView;
+    private SettingVersionDialog settingVersionDialog;
 
 
     @Override
@@ -115,6 +118,8 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         rlWay = view.findViewById(R.id.rl_setting_chooseway);
         rlWay.setOnClickListener(this);
 
+        view.findViewById(R.id.tv_setting_about).setOnClickListener(this);
+
 
     }
 
@@ -152,9 +157,26 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         if (v.getId() == R.id.rl_setting_chooseway) {
             startFragment(SettingWayFragment.class);
         }
-
+        //提醒方式
+        if (v.getId() == R.id.tv_setting_about) {
+            showVersionDialog();
+        }
     }
+    private void showVersionDialog() {
+        if (settingVersionDialog != null && settingVersionDialog.isShowing()) {
+            settingVersionDialog.dismiss();
+        }
 
+        settingVersionDialog = new SettingVersionDialog(getActivity());
+        settingVersionDialog.setCanceledOnTouchOutside(true);
+        settingVersionDialog.show();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                settingVersionDialog.dismiss();
+            }
+        }, 5000);
+    }
     private void changeWindow(List list) {
             String[] locDesc = new String[list.size()];
             for (int i = 0; i < list.size(); i++) {

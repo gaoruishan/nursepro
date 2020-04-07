@@ -46,7 +46,7 @@ public class DosingFragment extends BaseInfusionFragment implements View.OnClick
         tvOk = f(R.id.tv_ok);
         cpvPat = mContainerChild.findViewById(R.id.cpv_pat);
         tvOk.setOnClickListener(this);
-//        f(R.id.tv_ok_all).setOnClickListener(this);
+        showScanLabel();
         rvDosing = RecyclerViewHelper.get(mContext, R.id.rv_dosing);
         commDosingAdapter = AdapterFactory.getCommDosingOrdList();
         rvDosing.setAdapter(commDosingAdapter);

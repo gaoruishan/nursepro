@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
 import com.base.commlibs.constant.SharedPreference;
+import com.base.commlibs.dialog.SettingVersionDialog;
 import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.greendao.DaoSession;

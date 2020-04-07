@@ -68,13 +68,18 @@
       "Notes": "",
       "OeoreId": "638||3||9",
       "OeoreSubList": [
-        {
-          "ArcimDesc": "0.9%氯化钠注射液[500ml]",
-          "DoseQtyUnit": "500 ml",
-          "PhOrdQtyUnit": "33 瓶"
-        }
+       {
+           "ArcimDesc": "0.9%氯化钠注射液(500ml软袋)",
+           "DoseQtyUnit": "100 ml",
+           "PhOrdQtyUnit": "6 袋"
+         },
+         {
+           "ArcimDesc": "头孢孟多酯钠粉针[0.5g*支]",
+           "DoseQtyUnit": "0.8 g",
+           "PhOrdQtyUnit": "12 支"
+         }
       ],
-      "OrdState": "待输液"
+      "OrdState": "已完成"
     },
     {
       "Notes": "",
@@ -86,7 +91,7 @@
           "PhOrdQtyUnit": "33 瓶"
         }
       ],
-      "OrdState": "待输液"
+      "OrdState": "已完成"
     },
     {
       "Notes": "",

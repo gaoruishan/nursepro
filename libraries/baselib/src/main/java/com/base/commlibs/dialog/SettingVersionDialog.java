@@ -1,4 +1,4 @@
-package com.dhcc.nursepro.setting;
+package com.base.commlibs.dialog;
 
 
 import android.app.Dialog;
@@ -8,7 +8,8 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import com.dhcc.nursepro.R;
+import com.base.commlibs.R;
+
 
 /**
  * SettingVersionDialog

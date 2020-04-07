@@ -434,9 +434,9 @@ public class ViewUtil {
     }
 
     /**
-     * 获取时间格式
+     * 获取时间格式 "yyyy-MM-dd HH:mm:ss"
      * @param observeTime
-     * @param testStartTime
+     * @param testStartTime 分钟:off=60000  秒:off=1000
      * @param off
      * @return
      */

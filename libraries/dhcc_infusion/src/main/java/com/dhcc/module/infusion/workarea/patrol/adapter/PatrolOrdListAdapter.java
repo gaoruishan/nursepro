@@ -8,9 +8,12 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.view.SelectTextView;
 import com.dhcc.module.infusion.view.SelectorImageView;
+import com.dhcc.module.infusion.workarea.OrdState;
 import com.dhcc.module.infusion.workarea.dosing.adapter.CommQuickAdapter;
+import com.dhcc.module.infusion.workarea.dosing.bean.OeoreGroupBean;
 import com.dhcc.module.infusion.workarea.dosing.bean.OrdListBean;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -21,7 +24,6 @@ import java.util.List;
  */
 public class PatrolOrdListAdapter extends CommQuickAdapter<OrdListBean, BaseViewHolder> {
 
-    public static final String OrdStateOK = "已输完";
 
     public PatrolOrdListAdapter(int layoutResId, @Nullable List data) {
         super(layoutResId, data);
@@ -33,27 +35,37 @@ public class PatrolOrdListAdapter extends CommQuickAdapter<OrdListBean, BaseView
         this.setCommData(helper, item);
         this.setCommItemClick(helper, R.id.ll_item);
         helper.setGone(R.id.siv_selector, false);
-        if (OrdStateOK.equals(item.getOrdState())) {
-            swichUi(helper, stv);
+        if (Arrays.asList(OrdState.STATE_4).contains(item.getOrdState())) {
+            //显示主医嘱
+            helper.setGone(R.id.ll_block, true);
+            stv.setUnSelectedBg(R.drawable.infusion_bg_circle_gray);
+            stv.setUnSelectTextColor(0xffffffff);
+            if (item.getOeoreSubList() != null) {
+                if (item.getOeoreSubList().size() > 1) {
+                    swichUi(helper);
+                }
+                if (item.getOeoreSubList().size() >= 1) {
+                    OeoreGroupBean bean = item.getOeoreSubList().get(0);
+                    helper.setText(R.id.tv_title, bean.getArcimDesc()).setText(R.id.tv_content, bean.getDoseQtyUnit()
+                            + "   " + bean.getPhOrdQtyUnit());
+                }
+            }
         }
     }
 
-    private void swichUi(final BaseViewHolder helper, SelectTextView stv) {
+    private void swichUi(final BaseViewHolder helper) {
         final SelectorImageView sivSelector = helper.getView(R.id.siv_selector);
-        stv.setUnSelectedBg(R.drawable.infusion_bg_circle_gray);
-        stv.setUnSelectTextColor(0xffffffff);
         helper.setGone(R.id.siv_selector, true);
         helper.setGone(R.id.rv_child, sivSelector.isCheck());
-        helper.setGone(R.id.v_block, !sivSelector.isCheck());
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sivSelector.toggle();
                 helper.setGone(R.id.rv_child, sivSelector.isCheck());
-                helper.setGone(R.id.v_block, !sivSelector.isCheck());
+                helper.setGone(R.id.ll_block,!sivSelector.isCheck());
             }
         };
-        helper.setOnClickListener(R.id.v_block, onClickListener);
+        helper.setOnClickListener(R.id.ll_block, onClickListener);
         sivSelector.setOnClickListener(onClickListener);
     }
 
