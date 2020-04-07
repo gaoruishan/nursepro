@@ -19,6 +19,8 @@ import java.util.Set;
  * @email:grs0515@163.com
  */
 public class CommInfusionBean extends CommResult {
+    //扫码执行
+    public final static String SCAN_EXE = "1";
 
     protected String CurOeoreId;
     protected String CurRegNo;
@@ -29,6 +31,16 @@ public class CommInfusionBean extends CommResult {
     //总输液量
     protected String curSumDose;
     protected Map wayList;
+
+    private String scanFlag;
+
+    public String getScanFlag() {
+        return scanFlag == null ? "" : scanFlag;
+    }
+
+    public void setScanFlag(String scanFlag) {
+        this.scanFlag = scanFlag;
+    }
 
     public String computeDoseTime(int speed) {
         if (!TextUtils.isEmpty(curSumDose) && speed > 0) {
