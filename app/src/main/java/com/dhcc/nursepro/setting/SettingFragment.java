@@ -160,6 +160,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         }
 
         settingVersionDialog = new SettingVersionDialog(getActivity());
+        settingVersionDialog.setAppCode("I");
         settingVersionDialog.setCanceledOnTouchOutside(true);
         settingVersionDialog.show();
         new Handler().postDelayed(new Runnable() {

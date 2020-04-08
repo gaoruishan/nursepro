@@ -22,7 +22,11 @@ public class SettingVersionDialog extends Dialog {
     private Context context;
     private TextView tvSettingversionVersionname;
     private TextView tvSettingversionVersionCode;
+    private String appCode = "E";
 
+    public void setAppCode(String appCode) {
+        this.appCode = appCode;
+    }
 
     public SettingVersionDialog(Context context) {
         super(context, R.style.MyDialog);
@@ -62,7 +66,7 @@ public class SettingVersionDialog extends Dialog {
             PackageManager manager = context.getPackageManager();
             PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
             if (str.equals("VersionName")) {
-                return "产品名称  iMedical M-NIS " + info.versionName;
+                return "产品名称  iMedical M-NIS-"+appCode+" " + info.versionName;
             } else if (str.equals("VersionCode")) {
                 return "产品版本  V" + info.versionName +"."+ info.versionCode;
             } else {
