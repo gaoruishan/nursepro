@@ -252,6 +252,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 
         llTourlist.setVisibility(View.VISIBLE);
         llTourSend.setVisibility(View.GONE);
+        showToolbarNavigationIcon();
         setTopFilterSelect();
 
         //提高展示效率
@@ -509,6 +510,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 
                 llTourlist.setVisibility(View.GONE);
                 llTourSend.setVisibility(View.VISIBLE);
+                hideToolbarNavigationIcon();
                 seToptEnable(false);
                 llSendInfusionList.setVisibility(View.GONE);
                 modelListBeans = modelDataBean.getModelList();
@@ -596,6 +598,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                 hideLoadFailTip();
 
                 llTourSend.setVisibility(View.GONE);
+                showToolbarNavigationIcon();
                 llTourlist.setVisibility(View.VISIBLE);
                 switch (topTypeSelected) {
                     case "all":
@@ -643,6 +646,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                 hideLoadFailTip();
 
                 llTourSend.setVisibility(View.GONE);
+                showToolbarNavigationIcon();
                 llTourlist.setVisibility(View.VISIBLE);
                 switch (topTypeSelected) {
                     case "all":
@@ -716,6 +720,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                 setTopFilterSelect();
 
                 llTourSend.setVisibility(View.GONE);
+                showToolbarNavigationIcon();
                 llTourlist.setVisibility(View.VISIBLE);
                 break;
             case R.id.tv_tour_save:

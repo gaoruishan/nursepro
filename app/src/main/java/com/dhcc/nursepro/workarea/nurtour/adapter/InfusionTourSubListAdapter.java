@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -80,7 +81,7 @@ public class InfusionTourSubListAdapter extends BaseQuickAdapter<InfusionListBea
 
 
         ImageView img = helper.getView(R.id.tv_tournurlist_img);
-        RelativeLayout rlImg = helper.getView(R.id.rl_img);
+        LinearLayout rlImg = helper.getView(R.id.rl_img);
         img.setSelected(false);
         recTourList.setVisibility(View.GONE);
         rlImg.setOnClickListener(new View.OnClickListener() {

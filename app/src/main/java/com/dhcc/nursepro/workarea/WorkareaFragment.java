@@ -372,6 +372,7 @@ public class WorkareaFragment extends BaseFragment {
                                     operateDialog.dismiss();
                                 }
                             });
+                            operateDialog.setJp(orderDialog.getJp());
                             operateDialog.show();
                             orderDialog.dismiss();
                         }
@@ -426,6 +427,7 @@ public class WorkareaFragment extends BaseFragment {
                                         operateDialog.dismiss();
                                     }
                                 });
+                                operateDialog.setJp(orderDialog.getJp());
                                 operateDialog.show();
                                 orderDialog.dismiss();
                             }
@@ -476,6 +478,7 @@ public class WorkareaFragment extends BaseFragment {
                                     operateDialog.dismiss();
                                 }
                             });
+                            operateDialog.setJp(orderDialog.getJp());
                             operateDialog.show();
                             orderDialog.dismiss();
                         }
@@ -520,6 +523,7 @@ public class WorkareaFragment extends BaseFragment {
                                     operateDialog.dismiss();
                                 }
                             });
+                            operateDialog.setJp(orderDialog.getJp());
                             operateDialog.show();
                             orderDialog.dismiss();
                         }
@@ -566,6 +570,7 @@ public class WorkareaFragment extends BaseFragment {
                                 patInfo = patInfoBean.getBedCode() + "-" + patInfoBean.getName() + "-" + patInfoBean.getSex() + "-" + patInfoBean.getAge();
                                 patSaveInfo = patInfoBean.getBedCode() + "-" + patInfoBean.getName();
                                 orderDialog.setPatInfo(patInfo);
+                                orderDialog.setJp(View.GONE);
                                 if (orderDialog != null && !orderDialog.isShowing()) {
                                     orderDialog.show();
                                 }
@@ -586,6 +591,7 @@ public class WorkareaFragment extends BaseFragment {
                         patInfo = "".equals(patInfoBean.getBedCode()) ? "未分床-" + patInfoBean.getName() + "-" + patInfoBean.getSex() + "-" + patInfoBean.getAge() : patInfoBean.getBedCode().replace("床", "") + "床-" + patInfoBean.getName() + "-" + patInfoBean.getSex() + "-" + patInfoBean.getAge();
                         patSaveInfo = patInfoBean.getBedCode() + "-" + patInfoBean.getName();
                         orderDialog.setPatInfo(patInfo);
+                        orderDialog.setJp(View.GONE);
                         if (orderDialog != null && !orderDialog.isShowing()) {
                             orderDialog.show();
                         }
@@ -639,6 +645,9 @@ public class WorkareaFragment extends BaseFragment {
                         orderDialog.setBtnType(scanResultBean.getBtnType());
                         orderDialog.setIfState(scanResultBean.getIfState());
 
+                        if (ordersBean.getFilteFlagExtend() != null && ordersBean.getFilteFlagExtend().equals("JP")){
+                            orderDialog.setJp(View.VISIBLE);
+                        }
                         if (orderDialog != null && !orderDialog.isShowing()) {
                             orderDialog.show();
                         }

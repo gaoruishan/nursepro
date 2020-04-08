@@ -698,6 +698,15 @@ public class ScanResultBean {
         private String exeStColor;
         private String exeStatus;
         private String speedFlowRate;
+        private String filteFlagExtend;
+
+        public String getFilteFlagExtend() {
+            return filteFlagExtend;
+        }
+
+        public void setFilteFlagExtend(String filteFlagExtend) {
+            this.filteFlagExtend = filteFlagExtend;
+        }
 
         public String getSpeedFlowRate() {
             return speedFlowRate;

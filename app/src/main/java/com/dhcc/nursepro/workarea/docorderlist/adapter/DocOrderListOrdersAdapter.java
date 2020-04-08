@@ -44,6 +44,12 @@ public class DocOrderListOrdersAdapter extends BaseQuickAdapter<List<DocOrderLis
             TextView textView = helper.getView(R.id.tv_item_order_priority);
             TextView tvstop = helper.getView(R.id.tv_item_order_stop);
             LinearLayout llstop = helper.getView(R.id.ll_item_stoporder);
+            TextView tvJp = helper.getView(R.id.tv_item_order_jp);
+            if (item.get(0).getFilteFlagExtend() != null && item.get(0).getFilteFlagExtend().equals("JP")){
+                tvJp.setVisibility(View.VISIBLE);
+            }else {
+                tvJp.setVisibility(View.GONE);
+            }
             if ("长期".equals(item.get(0).getOrdPriority())) {
                 textView.setBackgroundResource(R.drawable.bg_priority_long);
             } else {

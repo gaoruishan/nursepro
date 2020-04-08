@@ -36,6 +36,7 @@
         android:layout_height="1dp"
         android:background="#FFF6F6F6"></View>
     <LinearLayout
+        android:id="@+id/rl_img"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -72,7 +73,6 @@
             android:layout_marginLeft="5dp"
             android:textSize="12sp"/>
         <RelativeLayout
-            android:id="@+id/rl_img"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1">

@@ -116,7 +116,15 @@ public class DocOrderListBean {
         private String stopDate;
         private String stopDoctor;
         private String stopTime;
+        private String filteFlagExtend;
 
+        public String getFilteFlagExtend() {
+            return filteFlagExtend;
+        }
+
+        public void setFilteFlagExtend(String filteFlagExtend) {
+            this.filteFlagExtend = filteFlagExtend;
+        }
         public String getCtcpDesc() {
             return ctcpDesc;
         }

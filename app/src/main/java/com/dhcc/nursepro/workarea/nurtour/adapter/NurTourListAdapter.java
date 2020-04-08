@@ -94,7 +94,7 @@ public class NurTourListAdapter extends BaseQuickAdapter<GradeTourListBean.PatIn
             }
         });
         ImageView img = helper.getView(R.id.tv_tournurlist_img);
-        RelativeLayout rlImg = helper.getView(R.id.rl_img);
+        LinearLayout rlImg = helper.getView(R.id.messagecontentl2);
         img.setSelected(false);
         llAccount.setVisibility(View.GONE);
         viewNur.setVisibility(View.GONE);

@@ -35,6 +35,7 @@ import java.util.List;
 public class WorkareaOperateDialog extends Dialog {
     private Context context;
     private TextView tvPopupPatinfo;
+    private TextView tvJp;
     private RecyclerView recyPopupChildOrderInfo;
     private TextView tvPopupOrderinfoex;
     private LinearLayout llRemainingliquid;
@@ -70,6 +71,14 @@ public class WorkareaOperateDialog extends Dialog {
     private List spiReList = new ArrayList<String>();
     private String speedUnit = "";
     private String speed = "";
+    private int ifJpShow = View.GONE;
+
+    public void setJp(int ifJpShow){
+        this.ifJpShow = ifJpShow;
+    }
+    public int getJp() {
+        return ifJpShow;
+    }
 
     public String getSpeed() {
         if (etSpeed != null){
@@ -226,6 +235,7 @@ public class WorkareaOperateDialog extends Dialog {
     }
 
     private void initView() {
+        tvJp = findViewById(R.id.tv_jp);
         tvPopupPatinfo = findViewById(R.id.tv_popup_patinfo);
         recyPopupChildOrderInfo = findViewById(R.id.recy_popup_childOrderInfo);
         tvPopupOrderinfoex = findViewById(R.id.tv_popup_orderinfoex);
@@ -279,6 +289,7 @@ public class WorkareaOperateDialog extends Dialog {
         llRemainingliquid.setVisibility(ll1);
         llRemarkinfo.setVisibility(ll2);
         llSpiSpeed.setVisibility(llSpeed);
+        tvJp.setVisibility(ifJpShow);
 
         if (spiSpeed != null && spiList.size()>0){
 //            List ls = new ArrayList<String>();

@@ -27,7 +27,7 @@ public class InfusionTourSubListOrderItemAdapter extends BaseQuickAdapter<Infusi
     @Override
     protected void convert(BaseViewHolder helper, InfusionListBean.PatInfoListBean.OrdListBean.OeoreSubListBean item) {
         helper.setText(R.id.tv_ordername,item.getArcimDesc())
-                .setText(R.id.tv_tourinfusionsublist_time,item.getDoseQtyUnit())
-                .setText(R.id.tv_tourall_nurse1,item.getPhOrdQtyUnit());
+                .setText(R.id.tv_tourinfusionsublist_time,item.getDoseQtyUnit()==""?"":"剂量："+item.getDoseQtyUnit())
+                .setText(R.id.tv_tourall_nurse1,item.getPhOrdQtyUnit()==""?"":"总量："+item.getPhOrdQtyUnit());
     }
 }

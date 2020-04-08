@@ -1,5 +1,7 @@
 package com.dhcc.nursepro.workarea.workareaapi;
 
+import android.util.Log;
+
 import com.blankj.utilcode.util.ObjectUtils;
 import com.dhcc.nursepro.workarea.workareabean.MainConfigBean;
 import com.dhcc.nursepro.workarea.workareabean.OperateResultBean;
@@ -71,6 +73,7 @@ public class WorkareaApiManager {
                         }
                     } catch (Exception e) {
                         callback.onFail("-2", "网络错误，数据解析失败");
+                        Log.e("baocuo", "onResult: "+e.toString());
                     }
                 }
 

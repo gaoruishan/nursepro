@@ -35,6 +35,7 @@ public class WorkareaOrderDialog extends Dialog {
     private Context context;
 
     private TextView tvPopupPatinfo;
+    private TextView tvJp;
     private LinearLayout llMsg;
     private TextView tvPopupMsg;
     private TextView tvPopupOrderinfo;
@@ -87,6 +88,16 @@ public class WorkareaOrderDialog extends Dialog {
     private int llSpeed = View.GONE;
     private Boolean ifSpeedEdit = true;
     private EditText etSpeed;
+
+    private int ifJpShow = View.GONE;
+
+    public void setJp(int ifJpShow){
+        this.ifJpShow = ifJpShow;
+    }
+
+    public int getJp() {
+        return ifJpShow;
+    }
 
     public String getSpeed() {
         if (etSpeed != null){
@@ -272,6 +283,12 @@ public class WorkareaOrderDialog extends Dialog {
         this.btnType = btnType;
 
         if (!StringUtils.isEmpty(btnType) && tvPopupOrderExec != null && llExbtn1 != null && llExbtn2 != null && llSpiSpeed != null) {
+            if (!btnExecText.equals("")){
+                llExbtn.setVisibility(View.VISIBLE);
+                llExbtn1.setVisibility(View.GONE);
+                llExbtn2.setVisibility(View.GONE);
+                tvPopupOrderExec.setText(btnExecText);
+            }
             llSpiSpeed.setVisibility(View.GONE);
             switch (btnType) {
                 case "peiye":
@@ -302,7 +319,7 @@ public class WorkareaOrderDialog extends Dialog {
                 default:
                     break;
             }
-            tvPopupOrderExec.setText(btnExecText);
+
         }
         setBtnExec(scanPat, canExeFlag);
     }
@@ -350,7 +367,8 @@ public class WorkareaOrderDialog extends Dialog {
                         tvPopupOrderExec.setEnabled(false);
                         tvPopupOrderExec.setClickable(false);
                         tvPopupOrderExec.setBackgroundResource(R.drawable.bg_dialog_unclick);
-                        tvPopupMsg.setText(msgInfo+",请扫描患者腕带");
+//                        tvPopupMsg.setText(msgInfo+",请扫描患者腕带");
+                        tvPopupMsg.setText(msgInfo+"");
                     }
                     break;
                 case "exed":
@@ -438,6 +456,7 @@ public class WorkareaOrderDialog extends Dialog {
     }
 
     private void initView() {
+        tvJp = findViewById(R.id.tv_jp);
         tvPopupPatinfo = findViewById(R.id.tv_popup_patinfo);
         llMsg = findViewById(R.id.ll_msg);
         tvPopupMsg = findViewById(R.id.tv_popup_msg);
@@ -507,6 +526,8 @@ public class WorkareaOrderDialog extends Dialog {
 
         llSpiSpeed.setVisibility(llSpeed);
 
+        tvJp.setVisibility(ifJpShow);
+
         if (spiSpeed != null && spiList.size()>0){
 //            List ls = new ArrayList<String>();
 //            ls.add("滴/秒");
@@ -549,6 +570,12 @@ public class WorkareaOrderDialog extends Dialog {
         }
         //执行按钮文字变更
         llSpiSpeed.setVisibility(View.GONE);
+        if (!btnExecText.equals("")){
+            llExbtn.setVisibility(View.VISIBLE);
+            llExbtn1.setVisibility(View.GONE);
+            llExbtn2.setVisibility(View.GONE);
+            tvPopupOrderExec.setText(btnExecText);
+        }
         switch (btnType) {
             case "peiye":
                 llExbtn.setVisibility(View.VISIBLE);
@@ -579,7 +606,7 @@ public class WorkareaOrderDialog extends Dialog {
                 break;
         }
 
-        tvPopupOrderExec.setText(btnExecText);
+
         //暂停继续按钮文字变更
         switch (ifState) {
             case "Suspend":
@@ -608,7 +635,8 @@ public class WorkareaOrderDialog extends Dialog {
                     tvPopupOrderExec.setEnabled(false);
                     tvPopupOrderExec.setClickable(false);
                     tvPopupOrderExec.setBackgroundResource(R.drawable.bg_dialog_unclick);
-                    tvPopupMsg.setText(msgInfo+",请扫描患者腕带");
+                   // tvPopupMsg.setText(msgInfo+",请扫描患者腕带");
+                    tvPopupMsg.setText(msgInfo+"");
                 }
                 break;
             case "exed":

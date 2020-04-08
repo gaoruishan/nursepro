@@ -30,6 +30,16 @@
             android:textColor="@color/white"
             android:textSize="12sp"
             android:text="停止" />
+        <TextView
+            android:id="@+id/tv_item_order_jp"
+            android:layout_width="45dp"
+            android:layout_height="18dp"
+            android:layout_margin="12dp"
+            android:background="@drawable/bg_priority_jp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:text="静配" />
 
     </LinearLayout>
 
