@@ -14,6 +14,7 @@ import com.dhcc.module.infusion.utils.AdapterFactory;
 import com.dhcc.module.infusion.utils.DialogFactory;
 import com.dhcc.module.infusion.utils.RecyclerViewHelper;
 import com.dhcc.module.infusion.workarea.comm.BaseInfusionFragment;
+import com.dhcc.module.infusion.workarea.comm.bean.CommInfusionBean;
 import com.dhcc.module.infusion.workarea.continues.api.ContinueApiManager;
 import com.dhcc.module.infusion.workarea.dosing.adapter.CommDosingAdapter;
 import com.dhcc.res.infusion.CustomPatView;
@@ -62,7 +63,7 @@ public class ContinueFragment extends BaseInfusionFragment implements View.OnCli
         return R.layout.fragment_continue;
     }
 
-    private void getOrdList(final String scanInfo) {
+    private void getOrdList(final String scanInfo,final boolean... refresh) {
         String regNo = "";
         String curOeoreId = "";
         if (mBean != null) {
@@ -77,9 +78,6 @@ public class ContinueFragment extends BaseInfusionFragment implements View.OnCli
 
             @Override
             public void onSuccess(ContinueBean bean, String type) {
-                if (checkListOeoreId(bean.getOrdList(), PROMPT_NO_ORD)) {
-//                    return;
-                }
                 // 第一次扫码
                 mBean = bean;
                 //两次验证
@@ -104,46 +102,60 @@ public class ContinueFragment extends BaseInfusionFragment implements View.OnCli
                 commDosingAdapter.setCurrentScanInfo(scanInfo);
                 commDosingAdapter.replaceData(bean.getOrdList());
 
+                if (checkListOeoreId(bean.getOrdList(), PROMPT_NO_ORD)) {
+                    if (refresh != null && refresh.length > 0 && refresh[0]) {
+                        // 扫码执行,刷新列表不再执行
+                        return;
+                    }
+                    if (CommInfusionBean.SCAN_EXE.equals(bean.getScanFlag())) {
+                        clickExtractOrd();
+                    }
+                }
             }
         });
     }
 
+
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.tv_ok) {
-            String oeoreId = "";
-            String distantTime = "";
-            if (mBean != null) {
-                oeoreId = mBean.getCurOeoreId();
-            }
-            distantTime = customSelectTime.getSelect();
-            if (TextUtils.isEmpty(distantTime)) {
-                distantTime = mBean.getDistantDate() + " " + mBean.getDistantTime();
-            }
-            if (csvSpeed.isNotSpeed()) {
-                return;
-            }
-            //通道
-            String wayNo = customSelectChannel.getSelect().replace(STR_WAY_NO, "");
-            String newWayFlag = customOnOff.isSelect() ? "1" : "";
-            if (customOnOff.isSelect()) {
-                wayNo = String.valueOf(mBean.getWayListString().size() + 1);
-            }
-            ContinueApiManager.changeOrd(oeoreId, distantTime, csvSpeed.getSpeed() + "", "", wayNo, newWayFlag, new CommonCallBack<CommResult>() {
-                @Override
-                public void onFail(String code, String msg) {
-                    onFailThings();
-                }
-
-                @Override
-                public void onSuccess(CommResult bean, String type) {
-                    if (scanInfo != null) {
-                        getOrdList(scanInfo);
-                    }
-                    DialogFactory.showCommDialog(getActivity(), "续液成功", "", 0, null, true);
-                    onSuccessThings();
-                }
-            });
+            clickExtractOrd();
         }
+    }
+
+    private void clickExtractOrd() {
+        String oeoreId = "";
+        String distantTime = "";
+        if (mBean != null) {
+            oeoreId = mBean.getCurOeoreId();
+        }
+        distantTime = customSelectTime.getSelect();
+        if (TextUtils.isEmpty(distantTime)) {
+            distantTime = mBean.getDistantDate() + " " + mBean.getDistantTime();
+        }
+        if (csvSpeed.isNotSpeed()) {
+            return;
+        }
+        //通道
+        String wayNo = customSelectChannel.getSelect().replace(STR_WAY_NO, "");
+        String newWayFlag = customOnOff.isSelect() ? "1" : "";
+        if (customOnOff.isSelect()) {
+            wayNo = String.valueOf(mBean.getWayListString().size() + 1);
+        }
+        ContinueApiManager.changeOrd(oeoreId, distantTime, csvSpeed.getSpeed() + "", "", wayNo, newWayFlag, new CommonCallBack<CommResult>() {
+            @Override
+            public void onFail(String code, String msg) {
+                onFailThings();
+            }
+
+            @Override
+            public void onSuccess(CommResult bean, String type) {
+                if (scanInfo != null) {
+                    getOrdList(scanInfo,true);
+                }
+                DialogFactory.showCommDialog(getActivity(), "续液成功", "", 0, null, true);
+                onSuccessThings();
+            }
+        });
     }
 }

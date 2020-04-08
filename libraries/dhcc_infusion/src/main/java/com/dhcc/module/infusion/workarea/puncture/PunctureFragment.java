@@ -1,6 +1,7 @@
 package com.dhcc.module.infusion.workarea.puncture;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -17,6 +18,7 @@ import com.dhcc.module.infusion.utils.DialogFactory;
 import com.dhcc.module.infusion.utils.RecyclerViewHelper;
 import com.dhcc.module.infusion.workarea.OrdState;
 import com.dhcc.module.infusion.workarea.comm.BaseInfusionFragment;
+import com.dhcc.module.infusion.workarea.comm.bean.CommInfusionBean;
 import com.dhcc.module.infusion.workarea.dosing.adapter.CommDosingAdapter;
 import com.dhcc.module.infusion.workarea.puncture.api.PunctureApiManager;
 import com.dhcc.res.infusion.CustomPatView;
@@ -74,7 +76,7 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
         getOrdList(scanInfo);
     }
 
-    private void getOrdList(final String scanInfo) {
+    private void getOrdList(final String scanInfo, final boolean... refresh) {
         String regNo = "";
         String curOeoreId = "";
         if (mBean != null) {
@@ -90,9 +92,6 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
 
             @Override
             public void onSuccess(PunctureBean bean, String type) {
-                if (checkListOeoreId(bean.getOrdList(), PROMPT_NO_ORD)) {
-//                    return;
-                }
                 punctureAdapter.replaceData(bean.getOrdList());
                 punctureAdapter.setCurrentScanInfo(scanInfo);
                 scrollToPosition(rvPuncture,bean.getOrdList());
@@ -120,7 +119,7 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
                         return;
                     }
                     //输液中不可穿刺
-                    if ((bean.getIsCurrentWayNo() || bean.getCurrentOrdState(OrdState.STATE_3))) {
+                    if (bean.getCurrentOrdState(OrdState.STATE_3)) {
                         CommDialog.showShort(STR_ORD_ING);
                         return;
                     }
@@ -143,7 +142,23 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
                     f(R.id.rl_way).setVisibility(bean.getWayListString().size() > 0 ? View.VISIBLE : View.GONE);
                     customSelectChannel.setSelectData(mContext, bean.getWayListString(), null);
                     customOnOff.setDisEnable(bean.getIsCurrentWayNo(), STR_ORD_ING);
+
+                    if (checkListOeoreId(bean.getOrdList(), PROMPT_NO_ORD)) {
+                        if (refresh != null && refresh.length > 0 && refresh[0]) {
+                            // 扫码执行,刷新列表不再执行
+                            return;
+                        }
+                        if (CommInfusionBean.SCAN_EXE.equals(bean.getScanFlag())) {
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    clickExtractOrd();
+                                }
+                            },1500);
+                        }
+                    }
                 }
+
             }
         });
     }
@@ -158,25 +173,29 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
     public void onClick(View v) {
         // 保存
         if (v.getId() == R.id.tv_ok) {
-            String part = csvSelectParts.getSelect();
-            if (TextUtils.isEmpty(part)) {
-                ToastUtils.showShort("请选择穿刺部位");
-                return;
-            }
-            if (csvSpeed.isNotSpeed()) {
-                return;
-            }
-            //穿刺工具
-            String tool = csvSelectTools.getSelect();
-            String select = csvSelect.getSelect();
-            //通道
-            String wayNo = customSelectChannel.getSelect().replace(STR_WAY_NO, "");
-            String newWayFlag = customOnOff.isSelect() ? "1" : "";
-            if (customOnOff.isSelect()) {
-                wayNo = String.valueOf(mBean.getWayListString().size() + 1);
-            }
-            punctureOrd(part, tool, csvSpeed.getSpeed() + "", select, wayNo, newWayFlag);
+            clickExtractOrd();
         }
+    }
+
+    private void clickExtractOrd() {
+        String part = csvSelectParts.getSelect();
+        if (TextUtils.isEmpty(part)) {
+            ToastUtils.showShort("请选择穿刺部位");
+            return;
+        }
+        if (csvSpeed.isNotSpeed()) {
+            return;
+        }
+        //穿刺工具
+        String tool = csvSelectTools.getSelect();
+        String select = csvSelect.getSelect();
+        //通道
+        String wayNo = customSelectChannel.getSelect().replace(STR_WAY_NO, "");
+        String newWayFlag = customOnOff.isSelect() ? "1" : "";
+        if (customOnOff.isSelect()) {
+            wayNo = String.valueOf(mBean.getWayListString().size() + 1);
+        }
+        punctureOrd(part, tool, csvSpeed.getSpeed() + "", select, wayNo, newWayFlag);
     }
 
     private void punctureOrd(String part, String tool, String speed, String select, String wayNo, String newWayFlag) {
@@ -194,7 +213,7 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
             public void onSuccess(CommResult bean, String type) {
                 scanInfo1 = null;// 置空
                 if (scanInfo != null) {
-                    getOrdList(scanInfo);
+                    getOrdList(scanInfo,true);
                 }
                 setToolbarCenterTitle("穿刺");
                 DialogFactory.showCommDialog(getActivity(), "穿刺成功", "", 0, null, true);

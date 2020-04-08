@@ -86,8 +86,8 @@ public class DosingFragment extends BaseInfusionFragment implements View.OnClick
                 // 隐藏复核输入
 //                mContainerChild.findViewById(R.id.ll_review).setVisibility(equals ? View.GONE : View.VISIBLE);
                 reqType = equals ? DosingBean.Despensing : DosingBean.Audit;
-                //校验-true隐藏'确认'按钮
-                if (!checkListOeoreId(bean.getOrdList(), PROMPT_NO_ORD)) {
+                //校验-隐藏'确认'按钮
+                if (checkListOeoreId(bean.getOrdList(), PROMPT_NO_ORD)) {
 //                    return;
                     scanDespensingOrd(bean, refresh);
                 }

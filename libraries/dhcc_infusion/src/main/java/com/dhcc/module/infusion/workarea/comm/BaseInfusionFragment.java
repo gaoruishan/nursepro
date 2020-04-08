@@ -327,12 +327,11 @@ public abstract class BaseInfusionFragment extends BaseFragment {
             if (tvOk != null) {
                 tvOk.setVisibility(View.GONE);
             }
-            return true;
         }
         if (tvOk != null) {
             tvOk.setVisibility(View.VISIBLE);
         }
-        return false;
+        return isContain;
     }
 
     protected void onFailThings() {

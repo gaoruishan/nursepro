@@ -15,6 +15,7 @@ import com.dhcc.module.infusion.utils.AdapterFactory;
 import com.dhcc.module.infusion.utils.DialogFactory;
 import com.dhcc.module.infusion.utils.RecyclerViewHelper;
 import com.dhcc.module.infusion.workarea.comm.BaseInfusionFragment;
+import com.dhcc.module.infusion.workarea.comm.bean.CommInfusionBean;
 import com.dhcc.module.infusion.workarea.patrol.adapter.InfusionTourAdapter;
 import com.dhcc.module.infusion.workarea.patrol.adapter.PatrolOrdListAdapter;
 import com.dhcc.module.infusion.workarea.patrol.api.PatrolApiManager;
@@ -83,7 +84,7 @@ public class PatrolFragment extends BaseInfusionFragment implements View.OnClick
         return R.layout.fragment_patrol;
     }
 
-    private void getOrdList(final String scanInfo) {
+    private void getOrdList(final String scanInfo, final boolean... refresh) {
         String regNo = "";
         String curOeoreId = "";
         if (mBean != null) {
@@ -100,9 +101,6 @@ public class PatrolFragment extends BaseInfusionFragment implements View.OnClick
 
             @Override
             public void onSuccess(final PatrolBean bean, String type) {
-                if (checkListOeoreId(bean.getOrdList(), PROMPT_NO_ORD)) {
-//                    return;
-                }
                 mBean = bean;
                 csvScan.setVisibility(View.GONE);
                 //两次验证
@@ -120,29 +118,7 @@ public class PatrolFragment extends BaseInfusionFragment implements View.OnClick
                 csvSelectTime.setTitle("预计结束时间").setSelectTime(getFragmentManager(), bean.getDistantDate(), bean.getDistantTime(), null);
                 List<PatrolBean.InfusionStateListBean> stateList = bean.getInfusionStateList();
                 if (bean.getInfusionStateList() != null) {
-                    List<String> list = new ArrayList<>();
-                    for (PatrolBean.InfusionStateListBean b : stateList) {
-                        list.add(b.getInfusionState());
-                    }
-                    csvSelectStatus.setTitle("输液情况").setSelectData(getActivity(), list, new OptionPicker.OnOptionPickListener() {
-                        @Override
-                        public void onOptionPicked(int index, String item) {
-                            PatrolBean.InfusionStateListBean infusionStateListBean = stateList.get(index);
-                            csvSelectReason.setVisibility(View.GONE);
-                            llMeasure.setVisibility(View.GONE);
-                            if (PatrolBean.State_Pause.equals(item) || "1".equals(infusionStateListBean.getInfusionStateFlag())) {
-                                List<PatrolBean.InfusionReasonListBean> reasonList = bean.getInfusionReasonList();
-                                if (reasonList != null) {
-                                    List<String> list = new ArrayList<>();
-                                    for (PatrolBean.InfusionReasonListBean b : reasonList) {
-                                        list.add(b.getInfusionReason());
-                                    }
-                                    llMeasure.setVisibility(View.VISIBLE);
-                                    csvSelectReason.setTitle(item + "原因").setSelectData(getActivity(), list, null).setVisibility(View.VISIBLE);
-                                }
-                            }
-                        }
-                    });
+                    setInfusionSate(bean, stateList);
                 }
                 ordListAdapter.replaceData(bean.getOrdList());
                 ordListAdapter.setCurrentScanInfo(scanInfo);
@@ -150,6 +126,42 @@ public class PatrolFragment extends BaseInfusionFragment implements View.OnClick
                 boolean isShow = bean.getInfusionTourList() == null || bean.getInfusionTourList().size() == 0;
                 mContainerChild.findViewById(R.id.ll_patrol_status).setVisibility(isShow ? View.GONE : View.VISIBLE);
                 tourAdapter.replaceData(bean.getInfusionTourList());
+
+                if (checkListOeoreId(bean.getOrdList(), PROMPT_NO_ORD)) {
+                    if (refresh != null && refresh.length > 0 && refresh[0]) {
+                        // 扫码执行,刷新列表不再执行
+                        return;
+                    }
+                    if (CommInfusionBean.SCAN_EXE.equals(bean.getScanFlag())) {
+                        clickExtractOrd();
+                    }
+                }
+            }
+        });
+    }
+
+    private void setInfusionSate(PatrolBean bean, List<PatrolBean.InfusionStateListBean> stateList) {
+        List<String> list = new ArrayList<>();
+        for (PatrolBean.InfusionStateListBean b : stateList) {
+            list.add(b.getInfusionState());
+        }
+        csvSelectStatus.setTitle("输液情况").setSelectData(getActivity(), list, new OptionPicker.OnOptionPickListener() {
+            @Override
+            public void onOptionPicked(int index, String item) {
+                PatrolBean.InfusionStateListBean infusionStateListBean = stateList.get(index);
+                csvSelectReason.setVisibility(View.GONE);
+                llMeasure.setVisibility(View.GONE);
+                if (PatrolBean.State_Pause.equals(item) || "1".equals(infusionStateListBean.getInfusionStateFlag())) {
+                    List<PatrolBean.InfusionReasonListBean> reasonList = bean.getInfusionReasonList();
+                    if (reasonList != null) {
+                        List<String> list = new ArrayList<>();
+                        for (PatrolBean.InfusionReasonListBean b : reasonList) {
+                            list.add(b.getInfusionReason());
+                        }
+                        llMeasure.setVisibility(View.VISIBLE);
+                        csvSelectReason.setTitle(item + "原因").setSelectData(getActivity(), list, null).setVisibility(View.VISIBLE);
+                    }
+                }
             }
         });
     }
@@ -157,35 +169,39 @@ public class PatrolFragment extends BaseInfusionFragment implements View.OnClick
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.tv_ok) {
-            String oeoreId = "";
-            if (mBean != null) {
-                oeoreId = mBean.getCurOeoreId();
-            }
-            if (csvSpeed.isNotSpeed()) {
-                return;
-            }
-            final String distantTime = csvSelectTime.getSelect();
+            clickExtractOrd();
+        }
+    }
 
-            String tourContent = "WorkInfusionState|" + csvSelectStatus.getSelect();
-            if (PatrolBean.State_Pause.equals(csvSelectStatus.getSelect())) {
-                tourContent = tourContent + "^WorkInfusionReason|" + csvSelectReason.getSelect();
-                if (!TextUtils.isEmpty(edMeasure.getText())) {
-                    tourContent = tourContent + "^WorkInfusionMeasure|" + edMeasure.getText().toString();
+    private void clickExtractOrd() {
+        String oeoreId = "";
+        if (mBean != null) {
+            oeoreId = mBean.getCurOeoreId();
+        }
+        if (csvSpeed.isNotSpeed()) {
+            return;
+        }
+        final String distantTime = csvSelectTime.getSelect();
+
+        String tourContent = "WorkInfusionState|" + csvSelectStatus.getSelect();
+        if (PatrolBean.State_Pause.equals(csvSelectStatus.getSelect())) {
+            tourContent = tourContent + "^WorkInfusionReason|" + csvSelectReason.getSelect();
+            if (!TextUtils.isEmpty(edMeasure.getText())) {
+                tourContent = tourContent + "^WorkInfusionMeasure|" + edMeasure.getText().toString();
+            }
+        }
+        //异常结束-弹框
+        if (PatrolBean.State_Finsh.equals(csvSelectStatus.getSelect())) {
+            final String finalOeoreId = oeoreId;
+            final String finalTourContent = tourContent;
+            DialogFactory.showCommOkCancelDialog(getActivity(), "提示", "您确定'结束'输液?", "取消", "确定", null, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    tourOrd(finalOeoreId, csvSpeed.getSpeed(), distantTime, finalTourContent);
                 }
-            }
-            //异常结束-弹框
-            if (PatrolBean.State_Finsh.equals(csvSelectStatus.getSelect())) {
-                final String finalOeoreId = oeoreId;
-                final String finalTourContent = tourContent;
-                DialogFactory.showCommOkCancelDialog(getActivity(), "提示", "您确定'结束'输液?", "取消", "确定", null, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        tourOrd(finalOeoreId, csvSpeed.getSpeed(), distantTime, finalTourContent);
-                    }
-                });
-            } else {
-                tourOrd(oeoreId, csvSpeed.getSpeed(), distantTime, tourContent);
-            }
+            });
+        } else {
+            tourOrd(oeoreId, csvSpeed.getSpeed(), distantTime, tourContent);
         }
     }
 
@@ -200,7 +216,7 @@ public class PatrolFragment extends BaseInfusionFragment implements View.OnClick
             public void onSuccess(CommResult bean, String type) {
 //                    csvScan.setVisibility(View.VISIBLE);
                 if (scanInfo != null) {
-                    getOrdList(scanInfo);
+                    getOrdList(scanInfo,true);
                 }
                 DialogFactory.showCommDialog(getActivity(), "巡视成功", "", 0, null, true);
                 onSuccessThings();

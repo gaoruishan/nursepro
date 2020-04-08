@@ -8,7 +8,8 @@
     "PatRegNo": "0000000020",
     "PatSex": "女"
   },
-  "lastIfFlag": "1",
+  "lastIfFlag": "0",
+  "scanFlag": "1",
   "msg": "成功",
   "msgcode": "",
   "ordList": [
