@@ -37,6 +37,27 @@
             android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"></View>
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/ll_orderselect"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
+            android:layout_gravity="end"
+            android:gravity="center"
+            android:clickable="true">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/icon_orderexec_selector" />
+        </LinearLayout>
+        <View
+            android:layout_width="@dimen/dp_50"
+            android:layout_height="1dp"></View>
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
@@ -45,7 +66,6 @@
         android:layout_height="wrap_content"/>
 
     <include layout="@layout/item_skin_list_child"/>
-
     <LinearLayout
         android:id="@+id/ll_lab"
         android:visibility="gone"
@@ -85,6 +105,47 @@
             android:layout_height="wrap_content"/>
     </LinearLayout>
     <include layout="@layout/item_blood_child_layout2"/>
+    <LinearLayout
+        android:id="@+id/ll_exeinfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_5">
+
+        <com.noober.background.view.BLTextView
+            android:text="执"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            app:bl_corners_radius="@dimen/dp_5"
+            app:bl_solid_color="@color/blue_dark"
+            android:textSize="@dimen/sp_10"
+            android:paddingRight="@dimen/dp_3"
+            android:paddingLeft="@dimen/dp_3"
+            android:paddingTop="@dimen/dp_1"
+            android:paddingBottom="@dimen/dp_1"
+            android:textStyle="bold"
+            android:layout_marginRight="@dimen/dp_5"
+            android:layout_height="wrap_content"/>
+
+
+        <TextView
+            android:id="@+id/tv_exeuser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_6"
+            android:textColor="@color/dhcc_ordersearch_text_color"
+            android:textSize="@dimen/sp_12"
+            tools:text="皮试" />
+        <TextView
+            android:id="@+id/tv_exetime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_6"
+            android:textColor="@color/dhcc_ordersearch_text_color"
+            android:textSize="@dimen/sp_12"
+            tools:text="2018-08-25 08:00" />
+
+
+    </LinearLayout>
 
     <View
         android:id="@+id/line_oeporderinfo_multiorder"

@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.base.commlibs.utils.RecyclerViewHelper;
@@ -30,6 +31,11 @@ import java.util.List;
 public abstract class BaseBloodQuickAdapter<T, K extends BaseViewHolder> extends BaseQuickAdapter<T, K> {
 
     protected String scanInfo;
+    private Boolean ifSelShow = false;
+
+    public void setIfSelShow(Boolean ifSelShow) {
+        this.ifSelShow = ifSelShow;
+    }
 
     public BaseBloodQuickAdapter(int layoutResId, @Nullable List<T> data) {
         super(layoutResId, data);
@@ -53,7 +59,16 @@ public abstract class BaseBloodQuickAdapter<T, K extends BaseViewHolder> extends
                 .setText(R.id.tv_dose, item.getDoseQtyUnit())
                 .setText(R.id.tv_creator, item.getCtcpDesc())
                 .setText(R.id.tv_operate, item.getSpecDesc())
-                .setText(R.id.tv_time, item.getCreateDateTime());
+                .setText(R.id.tv_time, item.getCreateDateTime())
+                .setText(R.id.tv_stttime,item.getSttDateTime() !=null?item.getSttDateTime():"")
+                .addOnClickListener(R.id.ll_orderselect);
+        LinearLayout llExeDT = helper.getView(R.id.ll_exeinfo);
+        if (item.getExecDateTime() != null && item.getExecDateTime().length()>1){
+            llExeDT.setVisibility(View.VISIBLE);
+            helper.setText(R.id.tv_exetime,item.getExecDateTime()).setText(R.id.tv_exeuser,item.getExecCtcpDesc());
+        }else {
+            llExeDT.setVisibility(View.GONE);
+        }
         TextView blTvStatus = helper.getView(R.id.bl_tv_status);
         blTvStatus.setText(item.getDisposeStatDesc());
         String labColor = item.getLabColor();
@@ -67,6 +82,18 @@ public abstract class BaseBloodQuickAdapter<T, K extends BaseViewHolder> extends
         blTvStatus.setBackground(drawable);
         helper.setGone(R.id.tv_time, !TextUtils.isEmpty(item.getCreateDateTime()));
         helper.setGone(R.id.bl_tv_status, !TextUtils.isEmpty(item.getDisposeStatDesc()));
+
+        LinearLayout llSel = helper.getView(R.id.ll_orderselect);
+        if (ifSelShow){
+            llSel.setVisibility(View.VISIBLE);
+        }else {
+            llSel.setVisibility(View.GONE);
+        }
+        if (item.getSelect() != null && item.getSelect().equals("1")){
+            llSel.setSelected(true);
+        }else {
+            llSel.setSelected(false);
+        }
 
         //采血复核
         setBloodCheckData(helper,item);

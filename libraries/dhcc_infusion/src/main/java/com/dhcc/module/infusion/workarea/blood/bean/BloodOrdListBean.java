@@ -40,6 +40,42 @@ public class BloodOrdListBean {
     private String AuditLabUser;
     private String AuditLabDateTime;
     private List<ArcimDescListBean> ArcimDescList;
+    private String select;
+    private String execCtcpDesc;
+    private String execDateTime;
+    private String sttDateTime;
+
+    public String getSttDateTime() {
+        return sttDateTime;
+    }
+
+    public void setSttDateTime(String sttDateTime) {
+        this.sttDateTime = sttDateTime;
+    }
+
+    public String getExecDateTime() {
+        return execDateTime;
+    }
+
+    public void setExecDateTime(String execDateTime) {
+        this.execDateTime = execDateTime;
+    }
+
+    public String getExecCtcpDesc() {
+        return execCtcpDesc;
+    }
+
+    public void setExecCtcpDesc(String execCtcpDesc) {
+        this.execCtcpDesc = execCtcpDesc;
+    }
+
+    public String getSelect() {
+        return select;
+    }
+
+    public void setSelect(String select) {
+        this.select = select;
+    }
 
     public String getDesDateTime() {
         return desDateTime == null ? "" : desDateTime;

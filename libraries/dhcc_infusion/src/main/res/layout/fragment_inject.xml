@@ -42,6 +42,7 @@
             android:id="@+id/rv_list"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_0"
+            android:layout_marginBottom="@dimen/dp_50"
             android:layout_weight="1" />
 
     </LinearLayout>
@@ -51,4 +52,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
        />
+    <TextView
+    android:id="@+id/tv_inject_sure"
+    android:visibility="gone"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_50"
+    android:background="#FF62ABFF"
+    android:gravity="center"
+    android:layout_alignParentBottom="true"
+    android:text="确定"
+    android:textColor="#FFFFFFFF"
+    android:textSize="@dimen/sp_16"
+    />
 </RelativeLayout>

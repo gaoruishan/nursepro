@@ -54,7 +54,7 @@ public class WorkStatisticsFragment extends BaseFragment{
         setStatusBarBackgroundViewVisibility(true, 0xffffffff);
         setToolbarBackground(new ColorDrawable(0xffffffff));
         showToolbarNavigationIcon(R.drawable.icon_back_blue);
-        setToolbarCenterTitle("工作统计");
+        setToolbarCenterTitle("输液工作统计");
         helper = new BaseHelper(this.getActivity());
         RecyclerView rv = RecyclerViewHelper.get(getActivity(), R.id.rv);
         workStatisticsAdapter = AdapterFactory.geWorkStatistics();

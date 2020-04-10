@@ -35,22 +35,22 @@ public class PatrolOrdListAdapter extends CommQuickAdapter<OrdListBean, BaseView
         this.setCommData(helper, item);
         this.setCommItemClick(helper, R.id.ll_item);
         helper.setGone(R.id.siv_selector, false);
-        if (Arrays.asList(OrdState.STATE_4).contains(item.getOrdState())) {
-            //显示主医嘱
-            helper.setGone(R.id.ll_block, true);
-            stv.setUnSelectedBg(R.drawable.infusion_bg_circle_gray);
-            stv.setUnSelectTextColor(0xffffffff);
-            if (item.getOeoreSubList() != null) {
-                if (item.getOeoreSubList().size() > 1) {
-                    swichUi(helper);
-                }
-                if (item.getOeoreSubList().size() >= 1) {
-                    OeoreGroupBean bean = item.getOeoreSubList().get(0);
-                    helper.setText(R.id.tv_title, bean.getArcimDesc()).setText(R.id.tv_content, bean.getDoseQtyUnit()
-                            + "   " + bean.getPhOrdQtyUnit());
-                }
-            }
-        }
+//        if (Arrays.asList(OrdState.STATE_4).contains(item.getOrdState())) {
+//            //显示主医嘱
+//            helper.setGone(R.id.ll_block, true);
+//            stv.setUnSelectedBg(R.drawable.infusion_bg_circle_gray);
+//            stv.setUnSelectTextColor(0xffffffff);
+//            if (item.getOeoreSubList() != null) {
+//                if (item.getOeoreSubList().size() > 1) {
+//                    swichUi(helper);
+//                }
+//                if (item.getOeoreSubList().size() >= 1) {
+//                    OeoreGroupBean bean = item.getOeoreSubList().get(0);
+//                    helper.setText(R.id.tv_title, bean.getArcimDesc()).setText(R.id.tv_content, bean.getDoseQtyUnit()
+//                            + "   " + bean.getPhOrdQtyUnit());
+//                }
+//            }
+//        }
     }
 
     private void swichUi(final BaseViewHolder helper) {

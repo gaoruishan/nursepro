@@ -3,10 +3,13 @@ package com.dhcc.module.infusion.workarea.inject;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.SimpleCallBack;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.utils.AdapterFactory;
 import com.dhcc.module.infusion.utils.DialogFactory;
@@ -33,6 +36,9 @@ public class InjectFragment extends BaseInfusionFragment {
     protected CustomPatView customPat;
     protected CustomOnOffView customOnOff;
     protected BaseBloodQuickAdapter injectAdapter;
+    protected InjectListBean injectListBean;
+    protected TextView tvSure;
+    protected String ordId = "";
 
     @Override
     protected void initViews() {
@@ -41,6 +47,18 @@ public class InjectFragment extends BaseInfusionFragment {
         customDate = f(R.id.custom_date, CustomDateTimeView.class);
         customPat = f(R.id.custom_pat, CustomPatView.class);
         customOnOff = f(R.id.custom_on_off, CustomOnOffView.class);
+        tvSure = f(R.id.tv_inject_sure);
+        tvSure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ordId.equals("")){
+                    showToast("请选中医嘱");
+                }else {
+                    exeInjectOrd(ordId);
+                }
+
+            }
+        });
         customOnOff.setShowSelectText("未执行", "已执行")
                 .setOnSelectListener(new SimpleCallBack<Boolean>() {
                     @Override
@@ -71,6 +89,20 @@ public class InjectFragment extends BaseInfusionFragment {
 
         injectAdapter = AdapterFactory.getInjectAdapter();
         recyclerView.setAdapter(injectAdapter);
+        injectAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                if (view.getId() == R.id.ll_orderselect) {
+                    for (int i = 0; i <injectListBean.getOrdList().size() ; i++) {
+                        injectListBean.getOrdList().get(i).setSelect("0");
+                    }
+                    injectListBean.getOrdList().get(position).setSelect("1");
+                    injectAdapter.setNewData(injectListBean.getOrdList());
+                    ordId = injectListBean.getOrdList().get(position).getOeoriId();
+//                    showToast(ordId);
+                }
+            }
+        });
     }
 
     @Override
@@ -91,23 +123,24 @@ public class InjectFragment extends BaseInfusionFragment {
                 //ORD 扫医嘱条码返回医嘱信息
                 if (ORD.equals(bean.getFlag())) {
                     //弹框
-                    if ("1".equals(bean.getDiagFlag())) {
-                        DialogFactory.showPatInfo(mContext, bean, new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                exeInjectOrd();
-                            }
-                        });
-                    }else {
-                        exeInjectOrd();
-                    }
+//                    if ("1".equals(bean.getDiagFlag())) {
+//                        DialogFactory.showPatInfo(mContext, bean, new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
+//                                exeInjectOrd();
+//                            }
+//                        });
+//                    }else {
+//                        exeInjectOrd();
+//                    }
+//                    Toast.makeText(getContext(),"执行注射操作请点击确定执行",Toast.LENGTH_LONG).show();
                 }
             }
         });
     }
 
-    private void exeInjectOrd() {
-        InjectApiManager.exeInjectOrd(scanInfo, new CommonCallBack<CommResult>() {
+    private void exeInjectOrd(String injectOrdId) {
+        InjectApiManager.exeInjectOrd(injectOrdId, new CommonCallBack<CommResult>() {
             @Override
             public void onFail(String code, String msg) {
                 onFailThings();
@@ -117,6 +150,7 @@ public class InjectFragment extends BaseInfusionFragment {
             public void onSuccess(CommResult bean, String type) {
                 onSuccessThings(bean);
                 getInjectOrdList();
+                ordId = "";
             }
         });
     }
@@ -142,11 +176,17 @@ public class InjectFragment extends BaseInfusionFragment {
             @Override
             public void onSuccess(InjectListBean bean, String type) {
                 helper.setVisible(R.id.custom_scan, false);
-                if (bean.getOrdList() != null) {
-                    injectAdapter.setNewData(bean.getOrdList());
+                tvSure.setVisibility(View.VISIBLE);
+                injectListBean = bean;
+                if (injectListBean.getOrdList() != null) {
+                    for (int i = 0; i <injectListBean.getOrdList().size() ; i++) {
+                        injectListBean.getOrdList().get(i).setSelect("0");
+                    }
+                    injectAdapter.setIfSelShow(true);
+                    injectAdapter.setNewData(injectListBean.getOrdList());
                 }
-                regNo = bean.getPatInfo().getPatRegNo();
-                setCustomPatViewData(customPat,bean.getPatInfo());
+                regNo = injectListBean.getPatInfo().getPatRegNo();
+                setCustomPatViewData(customPat,injectListBean.getPatInfo());
             }
         });
     }
