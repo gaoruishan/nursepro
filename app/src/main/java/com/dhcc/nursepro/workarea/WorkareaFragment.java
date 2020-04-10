@@ -548,6 +548,7 @@ public class WorkareaFragment extends BaseFragment {
                     scanPat = "1";
                     if (orderDialog != null) {
                         orderDialog.setScanPat(scanPat);
+                        orderDialog.setPopMsgInfo(scanResultBean.getMsg());
                     }
                     if ("104999".equals(scanResultBean.getMsgcode())) {
 
@@ -570,6 +571,7 @@ public class WorkareaFragment extends BaseFragment {
                                 patInfo = patInfoBean.getBedCode() + "-" + patInfoBean.getName() + "-" + patInfoBean.getSex() + "-" + patInfoBean.getAge();
                                 patSaveInfo = patInfoBean.getBedCode() + "-" + patInfoBean.getName();
                                 orderDialog.setPatInfo(patInfo);
+                                orderDialog.setPopMsgInfo(scanResultBean.getMsg());
                                 orderDialog.setJp(View.GONE);
                                 if (orderDialog != null && !orderDialog.isShowing()) {
                                     orderDialog.show();

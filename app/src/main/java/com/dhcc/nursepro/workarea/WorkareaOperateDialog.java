@@ -75,6 +75,9 @@ public class WorkareaOperateDialog extends Dialog {
 
     public void setJp(int ifJpShow){
         this.ifJpShow = ifJpShow;
+        if (tvJp != null){
+            tvJp.setVisibility(ifJpShow);
+        }
     }
     public int getJp() {
         return ifJpShow;

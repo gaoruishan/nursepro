@@ -93,6 +93,9 @@ public class WorkareaOrderDialog extends Dialog {
 
     public void setJp(int ifJpShow){
         this.ifJpShow = ifJpShow;
+        if (tvJp != null){
+            tvJp.setVisibility(ifJpShow);
+        }
     }
 
     public int getJp() {
@@ -630,13 +633,13 @@ public class WorkareaOrderDialog extends Dialog {
                     tvPopupOrderExec.setEnabled(true);
                     tvPopupOrderExec.setClickable(true);
                     tvPopupOrderExec.setBackgroundResource(R.drawable.bg_dialog_sure);
-                    tvPopupMsg.setText(tvPopupMsg.getText().toString().replace(",请扫描患者腕带",""));
+//                    tvPopupMsg.setText(tvPopupMsg.getText().toString().replace(",请扫描患者腕带",""));
                 } else {
                     tvPopupOrderExec.setEnabled(false);
                     tvPopupOrderExec.setClickable(false);
                     tvPopupOrderExec.setBackgroundResource(R.drawable.bg_dialog_unclick);
                    // tvPopupMsg.setText(msgInfo+",请扫描患者腕带");
-                    tvPopupMsg.setText(msgInfo+"");
+//                    tvPopupMsg.setText(msgInfo+"");
                 }
                 break;
             case "exed":
