@@ -4,7 +4,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
@@ -12,11 +11,10 @@ import com.base.commlibs.utils.SimpleCallBack;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.utils.AdapterFactory;
-import com.dhcc.module.infusion.utils.DialogFactory;
 import com.dhcc.module.infusion.utils.RecyclerViewHelper;
-import com.dhcc.module.infusion.workarea.blood.adapter.BaseBloodQuickAdapter;
 import com.dhcc.module.infusion.workarea.comm.BaseInfusionFragment;
 import com.dhcc.module.infusion.workarea.comm.bean.ScanInfoBean;
+import com.dhcc.module.infusion.workarea.inject.adapter.InjectAdapter;
 import com.dhcc.res.infusion.CustomDateTimeView;
 import com.dhcc.res.infusion.CustomOnOffView;
 import com.dhcc.res.infusion.CustomPatView;
@@ -35,7 +33,7 @@ public class InjectFragment extends BaseInfusionFragment {
     protected CustomDateTimeView customDate;
     protected CustomPatView customPat;
     protected CustomOnOffView customOnOff;
-    protected BaseBloodQuickAdapter injectAdapter;
+    protected InjectAdapter injectAdapter;
     protected InjectListBean injectListBean;
     protected TextView tvSure;
     protected String ordId = "";
@@ -51,9 +49,9 @@ public class InjectFragment extends BaseInfusionFragment {
         tvSure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ordId.equals("")){
+                if (ordId.equals("")) {
                     showToast("请选中医嘱");
-                }else {
+                } else {
                     exeInjectOrd(ordId);
                 }
 
@@ -92,15 +90,8 @@ public class InjectFragment extends BaseInfusionFragment {
         injectAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                if (view.getId() == R.id.ll_orderselect) {
-                    for (int i = 0; i <injectListBean.getOrdList().size() ; i++) {
-                        injectListBean.getOrdList().get(i).setSelect("0");
-                    }
-                    injectListBean.getOrdList().get(position).setSelect("1");
-                    injectAdapter.setNewData(injectListBean.getOrdList());
-                    ordId = injectListBean.getOrdList().get(position).getOeoriId();
-//                    showToast(ordId);
-                }
+                injectAdapter.refreshData(injectListBean, position);
+                ordId = injectListBean.getOrdList().get(position).getOeoriId();
             }
         });
     }
@@ -139,6 +130,11 @@ public class InjectFragment extends BaseInfusionFragment {
         });
     }
 
+    @Override
+    protected int setLayout() {
+        return R.layout.fragment_inject;
+    }
+
     private void exeInjectOrd(String injectOrdId) {
         InjectApiManager.exeInjectOrd(injectOrdId, new CommonCallBack<CommResult>() {
             @Override
@@ -155,19 +151,14 @@ public class InjectFragment extends BaseInfusionFragment {
         });
     }
 
-    @Override
-    protected int setLayout() {
-        return R.layout.fragment_inject;
-    }
-
     protected void getInjectOrdList() {
         exeFlag = customOnOff.isSelect() ? "0" : "1";
         String scanInfo = this.scanInfo;
-        if(!TextUtils.isEmpty(regNo)){
+        if (!TextUtils.isEmpty(regNo)) {
             // 防止标签重新赋值
             scanInfo = regNo;
         }
-        InjectApiManager.getInjectOrdList(scanInfo, customDate.getStartDateTimeText(), customDate.getEndDateTimeText(), exeFlag,"", new CommonCallBack<InjectListBean>() {
+        InjectApiManager.getInjectOrdList(scanInfo, customDate.getStartDateTimeText(), customDate.getEndDateTimeText(), exeFlag, "", new CommonCallBack<InjectListBean>() {
             @Override
             public void onFail(String code, String msg) {
                 onFailThings();
@@ -178,15 +169,9 @@ public class InjectFragment extends BaseInfusionFragment {
                 helper.setVisible(R.id.custom_scan, false);
                 tvSure.setVisibility(View.VISIBLE);
                 injectListBean = bean;
-                if (injectListBean.getOrdList() != null) {
-                    for (int i = 0; i <injectListBean.getOrdList().size() ; i++) {
-                        injectListBean.getOrdList().get(i).setSelect("0");
-                    }
-                    injectAdapter.setIfSelShow(true);
-                    injectAdapter.setNewData(injectListBean.getOrdList());
-                }
+                injectAdapter.setInitData(bean);
                 regNo = injectListBean.getPatInfo().getPatRegNo();
-                setCustomPatViewData(customPat,injectListBean.getPatInfo());
+                setCustomPatViewData(customPat, injectListBean.getPatInfo());
             }
         });
     }

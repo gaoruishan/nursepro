@@ -1,14 +1,14 @@
 {
-  "CurOeoreId": "",
-  "CurRegNo": "0000000001",
-  "DefautSpeed": "11",
-  "DistantDate": "",
-  "DistantTime": "",
+  "CurOeoreId": "974||8||2",
+  "CurRegNo": "0000000721",
+  "DefautSpeed": "180",
+  "DistantDate": "2020-04-10",
+  "DistantTime": "15:13:23",
   "PatInfo": {
-    "PatAge": "33岁",
+    "PatAge": "",
     "PatDiag": "",
-    "PatName": "秦海贤",
-    "PatRegNo": "0000000001",
+    "PatName": "博瑞",
+    "PatRegNo": "0000000721",
     "PatSex": "男"
   },
   "infusionReasonList": [
@@ -16,13 +16,10 @@
       "InfusionReason": "鼓针"
     },
     {
-      "InfusionReason": "原因1"
+      "InfusionReason": "患者要求"
     },
     {
-      "InfusionReason": "原因2"
-    },
-    {
-      "InfusionReason": "原因3"
+      "InfusionReason": "病人抢救"
     }
   ],
   "infusionStateList": [
@@ -33,20 +30,366 @@
       "InfusionState": "暂停"
     },
     {
-      "InfusionState": "结束"
+      "InfusionState": "结束",
+      "InfusionStateFlag": "1"
     },
     {
-      "InfusionState": "其他"
+      "InfusionState": "其他",
+      "InfusionStateFlag": "1"
     }
   ],
   "infusionTourList": [
     {
-      "InfusionTourDate": "2019-04-28",
+      "InfusionTourDate": "2020-04-10",
       "InfusionTourMeasure": "",
       "InfusionTourReason": "",
-      "InfusionTourState": "",
-      "InfusionTourTime": "09/24/29",
-      "InfusionTourUser": "Demo Group"
+      "InfusionTourState": "正常",
+      "InfusionTourTime": "14:41:42",
+      "InfusionTourUser": "急诊护士01"
+    },
+    {
+      "InfusionTourDate": "2020-04-10",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "正常",
+      "InfusionTourTime": "14:43:46",
+      "InfusionTourUser": "护士01"
+    },
+    {
+      "InfusionTourDate": "2020-04-10",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "正常",
+      "InfusionTourTime": "14:43:50",
+      "InfusionTourUser": "护士01"
+    },
+    {
+      "InfusionTourDate": "2020-04-10",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "正常",
+      "InfusionTourTime": "14:46:17",
+      "InfusionTourUser": "护士01"
+    },
+    {
+      "InfusionTourDate": "2020-04-10",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "正常",
+      "InfusionTourTime": "14:46:22",
+      "InfusionTourUser": "护士01"
+    },
+    {
+      "InfusionTourDate": "2020-04-10",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "正常",
+      "InfusionTourTime": "14:48:41",
+      "InfusionTourUser": "护士01"
+    },
+    {
+      "InfusionTourDate": "2020-04-10",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "正常",
+      "InfusionTourTime": "15:04:43",
+      "InfusionTourUser": "护士01"
+    },
+    {
+      "InfusionTourDate": "2020-04-10",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "正常",
+      "InfusionTourTime": "15:08:25",
+      "InfusionTourUser": "护士01"
+    },
+    {
+      "InfusionTourDate": "2020-04-10",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "正常",
+      "InfusionTourTime": "15:08:40",
+      "InfusionTourUser": "护士01"
+    },
+    {
+      "InfusionTourDate": "2020-04-10",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "正常",
+      "InfusionTourTime": "15:08:57",
+      "InfusionTourUser": "护士01"
+    },
+    {
+      "InfusionTourDate": "2020-04-10",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "正常",
+      "InfusionTourTime": "15:10:34",
+      "InfusionTourUser": "护士01"
+    },
+    {
+      "InfusionTourDate": "2020-04-10",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "正常",
+      "InfusionTourTime": "15:10:46",
+      "InfusionTourUser": "护士01"
+    },
+    {
+      "InfusionTourDate": "2020-04-10",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "正常",
+      "InfusionTourTime": "15:12:12",
+      "InfusionTourUser": "护士01"
+    },
+    {
+      "InfusionTourDate": "2020-04-10",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "正常",
+      "InfusionTourTime": "15:14:19",
+      "InfusionTourUser": "护士01"
+    },
+    {
+      "InfusionTourDate": "2020-04-10",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "正常",
+      "InfusionTourTime": "15:17:49",
+      "InfusionTourUser": "护士01"
+    },
+    {
+      "InfusionTourDate": "2020-04-10",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "正常",
+      "InfusionTourTime": "15:24:33",
+      "InfusionTourUser": "护士01"
+    },
+    {
+      "InfusionTourDate": "2020-04-10",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "正常",
+      "InfusionTourTime": "15:29:51",
+      "InfusionTourUser": "护士01"
+    },
+    {
+      "InfusionTourDate": "2020-04-10",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "正常",
+      "InfusionTourTime": "15:31:54",
+      "InfusionTourUser": "护士01"
+    },
+    {
+      "InfusionTourDate": "2020-04-10",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "正常",
+      "InfusionTourTime": "15:32:04",
+      "InfusionTourUser": "护士01"
+    },
+    {
+      "InfusionTourDate": "2020-04-10",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "正常",
+      "InfusionTourTime": "15:32:28",
+      "InfusionTourUser": "护士01"
+    },
+    {
+      "InfusionTourDate": "2020-04-10",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "正常",
+      "InfusionTourTime": "15:32:39",
+      "InfusionTourUser": "护士01"
+    },
+    {
+      "InfusionTourDate": "2020-04-10",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "正常",
+      "InfusionTourTime": "15:33:46",
+      "InfusionTourUser": "护士01"
+    },
+    {
+      "InfusionTourDate": "2020-04-10",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "正常",
+      "InfusionTourTime": "15:34:03",
+      "InfusionTourUser": "护士01"
+    },
+    {
+      "InfusionTourDate": "2020-04-10",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "正常",
+      "InfusionTourTime": "15:34:11",
+      "InfusionTourUser": "护士01"
+    },
+    {
+      "InfusionTourDate": "2020-04-10",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "其他",
+      "InfusionTourTime": "15:34:34",
+      "InfusionTourUser": "护士01"
+    },
+    {
+      "InfusionTourDate": "2020-04-10",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "正常",
+      "InfusionTourTime": "15:35:02",
+      "InfusionTourUser": "护士01"
+    },
+    {
+      "InfusionTourDate": "2020-04-10",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "正常",
+      "InfusionTourTime": "15:35:39",
+      "InfusionTourUser": "护士01"
+    },
+    {
+      "InfusionTourDate": "2020-04-10",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "正常",
+      "InfusionTourTime": "15:35:49",
+      "InfusionTourUser": "护士01"
+    },
+    {
+      "InfusionTourDate": "2020-04-10",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "正常",
+      "InfusionTourTime": "15:39:38",
+      "InfusionTourUser": "护士01"
+    },
+    {
+      "InfusionTourDate": "2020-04-10",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "正常",
+      "InfusionTourTime": "15:40:23",
+      "InfusionTourUser": "护士01"
+    },
+    {
+      "InfusionTourDate": "2020-04-10",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "正常",
+      "InfusionTourTime": "15:41:37",
+      "InfusionTourUser": "护士01"
+    },
+    {
+      "InfusionTourDate": "2020-04-10",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "正常",
+      "InfusionTourTime": "15:42:05",
+      "InfusionTourUser": "护士01"
+    },
+    {
+      "InfusionTourDate": "2020-04-10",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "正常",
+      "InfusionTourTime": "15:43:34",
+      "InfusionTourUser": "护士01"
+    },
+    {
+      "InfusionTourDate": "2020-04-10",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "正常",
+      "InfusionTourTime": "15:45:21",
+      "InfusionTourUser": "护士01"
+    },
+    {
+      "InfusionTourDate": "2020-04-10",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "正常",
+      "InfusionTourTime": "15:45:34",
+      "InfusionTourUser": "护士01"
+    },
+    {
+      "InfusionTourDate": "2020-04-10",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "正常",
+      "InfusionTourTime": "16:11:36",
+      "InfusionTourUser": "护士01"
+    },
+    {
+      "InfusionTourDate": "2020-04-10",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "正常",
+      "InfusionTourTime": "16:11:47",
+      "InfusionTourUser": "护士01"
+    },
+    {
+      "InfusionTourDate": "2020-04-10",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "正常",
+      "InfusionTourTime": "16:12:44",
+      "InfusionTourUser": "护士01"
+    },
+    {
+      "InfusionTourDate": "2020-04-10",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "正常",
+      "InfusionTourTime": "16:13:31",
+      "InfusionTourUser": "护士01"
+    },
+    {
+      "InfusionTourDate": "2020-04-10",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "正常",
+      "InfusionTourTime": "16:19:54",
+      "InfusionTourUser": "护士01"
+    },
+    {
+      "InfusionTourDate": "2020-04-10",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "正常",
+      "InfusionTourTime": "16:19:55",
+      "InfusionTourUser": "护士01"
+    },
+    {
+      "InfusionTourDate": "2020-04-10",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "正常",
+      "InfusionTourTime": "16:20:02",
+      "InfusionTourUser": "护士01"
+    },
+    {
+      "InfusionTourDate": "2020-04-10",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "正常",
+      "InfusionTourTime": "16:20:10",
+      "InfusionTourUser": "护士01"
+    },
+    {
+      "InfusionTourDate": "2020-04-10",
+      "InfusionTourMeasure": "",
+      "InfusionTourReason": "",
+      "InfusionTourState": "正常",
+      "InfusionTourTime": "17:04:05",
+      "InfusionTourUser": "护士01"
     }
   ],
   "msg": "成功",
@@ -54,68 +397,104 @@
   "ordList": [
     {
       "Notes": "",
-      "OeoreId": "638||3||8",
+      "OeoreId": "974||4||1",
+      "OeoreSubList": [
+        {
+          "ArcimDesc": "5%葡萄糖注射液(塑瓶)[500ml]",
+          "DoseQtyUnit": "500 ml",
+          "PhOrdQtyUnit": "5 瓶"
+        }
+      ],
+      "OrdState": "已输完"
+    },
+    {
+      "Notes": "",
+      "OeoreId": "974||4||2",
+      "OeoreSubList": [
+        {
+          "ArcimDesc": "5%葡萄糖注射液(塑瓶)[500ml]",
+          "DoseQtyUnit": "500 ml",
+          "PhOrdQtyUnit": "5 瓶"
+        }
+      ],
+      "OrdState": "异常结束"
+    },
+    {
+      "Notes": "",
+      "OeoreId": "974||8||1",
+      "OeoreSubList": [
+        {
+          "ArcimDesc": "0.9%氯化钠注射液[500ml]",
+          "DoseQtyUnit": "300 ml",
+          "PhOrdQtyUnit": "15 瓶"
+        },  {
+                    "ArcimDesc": "0.9%氯化钠注射液[500ml]",
+                    "DoseQtyUnit": "300 ml",
+                    "PhOrdQtyUnit": "15 瓶"
+                  }
+
+      ],
+      "OrdState": "已输完"
+    },
+    {
+      "Notes": "",
+      "OeoreId": "974||4||3",
+      "OeoreSubList": [
+        {
+          "ArcimDesc": "5%葡萄糖注射液(塑瓶)[500ml]",
+          "DoseQtyUnit": "500 ml",
+          "PhOrdQtyUnit": "5 瓶"
+        }
+      ],
+      "OrdState": "已输完"
+    },
+    {
+      "Notes": "",
+      "OeoreId": "974||8||4",
+      "OeoreSubList": [
+        {
+          "ArcimDesc": "0.9%氯化钠注射液[500ml]",
+          "DoseQtyUnit": "300 ml",
+          "PhOrdQtyUnit": "15 瓶"
+        }
+      ],
+      "OrdState": "输液中"
+    },
+    {
+      "Notes": "",
+      "OeoreId": "974||8||2",
+      "OeoreSubList": [
+        {
+          "ArcimDesc": "0.9%氯化钠注射液[500ml]",
+          "DoseQtyUnit": "400 ml",
+          "PhOrdQtyUnit": "15 瓶"
+        }
+      ],
+      "OrdState": "输液中"
+    },
+    {
+      "Notes": "",
+      "OeoreId": "974||8||3",
       "OeoreSubList": [
         {
           "ArcimDesc": "0.9%氯化钠注射液[500ml]",
           "DoseQtyUnit": "500 ml",
-          "PhOrdQtyUnit": "33 瓶"
+          "PhOrdQtyUnit": "15 瓶"
         }
       ],
-      "OrdState": "待输液"
+      "OrdState": "未配液"
     },
     {
       "Notes": "",
-      "OeoreId": "638||3||9",
-      "OeoreSubList": [
-       {
-           "ArcimDesc": "0.9%氯化钠注射液(500ml软袋)",
-           "DoseQtyUnit": "100 ml",
-           "PhOrdQtyUnit": "6 袋"
-         },
-         {
-           "ArcimDesc": "头孢孟多酯钠粉针[0.5g*支]",
-           "DoseQtyUnit": "0.8 g",
-           "PhOrdQtyUnit": "12 支"
-         }
-      ],
-      "OrdState": "已完成"
-    },
-    {
-      "Notes": "",
-      "OeoreId": "638||3||4",
+      "OeoreId": "974||4||4",
       "OeoreSubList": [
         {
-          "ArcimDesc": "0.9%氯化钠注射液[500ml]",
+          "ArcimDesc": "5%葡萄糖注射液(塑瓶)[500ml]",
           "DoseQtyUnit": "500 ml",
-          "PhOrdQtyUnit": "33 瓶"
+          "PhOrdQtyUnit": "5 瓶"
         }
       ],
-      "OrdState": "已完成"
-    },
-    {
-      "Notes": "",
-      "OeoreId": "638||3||5",
-      "OeoreSubList": [
-        {
-          "ArcimDesc": "0.9%氯化钠注射液[500ml]",
-          "DoseQtyUnit": "500 ml",
-          "PhOrdQtyUnit": "33 瓶"
-        }
-      ],
-      "OrdState": "待输液"
-    },
-    {
-      "Notes": "",
-      "OeoreId": "638||3||6",
-      "OeoreSubList": [
-        {
-          "ArcimDesc": "0.9%氯化钠注射液[500ml]",
-          "DoseQtyUnit": "500 ml",
-          "PhOrdQtyUnit": "33 瓶"
-        }
-      ],
-      "OrdState": "待输液"
+      "OrdState": "输液中"
     }
   ],
   "status": "0"

@@ -83,17 +83,9 @@ public abstract class BaseBloodQuickAdapter<T, K extends BaseViewHolder> extends
         helper.setGone(R.id.tv_time, !TextUtils.isEmpty(item.getCreateDateTime()));
         helper.setGone(R.id.bl_tv_status, !TextUtils.isEmpty(item.getDisposeStatDesc()));
 
-        LinearLayout llSel = helper.getView(R.id.ll_orderselect);
-        if (ifSelShow){
-            llSel.setVisibility(View.VISIBLE);
-        }else {
-            llSel.setVisibility(View.GONE);
-        }
-        if (item.getSelect() != null && item.getSelect().equals("1")){
-            llSel.setSelected(true);
-        }else {
-            llSel.setSelected(false);
-        }
+        //选中
+        helper.setGone(R.id.ll_orderselect, ifSelShow);
+        helper.getView(R.id.ll_orderselect).setSelected("1".equals(item.getSelect()));
 
         //采血复核
         setBloodCheckData(helper,item);

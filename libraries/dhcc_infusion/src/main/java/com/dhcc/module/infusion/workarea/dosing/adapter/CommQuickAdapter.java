@@ -28,7 +28,6 @@ import com.dhcc.module.infusion.workarea.dosing.bean.OeoreGroupBean;
 import com.dhcc.module.infusion.workarea.dosing.bean.OrdListBean;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -94,17 +93,9 @@ public abstract class CommQuickAdapter<T, K extends BaseViewHolder> extends Base
         //创建布局管理
         RecyclerViewHelper.setDefaultRecyclerView(mContext, rvChild, 0);
 
-        if(Arrays.asList(OrdState.STATE_4).contains(item.getOrdState())){
-            List<OeoreGroupBean> list = new ArrayList<>();
-            list.add(item.getOeoreSubList().get(0));
-            ChildAdapter childAdapter = new ChildAdapter(R.layout.item_posing_child, list, stv.isSelect());
-            childAdapter.setOrdState(item.getOrdState());
-            rvChild.setAdapter(childAdapter);
-        }else {
-            ChildAdapter childAdapter = new ChildAdapter(R.layout.item_posing_child, item.getOeoreSubList(), stv.isSelect());
-            childAdapter.setOrdState(item.getOrdState());
-            rvChild.setAdapter(childAdapter);
-        }
+        ChildAdapter childAdapter = new ChildAdapter(R.layout.item_posing_child, item.getOeoreSubList(), stv.isSelect());
+        childAdapter.setOrdState(item.getOrdState());
+        rvChild.setAdapter(childAdapter);
 
         //父item获取事件
         preventChildRecyclerViewClick(rvChild, helper.itemView);

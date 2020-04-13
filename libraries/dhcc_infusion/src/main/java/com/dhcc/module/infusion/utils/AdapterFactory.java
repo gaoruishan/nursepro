@@ -104,7 +104,7 @@ public class AdapterFactory {
      * 注射
      * @return
      */
-    public static BaseBloodQuickAdapter getInjectAdapter() {
+    public static InjectAdapter getInjectAdapter() {
         return new InjectAdapter(R.layout.item_blood_layout, null);
     }
 }

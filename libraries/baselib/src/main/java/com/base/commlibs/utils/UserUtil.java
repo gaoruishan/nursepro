@@ -246,6 +246,8 @@ public class UserUtil {
      * @param loginBean
      */
     public static void setUserConfig(ConfigBean loginBean) {
+        SPUtils.getInstance().put(SharedPreference.LOCAL_TEST_FLAG, loginBean.getLocalTestFlag());
+        SPUtils.getInstance().put(SharedPreference.UPDATE_URL, loginBean.getUpdateUrl());
         SPUtils.getInstance().put(SharedPreference.LOG_FLAG, loginBean.getLogFlag());
         SPUtils.getInstance().put(SharedPreference.GLOBAL_VIEW_FLAG, loginBean.getGlobalViewFlag());
         SPUtils.getInstance().put(SharedPreference.MSG_NOTICE_FLAG, loginBean.getMsgNoticeFlag());
@@ -256,6 +258,14 @@ public class UserUtil {
     }
 
 
+    /**
+     * 是否本地json测试
+     * @return
+     * @param methodName
+     */
+    public static boolean isLocalTest(String methodName) {
+        return SPUtils.getInstance().getString(SharedPreference.LOCAL_TEST_FLAG).equals(methodName);
+    }
     /**
      * 是否采血复核多次扫码
      * @return

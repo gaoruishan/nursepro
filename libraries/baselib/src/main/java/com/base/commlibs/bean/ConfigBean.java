@@ -24,6 +24,26 @@ public class ConfigBean extends CommResult {
     private String bloodCheckFlag;
     //皮试日期差值: 默认是"" 当天; "7" 表示7天
     private String skinDateOffset;
+    //更新APP的URL
+    private String updateUrl;
+    //是否本地json测试
+    private String localTestFlag;
+
+    public String getLocalTestFlag() {
+        return localTestFlag == null ? "" : localTestFlag;
+    }
+
+    public void setLocalTestFlag(String localTestFlag) {
+        this.localTestFlag = localTestFlag;
+    }
+
+    public String getUpdateUrl() {
+        return updateUrl == null ? "" : updateUrl;
+    }
+
+    public void setUpdateUrl(String updateUrl) {
+        this.updateUrl = updateUrl;
+    }
 
     public String getSkinDateOffset() {
         return skinDateOffset == null ? "" : skinDateOffset;

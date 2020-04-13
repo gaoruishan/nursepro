@@ -3,6 +3,7 @@ package com.dhcc.module.infusion.message;
 import android.content.Context;
 import android.graphics.Color;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.View;
 
 import com.base.commlibs.MessageEvent;
@@ -36,7 +37,7 @@ public class MessageUtil {
         if (isOk) {
             cvCount.getTitleName().setVisibility(View.GONE);
             cvCount.getOneDay().setTextColor(Color.parseColor("#FFFF6EA4"));
-            cvCount.getOneDay().setTextSize(mContext.getResources().getDimension(R.dimen.dp_13));
+            cvCount.getOneDay().setTextSize(TypedValue.COMPLEX_UNIT_PX, mContext.getResources().getDimension(R.dimen.dp_22));
             cvCount.start(offTime, CountView.ONE_DAY);
             cvCount.setOnCountViewStatusListener(new CountView.OnCountViewStatusListener() {
                 @Override

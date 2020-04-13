@@ -7,6 +7,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.workarea.blood.adapter.BaseBloodQuickAdapter;
 import com.dhcc.module.infusion.workarea.blood.bean.BloodOrdListBean;
+import com.dhcc.module.infusion.workarea.inject.InjectListBean;
 
 import java.util.List;
 
@@ -20,6 +21,24 @@ public class InjectAdapter extends BaseBloodQuickAdapter<BloodOrdListBean, BaseV
 
     public InjectAdapter(int layoutResId, @Nullable List<BloodOrdListBean> data) {
         super(layoutResId, data);
+    }
+
+    public void setInitData(InjectListBean bean) {
+        if (bean.getOrdList() != null) {
+            for (int i = 0; i <bean.getOrdList().size() ; i++) {
+                bean.getOrdList().get(i).setSelect("0");
+            }
+            setIfSelShow(true);
+            setNewData(bean.getOrdList());
+        }
+    }
+
+    public void refreshData(InjectListBean injectListBean, int position) {
+        for (int i = 0; i <injectListBean.getOrdList().size() ; i++) {
+            injectListBean.getOrdList().get(i).setSelect("0");
+        }
+        injectListBean.getOrdList().get(position).setSelect("1");
+        setNewData(injectListBean.getOrdList());
     }
 
     @Override

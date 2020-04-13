@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseViewHolder;
 
 /**
+ * 通用的BaseViewHolder
  * @author:gaoruishan
  * @date:202020-03-23/15:36
  * @email:grs0515@163.com
@@ -38,6 +39,14 @@ public class BaseCommViewHolder extends BaseViewHolder {
         if (textView != null && mContext != null) {
             textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mContext.getResources().getDimension(dimen));
         }
+    }
+
+    public BaseCommViewHolder setSelect(@IdRes int viewId, boolean visible) {
+        View view = getView(viewId);
+        if (view != null) {
+            view.setSelected(visible);
+        }
+        return this;
     }
 
     public BaseCommViewHolder setTextData(@IdRes int viewId, String txt, String txtPre, String txtAfter, @ColorInt int... color) {

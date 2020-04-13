@@ -6,11 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -20,27 +17,18 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.allenliu.versionchecklib.v2.AllenVersionChecker;
-import com.allenliu.versionchecklib.v2.builder.DownloadBuilder;
-import com.allenliu.versionchecklib.v2.builder.UIData;
-import com.allenliu.versionchecklib.v2.callback.CustomDownloadFailedListener;
-import com.allenliu.versionchecklib.v2.callback.CustomVersionDialogListener;
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.MessageEvent;
 import com.base.commlibs.constant.Action;
-import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.service.MServiceNewOrd;
 import com.base.commlibs.utils.AppUtil;
 import com.base.commlibs.utils.UserUtil;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.VibrateUtils;
-import com.dhcc.infusion.update.BaseDialog;
-import com.dhcc.infusion.update.api.UpdateApiManager;
-import com.dhcc.infusion.update.bean.UpdateBean;
+import com.dhcc.infusion.update.UpdateAppUtil;
 import com.dhcc.module.infusion.message.MessageFragment;
 import com.dhcc.module.infusion.message.api.MessageApiManager;
 import com.dhcc.module.infusion.message.bean.NotifyMessageBean;
@@ -105,6 +93,7 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         //注册事件总线
         EventBus.getDefault().register(this);
         AppUtil.initPlay(this, 0, R.raw.notice_message);
+        UpdateAppUtil.initCanUpdate();
     }
 
     @Override
@@ -133,11 +122,7 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
     @Override
     protected void onResume(@Nullable Bundle args) {
         super.onResume(args);
-        if (hasRequest == 0) {
-            getNewVersion();
-        } else if (hasRequest == 1 && canUpdate == 1) {
-            getNewVersion();
-        }
+        UpdateAppUtil.onResume(MainActivity.this);
 
         if (mainReceiver != null) {
             mainfilter.addAction(Action.NEWMESSAGE_SERVICE);
@@ -145,110 +130,7 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         }
     }
 
-    /**
-     * 更新
-     * <p>
-     * https://github.com/AlexLiuSheng/CheckVersionLib/blob/master/README_UN.MD
-     */
-    private void getNewVersion() {
-        wardId = spUtils.getString(SharedPreference.WARDID);
-        ip = spUtils.getString(SharedPreference.WEBIP);
-        version = getVersion();
-        if ("无法获取当前版本号".equals(version)) {
-            Toast.makeText(this, "获取当前版本号失败", Toast.LENGTH_SHORT).show();
-            canUpdate = 0;
-        } else {
-            // TODO 需要修改
-            UpdateApiManager.getNewVersion(wardId, ip, version, new UpdateApiManager.GetNewVersionCallback() {
-                @Override
-                public void onSuccess(UpdateBean updateBean) {
-                    if (Integer.valueOf(updateBean.getNewVersion()) > Integer.valueOf(version)) {
-                        String appUrl = updateBean.getAppAddress();
 
-                        //                    String appUrl = "http://test-1251233192.coscd.myqcloud.com/1_1.apk";
-                        DownloadBuilder builder = AllenVersionChecker.getInstance().downloadOnly(crateUIData(appUrl));
-                        builder.setCustomVersionDialogListener(createCustomUpdateDialog());
-                        builder.setCustomDownloadFailedListener(createCustomDownloadFailedDialog());
-                        builder.setShowNotification(false);
-                        builder.setDownloadAPKPath(Environment.getExternalStorageDirectory() + "/NurseProAPK/");
-                        builder.setApkName("NursePro");
-                        builder.setNewestVersionCode(Integer.valueOf(updateBean.getNewVersion()));
-                        builder.executeMission(MainActivity.this);
-                        hasRequest = 1;
-                        canUpdate = 1;
-
-                    } else {
-                        Toast.makeText(MainActivity.this, "当前为最新版本", Toast.LENGTH_SHORT).show();
-                        hasRequest = 1;
-                        canUpdate = 0;
-                    }
-                }
-
-                @Override
-                public void onFail(String code, String msg) {
-                    showToast("error" + code + ":" + msg);
-                    canUpdate = 0;
-                }
-            });
-        }
-    }
-
-    //查询当前版本
-    public String getVersion() {
-        try {
-            PackageManager manager = this.getPackageManager();
-            PackageInfo info = manager.getPackageInfo(this.getPackageName(), 0);
-            return info.versionCode + "";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "无法获取当前版本号";
-        }
-    }
-
-    /**
-     * @return
-     * @important 使用请求版本功能，可以在这里设置downloadUrl
-     * 这里可以构造UI需要显示的数据
-     * UIData 内部是一个Bundle
-     */
-    private UIData crateUIData(String appUrl) {
-        UIData uiData = UIData.create();
-        uiData.setTitle("系统升级");
-        uiData.setDownloadUrl(appUrl);
-        uiData.setContent("检查到有新版本，请下载使用");
-        return uiData;
-    }
-
-    /**
-     * 务必用库传回来的context 实例化你的dialog
-     * 自定义的dialog UI参数展示，使用versionBundle
-     * @return
-     */
-    private CustomVersionDialogListener createCustomUpdateDialog() {
-        return (context, versionBundle) -> {
-            BaseDialog baseDialog = new BaseDialog(context, R.style.BaseDialog, R.layout.dialog_update);
-            TextView title = baseDialog.findViewById(R.id.tv_title);
-            title.setText(versionBundle.getTitle());
-            TextView content = baseDialog.findViewById(R.id.tv_msg);
-            content.setText(versionBundle.getContent());
-            baseDialog.setCanceledOnTouchOutside(false);
-            baseDialog.setCancelable(false);
-            return baseDialog;
-        };
-    }
-
-    /**
-     * 务必用库传回来的context 实例化你的dialog
-     * @return
-     */
-    private CustomDownloadFailedListener createCustomDownloadFailedDialog() {
-        return (context, versionBundle) -> {
-            BaseDialog baseDialog = new BaseDialog(context, R.style.BaseDialog, R.layout.dialog_update_downloadfailed);
-            baseDialog.setCanceledOnTouchOutside(false);
-            baseDialog.setCancelable(false);
-            return baseDialog;
-        };
-    }
 
     @Override
     public void setmessage(int messageNum,String soundFlag,String vibrateFlag) {

@@ -43,16 +43,19 @@ public class LocalTestManager {
 
     static {
         //对应的方法名
-//        l.add("getInfusionMessage");
-//        l.add("getSkinTestMessage");
+//        l.add("getInfusionMessage");//消息-输液
+//        l.add("getSkinTestMessage");//消息-皮试
 //        l.add("getOrdList");//配液
 //        l.add("getSkinOrdList");
 //        l.add("getPunctOrdList");//穿刺
 //        l.add("punctureOrd");//穿刺
 //        l.add("getTourOrdList");//巡视
+//        l.add("tourOrd");//巡视
 //        l.add("getChangeOrdList");//续液
 //        l.add("getFinishOrdList");//拔针
 //        l.add("extractOrd");//拔针
+
+//        l.add("getInjectOrdList");//注射
     }
 
     /**
@@ -85,6 +88,10 @@ public class LocalTestManager {
      * @return
      */
     public static boolean isTest(String methodName) {
+        //配置后台开启
+        if (UserUtil.isLocalTest(methodName)) {
+            return true;
+        }
         if (TEST) {
             return l.contains(methodName);
         }
@@ -92,7 +99,7 @@ public class LocalTestManager {
     }
     public static boolean isTest() {
         if (TEST) {
-            return !TextUtils.isEmpty(SPUtils.getInstance().getString(SharedPreference.USERID));
+            return UserUtil.isExistUserId();
         }
         return false;
     }
