@@ -56,6 +56,7 @@ public class LocalTestManager {
 //        l.add("extractOrd");//拔针
 
 //        l.add("getInjectOrdList");//注射
+//        l.add("exeInjectOrd");//注射
     }
 
     /**

@@ -326,70 +326,6 @@
       "InfusionTourState": "正常",
       "InfusionTourTime": "16:11:36",
       "InfusionTourUser": "护士01"
-    },
-    {
-      "InfusionTourDate": "2020-04-10",
-      "InfusionTourMeasure": "",
-      "InfusionTourReason": "",
-      "InfusionTourState": "正常",
-      "InfusionTourTime": "16:11:47",
-      "InfusionTourUser": "护士01"
-    },
-    {
-      "InfusionTourDate": "2020-04-10",
-      "InfusionTourMeasure": "",
-      "InfusionTourReason": "",
-      "InfusionTourState": "正常",
-      "InfusionTourTime": "16:12:44",
-      "InfusionTourUser": "护士01"
-    },
-    {
-      "InfusionTourDate": "2020-04-10",
-      "InfusionTourMeasure": "",
-      "InfusionTourReason": "",
-      "InfusionTourState": "正常",
-      "InfusionTourTime": "16:13:31",
-      "InfusionTourUser": "护士01"
-    },
-    {
-      "InfusionTourDate": "2020-04-10",
-      "InfusionTourMeasure": "",
-      "InfusionTourReason": "",
-      "InfusionTourState": "正常",
-      "InfusionTourTime": "16:19:54",
-      "InfusionTourUser": "护士01"
-    },
-    {
-      "InfusionTourDate": "2020-04-10",
-      "InfusionTourMeasure": "",
-      "InfusionTourReason": "",
-      "InfusionTourState": "正常",
-      "InfusionTourTime": "16:19:55",
-      "InfusionTourUser": "护士01"
-    },
-    {
-      "InfusionTourDate": "2020-04-10",
-      "InfusionTourMeasure": "",
-      "InfusionTourReason": "",
-      "InfusionTourState": "正常",
-      "InfusionTourTime": "16:20:02",
-      "InfusionTourUser": "护士01"
-    },
-    {
-      "InfusionTourDate": "2020-04-10",
-      "InfusionTourMeasure": "",
-      "InfusionTourReason": "",
-      "InfusionTourState": "正常",
-      "InfusionTourTime": "16:20:10",
-      "InfusionTourUser": "护士01"
-    },
-    {
-      "InfusionTourDate": "2020-04-10",
-      "InfusionTourMeasure": "",
-      "InfusionTourReason": "",
-      "InfusionTourState": "正常",
-      "InfusionTourTime": "17:04:05",
-      "InfusionTourUser": "护士01"
     }
   ],
   "msg": "成功",
@@ -397,13 +333,18 @@
   "ordList": [
     {
       "Notes": "",
-      "OeoreId": "974||4||1",
+      "OeoreId": "974||8||1",
       "OeoreSubList": [
         {
-          "ArcimDesc": "5%葡萄糖注射液(塑瓶)[500ml]",
-          "DoseQtyUnit": "500 ml",
-          "PhOrdQtyUnit": "5 瓶"
-        }
+          "ArcimDesc": "0.9%氯化钠注射液[500ml]",
+          "DoseQtyUnit": "300 ml",
+          "PhOrdQtyUnit": "15 瓶"
+        }, {
+                    "ArcimDesc": "0.9%氯化钠注射液[500ml]",
+                    "DoseQtyUnit": "300 ml",
+                    "PhOrdQtyUnit": "15 瓶"
+       }
+
       ],
       "OrdState": "已输完"
     },
@@ -419,23 +360,7 @@
       ],
       "OrdState": "异常结束"
     },
-    {
-      "Notes": "",
-      "OeoreId": "974||8||1",
-      "OeoreSubList": [
-        {
-          "ArcimDesc": "0.9%氯化钠注射液[500ml]",
-          "DoseQtyUnit": "300 ml",
-          "PhOrdQtyUnit": "15 瓶"
-        },  {
-                    "ArcimDesc": "0.9%氯化钠注射液[500ml]",
-                    "DoseQtyUnit": "300 ml",
-                    "PhOrdQtyUnit": "15 瓶"
-                  }
 
-      ],
-      "OrdState": "已输完"
-    },
     {
       "Notes": "",
       "OeoreId": "974||4||3",

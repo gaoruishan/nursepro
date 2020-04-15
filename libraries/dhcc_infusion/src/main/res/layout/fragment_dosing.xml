@@ -8,7 +8,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/dp_50"
         android:orientation="vertical">
 
         <LinearLayout
@@ -82,51 +81,45 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_10"
             android:background="@color/white"/>
-        <android.support.v4.widget.NestedScrollView
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_dosing"
+            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_dosing"
+            android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tv_ok"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            </android.support.v7.widget.RecyclerView>
-        </android.support.v4.widget.NestedScrollView>
+                android:layout_height="@dimen/dp_50"
+                android:background="#FF62ABFF"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:text="确定"
+                android:textColor="#FFFFFFFF"
+                android:textSize="@dimen/sp_16"
+                />
+            <TextView
+                android:id="@+id/tv_ok_all"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_50"
+                android:background="#FF62ABFF"
+                android:gravity="center"
+                android:visibility="gone"
+                android:text="自动配液"
+                android:textColor="#FFFFFFFF"
+                android:textSize="@dimen/sp_16"
+                />
+        </LinearLayout>
     </LinearLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_1"
         android:background="@color/blue_light"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
-        <TextView
-            android:id="@+id/tv_ok"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_50"
-            android:background="#FF62ABFF"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:text="确定"
-            android:textColor="#FFFFFFFF"
-            android:textSize="@dimen/sp_16"
-        />
-        <TextView
-            android:id="@+id/tv_ok_all"
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_50"
-            android:background="#FF62ABFF"
-            android:gravity="center"
-            android:visibility="gone"
-            android:text="自动配液"
-            android:textColor="#FFFFFFFF"
-            android:textSize="@dimen/sp_16"
-        />
-    </LinearLayout>
+
     <!--扫码-->
     <com.dhcc.res.infusion.CustomScanView
         android:id="@+id/custom_scan"

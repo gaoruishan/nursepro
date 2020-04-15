@@ -9,7 +9,7 @@
     "PatSex": "女"
   },
   "lastIfFlag": "0",
-  "scanFlag": "1",
+  "scanFlag": "",
   "msg": "成功",
   "msgcode": "",
   "ordList": [
@@ -17,6 +17,11 @@
       "Notes": "",
       "OeoreId": "645||3||1",
       "OeoreSubList": [
+        {
+          "ArcimDesc": "0.9%氯化钠注射液[500ml]",
+          "DoseQtyUnit": "500 ml",
+          "PhOrdQtyUnit": "3 瓶"
+        },
         {
           "ArcimDesc": "0.9%氯化钠注射液[500ml]",
           "DoseQtyUnit": "500 ml",
@@ -47,11 +52,11 @@
           "PhOrdQtyUnit": "3 瓶"
         }
       ],
-      "OrdState": "未配液"
+      "OrdState": "已输完"
     },
     {
       "Notes": "",
-      "OeoreId": "645||3||2",
+      "OeoreId": "645||3||28",
       "OeoreSubList": [
         {
           "ArcimDesc": "0.9%氯化钠注射液[500ml]",
@@ -63,7 +68,7 @@
     },
     {
       "Notes": "",
-      "OeoreId": "645||3||3",
+      "OeoreId": "645||3||37",
       "OeoreSubList": [
         {
           "ArcimDesc": "0.9%氯化钠注射液[500ml]",
@@ -75,7 +80,31 @@
     },
     {
       "Notes": "",
-      "OeoreId": "645||4||2",
+      "OeoreId": "645||4||26",
+      "OeoreSubList": [
+        {
+          "ArcimDesc": "10%葡萄糖注射液(塑瓶)[250ML]",
+          "DoseQtyUnit": "250 ml",
+          "PhOrdQtyUnit": "3 瓶"
+        }
+      ],
+      "OrdState": "未配液"
+    },
+    {
+      "Notes": "",
+      "OeoreId": "645||4||35",
+      "OeoreSubList": [
+        {
+          "ArcimDesc": "10%葡萄糖注射液(塑瓶)[250ML]",
+          "DoseQtyUnit": "250 ml",
+          "PhOrdQtyUnit": "3 瓶"
+        }
+      ],
+      "OrdState": "未配液"
+    },
+    {
+      "Notes": "",
+      "OeoreId": "645||4||34",
       "OeoreSubList": [
         {
           "ArcimDesc": "10%葡萄糖注射液(塑瓶)[250ML]",
@@ -88,6 +117,42 @@
     {
       "Notes": "",
       "OeoreId": "645||4||3",
+      "OeoreSubList": [
+        {
+          "ArcimDesc": "10%葡萄糖注射液(塑瓶)[250ML]",
+          "DoseQtyUnit": "250 ml",
+          "PhOrdQtyUnit": "3 瓶"
+        }
+      ],
+      "OrdState": "未配液"
+    },
+    {
+      "Notes": "",
+      "OeoreId": "645||4||33",
+      "OeoreSubList": [
+        {
+          "ArcimDesc": "10%葡萄糖注射液(塑瓶)[250ML]",
+          "DoseQtyUnit": "250 ml",
+          "PhOrdQtyUnit": "3 瓶"
+        }
+      ],
+      "OrdState": "未配液"
+    },
+    {
+      "Notes": "",
+      "OeoreId": "645||4||32",
+      "OeoreSubList": [
+        {
+          "ArcimDesc": "10%葡萄糖注射液(塑瓶)[250ML]",
+          "DoseQtyUnit": "250 ml",
+          "PhOrdQtyUnit": "3 瓶"
+        }
+      ],
+      "OrdState": "未配液"
+    },
+    {
+      "Notes": "",
+      "OeoreId": "645||4||31",
       "OeoreSubList": [
         {
           "ArcimDesc": "10%葡萄糖注射液(塑瓶)[250ML]",

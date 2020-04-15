@@ -72,6 +72,142 @@
         }
       ],
       "OrdState": "输液中"
+    },
+    {
+      "ExecCtcpDesc": "高金华",
+      "ExecDateTime": "2019-10-11 17:09:59",
+      "ExecTakeTime": "00:22",
+      "Notes": "",
+      "OeoreId": "333430||2||2",
+      "OeoreSubList": [
+        {
+          "ArcimDesc": "0.9%氯化钠注射液(500ml软袋)[500ml:4.5g/袋]",
+          "DoseQtyUnit": "100 ml",
+          "PhOrdQtyUnit": "6 袋"
+        },
+        {
+          "ArcimDesc": "头孢孟多酯钠粉针[0.5g*支]",
+          "DoseQtyUnit": "0.8 g",
+          "PhOrdQtyUnit": "12 支"
+        }
+      ],
+      "OrdState": "输液中"
+    }
+    ,    {
+      "ExecCtcpDesc": "高金华",
+      "ExecDateTime": "2019-10-11 17:09:59",
+      "ExecTakeTime": "00:22",
+      "Notes": "",
+      "OeoreId": "333430||2||2",
+      "OeoreSubList": [
+        {
+          "ArcimDesc": "0.9%氯化钠注射液(500ml软袋)[500ml:4.5g/袋]",
+          "DoseQtyUnit": "100 ml",
+          "PhOrdQtyUnit": "6 袋"
+        },
+        {
+          "ArcimDesc": "头孢孟多酯钠粉针[0.5g*支]",
+          "DoseQtyUnit": "0.8 g",
+          "PhOrdQtyUnit": "12 支"
+        }
+      ],
+      "OrdState": "输液中"
+    },    {
+      "ExecCtcpDesc": "高金华",
+      "ExecDateTime": "2019-10-11 17:09:59",
+      "ExecTakeTime": "00:22",
+      "Notes": "",
+      "OeoreId": "333430||2||2",
+      "OeoreSubList": [
+        {
+          "ArcimDesc": "0.9%氯化钠注射液(500ml软袋)[500ml:4.5g/袋]",
+          "DoseQtyUnit": "100 ml",
+          "PhOrdQtyUnit": "6 袋"
+        },
+        {
+          "ArcimDesc": "头孢孟多酯钠粉针[0.5g*支]",
+          "DoseQtyUnit": "0.8 g",
+          "PhOrdQtyUnit": "12 支"
+        }
+      ],
+      "OrdState": "输液中"
+    },
+    {
+      "ExecCtcpDesc": "高金华",
+      "ExecDateTime": "2019-10-11 17:09:59",
+      "ExecTakeTime": "00:22",
+      "Notes": "",
+      "OeoreId": "333430||2||2",
+      "OeoreSubList": [
+        {
+          "ArcimDesc": "0.9%氯化钠注射液(500ml软袋)[500ml:4.5g/袋]",
+          "DoseQtyUnit": "100 ml",
+          "PhOrdQtyUnit": "6 袋"
+        },
+        {
+          "ArcimDesc": "头孢孟多酯钠粉针[0.5g*支]",
+          "DoseQtyUnit": "0.8 g",
+          "PhOrdQtyUnit": "12 支"
+        }
+      ],
+      "OrdState": "输液中"
+    },    {
+      "ExecCtcpDesc": "高金华",
+      "ExecDateTime": "2019-10-11 17:09:59",
+      "ExecTakeTime": "00:22",
+      "Notes": "",
+      "OeoreId": "333430||2||2",
+      "OeoreSubList": [
+        {
+          "ArcimDesc": "0.9%氯化钠注射液(500ml软袋)[500ml:4.5g/袋]",
+          "DoseQtyUnit": "100 ml",
+          "PhOrdQtyUnit": "6 袋"
+        },
+        {
+          "ArcimDesc": "头孢孟多酯钠粉针[0.5g*支]",
+          "DoseQtyUnit": "0.8 g",
+          "PhOrdQtyUnit": "12 支"
+        }
+      ],
+      "OrdState": "输液中"
+    },    {
+      "ExecCtcpDesc": "高金华",
+      "ExecDateTime": "2019-10-11 17:09:59",
+      "ExecTakeTime": "00:22",
+      "Notes": "",
+      "OeoreId": "333430||2||2",
+      "OeoreSubList": [
+        {
+          "ArcimDesc": "0.9%氯化钠注射液(500ml软袋)[500ml:4.5g/袋]",
+          "DoseQtyUnit": "100 ml",
+          "PhOrdQtyUnit": "6 袋"
+        },
+        {
+          "ArcimDesc": "头孢孟多酯钠粉针[0.5g*支]",
+          "DoseQtyUnit": "0.8 g",
+          "PhOrdQtyUnit": "12 支"
+        }
+      ],
+      "OrdState": "输液中"
+    },    {
+      "ExecCtcpDesc": "高金华",
+      "ExecDateTime": "2019-10-11 17:09:59",
+      "ExecTakeTime": "00:22",
+      "Notes": "",
+      "OeoreId": "333430||2||21",
+      "OeoreSubList": [
+        {
+          "ArcimDesc": "0.9%氯化钠注射液(500ml软袋)[500ml:4.5g/袋]",
+          "DoseQtyUnit": "100 ml",
+          "PhOrdQtyUnit": "6 袋"
+        },
+        {
+          "ArcimDesc": "头孢孟多酯钠粉针[0.5g*支]",
+          "DoseQtyUnit": "0.8 g",
+          "PhOrdQtyUnit": "12 支"
+        }
+      ],
+      "OrdState": "输液中"
     }
   ],
   "ordState": "未配液",

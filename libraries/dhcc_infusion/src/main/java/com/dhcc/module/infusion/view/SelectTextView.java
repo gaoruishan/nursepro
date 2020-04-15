@@ -166,12 +166,10 @@ public class SelectTextView extends android.support.v7.widget.AppCompatTextView 
 
     public void setUnSelectTextColor(int unSelectTextColor) {
         this.unSelectTextColor = unSelectTextColor;
-        invalidate();
     }
 
     public void setSelectedTextColor(int selectedTextColor) {
         this.selectedTextColor = selectedTextColor;
-        invalidate();
     }
 
     public void setSelectedIcon(int selectedIcon) {
@@ -180,12 +178,10 @@ public class SelectTextView extends android.support.v7.widget.AppCompatTextView 
 
     public void setSelectedBg(int selectedBg) {
         this.selectedBg = selectedBg;
-        invalidate();
     }
 
     public void setUnSelectedBg(int unSelectedBg) {
         this.unSelectedBg = unSelectedBg;
-        invalidate();
     }
 
     /**

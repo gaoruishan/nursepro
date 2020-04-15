@@ -2,6 +2,7 @@ package com.dhcc.module.infusion.workarea.patrol.adapter;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -30,16 +31,32 @@ public class PatrolOrdListAdapter extends CommQuickAdapter<OrdListBean, BaseView
     }
 
     @Override
+    protected void setCustomSelectBg(SelectTextView stv, OrdListBean item) {
+        super.setCustomSelectBg(stv, item);
+        if (Arrays.asList(OrdState.STATE_4).contains(item.getOrdState())) {
+            stv.setUnSelectedBg(R.drawable.infusion_bg_circle_gray);
+            stv.setUnSelectTextColor(0xffffffff);
+        }else {
+            stv.setUnSelectedBg(R.drawable.dhcc_bg_dialog);
+            stv.setUnSelectTextColor(0xff333333);
+        }
+    }
+
+    @Override
+    protected void setCommItemData(Bundle bundle, OrdListBean ordListBean) {
+        super.setCommItemData(bundle, ordListBean);
+        bundle.putString(ID, ordListBean.getOeoreId());
+    }
+
+    @Override
     protected void convert(BaseViewHolder helper, OrdListBean item) {
-        SelectTextView stv = helper.getView(R.id.stv);
         this.setCommData(helper, item);
         this.setCommItemClick(helper, R.id.ll_item);
         helper.setGone(R.id.siv_selector, false);
+        helper.setGone(R.id.ll_block, false).setGone(R.id.rv_child, true);
         if (Arrays.asList(OrdState.STATE_4).contains(item.getOrdState())) {
             //显示主医嘱
-            helper.setGone(R.id.ll_block, true).setGone(R.id.rv_child,false);
-            stv.setUnSelectedBg(R.drawable.infusion_bg_circle_gray);
-            stv.setUnSelectTextColor(0xffffffff);
+            helper.setGone(R.id.ll_block, true).setGone(R.id.rv_child, false);
             if (item.getOeoreSubList() != null) {
                 if (item.getOeoreSubList().size() > 1) {
                     swichUi(helper);
@@ -62,16 +79,10 @@ public class PatrolOrdListAdapter extends CommQuickAdapter<OrdListBean, BaseView
             public void onClick(View v) {
                 sivSelector.toggle();
                 helper.setGone(R.id.rv_child, sivSelector.isCheck());
-                helper.setGone(R.id.ll_block,!sivSelector.isCheck());
+                helper.setGone(R.id.ll_block, !sivSelector.isCheck());
             }
         };
         helper.setOnClickListener(R.id.ll_block, onClickListener);
         sivSelector.setOnClickListener(onClickListener);
-    }
-
-    @Override
-    protected void setCommItemData(Bundle bundle, OrdListBean ordListBean) {
-        super.setCommItemData(bundle, ordListBean);
-        bundle.putString(ID, ordListBean.getOeoreId());
     }
 }

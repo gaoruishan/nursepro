@@ -71,7 +71,31 @@ public abstract class CommQuickAdapter<T, K extends BaseViewHolder> extends Base
         helper.setGone(R.id.ll_notes, !empty);
         helper.setText(R.id.tv_notes, "备注：" + item.getNotes() + " 通道" + item.getWayNo());
         // 选中状态
+        setSelectTextView(helper, item, position);
+        // 去掉最后一分割线
+        helper.setGone(R.id.v_line, position + 1 != getItemCount());
+        // 子适配器
+        RecyclerView rvChild = helper.getView(R.id.rv_child);
+        //创建布局管理
+        RecyclerViewHelper.setDefaultRecyclerView(mContext, rvChild, 0);
+
+        ChildAdapter childAdapter = new ChildAdapter(R.layout.item_posing_child, item.getOeoreSubList(), scanInfo.equals(item.getOeoreId()));
+        childAdapter.setOrdState(item.getOrdState());
+        rvChild.setAdapter(childAdapter);
+
+        //父item获取事件
+        preventChildRecyclerViewClick(rvChild, helper.itemView);
+    }
+
+    /**
+     * 设置圆圈选中
+     * @param helper
+     * @param item
+     * @param position
+     */
+    protected void setSelectTextView(BaseViewHolder helper, OrdListBean item, int position) {
         SelectTextView stv = helper.getView(R.id.stv);
+        setCustomSelectBg(stv,item);
         stv.unSelect();
         if (scanInfo != null) {
             scanInfo = scanInfo.replaceAll("-", "||");
@@ -86,19 +110,10 @@ public abstract class CommQuickAdapter<T, K extends BaseViewHolder> extends Base
         // 变大
         String s = (position + 1) + "/" + getItemCount();
         ViewUtil.setTextRelativeSizeSpan(stv, s, 0, s.indexOf("/"));
-        // 去掉最后一分割线
-        helper.setGone(R.id.v_line, position + 1 != getItemCount());
-        // 子适配器
-        RecyclerView rvChild = helper.getView(R.id.rv_child);
-        //创建布局管理
-        RecyclerViewHelper.setDefaultRecyclerView(mContext, rvChild, 0);
+    }
 
-        ChildAdapter childAdapter = new ChildAdapter(R.layout.item_posing_child, item.getOeoreSubList(), stv.isSelect());
-        childAdapter.setOrdState(item.getOrdState());
-        rvChild.setAdapter(childAdapter);
+    protected void setCustomSelectBg(SelectTextView stv, OrdListBean item) {
 
-        //父item获取事件
-        preventChildRecyclerViewClick(rvChild, helper.itemView);
     }
 
     /**
