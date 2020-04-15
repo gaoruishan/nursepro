@@ -12,6 +12,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.base.commlibs.BaseApplication;
+import com.base.commlibs.constant.SharedPreference;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -33,7 +34,6 @@ import java.util.Map;
  */
 
 public class CrashHandler implements Thread.UncaughtExceptionHandler {
-    public static String DHC_CALLBACK_JSON = "";
     private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 0x100;
     //日志文件夹名
     private static final String DHC_CRASH = "dhc_crash";
@@ -216,7 +216,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             try {
                 fos = new FileOutputStream(filePath + File.separator + fileName);
 
-                fos.write((DHC_CALLBACK_JSON+"---"+errorInfo.toString()).getBytes());
+                fos.write((SharedPreference.DHC_CALLBACK_JSON +"---"+errorInfo.toString()).getBytes());
                 fos.flush();
             } catch (IOException e) {
                 e.printStackTrace();
