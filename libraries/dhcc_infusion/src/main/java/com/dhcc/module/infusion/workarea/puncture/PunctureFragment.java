@@ -92,6 +92,8 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
 
             @Override
             public void onSuccess(PunctureBean bean, String type) {
+                //检查扫码不包含提示
+                checkListOeoreId(bean.getOrdList(), PROMPT_NO_ORD);
                 punctureAdapter.replaceData(bean.getOrdList());
                 punctureAdapter.setCurrentScanInfo(scanInfo);
                 scrollToPosition(rvPuncture,bean.getOrdList());

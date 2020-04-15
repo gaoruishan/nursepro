@@ -323,6 +323,9 @@ public abstract class BaseInfusionFragment extends BaseFragment {
             }
         }
         View tvOk = f(R.id.tv_ok);
+        if (tvOk != null) {
+            tvOk.setVisibility(View.VISIBLE);
+        }
         if (!isContain) {
             if (!TextUtils.isEmpty(s)) {
                 ToastUtils.showShort(s);
@@ -332,9 +335,6 @@ public abstract class BaseInfusionFragment extends BaseFragment {
             if (tvOk != null) {
                 tvOk.setVisibility(View.GONE);
             }
-        }
-        if (tvOk != null) {
-            tvOk.setVisibility(View.VISIBLE);
         }
         return isContain;
     }
