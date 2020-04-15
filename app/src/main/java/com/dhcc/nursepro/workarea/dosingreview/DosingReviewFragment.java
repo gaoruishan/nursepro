@@ -328,7 +328,9 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            dosingReviewResultDialog.dismiss();
+                            if (dosingReviewResultDialog != null && dosingReviewResultDialog.isShowing()) {
+                                dosingReviewResultDialog.dismiss();
+                            }
                         }
                     }, 1000);
 
@@ -428,7 +430,9 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                dosingReviewResultDialog.dismiss();
+                                if (dosingReviewResultDialog != null && dosingReviewResultDialog.isShowing()) {
+                                    dosingReviewResultDialog.dismiss();
+                                }
                             }
                         }, 1000);
                     }
@@ -460,5 +464,13 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_dosing_review, container, false);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (dosingReviewResultDialog != null && dosingReviewResultDialog.isShowing()) {
+            dosingReviewResultDialog.dismiss();
+        }
     }
 }

@@ -63,6 +63,7 @@ public class SharedPreference {
 
     //临时变量定位报错方法名
     public static String MethodName = "";
+    public static String DHC_CALLBACK_JSON = "";
 
     public static  final String BLOODSCANTIMES = "BLOODSCANTIMES";
 

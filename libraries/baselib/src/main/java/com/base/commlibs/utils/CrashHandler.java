@@ -12,6 +12,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.base.commlibs.BaseApplication;
+import com.base.commlibs.constant.SharedPreference;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -215,7 +216,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             try {
                 fos = new FileOutputStream(filePath + File.separator + fileName);
 
-                fos.write(errorInfo.toString().getBytes());
+                fos.write((SharedPreference.DHC_CALLBACK_JSON +"---"+errorInfo.toString()).getBytes());
                 fos.flush();
             } catch (IOException e) {
                 e.printStackTrace();
