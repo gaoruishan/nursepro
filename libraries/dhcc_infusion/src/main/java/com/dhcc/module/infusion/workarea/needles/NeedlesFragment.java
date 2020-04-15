@@ -15,7 +15,6 @@ import com.dhcc.module.infusion.utils.RecyclerViewHelper;
 import com.dhcc.module.infusion.workarea.OrdState;
 import com.dhcc.module.infusion.workarea.comm.BaseInfusionFragment;
 import com.dhcc.module.infusion.workarea.comm.bean.CommInfusionBean;
-import com.dhcc.module.infusion.workarea.dosing.bean.DosingBean;
 import com.dhcc.module.infusion.workarea.dosing.bean.OrdListBean;
 import com.dhcc.module.infusion.workarea.needles.api.NeedlesApiManager;
 import com.dhcc.module.infusion.workarea.patrol.adapter.PatrolOrdListAdapter;
@@ -76,18 +75,19 @@ public class NeedlesFragment extends BaseInfusionFragment implements View.OnClic
 
             @Override
             public void onSuccess(NeedlesBean bean, String type) {
+                //检查扫码不包含提示
+                checkListOeoreId(bean.getOrdList(), PROMPT_NO_ORD);
                 mBean = bean;
                 csvScan.setVisibility(View.GONE);
-                //两次验证
-                auditOrdInfo(bean.getOrdList(), bean.getCurRegNo(), bean.getCurOeoreId());
                 setCustomPatViewData(cpvPat, bean.getPatInfo());
                 commPatrolAdapter.replaceData(bean.getOrdList());
                 commPatrolAdapter.setCurrentScanInfo(scanInfo);
                 scrollToPosition(rvOrdList,bean.getOrdList());
                 f(R.id.rl_way).setVisibility(bean.getWayListString().size() > 0 ? View.VISIBLE : View.GONE);
                 customSelectChannel.setSelectData(mContext, bean.getWayListString(), null);
-
-                if (checkListOeoreId(bean.getOrdList(), PROMPT_NO_ORD)) {
+                //两次扫码验证
+                boolean isOK = auditOrdInfo(bean.getOrdList(), bean.getCurRegNo(), bean.getCurOeoreId());
+                if (isOK) {
                     if (refresh != null && refresh.length > 0 && refresh[0]) {
                         // 扫码执行,刷新列表不再执行
                         return;

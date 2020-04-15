@@ -27,8 +27,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static android.content.Context.NOTIFICATION_SERVICE;
-
 /**
  * app配置工具类
  * @author:gaoruishan
@@ -196,17 +194,20 @@ public class AppUtil {
             return false;
         }
     }
+    public static void showNotification(Context context,Intent intent) {
+        showNotification(context,intent,"新消息");
+    }
 
     /**
      * 消息通知栏
      * @param context
      * @param intent
      */
-    public static void showNotification(Context context,Intent intent) {
+    public static void showNotification(Context context,Intent intent,String title) {
         Boolean bLight = SPUtils.getInstance().getBoolean(SharedPreference.LIGHT, true);
         Boolean bSound = SPUtils.getInstance().getBoolean(SharedPreference.SOUND, true);
         Boolean bVibrator = SPUtils.getInstance().getBoolean(SharedPreference.VIBRATOR, true);
-        NotificationManager notificationManager = (NotificationManager) context.getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) context.getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
         String NOTIFICATION_CHANNEL = context.getPackageName();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel notifyChannel = new NotificationChannel(NOTIFICATION_CHANNEL, "infusion",
@@ -225,7 +226,7 @@ public class AppUtil {
         //Intent intent = new Intent(context, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);           //添加为栈顶Activity
         intent.putExtra("ClickPendingIntent", true);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 1111, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 1111, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         /**设置通知左边的大图标**/
         builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher_logo))
                 /**设置通知右边的小图标**/
@@ -233,7 +234,7 @@ public class AppUtil {
                 /**通知首次出现在通知栏，带上升动画效果的**/
                 .setTicker("通知")
                 /**设置通知的标题**/
-                .setContentTitle("新消息")
+                .setContentTitle(title)
                 /**设置通知的内容**/
                 .setContentText("点击即可查看")
                 /**通知产生的时间，会在通知信息里显示**/

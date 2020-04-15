@@ -77,11 +77,11 @@ public class ContinueFragment extends BaseInfusionFragment implements View.OnCli
             }
 
             @Override
-            public void onSuccess(ContinueBean bean, String type) {
+            public void onSuccess(final ContinueBean bean, String type) {
+                //检查扫码不包含提示
+                checkListOeoreId(bean.getOrdList(), PROMPT_NO_ORD);
                 // 第一次扫码
                 mBean = bean;
-                //两次验证
-                auditOrdInfo(bean.getOrdList(), bean.getCurRegNo(), bean.getCurOeoreId());
                 f(R.id.rl_way).setVisibility(bean.getWayListString().size() > 0 ? View.VISIBLE : View.GONE);
                 customSelectChannel.setSelectData(mContext, bean.getWayListString(), null);
                 customOnOff.setDisEnable(bean.getIsCurrentWayNo(), STR_ORD_ING);
@@ -101,8 +101,9 @@ public class ContinueFragment extends BaseInfusionFragment implements View.OnCli
                 });
                 commDosingAdapter.setCurrentScanInfo(scanInfo);
                 commDosingAdapter.replaceData(bean.getOrdList());
-
-                if (checkListOeoreId(bean.getOrdList(), PROMPT_NO_ORD)) {
+                //两次扫码验证
+                boolean isOk = auditOrdInfo(bean.getOrdList(), bean.getCurRegNo(), bean.getCurOeoreId());
+                if (isOk) {
                     if (refresh != null && refresh.length > 0 && refresh[0]) {
                         // 扫码执行,刷新列表不再执行
                         return;

@@ -246,15 +246,20 @@ public abstract class BaseInfusionFragment extends BaseFragment {
      * @param curRegNo
      * @param curOeoreId
      */
-    protected void auditOrdInfo(List<OrdListBean> ordList, String curRegNo, String curOeoreId) {
-        f(R.id.tv_ok).setVisibility(View.GONE);
-        if (!TextUtils.isEmpty(curRegNo) && !TextUtils.isEmpty(curOeoreId)) {
-            f(R.id.tv_ok).setVisibility(View.VISIBLE);
-            //再次检查
-            if (!forIsContain(ordList,curOeoreId)) {
-                f(R.id.tv_ok).setVisibility(View.GONE);
+    protected boolean auditOrdInfo(List<OrdListBean> ordList, String curRegNo, String curOeoreId) {
+        View view = f(R.id.tv_ok);
+        if (view!= null) {
+            view.setVisibility(View.GONE);
+            if (!TextUtils.isEmpty(curRegNo) && !TextUtils.isEmpty(curOeoreId)) {
+                view.setVisibility(View.VISIBLE);
+                //再次检查
+                if (!forIsContain(ordList,curOeoreId)) {
+                    view.setVisibility(View.GONE);
+                }
             }
+            return view.getVisibility() == View.VISIBLE;
         }
+        return false;
     }
 
     /**
