@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.base.commlibs.constant.SharedPreference;
+import com.base.commlibs.utils.CrashHandler;
 import com.base.commlibs.utils.LocalTestManager;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.SPUtils;
@@ -187,6 +188,7 @@ public class BaseWebServiceUtils {
                 super.handleMessage(msg);
                 // 将返回值回调到callBack的参数中
                 LogUtils.json(LogUtils.E, msg.obj);
+                CrashHandler.DHC_CALLBACK_JSON = SharedPreference.MethodName+"-"+msg.obj.toString();
                 //重试机制-数据空,1s后再请求
                 if (LocalTestManager.isRequest(methodName,properties,msg.obj)) {
                     new Handler().postDelayed(new Runnable() {
