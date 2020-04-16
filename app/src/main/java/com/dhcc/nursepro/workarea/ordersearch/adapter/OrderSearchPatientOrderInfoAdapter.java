@@ -130,8 +130,7 @@ public class OrderSearchPatientOrderInfoAdapter extends BaseQuickAdapter<OrderSe
                         .setText(R.id.tv_osporderinfo_orderdatetime2, orderInfoBean.getSttDateTime())
                         .setText(R.id.tv_osporderinfo_orderoperate2, orderInfoBean.getPhcinDesc())
                         .setText(R.id.tv_osporderinfo_orderfrequency2, orderInfoBean.getPhcfrCode())
-                        .setText(R.id.tv_osporderinfo_ordercreator2, orderInfoBean.getCtcpDesc())
-                        .setText(R.id.tv_executed_nur2, orderInfoBean.getExecCtcpDesc());
+                        .setText(R.id.tv_osporderinfo_ordercreator2, orderInfoBean.getCtcpDesc());
 
             } else {
                 llorderinfomulti1.setVisibility(View.VISIBLE);
