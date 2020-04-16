@@ -49,18 +49,18 @@ public class OrderSearchPatientOrderInfoAdapter extends BaseQuickAdapter<OrderSe
         TextView tvJp = helper.getView(R.id.tv_jp);
 
         if (size == 1) {
-            if (orderInfoBean.getFilteFlagExtend()!=null&&orderInfoBean.getFilteFlagExtend().equals("JP")){
+            if (orderInfoBean.getFilteFlagExtend() != null && orderInfoBean.getFilteFlagExtend().equals("JP")) {
                 tvJp.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 tvJp.setVisibility(View.GONE);
             }
             llorderinfosingle.setVisibility(View.VISIBLE);
-            if ( orderInfoBean.getExecDateTime() == null || orderInfoBean.getExecDateTime().equals("")){
+            if (orderInfoBean.getExecDateTime() == null || orderInfoBean.getExecDateTime().equals("")) {
                 llExe.setVisibility(View.GONE);
-            }else {
+            } else {
                 llExe.setVisibility(View.VISIBLE);
-                helper.setText(R.id.tv_executed_time,orderInfoBean.getExecDateTime());
-                helper.setText(R.id.tv_executed_nur1,orderInfoBean.getExecCtcpDesc());
+                helper.setText(R.id.tv_executed_time, orderInfoBean.getExecDateTime());
+                helper.setText(R.id.tv_executed_nur1, orderInfoBean.getExecCtcpDesc());
             }
             llorderinfomulti1.setVisibility(View.GONE);
             lineorderinfomulti.setVisibility(View.GONE);
@@ -90,9 +90,9 @@ public class OrderSearchPatientOrderInfoAdapter extends BaseQuickAdapter<OrderSe
             llorderinfosingle.setVisibility(View.GONE);
             llExe.setVisibility(View.GONE);
             if (helper.getLayoutPosition() == 0) {
-                if (orderInfoBean.getFilteFlagExtend()!=null&&orderInfoBean.getFilteFlagExtend().equals("JP")){
+                if (orderInfoBean.getFilteFlagExtend() != null && orderInfoBean.getFilteFlagExtend().equals("JP")) {
                     tvJp.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     tvJp.setVisibility(View.GONE);
                 }
                 tvOrderType.setVisibility(View.VISIBLE);
@@ -119,18 +119,20 @@ public class OrderSearchPatientOrderInfoAdapter extends BaseQuickAdapter<OrderSe
                 lineorderinfomulti.setVisibility(View.VISIBLE);
                 llorderinfomulti2.setVisibility(View.VISIBLE);
                 LinearLayout llExe2 = helper.getView(R.id.ll_executed2);
-                if ( orderInfoBean.getExecDateTime() == null || orderInfoBean.getExecDateTime().equals("")){
+                if (orderInfoBean.getExecDateTime() == null || orderInfoBean.getExecDateTime().equals("")) {
                     llExe2.setVisibility(View.GONE);
-                }else {
+                } else {
                     llExe2.setVisibility(View.VISIBLE);
-                    helper.setText(R.id.tv_executed_time2,orderInfoBean.getExecDateTime());
-                    helper.setText(R.id.tv_executed_nur1,orderInfoBean.getExecCtcpDesc());
+                    helper.setText(R.id.tv_executed_time2, orderInfoBean.getExecDateTime())
+                            .setText(R.id.tv_executed_nur2, orderInfoBean.getExecCtcpDesc());
                 }
                 helper.setText(R.id.tv_osporderinfo_orderdose1, orderInfoBean.getDoseQtyUnit())
                         .setText(R.id.tv_osporderinfo_orderdatetime2, orderInfoBean.getSttDateTime())
                         .setText(R.id.tv_osporderinfo_orderoperate2, orderInfoBean.getPhcinDesc())
                         .setText(R.id.tv_osporderinfo_orderfrequency2, orderInfoBean.getPhcfrCode())
-                        .setText(R.id.tv_osporderinfo_ordercreator2, orderInfoBean.getCtcpDesc());
+                        .setText(R.id.tv_osporderinfo_ordercreator2, orderInfoBean.getCtcpDesc())
+                        .setText(R.id.tv_executed_nur2, orderInfoBean.getExecCtcpDesc());
+
             } else {
                 llorderinfomulti1.setVisibility(View.VISIBLE);
                 helper.setText(R.id.tv_osporderinfo_orderdose1, orderInfoBean.getDoseQtyUnit());
