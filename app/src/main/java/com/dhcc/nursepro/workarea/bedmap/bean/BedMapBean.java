@@ -168,6 +168,15 @@ public class BedMapBean implements Serializable {
         }
         private String epdNotReport;
         private String epdReport;
+        private String RQDDate;
+
+        public String getRQDDate() {
+            return RQDDate;
+        }
+
+        public void setRQDDate(String RQDDate) {
+            this.RQDDate = RQDDate;
+        }
 
         public String getEpdReport() {
             return epdReport;

@@ -251,6 +251,7 @@ public class BedMapPatFragment extends BaseFragment implements View.OnClickListe
                 break;
             case R.id.ll_bedmappat_daypaylist://日清单
                 bundle.putString("episodeId",patInfoListBean.getEpisodeId());
+                bundle.putString("inHosDate",patInfoListBean.getRQDDate());
                 startFragment(DayPayListFragment.class,bundle);
                 break;
             case R.id.ll_bedmappat_order://医嘱单

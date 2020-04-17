@@ -71,6 +71,12 @@ public class DayPayListFragment extends BaseFragment {
 
         Bundle bundle = getArguments();
         episodeId = bundle.getString("episodeId");
+        if (bundle.getString("inHosDate") == null){
+            String curTime = SPUtils.getInstance().getString(SharedPreference.SCHENDATETIME);
+            payDate =curTime.substring(0,11);
+        }else {
+            payDate = bundle.getString("inHosDate");
+        }
 //        Gson gson = new Gson();
 //        jsonMap= gson.fromJson(jsonStr, Map.class);
 //        String bedinfo = jsonMap.get("bedCode").toString().isEmpty()?"未分床  "+jsonMap.get("name").toString():jsonMap.get("bedCode").toString()+"  "+jsonMap.get("name").toString();
@@ -81,8 +87,7 @@ public class DayPayListFragment extends BaseFragment {
 //        setToolbarBottomLineVisibility(true);
 //
 //
-        String curTime = SPUtils.getInstance().getString(SharedPreference.SCHENDATETIME);
-        payDate =curTime.substring(0,11);
+
         initView(view);
         initData();
 
