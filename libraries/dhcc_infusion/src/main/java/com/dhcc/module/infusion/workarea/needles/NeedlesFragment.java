@@ -124,7 +124,7 @@ public class NeedlesFragment extends BaseInfusionFragment implements View.OnClic
             hasNoOrder = OrdState.checkFinish( bean.getOrdState());
             if (hasNoOrder) break;
         }
-        if (hasNoOrder && "0".equals(mBean.getLastIfFlag())) {
+        if (hasNoOrder && "1".equals(mBean.getLastIfFlag())) {
             String finalOeoreId = oeoreId;
             DialogFactory.showCommOkCancelDialog(getActivity(), "提示", "有'未完成'的输液,是否拔针?", "取消", "确定", null, new View.OnClickListener() {
                 @Override

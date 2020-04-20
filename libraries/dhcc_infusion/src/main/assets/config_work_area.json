@@ -29,12 +29,6 @@
       "id": "104",
       "image": "infusion_main_bz",
       "name": "拔针"
-    },
-    {
-      "fragment": "com.dhcc.module.infusion.workarea.needles.NeedlesFragment",
-      "id": "104",
-      "image": "infusion_main_trans_blood_reveice.png",
-      "name": "ssss"
     }
   ],
   "homePic": "app_icon.jpeg",

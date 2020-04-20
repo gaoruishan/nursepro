@@ -9,12 +9,14 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.grs.dhcc_res.R;
 import com.noober.background.drawable.DrawableCreator;
@@ -68,6 +70,24 @@ public abstract class BaseView extends LinearLayout {
             view.setBackgroundColor(ContextCompat.getColor(mContext, color));
         }
     }
+    public void setTextColor(TextView[] views, @ColorRes int color) {
+        if (views != null) {
+            for (TextView textView : views) {
+                setTextColor(textView, color);
+            }
+        }
+    }
+    /**
+     * 设置背景颜色
+     * @param view
+     * @param color
+     */
+    public void setTextColor(TextView view, @ColorRes int color) {
+        if (view != null && color != 0) {
+            view.setTextColor(ContextCompat.getColor(mContext, color));
+            view.setHintTextColor(ContextCompat.getColor(mContext, color));
+        }
+    }
     public void setSelectDrawable(View view,@DrawableRes int selectId, @DrawableRes int unselectId) {
         Drawable selectedDrawable = ContextCompat.getDrawable(mContext, selectId);
         Drawable unSelectedDrawable = ContextCompat.getDrawable(mContext, unselectId);
@@ -111,6 +131,9 @@ public abstract class BaseView extends LinearLayout {
      */
     public int getDimen(@DimenRes int  dimen) {
         return (int) getResources().getDimension(dimen);
+    }
+    public int getDimenPixel(@DimenRes int  dimen) {
+        return (int) getResources().getDimensionPixelSize(dimen);
     }
     /**
      * 重写-添加布局
@@ -157,5 +180,20 @@ public abstract class BaseView extends LinearLayout {
         float y = event.getY();
         return super.onTouchEvent(event);
 
+    }
+    protected BaseView setText(TextView view, String s) {
+        if (!TextUtils.isEmpty(s)) {
+            view.setVisibility(VISIBLE);
+            view.setText(s);
+        }
+        return this;
+    }
+
+    protected String getText(TextView tv) {
+        String s = tv.getText().toString();
+        if (!TextUtils.isEmpty(s)) {
+            return s;
+        }
+        return "";
     }
 }
