@@ -2,11 +2,14 @@ package com.dhcc.nursepro.message.api;
 
 import android.util.Log;
 
+import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommWebService;
 import com.base.commlibs.http.ParserUtil;
 import com.base.commlibs.http.ServiceCallBack;
 import com.blankj.utilcode.util.ObjectUtils;
+import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.StringUtils;
 import com.dhcc.nursepro.message.bean.MessageBean;
 import com.dhcc.nursepro.message.bean.ReadMessageBean;
 import com.google.gson.Gson;
@@ -57,6 +60,21 @@ public class MessageApiManager {
                             if ("0".equals(message.getStatus())) {
                                 if (callback != null) {
                                     callback.onSuccess(message);
+
+                                    String sc = SPUtils.getInstance().getString(SharedPreference.CURDATETIME);
+                                    //更新时间，防止登录跨天
+                                    if (StringUtils.isEmpty(message.getCurDateTime())) {
+                                        SPUtils.getInstance().put(SharedPreference.CURDATETIME, message.getSchEnDateTime());
+                                    } else {
+                                        if (!(SPUtils.getInstance().getString(SharedPreference.CURDATETIME).substring(0,10)).equals(message.getCurDateTime().substring(0,10))){
+                                            if (message.getSchStDateTime() != null && message.getSchEnDateTime() != null) {
+                                                SPUtils.getInstance().put(SharedPreference.SCHSTDATETIME, message.getSchStDateTime());
+                                                SPUtils.getInstance().put(SharedPreference.SCHENDATETIME, message.getSchEnDateTime());
+                                            }
+                                        }
+
+                                        SPUtils.getInstance().put(SharedPreference.CURDATETIME, message.getCurDateTime());
+                                    }
                                 }
                             } else {
                                 if (callback != null) {

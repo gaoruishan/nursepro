@@ -137,18 +137,8 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
         MessageApiManager.getMessage(new MessageApiManager.GetMessageCallback() {
             @Override
             public void onSuccess(MessageBean msgs) {
-                //更新时间，防止登录跨天
-                if (msgs.getSchStDateTime() != null && msgs.getSchEnDateTime() != null) {
-                    spUtils.put(SharedPreference.SCHSTDATETIME, msgs.getSchStDateTime());
-                    spUtils.put(SharedPreference.SCHENDATETIME, msgs.getSchEnDateTime());
 
-                    if (StringUtils.isEmpty(msgs.getCurDateTime())) {
-                        spUtils.put(SharedPreference.CURDATETIME, msgs.getSchEnDateTime());
-                    } else {
-                        spUtils.put(SharedPreference.CURDATETIME, msgs.getCurDateTime());
-                    }
-                }
-
+                notifyMessage();
 
                 //请求皮试
                 //getSkinTestMessage();

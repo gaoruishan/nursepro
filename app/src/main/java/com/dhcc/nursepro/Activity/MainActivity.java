@@ -347,11 +347,6 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
                 int messageNum = (msgs.getNewOrdPatList()!=null?msgs.getNewOrdPatList().size():0)
                         + (msgs.getAbnormalPatList()!=null?msgs.getAbnormalPatList().size():0)
                         + (msgs.getConPatList()!=null?msgs.getConPatList().size():0);
-                if (StringUtils.isEmpty(msgs.getCurDateTime())) {
-                    spUtils.put(SharedPreference.CURDATETIME, msgs.getSchEnDateTime());
-                } else {
-                    spUtils.put(SharedPreference.CURDATETIME, msgs.getCurDateTime());
-                }
                 setmessage(messageNum,msgs.getSoundFlag(),msgs.getVibrateFlag());
 
             }
