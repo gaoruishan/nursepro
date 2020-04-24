@@ -3,7 +3,6 @@ package com.dhcc.module.infusion.workarea.inject;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.TextView;
 
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
@@ -12,6 +11,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.utils.AdapterFactory;
 import com.dhcc.module.infusion.utils.RecyclerViewHelper;
+import com.dhcc.module.infusion.workarea.blood.bean.BloodOrdListBean;
 import com.dhcc.module.infusion.workarea.comm.BaseInfusionFragment;
 import com.dhcc.module.infusion.workarea.comm.bean.ScanInfoBean;
 import com.dhcc.module.infusion.workarea.inject.adapter.InjectAdapter;
@@ -27,7 +27,7 @@ import com.jzxiang.pickerview.listener.OnDateSetListener;
  * @date:202019-11-07/15:35
  * @email:grs0515@163.com
  */
-public class InjectFragment extends BaseInfusionFragment {
+public class InjectFragment extends BaseInfusionFragment implements View.OnClickListener {
 
     protected RecyclerView recyclerView;
     protected CustomDateTimeView customDate;
@@ -35,8 +35,6 @@ public class InjectFragment extends BaseInfusionFragment {
     protected CustomOnOffView customOnOff;
     protected InjectAdapter injectAdapter;
     protected InjectListBean injectListBean;
-    protected TextView tvSure;
-    protected String ordId = "";
 
     @Override
     protected void initViews() {
@@ -45,18 +43,7 @@ public class InjectFragment extends BaseInfusionFragment {
         customDate = f(R.id.custom_date, CustomDateTimeView.class);
         customPat = f(R.id.custom_pat, CustomPatView.class);
         customOnOff = f(R.id.custom_on_off, CustomOnOffView.class);
-        tvSure = f(R.id.tv_inject_sure);
-        tvSure.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (ordId.equals("")) {
-                    showToast("请选中医嘱");
-                } else {
-                    exeInjectOrd(ordId);
-                }
-
-            }
-        });
+        f(R.id.tv_inject_sure).setOnClickListener(this);
         customOnOff.setShowSelectText("未执行", "已执行")
                 .setOnSelectListener(new SimpleCallBack<Boolean>() {
                     @Override
@@ -91,7 +78,6 @@ public class InjectFragment extends BaseInfusionFragment {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 injectAdapter.refreshData(injectListBean, position);
-                ordId = injectListBean.getOrdList().get(position).getOeoriId();
             }
         });
     }
@@ -113,6 +99,11 @@ public class InjectFragment extends BaseInfusionFragment {
                 }
                 //ORD 扫医嘱条码返回医嘱信息
                 if (ORD.equals(bean.getFlag())) {
+                    //选中扫码的
+                    for (BloodOrdListBean bean1 : injectAdapter.getData()) {
+                        bean1.setSelect(scanInfo.equals(bean1.getOeoriId()) ? "1" : "0");
+                    }
+                    injectAdapter.notifyDataSetChanged();
                     //弹框
 //                    if ("1".equals(bean.getDiagFlag())) {
 //                        DialogFactory.showPatInfo(mContext, bean, new View.OnClickListener() {
@@ -146,7 +137,6 @@ public class InjectFragment extends BaseInfusionFragment {
             public void onSuccess(CommResult bean, String type) {
                 onSuccessThings(bean);
                 getInjectOrdList();
-                ordId = "";
             }
         });
     }
@@ -167,12 +157,29 @@ public class InjectFragment extends BaseInfusionFragment {
             @Override
             public void onSuccess(InjectListBean bean, String type) {
                 helper.setVisible(R.id.custom_scan, false);
-                tvSure.setVisibility(View.VISIBLE);
+                f(R.id.tv_inject_sure).setVisibility(View.VISIBLE);
                 injectListBean = bean;
                 injectAdapter.setInitData(bean);
                 regNo = injectListBean.getPatInfo().getPatRegNo();
                 setCustomPatViewData(customPat, injectListBean.getPatInfo());
             }
         });
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.tv_inject_sure) {
+            String ordId = "";
+            for (BloodOrdListBean bean : injectAdapter.getData()) {
+                if ("1".equals(bean.getSelect())) {
+                    ordId = bean.getOeoriId();
+                }
+            }
+            if (ordId.equals("")) {
+                showToast("请选中医嘱");
+            } else {
+                exeInjectOrd(ordId);
+            }
+        }
     }
 }

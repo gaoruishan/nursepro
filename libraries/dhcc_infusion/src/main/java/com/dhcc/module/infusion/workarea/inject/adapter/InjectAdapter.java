@@ -25,7 +25,7 @@ public class InjectAdapter extends BaseBloodQuickAdapter<BloodOrdListBean, BaseV
 
     public void setInitData(InjectListBean bean) {
         if (bean.getOrdList() != null) {
-            for (int i = 0; i <bean.getOrdList().size() ; i++) {
+            for (int i = 0; i < bean.getOrdList().size(); i++) {
                 bean.getOrdList().get(i).setSelect("0");
             }
             setIfSelShow(true);
@@ -34,17 +34,22 @@ public class InjectAdapter extends BaseBloodQuickAdapter<BloodOrdListBean, BaseV
     }
 
     public void refreshData(InjectListBean injectListBean, int position) {
-        for (int i = 0; i <injectListBean.getOrdList().size() ; i++) {
-            injectListBean.getOrdList().get(i).setSelect("0");
+        List<BloodOrdListBean> ordList = injectListBean.getOrdList();
+        for (int i = 0; i < ordList.size(); i++) {
+            BloodOrdListBean bloodOrdListBean = ordList.get(i);
+            if (position == i) { //勾选/取消勾选
+                bloodOrdListBean.setSelect("1".equals(bloodOrdListBean.getSelect()) ? "0" : "1");
+            }else {
+                bloodOrdListBean.setSelect("0");
+            }
         }
-        injectListBean.getOrdList().get(position).setSelect("1");
-        setNewData(injectListBean.getOrdList());
+        replaceData(ordList);
     }
 
     @Override
     protected void convert(BaseViewHolder helper, BloodOrdListBean item) {
         setCommData(helper, item);
-        setInjectDosingData(helper,item);
+        setInjectDosingData(helper, item);
         helper.setGone(R.id.tv_lab_no, !TextUtils.isEmpty(item.getLabNo()))
                 .setText(R.id.tv_operate, item.getPhcinDesc());
 

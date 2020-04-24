@@ -71,6 +71,7 @@ public class BaseWebServiceUtils {
         }
         // 添加本地json测试
         if (LocalTestManager.isTest(methodName)) {
+            LogUtils.e(methodName +" 测试= "+properties.toString());
             LocalTestManager.callLocalJson(methodName,webServiceCallBack);
             return;
         }
