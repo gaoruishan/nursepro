@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
@@ -674,6 +675,10 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
 
                 }
             });
+
+            if (config.getValidate().equals("true")){
+                edText.setInputType(InputType.TYPE_CLASS_NUMBER);
+            }
 
             layout.addView(edText);
 
