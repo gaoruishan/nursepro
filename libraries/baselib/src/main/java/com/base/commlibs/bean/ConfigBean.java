@@ -28,6 +28,16 @@ public class ConfigBean extends CommResult {
     private String updateUrl;
     //是否本地json测试
     private String localTestFlag;
+    //是否http更新
+    private String httpUpdateFlag;
+
+    public String getHttpUpdateFlag() {
+        return httpUpdateFlag == null ? "" : httpUpdateFlag;
+    }
+
+    public void setHttpUpdateFlag(String httpUpdateFlag) {
+        this.httpUpdateFlag = httpUpdateFlag;
+    }
 
     public String getLocalTestFlag() {
         return localTestFlag == null ? "" : localTestFlag;

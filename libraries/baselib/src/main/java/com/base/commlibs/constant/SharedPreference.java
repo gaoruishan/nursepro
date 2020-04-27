@@ -92,4 +92,6 @@ public class SharedPreference {
     //模块名称
     public static final String MODULE_TITLE = "MODULE_TITLE";
     public static final String MODULE_ID = "MODULE_ID";
+    //更新是否http
+    public static final String IS_HTTP = "IS_HTTP";
 }

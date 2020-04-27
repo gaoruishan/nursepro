@@ -246,6 +246,7 @@ public class UserUtil {
      * @param loginBean
      */
     public static void setUserConfig(ConfigBean loginBean) {
+        SPUtils.getInstance().put(SharedPreference.IS_HTTP, loginBean.getHttpUpdateFlag());
         SPUtils.getInstance().put(SharedPreference.LOCAL_TEST_FLAG, loginBean.getLocalTestFlag());
         SPUtils.getInstance().put(SharedPreference.UPDATE_URL, loginBean.getUpdateUrl());
         SPUtils.getInstance().put(SharedPreference.LOG_FLAG, loginBean.getLogFlag());

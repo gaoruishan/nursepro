@@ -1,7 +1,10 @@
 package com.base.commlibs.http;
 
+import android.util.Log;
+
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.wsutils.BaseWebServiceUtils;
+import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.SPUtils;
 
 import java.util.HashMap;
@@ -13,6 +16,12 @@ import java.util.HashMap;
  * @email:grs0515@163.com
  */
 public class CommWebService {
+
+    private static final String TAG = CommWebService.class.getSimpleName();
+    //包名
+    public static final String COM_DHCC_INFUSION = "com.dhcc.infusion";
+    public static final String COM_DHCC_NURSEPRO = "com.dhcc.nursepro";
+    public static final String COM_DHCC_HEALTH = "com.dhcc.health";
 
     /**
      * 添加用户id和科室id
@@ -31,11 +40,29 @@ public class CommWebService {
     }
 
     /**
-     * 统一(门诊输液)
+     * 统一(兼容)
      * @param methodName
      * @param properties
      */
     public static void call(String methodName, HashMap<String, String> properties, final ServiceCallBack callBack) {
+        String appPackageName = AppUtils.getAppPackageName();
+        Log.e(TAG,"(CommWebService.java:44) "+appPackageName);
+        if (COM_DHCC_INFUSION.equals(appPackageName)) {
+            callInfusion(methodName, properties, callBack);
+        }
+        if (COM_DHCC_NURSEPRO.equals(appPackageName)) {
+            callNurse(methodName, properties, callBack);
+        }
+        if (COM_DHCC_HEALTH.equals(appPackageName)) {
+            callHealth(methodName, properties, callBack);
+        }
+    }
+    /**
+     * 统一(门诊输液)
+     * @param methodName
+     * @param properties
+     */
+    public static void callInfusion(String methodName, HashMap<String, String> properties, ServiceCallBack callBack) {
         BaseWebServiceUtils.callWebOPPDAService(methodName, properties, new BaseWebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
@@ -51,7 +78,6 @@ public class CommWebService {
             }
         });
     }
-
     /**
      * 统一(护士站)
      * @param methodName

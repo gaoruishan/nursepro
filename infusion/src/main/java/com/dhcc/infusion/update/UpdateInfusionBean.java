@@ -4,7 +4,7 @@ import com.base.commlibs.http.CommResult;
 
 import java.util.List;
 
-public class UpdateBean extends CommResult {
+public class UpdateInfusionBean extends CommResult {
 
 
     /**
