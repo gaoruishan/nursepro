@@ -2,6 +2,7 @@ package com.dhcc.nursepro.workarea.vitalsign;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.inputmethodservice.KeyboardView;
 import android.os.Build;
@@ -545,11 +546,13 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
             edText.setGravity(Gravity.CENTER);
             edText.setTextColor(getResources().getColor(R.color.vital_sign_record_next_color));
             edText.setBackgroundResource(R.drawable.vital_sign_input_bg);
-
             if (config.getValueType() != null && config.getValueType().equals("N")) {
-                edText.setInputType(EditorInfo.TYPE_CLASS_PHONE);
+                //edText.setInputType(EditorInfo.TYPE_CLASS_PHONE);
+                edText.setRawInputType(Configuration.KEYBOARD_QWERTY);
             }
-
+//            if (config.getValidate().equals("true")){
+//                edText.setRawInputType(Configuration.KEYBOARD_QWERTY);
+//            }
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             layoutParams.setMargins(ConvertUtils.dp2px(10), ConvertUtils.dp2px(11), ConvertUtils.dp2px(10), ConvertUtils.dp2px(15));//4个参数按顺序分别是左上右下
 
@@ -675,10 +678,6 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
 
                 }
             });
-
-            if (config.getValidate().equals("true")){
-                edText.setInputType(InputType.TYPE_CLASS_NUMBER);
-            }
 
             layout.addView(edText);
 
