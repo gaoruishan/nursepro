@@ -41,6 +41,7 @@ public class MessageApiService {
      */
     public static void setSkinTestResult(String oeoreId, String skinTest,String auditUserId,String auditPassword, com.base.commlibs.http.ServiceCallBack callBack) {
         HashMap<String, String> properties = CommWebService.addUserId(null);
+        CommWebService.addLocId(properties);
         if(!TextUtils.isEmpty(oeoreId)){
             properties.put("oeoreId",oeoreId);
             properties.put("skinTest", skinTest);

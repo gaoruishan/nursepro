@@ -1,7 +1,7 @@
 package com.dhcc.nursepro.Activity.update.api;
 
 import com.blankj.utilcode.util.ObjectUtils;
-import com.dhcc.nursepro.Activity.update.bean.UpdateBean;
+import com.base.commlibs.bean.UpdateBean;
 import com.google.gson.Gson;
 
 /**
