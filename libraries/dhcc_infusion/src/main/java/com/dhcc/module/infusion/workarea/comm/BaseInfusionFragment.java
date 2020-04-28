@@ -25,6 +25,7 @@ import com.base.commlibs.utils.BaseHelper;
 import com.base.commlibs.utils.CommDialog;
 import com.base.commlibs.utils.DataCache;
 import com.base.commlibs.utils.SimpleCallBack;
+import com.base.commlibs.utils.UserUtil;
 import com.blankj.utilcode.util.ToastUtils;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.utils.DialogFactory;
@@ -97,7 +98,9 @@ public abstract class BaseInfusionFragment extends BaseFragment {
         //加载配置
         initConfig();
         //手动输入
-        addHandInputToToolbarRight();
+        if (UserUtil.isHandInput()) {
+            addHandInputToToolbarRight();
+        }
     }
     private void setCommToolBar() {
         setStatusBarBackgroundViewVisibility(true, 0xffffffff);

@@ -94,4 +94,6 @@ public class SharedPreference {
     public static final String MODULE_ID = "MODULE_ID";
     //更新是否http
     public static final String IS_HTTP = "IS_HTTP";
+    //是否手动输入
+    public static final String IS_HAND_INPUT = "IS_HAND_INPUT";
 }

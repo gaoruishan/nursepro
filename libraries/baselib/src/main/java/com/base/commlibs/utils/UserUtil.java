@@ -247,6 +247,7 @@ public class UserUtil {
      */
     public static void setUserConfig(ConfigBean loginBean) {
         SPUtils.getInstance().put(SharedPreference.IS_HTTP, loginBean.getHttpUpdateFlag());
+        SPUtils.getInstance().put(SharedPreference.IS_HAND_INPUT, loginBean.getHandInputFlag());
         SPUtils.getInstance().put(SharedPreference.LOCAL_TEST_FLAG, loginBean.getLocalTestFlag());
         SPUtils.getInstance().put(SharedPreference.UPDATE_URL, loginBean.getUpdateUrl());
         SPUtils.getInstance().put(SharedPreference.LOG_FLAG, loginBean.getLogFlag());
@@ -318,5 +319,13 @@ public class UserUtil {
             return i * 24 * 60 * 60 * 1000;
         }
         return 0;
+    }
+
+    /**
+     * 是否开启手动输入
+     * @return
+     */
+    public static boolean isHandInput() {
+        return !TextUtils.isEmpty(SPUtils.getInstance().getString(SharedPreference.IS_HAND_INPUT));
     }
 }
