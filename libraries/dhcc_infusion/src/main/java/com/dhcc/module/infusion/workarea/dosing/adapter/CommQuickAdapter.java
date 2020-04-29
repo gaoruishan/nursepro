@@ -79,7 +79,7 @@ public abstract class CommQuickAdapter<T, K extends BaseViewHolder> extends Base
         //创建布局管理
         RecyclerViewHelper.setDefaultRecyclerView(mContext, rvChild, 0);
 
-        ChildAdapter childAdapter = new ChildAdapter(R.layout.item_posing_child, item.getOeoreSubList(), scanInfo.equals(item.getOeoreId()));
+        ChildAdapter childAdapter = new ChildAdapter(R.layout.item_posing_child, item.getOeoreSubList(), item.getOeoreId().equals(scanInfo));
         childAdapter.setOrdState(item.getOrdState());
         rvChild.setAdapter(childAdapter);
 
