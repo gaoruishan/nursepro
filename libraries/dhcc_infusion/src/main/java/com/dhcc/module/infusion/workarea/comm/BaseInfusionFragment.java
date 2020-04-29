@@ -84,7 +84,7 @@ public abstract class BaseInfusionFragment extends BaseFragment {
         setCommToolBar();
         if (mContext instanceof BaseActivity) {
             ((BaseActivity) mContext).openMultiScan(AppUtil.isMultiScan());
-            ((BaseActivity) mContext).addGlobalView(ViewGlobal.createInfusionGlobal(mContext));
+            ((BaseActivity) mContext).addGlobalView(ViewGlobal.createGlobal(mContext));
         }
         AppUtil.initPlay(mContext, 0, R.raw.operate_success);
         helper = new BaseHelper(mContext);

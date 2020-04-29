@@ -16,14 +16,15 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
+import com.base.commlibs.BaseActivity;
 import com.base.commlibs.UniversalActivity;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.utils.DataCache;
 import com.base.commlibs.utils.UserUtil;
-import com.dhcc.res.LogCatLayout;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.workarea.comm.bean.MainConfigBean;
+import com.dhcc.res.LogCatLayout;
 import com.dhcc.res.nurse.bean.ConfigBean;
 import com.noober.background.view.BLTextView;
 
@@ -39,7 +40,7 @@ public class ViewGlobal {
     private static final String ACTIVITY = "com.base.commlibs.UniversalActivity";
 
     /**
-     * 添加
+     * 添加输液右侧导航
      * @param context
      * @return
      */
@@ -98,7 +99,16 @@ public class ViewGlobal {
         }
     }
 
+    /**
+     * 添加Logcat
+     * @param mContext
+     * @return
+     */
     public static View createLogcatGlobal(Activity mContext) {
+        //判断是否开启
+        if (!UserUtil.isShowLogcatView()) {
+            return null;
+        }
         LogCatLayout logCatLayout = new LogCatLayout(mContext);
         logCatLayout.setLayoutParams(new LinearLayout.LayoutParams( (int) (getScreenSize(mContext).x * 0.6), (int) (getScreenSize(mContext).y * 0.5)));
         return logCatLayout;
@@ -120,5 +130,23 @@ public class ViewGlobal {
             display.getSize(point);
             return point;
         }
+    }
+
+    /**
+     * 门诊全局View
+     * @param mContext
+     * @return
+     */
+    public static View createGlobal(Activity mContext) {
+        ((BaseActivity) mContext).addGlobalView(ViewGlobal.createInfusionGlobal(mContext));
+        View logcatGlobal = createLogcatGlobal(mContext);
+        if (logcatGlobal != null) {
+            return logcatGlobal;
+        }
+        View infusionGlobal = createInfusionGlobal(mContext);
+        if (infusionGlobal != null) {
+            return infusionGlobal;
+        }
+        return null;
     }
 }

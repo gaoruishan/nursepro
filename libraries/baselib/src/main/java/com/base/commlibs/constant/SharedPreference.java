@@ -96,4 +96,6 @@ public class SharedPreference {
     public static final String IS_HTTP = "IS_HTTP";
     //是否手动输入
     public static final String IS_HAND_INPUT = "IS_HAND_INPUT";
+    //是否Logcat
+    public static final String IS_SHOW_LOGCAT = "IS_SHOW_LOGCAT";
 }

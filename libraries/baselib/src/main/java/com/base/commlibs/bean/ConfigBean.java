@@ -32,6 +32,16 @@ public class ConfigBean extends CommResult {
     private String httpUpdateFlag;
     //是否手动输入
     private String handInputFlag;
+    //是否Logcat
+    private String globalLogcatFlag;
+
+    public String getGlobalLogcatFlag() {
+        return globalLogcatFlag == null ? "" : globalLogcatFlag;
+    }
+
+    public void setGlobalLogcatFlag(String globalLogcatFlag) {
+        this.globalLogcatFlag = globalLogcatFlag;
+    }
 
     public String getHandInputFlag() {
         return handInputFlag == null ? "" : handInputFlag;

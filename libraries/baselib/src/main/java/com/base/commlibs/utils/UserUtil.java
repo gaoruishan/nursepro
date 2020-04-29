@@ -246,6 +246,7 @@ public class UserUtil {
      * @param loginBean
      */
     public static void setUserConfig(ConfigBean loginBean) {
+        SPUtils.getInstance().put(SharedPreference.IS_SHOW_LOGCAT, loginBean.getGlobalLogcatFlag());
         SPUtils.getInstance().put(SharedPreference.IS_HTTP, loginBean.getHttpUpdateFlag());
         SPUtils.getInstance().put(SharedPreference.IS_HAND_INPUT, loginBean.getHandInputFlag());
         SPUtils.getInstance().put(SharedPreference.LOCAL_TEST_FLAG, loginBean.getLocalTestFlag());
@@ -290,6 +291,10 @@ public class UserUtil {
      */
     public static boolean isShowGlobalView() {
         return !TextUtils.isEmpty(SPUtils.getInstance().getString(SharedPreference.GLOBAL_VIEW_FLAG));
+    }
+
+    public static boolean isShowLogcatView() {
+        return !TextUtils.isEmpty(SPUtils.getInstance().getString(SharedPreference.IS_SHOW_LOGCAT));
     }
 
     /**
