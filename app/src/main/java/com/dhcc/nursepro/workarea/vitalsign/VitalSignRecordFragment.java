@@ -95,6 +95,8 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
 
     private Boolean ifSave=false;
 
+    private int EDTEXT_ID = 10001;
+
 
 
     @Override
@@ -546,6 +548,11 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
             edText.setGravity(Gravity.CENTER);
             edText.setTextColor(getResources().getColor(R.color.vital_sign_record_next_color));
             edText.setBackgroundResource(R.drawable.vital_sign_input_bg);
+
+            edText.setId(EDTEXT_ID++);
+            edText.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+            edText.setSingleLine(true);
+            edText.setNextFocusForwardId(EDTEXT_ID);
             if (config.getValueType() != null && config.getValueType().equals("N")) {
                 //edText.setInputType(EditorInfo.TYPE_CLASS_PHONE);
                 edText.setRawInputType(Configuration.KEYBOARD_QWERTY);
