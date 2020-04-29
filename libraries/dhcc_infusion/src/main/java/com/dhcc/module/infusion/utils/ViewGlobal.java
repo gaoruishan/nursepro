@@ -1,20 +1,26 @@
 package com.dhcc.module.infusion.utils;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Point;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import com.base.commlibs.UniversalActivity;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.utils.DataCache;
 import com.base.commlibs.utils.UserUtil;
+import com.dhcc.res.LogCatLayout;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.workarea.comm.bean.MainConfigBean;
@@ -89,6 +95,30 @@ public class ViewGlobal {
             }
         } catch (Exception e) {
             Log.e(TAG, e.toString());
+        }
+    }
+
+    public static View createLogcatGlobal(Activity mContext) {
+        LogCatLayout logCatLayout = new LogCatLayout(mContext);
+        logCatLayout.setLayoutParams(new LinearLayout.LayoutParams( (int) (getScreenSize(mContext).x * 0.6), (int) (getScreenSize(mContext).y * 0.5)));
+        return logCatLayout;
+    }
+    /**
+     * 获取屏幕尺寸
+     * @param context
+     * @return
+     */
+    @SuppressWarnings("deprecation")
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    public static Point getScreenSize(Context context) {
+        WindowManager windowManager = (WindowManager) context.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
+        Display display = windowManager.getDefaultDisplay();
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB_MR2) {
+            return new Point(display.getWidth(), display.getHeight());
+        } else {
+            Point point = new Point();
+            display.getSize(point);
+            return point;
         }
     }
 }
