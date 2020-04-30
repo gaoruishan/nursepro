@@ -1,6 +1,5 @@
 package com.dhcc.res;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Environment;
 import android.os.Handler;
@@ -26,9 +25,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.RandomAccessFile;
+import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @author:gaoruishan
@@ -39,6 +41,7 @@ public class LogCatLayout extends LinearLayout implements View.OnClickListener {
     private final String TAG;
     private final int mPId;
     private final String mPID;
+    private final String DIR = Environment.getExternalStorageDirectory().getPath() + "/dhc/log";
     private String cmds;
     private Context mContext;
     private TextView tvlog;
@@ -48,11 +51,12 @@ public class LogCatLayout extends LinearLayout implements View.OnClickListener {
     private Process exec;
     private BufferedReader mReader;
     private RandomAccessFile randomFile = null;
-
     private boolean mRunning = false;
-    private final String DIR = Environment.getExternalStorageDirectory().getPath()+"/dhc/log";
     private float touchDownX;
     private boolean mScrolling;
+    private MyHandler mhandler = new MyHandler(this);
+    private Thread thread;
+    private ExecutorService fixedThreadPool = Executors.newFixedThreadPool(3);
 
     public LogCatLayout(Context context) {
         this(context, null);
@@ -158,35 +162,15 @@ public class LogCatLayout extends LinearLayout implements View.OnClickListener {
 //        }
 //    });
     }
-//    @Override
-//    public boolean onInterceptTouchEvent(MotionEvent event) {
-//        switch (event.getAction()) {
-//            case MotionEvent.ACTION_DOWN:
-//                touchDownX = event.getX();
-//                mScrolling = false;
-//                break;
-//            case MotionEvent.ACTION_MOVE:
-//                if (Math.abs(touchDownX - event.getX()) >= ViewConfiguration.get(
-//                        getContext()).getScaledTouchSlop()) {
-//                    mScrolling = true;
-//                } else {
-//                    mScrolling = false;
-//                }
-//                break;
-//            case MotionEvent.ACTION_UP:
-//                mScrolling = false;
-//                break;
-//        }
-//        return mScrolling;
-//    }
+
     @Override
     protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
         super.onVisibilityChanged(changedView, visibility);
-        Log.e(TAG,"(LogCatLayout.java:92) onVisibilityChanged="+visibility);
+        Log.e(TAG, "(LogCatLayout.java:92) onVisibilityChanged=" + visibility);
     }
 
-    public void startRunThread(String cmds,boolean mRunning) {
-        if(!TextUtils.isEmpty(cmds)){
+    public void startRunThread(String cmds, boolean mRunning) {
+        if (!TextUtils.isEmpty(cmds)) {
             this.cmds = cmds;
             startRunThread(mRunning);
         }
@@ -196,73 +180,61 @@ public class LogCatLayout extends LinearLayout implements View.OnClickListener {
         try {
             exec = Runtime.getRuntime().exec(cmds);
             mReader = new BufferedReader(new InputStreamReader(exec.getInputStream()), 1024);
-            new Thread(new Runnable() {
+            fixedThreadPool.execute(new Runnable() {
                 @Override
                 public void run() {
-                    String line = "";
-                    try {
-                        while (mRunning && (line = mReader.readLine()) != null) {
-                            if (!mRunning) {
-                                break;
-                            }
-                            if (line.length() == 0) {
-                                continue;
-                            }
-                            final Message msg = Message.obtain();
-                            msg.what = 2;
-                            msg.obj = line + "\n";
-                            mhandler.sendMessage(msg);
-                            Thread.sleep(150);
-                        }
-                    } catch (Exception e) {
-                        Log.e(TAG, e.toString());
-                    } finally {
-                        Log.e(TAG, "finally");
-                        Log.e(TAG, "" + mRunning);
-                        if (line == null) {
-                            Log.e(TAG, "line is null");
-                        }
-                        if (exec != null) {
-                            exec.destroy();
-                        }
-                        if (mReader != null) {
-                            try {
-                                mReader.close();
-                                mReader = null;
-                            } catch (IOException e) {
-                            }
-                        }
-                    }
+                    doBackground(mRunning);
                 }
-            }).start();
+            });
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    @SuppressLint("HandlerLeak")
-    Handler mhandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case 1:
+    private void doBackground(boolean mRunning) {
+        String line = "";
+        try {
+            while (mRunning && (line = mReader.readLine()) != null) {
+                if (!mRunning) {
                     break;
-                case 2:
-                    //显示日志
-                    tvlog.setMovementMethod(ScrollingMovementMethod.getInstance());
-//                    etlog.setSelection(etlog.getText().length(), etlog.getText().length());
-                    tvlog.setText(tvlog.getText() + msg.obj.toString());
-                    break;
+                }
+                if (line.length() == 0) {
+                    continue;
+                }
+                final Message msg = Message.obtain();
+                msg.what = 2;
+                msg.obj = line + "\n";
+                mhandler.sendMessage(msg);
+                Thread.sleep(100);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, e.toString());
+        } finally {
+            Log.e(TAG, "finally");
+            Log.e(TAG, "" + mRunning);
+            if (line == null) {
+                Log.e(TAG, "line is null");
+            }
+            if (exec != null) {
+                exec.destroy();
+            }
+            if (mReader != null) {
+                try {
+                    mReader.close();
+                    mReader = null;
+                } catch (IOException e) {
+                }
             }
         }
-    };
+    }
+
     /**
      * View销毁时
      */
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        Log.e(TAG,"(LogCatLayout.java:165) onDetachedFromWindow");
+        Log.e(TAG, "(LogCatLayout.java:165) onDetachedFromWindow");
         mRunning = false;
         if (exec != null) {
             exec.destroy();
@@ -274,6 +246,11 @@ public class LogCatLayout extends LinearLayout implements View.OnClickListener {
             } catch (IOException e) {
             }
         }
+        //最后清空这些回调
+        if (mhandler != null) {
+            mhandler.removeCallbacksAndMessages(null);
+        }
+        fixedThreadPool.shutdown();
     }
 
     @Override
@@ -296,11 +273,37 @@ public class LogCatLayout extends LinearLayout implements View.OnClickListener {
                 randomFile.write(tvlog.getText().toString().getBytes());
                 Toast.makeText(mContext, "日志保存成功,path=" + path, Toast.LENGTH_SHORT).show();
             } catch (IOException e) {
-                Toast.makeText(mContext, "日志保存失败:检查读写权限" , Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "日志保存失败:检查读写权限", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
         } else if (id == R.id.btn_clear) {
             tvlog.setText("");
+        }
+    }
+
+    private static class MyHandler extends Handler {
+
+        WeakReference<LogCatLayout> weakReference;
+
+        MyHandler(LogCatLayout testActivity) {
+            this.weakReference = new WeakReference<LogCatLayout>(testActivity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 2:
+                    //显示日志
+                    TextView tvlog = weakReference.get().tvlog;
+                    tvlog.setMovementMethod(ScrollingMovementMethod.getInstance());
+//                    etlog.setSelection(etlog.getText().length(), etlog.getText().length());
+                    tvlog.setText(tvlog.getText() + msg.obj.toString());
+                    break;
+                default:
+                    break;
+            }
+
         }
     }
 }
