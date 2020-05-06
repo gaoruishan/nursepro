@@ -149,15 +149,41 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
     protected void getScanOrdList() {
         //第二次 扫瓶贴
         if (mBean != null) {
-            if (scanInfo.contains("||")) {
-                skinAdapter.setCurrentScanInfo(scanInfo);
-                recyclerView.scrollToPosition(skinAdapter.getSelectBeanPosition());
-                refreshBottomView();
-            }
+            checkScanInfo();
         } else {
             getSkinList(scanInfo);
         }
 
+    }
+
+    private void checkScanInfo() {
+        if (scanInfo.contains("||")) {
+            if (isContain()) {
+                skinAdapter.setCurrentScanInfo(scanInfo);
+                recyclerView.scrollToPosition(skinAdapter.getSelectBeanPosition());
+                refreshBottomView();
+            }
+        }else {
+            showToast(SCAN_LABEL);
+        }
+    }
+
+    /**
+     * 是否包含
+     * @return
+     */
+    private boolean isContain() {
+        boolean isContain = false;
+        for (SkinListBean.OrdListBean bean : skinAdapter.getData()) {
+            if (bean.getOeoriId().equals(scanInfo)) {
+                isContain = true;
+                break;
+            }
+        }
+        if (!isContain) {
+            showToast(PAT_NO_ORD);
+        }
+        return isContain;
     }
 
     @Override

@@ -64,6 +64,7 @@ public abstract class BaseInfusionFragment extends BaseFragment {
     public static final String PAT = "PAT";
     public static final String ORD = "ORD";
     protected static final String PROMPT_NO_ORD = "本次接单任务无此贴签 ,请核对!";
+    protected static final String PAT_NO_ORD = "未找到该患者对应的医嘱，请核查!";
     protected String scanInfo;
     protected String scanInfoTemp;
     protected String episodeId = "";

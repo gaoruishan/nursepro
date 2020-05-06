@@ -331,6 +331,9 @@ public class UserUtil {
      * @return
      */
     public static boolean isHandInput() {
+        if (LocalTestManager.isTest()) {
+            return true;
+        }
         return !TextUtils.isEmpty(SPUtils.getInstance().getString(SharedPreference.IS_HAND_INPUT));
     }
 }
