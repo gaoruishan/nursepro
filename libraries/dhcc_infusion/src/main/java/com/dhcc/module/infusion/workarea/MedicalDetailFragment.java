@@ -21,9 +21,7 @@ import com.dhcc.res.infusion.CustomOrdStateView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * 医嘱详情
@@ -42,10 +40,8 @@ public class MedicalDetailFragment extends BaseInfusionFragment {
     private DetailLogAdapter detailLogAdapter;
     private BaseHelper helper;
     private RecyclerView rvOrdList;
-
     @Override
     protected void addHandInputToToolbarRight() {
-        
     }
 
     @Override
@@ -132,16 +128,18 @@ public class MedicalDetailFragment extends BaseInfusionFragment {
     }
 
     private List<OrdInfoBean.OrdInfoArrBean.OrdWorkListBean> getGroupOrdWork(List<OrdInfoBean.OrdInfoArrBean.OrdWorkListBean> ordWorkList) {
-        Set<String> attrIdSet = new HashSet<>();
+        List<String> attrIdSet = new ArrayList<>();
         for (OrdInfoBean.OrdInfoArrBean.OrdWorkListBean bean : ordWorkList) {
-            attrIdSet.add(bean.getWorkType());
+            if (!attrIdSet.contains(bean.getWorkCode())) {
+                attrIdSet.add(bean.getWorkCode());
+            }
         }
         List<OrdInfoBean.OrdInfoArrBean.OrdWorkListBean> allOrdWorkList = new ArrayList<>();
         for (String code : attrIdSet) {
             OrdInfoBean.OrdInfoArrBean.OrdWorkListBean ordWorkListBean = new OrdInfoBean.OrdInfoArrBean.OrdWorkListBean();
             List<OrdInfoBean.OrdInfoArrBean.OrdWorkListBean> childOrdWorkList = new ArrayList<>();
             for (OrdInfoBean.OrdInfoArrBean.OrdWorkListBean bean : ordWorkList) {
-                if (code.equals(bean.getWorkType())) {
+                if (code.equals(bean.getWorkCode())) {
                     childOrdWorkList.add(bean);
                 }
             }

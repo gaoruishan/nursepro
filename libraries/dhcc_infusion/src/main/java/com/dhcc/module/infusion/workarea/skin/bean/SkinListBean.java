@@ -1,5 +1,7 @@
 package com.dhcc.module.infusion.workarea.skin.bean;
 
+import android.text.TextUtils;
+
 import com.base.commlibs.http.CommResult;
 import com.dhcc.module.infusion.workarea.blood.bean.ArcimDescListBean;
 import com.dhcc.module.infusion.workarea.comm.bean.PatInfoBean;
@@ -88,6 +90,7 @@ public class SkinListBean extends CommResult {
          */
 
         private List<ArcimDescListBean> ArcimDescList; //医嘱名称
+        private String ArcimDesc; //医嘱名称
         private String CreateDateTime;//医嘱创建时间
         private String CtcpDesc; //医生
         private String DisposeStatDesc;//处置状态
@@ -112,7 +115,13 @@ public class SkinListBean extends CommResult {
 
         public List<ArcimDescListBean> getArcimDescList() {
             if (ArcimDescList == null) {
-                return new ArrayList<>();
+                ArcimDescList = new ArrayList<>();
+                //兼容空数据
+                if(!TextUtils.isEmpty(ArcimDesc)){
+                    ArcimDescListBean bean = new ArcimDescListBean();
+                    bean.setArcimDesc(ArcimDesc);
+                    ArcimDescList.add(bean);
+                }
             }
             return ArcimDescList;
         }

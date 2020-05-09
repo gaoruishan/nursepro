@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:text="严医生"
+                tools:text="严医生"
                 android:textColor="#FF000000"
                 android:textSize="@dimen/sp_15"
             />
@@ -72,7 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:text="2019-01-20  09:26"
+                tools:text="2019-01-20  09:26"
                 android:textColor="#FF000000"
                 android:textSize="@dimen/sp_15"
             />
@@ -103,7 +103,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:text="静脉滴注"
+                tools:text="静脉滴注"
                 android:textColor="#FF000000"
                 android:textSize="@dimen/sp_15"
             />
@@ -133,7 +133,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:text="2次/天"
+                tools:text="2次/天"
                 android:textColor="#FF000000"
                 android:textSize="@dimen/sp_15"
             />
@@ -184,7 +184,7 @@
                 android:id="@+id/tv_notes_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="说明说明说明说明说明说明说明说明说明说明说明说明说明说明。"
+                tools:text="说明说明说明说明说明说明说明说明说明说明说明说明说明说明。"
                 android:textColor="#FF000000"
                 android:textSize="@dimen/sp_15"
             />

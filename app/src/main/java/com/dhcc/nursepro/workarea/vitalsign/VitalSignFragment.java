@@ -232,30 +232,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                 tvVitalSignChooseTime.setText(dateFilterStr + "  " + timeFilterStr);
 
 
-
-                for (int i = 0; i <leftFilterList.size() ; i++) {
-                    String key = (String) ((Map)(leftFilterList.get(i))).get("code");
-                    int typeNum = 0 ;
-                    ((Map)(leftFilterList.get(i))).put("temNum",typeNum+"");
-                    for (int j = 0; j <patientList.size() ; j++) {
-                        List<Map> needMeasureList1 = (List<Map>) ((Map)( patientList.get(j))).get("needMeasureInfo");
-//                        for (int k = 0; k <needMeasureList1.size() ; k++) {
-                        if (needMeasureList1.size()>0){
-                            if (needMeasureList1.get(0).get(key).equals("1")){
-                                ((Map)(leftFilterList.get(i))).put("temNum",""+(++typeNum));
-//                            }
-                            }
-
-                        }
-                    }
-                }
-                 List leftFilterListShow = new ArrayList();
-                for (int i = 0; i <leftFilterList.size() ; i++) {
-                    if (!((Map)(leftFilterList.get(i))).get("temNum").equals("0")){
-                        leftFilterListShow.add((Map)(leftFilterList.get(i)));
-                    }
-                }
-                typeAdapter.setNewData(leftFilterListShow);
+                showLeftFilterListTemNum(patientList);
 
                 for (int i = 0; i < topFilterList.size(); i++) {
                     Map filter = (Map) topFilterList.get(i);
@@ -429,29 +406,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
 
         //左侧筛选项无选中状态，则全部显示
         if (typeAdapter.getFilterList().size() == 0) {
-            for (int i = 0; i <leftFilterList.size() ; i++) {
-                String key = (String) ((Map)(leftFilterList.get(i))).get("code");
-                int typeNum = 0 ;
-                ((Map)(leftFilterList.get(i))).put("temNum",typeNum+"");
-                for (int j = 0; j <displayList.size() ; j++) {
-                    List<Map> needMeasureList1 = (List<Map>) ((Map)( displayList.get(j))).get("needMeasureInfo");
-//                        for (int k = 0; k <needMeasureList1.size() ; k++) {
-                    if (needMeasureList1.size()>0){
-                        if (needMeasureList1.get(0).get(key).equals("1")){
-                            ((Map)(leftFilterList.get(i))).put("temNum",""+(++typeNum));
-//                            }
-                        }
-
-                    }
-                }
-            }
-            List leftFilterListShow = new ArrayList();
-            for (int i = 0; i <leftFilterList.size() ; i++) {
-                if (!((Map)(leftFilterList.get(i))).get("temNum").equals("0")){
-                    leftFilterListShow.add((Map)(leftFilterList.get(i)));
-                }
-            }
-            typeAdapter.setNewData(leftFilterListShow);
+            showLeftFilterListTemNum(displayList);
 
             patientAdapter.setNewData(displayList);
             tvResetting.setSelected(false);
@@ -528,16 +483,22 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
 
 
         }
-        for (int i = 0; i <leftFilterList.size() ; i++) {
-            String key = (String) ((Map)(leftFilterList.get(i))).get("code");
-            int typeNum = 0 ;
-            ((Map)(leftFilterList.get(i))).put("temNum",typeNum+"");
-            for (int j = 0; j <displayList.size() ; j++) {
-                List<Map> needMeasureList1 = (List<Map>) ((Map)( displayList.get(j))).get("needMeasureInfo");
+        showLeftFilterListTemNum(displayList);
+        patientAdapter.setNewData(displayList);
+
+    }
+
+    private void showLeftFilterListTemNum(List<Map> displayList) {
+        for (int i = 0; i < leftFilterList.size(); i++) {
+            String key = (String) ((Map) (leftFilterList.get(i))).get("code");
+            int typeNum = 0;
+            ((Map) (leftFilterList.get(i))).put("temNum", typeNum + "");
+            for (int j = 0; j < displayList.size(); j++) {
+                List<Map> needMeasureList1 = (List<Map>) ((Map) (displayList.get(j))).get("needMeasureInfo");
 //                        for (int k = 0; k <needMeasureList1.size() ; k++) {
-                if (needMeasureList1.size()>0){
-                    if (needMeasureList1.get(0).get(key).equals("1")){
-                        ((Map)(leftFilterList.get(i))).put("temNum",""+(++typeNum));
+                if (needMeasureList1.size() > 0) {
+                    if (needMeasureList1.get(0).get(key).equals("1")) {
+                        ((Map) (leftFilterList.get(i))).put("temNum", "" + (++typeNum));
 //                            }
                     }
 
@@ -545,14 +506,12 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
             }
         }
         List leftFilterListShow = new ArrayList();
-        for (int i = 0; i <leftFilterList.size() ; i++) {
-            if (!((Map)(leftFilterList.get(i))).get("temNum").equals("0")){
-                leftFilterListShow.add((Map)(leftFilterList.get(i)));
+        for (int i = 0; i < leftFilterList.size(); i++) {
+            if (!((Map) (leftFilterList.get(i))).get("temNum").equals("0")) {
+                leftFilterListShow.add((Map) (leftFilterList.get(i)));
             }
         }
         typeAdapter.setNewData(leftFilterListShow);
-        patientAdapter.setNewData(displayList);
-
     }
 
     //扫码获取信息

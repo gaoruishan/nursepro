@@ -69,7 +69,11 @@ public abstract class CommQuickAdapter<T, K extends BaseViewHolder> extends Base
         // 医生说明
         boolean empty = TextUtils.isEmpty(item.getNotes()) && TextUtils.isEmpty(item.getWayNo());
         helper.setGone(R.id.ll_notes, !empty);
-        helper.setText(R.id.tv_notes, "备注：" + item.getNotes() + " 通道" + item.getWayNo());
+        String way = "";
+        if(!TextUtils.isEmpty(item.getWayNo())){
+            way = " 通道" + item.getWayNo();
+        }
+        helper.setText(R.id.tv_notes, "备注：" + item.getNotes() + way );
         // 选中状态
         setSelectTextView(helper, item, position);
         // 去掉最后一分割线
