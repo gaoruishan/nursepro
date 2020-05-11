@@ -5,7 +5,6 @@ import android.view.View;
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
 import com.dhcc.module.infusion.R;
-import com.dhcc.module.infusion.workarea.dosing.api.DosingApiManager;
 
 /**
  * 注射-配液
@@ -40,7 +39,7 @@ public class InjectDosingFragment extends InjectFragment {
             return;
         }
 
-        DosingApiManager.despensingOrd(scanInfo, mBean.getBtnType(), "", "", new CommonCallBack<CommResult>() {
+        InjectApiManager.injectDespensing(scanInfo, mBean.getBtnType(), "", "", new CommonCallBack<CommResult>() {
             @Override
             public void onFail(String code, String msg) {
                 onFailThings();

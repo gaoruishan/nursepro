@@ -1,5 +1,7 @@
 package com.dhcc.module.infusion.workarea.inject;
 
+import android.text.TextUtils;
+
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommWebService;
 import com.base.commlibs.http.CommonCallBack;
@@ -37,7 +39,36 @@ public class InjectApiManager extends BaseApiManager {
             }
         });
     }
+    /**
+     * Description:  配液/复核
+     * Input：       oeoreId:执行记录ID,userId:用户ID,type:操作类型(Despensing,Audit),locId:科室Id
+     * other:		  w ##class(Nur.OPPDA.Despensing).despensingOrd("568-3-1","1","Audit",1)
+     */
+    public static void despensingOrd(String oeoreId, String type, String userCode, String password, ServiceCallBack callBack) {
 
+    }
+    /**
+     * Description:  配液/复核
+     * Input：       oeoreId:执行记录ID,userId:用户ID,type:操作类型(Despensing,Audit),locId:科室Id
+     * other:		  w ##class(Nur.OPPDA.Despensing).despensingOrd("568-3-3","1","Audit",1)
+     */
+    public static void injectDespensing(String oeoreId, String type, String userCode, String password, final CommonCallBack<CommResult> callback) {
+        HashMap<String, String> properties = new HashMap<>();
+        properties.put("oeoreId", oeoreId);
+        properties.put("type", type);
+        if (!TextUtils.isEmpty(userCode)) {
+            properties.put("userCode", userCode);
+        }
+        if (!TextUtils.isEmpty(password)) {
+            properties.put("password", password);
+        }
+        CommWebService.callUserIdLocId("injectDespensing", properties, new ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                CommWebService.parserCommResult(jsonStr,callback);
+            }
+        });
+    }
     /**
      * 注射-执行
      */
