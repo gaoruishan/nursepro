@@ -112,7 +112,7 @@ public class MessageEvent {
         SHOW_LOADING,
         HIDE_LOADING,
         SHOW_COMMEND_AREA,
-        USER_UPDATE_BIZ_LIST,
+        UPDATE_TASK_MANAGE_LIST,
         KEY_BORAD_OPEN,
         KEY_BORAD_CLOSE,
         REQUEST_APP_MESSAGE_LIST,

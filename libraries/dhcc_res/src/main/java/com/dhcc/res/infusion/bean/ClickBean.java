@@ -11,6 +11,9 @@ public class ClickBean {
     private String text;
     private View.OnClickListener listener;
 
+    public ClickBean() {
+    }
+
     public ClickBean(String text, View.OnClickListener listener) {
         this.text = text;
         this.listener = listener;

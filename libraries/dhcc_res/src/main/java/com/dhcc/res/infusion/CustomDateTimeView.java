@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.SPStaticUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.grs.dhcc_res.R;
 import com.jzxiang.pickerview.TimePickerDialog;
@@ -21,6 +22,7 @@ import com.jzxiang.pickerview.listener.OnDateSetListener;
  * @email:grs0515@163.com
  */
 public class CustomDateTimeView extends LinearLayout implements View.OnClickListener {
+
     private static final long ONE_DAY = 24 * 60 * 60 * 1000L;
     private TextView tvChooseDateStart;
     private TextView tvChooseDateEnd;
@@ -28,6 +30,8 @@ public class CustomDateTimeView extends LinearLayout implements View.OnClickList
     private long startDateTime;
     private long endDateTime;
     private OnDateSetListener startClick,endClick;
+    public static final String SP_CUSTOM_DATE_START="SP_CUSTOM_DATE_START";
+    public static final String SP_CUSTOM_DATE_END="SP_CUSTOM_DATE_END";
 
     public CustomDateTimeView(Context context) {
         this(context, null);
@@ -50,7 +54,6 @@ public class CustomDateTimeView extends LinearLayout implements View.OnClickList
         tvChooseDateStart.setOnClickListener(this);
         tvChooseDateEnd = findViewById(R.id.tv_choose_date_end);
         tvChooseDateEnd.setOnClickListener(this);
-
         setChooseText(getStartDateTime(), tvChooseDateStart);
         setChooseText(getEndDateTime(), tvChooseDateEnd);
 
@@ -62,6 +65,13 @@ public class CustomDateTimeView extends LinearLayout implements View.OnClickList
             s = TimeUtils.millis2String(millseconds).substring(0, 16);
         }
         tv.setText(s);
+        //保存sp
+        if (tv == tvChooseDateStart) {
+            SPStaticUtils.put(SP_CUSTOM_DATE_START,s);
+        }
+        if (tv == tvChooseDateEnd) {
+            SPStaticUtils.put(SP_CUSTOM_DATE_END,s);
+        }
     }
 
     public String getStartDateTimeText() {
@@ -165,6 +175,8 @@ public class CustomDateTimeView extends LinearLayout implements View.OnClickList
 
     public void setShowTime(boolean showTime) {
         isShowTime = showTime;
+        setChooseText(getStartDateTime(), tvChooseDateStart);
+        setChooseText(getEndDateTime(), tvChooseDateEnd);
     }
 
     public CustomDateTimeView setOnDateSetListener(OnDateSetListener startClick,OnDateSetListener endClick) {

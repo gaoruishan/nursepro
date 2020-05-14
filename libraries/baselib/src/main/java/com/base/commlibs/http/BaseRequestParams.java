@@ -1,23 +1,12 @@
 package com.base.commlibs.http;
 
-import com.base.commlibs.constant.SharedPreference;
-import com.base.commlibs.utils.ReflectUtil;
-import com.blankj.utilcode.util.AppUtils;
-import com.blankj.utilcode.util.SPUtils;
-
-import java.util.HashMap;
-
 /**
  * 通用请求参数
  * @author:gaoruishan
  * @date:202020-03-05/15:01
  * @email:grs0515@163.com
  */
-public class BaseRequestParams {
-    //版本
-    public String version = "";
-    public String id = "";
-    public String title = "";
+public class BaseRequestParams extends CommRequest {
     //当前登记号 OeoreId
     public String regNo = "";
     public String curOeoreId = "";
@@ -71,35 +60,8 @@ public class BaseRequestParams {
     public String sysPressure;
     public String diaPressure;
 
-    /**
-     * 公共参数
-     * @return
-     */
-    public static HashMap<String, String> getCommParams() {
-        return getProperties(new BaseRequestParams());
-    }
-    /**
-     * 获取变量
-     * @param params
-     * @return
-     */
-    public static HashMap<String, String> getProperties(BaseRequestParams params) {
-        /**
-         * 添加公共参数
-         */
-        params.version = AppUtils.getAppVersionCode()+"";
-        params.title = SPUtils.getInstance().getString(SharedPreference.MODULE_TITLE);
-        params.id = SPUtils.getInstance().getString(SharedPreference.MODULE_ID);
-        HashMap<String, String> properties = ReflectUtil.getPublicFieldsToMap(params);
-        CommWebService.addLocId(properties);
-        CommWebService.addUserId(properties);
-        return properties;
-    }
-
-    /**
-     * 清楚变量
-     */
-    public void clearAll() {
-        ReflectUtil.clearPublicFields(this);
+    @Override
+    protected void addCommParams(CommRequest params) {
+        super.addCommParams(params);
     }
 }

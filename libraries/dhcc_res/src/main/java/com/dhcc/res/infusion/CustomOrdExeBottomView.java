@@ -8,8 +8,11 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.base.commlibs.utils.SimpleCallBack;
 import com.dhcc.res.BaseView;
 import com.dhcc.res.infusion.bean.ClickBean;
+import com.dhcc.res.infusion.bean.SheetListBean;
+import com.dhcc.res.nurse.CustomPopLayout;
 import com.grs.dhcc_res.R;
 
 import java.util.List;
@@ -28,6 +31,7 @@ public class CustomOrdExeBottomView extends BaseView {
     private LinearLayout llSelect;
     private TextView tvNoSelectText;
     private TextView tvSelectText;
+    private SimpleCallBack<View> listener;
 
     public CustomOrdExeBottomView(Context context) {
         this(context, null);
@@ -42,17 +46,33 @@ public class CustomOrdExeBottomView extends BaseView {
     }
 
 
+    public void setBottomViewClickListener(SimpleCallBack<View> listener) {
+        this.listener = listener;
+    }
+
     /**
      * 添加底部按钮
      * @param list
      */
-    public void addBottomView(List<ClickBean> list) {
+    public void addBottomView(List<? extends ClickBean> list) {
         if (list != null) {
+            llBottom.removeAllViews();
             for (int i = 0; i < list.size(); i++) {
                 ClickBean bean = list.get(i);
                 TextView tv = inflate(R.layout.dhcc_ord_exe_buttom_tv, llBottom, TextView.class);
                 tv.setText(bean.getText());
-                tv.setOnClickListener(bean.getListener());
+                int finalI = i;
+                tv.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (listener != null) {
+                            listener.call(v, finalI);
+                        }
+                        if (bean.getListener() != null) {
+                            bean.getListener().onClick(v);
+                        }
+                    }
+                });
                 if (i % 2 == 0) {
                     setBackGroundColor(tv, R.color.blue_dark);
                 } else {
@@ -103,4 +123,36 @@ public class CustomOrdExeBottomView extends BaseView {
     }
 
 
+    public String getExeCode() {
+        Object tag = tvType.getTag();
+        if (tag != null) {
+            return (String) tag;
+        }
+        return "";
+    }
+
+    public void adBottomType(List<SheetListBean> listBeans) {
+        if (listBeans != null && listBeans.size() > 0) {
+            tvType.setText(listBeans.get(0).getDesc());
+            tvType.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    show(listBeans);
+                }
+            });
+        }
+    }
+
+    private void show(List<SheetListBean> listBeans) {
+        CustomPopLayout customPopLayout = new CustomPopLayout(mContext);
+        customPopLayout.setPopLayoutData(listBeans, tvType.getText().toString(), new SimpleCallBack<SheetListBean>() {
+            @Override
+            public void call(SheetListBean result, int type) {
+                if (result != null) {
+                    tvType.setText(result.getDesc());
+                    tvType.setTag(result.getCode());
+                }
+            }
+        }).showBottom(llSelect);
+    }
 }

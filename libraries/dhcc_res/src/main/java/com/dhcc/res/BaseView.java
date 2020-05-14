@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.base.commlibs.utils.SimpleCallBack;
 import com.grs.dhcc_res.R;
 import com.noober.background.drawable.DrawableCreator;
 
@@ -34,6 +35,7 @@ public abstract class BaseView extends LinearLayout {
     protected Context mContext;
     protected String TAG = BaseView.class.getSimpleName();
     protected View view;
+    protected SimpleCallBack callBack;
 
     public BaseView(Context context) {
         this(context, null);
@@ -195,5 +197,9 @@ public abstract class BaseView extends LinearLayout {
             return s;
         }
         return "";
+    }
+
+    public void setCustomCallBackListener(SimpleCallBack callBack) {
+        this.callBack = callBack;
     }
 }

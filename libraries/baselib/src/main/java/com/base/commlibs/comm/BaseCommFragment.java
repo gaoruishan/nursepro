@@ -60,13 +60,14 @@ public abstract class BaseCommFragment extends BaseFragment implements View.OnCl
         if (mContext instanceof BaseActivity) {
             ((BaseActivity) mContext).openMultiScan(AppUtil.isMultiScan());
         }
-        //进行初始化等... initPlay()
+        //进行初始化等...
+        initPlay();
     }
 
     /**
      * 初始化提示音
      */
-    private void initPlay() {
+    protected void initPlay() {
         AppUtil.initPlay(mContext, 0, R.raw.operate_success);
     }
 

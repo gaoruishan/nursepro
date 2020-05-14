@@ -57,6 +57,9 @@ public class LocalTestManager {
 
 //        l.add("getInjectOrdList");//注射
 //        l.add("exeInjectOrd");//注射
+
+//        l.add("getMainConfig");//主页配置
+//        l.add("getOrderTasks");//主页配置
     }
 
     /**

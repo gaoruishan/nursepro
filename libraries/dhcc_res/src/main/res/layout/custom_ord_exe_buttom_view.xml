@@ -46,7 +46,8 @@
                 tools:text="已选择2个"/>
 
             <LinearLayout
-                android:visibility="invisible"
+                android:id="@+id/ll_type"
+                android:visibility="visible"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
@@ -63,7 +64,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="接受"
+                    tools:text="接受"
                     android:textColor="@color/white"/>
 
                 <ImageView

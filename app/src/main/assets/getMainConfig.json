@@ -1,0 +1,102 @@
+{
+  "curDateTime": "2020-05-11 17:15:40",
+  "ifVoice": "Y",
+  "mainList": [
+    {
+      "moduleCode": "BEDMAP",
+      "moduleDesc": "床位图"
+    },
+    {
+      "moduleCode": "ORDERSEARCH",
+      "moduleDesc": "医嘱查询"
+    },
+    {
+      "moduleCode": "ORDEREXECUTE",
+      "moduleDesc": "医嘱执行"
+    },
+    {
+      "moduleCode": "ALLOTBED",
+      "moduleDesc": "入院分床"
+    },
+    {
+      "moduleCode": "VITALSIGN",
+      "moduleDesc": "生命体征"
+    },
+    {
+      "moduleCode": "EVENTS",
+      "moduleDesc": "事件管理"
+    },
+    {
+      "moduleCode": "DOCORDERLIST",
+      "moduleDesc": "医嘱单"
+    },
+    {
+      "moduleCode": "CHECK",
+      "moduleDesc": "检查报告"
+    },
+    {
+      "moduleCode": "LAB",
+      "moduleDesc": "检验报告"
+    },
+    {
+      "moduleCode": "LABOUT",
+      "moduleDesc": "检验打包"
+    },
+    {
+      "moduleCode": "NURTOUR",
+      "moduleDesc": "护理巡视"
+    },
+    {
+      "moduleCode": "DOSINGREVIEW",
+      "moduleDesc": "输液复核"
+    },
+    {
+      "moduleCode": "OPERATION",
+      "moduleDesc": "手术申请"
+    },
+    {
+      "moduleCode": "BLOOD",
+      "moduleDesc": "输血系统"
+    },
+    {
+      "moduleCode": "IFOrdRec",
+      "moduleDesc": "静配接收"
+    },
+    {
+      "moduleCode": "TaskManageFragment",
+      "moduleDesc": "任务管理"
+    }
+  ],
+  "msg": "",
+  "msgcode": "999999",
+  "scantimes": "2",
+  "schEnDateTime": "2020-05-11 23:59",
+  "schStDateTime": "2020-05-11 00:00",
+  "screenParts": [
+    {
+      "commonKey": "false",
+      "danjuStr": "DefaultSee!PSD!BLD",
+      "keyCode": "ordType",
+      "keyDesc": "类型",
+      "keyType": "Multiple",
+      "keyValue": "药品!检验!其他"
+    },
+    {
+      "commonKey": "false",
+      "danjuStr": "DefaultSee!PSD!BLD",
+      "keyCode": "oecprDesc",
+      "keyDesc": "优先级",
+      "keyType": "Single",
+      "keyValue": "长期!临时"
+    },
+    {
+      "commonKey": "true",
+      "danjuStr": "DefaultSee!PSD!BLD",
+      "keyCode": "exeFlag",
+      "keyDesc": "执行状态",
+      "keyType": "Single",
+      "keyValue": "未执行!已执行"
+    }
+  ],
+  "status": "0"
+}

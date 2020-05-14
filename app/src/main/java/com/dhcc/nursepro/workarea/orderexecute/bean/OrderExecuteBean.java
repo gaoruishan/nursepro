@@ -1,11 +1,12 @@
 package com.dhcc.nursepro.workarea.orderexecute.bean;
 
+import com.dhcc.res.infusion.bean.ClickBean;
+
 import java.io.Serializable;
 import java.util.List;
 
 /**
  * OrderSearchBean
- *
  * @author DevLix126
  * @date 2018/8/24
  */
@@ -100,7 +101,7 @@ public class OrderExecuteBean implements Serializable {
         this.sheetDefCode = sheetDefCode;
     }
 
-    public static class ButtonsBean implements Serializable {
+    public static class ButtonsBean extends ClickBean implements Serializable {
         /**
          * code : seeOrder
          * desc : 处理医嘱
@@ -110,6 +111,12 @@ public class OrderExecuteBean implements Serializable {
         private String desc;
         private String singleFlag;
         private String execode;
+
+        @Override
+        public String getText() {
+            return desc;
+        }
+
         public String getExecode() {
             return execode;
         }
@@ -130,16 +137,16 @@ public class OrderExecuteBean implements Serializable {
             return desc;
         }
 
-        public void setSingleFlag(String singleFlag) {
-            this.singleFlag = singleFlag;
+        public void setDesc(String desc) {
+            this.desc = desc;
         }
 
         public String getSingleFlag() {
             return singleFlag;
         }
 
-        public void setDesc(String desc) {
-            this.desc = desc;
+        public void setSingleFlag(String singleFlag) {
+            this.singleFlag = singleFlag;
         }
     }
 

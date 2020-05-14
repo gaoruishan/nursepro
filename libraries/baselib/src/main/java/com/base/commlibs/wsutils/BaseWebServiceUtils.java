@@ -69,12 +69,7 @@ public class BaseWebServiceUtils {
                 }
             }
         }
-        // 添加本地json测试
-        if (LocalTestManager.isTest(methodName)) {
-            LogUtils.e(methodName +" 测试= "+properties.toString());
-            LocalTestManager.callLocalJson(methodName,webServiceCallBack);
-            return;
-        }
+
         callWebService(url, methodName, properties, webServiceCallBack);
     }
 
@@ -136,6 +131,12 @@ public class BaseWebServiceUtils {
      * @param webServiceCallBack 回调接口
      */
     public synchronized static void callWebService(String url, final String methodName, HashMap<String, String> properties, final WebServiceCallBack webServiceCallBack) {
+        // 添加本地json测试
+        if (LocalTestManager.isTest(methodName)) {
+            LogUtils.e(methodName +" 测试= "+properties.toString());
+            LocalTestManager.callLocalJson(methodName,webServiceCallBack);
+            return;
+        }
         SharedPreference.MethodName = methodName;
         final HttpTransportSE httpTransportSE = new HttpTransportSE(url,TIME_OUT);
 

@@ -118,20 +118,15 @@ public class OrderExecuteApiManager {
         properties.put("starttime", starttime);
 
 
+        execOrSeeOrder(speed, barCode, scanFlag, batch, auditUserCode, auditUserPass, oeoreId, execStatusCode, callback, properties);
+    }
+
+    public static void execOrSeeOrder(String speed, String barCode, String scanFlag, String batch, String auditUserCode, String auditUserPass, String oeoreId, String execStatusCode, ExecOrSeeOrderCallback callback, HashMap<String, String> properties) {
         OrderExecuteApiService.execOrSeeOrder(speed,barCode,scanFlag, batch, auditUserCode, auditUserPass, oeoreId, execStatusCode, new OrderExecuteApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
 
                 Gson gson = new Gson();
-//                SPUtils spUtils = SPUtils.getInstance();
-//                String strLocReruest = spUtils.getString(SharedPreference.LOCALREQUEST,"");
-//                String strOrdId = "|"+oeoreId+"!";
-//                if (strLocReruest.contains(strOrdId)){
-//                    int startIndex = strLocReruest.indexOf(strOrdId);
-//                    int idLength = strOrdId.length();
-//                    String strIdTime = strLocReruest.substring(startIndex,startIndex+idLength+16);
-//                    strLocReruest = strLocReruest.replace(strIdTime,"");
-//                }
 
                 if (jsonStr.isEmpty()) {
                     callback.onFail("-1", "网络错误，请求数据为空");

@@ -10,7 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.multidex.MultiDex;
 
 import com.base.commlibs.utils.CrashHandler;
-import com.squareup.leakcanary.LeakCanary;
+import com.base.commlibs.utils.TransBroadcastUtil;
 
 import java.util.ArrayList;
 
@@ -97,6 +97,12 @@ public class BaseApplication extends Application implements Application.Activity
     }
 
     @Override
+    public void onTerminate() {
+        TransBroadcastUtil.unreg(this);
+        super.onTerminate();
+
+    }
+    @Override
     public void onCreate() {
         super.onCreate();
         //崩溃日志-SD卡中dhc_crash文件
@@ -117,6 +123,8 @@ public class BaseApplication extends Application implements Application.Activity
 //        if (!LeakCanary.isInAnalyzerProcess(this)) {
 //            LeakCanary.install(this);
 //        }
+
+        TransBroadcastUtil.init(this);
     }
 
     public static Application getApp() {

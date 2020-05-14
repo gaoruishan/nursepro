@@ -1,5 +1,6 @@
 package com.base.commlibs.http;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.base.commlibs.constant.SharedPreference;
@@ -8,6 +9,7 @@ import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.SPUtils;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 公共的方法
@@ -47,6 +49,9 @@ public class CommWebService {
     public static void call(String methodName, HashMap<String, String> properties, final ServiceCallBack callBack) {
         String appPackageName = AppUtils.getAppPackageName();
         Log.e(TAG,"(CommWebService.java:44) "+appPackageName);
+        // 检查properties
+        checkProperties(properties);
+
         if (COM_DHCC_INFUSION.equals(appPackageName)) {
             callInfusion(methodName, properties, callBack);
         }
@@ -57,6 +62,24 @@ public class CommWebService {
             callHealth(methodName, properties, callBack);
         }
     }
+
+    public static void checkProperties(HashMap<String, String> properties) {
+        if (properties != null) {
+            HashMap<String, String> propertiesNew = new HashMap<>();
+            for (Map.Entry<String, String> entry : properties.entrySet()) {
+                //去除 空Value
+                if(entry != null&&!TextUtils.isEmpty(entry.getValue())){
+                    propertiesNew.put(entry.getKey(), entry.getValue());
+                }
+            }
+            properties.clear();
+            properties.putAll(propertiesNew);
+        }else {
+            properties = new HashMap<>();
+        }
+
+    }
+
     /**
      * 统一(门诊输液)
      * @param methodName

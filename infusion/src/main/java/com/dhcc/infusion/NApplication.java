@@ -5,7 +5,6 @@ import android.os.Handler;
 import com.base.commlibs.BaseApplication;
 import com.blankj.utilcode.util.Utils;
 import com.dhcc.module.infusion.db.GreenDaoHelper;
-import com.base.commlibs.utils.TransBroadcastUtil;
 import com.facebook.drawee.backends.pipeline.Fresco;
 
 import java.util.concurrent.Executors;
@@ -56,7 +55,6 @@ public class NApplication extends BaseApplication {
 
         Fresco.initialize(getApp());
 
-        TransBroadcastUtil.init(this);
     }
 
 
@@ -65,10 +63,4 @@ public class NApplication extends BaseApplication {
         threadPoolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(4);
     }
 
-    @Override
-    public void onTerminate() {
-        TransBroadcastUtil.unreg(this);
-        super.onTerminate();
-
-    }
 }

@@ -1,0 +1,152 @@
+{
+  "msg": "",
+  "msgcode": "999999任务管理",
+  "status": "0",
+  "taskPatList": [
+    {
+      "bedCode": "19",
+      "patName": "MYH入院2",
+      "patRegNo": "0000000171",
+      "sheetList": [],
+      "sheetOrdNum": "0"
+    },
+    {
+      "bedCode": "20",
+      "patName": "住院N3",
+      "patRegNo": "0000000212",
+      "sheetList": [
+        {
+          "bedCode": "20",
+          "patName": "住院N3",
+          "sheetCode": "CQSYD",
+          "sheetDesc": "输液单",
+          "sheetPatOrdNum": "3"
+        },
+        {
+          "bedCode": "20",
+          "patName": "住院N3",
+          "sheetCode": "cqkfyd",
+          "sheetDesc": "口服药单",
+          "sheetPatOrdNum": "3"
+        }
+      ],
+      "sheetOrdNum": "6"
+    },
+    {
+      "bedCode": "21",
+      "patName": "王乾瞩测试用",
+      "patRegNo": "0000000259",
+      "sheetList": [
+        {
+          "bedCode": "21",
+          "patName": "王乾瞩测试用",
+          "sheetCode": "cqkfyd",
+          "sheetDesc": "口服药单",
+          "sheetPatOrdNum": "1"
+        }
+      ],
+      "sheetOrdNum": "1"
+    },
+    {
+      "bedCode": "22",
+      "patName": "zfm0420",
+      "patRegNo": "0000000261",
+      "sheetList": [
+        {
+          "bedCode": "22",
+          "patName": "zfm0420",
+          "sheetCode": "CQSYD",
+          "sheetDesc": "输液单",
+          "sheetPatOrdNum": "3"
+        }
+      ],
+      "sheetOrdNum": "3"
+    },
+    {
+      "bedCode": "50",
+      "patName": "卢珊珊",
+      "patRegNo": "0000000071",
+      "sheetList": [
+        {
+          "bedCode": "50",
+          "patName": "卢珊珊",
+          "sheetCode": "CQSYD",
+          "sheetDesc": "输液单",
+          "sheetPatOrdNum": "2"
+        },
+        {
+          "bedCode": "50",
+          "patName": "卢珊珊",
+          "sheetCode": "cqkfyd",
+          "sheetDesc": "口服药单",
+          "sheetPatOrdNum": "2"
+        }
+      ],
+      "sheetOrdNum": "4"
+    }
+  ],
+  "taskSheetList": [
+    {
+      "sheetCode": "CQSYD",
+      "sheetDesc": "输液单",
+      "sheetOrdNum": "8",
+      "sheetPatList": [
+        {
+          "bedCode": "20",
+          "patName": "住院N3",
+          "patRegNo": "0000000212",
+          "sheetCode": "CQSYD",
+          "sheetDesc": "输液单",
+          "sheetPatOrdNum": "3"
+        },
+        {
+          "bedCode": "22",
+          "patName": "zfm0420",
+          "patRegNo": "0000000261",
+          "sheetCode": "CQSYD",
+          "sheetDesc": "输液单",
+          "sheetPatOrdNum": "3"
+        },
+        {
+          "bedCode": "50",
+          "patName": "卢珊珊",
+          "patRegNo": "0000000071",
+          "sheetCode": "CQSYD",
+          "sheetDesc": "输液单",
+          "sheetPatOrdNum": "2"
+        }
+      ]
+    },
+    {
+      "sheetCode": "cqkfyd",
+      "sheetDesc": "口服药单",
+      "sheetOrdNum": "6",
+      "sheetPatList": [
+        {
+          "bedCode": "20",
+          "patName": "住院N3",
+          "patRegNo": "0000000212",
+          "sheetCode": "cqkfyd",
+          "sheetDesc": "口服药单",
+          "sheetPatOrdNum": "3"
+        },
+        {
+          "bedCode": "21",
+          "patName": "王乾瞩测试用",
+          "patRegNo": "0000000259",
+          "sheetCode": "cqkfyd",
+          "sheetDesc": "口服药单",
+          "sheetPatOrdNum": "1"
+        },
+        {
+          "bedCode": "50",
+          "patName": "卢珊珊",
+          "patRegNo": "0000000071",
+          "sheetCode": "cqkfyd",
+          "sheetDesc": "口服药单",
+          "sheetPatOrdNum": "2"
+        }
+      ]
+    }
+  ]
+}

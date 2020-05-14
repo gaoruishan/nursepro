@@ -28,7 +28,6 @@ import com.blankj.utilcode.util.StringUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.utils.DateUtils;
 import com.dhcc.nursepro.workarea.allotbed.AllotBedFragment;
 import com.dhcc.nursepro.workarea.bedmap.BedMapFragment;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.BloodTransfusionSystemFragment;
@@ -52,6 +51,7 @@ import com.dhcc.nursepro.workarea.orderexecute.bean.OrderExecResultBean;
 import com.dhcc.nursepro.workarea.ordersearch.OrderSearchFragment;
 import com.dhcc.nursepro.workarea.patevents.PatEventsFragment;
 import com.dhcc.nursepro.workarea.shift.ShiftFragment;
+import com.dhcc.nursepro.workarea.taskmanage.TaskManageFragment;
 import com.dhcc.nursepro.workarea.vitalsign.VitalSignFragment;
 import com.dhcc.nursepro.workarea.workareaapi.WorkareaApiManager;
 import com.dhcc.nursepro.workarea.workareabean.MainConfigBean;
@@ -263,6 +263,10 @@ public class WorkareaFragment extends BaseFragment {
                 break;
             case "IFOrdRec":
                 startFragment(DrugReceiveFragment.class);
+                break;
+                //w ##class(Nur.DHCNurPdaModule).Save("任务管理^TaskManageFragment^19^Y^")
+            case "TaskManageFragment":
+                startFragment(TaskManageFragment.class);
                 break;
             default:
                 break;
@@ -1185,6 +1189,11 @@ public class WorkareaFragment extends BaseFragment {
                     tvItem.setText("药品接收");
                     tvItem.setText(item.getModuleDesc());
                     imageView.setImageResource(R.drawable.icon_drugrlreg);
+                    break;
+               case "TaskManageFragment":
+                    tvItem.setText("任务管理");
+                    tvItem.setText(item.getModuleDesc());
+                    imageView.setImageResource(R.drawable.icon_task_manage);
                     break;
                 default:
                     break;
