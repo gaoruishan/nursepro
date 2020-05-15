@@ -113,31 +113,36 @@ public class WorkStatisticsFragment extends BaseFragment{
                     for (WorkStatisticsBean.UserListBean listBean : bean.getUserList()) {
                         if (listBean.getUserName().equals(SPUtils.getInstance().getString(SharedPreference.USERNAME))) {
                             listBeans.add(listBean);
+                            setWorkTypeChartData(listBean.getUserTypeList());
+                            break;
                         }
                     }
                     workStatisticsAdapter.replaceData(listBeans);
                 }else {
                     workStatisticsAdapter.replaceData(bean.getUserList());
+                    setWorkTypeChartData(bean.getTypeList());
                 }
 
-                List<WorkStatisticsBean.TypeListBean> beanTpeList = bean.getTypeList();
-                // 反转
-                Collections.reverse(beanTpeList);
-                List<String> mStList = new ArrayList<>();
-                List<Integer> mIntegerList = new ArrayList<>();
-                int allTimes = 0;
-                for (WorkStatisticsBean.TypeListBean b : beanTpeList) {
-                    if (!TextUtils.isEmpty(b.getWorkTypeNum())) {
-                        mStList.add(b.getWorkTypeDesc());
-                        int num = Integer.valueOf(b.getWorkTypeNum());
-                        mIntegerList.add(num);
-                        allTimes += num;
-                    }
-                }
-                cbcChart.updateAllChart(mStList, mIntegerList);
-                helper.setTextData(R.id.tv_all_times, "" + allTimes);
             }
         });
+    }
+
+    private void setWorkTypeChartData(List<WorkStatisticsBean.TypeListBean> beanTpeList) {
+        // 反转
+        Collections.reverse(beanTpeList);
+        List<String> mStList = new ArrayList<>();
+        List<Integer> mIntegerList = new ArrayList<>();
+        int allTimes = 0;
+        for (WorkStatisticsBean.TypeListBean b : beanTpeList) {
+            if (!TextUtils.isEmpty(b.getWorkTypeNum())) {
+                mStList.add(b.getWorkTypeDesc());
+                int num = Integer.valueOf(b.getWorkTypeNum());
+                mIntegerList.add(num);
+                allTimes += num;
+            }
+        }
+        cbcChart.updateAllChart(mStList, mIntegerList);
+        helper.setTextData(R.id.tv_all_times, "" + allTimes);
     }
 
 }
