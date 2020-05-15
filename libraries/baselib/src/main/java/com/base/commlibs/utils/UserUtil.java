@@ -246,6 +246,7 @@ public class UserUtil {
      * @param loginBean
      */
     public static void setUserConfig(ConfigBean loginBean) {
+        SPUtils.getInstance().put(SharedPreference.IS_SHOW_CUR_USER_WORKLOAD, loginBean.getShowCurUserWorkload());
         SPUtils.getInstance().put(SharedPreference.IS_SHOW_LOGCAT, loginBean.getGlobalLogcatFlag());
         SPUtils.getInstance().put(SharedPreference.IS_HTTP, loginBean.getHttpUpdateFlag());
         SPUtils.getInstance().put(SharedPreference.IS_HAND_INPUT, loginBean.getHandInputFlag());
@@ -335,5 +336,9 @@ public class UserUtil {
             return true;
         }
         return !TextUtils.isEmpty(SPUtils.getInstance().getString(SharedPreference.IS_HAND_INPUT));
+    }
+
+    public static boolean showCurUserWorkload() {
+        return !TextUtils.isEmpty(SPUtils.getInstance().getString(SharedPreference.IS_SHOW_CUR_USER_WORKLOAD));
     }
 }

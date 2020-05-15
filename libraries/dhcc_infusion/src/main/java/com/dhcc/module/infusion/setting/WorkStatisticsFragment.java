@@ -11,9 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.base.commlibs.BaseFragment;
+import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.BaseHelper;
 import com.base.commlibs.utils.CommonUtil;
+import com.base.commlibs.utils.UserUtil;
+import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.dhcc.module.infusion.R;
@@ -104,7 +107,18 @@ public class WorkStatisticsFragment extends BaseFragment{
                     ToastUtils.showLong("暂无数据,请重新选择日期");
                     return;
                 }
-                workStatisticsAdapter.replaceData(bean.getUserList());
+                //过滤用户
+                if (UserUtil.showCurUserWorkload()) {
+                    List<WorkStatisticsBean.UserListBean> listBeans = new ArrayList<>();
+                    for (WorkStatisticsBean.UserListBean listBean : bean.getUserList()) {
+                        if (listBean.getUserName().equals(SPUtils.getInstance().getString(SharedPreference.USERNAME))) {
+                            listBeans.add(listBean);
+                        }
+                    }
+                    workStatisticsAdapter.replaceData(listBeans);
+                }else {
+                    workStatisticsAdapter.replaceData(bean.getUserList());
+                }
 
                 List<WorkStatisticsBean.TypeListBean> beanTpeList = bean.getTypeList();
                 // 反转

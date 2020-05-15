@@ -34,6 +34,16 @@ public class ConfigBean extends CommResult {
     private String handInputFlag;
     //是否Logcat
     private String globalLogcatFlag;
+    //是否当前用户工作量
+    private String showCurUserWorkload;
+
+    public String getShowCurUserWorkload() {
+        return showCurUserWorkload == null ? "" : showCurUserWorkload;
+    }
+
+    public void setShowCurUserWorkload(String showCurUserWorkload) {
+        this.showCurUserWorkload = showCurUserWorkload;
+    }
 
     public String getGlobalLogcatFlag() {
         return globalLogcatFlag == null ? "" : globalLogcatFlag;

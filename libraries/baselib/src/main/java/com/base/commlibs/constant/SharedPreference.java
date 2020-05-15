@@ -98,4 +98,6 @@ public class SharedPreference {
     public static final String IS_HAND_INPUT = "IS_HAND_INPUT";
     //是否Logcat
     public static final String IS_SHOW_LOGCAT = "IS_SHOW_LOGCAT";
+    //当前用户工作量
+    public static final String IS_SHOW_CUR_USER_WORKLOAD = "IS_SHOW_CUR_USER_WORKLOAD";
 }
