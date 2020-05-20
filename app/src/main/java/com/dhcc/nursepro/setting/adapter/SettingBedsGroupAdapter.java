@@ -103,7 +103,7 @@ public class SettingBedsGroupAdapter extends BaseQuickAdapter<SettingBedListBean
                 } else {
                     groupListBean.setSelect("0");
                 }
-                settingBedsAdapter.notifyDataSetChanged();
+                settingBedsAdapter.notifyItemChanged(position);
 
 //
 //                int selectNum = 0;
