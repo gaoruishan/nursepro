@@ -3,14 +3,21 @@ package com.base.commlibs;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.multidex.MultiDex;
+import android.util.Log;
 
 import com.base.commlibs.utils.CrashHandler;
 import com.base.commlibs.utils.TransBroadcastUtil;
+import com.fanjun.keeplive.KeepLive;
+import com.fanjun.keeplive.config.ForegroundNotification;
+import com.fanjun.keeplive.config.ForegroundNotificationClickListener;
+import com.fanjun.keeplive.config.KeepLiveService;
+import com.squareup.leakcanary.LeakCanary;
 
 import java.util.ArrayList;
 
@@ -20,6 +27,7 @@ import java.util.ArrayList;
 
 public class BaseApplication extends Application implements Application.ActivityLifecycleCallbacks {
 
+    private static final String TAG = BaseApplication.class.getSimpleName();
     private static BaseActivity sPermissionActivity;
     private static ArrayList<BaseActivity> sActivities;
 
@@ -97,16 +105,11 @@ public class BaseApplication extends Application implements Application.Activity
     }
 
     @Override
-    public void onTerminate() {
-        TransBroadcastUtil.unreg(this);
-        super.onTerminate();
-
-    }
-    @Override
     public void onCreate() {
         super.onCreate();
         //崩溃日志-SD卡中dhc_crash文件
         CrashHandler.getInstance().init(this);
+        //Debug模式
         if (BuildConfig.DEBUG) {
             StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
             StrictMode.setVmPolicy(builder.build());
@@ -116,15 +119,51 @@ public class BaseApplication extends Application implements Application.Activity
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
                     .permitAll().build();
             StrictMode.setThreadPolicy(policy);
+
+            //检测内存泄露
+            if (!LeakCanary.isInAnalyzerProcess(this)) {
+                LeakCanary.install(this);
+            }
         }
+        //app 保活
+        //keekLive();
 
         getApp().registerActivityLifecycleCallbacks(this);
-        //检测内存泄露
-//        if (!LeakCanary.isInAnalyzerProcess(this)) {
-//            LeakCanary.install(this);
-//        }
 
         TransBroadcastUtil.init(this);
+    }
+
+    private void keekLive() {
+        KeepLive.startWork(this, KeepLive.RunMode.ROGUE,
+                new ForegroundNotification("", "", R.drawable.ic_launcher_logo, new ForegroundNotificationClickListener() {
+                    @Override
+                    public void foregroundNotificationClick(Context context, Intent intent) {
+                        //定义前台服务的通知点击事件
+                        Log.e(TAG,"(BaseApplication.java:132) "+intent.getDataString());
+//                        CommHttp.initBroadcastList();
+//                        ActivityUtils.startActivity(new Intent(Action.MainActivity));
+                    }
+                }),
+                new KeepLiveService() {
+                    @Override
+                    public void onWorking() {
+                        //运行中-由于服务可能会多次自动启动，该方法可能重复调用
+                        Log.e(TAG,"(BaseApplication.java:141) onWorking");
+                    }
+
+                    @Override
+                    public void onStop() {
+                        //服务终止-由于服务可能会被多次终止，该方法可能重复调用，需同onWorking配套使用，如注册和注销broadcast
+                        Log.e(TAG,"(BaseApplication.java:147) onStop");
+                    }
+                });
+    }
+
+    @Override
+    public void onTerminate() {
+        TransBroadcastUtil.unreg(this);
+        super.onTerminate();
+
     }
 
     public static Application getApp() {
