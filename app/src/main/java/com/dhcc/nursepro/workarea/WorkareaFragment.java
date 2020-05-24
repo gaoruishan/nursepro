@@ -42,7 +42,7 @@ import com.dhcc.nursepro.workarea.labout.LabOutListFragment;
 import com.dhcc.nursepro.workarea.labresult.LabPatsFragment;
 import com.dhcc.nursepro.workarea.milkloopsystem_wenling.MilkLoopSystemFragment;
 import com.dhcc.nursepro.workarea.motherbabylink.MotherBabyLinkFragment;
-import com.dhcc.nursepro.workarea.nurrecordold.PatNurRecordFragment;
+import com.dhcc.nursepro.workarea.nurrecordnew.PatNurRecordFragment;
 import com.dhcc.nursepro.workarea.nurtour.NurTourFragment;
 import com.dhcc.nursepro.workarea.operation.OperationFragment;
 import com.dhcc.nursepro.workarea.orderexecute.OrderExecuteFragment;
