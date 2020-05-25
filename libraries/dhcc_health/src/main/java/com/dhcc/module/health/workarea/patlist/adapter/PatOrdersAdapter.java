@@ -14,6 +14,8 @@ import com.dhcc.module.health.workarea.patlist.bean.PatListBean;
 import com.dhcc.module.health.workarea.patlist.bean.PatOrdersBean;
 import com.noober.background.drawable.DrawableCreator;
 
+import org.kobjects.util.Strings;
+
 import java.util.List;
 
 /**
@@ -39,12 +41,27 @@ public class PatOrdersAdapter extends BaseQuickAdapter<PatOrdersBean.CureInfoLis
                 TextView blTvStatus = helper.getView(R.id.bl_tv_status);
                 blTvStatus.setText(item.getOrderStatus());
 
+                TextView tvExec = helper.getView(R.id.bl_tv_exec);
+                tvExec.setText(item.getDisposeStatdesc());
                 String labColor = "#62ABFF";
                 Drawable drawable = new DrawableCreator.Builder()
                         .setSolidColor(Color.parseColor(labColor))
                         .setCornersRadius(mContext.getResources().getDimension(R.dimen.dp_10))
                         .build();
                 blTvStatus.setBackground(drawable);
+                if (item.getDisposeStatdesc()!=null && item.getDisposeStatdesc().contains("^")){
+                        String[] strExe=item.getDisposeStatdesc().split("^");
+                        Drawable drawableExe = new DrawableCreator.Builder()
+                                .setSolidColor(Color.parseColor(strExe[1]))
+                                .setCornersRadius(mContext.getResources().getDimension(R.dimen.dp_10))
+                                .build();
+
+                        tvExec.setText(strExe[0]);
+                        tvExec.setBackground(drawableExe);
+                }
+
+
+
 //        helper.setGone(R.id.tv_time, !TextUtils.isEmpty(item.getOrderSttDate()));
 //        helper.setGone(R.id.bl_tv_status, !TextUtils.isEmpty(item.getOrderStatusCode()));
                 helper.setText(R.id.tv_name, item.getArcimDesc());
