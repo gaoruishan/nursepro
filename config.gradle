@@ -5,14 +5,14 @@ ext {
     isCloudShop = false
 
     android = [
-            compileSdkVersion       : 27,
+            compileSdkVersion       : 28,
             buildToolsVersion       : '27.0.3',
             minSdkVersion           : 17,
-            targetSdkVersion        : 27,
+            targetSdkVersion        : 28,
             versionCode             : 1,
             versionName             : "1.0.0",
 
-            androidSupportSdkVersion: "27.1.1"
+            androidSupportSdkVersion: "28.0.0"
     ]
 
 
@@ -130,7 +130,9 @@ ext {
                     //XML解析
                     "dom4j"                          : 'org.dom4j:dom4j:2.1.1',
                     //水平竖直滚动ScrollView
-                    "HVScrollView"                   : 'com.shizhefei:HVScrollView:1.0.1'
+                    "HVScrollView"                   : 'com.shizhefei:HVScrollView:1.0.1',
+                    //app 保活
+                    "keeplive":'com.fanjun:keeplive:1.1.21'
 
     ]
 }

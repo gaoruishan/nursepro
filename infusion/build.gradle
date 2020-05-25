@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 //apply from: "../plugin/build_pack.gradle"
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion rootProject.android.compileSdkVersion
     defaultConfig {
         applicationId "com.dhcc.infusion"
         minSdkVersion rootProject.android.minSdkVersion
@@ -87,6 +87,9 @@ android {
     dexOptions{
         preDexLibraries = false
         javaMaxHeapSize "4g"
+    }
+    lintOptions {
+        abortOnError false
     }
 }
 

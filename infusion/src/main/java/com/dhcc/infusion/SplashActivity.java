@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
+import com.base.commlibs.constant.Action;
+import com.base.commlibs.http.CommHttp;
 import com.base.commlibs.utils.LocalTestManager;
+import com.blankj.utilcode.util.ActivityUtils;
 import com.dhcc.module.infusion.login.LoginActivity;
-import com.dhcc.module.infusion.login.api.LoginApiManager;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -20,8 +22,8 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if (LocalTestManager.isTest()) {
-                    LoginApiManager.initBroadcastList();
-                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                    CommHttp.initBroadcastList();
+                    ActivityUtils.startActivity(new Intent(Action.MainActivity));
                 }else {
                     startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                 }

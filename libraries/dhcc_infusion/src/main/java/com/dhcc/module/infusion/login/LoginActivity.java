@@ -22,6 +22,7 @@ import com.base.commlibs.bean.BroadcastListBean;
 import com.base.commlibs.bean.LoginBean;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
+import com.base.commlibs.http.CommHttp;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.AppUtil;
 import com.base.commlibs.utils.TransBroadcastUtil;
@@ -90,7 +91,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         nurseInfoList = GreenDaoHelper.getDaoSession().getInfusionInfoDao().queryBuilder().list();
         initView();
         //获取广播码
-        LoginApiManager.initBroadcastList();
+        CommHttp.initBroadcastList();
         openMultiScan(AppUtil.isMultiScan());
         //请求SD卡权限
         PermissionUtils.permission(PermissionConstants.STORAGE).request();
@@ -264,7 +265,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     if (AppUtil.isIP(ip)) {
                         UserUtil.setWebIpAndPath(ip,showDialog.getAddr());
                         //重写请求
-                        LoginApiManager.initBroadcastList();
+                        CommHttp.initBroadcastList();
                         showDialog.dismiss();
                     } else {
                         showToast("IP格式不正确，请重新输入");

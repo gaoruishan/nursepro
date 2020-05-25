@@ -245,8 +245,9 @@ public class NurRecordOldApiService {
         });
     }
 
-    public static void GetXmlValues(String emrCode, String id, final ServiceCallBack callback) {
+    public static void GetXmlValues(String episodeId, String emrCode, String id, final ServiceCallBack callback) {
         HashMap<String, String> properties = new HashMap<>();
+        properties.put("episodeId", episodeId);
         properties.put("emrCode", emrCode);
         properties.put("id", id);
 
