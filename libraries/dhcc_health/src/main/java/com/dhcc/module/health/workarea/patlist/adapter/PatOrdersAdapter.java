@@ -50,7 +50,7 @@ public class PatOrdersAdapter extends BaseQuickAdapter<PatOrdersBean.CureInfoLis
                         .build();
                 blTvStatus.setBackground(drawable);
                 if (item.getDisposeStatdesc()!=null && item.getDisposeStatdesc().contains("^")){
-                        String[] strExe=item.getDisposeStatdesc().split("^");
+                        String[] strExe=item.getDisposeStatdesc().split("\\^");
                         Drawable drawableExe = new DrawableCreator.Builder()
                                 .setSolidColor(Color.parseColor(strExe[1]))
                                 .setCornersRadius(mContext.getResources().getDimension(R.dimen.dp_10))

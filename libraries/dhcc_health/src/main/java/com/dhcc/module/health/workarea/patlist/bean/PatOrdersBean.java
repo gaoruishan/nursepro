@@ -26,28 +26,28 @@ public class PatOrdersBean extends CommResult {
         /**
          * AdmType : I
          * AdmVisitStatus : A
-         * ArcimDesc : 徒手手功能训练
+         * ArcimDesc : 日常生活动作训练
          * BodyType :
-         * CanDoNum : 0
-         * DCAOEORIDR : 836591||24||15
+         * CanDoNum : 2
+         * DCAOEORIDR : 843111||19||1
          * GroupName : 康复治疗
          * HandelDesc :
-         * OrderBillFlag : 1
+         * OrderBillFlag : 3
          * OrderDoseQty : 1
          * OrderFreq : 每日两次
-         * OrderPrice : 56
+         * OrderPrice : 37
          * OrderPrior : 长期医嘱
          * OrderStatus : 核实
          * OrderStatusCode : V
-         * OrderSttDate : 2020-05-22 08:00:00
-         * PatientName : 姚勇
-         * UserAdd : 杨志
-         * appdr : 558076
-         * disposeStatCode : Exec
-         * disposeStatdesc : 已执行^#b4a89a
-         * reloc : 作业治疗科（OT）
-         * sumDose : 56
-         * tradmesage : 作业治疗科（OT） 王雪（大）
+         * OrderSttDate : 2020-05-25 08:00:00
+         * PatientName : 刘玉龙
+         * UserAdd : 宋朝霞
+         * appdr : 567089
+         * disposeStatCode : LongNew
+         * disposeStatdesc : 新开长嘱^#eeee00
+         * reloc : 运动治疗科1（PT1）
+         * sumDose : 37
+         * tradmesage : 运动治疗科1（PT1） 刘畅
          */
 
         private String AdmType;
