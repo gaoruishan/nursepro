@@ -43,7 +43,7 @@
             android:gravity="center"
             android:paddingTop="16dp"
             android:paddingBottom="16dp"
-            android:text="今出区"
+            android:text="今日出院"
             android:textColor="@drawable/textcolor_item_vital_sign_selector"
             android:textSize="15sp" />
 
@@ -55,7 +55,7 @@
             android:gravity="center"
             android:paddingTop="16dp"
             android:paddingBottom="16dp"
-            android:text="全出区"
+            android:text="已出院"
             android:textColor="@drawable/textcolor_item_vital_sign_selector"
             android:textSize="15sp" />
 

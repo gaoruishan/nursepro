@@ -75,7 +75,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:textSize="15sp"
-            android:text="今出区"
+            android:text="今日出院"
             android:textColor="@drawable/textcolor_item_bedmap_selector" />
 
         <TextView
@@ -87,7 +87,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:textSize="15sp"
-            android:text="全出区"
+            android:text="已出院"
             android:textColor="@drawable/textcolor_item_bedmap_selector" />
 
         <TextView
