@@ -296,11 +296,13 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
                 }
 
                 if (j >= radioElementListBeanList.size()) {
-                    stringBuilder.append("\"")
-                            .append(radioElementListBeanList.get(0).getFormName())
-                            .append("\"")
-                            .append(":")
-                            .append("[]");
+                    if (!stringBuilder.toString().contains("\"" + radioElementListBeanList.get(0).getFormName() + "\"")) {
+                        stringBuilder.append("\"")
+                                .append(radioElementListBeanList.get(0).getFormName())
+                                .append("\"")
+                                .append(":")
+                                .append("[]");
+                    }
                 }
 
 
@@ -812,6 +814,70 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
                     if ("1801".equals(element.getElementId())) {
                         CheckBox checkBox1800 = (CheckBox) viewHashMap.get("1800");
                         if (checkBox1800 != null && checkBox1800.isChecked()) {
+                            lledit.setVisibility(View.VISIBLE);
+                        } else {
+                            lledit.setVisibility(View.GONE);
+                        }
+                    }
+                    if ("131".equals(element.getElementId())) {
+                        CheckBox checkBox130 = (CheckBox) viewHashMap.get("130");
+                        if (checkBox130 != null && checkBox130.isChecked()) {
+                            lledit.setVisibility(View.VISIBLE);
+                        } else {
+                            lledit.setVisibility(View.GONE);
+                        }
+                    }
+                    if ("140".equals(element.getElementId())) {
+                        CheckBox checkBox139 = (CheckBox) viewHashMap.get("139");
+                        if (checkBox139 != null && checkBox139.isChecked()) {
+                            lledit.setVisibility(View.VISIBLE);
+                        } else {
+                            lledit.setVisibility(View.GONE);
+                        }
+                    }
+                    if ("144".equals(element.getElementId())) {
+                        CheckBox checkBox1759 = (CheckBox) viewHashMap.get("1759");
+                        if (checkBox1759 != null && checkBox1759.isChecked()) {
+                            lledit.setVisibility(View.VISIBLE);
+                        } else {
+                            lledit.setVisibility(View.GONE);
+                        }
+                    }
+                    if ("154".equals(element.getElementId())) {
+                        CheckBox checkBox153 = (CheckBox) viewHashMap.get("153");
+                        if (checkBox153 != null && checkBox153.isChecked()) {
+                            lledit.setVisibility(View.VISIBLE);
+                        } else {
+                            lledit.setVisibility(View.GONE);
+                        }
+                    }
+                    if ("158".equals(element.getElementId())) {
+                        CheckBox checkBox1760 = (CheckBox) viewHashMap.get("1760");
+                        if (checkBox1760 != null && checkBox1760.isChecked()) {
+                            lledit.setVisibility(View.VISIBLE);
+                        } else {
+                            lledit.setVisibility(View.GONE);
+                        }
+                    }
+                    if ("163".equals(element.getElementId())) {
+                        CheckBox checkBox162 = (CheckBox) viewHashMap.get("162");
+                        if (checkBox162 != null && checkBox162.isChecked()) {
+                            lledit.setVisibility(View.VISIBLE);
+                        } else {
+                            lledit.setVisibility(View.GONE);
+                        }
+                    }
+                    if ("171".equals(element.getElementId())) {
+                        CheckBox checkBox170 = (CheckBox) viewHashMap.get("170");
+                        if (checkBox170 != null && checkBox170.isChecked()) {
+                            lledit.setVisibility(View.VISIBLE);
+                        } else {
+                            lledit.setVisibility(View.GONE);
+                        }
+                    }
+                    if ("178".equals(element.getElementId())) {
+                        CheckBox checkBox177 = (CheckBox) viewHashMap.get("177");
+                        if (checkBox177 != null && checkBox177.isChecked()) {
                             lledit.setVisibility(View.VISIBLE);
                         } else {
                             lledit.setVisibility(View.GONE);
@@ -1760,6 +1826,24 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
             //            CheckBox checkBox1821 = (CheckBox) viewHashMap.get("1821");
             //            LinearLayout linearLayout1818 = (LinearLayout) viewHashMap.get("RadioElement_1818_ll");
 
+            TextView textView131 = (TextView) viewHashMap.get("131");
+            LinearLayout linearLayout131 = (LinearLayout) viewHashMap.get("131_ll");
+            TextView textView140 = (TextView) viewHashMap.get("140");
+            LinearLayout linearLayout140 = (LinearLayout) viewHashMap.get("140_ll");
+            TextView textView144 = (TextView) viewHashMap.get("144");
+            LinearLayout linearLayout144 = (LinearLayout) viewHashMap.get("144_ll");
+            TextView textView154 = (TextView) viewHashMap.get("154");
+            LinearLayout linearLayout154 = (LinearLayout) viewHashMap.get("154_ll");
+            TextView textView158 = (TextView) viewHashMap.get("158");
+            LinearLayout linearLayout158 = (LinearLayout) viewHashMap.get("158_ll");
+            TextView textView163 = (TextView) viewHashMap.get("163");
+            LinearLayout linearLayout163 = (LinearLayout) viewHashMap.get("163_ll");
+            TextView textView171 = (TextView) viewHashMap.get("171");
+            LinearLayout linearLayout171 = (LinearLayout) viewHashMap.get("171_ll");
+            TextView textView178 = (TextView) viewHashMap.get("178");
+            LinearLayout linearLayout178 = (LinearLayout) viewHashMap.get("178_ll");
+
+
             if (isChecked) {
                 switch (buttonView.getTag().toString()) {
                     case "44":
@@ -1866,23 +1950,23 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
                         linearLayout1764.setVisibility(View.VISIBLE);
                         linearLayout1766.setVisibility(View.VISIBLE);
                         break;
-                    case "124":
-                        cancelCheck("126", "127", "128", "129", "130");
-                        break;
-                    case "126":
-                        cancelCheck("124", "127", "128", "129", "130");
-                        break;
-                    case "127":
-                        cancelCheck("124", "126", "128", "129", "130");
-                        break;
-                    case "128":
-                        cancelCheck("124", "126", "127", "129", "130");
-                        break;
-                    case "129":
-                        cancelCheck("124", "126", "127", "128", "130");
-                        break;
+                    //                    case "124":
+                    //                        cancelCheck("126", "127", "128", "129", "130");
+                    //                        break;
+                    //                    case "126":
+                    //                        cancelCheck("124", "127", "128", "129", "130");
+                    //                        break;
+                    //                    case "127":
+                    //                        cancelCheck("124", "126", "128", "129", "130");
+                    //                        break;
+                    //                    case "128":
+                    //                        cancelCheck("124", "126", "127", "129", "130");
+                    //                        break;
+                    //                    case "129":
+                    //                        cancelCheck("124", "126", "127", "128", "130");
+                    //                        break;
                     case "130":
-                        cancelCheck("124", "126", "127", "128", "129");
+                        linearLayout131.setVisibility(View.VISIBLE);
                         break;
                     case "133":
                         cancelCheck("135", "136", "137", "138", "139", "1759");
@@ -1901,9 +1985,11 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
                         break;
                     case "139":
                         cancelCheck("133", "135", "136", "137", "138", "1759");
+                        linearLayout140.setVisibility(View.VISIBLE);
                         break;
                     case "1759":
                         cancelCheck("133", "135", "136", "137", "138", "139");
+                        linearLayout144.setVisibility(View.VISIBLE);
                         break;
                     case "146":
                         cancelCheck("148", "149", "150", "151", "152", "153", "1760");
@@ -1925,15 +2011,18 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
                         break;
                     case "153":
                         cancelCheck("146", "148", "149", "150", "151", "152", "1760");
+                        linearLayout154.setVisibility(View.VISIBLE);
                         break;
                     case "1760":
                         cancelCheck("146", "148", "149", "150", "151", "152", "153");
+                        linearLayout158.setVisibility(View.VISIBLE);
                         break;
                     case "160":
                         cancelCheck("162");
                         break;
                     case "162":
                         cancelCheck("160");
+                        linearLayout163.setVisibility(View.VISIBLE);
                         break;
                     case "165":
                         cancelCheck("167", "168", "169", "170");
@@ -1949,6 +2038,7 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
                         break;
                     case "170":
                         cancelCheck("165", "167", "168", "169");
+                        linearLayout171.setVisibility(View.VISIBLE);
                         break;
                     case "173":
                         cancelCheck("175", "176", "177");
@@ -1961,6 +2051,7 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
                         break;
                     case "177":
                         cancelCheck("173", "175", "176");
+                        linearLayout178.setVisibility(View.VISIBLE);
                         break;
                     case "183":
                         cancelCheck("185", "186", "187", "188");
@@ -2183,6 +2274,39 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
                         textView1801.setText("");
                         linearLayout1801.setVisibility(View.GONE);
                         break;
+                    case "130":
+                        textView131.setText("");
+                        linearLayout131.setVisibility(View.GONE);
+                        break;
+                    case "139":
+                        textView140.setText("");
+                        linearLayout140.setVisibility(View.GONE);
+                        break;
+                    case "1759":
+                        textView144.setText("");
+                        linearLayout144.setVisibility(View.GONE);
+                        break;
+                    case "153":
+                        textView154.setText("");
+                        linearLayout154.setVisibility(View.GONE);
+                        break;
+                    case "1760":
+                        textView158.setText("");
+                        linearLayout158.setVisibility(View.GONE);
+                        break;
+                    case "162":
+                        textView163.setText("");
+                        linearLayout163.setVisibility(View.GONE);
+                        break;
+                    case "170":
+                        textView171.setText("");
+                        linearLayout171.setVisibility(View.GONE);
+                        break;
+                    case "177":
+                        textView178.setText("");
+                        linearLayout178.setVisibility(View.GONE);
+                        break;
+
                     default:
                         break;
                 }
