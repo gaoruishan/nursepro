@@ -43,6 +43,7 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
     private List<LabOutListAllBean.TypeListBean> listType =new ArrayList<>();
 
     private SPUtils spUtils = SPUtils.getInstance();
+    private Long timeNow = System.currentTimeMillis();
 
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -66,12 +67,18 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
             @Override
             public void onClick(View v) {
                 //                startFragment(PatEventsDetailFragment.class);
-                CarrayCerate = "Yes";
-                initData();
-                setTopFilterSelect(tvType1);
-                showgone(show1);
-                TypeStr = "Type1";
-                getLabOutList();
+                if (System.currentTimeMillis()-timeNow > 1500){
+                    CarrayCerate = "Yes";
+                    initData();
+                    setTopFilterSelect(tvType1);
+                    showgone(show1);
+                    TypeStr = "Type1";
+                    getLabOutList();
+                    timeNow =  System.currentTimeMillis();
+                }else {
+                    showToast("不可频繁建单，请稍后建单");
+                }
+
             }
         });
         setToolbarRightCustomView(viewright);

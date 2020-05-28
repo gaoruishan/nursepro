@@ -24,28 +24,30 @@ public class PatOrdersBean extends CommResult {
 
     public static class CureInfoListBean {
         /**
-         * AdmType : 每日一次
-         * AdmVisitStatus : 中医科门诊
-         * ArcimDesc : 7
-         * BodyType : 于淑英
-         * CanDoNum : 38574
-         * DCAOEORIDR : 临时医嘱
-         * GroupName : V
+         * AdmType : I
+         * AdmVisitStatus : A
+         * ArcimDesc : 日常生活动作训练
+         * BodyType :
+         * CanDoNum : 2
+         * DCAOEORIDR : 843111||19||1
+         * GroupName : 康复治疗
          * HandelDesc :
-         * OrderBillFlag : 23
-         * OrderDoseQty : 后贵萍
-         * OrderFreq : 312391||6
-         * OrderPrice : 1
-         * OrderPrior : A
-         * OrderStatus : 隔物灸治疗
-         * OrderStatusCode : 核实
-         * OrderSttDate : 0
-         * PatientName : O
-         * UserAdd :
-         * appdr : 1
-         * reloc : 中医治疗
-         * sumDose : 23
-         * tradmesage : 未开启
+         * OrderBillFlag : 3
+         * OrderDoseQty : 1
+         * OrderFreq : 每日两次
+         * OrderPrice : 37
+         * OrderPrior : 长期医嘱
+         * OrderStatus : 核实
+         * OrderStatusCode : V
+         * OrderSttDate : 2020-05-25 08:00:00
+         * PatientName : 刘玉龙
+         * UserAdd : 宋朝霞
+         * appdr : 567089
+         * disposeStatCode : LongNew
+         * disposeStatdesc : 新开长嘱^#eeee00
+         * reloc : 运动治疗科1（PT1）
+         * sumDose : 37
+         * tradmesage : 运动治疗科1（PT1） 刘畅
          */
 
         private String AdmType;
@@ -67,6 +69,8 @@ public class PatOrdersBean extends CommResult {
         private String PatientName;
         private String UserAdd;
         private String appdr;
+        private String disposeStatCode;
+        private String disposeStatdesc;
         private String reloc;
         private String sumDose;
         private String tradmesage;
@@ -229,6 +233,22 @@ public class PatOrdersBean extends CommResult {
 
         public void setAppdr(String appdr) {
             this.appdr = appdr;
+        }
+
+        public String getDisposeStatCode() {
+            return disposeStatCode;
+        }
+
+        public void setDisposeStatCode(String disposeStatCode) {
+            this.disposeStatCode = disposeStatCode;
+        }
+
+        public String getDisposeStatdesc() {
+            return disposeStatdesc;
+        }
+
+        public void setDisposeStatdesc(String disposeStatdesc) {
+            this.disposeStatdesc = disposeStatdesc;
         }
 
         public String getReloc() {

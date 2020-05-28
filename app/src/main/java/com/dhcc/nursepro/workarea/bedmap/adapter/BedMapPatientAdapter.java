@@ -46,6 +46,7 @@ public class BedMapPatientAdapter extends BaseQuickAdapter<BedMapBean.PatInfoLis
 
         ImageView patientSex = helper.getView(R.id.img_bedmap_patient_sex);
 
+        TextView tvNewPat = helper.getView(R.id.tv_bedmap_patient_newpatient);
         TextView tvOperation = helper.getView(R.id.tv_bedmap_patient_operation);
         TextView tvCritical = helper.getView(R.id.tv_bedmap_patient_critical);
         TextView tvArrears = helper.getView(R.id.tv_bedmap_patient_arrears);
@@ -152,7 +153,11 @@ public class BedMapPatientAdapter extends BaseQuickAdapter<BedMapBean.PatInfoLis
         } else {
             tvCritical.setVisibility(View.GONE);
         }
-
+        if ("1".equals(item.getNewPatient())) {
+            tvNewPat.setVisibility(View.VISIBLE);
+        } else {
+            tvNewPat.setVisibility(View.GONE);
+        }
         if ("1".equals(item.getArreag())) {
             tvArrears.setVisibility(View.VISIBLE);
         } else {
