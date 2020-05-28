@@ -7,8 +7,11 @@ import android.view.View;
 
 import com.base.commlibs.MessageEvent;
 import com.base.commlibs.comm.BaseCommFragment;
+import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.RecyclerViewHelper;
+import com.blankj.utilcode.util.SPStaticUtils;
+import com.blankj.utilcode.util.TimeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.dhcc.nursepro.R;
@@ -85,7 +88,7 @@ public class TaskManageFragment extends BaseCommFragment {
     @Override
     protected void initViews() {
         RecyclerView rvList = f(R.id.rv_list, RecyclerView.class);
-        RecyclerViewHelper.setGridRecyclerView(mContext,rvList,2,0,false);
+        RecyclerViewHelper.setGridRecyclerView(mContext,rvList,2,false);
         taskManageAdapter = new TaskManageAdapter(null);
         rvList.setAdapter(taskManageAdapter);
         taskManageAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -136,6 +139,14 @@ public class TaskManageFragment extends BaseCommFragment {
                 getOrderTasks();
             }
         });
+        String startDateTime = SPStaticUtils.getString(SharedPreference.SCHSTDATETIME);
+        String endDateTime = SPStaticUtils.getString(SharedPreference.SCHENDATETIME);
+        if(!TextUtils.isEmpty(startDateTime)){
+            customDate.setStartDateTime(TimeUtils.string2Millis(startDateTime));
+        }
+        if(!TextUtils.isEmpty(endDateTime)){
+            customDate.setEndDateTime(TimeUtils.string2Millis(endDateTime));
+        }
     }
 
     private void getEndDateTime(CustomDateTimeView customDate) {

@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply from: "../plugin/build_pack.gradle"
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion rootProject.android.compileSdkVersion
     defaultConfig {
         applicationId "com.dhcc.health"
         minSdkVersion rootProject.android.minSdkVersion

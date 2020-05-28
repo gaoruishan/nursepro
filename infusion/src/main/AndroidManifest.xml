@@ -18,6 +18,7 @@
         android:supportsRtl="true"
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
         tools:replace="android:label">
 
         <activity android:name="com.dhcc.infusion.SplashActivity"

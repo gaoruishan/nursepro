@@ -3,6 +3,7 @@ package com.dhcc.nursepro.workarea.orderexecute.bean;
 import com.dhcc.res.infusion.bean.ClickBean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -61,6 +62,26 @@ public class OrderExecuteBean implements Serializable {
         this.status = status;
     }
 
+    /**
+     * 重新过滤数据
+     * @return
+     */
+    public List<ButtonsBean> getButtonsFilter() {
+        List<ButtonsBean> buttonsBeans = new ArrayList<>();
+        if (buttons != null) {
+            for (ButtonsBean button : buttons) {
+                if ("Y".equals(button.getShowFlag())) {
+                    buttonsBeans.add(button);
+                }
+            }
+            //兼容
+            if (buttonsBeans.size() <= 0) {
+                return buttons;
+            }
+        }
+        return buttonsBeans;
+    }
+
     public List<ButtonsBean> getButtons() {
         return buttons;
     }
@@ -111,6 +132,15 @@ public class OrderExecuteBean implements Serializable {
         private String desc;
         private String singleFlag;
         private String execode;
+        private String showFlag;
+
+        public String getShowFlag() {
+            return showFlag == null ? "" : showFlag;
+        }
+
+        public void setShowFlag(String showFlag) {
+            this.showFlag = showFlag;
+        }
 
         @Override
         public String getText() {
@@ -118,7 +148,7 @@ public class OrderExecuteBean implements Serializable {
         }
 
         public String getExecode() {
-            return execode;
+            return execode == null ? "" : execode;
         }
 
         public void setExecode(String execode) {
@@ -137,16 +167,16 @@ public class OrderExecuteBean implements Serializable {
             return desc;
         }
 
-        public void setDesc(String desc) {
-            this.desc = desc;
+        public void setSingleFlag(String singleFlag) {
+            this.singleFlag = singleFlag;
         }
 
         public String getSingleFlag() {
-            return singleFlag;
+            return singleFlag == null ? "" : singleFlag;
         }
 
-        public void setSingleFlag(String singleFlag) {
-            this.singleFlag = singleFlag;
+        public void setDesc(String desc) {
+            this.desc = desc;
         }
     }
 

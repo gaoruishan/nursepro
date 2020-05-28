@@ -79,24 +79,28 @@ public class TaskManageOrdListFragment extends BaseCommFragment {
             @Override
             public void onSuccess(OrderExecuteBean orderExecuteBean) {
                 hideLoadingTip();
-                buttons = orderExecuteBean.getButtons();
+                buttons = orderExecuteBean.getButtonsFilter();
                 setBottomViewData();
+                int updateNum = 0;
                 if (orderExecuteBean.getOrders() != null && orderExecuteBean.getOrders().size() > 0) {
                     OrderExecuteBean.OrdersBean patient = orderExecuteBean.getOrders().get(0);
                     patInfo = "" + patient.getBedCode() + "床  " + patient.getName() + "   " + sheetDesc;
                     f(R.id.tv_info, TextView.class).setText(patInfo);
                     patOrders = patient.getPatOrds();
                     if (patOrders != null && patOrders.size() > 0) {
+                        updateNum = patOrders.size();
                         patientOrderAdapter.setSize(patOrders.size());
                         patientOrderAdapter.setDetailColums(orderExecuteBean.getDetailColums());
                         patientOrderAdapter.setNewData(patOrders);
                     }
-                    //更新之前数据
-                    MessageEvent messageEvent = new MessageEvent(MessageEvent.MessageType.UPDATE_TASK_MANAGE_LIST);
-                    messageEvent.setTag(patOrders.size());
-                    messageEvent.setMessage(sheetCode);
-                    EventBus.getDefault().post(messageEvent);
+                } else {
+                    patientOrderAdapter.setNewData(null);
                 }
+                //更新之前数据
+                MessageEvent messageEvent = new MessageEvent(MessageEvent.MessageType.UPDATE_TASK_MANAGE_LIST);
+                messageEvent.setTag(updateNum);
+                messageEvent.setMessage(sheetCode);
+                EventBus.getDefault().post(messageEvent);
             }
 
             @Override
@@ -109,6 +113,9 @@ public class TaskManageOrdListFragment extends BaseCommFragment {
 
     private void setBottomViewData() {
         bottomView.setSelectText("已选 0个");
+        if (buttons == null || buttons.size() <= 0) {
+            return;
+        }
         bottomView.addBottomView(buttons);
 
         for (OrderExecuteBean.ButtonsBean button : buttons) {
@@ -161,7 +168,7 @@ public class TaskManageOrdListFragment extends BaseCommFragment {
             }
         });
         RecyclerView rvList = f(R.id.rv_list, RecyclerView.class);
-        RecyclerViewHelper.setDefaultRecyclerView(mContext, rvList);
+        RecyclerViewHelper.setDefaultRecyclerView(mContext, rvList, 0);
         patientOrderAdapter = new OrderExecutePatientOrderAdapter(new ArrayList<>());
         rvList.setAdapter(patientOrderAdapter);
         patientOrderAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
@@ -272,13 +279,14 @@ public class TaskManageOrdListFragment extends BaseCommFragment {
         TaskManageApi.execOrSeeOrder(paramExecOrSeeOrder, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
             @Override
             public void onSuccess(OrderExecResultBean orderExecResultBean) {
-                DialogFactory.showCommDialog(getActivity(), orderExecResultBean.getMsg(), null, 0, null, true);
+                DialogFactory.showCommDialog(mContext, orderExecResultBean.getMsg(), null, 0, null, true);
                 getOrdList();//刷新
             }
 
             @Override
             public void onFail(String code, String msg) {
                 onFailThings();
+                DialogFactory.showCommDialog(mContext, msg+"", "确定",R.drawable.icon_popup_error_patient, null);
             }
         });
 

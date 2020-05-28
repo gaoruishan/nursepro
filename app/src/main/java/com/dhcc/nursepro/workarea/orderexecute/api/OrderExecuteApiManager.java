@@ -58,24 +58,24 @@ public class OrderExecuteApiManager {
                 if (jsonStr.isEmpty()) {
                     callback.onFail("-1", "网络错误，请求数据为空");
                 } else {
+                    OrderExecuteBean orderExecuteBean = null;
                     try {
-                        OrderExecuteBean orderExecuteBean = gson.fromJson(jsonStr, OrderExecuteBean.class);
-                        if (ObjectUtils.isEmpty(orderExecuteBean)) {
-                            callback.onFail("-3", "网络错误，数据解析为空");
-                        } else {
-                            if ("0".equals(orderExecuteBean.getStatus())) {
-                                if (callback != null) {
-                                    callback.onSuccess(orderExecuteBean);
-                                }
-                            } else {
-                                if (callback != null) {
-                                    callback.onFail(orderExecuteBean.getMsgcode(), orderExecuteBean.getMsg());
-                                }
-                            }
-                        }
+                        orderExecuteBean = gson.fromJson(jsonStr, OrderExecuteBean.class);
                     } catch (Exception e) {
                         callback.onFail("-2", "网络错误，数据解析失败");
                     }
+                    if (!ObjectUtils.isEmpty(orderExecuteBean)) {
+                        if ("0".equals(orderExecuteBean.getStatus())) {
+                            if (callback != null) {
+                                callback.onSuccess(orderExecuteBean);
+                            }
+                        } else {
+                            if (callback != null) {
+                                callback.onFail(orderExecuteBean.getMsgcode(), orderExecuteBean.getMsg());
+                            }
+                        }
+                    }
+
 
                 }
             }
