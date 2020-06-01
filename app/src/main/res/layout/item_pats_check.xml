@@ -26,37 +26,7 @@
             android:layout_height="1dp"
             android:layout_weight="1" />
 
-        <TextView
-            android:id="@+id/tv_bedmap_patient_longorder"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="长期"
-            android:textColor="@color/bedmap_text_color" />
-
-        <View
-            android:id="@+id/line_bedmap_patient_1"
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="6dp"
-            android:layout_marginEnd="6dp"
-            android:background="@color/bedmap_text_color" />
-
-        <TextView
-            android:id="@+id/tv_bedmap_patient_temporder"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="临时"
-            android:textColor="@color/bedmap_text_color" />
-
-        <View
-            android:id="@+id/line_bedmap_patient_2"
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="6dp"
-            android:layout_marginEnd="6dp"
-            android:background="@color/bedmap_text_color" />
-
-        <TextView
+        <com.dhcc.nursepro.view.CareLevelTextView
             android:id="@+id/tv_bedmap_patient_carelevel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -98,88 +68,10 @@
                 android:layout_marginEnd="8dp"
                 android:padding="4dp"
                 tools:src="@drawable/sex_male" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1" />
-
-            <TextView
-                android:id="@+id/tv_bedmap_patient_operation"
+            <com.dhcc.nursepro.view.PatIconView
+                android:id="@+id/pacicon_check"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_rectangle_blue"
-                android:paddingStart="3dp"
-                android:paddingTop="1dp"
-                android:paddingEnd="3dp"
-                android:paddingBottom="2dp"
-                android:text="术"
-                android:textColor="@color/white" />
-
-            <TextView
-                android:id="@+id/tv_bedmap_patient_critical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:background="@drawable/bg_rectangle_red"
-                android:paddingStart="3dp"
-                android:paddingTop="1dp"
-                android:paddingEnd="3dp"
-                android:paddingBottom="2dp"
-                android:text="危"
-                android:textColor="@color/white" />
-
-            <TextView
-                android:id="@+id/tv_bedmap_patient_arrears"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:background="@drawable/bg_rectangle_yellow"
-                android:paddingStart="3dp"
-                android:paddingTop="1dp"
-                android:paddingEnd="3dp"
-                android:paddingBottom="2dp"
-                android:text="欠"
-                android:textColor="@color/white" />
-
-            <TextView
-                android:id="@+id/tv_bedmap_patient_criticalvalue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:background="@drawable/bg_rectangle_orange"
-                android:paddingStart="3dp"
-                android:paddingTop="1dp"
-                android:paddingEnd="3dp"
-                android:paddingBottom="2dp"
-                android:text="急"
-                android:textColor="@color/white" />
-
-            <TextView
-                android:id="@+id/tv_bedmap_patient_skintest"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:background="@drawable/bg_rectangle_green"
-                android:paddingStart="3dp"
-                android:paddingTop="1dp"
-                android:paddingEnd="3dp"
-                android:paddingBottom="2dp"
-                android:text="敏"
-                android:textColor="@color/white" />
-
-            <TextView
-                android:id="@+id/tv_bedmap_patient_fever"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:background="@drawable/bg_rectangle_red2"
-                android:paddingStart="3dp"
-                android:paddingTop="1dp"
-                android:paddingEnd="3dp"
-                android:paddingBottom="2dp"
-                android:text="热"
-                android:textColor="@color/white" />
+                android:layout_height="wrap_content"></com.dhcc.nursepro.view.PatIconView>
         </LinearLayout>
     </LinearLayout>
 

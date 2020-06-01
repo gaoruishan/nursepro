@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.view.PatIconView;
 import com.dhcc.nursepro.workarea.bedmap.bean.BedMapBean;
 import com.dhcc.nursepro.workarea.checkresult.CheckResultListFragment;
 import com.dhcc.nursepro.workarea.docorderlist.DocOrderListFragment;
@@ -34,20 +35,8 @@ public class BedMapPatFragment extends BaseFragment implements View.OnClickListe
     private TextView tvBedmappatBedno;
     private TextView tvBedmappatName;
     private ImageView imgBedmappatSex;
-    private TextView tvBedmappatLongorder;
-    private View lineBedmappat1;
-    private TextView tvBedmappatTemporder;
-    private View lineBedmappat2;
     private TextView tvBedmappatCarelevel;
 
-    private TextView tvBedmappatOperation;
-    private TextView tvBedmappatCritical;
-    private TextView tvBedmappatArrears;
-    private TextView tvBedmappatCriticalvalue;
-    private TextView tvBedmappatSkintest;
-    private TextView tvBedmappatFever;
-    private TextView tvPatEpdReport;
-    private TextView tvPatEpdNotreport;
 
     private LinearLayout llBedmappatInfo;
     private LinearLayout llBedmappatOrder;
@@ -57,6 +46,8 @@ public class BedMapPatFragment extends BaseFragment implements View.OnClickListe
     private LinearLayout llBedmappatInspectionreport;
     private LinearLayout llBedmappatEventsearch;
     private LinearLayout llBedmapDayPayList;
+
+    private PatIconView patIconView;
 
 
     private BedMapBean.PatInfoListBean patInfoListBean;
@@ -104,19 +95,7 @@ public class BedMapPatFragment extends BaseFragment implements View.OnClickListe
         tvBedmappatBedno = view.findViewById(R.id.tv_bedmappat_bedno);
         tvBedmappatName = view.findViewById(R.id.tv_bedmappat_name);
         imgBedmappatSex = view.findViewById(R.id.img_bedmappat_sex);
-        tvBedmappatLongorder = view.findViewById(R.id.tv_bedmappat_longorder);
-        lineBedmappat1 = view.findViewById(R.id.line_bedmappat_1);
-        tvBedmappatTemporder = view.findViewById(R.id.tv_bedmappat_temporder);
-        lineBedmappat2 = view.findViewById(R.id.line_bedmappat_2);
         tvBedmappatCarelevel = view.findViewById(R.id.tv_bedmappat_carelevel);
-        tvBedmappatOperation = view.findViewById(R.id.tv_bedmappat_operation);
-        tvBedmappatCritical = view.findViewById(R.id.tv_bedmappat_critical);
-        tvBedmappatArrears = view.findViewById(R.id.tv_bedmappat_arrears);
-        tvBedmappatCriticalvalue = view.findViewById(R.id.tv_bedmappat_criticalvalue);
-        tvBedmappatSkintest = view.findViewById(R.id.tv_bedmappat_skintest);
-        tvBedmappatFever = view.findViewById(R.id.tv_bedmappat_fever);
-        tvPatEpdReport = view.findViewById(R.id.tv_pat_epd_report);
-        tvPatEpdNotreport = view.findViewById(R.id.tv_pat_epd_notreport);
         llBedmappatInfo = view.findViewById(R.id.ll_bedmappat_info);
         llBedmappatInfo.setOnClickListener(this);
         llBedmappatOrder = view.findViewById(R.id.ll_bedmappat_order);
@@ -133,112 +112,23 @@ public class BedMapPatFragment extends BaseFragment implements View.OnClickListe
         llBedmappatEventsearch.setOnClickListener(this);
         llBedmapDayPayList = view.findViewById(R.id.ll_bedmappat_daypaylist);
         llBedmapDayPayList.setOnClickListener(this);
+
+        patIconView = view.findViewById(R.id.paticon_patinfo);
         
     }
 
     private void initData() {
         tvBedmappatBedno.setText(patInfoListBean.getBedCode().isEmpty() ? "未分床" : patInfoListBean.getBedCode());
         tvBedmappatName.setText(patInfoListBean.getName());
-        
-        if ("1".equals(patInfoListBean.getLongOrd())) {
-            tvBedmappatLongorder.setVisibility(View.VISIBLE);
-        } else {
-            tvBedmappatLongorder.setVisibility(View.GONE);
-        }
-        if ("1".equals(patInfoListBean.getTempOrd())) {
-            tvBedmappatTemporder.setVisibility(View.VISIBLE);
-        } else {
-            tvBedmappatTemporder.setVisibility(View.GONE);
-        }
-        if ("".equals(patInfoListBean.getCareLevel())) {
-            tvBedmappatCarelevel.setVisibility(View.GONE);
-
-        } else {
-            tvBedmappatCarelevel.setVisibility(View.VISIBLE);
-            tvBedmappatCarelevel.setText(patInfoListBean.getCareLevel());
-        }
-
-        if ("".equals(patInfoListBean.getCareLevel())) {
-            lineBedmappat2.setVisibility(View.GONE);
-            if ("0".equals(patInfoListBean.getLongOrd()) || "0".equals(patInfoListBean.getTempOrd())) {
-                lineBedmappat1.setVisibility(View.GONE);
-            } else {
-                lineBedmappat1.setVisibility(View.VISIBLE);
-            }
-        } else {
-            if ("0".equals(patInfoListBean.getTempOrd())) {
-                lineBedmappat2.setVisibility(View.GONE);
-            } else {
-                lineBedmappat2.setVisibility(View.VISIBLE);
-            }
-
-            if ("0".equals(patInfoListBean.getLongOrd())) {
-                lineBedmappat1.setVisibility(View.GONE);
-            } else {
-                lineBedmappat1.setVisibility(View.VISIBLE);
-            }
-        }
-
+        tvBedmappatCarelevel.setText(patInfoListBean.getCareLevel());
         if ("男".equals(patInfoListBean.getSex())) {
             imgBedmappatSex.setImageResource(R.drawable.sex_male);
         } else {
             imgBedmappatSex.setImageResource(R.drawable.sex_female);
         }
 
-        if ("1".equals(patInfoListBean.getOperation())) {
-            tvBedmappatOperation.setVisibility(View.VISIBLE);
-        } else {
-            tvBedmappatOperation.setVisibility(View.GONE);
-        }
-
-        if ("病危".equals(patInfoListBean.getIllState())) {
-            tvBedmappatCritical.setVisibility(View.VISIBLE);
-            tvBedmappatCritical.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_red));
-            tvBedmappatCritical.setText("危");
-        } else if ("病重".equals(patInfoListBean.getIllState())) {
-            tvBedmappatCritical.setVisibility(View.VISIBLE);
-            tvBedmappatCritical.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_red3));
-            tvBedmappatCritical.setText("重");
-        } else {
-            tvBedmappatCritical.setVisibility(View.GONE);
-        }
-
-        if ("1".equals(patInfoListBean.getArreag())) {
-            tvBedmappatArrears.setVisibility(View.VISIBLE);
-        } else {
-            tvBedmappatArrears.setVisibility(View.GONE);
-        }
-
-        if ("1".equals(patInfoListBean.getCriticalValue())) {
-            tvBedmappatCriticalvalue.setVisibility(View.VISIBLE);
-        } else {
-            tvBedmappatCriticalvalue.setVisibility(View.GONE);
-        }
-
-        if ("1".equals(patInfoListBean.getGotAllergy())) {
-            tvBedmappatSkintest.setVisibility(View.VISIBLE);
-        } else {
-            tvBedmappatSkintest.setVisibility(View.GONE);
-        }
-
-
-        if ("1".equals(patInfoListBean.getFever())) {
-            tvBedmappatFever.setVisibility(View.VISIBLE);
-        } else {
-            tvBedmappatFever.setVisibility(View.GONE);
-        }
-
-        if ("1".equals(patInfoListBean.getEpdReport())) {
-            tvPatEpdReport.setVisibility(View.VISIBLE);
-        } else {
-            tvPatEpdReport.setVisibility(View.GONE);
-        }
-
-        if ("1".equals(patInfoListBean.getEpdNotReport())) {
-            tvPatEpdNotreport.setVisibility(View.VISIBLE);
-        } else {
-            tvPatEpdNotreport.setVisibility(View.GONE);
-        }
+        patIconView.setIconShow(patInfoListBean);
+        patIconView.showLeft();
     }
 
     @Override

@@ -111,7 +111,29 @@ public class PatsListBean {
         private String todayOut;
         private String wait;
         private List<SkinOrdBean> skinOrd;
+        private String epdNotReport;
+        private String epdReport;
+        private String RQDDate;
 
+        public String getRQDDate() {
+            return RQDDate;
+        }
+
+        public void setRQDDate(String RQDDate) {
+            this.RQDDate = RQDDate;
+        }
+
+        public String getEpdReport() {
+            return epdReport;
+        }
+
+        public void setEpdReport(String epdReport) {
+            this.epdReport = epdReport;
+        }
+
+        public String getEpdNotReport() {
+            return epdNotReport;
+        }
         public String getAge() {
             return age;
         }

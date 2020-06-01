@@ -1,6 +1,8 @@
 package com.dhcc.nursepro.workarea.bedmap.adapter;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.view.PatIconView;
 import com.dhcc.nursepro.workarea.bedmap.bean.BedMapBean;
 
 import java.util.List;
@@ -29,32 +32,15 @@ public class BedMapPatientAdapter extends BaseQuickAdapter<BedMapBean.PatInfoLis
         super(R.layout.item_bedmap_patient, data);
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void convert(BaseViewHolder helper, BedMapBean.PatInfoListBean item) {
         helper.setText(R.id.tv_bedmap_patient_bedno, "".equals(item.getBedCode()) ? "未分床" : item.getBedCode())
-                .setText(R.id.tv_bedmap_patient_name, item.getName());
-
-        TextView tvLongOrd = helper.getView(R.id.tv_bedmap_patient_longorder);
-        TextView tvTempOrd = helper.getView(R.id.tv_bedmap_patient_temporder);
-        TextView tvCareLevel = helper.getView(R.id.tv_bedmap_patient_carelevel);
-        TextView tvDiet = helper.getView(R.id.tv_bedmap_patient_diet);
-
+                .setText(R.id.tv_bedmap_patient_name, item.getName())
+                .setText(R.id.tv_bedmap_patient_carelevel,item.getCareLevel());
         View line = helper.getView(R.id.line_bedmap_patient);
-        View line1 = helper.getView(R.id.line_bedmap_patient_1);
-        View line2 = helper.getView(R.id.line_bedmap_patient_2);
-        View line11 = helper.getView(R.id.line_bedmap_patient_11);
-
         ImageView patientSex = helper.getView(R.id.img_bedmap_patient_sex);
 
-        TextView tvNewPat = helper.getView(R.id.tv_bedmap_patient_newpatient);
-        TextView tvOperation = helper.getView(R.id.tv_bedmap_patient_operation);
-        TextView tvCritical = helper.getView(R.id.tv_bedmap_patient_critical);
-        TextView tvArrears = helper.getView(R.id.tv_bedmap_patient_arrears);
-        TextView tvCriticalValue = helper.getView(R.id.tv_bedmap_patient_criticalvalue);
-        TextView tvSkinTest = helper.getView(R.id.tv_bedmap_patient_skintest);
-        TextView tvFever = helper.getView(R.id.tv_bedmap_patient_fever);
-        TextView tvEpdReport = helper.getView(R.id.tv_epd_report);
-        TextView tvEpdNotreport = helper.getView(R.id.tv_epd_notreport);
         LinearLayout llSkinOrder = helper.getView(R.id.ll_bedmap_patient_skinorder);
         RecyclerView recySkinOrder = helper.getView(R.id.recy_bedmap_patient_skinorder);
         //提高展示效率
@@ -62,137 +48,14 @@ public class BedMapPatientAdapter extends BaseQuickAdapter<BedMapBean.PatInfoLis
         //设置的布局管理
         recySkinOrder.setLayoutManager(new LinearLayoutManager(mContext));
 
-        //隐藏除护理等级之外信息
-        tvLongOrd.setVisibility(View.GONE);
-        line1.setVisibility(View.GONE);
-        tvTempOrd.setVisibility(View.GONE);
-        line2.setVisibility(View.GONE);
-
-
-//        if ("1".equals(item.getLongOrd())) {
-//            tvLongOrd.setVisibility(View.VISIBLE);
-//        } else {
-//            tvLongOrd.setVisibility(View.GONE);
-//        }
-//        if ("1".equals(item.getTempOrd())) {
-//            tvTempOrd.setVisibility(View.VISIBLE);
-//        } else {
-//            tvTempOrd.setVisibility(View.GONE);
-//        }
-
-
-//        进食状况
-//        if ("".equals(item.getDiet()) || item.getDiet().isEmpty()) {
-//            line11.setVisibility(View.GONE);
-//            tvDiet.setVisibility(View.GONE);
-//        } else {
-//            line11.setVisibility(View.VISIBLE);
-//            tvDiet.setVisibility(View.VISIBLE);
-//            tvDiet.setText(item.getDiet());
-//        }
-
-        if ("".equals(item.getCareLevel())) {
-            tvCareLevel.setVisibility(View.GONE);
-        } else {
-            tvCareLevel.setVisibility(View.VISIBLE);
-
-            if (item.getCareLevel().equals("特级护理")) {
-                tvCareLevel.setTextColor(Color.parseColor("#FF8C00"));
-            } else if(item.getCareLevel().equals("一级护理")){
-                tvCareLevel.setTextColor(Color.parseColor("#FF0000"));
-            } else if (item.getCareLevel().equals("二级护理")) {
-                tvCareLevel.setTextColor(Color.parseColor("#0000FF"));
-            } else {
-                tvCareLevel.setTextColor(Color.parseColor("#00BD4C"));
-            }
-
-            tvCareLevel.setText(item.getCareLevel());
-        }
-
-//        if ("".equals(item.getCareLevel())) {
-//            line2.setVisibility(View.GONE);
-//            if ("0".equals(item.getLongOrd()) || "0".equals(item.getTempOrd())) {
-//                line1.setVisibility(View.GONE);
-//            } else {
-//                line1.setVisibility(View.VISIBLE);
-//            }
-//        } else {
-//            if ("0".equals(item.getTempOrd())) {
-//                line2.setVisibility(View.GONE);
-//            } else {
-//                line2.setVisibility(View.VISIBLE);
-//            }
-//
-//            if ("0".equals(item.getLongOrd())) {
-//                line1.setVisibility(View.GONE);
-//            } else {
-//                line1.setVisibility(View.VISIBLE);
-//            }
-//        }
-
         if ("男".equals(item.getSex())) {
             patientSex.setImageResource(R.drawable.sex_male);
         } else {
             patientSex.setImageResource(R.drawable.sex_female);
         }
 
-        if ("1".equals(item.getOperation())) {
-            tvOperation.setVisibility(View.VISIBLE);
-        } else {
-            tvOperation.setVisibility(View.GONE);
-        }
-
-        if ("病危".equals(item.getIllState())) {
-            tvCritical.setVisibility(View.VISIBLE);
-            tvCritical.setBackground(mContext.getResources().getDrawable(R.drawable.bg_rectangle_red));
-            tvCritical.setText("危");
-        } else if ("病重".equals(item.getIllState())) {
-            tvCritical.setVisibility(View.VISIBLE);
-            tvCritical.setBackground(mContext.getResources().getDrawable(R.drawable.bg_rectangle_red3));
-            tvCritical.setText("重");
-        } else {
-            tvCritical.setVisibility(View.GONE);
-        }
-        if ("1".equals(item.getNewPatient())) {
-            tvNewPat.setVisibility(View.VISIBLE);
-        } else {
-            tvNewPat.setVisibility(View.GONE);
-        }
-        if ("1".equals(item.getArreag())) {
-            tvArrears.setVisibility(View.VISIBLE);
-        } else {
-            tvArrears.setVisibility(View.GONE);
-        }
-
-        if ("1".equals(item.getCriticalValue())) {
-            tvCriticalValue.setVisibility(View.VISIBLE);
-        } else {
-            tvCriticalValue.setVisibility(View.GONE);
-        }
-
-        if ("1".equals(item.getGotAllergy())) {
-            tvSkinTest.setVisibility(View.VISIBLE);
-        } else {
-            tvSkinTest.setVisibility(View.GONE);
-        }
-
-        if ("1".equals(item.getFever())) {
-            tvFever.setVisibility(View.VISIBLE);
-        } else {
-            tvFever.setVisibility(View.GONE);
-        }
-
-        if ("1".equals(item.getEpdReport())) {
-            tvEpdReport.setVisibility(View.VISIBLE);
-        } else {
-            tvEpdReport.setVisibility(View.GONE);
-        }
-
-        if ("1".equals(item.getEpdNotReport())) {
-            tvEpdNotreport.setVisibility(View.VISIBLE);
-        } else {
-            tvEpdNotreport.setVisibility(View.GONE);
-        }
+        PatIconView patIcon = helper.getView(R.id.pacicon_bedmap);
+        patIcon.setIconShow(item);
 
         List<BedMapBean.PatInfoListBean.SkinOrdBean> skinOrdBeanList = item.getSkinOrd();
         if (skinOrdBeanList == null || skinOrdBeanList.size() < 1) {
