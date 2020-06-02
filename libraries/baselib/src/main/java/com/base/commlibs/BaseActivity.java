@@ -251,6 +251,8 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
             }
         });
         sAllActivitys.add(this);
+        //开启
+        NetUtil.startTimer();
     }
     protected void addScanEditText() {
         scanHelper = new EditTextScanHelper();
@@ -529,6 +531,8 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
             scanHelper.removePrimaryClipChangedListener();
             mContainer.removeView(scanHelper.getEditText());
         }
+        //关闭
+        NetUtil.stopTimer();
     }
 
     public boolean isResume() {

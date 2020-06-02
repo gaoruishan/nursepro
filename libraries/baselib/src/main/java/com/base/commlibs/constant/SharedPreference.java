@@ -100,4 +100,5 @@ public class SharedPreference {
     public static final String IS_SHOW_LOGCAT = "IS_SHOW_LOGCAT";
     //当前用户工作量
     public static final String IS_SHOW_CUR_USER_WORKLOAD = "IS_SHOW_CUR_USER_WORKLOAD";
+    public static final String NET_LOG = "NET_LOG";
 }

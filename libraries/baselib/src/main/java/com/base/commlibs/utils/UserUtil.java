@@ -246,6 +246,7 @@ public class UserUtil {
      * @param loginBean
      */
     public static void setUserConfig(ConfigBean loginBean) {
+        SPUtils.getInstance().put(SharedPreference.NET_LOG, loginBean.getIsNetLog());
         SPUtils.getInstance().put(SharedPreference.IS_SHOW_CUR_USER_WORKLOAD, loginBean.getShowCurUserWorkload());
         SPUtils.getInstance().put(SharedPreference.IS_SHOW_LOGCAT, loginBean.getGlobalLogcatFlag());
         SPUtils.getInstance().put(SharedPreference.IS_HTTP, loginBean.getHttpUpdateFlag());

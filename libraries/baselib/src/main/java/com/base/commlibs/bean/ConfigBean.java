@@ -36,7 +36,16 @@ public class ConfigBean extends CommResult {
     private String globalLogcatFlag;
     //是否当前用户工作量
     private String showCurUserWorkload;
+    //是否开启网络日志 1-是 ""-否
+    private String isNetLog;
 
+    public String getIsNetLog() {
+        return isNetLog == null ? "" : isNetLog;
+    }
+
+    public void setIsNetLog(String isNetLog) {
+        this.isNetLog = isNetLog;
+    }
     public String getShowCurUserWorkload() {
         return showCurUserWorkload == null ? "" : showCurUserWorkload;
     }

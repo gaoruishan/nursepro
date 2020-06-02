@@ -20,7 +20,7 @@ public class CommFile {
 
     public static final String IP = "ip";
     public static final String TAG = "CommFile";
-    private static final String ROOT_PATH = PathUtils.getExternalStoragePath() + "/dhc/";
+    public static final String ROOT_PATH = PathUtils.getExternalStoragePath() + "/dhc/";
 
     /**
      * 写入文件 例如:CommFile.write("ip")
@@ -62,6 +62,7 @@ public class CommFile {
     }
     private static boolean writeFile(String finalName, String json) {
         String dhc = ROOT_PATH + finalName;
+        Log.e(TAG,"(CommFile.java:54) writeFile  name="+dhc);
         return FileIOUtils.writeFileFromString(dhc, json + "");
     }
 
