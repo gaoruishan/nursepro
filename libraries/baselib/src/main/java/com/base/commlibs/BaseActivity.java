@@ -59,6 +59,7 @@ import com.base.commlibs.base.BaseTopLoadingView;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.utils.EditTextScanHelper;
+import com.base.commlibs.utils.NetUtil;
 import com.blankj.utilcode.util.SPUtils;
 import com.noober.background.BackgroundLibrary;
 
