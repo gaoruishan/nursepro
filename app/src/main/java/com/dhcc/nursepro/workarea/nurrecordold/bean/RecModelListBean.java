@@ -107,6 +107,15 @@ public class RecModelListBean {
             private String modelType;
             private String saveMth;
             private String wStatus;
+            private String h5Url;
+
+            public String getH5Url() {
+                return h5Url == null ? "" : h5Url;
+            }
+
+            public void setH5Url(String h5Url) {
+                this.h5Url = h5Url;
+            }
 
             public String getGetListMth() {
                 return getListMth;

@@ -60,7 +60,7 @@ public class CommFile {
         String dhc = ROOT_PATH + name;
         return ImageUtils.save(bitmap, dhc, format);
     }
-    private static boolean writeFile(String finalName, String json) {
+    public static boolean writeFile(String finalName, String json) {
         String dhc = ROOT_PATH + finalName;
         Log.e(TAG,"(CommFile.java:54) writeFile  name="+dhc);
         return FileIOUtils.writeFileFromString(dhc, json + "");

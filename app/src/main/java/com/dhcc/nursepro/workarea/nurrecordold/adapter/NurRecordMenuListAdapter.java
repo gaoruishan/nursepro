@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.base.commlibs.BaseFragment;
+import com.base.commlibs.view.WebActivity;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.nursepro.R;
@@ -55,6 +57,11 @@ public class NurRecordMenuListAdapter extends BaseQuickAdapter<RecModelListBean.
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 RecModelListBean.MenuListBean.ModelListBean modelListBean = (RecModelListBean.MenuListBean.ModelListBean) adapter.getItem(position);
+                //跳转带有H5连接的
+                if (!TextUtils.isEmpty(modelListBean.getH5Url())) {
+                    WebActivity.start(mContext,modelListBean.getH5Url());
+                    return;
+                }
                 if (view.getId() == R.id.tv_modellist) {
                     Bundle bundle = new Bundle();
                     bundle.putString("EpisodeID", patInfoListBean.getEpisodeId());

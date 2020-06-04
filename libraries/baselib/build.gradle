@@ -59,6 +59,10 @@ dependencies {
     api rootProject.ext.dependencies["dom4j"]
     //app保活
     api rootProject.ext.dependencies["keeplive"]
+    //agentweb
+    api rootProject.ext.dependencies["agentweb"]
+    api rootProject.ext.dependencies["filechooser"]
+    api rootProject.ext.dependencies["download"]
 
     api 'com.github.stfalcon:frescoimageviewer:0.5.0'
     api 'com.facebook.fresco:animated-gif:0.12.0'

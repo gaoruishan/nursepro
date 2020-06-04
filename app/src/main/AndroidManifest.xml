@@ -47,7 +47,9 @@
         <activity
             android:name=".Activity.NurseSetActivity"
             android:screenOrientation="portrait" />
-
+        <activity
+            android:name="com.base.commlibs.view.WebActivity"
+            android:screenOrientation="portrait" />
         <service
             android:name=".Activity.MyService"
             android:label="newOrdService" />

@@ -759,7 +759,7 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
     }
 
     @Override
-    protected final void onResume() {
+    protected void onResume() {
         super.onResume();
         //        MobclickAgent.onResume(this);
         isResume = true;
