@@ -59,7 +59,7 @@ public class WebActivity extends BaseWebActivity {
     private boolean isReload;
 
     private String getUrlName() {
-        return url.replaceAll("/", "-")+".html";
+        return url.replaceAll("/", "-").replaceAll(":","-")+".html";
     }
 
     private String url;
@@ -210,7 +210,9 @@ public class WebActivity extends BaseWebActivity {
 
     @Override
     protected void onWebChromeProgressChanged(WebView view, int newProgress) {
-
+        if (newProgress == PROGRESS_OK) {
+            onWebViewPageFinished(view, view.getUrl());
+        }
     }
 
     @Override

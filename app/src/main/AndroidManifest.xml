@@ -49,7 +49,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.base.commlibs.view.WebActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="landscape" />
         <service
             android:name=".Activity.MyService"
             android:label="newOrdService" />

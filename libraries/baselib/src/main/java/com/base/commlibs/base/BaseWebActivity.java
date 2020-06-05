@@ -32,6 +32,7 @@ import com.just.agentweb.DefaultWebClient;
  */
 public abstract class BaseWebActivity extends BaseActivity {
 
+    public static final int PROGRESS_OK = 100;
     protected AgentWeb mAgentWeb;
     protected Activity mActivity;
     private com.just.agentweb.WebViewClient mWebViewClient = new com.just.agentweb.WebViewClient() {
@@ -108,7 +109,7 @@ public abstract class BaseWebActivity extends BaseActivity {
      * @param url
      */
     protected void initWebView(LinearLayout linearLayout, String url) {
-        Log.e(TAG, "(WebActivity.java:131) AgentWeb");
+        Log.e(TAG, "(WebActivity.java:131) AgentWeb  "+url);
         mAgentWeb = AgentWeb.with(this)
                 //传入AgentWeb的父控件。
                 .setAgentWebParent(linearLayout, -1, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
