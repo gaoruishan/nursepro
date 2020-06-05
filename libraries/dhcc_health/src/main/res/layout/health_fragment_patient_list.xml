@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/dp_0"
         android:layout_weight="1"
         android:orientation="horizontal">
         <android.support.v7.widget.RecyclerView
@@ -40,11 +40,11 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:textColor="@color/black"
-            android:textSize="13sp"
+            android:textSize="@dimen/sp_13"
             android:text="已选择0条医嘱"></TextView>
         <View
-            android:layout_width="0dp"
-            android:layout_height="1dp"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="@dimen/dp_1"
             android:layout_weight="1"></View>
         <TextView
             android:id="@+id/tv_execu_sure"
@@ -54,6 +54,6 @@
             android:textColor="@color/white"
             android:text="执行"
             android:gravity="center"
-            android:textSize="18sp"></TextView>
+            android:textSize="@dimen/sp_18"></TextView>
     </LinearLayout>
 </LinearLayout>

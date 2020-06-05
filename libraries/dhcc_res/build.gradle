@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 apply from: '../../plugin/build_copy.gradle'
 android {
-    compileSdkVersion 27
+    compileSdkVersion rootProject.android.compileSdkVersion
     defaultConfig {
         minSdkVersion rootProject.android.minSdkVersion
         targetSdkVersion rootProject.android.targetSdkVersion

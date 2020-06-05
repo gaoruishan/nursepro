@@ -17,7 +17,7 @@
             android:layout_height="@dimen/dp_30"
             android:gravity="center_vertical"
             android:textColor="@color/black"
-            android:textSize="12sp"
+            android:textSize="@dimen/sp_12"
             tools:text="张三"
             android:layout_marginLeft="@dimen/dp_10"
             ></TextView>
@@ -28,7 +28,7 @@
             android:layout_height="@dimen/dp_30"
             android:gravity="center_vertical"
             android:textColor="@color/black"
-            android:textSize="12sp"
+            android:textSize="@dimen/sp_12"
             tools:text="长期"
             android:layout_marginLeft="@dimen/dp_10"
             ></TextView>
@@ -38,14 +38,14 @@
             android:layout_height="@dimen/dp_30"
             android:gravity="center_vertical"
             android:textColor="@color/black"
-            android:textSize="12sp"
+            android:textSize="@dimen/sp_12"
             tools:text="核实"
             android:layout_marginLeft="@dimen/dp_10"
             ></TextView>
 
         <View
-            android:layout_width="0dp"
-            android:layout_height="1dp"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="@dimen/dp_1"
             android:layout_weight="1"></View>
         <LinearLayout
             android:id="@+id/ll_oepat_orderselect"
@@ -66,7 +66,7 @@
         android:layout_height="@dimen/dp_20"
         android:gravity="center_vertical"
         android:textColor="@color/black"
-        android:textSize="15sp"
+        android:textSize="@dimen/sp_15"
         tools:text="医嘱111"
         android:layout_marginLeft="@dimen/dp_10"
         ></TextView>
@@ -82,7 +82,7 @@
             android:gravity="center"
             tools:text="剂量"
             android:layout_marginLeft="@dimen/dp_5"
-            android:textSize="12sp"
+            android:textSize="@dimen/sp_12"
             android:textColor="@color/black"
             ></TextView>
         <TextView
@@ -92,7 +92,7 @@
             android:gravity="center"
             tools:text="中医治疗"
             android:layout_marginLeft="@dimen/dp_5"
-            android:textSize="12sp"
+            android:textSize="@dimen/sp_12"
             android:textColor="@color/black"
             ></TextView>
     </LinearLayout>

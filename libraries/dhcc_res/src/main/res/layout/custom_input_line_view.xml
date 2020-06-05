@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:hint=""
-            android:textSize="14sp"
+            android:textSize="@dimen/sp_14"
             android:textStyle="bold" />
 
         <TextView

@@ -60,8 +60,8 @@
             android:layout_marginRight="@dimen/dp_3"
             ></TextView>
         <View
-            android:layout_width="0dp"
-            android:layout_height="1dp"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="@dimen/dp_1"
             android:layout_weight="1"></View>
 
         <LinearLayout

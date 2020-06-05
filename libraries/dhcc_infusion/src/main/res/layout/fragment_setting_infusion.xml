@@ -20,7 +20,7 @@
             android:layout_height="match_parent"/>
         <TextView
             android:visibility="invisible"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dp_0"
             android:layout_weight="1"
             android:layout_height="@dimen/dp_40"
             android:gravity="center"

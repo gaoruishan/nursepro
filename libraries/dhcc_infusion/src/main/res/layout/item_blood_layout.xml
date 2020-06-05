@@ -38,8 +38,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <View
-            android:layout_width="0dp"
-            android:layout_height="1dp"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="@dimen/dp_1"
             android:layout_weight="1"></View>
         <LinearLayout
             android:visibility="gone"
@@ -57,7 +57,7 @@
         </LinearLayout>
         <View
             android:layout_width="@dimen/dp_50"
-            android:layout_height="1dp"></View>
+            android:layout_height="@dimen/dp_1"></View>
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
