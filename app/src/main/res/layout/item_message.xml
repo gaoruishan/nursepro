@@ -18,43 +18,43 @@
             android:id="@+id/tv_message_bedno"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="12dp"
-            android:paddingTop="12dp"
-            android:paddingEnd="12dp"
+            android:paddingStart="@dimen/dp_12"
+            android:paddingTop="@dimen/dp_12"
+            android:paddingEnd="@dimen/dp_12"
             android:textColor="@color/black"
             tools:text="01床" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="12dp"
+            android:layout_marginTop="@dimen/dp_4"
+            android:layout_marginBottom="@dimen/dp_12"
             android:orientation="horizontal"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp">
+            android:paddingStart="@dimen/dp_12"
+            android:paddingEnd="@dimen/dp_12">
 
             <TextView
                 android:id="@+id/tv_message_patientname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:textSize="18sp"
+                android:layout_marginEnd="@dimen/dp_8"
+                android:textSize="@dimen/sp_18"
                 tools:text="马亭" />
 
             <ImageView
                 android:id="@+id/img_message_patientsex"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="@dimen/dp_20"
+                android:layout_height="@dimen/dp_20"
                 android:layout_gravity="center"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="@dimen/dp_8"
                 android:src="@drawable/sex_selector" />
 
             <TextView
                 android:id="@+id/tv_message_patientloc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:textSize="18sp"
+                android:layout_marginEnd="@dimen/dp_8"
+                android:textSize="@dimen/sp_18"
                 tools:text="普通外科一" />
 
             <TextView
@@ -62,7 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="end"
-                android:textSize="18sp"
+                android:textSize="@dimen/sp_18"
                 android:visibility="visible"
                 tools:text="医生01" />
         </LinearLayout>
@@ -75,7 +75,7 @@
 
     <LinearLayout
         android:id="@+id/ll_message_rightmenu"
-        android:layout_width="100dp"
+        android:layout_width="@dimen/dp_100"
         android:layout_height="match_parent"
         android:gravity="center"
         android:background="@android:color/holo_red_light">
@@ -84,7 +84,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="@dimen/sp_16"
             android:text="已读"/>
 
     </LinearLayout>

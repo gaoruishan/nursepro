@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginTop="6dp"
+    android:layout_marginTop="@dimen/dp_6"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <com.noober.background.view.BLTextView
@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         app:bl_corners_radius="@dimen/dp_5"
         app:bl_solid_color="@color/blue_dark"
-        android:textSize="13sp"
+        android:textSize="@dimen/sp_13"
         android:layout_marginTop="@dimen/dp_3"
         android:paddingRight="@dimen/dp_3"
         android:paddingLeft="@dimen/dp_3"
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"/>
     <TextView
         android:id="@+id/tv_popup_childorderinfo"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/dp_0"
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:textColor="#4A4A4A"

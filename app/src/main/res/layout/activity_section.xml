@@ -7,7 +7,7 @@
     tools:context=".WsTest.SectionActivity">
     <android.support.v7.widget.RecyclerView
         android:id="@+id/section_recyleft"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/dp_0"
         android:layout_height="match_parent"
         android:layout_weight="1">
 
@@ -15,7 +15,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/section_recyright"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/dp_0"
         android:layout_height="match_parent"
         android:layout_weight="3"
         android:background="@color/white">

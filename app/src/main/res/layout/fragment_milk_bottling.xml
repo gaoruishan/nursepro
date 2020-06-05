@@ -13,42 +13,42 @@
         android:orientation="vertical">
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="@dimen/dp_1"
             android:background="#E4F0FF" />
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
+                android:layout_height="@dimen/dp_180"
                 android:gravity="center"
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="60dp"
-                    android:layout_height="90dp"
+                    android:layout_width="@dimen/dp_60"
+                    android:layout_height="@dimen/dp_90"
                     android:src="@drawable/icon_patient_scan" />
 
                 <TextView
                     android:id="@+id/tv_milkbottling_scantip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
+                    android:layout_marginStart="@dimen/dp_30"
                     tools:text="请扫描奶袋条码"
                     android:textColor="#FF62ABFF"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/sp_18" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="10dp"
+                android:layout_height="@dimen/dp_10"
                 android:background="#f5faff" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="18dp"
-            android:layout_marginStart="18dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginEnd="@dimen/dp_18"
+            android:layout_marginStart="@dimen/dp_18"
+            android:layout_marginTop="@dimen/dp_50"
             android:orientation="horizontal">
             <LinearLayout
-                android:layout_width="23dp"
+                android:layout_width="@dimen/dp_23"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
@@ -61,8 +61,8 @@
 
                 <View
                     android:id="@+id/line_milkbottling_1"
-                    android:layout_width="55dp"
-                    android:layout_height="55dp"
+                    android:layout_width="@dimen/dp_55"
+                    android:layout_height="@dimen/dp_55"
                     android:background="@drawable/line_bloodts_scan_selector" />
 
                 <ImageView
@@ -73,8 +73,8 @@
 
                 <View
                     android:id="@+id/line_milkbottling_2"
-                    android:layout_width="55dp"
-                    android:layout_height="55dp"
+                    android:layout_width="@dimen/dp_55"
+                    android:layout_height="@dimen/dp_55"
                     android:background="@drawable/line_bloodts_scan_selector" />
 
                 <ImageView
@@ -88,58 +88,58 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
+                android:layout_marginStart="@dimen/dp_15"
                 android:orientation="vertical">
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="23dp"
+                    android:layout_height="@dimen/dp_23"
                     android:gravity="center_vertical"
                     android:text="患者信息"
                     android:textColor="#4A4A4A"
-                    android:textSize="12sp" />
+                    android:textSize="@dimen/sp_12" />
 
                 <TextView
                     android:id="@+id/tv_milkbottling_pat"
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_height="@dimen/dp_45"
+                    android:layout_marginTop="@dimen/dp_10"
                     android:textColor="#4A4A4A"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/sp_15"
                     android:textStyle="bold"
                     tools:text="" />
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="23dp"
+                    android:layout_height="@dimen/dp_23"
                     android:gravity="center_vertical"
                     android:text="奶袋信息"
                     android:textColor="#4A4A4A"
-                    android:textSize="12sp" />
+                    android:textSize="@dimen/sp_12" />
 
                 <TextView
                     android:id="@+id/tv_milkbottling_bag"
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_height="@dimen/dp_45"
+                    android:layout_marginTop="@dimen/dp_10"
                     android:textColor="#4A4A4A"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/sp_15"
                     android:textStyle="bold"
                     tools:text="" />
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="23dp"
+                    android:layout_height="@dimen/dp_23"
                     android:gravity="center_vertical"
                     android:text="奶瓶信息"
                     android:textColor="#4A4A4A"
-                    android:textSize="12sp" />
+                    android:textSize="@dimen/sp_12" />
 
                 <TextView
                     android:id="@+id/tv_milkbottling_bottle"
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_height="@dimen/dp_45"
+                    android:layout_marginTop="@dimen/dp_10"
                     android:textColor="#4A4A4A"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/sp_15"
                     android:textStyle="bold"
                     tools:text="" />
 
@@ -156,7 +156,7 @@
     android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="130dp"
+        android:layout_height="@dimen/dp_130"
         android:background="@color/white"
         android:layout_marginTop="@dimen/dp_10"
         android:orientation="vertical">
@@ -166,18 +166,18 @@
             android:layout_height="wrap_content"
             android:text="装瓶量"
             android:textColor="#FF4A4A4A"
-            android:textSize="15sp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="15dp"
+            android:textSize="@dimen/sp_15"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:layout_marginTop="@dimen/dp_15"
             />
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_marginTop="20dp"
+            android:layout_height="@dimen/dp_55"
+            android:layout_marginTop="@dimen/dp_20"
             android:background="@color/white">
             <EditText
                 android:id="@+id/et_milkbottling_amount"
-                android:layout_width="250dp"
+                android:layout_width="@dimen/dp_250"
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
                 android:background="@color/bg_blue_light"
@@ -191,18 +191,18 @@
                 android:layout_height="wrap_content"
                 android:text="ml"
                 android:textColor="#FF9B9B9B"
-                android:textSize="12sp"
+                android:textSize="@dimen/sp_12"
                 android:layout_toRightOf="@+id/et_milkbottling_amount"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="@dimen/dp_10"
                 android:layout_centerVertical="true"
                 />
         </RelativeLayout>
     </LinearLayout>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="@dimen/dp_55"
         android:background="@color/white"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="@dimen/dp_20"
         >
         <TextView
             android:layout_width="wrap_content"
@@ -210,15 +210,15 @@
             android:text="奶袋余量"
             android:gravity="center"
             android:textColor="#FF4A4A4A"
-            android:textSize="15sp"
-            android:layout_marginLeft="15dp"
+            android:textSize="@dimen/sp_15"
+            android:layout_marginLeft="@dimen/dp_15"
             />
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp">
+            android:layout_marginRight="@dimen/dp_20">
             <TextView
                 android:id="@+id/tv_milkbottling_left"
                 android:layout_width="wrap_content"
@@ -226,22 +226,22 @@
                 android:text="250"
                 android:textColor="#FF62ABFF"
                 android:gravity="center"
-                android:textSize="18sp"/>
+                android:textSize="@dimen/sp_18"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="ml"
                 android:gravity="center"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="@dimen/dp_10"
                 android:textColor="#FF9B9B9B"
-                android:textSize="12sp"/>
+                android:textSize="@dimen/sp_12"/>
         </LinearLayout>
     </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="110dp"
+        android:layout_height="@dimen/dp_110"
         android:background="@color/white"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/dp_10"
         android:orientation="vertical">
         <TextView
             android:layout_width="wrap_content"
@@ -249,43 +249,43 @@
             android:text="奶袋处理"
             android:gravity="center"
             android:textColor="#FF4A4A4A"
-            android:textSize="15sp"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="15dp"
+            android:textSize="@dimen/sp_15"
+            android:layout_marginTop="@dimen/dp_15"
+            android:layout_marginLeft="@dimen/dp_15"
             />
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="@dimen/dp_50"
             android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginRight="@dimen/dp_20">
             <TextView
                 android:id="@+id/tv_milkbottling_bottling"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/dp_0"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
                 android:background="@drawable/bg_milk_select"
                 android:gravity="center"
-                android:paddingStart="15dp"
-                android:paddingEnd="15dp"
+                android:paddingStart="@dimen/dp_15"
+                android:paddingEnd="@dimen/dp_15"
                 android:text="冷冻"
                 android:textColor="@drawable/textcolor_blood_end_selector"
-                android:textSize="15sp"
+                android:textSize="@dimen/sp_15"
                 android:layout_marginRight="@dimen/dp_10"
                 />
             <TextView
                 android:id="@+id/tv_milkbottling_throw"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/dp_0"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
                 android:background="@drawable/bg_milk_select"
                 android:gravity="center"
-                android:paddingStart="15dp"
-                android:paddingEnd="15dp"
+                android:paddingStart="@dimen/dp_15"
+                android:paddingEnd="@dimen/dp_15"
                 android:text="废弃"
                 android:textColor="@drawable/textcolor_blood_end_selector"
-                android:textSize="15sp"
+                android:textSize="@dimen/sp_15"
                 android:layout_marginLeft="@dimen/dp_10"
                 />
 

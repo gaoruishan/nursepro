@@ -14,12 +14,12 @@
         >
         <TextView
             android:id="@+id/tv_patevents_eventtype"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="@dimen/dp_60"
             android:textColor="@color/white"
             android:background="@drawable/bg_eventcircle_default"
             android:gravity="center"
-            android:textSize="15sp"
+            android:textSize="@dimen/sp_15"
             android:text="入院" />
 
     </LinearLayout>

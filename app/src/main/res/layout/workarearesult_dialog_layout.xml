@@ -5,7 +5,7 @@
     android:background="@drawable/bg_dialog"
     android:gravity="center"
     android:orientation="vertical"
-    android:paddingBottom="40dp"
+    android:paddingBottom="@dimen/dp_40"
     >
 
     <LinearLayout
@@ -13,24 +13,24 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
-        android:paddingEnd="56dp"
-        android:paddingStart="56dp"
-        android:paddingTop="40dp">
+        android:paddingEnd="@dimen/dp_56"
+        android:paddingStart="@dimen/dp_56"
+        android:paddingTop="@dimen/dp_40">
         <ImageView
             android:id="@+id/img_popup_workarearesult"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="@dimen/dp_120"
+            android:layout_height="@dimen/dp_120"
             android:src="@drawable/icon_popup_sucess" />
 
         <TextView
             android:id="@+id/tv_popup_workarearesult"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="@dimen/dp_20"
             android:text="手动执行成功"
             android:textColor="#4a4a4a"
             android:textStyle="bold"
-            android:textSize="16sp" />
+            android:textSize="@dimen/sp_16" />
     </LinearLayout>
 
 
@@ -44,33 +44,33 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            android:layout_marginTop="36dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginTop="@dimen/dp_36"
+            android:layout_marginStart="@dimen/dp_16"
+            android:layout_marginEnd="@dimen/dp_16"
             android:background="@drawable/bg_dialog_sure"
-            android:paddingBottom="10dp"
-            android:paddingEnd="46dp"
-            android:paddingStart="46dp"
-            android:paddingTop="10dp"
+            android:paddingBottom="@dimen/dp_10"
+            android:paddingEnd="@dimen/dp_46"
+            android:paddingStart="@dimen/dp_46"
+            android:paddingTop="@dimen/dp_10"
             android:text="确定"
             android:textColor="@color/white"
-            android:textSize="17sp" />
+            android:textSize="@dimen/sp_17" />
         <TextView
             android:id="@+id/tv_popup_cancle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            android:layout_marginTop="36dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginTop="@dimen/dp_36"
+            android:layout_marginStart="@dimen/dp_16"
+            android:layout_marginEnd="@dimen/dp_16"
             android:background="@drawable/bg_dialog_cancel"
-            android:paddingBottom="10dp"
-            android:paddingEnd="46dp"
-            android:paddingStart="46dp"
-            android:paddingTop="10dp"
+            android:paddingBottom="@dimen/dp_10"
+            android:paddingEnd="@dimen/dp_46"
+            android:paddingStart="@dimen/dp_46"
+            android:paddingTop="@dimen/dp_10"
             android:text="取消"
             android:textColor="@color/white"
-            android:textSize="17sp" />
+            android:textSize="@dimen/sp_17" />
     </LinearLayout>
 
 

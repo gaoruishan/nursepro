@@ -10,10 +10,10 @@
         android:layout_width="match_parent"
         android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:paddingBottom="5dp"
+        android:layout_marginStart="@dimen/dp_12"
+        android:paddingBottom="@dimen/dp_5"
         android:textColor="@color/text_view_text_color"
-        android:textSize="15sp"
+        android:textSize="@dimen/sp_15"
         android:textStyle="bold"
         tools:text="医嘱名称" />
 
@@ -21,10 +21,10 @@
         android:id="@+id/tv_item_order_childunit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:paddingBottom="5dp"
+        android:layout_marginStart="@dimen/dp_12"
+        android:paddingBottom="@dimen/dp_5"
         android:textColor="#4A4A4A"
-        android:textSize="12sp"
+        android:textSize="@dimen/sp_12"
         tools:text="剂量" />
 </LinearLayout>
     

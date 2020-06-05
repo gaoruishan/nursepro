@@ -10,14 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="@dimen/dp_50"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="@dimen/dp_30"
             android:gravity="center_vertical"
-            android:paddingStart="12dp"
+            android:paddingStart="@dimen/dp_12"
             android:background="#f5faff"
             android:text="选择处理或执行类型"/>
         <LinearLayout

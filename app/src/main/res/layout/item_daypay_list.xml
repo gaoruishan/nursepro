@@ -16,18 +16,18 @@
             android:layout_height="wrap_content"
             android:text="药品名称"
             android:textColor="@color/black"
-            android:textSize="15sp"
+            android:textSize="@dimen/sp_15"
             />
         <View
             android:layout_width="@dimen/dp_0"
-            android:layout_height="1dp"
+            android:layout_height="@dimen/dp_1"
             android:layout_weight="1"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="￥"
             android:textColor="#4A4A4A"
-            android:textSize="14sp"
+            android:textSize="@dimen/sp_14"
             />
         <TextView
             android:id="@+id/tv_paysum"
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:text="19.9"
             android:textColor="#4A4A4A"
-            android:textSize="14sp"
+            android:textSize="@dimen/sp_14"
             />
     </LinearLayout>
     <LinearLayout
@@ -48,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="[单价]"
-            android:textSize="12sp"
+            android:textSize="@dimen/sp_12"
             android:textColor="@color/text_color_gray"
             />
         <TextView
@@ -56,14 +56,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="123"
-            android:textSize="12sp"
+            android:textSize="@dimen/sp_12"
             android:textColor="@color/text_color_gray"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="[数量]"
-            android:textSize="12sp"
+            android:textSize="@dimen/sp_12"
             android:textColor="@color/text_color_gray"
             android:layout_marginLeft="@dimen/dp_10"
             />
@@ -72,7 +72,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="123"
-            android:textSize="12sp"
+            android:textSize="@dimen/sp_12"
             android:textColor="@color/text_color_gray"
             />
     </LinearLayout>
@@ -80,5 +80,5 @@
         android:layout_width="match_parent"
         android:layout_height="0.2dp"
         android:background="#ECECEC"
-        android:layout_marginTop="3dp"/>
+        android:layout_marginTop="@dimen/dp_3"/>
 </LinearLayout>

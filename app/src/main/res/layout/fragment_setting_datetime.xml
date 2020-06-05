@@ -8,7 +8,7 @@
     tools:context=".setting.SettingBedsFragment">
     <View
         android:layout_width="match_parent"
-        android:layout_height="5dp"
+        android:layout_height="@dimen/dp_5"
         android:background="#FFF5FAFF">
     </View>
     <TextView
@@ -16,17 +16,17 @@
         android:layout_height="wrap_content"
         android:text="起始时间"
         android:textColor="#FF9B9B9B"
-        android:textSize="12sp"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
+        android:textSize="@dimen/sp_12"
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_marginLeft="@dimen/dp_20"
         />
     <TextView
         android:id="@+id/tv_setting_starttime"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="5dp"
+        android:layout_height="@dimen/dp_50"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_marginRight="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_5"
         android:background="#FFF5FAFF"
         android:gravity="center"
         tools:text="2016-11-11 12:12"
@@ -35,28 +35,28 @@
         />
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="@dimen/dp_2"
         android:background="@drawable/line_setting_datetime"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_marginRight="@dimen/dp_20"
         android:layerType="software" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="结束时间"
         android:textColor="#FF9B9B9B"
-        android:textSize="12sp"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
+        android:textSize="@dimen/sp_12"
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_marginLeft="@dimen/dp_20"
         />
     <TextView
         android:id="@+id/tv_setting_endtime"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="5dp"
+        android:layout_height="@dimen/dp_50"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_marginRight="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_5"
         android:background="#FFF5FAFF"
         android:gravity="center"
         tools:text="2016-11-11 12:12"

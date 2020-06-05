@@ -2,18 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="61dp"
+    android:layout_height="@dimen/dp_61"
     android:orientation="vertical"
     >
     <LinearLayout
         android:id="@+id/ll_jldlist_datalist"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="@dimen/dp_60"
         android:orientation="horizontal">
 
     </LinearLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/dp_1"
         android:background="@color/patevents_device_color"/>
 </LinearLayout>

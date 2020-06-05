@@ -10,28 +10,28 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
+        android:layout_marginTop="@dimen/dp_1"
         android:background="@color/white"
-        android:paddingBottom="25dp"
-        android:paddingEnd="12dp"
-        android:paddingStart="12dp"
-        android:paddingTop="20dp">
+        android:paddingBottom="@dimen/dp_25"
+        android:paddingEnd="@dimen/dp_12"
+        android:paddingStart="@dimen/dp_12"
+        android:paddingTop="@dimen/dp_20">
 
 
         <TextView
             android:id="@+id/tv_bedmappat_bedno"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
+            android:layout_width="@dimen/dp_75"
+            android:layout_height="@dimen/dp_75"
             android:background="@drawable/bg_bedmap_patient_bedno"
             android:gravity="center"
             android:textColor="@color/white"
-            android:textSize="18sp"
+            android:textSize="@dimen/sp_18"
             tools:text="01床" />
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dp_0"
             android:layout_height="match_parent"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="@dimen/dp_16"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
@@ -45,22 +45,22 @@
                     android:id="@+id/tv_bedmappat_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginEnd="@dimen/dp_8"
                     android:ellipsize="end"
                     android:maxEms="6"
                     android:singleLine="true"
                     android:textColor="@color/black"
-                    android:textSize="17sp"
+                    android:textSize="@dimen/sp_17"
                     android:textStyle="bold"
                     tools:text="刘患者" />
 
                 <ImageView
                     android:id="@+id/img_bedmappat_sex"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
+                    android:layout_width="@dimen/dp_28"
+                    android:layout_height="@dimen/dp_28"
                     android:layout_gravity="center"
-                    android:layout_marginEnd="8dp"
-                    android:padding="4dp"
+                    android:layout_marginEnd="@dimen/dp_8"
+                    android:padding="@dimen/dp_4"
                     tools:src="@drawable/sex_male" />
 
                 <com.dhcc.nursepro.view.CareLevelTextView
@@ -94,80 +94,80 @@
             <LinearLayout
                 android:id="@+id/ll_bedmappat_info"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="20dp"
+                android:layout_height="@dimen/dp_50"
+                android:layout_marginTop="@dimen/dp_20"
                 android:background="@color/white"
                 android:gravity="center_vertical"
-                android:paddingEnd="16dp"
-                android:paddingStart="16dp">
+                android:paddingEnd="@dimen/dp_16"
+                android:paddingStart="@dimen/dp_16">
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/dp_0"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="基本信息"
                     android:textColor="#4a4a4a"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/sp_15" />
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="@dimen/dp_20"
+                    android:layout_height="@dimen/dp_20"
                     android:src="@drawable/right" />
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/ll_bedmappat_daypaylist"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="1dp"
+                android:layout_height="@dimen/dp_50"
+                android:layout_marginTop="@dimen/dp_1"
                 android:background="@color/white"
                 android:gravity="center_vertical"
-                android:paddingEnd="16dp"
-                android:paddingStart="16dp">
+                android:paddingEnd="@dimen/dp_16"
+                android:paddingStart="@dimen/dp_16">
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/dp_0"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="住院日清单"
                     android:textColor="#4a4a4a"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/sp_15" />
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="@dimen/dp_20"
+                    android:layout_height="@dimen/dp_20"
                     android:src="@drawable/right" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/ll_bedmappat_order"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="@dimen/dp_50"
+                android:layout_marginTop="@dimen/dp_10"
                 android:background="@color/white"
                 android:gravity="center_vertical"
-                android:paddingEnd="16dp"
-                android:paddingStart="16dp">
+                android:paddingEnd="@dimen/dp_16"
+                android:paddingStart="@dimen/dp_16">
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/dp_0"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="医嘱单"
                     android:textColor="#4a4a4a"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/sp_15" />
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="@dimen/dp_20"
+                    android:layout_height="@dimen/dp_20"
                     android:src="@drawable/right" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="@dimen/dp_1"
                 android:background="@color/white"
-                android:paddingEnd="16dp"
-                android:paddingStart="16dp">
+                android:paddingEnd="@dimen/dp_16"
+                android:paddingStart="@dimen/dp_16">
 
                 <View
                     android:layout_width="match_parent"
@@ -178,33 +178,33 @@
             <LinearLayout
                 android:id="@+id/ll_bedmappat_ordersearch"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/dp_50"
                 android:background="@color/white"
                 android:gravity="center_vertical"
-                android:paddingEnd="16dp"
-                android:paddingStart="16dp">
+                android:paddingEnd="@dimen/dp_16"
+                android:paddingStart="@dimen/dp_16">
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/dp_0"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="医嘱查询"
                     android:textColor="#4a4a4a"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/sp_15" />
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="@dimen/dp_20"
+                    android:layout_height="@dimen/dp_20"
                     android:src="@drawable/right" />
             </LinearLayout>
 
             <LinearLayout
                 android:visibility="gone"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="@dimen/dp_1"
                 android:background="@color/white"
-                android:paddingEnd="16dp"
-                android:paddingStart="16dp">
+                android:paddingEnd="@dimen/dp_16"
+                android:paddingStart="@dimen/dp_16">
 
                 <View
                     android:layout_width="match_parent"
@@ -216,56 +216,56 @@
                 android:id="@+id/ll_bedmappat_orderexecute"
                 android:visibility="gone"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/dp_50"
                 android:background="@color/white"
                 android:gravity="center_vertical"
-                android:paddingEnd="16dp"
-                android:paddingStart="16dp">
+                android:paddingEnd="@dimen/dp_16"
+                android:paddingStart="@dimen/dp_16">
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/dp_0"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="医嘱执行"
                     android:textColor="#4a4a4a"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/sp_15" />
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="@dimen/dp_20"
+                    android:layout_height="@dimen/dp_20"
                     android:src="@drawable/right" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/ll_bedmappat_testresult"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="@dimen/dp_50"
+                android:layout_marginTop="@dimen/dp_10"
                 android:background="@color/white"
                 android:gravity="center_vertical"
-                android:paddingEnd="16dp"
-                android:paddingStart="16dp">
+                android:paddingEnd="@dimen/dp_16"
+                android:paddingStart="@dimen/dp_16">
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/dp_0"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="检验结果"
                     android:textColor="#4a4a4a"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/sp_15" />
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="@dimen/dp_20"
+                    android:layout_height="@dimen/dp_20"
                     android:src="@drawable/right" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="@dimen/dp_1"
                 android:background="@color/white"
-                android:paddingEnd="16dp"
-                android:paddingStart="16dp">
+                android:paddingEnd="@dimen/dp_16"
+                android:paddingStart="@dimen/dp_16">
 
                 <View
                     android:layout_width="match_parent"
@@ -276,47 +276,47 @@
             <LinearLayout
                 android:id="@+id/ll_bedmappat_inspectionreport"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/dp_50"
                 android:background="@color/white"
                 android:gravity="center_vertical"
-                android:paddingEnd="16dp"
-                android:paddingStart="16dp">
+                android:paddingEnd="@dimen/dp_16"
+                android:paddingStart="@dimen/dp_16">
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/dp_0"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="检查报告"
                     android:textColor="#4a4a4a"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/sp_15" />
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="@dimen/dp_20"
+                    android:layout_height="@dimen/dp_20"
                     android:src="@drawable/right" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/ll_bedmappat_eventsearch"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="@dimen/dp_50"
+                android:layout_marginTop="@dimen/dp_10"
                 android:background="@color/white"
                 android:gravity="center_vertical"
-                android:paddingEnd="16dp"
-                android:paddingStart="16dp">
+                android:paddingEnd="@dimen/dp_16"
+                android:paddingStart="@dimen/dp_16">
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/dp_0"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="事件登记"
                     android:textColor="#4a4a4a"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/sp_15" />
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="@dimen/dp_20"
+                    android:layout_height="@dimen/dp_20"
                     android:src="@drawable/right" />
             </LinearLayout>
 

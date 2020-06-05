@@ -13,74 +13,74 @@
 
         <TextView
             android:id="@+id/tv_vitalsign_allarea"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dp_0"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
+            android:paddingTop="@dimen/dp_16"
+            android:paddingBottom="@dimen/dp_16"
             android:text="全区"
             android:textColor="@drawable/textcolor_item_vital_sign_selector"
-            android:textSize="15sp" />
+            android:textSize="@dimen/sp_15" />
 
         <TextView
             android:id="@+id/tv_vitalsign_adminarea"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dp_0"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
+            android:paddingTop="@dimen/dp_16"
+            android:paddingBottom="@dimen/dp_16"
             android:text="管辖"
             android:textColor="@drawable/textcolor_item_vital_sign_selector"
-            android:textSize="15sp" />
+            android:textSize="@dimen/sp_15" />
 
         <TextView
             android:id="@+id/tv_vitalsign_nowoutarea"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dp_0"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
+            android:paddingTop="@dimen/dp_16"
+            android:paddingBottom="@dimen/dp_16"
             android:text="今日出院"
             android:textColor="@drawable/textcolor_item_vital_sign_selector"
-            android:textSize="15sp" />
+            android:textSize="@dimen/sp_15" />
 
         <TextView
             android:id="@+id/tv_vitalsign_alloutarea"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dp_0"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
+            android:paddingTop="@dimen/dp_16"
+            android:paddingBottom="@dimen/dp_16"
             android:text="已出院"
             android:textColor="@drawable/textcolor_item_vital_sign_selector"
-            android:textSize="15sp" />
+            android:textSize="@dimen/sp_15" />
 
         <TextView
             android:id="@+id/tv_vitalsign_waitarea"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dp_0"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
+            android:paddingTop="@dimen/dp_16"
+            android:paddingBottom="@dimen/dp_16"
             android:text="等待区"
             android:textColor="@drawable/textcolor_item_vital_sign_selector"
-            android:textSize="15sp" />
+            android:textSize="@dimen/sp_15" />
 
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/dp_1"
         android:background="#8FD3F4" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="5dp"
+        android:layout_height="@dimen/dp_5"
         android:background="#ECF4FC" />
 
     <LinearLayout
@@ -88,24 +88,24 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:layout_width="85dp"
+            android:layout_width="@dimen/dp_85"
             android:layout_height="match_parent"
             android:background="@color/vital_sign_left_bgcolor"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="@dimen/dp_40"
                 android:gravity="center">
 
                 <TextView
                     android:id="@+id/tv_resetting"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="6dp"
-                    android:layout_marginRight="6dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp"
+                    android:layout_marginLeft="@dimen/dp_6"
+                    android:layout_marginRight="@dimen/dp_6"
+                    android:layout_marginTop="@dimen/dp_4"
+                    android:layout_marginBottom="@dimen/dp_4"
                     android:background="@drawable/bg_resetting_selector"
                     android:gravity="center"
                     android:text="筛选"
@@ -116,11 +116,11 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="12dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginRight="12dp"
-                android:layout_marginBottom="2dp"
+                android:layout_height="@dimen/dp_1"
+                android:layout_marginLeft="@dimen/dp_12"
+                android:layout_marginTop="@dimen/dp_2"
+                android:layout_marginRight="@dimen/dp_12"
+                android:layout_marginBottom="@dimen/dp_2"
                 android:background="@color/vital_sign_filter_bottom_line_color" />
 
             <android.support.v7.widget.RecyclerView
@@ -138,13 +138,13 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="@dimen/dp_40"
                 android:gravity="center">
 
                 <ImageView
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
-                    android:layout_marginEnd="12dp"
+                    android:layout_width="@dimen/dp_12"
+                    android:layout_height="@dimen/dp_12"
+                    android:layout_marginEnd="@dimen/dp_12"
                     android:src="@drawable/vital_sing_time_ico" />
 
                 <TextView
@@ -152,12 +152,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="2018-11-15 06:00"
-                    android:textSize="13sp" />
+                    android:textSize="@dimen/sp_13" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="5dp"
+                android:layout_height="@dimen/dp_5"
                 android:background="#F6F6F6" />
 
             <android.support.v7.widget.RecyclerView

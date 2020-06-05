@@ -8,13 +8,13 @@
     >
     <View
         android:layout_width="match_parent"
-        android:layout_height="5dp"
+        android:layout_height="@dimen/dp_5"
         android:background="@color/user_attr_line_color"></View>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginBottom="@dimen/dp_5"
+        android:layout_marginTop="@dimen/dp_5"
         android:orientation="horizontal"
         android:gravity="center_vertical">
 
@@ -25,19 +25,19 @@
                 android:orientation="vertical"
                 android:gravity="center"
                 android:text="101床"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="@dimen/dp_5"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="@dimen/sp_16" />
             <TextView
                 android:id="@+id/tv_tournurlist_name"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/dp_0"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
                 android:gravity="center|start"
                 android:text="zhangwei"
                 android:textColor="@color/black"
-                android:layout_marginLeft="10dp"
-                android:textSize="16sp"/>
+                android:layout_marginLeft="@dimen/dp_10"
+                android:textSize="@dimen/sp_16"/>
     </LinearLayout>
 
     <LinearLayout

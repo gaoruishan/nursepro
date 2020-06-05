@@ -11,14 +11,14 @@
         android:gravity="center"
         >
         <TextView
-            android:layout_width="290dp"
-            android:layout_height="45dp"
+            android:layout_width="@dimen/dp_290"
+            android:layout_height="@dimen/dp_45"
             android:background="@drawable/back_tv_workarea"
             android:text="有时是治愈；常常是帮助；总是去安慰。"
-            android:textSize="14sp"
+            android:textSize="@dimen/sp_14"
             android:textColor="@color/white"
             android:gravity="center"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="@dimen/dp_15"
             />
 
     </LinearLayout>

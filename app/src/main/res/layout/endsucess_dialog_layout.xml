@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="320dp"
-    android:layout_height="390dp"
-    android:layout_marginBottom="40dp"
+    android:layout_width="@dimen/dp_320"
+    android:layout_height="@dimen/dp_390"
+    android:layout_marginBottom="@dimen/dp_40"
     >
 
     <RelativeLayout
@@ -23,11 +23,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="15dp"
+                android:layout_margin="@dimen/dp_15"
                 android:gravity="center"
                 android:text="输注结果"
                 android:textColor="#FF62ABFF"
-                android:textSize="18sp" />
+                android:textSize="@dimen/sp_18" />
 
             <TextView
                 android:id="@+id/message"
@@ -35,43 +35,43 @@
                 android:layout_height="wrap_content"
                 android:text="输注结果"
                 android:textColor="#FF9B9B9B"
-                android:textSize="12sp"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="20dp"
+                android:textSize="@dimen/sp_12"
+                android:layout_marginTop="@dimen/dp_20"
+                android:layout_marginLeft="@dimen/dp_20"
                 />
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="@dimen/dp_55"
                 android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp">
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginLeft="@dimen/dp_20"
+                android:layout_marginRight="@dimen/dp_20">
                 <TextView
                     android:id="@+id/tv_endsucess_end"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/dp_0"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
                     android:background="@drawable/bg_blood_end_selector"
                     android:gravity="center"
-                    android:paddingStart="15dp"
-                    android:paddingEnd="15dp"
+                    android:paddingStart="@dimen/dp_15"
+                    android:paddingEnd="@dimen/dp_15"
                     android:text="完成"
                     android:textColor="@drawable/textcolor_blood_end_selector"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/sp_15"
                     android:layout_marginRight="@dimen/dp_10"
                     />
                 <TextView
                     android:id="@+id/tv_endsucess_centerfinish"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/dp_0"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
                     android:background="@drawable/bg_blood_end_selector"
                     android:gravity="center"
-                    android:paddingStart="15dp"
-                    android:paddingEnd="15dp"
+                    android:paddingStart="@dimen/dp_15"
+                    android:paddingEnd="@dimen/dp_15"
                     android:text="终止"
                     android:textColor="@drawable/textcolor_blood_end_selector"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/sp_15"
                     android:layout_marginLeft="@dimen/dp_10"
                     />
 
@@ -82,43 +82,43 @@
                 android:layout_height="wrap_content"
                 android:text="终止原因"
                 android:textColor="#FF9B9B9B"
-                android:textSize="12sp"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="20dp"
+                android:textSize="@dimen/sp_12"
+                android:layout_marginTop="@dimen/dp_20"
+                android:layout_marginLeft="@dimen/dp_20"
                 />
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="@dimen/dp_55"
                 android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp">
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginLeft="@dimen/dp_20"
+                android:layout_marginRight="@dimen/dp_20">
                 <TextView
                     android:id="@+id/tv_endsucess_reason"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/dp_0"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
                     android:background="@drawable/bg_blood_end_selector"
                     android:gravity="center"
-                    android:paddingStart="15dp"
-                    android:paddingEnd="15dp"
+                    android:paddingStart="@dimen/dp_15"
+                    android:paddingEnd="@dimen/dp_15"
                     android:text="过敏"
                     android:textColor="@drawable/textcolor_blood_end_selector"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/sp_15"
                     android:layout_marginRight="@dimen/dp_10"
                     />
                 <TextView
                     android:id="@+id/tv_endsucess_otherreason"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/dp_0"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
                     android:background="@drawable/bg_blood_end_selector"
                     android:gravity="center"
-                    android:paddingStart="15dp"
-                    android:paddingEnd="15dp"
+                    android:paddingStart="@dimen/dp_15"
+                    android:paddingEnd="@dimen/dp_15"
                     android:text="其他"
                     android:textColor="@drawable/textcolor_blood_end_selector"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/sp_15"
                     android:layout_marginLeft="@dimen/dp_10"
                     />
 
@@ -139,7 +139,7 @@
                 android:id="@+id/no"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="@dimen/dp_10"
                 android:layout_weight="1"
                 android:background="@null"
                 android:gravity="center"
@@ -147,21 +147,21 @@
                 android:text="No"
                 android:visibility="gone"
                 android:textColor="#7D7D7D"
-                android:textSize="16sp" />
+                android:textSize="@dimen/sp_16" />
 
 
             <Button
                 android:id="@+id/yes"
-                android:layout_width="130dp"
-                android:layout_height="45dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginBottom="25dp"
+                android:layout_width="@dimen/dp_130"
+                android:layout_height="@dimen/dp_45"
+                android:layout_marginTop="@dimen/dp_25"
+                android:layout_marginBottom="@dimen/dp_25"
                 android:background="@drawable/shape_btn_sure"
                 android:gravity="center"
                 android:singleLine="true"
                 android:text="确定"
                 android:textColor="@color/white"
-                android:textSize="17sp" />
+                android:textSize="@dimen/sp_17" />
         </LinearLayout>
     </RelativeLayout>
 

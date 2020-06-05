@@ -16,24 +16,24 @@ app:rightMenuView="@+id/messagerightmenu">
     android:id="@+id/messagecontentll"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="12dp"
-    android:paddingEnd="12dp"
-    android:paddingStart="12dp"
-    android:paddingTop="12dp">
+    android:paddingBottom="@dimen/dp_12"
+    android:paddingEnd="@dimen/dp_12"
+    android:paddingStart="@dimen/dp_12"
+    android:paddingTop="@dimen/dp_12">
     <TextView
         android:id="@+id/tv_patevents_eventtype"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="@dimen/dp_30"
+        android:layout_height="@dimen/dp_30"
         android:textColor="@color/white"
         android:background="@drawable/bg_eventcircle_default"
-        android:textSize="11sp"
+        android:textSize="@dimen/sp_11"
         android:gravity="center"
         android:text="入院" />
 
 
     <View
-        android:layout_width="0dp"
-        android:layout_height="1dp"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_1"
         android:layout_weight="1" />
 
     <TextView
@@ -41,7 +41,7 @@ app:rightMenuView="@+id/messagerightmenu">
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/patevents_tv_date_color"
-        android:textSize="15sp"
+        android:textSize="@dimen/sp_15"
         android:text="2018-08-17" />
 
 
@@ -52,19 +52,19 @@ app:rightMenuView="@+id/messagerightmenu">
         android:layout_marginLeft="@dimen/dp_10"
         android:layout_marginRight="@dimen/dp_10"
         android:textColor="@color/patevents_tv_date_color"
-        android:textSize="15sp"
+        android:textSize="@dimen/sp_15"
         android:text="15：09" />
     <TextView
         android:id="@+id/tv_patevents_eventmaker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/patevents_tv_date_color"
-        android:textSize="15sp"
+        android:textSize="@dimen/sp_15"
         tools:text="医生" />
 </LinearLayout>
 <LinearLayout
     android:id="@+id/messagerightmenu"
-    android:layout_width="100dp"
+    android:layout_width="@dimen/dp_100"
     android:layout_height="match_parent"
     android:gravity="center"
     android:background="@android:color/holo_red_light">
@@ -75,7 +75,7 @@ app:rightMenuView="@+id/messagerightmenu">
         android:layout_height="match_parent"
         android:textColor="@color/white"
         android:gravity="center"
-        android:textSize="14sp"
+        android:textSize="@dimen/sp_14"
         android:text="删除"/>
 
 </LinearLayout>

@@ -9,7 +9,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recy_patnurrecord_pat"
-        android:layout_width="85dp"
+        android:layout_width="@dimen/dp_85"
         android:layout_height="match_parent"
         android:background="@color/nurrecordold_left_bgcolor">
 
@@ -17,7 +17,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recy_patnurrecord_record"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/dp_0"
         android:layout_height="match_parent"
         android:layout_weight="1">
 

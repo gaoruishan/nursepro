@@ -16,8 +16,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <TextView
-            android:layout_width="60dp"
-            android:layout_height="18dp"
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="@dimen/dp_18"
             android:textSize="@dimen/sp_12"
             android:background="@drawable/bg_oval_yellow"
             android:gravity="center"
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             tools:text="01床  王宝宝妈妈"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="@dimen/dp_20"
             android:layout_marginTop="@dimen/dp_10"
             />
         <TextView
@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/lab_warning_red"
             android:text="扫描医嘱贴开始喂奶"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="@dimen/dp_20"
             android:layout_marginTop="@dimen/dp_10"
             android:layout_marginBottom="@dimen/dp_10"
             />
@@ -49,7 +49,7 @@
             android:background="@color/divider_line_color"></View>
     </LinearLayout>
     <android.support.v7.widget.RecyclerView
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="@dimen/dp_20"
         android:id="@+id/rec_milkfeed_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -66,8 +66,8 @@
 
         <TextView
             android:id="@+id/tv_milkfreezing_warning"
-            android:layout_width="260dp"
-            android:layout_height="55dp"
+            android:layout_width="@dimen/dp_260"
+            android:layout_height="@dimen/dp_55"
             android:layout_centerInParent="true"
             android:background="#FFF5FAFF"
             android:gravity="center"
@@ -78,18 +78,18 @@
         <TextView
             android:id="@+id/tv_milkfreezing_warningtitle"
             android:layout_width="wrap_content"
-            android:layout_height="22dp"
+            android:layout_height="@dimen/dp_22"
             android:layout_above="@+id/tv_milkfreezing_warning"
             android:layout_centerInParent="true"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="@dimen/dp_30"
             android:text="请扫码"
             android:textColor="#FF62ABFF"
-            android:textSize="20sp"
+            android:textSize="@dimen/sp_20"
             android:textStyle="bold" />
 
         <ImageView
-            android:layout_width="60dp"
-            android:layout_height="91dp"
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="@dimen/dp_91"
             android:layout_above="@+id/tv_milkfreezing_warningtitle"
             android:layout_centerInParent="true"
             android:layout_marginBottom="@dimen/dp_10"

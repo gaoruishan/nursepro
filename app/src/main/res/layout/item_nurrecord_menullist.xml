@@ -11,10 +11,10 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bg_bed_selector"
         android:gravity="center"
-        android:paddingBottom="16dp"
-        android:paddingTop="16dp"
-        android:layout_marginTop="20dp"
-        android:textSize="16sp"
+        android:paddingBottom="@dimen/dp_16"
+        android:paddingTop="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_20"
+        android:textSize="@dimen/sp_16"
         android:textColor="@drawable/textcolor_itembed_selector"
         tools:text="目录1" />
 

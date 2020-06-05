@@ -2,22 +2,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="2dp"
-    android:layout_marginBottom="4dp"
+    android:layout_marginTop="@dimen/dp_2"
+    android:layout_marginBottom="@dimen/dp_4"
     android:background="@color/white"
     android:orientation="vertical"
-    android:padding="2dp">
+    android:padding="@dimen/dp_2">
 
     <TextView
         android:id="@+id/tv_drughisorder_error"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginTop="@dimen/dp_6"
+        android:layout_marginBottom="@dimen/dp_4"
         android:background="@drawable/bg_drugorder_error_quality"
-        android:paddingStart="6dp"
-        android:paddingEnd="6dp"
-        android:paddingBottom="1dp"
+        android:paddingStart="@dimen/dp_6"
+        android:paddingEnd="@dimen/dp_6"
+        android:paddingBottom="@dimen/dp_1"
         android:text="质量问题"
         android:textColor="@color/white" />
 

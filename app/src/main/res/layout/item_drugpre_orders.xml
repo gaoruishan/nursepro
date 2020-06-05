@@ -11,10 +11,10 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dp_0"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:padding="6dp"
+            android:padding="@dimen/dp_6"
             android:orientation="vertical">
 
             <TextView
@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#101010"
-                android:textSize="15sp"
+                android:textSize="@dimen/sp_15"
                 android:textStyle="bold"
                 tools:text="氯化钠注射液"/>
 
@@ -36,13 +36,13 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="@dimen/dp_4"
                 android:orientation="horizontal">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#101010"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/sp_15"
                     android:textStyle="bold"
                     android:text="药品码："/>
                 <TextView
@@ -50,7 +50,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#62abff"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/sp_15"
                     android:textStyle="bold"
                     tools:text="0001"/>
 
@@ -63,9 +63,9 @@
             android:id="@+id/img_drugpreorder_select"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
+            android:layout_marginTop="@dimen/dp_6"
+            android:layout_marginStart="@dimen/dp_12"
+            android:layout_marginEnd="@dimen/dp_12"
             android:background="@drawable/icon_orderexec_selector" />
 
     </LinearLayout>
@@ -75,9 +75,9 @@
     <View
         android:id="@+id/line_drugpreorders"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="@dimen/dp_2"
         android:background="@drawable/line_dash"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginTop="@dimen/dp_4"
+        android:layout_marginBottom="@dimen/dp_4"
         android:layerType="software" />
 </LinearLayout>

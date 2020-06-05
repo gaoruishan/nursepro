@@ -20,15 +20,15 @@
                 android:id="@+id/ll_blood_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/dp_10"
                 >
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:layout_marginRight="@dimen/dp_20"
+                    android:layout_marginBottom="@dimen/dp_10"
+                    android:layout_marginLeft="@dimen/dp_10"
                     android:src="@drawable/icon_back_blue"
                     />
             </LinearLayout>
@@ -51,20 +51,20 @@
             >
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="@dimen/dp_0"
                 android:layout_weight="1"
                 android:orientation="horizontal">
                 <LinearLayout
                     android:id="@+id/ll_bloodts_sign"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/dp_0"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:gravity="center"
                     >
                     <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="@dimen/dp_50"
+                        android:layout_height="@dimen/dp_50"
                         android:src="@drawable/icon_blood_receive"/>
                     <TextView
                         style="@style/iconTextStyle"
@@ -73,15 +73,15 @@
 
                 <LinearLayout
                     android:id="@+id/ll_bloodts_trans"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/dp_0"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:gravity="center"
                     >
                     <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="@dimen/dp_50"
+                        android:layout_height="@dimen/dp_50"
                         android:src="@drawable/icon_blood_start"/>
 
                     <TextView
@@ -91,15 +91,15 @@
 
                 <LinearLayout
                     android:id="@+id/ll_bloodts_transtour"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/dp_0"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:gravity="center"
                     >
                     <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="@dimen/dp_50"
+                        android:layout_height="@dimen/dp_50"
                         android:src="@drawable/icon_blood_look"/>
                     <TextView
                         style="@style/iconTextStyle"
@@ -112,20 +112,20 @@
                 android:background="@color/workarea_device_color"/>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="@dimen/dp_0"
                 android:layout_weight="1"
                 android:orientation="horizontal">
                 <LinearLayout
                     android:id="@+id/ll_bloodts_transend"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/dp_0"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:gravity="center"
                     >
                     <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="@dimen/dp_50"
+                        android:layout_height="@dimen/dp_50"
                         android:src="@drawable/icon_blood_end"/>
                     <TextView
                         style="@style/iconTextStyle"
@@ -134,15 +134,15 @@
 
                 <LinearLayout
                     android:id="@+id/ll_bloodts_bagrecycling"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/dp_0"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:gravity="center"
                     >
                     <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="@dimen/dp_50"
+                        android:layout_height="@dimen/dp_50"
                         android:src="@drawable/icon_blood_back"/>
                     <TextView
                         style="@style/iconTextStyle"
@@ -151,15 +151,15 @@
 
                 <LinearLayout
                     android:id="@+id/ll_bloodts_search"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/dp_0"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:gravity="center"
                     >
                     <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="@dimen/dp_50"
+                        android:layout_height="@dimen/dp_50"
                         android:src="@drawable/icon_blood_check"/>
                     <TextView
                         style="@style/iconTextStyle"
@@ -178,7 +178,7 @@
             android:layout_alignParentBottom="true"
             android:background="@drawable/picture_blood_bottom"
             android:text="有患难时忠于义务，是伟大的。"
-            android:textSize="14sp"
+            android:textSize="@dimen/sp_14"
             android:textColor="@color/white"
             android:gravity="center"
             />

@@ -35,7 +35,7 @@
 
                 <com.jzxiang.pickerview.wheel.WheelView
                     android:id="@+id/year"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/dp_0"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/dp_10"
                     android:layout_weight="1.3"/>
@@ -43,27 +43,27 @@
 
                 <com.jzxiang.pickerview.wheel.WheelView
                     android:id="@+id/month"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/dp_0"
                     android:layout_height="match_parent"
                     android:layout_weight="1.0"/>
 
 
                 <com.jzxiang.pickerview.wheel.WheelView
                     android:id="@+id/day"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/dp_0"
                     android:layout_height="match_parent"
                     android:layout_weight="1.0"/>
 
 
                 <com.jzxiang.pickerview.wheel.WheelView
                     android:id="@+id/hour"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/dp_0"
                     android:layout_height="match_parent"
                     android:layout_weight="1.0"/>
 
                 <com.jzxiang.pickerview.wheel.WheelView
                     android:id="@+id/minute"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/dp_0"
                     android:layout_height="match_parent"
                     android:layout_weight="1.0"
                     android:layout_marginRight="@dimen/dp_10"/>
@@ -77,8 +77,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="事件选择："
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="15dp"
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_marginLeft="@dimen/dp_15"
         />
 
 
@@ -86,7 +86,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp">
+        android:layout_marginTop="@dimen/dp_30">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recy_pateventsdetail"

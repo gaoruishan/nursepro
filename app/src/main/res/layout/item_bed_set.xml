@@ -9,14 +9,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginBottom="@dimen/dp_10"
         android:gravity="center_vertical"
         android:orientation="horizontal">
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp">
+            android:layout_marginLeft="@dimen/dp_16">
            <CheckBox
                android:id="@+id/ck_bed_set"
                android:layout_width="wrap_content"
@@ -27,9 +27,9 @@
             android:id="@+id/tv_bedno_set"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="16dp"
+            android:layout_marginLeft="@dimen/dp_16"
             android:gravity="center"
-            android:textSize="15sp"
+            android:textSize="@dimen/sp_15"
             android:textColor="@color/black"
             android:text="床位"/>
 
@@ -37,8 +37,8 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/dp_1"
         android:background="@color/patevents_device_color"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"></View>
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"></View>
 </LinearLayout>

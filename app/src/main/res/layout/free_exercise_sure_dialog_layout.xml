@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="50dp"
-    android:layout_marginBottom="40dp"
+    android:layout_marginTop="@dimen/dp_50"
+    android:layout_marginBottom="@dimen/dp_40"
     >
 
     <LinearLayout
@@ -14,7 +14,7 @@
         <LinearLayout
             android:id="@+id/ll_msg"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="@dimen/dp_0"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -23,21 +23,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="15dp"
+                android:layout_margin="@dimen/dp_15"
                 android:gravity="center"
                 android:text="结果"
                 android:textColor="#FF62ABFF"
-                android:textSize="18sp" />
+                android:textSize="@dimen/sp_18" />
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="@dimen/dp_1"
                 android:background="@color/blue"></View>
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scrollbarThumbVertical="@color/blue"
-                android:scrollbarSize="2dp">
+                android:scrollbarSize="@dimen/dp_2">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -47,9 +47,9 @@
                         android:id="@+id/message"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:textSize="14sp"
+                        android:layout_marginLeft="@dimen/dp_20"
+                        android:layout_marginRight="@dimen/dp_20"
+                        android:textSize="@dimen/sp_14"
                         android:textColor="#FF4A4A4A"
                         android:text="提示消息" />
 
@@ -60,7 +60,7 @@
         <LinearLayout
             android:id="@+id/ll_check_sure"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="@dimen/dp_80"
             android:orientation="horizontal"
             android:gravity="center">
 
@@ -68,7 +68,7 @@
                 android:id="@+id/no"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="@dimen/dp_10"
                 android:layout_weight="1"
                 android:background="@null"
                 android:gravity="center"
@@ -76,19 +76,19 @@
                 android:text="No"
                 android:visibility="gone"
                 android:textColor="#7D7D7D"
-                android:textSize="16sp" />
+                android:textSize="@dimen/sp_16" />
 
 
             <Button
                 android:id="@+id/yes"
-                android:layout_width="130dp"
-                android:layout_height="45dp"
+                android:layout_width="@dimen/dp_130"
+                android:layout_height="@dimen/dp_45"
                 android:background="@drawable/shape_btn_sure"
                 android:gravity="center"
                 android:singleLine="true"
                 android:text="确定"
                 android:textColor="@color/white"
-                android:textSize="17sp" />
+                android:textSize="@dimen/sp_17" />
         </LinearLayout>
     </LinearLayout>
 

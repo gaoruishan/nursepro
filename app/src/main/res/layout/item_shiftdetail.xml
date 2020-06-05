@@ -23,7 +23,7 @@
            android:layout_marginBottom="@dimen/dp_2"
            android:gravity="center"
            android:textColor="@color/black"
-           android:textSize="12sp"
+           android:textSize="@dimen/sp_12"
            tools:text="病危">
        </TextView>
        <View
@@ -39,7 +39,7 @@
            android:textColor="@color/black"
            android:layout_marginTop="@dimen/dp_2"
            android:layout_marginBottom="@dimen/dp_2"
-           android:textSize="12sp"
+           android:textSize="@dimen/sp_12"
            tools:text="系统带入">
        </TextView>
        <View
@@ -55,7 +55,7 @@
            android:textColor="@color/black"
            android:layout_marginTop="@dimen/dp_2"
            android:layout_marginBottom="@dimen/dp_2"
-           android:textSize="12sp"
+           android:textSize="@dimen/sp_12"
            tools:text="床位">
        </TextView>
        <View
@@ -71,7 +71,7 @@
            android:textColor="@color/black"
            android:layout_marginTop="@dimen/dp_2"
            android:layout_marginBottom="@dimen/dp_2"
-           android:textSize="12sp"
+           android:textSize="@dimen/sp_12"
            tools:text="姓名">
        </TextView>
        <View
@@ -87,7 +87,7 @@
            android:textColor="@color/black"
            android:layout_marginTop="@dimen/dp_2"
            android:layout_marginBottom="@dimen/dp_2"
-           android:textSize="12sp"
+           android:textSize="@dimen/sp_12"
            tools:text="诊断">
        </TextView>
    </LinearLayout>

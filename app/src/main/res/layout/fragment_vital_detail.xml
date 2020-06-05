@@ -13,8 +13,8 @@
         android:background="@color/blue_light">
 
         <ImageView
-            android:layout_width="10dp"
-            android:layout_height="10dp"
+            android:layout_width="@dimen/dp_10"
+            android:layout_height="@dimen/dp_10"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/dp_10"
             android:layout_toStartOf="@+id/ll_choosedate"
@@ -25,8 +25,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginBottom="@dimen/dp_10"
             android:orientation="horizontal">
 
             <TextView
@@ -78,15 +78,15 @@
 
                     <TextView
                         android:id="@+id/tv_detail_codetitle"
-                        android:layout_width="60dp"
-                        android:layout_height="61dp"
+                        android:layout_width="@dimen/dp_60"
+                        android:layout_height="@dimen/dp_61"
                         android:gravity="center"
                         android:text="序号"
                         android:textColor="@color/white" />
 
                     <TextView
                         android:id="@+id/tv_detail_datetime"
-                        android:layout_width="80dp"
+                        android:layout_width="@dimen/dp_80"
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:text="日期时间"
@@ -95,7 +95,7 @@
                     <LinearLayout
                         android:id="@+id/ll_vid"
                         android:layout_width="match_parent"
-                        android:layout_height="61dp"
+                        android:layout_height="@dimen/dp_61"
                         android:orientation="horizontal">
 
                     </LinearLayout>
@@ -119,24 +119,24 @@
         android:id="@+id/ll_vital_empty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="@dimen/dp_100"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:visibility="gone">
 
         <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="@dimen/dp_80"
             android:src="@drawable/icon_blood_search_empty" />
 
         <TextView
             android:id="@+id/tv_vital_empty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/dp_16"
             android:text="暂无体征记录"
             android:textColor="#9B9B9B"
-            android:textSize="16sp" />
+            android:textSize="@dimen/sp_16" />
 
     </LinearLayout>
 

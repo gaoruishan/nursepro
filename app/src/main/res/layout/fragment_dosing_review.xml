@@ -9,11 +9,11 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="46dp">
+        android:layout_height="@dimen/dp_46">
 
         <TextView
             android:id="@+id/tv_dosingreview_current"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dp_0"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
@@ -22,7 +22,7 @@
 
         <TextView
             android:id="@+id/tv_dosingreview_undosing"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dp_0"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
@@ -31,7 +31,7 @@
 
         <TextView
             android:id="@+id/tv_dosingreview_dosing"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dp_0"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
@@ -40,7 +40,7 @@
 
         <TextView
             android:id="@+id/tv_dosingreview_unreview"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dp_0"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
@@ -49,7 +49,7 @@
 
         <TextView
             android:id="@+id/tv_dosingreview_review"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dp_0"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
@@ -58,47 +58,47 @@
     </LinearLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="5dp"
+        android:layout_height="@dimen/dp_5"
         android:background="#ECF4FC"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/dp_32"
         android:gravity="center">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginTop="@dimen/dp_1"
+            android:layout_marginEnd="@dimen/dp_8"
             android:src="@drawable/icon_time_bottom"/>
         <TextView
             android:id="@+id/tv_dosingreview_startdate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/dosingreview_text_color"
-            android:textSize="12sp"
+            android:textSize="@dimen/sp_12"
             tools:text="2018-08-01"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginTop="@dimen/dp_1"
+            android:layout_marginStart="@dimen/dp_8"
+            android:layout_marginEnd="@dimen/dp_8"
             android:textColor="#62abff"
-            android:textSize="13sp"
+            android:textSize="@dimen/sp_13"
             android:text="至"/>
         <TextView
             android:id="@+id/tv_dosingreview_enddate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/dosingreview_text_color"
-            android:textSize="12sp"
+            android:textSize="@dimen/sp_12"
             tools:text="2018-09-01"/>
 
     </LinearLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="6dp"
+        android:layout_height="@dimen/dp_6"
         android:background="#F6F6F6"/>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recy_dosingreview"
@@ -112,20 +112,20 @@
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="@dimen/dp_100"
         android:gravity="center_horizontal"
         android:orientation="vertical">
         <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="@dimen/dp_80"
             android:src="@drawable/icon_blood_search_empty"/>
 
         <TextView
             android:id="@+id/tv_dosingreview_empty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:textSize="16sp"
+            android:layout_marginTop="@dimen/dp_16"
+            android:textSize="@dimen/sp_16"
             android:textColor="#9B9B9B"
             android:text="暂无医嘱"/>
 

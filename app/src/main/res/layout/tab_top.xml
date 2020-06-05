@@ -4,4 +4,4 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    android:textSize="15sp" />
+    android:textSize="@dimen/sp_15" />

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="85dp"
+    android:layout_width="@dimen/dp_85"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="@color/vital_sign_type_normal_bg"
@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="14dp"
+        android:layout_height="@dimen/dp_14"
         android:background="@color/vital_sign_type_normal_bg">
     </LinearLayout>
 
@@ -22,9 +22,9 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:gravity="left"
-            android:textSize="15sp"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="3dp"
+            android:textSize="@dimen/sp_15"
+            android:layout_marginLeft="@dimen/dp_3"
+            android:layout_marginRight="@dimen/dp_3"
             android:layout_marginTop="@dimen/dp_3"
             android:background="@drawable/bg_vital_sign_type_selector"
             android:textColor="@color/vital_sign_type_normal_text"
@@ -35,7 +35,7 @@
             android:layout_marginEnd="@dimen/dp_3"
             android:layout_height="wrap_content"
             android:textColor="@color/lab_warning_red"
-            android:textSize="12sp"
+            android:textSize="@dimen/sp_12"
             android:background="@drawable/bg_labout_tv3"
             android:paddingRight="@dimen/dp_2"
             android:paddingLeft="@dimen/dp_2"
@@ -45,7 +45,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="17dp"
+        android:layout_height="@dimen/dp_17"
         android:background="@color/vital_sign_type_normal_bg">
     </LinearLayout>
 

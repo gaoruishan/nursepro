@@ -38,15 +38,15 @@
             android:layout_height="wrap_content"
             android:text=" 释放刷新"
             android:textColor="#fff"
-            android:textSize="15sp"/>
+            android:textSize="@dimen/sp_15"/>
 
         <TextView
             android:visibility="gone"
             android:id="@+id/tv_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:textSize="13sp"
+            android:layout_marginTop="@dimen/dp_5"
+            android:textSize="@dimen/sp_13"
             android:text="第一次刷新"
             android:textColor="#fff"/>
     </LinearLayout>

@@ -16,8 +16,8 @@
 
         <TextView
             android:id="@+id/tv_milkcold_warning"
-            android:layout_width="260dp"
-            android:layout_height="55dp"
+            android:layout_width="@dimen/dp_260"
+            android:layout_height="@dimen/dp_55"
             android:layout_centerInParent="true"
             android:background="#FFF5FAFF"
             android:gravity="center"
@@ -28,18 +28,18 @@
         <TextView
             android:id="@+id/tv_milkcold_warningtitle"
             android:layout_width="wrap_content"
-            android:layout_height="22dp"
+            android:layout_height="@dimen/dp_22"
             android:layout_above="@+id/tv_milkcold_warning"
             android:layout_centerInParent="true"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="@dimen/dp_30"
             android:text="请扫码"
             android:textColor="#FF62ABFF"
-            android:textSize="20sp"
+            android:textSize="@dimen/sp_20"
             android:textStyle="bold" />
 
         <ImageView
-            android:layout_width="60dp"
-            android:layout_height="91dp"
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="@dimen/dp_91"
             android:layout_above="@+id/tv_milkcold_warningtitle"
             android:layout_centerInParent="true"
             android:layout_marginBottom="@dimen/dp_10"
@@ -64,16 +64,16 @@
         <LinearLayout
             android:id="@+id/ll_milk_sure"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
+            android:layout_height="@dimen/dp_55"
             android:background="#4a4a4a"
             android:layout_alignParentBottom="true"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingStart="16dp">
+            android:paddingStart="@dimen/dp_16">
 
             <TextView
                 android:id="@+id/tv_milkcold_selected"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/dp_0"
                 android:layout_height="wrap_content"
                 android:layout_weight="6.8"
                 android:textColor="@color/white"
@@ -81,12 +81,12 @@
 
             <TextView
                 android:id="@+id/tv_milkcold_sure"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
                 android:layout_weight="3.2"
                 android:background="#62abff"
                 android:gravity="center"
-                android:textSize="16sp"
+                android:textSize="@dimen/sp_16"
                 android:textColor="@color/white"
                 android:text="执行" />
         </LinearLayout>

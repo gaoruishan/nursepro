@@ -16,15 +16,15 @@
             android:id="@+id/tv_item_tourall_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:layout_marginLeft="5dp"
+            android:layout_marginRight="@dimen/dp_5"
+            android:layout_marginLeft="@dimen/dp_5"
             tools:text="10:00"
             android:text="10:00"
             android:gravity="center"
             />
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="@dimen/dp_1"
             android:background="@drawable/bg_oval_blue"></View>
     </LinearLayout>
     <android.support.v7.widget.RecyclerView

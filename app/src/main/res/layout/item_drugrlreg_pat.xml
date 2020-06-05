@@ -4,10 +4,10 @@
     android:id="@+id/ll_item_rlreg"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp"
+    android:layout_margin="@dimen/dp_4"
     android:background="@color/white"
     android:orientation="vertical"
-    android:padding="4dp">
+    android:padding="@dimen/dp_4">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#010101"
-            android:textSize="16sp"
+            android:textSize="@dimen/sp_16"
             android:textStyle="bold"
             tools:text="01床" />
 
@@ -27,9 +27,9 @@
             android:id="@+id/tv_itemrlreg_patname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="@dimen/dp_12"
             android:textColor="#010101"
-            android:textSize="16sp"
+            android:textSize="@dimen/sp_16"
             android:textStyle="bold"
             tools:text="患者01" />
     </LinearLayout>

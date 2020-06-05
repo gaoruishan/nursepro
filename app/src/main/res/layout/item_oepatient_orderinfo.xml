@@ -19,9 +19,9 @@
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:background="@drawable/bg_oval_green"
-               android:paddingStart="8dp"
-               android:paddingEnd="8dp"
-               android:paddingBottom="1dp"
+               android:paddingStart="@dimen/dp_8"
+               android:paddingEnd="@dimen/dp_8"
+               android:paddingBottom="@dimen/dp_1"
                android:textColor="@color/white"
                tools:text="皮试" />
            <TextView
@@ -29,9 +29,9 @@
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:background="@drawable/bg_oval_blue"
-               android:paddingStart="8dp"
-               android:paddingEnd="8dp"
-               android:paddingBottom="1dp"
+               android:paddingStart="@dimen/dp_8"
+               android:paddingEnd="@dimen/dp_8"
+               android:paddingBottom="@dimen/dp_1"
                android:textColor="@color/white"
                android:layout_marginLeft="@dimen/dp_10"
                android:text="静配" />
@@ -41,9 +41,9 @@
             android:id="@+id/tv_oeporderinfo_ordername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/dp_10"
             android:textColor="@color/ordersearch_text_color"
-            android:textSize="15sp"
+            android:textSize="@dimen/sp_15"
             android:textStyle="bold"
             tools:text="阿德福韦片T(10mg*14片)" />
 
@@ -51,43 +51,43 @@
             android:id="@+id/ll_oeporderinfo_singleorder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="@dimen/dp_5"
             android:visibility="gone">
 
             <TextView
                 android:id="@+id/tv_oeporderinfo_orderdatetime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
+                android:layout_marginEnd="@dimen/dp_6"
                 android:textColor="@color/ordersearch_text_color"
-                android:textSize="12sp"
+                android:textSize="@dimen/sp_12"
                 tools:text="2018-08-25 08:00" />
 
             <TextView
                 android:id="@+id/tv_oeporderinfo_orderoperate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
+                android:layout_marginEnd="@dimen/dp_6"
                 android:textColor="@color/ordersearch_text_color"
-                android:textSize="12sp"
+                android:textSize="@dimen/sp_12"
                 tools:text="皮试" />
 
             <TextView
                 android:id="@+id/tv_oeporderinfo_orderdose"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
+                android:layout_marginEnd="@dimen/dp_6"
                 android:textColor="@color/ordersearch_text_color"
-                android:textSize="12sp"
+                android:textSize="@dimen/sp_12"
                 tools:text="10mg" />
 
             <TextView
                 android:id="@+id/tv_oeporderinfo_orderfrequency"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
+                android:layout_marginEnd="@dimen/dp_6"
                 android:textColor="@color/ordersearch_text_color"
-                android:textSize="12sp"
+                android:textSize="@dimen/sp_12"
                 tools:text="QD" />
 
             <TextView
@@ -95,7 +95,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/ordersearch_text_color"
-                android:textSize="12sp"
+                android:textSize="@dimen/sp_12"
                 tools:text="严医生" />
 
 
@@ -105,40 +105,40 @@
             android:id="@+id/ll_executed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="@dimen/dp_5">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="2dp"
+                android:layout_marginEnd="@dimen/dp_2"
                 android:textColor="@color/ordersearch_text_color"
-                android:textSize="12sp"
+                android:textSize="@dimen/sp_12"
                 android:text="执行时间：" />
 
             <TextView
                 android:id="@+id/tv_executed_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
+                android:layout_marginEnd="@dimen/dp_6"
                 android:textColor="@color/ordersearch_text_color"
-                android:textSize="12sp"
+                android:textSize="@dimen/sp_12"
                 tools:text="32112" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="2dp"
+                android:layout_marginEnd="@dimen/dp_2"
                 android:layout_marginStart="@dimen/dp_5"
                 android:textColor="@color/ordersearch_text_color"
-                android:textSize="12sp"
+                android:textSize="@dimen/sp_12"
                 android:text="执行人：" />
 
             <TextView
                 android:id="@+id/tv_executed_nur1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
+                android:layout_marginEnd="@dimen/dp_6"
                 android:textColor="@color/ordersearch_text_color"
-                android:textSize="12sp"
+                android:textSize="@dimen/sp_12"
                 tools:text="32112" />
         </LinearLayout>
 
@@ -146,16 +146,16 @@
             android:id="@+id/ll_oeporderinfo_multiorder1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="@dimen/dp_5"
             android:visibility="gone">
 
             <TextView
                 android:id="@+id/tv_oeporderinfo_orderdose1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
+                android:layout_marginEnd="@dimen/dp_6"
                 android:textColor="@color/ordersearch_text_color"
-                android:textSize="12sp"
+                android:textSize="@dimen/sp_12"
                 tools:text="10mg" />
 
 
@@ -164,9 +164,9 @@
         <View
             android:id="@+id/line_oeporderinfo_multiorder"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="3dp"
+            android:layout_height="@dimen/dp_2"
+            android:layout_marginTop="@dimen/dp_5"
+            android:layout_marginBottom="@dimen/dp_3"
             android:background="@drawable/line_dash"
             android:layerType="software"
             android:visibility="gone" />
@@ -175,34 +175,34 @@
             android:id="@+id/ll_oeporderinfo_multiorder2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="@dimen/dp_5"
             android:visibility="gone">
 
             <TextView
                 android:id="@+id/tv_oeporderinfo_orderdatetime2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
+                android:layout_marginEnd="@dimen/dp_6"
                 android:textColor="@color/ordersearch_text_color"
-                android:textSize="12sp"
+                android:textSize="@dimen/sp_12"
                 tools:text="2018-08-25 08:00" />
 
             <TextView
                 android:id="@+id/tv_oeporderinfo_orderoperate2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
+                android:layout_marginEnd="@dimen/dp_6"
                 android:textColor="@color/ordersearch_text_color"
-                android:textSize="12sp"
+                android:textSize="@dimen/sp_12"
                 tools:text="皮试" />
 
             <TextView
                 android:id="@+id/tv_oeporderinfo_orderfrequency2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
+                android:layout_marginEnd="@dimen/dp_6"
                 android:textColor="@color/ordersearch_text_color"
-                android:textSize="12sp"
+                android:textSize="@dimen/sp_12"
                 tools:text="QD" />
 
             <TextView
@@ -210,7 +210,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/ordersearch_text_color"
-                android:textSize="12sp"
+                android:textSize="@dimen/sp_12"
                 tools:text="严医生" />
 
 
@@ -220,40 +220,40 @@
             android:id="@+id/ll_executed2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="@dimen/dp_5">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="2dp"
+                android:layout_marginEnd="@dimen/dp_2"
                 android:textColor="@color/ordersearch_text_color"
-                android:textSize="12sp"
+                android:textSize="@dimen/sp_12"
                 android:text="执行时间：" />
 
             <TextView
                 android:id="@+id/tv_executed_time2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
+                android:layout_marginEnd="@dimen/dp_6"
                 android:textColor="@color/ordersearch_text_color"
-                android:textSize="12sp"
+                android:textSize="@dimen/sp_12"
                 tools:text="32112" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="2dp"
+                android:layout_marginEnd="@dimen/dp_2"
                 android:layout_marginStart="@dimen/dp_5"
                 android:textColor="@color/ordersearch_text_color"
-                android:textSize="12sp"
+                android:textSize="@dimen/sp_12"
                 android:text="执行人：" />
 
             <TextView
                 android:id="@+id/tv_executed_nur2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
+                android:layout_marginEnd="@dimen/dp_6"
                 android:textColor="@color/ordersearch_text_color"
-                android:textSize="12sp"
+                android:textSize="@dimen/sp_12"
                 tools:text="32112" />
         </LinearLayout>
 
@@ -265,18 +265,18 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:layout_marginTop="-16dp"
-        android:layout_marginEnd="12dp"
+        android:layout_marginEnd="@dimen/dp_12"
         android:background="@drawable/bg_skintest">
 
         <com.dhcc.nursepro.view.RotateTextView
             android:id="@+id/tv_skintest_result"
-            android:layout_width="54dp"
-            android:layout_height="54dp"
+            android:layout_width="@dimen/dp_54"
+            android:layout_height="@dimen/dp_54"
             android:gravity="center"
-            android:paddingTop="6dp"
-            android:paddingEnd="12dp"
+            android:paddingTop="@dimen/dp_6"
+            android:paddingEnd="@dimen/dp_12"
             android:text="阴"
-            android:textSize="20dp"
+            android:textSize="@dimen/dp_20"
             android:textStyle="bold" />
     </LinearLayout>
 </FrameLayout>

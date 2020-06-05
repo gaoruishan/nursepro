@@ -8,8 +8,8 @@
     android:background="@color/white">
     <View
         android:id="@+id/paticon_view_left"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_1"
         android:layout_weight="1" />
     <TextView
         android:id="@+id/tv_bedmap_patient_newpatient"
@@ -25,7 +25,7 @@
         android:layout_width="@dimen/dp_19"
         android:layout_height="@dimen/dp_20"
         android:textSize="@dimen/sp_13"
-        android:layout_marginStart="6dp"
+        android:layout_marginStart="@dimen/dp_6"
         android:gravity="center"
         android:background="@drawable/bg_rectangle_blue"
         android:text="术"
@@ -37,7 +37,7 @@
         android:layout_height="@dimen/dp_20"
         android:gravity="center"
         android:textSize="@dimen/sp_13"
-        android:layout_marginStart="6dp"
+        android:layout_marginStart="@dimen/dp_6"
         android:background="@drawable/bg_rectangle_red"
         android:text="危"
         android:textColor="@color/white" />
@@ -48,7 +48,7 @@
         android:layout_height="@dimen/dp_20"
         android:gravity="center"
         android:textSize="@dimen/sp_13"
-        android:layout_marginStart="6dp"
+        android:layout_marginStart="@dimen/dp_6"
         android:background="@drawable/bg_rectangle_yellow"
         android:text="欠"
         android:textColor="@color/white" />
@@ -59,7 +59,7 @@
         android:layout_height="@dimen/dp_20"
         android:gravity="center"
         android:textSize="@dimen/sp_13"
-        android:layout_marginStart="6dp"
+        android:layout_marginStart="@dimen/dp_6"
         android:background="@drawable/bg_rectangle_orange"
         android:text="急"
         android:textColor="@color/white" />
@@ -70,7 +70,7 @@
         android:layout_height="@dimen/dp_20"
         android:gravity="center"
         android:textSize="@dimen/sp_13"
-        android:layout_marginStart="6dp"
+        android:layout_marginStart="@dimen/dp_6"
         android:background="@drawable/bg_rectangle_green"
         android:text="敏"
         android:textColor="@color/white" />
@@ -81,7 +81,7 @@
         android:layout_height="@dimen/dp_20"
         android:gravity="center"
         android:textSize="@dimen/sp_13"
-        android:layout_marginStart="6dp"
+        android:layout_marginStart="@dimen/dp_6"
         android:background="@drawable/bg_rectangle_red2"
         android:text="热"
         android:textColor="@color/white" />
@@ -91,26 +91,26 @@
         android:id="@+id/tv_bedmap_patient_infect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="6dp"
+        android:layout_marginStart="@dimen/dp_6"
         android:background="@drawable/bg_rectangle_infect"
-        android:paddingStart="3dp"
-        android:paddingTop="1dp"
-        android:paddingEnd="3dp"
-        android:paddingBottom="2dp"
+        android:paddingStart="@dimen/dp_3"
+        android:paddingTop="@dimen/dp_1"
+        android:paddingEnd="@dimen/dp_3"
+        android:paddingBottom="@dimen/dp_2"
         android:text="传"
         android:textColor="@color/white" />
     <TextView
         android:id="@+id/tv_epd_notreport"
         android:layout_width="@dimen/dp_19"
         android:layout_height="@dimen/dp_20"
-        android:layout_marginStart="6dp"
+        android:layout_marginStart="@dimen/dp_6"
         android:gravity="center"
         android:background="@drawable/img_ept_notreport"/>
     <TextView
         android:id="@+id/tv_epd_report"
         android:layout_width="@dimen/dp_19"
         android:layout_height="@dimen/dp_20"
-        android:layout_marginStart="6dp"
+        android:layout_marginStart="@dimen/dp_6"
         android:gravity="center"
         android:background="@drawable/img_epd_report"/>
 </LinearLayout>

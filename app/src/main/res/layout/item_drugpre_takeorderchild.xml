@@ -10,14 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingBottom="4dp">
+        android:paddingBottom="@dimen/dp_4">
 
         <TextView
             android:id="@+id/tv_drugpre_takeorderchild_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#101010"
-            android:textSize="15sp"
+            android:textSize="@dimen/sp_15"
             android:textStyle="bold"
             tools:text="氯化钠注射液" />
 

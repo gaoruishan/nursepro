@@ -16,15 +16,15 @@
             android:layout_height="wrap_content"
             android:text="医嘱ID："
             android:textColor="@color/black"
-            android:layout_marginLeft="5dp"
-            android:textSize="15sp"/>
+            android:layout_marginLeft="@dimen/dp_5"
+            android:textSize="@dimen/sp_15"/>
         <TextView
             android:id="@+id/tv_orderid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text=" "
             android:textColor="@color/black"
-            android:textSize="13sp"/>
+            android:textSize="@dimen/sp_13"/>
     </LinearLayout>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rec_tourinfusionsublist_ordlist"
@@ -33,14 +33,14 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/dp_1"
         android:background="#FFF6F6F6"></View>
     <LinearLayout
         android:id="@+id/rl_img"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="@dimen/dp_8"
+        android:layout_marginBottom="@dimen/dp_8"
         android:orientation="horizontal"
         android:gravity="center_vertical">
 
@@ -48,11 +48,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="@dimen/dp_5"
                 android:gravity="center"
                 android:text="巡视记录"
                 android:textColor="@color/bottom_item_text_unselected_color"
-                android:textSize="13sp" />
+                android:textSize="@dimen/sp_13" />
             <TextView
                 android:id="@+id/tv_tourinfusionsublist_time"
                 android:layout_width="wrap_content"
@@ -60,34 +60,34 @@
                 android:gravity="center|start"
                 android:text="2019-10-10 10:00"
                 android:textColor="@color/bottom_item_text_unselected_color"
-                android:layout_marginLeft="5dp"
-                android:textSize="12sp"/>
+                android:layout_marginLeft="@dimen/dp_5"
+                android:textSize="@dimen/sp_12"/>
         <TextView
             android:id="@+id/tv_tourinfusionsublist_nurse"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dp_0"
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:gravity="center|start"
             android:text="护士1"
             android:textColor="@color/bottom_item_text_unselected_color"
-            android:layout_marginLeft="5dp"
-            android:textSize="12sp"/>
+            android:layout_marginLeft="@dimen/dp_5"
+            android:textSize="@dimen/sp_12"/>
         <RelativeLayout
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dp_0"
             android:layout_height="wrap_content"
             android:layout_weight="1">
             <ImageView
                 android:id="@+id/tv_tournurlist_img"
                 android:layout_width="wrap_content"
-                android:layout_height="16dp"
-                android:paddingEnd="8dp"
+                android:layout_height="@dimen/dp_16"
+                android:paddingEnd="@dimen/dp_8"
                 android:layout_alignParentEnd="true"
                 android:src="@drawable/icon_tourlist_selector"/>
         </RelativeLayout>
     </LinearLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="@dimen/dp_2"
         android:background="#FFF6F6F6"></View>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rec_tourinfusionsublist_tourlist"

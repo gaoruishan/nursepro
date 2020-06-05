@@ -9,14 +9,14 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/dp_32"
         android:gravity="center">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginTop="@dimen/dp_1"
+            android:layout_marginEnd="@dimen/dp_8"
             android:src="@drawable/icon_time_bottom"/>
 
         <TextView
@@ -24,25 +24,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/orderexecute_text_color"
-            android:textSize="12sp"
+            android:textSize="@dimen/sp_12"
             tools:text="2018-08-23 10:00"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="1dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="@dimen/dp_8"
+            android:layout_marginTop="@dimen/dp_1"
+            android:layout_marginEnd="@dimen/dp_8"
             android:text="至"
             android:textColor="#62abff"
-            android:textSize="13sp"/>
+            android:textSize="@dimen/sp_13"/>
 
         <TextView
             android:id="@+id/tv_orderexecute_enddatetime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/orderexecute_text_color"
-            android:textSize="12sp"
+            android:textSize="@dimen/sp_12"
             tools:text="2018-08-23 10:00"/>
 
     </LinearLayout>
@@ -55,28 +55,28 @@
         android:id="@+id/rec_operation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
         ></android.support.v7.widget.RecyclerView>
     <LinearLayout
         android:id="@+id/ll_operation_empty"
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="@dimen/dp_100"
         android:gravity="center_horizontal"
         android:orientation="vertical">
         <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="@dimen/dp_80"
             android:src="@drawable/icon_blood_search_empty"/>
 
         <TextView
             android:id="@+id/tv_operation_empty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:textSize="16sp"
+            android:layout_marginTop="@dimen/dp_16"
+            android:textSize="@dimen/sp_16"
             android:textColor="#9B9B9B"
             android:text="暂无手术信息"/>
     </LinearLayout>

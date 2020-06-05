@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@drawable/textcolor_item_rlregorder_selector"
-        android:textSize="15sp"
+        android:textSize="@dimen/sp_15"
         android:textStyle="bold"
         tools:text="氯化钠注射液" />
 

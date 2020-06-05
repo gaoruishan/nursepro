@@ -12,7 +12,7 @@
 
         <View
             android:id="@+id/view_docorders_patinfo"
-            android:layout_width="5dp"
+            android:layout_width="@dimen/dp_5"
             android:layout_height="match_parent"
             android:background="#FF70AAF2" />
 
@@ -21,12 +21,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_marginTop="17dp"
-            android:layout_marginBottom="17dp"
-            android:layout_marginStart="3dp"
-            android:layout_marginEnd="3dp"
+            android:layout_marginTop="@dimen/dp_17"
+            android:layout_marginBottom="@dimen/dp_17"
+            android:layout_marginStart="@dimen/dp_3"
+            android:layout_marginEnd="@dimen/dp_3"
             android:textColor="@color/black"
-            android:textSize="15sp"
+            android:textSize="@dimen/sp_15"
             tools:text="全部" />
     </LinearLayout>
 

@@ -13,7 +13,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="@dimen/dp_5"
             android:orientation="horizontal">
 
             <TextView
@@ -21,17 +21,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/ordersearch_text_color"
-                android:textSize="15sp"
+                android:textSize="@dimen/sp_15"
                 android:textStyle="bold"
                 android:layout_marginLeft="@dimen/dp_5"
                 tools:text="阿德福韦片T(10mg*14片)" />
             <ImageView
                 android:id="@+id/img_osporderinfo_order"
                 android:visibility="gone"
-                android:layout_width="22dp"
-                android:layout_height="20dp"
-                android:layout_marginStart="8dp"
-                android:padding="1dp"
+                android:layout_width="@dimen/dp_22"
+                android:layout_height="@dimen/dp_20"
+                android:layout_marginStart="@dimen/dp_8"
+                android:padding="@dimen/dp_1"
                 android:background="#62abff"
                 android:scaleType="fitXY"
                 android:src="@drawable/tube"/>
@@ -72,9 +72,9 @@
         <View
             android:id="@+id/line_osporderinfo_multiorder"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="3dp"
+            android:layout_height="@dimen/dp_2"
+            android:layout_marginTop="@dimen/dp_5"
+            android:layout_marginBottom="@dimen/dp_3"
             android:background="@drawable/line_dash"
             android:layerType="software"/>
 

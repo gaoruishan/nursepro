@@ -10,7 +10,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/dp_0"
         android:layout_weight="1">
 
         <com.nex3z.flowlayout.FlowLayout
@@ -18,14 +18,14 @@
             android:id="@+id/fl_modeldetail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:flChildSpacing="5dp"
-            app:flRowSpacing="8dp" />
+            app:flChildSpacing="@dimen/dp_5"
+            app:flRowSpacing="@dimen/dp_8" />
 
     </ScrollView>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/dp_1"
         android:background="@color/divider_line_color"/>
 
     <TextView

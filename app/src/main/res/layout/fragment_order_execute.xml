@@ -21,8 +21,8 @@
 
             <TextView
                 android:id="@+id/tv_orderexecute_warning"
-                android:layout_width="260dp"
-                android:layout_height="55dp"
+                android:layout_width="@dimen/dp_260"
+                android:layout_height="@dimen/dp_55"
                 android:layout_centerInParent="true"
                 android:background="#FFF5FAFF"
                 android:gravity="center"
@@ -33,18 +33,18 @@
             <TextView
                 android:id="@+id/tv_orderexecute_warningtitle"
                 android:layout_width="wrap_content"
-                android:layout_height="22dp"
+                android:layout_height="@dimen/dp_22"
                 android:layout_above="@+id/tv_orderexecute_warning"
                 android:layout_centerInParent="true"
-                android:layout_marginBottom="30dp"
+                android:layout_marginBottom="@dimen/dp_30"
                 android:text="请扫描腕带"
                 android:textColor="#FF62ABFF"
-                android:textSize="20sp"
+                android:textSize="@dimen/sp_20"
                 android:textStyle="bold"/>
 
             <ImageView
-                android:layout_width="60dp"
-                android:layout_height="91dp"
+                android:layout_width="@dimen/dp_60"
+                android:layout_height="@dimen/dp_91"
                 android:layout_above="@+id/tv_orderexecute_warningtitle"
                 android:layout_centerInParent="true"
                 android:layout_marginBottom="@dimen/dp_10"
@@ -59,13 +59,13 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="@dimen/dp_0"
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recy_orderexecute_ordertype"
-                    android:layout_width="85dp"
+                    android:layout_width="@dimen/dp_85"
                     android:layout_height="match_parent"
                     android:background="@color/orderexecute_left_bgcolor">
 
@@ -79,7 +79,7 @@
                     <TextView
                         android:id="@+id/tv_orderexecute_patinfo"
                         android:layout_width="match_parent"
-                        android:layout_height="32dp"
+                        android:layout_height="@dimen/dp_32"
                         android:background="@color/white"
                         android:gravity="center"
                         android:textColor="@color/orderexecute_text_color"
@@ -87,20 +87,20 @@
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="2dp"
+                        android:layout_height="@dimen/dp_2"
                         android:background="#f6f6f6"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="32dp"
+                        android:layout_height="@dimen/dp_32"
                         android:background="@color/white"
                         android:gravity="center">
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="1dp"
-                            android:layout_marginEnd="8dp"
+                            android:layout_marginTop="@dimen/dp_1"
+                            android:layout_marginEnd="@dimen/dp_8"
                             android:src="@drawable/icon_time_bottom"/>
 
                         <TextView
@@ -108,32 +108,32 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/orderexecute_text_color"
-                            android:textSize="12sp"
+                            android:textSize="@dimen/sp_12"
                             tools:text="2018-08-23 10:00"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="1dp"
-                            android:layout_marginEnd="8dp"
+                            android:layout_marginStart="@dimen/dp_8"
+                            android:layout_marginTop="@dimen/dp_1"
+                            android:layout_marginEnd="@dimen/dp_8"
                             android:text="至"
                             android:textColor="#62abff"
-                            android:textSize="13sp"/>
+                            android:textSize="@dimen/sp_13"/>
 
                         <TextView
                             android:id="@+id/tv_orderexecute_enddatetime"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/orderexecute_text_color"
-                            android:textSize="12sp"
+                            android:textSize="@dimen/sp_12"
                             tools:text="2018-08-23 10:00"/>
 
                     </LinearLayout>
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="5dp"
+                        android:layout_height="@dimen/dp_5"
                         android:background="#f6f6f6"/>
 
                     <android.support.v7.widget.RecyclerView
@@ -149,11 +149,11 @@
             <LinearLayout
                 android:id="@+id/ll_orderexecute_noselectbottom"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/dp_50"
                 android:layout_alignParentBottom="true"
                 android:background="#9b9b9b"
                 android:gravity="center_vertical"
-                android:paddingStart="16dp"
+                android:paddingStart="@dimen/dp_16"
                 android:visibility="gone">
 
                 <TextView
@@ -167,12 +167,12 @@
             <LinearLayout
                 android:id="@+id/ll_orderexecute_selectbottom"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/dp_50"
                 android:layout_alignParentBottom="true"
                 android:background="#4a4a4a"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingStart="16dp">
+                android:paddingStart="@dimen/dp_16">
 
                 <LinearLayout
                     android:id="@+id/ll_orderexecute_selectnum"
@@ -188,10 +188,10 @@
 
                     <View
                         android:id="@+id/view_bottom_handleline"
-                        android:layout_width="1dp"
-                        android:layout_height="16dp"
-                        android:layout_marginStart="6dp"
-                        android:layout_marginEnd="6dp"
+                        android:layout_width="@dimen/dp_1"
+                        android:layout_height="@dimen/dp_16"
+                        android:layout_marginStart="@dimen/dp_6"
+                        android:layout_marginEnd="@dimen/dp_6"
                         android:background="@color/white"/>
 
                     <TextView
@@ -206,14 +206,14 @@
                         android:id="@+id/img_bottom_handlesure"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
-                        android:layout_marginBottom="1dp"
+                        android:layout_marginStart="@dimen/dp_6"
+                        android:layout_marginBottom="@dimen/dp_1"
                         android:src="@drawable/icon_bottom_selected"/>
                 </LinearLayout>
 
 
                 <View
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/dp_0"
                     android:layout_height="match_parent"
                     android:layout_weight="1"/>
 

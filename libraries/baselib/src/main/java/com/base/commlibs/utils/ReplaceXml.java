@@ -21,15 +21,18 @@ public class ReplaceXml {
     //TODO 指定module位置
 
     private final static String[] MODULE_RES_LAYOUTS = {
+            "/infusion","/health","/app",
             "/libraries/baselib", "/libraries/dhcc_res"
             , "/libraries/dhcc_health", "/libraries/dhcc_infusion"
     };
 
     public static void main(String[] args) {
         for (String moduleResLayout : MODULE_RES_LAYOUTS) {
+            System.out.println("====================="+moduleResLayout + "开始=====================");
             String resLayout = System.getProperty("user.dir") + moduleResLayout + "/src/main/res/layout/";
             //读取layout目录下文件
             replaceAll(resLayout);
+            System.out.println("====================="+moduleResLayout + "结束=====================");
         }
         //读取指定文件
 //        new FileThread(replace_xml).start();

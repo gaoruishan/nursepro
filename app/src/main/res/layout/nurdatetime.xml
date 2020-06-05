@@ -8,12 +8,12 @@
     <DatePicker
         android:id="@+id/datePicker1"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="@dimen/dp_120"
         android:calendarViewShown="false" />
 
     <TimePicker
         android:id="@+id/timePicker1"
         android:layout_width="match_parent"
-        android:layout_height="120dp" />
+        android:layout_height="@dimen/dp_120" />
 
 </LinearLayout>

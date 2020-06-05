@@ -8,15 +8,15 @@
         android:id="@+id/opopup_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp"
+        android:paddingTop="@dimen/dp_4"
+        android:paddingBottom="@dimen/dp_4"
         android:gravity="center"
-        android:textSize="16sp"
+        android:textSize="@dimen/sp_16"
         tools:text="选项一"/>
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginBottom="4dp"
+        android:layout_height="@dimen/dp_2"
+        android:layout_marginBottom="@dimen/dp_4"
         android:layerType="software"
         android:background="@drawable/line_white"/>
 

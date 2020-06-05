@@ -8,8 +8,8 @@
     tools:context=".workarea.checkresult.CheckResultListFragment">
 
     <RelativeLayout
-        android:layout_width="300dp"
-        android:layout_height="400dp"
+        android:layout_width="@dimen/dp_300"
+        android:layout_height="@dimen/dp_400"
         android:background="@color/blue"
         ></RelativeLayout>
 </LinearLayout>

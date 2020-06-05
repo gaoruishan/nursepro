@@ -19,51 +19,51 @@
 
             <TextView
                 android:id="@+id/tv_tour_all"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="全部"
                 android:textColor="@drawable/textcolor_item_bedmap_selector"
-                android:textSize="16sp" />
+                android:textSize="@dimen/sp_16" />
 
             <TextView
                 android:id="@+id/tv_tour_nur"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="护理巡视"
                 android:textColor="@drawable/textcolor_item_bedmap_selector"
-                android:textSize="16sp" />
+                android:textSize="@dimen/sp_16" />
 
             <TextView
                 android:id="@+id/tv_tour_infusion"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="输液巡视"
                 android:textColor="@drawable/textcolor_item_bedmap_selector"
-                android:textSize="16sp" />
+                android:textSize="@dimen/sp_16" />
 
             <TextView
                 android:visibility="gone"
                 android:id="@+id/tv_tour_blood"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="输血巡视"
                 android:textColor="@drawable/textcolor_item_bedmap_selector"
-                android:textSize="16sp" />
+                android:textSize="@dimen/sp_16" />
 
 
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="@dimen/dp_1"
             android:background="@color/blue_light"></View>
 
 
@@ -74,62 +74,62 @@
             android:orientation="horizontal">
 
             <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="1dp"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="@dimen/dp_1"
                 android:layout_weight="1">
 
                 <View
                     android:id="@+id/view_tour_show1"
                     android:layout_width="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_height="2dp"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:layout_marginRight="@dimen/dp_5"
+                    android:layout_height="@dimen/dp_2"
                     android:layout_centerInParent="true"
                     android:background="@color/blue" />
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="1dp"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="@dimen/dp_1"
                 android:layout_weight="1">
 
                 <View
                     android:id="@+id/view_tour_show2"
                     android:layout_width="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_height="2dp"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:layout_marginRight="@dimen/dp_5"
+                    android:layout_height="@dimen/dp_2"
                     android:layout_centerInParent="true"
                     android:background="@color/blue" />
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="1dp"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="@dimen/dp_1"
                 android:layout_weight="1">
 
                 <View
                     android:id="@+id/view_tour_show3"
                     android:layout_width="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_height="2dp"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:layout_marginRight="@dimen/dp_5"
+                    android:layout_height="@dimen/dp_2"
                     android:layout_centerInParent="true"
                     android:background="@color/blue" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:visibility="gone"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="@dimen/dp_1"
                 android:layout_weight="1">
 
                 <View
                     android:id="@+id/view_tour_show4"
                     android:layout_width="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_height="2dp"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:layout_marginRight="@dimen/dp_5"
+                    android:layout_height="@dimen/dp_2"
                     android:layout_centerInParent="true"
                     android:background="@color/blue" />
             </RelativeLayout>
@@ -142,12 +142,12 @@
         android:id="@+id/ll_tour_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="@dimen/dp_5"
         android:orientation="horizontal"
         >
         <LinearLayout
             android:id="@+id/ll_alltype"
-            android:layout_width="85dp"
+            android:layout_width="@dimen/dp_85"
             android:layout_height="match_parent"
             android:background="@color/blue_light"
             android:orientation="vertical">
@@ -160,7 +160,7 @@
             </android.support.v7.widget.RecyclerView>
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="@dimen/dp_1"
                 android:background="@color/blue"></View>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recy_tour_patlist"
@@ -173,7 +173,7 @@
 
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dp_0"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
@@ -187,11 +187,11 @@
                 <LinearLayout
                     android:id="@+id/ll_alltour_toptip"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/dp_30"
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/dp_0"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
@@ -199,7 +199,7 @@
 
                     <TextView
                         android:id="@+id/tv_tour_main_level1"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/dp_0"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
@@ -208,7 +208,7 @@
 
                     <TextView
                         android:id="@+id/tv_tour_main_level2"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/dp_0"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
@@ -218,7 +218,7 @@
                     <TextView
                         android:visibility="gone"
                         android:id="@+id/tv_tour_main_level3"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/dp_0"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
@@ -245,26 +245,26 @@
         <LinearLayout
             android:id="@+id/ll_tourmain_save"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="@dimen/dp_50"
             android:orientation="horizontal"
             android:layout_alignParentBottom="true"
             android:background="@color/blue">
 
             <TextView
                 android:id="@+id/tv_tour_cancle"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:background="@color/white"
                 android:textColor="@color/black"
-                android:layout_margin="1dp"
+                android:layout_margin="@dimen/dp_1"
 
                 android:text="取消" />
 
             <TextView
                 android:id="@+id/tv_tour_save"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
@@ -297,10 +297,10 @@
                             android:layout_height="wrap_content"
                             android:text="101床   啦啦啦"
                             android:textColor="@color/black"
-                            android:textSize="15sp"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginBottom="5dp"
+                            android:textSize="@dimen/sp_15"
+                            android:layout_marginLeft="@dimen/dp_5"
+                            android:layout_marginTop="@dimen/dp_5"
+                            android:layout_marginBottom="@dimen/dp_5"
                             />
 
                         <TextView
@@ -309,7 +309,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/white"
-                            android:textSize="15sp"
+                            android:textSize="@dimen/sp_15"
                             android:text="一级护理 "
                             android:background="@color/blue"
                             android:layout_alignParentEnd="true"
@@ -319,7 +319,7 @@
                     </RelativeLayout>
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
+                        android:layout_height="@dimen/dp_1"
                         android:background="@drawable/bg_oval_blue"></View>
                     <LinearLayout
                         android:visibility="gone"
@@ -328,18 +328,18 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:gravity="center_vertical"
-                        android:layout_margin="5dp">
+                        android:layout_margin="@dimen/dp_5">
 
                         <TextView
                             android:id="@+id/tv_tourall_type"
-                            android:layout_width="50dp"
+                            android:layout_width="@dimen/dp_50"
                             android:layout_height="match_parent"
                             android:orientation="vertical"
                             android:background="#FFF5A623"
                             android:gravity="center"
                             android:text="护理等级"
                             android:textColor="@color/white"
-                            android:textSize="12sp" />
+                            android:textSize="@dimen/sp_12" />
                         <TextView
                             android:id="@+id/tv_tourall_date1"
                             android:layout_width="wrap_content"
@@ -347,8 +347,8 @@
                             android:gravity="center"
                             android:text="2019-10-02"
                             android:textColor="#FF4A4A4A"
-                            android:layout_marginLeft="5dp"
-                            android:textSize="13sp"/>
+                            android:layout_marginLeft="@dimen/dp_5"
+                            android:textSize="@dimen/sp_13"/>
 
                         <TextView
                             android:id="@+id/tv_tourall_time1"
@@ -358,8 +358,8 @@
                             android:layout_alignParentTop="true"
                             android:text="07:37:57"
                             android:textColor="#FF4A4A4A"
-                            android:layout_marginLeft="5dp"
-                            android:textSize="13sp"/>
+                            android:layout_marginLeft="@dimen/dp_5"
+                            android:textSize="@dimen/sp_13"/>
                         <TextView
                             android:id="@+id/tv_tourall_nursedetail"
                             android:layout_width="match_parent"
@@ -368,9 +368,9 @@
                             android:layout_alignParentTop="true"
                             android:text="hs01"
                             android:textColor="#FF4A4A4A"
-                            android:layout_marginRight="55dp"
+                            android:layout_marginRight="@dimen/dp_55"
                             android:gravity="end"
-                            android:textSize="13sp"/>
+                            android:textSize="@dimen/sp_13"/>
                     </LinearLayout>
                     <LinearLayout
                         android:visibility="gone"
@@ -379,14 +379,14 @@
                         android:orientation="vertical">
                         <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="80dp"
+                            android:layout_height="@dimen/dp_80"
                             android:text="在此显示巡视详情"/>
                     </LinearLayout>
                 </LinearLayout>
 
                 <ScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="@dimen/dp_0"
                     android:layout_weight="1">
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -400,8 +400,8 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:layout_marginBottom="5dp"
+                                android:layout_marginTop="@dimen/dp_5"
+                                android:layout_marginBottom="@dimen/dp_5"
                                 android:orientation="horizontal"
                                 android:gravity="center_vertical">
 
@@ -410,11 +410,11 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
                                     android:orientation="vertical"
-                                    android:layout_marginLeft="5dp"
+                                    android:layout_marginLeft="@dimen/dp_5"
                                     android:gravity="center"
                                     android:text="最近巡视:"
                                     android:textColor="@color/black"
-                                    android:textSize="13sp" />
+                                    android:textSize="@dimen/sp_13" />
                                 <TextView
                                     android:id="@+id/tv_moedellasttour_date"
                                     android:layout_width="wrap_content"
@@ -422,8 +422,8 @@
                                     android:gravity="center"
                                     android:text="2019-10-02"
                                     android:textColor="#FF4A4A4A"
-                                    android:layout_marginLeft="5dp"
-                                    android:textSize="14sp"/>
+                                    android:layout_marginLeft="@dimen/dp_5"
+                                    android:textSize="@dimen/sp_14"/>
 
                                 <TextView
                                     android:id="@+id/tv_moedellasttour_time"
@@ -433,33 +433,33 @@
                                     android:layout_alignParentTop="true"
                                     android:text="07:37:57"
                                     android:textColor="#FF4A4A4A"
-                                    android:layout_marginLeft="5dp"
-                                    android:textSize="14sp"/>
+                                    android:layout_marginLeft="@dimen/dp_5"
+                                    android:textSize="@dimen/sp_14"/>
                                 <TextView
                                     android:id="@+id/tv_moedellasttour_nurse"
-                                    android:layout_width="0dp"
+                                    android:layout_width="@dimen/dp_0"
                                     android:layout_weight="1"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentRight="true"
                                     android:layout_alignParentTop="true"
                                     android:text="hs01"
                                     android:textColor="#FF4A4A4A"
-                                    android:layout_marginRight="10dp"
+                                    android:layout_marginRight="@dimen/dp_10"
                                     android:gravity="end"
-                                    android:textSize="14sp"/>
+                                    android:textSize="@dimen/sp_14"/>
                             </LinearLayout>
                             <com.nex3z.flowlayout.FlowLayout
                                 android:id="@+id/fl_lasttour"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                app:flChildSpacing="5dp"
-                                app:flRowSpacing="8dp"
+                                app:flChildSpacing="@dimen/dp_5"
+                                app:flRowSpacing="@dimen/dp_8"
                                 android:layout_marginBottom="@dimen/dp_10"/>
 
                         </LinearLayout>
                         <View
                             android:layout_width="match_parent"
-                            android:layout_height="4dp"
+                            android:layout_height="@dimen/dp_4"
                             android:background="#FFF6F6F6"></View>
                         <LinearLayout
                             android:id="@+id/ll_tour_sendorderlist"
@@ -476,7 +476,7 @@
                         </LinearLayout>
                         <View
                             android:layout_width="match_parent"
-                            android:layout_height="4dp"
+                            android:layout_height="@dimen/dp_4"
                             android:background="#FFF6F6F6"></View>
                         <LinearLayout
                             android:id="@+id/fl_modeldetail"

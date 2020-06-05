@@ -11,10 +11,10 @@
         android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:background="@drawable/bg_messagetitle"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
-        android:paddingTop="6dp"
-        android:paddingBottom="6dp"
+        android:paddingStart="@dimen/dp_12"
+        android:paddingEnd="@dimen/dp_12"
+        android:paddingTop="@dimen/dp_6"
+        android:paddingBottom="@dimen/dp_6"
         tools:text="新医嘱" />
 
 </LinearLayout>

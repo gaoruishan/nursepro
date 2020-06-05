@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="320dp"
+    android:layout_width="@dimen/dp_320"
     android:layout_height="wrap_content"
-    android:layout_marginStart="20dp"
-    android:layout_marginEnd="20dp"
+    android:layout_marginStart="@dimen/dp_20"
+    android:layout_marginEnd="@dimen/dp_20"
     android:background="@drawable/bg_dialog"
     android:orientation="vertical"
-    android:paddingStart="15dp"
-    android:paddingTop="5dp"
-    android:paddingEnd="15dp"
-    android:paddingBottom="15dp">
+    android:paddingStart="@dimen/dp_15"
+    android:paddingTop="@dimen/dp_5"
+    android:paddingEnd="@dimen/dp_15"
+    android:paddingBottom="@dimen/dp_15">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,12 +28,12 @@
         <TextView
             android:id="@+id/tv_skin_patinfo"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginTop="10dp"
+            android:layout_height="@dimen/dp_45"
+            android:layout_marginTop="@dimen/dp_10"
             android:background="#F5FAFF"
             android:gravity="center"
             android:textColor="#4A4A4A"
-            android:textSize="15sp"
+            android:textSize="@dimen/sp_15"
             android:textStyle="bold"
             android:visibility="gone"
             tools:text="06床-苏患者-男-62岁-02791538" />
@@ -41,51 +41,51 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="@dimen/dp_15"
             android:text="皮试结果"
             android:textColor="#9B9B9B" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:paddingStart="5dp"
-            android:paddingEnd="5dp"
+            android:layout_marginTop="@dimen/dp_10"
+            android:paddingStart="@dimen/dp_5"
+            android:paddingEnd="@dimen/dp_5"
             android:gravity="center_vertical"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/dp_50"
                 android:orientation="horizontal"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp">
+                android:layout_marginLeft="@dimen/dp_20"
+                android:layout_marginRight="@dimen/dp_20">
                 <TextView
                     android:id="@+id/tv_skinresult_negtive"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/dp_0"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
                     android:background="@drawable/bg_skinresult_select"
                     android:gravity="center"
-                    android:paddingStart="15dp"
-                    android:paddingEnd="15dp"
+                    android:paddingStart="@dimen/dp_15"
+                    android:paddingEnd="@dimen/dp_15"
                     android:text="阴性"
                     android:textColor="@drawable/textcolor_blood_end_selector"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/sp_15"
                     android:layout_marginRight="@dimen/dp_10"
                     />
                 <TextView
                     android:id="@+id/tv_skinresult_posivive"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/dp_0"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
                     android:background="@drawable/bg_skinresult_select"
                     android:gravity="center"
-                    android:paddingStart="15dp"
-                    android:paddingEnd="15dp"
+                    android:paddingStart="@dimen/dp_15"
+                    android:paddingEnd="@dimen/dp_15"
                     android:text="阳性"
                     android:textColor="@drawable/textcolor_blood_end_selector"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/sp_15"
                     android:layout_marginLeft="@dimen/dp_10"
                     />
 
@@ -99,7 +99,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="@dimen/dp_5"
             android:text="批号"
             android:textColor="#9B9B9B" />
 
@@ -111,12 +111,12 @@
                 <EditText
                     android:id="@+id/et_skin_num"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_height="@dimen/dp_40"
+                    android:layout_marginTop="@dimen/dp_5"
                     android:background="#F5FAFF"
                     android:gravity="center"
                     android:textColor="#4A4A4A"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/sp_15"
                     android:textStyle="bold"
                     android:hint="点击输入批号"/>
         </LinearLayout>
@@ -130,7 +130,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="@dimen/dp_5"
                 android:text="工号"
                 android:textColor="#9B9B9B" />
 
@@ -142,12 +142,12 @@
                 <EditText
                     android:id="@+id/et_skin_nurname"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_height="@dimen/dp_40"
+                    android:layout_marginTop="@dimen/dp_5"
                     android:background="#F5FAFF"
                     android:gravity="center"
                     android:textColor="#4A4A4A"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/sp_15"
                     android:textStyle="bold"
                     android:hint="点击输入工号"/>
             </LinearLayout>
@@ -155,7 +155,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="@dimen/dp_5"
                 android:text="密码"
                 android:textColor="#9B9B9B" />
 
@@ -167,12 +167,12 @@
                 <EditText
                     android:id="@+id/et_skin_nurpass"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_height="@dimen/dp_40"
+                    android:layout_marginTop="@dimen/dp_5"
                     android:background="#F5FAFF"
                     android:gravity="center"
                     android:textColor="#4A4A4A"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/sp_15"
                     android:textStyle="bold"
                     android:hint="点击输入密码"/>
             </LinearLayout>
@@ -184,10 +184,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp">
+        android:layout_marginTop="@dimen/dp_15">
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dp_0"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center">
@@ -198,17 +198,17 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_dialog_sure"
                 android:gravity="center"
-                android:paddingStart="36dp"
-                android:paddingTop="8dp"
-                android:paddingEnd="36dp"
-                android:paddingBottom="8dp"
+                android:paddingStart="@dimen/dp_36"
+                android:paddingTop="@dimen/dp_8"
+                android:paddingEnd="@dimen/dp_36"
+                android:paddingBottom="@dimen/dp_8"
                 android:text="确认"
                 android:textColor="@color/white"
-                android:textSize="17sp" />
+                android:textSize="@dimen/sp_17" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dp_0"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center">
@@ -218,13 +218,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_dialog_cancel"
-                android:paddingStart="36dp"
-                android:paddingTop="8dp"
-                android:paddingEnd="36dp"
-                android:paddingBottom="8dp"
+                android:paddingStart="@dimen/dp_36"
+                android:paddingTop="@dimen/dp_8"
+                android:paddingEnd="@dimen/dp_36"
+                android:paddingBottom="@dimen/dp_8"
                 android:text="取消"
                 android:textColor="@color/white"
-                android:textSize="17sp" />
+                android:textSize="@dimen/sp_17" />
         </LinearLayout>
 
 

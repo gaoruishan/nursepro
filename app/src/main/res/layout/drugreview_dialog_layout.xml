@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="320dp"
+    android:layout_width="@dimen/dp_320"
     android:layout_height="wrap_content"
     android:background="@drawable/bg_dialog"
     android:orientation="vertical"
-    android:paddingStart="15dp"
-    android:paddingTop="20dp"
-    android:paddingEnd="15dp"
-    android:paddingBottom="30dp">
+    android:paddingStart="@dimen/dp_15"
+    android:paddingTop="@dimen/dp_20"
+    android:paddingEnd="@dimen/dp_15"
+    android:paddingBottom="@dimen/dp_30">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/dp_40"
         android:gravity="center"
         android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/img_drugreview_scan"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_40"
             android:src="@drawable/icon_patient_scan" />
 
         <ImageView
             android:id="@+id/img_drugreview_success"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:padding="4dp"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_40"
+            android:padding="@dimen/dp_4"
             android:src="@drawable/icon_popup_sucess"
             android:visibility="gone" />
 
@@ -34,16 +34,16 @@
             android:id="@+id/tv_drugreviewtip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="@dimen/dp_12"
             android:textColor="#FF62ABFF"
-            android:textSize="16sp"
+            android:textSize="@dimen/sp_16"
             tools:text="请扫描复核人员胸牌条码" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="@dimen/dp_20"
         android:orientation="vertical">
 
         <TextView
@@ -55,12 +55,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/dp_10"
             android:background="#F5FAFF"
             android:gravity="center_vertical"
             android:orientation="vertical"
-            android:paddingStart="5dp"
-            android:paddingEnd="5dp">
+            android:paddingStart="@dimen/dp_5"
+            android:paddingEnd="@dimen/dp_5">
 
 
             <android.support.v7.widget.RecyclerView
@@ -76,19 +76,19 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="@dimen/dp_15"
             android:text="复核人员信息"
             android:textColor="#9B9B9B" />
 
         <TextView
             android:id="@+id/tv_drugreview_workerinfo"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginTop="10dp"
+            android:layout_height="@dimen/dp_45"
+            android:layout_marginTop="@dimen/dp_10"
             android:background="#F5FAFF"
             android:gravity="center"
             android:textColor="#4A4A4A"
-            android:textSize="15sp"
+            android:textSize="@dimen/sp_15"
             android:textStyle="bold"
             android:hint="请扫描复核人员胸牌条码"
             tools:text="FHR01"/>
@@ -96,19 +96,19 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="@dimen/dp_15"
             android:text="复核时间"
             android:textColor="#9B9B9B" />
 
         <TextView
             android:id="@+id/tv_drugreview_time"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginTop="10dp"
+            android:layout_height="@dimen/dp_45"
+            android:layout_marginTop="@dimen/dp_10"
             android:background="#F5FAFF"
             android:gravity="center"
             android:textColor="#4A4A4A"
-            android:textSize="15sp"
+            android:textSize="@dimen/sp_15"
             android:textStyle="bold"
             tools:text="2019-01-01 10:00"/>
 

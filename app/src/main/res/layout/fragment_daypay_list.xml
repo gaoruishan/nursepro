@@ -27,7 +27,7 @@
             />
         <View
             android:layout_width="@dimen/dp_0"
-            android:layout_height="1dp"
+            android:layout_height="@dimen/dp_1"
             android:layout_weight="1"/>
         <TextView
             android:id="@+id/tv_locdesc"
@@ -52,7 +52,7 @@
             android:background="@color/blue_dark2"/>
         <View
             android:layout_width="match_parent"
-            android:layout_height="10dp"
+            android:layout_height="@dimen/dp_10"
             android:background="@color/blue_light"/>
         <LinearLayout
             android:id="@+id/ll_pay_info"
@@ -70,12 +70,12 @@
                     android:layout_height="wrap_content"
                     android:text="入院日期："
                     android:textColor="#ff4a4a4a"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/sp_15"
                     android:layout_marginLeft="@dimen/dp_10"
                     />
                 <View
                     android:layout_width="@dimen/dp_0"
-                    android:layout_height="1dp"
+                    android:layout_height="@dimen/dp_1"
                     android:layout_weight="1"/>
                 <TextView
                     android:id="@+id/tv_inhostime"
@@ -83,7 +83,7 @@
                     android:layout_height="wrap_content"
                     tools:text="2019-01-20  09:26"
                     android:textColor="#ff000000"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/sp_15"
                     android:layout_marginRight="@dimen/dp_10"
                     />
             </LinearLayout>
@@ -103,12 +103,12 @@
                     android:layout_height="wrap_content"
                     android:text="预交费："
                     android:textColor="#ff4a4a4a"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/sp_15"
                     android:layout_marginLeft="@dimen/dp_10"
                     />
                 <View
                     android:layout_width="@dimen/dp_0"
-                    android:layout_height="1dp"
+                    android:layout_height="@dimen/dp_1"
                     android:layout_weight="1"/>
                 <TextView
                     android:id="@+id/tv_prepay"
@@ -116,7 +116,7 @@
                     android:layout_height="wrap_content"
                     tools:text="2019-01-20  09:26"
                     android:textColor="#ff000000"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/sp_15"
                     android:layout_marginRight="@dimen/dp_10"
                     />
             </LinearLayout>
@@ -137,12 +137,12 @@
                     android:layout_height="wrap_content"
                     android:text="总费用："
                     android:textColor="#ff4a4a4a"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/sp_15"
                     android:layout_marginLeft="@dimen/dp_10"
                     />
                 <View
                     android:layout_width="@dimen/dp_0"
-                    android:layout_height="1dp"
+                    android:layout_height="@dimen/dp_1"
                     android:layout_weight="1"/>
                 <TextView
                     android:id="@+id/tv_infee"
@@ -150,7 +150,7 @@
                     android:layout_height="wrap_content"
                     tools:text="2019-01-20  09:26"
                     android:textColor="#ff000000"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/sp_15"
                     android:layout_marginRight="@dimen/dp_10"
                     />
             </LinearLayout>
@@ -171,12 +171,12 @@
                     android:layout_height="wrap_content"
                     android:text="余额："
                     android:textColor="#ff4a4a4a"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/sp_15"
                     android:layout_marginLeft="@dimen/dp_10"
                     />
                 <View
                     android:layout_width="@dimen/dp_0"
-                    android:layout_height="1dp"
+                    android:layout_height="@dimen/dp_1"
                     android:layout_weight="1"/>
                 <TextView
                     android:id="@+id/tv_balance"
@@ -184,7 +184,7 @@
                     android:layout_height="wrap_content"
                     tools:text="2019-01-20  09:26"
                     android:textColor="#ff000000"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/sp_15"
                     android:layout_marginRight="@dimen/dp_10"
                     />
             </LinearLayout>
@@ -205,12 +205,12 @@
                     android:layout_height="wrap_content"
                     android:text="当日费用："
                     android:textColor="#ff4a4a4a"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/sp_15"
                     android:layout_marginLeft="@dimen/dp_10"
                     />
                 <View
                     android:layout_width="@dimen/dp_0"
-                    android:layout_height="1dp"
+                    android:layout_height="@dimen/dp_1"
                     android:layout_weight="1"/>
                 <TextView
                     android:id="@+id/tv_payed"
@@ -218,7 +218,7 @@
                     android:layout_height="wrap_content"
                     tools:text="2019-01-20  09:26"
                     android:textColor="#ff000000"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/sp_15"
                     android:layout_marginRight="@dimen/dp_10"
                     />
             </LinearLayout>
@@ -243,15 +243,15 @@
             android:gravity="center"
             android:orientation="vertical">
             <ImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="@dimen/dp_80"
+                android:layout_height="@dimen/dp_80"
                 android:src="@drawable/icon_blood_search_empty"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:textSize="16sp"
+                android:layout_marginTop="@dimen/dp_16"
+                android:textSize="@dimen/sp_16"
                 android:textColor="#9B9B9B"
                 android:text="该患者今日清单为空"/>
         </LinearLayout>
@@ -266,7 +266,7 @@
         android:orientation="horizontal">
         <View
             android:layout_width="@dimen/dp_0"
-            android:layout_height="1dp"
+            android:layout_height="@dimen/dp_1"
             android:layout_weight="1"/>
 
         <TextView

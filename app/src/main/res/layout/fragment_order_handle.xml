@@ -18,8 +18,8 @@
 
         <TextView
             android:id="@+id/tv_frapat_warning"
-            android:layout_width="260dp"
-            android:layout_height="55dp"
+            android:layout_width="@dimen/dp_260"
+            android:layout_height="@dimen/dp_55"
             android:layout_centerInParent="true"
             android:background="#FFF5FAFF"
             android:gravity="center"
@@ -30,17 +30,17 @@
         <TextView
             android:id="@+id/tv_frapat_warningtitle"
             android:layout_width="wrap_content"
-            android:layout_height="22dp"
+            android:layout_height="@dimen/dp_22"
             android:layout_centerInParent="true"
             android:layout_above="@+id/tv_frapat_warning"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="@dimen/dp_30"
             android:textStyle="bold"
             android:text="请扫描腕带"
             android:textColor="#FF62ABFF"
-            android:textSize="20sp" />
+            android:textSize="@dimen/sp_20" />
         <ImageView
-            android:layout_width="60dp"
-            android:layout_height="91dp"
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="@dimen/dp_91"
             android:layout_centerInParent="true"
             android:layout_above="@+id/tv_frapat_warningtitle"
             android:layout_marginBottom="@dimen/dp_10"
@@ -61,7 +61,7 @@
             >
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recy_orderhandle_ordertype"
-                android:layout_width="85dp"
+                android:layout_width="@dimen/dp_85"
                 android:layout_height="wrap_content"
                 android:background="@color/ordersearch_left_bgcolor">
 
@@ -73,43 +73,43 @@
                 android:orientation="vertical">
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="32dp"
+                    android:layout_height="@dimen/dp_32"
                     android:gravity="center">
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="1dp"
-                        android:layout_marginEnd="8dp"
+                        android:layout_marginTop="@dimen/dp_1"
+                        android:layout_marginEnd="@dimen/dp_8"
                         android:src="@drawable/icon_time_bottom"/>
                     <TextView
                         android:id="@+id/tv_orderhandle_startdatetime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/ordersearch_text_color"
-                        android:textSize="12sp"
+                        android:textSize="@dimen/sp_12"
                         tools:text="2018-08-23 10:00"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="1dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
+                        android:layout_marginTop="@dimen/dp_1"
+                        android:layout_marginStart="@dimen/dp_8"
+                        android:layout_marginEnd="@dimen/dp_8"
                         android:textColor="#62abff"
-                        android:textSize="13sp"
+                        android:textSize="@dimen/sp_13"
                         android:text="至"/>
                     <TextView
                         android:id="@+id/tv_orderhandle_enddatetime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/ordersearch_text_color"
-                        android:textSize="12sp"
+                        android:textSize="@dimen/sp_12"
                         tools:text="2018-08-23 10:00"/>
 
                 </LinearLayout>
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="5dp"
+                    android:layout_height="@dimen/dp_5"
                     android:background="#f6f6f6"/>
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recy_orderhandle_patorder"
@@ -124,7 +124,7 @@
         <LinearLayout
             android:id="@+id/ll_sheetbuttons"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="@dimen/dp_50"
             android:orientation="horizontal"
             android:layout_alignParentBottom="true"
             >

@@ -8,7 +8,7 @@
     tools:context=".setting.LocalRequesetFragment">
     <View
         android:layout_width="match_parent"
-        android:layout_height="5dp"
+        android:layout_height="@dimen/dp_5"
         android:background="@color/blue_light"></View>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rec_localreq"

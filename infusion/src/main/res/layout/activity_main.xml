@@ -30,7 +30,7 @@
 
         <RadioButton
             android:id="@+id/rbWorkarea"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dp_0"
             android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/dp_3"
             android:layout_marginTop="@dimen/dp_7"
@@ -44,7 +44,7 @@
 
         <RadioButton
             android:id="@+id/rbMessage"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dp_0"
             android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/dp_3"
             android:layout_marginTop="@dimen/dp_7"
@@ -58,7 +58,7 @@
 
         <RadioButton
             android:id="@+id/rbSetting"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dp_0"
             android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/dp_3"
             android:layout_marginTop="@dimen/dp_7"

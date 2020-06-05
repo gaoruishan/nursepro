@@ -32,7 +32,7 @@
             android:gravity="center|end"
             android:layout_weight="1"
             android:text="已超时"
-            android:textSize="13sp"
+            android:textSize="@dimen/sp_13"
             android:textColor="@color/lab_warning_red">
 
         </TextView>
@@ -53,24 +53,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="@dimen/dp_8"
             android:textColor="#FF4A4A4A"
             android:textSize="@dimen/sp_16"
             tools:text="马亭"/>
 
         <ImageView
             android:id="@+id/img_message_sex"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="@dimen/dp_20"
+            android:layout_height="@dimen/dp_20"
             android:layout_gravity="center"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="@dimen/dp_8"
             android:src="@drawable/sex_male"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:textSize="18sp"
+            android:layout_marginEnd="@dimen/dp_8"
+            android:textSize="@dimen/sp_18"
             android:visibility="gone"
             tools:text="普通外科一"/>
         <LinearLayout
@@ -83,10 +83,10 @@
             <TextView
                 android:id="@+id/tv_needtime"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                android:layout_height="@dimen/dp_0"
                 android:layout_weight="1"
                 android:text="需执行时间："
-                android:textSize="13sp"
+                android:textSize="@dimen/sp_13"
                 android:gravity="center"
                 android:textColor="@color/black">
 

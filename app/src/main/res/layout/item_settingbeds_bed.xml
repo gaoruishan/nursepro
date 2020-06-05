@@ -9,23 +9,23 @@
 
     <TextView
         android:id="@+id/tv_settingbeds_bed"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/dp_0"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:paddingTop="12dp"
-        android:paddingBottom="12dp"
-        android:textSize="16sp"
+        android:paddingTop="@dimen/dp_12"
+        android:paddingBottom="@dimen/dp_12"
+        android:textSize="@dimen/sp_16"
         android:textColor="@drawable/textcolor_itembed_selector"
         tools:text="01床" />
 
     <ImageView
         android:id="@+id/img_settingbeds_sex"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
+        android:layout_width="@dimen/dp_28"
+        android:layout_height="@dimen/dp_28"
         android:layout_gravity="center"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:padding="2dp"
+        android:layout_marginStart="@dimen/dp_8"
+        android:layout_marginEnd="@dimen/dp_8"
+        android:padding="@dimen/dp_2"
         tools:src="@drawable/man" />
 </LinearLayout>

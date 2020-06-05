@@ -9,12 +9,12 @@
 
     <TextView
         android:id="@+id/tv_docorder_priority"
-        android:layout_width="45dp"
-        android:layout_height="23dp"
+        android:layout_width="@dimen/dp_45"
+        android:layout_height="@dimen/dp_23"
         android:background="@drawable/bg_docorders_selector"
         android:gravity="center"
-        android:layout_margin="12dp"
+        android:layout_margin="@dimen/dp_12"
         android:textColor="@drawable/textcolor_itemorders_selector"
-        android:textSize="13sp"
+        android:textSize="@dimen/sp_13"
         tools:text="01床" />
 </LinearLayout>

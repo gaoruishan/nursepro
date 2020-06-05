@@ -8,7 +8,7 @@
     tools:context=".setting.SettingBedsFragment">
     <View
         android:layout_width="match_parent"
-        android:layout_height="5dp"
+        android:layout_height="@dimen/dp_5"
         android:background="#f5faff"/>
     <LinearLayout
         android:id="@+id/ll_setting_all"
@@ -18,20 +18,20 @@
         android:background="@color/white">
 
         <ImageView
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:layout_marginStart="12dp"
+            android:layout_width="@dimen/dp_18"
+            android:layout_height="@dimen/dp_18"
+            android:layout_marginStart="@dimen/dp_12"
             android:src="@drawable/icon_all_selector" />
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dp_0"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:paddingBottom="6dp"
-            android:paddingEnd="12dp"
-            android:paddingStart="12dp"
-            android:paddingTop="6dp"
-            android:textSize="16sp"
+            android:paddingBottom="@dimen/dp_6"
+            android:paddingEnd="@dimen/dp_12"
+            android:paddingStart="@dimen/dp_12"
+            android:paddingTop="@dimen/dp_6"
+            android:textSize="@dimen/sp_16"
             android:textColor="@color/bed_text_color"
             android:text="全选" />
     </LinearLayout>
@@ -40,8 +40,8 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:background="#f5faff"
-        android:paddingTop="5dp"
-        android:layout_height="0dp"
+        android:paddingTop="@dimen/dp_5"
+        android:layout_height="@dimen/dp_0"
         android:layout_weight="1">
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recy_settingbeds"

@@ -32,7 +32,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="@dimen/dp_1"
                 android:background="@color/blue_light"/>
 
             <LinearLayout
@@ -44,8 +44,8 @@
                     android:id="@+id/tv_message"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="@dimen/dp_20"
+                    android:layout_marginRight="@dimen/dp_20"
                     android:text="提示消息"
                     android:textColor="#FF4A4A4A"
                     android:textSize="@dimen/sp_15"
@@ -61,20 +61,20 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginEnd="8dp"
+                        android:layout_marginEnd="@dimen/dp_8"
                         android:text="时间: "
                         android:textColor="#FF4A4A4A"
                         android:textSize="@dimen/sp_16"/>
                     <TextView
                         android:id="@+id/tv_skin_time_start"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/dp_0"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
                         android:text="09:06:57"
                         android:textStyle="bold"/>
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/dp_0"
                         android:layout_height="match_parent"
                         android:layout_marginTop="@dimen/dp_10"
                         android:layout_weight="1"
@@ -89,14 +89,14 @@
                             android:textSize="@dimen/sp_12"/>
                         <View
                             android:layout_width="match_parent"
-                            android:layout_height="1dp"
+                            android:layout_height="@dimen/dp_1"
                             android:layout_marginLeft="@dimen/dp_10"
                             android:layout_marginRight="@dimen/dp_10"
                             android:background="@color/blue_light"/>
                     </LinearLayout>
                     <TextView
                         android:id="@+id/tv_skin_time_end"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/dp_0"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
@@ -120,7 +120,7 @@
                 android:layout_width="@dimen/dp_80"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="@dimen/dp_8"
                 android:gravity="center"
                 android:text="复核账户: "
                 android:textColor="#FF4A4A4A"
@@ -150,7 +150,7 @@
                 android:layout_width="@dimen/dp_80"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="@dimen/dp_8"
                 android:gravity="center"
                 android:text="复核密码: "
                 android:textColor="#FF4A4A4A"
@@ -169,7 +169,7 @@
         </LinearLayout>
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="@dimen/dp_2"
             android:layout_marginTop="@dimen/dp_15"
             android:layout_marginLeft="@dimen/dp_15"
             android:layout_marginRight="@dimen/dp_15"
