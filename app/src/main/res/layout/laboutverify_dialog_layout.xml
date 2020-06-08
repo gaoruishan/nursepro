@@ -78,7 +78,7 @@
                 android:paddingTop="@dimen/dp_8"
                 android:paddingEnd="@dimen/dp_36"
                 android:paddingBottom="@dimen/dp_8"
-                android:text="发送"
+                android:text="确定"
                 android:textColor="@color/white"
                 android:textSize="@dimen/sp_17" />
         </LinearLayout>
