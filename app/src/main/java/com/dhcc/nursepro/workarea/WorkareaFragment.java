@@ -50,6 +50,7 @@ import com.dhcc.nursepro.workarea.orderexecute.api.OrderExecuteApiManager;
 import com.dhcc.nursepro.workarea.orderexecute.bean.OrderExecResultBean;
 import com.dhcc.nursepro.workarea.ordersearch.OrderSearchFragment;
 import com.dhcc.nursepro.workarea.patevents.PatEventsFragment;
+import com.dhcc.nursepro.workarea.plyout.PlyOutListFragment;
 import com.dhcc.nursepro.workarea.shift.ShiftFragment;
 import com.dhcc.nursepro.workarea.taskmanage.TaskManageFragment;
 import com.dhcc.nursepro.workarea.vitalsign.VitalSignFragment;
@@ -267,6 +268,9 @@ public class WorkareaFragment extends BaseFragment {
                 //w ##class(Nur.DHCNurPdaModule).Save("任务管理^TaskManageFragment^19^Y^")
             case "TaskManageFragment":
                 startFragment(TaskManageFragment.class);
+                break;
+            case "PLYOUT":
+                startFragment(PlyOutListFragment.class);
                 break;
             default:
                 break;
@@ -1168,7 +1172,7 @@ public class WorkareaFragment extends BaseFragment {
                 case "DRUGHANDOVER":
                     tvItem.setText("药品交接");
                     tvItem.setText(item.getModuleDesc());
-                    imageView.setImageResource(R.drawable.icon_drughandover);
+                    imageView.setImageResource(R.drawable.icon_drugpreparation);
                     break;
                 case "DRUGPREPARATION":
                     tvItem.setText("取备用药");
@@ -1194,6 +1198,11 @@ public class WorkareaFragment extends BaseFragment {
                     tvItem.setText("任务管理");
                     tvItem.setText(item.getModuleDesc());
                     imageView.setImageResource(R.drawable.icon_task_manage);
+                    break;
+                case "PLYOUT":
+                    tvItem.setText("病理运送");
+                    tvItem.setText(item.getModuleDesc());
+                    imageView.setImageResource(R.drawable.icon_events);
                     break;
                 default:
                     break;

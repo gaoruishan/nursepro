@@ -52,6 +52,8 @@
 
     <!--检验打包-->
     <string name="title_labout">检验打包</string>
+    <!--病理打包-->
+    <string name="title_plybout">病理打包</string>
 
     <!--输血系统-->
     <string name="title_bloodtransfusionsystem">输血系统</string>
