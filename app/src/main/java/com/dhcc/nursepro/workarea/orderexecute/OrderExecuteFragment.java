@@ -15,7 +15,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -644,8 +643,8 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     }
 
     public void playSound(int sound, int loop) {
-
-        AudioManager mgr = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);
+        if (getActivity()==null)return;
+        AudioManager mgr = (AudioManager) getActivity().getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
 
         float streamVolumeCurrent = mgr.getStreamVolume(AudioManager.STREAM_MUSIC);
 

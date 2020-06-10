@@ -1055,8 +1055,8 @@ public class WorkareaFragment extends BaseFragment {
     }
 
     public void playSound(int sound, int loop) {
-
-        AudioManager mgr = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);
+        if (getActivity()==null)return;
+        AudioManager mgr = (AudioManager) getActivity().getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
 
         float streamVolumeCurrent = mgr.getStreamVolume(AudioManager.STREAM_MUSIC);
 
