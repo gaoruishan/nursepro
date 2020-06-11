@@ -42,7 +42,6 @@ import com.dhcc.nursepro.workarea.labout.LabOutListFragment;
 import com.dhcc.nursepro.workarea.labresult.LabPatsFragment;
 import com.dhcc.nursepro.workarea.milkloopsystem_wenling.MilkLoopSystemFragment;
 import com.dhcc.nursepro.workarea.motherbabylink.MotherBabyLinkFragment;
-import com.dhcc.nursepro.workarea.nurrecordnew.PatNurRecordFragment;
 import com.dhcc.nursepro.workarea.nurtour.NurTourFragment;
 import com.dhcc.nursepro.workarea.operation.OperationFragment;
 import com.dhcc.nursepro.workarea.orderexecute.OrderExecuteFragment;
@@ -244,8 +243,10 @@ public class WorkareaFragment extends BaseFragment {
                 startFragment(MotherBabyLinkFragment.class);
                 break;
             case "MODELDETAIL":
-                //                startFragment(NurRecordModellistFragmen.class);
-                startFragment(PatNurRecordFragment.class);
+                //老版
+//                startFragment(com.dhcc.nursepro.workarea.nurrecordold.PatNurRecordFragment.class);
+                //新版
+                startFragment(com.dhcc.nursepro.workarea.nurrecordnew.PatNurRecordFragment.class);
                 break;
             case "NURTOUR":
                 startFragment(NurTourFragment.class);
