@@ -138,91 +138,113 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_5"
         android:background="@color/blue_light" />
-
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_32"
-        android:gravity="center">
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_32"
+                android:gravity="center">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_1"
-            android:layout_marginEnd="@dimen/dp_12"
-            android:src="@drawable/icon_time_bottom" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_1"
+                    android:layout_marginEnd="@dimen/dp_12"
+                    android:src="@drawable/icon_time_bottom" />
 
+                <TextView
+                    android:id="@+id/tv_labout_startdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/ordersearch_text_color"
+                    android:textSize="@dimen/sp_12"
+                    tools:text="2018-08-23" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_8"
+                    android:layout_marginTop="@dimen/dp_1"
+                    android:layout_marginEnd="@dimen/dp_8"
+                    android:text="至"
+                    android:textColor="#62abff"
+                    android:textSize="@dimen/sp_13" />
+
+                <TextView
+                    android:id="@+id/tv_labout_enddate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/dp_12"
+                    android:textColor="@color/ordersearch_text_color"
+                    android:textSize="@dimen/sp_12"
+                    tools:text="2018-08-23" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_5"
+                android:background="#FFF6F6F6" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recy_labout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+
+                </android.support.v7.widget.RecyclerView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_laboout_empty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_100"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="@dimen/dp_80"
+                    android:layout_height="@dimen/dp_80"
+                    android:src="@drawable/icon_blood_search_empty" />
+
+                <TextView
+                    android:id="@+id/tv_bloodoplist_empty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_16"
+                    android:text="暂无打包单"
+                    android:textColor="#9B9B9B"
+                    android:textSize="@dimen/sp_16" />
+
+            </LinearLayout>
+        </LinearLayout>
         <TextView
-            android:id="@+id/tv_labout_startdate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/ordersearch_text_color"
-            android:textSize="@dimen/sp_12"
-            tools:text="2018-08-23" />
+            android:id="@+id/tv_bingli"
+            android:layout_width="@dimen/dp_70"
+            android:layout_height="@dimen/dp_30"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/img_addnew"
+            tools:text="病理单"
+            android:textColor="@color/white"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/dp_25"
+            android:paddingTop="@dimen/dp_3"
+            android:textSize="@dimen/sp_13"/>
+    </RelativeLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_8"
-            android:layout_marginTop="@dimen/dp_1"
-            android:layout_marginEnd="@dimen/dp_8"
-            android:text="至"
-            android:textColor="#62abff"
-            android:textSize="@dimen/sp_13" />
 
-        <TextView
-            android:id="@+id/tv_labout_enddate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/dp_12"
-            android:textColor="@color/ordersearch_text_color"
-            android:textSize="@dimen/sp_12"
-            tools:text="2018-08-23" />
-
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_5"
-        android:background="#FFF6F6F6" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recy_labout"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-
-        </android.support.v7.widget.RecyclerView>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_laboout_empty"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_100"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <ImageView
-            android:layout_width="@dimen/dp_80"
-            android:layout_height="@dimen/dp_80"
-            android:src="@drawable/icon_blood_search_empty" />
-
-        <TextView
-            android:id="@+id/tv_bloodoplist_empty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_16"
-            android:text="暂无打包单"
-            android:textColor="#9B9B9B"
-            android:textSize="@dimen/sp_16" />
-
-    </LinearLayout>
 
 
 </LinearLayout>

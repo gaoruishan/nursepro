@@ -18,6 +18,7 @@ import com.blankj.utilcode.util.TimeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.utils.DateUtils;
+import com.dhcc.nursepro.workarea.labout.LabOutListFragment;
 import com.dhcc.nursepro.workarea.plyout.adapter.PlyOutAdapter;
 import com.dhcc.nursepro.workarea.plyout.api.PlyOutApiManager;
 import com.dhcc.nursepro.workarea.plyout.bean.PlyOutListAllBean;
@@ -34,7 +35,7 @@ import java.util.List;
 public class PlyOutListFragment extends BaseFragment implements View.OnClickListener, OnDateSetListener {
 
     private RecyclerView recLabOut;
-    private TextView tvType1, tvType2, tvType3, tvType4, tvStartDate, tvEndDate;
+    private TextView tvType1, tvType2, tvType3, tvType4, tvStartDate, tvEndDate,tvBl;
     private LinearLayout llEmpty;
     private View show1, show2, show3, show4;
     private PlyOutAdapter labOutAdapter;
@@ -61,24 +62,13 @@ public class PlyOutListFragment extends BaseFragment implements View.OnClickList
         View viewright = View.inflate(getActivity(), R.layout.view_fratoolbar_right, null);
         TextView textView = viewright.findViewById(R.id.tv_fratoobar_right);
         textView.setTextSize(15);
-        textView.setText("  新建   ");
+        textView.setText("    切换 >> ");
         textView.setTextColor(getResources().getColor(R.color.white));
         viewright.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //                startFragment(PatEventsDetailFragment.class);
-                if (System.currentTimeMillis()-timeNow > 1500){
-                    CarrayCerate = "Yes";
-                    initData();
-                    setTopFilterSelect(tvType1);
-                    showgone(show1);
-                    TypeStr = "Type1";
-                    getLabOutList();
-                    timeNow =  System.currentTimeMillis();
-                }else {
-                    showToast("不可频繁建单，请稍后建单");
-                }
-
+                startFragment(LabOutListFragment.class);
+                finish();
             }
         });
         setToolbarRightCustomView(viewright);
@@ -214,6 +204,9 @@ public class PlyOutListFragment extends BaseFragment implements View.OnClickList
         recLabOut.setHasFixedSize(true);
         //设置的布局管理
         recLabOut.setLayoutManager(new LinearLayoutManager(getActivity()));
+        tvBl = view.findViewById(R.id.tv_bingli);
+        tvBl.setOnClickListener(this);
+        tvBl.setText("病理单");
     }
 
     private void initAdapter() {
@@ -275,6 +268,21 @@ public class PlyOutListFragment extends BaseFragment implements View.OnClickList
             case R.id.tv_labout_enddate:
                 dateStr = "end";
                 chooseTime(TimeUtils.string2Millis(tvEndDate.getText().toString() + " 00:00:00"));
+                break;
+            case R.id.tv_bingli:
+                //                startFragment(PatEventsDetailFragment.class);
+                if (System.currentTimeMillis()-timeNow > 1500){
+                    CarrayCerate = "Yes";
+                    initData();
+                    setTopFilterSelect(tvType1);
+                    showgone(show1);
+                    TypeStr = "Type1";
+                    getLabOutList();
+                    timeNow =  System.currentTimeMillis();
+                }else {
+                    showToast("不可频繁建单，请稍后建单");
+                }
+
                 break;
             default:
                 break;
