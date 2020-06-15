@@ -99,7 +99,7 @@ public class BloodTSApiService {
         properties.put("userId1", userId1);
         properties.put("userId2", userId2);
         properties.put("pass1", pass1.replace(" ",""));
-        properties.put("pass2",  pass1.replace(" ",""));
+        properties.put("pass2",  pass2.replace(" ",""));
         properties.put("type", type);
 
         WebServiceUtils.callWebService("startTransfusion", properties, new WebServiceUtils.WebServiceCallBack() {
