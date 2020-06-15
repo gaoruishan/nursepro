@@ -147,7 +147,13 @@ public class BloodTransfusionFragment extends BaseFragment {
                 bloodOperationResultDialog.setSureOnclickListener(new BloodOperationResultDialog.onSureOnclickListener() {
                     @Override
                     public void onSureClick() {
-                        cleanAll();
+                        if (code.equals("100000")){
+                            blNurse1.setNurseText("");
+                            blNurse2.setNurseText("");
+                            imgBloodnurse2.setSelected(false);
+                        }else {
+                            cleanAll();
+                        }
                         bloodOperationResultDialog.dismiss();
                     }
                 });
@@ -263,7 +269,6 @@ public class BloodTransfusionFragment extends BaseFragment {
             tvBloodSure.setSelected(true);
             tvBloodscantip.setText("请点击确定开始血液输注");
         } else{
-            imgBloodnurse2.setSelected(false);
             imgBloodnurse2.setSelected(false);
             tvBloodscantip.setText("请扫描/输入护士工牌");
         }

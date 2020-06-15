@@ -191,7 +191,11 @@ public class BloodTransfusionEndFragment extends BaseFragment {
                 bloodOperationResultDialog.setSureOnclickListener(new BloodOperationResultDialog.onSureOnclickListener() {
                     @Override
                     public void onSureClick() {
-                        cleanAll();
+                        if (code.equals("100000")){
+                            blNurseEnd.setNurseText("");
+                        }else {
+                            cleanAll();
+                        }
                         bloodOperationResultDialog.dismiss();
                     }
                 });
