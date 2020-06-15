@@ -22,6 +22,7 @@ import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.view.BloodNursePassView;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.BloodOperationResultDialog;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.api.BloodTSApiManager;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bean.BloodInfoBean;
@@ -47,7 +48,7 @@ public class BloodTransfusionEndFragment extends BaseFragment {
     private ImageView imgBloodnurse;
 
     private TextView tvPatinfo, tvBag, tvBlood;
-    private EditText tvNurse;
+    private BloodNursePassView blNurseEnd;
 
     private String episodeId = "";
 
@@ -91,11 +92,11 @@ public class BloodTransfusionEndFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 type = "2";
-                nurseId = tvNurse.getText().toString();
+                nurseId = blNurseEnd.getNurseText();
                 if (bloodRowId.equals("")) {
                     showToast("请先扫描获取血液信息");
-                } else if (TextUtils.isEmpty(tvNurse.getText())) {
-                    showToast("请输入护士工号");
+                } else if (TextUtils.isEmpty(blNurseEnd.getNurseText())||TextUtils.isEmpty(blNurseEnd.getPassText())) {
+                    showToast("请输入护士工号和密码");
                 } else {
                     tvBloodscantip.setText("请选择结束类型");
                     showdialog();
@@ -138,40 +139,22 @@ public class BloodTransfusionEndFragment extends BaseFragment {
         tvPatinfo = view.findViewById(R.id.tv_bloodend_patinfo);
         tvBag = view.findViewById(R.id.tv_bloodend_bloodbag);
         tvBlood = view.findViewById(R.id.tv_bloodend_bloodinfo);
-        tvNurse = view.findViewById(R.id.tv_bloodend_nurse);
-
-        tvNurse.addTextChangedListener(new TextWatcher() {
+        addTvChangListner(tvPatinfo);
+        addTvChangListner(tvBag);
+        addTvChangListner(tvBlood);
+        blNurseEnd = view.findViewById(R.id.bl_nurseinfo_end);
+        blNurseEnd.setListener(new BloodNursePassView.Listener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (tvNurse.getText().toString().length() > 0) {
-                    imgBloodnurse.setSelected(true);
-                    tvNurse.setSelected(true);
-                    tvBloodSure.setSelected(true);
-                    tvBloodscantip.setText("请点击确定结束血液输注");
-                } else {
-                    nurseId = "";
-                    imgBloodnurse.setSelected(false);
-                    tvNurse.setSelected(false);
-                    tvBloodSure.setSelected(false);
-                    tvBloodscantip.setText("请扫描/输入护士工牌");
-                }
+            public void update(String string) {
+                changeScanTipText();
             }
         });
-
 
     }
 
     private void endTransInfusion(String stopType, String stopReason) {
 
-        BloodTSApiManager.bloodTransEnd(bloodRowId, nurseId, stopReason, stopType, type, new BloodTSApiManager.BloodOperationResultCallback() {
+        BloodTSApiManager.bloodTransEnd(bloodRowId, nurseId, stopReason, stopType, type,blNurseEnd.getPassText(), new BloodTSApiManager.BloodOperationResultCallback() {
             @Override
             public void onSuccess(BloodOperationResultBean bloodOperationResult) {
                 if (bloodOperationResultDialog != null && bloodOperationResultDialog.isShowing()) {
@@ -226,8 +209,7 @@ public class BloodTransfusionEndFragment extends BaseFragment {
         bloodProductId = "";
         tvBlood.setText("");
         nurseId = "";
-        tvNurse.setText(null);
-        tvNurse.setSelected(false);
+        blNurseEnd.setNurseText(null);
         episodeId = "";
         bloodRowId = "";
 
@@ -256,9 +238,6 @@ public class BloodTransfusionEndFragment extends BaseFragment {
                 patInfoStr = patInfo.getCtLocDesc() + "-" + patInfo.getBedCode() + "-" + patInfo.getName() + "-" + patInfo.getRegNo();
 
                 tvPatinfo.setText(patInfoStr);
-                imgBloodpatient.setSelected(true);
-                lineBlood1.setSelected(true);
-                tvBloodscantip.setText("请扫描血袋条码");
             }
 
             @Override
@@ -285,10 +264,6 @@ public class BloodTransfusionEndFragment extends BaseFragment {
                 bloodRowId = blooInfo.getBloodRowId();
                 patInfoStr = patInfoStr + "-" + bloodGroup;
                 tvPatinfo.setText(patInfoStr);
-
-                imgBloodproduct.setSelected(true);
-                lineBlood3.setSelected(true);
-                tvBloodscantip.setText("请扫描/输入护士工牌");
             }
 
             @Override
@@ -298,10 +273,6 @@ public class BloodTransfusionEndFragment extends BaseFragment {
                 tvBag.setText("");
                 tvBlood.setText("");
                 showToast("error" + code + ":" + msg);
-
-                tvBloodscantip.setText("请扫描血袋编号");
-                imgBloodbag.setSelected(false);
-                lineBlood2.setSelected(false);
             }
         });
     }
@@ -326,9 +297,8 @@ public class BloodTransfusionEndFragment extends BaseFragment {
                     scanInfusionData(bloodbagId, "");
                 } else if (nurseId.equals("")) {
                     nurseId = dataStr;
-                    tvNurse.setText(nurseId);
-                    tvNurse.setSelected(true);
-                    imgBloodnurse.setSelected(true);
+                    blNurseEnd.setNurseText(nurseId);
+                    blNurseEnd.setPassText(" ");
                     tvBloodscantip.setText("请选择结束类型");
                     type = "1";
                     showdialog();
@@ -337,17 +307,13 @@ public class BloodTransfusionEndFragment extends BaseFragment {
                 if (bloodbagId.equals("") && (!episodeId.equals(""))) {
                     bloodbagId = dataStr;
                     tvBag.setText(bloodbagId);
-                    imgBloodbag.setSelected(true);
-                    lineBlood2.setSelected(true);
-                    tvBloodscantip.setText("请扫描血制品编号");
                 } else if (bloodProductId.equals("")) {
                     bloodProductId = dataStr;
                     scanInfusionData(bloodbagId, dataStr);
                 } else if (nurseId.equals("")) {
                     nurseId = dataStr;
-                    tvNurse.setText(nurseId);
-                    tvNurse.setSelected(true);
-                    imgBloodnurse.setSelected(true);
+                    blNurseEnd.setNurseText(nurseId);
+                    blNurseEnd.setPassText(" ");
                     tvBloodscantip.setText("请选择结束类型");
                     type = "1";
                     showdialog();
@@ -355,6 +321,63 @@ public class BloodTransfusionEndFragment extends BaseFragment {
             }
 
         }
+    }
+    private void changeScanTipText() {
+        tvBloodSure.setSelected(false);
+        if (!tvPatinfo.getText().toString().equals("")){
+            imgBloodpatient.setSelected(true);
+            lineBlood1.setSelected(true);
+        }else {
+            imgBloodpatient.setSelected(false);
+            lineBlood1.setSelected(false);
+            tvBloodscantip.setText("请扫描患者腕带");
+            return;
+        }
+        if (!tvBag.getText().toString().equals("")){
+            imgBloodbag.setSelected(true);
+            lineBlood2.setSelected(true);
+        }else {
+            tvBloodscantip.setText("请扫描血袋条码");
+            imgBloodbag.setSelected(false);
+            lineBlood2.setSelected(false);
+            return;
+        }
+        if (!tvBlood.getText().toString().equals("")){
+            imgBloodproduct.setSelected(true);
+            lineBlood3.setSelected(true);
+        }else {
+            imgBloodproduct.setSelected(false);
+            lineBlood3.setSelected(false);
+            tvBloodscantip.setText("请扫描血制品条码");
+            return;
+        }
+
+        if (blNurseEnd.getNurseText().length() > 0 && blNurseEnd.getPassText().length() > 0) {
+            imgBloodnurse.setSelected(true);
+            tvBloodSure.setSelected(true);
+            tvBloodscantip.setText("请点击确定开始血液输注");
+        } else{
+            imgBloodnurse.setSelected(false);
+            imgBloodnurse.setSelected(false);
+            tvBloodscantip.setText("请扫描/输入护士工牌");
+        }
 
     }
+
+    private void addTvChangListner(TextView tv){
+        tv.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+                changeScanTipText();
+            }
+        });
+
+    }
+
 }

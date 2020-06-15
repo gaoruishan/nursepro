@@ -93,11 +93,13 @@ public class BloodTSApiService {
     /**
      * 输血开始
      */
-    public static void bloodTransStart(String bloodRowId, String userId1, String userId2, String type, final ServiceCallBack callback) {
+    public static void bloodTransStart(String bloodRowId, String userId1, String userId2, String type,String pass1,String pass2, final ServiceCallBack callback) {
         HashMap<String, String> properties = new HashMap<>();
         properties.put("bloodRowId", bloodRowId);
         properties.put("userId1", userId1);
         properties.put("userId2", userId2);
+        properties.put("pass1", pass1.replace(" ",""));
+        properties.put("pass2",  pass1.replace(" ",""));
         properties.put("type", type);
 
         WebServiceUtils.callWebService("startTransfusion", properties, new WebServiceUtils.WebServiceCallBack() {
@@ -138,10 +140,11 @@ public class BloodTSApiService {
     /**
      * 输血结束
      */
-    public static void bloodTransEnd(String bloodRowId, String userId, String StopReasonDesc, String endType, String type, final ServiceCallBack callback) {
+    public static void bloodTransEnd(String bloodRowId, String userId, String StopReasonDesc, String endType, String type,String pass, final ServiceCallBack callback) {
         HashMap<String, String> properties = new HashMap<>();
         properties.put("bloodRowId", bloodRowId);
         properties.put("userId", userId);
+        properties.put("pass", pass.replace(" ",""));
         properties.put("StopReasonDesc", StopReasonDesc);
         properties.put("endType", endType);
         properties.put("type", type);

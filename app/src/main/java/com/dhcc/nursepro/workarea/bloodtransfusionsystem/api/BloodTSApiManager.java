@@ -150,8 +150,8 @@ public class BloodTSApiManager {
         });
     }
 
-    public static void bloodTransStart(String bloodRowId, String userId1, String userId2, String type, final BloodOperationResultCallback callback) {
-        BloodTSApiService.bloodTransStart(bloodRowId, userId1, userId2, type, new BloodTSApiService.ServiceCallBack() {
+    public static void bloodTransStart(String bloodRowId, String userId1, String userId2, String type,String pass1,String pass2, final BloodOperationResultCallback callback) {
+        BloodTSApiService.bloodTransStart(bloodRowId, userId1, userId2, type,pass1,pass2, new BloodTSApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();
@@ -217,8 +217,8 @@ public class BloodTSApiManager {
         });
     }
 
-    public static void bloodTransEnd(String bloodRowId, String userId, String StopReasonDesc, String endType, String type, final BloodOperationResultCallback callback) {
-        BloodTSApiService.bloodTransEnd(bloodRowId, userId, StopReasonDesc, endType, type, new BloodTSApiService.ServiceCallBack() {
+    public static void bloodTransEnd(String bloodRowId, String userId, String StopReasonDesc, String endType, String type,String pass, final BloodOperationResultCallback callback) {
+        BloodTSApiService.bloodTransEnd(bloodRowId, userId, StopReasonDesc, endType, type,pass, new BloodTSApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();

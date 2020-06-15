@@ -15,4 +15,8 @@
         <attr name="unselectedImage" format="reference" />
         <attr name="isCheck" format="boolean" />
     </declare-styleable>
+    <declare-styleable name="NursepassBlood">
+        <attr name="nursehint" format="string" />
+        <attr name="passhint" format="string" />
+    </declare-styleable>
 </resources>

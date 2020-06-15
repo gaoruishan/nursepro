@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -19,7 +20,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_180"
+            android:layout_height="@dimen/dp_150"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -47,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_18"
-            android:layout_marginTop="@dimen/dp_50"
+            android:layout_marginTop="@dimen/dp_20"
             android:layout_marginEnd="@dimen/dp_18"
             android:orientation="horizontal">
 
@@ -66,7 +67,7 @@
                 <View
                     android:id="@+id/line_blood_1"
                     android:layout_width="@dimen/dp_55"
-                    android:layout_height="@dimen/dp_55"
+                    android:layout_height="@dimen/dp_45"
                     android:background="@drawable/line_bloodts_scan_selector"
                     android:layerType="software" />
 
@@ -79,7 +80,7 @@
                 <View
                     android:id="@+id/line_blood_2"
                     android:layout_width="@dimen/dp_55"
-                    android:layout_height="@dimen/dp_55"
+                    android:layout_height="@dimen/dp_45"
                     android:background="@drawable/line_bloodts_scan_selector"
                     android:layerType="software" />
 
@@ -98,6 +99,18 @@
 
                 <ImageView
                     android:id="@+id/img_bloodnurse"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_nurse_selector" />
+                <View
+                    android:id="@+id/line_blood_4"
+                    android:layout_width="@dimen/dp_55"
+                    android:layout_height="@dimen/dp_45"
+                    android:background="@drawable/line_bloodts_scan_selector"
+                    android:layerType="software" />
+
+                <ImageView
+                    android:id="@+id/img_bloodnurse2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:src="@drawable/icon_nurse_selector" />
@@ -120,7 +133,7 @@
                 <TextView
                     android:id="@+id/tv_bloodtransfusion_patinfo"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_45"
+                    android:layout_height="@dimen/dp_35"
                     android:layout_marginTop="@dimen/dp_10"
                     android:textColor="#4A4A4A"
                     android:textSize="@dimen/sp_15"
@@ -138,7 +151,7 @@
                 <TextView
                     android:id="@+id/tv_bloodtransfusion_bloodbag"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_45"
+                    android:layout_height="@dimen/dp_35"
                     android:layout_marginTop="@dimen/dp_10"
                     android:textColor="#4A4A4A"
                     android:textSize="@dimen/sp_15"
@@ -156,7 +169,7 @@
                 <TextView
                     android:id="@+id/tv_bloodtransfusion_bloodinfo"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_45"
+                    android:layout_height="@dimen/dp_35"
                     android:layout_marginTop="@dimen/dp_10"
                     android:textColor="#4A4A4A"
                     android:textSize="@dimen/sp_15"
@@ -167,51 +180,33 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_23"
                     android:gravity="center_vertical"
-                    android:text="护士信息"
+                    android:text="护士1信息"
+                    android:textColor="#4A4A4A"
+                    android:textSize="@dimen/sp_12" />
+                <com.dhcc.nursepro.view.BloodNursePassView
+                    android:id="@+id/bl_nurseinfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:nursehint="护士1工号"
+                    app:passhint="护士1密码">
+
+                </com.dhcc.nursepro.view.BloodNursePassView>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_23"
+                    android:gravity="center_vertical"
+                    android:text="护士2信息"
                     android:textColor="#4A4A4A"
                     android:textSize="@dimen/sp_12" />
 
-                <LinearLayout
+                <com.dhcc.nursepro.view.BloodNursePassView
+                    android:id="@+id/bl_nurse2info"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_33"
-                    android:layout_marginTop="@dimen/dp_10"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content"
+                    app:nursehint="护士2工号"
+                    app:passhint="护士2密码">
 
-                    <EditText
-                        android:id="@+id/tv_bloodtransfusion_nurse1"
-                        android:layout_width="@dimen/dp_0"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@drawable/bg_blood_content_selector"
-                        android:gravity="center"
-                        android:hint="护士1"
-                        android:textColor="@drawable/textcolor_blood_content_selector"
-                        android:textSize="@dimen/sp_15"
-                        android:textStyle="bold" />
-
-                    <LinearLayout
-                        android:id="@+id/ll_bloodtransfusion_device"
-                        android:layout_width="@dimen/dp_33"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="-1dp"
-                        android:background="@drawable/img_separate1"
-                        android:orientation="horizontal" />
-
-                    <EditText
-                        android:id="@+id/tv_bloodtransfusion_nurse2"
-                        android:layout_width="@dimen/dp_0"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@drawable/bg_blood_content_selector"
-                        android:gravity="center"
-                        android:hint="护士2"
-                        android:textColor="@drawable/textcolor_blood_content_selector"
-                        android:textSize="@dimen/sp_15"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
+                </com.dhcc.nursepro.view.BloodNursePassView>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

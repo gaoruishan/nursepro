@@ -23,6 +23,7 @@ import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.view.BloodNursePassView;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.BloodOperationResultDialog;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.api.BloodTSApiManager;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bean.BloodInfoBean;
@@ -47,10 +48,10 @@ public class BloodTransfusionFragment extends BaseFragment {
     private ImageView imgBloodproduct;
     private View lineBlood3;
     private ImageView imgBloodnurse;
+    private View lineBlood4;
+    private ImageView imgBloodnurse2;
 
     private TextView tvPatInfo, tvBloodInfo, tvBloodBag;
-    private EditText tvNurse1, tvNurse2;
-    private LinearLayout llDevice;
 
     private String episodeId = "";
 
@@ -58,8 +59,6 @@ public class BloodTransfusionFragment extends BaseFragment {
     private String RegNo = "";
     private String bloodbagId = "";
     private String bloodProductId = "";
-    private String nurseId1 = "";
-    private String nurseId2 = "";
     private String bloodRowId = "";
 
 
@@ -70,6 +69,7 @@ public class BloodTransfusionFragment extends BaseFragment {
     private String bloodInfoStr;
 
     private BloodOperationResultDialog bloodOperationResultDialog;
+    BloodNursePassView blNurse1,blNurse2;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -88,10 +88,10 @@ public class BloodTransfusionFragment extends BaseFragment {
             public void onClick(View v) {
                 if (bloodRowId.equals("")) {
                     showToast("请先扫描获取血液信息");
-                } else if (TextUtils.isEmpty(tvNurse1.getText())) {
-                    showToast("请输入第一个护士工号");
-                } else if (TextUtils.isEmpty(tvNurse2.getText())) {
-                    showToast("请输入第二个护士工号");
+                } else if (TextUtils.isEmpty(blNurse1.getNurseText())||TextUtils.isEmpty(blNurse1.getPassText())) {
+                    showToast("请输入第一个护士工号和密码");
+                } else if (TextUtils.isEmpty(blNurse2.getNurseText())||TextUtils.isEmpty(blNurse2.getPassText())) {
+                    showToast("请输入第二个护士工号和密码");
                 } else {
                     startTransInfusion("2");
                 }
@@ -107,12 +107,11 @@ public class BloodTransfusionFragment extends BaseFragment {
 
 
     private void startTransInfusion(String type) {
-        String nurse1 = tvNurse1.getText().toString();
-        String nurse2 = tvNurse2.getText().toString();
-        BloodTSApiManager.bloodTransStart(bloodRowId, nurse1, nurse2, type, new BloodTSApiManager.BloodOperationResultCallback() {
+        String nurse1 = blNurse1.getNurseText();
+        String nurse2 = blNurse2.getNurseText();
+        BloodTSApiManager.bloodTransStart(bloodRowId, nurse1, nurse2, type,blNurse1.getPassText(),blNurse2.getPassText(), new BloodTSApiManager.BloodOperationResultCallback() {
             @Override
             public void onSuccess(BloodOperationResultBean bloodOperationResult) {
-                llDevice.setBackgroundResource(R.drawable.img_separate4);
 
                 if (bloodOperationResultDialog != null && bloodOperationResultDialog.isShowing()) {
                     bloodOperationResultDialog.dismiss();
@@ -168,50 +167,31 @@ public class BloodTransfusionFragment extends BaseFragment {
         imgBloodproduct = view.findViewById(R.id.img_bloodproduct);
         lineBlood3 = view.findViewById(R.id.line_blood_3);
         imgBloodnurse = view.findViewById(R.id.img_bloodnurse);
+        lineBlood4 = view.findViewById(R.id.line_blood_4);
+        imgBloodnurse2 = view.findViewById(R.id.img_bloodnurse2);
 
         tvPatInfo = view.findViewById(R.id.tv_bloodtransfusion_patinfo);
         tvBloodInfo = view.findViewById(R.id.tv_bloodtransfusion_bloodinfo);
         tvBloodBag = view.findViewById(R.id.tv_bloodtransfusion_bloodbag);
-        tvNurse1 = view.findViewById(R.id.tv_bloodtransfusion_nurse1);
-        tvNurse2 = view.findViewById(R.id.tv_bloodtransfusion_nurse2);
-        llDevice = view.findViewById(R.id.ll_bloodtransfusion_device);
+        addTvChangListner(tvPatInfo);
+        addTvChangListner(tvBloodInfo);
+        addTvChangListner(tvBloodBag);
 
-        tvNurse1.addTextChangedListener(new TextWatcher() {
+        blNurse1 = view.findViewById(R.id.bl_nurseinfo);
+        blNurse1.setListener(new BloodNursePassView.Listener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                //如果有输入内容长度大于0那么显示选中
-                changeNurseLL();
-            }
-        });
-        tvNurse2.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                changeNurseLL();
+            public void update(String string) {
+                changeScanTipText();
             }
         });
 
-
+        blNurse2 = view.findViewById(R.id.bl_nurse2info);
+        blNurse2.setListener(new BloodNursePassView.Listener() {
+            @Override
+            public void update(String string) {
+                changeScanTipText();
+            }
+        });
     }
 
     private void cleanAll() {
@@ -221,13 +201,8 @@ public class BloodTransfusionFragment extends BaseFragment {
         tvBloodBag.setText("");
         bloodProductId = "";
         tvBloodInfo.setText("");
-        nurseId1 = "";
-        tvNurse1.setText(null);
-        tvNurse1.setSelected(false);
-        nurseId2 = "";
-        tvNurse2.setText(null);
-        tvNurse2.setSelected(false);
-        llDevice.setBackgroundResource(R.drawable.img_separate1);
+        blNurse1.setNurseText("");
+        blNurse2.setNurseText("");
         episodeId = "";
         bloodRowId = "";
 
@@ -239,38 +214,58 @@ public class BloodTransfusionFragment extends BaseFragment {
         imgBloodproduct.setSelected(false);
         lineBlood3.setSelected(false);
         imgBloodnurse.setSelected(false);
+        lineBlood4.setSelected(false);
+        imgBloodnurse2.setSelected(false);
     }
 
-    private void changeNurseLL() {
-        if (tvNurse1.getText().toString().length() > 0 && tvNurse2.getText().toString().length() > 0) {
-            tvNurse1.setSelected(true);
-            tvNurse2.setSelected(true);
+    private void changeScanTipText() {
+        tvBloodSure.setSelected(false);
+        if (!tvPatInfo.getText().toString().equals("")){
+            imgBloodpatient.setSelected(true);
+            lineBlood1.setSelected(true);
+        }else {
+            imgBloodpatient.setSelected(false);
+            lineBlood1.setSelected(false);
+            tvBloodscantip.setText("请扫描患者腕带");
+            return;
+        }
+        if (!tvBloodBag.getText().toString().equals("")){
+            imgBloodbag.setSelected(true);
+            lineBlood2.setSelected(true);
+        }else {
+            tvBloodscantip.setText("请扫描血袋条码");
+            imgBloodbag.setSelected(false);
+            lineBlood2.setSelected(false);
+            return;
+        }
+        if (!tvBloodInfo.getText().toString().equals("")){
+            imgBloodproduct.setSelected(true);
+            lineBlood3.setSelected(true);
+        }else {
+            imgBloodproduct.setSelected(false);
+            lineBlood3.setSelected(false);
+            tvBloodscantip.setText("请扫描血制品条码");
+            return;
+        }
+        if (blNurse1.getNurseText().length() > 0 && blNurse1.getPassText().length() > 0) {
+            lineBlood4.setSelected(true);
             imgBloodnurse.setSelected(true);
+        } else{
+            lineBlood4.setSelected(false);
+            imgBloodnurse.setSelected(false);
+            imgBloodnurse.setSelected(false);
+            tvBloodscantip.setText("请扫描/输入护士工牌");
+            return;
+        }
+
+        if (blNurse2.getNurseText().length() > 0 && blNurse2.getPassText().length() > 0) {
+            imgBloodnurse2.setSelected(true);
             tvBloodSure.setSelected(true);
             tvBloodscantip.setText("请点击确定开始血液输注");
-            llDevice.setBackgroundResource(R.drawable.img_separate4);
-        } else if (tvNurse1.getText().toString().length() > 0 && tvNurse2.getText().toString().length() == 0) {
-            tvNurse1.setSelected(true);
-            tvNurse2.setSelected(false);
-            nurseId2 = "";
-            imgBloodnurse.setSelected(false);
+        } else{
+            imgBloodnurse2.setSelected(false);
+            imgBloodnurse2.setSelected(false);
             tvBloodscantip.setText("请扫描/输入护士工牌");
-            llDevice.setBackgroundResource(R.drawable.img_separate2);
-        } else if (tvNurse1.getText().toString().length() == 0 && tvNurse2.getText().toString().length() > 0) {
-            tvNurse1.setSelected(false);
-            tvNurse2.setSelected(true);
-            nurseId1 = "";
-            imgBloodnurse.setSelected(false);
-            tvBloodscantip.setText("请扫描/输入护士工牌");
-            llDevice.setBackgroundResource(R.drawable.img_separate3);
-        } else if (tvNurse1.getText().toString().length() == 0 && tvNurse2.getText().toString().length() == 0) {
-            tvNurse1.setSelected(false);
-            tvNurse2.setSelected(false);
-            nurseId1 = "";
-            nurseId2 = "";
-            imgBloodnurse.setSelected(false);
-            tvBloodscantip.setText("请扫描/输入护士工牌");
-            llDevice.setBackgroundResource(R.drawable.img_separate1);
         }
 
     }
@@ -287,16 +282,8 @@ public class BloodTransfusionFragment extends BaseFragment {
             public void onSuccess(PatWristInfoBean patWristInfoBean) {
                 PatWristInfoBean.PatInfoBean patInfo = patWristInfoBean.getPatInfo();
                 episodeId = patInfo.getEpisodeID();
-                //                String loc = patInfo.getCtLocDesc().equals("") ? "" : patInfo.getCtLocDesc() + "-";
-                //                String room = patInfo.getRoomDesc().equals("") ? "" : patInfo.getRoomDesc() + "-";
-                //                String bedCode = patInfo.getBedCode().equals("") ? "未分床-" : patInfo.getBedCode() + "-";
-                //                String name = patInfo.getName();
-                //                patInfoStr = loc + room + bedCode + name;
                 patInfoStr = patInfo.getCtLocDesc() + "-" + patInfo.getBedCode() + "-" + patInfo.getName() + "-" + patInfo.getRegNo();
                 tvPatInfo.setText(patInfoStr);
-                imgBloodpatient.setSelected(true);
-                lineBlood1.setSelected(true);
-                tvBloodscantip.setText("请扫描血袋条码");
             }
 
             @Override
@@ -324,10 +311,6 @@ public class BloodTransfusionFragment extends BaseFragment {
                 bloodRowId = bloodInfo.getBloodRowId();
                 patInfoStr = patInfoStr + "-" + bloodGroup;
                 tvPatInfo.setText(patInfoStr);
-
-                imgBloodproduct.setSelected(true);
-                lineBlood3.setSelected(true);
-                tvBloodscantip.setText("请扫描/输入护士工牌");
             }
 
             @Override
@@ -338,10 +321,6 @@ public class BloodTransfusionFragment extends BaseFragment {
                 bloodProductId = "";
                 tvBloodBag.setText("");
                 tvBloodInfo.setText("");
-
-                tvBloodscantip.setText("请扫描血袋编号");
-                imgBloodbag.setSelected(false);
-                lineBlood2.setSelected(false);
             }
         });
     }
@@ -360,20 +339,12 @@ public class BloodTransfusionFragment extends BaseFragment {
                 if (bloodbagId.equals("") && (!episodeId.equals(""))) {
                     bloodbagId = dataStr;
                     tvBloodBag.setText(bloodbagId);
-                    imgBloodbag.setSelected(true);
-                    lineBlood2.setSelected(true);
                     scanInfusionData(bloodbagId, "");
-                } else if (nurseId1.equals("")) {
-                    nurseId1 = dataStr;
-                    tvNurse1.setText(nurseId1);
-                    tvNurse1.setSelected(true);
-                    llDevice.setBackgroundResource(R.drawable.img_separate2);
+                } else if (blNurse1.getNurseText().equals("")) {
+                    blNurse1.setNurseText(dataStr);
 
-                } else if (nurseId2.equals("")) {
-                    nurseId2 = dataStr;
-                    tvNurse2.setText(nurseId2);
-                    tvNurse2.setSelected(true);
-                    llDevice.setBackgroundResource(R.drawable.img_separate4);
+                } else if (blNurse2.getNurseText().equals("")) {
+                    blNurse2.setNurseText(dataStr);
                     imgBloodnurse.setSelected(true);
                     startTransInfusion("1");
                 }
@@ -381,28 +352,35 @@ public class BloodTransfusionFragment extends BaseFragment {
                 if (bloodbagId.equals("") && (!episodeId.equals(""))) {
                     bloodbagId = dataStr;
                     tvBloodBag.setText(bloodbagId);
-                    imgBloodbag.setSelected(true);
-                    lineBlood2.setSelected(true);
-                    tvBloodscantip.setText("请扫描血制品编号");
                 } else if (bloodProductId.equals("")) {
                     bloodProductId = dataStr;
                     scanInfusionData(bloodbagId, dataStr);
-                } else if (nurseId1.equals("")) {
-                    nurseId1 = dataStr;
-                    tvNurse1.setText(nurseId1);
-                    tvNurse1.setSelected(true);
-                    llDevice.setBackgroundResource(R.drawable.img_separate2);
-
-                } else if (nurseId2.equals("")) {
-                    nurseId2 = dataStr;
-                    tvNurse2.setText(nurseId2);
-                    tvNurse2.setSelected(true);
-                    llDevice.setBackgroundResource(R.drawable.img_separate4);
+                }else if (blNurse1.getNurseText().equals("")) {
+                    blNurse1.setNurseText(dataStr);
+                    blNurse1.setPassText(" ");
+                } else if (blNurse2.getNurseText().equals("")) {
+                    blNurse2.setNurseText(dataStr);
+                    blNurse2.setPassText(" ");
                     imgBloodnurse.setSelected(true);
                     startTransInfusion("1");
                 }
             }
         }
+    }
+
+    private void addTvChangListner(TextView tv){
+        tv.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+                changeScanTipText();
+            }
+        });
 
     }
 

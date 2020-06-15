@@ -133,7 +133,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/dp_24"
             android:background="@drawable/vital_sign_border"
-            android:text="体温单预览" />
+            android:text="体征曲线图" />
 
     </LinearLayout>
 
