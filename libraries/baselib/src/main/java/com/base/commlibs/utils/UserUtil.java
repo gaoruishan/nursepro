@@ -246,6 +246,7 @@ public class UserUtil {
      * @param loginBean
      */
     public static void setUserConfig(ConfigBean loginBean) {
+        SPUtils.getInstance().put(SharedPreference.WEBSOCKET_FLAG, loginBean.getWebSocketFlag());
         SPUtils.getInstance().put(SharedPreference.NET_LOG, loginBean.getIsNetLog());
         SPUtils.getInstance().put(SharedPreference.IS_SHOW_CUR_USER_WORKLOAD, loginBean.getShowCurUserWorkload());
         SPUtils.getInstance().put(SharedPreference.IS_SHOW_LOGCAT, loginBean.getGlobalLogcatFlag());
@@ -297,6 +298,10 @@ public class UserUtil {
 
     public static boolean isShowLogcatView() {
         return !TextUtils.isEmpty(SPUtils.getInstance().getString(SharedPreference.IS_SHOW_LOGCAT));
+    }
+
+    public static boolean isWebSocketFlag() {
+        return !TextUtils.isEmpty(SPUtils.getInstance().getString(SharedPreference.WEBSOCKET_FLAG));
     }
 
     /**

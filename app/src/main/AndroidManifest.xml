@@ -36,7 +36,12 @@
             android:configChanges="orientation|keyboardHidden|screenSize|locale|layoutDirection"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan" >
+            <intent-filter>
+                <action android:name="com.dhcc.nursepro.main"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
         <activity
             android:name="com.base.commlibs.UniversalActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|locale|layoutDirection"
@@ -56,6 +61,15 @@
         <service
             android:name=".workarea.MServiceNewOrd"
             android:label="newOrdService" />
+        <service
+            android:name="com.base.commlibs.service.JWebSocketClientService"
+            android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name="com.base.commlibs.service.JWebSocketClientService$GrayInnerService"
+            android:enabled="true"
+            android:exported="false"
+            android:process=":gray" />
     </application>
 
 </manifest>

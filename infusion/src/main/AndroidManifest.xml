@@ -60,6 +60,16 @@
         <service
             android:name="com.base.commlibs.service.MServiceNewOrd"
             android:label="newOrdService"/>
+
+        <service
+            android:name="com.base.commlibs.service.JWebSocketClientService"
+            android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name="com.base.commlibs.service.JWebSocketClientService$GrayInnerService"
+            android:enabled="true"
+            android:exported="false"
+            android:process=":gray" />
     </application>
 
 </manifest>

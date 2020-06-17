@@ -38,116 +38,69 @@ public class ConfigBean extends CommResult {
     private String showCurUserWorkload;
     //是否开启网络日志 1-是 ""-否
     private String isNetLog;
+    //是否开启webSocket
+    private String webSocketFlag;
+
+    public String getWebSocketFlag() {
+        return webSocketFlag == null ? "" : webSocketFlag;
+    }
+
 
     public String getIsNetLog() {
         return isNetLog == null ? "" : isNetLog;
     }
 
-    public void setIsNetLog(String isNetLog) {
-        this.isNetLog = isNetLog;
-    }
     public String getShowCurUserWorkload() {
         return showCurUserWorkload == null ? "" : showCurUserWorkload;
-    }
-
-    public void setShowCurUserWorkload(String showCurUserWorkload) {
-        this.showCurUserWorkload = showCurUserWorkload;
     }
 
     public String getGlobalLogcatFlag() {
         return globalLogcatFlag == null ? "" : globalLogcatFlag;
     }
 
-    public void setGlobalLogcatFlag(String globalLogcatFlag) {
-        this.globalLogcatFlag = globalLogcatFlag;
-    }
 
     public String getHandInputFlag() {
         return handInputFlag == null ? "" : handInputFlag;
-    }
-
-    public void setHandInputFlag(String handInputFlag) {
-        this.handInputFlag = handInputFlag;
     }
 
     public String getHttpUpdateFlag() {
         return httpUpdateFlag == null ? "" : httpUpdateFlag;
     }
 
-    public void setHttpUpdateFlag(String httpUpdateFlag) {
-        this.httpUpdateFlag = httpUpdateFlag;
-    }
-
     public String getLocalTestFlag() {
         return localTestFlag == null ? "" : localTestFlag;
-    }
-
-    public void setLocalTestFlag(String localTestFlag) {
-        this.localTestFlag = localTestFlag;
     }
 
     public String getUpdateUrl() {
         return updateUrl == null ? "" : updateUrl;
     }
 
-    public void setUpdateUrl(String updateUrl) {
-        this.updateUrl = updateUrl;
-    }
-
     public String getSkinDateOffset() {
         return skinDateOffset == null ? "" : skinDateOffset;
-    }
-
-    public void setSkinDateOffset(String skinDateOffset) {
-        this.skinDateOffset = skinDateOffset;
     }
 
     public String getBloodCheckFlag() {
         return bloodCheckFlag == null ? "" : bloodCheckFlag;
     }
 
-    public void setBloodCheckFlag(String bloodCheckFlag) {
-        this.bloodCheckFlag = bloodCheckFlag;
-    }
-
     public String getOrdStateFlag() {
         return ordStateFlag == null ? "" : ordStateFlag;
-    }
-
-    public void setOrdStateFlag(String ordStateFlag) {
-        this.ordStateFlag = ordStateFlag;
     }
 
     public String getGlobalViewFlag() {
         return globalViewFlag == null ? "" : globalViewFlag;
     }
 
-    public void setGlobalViewFlag(String globalViewFlag) {
-        this.globalViewFlag = globalViewFlag;
-    }
-
     public String getMsgNoticeFlag() {
         return msgNoticeFlag == null ? "" : msgNoticeFlag;
-    }
-
-    public void setMsgNoticeFlag(String msgNoticeFlag) {
-        this.msgNoticeFlag = msgNoticeFlag;
     }
 
     public String getLogFlag() {
         return logFlag == null ? "" : logFlag;
     }
 
-    public void setLogFlag(String logFlag) {
-        this.logFlag = logFlag;
-    }
-
     public String getMsgSkinFlag() {
         return msgSkinFlag == null ? "" : msgSkinFlag;
-    }
-
-    public void setMsgSkinFlag(String msgSkinFlag) {
-        this.msgSkinFlag = msgSkinFlag;
     }
 
 }

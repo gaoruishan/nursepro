@@ -59,6 +59,7 @@ import com.base.commlibs.base.BaseTopLoadingView;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.utils.EditTextScanHelper;
+import com.base.commlibs.utils.JWebSocketUtil;
 import com.base.commlibs.utils.NetUtil;
 import com.blankj.utilcode.util.SPUtils;
 import com.noober.background.BackgroundLibrary;
@@ -254,6 +255,8 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         sAllActivitys.add(this);
         //开启
         NetUtil.startTimer();
+        //WebSocket
+        JWebSocketUtil.startService(this);
     }
     protected void addScanEditText() {
         scanHelper = new EditTextScanHelper();
@@ -534,6 +537,8 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         }
         //关闭
         NetUtil.stopTimer();
+        //关闭WebSocket
+        JWebSocketUtil.stopService(this);
     }
 
     public boolean isResume() {
