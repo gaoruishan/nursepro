@@ -33,6 +33,7 @@ import com.base.commlibs.base.BaseFullLoadingView;
 import com.base.commlibs.base.BasePushDialog;
 import com.base.commlibs.base.BaseTopLoadingView;
 import com.base.commlibs.constant.Action;
+import com.base.commlibs.constant.SharedPreference;
 
 import org.greenrobot.eventbus.EventBus;
 

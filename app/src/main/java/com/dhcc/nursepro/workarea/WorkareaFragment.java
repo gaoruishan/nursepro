@@ -44,6 +44,8 @@ import com.dhcc.nursepro.workarea.labresult.LabPatsFragment;
 import com.dhcc.nursepro.workarea.labresult.LabResultListFragment;
 import com.dhcc.nursepro.workarea.milkloopsystem_wenling.MilkLoopSystemFragment;
 import com.dhcc.nursepro.workarea.motherbabylink.MotherBabyLinkFragment;
+import com.dhcc.nursepro.workarea.nurrecord.NurRecordFragment;
+import com.dhcc.nursepro.workarea.nurrecordnew.PatNurRecordFragment;
 import com.dhcc.nursepro.workarea.nurtour.NurTourFragment;
 import com.dhcc.nursepro.workarea.operation.OperationFragment;
 import com.dhcc.nursepro.workarea.orderexecute.OrderExecuteFragment;
@@ -1137,7 +1139,7 @@ public class WorkareaFragment extends BaseFragment {
                     tvItem.setText("检查报告");
                     tvItem.setText(item.getModuleDesc());
                     imageView.setImageResource(R.drawable.icon_check);
-                    map.put("fragName", CheckResultListFragment.class.getName());
+                    map.put("fragName", CheckPatsFragment.class.getName());
                     map.put("fragicon",R.drawable.icon_check);
                     SharedPreference.FRAGMENTMAP.add(map);
                     break;
@@ -1145,7 +1147,7 @@ public class WorkareaFragment extends BaseFragment {
                     tvItem.setText("检验结果");
                     tvItem.setText(item.getModuleDesc());
                     imageView.setImageResource(R.drawable.icon_lab);
-                    map.put("fragName", LabResultListFragment.class.getName());
+                    map.put("fragName", LabPatsFragment.class.getName());
                     map.put("fragicon",R.drawable.icon_lab);
                     SharedPreference.FRAGMENTMAP.add(map);
                     break;
@@ -1201,56 +1203,89 @@ public class WorkareaFragment extends BaseFragment {
                     tvItem.setText("母乳闭环");
                     tvItem.setText(item.getModuleDesc());
                     imageView.setImageResource(R.drawable.icon_milk);
+                    map.put("fragName",MilkLoopSystemFragment.class.getName());
+                    map.put("fragicon",R.drawable.icon_milk);
+                    SharedPreference.FRAGMENTMAP.add(map);
                     break;
                 case "MOTHERBABYLINK":
                     tvItem.setText("母婴关联");
                     tvItem.setText(item.getModuleDesc());
                     imageView.setImageResource(R.drawable.icon_motherbabylink);
+                    map.put("fragName",MotherBabyLinkFragment.class.getName());
+                    map.put("fragicon",R.drawable.icon_motherbabylink);
+                    SharedPreference.FRAGMENTMAP.add(map);
                     break;
                 case "MODELDETAIL":
                     tvItem.setText("护理病历");
                     tvItem.setText(item.getModuleDesc());
-                    imageView.setImageResource(R.drawable.icon_motherbabylink);
+                    imageView.setImageResource(R.drawable.icon_events);
+                    map.put("fragName", PatNurRecordFragment.class.getName());
+                    map.put("fragicon",R.drawable.icon_events);
+                    SharedPreference.FRAGMENTMAP.add(map);
                     break;
                 case "NURTOUR":
                     tvItem.setText("巡视");
                     tvItem.setText(item.getModuleDesc());
                     imageView.setImageResource(R.drawable.icon_tour);
+                    map.put("fragName",NurTourFragment.class.getName());
+                    map.put("fragicon",R.drawable.icon_tour);
+                    SharedPreference.FRAGMENTMAP.add(map);
                     break;
                 case "DRUGHANDOVER":
                     tvItem.setText("药品交接");
                     tvItem.setText(item.getModuleDesc());
                     imageView.setImageResource(R.drawable.icon_drugpreparation);
+                    map.put("fragName",DrugHandoverFragment.class.getName());
+                    map.put("fragicon",R.drawable.icon_drugpreparation);
+                    SharedPreference.FRAGMENTMAP.add(map);
                     break;
                 case "DRUGPREPARATION":
                     tvItem.setText("取备用药");
                     tvItem.setText(item.getModuleDesc());
                     imageView.setImageResource(R.drawable.icon_drugpreparation);
+                    map.put("fragName",DrugHandoverFragment.class.getName());
+                    map.put("fragicon",R.drawable.icon_drugpreparation);
+                    SharedPreference.FRAGMENTMAP.add(map);
                     break;
                 case "RLREG":
                     tvItem.setText("余液登记");
                     tvItem.setText(item.getModuleDesc());
                     imageView.setImageResource(R.drawable.icon_drugrlreg);
+                    map.put("fragName",RLRegFragment.class.getName());
+                    map.put("fragicon",R.drawable.icon_drugrlreg);
+                    SharedPreference.FRAGMENTMAP.add(map);
                     break;
                 case "SHIFT":
                     tvItem.setText("交班本");
                     tvItem.setText(item.getModuleDesc());
                     imageView.setImageResource(R.drawable.icon_drugrlreg);
+                    map.put("fragName",ShiftFragment.class.getName());
+                    map.put("fragicon",R.drawable.icon_drugrlreg);
+                    SharedPreference.FRAGMENTMAP.add(map);
                     break;
                 case "IFOrdRec":
                     tvItem.setText("药品接收");
                     tvItem.setText(item.getModuleDesc());
                     imageView.setImageResource(R.drawable.icon_drugrlreg);
+                    map.put("fragName",DrugReceiveFragment.class.getName());
+                    map.put("fragicon",R.drawable.icon_drugrlreg);
+                    SharedPreference.FRAGMENTMAP.add(map);
                     break;
                case "TaskManageFragment":
                     tvItem.setText("任务管理");
                     tvItem.setText(item.getModuleDesc());
                     imageView.setImageResource(R.drawable.icon_task_manage);
+                   map.put("fragName",TaskManageFragment.class.getName());
+                   map.put("fragicon",R.drawable.icon_task_manage);
+                   SharedPreference.FRAGMENTMAP.add(map);
                     break;
                 case "PLYOUT":
                     tvItem.setText("病理运送");
                     tvItem.setText(item.getModuleDesc());
                     imageView.setImageResource(R.drawable.icon_events);
+                    map.put("fragName",PlyOutListFragment.class.getName());
+                    map.put("fragicon",R.drawable.icon_events);
+                    SharedPreference.FRAGMENTMAP.add(map);
                     break;
                 default:
                     break;

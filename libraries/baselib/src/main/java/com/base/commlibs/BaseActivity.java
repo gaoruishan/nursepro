@@ -272,7 +272,7 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
                 llMap.clearAnimation();
                 if (llMap.isShown()){
                     llMap.setVisibility(View.GONE);
-//                    llMap.startAnimation(mHiddenAction);
+                    llMap.startAnimation(mHiddenAction);
                     tvHindMap.setBackgroundResource(R.drawable.imgshow);
                     SPUtils.getInstance().put(SharedPreference.FRAGMAPSHOW,"0");
                 }else {
@@ -302,10 +302,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
                     if (llMap.isShown()){
                         listener.changMap(map.get("fragName").toString());
                     }else {
-//                        llMap.clearAnimation();
-//                        llMap.setVisibility(View.VISIBLE);
-//                        tvHindMap.setBackgroundResource(R.drawable.imghind);
-//                        SPUtils.getInstance().put(SharedPreference.FRAGMAPSHOW,"1");
                     }
                 }
             }
