@@ -115,6 +115,11 @@ public class SharedPreference {
     //是否开启webSocket
     public static final String WEBSOCKET_FLAG = "WEBSOCKET_FLAG";
     //判断是否显示底部菜单栏
-    public static List FRAGMENTMAP = new ArrayList<HashMap>();
-    public static final String FRAGMAPSHOW = "FRAGMAPSHOW";
+
+    public static List FRAGMENTARY = new ArrayList<HashMap>();
+    public static final String MAP_SHOW = "MAP_SHOW";
+    //记录上一个fragment，可返回（挽回一次误操作跳转）
+    public static BaseActivity LastActivity;
+    //记录当前fragment，导航栏不显示
+    public static String Fragment_show;
 }

@@ -122,6 +122,7 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
     protected Animation mShowAction ;
     protected Animation mHiddenAction ;
     private FragMapAdapter fragMapAdapter;
+    private List listFragment;
     // 子类通过setContentView方法设置的View会添加到这个容器里面
     protected FrameLayout mContainer;
     // mContainer中子类的设置的View
@@ -255,7 +256,7 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         tvMap = findViewById(R.id.rec_fragmentmap);
         tvHindMap = findViewById(R.id.tv_hindmap);
         llMap = findViewById(R.id.map_fragment);
-        if (SPUtils.getInstance().getString(SharedPreference.FRAGMAPSHOW,"0").equals("0")){
+        if (SPUtils.getInstance().getString(SharedPreference.MAP_SHOW,"0").equals("0")){
             tvHindMap.setBackgroundResource(R.drawable.imgshow);
             llMap.setVisibility(View.GONE);
         }else {
@@ -274,11 +275,11 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
                     llMap.setVisibility(View.GONE);
                     llMap.startAnimation(mHiddenAction);
                     tvHindMap.setBackgroundResource(R.drawable.imgshow);
-                    SPUtils.getInstance().put(SharedPreference.FRAGMAPSHOW,"0");
+                    SPUtils.getInstance().put(SharedPreference.MAP_SHOW,"0");
                 }else {
                     llMap.setVisibility(View.VISIBLE);
                     tvHindMap.setBackgroundResource(R.drawable.imghind);
-                    SPUtils.getInstance().put(SharedPreference.FRAGMAPSHOW,"1");
+                    SPUtils.getInstance().put(SharedPreference.MAP_SHOW,"1");
                 }
             }
         });
@@ -291,14 +292,15 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         tvMap.setLayoutManager(layoutManager);
         fragMapAdapter = new FragMapAdapter(new ArrayList<>());
         tvMap.setAdapter(fragMapAdapter);
-        if (SharedPreference.FRAGMENTMAP.size()>0){
-            fragMapAdapter.setNewData(SharedPreference.FRAGMENTMAP);
+        listFragment = new ArrayList();
+        if (SharedPreference.FRAGMENTARY.size()>0){
+            listFragment.addAll(SharedPreference.FRAGMENTARY);
         }
         fragMapAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (listener!=null){
-                    HashMap map = (HashMap) SharedPreference.FRAGMENTMAP.get(position);
+                    HashMap map = (HashMap) listFragment.get(position);
                     if (llMap.isShown()){
                         listener.changMap(map.get("fragName").toString());
                     }else {
@@ -1495,6 +1497,14 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         // nothing
     }
     public void setListener(Listener listener) {
+        for (int i = 0; i <listFragment.size() ; i++) {
+            Map map = (Map) listFragment.get(i);
+            if (map.get("fragName").toString().contains(SharedPreference.Fragment_show)){
+                listFragment.remove(i);
+                break;
+            }
+        }
+        fragMapAdapter.setNewData(listFragment);
         this.listener = listener;
     }
     public interface Listener{

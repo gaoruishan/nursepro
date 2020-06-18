@@ -32,7 +32,6 @@ import com.dhcc.nursepro.workarea.allotbed.AllotBedFragment;
 import com.dhcc.nursepro.workarea.bedmap.BedMapFragment;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.BloodTransfusionSystemFragment;
 import com.dhcc.nursepro.workarea.checkresult.CheckPatsFragment;
-import com.dhcc.nursepro.workarea.checkresult.CheckResultListFragment;
 import com.dhcc.nursepro.workarea.docorderlist.DocOrderListFragment;
 import com.dhcc.nursepro.workarea.dosingreview.DosingReviewFragment;
 import com.dhcc.nursepro.workarea.drugloopsystem.drughandover.DrugHandoverFragment;
@@ -41,10 +40,8 @@ import com.dhcc.nursepro.workarea.drugloopsystem.residualliquidregistration.RLRe
 import com.dhcc.nursepro.workarea.infusiondrugreceive.DrugReceiveFragment;
 import com.dhcc.nursepro.workarea.labout.LabOutListFragment;
 import com.dhcc.nursepro.workarea.labresult.LabPatsFragment;
-import com.dhcc.nursepro.workarea.labresult.LabResultListFragment;
 import com.dhcc.nursepro.workarea.milkloopsystem_wenling.MilkLoopSystemFragment;
 import com.dhcc.nursepro.workarea.motherbabylink.MotherBabyLinkFragment;
-import com.dhcc.nursepro.workarea.nurrecord.NurRecordFragment;
 import com.dhcc.nursepro.workarea.nurrecordnew.PatNurRecordFragment;
 import com.dhcc.nursepro.workarea.nurtour.NurTourFragment;
 import com.dhcc.nursepro.workarea.operation.OperationFragment;
@@ -164,6 +161,12 @@ public class WorkareaFragment extends BaseFragment {
                     }
                 }
 
+                Map map = new HashMap();
+                map.put("code","Main");
+                map.put("desc","主页");
+                map.put("fragName",WorkareaFragment.class.getName());
+                map.put("fragicon",R.drawable.icon_workarea);
+                SharedPreference.FRAGMENTARY.add(map);
 
                 ItemNameList = mainConfigBean.getMainList();
                 patEventsAdapter.setNewData(ItemNameList);
@@ -1101,7 +1104,7 @@ public class WorkareaFragment extends BaseFragment {
                     imageView.setImageResource(R.drawable.icon_bedmap);
                     map.put("fragName",BedMapFragment.class.getName());
                     map.put("fragicon",R.drawable.icon_bedmap);
-                    SharedPreference.FRAGMENTMAP.add(map);
+                    SharedPreference.FRAGMENTARY.add(map);
                     break;
                 case "VITALSIGN":
                     tvItem.setText("生命体征");
@@ -1109,7 +1112,7 @@ public class WorkareaFragment extends BaseFragment {
                     imageView.setImageResource(R.drawable.icon_vitalsign);
                     map.put("fragName",VitalSignFragment.class.getName());
                     map.put("fragicon",R.drawable.icon_vitalsign);
-                    SharedPreference.FRAGMENTMAP.add(map);
+                    SharedPreference.FRAGMENTARY.add(map);
                     break;
                 case "EVENTS":
                     tvItem.setText("事件登记");
@@ -1117,7 +1120,7 @@ public class WorkareaFragment extends BaseFragment {
                     imageView.setImageResource(R.drawable.icon_events);
                     map.put("fragName",PatEventsFragment.class.getName());
                     map.put("fragicon",R.drawable.icon_events);
-                    SharedPreference.FRAGMENTMAP.add(map);
+                    SharedPreference.FRAGMENTARY.add(map);
                     break;
                 case "ORDERSEARCH":
                     tvItem.setText("医嘱查询");
@@ -1125,7 +1128,7 @@ public class WorkareaFragment extends BaseFragment {
                     imageView.setImageResource(R.drawable.icon_orderserarch);
                     map.put("fragName",OrderSearchFragment.class.getName());
                     map.put("fragicon",R.drawable.icon_orderserarch);
-                    SharedPreference.FRAGMENTMAP.add(map);
+                    SharedPreference.FRAGMENTARY.add(map);
                     break;
                 case "ORDEREXECUTE":
                     tvItem.setText("医嘱执行");
@@ -1133,7 +1136,7 @@ public class WorkareaFragment extends BaseFragment {
                     imageView.setImageResource(R.drawable.icon_orderexcute);
                     map.put("fragName",OrderExecuteFragment.class.getName());
                     map.put("fragicon",R.drawable.icon_orderexcute);
-                    SharedPreference.FRAGMENTMAP.add(map);
+                    SharedPreference.FRAGMENTARY.add(map);
                     break;
                 case "CHECK":
                     tvItem.setText("检查报告");
@@ -1141,7 +1144,7 @@ public class WorkareaFragment extends BaseFragment {
                     imageView.setImageResource(R.drawable.icon_check);
                     map.put("fragName", CheckPatsFragment.class.getName());
                     map.put("fragicon",R.drawable.icon_check);
-                    SharedPreference.FRAGMENTMAP.add(map);
+                    SharedPreference.FRAGMENTARY.add(map);
                     break;
                 case "LAB":
                     tvItem.setText("检验结果");
@@ -1149,7 +1152,7 @@ public class WorkareaFragment extends BaseFragment {
                     imageView.setImageResource(R.drawable.icon_lab);
                     map.put("fragName", LabPatsFragment.class.getName());
                     map.put("fragicon",R.drawable.icon_lab);
-                    SharedPreference.FRAGMENTMAP.add(map);
+                    SharedPreference.FRAGMENTARY.add(map);
                     break;
                 case "OPERATION":
                     tvItem.setText("手术查询");
@@ -1157,7 +1160,7 @@ public class WorkareaFragment extends BaseFragment {
                     imageView.setImageResource(R.drawable.icon_operation);
                     map.put("fragName",OperationFragment.class.getName());
                     map.put("fragicon",R.drawable.icon_operation);
-                    SharedPreference.FRAGMENTMAP.add(map);
+                    SharedPreference.FRAGMENTARY.add(map);
                     break;
                 case "LABOUT":
                     tvItem.setText("检验打包");
@@ -1165,7 +1168,7 @@ public class WorkareaFragment extends BaseFragment {
                     imageView.setImageResource(R.drawable.icon_labout);
                     map.put("fragName",LabOutListFragment.class.getName());
                     map.put("fragicon",R.drawable.icon_labout);
-                    SharedPreference.FRAGMENTMAP.add(map);
+                    SharedPreference.FRAGMENTARY.add(map);
                     break;
                 case "DOSINGREVIEW":
                     tvItem.setText("配液复核");
@@ -1173,7 +1176,7 @@ public class WorkareaFragment extends BaseFragment {
                     imageView.setImageResource(R.drawable.icon_dosingreview);
                     map.put("fragName",DosingReviewFragment.class.getName());
                     map.put("fragicon",R.drawable.icon_dosingreview);
-                    SharedPreference.FRAGMENTMAP.add(map);
+                    SharedPreference.FRAGMENTARY.add(map);
                     break;
                 case "ALLOTBED":
                     tvItem.setText("入院分床");
@@ -1181,7 +1184,7 @@ public class WorkareaFragment extends BaseFragment {
                     imageView.setImageResource(R.drawable.icon_allotbed);
                     map.put("fragName",AllotBedFragment.class.getName());
                     map.put("fragicon",R.drawable.icon_allotbed);
-                    SharedPreference.FRAGMENTMAP.add(map);
+                    SharedPreference.FRAGMENTARY.add(map);
                     break;
                 case "DOCORDERLIST":
                     tvItem.setText("医嘱单");
@@ -1189,7 +1192,7 @@ public class WorkareaFragment extends BaseFragment {
                     imageView.setImageResource(R.drawable.icon_docorderlist);
                     map.put("fragName",DocOrderListFragment.class.getName());
                     map.put("fragicon",R.drawable.icon_docorderlist);
-                    SharedPreference.FRAGMENTMAP.add(map);
+                    SharedPreference.FRAGMENTARY.add(map);
                     break;
                 case "BLOOD":
                     tvItem.setText("输血系统");
@@ -1197,7 +1200,7 @@ public class WorkareaFragment extends BaseFragment {
                     imageView.setImageResource(R.drawable.icon_blood);
                     map.put("fragName",BloodTransfusionSystemFragment.class.getName());
                     map.put("fragicon",R.drawable.icon_blood);
-                    SharedPreference.FRAGMENTMAP.add(map);
+                    SharedPreference.FRAGMENTARY.add(map);
                     break;
                 case "MILK":
                     tvItem.setText("母乳闭环");
@@ -1205,7 +1208,7 @@ public class WorkareaFragment extends BaseFragment {
                     imageView.setImageResource(R.drawable.icon_milk);
                     map.put("fragName",MilkLoopSystemFragment.class.getName());
                     map.put("fragicon",R.drawable.icon_milk);
-                    SharedPreference.FRAGMENTMAP.add(map);
+                    SharedPreference.FRAGMENTARY.add(map);
                     break;
                 case "MOTHERBABYLINK":
                     tvItem.setText("母婴关联");
@@ -1213,7 +1216,7 @@ public class WorkareaFragment extends BaseFragment {
                     imageView.setImageResource(R.drawable.icon_motherbabylink);
                     map.put("fragName",MotherBabyLinkFragment.class.getName());
                     map.put("fragicon",R.drawable.icon_motherbabylink);
-                    SharedPreference.FRAGMENTMAP.add(map);
+                    SharedPreference.FRAGMENTARY.add(map);
                     break;
                 case "MODELDETAIL":
                     tvItem.setText("护理病历");
@@ -1221,7 +1224,7 @@ public class WorkareaFragment extends BaseFragment {
                     imageView.setImageResource(R.drawable.icon_events);
                     map.put("fragName", PatNurRecordFragment.class.getName());
                     map.put("fragicon",R.drawable.icon_events);
-                    SharedPreference.FRAGMENTMAP.add(map);
+                    SharedPreference.FRAGMENTARY.add(map);
                     break;
                 case "NURTOUR":
                     tvItem.setText("巡视");
@@ -1229,7 +1232,7 @@ public class WorkareaFragment extends BaseFragment {
                     imageView.setImageResource(R.drawable.icon_tour);
                     map.put("fragName",NurTourFragment.class.getName());
                     map.put("fragicon",R.drawable.icon_tour);
-                    SharedPreference.FRAGMENTMAP.add(map);
+                    SharedPreference.FRAGMENTARY.add(map);
                     break;
                 case "DRUGHANDOVER":
                     tvItem.setText("药品交接");
@@ -1237,7 +1240,7 @@ public class WorkareaFragment extends BaseFragment {
                     imageView.setImageResource(R.drawable.icon_drugpreparation);
                     map.put("fragName",DrugHandoverFragment.class.getName());
                     map.put("fragicon",R.drawable.icon_drugpreparation);
-                    SharedPreference.FRAGMENTMAP.add(map);
+                    SharedPreference.FRAGMENTARY.add(map);
                     break;
                 case "DRUGPREPARATION":
                     tvItem.setText("取备用药");
@@ -1245,7 +1248,7 @@ public class WorkareaFragment extends BaseFragment {
                     imageView.setImageResource(R.drawable.icon_drugpreparation);
                     map.put("fragName",DrugHandoverFragment.class.getName());
                     map.put("fragicon",R.drawable.icon_drugpreparation);
-                    SharedPreference.FRAGMENTMAP.add(map);
+                    SharedPreference.FRAGMENTARY.add(map);
                     break;
                 case "RLREG":
                     tvItem.setText("余液登记");
@@ -1253,7 +1256,7 @@ public class WorkareaFragment extends BaseFragment {
                     imageView.setImageResource(R.drawable.icon_drugrlreg);
                     map.put("fragName",RLRegFragment.class.getName());
                     map.put("fragicon",R.drawable.icon_drugrlreg);
-                    SharedPreference.FRAGMENTMAP.add(map);
+                    SharedPreference.FRAGMENTARY.add(map);
                     break;
                 case "SHIFT":
                     tvItem.setText("交班本");
@@ -1261,7 +1264,7 @@ public class WorkareaFragment extends BaseFragment {
                     imageView.setImageResource(R.drawable.icon_drugrlreg);
                     map.put("fragName",ShiftFragment.class.getName());
                     map.put("fragicon",R.drawable.icon_drugrlreg);
-                    SharedPreference.FRAGMENTMAP.add(map);
+                    SharedPreference.FRAGMENTARY.add(map);
                     break;
                 case "IFOrdRec":
                     tvItem.setText("药品接收");
@@ -1269,7 +1272,7 @@ public class WorkareaFragment extends BaseFragment {
                     imageView.setImageResource(R.drawable.icon_drugrlreg);
                     map.put("fragName",DrugReceiveFragment.class.getName());
                     map.put("fragicon",R.drawable.icon_drugrlreg);
-                    SharedPreference.FRAGMENTMAP.add(map);
+                    SharedPreference.FRAGMENTARY.add(map);
                     break;
                case "TaskManageFragment":
                     tvItem.setText("任务管理");
@@ -1277,7 +1280,7 @@ public class WorkareaFragment extends BaseFragment {
                     imageView.setImageResource(R.drawable.icon_task_manage);
                    map.put("fragName",TaskManageFragment.class.getName());
                    map.put("fragicon",R.drawable.icon_task_manage);
-                   SharedPreference.FRAGMENTMAP.add(map);
+                   SharedPreference.FRAGMENTARY.add(map);
                     break;
                 case "PLYOUT":
                     tvItem.setText("病理运送");
@@ -1285,7 +1288,7 @@ public class WorkareaFragment extends BaseFragment {
                     imageView.setImageResource(R.drawable.icon_events);
                     map.put("fragName",PlyOutListFragment.class.getName());
                     map.put("fragicon",R.drawable.icon_events);
-                    SharedPreference.FRAGMENTMAP.add(map);
+                    SharedPreference.FRAGMENTARY.add(map);
                     break;
                 default:
                     break;

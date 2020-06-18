@@ -229,20 +229,40 @@ public class BaseFragment extends Fragment {
     public void setlitener() {
         Activity activity = getActivity();
         String fragName = this.getClass().getName();
-        if (activity != null && activity instanceof BaseActivity) {
-            ((BaseActivity) activity).setListener(new BaseActivity.Listener() {
-                @Override
-                public void changMap(String map) {
-                    try {
-                        Class<? extends BaseFragment> aClass = (Class<? extends BaseFragment>) Class.forName(map);
-                        startFragment(aClass);
-                        finish();
-                    } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
+        SharedPreference.Fragment_show = fragName;
+        if (fragName.contains("WorkareaFragment")||fragName.contains("MessageFragment")||fragName.contains("SettingFragment")){
+            SharedPreference.LastActivity = null;
+        }else {
+            if (activity != null && activity instanceof BaseActivity) {
+                ((BaseActivity) activity).setListener(new BaseActivity.Listener() {
+                    @Override
+                    public void changMap(String map) {
+                        try {
+                            Class<? extends BaseFragment> aClass = (Class<? extends BaseFragment>) Class.forName(map);
+                            if (!aClass.getName().contains("WorkareaFragment")){
+                                startFragment(aClass);
+                            }
+                            if (SharedPreference.LastActivity == null){
+                                SharedPreference.LastActivity = (BaseActivity) activity;
+                            }else {
+                                SharedPreference.LastActivity.finish();
+                                SharedPreference.LastActivity = (BaseActivity) activity;
+                            }
+                            if (aClass.getName().contains("WorkareaFragment")){
+                                startActivity(new Intent(getActivity(),Class.forName("com.dhcc.nursepro.Activity.MainActivity")));
+                                SharedPreference.LastActivity = null;
+                                finish();
+                            };
+//                        finish();
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                        }
                     }
-                }
-            });
+                });
+            }
+
         }
+
     }
     public void hindMap() {
         Activity activity = getActivity();
