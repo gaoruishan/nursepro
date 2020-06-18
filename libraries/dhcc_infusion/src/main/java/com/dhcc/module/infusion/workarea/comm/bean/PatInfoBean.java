@@ -9,6 +9,7 @@ public class PatInfoBean {
      * PatSex : 男
      */
 
+    private String episodeId;
     private String PatName;
     private String PatRegNo;
     private String PatSex;
@@ -16,6 +17,34 @@ public class PatInfoBean {
     private String PatSeat;
     //诊断
     private String PatDiag;
+    //血型
+    private String patBldTyp;
+    //床号
+    private String bedCode;
+
+    public String getEpisodeId() {
+        return episodeId == null ? "" : episodeId;
+    }
+
+    public void setEpisodeId(String episodeId) {
+        this.episodeId = episodeId;
+    }
+
+    public String getPatBldTyp() {
+        return patBldTyp == null ? "" : patBldTyp;
+    }
+
+    public void setPatBldTyp(String patBldTyp) {
+        this.patBldTyp = patBldTyp;
+    }
+
+    public String getBedCode() {
+        return bedCode == null ? "" : bedCode;
+    }
+
+    public void setBedCode(String bedCode) {
+        this.bedCode = bedCode;
+    }
 
     public String getPatSeat() {
         return PatSeat == null ? "" : PatSeat;

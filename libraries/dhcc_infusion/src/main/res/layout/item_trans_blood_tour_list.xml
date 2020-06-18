@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingRight="@dimen/dp_15"
+        android:paddingLeft="@dimen/dp_15"
+        android:paddingTop="@dimen/dp_10"
+        android:paddingBottom="@dimen/dp_10"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tv_item_bloodop_opstatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_oval_bluedark"
+                android:paddingStart="@dimen/dp_10"
+                android:paddingTop="@dimen/dp_2"
+                android:paddingEnd="@dimen/dp_10"
+                android:paddingBottom="@dimen/dp_2"
+                android:textColor="@color/white"
+                tools:text="已巡视" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_5"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tv_item_bloodtour_datetime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#4a4a4a"
+                android:textSize="@dimen/sp_14"
+                tools:text="2015-10-19  08:00:00" />
+
+            <View
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="@dimen/dp_1"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/tv_item_bloodtour_nurse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#4A4A4A"
+                android:layout_marginRight="@dimen/dp_20"
+                android:textSize="@dimen/sp_14"
+                tools:text="张护士" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_5"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tv_item_speed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#4A4A4A"
+                android:textSize="@dimen/sp_13"
+                tools:text="18滴/分" />
+            <TextView
+                android:layout_marginLeft="@dimen/dp_10"
+                android:id="@+id/tv_item_temp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sp_13"
+                android:textColor="#4A4A4A"
+                tools:text="35℃" />
+
+            <TextView
+                android:layout_marginLeft="@dimen/dp_10"
+                android:id="@+id/tv_item_pulse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#4A4A4A"
+                android:textSize="@dimen/sp_13"
+                tools:text="67次/分" />
+            <TextView
+                android:layout_marginLeft="@dimen/dp_10"
+                android:id="@+id/tv_item_sys"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#4A4A4A"
+                android:textSize="@dimen/sp_13"
+                tools:text="67mmHg(舒)" />
+
+            <TextView
+                android:layout_marginLeft="@dimen/dp_10"
+                android:id="@+id/tv_item_dia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#4A4A4A"
+                android:textSize="@dimen/sp_13"
+                tools:text="67mmHg(收)" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_5">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#4A4A4A"
+                android:textSize="@dimen/sp_13"
+                android:text="不良反应：" />
+
+            <TextView
+                android:id="@+id/tv_item_bloodtour_effect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#4A4A4A"
+                android:textSize="@dimen/sp_13"
+                tools:text="有" />
+
+            <TextView
+                android:id="@+id/tv_item_bloodtour_situation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_6"
+                android:textColor="@color/ic_ord_state_unexpect"
+                android:textSize="@dimen/sp_13"
+                android:padding="@dimen/dp_2"
+                tools:text="患者反应描述描述描述描述描述描述描述。患者反应描述描述描述描述描述描述描述。" />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_10"
+        android:background="#F5FAFF" />
+
+
+</LinearLayout>

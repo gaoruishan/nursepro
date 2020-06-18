@@ -34,6 +34,30 @@ public class OrdState {
     public static final String State_Pause = "暂停";
     public static final String State_Finsh = "结束";
 
+//====================================输血系统=================================
+    /**
+     * 签收-R 输注-S 巡视-X 结束-E 终止-Z 回收-Re
+     **/
+    //签收
+    public static final String TYPE_BLOOD_R = "R";
+    //复核
+    public static final String TYPE_BLOOD_C = "C";
+    //输注
+    public static final String TYPE_BLOOD_S = "S";
+    //巡视
+    public static final String TYPE_BLOOD_X = "X";
+    //结束  终止
+    public static final String TYPE_BLOOD_E = "E";
+    public static final String TYPE_BLOOD_Z = "Z";
+    //回收
+    public static final String TYPE_BLOOD_RE = "Re";
+
+    //签收
+    public static final String[] STATE_BLOOD_R = {"签收", "已签收"};
+    public static final String[] STATE_BLOOD_S = {"正在输血", "输注中"};
+    public static final String[] STATE_BLOOD_E = {"输血结束", "已完成", "已终止"};
+    public static final String[] STATE_BLOOD_RE = {"已回收"};
+
 
     /**
      * '未配液'颜色不变;

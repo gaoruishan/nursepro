@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/ll_temp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tv_temp"
+            android:layout_width="@dimen/dp_0"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp_12"
+            tools:text="体温(℃): 37.1" />
+
+        <TextView
+            android:id="@+id/tv_pulse"
+            android:layout_width="@dimen/dp_0"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp_12"
+            tools:text="脉搏(次/每分): 67" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_dia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tv_dia"
+            android:layout_width="@dimen/dp_0"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp_12"
+            tools:text="舒张压(mmHg): 90" />
+
+        <TextView
+            android:id="@+id/tv_sys"
+            android:layout_width="@dimen/dp_0"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp_12"
+            tools:text="收缩压(mmHg): 188" />
+
+    </LinearLayout>
+</LinearLayout>

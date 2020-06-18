@@ -4,9 +4,9 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
 
@@ -25,11 +25,11 @@ public class CustomSkinTagView extends BaseView {
 
     public static final String YIN = "阴";
     public static final String YANG = "阳";
-    private  View rlGroup;
+    public static final String yinColor = "#16C295";
+    public static final String yangColor = "#FF6EA4";
+    private View rlGroup;
     private TextView tvName;
     private BLLinearLayout blCircleOut, blCircleIn;
-    private String yinColor = "#16C295";
-    private String yangColor = "#FF6EA4";
 
     public CustomSkinTagView(Context context) {
         this(context, null);
@@ -41,38 +41,31 @@ public class CustomSkinTagView extends BaseView {
 
     public CustomSkinTagView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        setBackgroundColor(ContextCompat.getColor(context, R.color.transparency));
         tvName = findViewById(R.id.tv_text);
         rlGroup = findViewById(R.id.rl_group);
         //圆环
         blCircleOut = findViewById(R.id.bl_circle_out);
         blCircleIn = findViewById(R.id.bl_circle_in);
+        rlGroup.setVisibility(GONE);
     }
 
-    public CustomSkinTagView setText(String s) {
-        if (!TextUtils.isEmpty(s)) {
-            tvName.setText(s);
+    public CustomSkinTagView setText(String s, String s1, String color) {
+        setText(s);
+        if (s.equals(s1)) {
+            setTextColor(color);
+            setCircleColor(color);
         }
         return this;
     }
 
-    public void setTextWithColor(String s) {
+    public CustomSkinTagView setText(String s) {
         if (!TextUtils.isEmpty(s)) {
             rlGroup.setVisibility(VISIBLE);
-            if (s.contains(YIN)) {
-                setText(YIN);
-                setTextColor(yinColor);
-                setCircleColor(yinColor);
-            }
-            if (s.contains(YANG)) {
-                setText(YANG);
-                setTextColor(yangColor);
-                setCircleColor(yangColor);
-            }
-        }else {
-            rlGroup.setVisibility(GONE);
+            tvName.setText(s);
+            int dimen = s.length() >= 2 ? R.dimen.sp_15 : R.dimen.sp_22;
+            tvName.setTextSize(TypedValue.COMPLEX_UNIT_PX,mContext.getResources().getDimension(dimen));
         }
-
+        return this;
     }
 
     public CustomSkinTagView setTextColor(String color) {
@@ -107,6 +100,25 @@ public class CustomSkinTagView extends BaseView {
 //        ColorStateList colors = new DrawableCreator.Builder().setPressedTextColor(Color.RED).setUnPressedTextColor(Color.BLUE).buildTextColor();
 //        tvTest1.setTextColor(colors);
         return this;
+    }
+
+    public void setTextWithColor(String s) {
+        if (!TextUtils.isEmpty(s)) {
+            rlGroup.setVisibility(VISIBLE);
+            if (s.contains(YIN)) {
+                setText(YIN);
+                setTextColor(yinColor);
+                setCircleColor(yinColor);
+            }
+            if (s.contains(YANG)) {
+                setText(YANG);
+                setTextColor(yangColor);
+                setCircleColor(yangColor);
+            }
+        } else {
+            rlGroup.setVisibility(GONE);
+        }
+
     }
 
     @Override

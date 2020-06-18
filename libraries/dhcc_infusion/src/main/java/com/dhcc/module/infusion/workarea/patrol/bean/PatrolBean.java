@@ -120,46 +120,7 @@ public class PatrolBean extends CommInfusionBean {
         this.ordList = ordList;
     }
 
-    public static class InfusionReasonListBean {
-        /**
-         * InfusionReason : 鼓针
-         */
 
-        private String InfusionReason;
-
-        public String getInfusionReason() {
-            return InfusionReason;
-        }
-
-        public void setInfusionReason(String InfusionReason) {
-            this.InfusionReason = InfusionReason;
-        }
-    }
-
-    public static class InfusionStateListBean {
-        /**
-         * InfusionState : 正常
-         */
-
-        private String InfusionState;
-        private String InfusionStateFlag;
-
-        public String getInfusionStateFlag() {
-            return InfusionStateFlag == null ? "" : InfusionStateFlag;
-        }
-
-        public void setInfusionStateFlag(String infusionStateFlag) {
-            InfusionStateFlag = infusionStateFlag;
-        }
-
-        public String getInfusionState() {
-            return InfusionState;
-        }
-
-        public void setInfusionState(String InfusionState) {
-            this.InfusionState = InfusionState;
-        }
-    }
 
 
 }
