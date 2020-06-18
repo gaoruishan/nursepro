@@ -84,6 +84,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        hindMap();
         setContentView(R.layout.activity_login);
         setToolbarType(ToolbarType.HIDE);
         UserUtil.checkWebIp();

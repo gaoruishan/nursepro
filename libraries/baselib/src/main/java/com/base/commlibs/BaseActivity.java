@@ -31,6 +31,8 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
@@ -45,6 +47,8 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -62,6 +66,7 @@ import com.base.commlibs.utils.EditTextScanHelper;
 import com.base.commlibs.utils.JWebSocketUtil;
 import com.base.commlibs.utils.NetUtil;
 import com.blankj.utilcode.util.SPUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.noober.background.BackgroundLibrary;
 
 import org.greenrobot.eventbus.EventBus;
@@ -97,6 +102,7 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
     private static MyTimerTask mTimerTask; // 计时任务，判断是否未操作时间到达5s
     private static long mLastActionTime; // 上一次操作时间
     public BroadcastReceiver mReceiver;
+    private Listener listener;
     // 加载FullLoadingView
     protected BaseFullLoadingView mFullLoadingView;
     // 加载TopLoadingTip
@@ -110,6 +116,12 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
     protected FrameLayout mToolbarCenterContainer;
     protected FrameLayout mToolbarLeftContainer;
     protected FrameLayout mToolbarRightContainer;
+    protected RecyclerView tvMap;
+    protected TextView tvHindMap;
+    protected LinearLayout llMap;
+    protected Animation mShowAction ;
+    protected Animation mHiddenAction ;
+    private FragMapAdapter fragMapAdapter;
     // 子类通过setContentView方法设置的View会添加到这个容器里面
     protected FrameLayout mContainer;
     // mContainer中子类的设置的View
@@ -240,6 +252,88 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         mToolbarRightContainer = findViewById(R.id.toolbar_right_container);
         mContainer = findViewById(R.id.container);
         llGlobal = findViewById(R.id.ll_global);
+        tvMap = findViewById(R.id.rec_fragmentmap);
+        tvHindMap = findViewById(R.id.tv_hindmap);
+        llMap = findViewById(R.id.map_fragment);
+        if (SPUtils.getInstance().getString(SharedPreference.FRAGMAPSHOW,"0").equals("0")){
+            tvHindMap.setBackgroundResource(R.drawable.imgshow);
+            llMap.setVisibility(View.GONE);
+        }else {
+            tvHindMap.setBackgroundResource(R.drawable.imghind);
+            llMap.setVisibility(View.VISIBLE);
+        }
+
+        mShowAction = AnimationUtils.loadAnimation(this, R.anim.alpha_in);
+        mHiddenAction = AnimationUtils.loadAnimation(this, R.anim.alpha_out);
+
+        tvHindMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                llMap.clearAnimation();
+                if (llMap.isShown()){
+                    llMap.setVisibility(View.GONE);
+//                    llMap.startAnimation(mHiddenAction);
+                    tvHindMap.setBackgroundResource(R.drawable.imgshow);
+                    SPUtils.getInstance().put(SharedPreference.FRAGMAPSHOW,"0");
+                }else {
+                    llMap.setVisibility(View.VISIBLE);
+                    tvHindMap.setBackgroundResource(R.drawable.imghind);
+                    SPUtils.getInstance().put(SharedPreference.FRAGMAPSHOW,"1");
+                }
+            }
+        });
+
+        //提高展示效率
+        tvMap.setHasFixedSize(true);
+        //设置的布局管理
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        tvMap.setLayoutManager(layoutManager);
+        fragMapAdapter = new FragMapAdapter(new ArrayList<>());
+        tvMap.setAdapter(fragMapAdapter);
+        if (SharedPreference.FRAGMENTMAP.size()>0){
+            fragMapAdapter.setNewData(SharedPreference.FRAGMENTMAP);
+        }
+        fragMapAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                if (listener!=null){
+                    HashMap map = (HashMap) SharedPreference.FRAGMENTMAP.get(position);
+                    if (llMap.isShown()){
+                        listener.changMap(map.get("fragName").toString());
+                    }else {
+//                        llMap.clearAnimation();
+//                        llMap.setVisibility(View.VISIBLE);
+//                        tvHindMap.setBackgroundResource(R.drawable.imghind);
+//                        SPUtils.getInstance().put(SharedPreference.FRAGMAPSHOW,"1");
+                    }
+                }
+            }
+        });
+
+//        for (int i = 0; i <SharedPreference.FRAGMENTMAP.size() ; i++) {
+//            TextView textView = new TextView(this);
+//            HashMap<String, String> map = (HashMap<String, String>) SharedPreference.FRAGMENTMAP.get(i);
+//            textView.setText(map.get("desc"));
+//            tvMap.addView(textView);
+//            textView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if (listener!=null){
+//                        listener.changMap(map.get("fragName"));
+//                    }
+//                }
+//            });
+//        }
+//        TextView textView2 = new TextView(this);
+//        textView2.setText("隐藏");
+//        tvMap.addView(textView2);
+//        textView2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                tvMap.setVisibility(View.GONE);
+//            }
+//        });
         setToolbarBackground(new ColorDrawable(0xffffffff));
         initStatusBarBackgroundView();
         initBackAction();
@@ -287,7 +381,16 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
             llGlobal.addView(view);
         }
     }
-
+    /**
+     * 隐藏导航栏
+     * @return
+     */
+    public void hindMap() {
+        if (llMap!=null&&tvMap!=null){
+            llMap.setVisibility(View.GONE);
+            tvHindMap.setVisibility(View.GONE);
+        }
+    }
     // 每当用户接触了屏幕，都会执行此方法
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
@@ -1394,6 +1497,12 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
      */
     public void onRequestPermissionsResult(String permission, boolean granted) {
         // nothing
+    }
+    public void setListener(Listener listener) {
+        this.listener = listener;
+    }
+    public interface Listener{
+        public void changMap(String map);
     }
 
     // 尝试5.0以上系统设置Toolbar的MargeTop为StatusBar的高度

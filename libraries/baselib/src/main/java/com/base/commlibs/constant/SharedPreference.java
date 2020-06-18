@@ -1,5 +1,14 @@
 package com.base.commlibs.constant;
 
+import android.app.Activity;
+
+import com.base.commlibs.BaseFragment;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * SharedPreference
  * 当前登录用户数据存储KEY
@@ -100,8 +109,7 @@ public class SharedPreference {
     public static final String IS_SHOW_LOGCAT = "IS_SHOW_LOGCAT";
     //当前用户工作量
     public static final String IS_SHOW_CUR_USER_WORKLOAD = "IS_SHOW_CUR_USER_WORKLOAD";
-    //是否网络状态日志
     public static final String NET_LOG = "NET_LOG";
-    //是否开启webSocket
-    public static final String WEBSOCKET_FLAG = "WEBSOCKET_FLAG";
+    public static List FRAGMENTMAP = new ArrayList<HashMap>();
+    public static final String FRAGMAPSHOW = "FRAGMAPSHOW";
 }

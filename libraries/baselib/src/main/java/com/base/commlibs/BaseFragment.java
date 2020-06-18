@@ -76,6 +76,12 @@ public class BaseFragment extends Fragment {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setlitener();
+    }
+
     public void getScanMsg(Intent intent) {
 
         if (Objects.requireNonNull(intent.getAction()).equals(Action.DEVICE_SCAN_CODE)) {
@@ -216,6 +222,31 @@ public class BaseFragment extends Fragment {
         Activity activity = getActivity();
         if (activity != null && activity instanceof BaseActivity) {
             ((BaseActivity) activity).setToolbarCenterTitle(title, color, size);
+        }
+    }
+
+    public void setlitener() {
+        Activity activity = getActivity();
+        String fragName = this.getClass().getName();
+        if (activity != null && activity instanceof BaseActivity) {
+            ((BaseActivity) activity).setListener(new BaseActivity.Listener() {
+                @Override
+                public void changMap(String map) {
+                    try {
+                        Class<? extends BaseFragment> aClass = (Class<? extends BaseFragment>) Class.forName(map);
+                        startFragment(aClass);
+                        finish();
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+    }
+    public void hindMap() {
+        Activity activity = getActivity();
+        if (activity != null && activity instanceof BaseActivity) {
+            ((BaseActivity) activity).hindMap();
         }
     }
 
