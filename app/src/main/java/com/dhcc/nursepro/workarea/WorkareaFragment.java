@@ -103,6 +103,8 @@ public class WorkareaFragment extends BaseFragment {
     private String groupId = "";
     private String ordSpeed = "";
     private String reason = "";
+    private String regNoByPat = "";
+    private String regNoByOrd = "";
 
     @Override
     public void onHiddenChanged(boolean hidden) {
@@ -564,6 +566,7 @@ public class WorkareaFragment extends BaseFragment {
                 //ORD 扫医嘱条码返回医嘱信息
                 if ("PAT".equals(scanResultBean.getFlag())) {
                     scanPat = "1";
+                    regNoByPat = scanResultBeanFromWS.getPatInfo().getRegNo();
                     if (orderDialog != null) {
                         orderDialog.setScanPat(scanPat);
                         orderDialog.setPopMsgInfo(scanResultBean.getMsg());
@@ -619,6 +622,7 @@ public class WorkareaFragment extends BaseFragment {
 
                 } else {
                     barCode = scanInfo;
+                    regNoByOrd = scanResultBean.getOrders().get(0).getRegNo();
                     if (resultDialog != null && resultDialog.isShowing()) {
                         resultDialog.dismiss();
                     }
@@ -740,7 +744,9 @@ public class WorkareaFragment extends BaseFragment {
             });
             resultDialog.show();
             return;
-        } else if (!execpatInfo.split("-")[0].equals(bedCode)) {
+        } else if (!(regNoByOrd.replaceAll(" ","")).equals((regNoByPat.replaceAll(" ","")))) {
+            regNoByOrd="";
+            regNoByPat = "";
             if (resultDialog != null && resultDialog.isShowing()) {
                 resultDialog.dismiss();
             }
@@ -764,6 +770,8 @@ public class WorkareaFragment extends BaseFragment {
             @Override
             public void onSuccess(OrderExecResultBean orderExecResultBean) {
                 barCode = "";
+                regNoByOrd="";
+                regNoByPat = "";
 
                 if (resultDialog != null && resultDialog.isShowing()) {
                     resultDialog.dismiss();
@@ -788,6 +796,8 @@ public class WorkareaFragment extends BaseFragment {
                 if (resultDialog != null && resultDialog.isShowing()) {
                     resultDialog.dismiss();
                 }
+                regNoByOrd="";
+                regNoByPat = "";
                 playSound(1, 0);
                 resultDialog = new WorkareaResultDialog(getActivity());
                 resultDialog.setExecresult(msg);
