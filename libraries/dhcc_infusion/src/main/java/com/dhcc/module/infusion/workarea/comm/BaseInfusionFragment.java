@@ -53,18 +53,19 @@ public abstract class BaseInfusionFragment extends BaseFragment {
     public static final String STR_ORD_ING = "当前输液中,不可穿刺";
     public static final String STR_WAY_NO = "通道";
 
-    public static final String SCAN_HAND = "请扫描腕带";
-    public static final String SCAN_PAT_HAND = "请您使用扫码设备，扫描病人腕带";
+    public static String SCAN_HAND = "请扫描腕带";
+    public static  String SCAN_PAT_HAND = "请您使用扫码设备，扫描病人腕带";
 
-    public static final String SCAN_LABEL = "请扫描贴签";
-    public static final String SCAN_DRUG_LABEL = "请您使用扫码设备，扫描药品贴签";
+    public static  String SCAN_LABEL = "请扫描贴签";
+    public static  String SCAN_DRUG_LABEL = "请您使用扫码设备，扫描药品贴签";
 
-    public static final String SCAN_LABEL_CARD = "请扫描贴签/信息卡";
-    public static final String SCAN_LABEL_CARD_INFO = "请您使用扫码设备，扫描药品贴签/信息卡";
+    public static  String SCAN_LABEL_CARD = "请扫描贴签/信息卡";
+    public static  String SCAN_LABEL_CARD_INFO = "请您使用扫码设备，扫描药品贴签/信息卡";
     public static final String PAT = "PAT";
     public static final String ORD = "ORD";
     protected static final String PROMPT_NO_ORD = "本次接单任务无此贴签 ,请核对!";
     protected static final String PAT_NO_ORD = "未找到该患者对应的医嘱，请核查!";
+    protected static final String BLOOD_NO_ORD = "列表中无此血袋,请核对!";
     protected String scanInfo;
     protected String scanInfoTemp;
     protected String episodeId = "";

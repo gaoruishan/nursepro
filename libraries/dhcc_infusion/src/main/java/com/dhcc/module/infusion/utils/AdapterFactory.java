@@ -13,6 +13,9 @@ import com.dhcc.module.infusion.workarea.inject.adapter.InjectAdapter;
 import com.dhcc.module.infusion.workarea.patrol.adapter.InfusionTourAdapter;
 import com.dhcc.module.infusion.workarea.patrol.adapter.PatrolOrdListAdapter;
 import com.dhcc.module.infusion.workarea.skin.adapter.SkinAdapter;
+import com.dhcc.module.infusion.workarea.transblood.adapter.BaseTransBloodAdapter;
+import com.dhcc.module.infusion.workarea.transblood.adapter.TransBloodListAdapter;
+import com.dhcc.module.infusion.workarea.transblood.adapter.TransBloodTourListAdapter;
 
 /**
  * 管理适配器
@@ -106,5 +109,21 @@ public class AdapterFactory {
      */
     public static InjectAdapter getInjectAdapter() {
         return new InjectAdapter(R.layout.item_blood_layout, null);
+    }
+
+    /**
+     * 输血
+     * @return
+     */
+    public static BaseTransBloodAdapter getTransBloodListAdapter() {
+        return new TransBloodListAdapter(R.layout.item_trans_blood_list, null);
+    }
+
+    /**
+     * 输血详情-巡视
+     * @return
+     */
+    public static BaseTransBloodAdapter getTransBloodTourListAdapter() {
+        return new TransBloodTourListAdapter(R.layout.item_trans_blood_tour_list, null);
     }
 }

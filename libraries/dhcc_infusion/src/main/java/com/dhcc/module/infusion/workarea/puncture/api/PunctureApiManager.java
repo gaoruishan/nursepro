@@ -5,7 +5,7 @@ import com.base.commlibs.http.CommWebService;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.http.ParserUtil;
 import com.base.commlibs.http.ServiceCallBack;
-import com.dhcc.module.infusion.workarea.puncture.PunctureBean;
+import com.dhcc.module.infusion.workarea.puncture.bean.PunctureBean;
 
 /**
  * com.dhcc.module.infusion.workarea.puncture.api

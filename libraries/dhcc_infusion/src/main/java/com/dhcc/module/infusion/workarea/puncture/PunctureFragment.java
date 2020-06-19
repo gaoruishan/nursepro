@@ -21,6 +21,7 @@ import com.dhcc.module.infusion.workarea.comm.BaseInfusionFragment;
 import com.dhcc.module.infusion.workarea.comm.bean.CommInfusionBean;
 import com.dhcc.module.infusion.workarea.dosing.adapter.CommDosingAdapter;
 import com.dhcc.module.infusion.workarea.puncture.api.PunctureApiManager;
+import com.dhcc.module.infusion.workarea.puncture.bean.PunctureBean;
 import com.dhcc.res.infusion.CustomPatView;
 import com.dhcc.res.infusion.CustomScanView;
 import com.dhcc.res.infusion.CustomSelectView;

@@ -1,4 +1,4 @@
-package com.dhcc.module.infusion.workarea.puncture;
+package com.dhcc.module.infusion.workarea.puncture.bean;
 
 import com.dhcc.module.infusion.workarea.comm.bean.CommInfusionBean;
 import com.dhcc.module.infusion.workarea.comm.bean.PatInfoBean;
@@ -129,7 +129,7 @@ public class PunctureBean extends CommInfusionBean {
     public List<String> getPunturePartListString() {
         List<String> list = new ArrayList<>();
         if (getPunturePartList() != null) {
-            for (PunctureBean.PunturePartListBean listBean : getPunturePartList()) {
+            for (PunturePartListBean listBean : getPunturePartList()) {
                 list.add(listBean.getPunturePart());
             }
         }
@@ -144,21 +144,6 @@ public class PunctureBean extends CommInfusionBean {
         this.PunturePartList = PunturePartList;
     }
 
-    public static class PunturePartListBean {
-        /**
-         * PunturePart : 手背
-         */
-
-        private String PunturePart;
-
-        public String getPunturePart() {
-            return PunturePart;
-        }
-
-        public void setPunturePart(String PunturePart) {
-            this.PunturePart = PunturePart;
-        }
-    }
 
     public static class PuntureToolListBean {
         /**

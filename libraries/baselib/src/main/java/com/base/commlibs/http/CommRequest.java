@@ -27,9 +27,9 @@ public abstract class CommRequest {
      * 获取变量
      * @return
      */
-//    public HashMap<String, String> getProperties(CommRequest params) {
-//        return ReflectUtil.getPublicFieldsToMap(params);
-//    }
+    public static HashMap<String, String> getProperties(CommRequest params) {
+        return ReflectUtil.getPublicFieldsToMap(params);
+    }
 
     public  HashMap<String, String> getProperties(){
         return ReflectUtil.getPublicFieldsToMap(this);

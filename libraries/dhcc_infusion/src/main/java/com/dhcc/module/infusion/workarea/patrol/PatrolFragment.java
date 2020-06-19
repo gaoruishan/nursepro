@@ -19,6 +19,8 @@ import com.dhcc.module.infusion.workarea.comm.bean.CommInfusionBean;
 import com.dhcc.module.infusion.workarea.patrol.adapter.InfusionTourAdapter;
 import com.dhcc.module.infusion.workarea.patrol.adapter.PatrolOrdListAdapter;
 import com.dhcc.module.infusion.workarea.patrol.api.PatrolApiManager;
+import com.dhcc.module.infusion.workarea.patrol.bean.InfusionReasonListBean;
+import com.dhcc.module.infusion.workarea.patrol.bean.InfusionStateListBean;
 import com.dhcc.module.infusion.workarea.patrol.bean.PatrolBean;
 import com.dhcc.res.infusion.CustomPatView;
 import com.dhcc.res.infusion.CustomScanView;
@@ -116,7 +118,7 @@ public class PatrolFragment extends BaseInfusionFragment implements View.OnClick
                     }
                 });
                 csvSelectTime.setTitle("预计结束时间").setSelectTime(getFragmentManager(), bean.getDistantDate(), bean.getDistantTime(), null);
-                List<PatrolBean.InfusionStateListBean> stateList = bean.getInfusionStateList();
+                List<InfusionStateListBean> stateList = bean.getInfusionStateList();
                 if (bean.getInfusionStateList() != null) {
                     setInfusionSate(bean, stateList);
                 }
@@ -139,22 +141,22 @@ public class PatrolFragment extends BaseInfusionFragment implements View.OnClick
         });
     }
 
-    private void setInfusionSate(PatrolBean bean, List<PatrolBean.InfusionStateListBean> stateList) {
+    private void setInfusionSate(PatrolBean bean, List<InfusionStateListBean> stateList) {
         List<String> list = new ArrayList<>();
-        for (PatrolBean.InfusionStateListBean b : stateList) {
+        for (InfusionStateListBean b : stateList) {
             list.add(b.getInfusionState());
         }
         csvSelectStatus.setTitle("输液情况").setSelectData(getActivity(), list, new OptionPicker.OnOptionPickListener() {
             @Override
             public void onOptionPicked(int index, String item) {
-                PatrolBean.InfusionStateListBean infusionStateListBean = stateList.get(index);
+                InfusionStateListBean infusionStateListBean = stateList.get(index);
                 csvSelectReason.setVisibility(View.GONE);
                 llMeasure.setVisibility(View.GONE);
                 if (PatrolBean.State_Pause.equals(item) || "1".equals(infusionStateListBean.getInfusionStateFlag())) {
-                    List<PatrolBean.InfusionReasonListBean> reasonList = bean.getInfusionReasonList();
+                    List<InfusionReasonListBean> reasonList = bean.getInfusionReasonList();
                     if (reasonList != null) {
                         List<String> list = new ArrayList<>();
-                        for (PatrolBean.InfusionReasonListBean b : reasonList) {
+                        for (InfusionReasonListBean b : reasonList) {
                             list.add(b.getInfusionReason());
                         }
                         llMeasure.setVisibility(View.VISIBLE);
