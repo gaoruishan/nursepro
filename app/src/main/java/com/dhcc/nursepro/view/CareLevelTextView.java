@@ -38,11 +38,11 @@ public class CareLevelTextView extends android.support.v7.widget.AppCompatTextVi
             setVisibility(View.GONE);
         } else {
             setVisibility(View.VISIBLE);
-            if (careLevelDesc.equals("特级护理")) {
+            if (careLevelDesc.contains("特级")) {
                 setTextColor(Color.parseColor("#FF8C00"));
-            } else if(careLevelDesc.equals("一级护理")){
+            } else if(careLevelDesc.contains("一级")){
                 setTextColor(Color.parseColor("#FF0000"));
-            } else if (careLevelDesc.equals("二级护理")) {
+            } else if (careLevelDesc.contains("二级")) {
                 setTextColor(Color.parseColor("#0000FF"));
             } else {
                 setTextColor(Color.parseColor("#00BD4C"));

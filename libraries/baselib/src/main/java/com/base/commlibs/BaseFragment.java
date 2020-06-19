@@ -420,6 +420,10 @@ public class BaseFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        String fragName = this.getClass().getName();
+        if (fragName.contains("WorkareaFragment")||fragName.contains("MessageFragment")||fragName.contains("SettingFragment")){
+            SharedPreference.LastActivity = null;
+        }
         if (mReceiver != null) {
             getActivity().registerReceiver(mReceiver, mfilter);
         }
