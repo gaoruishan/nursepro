@@ -540,9 +540,11 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 if (buttons.size() == 0) {
                     llOrderexecuteNoselectbottom.setVisibility(View.GONE);
                     llOrderexecuteSelectbottom.setVisibility(View.GONE);
+                    setHindBottm(10);
                 } else {
                     llOrderexecuteNoselectbottom.setVisibility(View.VISIBLE);
                     llOrderexecuteSelectbottom.setVisibility(View.GONE);
+                    setHindBottm(10);
                     tvBottomNoselecttext.setText("请选择医嘱");
                 }
 
@@ -705,11 +707,13 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
         if (selectCount == 0) {
             llOrderexecuteNoselectbottom.setVisibility(View.VISIBLE);
             llOrderexecuteSelectbottom.setVisibility(View.GONE);
+            setHindBottm(10);
             tvBottomNoselecttext.setText("请选择医嘱");
 
         } else {
             llOrderexecuteNoselectbottom.setVisibility(View.GONE);
             llOrderexecuteSelectbottom.setVisibility(View.VISIBLE);
+            setHindBottm(50);
             tvBottomSelecttext.setText("已选择" + selectCount + "个");
         }
 

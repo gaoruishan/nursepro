@@ -51,6 +51,7 @@ import com.dhcc.nursepro.workarea.orderexecute.bean.OrderExecResultBean;
 import com.dhcc.nursepro.workarea.ordersearch.OrderSearchFragment;
 import com.dhcc.nursepro.workarea.patevents.PatEventsFragment;
 import com.dhcc.nursepro.workarea.plyout.PlyOutListFragment;
+import com.dhcc.nursepro.workarea.rjorder.RjOrderFragment;
 import com.dhcc.nursepro.workarea.shift.ShiftFragment;
 import com.dhcc.nursepro.workarea.taskmanage.TaskManageFragment;
 import com.dhcc.nursepro.workarea.vitalsign.VitalSignFragment;
@@ -162,7 +163,7 @@ public class WorkareaFragment extends BaseFragment {
                         spUtils.put(SharedPreference.CURDATETIME, mainConfigBean.getCurDateTime());
                     }
                 }
-
+                SharedPreference.FRAGMENTARY = new ArrayList();
                 Map map = new HashMap();
                 map.put("code","Main");
                 map.put("desc","主页");
@@ -283,6 +284,9 @@ public class WorkareaFragment extends BaseFragment {
                 break;
             case "PLYOUT":
                 startFragment(PlyOutListFragment.class);
+                break;
+            case "RJORD":
+                startFragment(RjOrderFragment.class);
                 break;
             default:
                 break;
@@ -1297,6 +1301,14 @@ public class WorkareaFragment extends BaseFragment {
                     tvItem.setText(item.getModuleDesc());
                     imageView.setImageResource(R.drawable.icon_events);
                     map.put("fragName",PlyOutListFragment.class.getName());
+                    map.put("fragicon",R.drawable.icon_events);
+                    SharedPreference.FRAGMENTARY.add(map);
+                    break;
+                case "RJORD":
+                    tvItem.setText("日间输液");
+                    tvItem.setText(item.getModuleDesc());
+                    imageView.setImageResource(R.drawable.icon_events);
+                    map.put("fragName", RjOrderFragment.class.getName());
                     map.put("fragicon",R.drawable.icon_events);
                     SharedPreference.FRAGMENTARY.add(map);
                     break;

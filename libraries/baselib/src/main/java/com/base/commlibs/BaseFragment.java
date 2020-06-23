@@ -270,7 +270,12 @@ public class BaseFragment extends Fragment {
             ((BaseActivity) activity).hindMap();
         }
     }
-
+    public void setHindBottm(int bottom) {
+        Activity activity = getActivity();
+        if (activity != null && activity instanceof BaseActivity) {
+            ((BaseActivity) activity).setTvHindMapBottom(bottom);
+        }
+    }
     /**
      * 设置Toolbar居中的自定义视图
      *

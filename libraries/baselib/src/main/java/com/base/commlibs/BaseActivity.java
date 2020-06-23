@@ -380,6 +380,17 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         }
     }
     /**
+     * 设置隐藏按钮的bottom
+     *
+     */
+    public void setTvHindMapBottom(int bottom) {
+        if (tvHindMap!=null){
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) tvHindMap.getLayoutParams();
+            layoutParams.bottomMargin=dp2px(bottom);
+            tvHindMap.setLayoutParams(layoutParams);
+        }
+    }
+    /**
      * 隐藏导航栏
      * @return
      */
