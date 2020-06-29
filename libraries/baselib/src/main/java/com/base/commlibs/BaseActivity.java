@@ -62,9 +62,11 @@ import com.base.commlibs.base.BasePushDialog;
 import com.base.commlibs.base.BaseTopLoadingView;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
+import com.base.commlibs.http.CommWebService;
 import com.base.commlibs.utils.EditTextScanHelper;
 import com.base.commlibs.utils.JWebSocketUtil;
 import com.base.commlibs.utils.NetUtil;
+import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.noober.background.BackgroundLibrary;
@@ -256,12 +258,18 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         tvMap = findViewById(R.id.rec_fragmentmap);
         tvHindMap = findViewById(R.id.tv_hindmap);
         llMap = findViewById(R.id.map_fragment);
+        String appPackageName = AppUtils.getAppPackageName();
         if (SPUtils.getInstance().getString(SharedPreference.MAP_SHOW,"0").equals("0")){
             tvHindMap.setBackgroundResource(R.drawable.imgshow);
             llMap.setVisibility(View.GONE);
         }else {
             tvHindMap.setBackgroundResource(R.drawable.imghind);
             llMap.setVisibility(View.VISIBLE);
+        }
+        //门急诊隐藏导航栏
+        if (appPackageName.equals(CommWebService.COM_DHCC_INFUSION)||appPackageName.equals(CommWebService.COM_DHCC_HEALTH)){
+            llMap.setVisibility(View.GONE);
+            tvHindMap.setVisibility(View.GONE);
         }
 
         mShowAction = AnimationUtils.loadAnimation(this, R.anim.alpha_in);
