@@ -5,8 +5,8 @@ import android.util.Log;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommWebService;
-import com.base.commlibs.http.ParserUtil;
 import com.base.commlibs.http.ServiceCallBack;
+import com.base.commlibs.utils.SchDateTimeUtil;
 import com.blankj.utilcode.util.ObjectUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
@@ -68,8 +68,7 @@ public class MessageApiManager {
                                     } else {
                                         if (!(SPUtils.getInstance().getString(SharedPreference.CURDATETIME).substring(0,10)).equals(message.getCurDateTime().substring(0,10))){
                                             if (message.getSchStDateTime() != null && message.getSchEnDateTime() != null) {
-                                                SPUtils.getInstance().put(SharedPreference.SCHSTDATETIME, message.getSchStDateTime());
-                                                SPUtils.getInstance().put(SharedPreference.SCHENDATETIME, message.getSchEnDateTime());
+                                                SchDateTimeUtil.putSchStartEndDateTime(message.getSchStDateTime(),message.getSchEnDateTime());
                                             }
                                         }
 

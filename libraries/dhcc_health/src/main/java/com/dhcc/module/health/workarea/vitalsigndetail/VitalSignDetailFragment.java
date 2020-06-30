@@ -15,19 +15,16 @@ import android.widget.TextView;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
-import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommonCallBack;
-import com.base.commlibs.utils.ViewUtil;
+import com.base.commlibs.utils.SchDateTimeUtil;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.module.health.R;
 import com.dhcc.module.health.workarea.vitalsign.api.VitalSignsApiManager;
 import com.dhcc.module.health.workarea.vitalsign.bean.VitalSignDetailBean;
 import com.dhcc.module.health.workarea.vitalsigndetail.adapter.VitalSignDetailAdapter;
 import com.dhcc.res.infusion.CustomScanView;
-import com.dhcc.res.nurse.CustomEmptyLayout;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
@@ -35,7 +32,6 @@ import com.jzxiang.pickerview.listener.OnDateSetListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -67,8 +63,8 @@ public class VitalSignDetailFragment extends BaseFragment implements View.OnClic
         setToolbarBottomLineVisibility(true);
         setToolbarCenterTitle("生命体征", 0xffffffff, 17);
 
-        stDate = spUtils.getString(SharedPreference.SCHSTDATETIME).substring(0, 10);
-        enDate = spUtils.getString(SharedPreference.SCHENDATETIME).substring(0, 10);
+        stDate = SchDateTimeUtil.getStartDate();
+        enDate = SchDateTimeUtil.getEndDate();
 //        Bundle bundle = getArguments();
 //        mBundle = bundle;
 //        episodeId = bundle.getString("episodeId");

@@ -107,9 +107,9 @@ public class RecyclerViewHelper {
         //设置布局管理器 ， 参数 linearLayout
         recyclerView.setLayoutManager(gridLayoutManager);
         //添加自定义分割线
-        DividerItemDecoration divider = new DividerItemDecoration(mContext, DividerItemDecoration.HORIZONTAL);
+//        DividerItemDecoration divider = new DividerItemDecoration(mContext, DividerItemDecoration.HORIZONTAL);
 //        divider.setDrawable(ContextCompat.getDrawable(mContext, R.drawable.timepicker_sel_text_item));
-        recyclerView.addItemDecoration(divider);
+//        recyclerView.addItemDecoration(divider);
     }
 
     public static void setGridRecyclerViewScroll(Context mContext, RecyclerView recyclerView, int spanCount, boolean orientation) {

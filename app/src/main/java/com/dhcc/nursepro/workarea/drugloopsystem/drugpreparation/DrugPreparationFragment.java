@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
 import com.base.commlibs.constant.Action;
-import com.base.commlibs.constant.SharedPreference;
+import com.base.commlibs.utils.SchDateTimeUtil;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.dhcc.nursepro.R;
@@ -115,8 +115,8 @@ public class DrugPreparationFragment extends BaseFragment implements OnDateSetLi
             }
         });
         setToolbarRightCustomView(viewright);
-        startDate = spUtils.getString(SharedPreference.SCHSTDATETIME).substring(0, 10);
-        endDate = spUtils.getString(SharedPreference.SCHENDATETIME).substring(0, 10);
+        startDate = SchDateTimeUtil.getStartDate();
+        endDate = SchDateTimeUtil.getEndDate();
 
         initView(view);
         initAdapter();

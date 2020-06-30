@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
 import com.base.commlibs.constant.Action;
-import com.base.commlibs.constant.SharedPreference;
+import com.base.commlibs.utils.SchDateTimeUtil;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.dhcc.nursepro.R;
@@ -65,8 +65,8 @@ public class RLRegFragment extends BaseFragment implements View.OnClickListener,
         //        hideToolbarNavigationIcon();
         setToolbarCenterTitle(getString(R.string.title_residualliquidregistration), 0xffffffff, 17);
 
-        startDate = spUtils.getString(SharedPreference.SCHSTDATETIME).substring(0, 10);
-        endDate = spUtils.getString(SharedPreference.SCHENDATETIME).substring(0, 10);
+        startDate = SchDateTimeUtil.getStartDate();
+        endDate = SchDateTimeUtil.getEndDate();
 
         initView(view);
         initAdapter();

@@ -234,8 +234,7 @@ public class UserUtil {
         setUserConfig(loginBean);
         SPUtils.getInstance().put(SharedPreference.USERID, loginBean.getUserId());
         SPUtils.getInstance().put(SharedPreference.USERNAME, loginBean.getUserName());
-        SPUtils.getInstance().put(SharedPreference.SCHSTDATETIME, loginBean.getSchStDateTime());
-        SPUtils.getInstance().put(SharedPreference.SCHENDATETIME, loginBean.getSchEnDateTime());
+        SchDateTimeUtil.putSchStartEndDateTime(loginBean.getSchStDateTime(),loginBean.getSchEnDateTime());
         //配置
         SPUtils.getInstance().put(SharedPreference.APP_VERSION_CODE, AppUtils.getAppVersionCode() + "");
         CommFile.write(SharedPreference.APP_VERSION_CODE, AppUtils.getAppVersionCode() + "");

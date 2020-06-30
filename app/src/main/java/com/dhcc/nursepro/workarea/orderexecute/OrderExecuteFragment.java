@@ -27,6 +27,7 @@ import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
+import com.base.commlibs.utils.SchDateTimeUtil;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
@@ -170,10 +171,10 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 execResultDialog.dismiss();
             }
         }
-        startDate = spUtils.getString(SharedPreference.SCHSTDATETIME).substring(0, 10);
-        startTime = spUtils.getString(SharedPreference.SCHSTDATETIME).substring(11, 16);
-        endDate = spUtils.getString(SharedPreference.SCHENDATETIME).substring(0, 10);
-        endTime = spUtils.getString(SharedPreference.SCHENDATETIME).substring(11, 16);
+        startDate = SchDateTimeUtil.getStartDate();
+        startTime = SchDateTimeUtil.getStartTime();
+        endDate = SchDateTimeUtil.getEndDate();
+        endTime = SchDateTimeUtil.getEndTime();
 
         initView(view);
         initAdapter();

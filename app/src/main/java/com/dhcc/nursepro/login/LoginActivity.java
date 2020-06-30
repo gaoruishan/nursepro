@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
+import com.base.commlibs.utils.SchDateTimeUtil;
 import com.base.commlibs.utils.UserUtil;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
@@ -563,8 +564,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         spUtils.put(SharedPreference.LOCID, loginNurseInfo.getLocId());
         spUtils.put(SharedPreference.LOCDESC, loginNurseInfo.getLocDesc());
         spUtils.put(SharedPreference.WARDID, loginNurseInfo.getWardId());
-        spUtils.put(SharedPreference.SCHSTDATETIME, loginNurseInfo.getSchStDateTime());
-        spUtils.put(SharedPreference.SCHENDATETIME, loginNurseInfo.getSchEnDateTime());
+        SchDateTimeUtil.putSchStartEndDateTime(loginNurseInfo.getSchStDateTime(),loginNurseInfo.getSchEnDateTime());
     }
 
     /**

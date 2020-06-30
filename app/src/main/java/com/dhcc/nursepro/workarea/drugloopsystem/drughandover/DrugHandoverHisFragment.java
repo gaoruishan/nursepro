@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
-import com.base.commlibs.constant.SharedPreference;
+import com.base.commlibs.utils.SchDateTimeUtil;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -61,8 +61,8 @@ public class DrugHandoverHisFragment extends BaseFragment implements OnDateSetLi
         setToolbarCenterTitle(getString(R.string.title_drughandoverhis));
         setToolbarBottomLineVisibility(true);
 
-        startDate = spUtils.getString(SharedPreference.SCHSTDATETIME).substring(0, 10);
-        endDate = spUtils.getString(SharedPreference.SCHENDATETIME).substring(0, 10);
+        startDate = SchDateTimeUtil.getStartDate();
+        endDate = SchDateTimeUtil.getEndDate();
         initView(view);
         initAdapter();
         view.postDelayed(new Runnable() {

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.base.commlibs.utils.SchDateTimeUtil;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.base.commlibs.BaseActivity;
@@ -59,8 +60,7 @@ public class SettingDateTimeFragment extends BaseFragment implements View.OnClic
         viewright.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                spUtils.put(SharedPreference.SCHSTDATETIME,startDate);
-                spUtils.put(SharedPreference.SCHENDATETIME,endDate);
+                SchDateTimeUtil.putSchStartEndDateTime(startDate,endDate);
                 finish();
             }
         });

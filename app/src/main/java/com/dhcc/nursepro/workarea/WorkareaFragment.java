@@ -23,6 +23,7 @@ import com.base.commlibs.BaseFragment;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.utils.DataCache;
+import com.base.commlibs.utils.SchDateTimeUtil;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -154,8 +155,7 @@ public class WorkareaFragment extends BaseFragment {
             @Override
             public void onSuccess(MainConfigBean mainConfigBean) {
                 if (mainConfigBean.getSchStDateTime() != null && mainConfigBean.getSchEnDateTime() != null) {
-                    spUtils.put(SharedPreference.SCHSTDATETIME, mainConfigBean.getSchStDateTime());
-                    spUtils.put(SharedPreference.SCHENDATETIME, mainConfigBean.getSchEnDateTime());
+                    SchDateTimeUtil.putSchStartEndDateTime(mainConfigBean.getSchStDateTime(),mainConfigBean.getSchEnDateTime());
 
                     if (StringUtils.isEmpty(mainConfigBean.getCurDateTime())) {
                         spUtils.put(SharedPreference.CURDATETIME, mainConfigBean.getSchEnDateTime());

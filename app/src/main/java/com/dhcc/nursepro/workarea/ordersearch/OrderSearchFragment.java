@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
-import com.base.commlibs.constant.SharedPreference;
+import com.base.commlibs.utils.SchDateTimeUtil;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -105,10 +105,10 @@ public class OrderSearchFragment extends BaseFragment implements View.OnClickLis
             regNo = bundle.getString("regNo");
         }
 
-        startDate = spUtils.getString(SharedPreference.SCHSTDATETIME).substring(0, 10);
-        startTime = spUtils.getString(SharedPreference.SCHSTDATETIME).substring(11, 16);
-        endDate = spUtils.getString(SharedPreference.SCHENDATETIME).substring(0, 10);
-        endTime = spUtils.getString(SharedPreference.SCHENDATETIME).substring(11, 16);
+        startDate = SchDateTimeUtil.getStartDate();
+        startTime = SchDateTimeUtil.getStartTime();
+        endDate = SchDateTimeUtil.getEndDate();
+        endTime = SchDateTimeUtil.getEndTime();
 
         initView(view);
         initAdapter();
