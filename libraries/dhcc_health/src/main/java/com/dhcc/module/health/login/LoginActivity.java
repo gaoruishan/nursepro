@@ -175,6 +175,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void onFail(String code, String msg) {
                 hideLoadingTip();
+                showToast(msg);
             }
 
             @Override
