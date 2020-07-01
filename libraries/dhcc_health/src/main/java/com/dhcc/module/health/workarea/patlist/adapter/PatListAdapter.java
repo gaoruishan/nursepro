@@ -25,7 +25,7 @@ public class PatListAdapter extends BaseQuickAdapter<PatListBean.PatInfoListBean
     @Override
     protected void convert(BaseViewHolder helper, PatListBean.PatInfoListBean item) {
         helper.setText(R.id.tv_pat_info, item.getBedCode()+"-"+item.getName())
-                .setText(R.id.tv_pat_admdr,item.getAdmdr());
+                .setText(R.id.tv_pat_admdr,item.getMrNumGet());
 
         ImageView imgSel = helper.getView(R.id.img_pat_select);
         if (item.getSelect().equals("1")){
