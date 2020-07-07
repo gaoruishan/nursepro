@@ -20,7 +20,10 @@ import static android.content.Context.BIND_AUTO_CREATE;
 public class JWebSocketUtil {
 
 
+    private static boolean isBind;
+
     public static void startService(Context context) {
+        isBind = false;
         if (!UserUtil.isWebSocketFlag()) {
             return;
         }
@@ -38,9 +41,11 @@ public class JWebSocketUtil {
         }
         //停止服务
         if (ServiceUtils.isServiceRunning(JWebSocketClientService.class)) {
-            Intent intent = new Intent(mContext, JWebSocketClientService.class);
-            mContext.stopService(intent);
-            mContext.unbindService(serviceConnection);
+            if (isBind) {
+                Intent intent = new Intent(mContext, JWebSocketClientService.class);
+                mContext.stopService(intent);
+                mContext.unbindService(serviceConnection);
+            }
         }
     }
 
@@ -48,6 +53,7 @@ public class JWebSocketUtil {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
             Log.e("MainActivity", "服务与活动成功绑定");
+            isBind = true;
 //            JWebSocketClientService.JWebSocketClientBinder binder = (JWebSocketClientService.JWebSocketClientBinder) iBinder;
 //            jWebSClientService = binder.getService();
 //            client = jWebSClientService.client;
@@ -56,6 +62,7 @@ public class JWebSocketUtil {
         @Override
         public void onServiceDisconnected(ComponentName componentName) {
             Log.e("MainActivity", "服务与活动成功断开");
+            isBind = false;
         }
     };
 

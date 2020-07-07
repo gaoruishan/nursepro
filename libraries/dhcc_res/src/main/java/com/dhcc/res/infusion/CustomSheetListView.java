@@ -58,8 +58,8 @@ public class CustomSheetListView extends LinearLayout {
         rvSheet.setAdapter(sheetListAdapter);
     }
 
-    public void setDatas(List<SheetListBean> list) {
-        sheetListAdapter.setNewData(list);
+    public void setDatas(List <? extends SheetListBean> list) {
+        sheetListAdapter.setNewData((List<SheetListBean>) list);
     }
 
     public void setOnItemClickListener(@Nullable BaseQuickAdapter.OnItemClickListener listener) {

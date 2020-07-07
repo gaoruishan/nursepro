@@ -10,6 +10,7 @@ import com.dhcc.module.infusion.workarea.comm.adapter.DetailLogAdapter;
 import com.dhcc.module.infusion.workarea.comm.adapter.PatInfoAdapter;
 import com.dhcc.module.infusion.workarea.dosing.adapter.CommDosingAdapter;
 import com.dhcc.module.infusion.workarea.inject.adapter.InjectAdapter;
+import com.dhcc.module.infusion.workarea.orderexecute.adapter.OrderExecutePatOrderAdapter;
 import com.dhcc.module.infusion.workarea.patrol.adapter.InfusionTourAdapter;
 import com.dhcc.module.infusion.workarea.patrol.adapter.PatrolOrdListAdapter;
 import com.dhcc.module.infusion.workarea.skin.adapter.SkinAdapter;
@@ -109,6 +110,13 @@ public class AdapterFactory {
      */
     public static InjectAdapter getInjectAdapter() {
         return new InjectAdapter(R.layout.item_blood_layout, null);
+    }
+    /**
+     * 执行医嘱
+     * @return
+     */
+    public static OrderExecutePatOrderAdapter getOrderExecuteAdapter() {
+        return new OrderExecutePatOrderAdapter(R.layout.item_ord_exe_layout, null);
     }
 
     /**

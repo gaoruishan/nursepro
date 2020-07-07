@@ -58,10 +58,10 @@ public class CustomOrdExeBottomView extends BaseView {
         if (list != null) {
             llBottom.removeAllViews();
             for (int i = 0; i < list.size(); i++) {
-                ClickBean bean = list.get(i);
+                final ClickBean bean = list.get(i);
                 TextView tv = inflate(R.layout.dhcc_ord_exe_buttom_tv, llBottom, TextView.class);
                 tv.setText(bean.getText());
-                int finalI = i;
+                final int finalI = i;
                 tv.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -131,7 +131,7 @@ public class CustomOrdExeBottomView extends BaseView {
         return "";
     }
 
-    public void adBottomType(List<SheetListBean> listBeans) {
+    public void adBottomType(final List<SheetListBean> listBeans) {
         if (listBeans != null && listBeans.size() > 0) {
             tvType.setText(listBeans.get(0).getDesc());
             tvType.setOnClickListener(new OnClickListener() {
