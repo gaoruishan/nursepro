@@ -75,7 +75,7 @@
 
                 <com.dhcc.module.infusion.view.SelectorImageView
                     android:id="@+id/siv_selector"
-                    android:layout_width="@dimen/dp_80"
+                    android:layout_width="@dimen/dp_50"
                     android:layout_height="@dimen/dp_40"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="@dimen/dp_5"
@@ -85,6 +85,10 @@
                     app:selectedImage="@drawable/top"
                     app:unselectedImage="@drawable/bottom"
                 />
+                <com.dhcc.res.infusion.CustomGlobalBlock
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/ll_bg_color"

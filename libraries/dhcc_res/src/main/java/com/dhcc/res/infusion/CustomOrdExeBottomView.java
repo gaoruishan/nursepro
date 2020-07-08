@@ -55,7 +55,7 @@ public class CustomOrdExeBottomView extends BaseView {
      * @param list
      */
     public void addBottomView(List<? extends ClickBean> list) {
-        if (list != null) {
+        if (list != null && list.size() > 0) {
             llBottom.removeAllViews();
             for (int i = 0; i < list.size(); i++) {
                 final ClickBean bean = list.get(i);

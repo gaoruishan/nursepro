@@ -25,9 +25,9 @@ public class OrderExecuteBean extends CommResult implements Serializable {
 
     private String curOeoreId;
     private PatInfoBean patInfo;
-    private List<ButtonsBean> buttons;
+    private List<OrdButtonsBean> buttons;
     private List<BloodOrdListBean> ordList;
-    private List<ButtonsBean> sheetList;
+    private List<OrdSheetListBean> sheetList;
 
     public String getCurOeoreId() {
         return curOeoreId;
@@ -45,11 +45,11 @@ public class OrderExecuteBean extends CommResult implements Serializable {
         this.patInfo = patInfo;
     }
 
-    public List<ButtonsBean> getButtons() {
+    public List<OrdButtonsBean> getButtons() {
         return buttons;
     }
 
-    public void setButtons(List<ButtonsBean> buttons) {
+    public void setButtons(List<OrdButtonsBean> buttons) {
         this.buttons = buttons;
     }
 
@@ -61,11 +61,11 @@ public class OrderExecuteBean extends CommResult implements Serializable {
         this.ordList = ordList;
     }
 
-    public List<ButtonsBean> getSheetList() {
+    public List<OrdSheetListBean> getSheetList() {
         return sheetList;
     }
 
-    public void setSheetList(List<ButtonsBean> sheetList) {
+    public void setSheetList(List<OrdSheetListBean> sheetList) {
         this.sheetList = sheetList;
     }
 

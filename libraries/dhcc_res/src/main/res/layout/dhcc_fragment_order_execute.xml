@@ -70,6 +70,7 @@
         </LinearLayout>
 
         <com.dhcc.res.infusion.CustomOrdExeBottomView
+            android:id="@+id/custom_bottom"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_50"
             android:orientation="vertical"/>

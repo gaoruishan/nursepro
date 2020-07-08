@@ -33,6 +33,10 @@ public abstract class BaseBloodQuickAdapter<T, K extends BaseViewHolder> extends
     protected String scanInfo;
     private Boolean ifSelShow = false;
 
+    /**
+     * 是否显示勾选
+     * @param ifSelShow
+     */
     public void setIfSelShow(Boolean ifSelShow) {
         this.ifSelShow = ifSelShow;
     }
@@ -62,6 +66,11 @@ public abstract class BaseBloodQuickAdapter<T, K extends BaseViewHolder> extends
                 .setText(R.id.tv_time, item.getCreateDateTime())
                 .setText(R.id.tv_stttime,item.getSttDateTime() !=null?item.getSttDateTime():"")
                 .addOnClickListener(R.id.ll_orderselect);
+        //隐藏
+        helper.setGone(R.id.tv_time,!TextUtils.isEmpty(item.getCreateDateTime()))
+                .setGone(R.id.tv_operate,!TextUtils.isEmpty(item.getSpecDesc()))
+                .setGone(R.id.tv_creator,!TextUtils.isEmpty(item.getCtcpDesc()))
+                .setGone(R.id.tv_dose,!TextUtils.isEmpty(item.getDoseQtyUnit()));
         LinearLayout llExeDT = helper.getView(R.id.ll_exeinfo);
         if (item.getExecDateTime() != null && item.getExecDateTime().length()>1){
             llExeDT.setVisibility(View.VISIBLE);
@@ -77,7 +86,7 @@ public abstract class BaseBloodQuickAdapter<T, K extends BaseViewHolder> extends
         }
         Drawable drawable = new DrawableCreator.Builder()
                 .setSolidColor(Color.parseColor(labColor))
-                .setCornersRadius(mContext.getResources().getDimension(R.dimen.dp_10))
+                .setCornersRadius(mContext.getResources().getDimension(R.dimen.dp_20))
                 .build();
         blTvStatus.setBackground(drawable);
         helper.setGone(R.id.tv_time, !TextUtils.isEmpty(item.getCreateDateTime()));
@@ -192,6 +201,7 @@ public abstract class BaseBloodQuickAdapter<T, K extends BaseViewHolder> extends
         protected void convert(BaseViewHolder helper, ArcimDescListBean item) {
             helper.setText(R.id.tv_title, item.getArcimDesc())
                     .setText(R.id.tv_content, item.getDoseQtyUnit() + "      " + item.getPhOrdQtyUnit());
+            helper.setGone(R.id.tv_content,!TextUtils.isEmpty(item.getDoseQtyUnit()));
         }
     }
 }

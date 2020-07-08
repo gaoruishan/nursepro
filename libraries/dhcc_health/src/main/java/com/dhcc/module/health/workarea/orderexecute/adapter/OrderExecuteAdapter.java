@@ -44,7 +44,7 @@ public class OrderExecuteAdapter extends BaseQuickAdapter<OrdListBean.CureInfoLi
         String labColor = "#62ABFF";
         Drawable drawable = new DrawableCreator.Builder()
                 .setSolidColor(Color.parseColor(labColor))
-                .setCornersRadius(mContext.getResources().getDimension(R.dimen.dp_10))
+                .setCornersRadius(mContext.getResources().getDimension(R.dimen.dp_20))
                 .build();
         blTvStatus.setBackground(drawable);
 //        helper.setGone(R.id.tv_time, !TextUtils.isEmpty(item.getOrderSttDate()));

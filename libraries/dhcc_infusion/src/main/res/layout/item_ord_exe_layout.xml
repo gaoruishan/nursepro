@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
     android:paddingRight="@dimen/dp_10"
     android:paddingLeft="@dimen/dp_10"
-    android:background="@color/white"
     android:layout_marginBottom="@dimen/dp_5"
     android:layout_marginTop="@dimen/dp_5"
     android:orientation="vertical">
@@ -20,46 +19,47 @@
             android:id="@+id/bl_tv_status"
             android:text="需处理临嘱"
             android:gravity="center"
-            android:paddingLeft="@dimen/dp_5"
-            android:layout_marginRight="@dimen/dp_20"
+            android:paddingLeft="@dimen/dp_6"
+            android:layout_marginRight="@dimen/dp_10"
             android:textSize="@dimen/sp_12"
-            android:paddingRight="@dimen/dp_5"
-            android:paddingTop="@dimen/dp_2"
-            android:paddingBottom="@dimen/dp_2"
+            android:paddingRight="@dimen/dp_6"
+            android:paddingTop="@dimen/dp_4"
+            android:paddingBottom="@dimen/dp_4"
             android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+
         <TextView
             android:id="@+id/tv_lab_no"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dp_8"
             android:layout_weight="1"
-            tools:text="1000003770 "
+            tools:text="1000003770 1000003770"
             android:textColor="#FF4A4A4A"
             android:textSize="@dimen/sp_16" />
 
-        <View
-            android:layout_width="@dimen/dp_0"
-            android:layout_height="@dimen/dp_1"
-            android:layout_weight="1"/>
         <LinearLayout
             android:visibility="gone"
             android:id="@+id/ll_orderselect"
-            android:layout_width="@dimen/dp_30"
-            android:layout_height="@dimen/dp_30"
-            android:layout_gravity="end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="@dimen/dp_5"
+            android:layout_marginRight="@dimen/dp_5"
             android:gravity="center"
             android:clickable="true">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/dp_25"
+                android:layout_height="@dimen/dp_25"
                 android:background="@drawable/icon_orderexec_selector" />
         </LinearLayout>
-        <View
-            android:layout_width="@dimen/dp_50"
-            android:layout_height="@dimen/dp_1"/>
+
+        <com.dhcc.res.infusion.CustomGlobalBlock
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView

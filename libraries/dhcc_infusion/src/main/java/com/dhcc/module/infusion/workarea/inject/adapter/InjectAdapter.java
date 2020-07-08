@@ -25,12 +25,19 @@ public class InjectAdapter extends BaseBloodQuickAdapter<BloodOrdListBean, BaseV
 
     public void setInitData(InjectListBean bean) {
         if (bean.getOrdList() != null) {
-            for (int i = 0; i < bean.getOrdList().size(); i++) {
-                bean.getOrdList().get(i).setSelect("0");
-            }
-            setIfSelShow(true);
-            setNewData(bean.getOrdList());
+            setInitData(bean.getOrdList());
         }
+    }
+
+    public void setInitData(List<BloodOrdListBean> data ) {
+        if (data == null || data.size() == 0) {
+            return;
+        }
+        for (int i = 0; i < data.size(); i++) {
+            data.get(i).setSelect("0");
+        }
+        setIfSelShow(true);
+        setNewData(data);
     }
 
     public void refreshData(InjectListBean injectListBean, int position) {

@@ -12,6 +12,7 @@ import com.base.commlibs.BaseActivity;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.RecyclerViewHelper;
+import com.base.commlibs.utils.SimpleCallBack;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -23,9 +24,10 @@ import com.dhcc.module.infusion.workarea.comm.bean.PatInfoBean;
 import com.dhcc.module.infusion.workarea.comm.bean.ScanInfoBean;
 import com.dhcc.module.infusion.workarea.orderexecute.adapter.OrderExecutePatOrderAdapter;
 import com.dhcc.module.infusion.workarea.orderexecute.api.OrderExecuteApiManager;
-import com.dhcc.module.infusion.workarea.orderexecute.bean.ButtonsBean;
+import com.dhcc.module.infusion.workarea.orderexecute.bean.OrdButtonsBean;
 import com.dhcc.module.infusion.workarea.orderexecute.bean.OrderExecuteBean;
 import com.dhcc.res.infusion.CustomDateTimeView;
+import com.dhcc.res.infusion.CustomOrdExeBottomView;
 import com.dhcc.res.infusion.CustomSheetListView;
 import com.dhcc.res.infusion.bean.SheetListBean;
 import com.jzxiang.pickerview.TimePickerDialog;
@@ -53,7 +55,8 @@ public class OrderExecuteFragment extends BaseInfusionFragment {
     private String sheetCode = "";
     private CustomSheetListView sheetListView;
     private OrderExecutePatOrderAdapter patientOrderAdapter;
-    private List<ButtonsBean> buttons;
+    private List<OrdButtonsBean> buttons;
+    private CustomOrdExeBottomView bottomView;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -62,6 +65,7 @@ public class OrderExecuteFragment extends BaseInfusionFragment {
         showScanPatHand();
         setDateTime();
         sheetListView = f(R.id.custom_sheet_list, CustomSheetListView.class);
+        bottomView = f(R.id.custom_bottom, CustomOrdExeBottomView.class);
         sheetListView.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -78,24 +82,15 @@ public class OrderExecuteFragment extends BaseInfusionFragment {
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 if (adapter instanceof OrderExecutePatOrderAdapter) {
                     BloodOrdListBean patOrdsBean = (BloodOrdListBean) adapter.getData().get(position);
+                    patientOrderAdapter.refreshData(adapter.getData(), position);
+                    bottomView.setSelectText("已选 1 个");
                 }
-                if (view.getId() == R.id.ll_oepat_orderselect) {
-//                    if ("PSD".equals(sheetCode)) {
-//                        f(R.id.ll_select_num).setVisibility(View.GONE);
-//                    } else {
-//                        f(R.id.ll_select_num).setVisibility(View.VISIBLE);
-//                    }
+            }
+        });
+        bottomView.setBottomViewClickListener(new SimpleCallBack<View>() {
+            @Override
+            public void call(View result, int type) {
 
-//                    if (patOrdsBean.getSelect() == null || "0".equals(patOrdsBean.getSelect()) || "".equals(patOrdsBean.getSelect())) {
-//                        patOrdsBean.setSelect("1");
-//                    } else {
-//                        patOrdsBean.setSelect("0");
-//                    }
-                    patientOrderAdapter.notifyItemChanged(position);
-                    if (f(R.id.ll_select_num).getVisibility() == View.VISIBLE || f(R.id.ll_no_select).getVisibility() == View.VISIBLE) {
-                    }
-
-                }
             }
         });
     }
@@ -200,51 +195,15 @@ public class OrderExecuteFragment extends BaseInfusionFragment {
             public void onSuccess(OrderExecuteBean bean, String type) {
                 hideLoadingTip();
                 sheetListView.setDatas(bean.getSheetList());
-                buttons = bean.getButtons();
                 //左侧列表判断有无默认值，有的话滑动到默认值类型
-//                if (!"".equals(bean.getSheetDefCode())) {
-//                    sheetListView.setSheetDefCode(bean.getSheetDefCode());
-//                }
-                List<ButtonsBean> buttons = bean.getButtons();
+                bottomView.addBottomView(bean.getButtons());
 
-                if (buttons.size() == 0) {
-                    f(R.id.ll_no_select).setVisibility(View.GONE);
-                    f(R.id.ll_select).setVisibility(View.GONE);
-                } else {
-                    f(R.id.ll_no_select).setVisibility(View.VISIBLE);
-                    f(R.id.ll_select).setVisibility(View.GONE);
-                    int exectype = 1;
-                    String handleCode = "Y";
-                    if (buttons.get(0).getDesc().contains("处理")) {
-                        f(R.id.tv_no_select_text, TextView.class).setText("请您选择需处理的医嘱");
-                        exectype = 0;
-                        handleCode = "A";
-                        f(R.id.tv_type, TextView.class).setText("接受");
-                        setVisible(View.VISIBLE);
-                    } else {
-                        f(R.id.tv_no_select_text, TextView.class).setText("请您选择需执行的医嘱");
-                        if ("PSD".equals(sheetCode)) {
-                            f(R.id.tv_type, TextView.class).setText("阳性");
-                            setVisible(View.VISIBLE);
-                        } else {
-                            setVisible(View.GONE);
-                        }
-                    }
-                }
-                if (bean.getOrdList() != null && bean.getOrdList().size() > 0) {
-                    patientOrderAdapter.setNewData(bean.getOrdList());
-                    patientOrderAdapter.loadMoreEnd();
-                }
+                patientOrderAdapter.setInitData(bean.getOrdList());
+                patientOrderAdapter.loadMoreEnd();
             }
         });
     }
 
-
-    private void setVisible(int visible) {
-        f(R.id.view_line).setVisibility(visible);
-        f(R.id.tv_type).setVisibility(visible);
-        f(R.id.img_sure).setVisibility(visible);
-    }
 
 
 }

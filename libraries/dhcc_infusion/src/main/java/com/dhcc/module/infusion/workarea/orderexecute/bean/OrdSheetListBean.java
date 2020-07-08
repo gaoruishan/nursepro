@@ -2,7 +2,7 @@ package com.dhcc.module.infusion.workarea.orderexecute.bean;
 
 import com.dhcc.res.infusion.bean.SheetListBean;
 
-public class ButtonsBean extends SheetListBean {
+public class OrdSheetListBean extends SheetListBean {
     /**
      * code : excuteOrder
      * desc : 执行

@@ -109,7 +109,7 @@ public class AdapterFactory {
      * @return
      */
     public static InjectAdapter getInjectAdapter() {
-        return new InjectAdapter(R.layout.item_blood_layout, null);
+        return new InjectAdapter(R.layout.item_inject_layout, null);
     }
     /**
      * 执行医嘱
