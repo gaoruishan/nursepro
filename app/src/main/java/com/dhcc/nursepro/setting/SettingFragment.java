@@ -115,6 +115,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                             logonWardId = nurseInfo.getWardId();
                             loginNurseInfo = nurseInfo;
                             changeLoc();
+                            break;
                         }
                     }
                 }
