@@ -68,7 +68,9 @@ public class SettingVersionDialog extends Dialog {
             if (str.equals("VersionName")) {
                 return "产品名称  iMedical M-NIS"+" " + info.versionName;
             } else if (str.equals("VersionCode")) {
-                return "产品版本  R " + info.versionName +"."+ info.versionCode;
+                //大于99归0
+                int versionCode = info.versionCode >= 100 ? 0 : info.versionCode;
+                return "产品版本  R " + info.versionName +"."+ versionCode;
             } else {
                 return "";
             }

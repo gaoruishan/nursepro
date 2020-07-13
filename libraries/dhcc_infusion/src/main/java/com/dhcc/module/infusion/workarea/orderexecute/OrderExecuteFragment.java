@@ -10,11 +10,13 @@ import android.widget.TextView;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.constant.SharedPreference;
+import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.RecyclerViewHelper;
 import com.base.commlibs.utils.SimpleCallBack;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.utils.AdapterFactory;
@@ -33,6 +35,7 @@ import com.dhcc.res.infusion.bean.SheetListBean;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -89,10 +92,42 @@ public class OrderExecuteFragment extends BaseInfusionFragment {
         });
         bottomView.setBottomViewClickListener(new SimpleCallBack<View>() {
             @Override
-            public void call(View result, int type) {
-
+            public void call(View result, int position) {
+                List<BloodOrdListBean> listBeans = checkSelectItem();
+                if (listBeans.size() == 0) {
+                    ToastUtils.showShort("请选择医嘱");
+                    return;
+                }
+                OrdButtonsBean buttonsBean = buttons.get(position);
+                execOrder(listBeans,buttonsBean.getExeCode());
             }
         });
+    }
+
+    private void execOrder(List<BloodOrdListBean> listBeans, String exeCode) {
+
+        OrderExecuteApiManager.execOrder(listBeans.get(0).getOrderId(), exeCode, sheetCode, new CommonCallBack<CommResult>() {
+            @Override
+            public void onFail(String code, String msg) {
+                onFailThings();
+            }
+
+            @Override
+            public void onSuccess(CommResult bean, String type) {
+                onSuccessThings(bean);
+                asyncInitData();
+            }
+        });
+    }
+
+    private List<BloodOrdListBean> checkSelectItem() {
+        List<BloodOrdListBean> listBeans = new ArrayList<>();
+        for (BloodOrdListBean bean : patientOrderAdapter.getData()) {
+            if ("1".equals(bean.getSelect())) {
+                listBeans.add(bean);
+            }
+        }
+        return listBeans;
     }
 
     private void setDateTime() {
@@ -195,8 +230,9 @@ public class OrderExecuteFragment extends BaseInfusionFragment {
             public void onSuccess(OrderExecuteBean bean, String type) {
                 hideLoadingTip();
                 sheetListView.setDatas(bean.getSheetList());
+                buttons = bean.getButtons();
                 //左侧列表判断有无默认值，有的话滑动到默认值类型
-                bottomView.addBottomView(bean.getButtons());
+                bottomView.addBottomView(buttons);
 
                 patientOrderAdapter.setInitData(bean.getOrdList());
                 patientOrderAdapter.loadMoreEnd();

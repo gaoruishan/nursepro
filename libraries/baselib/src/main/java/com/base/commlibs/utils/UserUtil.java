@@ -316,7 +316,9 @@ public class UserUtil {
      * @return
      */
     public static String getVersion() {
-        return "v" + AppUtils.getAppVersionName() + "." + AppUtils.getAppVersionCode();
+        //大于99归0
+        int versionCode = AppUtils.getAppVersionCode() >= 100 ? 0 : AppUtils.getAppVersionCode();
+        return "v" + AppUtils.getAppVersionName() + "." + versionCode;
     }
 
     /**

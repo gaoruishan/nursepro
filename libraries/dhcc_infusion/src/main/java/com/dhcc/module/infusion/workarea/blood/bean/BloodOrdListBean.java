@@ -1,5 +1,7 @@
 package com.dhcc.module.infusion.workarea.blood.bean;
 
+import android.text.TextUtils;
+
 import java.util.List;
 
 public class BloodOrdListBean {
@@ -190,6 +192,12 @@ public class BloodOrdListBean {
     }
 
     public String getOeoriId() {
+        return OeoriId;
+    }
+    public String getOrderId() {
+        if(!TextUtils.isEmpty(LabNo)){
+            return LabNo;
+        }
         return OeoriId;
     }
 
