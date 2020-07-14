@@ -23,7 +23,17 @@ public class InjectListBean extends CommResult {
     //按钮类型/描述
     private String btnType;
     private String btnDesc;
+    //是否双验证(腕带 瓶贴 )  1:是
+    private String injectFlag;
     private List<BloodOrdListBean> ordList;
+
+    public String getInjectFlag() {
+        return injectFlag == null ? "" : injectFlag;
+    }
+
+    public void setInjectFlag(String injectFlag) {
+        this.injectFlag = injectFlag;
+    }
 
     public String getBtnType() {
         return btnType == null ? "" : btnType;

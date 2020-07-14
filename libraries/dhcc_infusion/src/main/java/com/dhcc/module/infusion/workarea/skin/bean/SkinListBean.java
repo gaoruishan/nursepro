@@ -28,6 +28,16 @@ public class SkinListBean extends CommResult {
     private String btnType;
     private String btnDesc;
     private String curOeoreId;
+    //是否皮试(腕带 瓶贴 双验证)  1:是
+    private String skinFlag;
+
+    public String getSkinFlag() {
+        return skinFlag == null ? "" : skinFlag;
+    }
+
+    public void setSkinFlag(String skinFlag) {
+        this.skinFlag = skinFlag;
+    }
 
     public String getCurOeoreId() {
         return curOeoreId == null ? "" : curOeoreId;

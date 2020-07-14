@@ -101,6 +101,9 @@ public class InjectFragment extends BaseInfusionFragment implements View.OnClick
                 if (ORD.equals(bean.getFlag())) {
                     //选中扫码的
                     for (BloodOrdListBean bean1 : injectAdapter.getData()) {
+                        if (scanInfo.equals(bean1.getOeoriId()) ) {
+                            f(R.id.tv_inject_sure).setVisibility(View.VISIBLE);
+                        }
                         bean1.setSelect(scanInfo.equals(bean1.getOeoriId()) ? "1" : "0");
                     }
                     injectAdapter.notifyDataSetChanged();
@@ -158,6 +161,9 @@ public class InjectFragment extends BaseInfusionFragment implements View.OnClick
             public void onSuccess(InjectListBean bean, String type) {
                 helper.setVisible(R.id.custom_scan, false);
                 f(R.id.tv_inject_sure).setVisibility(View.VISIBLE);
+                if ("1".equals(bean.getInjectFlag())) {
+                    f(R.id.tv_inject_sure).setVisibility(View.GONE);
+                }
                 injectListBean = bean;
                 injectAdapter.setInitData(bean);
                 regNo = injectListBean.getPatInfo().getPatRegNo();
