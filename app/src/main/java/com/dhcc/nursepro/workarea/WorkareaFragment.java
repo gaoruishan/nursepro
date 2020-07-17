@@ -28,6 +28,8 @@ import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.dhcc.module.nurse.education.HealthEducationFragment;
+import com.dhcc.module.nurse.task.TaskOverviewFragment;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.allotbed.AllotBedFragment;
 import com.dhcc.nursepro.workarea.bedmap.BedMapFragment;
@@ -287,6 +289,14 @@ public class WorkareaFragment extends BaseFragment {
                 break;
             case "RJORD":
                 startFragment(RjOrderFragment.class);
+                break;
+            case "HealthEducationFragment":
+                //w ##class(Nur.DHCNurPdaModule).Save("健康宣教^HealthEducationFragment^21^Y^")
+                startFragment(HealthEducationFragment.class);
+                break;
+            case "TaskOverviewFragment":
+                //w ##class(Nur.DHCNurPdaModule).Save("任务总览^TaskOverviewFragment^22^Y^")
+                startFragment(TaskOverviewFragment.class);
                 break;
             default:
                 break;
@@ -1310,6 +1320,22 @@ public class WorkareaFragment extends BaseFragment {
                     imageView.setImageResource(R.drawable.icon_events);
                     map.put("fragName", RjOrderFragment.class.getName());
                     map.put("fragicon",R.drawable.icon_events);
+                    SharedPreference.FRAGMENTARY.add(map);
+                    break;
+                case "HealthEducationFragment":
+                    tvItem.setText("健康宣教");
+                    tvItem.setText(item.getModuleDesc());
+                    imageView.setImageResource(R.drawable.dhcc_main_nurse_education);
+                    map.put("fragName", HealthEducationFragment.class.getName());
+                    map.put("fragicon",R.drawable.dhcc_main_nurse_education);
+                    SharedPreference.FRAGMENTARY.add(map);
+                    break;
+                case "TaskOverviewFragment":
+                    tvItem.setText("任务总览");
+                    tvItem.setText(item.getModuleDesc());
+                    imageView.setImageResource(R.drawable.dhcc_main_nurse_task_overview);
+                    map.put("fragName", TaskOverviewFragment.class.getName());
+                    map.put("fragicon",R.drawable.dhcc_main_nurse_task_overview);
                     SharedPreference.FRAGMENTARY.add(map);
                     break;
                 default:
