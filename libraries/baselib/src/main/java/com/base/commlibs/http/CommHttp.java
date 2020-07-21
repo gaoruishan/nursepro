@@ -1,6 +1,7 @@
 package com.base.commlibs.http;
 
 import com.base.commlibs.bean.BroadcastListBean;
+import com.base.commlibs.bean.PatientListBean;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.utils.TransBroadcastUtil;
 import com.base.commlibs.wsutils.BaseWebServiceUtils;
@@ -36,6 +37,9 @@ public class CommHttp {
         });
     }
 
+    /**
+     * 初始化广播
+     */
     public static void initBroadcastList() {
         CommonCallBack<ScanCodeBean> callBack = new CommonCallBack<ScanCodeBean>() {
             @Override
@@ -58,6 +62,26 @@ public class CommHttp {
             }
         });
     }
+
+    /**
+     * Description: 病区病人列表
+     * Creator: JYW
+     * Input： wardId 病区Id, userId 用户Id others: (5,3)
+     */
+    public static void getInWardPatList(final CommonCallBack<PatientListBean> callBack) {
+        HashMap<String, String> properties = CommWebService.addUserId(null);
+        CommWebService.addWardId(properties);
+        CommWebService.callHealth("getInWardPatList", properties, new ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                ParserUtil<PatientListBean> parserUtil = new ParserUtil<>();
+                PatientListBean bean = parserUtil.parserResult(jsonStr, callBack, PatientListBean.class);
+                if (bean == null) return;
+                parserUtil.parserStatus(bean, callBack);
+            }
+        });
+    }
+
     public class ScanCodeBean extends CommResult {
 
         public List<BroadcastListBean> broadcastList;

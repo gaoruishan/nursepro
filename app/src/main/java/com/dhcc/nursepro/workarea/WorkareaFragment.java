@@ -28,7 +28,7 @@ import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.dhcc.module.nurse.education.HealthEducationFragment;
+import com.dhcc.module.nurse.education.HealthEduFragment;
 import com.dhcc.module.nurse.task.TaskOverviewFragment;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.allotbed.AllotBedFragment;
@@ -292,7 +292,7 @@ public class WorkareaFragment extends BaseFragment {
                 break;
             case "HealthEducationFragment":
                 //w ##class(Nur.DHCNurPdaModule).Save("健康宣教^HealthEducationFragment^21^Y^")
-                startFragment(HealthEducationFragment.class);
+                startFragment(HealthEduFragment.class);
                 break;
             case "TaskOverviewFragment":
                 //w ##class(Nur.DHCNurPdaModule).Save("任务总览^TaskOverviewFragment^22^Y^")
@@ -1326,7 +1326,7 @@ public class WorkareaFragment extends BaseFragment {
                     tvItem.setText("健康宣教");
                     tvItem.setText(item.getModuleDesc());
                     imageView.setImageResource(R.drawable.dhcc_main_nurse_education);
-                    map.put("fragName", HealthEducationFragment.class.getName());
+                    map.put("fragName", HealthEduFragment.class.getName());
                     map.put("fragicon",R.drawable.dhcc_main_nurse_education);
                     SharedPreference.FRAGMENTARY.add(map);
                     break;

@@ -99,6 +99,16 @@ public abstract class BaseCommFragment extends BaseFragment implements View.OnCl
         mContainer.setBackgroundResource(R.color.color_base_content);
     }
 
+    public void setCommToolBar2() {
+        setStatusBarBackgroundViewVisibility(true, 0xff4C95EF);
+        setToolbarBackground(new ColorDrawable(0xff4C95EF));
+        setToolbarBottomLineVisibility(true);
+        showToolbarNavigationIcon(R.drawable.icon_back_white);
+        setToolbarCenterTitle("",0xffffffff,17);
+        //设置底部背景
+        mContainer.setBackgroundResource(R.color.color_base_content);
+    }
+
     /**
      * 操作成功提示音
      */

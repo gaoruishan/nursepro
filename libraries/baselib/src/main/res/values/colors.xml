@@ -13,6 +13,8 @@
     <color name="blue_light">#E9F3FF</color>
     <color name="bg_blue_light">#FFF5FAFF</color>
     <color name="bg_err">#FFF6F6</color>
+    <color name="bg_green">#1cc498</color>
+    <color name="color_4a">#4A4A4A</color>
 
     <color name="white">#FFFFFFFF</color>
     <color name="black">#000000</color>

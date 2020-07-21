@@ -1,19 +1,19 @@
-package com.dhcc.module.nurse.task;
+package com.dhcc.module.nurse.education.fragment;
 
 import com.dhcc.module.nurse.BaseNurseFragment;
 import com.dhcc.module.nurse.R;
 
 /**
- * 任务总览
  * @author:gaoruishan
- * @date:202020-07-17/10:41
+ * @date:202020-07-17/17:41
  * @email:grs0515@163.com
  */
-public class TaskOverviewFragment extends BaseNurseFragment {
+public class HealthEduDrugFragment extends BaseNurseFragment {
+
     @Override
     protected void initDatas() {
         super.initDatas();
-        setToolbarCenterTitle("任务总览");
+        setToolbarCenterTitle("用药情况");
     }
 
     @Override
@@ -23,6 +23,6 @@ public class TaskOverviewFragment extends BaseNurseFragment {
 
     @Override
     protected int setLayout() {
-        return R.layout.fragment_task_overview;
+        return R.layout.fragment_health_education_drug;
     }
 }

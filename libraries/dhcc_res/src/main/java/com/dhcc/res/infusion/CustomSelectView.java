@@ -149,6 +149,19 @@ public class CustomSelectView extends LinearLayout {
         return this;
     }
 
+    public CustomSelectView setSelectTime(final FragmentManager manager, final Long time, OptionPicker.OnOptionPickListener listener) {
+        this.listener = listener;
+        OnClickListener onClickListener = new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chooseTime(manager, time, "选择日期时间", Type.ALL);
+            }
+        };
+        rlItem.setOnClickListener(onClickListener);
+
+        return this;
+    }
+
     private void chooseTime(FragmentManager manager, long currentTimeMillis, String title, final Type type) {
         long tenYears = 3L * 365 * 1000 * 60 * 60 * 24L;
 

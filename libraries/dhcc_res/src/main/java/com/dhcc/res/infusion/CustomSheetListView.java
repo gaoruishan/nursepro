@@ -48,11 +48,11 @@ public class CustomSheetListView extends LinearLayout {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 String sheetCode = ((SheetListBean) adapter.getItem(position)).getCode();
+                //左侧刷新分类选中状态显示
+                sheetListAdapter.setSelectedCode(sheetCode);
                 if (mOnItemClickListener != null) {
                     mOnItemClickListener.onItemClick(adapter, view, position);
                 }
-                //左侧刷新分类选中状态显示
-                sheetListAdapter.setSelectedCode(sheetCode);
             }
         });
         rvSheet.setAdapter(sheetListAdapter);
@@ -83,6 +83,7 @@ public class CustomSheetListView extends LinearLayout {
         }
     }
 
+
     public class SheetListAdapter extends BaseQuickAdapter<SheetListBean, BaseViewHolder> {
         private String selectedCode;
 
@@ -102,12 +103,14 @@ public class CustomSheetListView extends LinearLayout {
             TextView tvOrderType = helper.getView(R.id.tv_ordersearch_ordertype);
 
             if (selectedCode == null || "".equals(selectedCode)) {
+                item.setSelect(0 == helper.getAdapterPosition());
                 if (0 == helper.getAdapterPosition()) {
                     setSheetType(llOrderType, viewOrderType, tvOrderType, true, R.color.dhcc_ordersearch_left_text_selected_color, Typeface.DEFAULT_BOLD, View.VISIBLE);
                 } else {
                     setSheetType(llOrderType, viewOrderType, tvOrderType, false, R.color.dhcc_ordersearch_left_text_normal_color, Typeface.DEFAULT, View.INVISIBLE);
                 }
             } else {
+                item.setSelect(selectedCode.equals(item.getCode()));
                 if (selectedCode.equals(item.getCode())) {
                     setSheetType(llOrderType, viewOrderType, tvOrderType, true, R.color.dhcc_ordersearch_left_text_selected_color, Typeface.DEFAULT_BOLD, View.VISIBLE);
                 } else {

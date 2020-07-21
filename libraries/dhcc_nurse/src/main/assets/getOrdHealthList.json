@@ -1,0 +1,524 @@
+{
+  "curOeoreId": "",
+  "msg": "",
+  "msgcode": "",
+  "ordList": [
+    {
+      "ArcimDescList": [
+        {
+          "ArcimDesc": "急诊诊查费",
+          "DoseQtyUnit": " ",
+          "PhOrdQtyUnit": "1 "
+        }
+      ],
+      "CreateDateTime": "2019-02-12 13:04:00",
+      "DisposeStatDesc": "未收费",
+      "DoseQtyUnit": " ",
+      "EpisodeID": "165",
+      "Notes": "  ",
+      "OeoriId": "144||1",
+      "OrdState": "未执行",
+      "PhOrdQtyUnit": "总量1 ",
+      "PhcinDesc": "",
+      "auditDateTime": "",
+      "auditUser": "",
+      "desDateTime": "",
+      "desUser": ""
+    },
+    {
+      "ArcimDescList": [
+        {
+          "ArcimDesc": "注射用青霉素钠[400万U]",
+          "DoseQtyUnit": "800 万IU",
+          "PhOrdQtyUnit": "2 支"
+        },
+        {
+          "ArcimDesc": "一次性注射器[20ml]",
+          "DoseQtyUnit": " 万IU",
+          "PhOrdQtyUnit": "2 支"
+        }
+      ],
+      "CreateDateTime": "2019-02-18 10:40:18",
+      "DisposeStatDesc": "皮试",
+      "DoseQtyUnit": " 万IU",
+      "EpisodeID": "165",
+      "Notes": "  ",
+      "OeoriId": "144||10||1",
+      "OrdState": "未执行",
+      "PhOrdQtyUnit": "总量2 支",
+      "PhcinDesc": "静脉滴注(皮试)",
+      "auditDateTime": "",
+      "auditUser": "",
+      "desDateTime": "",
+      "desUser": ""
+    },
+    {
+      "ArcimDescList": [
+        {
+          "ArcimDesc": "注射用青霉素钠[400万U]",
+          "DoseQtyUnit": "800 万IU",
+          "PhOrdQtyUnit": "2 支"
+        },
+        {
+          "ArcimDesc": "一次性注射器[20ml]",
+          "DoseQtyUnit": " 万IU",
+          "PhOrdQtyUnit": "2 支"
+        }
+      ],
+      "CreateDateTime": "2019-02-18 10:40:18",
+      "DisposeStatDesc": "皮试",
+      "DoseQtyUnit": " 万IU",
+      "EpisodeID": "165",
+      "Notes": "  ",
+      "OeoriId": "144||10||2",
+      "OrdState": "未执行",
+      "PhOrdQtyUnit": "总量2 支",
+      "PhcinDesc": "静脉滴注(皮试)",
+      "auditDateTime": "",
+      "auditUser": "",
+      "desDateTime": "",
+      "desUser": ""
+    },
+    {
+      "ArcimDescList": [
+        {
+          "ArcimDesc": "会诊申请",
+          "DoseQtyUnit": " 万IU",
+          "PhOrdQtyUnit": "1 次"
+        }
+      ],
+      "CreateDateTime": "2019-02-18 11:28:50",
+      "DisposeStatDesc": "需处理临嘱",
+      "DoseQtyUnit": " 万IU",
+      "EpisodeID": "165",
+      "Notes": "请内分泌科会诊  ",
+      "OeoriId": "144||12||1",
+      "OrdState": "未执行",
+      "PhOrdQtyUnit": "总量1 次",
+      "PhcinDesc": "",
+      "auditDateTime": "",
+      "auditUser": "",
+      "desDateTime": "",
+      "desUser": ""
+    },
+    {
+      "ArcimDescList": [
+        {
+          "ArcimDesc": "血常规",
+          "DoseQtyUnit": " 万IU",
+          "PhOrdQtyUnit": "1 "
+        }
+      ],
+      "CreateDateTime": "2019-11-12 09:53:20",
+      "DisposeStatDesc": "需处理临嘱",
+      "DoseQtyUnit": " 万IU",
+      "EpisodeID": "165",
+      "Notes": "  ",
+      "OeoriId": "144||13||1",
+      "OrdState": "未执行",
+      "PhOrdQtyUnit": "总量1 ",
+      "PhcinDesc": "",
+      "auditDateTime": "",
+      "auditUser": "",
+      "desDateTime": "",
+      "desUser": ""
+    },
+    {
+      "ArcimDescList": [
+        {
+          "ArcimDesc": "肝功能",
+          "DoseQtyUnit": " 万IU",
+          "PhOrdQtyUnit": "1 "
+        }
+      ],
+      "CreateDateTime": "2019-11-12 09:53:22",
+      "DisposeStatDesc": "需处理临嘱",
+      "DoseQtyUnit": " 万IU",
+      "EpisodeID": "165",
+      "Notes": "  ",
+      "OeoriId": "144||14||1",
+      "OrdState": "未执行",
+      "PhOrdQtyUnit": "总量1 ",
+      "PhcinDesc": "",
+      "auditDateTime": "",
+      "auditUser": "",
+      "desDateTime": "",
+      "desUser": ""
+    },
+    {
+      "ArcimDescList": [
+        {
+          "ArcimDesc": "血糖测定(1h)",
+          "DoseQtyUnit": " 万IU",
+          "PhOrdQtyUnit": "1 "
+        }
+      ],
+      "CreateDateTime": "2019-11-12 09:53:27",
+      "DisposeStatDesc": "需处理临嘱",
+      "DoseQtyUnit": " 万IU",
+      "EpisodeID": "165",
+      "Notes": "  ",
+      "OeoriId": "144||18||1",
+      "OrdState": "未执行",
+      "PhOrdQtyUnit": "总量1 ",
+      "PhcinDesc": "",
+      "auditDateTime": "",
+      "auditUser": "",
+      "desDateTime": "",
+      "desUser": ""
+    },
+    {
+      "ArcimDescList": [
+        {
+          "ArcimDesc": "注射用左亚叶酸钙(左福能)[50MG]",
+          "DoseQtyUnit": "100 mg",
+          "PhOrdQtyUnit": "2 支"
+        }
+      ],
+      "CreateDateTime": "2019-11-14 09:43:32",
+      "DisposeStatDesc": "需处理临嘱",
+      "DoseQtyUnit": "100 mg",
+      "EpisodeID": "165",
+      "Notes": "  ",
+      "OeoriId": "144||19||1",
+      "OrdState": "未执行",
+      "PhOrdQtyUnit": "总量2 支",
+      "PhcinDesc": "静脉滴注",
+      "auditDateTime": "",
+      "auditUser": "",
+      "desDateTime": "",
+      "desUser": ""
+    },
+    {
+      "ArcimDescList": [
+        {
+          "ArcimDesc": "挂号费",
+          "DoseQtyUnit": " mg",
+          "PhOrdQtyUnit": "1 "
+        }
+      ],
+      "CreateDateTime": "2019-02-12 13:04:00",
+      "DisposeStatDesc": "未收费",
+      "DoseQtyUnit": " mg",
+      "EpisodeID": "165",
+      "Notes": "  ",
+      "OeoriId": "144||2",
+      "OrdState": "未执行",
+      "PhOrdQtyUnit": "总量1 ",
+      "PhcinDesc": "",
+      "auditDateTime": "",
+      "auditUser": "",
+      "desDateTime": "",
+      "desUser": ""
+    },
+    {
+      "ArcimDescList": [
+        {
+          "ArcimDesc": "注射用奥美拉唑钠[60mg]",
+          "DoseQtyUnit": "60 mg",
+          "PhOrdQtyUnit": "1 支"
+        },
+        {
+          "ArcimDesc": "一次性注射器[10ml]",
+          "DoseQtyUnit": " mg",
+          "PhOrdQtyUnit": "1 个"
+        }
+      ],
+      "CreateDateTime": "2019-11-14 09:46:39",
+      "DisposeStatDesc": "需处理临嘱",
+      "DoseQtyUnit": " mg",
+      "EpisodeID": "165",
+      "Notes": "  ",
+      "OeoriId": "144||20||1",
+      "OrdState": "未执行",
+      "PhOrdQtyUnit": "总量1 个",
+      "PhcinDesc": "静脉注射",
+      "auditDateTime": "",
+      "auditUser": "",
+      "desDateTime": "",
+      "desUser": ""
+    },
+    {
+      "ArcimDescList": [
+        {
+          "ArcimDesc": "注射用哌库溴铵(阿端)[4MG:一针一水]",
+          "DoseQtyUnit": "4 mg",
+          "PhOrdQtyUnit": "1 支"
+        },
+        {
+          "ArcimDesc": "注射用氨甲环酸(荷莫塞)[1G]",
+          "DoseQtyUnit": "1 g",
+          "PhOrdQtyUnit": "1 支"
+        }
+      ],
+      "CreateDateTime": "2019-11-14 10:39:31",
+      "DisposeStatDesc": "需处理临嘱",
+      "DoseQtyUnit": "1 g",
+      "EpisodeID": "165",
+      "Notes": "  ",
+      "OeoriId": "144||24||1",
+      "OrdState": "未执行",
+      "PhOrdQtyUnit": "总量1 支",
+      "PhcinDesc": "静脉注射",
+      "auditDateTime": "",
+      "auditUser": "",
+      "desDateTime": "",
+      "desUser": ""
+    },
+    {
+      "ArcimDescList": [
+        {
+          "ArcimDesc": "疑难病理会诊",
+          "DoseQtyUnit": " g",
+          "PhOrdQtyUnit": "1 处置治疗"
+        }
+      ],
+      "CreateDateTime": "2019-02-12 13:11:05",
+      "DisposeStatDesc": "需处理临嘱",
+      "DoseQtyUnit": " g",
+      "EpisodeID": "165",
+      "Notes": "请呼吸内科门诊会诊  ",
+      "OeoriId": "144||3||1",
+      "OrdState": "未执行",
+      "PhOrdQtyUnit": "总量1 处置治疗",
+      "PhcinDesc": "",
+      "auditDateTime": "",
+      "auditUser": "",
+      "desDateTime": "",
+      "desUser": ""
+    },
+    {
+      "ArcimDescList": [
+        {
+          "ArcimDesc": "疑难病理会诊",
+          "DoseQtyUnit": " g",
+          "PhOrdQtyUnit": "1 处置治疗"
+        }
+      ],
+      "CreateDateTime": "2019-02-12 13:11:06",
+      "DisposeStatDesc": "需处理临嘱",
+      "DoseQtyUnit": " g",
+      "EpisodeID": "165",
+      "Notes": "请重症医学科会诊  ",
+      "OeoriId": "144||4||1",
+      "OrdState": "未执行",
+      "PhOrdQtyUnit": "总量1 处置治疗",
+      "PhcinDesc": "",
+      "auditDateTime": "",
+      "auditUser": "",
+      "desDateTime": "",
+      "desUser": ""
+    },
+    {
+      "ArcimDescList": [
+        {
+          "ArcimDesc": "床旁心电图会诊",
+          "DoseQtyUnit": " g",
+          "PhOrdQtyUnit": "1 次"
+        }
+      ],
+      "CreateDateTime": "2019-02-12 13:16:53",
+      "DisposeStatDesc": "需处理临嘱",
+      "DoseQtyUnit": " g",
+      "EpisodeID": "165",
+      "Notes": "  ",
+      "OeoriId": "144||5||1",
+      "OrdState": "未执行",
+      "PhOrdQtyUnit": "总量1 次",
+      "PhcinDesc": "",
+      "auditDateTime": "",
+      "auditUser": "",
+      "desDateTime": "",
+      "desUser": ""
+    },
+    {
+      "ArcimDescList": [
+        {
+          "ArcimDesc": "心电图阿托品试验",
+          "DoseQtyUnit": " g",
+          "PhOrdQtyUnit": "1 次"
+        }
+      ],
+      "CreateDateTime": "2019-02-14 09:35:43",
+      "DisposeStatDesc": "需处理临嘱",
+      "DoseQtyUnit": " g",
+      "EpisodeID": "165",
+      "Notes": "  ",
+      "OeoriId": "144||6||1",
+      "OrdState": "未执行",
+      "PhOrdQtyUnit": "总量1 次",
+      "PhcinDesc": "",
+      "auditDateTime": "",
+      "auditUser": "",
+      "desDateTime": "",
+      "desUser": ""
+    },
+    {
+      "ArcimDescList": [
+        {
+          "ArcimDesc": "会诊申请",
+          "DoseQtyUnit": " g",
+          "PhOrdQtyUnit": "1 次"
+        }
+      ],
+      "CreateDateTime": "2019-02-16 09:37:33",
+      "DisposeStatDesc": "需处理临嘱",
+      "DoseQtyUnit": " g",
+      "EpisodeID": "165",
+      "Notes": "请心外科门诊会诊  ",
+      "OeoriId": "144||7||1",
+      "OrdState": "未执行",
+      "PhOrdQtyUnit": "总量1 次",
+      "PhcinDesc": "",
+      "auditDateTime": "",
+      "auditUser": "",
+      "desDateTime": "",
+      "desUser": ""
+    },
+    {
+      "ArcimDescList": [
+        {
+          "ArcimDesc": "会诊申请",
+          "DoseQtyUnit": " g",
+          "PhOrdQtyUnit": "1 次"
+        }
+      ],
+      "CreateDateTime": "2019-02-16 09:37:34",
+      "DisposeStatDesc": "需处理临嘱",
+      "DoseQtyUnit": " g",
+      "EpisodeID": "165",
+      "Notes": "请呼吸内科会诊  ",
+      "OeoriId": "144||8||1",
+      "OrdState": "未执行",
+      "PhOrdQtyUnit": "总量1 次",
+      "PhcinDesc": "",
+      "auditDateTime": "",
+      "auditUser": "",
+      "desDateTime": "",
+      "desUser": ""
+    },
+    {
+      "ArcimDescList": [
+        {
+          "ArcimDesc": "会诊申请",
+          "DoseQtyUnit": " g",
+          "PhOrdQtyUnit": "1 次"
+        }
+      ],
+      "CreateDateTime": "2019-02-16 15:24:25",
+      "DisposeStatDesc": "需处理临嘱",
+      "DoseQtyUnit": " g",
+      "EpisodeID": "165",
+      "Notes": "请呼吸内科门诊会诊  ",
+      "OeoriId": "144||9||1",
+      "OrdState": "未执行",
+      "PhOrdQtyUnit": "总量1 次",
+      "PhcinDesc": "",
+      "auditDateTime": "",
+      "auditUser": "",
+      "desDateTime": "",
+      "desUser": ""
+    },
+    {
+      "ArcimDescList": [
+        {
+          "ArcimDesc": "急诊诊查费",
+          "DoseQtyUnit": " g",
+          "PhOrdQtyUnit": "1 "
+        }
+      ],
+      "CreateDateTime": "2019-02-12 08:55:37",
+      "DisposeStatDesc": "需处理临嘱",
+      "DoseQtyUnit": " g",
+      "EpisodeID": "139",
+      "Notes": "  ",
+      "OeoriId": "131||1",
+      "OrdState": "未执行",
+      "PhOrdQtyUnit": "总量1 ",
+      "PhcinDesc": "",
+      "auditDateTime": "",
+      "auditUser": "",
+      "desDateTime": "",
+      "desUser": ""
+    },
+    {
+      "ArcimDescList": [
+        {
+          "ArcimDesc": "挂号费",
+          "DoseQtyUnit": " g",
+          "PhOrdQtyUnit": "1 "
+        }
+      ],
+      "CreateDateTime": "2019-02-12 08:55:37",
+      "DisposeStatDesc": "需处理临嘱",
+      "DoseQtyUnit": " g",
+      "EpisodeID": "139",
+      "Notes": "  ",
+      "OeoriId": "131||2",
+      "OrdState": "未执行",
+      "PhOrdQtyUnit": "总量1 ",
+      "PhcinDesc": "",
+      "auditDateTime": "",
+      "auditUser": "",
+      "desDateTime": "",
+      "desUser": ""
+    },
+    {
+      "ArcimDescList": [
+        {
+          "ArcimDesc": "血常规",
+          "DoseQtyUnit": " g",
+          "PhOrdQtyUnit": "1 "
+        }
+      ],
+      "CreateDateTime": "2019-02-12 09:38:19",
+      "DisposeStatDesc": "需处理临嘱",
+      "DoseQtyUnit": " g",
+      "EpisodeID": "139",
+      "Notes": "  ",
+      "OeoriId": "131||3||1",
+      "OrdState": "未执行",
+      "PhOrdQtyUnit": "总量1 ",
+      "PhcinDesc": "",
+      "auditDateTime": "",
+      "auditUser": "",
+      "desDateTime": "",
+      "desUser": ""
+    },
+    {
+      "ArcimDescList": [
+        {
+          "ArcimDesc": "上颌骨CT平扫(冠位)",
+          "DoseQtyUnit": " g",
+          "PhOrdQtyUnit": "1 次"
+        }
+      ],
+      "CreateDateTime": "2019-02-12 09:43:01",
+      "DisposeStatDesc": "需处理临嘱",
+      "DoseQtyUnit": " g",
+      "EpisodeID": "139",
+      "Notes": "  ",
+      "OeoriId": "131||4||1",
+      "OrdState": "未执行",
+      "PhOrdQtyUnit": "总量1 次",
+      "PhcinDesc": "",
+      "auditDateTime": "",
+      "auditUser": "",
+      "desDateTime": "",
+      "desUser": ""
+    }
+  ],
+  "sheetList": [
+    {
+      "code": "Default",
+      "desc": "01床",
+      "regNo": "0000000097"
+    },
+    {
+      "code": "DefaultSee",
+      "desc": "02床",
+      "regNo": "0000000001"
+    }
+  ],
+  "status": "0"
+}
