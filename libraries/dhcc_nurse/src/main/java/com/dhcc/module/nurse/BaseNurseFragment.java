@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.base.commlibs.comm.BaseCommFragment;
+import com.blankj.utilcode.util.TimeUtils;
+import com.dhcc.res.infusion.CustomSelectView;
 
 /**
  * 智护相关一个父类
@@ -17,9 +19,22 @@ import com.base.commlibs.comm.BaseCommFragment;
  */
 public abstract class BaseNurseFragment extends BaseCommFragment {
 
-    public static final String PUT_BEAN = "put_bean";
-    public static final String PUT_STR = "PUT_STR";
-    public static final String PUT_BEAN_STR = "PUT_BEAN_STR";
+
+    public static final String YYYY_MM_DD_HH_MM = "yyyy-MM-dd HH:mm";
+
+    /**
+     * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
+     */
+    public static int dip2px(Context context, float dpValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
+
+    // 将sp值转换为px值，保证文字大小不变
+    public static int sp2px(Context context, float spValue) {
+        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
+        return (int) (spValue * fontScale + 0.5f);
+    }
 
     @Override
     protected void initDatas() {
@@ -69,21 +84,34 @@ public abstract class BaseNurseFragment extends BaseCommFragment {
         View viewright = View.inflate(getActivity(), R.layout.dhcc_view_toolbar_tv_right, null);
         TextView textView = viewright.findViewById(R.id.tv_toolbar_right);
         textView.setTextSize(15);
-        textView.setText(txt);
+        textView.setText("   " + txt + "   ");
         textView.setTextColor(getResources().getColor(color));
-        viewright.setOnClickListener(this);
+        textView.setOnClickListener(this);
         setToolbarRightCustomView(viewright);
     }
+
     /**
-     * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
+     * 括号
+     * @param s
+     * @return
      */
-    public static int dip2px(Context context, float dpValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dpValue * scale + 0.5f);
+    public String replaceBrackets(String s) {
+        return  s.replace("[", "")
+                .replace("]", "");
     }
-    // 将sp值转换为px值，保证文字大小不变
-    public static int sp2px(Context context, float spValue) {
-        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
-        return (int) (spValue * fontScale + 0.5f);
+
+    /**
+     * 替换\r 为\n
+     * @param s
+     * @return
+     */
+    public String replaceRN(String s) {
+        return s.replaceAll("\r", "\n");
+    }
+
+    protected void setSelectDateTime(CustomSelectView customSelectDate, String time) {
+        customSelectDate.setTitle("时间选择").setSelect(time);
+        long millis = TimeUtils.string2Millis(time, YYYY_MM_DD_HH_MM);
+        customSelectDate.setSelectTime(this.getFragmentManager(), millis, null);
     }
 }

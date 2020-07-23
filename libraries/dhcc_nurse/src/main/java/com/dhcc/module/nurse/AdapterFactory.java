@@ -1,7 +1,8 @@
 package com.dhcc.module.nurse;
 
-import com.dhcc.module.nurse.education.adapter.HealthEduAddAdapter;
 import com.dhcc.module.nurse.education.adapter.HealthEduAdapter;
+import com.dhcc.module.nurse.education.adapter.HealthEduAddAdapter;
+import com.dhcc.module.nurse.education.adapter.HealthEduItemAdapter;
 
 /**
  * 管理适配器
@@ -20,5 +21,9 @@ public class AdapterFactory {
 
     public static HealthEduAddAdapter getHealthEduAddAdapter() {
         return new HealthEduAddAdapter(R.layout.item_health_education_add, null);
+    }
+
+    public static HealthEduItemAdapter getHealthEduItemAdapter() {
+        return new HealthEduItemAdapter(null);
     }
 }

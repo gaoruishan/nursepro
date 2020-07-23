@@ -1,13 +1,15 @@
 package com.dhcc.module.nurse.education;
 
 import com.base.commlibs.constant.SharedPreference;
+import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommWebService;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.http.ParserUtil;
 import com.base.commlibs.http.ServiceCallBack;
 import com.blankj.utilcode.util.SPUtils;
-import com.dhcc.module.nurse.education.bean.HealthEduAddBean;
 import com.dhcc.module.nurse.education.bean.HealthEduBean;
+import com.dhcc.module.nurse.education.bean.HealthEduContentBean;
+import com.dhcc.module.nurse.params.SaveEduParams;
 
 import java.util.HashMap;
 
@@ -41,17 +43,34 @@ public class HealthEduApiManager {
             }
         });
     }
-    public static void getHealthAddList(final CommonCallBack<HealthEduAddBean> callBack) {
-        HashMap<String, String> properties = CommWebService.addUserId(null);
-        CommWebService.addWardId(properties);
 
-        CommWebService.call("getHealthAddList", properties, new ServiceCallBack() {
+    public static void getEduContents(String subjectIds, CommonCallBack<HealthEduContentBean> callBack) {
+        HashMap<String, String>  properties = new HashMap<String, String>();
+        properties.put("subjectIds", subjectIds);
+
+        CommWebService.call("getEduContents", properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
-                ParserUtil<HealthEduAddBean> parserUtil = new ParserUtil<>();
-                HealthEduAddBean bean = parserUtil.parserResult(jsonStr, callBack, HealthEduAddBean.class);
+                ParserUtil<HealthEduContentBean> parserUtil = new ParserUtil<>();
+                HealthEduContentBean bean = parserUtil.parserResult(jsonStr, callBack, HealthEduContentBean.class);
                 if (bean == null) return;
                 parserUtil.parserStatus(bean, callBack);
+            }
+        });
+    }
+
+    /**
+     * /// Description:   保存宣教数据
+     * /// Input：        episodeId 就诊号
+     * /// Output：
+     * /// Others： 	   w ##class(Nur.PDA.Education).saveEdu
+     * ClassMethod saveEdu(episodeId, Subject, Content, EducationDate, EducationTime, EduItemList, UserId, LocId, WardId, id = "", SubjectIds = "", eduTaskIds = "[]")
+     */
+    public static void saveEdu(SaveEduParams params,CommonCallBack<CommResult> callBack) {
+        CommWebService.call("saveEdu", params.getProperties(), new ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                CommWebService.parserCommResult(jsonStr,callBack);
             }
         });
     }

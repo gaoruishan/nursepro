@@ -31,6 +31,10 @@ public abstract class CommRequest {
         return ReflectUtil.getPublicFieldsToMap(params);
     }
 
+    /**
+     * 添加UserId,LocId 等
+     * @return
+     */
     public  HashMap<String, String> getProperties(){
         return ReflectUtil.getPublicFieldsToMap(this);
     };

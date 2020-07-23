@@ -14,6 +14,15 @@ public class MessageEvent {
     private int postion;//滑动位置
     private int offSet;//偏移位置
     private Object object;//句柄
+    private boolean select;
+
+    public boolean isSelect() {
+        return select;
+    }
+
+    public void setSelect(boolean select) {
+        this.select = select;
+    }
 
     public MessageEvent(int tag) {
         this.tag = tag;
@@ -104,6 +113,7 @@ public class MessageEvent {
                 ", postion=" + postion +
                 ", offSet=" + offSet +
                 ", object=" + object +
+                ", select=" + select +
                 '}';
     }
 
@@ -120,6 +130,7 @@ public class MessageEvent {
         REQUEST_REFRESH_BIZ_LIST,
         CHAT_ROOM_CLICK_AVATAR,
         UPDATE_BOTTOM_UNREAD_NUM,
-        NOTIFY_MESSAGE
+        NOTIFY_MESSAGE,
+        HEALTH_EDU_ADD_SELECT
     }
 }

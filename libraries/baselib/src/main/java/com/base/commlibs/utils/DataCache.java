@@ -13,9 +13,7 @@ import com.google.gson.Gson;
  */
 public class DataCache {
 
-    private static final String spName = "spDataCache";
-
-    private static SPUtils SP() {
+    private static SPUtils SP(String spName) {
         return SPUtils.getInstance(spName);
     }
 
@@ -28,7 +26,7 @@ public class DataCache {
     public static <T> void saveJson(T t,String key) {
         Gson gson = new Gson();
         String json = gson.toJson(t);
-        SP().put(key, json);
+        SP(key).put(key, json);
     }
 
     /**
@@ -39,7 +37,7 @@ public class DataCache {
      * @return
      */
     public static <T> T getJson(Class<T> t,String key) {
-        String json =  SP().getString(key);
+        String json =  SP(key).getString(key);
         if(!TextUtils.isEmpty(json)){
             Gson gson = new Gson();
             return gson.fromJson(json,t);

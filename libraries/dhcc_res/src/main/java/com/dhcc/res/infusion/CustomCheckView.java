@@ -1,6 +1,8 @@
 package com.dhcc.res.infusion;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 import com.base.commlibs.utils.SimpleCallBack;
 import com.dhcc.res.BaseView;
 import com.grs.dhcc_res.R;
+import com.noober.background.drawable.DrawableCreator;
 
 /**
  * 自定义勾选框
@@ -63,8 +66,19 @@ public class CustomCheckView extends BaseView {
     public boolean getSelect() {
        return btn_change.isSelected();
     }
+
     public void setSelect(boolean select) {
         btn_change.setSelected(select);
+    }
+
+    public void setSelectIcon(@DrawableRes int select,@DrawableRes int unselect) {
+        Drawable drawable = new DrawableCreator.Builder()
+                .setSelectedDrawable(getResources().getDrawable(select))
+//                .setCheckedDrawable(getResources().getDrawable(select))
+                .setUnSelectedDrawable(getResources().getDrawable(unselect))
+//                .setUnCheckedDrawable(getResources().getDrawable(unselect))
+                .build();
+        btn_change.setBackground(drawable);
     }
 
     public void setShowText(String txt) {

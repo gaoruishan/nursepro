@@ -27,7 +27,7 @@ public class EducationListBean {
 
     public static class ColumnsBean  {
         /**
-         * dataIndex : eduDateTime
+         * dataIndex : dateTime
          * title : 宣教时间
          */
 
@@ -54,7 +54,7 @@ public class EducationListBean {
     public static class DataBean implements MultiItemEntity, Serializable {
         /**
          * eduContent : 1介绍病区环境、各项规章制度，妥善保管贵重物品。2预防跌倒/坠床的注意事项。3介绍主管医生及责任护士，告知住院期间不得擅自外出及请假。4宣教饮食运动药物知识，入院期间按医嘱服药，自备药不许存放。5患者有吸烟、饮酒习惯，指导患者配合戒烟酒1 告知预防跌倒/坠床的注意事项。2 介绍主管医生及责任护士。555
-         * eduDateTime : 2020-07-20 21:06
+         * dateTime : 2020-07-20 21:06
          * eduRecordId : 4
          * eduSubject : 入院宣教-入院须知、入院宣教-防跌倒坠床
          * nurseSign : 护士01

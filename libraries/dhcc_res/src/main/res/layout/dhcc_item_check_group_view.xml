@@ -2,13 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
+    android:layout_marginLeft="@dimen/dp_80"
     android:layout_height="wrap_content">
 
     <com.dhcc.res.infusion.CustomCheckView
         android:id="@+id/custom_check"
-        android:layout_marginLeft="@dimen/dp_90"
-        android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:descendantFocusability="blocksDescendants"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+
 </LinearLayout>

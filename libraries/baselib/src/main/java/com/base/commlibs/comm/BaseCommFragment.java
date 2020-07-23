@@ -33,12 +33,14 @@ public abstract class BaseCommFragment extends BaseFragment implements View.OnCl
     protected Activity mContext;
     protected List<String> listId;
     protected BaseHelper helper;
+    protected Bundle bundle;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mContext = this.getActivity();
         helper = new BaseHelper(mContext);
+        bundle = getArguments();
         setCommToolBar();
         initViews();
         initConfig();

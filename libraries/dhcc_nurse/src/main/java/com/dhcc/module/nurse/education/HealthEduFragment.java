@@ -1,6 +1,5 @@
 package com.dhcc.module.nurse.education;
 
-import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -11,6 +10,7 @@ import com.base.commlibs.BaseActivity;
 import com.base.commlibs.bean.PatientListBean;
 import com.base.commlibs.http.CommHttp;
 import com.base.commlibs.http.CommonCallBack;
+import com.base.commlibs.utils.DataCache;
 import com.base.commlibs.utils.RecyclerViewHelper;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.module.nurse.AdapterFactory;
@@ -24,7 +24,6 @@ import com.dhcc.module.nurse.education.fragment.HealthEduAddFragment;
 import com.dhcc.module.nurse.education.fragment.HealthEduContentFragment;
 import com.dhcc.res.infusion.CustomDateTimeView;
 import com.dhcc.res.infusion.CustomSheetListView;
-import com.google.gson.Gson;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 
@@ -91,6 +90,7 @@ public class HealthEduFragment extends BaseNurseFragment {
             public void onSuccess(HealthEduBean bean, String type) {
                 mBean = bean;
                 healthEducationAdapter.setNewData(bean.getEducationList().getData());
+                DataCache.saveJson(bean,HealthEduBean.class.getName());
             }
         });
     }
@@ -138,12 +138,11 @@ public class HealthEduFragment extends BaseNurseFragment {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 EducationListBean.DataBean ordbean = healthEducationAdapter.getData().get(position);
                 String desc = EduSheetListBean.getCurrentSheetDesc(eduSheetList, episodeId);
-                if (ordbean.getItemType() == HealthEduBean.TYPE_1) {
-                }
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(PUT_BEAN, ordbean);
-                bundle.putString(PUT_STR, desc);
-                startFragment(HealthEduContentFragment.class, bundle);
+                BundleData instance = new BundleData()
+                        .setDesc(desc)
+                        .setDateTime(ordbean.getEduDateTime())
+                        .setSubjectIds(ordbean.getSubjectIds());
+                startFragment(HealthEduContentFragment.class, instance.build());
             }
         });
     }
@@ -153,13 +152,13 @@ public class HealthEduFragment extends BaseNurseFragment {
     public void onClick(View v) {
         super.onClick(v);
         if (v.getId() == R.id.img_toolbar_right2) {
-            if (mBean==null) return;
+            if (mBean == null) return;
             String desc = EduSheetListBean.getCurrentSheetDesc(eduSheetList, episodeId);
-            List<HealthEduBean.EduSubjectListBean> bean = mBean.getEduSubjectList();
-            Bundle bundle = new Bundle();
-            bundle.putString(PUT_STR, desc);
-            bundle.putString(PUT_BEAN_STR, new Gson().toJson(bean));
-            startFragment(HealthEduAddFragment.class,bundle);
+            BundleData instance = new BundleData()
+                    .setDesc(desc)
+                    .setEpisodeId(episodeId)
+                    .setEduSubjectList(mBean.getEduSubjectList());
+            startFragment(HealthEduAddFragment.class, instance.build());
         }
         if (v.getId() == R.id.tv_need || v.getId() == R.id.tv_need_ed) {
             boolean color = v.getId() == R.id.tv_need;
