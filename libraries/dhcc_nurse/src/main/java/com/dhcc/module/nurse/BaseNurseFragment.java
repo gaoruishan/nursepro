@@ -21,6 +21,7 @@ public abstract class BaseNurseFragment extends BaseCommFragment {
 
 
     public static final String YYYY_MM_DD_HH_MM = "yyyy-MM-dd HH:mm";
+    public static final String YYYY_MM_DD = "yyyy-MM-dd";
 
     /**
      * 根据手机的分辨率从 dp 的单位 转成为 px(像素)

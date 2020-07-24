@@ -48,56 +48,81 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_item"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:id="@+id/tv_content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/dp_8"
-        android:layout_weight="1"
-        tools:text="出院宣教出院宣教出院宣教出院宣教出院宣教出院宣教出院宣教 "
-        android:textColor="#101010"
-        android:lineHeight="@dimen/dp_22"
-        android:textSize="@dimen/sp_15" />
-    <LinearLayout
-        android:id="@+id/ll_lab"
         android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/dp_5"
+        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <com.noober.background.view.BLTextView
-            android:id="@+id/tv_status_lab"
-            android:text="停止"
-            android:textColor="@color/white"
+
+        <TextView
+            android:id="@+id/tv_content"
             android:layout_width="wrap_content"
-            app:bl_corners_radius="@dimen/dp_5"
-            app:bl_solid_color="@color/blue_dark"
-            android:textSize="@dimen/sp_10"
-            android:paddingRight="@dimen/dp_3"
-            android:paddingLeft="@dimen/dp_3"
-            android:paddingTop="@dimen/dp_1"
-            android:paddingBottom="@dimen/dp_1"
-            android:textStyle="bold"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_8"
+            android:layout_weight="1"
+            tools:text="出院宣教出院宣教出院宣教出院宣教出院宣教出院宣教出院宣教 "
+            android:textColor="#101010"
+            android:lineHeight="@dimen/dp_22"
+            android:textSize="@dimen/sp_15" />
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/ll_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="@dimen/dp_8"
             android:layout_marginRight="@dimen/dp_5"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:id="@+id/tv_lab_user"
-            tools:text="护士01"
-            android:layout_marginEnd="@dimen/dp_6"
-            android:textColor="@color/dhcc_ordersearch_text_color"
-            android:textSize="@dimen/sp_12"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:id="@+id/tv_lab_time"
-            tools:text="护士01"
-            android:layout_marginEnd="@dimen/dp_6"
-            android:textColor="@color/dhcc_ordersearch_text_color"
-            android:textSize="@dimen/sp_12"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:gravity="center"
+            android:clickable="true">
+
+            <ImageView
+                android:layout_width="@dimen/dp_25"
+                android:layout_height="@dimen/dp_25"
+                android:background="@drawable/dhcc_icon_orderexec_selector" />
+        </LinearLayout>
+
     </LinearLayout>
+
+<!--    <LinearLayout-->
+<!--        android:id="@+id/ll_lab"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_marginTop="@dimen/dp_5"-->
+<!--        android:layout_height="wrap_content">-->
+<!--        <com.noober.background.view.BLTextView-->
+<!--            android:id="@+id/tv_status_lab"-->
+<!--            android:text="停止"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            app:bl_corners_radius="@dimen/dp_5"-->
+<!--            app:bl_solid_color="@color/blue_dark"-->
+<!--            android:textSize="@dimen/sp_10"-->
+<!--            android:paddingRight="@dimen/dp_3"-->
+<!--            android:paddingLeft="@dimen/dp_3"-->
+<!--            android:paddingTop="@dimen/dp_1"-->
+<!--            android:paddingBottom="@dimen/dp_1"-->
+<!--            android:textStyle="bold"-->
+<!--            android:layout_marginRight="@dimen/dp_5"-->
+<!--            android:layout_height="wrap_content"/>-->
+<!--        <TextView-->
+<!--            android:id="@+id/tv_lab_user"-->
+<!--            tools:text="护士01"-->
+<!--            android:layout_marginEnd="@dimen/dp_6"-->
+<!--            android:textColor="@color/dhcc_ordersearch_text_color"-->
+<!--            android:textSize="@dimen/sp_12"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"/>-->
+<!--        <TextView-->
+<!--            android:id="@+id/tv_lab_time"-->
+<!--            tools:text="护士01"-->
+<!--            android:layout_marginEnd="@dimen/dp_6"-->
+<!--            android:textColor="@color/dhcc_ordersearch_text_color"-->
+<!--            android:textSize="@dimen/sp_12"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"/>-->
+<!--    </LinearLayout>-->
 <!--    <include layout="@layout/item_blood_child_layout2"/>-->
     <LinearLayout
         android:id="@+id/ll_exeinfo"
@@ -124,7 +149,6 @@
 
         <TextView
             android:id="@+id/tv_exetime"
-            android:layout_marginLeft="@dimen/dp_5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/dp_6"

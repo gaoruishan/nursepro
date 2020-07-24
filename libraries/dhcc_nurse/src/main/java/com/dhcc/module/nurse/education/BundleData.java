@@ -1,6 +1,7 @@
 package com.dhcc.module.nurse.education;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import com.base.commlibs.utils.ReflectUtil;
 import com.dhcc.module.nurse.education.bean.EduSubjectListBean;
@@ -25,6 +26,7 @@ public class BundleData {
     //List 需要转一下
     public String eduSubjectList;
     public String dateTime;
+    public String taskIds;
 
     public BundleData() {
     }
@@ -33,6 +35,16 @@ public class BundleData {
         this.bundle = bundle;
     }
 
+    public String getTaskIds() {
+        return getString("taskIds") ;
+    }
+
+    public BundleData setTaskIds(String taskIds) {
+        if(!TextUtils.isEmpty(taskIds)){
+            this.taskIds = taskIds.replaceAll(" ","");
+        }
+        return this;
+    }
 
     public String getEpisodeId() {
         return getString("episodeId");
@@ -57,7 +69,9 @@ public class BundleData {
     }
 
     public BundleData setSubjectIds(String subjectIds) {
-        this.subjectIds = subjectIds;
+        if(!TextUtils.isEmpty(subjectIds)){
+            this.subjectIds = subjectIds.replaceAll(" ","");
+        }
         return this;
     }
 

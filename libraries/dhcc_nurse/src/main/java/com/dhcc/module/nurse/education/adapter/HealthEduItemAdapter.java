@@ -1,5 +1,9 @@
 package com.dhcc.module.nurse.education.adapter;
 
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.EditText;
+
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.module.nurse.R;
@@ -8,7 +12,6 @@ import com.dhcc.res.infusion.CustomCheckGroupView;
 import com.dhcc.res.infusion.CustomRadioGroupView;
 import com.dhcc.res.infusion.bean.SheetListBean;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,12 +32,12 @@ public class HealthEduItemAdapter extends BaseMultiItemQuickAdapter<EduItemListB
     protected void convert(BaseViewHolder helper, EduItemListBean item) {
         helper.setText(R.id.tv_title, item.getName());
         if (EduItemListBean.TYPE_0 == item.getItemType()) {
-            List<SheetListBean> list = getOptionListBeans(item);
+            List<SheetListBean> list = item.getSheetList();
             CustomRadioGroupView customCheckGroup = helper.getView(R.id.custom_radio_group);
             customCheckGroup.setGroupData(list);
         }
         if (EduItemListBean.TYPE_1 == item.getItemType()) {
-            List<SheetListBean> list = getOptionListBeans(item);
+            List<SheetListBean> list = item.getSheetList();
             CustomCheckGroupView customCheckGroup = helper.getView(R.id.custom_check_group);
             boolean flag = "1".equals(item.getBlankFlag());
             if (flag) {
@@ -44,25 +47,26 @@ public class HealthEduItemAdapter extends BaseMultiItemQuickAdapter<EduItemListB
             }
             customCheckGroup.setGroupData(list);
             helper.setGone(R.id.bl_et_other, flag);
+            EditText blEtOther = helper.getView(R.id.bl_et_other);
+            blEtOther.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    item.setOther(s.toString());
+                }
+            });
         }
 
     }
 
-    private List<SheetListBean> getOptionListBeans(EduItemListBean item) {
-        List<SheetListBean> list = new ArrayList<>();
-        String options = item.getOptions();
-        if (options.contains("/")) {
-            String[] split = options.split("/");
-            for (String s : split) {
-                SheetListBean bean = new SheetListBean();
-                bean.setDesc(s);
-                list.add(bean);
-            }
-        }else {
-            SheetListBean bean = new SheetListBean();
-            bean.setDesc(options);
-            list.add(bean);
-        }
-        return list;
-    }
+
 }

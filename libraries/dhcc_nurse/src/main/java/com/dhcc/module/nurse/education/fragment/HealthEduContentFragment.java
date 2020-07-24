@@ -31,6 +31,7 @@ public class HealthEduContentFragment extends BaseNurseFragment {
     private String subjectIds;
     private String eduDateTime;
     private String episodeId;
+    private String taskIds;
 
     @Override
     protected void initDatas() {
@@ -57,7 +58,7 @@ public class HealthEduContentFragment extends BaseNurseFragment {
                     String eduTitle = "";
                     for (HealthEduContentBean.EduContentsBean eduBean : bean.getEduContents()) {
                         eduContent += eduBean.getContent() + "\n\n";
-                        eduTitle += eduBean.getTitle() + ", ";
+                        eduTitle += eduBean.getTitle() + "、";
                     }
                     etTitle.setText(replaceRN(eduTitle));
                     eduContent = replaceRN(eduContent);
@@ -77,6 +78,7 @@ public class HealthEduContentFragment extends BaseNurseFragment {
         super.initViews();
         desc = new BundleData(bundle).getDesc();
         subjectIds = new BundleData(bundle).getSubjectIds();
+        taskIds = new BundleData(bundle).getTaskIds();
         episodeId = new BundleData(bundle).getEpisodeId();
         eduDateTime = new BundleData(bundle).getDateTime();
 
@@ -98,10 +100,11 @@ public class HealthEduContentFragment extends BaseNurseFragment {
             SaveEduParams.getInstance().Content = etContent.getText().toString();
             SaveEduParams.getInstance().EducationDate = customSelectDate.getSelect().substring(0, 10);
             SaveEduParams.getInstance().EducationTime = customSelectDate.getSelect().substring(11, 16);
-            SaveEduParams.getInstance().SubjectIds = "[" + subjectIds + "]";
+            SaveEduParams.getInstance().SubjectIds =  subjectIds;
 
             BundleData bundle = new BundleData()
                     .setDesc(desc)
+                    .setTaskIds(taskIds)
                     .setDateTime(customSelectDate.getSelect());
             startFragment(HealthEduExecuteFragment.class, bundle.build());
         }

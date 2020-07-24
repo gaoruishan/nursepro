@@ -23,7 +23,7 @@ import com.jzxiang.pickerview.listener.OnDateSetListener;
  */
 public class CustomDateTimeView extends LinearLayout implements View.OnClickListener {
 
-    private static final long ONE_DAY = 24 * 60 * 60 * 1000L;
+    public static final long ONE_DAY = 24 * 60 * 60 * 1000L;
     private TextView tvChooseDateStart;
     private TextView tvChooseDateEnd;
     private boolean isShowTime;

@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 
 import com.base.commlibs.utils.RecyclerViewHelper;
+import com.base.commlibs.utils.SimpleCallBack;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.res.BaseView;
@@ -61,6 +62,12 @@ public class CustomCheckGroupView extends BaseView {
         protected void convert(BaseViewHolder helper, SheetListBean item) {
             CustomCheckView customCheck = helper.getView(R.id.custom_check);
             customCheck.setShowText(item.getDesc());
+            customCheck.setOnSelectListener(new SimpleCallBack<Boolean>() {
+                @Override
+                public void call(Boolean result, int type) {
+                    item.setSelect(result);
+                }
+            });
         }
     }
 

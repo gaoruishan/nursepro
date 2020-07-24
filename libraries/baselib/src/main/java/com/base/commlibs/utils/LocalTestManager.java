@@ -61,8 +61,8 @@ public class LocalTestManager {
 //        l.add("getMainConfig");//主页配置
 //        l.add("getOrderTasks");//主页配置
         //        l.add("getTransBloodList");
-        l.add("getEducationList");
-        l.add("getHealthAddList");
+//        l.add("getEducationList");
+//        l.add("getEduContents");
     }
 
     /**

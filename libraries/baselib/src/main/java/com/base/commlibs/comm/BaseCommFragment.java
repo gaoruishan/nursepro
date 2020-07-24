@@ -15,8 +15,10 @@ import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
 import com.base.commlibs.R;
 import com.base.commlibs.constant.Action;
+import com.base.commlibs.http.CommResult;
 import com.base.commlibs.utils.AppUtil;
 import com.base.commlibs.utils.BaseHelper;
+import com.base.commlibs.utils.CommDialog;
 
 import java.util.List;
 
@@ -114,10 +116,16 @@ public abstract class BaseCommFragment extends BaseFragment implements View.OnCl
     /**
      * 操作成功提示音
      */
-    protected void onSuccessThings() {
+    protected void onSuccessThings(CommResult... bean) {
         AppUtil.playSound(mContext, R.raw.operate_success);
+        if (bean != null && bean.length > 0) {
+            showToast(bean[0].getMsg());
+        }
     }
 
+    protected void showToast(String msg) {
+        CommDialog.showCommDialog(getActivity(), msg, null, 0, null, true);
+    }
     @Override
     public void getScanMsg(Intent intent) {
         super.getScanMsg(intent);

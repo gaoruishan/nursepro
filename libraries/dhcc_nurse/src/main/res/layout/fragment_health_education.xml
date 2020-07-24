@@ -67,11 +67,23 @@
                     android:background="#f6f6f6"/>
 
                 <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_list"
+                    android:id="@+id/rv_list_need"
+                    android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/white"/>
 
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_list_end"
+                    android:layout_weight="1"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"/>
+                <com.dhcc.res.infusion.CustomOrdExeBottomView
+                    android:id="@+id/custom_select_bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
         </LinearLayout>
 

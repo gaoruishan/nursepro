@@ -1,6 +1,7 @@
 package com.dhcc.module.nurse.education.fragment;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -14,9 +15,14 @@ import com.dhcc.module.nurse.R;
 import com.dhcc.module.nurse.education.BundleData;
 import com.dhcc.module.nurse.education.HealthEduApiManager;
 import com.dhcc.module.nurse.education.adapter.HealthEduItemAdapter;
+import com.dhcc.module.nurse.education.bean.EduItemListBean;
 import com.dhcc.module.nurse.education.bean.HealthEduBean;
 import com.dhcc.module.nurse.params.SaveEduParams;
 import com.dhcc.res.infusion.CustomSelectView;
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -32,6 +38,7 @@ public class HealthEduExecuteFragment extends BaseNurseFragment {
     private String desc;
     private String eduDateTime;
     private HealthEduItemAdapter eduItemAdapter;
+    private String taskIds;
 
     @Override
     protected void initDatas() {
@@ -43,7 +50,12 @@ public class HealthEduExecuteFragment extends BaseNurseFragment {
 
         HealthEduBean json = DataCache.getJson(HealthEduBean.class, HealthEduBean.class.getName());
         if (json != null) {
-            eduItemAdapter.setNewData(json.getEduItemList());
+            //重组数据
+            List<EduItemListBean> eduItemList = json.getEduItemList();
+            for (EduItemListBean bean : eduItemList) {
+                bean.setSheetList(bean.getOptionListBeans());
+            }
+            eduItemAdapter.setNewData(eduItemList);
         }
     }
 
@@ -51,6 +63,7 @@ public class HealthEduExecuteFragment extends BaseNurseFragment {
     protected void initViews() {
         super.initViews();
         desc = new BundleData(bundle).getDesc();
+        taskIds = new BundleData(bundle).getTaskIds();
         eduDateTime = new BundleData(bundle).getDateTime();
 
         tvName = f(R.id.tv_name, TextView.class);
@@ -68,6 +81,17 @@ public class HealthEduExecuteFragment extends BaseNurseFragment {
         super.onClick(v);
         //保存
         if (v.getId() == R.id.tv_ok) {
+            SaveEduParams.getInstance().EducationDate = customSelectDate.getSelect().substring(0, 10);
+            SaveEduParams.getInstance().EducationTime = customSelectDate.getSelect().substring(11, 16);
+            SaveEduParams.getInstance().eduTaskIds = taskIds;
+
+            //[{"id":"1","option":"手足/其他/本人/配偶\f444"},{"id":"4","option":"盲文/方言/身体语言"},{"id":"5","option":"其他\f6666"},{"id":"2","option":"不了解"},{"id":"6","option":"高中"}]
+            List<SaveEduParams.EduTaskIdBean> eduTaskIds = new ArrayList<>();
+            for (EduItemListBean datum : eduItemAdapter.getData()) {
+                eduTaskIds.add(datum.getEduTaskBean());
+                Log.e(TAG,"(HealthEduExecuteFragment.java:74) "+datum);
+            }
+            SaveEduParams.getInstance().EduItemList = new Gson().toJson(eduTaskIds);
             saveEdu();
         }
     }
@@ -84,7 +108,7 @@ public class HealthEduExecuteFragment extends BaseNurseFragment {
 
             @Override
             public void onSuccess(CommResult bean, String type) {
-
+                onSuccessThings(bean);
             }
         });
     }

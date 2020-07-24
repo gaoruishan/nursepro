@@ -58,7 +58,7 @@ public class HealthEduAddFragment extends BaseNurseFragment {
         episodeId = new BundleData(bundle).getEpisodeId();
         eduSubjectList = new BundleData(bundle).getEduSubjectList();
 
-        addToolBarRightTextView("确定",R.color.white);
+        addToolBarRightTextView("确定", R.color.white);
         mRecyclerView = f(R.id.rv, RecyclerView.class);
         healthEduAddAdapter = AdapterFactory.getHealthEduAddAdapter();
         mRecyclerView.setAdapter(healthEduAddAdapter);
@@ -95,84 +95,6 @@ public class HealthEduAddFragment extends BaseNurseFragment {
 
     }
 
-    @Override
-    public void onClick(View v) {
-        super.onClick(v);
-        //确定
-        if (v.getId() == R.id.tv_toolbar_right) {
-            String subjectIds = getSelectIds();
-            if(TextUtils.isEmpty(subjectIds)){
-               ToastUtils.showShort("请选择主题");
-               return;
-           }
-            BundleData instance = new BundleData()
-                    .setDesc(desc)
-                    .setEpisodeId(episodeId)
-                    .setSubjectIds(subjectIds);
-            startFragment(HealthEduContentFragment.class, instance.build());
-        }
-    }
-
-    private String getSelectIds() {
-        List<EduSubjectListBean> data = healthEduAddAdapter.getData();
-        List<String> mStringList = new ArrayList<>();
-        for (EduSubjectListBean datum : data) {
-            String id = datum.getId();
-            if (datum.isSelect()) {
-                if (!mStringList.contains(id)) {
-                    mStringList.add(id);
-                }
-            }
-        }
-        return replaceBrackets(mStringList.toString());
-    }
-
-
-    private void setOnGroupClick(int position, int viewId) {
-        List<EduSubjectListBean> data = healthEduAddAdapter.getData();
-        if (viewId == R.id.iv_arrow_switch) {
-            String type = data.get(position).getPid();
-            for (EduSubjectListBean datum : data) {
-                if (datum.getPid().equals(type)) {
-                    datum.setHide(!datum.isHide());
-                }
-            }
-            healthEduAddAdapter.notifyDataSetChanged();
-        }
-        if (viewId == R.id.custom_check) {
-            EduSubjectListBean bean = data.get(position);
-            boolean groupSelect = bean.isGroupSelect();
-            bean.setGroupSelect(!groupSelect);
-            for (EduSubjectListBean datum : data) {
-                if (datum.getPid().equals(bean.getId())) {
-                    datum.setSelect(!groupSelect);
-                }
-            }
-            healthEduAddAdapter.replaceData(data);
-            decoration.clearCache();
-        }
-    }
-    /**
-     * 接收事件- 更新数据
-     */
-    @Subscribe
-    public void updateList(MessageEvent event) {
-        Log.e(getClass().getSimpleName(), "updateText:" + event.toString());
-        if (event.getType() == MessageEvent.MessageType.HEALTH_EDU_ADD_SELECT) {
-            String id = event.getMessage();
-            boolean groupSelect = event.isSelect();
-            List<EduSubjectListBean> data = healthEduAddAdapter.getData();
-            for (EduSubjectListBean datum : data) {
-                if (datum.getId().equals(id)) {
-                    datum.setGroupSelect(groupSelect);
-                }
-            }
-            healthEduAddAdapter.replaceData(data);
-            decoration.clearCache();
-        }
-    }
-
-
     private View getGroupView(int position) {
         //获取自定定义的组View
         if (healthEduAddAdapter.getData().size() > position) {
@@ -200,8 +122,86 @@ public class HealthEduAddFragment extends BaseNurseFragment {
         return null;
     }
 
+    private void setOnGroupClick(int position, int viewId) {
+        List<EduSubjectListBean> data = healthEduAddAdapter.getData();
+        if (viewId == R.id.iv_arrow_switch) {
+            String type = data.get(position).getPid();
+            for (EduSubjectListBean datum : data) {
+                if (datum.getPid().equals(type)) {
+                    datum.setHide(!datum.isHide());
+                }
+            }
+            healthEduAddAdapter.notifyDataSetChanged();
+        }
+        if (viewId == R.id.custom_check) {
+            EduSubjectListBean bean = data.get(position);
+            boolean groupSelect = bean.isGroupSelect();
+            bean.setGroupSelect(!groupSelect);
+            for (EduSubjectListBean datum : data) {
+                if (datum.getPid().equals(bean.getId())) {
+                    datum.setSelect(!groupSelect);
+                }
+            }
+            healthEduAddAdapter.replaceData(data);
+            decoration.clearCache();
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+        //确定
+        if (v.getId() == R.id.tv_toolbar_right) {
+            String subjectIds = getSelectIds();
+            if (TextUtils.isEmpty(subjectIds) || "[]".equals(subjectIds)) {
+                ToastUtils.showShort("请选择主题");
+                return;
+            }
+            BundleData instance = new BundleData()
+                    .setDesc(desc)
+                    .setEpisodeId(episodeId)
+                    .setSubjectIds(subjectIds);
+            startFragment(HealthEduContentFragment.class, instance.build());
+        }
+    }
+
+    private String getSelectIds() {
+        List<EduSubjectListBean> data = healthEduAddAdapter.getData();
+        List<String> mStringList = new ArrayList<>();
+        for (EduSubjectListBean datum : data) {
+            String id = datum.getId();
+            if (datum.isSelect()) {
+                if (!mStringList.contains(id)) {
+                    mStringList.add(id);
+                }
+            }
+        }
+//        return replaceBrackets(mStringList.toString());
+        return mStringList.toString().replaceAll(" ", "");
+    }
+
     @Override
     protected int setLayout() {
         return R.layout.fragment_health_education_add;
+    }
+
+    /**
+     * 接收事件- 更新数据
+     */
+    @Subscribe
+    public void updateList(MessageEvent event) {
+        Log.e(getClass().getSimpleName(), "updateText:" + event.toString());
+        if (event.getType() == MessageEvent.MessageType.HEALTH_EDU_ADD_SELECT) {
+            String id = event.getMessage();
+            boolean groupSelect = event.isSelect();
+            List<EduSubjectListBean> data = healthEduAddAdapter.getData();
+            for (EduSubjectListBean datum : data) {
+                if (datum.getId().equals(id)) {
+                    datum.setGroupSelect(groupSelect);
+                }
+            }
+            healthEduAddAdapter.replaceData(data);
+            decoration.clearCache();
+        }
     }
 }

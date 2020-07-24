@@ -20,27 +20,22 @@ import java.util.List;
  * @date:202020-07-17/18:05
  * @email:grs0515@163.com
  */
-public class HealthEduAdapter extends BaseQuickAdapter<EducationListBean.DataBean, BaseViewHolder> {
+public class HealthEduEndAdapter extends BaseQuickAdapter<EducationListBean.DataBean, BaseViewHolder> {
 
 
-    public HealthEduAdapter(int layoutResId, @Nullable List<EducationListBean.DataBean> data) {
+    public HealthEduEndAdapter(int layoutResId, @Nullable List<EducationListBean.DataBean> data) {
         super(layoutResId, data);
     }
 
     @Override
     protected void convert(BaseViewHolder helper, EducationListBean.DataBean item) {
-
         setTextStatus(helper, item);
-
-        if (HealthEduBean.TYPE_1 == item.getItemType()) {
-            String eduSubject = item.getEduSubject();
-            helper.setText(R.id.tv_lab_no, getEduSubject(eduSubject, 0) + "")
-                    .setText(R.id.tv_content, getEduSubject(eduSubject, 1) + "")
-                    .setText(R.id.tv_exetime, item.getEduDateTime())
-                    .setText(R.id.tv_exeuser, item.getNurseSign())
-                    .setVisible(R.id.bl_tv_exe, true);
-        } else {
-        }
+        String eduSubject = item.getEduSubject();
+        helper.setText(R.id.tv_lab_no, getEduSubject(eduSubject, 0) + "")
+                .setText(R.id.tv_content, getEduSubject(eduSubject, 1) + "")
+                .setText(R.id.tv_exetime, item.getEduDateTime())
+                .setText(R.id.tv_exeuser, item.getNurseSign())
+                .setVisible(R.id.bl_tv_exe, true);
     }
 
     private void setTextStatus(BaseViewHolder helper, EducationListBean.DataBean item) {
@@ -76,7 +71,7 @@ public class HealthEduAdapter extends BaseQuickAdapter<EducationListBean.DataBea
             if (!titleList.contains(split2[i])) {
                 titleList.add(split2[i]);
             }
-        }else {
+        } else {
             return eduSubject;
         }
         return titleList.toString()
@@ -84,6 +79,4 @@ public class HealthEduAdapter extends BaseQuickAdapter<EducationListBean.DataBea
                 .replace("]", "");
     }
 
-    public void setEduDatas(List<EducationListBean.DataBean> data, int type) {
-    }
 }
