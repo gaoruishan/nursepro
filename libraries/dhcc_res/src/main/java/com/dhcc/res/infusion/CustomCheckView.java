@@ -46,8 +46,10 @@ public class CustomCheckView extends BaseView {
             @Override
             public void onClick(View v) {
                 btn_change.setSelected(!btn_change.isSelected());
+                //获得焦点
                 btn_change.setFocusable(true);
                 btn_change.setFocusableInTouchMode(true);
+                btn_change.requestFocus();
                 if (callBack != null) {
                     callBack.call(btn_change.isSelected(), 0);
                 }

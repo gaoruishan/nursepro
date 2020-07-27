@@ -1,6 +1,7 @@
 package com.dhcc.module.nurse.education.fragment;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -25,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * @author:gaoruishan
  * @date:202020-07-17/17:41
  * @email:grs0515@163.com
@@ -46,7 +46,7 @@ public class HealthEduExecuteFragment extends BaseNurseFragment {
         setToolbarCenterTitle("宣教执行");
         tvName.setText(desc + "");
 
-        setSelectDateTime(customSelectDate,eduDateTime);
+        setSelectDateTime(customSelectDate, eduDateTime);
 
         HealthEduBean json = DataCache.getJson(HealthEduBean.class, HealthEduBean.class.getName());
         if (json != null) {
@@ -69,6 +69,7 @@ public class HealthEduExecuteFragment extends BaseNurseFragment {
         tvName = f(R.id.tv_name, TextView.class);
         tvOk = f(R.id.tv_ok, TextView.class);
         tvOk.setOnClickListener(this);
+        f(R.id.tv_drug).setOnClickListener(this);
         customSelectDate = f(R.id.custom_select_date, CustomSelectView.class);
 
         RecyclerView rvItem = RecyclerViewHelper.get(mContext, R.id.rv_item);
@@ -83,16 +84,25 @@ public class HealthEduExecuteFragment extends BaseNurseFragment {
         if (v.getId() == R.id.tv_ok) {
             SaveEduParams.getInstance().EducationDate = customSelectDate.getSelect().substring(0, 10);
             SaveEduParams.getInstance().EducationTime = customSelectDate.getSelect().substring(11, 16);
+            if(TextUtils.isEmpty(taskIds)){
+                taskIds = "[]";
+            }
             SaveEduParams.getInstance().eduTaskIds = taskIds;
 
             //[{"id":"1","option":"手足/其他/本人/配偶\f444"},{"id":"4","option":"盲文/方言/身体语言"},{"id":"5","option":"其他\f6666"},{"id":"2","option":"不了解"},{"id":"6","option":"高中"}]
             List<SaveEduParams.EduTaskIdBean> eduTaskIds = new ArrayList<>();
             for (EduItemListBean datum : eduItemAdapter.getData()) {
                 eduTaskIds.add(datum.getEduTaskBean());
-                Log.e(TAG,"(HealthEduExecuteFragment.java:74) "+datum);
+                Log.e(TAG, "(HealthEduExecuteFragment.java:74) " + datum);
             }
             SaveEduParams.getInstance().EduItemList = new Gson().toJson(eduTaskIds);
             saveEdu();
+        }
+        //用药情况
+        if (v.getId() == R.id.tv_drug) {
+            BundleData bundle = new BundleData()
+                    .setEpisodeId(SaveEduParams.getInstance().episodeId);
+            startFragment(HealthEduDrugFragment.class, bundle.build());
         }
     }
 

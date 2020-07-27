@@ -163,6 +163,19 @@ public class HealthEduFragment extends BaseNurseFragment {
         healthEducationNeedAdapter = AdapterFactory.getHealthEducationNeedAdapter();
         rvNeedList.setAdapter(healthEducationNeedAdapter);
 
+        healthEducationNeedAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                refreshNeedData(adapter, position);
+            }
+        });
+        healthEducationNeedAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                refreshNeedData(adapter, position);
+            }
+        });
+
         healthEducationEndAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -176,6 +189,22 @@ public class HealthEduFragment extends BaseNurseFragment {
             }
         });
 
+    }
+
+    private void refreshNeedData(BaseQuickAdapter adapter, int position) {
+        List<EduTaskListBean> data = adapter.getData();
+        int num = 0;
+        for (int i = 0; i < data.size(); i++) {
+            EduTaskListBean bean = data.get(i);
+            if (i == position) {
+                bean.setSelect(!bean.isSelect());
+            }
+            if (bean.isSelect()) {
+                num++;
+            }
+        }
+        customSelectBottom.setSelectText("已选 " + num + " 个");
+        healthEducationNeedAdapter.notifyDataSetChanged();
     }
 
     private void execEdu() {
@@ -206,6 +235,7 @@ public class HealthEduFragment extends BaseNurseFragment {
     @Override
     public void onClick(View v) {
         super.onClick(v);
+        //添加
         if (v.getId() == R.id.img_toolbar_right2) {
             if (mBean == null) return;
             String desc = EduSheetListBean.getCurrentSheetDesc(eduSheetList, episodeId);
@@ -215,6 +245,7 @@ public class HealthEduFragment extends BaseNurseFragment {
                     .setEduSubjectList(mBean.getEduSubjectList());
             startFragment(HealthEduAddFragment.class, instance.build());
         }
+        //需宣教/已宣教
         if (v.getId() == R.id.tv_need || v.getId() == R.id.tv_need_ed) {
             boolean color = v.getId() == R.id.tv_need;
             rvNeedList.setVisibility(color ? View.VISIBLE : View.GONE);

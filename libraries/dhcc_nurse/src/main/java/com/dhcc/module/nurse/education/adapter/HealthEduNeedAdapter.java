@@ -35,14 +35,7 @@ public class HealthEduNeedAdapter extends BaseQuickAdapter<EduTaskListBean, Base
                 .setVisible(R.id.bl_tv_exe, false);
         LinearLayout llSelect = helper.getView(R.id.ll_select);
         llSelect.setSelected(item.isSelect());
-        helper.setVisible(R.id.ll_select, true).setOnClickListener(R.id.ll_select, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                item.setSelect(!item.isSelect());
-                notifyDataSetChanged();
-            }
-        });
-
+        helper.setVisible(R.id.ll_select, true).addOnClickListener(R.id.ll_select);
     }
 
     private void setTextStatus(BaseViewHolder helper, EduTaskListBean item) {
