@@ -36,8 +36,7 @@ public class OrderInfoDetailFragment extends BaseFragment {
 
     private OrderExecuteBean.OrdersBean.PatOrdsBean.OrderInfoBean orderInfoBean;
     private List<OrderExecuteBean.DetailColumsBean> detailColums;
-    private Map<String, String> infomap;
-
+    private Map infomap =new HashMap();
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_order_info_detail, container, false);
@@ -49,7 +48,9 @@ public class OrderInfoDetailFragment extends BaseFragment {
         Bundle bundle = getArguments();
         detailColums = (List<OrderExecuteBean.DetailColumsBean>) bundle.getSerializable("detailcolums");
         orderInfoBean = (OrderExecuteBean.OrdersBean.PatOrdsBean.OrderInfoBean) bundle.getSerializable("patorderinfo");
-
+        if (bundle!=null&&bundle.getSerializable("ord") != null) {
+            infomap = (Map) bundle.getSerializable("ord");
+        }
         setStatusBarBackgroundViewVisibility(true, 0xffffffff);
         setToolbarType(BaseActivity.ToolbarType.TOP);
         setToolbarBackground(new ColorDrawable(0xffffffff));
@@ -73,7 +74,8 @@ public class OrderInfoDetailFragment extends BaseFragment {
 
     private void initAdapter() {
         try {
-            orderInfoDetailAdapter = new OrderInfoDetailAdapter(detailColums, objectToMap(orderInfoBean));
+//            orderInfoDetailAdapter = new OrderInfoDetailAdapter(detailColums, objectToMap(orderInfoBean));
+            orderInfoDetailAdapter = new OrderInfoDetailAdapter(detailColums, infomap);
             recyOrderinfodetail.setAdapter(orderInfoDetailAdapter);
         } catch (Exception e) {
             e.printStackTrace();

@@ -15,6 +15,7 @@ import com.base.commlibs.BaseFragment;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.ordersearch.adapter.OrderInfoDetailAdapter;
 import com.dhcc.nursepro.workarea.ordersearch.bean.OrderSearchBean;
+import com.google.gson.Gson;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -36,7 +37,7 @@ public class OrderInfoDetailFragment extends BaseFragment {
 
     private OrderSearchBean.OrdersBean.PatOrdsBean.OrderInfoBean orderInfoBean;
     private List<OrderSearchBean.DetailColumsBean> detailColums;
-    private Map<String, String> infomap;
+    private Map infomap =new HashMap();
 
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -53,7 +54,9 @@ public class OrderInfoDetailFragment extends BaseFragment {
         if (bundle!=null&&bundle.getSerializable("patorderinfo") != null) {
             orderInfoBean = (OrderSearchBean.OrdersBean.PatOrdsBean.OrderInfoBean) bundle.getSerializable("patorderinfo");
         }
-
+        if (bundle!=null&&bundle.getSerializable("ord") != null) {
+            infomap = (Map) bundle.getSerializable("ord");
+        }
         setStatusBarBackgroundViewVisibility(true, 0xffffffff);
         setToolbarType(BaseActivity.ToolbarType.TOP);
         setToolbarBackground(new ColorDrawable(0xffffffff));
@@ -77,7 +80,8 @@ public class OrderInfoDetailFragment extends BaseFragment {
 
     private void initAdapter() {
         try {
-            orderInfoDetailAdapter = new OrderInfoDetailAdapter(detailColums, objectToMap(orderInfoBean));
+//            orderInfoDetailAdapter = new OrderInfoDetailAdapter(detailColums, objectToMap(orderInfoBean));
+            orderInfoDetailAdapter = new OrderInfoDetailAdapter(detailColums, infomap);
             recyOrderinfodetail.setAdapter(orderInfoDetailAdapter);
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,7 +1,9 @@
 package com.dhcc.nursepro.workarea.ordersearch.bean;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * OrderSearchBean
@@ -201,6 +203,15 @@ public class OrderSearchBean implements Serializable {
 
             private OrderInfoBean orderInfo;
             private String type;
+            private Map<String,String> orderInfoMap = new HashMap<>();
+
+            public Map<String, String> getOrderInfoMap() {
+                return orderInfoMap;
+            }
+
+            public void setOrderInfoMap(Map<String, String> orderInfoMap) {
+                this.orderInfoMap = orderInfoMap;
+            }
 
             public OrderInfoBean getOrderInfo() {
                 return orderInfo;

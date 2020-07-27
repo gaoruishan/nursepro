@@ -1,11 +1,19 @@
 package com.dhcc.nursepro.workarea.labout;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +57,10 @@ public class LabOutDetailFragment extends BaseFragment {
     private LabOutResultDialog labOutResultDialog;
     private String HGUserCode, HGPW;
     private String type = "0";
+    //
+    private String saveType="0";
+    private Boolean ifHedui=false;
+    private int heduiNum=0;
 
 
     @Override
@@ -62,10 +74,12 @@ public class LabOutDetailFragment extends BaseFragment {
 
         setToolbarType(BaseActivity.ToolbarType.TOP);
         setToolbarBottomLineVisibility(true);
-
+        setHindBottm(50);
         Bundle bundle = getArguments();
         if (bundle != null) {
             carryNo = bundle.getString("CarryNo");
+            saveType = bundle.getString("saveType");
+            ifHedui = bundle.getString("ifHedui")==null||bundle.getString("ifHedui").equals("0")?false:true;
         }
         setToolbarCenterTitle(carryNo, 0xffffffff, 17);
 
@@ -82,7 +96,12 @@ public class LabOutDetailFragment extends BaseFragment {
         tvLaboutSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                delOrExchange();
+                if (listBeans.size()>heduiNum){
+                    showToast("未全部核对，无法发送");
+                }else {
+                    delOrExchange();
+                }
+
             }
         });
         etLaboutContainer = view.findViewById(R.id.et_labout_container);
@@ -102,6 +121,7 @@ public class LabOutDetailFragment extends BaseFragment {
     private void initAdapter() {
 
         labOutDetailAdapter = new LabOutDetailAdapter(new ArrayList<LabOutDetailBean.DetailListBean>());
+        labOutDetailAdapter.setIfCheck(ifHedui);
         recaddLabOut.setAdapter(labOutDetailAdapter);
         labOutDetailAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
@@ -119,6 +139,7 @@ public class LabOutDetailFragment extends BaseFragment {
 
     private void initData() {
 
+        showLoadingTip(BaseActivity.LoadingType.FULL);
         HashMap<String, String> map = new HashMap<>();
         map.put("carryNo", carryNo);
         if (!saveFlag.equals("")) {
@@ -129,6 +150,7 @@ public class LabOutDetailFragment extends BaseFragment {
         LabOutApiManager.getLabOutDetailMsg(map, "getLabOutDetail", new LabOutApiManager.getLabOutDetailCallBack() {
             @Override
             public void onSuccess(LabOutDetailBean labOutDetailBean) {
+                hideLoadingTip();
                 //                setToolbarCenterTitle("检验打包",0xffffffff,17);
                 saveFlag = "";
                 carryFlag = labOutDetailBean.getCarryFlag();
@@ -140,12 +162,28 @@ public class LabOutDetailFragment extends BaseFragment {
                 etLaboutContainer.setText(labOutDetailBean.getTransContainer());
 
                 listBeans = labOutDetailBean.getDetailList();
-                tvLaboutScan.setText("已扫描 " + listBeans.size() + " 个");
+                heduiNum = 0;
+                for (int i = 0; i <listBeans.size() ; i++) {
+                    if (listBeans.get(i).getAuditFlag().equals("1")){
+                        heduiNum++;
+                    }
+                }
+                String labNum = "标本数目："+heduiNum+"/"+listBeans.size();
+                int deviceNu = labNum.indexOf("/");
+                SpannableStringBuilder style=new SpannableStringBuilder(labNum);
+                //设置指定位置textview的背景颜色
+//                style.setSpan(new BackgroundColorSpan(Color.RED),2,5, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                //设置指定位置文字的颜色
+                style.setSpan(new ForegroundColorSpan(Color.GREEN),5,deviceNu,Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                style.setSpan(new AbsoluteSizeSpan(50),5,labNum.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                style.setSpan(new ForegroundColorSpan(getActivity().getResources().getColor(R.color.blue)),deviceNu+1,labNum.length(),Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                tvLaboutScan.setText(style);
                 labOutDetailAdapter.setNewData(listBeans);
             }
 
             @Override
             public void onFail(String code, String msg) {
+                hideLoadingTip();
                 saveFlag = "";
                 showToast("error" + code + ":" + msg);
             }
@@ -256,7 +294,7 @@ public class LabOutDetailFragment extends BaseFragment {
             } else {
                 carryLocDr = spUtils.getString(SharedPreference.LOCID);
                 carryLabNo = bundle != null ? bundle.getString("data") : "";
-                saveFlag = "1";
+                saveFlag = saveType;
                 initData();
             }
         }

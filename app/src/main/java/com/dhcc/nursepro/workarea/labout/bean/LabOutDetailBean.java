@@ -99,6 +99,15 @@ public class LabOutDetailBean {
         private String specName;
         private String tranStatus;
         private String statusDesc;
+        private String auditFlag;
+
+        public String getAuditFlag() {
+            return auditFlag;
+        }
+
+        public void setAuditFlag(String auditFlag) {
+            this.auditFlag = auditFlag;
+        }
 
         public String getBedNo() {
             return bedNo;

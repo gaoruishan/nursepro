@@ -35,12 +35,12 @@ import java.util.List;
 public class LabOutListFragment extends BaseFragment implements View.OnClickListener, OnDateSetListener {
 
     private RecyclerView recLabOut;
-    private TextView tvType1, tvType2, tvType3, tvType4, tvStartDate, tvEndDate,tvBl;
+    private TextView tvType0,tvType1, tvType2, tvType3, tvType4, tvStartDate, tvEndDate,tvBl;
     private LinearLayout llEmpty;
-    private View show1, show2, show3, show4;
+    private View show0,show1, show2, show3, show4;
     private LabOutAdapter labOutAdapter;
     private List<LabOutListAllBean.LabOutListBean> listLabAll =new ArrayList<>(), listLabNow =new ArrayList<>();
-    private String dateStr, CarrayCerate = "No", CarrayDel = "No", CarrayNo = "", TypeStr = "Type1";
+    private String dateStr, CarrayCerate = "No", CarrayDel = "No", CarrayNo = "", TypeStr = "Type0";
     private List<LabOutListAllBean.TypeListBean> listType =new ArrayList<>();
 
     private SPUtils spUtils = SPUtils.getInstance();
@@ -87,6 +87,10 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
         map.put("locId", spUtils.getString(SharedPreference.LOCID));
         if (CarrayCerate.equals("Yes")) {
             map.put("userId", spUtils.getString(SharedPreference.USERID));
+            if (TypeStr.equals("Type0")){
+                map.put("preFlag", "1");
+            }
+            map.put("userId", spUtils.getString(SharedPreference.USERID));
             if (CarrayDel.equals("Yes")) {
                 map.put("carryNo", CarrayNo);
             }
@@ -99,10 +103,11 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
                 CarrayDel = "No";
                 if (listType.size() == 0) {
                     listType = labOutListAllBean.getTypeList();
-                    tvType1.setText(listType.get(0).getDesc());
-                    tvType2.setText(listType.get(1).getDesc());
-                    tvType3.setText(listType.get(2).getDesc());
-                    tvType4.setText(listType.get(3).getDesc());
+                    tvType0.setText(listType.get(0).getDesc());
+                    tvType1.setText(listType.get(1).getDesc());
+                    tvType2.setText(listType.get(2).getDesc());
+                    tvType3.setText(listType.get(3).getDesc());
+                    tvType4.setText(listType.get(4).getDesc());
                 }
 
                 listLabAll = labOutListAllBean.getLabOutList();
@@ -121,6 +126,7 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
     }
 
     private void setTopFilterSelect(View view) {
+        tvType0.setSelected(view == tvType0);
         tvType1.setSelected(view == tvType1);
         tvType2.setSelected(view == tvType2);
         tvType3.setSelected(view == tvType3);
@@ -128,6 +134,7 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
     }
 
     private void showgone(View view) {
+        show0.setBackgroundColor(getResources().getColor(R.color.blue_light));
         show1.setBackgroundColor(getResources().getColor(R.color.blue_light));
         show2.setBackgroundColor(getResources().getColor(R.color.blue_light));
         show3.setBackgroundColor(getResources().getColor(R.color.blue_light));
@@ -139,23 +146,28 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
         listLabNow = new ArrayList<>();
         for (int i = 0; i < listLabAll.size(); i++) {
             switch (TypeStr) {
-                case "Type1":
+                case "Type0":
                     if (listLabAll.get(i).getStatus().equals(listType.get(0).getDesc())) {
                         listLabNow.add(listLabAll.get(i));
                     }
                     break;
-                case "Type2":
+                case "Type1":
                     if (listLabAll.get(i).getStatus().equals(listType.get(1).getDesc())) {
                         listLabNow.add(listLabAll.get(i));
                     }
                     break;
-                case "Type3":
+                case "Type2":
                     if (listLabAll.get(i).getStatus().equals(listType.get(2).getDesc())) {
                         listLabNow.add(listLabAll.get(i));
                     }
                     break;
-                case "Type4":
+                case "Type3":
                     if (listLabAll.get(i).getStatus().equals(listType.get(3).getDesc())) {
+                        listLabNow.add(listLabAll.get(i));
+                    }
+                    break;
+                case "Type4":
+                    if (listLabAll.get(i).getStatus().equals(listType.get(4).getDesc())) {
                         listLabNow.add(listLabAll.get(i));
                     }
                     break;
@@ -175,6 +187,8 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
     private void initview(View view) {
 
         llEmpty = view.findViewById(R.id.ll_laboout_empty);
+        tvType0 = view.findViewById(R.id.tv_labout_type0);
+        tvType0.setOnClickListener(this);
         tvType1 = view.findViewById(R.id.tv_labout_type1);
         tvType1.setOnClickListener(this);
         tvType2 = view.findViewById(R.id.tv_labout_type2);
@@ -190,14 +204,14 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
 
         tvStartDate.setText(DateUtils.getDateTimeAgo(spUtils.getString(SharedPreference.CURDATETIME),1).substring(0, 10));
         tvEndDate.setText(spUtils.getString(SharedPreference.CURDATETIME).substring(0, 10));
-
+        show0 = view.findViewById(R.id.view_labout_show0);
         show1 = view.findViewById(R.id.view_labout_show1);
         show2 = view.findViewById(R.id.view_labout_show2);
         show3 = view.findViewById(R.id.view_labout_show3);
         show4 = view.findViewById(R.id.view_labout_show4);
 
-        setTopFilterSelect(tvType1);
-        showgone(show1);
+        setTopFilterSelect(tvType0);
+        showgone(show0);
 
         recLabOut = view.findViewById(R.id.recy_labout);
         //提高展示效率
@@ -227,6 +241,19 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
                     String carryNodetail = listLabNow.get(position).getCarryNo();
                     Bundle bundle = new Bundle();
                     bundle.putString("CarryNo", carryNodetail);
+                    bundle.putString("saveType", "1");
+                    if (TypeStr.equals("Type0")){
+                        bundle.putString("ifHedui", "1");
+                    }else {
+                        bundle.putString("ifHedui", "0");
+                    }
+                    startFragment(LabOutDetailFragment.class, bundle);
+                }else if (view.getId() == R.id.tv_lapack_hedui){
+                    String carryNodetail = listLabNow.get(position).getCarryNo();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("CarryNo", carryNodetail);
+                    bundle.putString("saveType", "2");
+                    bundle.putString("ifHedui", "1");
                     startFragment(LabOutDetailFragment.class, bundle);
                 }
 
@@ -238,6 +265,12 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
     public void onClick(View v) {
 
         switch (v.getId()) {
+            case R.id.tv_labout_type0:
+                TypeStr = "Type0";
+                setTopFilterSelect(tvType0);
+                showgone(show0);
+                getLabOutList();
+                break;
             case R.id.tv_labout_type1:
                 TypeStr = "Type1";
                 setTopFilterSelect(tvType1);
@@ -274,11 +307,17 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
                 //                startFragment(PatEventsDetailFragment.class);
                 if (System.currentTimeMillis()-timeNow > 1500){
                     CarrayCerate = "Yes";
-                    initData();
-                    setTopFilterSelect(tvType1);
-                    showgone(show1);
-                    TypeStr = "Type1";
+                    if (TypeStr.equals("Type0")){
+                        setTopFilterSelect(tvType0);
+                        showgone(show0);
+                        TypeStr = "Type0";
+                    }else {
+                        setTopFilterSelect(tvType1);
+                        showgone(show1);
+                        TypeStr = "Type1";
+                    }
                     getLabOutList();
+                    initData();
                     timeNow =  System.currentTimeMillis();
                 }else {
                     showToast("不可频繁建单，请稍后建单");

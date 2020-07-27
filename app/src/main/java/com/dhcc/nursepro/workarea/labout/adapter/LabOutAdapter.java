@@ -24,6 +24,7 @@ public class LabOutAdapter extends BaseQuickAdapter<LabOutListAllBean.LabOutList
                 .setText(R.id.tv_labout_time,item.getCarryTime())
                 .setText(R.id.tv_labout_statu,item.getStatus())
                 .addOnClickListener(R.id.tv_lapack_del)
+                .addOnClickListener(R.id.tv_lapack_hedui)
                 .addOnClickListener(R.id.messagecontentll);
         com.guanaj.easyswipemenulibrary.EasySwipeMenuLayout swipeLabout = helper.getView(R.id.swipe_labout);
 //        if (item.getStatus().startsWith("建单")){

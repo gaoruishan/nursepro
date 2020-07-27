@@ -49,6 +49,7 @@ import com.dhcc.nursepro.workarea.nurrecordnew.PatNurRecordFragment;
 import com.dhcc.nursepro.workarea.nurtour.NurTourFragment;
 import com.dhcc.nursepro.workarea.operation.OperationFragment;
 import com.dhcc.nursepro.workarea.orderexecute.OrderExecuteFragment;
+import com.dhcc.nursepro.workarea.orderexecute.OrderSearchAndExecuteFragment;
 import com.dhcc.nursepro.workarea.orderexecute.api.OrderExecuteApiManager;
 import com.dhcc.nursepro.workarea.orderexecute.bean.OrderExecResultBean;
 import com.dhcc.nursepro.workarea.ordersearch.OrderSearchFragment;
@@ -297,6 +298,8 @@ public class WorkareaFragment extends BaseFragment {
             case "TaskOverviewFragment":
                 //w ##class(Nur.DHCNurPdaModule).Save("任务总览^TaskOverviewFragment^22^Y^")
                 startFragment(TaskOverviewFragment.class);
+            case "ORDEXEANDSEARCH":
+                startFragment(OrderSearchAndExecuteFragment.class);
                 break;
             default:
                 break;
@@ -1332,6 +1335,14 @@ public class WorkareaFragment extends BaseFragment {
                     break;
                 case "TaskOverviewFragment":
                     tvItem.setText("任务总览");
+                    tvItem.setText(item.getModuleDesc());
+                    imageView.setImageResource(R.drawable.dhcc_main_nurse_task_overview);
+                    map.put("fragName", TaskOverviewFragment.class.getName());
+                    map.put("fragicon",R.drawable.dhcc_main_nurse_task_overview);
+                    SharedPreference.FRAGMENTARY.add(map);
+                    break;
+                case "ORDEXEANDSEARCH":
+                    tvItem.setText("医嘱");
                     tvItem.setText(item.getModuleDesc());
                     imageView.setImageResource(R.drawable.dhcc_main_nurse_task_overview);
                     map.put("fragName", TaskOverviewFragment.class.getName());

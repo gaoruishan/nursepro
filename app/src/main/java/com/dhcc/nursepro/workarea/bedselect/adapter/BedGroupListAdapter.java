@@ -22,6 +22,11 @@ import java.util.List;
  * @date 2018/8/29
  */
 public class BedGroupListAdapter extends BaseQuickAdapter<BedSelectListBean.BedListBean, BaseViewHolder> {
+    private boolean ifGroupClick=false;
+
+    public void setIfGroupClick(boolean ifGroupClick) {
+        this.ifGroupClick = ifGroupClick;
+    }
 
     public BedGroupListAdapter(List<BedSelectListBean.BedListBean> data) {
         super(R.layout.item_bedselect_group, data);
@@ -43,16 +48,18 @@ public class BedGroupListAdapter extends BaseQuickAdapter<BedSelectListBean.BedL
             }
         }
 
-        String bedsSelected = "";
-        bedsSelected = SPUtils.getInstance().getString(SharedPreference.ORDERSEARCHE_BEDSELECTED)+"";
-        String[] bedSelected = bedsSelected.split(";");
-        for (int i = 0; i < item.getGroupList().size(); i++) {
-            for (int k = 0; k <bedSelected.length ; k++) {
-                if (item.getGroupList().get(i).getBedId().equals(bedSelected[k])){
-                    item.getGroupList().get(i).setSelect("1");
+        if (!ifGroupClick){
+            String bedsSelected = "";
+            bedsSelected = SPUtils.getInstance().getString(SharedPreference.ORDERSEARCHE_BEDSELECTED)+"";
+            String[] bedSelected = bedsSelected.split(";");
+            for (int i = 0; i < item.getGroupList().size(); i++) {
+                for (int k = 0; k <bedSelected.length ; k++) {
+                    if (item.getGroupList().get(i).getBedId().equals(bedSelected[k])){
+                        item.getGroupList().get(i).setSelect("1");
+                    }
                 }
-            }
 
+            }
         }
         helper.setText(R.id.tv_bedselect_group, item.getGroupCode() + "区")
                 .addOnClickListener(R.id.ll_bedselect_group);

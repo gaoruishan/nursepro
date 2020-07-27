@@ -67,6 +67,25 @@ public class OrderExecuteApiManager {
                     if (!ObjectUtils.isEmpty(orderExecuteBean)) {
                         if ("0".equals(orderExecuteBean.getStatus())) {
                             if (callback != null) {
+                                Map bedMapMap = gson.fromJson(jsonStr, Map.class);
+
+                                List<Map<String, String>> patInfoMapList =new ArrayList<>();
+                                patInfoMapList = (List<Map<String, String>>) bedMapMap.get("orders");
+                                for (int i = 0; i <patInfoMapList.size() ; i++) {
+                                    Map patMap = patInfoMapList.get(i);
+                                    List<Map<String, String>> patInfoMapListOrder=new ArrayList<>();
+                                    patInfoMapListOrder = (List<Map<String, String>>) patMap.get("patOrds");
+                                    for (int j = 0; j <patInfoMapListOrder.size() ; j++) {
+                                        List<Map<String, Map>> patInfoMapList1 =new ArrayList<>();
+                                        patInfoMapList1 = (List<Map<String, Map>>) patInfoMapListOrder.get(j);
+                                        Map<String, String> patOrdMap = new HashMap<>();
+                                        for (int k = 0; k < patInfoMapList1.size(); k++) {
+                                            patOrdMap = patInfoMapList1.get(k).get("orderInfo");
+                                            orderExecuteBean.getOrders().get(i).getPatOrds().get(j).get(k).setOrderInfoMap(patOrdMap);
+                                        }
+                                    }
+                                }
+
                                 callback.onSuccess(orderExecuteBean);
                             }
                         } else {

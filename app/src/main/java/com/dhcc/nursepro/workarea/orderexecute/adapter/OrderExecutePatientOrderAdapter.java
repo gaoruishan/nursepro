@@ -87,6 +87,7 @@ public class OrderExecutePatientOrderAdapter extends BaseQuickAdapter<List<Order
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("detailcolums", (Serializable) detailColums);
                 bundle.putSerializable("patorderinfo", patOrdsBean.getOrderInfo());
+                bundle.putSerializable("ord", (Serializable) patOrdsBean.getOrderInfoMap());
                 ((BaseActivity) mContext).startFragment(OrderInfoDetailFragment.class, bundle);
             }
         });

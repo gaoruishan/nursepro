@@ -17,7 +17,7 @@
         android:focusable="true"
         android:focusableInTouchMode="true">
         <TextView
-            android:layout_width="@dimen/dp_60"
+            android:layout_width="wrap_content"
             android:layout_height="@dimen/dp_20"
             android:text="容器编号"
             android:textColor="#FF9B9B9B"

@@ -16,6 +16,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tv_labout_type0"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingTop="@dimen/dp_16"
+                android:paddingBottom="@dimen/dp_16"
+                android:text="预建单"
+                android:textColor="@drawable/textcolor_item_bedmap_selector"
+                android:textSize="@dimen/sp_14" />
 
             <TextView
                 android:id="@+id/tv_labout_type1"
@@ -78,6 +89,18 @@
             android:layout_height="wrap_content"
             android:background="@color/blue_light"
             android:orientation="horizontal">
+            <RelativeLayout
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="@dimen/dp_1"
+                android:layout_weight="1">
+
+                <View
+                    android:id="@+id/view_labout_show0"
+                    android:layout_width="@dimen/dp_45"
+                    android:layout_height="@dimen/dp_2"
+                    android:layout_centerInParent="true"
+                    android:background="@color/blue" />
+            </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="@dimen/dp_0"

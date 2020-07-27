@@ -3,6 +3,7 @@ package com.dhcc.nursepro.view;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
+import android.widget.TextView;
 
 /**
  * Created by Devlix on 2017/8/14.
@@ -26,4 +27,8 @@ public class RotateTextView extends android.support.v7.widget.AppCompatTextView 
         super.onDraw(canvas);
     }
 
+    @Override
+    public void setTextColor(int color) {
+        super.setTextColor(color);
+    }
 }

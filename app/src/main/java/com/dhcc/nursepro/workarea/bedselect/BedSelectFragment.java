@@ -89,6 +89,7 @@ public class BedSelectFragment extends BaseFragment {
         llBedselectAllselect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                bedGroupListAdapter.setIfGroupClick(true);
                 if (selectAll) {
                     for (int i = 0; i < bedList.size(); i++) {
                         bedList.get(i).setSelect("0");
@@ -122,12 +123,13 @@ public class BedSelectFragment extends BaseFragment {
                 BedSelectListBean.BedListBean bedListBean = (BedSelectListBean.BedListBean) adapter.getItem(position);
 
                 if (view.getId() == R.id.ll_bedselect_group) {
+                    bedGroupListAdapter.setIfGroupClick(true);
                     if ("0".equals(bedListBean.getSelect())) {
                         bedListBean.setSelect("1");
                     } else {
                         bedListBean.setSelect("0");
                     }
-                    bedGroupListAdapter.notifyDataSetChanged();
+                    bedGroupListAdapter.notifyItemChanged(position);
 
                     //                    if (view.isSelected()) {
                     //                        view.setSelected(false);

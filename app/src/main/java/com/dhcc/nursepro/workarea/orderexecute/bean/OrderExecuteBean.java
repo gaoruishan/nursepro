@@ -4,7 +4,9 @@ import com.dhcc.res.infusion.bean.ClickBean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * OrderSearchBean
@@ -250,6 +252,15 @@ public class OrderExecuteBean implements Serializable {
             private OrderInfoBean orderInfo;
             private String type;
             private String select;
+            private Map<String,String> orderInfoMap = new HashMap<>();
+
+            public Map<String, String> getOrderInfoMap() {
+                return orderInfoMap;
+            }
+
+            public void setOrderInfoMap(Map<String, String> orderInfoMap) {
+                this.orderInfoMap = orderInfoMap;
+            }
 
             public String getSelect() {
                 return select;
