@@ -17,6 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:visibility="gone"
             android:id="@+id/tv_lab_no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -43,6 +44,7 @@
                 android:id="@+id/bl_tv_status"
                 android:text="需处理临嘱"
                 android:gravity="center"
+                android:minWidth="@dimen/dp_45"
                 android:layout_marginTop="@dimen/dp_5"
                 android:layout_marginBottom="@dimen/dp_5"
                 app:bl_corners_radius="@dimen/dp_10"
@@ -114,7 +116,6 @@
 
         <LinearLayout
             android:id="@+id/ll_select"
-            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

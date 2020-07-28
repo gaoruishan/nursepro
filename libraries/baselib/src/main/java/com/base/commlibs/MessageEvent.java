@@ -32,6 +32,11 @@ public class MessageEvent {
         this.type = type;
     }
 
+    public MessageEvent(String message, MessageType type) {
+        this.message = message;
+        this.type = type;
+    }
+
     public MessageEvent(int offSet, int postion, MessageType type, Object object) {
         this.offSet = offSet;
         this.postion = postion;
@@ -131,6 +136,7 @@ public class MessageEvent {
         CHAT_ROOM_CLICK_AVATAR,
         UPDATE_BOTTOM_UNREAD_NUM,
         NOTIFY_MESSAGE,
-        HEALTH_EDU_ADD_SELECT
+        HEALTH_EDU_ADD_SELECT,
+        HEALTH_EDU_SELECT_ORD
     }
 }

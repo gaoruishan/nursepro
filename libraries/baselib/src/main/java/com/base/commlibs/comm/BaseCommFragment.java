@@ -19,6 +19,7 @@ import com.base.commlibs.http.CommResult;
 import com.base.commlibs.utils.AppUtil;
 import com.base.commlibs.utils.BaseHelper;
 import com.base.commlibs.utils.CommDialog;
+import com.blankj.utilcode.util.ActivityUtils;
 
 import java.util.List;
 
@@ -124,7 +125,7 @@ public abstract class BaseCommFragment extends BaseFragment implements View.OnCl
     }
 
     protected void showToast(String msg) {
-        CommDialog.showCommDialog(getActivity(), msg, null, 0, null, true);
+        CommDialog.showCommDialog(ActivityUtils.getTopActivity(), msg, null, 0, null, true);
     }
     @Override
     public void getScanMsg(Intent intent) {

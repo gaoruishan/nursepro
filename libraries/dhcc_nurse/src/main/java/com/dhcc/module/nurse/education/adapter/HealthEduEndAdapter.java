@@ -3,6 +3,7 @@ package com.dhcc.module.nurse.education.adapter;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -31,11 +32,15 @@ public class HealthEduEndAdapter extends BaseQuickAdapter<EducationListBean.Data
     protected void convert(BaseViewHolder helper, EducationListBean.DataBean item) {
         setTextStatus(helper, item);
         String eduSubject = item.getEduSubject();
-        helper.setText(R.id.tv_lab_no, getEduSubject(eduSubject, 0) + "")
-                .setText(R.id.tv_content, getEduSubject(eduSubject, 1) + "")
+        helper.setText(R.id.tv_lab_no, getEduSubject(eduSubject, 0))
+                .setGone(R.id.tv_lab_no, !TextUtils.isEmpty(getEduSubject(eduSubject, 0)))
+                .setText(R.id.tv_content, getEduSubject(eduSubject, 1))
+                .setGone(R.id.tv_content, !TextUtils.isEmpty(getEduSubject(eduSubject, 1)))
                 .setText(R.id.tv_exetime, item.getEduDateTime())
                 .setText(R.id.tv_exeuser, item.getNurseSign())
-                .setVisible(R.id.bl_tv_exe, true);
+                .setGone(R.id.bl_tv_exe, true)
+                .setGone(R.id.ll_select, false);
+
     }
 
     private void setTextStatus(BaseViewHolder helper, EducationListBean.DataBean item) {
@@ -56,6 +61,7 @@ public class HealthEduEndAdapter extends BaseQuickAdapter<EducationListBean.Data
 
     private String getEduSubject(String eduSubject, int i) {
         List<String> titleList = new ArrayList<>();
+        // 包含"、" 和 "-"
         if (eduSubject.contains("、")) {
             String[] split = eduSubject.split("、");
             for (String s : split) {
@@ -66,13 +72,30 @@ public class HealthEduEndAdapter extends BaseQuickAdapter<EducationListBean.Data
                     }
                 }
             }
-        } else if (eduSubject.contains("-")) {
+        }
+        //包含 "-" 即只有一个
+        if (eduSubject.contains("-")) {
             String[] split2 = eduSubject.split("-");
             if (!titleList.contains(split2[i])) {
                 titleList.add(split2[i]);
             }
-        } else {
-            return eduSubject;
+        }
+        //只包含"、" (脏数据)  即只有 子主题
+        if (eduSubject.contains("、") && !eduSubject.contains("-")) {
+            if (i == 1) {
+                String[] split = eduSubject.split("、");
+                for (String s : split) {
+                    if (!titleList.contains(s)) {
+                        titleList.add(s);
+                    }
+                }
+            }
+        }
+        //只包含", " (脏数据)  即只有 子主题
+        if (eduSubject.contains(",")) {
+            if (i == 1) {
+                return eduSubject;
+            }
         }
         return titleList.toString()
                 .replace("[", "")

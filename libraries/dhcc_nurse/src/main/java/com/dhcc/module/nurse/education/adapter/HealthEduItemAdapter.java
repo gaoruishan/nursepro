@@ -2,6 +2,7 @@ package com.dhcc.module.nurse.education.adapter;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.EditText;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;

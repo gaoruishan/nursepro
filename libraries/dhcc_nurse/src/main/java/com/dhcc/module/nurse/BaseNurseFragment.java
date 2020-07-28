@@ -3,13 +3,18 @@ package com.dhcc.module.nurse;
 import android.content.Context;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.base.commlibs.MessageEvent;
 import com.base.commlibs.comm.BaseCommFragment;
 import com.blankj.utilcode.util.TimeUtils;
 import com.dhcc.res.infusion.CustomSelectView;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * 智护相关一个父类
@@ -19,6 +24,7 @@ import com.dhcc.res.infusion.CustomSelectView;
  */
 public abstract class BaseNurseFragment extends BaseCommFragment {
 
+    public static final String SELECT_ORD = "selectOrd";
 
     public static final String YYYY_MM_DD_HH_MM = "yyyy-MM-dd HH:mm";
     public static final String YYYY_MM_DD = "yyyy-MM-dd";
@@ -114,5 +120,13 @@ public abstract class BaseNurseFragment extends BaseCommFragment {
         customSelectDate.setTitle("时间选择").setSelect(time);
         long millis = TimeUtils.string2Millis(time, YYYY_MM_DD_HH_MM);
         customSelectDate.setSelectTime(this.getFragmentManager(), millis, null);
+    }
+
+    /**
+     * 接收事件- 更新数据
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void updateMessageEvent(MessageEvent event) {
+        Log.e(getClass().getSimpleName(), "updateText:" + event.toString());
     }
 }

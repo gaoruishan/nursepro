@@ -147,8 +147,10 @@ public class EduItemListBean implements MultiItemEntity {
                 eduTaskIdBean.option += bean.getDesc() + "/";
             }
         }
-        int length = eduTaskIdBean.option.length();
-        eduTaskIdBean.option = eduTaskIdBean.option.substring(0, length - 1);
+        if(!TextUtils.isEmpty(eduTaskIdBean.option)){
+            int length = eduTaskIdBean.option.length();
+            eduTaskIdBean.option = eduTaskIdBean.option.substring(0, length - 1);
+        }
         if (!TextUtils.isEmpty(other)) {
             eduTaskIdBean.option += "\f" + other;
         }

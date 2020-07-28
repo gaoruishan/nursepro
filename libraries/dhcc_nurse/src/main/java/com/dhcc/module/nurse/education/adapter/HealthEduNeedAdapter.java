@@ -1,6 +1,7 @@
 package com.dhcc.module.nurse.education.adapter;
 
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -8,9 +9,9 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.module.nurse.R;
+import com.dhcc.module.nurse.education.bean.EduSubjectListBean;
 import com.dhcc.module.nurse.education.bean.EduTaskListBean;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,11 +29,11 @@ public class HealthEduNeedAdapter extends BaseQuickAdapter<EduTaskListBean, Base
     @Override
     protected void convert(BaseViewHolder helper, EduTaskListBean item) {
         setTextStatus(helper, item);
-        helper.setText(R.id.tv_lab_no, getTaskListTitle(item) + "")
-                .setText(R.id.tv_content, "")
+        helper.setText(R.id.tv_lab_no, item.getSubjectTitle() + "")
+                .setText(R.id.tv_content, getTaskContents(item))
                 .setText(R.id.tv_exetime, item.getPlanDate())
 //                .setText(R.id.tv_exeuser, item.getNurseSign())
-                .setVisible(R.id.bl_tv_exe, false);
+                .setGone(R.id.bl_tv_exe, false);
         LinearLayout llSelect = helper.getView(R.id.ll_select);
         llSelect.setSelected(item.isSelect());
         helper.setVisible(R.id.ll_select, true).addOnClickListener(R.id.ll_select);
@@ -50,51 +51,39 @@ public class HealthEduNeedAdapter extends BaseQuickAdapter<EduTaskListBean, Base
 //        blTvStatus.setBackground(drawable);
     }
 
-    private String getTaskListTitle(EduTaskListBean item) {
+    private String getTaskContents(EduTaskListBean item) {
         String title = "";
         if (item.getEduContents() != null) {
             for (EduTaskListBean.EduContentsBean eduContent : item.getEduContents()) {
-//                title += eduContent.getTitle() + ", ";
-                title += getEduSubject(eduContent.getTitle(), 0) + ", ";
+                title += eduContent.getTitle() + ", ";
             }
+        }
+        if(!TextUtils.isEmpty(title)){
+            title = title.substring(0, title.length() - 1);
         }
         return title;
     }
 
-    private String getEduSubject(String eduSubject, int i) {
-        List<String> titleList = new ArrayList<>();
-        if (eduSubject.contains("、")) {
-            String[] split = eduSubject.split("、");
-            for (String s : split) {
-                if (s.contains("-")) {
-                    String[] split2 = s.split("-");
-                    if (!titleList.contains(split2[i])) {
-                        titleList.add(split2[i]);
-                    }
+
+    public void setCustomDatas(List<EduTaskListBean> eduTaskList, List<EduSubjectListBean> eduSubjectList) {
+        for (EduTaskListBean taskListBean : eduTaskList) {
+            String subjectId = taskListBean.getSubjectId();
+            String pid = "";
+            String title = "";
+            for (EduSubjectListBean bean : eduSubjectList) {
+                if (bean.getId().equals(subjectId)) {
+                    pid = bean.getPid();
+                    break;
                 }
             }
-        } else if (eduSubject.contains("-")) {
-            String[] split2 = eduSubject.split("-");
-            if (!titleList.contains(split2[i])) {
-                titleList.add(split2[i]);
+            for (EduSubjectListBean bean : eduSubjectList) {
+                if (pid.equals(bean.getId())) {
+                    title = bean.getDesc();
+                    break;
+                }
             }
-        } else {
-            return eduSubject;
+            taskListBean.setSubjectTitle(title);
         }
-        return titleList.toString()
-                .replace("[", "")
-                .replace("]", "");
+        setNewData(eduTaskList);
     }
-
-    private String getTaskListContent(EduTaskListBean item) {
-        String title = "";
-        if (item.getEduContents() != null) {
-            for (EduTaskListBean.EduContentsBean eduContent : item.getEduContents()) {
-//                title += eduContent.getTitle() + ", ";
-                title += getEduSubject(eduContent.getTitle(), 1) + ", ";
-            }
-        }
-        return title;
-    }
-
 }

@@ -18,9 +18,21 @@ public class EduTaskListBean  {
 
     private String planDate;
     private String subjectId;
+    //主题
+    private String subjectTitle;
     private String taskId;
     private boolean select;
     private List<EduContentsBean> eduContents;
+
+
+    public String getSubjectTitle() {
+        return subjectTitle == null ? "" : subjectTitle;
+    }
+
+    public void setSubjectTitle(String subjectTitle) {
+        this.subjectTitle = subjectTitle;
+    }
+
 
     public boolean isSelect() {
         return select;

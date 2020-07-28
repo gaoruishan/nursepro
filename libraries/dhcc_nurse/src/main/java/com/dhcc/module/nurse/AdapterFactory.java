@@ -1,6 +1,7 @@
 package com.dhcc.module.nurse;
 
 import com.dhcc.module.nurse.education.adapter.HealthEduAddAdapter;
+import com.dhcc.module.nurse.education.adapter.HealthEduDrugAdapter;
 import com.dhcc.module.nurse.education.adapter.HealthEduEndAdapter;
 import com.dhcc.module.nurse.education.adapter.HealthEduItemAdapter;
 import com.dhcc.module.nurse.education.adapter.HealthEduNeedAdapter;
@@ -41,5 +42,13 @@ public class AdapterFactory {
      */
     public static HealthEduItemAdapter getHealthEduItemAdapter() {
         return new HealthEduItemAdapter(null);
+    }
+
+    /**
+     * 宣教-用药情况
+     * @return
+     */
+    public static HealthEduDrugAdapter getHealthEduDrugAdapter() {
+        return new HealthEduDrugAdapter(R.layout.item_health_education_drug,null);
     }
 }

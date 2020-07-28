@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import com.base.commlibs.utils.RecyclerViewHelper;
 import com.base.commlibs.utils.SimpleCallBack;
@@ -40,7 +41,6 @@ public class CustomRadioGroupView extends BaseView {
         RecyclerViewHelper.setDefaultRecyclerView(mContext, recyclerView, 0, LinearLayoutManager.VERTICAL);
         checkGroupAdapter = new CheckGroupAdapter(null);
         recyclerView.setAdapter(checkGroupAdapter);
-
     }
 
     public void setGroupData(List<? extends SheetListBean> data) {
@@ -60,6 +60,7 @@ public class CustomRadioGroupView extends BaseView {
 
         @Override
         protected void convert(BaseViewHolder helper, SheetListBean item) {
+            Log.e(TAG,"(CheckGroupAdapter.java:64) ");
             CustomCheckView customCheck = helper.getView(R.id.custom_check);
             customCheck.setSelectIcon(R.drawable.dhcc_icon_popup_selected, R.drawable.dhcc_icon_popup_normal_1);
             customCheck.setShowText(item.getDesc());

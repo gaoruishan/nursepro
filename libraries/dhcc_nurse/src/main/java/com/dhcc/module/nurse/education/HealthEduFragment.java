@@ -105,8 +105,9 @@ public class HealthEduFragment extends BaseNurseFragment {
                 customDate.setEndDateTime(TimeUtils.string2Millis(curDate, YYYY_MM_DD));
                 customDate.setStartDateTime(TimeUtils.string2Millis(curDate, YYYY_MM_DD) - CustomDateTimeView.ONE_DAY * 7);
                 healthEducationEndAdapter.setNewData(bean.getEducationList().getData());
-                healthEducationNeedAdapter.setNewData(bean.getEduTaskList());
+                healthEducationNeedAdapter.setCustomDatas(bean.getEduTaskList(),bean.getEduSubjectList());
                 DataCache.saveJson(bean, HealthEduBean.class.getName());
+                customSelectBottom.setSelectText("已选 0 个");
             }
         });
     }

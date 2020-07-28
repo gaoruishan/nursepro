@@ -65,6 +65,7 @@ public class CustomCheckGroupView extends BaseView {
             customCheck.setOnSelectListener(new SimpleCallBack<Boolean>() {
                 @Override
                 public void call(Boolean result, int type) {
+                    helper.getView(R.id.ll_item_check_group).requestFocus();
                     item.setSelect(result);
                 }
             });

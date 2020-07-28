@@ -6,14 +6,19 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.base.commlibs.http.CommonCallBack;
+import com.base.commlibs.utils.DataCache;
 import com.blankj.utilcode.util.TimeUtils;
 import com.dhcc.module.nurse.BaseNurseFragment;
 import com.dhcc.module.nurse.R;
 import com.dhcc.module.nurse.education.BundleData;
 import com.dhcc.module.nurse.education.HealthEduApiManager;
+import com.dhcc.module.nurse.education.bean.EduSubjectListBean;
+import com.dhcc.module.nurse.education.bean.HealthEduBean;
 import com.dhcc.module.nurse.education.bean.HealthEduContentBean;
 import com.dhcc.module.nurse.params.SaveEduParams;
 import com.dhcc.res.infusion.CustomSelectView;
+
+import java.util.List;
 
 /**
  * @author:gaoruishan
@@ -32,13 +37,17 @@ public class HealthEduContentFragment extends BaseNurseFragment {
     private String eduDateTime;
     private String episodeId;
     private String taskIds;
+    private List<EduSubjectListBean> eduSubjectList;
 
     @Override
     protected void initDatas() {
         super.initDatas();
         setToolbarCenterTitle("宣教内容");
         tvName.setText(desc + "");
-
+        HealthEduBean json = DataCache.getJson(HealthEduBean.class, HealthEduBean.class.getName());
+        if (json != null) {
+            eduSubjectList = json.getEduSubjectList();
+        }
         getEduContents();
 
     }
@@ -57,8 +66,11 @@ public class HealthEduContentFragment extends BaseNurseFragment {
                     String eduContent = "";
                     String eduTitle = "";
                     for (HealthEduContentBean.EduContentsBean eduBean : bean.getEduContents()) {
-                        eduContent += eduBean.getContent() + "\n\n";
-                        eduTitle += eduBean.getTitle() + "、";
+                        eduContent += eduBean.getContent() + "\n";
+                        eduTitle += eduBean.getSubjectTitle(eduSubjectList) + "、";
+                    }
+                    if(!TextUtils.isEmpty(eduTitle)){
+                        eduTitle = eduTitle.substring(0, eduTitle.length() - 1);
                     }
                     etTitle.setText(replaceRN(eduTitle));
                     eduContent = replaceRN(eduContent);

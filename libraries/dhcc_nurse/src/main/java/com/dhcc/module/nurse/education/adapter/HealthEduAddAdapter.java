@@ -1,6 +1,7 @@
 package com.dhcc.module.nurse.education.adapter;
 
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.base.commlibs.MessageEvent;
 import com.base.commlibs.utils.SimpleCallBack;
@@ -13,6 +14,7 @@ import com.dhcc.res.infusion.CustomCheckView;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,15 +38,15 @@ public class HealthEduAddAdapter extends BaseQuickAdapter<EduSubjectListBean, Ba
             public void call(Boolean result, int type) {
                 item.setSelect(result);
                 String id = item.getPid();
-                boolean allSelect = false;
+                List<Boolean> stList = new ArrayList<>();
                 for (EduSubjectListBean datum : getData()) {
                     if (datum.getPid().equals(id)) {
-                        allSelect = datum.isSelect();
+                        stList.add(datum.isSelect());
                     }
                 }
                 MessageEvent messageEvent = new MessageEvent(MessageEvent.MessageType.HEALTH_EDU_ADD_SELECT);
                 messageEvent.setMessage(id);
-                messageEvent.setSelect(allSelect);
+                messageEvent.setSelect(!stList.contains(false));
                 EventBus.getDefault().post(messageEvent);
             }
         });

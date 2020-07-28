@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 
 import com.base.commlibs.MessageEvent;
@@ -21,7 +20,6 @@ import com.gavin.com.library.listener.OnGroupClickListener;
 import com.gavin.com.library.listener.PowerGroupListener;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -188,9 +186,9 @@ public class HealthEduAddFragment extends BaseNurseFragment {
     /**
      * 接收事件- 更新数据
      */
-    @Subscribe
-    public void updateList(MessageEvent event) {
-        Log.e(getClass().getSimpleName(), "updateText:" + event.toString());
+    @Override
+    public void updateMessageEvent(MessageEvent event) {
+        super.updateMessageEvent(event);
         if (event.getType() == MessageEvent.MessageType.HEALTH_EDU_ADD_SELECT) {
             String id = event.getMessage();
             boolean groupSelect = event.isSelect();

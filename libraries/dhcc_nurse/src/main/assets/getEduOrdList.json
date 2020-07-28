@@ -1,0 +1,495 @@
+{
+  "msg": "",
+  "msgcode": "999999",
+  "ordList": [
+    {
+      "arcimDesc": "阿司匹林肠溶片(拜阿司匹灵)[100mg*30]",
+      "itmMastDr": "786||1",
+      "ordCat": "西药片剂",
+      "ordDateTime": "2020-02-21 17:50",
+      "phcfrCode": "Qn",
+      "phcinDesc": "口服"
+    },
+    {
+      "arcimDesc": "六味地黄丸[CO*200]",
+      "itmMastDr": "5761||1",
+      "ordCat": "中成药口服剂",
+      "ordDateTime": "2020-02-21 17:50",
+      "phcfrCode": "Tid",
+      "phcinDesc": "口服"
+    },
+    {
+      "arcimDesc": "阿司匹林肠溶片[25mg*100]",
+      "itmMastDr": "509||1",
+      "ordCat": "西药片剂",
+      "ordDateTime": "2020-02-21 17:50",
+      "phcfrCode": "Qn",
+      "phcinDesc": "口服"
+    },
+    {
+      "arcimDesc": "10%葡萄糖注射液(塑瓶)[500ML]",
+      "itmMastDr": "3119||1",
+      "ordCat": "西药大输液",
+      "ordDateTime": "2020-02-21 17:50",
+      "phcfrCode": "Tid",
+      "phcinDesc": "静脉滴注"
+    },
+    {
+      "arcimDesc": "0.9%氯化钠注射液[500ml]",
+      "itmMastDr": "3087||1",
+      "ordCat": "西药大输液",
+      "ordDateTime": "2020-02-21 17:50",
+      "phcfrCode": "Tid",
+      "phcinDesc": "静脉滴注"
+    },
+    {
+      "arcimDesc": "维生素C片[0.1g*100]",
+      "itmMastDr": "684||1",
+      "ordCat": "西药片剂",
+      "ordDateTime": "2020-02-21 17:50",
+      "phcfrCode": "Tid",
+      "phcinDesc": "口服"
+    },
+    {
+      "arcimDesc": "维生素AD滴剂/(红伊可新胶丸)[CO*20]",
+      "itmMastDr": "308||1",
+      "ordCat": "西药胶囊剂",
+      "ordDateTime": "2020-02-21 17:50",
+      "phcfrCode": "Qd",
+      "phcinDesc": "口服"
+    },
+    {
+      "arcimDesc": "注射用盐酸氨溴索[30MG]",
+      "itmMastDr": "1890||1",
+      "ordCat": "西药针剂",
+      "ordDateTime": "2020-01-12 09:14",
+      "phcfrCode": "Bid",
+      "phcinDesc": "静脉滴注"
+    },
+    {
+      "arcimDesc": "氨基酸注射液(洛安命)[250ML:12.5G]",
+      "itmMastDr": "2747||1",
+      "ordCat": "西药针剂",
+      "ordDateTime": "2020-01-12 09:14",
+      "phcfrCode": "Bid",
+      "phcinDesc": "静脉滴注"
+    },
+    {
+      "arcimDesc": "10%葡萄糖注射液(塑瓶)[250ML]",
+      "itmMastDr": "5543||1",
+      "ordCat": "西药大输液",
+      "ordDateTime": "2020-01-11 16:34",
+      "phcfrCode": "Bid",
+      "phcinDesc": "静脉滴注"
+    },
+    {
+      "arcimDesc": "维生素C注射液[1g:5ml]",
+      "itmMastDr": "2397||1",
+      "ordCat": "西药针剂",
+      "ordDateTime": "2020-01-08 15:29",
+      "phcfrCode": "Qd",
+      "phcinDesc": "静脉注射"
+    },
+    {
+      "arcimDesc": "葡萄糖注射液[50%*20ml]",
+      "itmMastDr": "2283||1",
+      "ordCat": "西药针剂",
+      "ordDateTime": "2020-01-08 15:29",
+      "phcfrCode": "Qd",
+      "phcinDesc": "肌肉注射"
+    },
+    {
+      "arcimDesc": "维生素B12注射液[0.5mg:1ml]",
+      "itmMastDr": "2390||1",
+      "ordCat": "西药针剂",
+      "ordDateTime": "2020-01-08 15:29",
+      "phcfrCode": "Qd",
+      "phcinDesc": "肌肉注射"
+    },
+    {
+      "arcimDesc": "0.9%氯化钠注射液[500ml]",
+      "itmMastDr": "3087||1",
+      "ordCat": "西药大输液",
+      "ordDateTime": "2019-12-05 13:45",
+      "phcfrCode": "Tid",
+      "phcinDesc": "静脉滴注"
+    },
+    {
+      "arcimDesc": "0.9%氯化钠注射液[500ml]",
+      "itmMastDr": "3087||1",
+      "ordCat": "西药大输液",
+      "ordDateTime": "2019-12-04 19:14",
+      "phcfrCode": "Bid",
+      "phcinDesc": "静脉滴注"
+    },
+    {
+      "arcimDesc": "注射用达卡巴嗪[0.1g]",
+      "itmMastDr": "966||1",
+      "ordCat": "西药针剂",
+      "ordDateTime": "2019-11-30 17:38",
+      "phcfrCode": "St",
+      "phcinDesc": "静脉注射"
+    },
+    {
+      "arcimDesc": "注射用达卡巴嗪[0.1g]",
+      "itmMastDr": "966||1",
+      "ordCat": "西药针剂",
+      "ordDateTime": "2019-11-30 17:35",
+      "phcfrCode": "St",
+      "phcinDesc": "静脉注射"
+    },
+    {
+      "arcimDesc": "盐酸丁卡因胶浆(利宁)[5G]",
+      "itmMastDr": "2||1",
+      "ordCat": "西药其他",
+      "ordDateTime": "2019-10-26 18:39",
+      "phcfrCode": "Qd",
+      "phcinDesc": "外用"
+    },
+    {
+      "arcimDesc": "磷酸钠盐灌肠液(辉力)[133ml]",
+      "itmMastDr": "1||1",
+      "ordCat": "西药其他",
+      "ordDateTime": "2019-10-26 18:39",
+      "phcfrCode": "Qd",
+      "phcinDesc": "外用"
+    },
+    {
+      "arcimDesc": "盐酸利多卡因胶浆[2%*10ML]",
+      "itmMastDr": "3||1",
+      "ordCat": "西药其他",
+      "ordDateTime": "2019-10-25 16:50",
+      "phcfrCode": "Qd",
+      "phcinDesc": "外用"
+    },
+    {
+      "arcimDesc": "盐酸丁卡因胶浆(利宁)[5G]",
+      "itmMastDr": "2||1",
+      "ordCat": "西药其他",
+      "ordDateTime": "2019-10-25 16:49",
+      "phcfrCode": "Qd",
+      "phcinDesc": "外用"
+    },
+    {
+      "arcimDesc": "磷酸钠盐灌肠液(辉力)[133ml]",
+      "itmMastDr": "1||1",
+      "ordCat": "西药其他",
+      "ordDateTime": "2019-10-25 16:49",
+      "phcfrCode": "Qd",
+      "phcinDesc": "外用"
+    },
+    {
+      "arcimDesc": "养胃舒胶囊[0.4g*24]",
+      "itmMastDr": "5622||1",
+      "ordCat": "中成药其他",
+      "ordDateTime": "2019-10-22 20:02",
+      "phcfrCode": "Bid",
+      "phcinDesc": "口服"
+    },
+    {
+      "arcimDesc": "维生素AD滴剂/(红伊可新胶丸)[CO*20]",
+      "itmMastDr": "308||1",
+      "ordCat": "西药胶囊剂",
+      "ordDateTime": "2019-10-22 19:58",
+      "phcfrCode": "Qd",
+      "phcinDesc": "口服"
+    },
+    {
+      "arcimDesc": "卡泊三醇软膏(达力士)[15g:0.75mg]",
+      "itmMastDr": "38||1",
+      "ordCat": "西药外用",
+      "ordDateTime": "2019-10-22 15:10",
+      "phcfrCode": "Bid",
+      "phcinDesc": "外用"
+    },
+    {
+      "arcimDesc": "丁酸氢化可的松软膏(尤卓尔)[10g]",
+      "itmMastDr": "36||1",
+      "ordCat": "西药外用",
+      "ordDateTime": "2019-10-22 15:10",
+      "phcfrCode": "Bid",
+      "phcinDesc": "外用"
+    },
+    {
+      "arcimDesc": "复方多粘菌素B软膏[10g]",
+      "itmMastDr": "35||1",
+      "ordCat": "西药外用",
+      "ordDateTime": "2019-10-22 15:05",
+      "phcfrCode": "Bid",
+      "phcinDesc": "外用"
+    },
+    {
+      "arcimDesc": "注射用氨力农[50mg]",
+      "itmMastDr": "910||1",
+      "ordCat": "西药针剂",
+      "ordDateTime": "2019-10-16 10:12",
+      "phcfrCode": "Qd",
+      "phcinDesc": "静脉滴注"
+    },
+    {
+      "arcimDesc": "氯化钠注射液[1g:10ml]",
+      "itmMastDr": "2214||1",
+      "ordCat": "西药针剂",
+      "ordDateTime": "2019-10-16 10:12",
+      "phcfrCode": "Qd",
+      "phcinDesc": "静脉滴注"
+    },
+    {
+      "arcimDesc": "注射用盐酸伊达比星(艾诺宁)[10mg]",
+      "itmMastDr": "1148||1",
+      "ordCat": "西药针剂",
+      "ordDateTime": "2019-10-16 10:03",
+      "phcfrCode": "Qd",
+      "phcinDesc": "静脉注射"
+    },
+    {
+      "arcimDesc": "葡萄糖注射液[50%*20ml]",
+      "itmMastDr": "2283||1",
+      "ordCat": "西药针剂",
+      "ordDateTime": "2019-10-16 10:02",
+      "phcfrCode": "Qd",
+      "phcinDesc": "静脉滴注"
+    },
+    {
+      "arcimDesc": "注射用阿奇霉素[0.125g]",
+      "itmMastDr": "920||1",
+      "ordCat": "西药针剂",
+      "ordDateTime": "2019-10-15 14:13",
+      "phcfrCode": "St",
+      "phcinDesc": "静脉滴注"
+    },
+    {
+      "arcimDesc": "注射用青霉素钠[80万U]",
+      "itmMastDr": "1076||1",
+      "ordCat": "西药针剂",
+      "ordDateTime": "2019-10-15 14:12",
+      "phcfrCode": "St",
+      "phcinDesc": "静脉滴注"
+    },
+    {
+      "arcimDesc": "阿司匹林肠溶片(拜阿司匹灵)[100mg*30]",
+      "itmMastDr": "786||1",
+      "ordCat": "西药片剂",
+      "ordDateTime": "2019-09-16 16:36",
+      "phcfrCode": "Qn",
+      "phcinDesc": "口服"
+    },
+    {
+      "arcimDesc": "六味地黄丸[CO*200]",
+      "itmMastDr": "5761||1",
+      "ordCat": "中成药口服剂",
+      "ordDateTime": "2019-09-16 16:36",
+      "phcfrCode": "Tid",
+      "phcinDesc": "口服"
+    },
+    {
+      "arcimDesc": "0.9%氯化钠注射液[500ml]",
+      "itmMastDr": "3087||1",
+      "ordCat": "西药大输液",
+      "ordDateTime": "2019-09-16 16:36",
+      "phcfrCode": "Tid",
+      "phcinDesc": "静脉滴注"
+    },
+    {
+      "arcimDesc": "维生素C片[0.1g*100]",
+      "itmMastDr": "684||1",
+      "ordCat": "西药片剂",
+      "ordDateTime": "2019-09-16 16:36",
+      "phcfrCode": "Tid",
+      "phcinDesc": "口服"
+    },
+    {
+      "arcimDesc": "盐酸胺碘酮片(可达龙)[200mg*10]",
+      "itmMastDr": "679||1",
+      "ordCat": "西药片剂",
+      "ordDateTime": "2019-08-16 09:49",
+      "phcfrCode": "Tid",
+      "phcinDesc": "口服"
+    },
+    {
+      "arcimDesc": "盐酸奥布卡因滴眼液(倍诺喜)[80mg:20ml]",
+      "itmMastDr": "49||1",
+      "ordCat": "西药外用",
+      "ordDateTime": "2019-08-15 09:29",
+      "phcfrCode": "Qod",
+      "phcinDesc": "外用"
+    },
+    {
+      "arcimDesc": "10%葡萄糖注射液(塑瓶)[250ML]",
+      "itmMastDr": "5543||1",
+      "ordCat": "西药大输液",
+      "ordDateTime": "2019-08-15 09:25",
+      "phcfrCode": "ONCE",
+      "phcinDesc": "静脉滴注"
+    },
+    {
+      "arcimDesc": "二羟丙茶碱注射液(喘啶)[250mg:2ml]",
+      "itmMastDr": "2111||1",
+      "ordCat": "西药针剂",
+      "ordDateTime": "2019-08-15 09:10",
+      "phcfrCode": "Qd",
+      "phcinDesc": "静脉滴注"
+    },
+    {
+      "arcimDesc": "注射用氨力农[50mg]",
+      "itmMastDr": "910||1",
+      "ordCat": "西药针剂",
+      "ordDateTime": "2019-08-15 09:06",
+      "phcfrCode": "St",
+      "phcinDesc": "静脉滴注"
+    },
+    {
+      "arcimDesc": "地西泮注射液(安定)[10mg:2ml]",
+      "itmMastDr": "2014||1",
+      "ordCat": "西药精神毒麻",
+      "ordDateTime": "2019-08-15 09:05",
+      "phcfrCode": "Prn",
+      "phcinDesc": "静脉注射"
+    },
+    {
+      "arcimDesc": "10%葡萄糖注射液(塑瓶)[250ML]",
+      "itmMastDr": "5543||1",
+      "ordCat": "西药大输液",
+      "ordDateTime": "2019-08-12 15:49",
+      "phcfrCode": "St",
+      "phcinDesc": "静脉滴注"
+    },
+    {
+      "arcimDesc": "注射用丹参[400MG]",
+      "itmMastDr": "1971||1",
+      "ordCat": "西药针剂",
+      "ordDateTime": "2019-07-18 08:51",
+      "phcfrCode": "Tid",
+      "phcinDesc": "静脉注射"
+    },
+    {
+      "arcimDesc": "铝碳酸镁片(达喜)[0.5G*30]",
+      "itmMastDr": "811||1",
+      "ordCat": "西药片剂",
+      "ordDateTime": "2019-07-18 08:50",
+      "phcfrCode": "Tid",
+      "phcinDesc": "口服"
+    },
+    {
+      "arcimDesc": "六味地黄丸[CO*200]",
+      "itmMastDr": "5761||1",
+      "ordCat": "中成药口服剂",
+      "ordDateTime": "2019-07-18 08:48",
+      "phcfrCode": "St",
+      "phcinDesc": "口服"
+    },
+    {
+      "arcimDesc": "阿司匹林肠溶片[0.3g*100]",
+      "itmMastDr": "510||1",
+      "ordCat": "西药片剂",
+      "ordDateTime": "2019-07-17 11:44",
+      "phcfrCode": "Tid",
+      "phcinDesc": "口服"
+    },
+    {
+      "arcimDesc": "多潘立酮片(吗丁啉)[10mg*42]",
+      "itmMastDr": "410||1",
+      "ordCat": "西药片剂",
+      "ordDateTime": "2019-07-17 11:34",
+      "phcfrCode": "Tid",
+      "phcinDesc": "口服"
+    },
+    {
+      "arcimDesc": "维生素E胶丸[0.1g*30]",
+      "itmMastDr": "311||1",
+      "ordCat": "西药胶囊剂",
+      "ordDateTime": "2019-07-17 11:33",
+      "phcfrCode": "St",
+      "phcinDesc": "滴眼"
+    },
+    {
+      "arcimDesc": "黄连上清丸[6g*20]",
+      "itmMastDr": "3487||1",
+      "ordCat": "中成药口服剂",
+      "ordDateTime": "2019-07-17 11:32",
+      "phcfrCode": "St",
+      "phcinDesc": "口服"
+    },
+    {
+      "arcimDesc": "免煎白术(炒)[10g][颗粒剂]",
+      "itmMastDr": "4803||1",
+      "ordCat": "中药免煎颗粒",
+      "ordDateTime": "2019-02-21 16:07",
+      "phcfrCode": "每日1次",
+      "phcinDesc": "水冲服"
+    },
+    {
+      "arcimDesc": "免煎白芍[10g][颗粒剂]",
+      "itmMastDr": "4801||1",
+      "ordCat": "中药免煎颗粒",
+      "ordDateTime": "2019-02-21 16:07",
+      "phcfrCode": "每日1次",
+      "phcinDesc": "水冲服"
+    },
+    {
+      "arcimDesc": "免煎巴戟天[10g][颗粒剂]",
+      "itmMastDr": "4798||1",
+      "ordCat": "中药免煎颗粒",
+      "ordDateTime": "2019-02-21 16:07",
+      "phcfrCode": "每日1次",
+      "phcinDesc": "水冲服"
+    },
+    {
+      "arcimDesc": "0.9%氯化钠注射液(塑瓶)[250ml]",
+      "itmMastDr": "5542||1",
+      "ordCat": "西药大输液",
+      "ordDateTime": "2019-02-15 10:54",
+      "phcfrCode": "Tid",
+      "phcinDesc": "静脉滴注"
+    },
+    {
+      "arcimDesc": "10%葡萄糖注射液(塑瓶)[250ML]",
+      "itmMastDr": "5543||1",
+      "ordCat": "西药大输液",
+      "ordDateTime": "2019-02-15 10:54",
+      "phcfrCode": "Tid",
+      "phcinDesc": "静脉滴注"
+    },
+    {
+      "arcimDesc": "氯化钠注射液[1g:10ml]",
+      "itmMastDr": "2214||1",
+      "ordCat": "西药针剂",
+      "ordDateTime": "2019-02-15 10:31",
+      "phcfrCode": "Tid",
+      "phcinDesc": "静脉滴注"
+    },
+    {
+      "arcimDesc": "10%葡萄糖注射液(塑瓶)[250ML]",
+      "itmMastDr": "5543||1",
+      "ordCat": "西药大输液",
+      "ordDateTime": "2019-02-15 10:31",
+      "phcfrCode": "Tid",
+      "phcinDesc": "静脉滴注"
+    },
+    {
+      "arcimDesc": "0.9%氯化钠注射液(塑瓶)[250ml]",
+      "itmMastDr": "5542||1",
+      "ordCat": "西药大输液",
+      "ordDateTime": "2019-02-15 10:31",
+      "phcfrCode": "Tid",
+      "phcinDesc": "静脉滴注"
+    },
+    {
+      "arcimDesc": "葡萄籽",
+      "itmMastDr": "11577||1",
+      "ordCat": "中药饮片",
+      "ordDateTime": "2019-02-15 09:48",
+      "phcfrCode": "每日3次",
+      "phcinDesc": "水煎服"
+    },
+    {
+      "arcimDesc": "丹参[饮片]",
+      "itmMastDr": "3855||1",
+      "ordCat": "中药饮片",
+      "ordDateTime": "2019-02-14 14:11",
+      "phcfrCode": "每日3次",
+      "phcinDesc": "水煎服"
+    }
+  ],
+  "status": "0"
+}

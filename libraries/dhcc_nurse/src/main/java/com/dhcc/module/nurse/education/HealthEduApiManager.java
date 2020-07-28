@@ -7,6 +7,7 @@ import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.http.ParserUtil;
 import com.base.commlibs.http.ServiceCallBack;
 import com.blankj.utilcode.util.SPUtils;
+import com.dhcc.module.nurse.education.bean.EduOrdListBean;
 import com.dhcc.module.nurse.education.bean.HealthEduBean;
 import com.dhcc.module.nurse.education.bean.HealthEduContentBean;
 import com.dhcc.module.nurse.params.SaveEduParams;
@@ -71,6 +72,27 @@ public class HealthEduApiManager {
             @Override
             public void onResult(String jsonStr) {
                 CommWebService.parserCommResult(jsonStr,callBack);
+            }
+        });
+    }
+
+    /**
+     * /// Description:   获取宣教医嘱数据
+     * /// others: w ##class(Nur.PDA.Education).getOrdList(1,"2020-07-18","2020-07-24")
+     */
+    public static void getEduOrdList(String episodeId, String startDate, String endDate, CommonCallBack<EduOrdListBean> callBack) {
+        HashMap<String, String>  properties = new HashMap<String, String>();
+        properties.put("episodeId", episodeId);
+        properties.put("startDate", startDate);
+        properties.put("endDate", endDate);
+
+        CommWebService.call("getEduOrdList", properties, new ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                ParserUtil<EduOrdListBean> parserUtil = new ParserUtil<>();
+                EduOrdListBean bean = parserUtil.parserResult(jsonStr, callBack, EduOrdListBean.class);
+                if (bean == null) return;
+                parserUtil.parserStatus(bean, callBack);
             }
         });
     }

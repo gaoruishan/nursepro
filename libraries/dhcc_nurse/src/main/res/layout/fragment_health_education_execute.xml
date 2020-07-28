@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent">
@@ -39,6 +40,40 @@
                 android:id="@+id/rv_item"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
+<!--            备注-->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:background="@color/white"
+                android:layout_marginTop="@dimen/dp_10"
+                android:paddingLeft="@dimen/dp_40"
+                android:paddingBottom="@dimen/dp_30"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dp_10"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/dp_16"
+                    android:text="备注" />
+
+
+                <com.noober.background.view.BLEditText
+                    android:id="@+id/bl_et_other"
+                    android:layout_gravity="center"
+                    app:bl_corners_radius="@dimen/dp_3"
+                    android:layout_marginRight="@dimen/dp_55"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_width="match_parent"
+                    android:minHeight="@dimen/dp_60"
+                    tools:text="技术课件接口是"
+                    android:padding="@dimen/dp_5"
+                    android:textColor="@color/text_color_gray"
+                    android:textSize="@dimen/dp_15"
+                    app:bl_stroke_color="@color/blue_dark"
+                    app:bl_stroke_width="@dimen/dp_2"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

@@ -120,6 +120,20 @@ public class CommDialog {
         autoDialogDismiss(commDialog, autoDismiss);
         return commDialog;
     }
+    public static Dialog showCommDialog(Context context, String txt,String cancel, String ok, @DrawableRes int iv, @Nullable final View.OnClickListener l, boolean... autoDismiss) {
+        if (commDialog != null) {
+            commDialog.cancel();
+        }
+        View view = getView(context, R.layout.comm_dialog_layout2);
+        commDialog = getCommDialog(context, view);
+        setImage(iv, view, R.id.iv_comm);
+        setText(txt, view, R.id.tv_txt_comm);
+        setCommTextViewClick(ok, l, commDialog, view, R.id.tv_ok_comm);
+        setCommTextViewClick(cancel, null, commDialog, view, R.id.tv_cancel);
+        // 3秒自动消失
+        autoDialogDismiss(commDialog, autoDismiss);
+        return commDialog;
+    }
 
     public static Dialog showCommDialog(Context context, String txt, String ok, @Nullable final View.OnClickListener l, boolean... autoDismiss) {
         View view = getView(context, R.layout.comm_dialog_layout);
