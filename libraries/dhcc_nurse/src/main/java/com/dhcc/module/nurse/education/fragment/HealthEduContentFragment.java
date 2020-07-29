@@ -32,11 +32,6 @@ public class HealthEduContentFragment extends BaseNurseFragment {
     private EditText etContent;
     private TextView tvOk;
     private CustomSelectView customSelectDate;
-    private String desc;
-    private String subjectIds;
-    private String eduDateTime;
-    private String episodeId;
-    private String taskIds;
     private List<EduSubjectListBean> eduSubjectList;
 
     @Override
@@ -93,6 +88,7 @@ public class HealthEduContentFragment extends BaseNurseFragment {
         taskIds = new BundleData(bundle).getTaskIds();
         episodeId = new BundleData(bundle).getEpisodeId();
         eduDateTime = new BundleData(bundle).getDateTime();
+        eduRecordId = new BundleData(bundle).getEduRecordId();
 
 
         tvName = f(R.id.tv_name, TextView.class);
@@ -117,6 +113,7 @@ public class HealthEduContentFragment extends BaseNurseFragment {
             BundleData bundle = new BundleData()
                     .setDesc(desc)
                     .setTaskIds(taskIds)
+                    .setEduRecordId(eduRecordId)
                     .setDateTime(customSelectDate.getSelect());
             startFragment(HealthEduExecuteFragment.class, bundle.build());
         }

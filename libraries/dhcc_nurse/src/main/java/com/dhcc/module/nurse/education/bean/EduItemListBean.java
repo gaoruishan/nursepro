@@ -14,6 +14,7 @@ public class EduItemListBean implements MultiItemEntity {
     public static final int TYPE_0 = 0;
     // 多选
     public static final int TYPE_1 = 1;
+    public static final String STR_OTHER = "其他";
     /**
      * blankFlag : 1
      * id : 1
@@ -151,9 +152,21 @@ public class EduItemListBean implements MultiItemEntity {
             int length = eduTaskIdBean.option.length();
             eduTaskIdBean.option = eduTaskIdBean.option.substring(0, length - 1);
         }
+
         if (!TextUtils.isEmpty(other)) {
             eduTaskIdBean.option += "\f" + other;
         }
         return eduTaskIdBean;
+    }
+
+    public boolean checkOtherData() {
+        if ( "1".equals(blankFlag)) {
+            for (SheetListBean bean : sheetList) {
+                if (bean.isSelect()&& STR_OTHER.equals(bean.getDesc())) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

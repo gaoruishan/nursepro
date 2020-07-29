@@ -285,7 +285,7 @@ public class CommDialog {
                 public void run() {
                     cancel(dialog);
                 }
-            }, 3000);
+            }, 2500);
 
         }
     }

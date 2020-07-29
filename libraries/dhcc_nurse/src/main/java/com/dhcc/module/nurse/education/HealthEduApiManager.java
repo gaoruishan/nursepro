@@ -1,12 +1,10 @@
 package com.dhcc.module.nurse.education;
 
-import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommWebService;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.http.ParserUtil;
 import com.base.commlibs.http.ServiceCallBack;
-import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.module.nurse.education.bean.EduOrdListBean;
 import com.dhcc.module.nurse.education.bean.HealthEduBean;
 import com.dhcc.module.nurse.education.bean.HealthEduContentBean;
@@ -28,8 +26,11 @@ public class HealthEduApiManager {
      * @param callBack
      */
     public static void getEducationList(String episodeId,String startDate,String endDate ,final CommonCallBack<HealthEduBean> callBack) {
-        HashMap<String, String> properties = CommWebService.addWardId(null);
-        properties.put("hospID", SPUtils.getInstance().getString(SharedPreference.HOSPITALROWID));
+        HashMap<String, String> properties =
+                CommWebService.addWardId(null);
+        CommWebService.addHospitalId(properties);
+        CommWebService.addLocId(properties);
+        CommWebService.addUserId(properties);
         properties.put("episodeId", episodeId);
         properties.put("startDate", startDate);
         properties.put("endDate", endDate);

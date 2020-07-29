@@ -34,9 +34,7 @@ public class HealthEduAddFragment extends BaseNurseFragment {
     private RecyclerView mRecyclerView;
     private HealthEduAddAdapter healthEduAddAdapter;
     private PowerfulStickyDecoration decoration;
-    private String desc;
     private List<EduSubjectListBean> eduSubjectList;
-    private String episodeId;
 
     @Override
     protected void initDatas() {
@@ -124,12 +122,15 @@ public class HealthEduAddFragment extends BaseNurseFragment {
         List<EduSubjectListBean> data = healthEduAddAdapter.getData();
         if (viewId == R.id.iv_arrow_switch) {
             String type = data.get(position).getPid();
+            if ("0".equals(data.get(position).getPid())) {
+                type = data.get(position).getId();
+            }
             for (EduSubjectListBean datum : data) {
                 if (datum.getPid().equals(type)) {
                     datum.setHide(!datum.isHide());
                 }
             }
-            healthEduAddAdapter.notifyDataSetChanged();
+            healthEduAddAdapter.replaceData(data);
         }
         if (viewId == R.id.custom_check) {
             EduSubjectListBean bean = data.get(position);
@@ -138,6 +139,26 @@ public class HealthEduAddFragment extends BaseNurseFragment {
             for (EduSubjectListBean datum : data) {
                 if (datum.getPid().equals(bean.getId())) {
                     datum.setSelect(!groupSelect);
+                }
+            }
+            healthEduAddAdapter.replaceData(data);
+            decoration.clearCache();
+        }
+    }
+
+    /**
+     * 接收事件- 更新数据
+     */
+    @Override
+    public void updateMessageEvent(MessageEvent event) {
+        super.updateMessageEvent(event);
+        if (event.getType() == MessageEvent.MessageType.HEALTH_EDU_ADD_SELECT) {
+            String id = event.getMessage();
+            boolean groupSelect = event.isSelect();
+            List<EduSubjectListBean> data = healthEduAddAdapter.getData();
+            for (EduSubjectListBean datum : data) {
+                if (datum.getId().equals(id)) {
+                    datum.setGroupSelect(groupSelect);
                 }
             }
             healthEduAddAdapter.replaceData(data);
@@ -181,25 +202,5 @@ public class HealthEduAddFragment extends BaseNurseFragment {
     @Override
     protected int setLayout() {
         return R.layout.fragment_health_education_add;
-    }
-
-    /**
-     * 接收事件- 更新数据
-     */
-    @Override
-    public void updateMessageEvent(MessageEvent event) {
-        super.updateMessageEvent(event);
-        if (event.getType() == MessageEvent.MessageType.HEALTH_EDU_ADD_SELECT) {
-            String id = event.getMessage();
-            boolean groupSelect = event.isSelect();
-            List<EduSubjectListBean> data = healthEduAddAdapter.getData();
-            for (EduSubjectListBean datum : data) {
-                if (datum.getId().equals(id)) {
-                    datum.setGroupSelect(groupSelect);
-                }
-            }
-            healthEduAddAdapter.replaceData(data);
-            decoration.clearCache();
-        }
     }
 }

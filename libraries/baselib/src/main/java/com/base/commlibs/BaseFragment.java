@@ -17,6 +17,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
@@ -35,9 +36,11 @@ import com.base.commlibs.base.BasePushDialog;
 import com.base.commlibs.base.BaseTopLoadingView;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
+import com.blankj.utilcode.util.ActivityUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -84,6 +87,24 @@ public class BaseFragment extends Fragment {
         setlitener();
     }
 
+    /**
+     * 通过Class名 结束Fragment
+     * @param cls
+     */
+    public void finishFragment(Class<? extends BaseFragment> cls) {
+        for (Activity activity : ActivityUtils.getActivityList()) {
+            if (activity instanceof AppCompatActivity) {
+                AppCompatActivity appCompatActivity = (AppCompatActivity) activity;
+                List<Fragment> fragments = appCompatActivity.getSupportFragmentManager().getFragments();
+                for (Fragment fg : fragments) {
+                    if (fg.getActivity() != null && fg.getClass().getName().equals(cls.getName())) {
+                        fg.getActivity().finish();
+                        return;
+                    }
+                }
+            }
+        }
+    }
     public void getScanMsg(Intent intent) {
 
         if (Objects.requireNonNull(intent.getAction()).equals(Action.DEVICE_SCAN_CODE)) {

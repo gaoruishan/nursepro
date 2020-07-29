@@ -66,6 +66,15 @@ public class HealthEduFragment extends BaseNurseFragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        //每次都刷新一下
+        if (mBean != null) {
+            getEducationList();
+        }
+    }
+
     private void getInWardPatList() {
         showLoadingTip(BaseActivity.LoadingType.FULL);
         CommHttp.getInWardPatList(new CommonCallBack<PatientListBean>() {
@@ -100,10 +109,12 @@ public class HealthEduFragment extends BaseNurseFragment {
 
             @Override
             public void onSuccess(HealthEduBean bean, String type) {
-                mBean = bean;
                 String curDate = bean.getCurDate();
                 customDate.setEndDateTime(TimeUtils.string2Millis(curDate, YYYY_MM_DD));
-                customDate.setStartDateTime(TimeUtils.string2Millis(curDate, YYYY_MM_DD) - CustomDateTimeView.ONE_DAY * 7);
+                if (mBean == null) {//第一次时赋值
+                    customDate.setStartDateTime(TimeUtils.string2Millis(curDate, YYYY_MM_DD) - CustomDateTimeView.ONE_DAY * 6);
+                }
+                mBean = bean;
                 healthEducationEndAdapter.setNewData(bean.getEducationList().getData());
                 healthEducationNeedAdapter.setCustomDatas(bean.getEduTaskList(),bean.getEduSubjectList());
                 DataCache.saveJson(bean, HealthEduBean.class.getName());
@@ -185,6 +196,7 @@ public class HealthEduFragment extends BaseNurseFragment {
                 BundleData instance = new BundleData()
                         .setDesc(desc)
                         .setDateTime(ordbean.getEduDateTime())
+                        .setEduRecordId(ordbean.getEduRecordId())
                         .setSubjectIds(ordbean.getSubjectIds());
                 startFragment(HealthEduContentFragment.class, instance.build());
             }

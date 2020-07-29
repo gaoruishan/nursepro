@@ -1,5 +1,6 @@
 package com.dhcc.module.nurse.education.fragment;
 
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
@@ -39,10 +40,7 @@ public class HealthEduExecuteFragment extends BaseNurseFragment {
     private CustomSelectView customSelectDate;
     private TextView tvName;
     private TextView tvOk;
-    private String desc;
-    private String eduDateTime;
     private HealthEduItemAdapter eduItemAdapter;
-    private String taskIds;
     private EditText etOther;
 
     @Override
@@ -73,7 +71,7 @@ public class HealthEduExecuteFragment extends BaseNurseFragment {
         desc = new BundleData(bundle).getDesc();
         taskIds = new BundleData(bundle).getTaskIds();
         eduDateTime = new BundleData(bundle).getDateTime();
-
+        eduRecordId = new BundleData(bundle).getEduRecordId();
 
         tvName = f(R.id.tv_name, TextView.class);
         tvOk = f(R.id.tv_ok, TextView.class);
@@ -110,14 +108,21 @@ public class HealthEduExecuteFragment extends BaseNurseFragment {
                 taskIds = "[]";
             }
             SaveEduParams.getInstance().eduTaskIds = taskIds;
+            SaveEduParams.getInstance().id = eduRecordId;
 
             //[{"id":"1","option":"手足/其他/本人/配偶\f444"},{"id":"4","option":"盲文/方言/身体语言"},{"id":"5","option":"其他\f6666"},{"id":"2","option":"不了解"},{"id":"6","option":"高中"}]
             List<SaveEduParams.EduTaskIdBean> eduTaskIds = new ArrayList<>();
             for (EduItemListBean datum : eduItemAdapter.getData()) {
+                //选"其他"  必填
+                if (datum.checkOtherData()) {
+                    ToastUtils.showShort(datum.getName() + " 勾选'其他'不可为空");
+                    return;
+                }
+                //将options 转为EduTaskIdBean对象
                 SaveEduParams.EduTaskIdBean bean = datum.getEduTaskBean();
-                if(TextUtils.isEmpty(bean.option)){
-                    ToastUtils.showShort(datum.getName()+" 不可为空");
-                	return;
+                if (TextUtils.isEmpty(bean.option)) {
+                    ToastUtils.showShort(datum.getName() + " 不可为空");
+                    return;
                 }
                 eduTaskIds.add(bean);
             }
@@ -137,7 +142,7 @@ public class HealthEduExecuteFragment extends BaseNurseFragment {
      * HealthEduContentFragment 和 HealthEduExecuteFragment 都有保存参数
      */
     private void saveEdu() {
-        SaveEduParams.getInstance().Content +=  etOther.getText().toString();
+        SaveEduParams.getInstance().Content += etOther.getText().toString();
         HealthEduApiManager.saveEdu(SaveEduParams.getInstance(), new CommonCallBack<CommResult>() {
             @Override
             public void onFail(String code, String msg) {
@@ -147,6 +152,16 @@ public class HealthEduExecuteFragment extends BaseNurseFragment {
             @Override
             public void onSuccess(CommResult bean, String type) {
                 onSuccessThings(bean);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //依次结束Fragment
+                        finishFragment(HealthEduAddFragment.class);
+                        finishFragment(HealthEduContentFragment.class);
+                        finishFragment(HealthEduExecuteFragment.class);
+                    }
+                },3000);
+
             }
         });
     }

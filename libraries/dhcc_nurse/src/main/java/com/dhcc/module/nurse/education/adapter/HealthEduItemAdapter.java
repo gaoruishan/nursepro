@@ -2,7 +2,6 @@ package com.dhcc.module.nurse.education.adapter;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.widget.EditText;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
@@ -40,6 +39,7 @@ public class HealthEduItemAdapter extends BaseMultiItemQuickAdapter<EduItemListB
         if (EduItemListBean.TYPE_1 == item.getItemType()) {
             List<SheetListBean> list = item.getSheetList();
             CustomCheckGroupView customCheckGroup = helper.getView(R.id.custom_check_group);
+            //获取 "其他"
             boolean flag = "1".equals(item.getBlankFlag());
             if (flag) {
                 SheetListBean bean = new SheetListBean();

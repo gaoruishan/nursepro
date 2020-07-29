@@ -28,6 +28,15 @@ public abstract class BaseNurseFragment extends BaseCommFragment {
 
     public static final String YYYY_MM_DD_HH_MM = "yyyy-MM-dd HH:mm";
     public static final String YYYY_MM_DD = "yyyy-MM-dd";
+    /**
+     * 传递数据
+     */
+    public String desc;
+    public String subjectIds;
+    public String eduDateTime;
+    public String episodeId;
+    public String taskIds;
+    public String eduRecordId;
 
     /**
      * 根据手机的分辨率从 dp 的单位 转成为 px(像素)

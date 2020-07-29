@@ -27,12 +27,23 @@ public class BundleData {
     public String eduSubjectList;
     public String dateTime;
     public String taskIds;
+    //已宣教-对应save中的id
+    public String eduRecordId;
 
     public BundleData() {
     }
 
     public BundleData(Bundle bundle) {
         this.bundle = bundle;
+    }
+
+    public String getEduRecordId() {
+        return getString("eduRecordId");
+    }
+
+    public BundleData setEduRecordId(String eduRecordId) {
+        this.eduRecordId = eduRecordId;
+        return this;
     }
 
     public String getTaskIds() {

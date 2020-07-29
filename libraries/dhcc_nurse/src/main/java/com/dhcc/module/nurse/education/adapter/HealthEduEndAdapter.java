@@ -73,8 +73,8 @@ public class HealthEduEndAdapter extends BaseQuickAdapter<EducationListBean.Data
                 }
             }
         }
-        //包含 "-" 即只有一个
-        if (eduSubject.contains("-")) {
+        //只包含 "-" 即只有一个
+        if (eduSubject.contains("-") && !eduSubject.contains("、")) {
             String[] split2 = eduSubject.split("-");
             if (!titleList.contains(split2[i])) {
                 titleList.add(split2[i]);
