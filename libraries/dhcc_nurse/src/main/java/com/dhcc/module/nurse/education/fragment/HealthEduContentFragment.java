@@ -61,11 +61,18 @@ public class HealthEduContentFragment extends BaseNurseFragment {
                     String eduContent = "";
                     String eduTitle = "";
                     for (HealthEduContentBean.EduContentsBean eduBean : bean.getEduContents()) {
+                        //主题
+                        if ("0".equals(eduBean.getPid())) {
+                            continue;
+                        }
                         eduContent += eduBean.getContent() + "\n";
                         eduTitle += eduBean.getSubjectTitle(eduSubjectList) + "、";
                     }
                     if(!TextUtils.isEmpty(eduTitle)){
                         eduTitle = eduTitle.substring(0, eduTitle.length() - 1);
+                    }
+                    if(!TextUtils.isEmpty(eduContent)){
+                        eduContent = eduContent.substring(0, eduContent.length() - 2);
                     }
                     etTitle.setText(replaceRN(eduTitle));
                     eduContent = replaceRN(eduContent);

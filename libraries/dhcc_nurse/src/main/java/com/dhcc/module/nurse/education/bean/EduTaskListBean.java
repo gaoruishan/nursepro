@@ -21,9 +21,17 @@ public class EduTaskListBean  {
     //主题
     private String subjectTitle;
     private String taskId;
+    private String eduRecordId;
     private boolean select;
     private List<EduContentsBean> eduContents;
 
+    public String getEduRecordId() {
+        return eduRecordId == null ? "" : eduRecordId;
+    }
+
+    public void setEduRecordId(String eduRecordId) {
+        this.eduRecordId = eduRecordId;
+    }
 
     public String getSubjectTitle() {
         return subjectTitle == null ? "" : subjectTitle;

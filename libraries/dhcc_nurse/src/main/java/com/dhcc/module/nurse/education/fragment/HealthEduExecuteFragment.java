@@ -142,7 +142,7 @@ public class HealthEduExecuteFragment extends BaseNurseFragment {
      * HealthEduContentFragment 和 HealthEduExecuteFragment 都有保存参数
      */
     private void saveEdu() {
-        SaveEduParams.getInstance().Content += etOther.getText().toString();
+        SaveEduParams.getInstance().Content += "\n"+etOther.getText().toString();
         HealthEduApiManager.saveEdu(SaveEduParams.getInstance(), new CommonCallBack<CommResult>() {
             @Override
             public void onFail(String code, String msg) {

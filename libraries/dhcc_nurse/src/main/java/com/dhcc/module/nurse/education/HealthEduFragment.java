@@ -8,10 +8,13 @@ import android.widget.TextView;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.bean.PatientListBean;
+import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommHttp;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.DataCache;
 import com.base.commlibs.utils.RecyclerViewHelper;
+import com.blankj.utilcode.util.SPStaticUtils;
+import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -101,6 +104,7 @@ public class HealthEduFragment extends BaseNurseFragment {
 
 
     private void getEducationList() {
+
         HealthEduApiManager.getEducationList(episodeId, customDate.getStartDateTimeText(), customDate.getEndDateTimeText(), new CommonCallBack<HealthEduBean>() {
             @Override
             public void onFail(String code, String msg) {
@@ -109,11 +113,6 @@ public class HealthEduFragment extends BaseNurseFragment {
 
             @Override
             public void onSuccess(HealthEduBean bean, String type) {
-                String curDate = bean.getCurDate();
-                customDate.setEndDateTime(TimeUtils.string2Millis(curDate, YYYY_MM_DD));
-                if (mBean == null) {//第一次时赋值
-                    customDate.setStartDateTime(TimeUtils.string2Millis(curDate, YYYY_MM_DD) - CustomDateTimeView.ONE_DAY * 6);
-                }
                 mBean = bean;
                 healthEducationEndAdapter.setNewData(bean.getEducationList().getData());
                 healthEducationNeedAdapter.setCustomDatas(bean.getEduTaskList(),bean.getEduSubjectList());
@@ -152,6 +151,9 @@ public class HealthEduFragment extends BaseNurseFragment {
         });
 
         customDate = f(R.id.custom_date, CustomDateTimeView.class);
+        String curDate = SPStaticUtils.getString(SharedPreference.CURDATETIME).substring(0, 10);
+        customDate.setEndDateTime(TimeUtils.string2Millis(curDate, YYYY_MM_DD));
+        customDate.setStartDateTime(TimeUtils.string2Millis(curDate, YYYY_MM_DD) - CustomDateTimeView.ONE_DAY * 6);
         customDate.setOnDateSetListener(new OnDateSetListener() {
             @Override
             public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
@@ -195,6 +197,7 @@ public class HealthEduFragment extends BaseNurseFragment {
                 String desc = EduSheetListBean.getCurrentSheetDesc(eduSheetList, episodeId);
                 BundleData instance = new BundleData()
                         .setDesc(desc)
+                        .setEpisodeId(episodeId)
                         .setDateTime(ordbean.getEduDateTime())
                         .setEduRecordId(ordbean.getEduRecordId())
                         .setSubjectIds(ordbean.getSubjectIds());
@@ -225,10 +228,12 @@ public class HealthEduFragment extends BaseNurseFragment {
 
         List<String> subjectIdsList = new ArrayList<>();
         List<String> taskIds = new ArrayList<>();
+        List<String> eduRecordIds = new ArrayList<>();
         for (EduTaskListBean datum : healthEducationNeedAdapter.getData()) {
             if (datum.isSelect()) {
                 subjectIdsList.add(datum.getSubjectId());
                 taskIds.add(datum.getTaskId());
+                eduRecordIds.add(datum.getEduRecordId());
             }
         }
         String subjectIds = subjectIdsList.toString();
@@ -239,6 +244,7 @@ public class HealthEduFragment extends BaseNurseFragment {
         BundleData instance = new BundleData()
                 .setDesc(desc)
                 .setEpisodeId(episodeId)
+//                .setEduRecordId(replaceBrackets(eduRecordIds.toString()))
                 .setTaskIds(taskIds.toString())
                 .setSubjectIds(subjectIds);
         startFragment(HealthEduContentFragment.class, instance.build());

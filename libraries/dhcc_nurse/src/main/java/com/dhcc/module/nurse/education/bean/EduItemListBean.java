@@ -162,8 +162,8 @@ public class EduItemListBean implements MultiItemEntity {
     public boolean checkOtherData() {
         if ( "1".equals(blankFlag)) {
             for (SheetListBean bean : sheetList) {
-                if (bean.isSelect()&& STR_OTHER.equals(bean.getDesc())) {
-                    return true;
+                if (bean.isSelect() && STR_OTHER.equals(bean.getDesc())) {
+                    return TextUtils.isEmpty(other);
                 }
             }
         }
