@@ -12,6 +12,14 @@ public class SheetListBean implements Serializable {
     private String desc;
     private boolean select;
 
+    public SheetListBean() {
+    }
+
+    public SheetListBean(String code, String desc) {
+        this.code = code;
+        this.desc = desc;
+    }
+
     public boolean isSelect() {
         return select;
     }

@@ -5,6 +5,7 @@ import com.dhcc.module.nurse.education.adapter.HealthEduDrugAdapter;
 import com.dhcc.module.nurse.education.adapter.HealthEduEndAdapter;
 import com.dhcc.module.nurse.education.adapter.HealthEduItemAdapter;
 import com.dhcc.module.nurse.education.adapter.HealthEduNeedAdapter;
+import com.dhcc.module.nurse.education.adapter.TaskOverviewAdapter;
 
 /**
  * 管理适配器
@@ -50,5 +51,12 @@ public class AdapterFactory {
      */
     public static HealthEduDrugAdapter getHealthEduDrugAdapter() {
         return new HealthEduDrugAdapter(R.layout.item_health_education_drug,null);
+    }
+    /**
+     * 任务总览
+     * @return
+     */
+    public static TaskOverviewAdapter getTaskOverviewAdapter() {
+        return new TaskOverviewAdapter(R.layout.item_health_education_drug,null);
     }
 }

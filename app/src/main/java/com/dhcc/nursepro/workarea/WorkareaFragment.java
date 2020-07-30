@@ -298,6 +298,7 @@ public class WorkareaFragment extends BaseFragment {
             case "TaskOverviewFragment":
                 //w ##class(Nur.DHCNurPdaModule).Save("任务总览^TaskOverviewFragment^22^Y^")
                 startFragment(TaskOverviewFragment.class);
+                break;
             case "ORDEXEANDSEARCH":
                 startFragment(OrderSearchAndExecuteFragment.class);
                 break;
