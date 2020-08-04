@@ -182,7 +182,7 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
         setToolbarType(BaseActivity.ToolbarType.TOP);
         setToolbarBottomLineVisibility(false);
         //        hideToolbarNavigationIcon();
-        setToolbarCenterTitle(getString(R.string.title_orderexecute), 0xffffffff, 17);
+        setToolbarCenterTitle(getString(R.string.title_ordersearch), 0xffffffff, 17);
         View viewright = View.inflate(getActivity(), R.layout.view_toolbar_img_right, null);
         ImageView imageView = viewright.findViewById(R.id.img_toolbar_right);
         ImageView imgToolbarRightFilter = viewright.findViewById(R.id.img_toolbar_right_filter);
@@ -303,6 +303,7 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
                         ScanResultBean.PatInfoBean patInfoBean = scanResultBean.getPatInfo();
                         episodeId = patInfoBean.getEpisodeID();
                         regNo = patInfoBean.getRegNo();
+                        setToolbarCenterTitle(getString(R.string.title_orderexecute), 0xffffffff, 17);
                         tvOrderexecutePatinfo.setText("".equals(patInfoBean.getBedCode()) ? "未分床  " + patInfoBean.getName() + "  " + patInfoBean.getSex() + "  " + patInfoBean.getAge() : patInfoBean.getBedCode().replace("床", "") + "床  " + patInfoBean.getName() + "  " + patInfoBean.getSex() + "  " + patInfoBean.getAge());
                         patInfo = "".equals(patInfoBean.getBedCode()) ? "未分床-" + patInfoBean.getName() + "-" + patInfoBean.getSex() + "-" + patInfoBean.getAge() : patInfoBean.getBedCode().replace("床", "") + "床-" + patInfoBean.getName() + "-" + patInfoBean.getSex() + "-" + patInfoBean.getAge();
                         patSaveInfo = patInfoBean.getBedCode() + "-" + patInfoBean.getName();
@@ -418,6 +419,7 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
         recyOrderexecuteOrdertype = view.findViewById(R.id.recy_orderexecute_ordertype);
         tvOrderexecutePatinfo = view.findViewById(R.id.tv_orderexecute_patinfo);
         tvOrderexecutePatinfo.setText("全部患者");
+        setToolbarCenterTitle(getString(R.string.title_ordersearch), 0xffffffff, 17);
         imgReset = view.findViewById(R.id.img_reset);
         imgReset.setVisibility(View.VISIBLE);
         patientPatsAdapter.setOnLoadMoreListener(this, recyOrderexecutePatorder);
@@ -531,6 +533,7 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
 
     private void resetPatOrders(){
         tvOrderexecutePatinfo.setText("全部患者");
+        setToolbarCenterTitle(getString(R.string.title_ordersearch), 0xffffffff, 17);
         llOrderexecuteNoselectbottom.setVisibility(View.GONE);
         llOrderexecuteSelectbottom.setVisibility(View.GONE);
         setHindBottm(10);
