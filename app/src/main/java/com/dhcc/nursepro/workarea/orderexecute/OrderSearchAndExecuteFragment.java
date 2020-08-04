@@ -58,7 +58,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * OrderSearchAndExecuteFragment
+ * com.dhcc.nursepro.workarea.orderexecute.OrderSearchAndExecuteFragment
  * 医嘱执行/处理/查询
  *
  * @author Q
@@ -172,6 +172,8 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
     private OrderSearchOrderTypeAdapter orderSearcheTypeAdapter = new OrderSearchOrderTypeAdapter(new ArrayList<>());
     private OrderSearchPatientAdapter patientPatsAdapter = new OrderSearchPatientAdapter(new ArrayList<>());
     private int askCount = 0;
+    private Boolean ifFromTask=false;
+    private String patInfoFromTask="",regNoSearchOrd="";
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -200,11 +202,22 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
 
         Bundle bundle = getArguments();
         if (bundle != null) {
-            scanInfo = bundle.getString("regNo");
-            getScanInfo();
-            if (execResultDialog != null && execResultDialog.isShowing()) {
-                execResultDialog.dismiss();
+            if (bundle.getString("sheetCode")!=null){
+                sheetCode = bundle.getString("sheetCode");
+                regNoSearchOrd = bundle.getString("regNo");
+                patInfoFromTask = bundle.getString("patInfo");
+                bedStr = bundle.getString("bedStr");
+                ifFromTask = true;
+            }else {
+                if (bundle.getString("regNo")!=null){
+                    scanInfo = bundle.getString("regNo");
+                    getScanInfo();
+                    if (execResultDialog != null && execResultDialog.isShowing()) {
+                        execResultDialog.dismiss();
+                    }
+                }
             }
+
         }
         startDate = SchDateTimeUtil.getStartDate();
         startTime = SchDateTimeUtil.getStartTime();
@@ -521,7 +534,14 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
         llOrderexecuteNoselectbottom.setVisibility(View.GONE);
         llOrderexecuteSelectbottom.setVisibility(View.GONE);
         setHindBottm(10);
-        sheetCode = "";
+        if (ifFromTask){
+            ifFromTask=false;
+            tvOrderexecutePatinfo.setText(patInfoFromTask);
+        }else {
+            sheetCode = "";
+            regNo = "";
+            regNoSearchOrd = "";
+        }
         recyOrderexecuteOrdertype.setAdapter(orderSearcheTypeAdapter);
         recyOrderexecutePatorder.setAdapter(patientPatsAdapter);
         orderSearcheTypeAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -542,13 +562,12 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
 
             }
         });
-        regNo = "";
         episodeId = "";
         getAllPatOrders();
     }
     private void getAllPatOrders() {
         showLoadingTip(BaseActivity.LoadingType.FULL);
-        OrderSearchApiManager.getOrder(bedStr, regNo, sheetCode, pageNo, startDate, startTime, endDate, endTime, screenParts,new OrderSearchApiManager.GetOrderCallback() {
+        OrderSearchApiManager.getOrder(bedStr, regNoSearchOrd, sheetCode, pageNo, startDate, startTime, endDate, endTime, screenParts,new OrderSearchApiManager.GetOrderCallback() {
             @Override
             public void onSuccess(OrderSearchBean orderSearchBean) {
                 askCount = 0;

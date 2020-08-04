@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * OrderSearchBedSelectFragment
+ * com.dhcc.nursepro.workarea.bedselect.BedSelectFragment
  * 床位选择
  *
  * @author DevLix126
