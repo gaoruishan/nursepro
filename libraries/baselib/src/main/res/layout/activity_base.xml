@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <!-- StatusBar Background -->
@@ -74,19 +73,21 @@
         </RelativeLayout>
         <!--    全局悬浮    -->
         <ScrollView
-            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:layout_marginTop="@dimen/dp_50"
             android:layout_marginBottom="@dimen/dp_50"
-            android:layout_width="wrap_content"
-            android:scrollbars="none"
-            android:layout_height="wrap_content">
+            android:scrollbars="none">
+
             <LinearLayout
                 android:id="@+id/ll_global"
                 android:layout_width="wrap_content"
-                android:orientation="vertical"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
         </ScrollView>
+
         <TextView
             android:id="@+id/tv_hindmap"
             android:layout_width="@dimen/dp_30"
@@ -95,28 +96,32 @@
             android:layout_alignParentBottom="true"
             android:layout_marginRight="@dimen/dp_5"
             android:layout_marginBottom="@dimen/dp_10"
-            android:background="@drawable/imghind"></TextView>
+            android:background="@drawable/imghind" />
     </RelativeLayout>
+
     <LinearLayout
         android:id="@+id/map_fragment"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_55"
-        android:background="@color/white"
         android:animateLayoutChanges="true"
+        android:background="@color/white"
         android:orientation="vertical">
+
         <View
             android:layout_width="match_parent"
             android:layout_height="0.1dp"
-            android:background="@color/blue"></View>
+            android:background="@color/blue" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rec_fragmentmap"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"></android.support.v7.widget.RecyclerView>
+                android:layout_weight="1" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

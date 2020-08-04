@@ -12,9 +12,12 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.Editable;
+import android.text.InputType;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
@@ -37,8 +40,6 @@ import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.nurrecordnew.api.NurRecordOldApiManager;
 import com.dhcc.nursepro.workarea.nurrecordnew.bean.ElementDataBean;
@@ -61,15 +62,17 @@ import java.util.Objects;
 public class NurRecordNewFragment extends BaseFragment implements CompoundButton.OnCheckedChangeListener {
     private final static int DATE_DIALOG = 0;
     private final static int TIME_DIALOG = 1;
-    private final int modelNum = 0;
-    private final String skipViewCode = "";
-    private final String skipViewValue = "";
-    private final String skipRecId = "";
-    private final int score = 0;
-    private final int selectPosition = -1;
-    private final Boolean isScore = false;
+    //view
     private final HashMap<String, View> viewHashMap = new HashMap<>();
-    private final HashMap<String, String> valueHashMap = new HashMap<>();
+    //id formname 关联
+    private final HashMap<String, String> elementIdtoFormName = new HashMap<>();
+    private final HashMap<String, List<String>> formNametoElementId = new HashMap<>();
+    //drop edittext
+    private final HashMap<String, Integer[]> dropValue = new HashMap<>();
+    //parent child view
+    private final HashMap<String, List<String>> pcViewHashMap = new HashMap<>();
+
+
     private LinearLayout llNurrecord;
     private String episodeID = "";
     private String bedNo = "";
@@ -83,129 +86,79 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
     private int mSingleChoiceID = -1;
     private int itemScore = 0;
     private List<ElementDataBean.DataBean.InputBean.ElementBasesBean> elements;
+    private List<ElementDataBean.DataBean.InputBean.ElementSetsBean> elementSetsBeans;
+    private List<ElementDataBean.DataBean.InputBean.StatisticsListBean> statisticsListBeans;
+
+
     private SPUtils spUtils;
 
     private List<ElementDataBean.FirstIdListBean> firstIdListBeans = new ArrayList<>();
     //跳转单据关联View
     private String linkViewCode = "";
     private String linkViewValue = "";
+    private String fromEMRCode = "";
 
-    @SuppressWarnings("ResourceType")
-    private static int makeDropDownMeasureSpec(int measureSpec) {
-        int mode;
-        if (measureSpec == ViewGroup.LayoutParams.WRAP_CONTENT) {
-            mode = View.MeasureSpec.UNSPECIFIED;
-        } else {
-            mode = View.MeasureSpec.EXACTLY;
-        }
-        return View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(measureSpec), mode);
-    }
+    private NurRecordTipDialog tipDialog;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 1 && resultCode == 5) {
+        if (requestCode == 1 && resultCode == 100) {
             String key = data.getStringExtra("LinkViewCode");
             String value = data.getStringExtra("LinkViewValue");
             EditText editText1 = (EditText) viewHashMap.get(key);
             if (editText1 != null) {
                 editText1.setText(value);
             }
-
-            int grade = Integer.parseInt(StringUtils.isEmpty(value) ? "-1" : value);
-            CheckBox checkBox1774 = (CheckBox) viewHashMap.get("1774");
-            CheckBox checkBox1775 = (CheckBox) viewHashMap.get("1775");
-            CheckBox checkBox1776 = (CheckBox) viewHashMap.get("1776");
-            CheckBox checkBox1777 = (CheckBox) viewHashMap.get("1777");
-
-            if (grade < 0) {
-
-            } else if (grade < 41) {
-                checkBox1777.setChecked(true);
-            } else if (grade < 61) {
-                checkBox1776.setChecked(true);
-            } else if (grade < 100) {
-                checkBox1775.setChecked(true);
-            } else {
-                checkBox1774.setChecked(true);
-            }
-        } else if (requestCode == 2 && resultCode == 5) {
+        } else if (requestCode == 2 && resultCode == 100) {
             String key = data.getStringExtra("LinkViewCode");
             String value = data.getStringExtra("LinkViewValue");
             EditText editText1 = (EditText) viewHashMap.get(key);
             if (editText1 != null) {
                 editText1.setText(value);
             }
-            int grade = Integer.parseInt(StringUtils.isEmpty(value) ? "-1" : value);
-            CheckBox checkBox1781 = (CheckBox) viewHashMap.get("1781");
-            CheckBox checkBox1782 = (CheckBox) viewHashMap.get("1782");
-            CheckBox checkBox1783 = (CheckBox) viewHashMap.get("1783");
-            CheckBox checkBox1784 = (CheckBox) viewHashMap.get("1784");
-            CheckBox checkBox1785 = (CheckBox) viewHashMap.get("1785");
-
-            if (grade < 0) {
-
-            } else if (grade < 10) {
-                checkBox1785.setChecked(true);
-            } else if (grade < 13) {
-                checkBox1784.setChecked(true);
-            } else if (grade < 15) {
-                checkBox1783.setChecked(true);
-            } else if (grade < 19) {
-                checkBox1782.setChecked(true);
-            } else {
-                checkBox1781.setChecked(true);
-            }
-        } else if (requestCode == 3 && resultCode == 5) {
+        } else if (requestCode == 3 && resultCode == 100) {
             String key = data.getStringExtra("LinkViewCode");
             String value = data.getStringExtra("LinkViewValue");
 
-            if (value.equals("高风险")) {
-                EditText editText1 = (EditText) viewHashMap.get(key);
-                if (editText1 != null) {
-                    editText1.setText("");
-                }
-                CheckBox checkBox1789 = (CheckBox) viewHashMap.get("1789");
-                CheckBox checkBox1815 = (CheckBox) viewHashMap.get("1815");
-                checkBox1789.setChecked(true);
-                checkBox1815.setChecked(true);
+            EditText editText1 = (EditText) viewHashMap.get(key);
+            if (editText1 != null) {
+                editText1.setText(value);
+            }
+            int grade = Integer.parseInt(StringUtils.isEmpty(value) ? "-1" : value);
 
-            } else if (value.equals("低风险")) {
-                EditText editText1 = (EditText) viewHashMap.get(key);
-                if (editText1 != null) {
-                    editText1.setText("");
-                }
-                CheckBox checkBox1789 = (CheckBox) viewHashMap.get("1789");
-                CheckBox checkBox1816 = (CheckBox) viewHashMap.get("1816");
-                checkBox1789.setChecked(true);
-                checkBox1816.setChecked(true);
-
-            } else {
-                EditText editText1 = (EditText) viewHashMap.get(key);
-                if (editText1 != null) {
-                    editText1.setText(value);
-                }
-                int grade = Integer.parseInt(StringUtils.isEmpty(value) ? "-1" : value);
-
+            if (grade > -1) {
                 CheckBox checkBox1793 = (CheckBox) viewHashMap.get("1793");
                 checkBox1793.setChecked(true);
-
-                CheckBox checkBox1818 = (CheckBox) viewHashMap.get("1818");
-                CheckBox checkBox1820 = (CheckBox) viewHashMap.get("1820");
-                CheckBox checkBox1821 = (CheckBox) viewHashMap.get("1821");
-
-                if (grade < 0) {
-
-                } else if (grade < 6) {
-                    checkBox1818.setChecked(true);
-                } else if (grade < 14) {
-                    checkBox1820.setChecked(true);
-                } else {
-                    checkBox1821.setChecked(true);
-                }
             }
+        } else if ((requestCode == 4 || requestCode == 5 || requestCode == 6) && resultCode == 100) {
+            String key = data.getStringExtra("LinkViewCode");
+            String value = data.getStringExtra("LinkViewValue");
+            EditText editText1 = (EditText) viewHashMap.get(key);
+            if (editText1 != null) {
+                editText1.setText(value);
+            }
+        } else if ((requestCode == 7 || requestCode == 8) && resultCode == 100) {
+            String key = data.getStringExtra("LinkViewCode");
+            String value = data.getStringExtra("LinkViewValue");
+            EditText editText1 = (EditText) viewHashMap.get(key);
+            if (editText1 != null) {
+                editText1.setText(value);
+            }
+        } else if (requestCode == 9 && resultCode == 100) {
+            String key = data.getStringExtra("LinkViewCode");
+            String value = data.getStringExtra("LinkViewValue");
+            EditText editText1 = (EditText) viewHashMap.get(key);
+            if (editText1 != null) {
+                editText1.setText(value);
+            }
+            int grade = Integer.parseInt(StringUtils.isEmpty(value) ? "-1" : value);
 
+            if (grade > -1) {
+                CheckBox checkBox1892 = (CheckBox) viewHashMap.get("1892");
+                checkBox1892.setChecked(true);
+            }
         }
 
     }
@@ -223,6 +176,7 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
             recId = bundle.getString("RecID", "");
             guid = bundle.getString("GUID", "");
             emrCode = bundle.getString("EMRCode", "");
+            fromEMRCode = bundle.getString("FromEMRCode", "");
             linkViewCode = bundle.getString("LinkViewCode", "");
         }
 
@@ -252,7 +206,7 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
     private void save() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("{");
-        for (int i = 0; i < elements.size(); i++) {
+        for (int i = 0; elements != null && i < elements.size(); i++) {
             ElementDataBean.DataBean.InputBean.ElementBasesBean element = elements.get(i);
 
             if (stringBuilder.length() > 2) {
@@ -261,7 +215,7 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
             if ("RadioElement".equals(element.getElementType())) {
                 List<ElementDataBean.DataBean.InputBean.ElementBasesBean.RadioElementListBean> radioElementListBeanList = element.getRadioElementList();
                 int j;
-                for (j = 0; j < radioElementListBeanList.size(); j++) {
+                for (j = 0; radioElementListBeanList != null && j < radioElementListBeanList.size(); j++) {
                     ElementDataBean.DataBean.InputBean.ElementBasesBean.RadioElementListBean radioElementListBean = radioElementListBeanList.get(j);
                     String radioStr = ((CheckBox) viewHashMap.get(radioElementListBean.getElementId())).getText().toString();
                     if (((CheckBox) viewHashMap.get(radioElementListBean.getElementId())).isChecked()) {
@@ -271,7 +225,7 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
                         String NumberValueStr = "";
                         String TextStr = "";
                         String ValueStr = "";
-                        for (int i1 = 0; i1 < oprationItemList.size(); i1++) {
+                        for (int i1 = 0; oprationItemList != null && i1 < oprationItemList.size(); i1++) {
                             if (oprationItemList.get(i1).getText().equals(radioStr)) {
                                 NumberValueStr = oprationItemList.get(i1).getNumberValue();
                                 TextStr = oprationItemList.get(i1).getText();
@@ -282,6 +236,14 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
                         if (!stringBuilder.toString().endsWith(",")) {
                             stringBuilder.append(",");
                         }
+
+                        //分隔元素去重 单选
+                        String str = "\"" + radioElementListBean.getFormName() + "\"" + ":[]";
+                        int index = stringBuilder.indexOf(str);
+                        if (index > 0) {
+                            stringBuilder.delete(index, index + str.length());
+                        }
+
                         stringBuilder.append("\"")
                                 .append(radioElementListBean.getFormName())
                                 .append("\":[{\"NumberValue\":\"")
@@ -295,7 +257,39 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
                     }
                 }
 
-                if (j >= radioElementListBeanList.size()) {
+                if (radioElementListBeanList != null && j >= radioElementListBeanList.size()) {
+                    if ("true".equals(radioElementListBeanList.get(0).getRequired())) {
+
+                        if (radioElementListBeanList.size() == 1 && "其他".equals(radioElementListBeanList.get(0).getOprationItemList().get(0).getText())) {
+
+                        }else {
+
+
+                            List<String> elementIdList = formNametoElementId.get(radioElementListBeanList.get(0).getFormName());
+                            List<CheckBox> checkBoxList = new ArrayList<>();
+                            boolean oneSelected = false;
+
+                            for (int i1 = 0; i1 < elementIdList.size(); i1++) {
+                                CheckBox checkBox = (CheckBox) viewHashMap.get(elementIdList.get(i1));
+                                if (checkBox != null && checkBox.isChecked()) {
+                                    oneSelected = true;
+                                    break;
+                                }
+                            }
+                            if (!oneSelected) {
+                                for (int i1 = 0; i1 < elementIdList.size(); i1++) {
+                                    CheckBox checkBox = (CheckBox) viewHashMap.get(elementIdList.get(i1));
+                                    if (checkBox != null) {
+                                        checkBox.setTextColor(Color.parseColor("#FFEA4300"));
+
+                                    }
+                                }
+                                showToast("请填写必填项之后再保存");
+                                return;
+                            }
+                        }
+                    }
+
                     if (!stringBuilder.toString().contains("\"" + radioElementListBeanList.get(0).getFormName() + "\"")) {
                         stringBuilder.append("\"")
                                 .append(radioElementListBeanList.get(0).getFormName())
@@ -309,6 +303,14 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
             } else if ("DropRadioElement".equals(element.getElementType())) {
                 String dropRadioStr = ((TextView) viewHashMap.get(element.getElementId())).getText().toString();
                 if (StringUtils.isTrimEmpty(dropRadioStr)) {
+                    LinearLayout linearLayout = (LinearLayout) viewHashMap.get(element.getElementId() + "_ll");
+                    TextView textView = (TextView) viewHashMap.get(element.getElementId());
+                    if ("true".equals(element.getRequired()) && linearLayout.getVisibility() == View.VISIBLE) {
+                        textView.setBackgroundResource(R.drawable.nur_record_btnerror_bg);
+                        showToast("请填写必填项之后再保存");
+                        return;
+                    }
+
                     //""DropRadioElement_31"":[]
                     stringBuilder.append("\"")
                             .append(element.getElementType())
@@ -324,7 +326,7 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
                     String NumberValueStr = "";
                     String TextStr = "";
                     String ValueStr = "";
-                    for (int i1 = 0; i1 < oprationItemList.size(); i1++) {
+                    for (int i1 = 0; oprationItemList != null && i1 < oprationItemList.size(); i1++) {
                         if (oprationItemList.get(i1).getText().equals(dropRadioStr)) {
                             NumberValueStr = oprationItemList.get(i1).getNumberValue();
                             TextStr = oprationItemList.get(i1).getText();
@@ -354,7 +356,7 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
                 if (!stringBuilder.toString().endsWith(",")) {
                     stringBuilder.append(",");
                 }
-                for (j = 0; j < radioElementListBeanList.size(); j++) {
+                for (j = 0; radioElementListBeanList != null && j < radioElementListBeanList.size(); j++) {
                     ElementDataBean.DataBean.InputBean.ElementBasesBean.RadioElementListBean radioElementListBean = radioElementListBeanList.get(j);
                     String radioStr = ((CheckBox) viewHashMap.get(radioElementListBean.getElementId())).getText().toString();
 
@@ -370,7 +372,7 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
                         String NumberValueStr = "";
                         String TextStr = "";
                         String ValueStr = "";
-                        for (int i1 = 0; i1 < oprationItemList.size(); i1++) {
+                        for (int i1 = 0; oprationItemList != null && i1 < oprationItemList.size(); i1++) {
                             if (oprationItemList.get(i1).getText().equals(radioStr)) {
                                 NumberValueStr = oprationItemList.get(i1).getNumberValue();
                                 TextStr = oprationItemList.get(i1).getText();
@@ -397,6 +399,17 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
                     }
                 }
 
+                if (radioElementListBeanList != null && "true".equals(radioElementListBeanList.get(0).getRequired()) && checkedCount == 0) {
+                    for (int i1 = 0; i1 < radioElementListBeanList.size(); i1++) {
+                        CheckBox checkBox = (CheckBox) viewHashMap.get(radioElementListBeanList.get(i1).getElementId());
+                        if (checkBox != null) {
+                            checkBox.setTextColor(Color.parseColor("#FFEA4300"));
+                        }
+                    }
+                    showToast("请填写必填项之后再保存");
+                    return;
+                }
+
             } else if ("TextElement".equals(element.getElementType()) || "NumberElement".equals(element.getElementType()) || "TextareaElement".equals(element.getElementType())) {
                 //""DateElement_16"":""2020-01-14""
                 if (("DHCNURBarthelLR".equals(emrCode) && "32".equals(element.getElementId())) ||
@@ -404,9 +417,14 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
                         ("DHCNURGLHTFXYSPGJHLCSLR".equals(emrCode) && "39".equals(element.getElementId())) ||
                         ("DHCNURYCFXPGJHLJLDCRHZLR".equals(emrCode) && "168".equals(element.getElementId())) ||
                         ("DHCNURRYZKHLPGDCRHZLR".equals(emrCode) && "1803".equals(element.getElementId())) ||
-                        ("DHCNURHLJLDLR".equals(emrCode) && "44".equals(element.getElementId()))) {
+                        ("DHCNURHLJLDLR".equals(emrCode) && "44".equals(element.getElementId())) ||
+                        ("DHCNURFKPGDLR".equals(emrCode) && "1803".equals(element.getElementId())) ||
+                        ("DHCNUREKHLPGDLR".equals(emrCode) && "580".equals(element.getElementId())) ||
+                        ("DHCNUREKDDFXPGLBHDLR".equals(emrCode) && "29".equals(element.getElementId())) ||
+                        ("DHCNUREKYCHLJL".equals(emrCode) && "168".equals(element.getElementId())) ||
+                        ("DHCNUREKRCSHNLADLLBBZSLR".equals(emrCode) && "34".equals(element.getElementId()))) {
 
-                    String userStr = "CA" + ((EditText) viewHashMap.get(element.getElementId())).getText().toString() + "*" + spUtils.getString(SharedPreference.USERID);
+                    String userStr = "CA" + ((EditText) viewHashMap.get(element.getElementId())).getText().toString() + "*" + spUtils.getString(SharedPreference.USERCODE);
                     stringBuilder.append("\"")
                             .append(element.getElementType())
                             .append("_")
@@ -415,23 +433,45 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
                             .append(userStr)
                             .append("\"");
                 } else {
-                    stringBuilder.append("\"")
-                            .append(element.getElementType())
-                            .append("_")
-                            .append(element.getElementId())
-                            .append("\":\"")
-                            .append(((EditText) viewHashMap.get(element.getElementId())).getText().toString())
-                            .append("\"");
+                    EditText editText = (EditText) viewHashMap.get(element.getElementId());
+                    if (editText != null) {
+//                        LinearLayout linearLayout = (LinearLayout) viewHashMap.get(element.getElementId() + "_ll");
+//                        if ("true".equals(element.getRequired()) && StringUtils.isTrimEmpty(editText.getText().toString()) && linearLayout.getVisibility() == View.VISIBLE) {
+//                            editText.setBackgroundResource(R.drawable.nur_record_inputerror_bg);
+//                            showToast("请填写必填项之后再保存");
+//                            return;
+//                        }
+
+                        stringBuilder.append("\"")
+                                .append(element.getElementType())
+                                .append("_")
+                                .append(element.getElementId())
+                                .append("\":\"")
+                                .append(editText.getText().toString())
+                                .append("\"");
+                    }
                 }
 
             } else {
-                stringBuilder.append("\"")
-                        .append(element.getElementType())
-                        .append("_")
-                        .append(element.getElementId())
-                        .append("\":\"")
-                        .append(((TextView) viewHashMap.get(element.getElementId())).getText().toString())
-                        .append("\"");
+                if (viewHashMap.get(element.getElementId()) instanceof TextView) {
+                    TextView textView = (TextView) viewHashMap.get(element.getElementId());
+                    if (textView != null) {
+//                        LinearLayout linearLayout = (LinearLayout) viewHashMap.get(element.getElementId() + "_ll");
+//                        if ("true".equals(element.getRequired()) && StringUtils.isTrimEmpty(textView.getText().toString()) && linearLayout.getVisibility() == View.VISIBLE) {
+//                            textView.setBackgroundResource(R.drawable.nur_record_btnerror_bg);
+//                            showToast("请填写必填项之后再保存");
+//                            return;
+//                        }
+
+                        stringBuilder.append("\"")
+                                .append(element.getElementType())
+                                .append("_")
+                                .append(element.getElementId())
+                                .append("\":\"")
+                                .append(textView.getText().toString())
+                                .append("\"");
+                    }
+                }
             }
         }
 
@@ -461,59 +501,67 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
                         } else if ("DHCNURYCFXPGJHLJLDCRHZLR".equals(emrCode)) {
                             intent.putExtra("LinkViewCode", "1780");
                         } else if ("DHCNURDDFXPGJHLJLDLR".equals(emrCode)) {
-                            intent.putExtra("LinkViewCode", "1788");
-
-                            CheckBox checkBox69 = (CheckBox) viewHashMap.get("69");
-                            CheckBox checkBox70 = (CheckBox) viewHashMap.get("70");
-
-                            if (checkBox69.isChecked()) {
-                                linkViewValue = "低风险";
+                            if (fromEMRCode.equals("DHCNURRYZKHLPGDCRHZLR")) {
+                                intent.putExtra("LinkViewCode", "1788");
+                            } else if (fromEMRCode.equals("DHCNURFKPGDLR")) {
+                                intent.putExtra("LinkViewCode", "1890");
                             }
-                            if (checkBox70.isChecked()) {
-                                linkViewValue = "高风险";
-                            }
-
+                        } else if ("DHCNUREKRCSHNLADLLBBZSLR".equals(emrCode)) {
+                            intent.putExtra("LinkViewCode", "550");
+                        } else if ("DHCNUREKYCHLJL".equals(emrCode)) {
+                            intent.putExtra("LinkViewCode", "557");
+                        } else if ("DHCNUREKDDFXPGLBHDLR".equals(emrCode)) {
+                            intent.putExtra("LinkViewCode", "565");
                         }
                         intent.putExtra("LinkViewValue", linkViewValue);
-
-                        Objects.requireNonNull(getActivity()).setResult(5, intent);
+                        Objects.requireNonNull(getActivity()).setResult(100, intent);
                     }
                 }
-                finish();
+                Objects.requireNonNull(getActivity()).finish();
             }
 
             @Override
             public void onFail(String code, String msg) {
                 showToast("error" + code + ":" + msg);
-                //                if (!StringUtils.isTrimEmpty(linkViewCode)) {
-                //                    EditText editText = (EditText) viewHashMap.get(linkViewCode);
-                //                    if (editText != null) {
-                //                        linkViewValue = editText.getText().toString();
-                //                        Intent intent = new Intent();
-                //
-                //                        if ("DHCNURBarthelLR".equals(emrCode)) {
-                //                            intent.putExtra("LinkViewCode", "1773");
-                //                        } else if ("DHCNURYCFXPGJHLJLDCRHZLR".equals(emrCode)) {
-                //                            intent.putExtra("LinkViewCode", "1780");
-                //                        } else if ("DHCNURDDFXPGJHLJLDLR".equals(emrCode)) {
-                //                            intent.putExtra("LinkViewCode", "1788");
-                //
-                //                            CheckBox checkBox69 = (CheckBox) viewHashMap.get("69");
-                //                            CheckBox checkBox70 = (CheckBox) viewHashMap.get("70");
-                //
-                //                            if (checkBox69.isChecked()) {
-                //                                linkViewValue = "低风险";
-                //                            }
-                //                            if (checkBox70.isChecked()) {
-                //                                linkViewValue = "高风险";
-                //                            }
-                //                        }
-                //                        intent.putExtra("LinkViewValue", linkViewValue);
-                //
-                //                        Objects.requireNonNull(getActivity()).setResult(5, intent);
-                //                        Objects.requireNonNull(getActivity()).finish();
-                //                    }
-                //                }
+//                if (!StringUtils.isTrimEmpty(linkViewCode)) {
+//                    EditText editText = (EditText) viewHashMap.get(linkViewCode);
+//                    if (editText != null) {
+//                        linkViewValue = editText.getText().toString();
+//                        Intent intent = new Intent();
+//
+//                        if ("DHCNURBarthelLR".equals(emrCode)) {
+//                            intent.putExtra("LinkViewCode", "1773");
+//                        } else if ("DHCNURYCFXPGJHLJLDCRHZLR".equals(emrCode)) {
+//                            intent.putExtra("LinkViewCode", "1780");
+//                        } else if ("DHCNURDDFXPGJHLJLDLR".equals(emrCode)) {
+//                            if (fromEMRCode.equals("DHCNURRYZKHLPGDCRHZLR")) {
+//                                intent.putExtra("LinkViewCode", "1788");
+//                            } else if (fromEMRCode.equals("DHCNURFKPGDLR")) {
+//                                intent.putExtra("LinkViewCode", "1890");
+//                            }
+//
+////                            CheckBox checkBox69 = (CheckBox) viewHashMap.get("69");
+////                            CheckBox checkBox70 = (CheckBox) viewHashMap.get("70");
+////
+////                            if (checkBox69.isChecked()) {
+////                                linkViewValue = "低风险";
+////                            }
+////                            if (checkBox70.isChecked()) {
+////                                linkViewValue = "高风险";
+////                            }
+//
+//                        } else if ("DHCNUREKRCSHNLADLLBBZSLR".equals(emrCode)) {
+//                            intent.putExtra("LinkViewCode", "550");
+//                        } else if ("DHCNUREKYCHLJL".equals(emrCode)) {
+//                            intent.putExtra("LinkViewCode", "557");
+//                        } else if ("DHCNUREKDDFXPGLBHDLR".equals(emrCode)) {
+//                            intent.putExtra("LinkViewCode", "565");
+//                        }
+//                        intent.putExtra("LinkViewValue", linkViewValue);
+//                        Objects.requireNonNull(getActivity()).setResult(100, intent);
+//                    }
+//                }
+//                Objects.requireNonNull(getActivity()).finish();
             }
         });
 
@@ -529,6 +577,8 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
             @Override
             public void onSuccess(ElementDataBean elementDataBean) {
                 elements = elementDataBean.getData().getInput().getElementBases();
+                elementSetsBeans = elementDataBean.getData().getInput().getElementSets();
+                statisticsListBeans = elementDataBean.getData().getInput().getStatisticsList();
                 firstIdListBeans = elementDataBean.getFirstIdList();
                 InputViews(elements);
             }
@@ -541,7 +591,7 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
     }
 
     private void InputViews(List<ElementDataBean.DataBean.InputBean.ElementBasesBean> elements) {
-        for (int i = 0; i < elements.size(); i++) {
+        for (int i = 0; elements != null && i < elements.size(); i++) {
             ElementDataBean.DataBean.InputBean.ElementBasesBean element = elements.get(i);
             if ("DateElement".equals(element.getElementType())) {
                 LinearLayout llDate = getTextView(element);
@@ -578,18 +628,6 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
                 LinearLayout llCheck = getCheckView(element);
 
                 llCheck.clearAnimation();
-                //入院评估
-                if ("DHCNURRYZKHLPGDCRHZLR".equals(emrCode)) {
-                    //初始化view显示隐藏
-                    //                    if ("72".equals(element.getElementId())) {
-                    //                        CheckBox checkBox69 = (CheckBox) viewHashMap.get("69");
-                    //                        if (checkBox69 != null && checkBox69.isChecked()) {
-                    //                            llCheck.setVisibility(View.VISIBLE);
-                    //                        } else {
-                    //                            lldropRadio.setVisibility(View.GONE);
-                    //                        }
-                    //                    }
-                }
 
                 llNurrecord.addView(llCheck);
                 llNurrecord.addView(getDashLine());
@@ -598,19 +636,26 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
 
                 LinearLayout lldropRadio = getTextView(element);
                 TextView tvdropRadio = (TextView) viewHashMap.get(element.getElementId());
-                tvdropRadio.setBackground(getResources().getDrawable(R.drawable.nur_record_input_bg));
+                tvdropRadio.setBackground(getResources().getDrawable(R.drawable.nur_record_btn_bg));
 
                 tvdropRadio.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        tvdropRadio.setBackgroundResource(R.drawable.nur_record_btn_bg);
                         selectStrList = new ArrayList<>();
                         selectScoreList = new ArrayList<>();
-                        for (int i1 = 0; i1 < element.getOprationItemList().size(); i1++) {
-                            selectStrList.add(element.getOprationItemList().get(i1).getText());
+                        for (int i1 = 0; element.getOprationItemList() != null && i1 < element.getOprationItemList().size(); i1++) {
                             try {
-                                selectScoreList.add(Integer.parseInt(element.getOprationItemList().get(i1).getNumberValue()));
+                                selectStrList.add(element.getOprationItemList().get(i1).getText());
+                                int numberValue;
+                                if ("√".equals(element.getOprationItemList().get(i1).getNumberValue())) {
+                                    numberValue = 0;
+                                } else {
+                                    numberValue = Integer.parseInt(element.getOprationItemList().get(i1).getNumberValue());
+                                }
+                                selectScoreList.add(numberValue);
                             } catch (NumberFormatException e) {
-                                //                                showToast("分值转换出错");
+                                showToast("分值转换出错");
                                 e.printStackTrace();
                             }
                         }
@@ -623,82 +668,12 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
 
                 lldropRadio.clearAnimation();
 
-                //跌倒评估
-                if ("DHCNURDDFXPGJHLJLDLR".equals(emrCode)) {
-                    //初始化view显示隐藏
-                    if ("72".equals(element.getElementId())) {
-                        CheckBox checkBox69 = (CheckBox) viewHashMap.get("69");
-                        if (checkBox69 != null && checkBox69.isChecked()) {
-                            lldropRadio.setVisibility(View.VISIBLE);
-                        } else {
-                            lldropRadio.setVisibility(View.GONE);
-                        }
-                    }
-
-                    if ("74".equals(element.getElementId())) {
-                        CheckBox checkBox70 = (CheckBox) viewHashMap.get("70");
-                        if (checkBox70 != null && checkBox70.isChecked()) {
-                            lldropRadio.setVisibility(View.VISIBLE);
-                        } else {
-                            lldropRadio.setVisibility(View.GONE);
-                        }
-                    }
-
-                    if ("77".equals(element.getElementId()) ||
-                            "79".equals(element.getElementId()) ||
-                            "81".equals(element.getElementId()) ||
-                            "83".equals(element.getElementId()) ||
-                            "85".equals(element.getElementId()) ||
-                            "87".equals(element.getElementId()) ||
-                            "89".equals(element.getElementId()) ||
-                            "91".equals(element.getElementId()) ||
-                            "93".equals(element.getElementId()) ||
-                            "95".equals(element.getElementId()) ||
-                            "97".equals(element.getElementId())) {
-                        CheckBox checkBox71 = (CheckBox) viewHashMap.get("71");
-                        if (checkBox71 != null && checkBox71.isChecked()) {
-                            lldropRadio.setVisibility(View.VISIBLE);
-                        } else {
-                            lldropRadio.setVisibility(View.GONE);
-                        }
-                    }
-                }
-
                 llNurrecord.addView(lldropRadio);
                 llNurrecord.addView(getDashLine());
             } else if ("NumberElement".equals(element.getElementType())) {
                 LinearLayout llNumber = getEditText(element, "NumberElement");
                 EditText edNumber = (EditText) viewHashMap.get(element.getElementId());
                 edNumber.setBackground(getResources().getDrawable(R.drawable.nur_record_input_bg));
-
-                //Barthel评分总分不可编辑
-                if ("DHCNURBarthelLR".equals(emrCode) && "24".equals(element.getElementId())) {
-                    edNumber.setEnabled(false);
-                }
-
-
-                //跌倒评估
-                if ("DHCNURDDFXPGJHLJLDLR".equals(emrCode)) {
-                    if ("99".equals(element.getElementId())) {
-                        //跌倒评估总分不可编辑
-                        edNumber.setEnabled(false);
-                        //初始化view显示隐藏
-                        CheckBox checkBox71 = (CheckBox) viewHashMap.get("71");
-                        if (checkBox71 != null && checkBox71.isChecked()) {
-                            llNumber.setVisibility(View.VISIBLE);
-                        } else {
-                            llNumber.setVisibility(View.GONE);
-                        }
-                    }
-                }
-
-                //压疮评估
-                if ("DHCNURYCFXPGJHLJLDCRHZLR".equals(emrCode)) {
-                    if ("60".equals(element.getElementId())) {
-                        //压疮评估总分不可编辑
-                        edNumber.setEnabled(false);
-                    }
-                }
 
                 llNurrecord.addView(llNumber);
                 llNurrecord.addView(getDashLine());
@@ -709,10 +684,6 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
 
 
                 if ("".equals(recId)) {
-                    //Barthel评分自理能力等级不可编辑
-                    if ("DHCNURBarthelLR".equals(emrCode) && "36".equals(element.getElementId())) {
-                        edText.setEnabled(false);
-                    }
 
                     //护士签名
                     //Barthel评分
@@ -739,151 +710,31 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
                     if ("DHCNURHLJLDLR".equals(emrCode) && "44".equals(element.getElementId())) {
                         edText.setText(spUtils.getString(SharedPreference.USERNAME));
                     }
+                    //产科入院评估
+                    if ("DHCNURFKPGDLR".equals(emrCode) && "1803".equals(element.getElementId())) {
+                        edText.setText(spUtils.getString(SharedPreference.USERNAME));
+                    }
+                    //儿科入院评估
+                    if ("DHCNUREKHLPGDLR".equals(emrCode) && "580".equals(element.getElementId())) {
+                        edText.setText(spUtils.getString(SharedPreference.USERNAME));
+                    }
+                    //儿科跌倒评估
+                    if ("DHCNUREKDDFXPGLBHDLR".equals(emrCode) && "29".equals(element.getElementId())) {
+                        edText.setText(spUtils.getString(SharedPreference.USERNAME));
+                    }
+                    //儿科压疮评估
+                    if ("DHCNUREKYCHLJL".equals(emrCode) && "168".equals(element.getElementId())) {
+                        edText.setText(spUtils.getString(SharedPreference.USERNAME));
+                    }
+                    //儿科日常生活ADL评估
+                    if ("DHCNUREKRCSHNLADLLBBZSLR".equals(emrCode) && "34".equals(element.getElementId())) {
+                        edText.setText(spUtils.getString(SharedPreference.USERNAME));
+                    }
                 }
 
                 lledit.clearAnimation();
-                //入院评估
+                //成人入院评估
                 if ("DHCNURRYZKHLPGDCRHZLR".equals(emrCode)) {
-                    //初始化view显示隐藏
-
-                    if ("95".equals(element.getElementId())) {
-                        CheckBox checkBox92 = (CheckBox) viewHashMap.get("92");
-                        if (checkBox92 != null && checkBox92.isChecked()) {
-                            lledit.setVisibility(View.VISIBLE);
-                        } else {
-                            lledit.setVisibility(View.GONE);
-                        }
-                    }
-
-                    if ("104".equals(element.getElementId())) {
-                        CheckBox checkBox103 = (CheckBox) viewHashMap.get("103");
-                        if (checkBox103 != null && checkBox103.isChecked()) {
-                            lledit.setVisibility(View.VISIBLE);
-                        } else {
-                            lledit.setVisibility(View.GONE);
-                        }
-                    }
-                    if ("1762".equals(element.getElementId())) {
-                        CheckBox checkBox106 = (CheckBox) viewHashMap.get("106");
-                        if (checkBox106 != null && checkBox106.isChecked()) {
-                            lledit.setVisibility(View.VISIBLE);
-                        } else {
-                            lledit.setVisibility(View.GONE);
-                        }
-                    }
-                    if ("1764".equals(element.getElementId()) || "1766".equals(element.getElementId())) {
-                        CheckBox checkBox1761 = (CheckBox) viewHashMap.get("1761");
-                        if (checkBox1761 != null && checkBox1761.isChecked()) {
-                            lledit.setVisibility(View.VISIBLE);
-                        } else {
-                            lledit.setVisibility(View.GONE);
-                        }
-                    }
-                    if ("189".equals(element.getElementId())) {
-                        CheckBox checkBox188 = (CheckBox) viewHashMap.get("188");
-                        if (checkBox188 != null && checkBox188.isChecked()) {
-                            lledit.setVisibility(View.VISIBLE);
-                        } else {
-                            lledit.setVisibility(View.GONE);
-                        }
-                    }
-                    if ("197".equals(element.getElementId())) {
-                        CheckBox checkBox196 = (CheckBox) viewHashMap.get("196");
-                        if (checkBox196 != null && checkBox196.isChecked()) {
-                            lledit.setVisibility(View.VISIBLE);
-                        } else {
-                            lledit.setVisibility(View.GONE);
-                        }
-                    }
-                    if ("1769".equals(element.getElementId())) {
-                        CheckBox checkBox1768 = (CheckBox) viewHashMap.get("1768");
-                        if (checkBox1768 != null && checkBox1768.isChecked()) {
-                            lledit.setVisibility(View.VISIBLE);
-                        } else {
-                            lledit.setVisibility(View.GONE);
-                        }
-                    }
-                    if ("232".equals(element.getElementId()) || "234".equals(element.getElementId()) || "236".equals(element.getElementId())) {
-                        CheckBox checkBox229 = (CheckBox) viewHashMap.get("229");
-                        if (checkBox229 != null && checkBox229.isChecked()) {
-                            lledit.setVisibility(View.VISIBLE);
-                        } else {
-                            lledit.setVisibility(View.GONE);
-                        }
-                    }
-                    if ("1801".equals(element.getElementId())) {
-                        CheckBox checkBox1800 = (CheckBox) viewHashMap.get("1800");
-                        if (checkBox1800 != null && checkBox1800.isChecked()) {
-                            lledit.setVisibility(View.VISIBLE);
-                        } else {
-                            lledit.setVisibility(View.GONE);
-                        }
-                    }
-                    if ("131".equals(element.getElementId())) {
-                        CheckBox checkBox130 = (CheckBox) viewHashMap.get("130");
-                        if (checkBox130 != null && checkBox130.isChecked()) {
-                            lledit.setVisibility(View.VISIBLE);
-                        } else {
-                            lledit.setVisibility(View.GONE);
-                        }
-                    }
-                    if ("140".equals(element.getElementId())) {
-                        CheckBox checkBox139 = (CheckBox) viewHashMap.get("139");
-                        if (checkBox139 != null && checkBox139.isChecked()) {
-                            lledit.setVisibility(View.VISIBLE);
-                        } else {
-                            lledit.setVisibility(View.GONE);
-                        }
-                    }
-                    if ("144".equals(element.getElementId())) {
-                        CheckBox checkBox1759 = (CheckBox) viewHashMap.get("1759");
-                        if (checkBox1759 != null && checkBox1759.isChecked()) {
-                            lledit.setVisibility(View.VISIBLE);
-                        } else {
-                            lledit.setVisibility(View.GONE);
-                        }
-                    }
-                    if ("154".equals(element.getElementId())) {
-                        CheckBox checkBox153 = (CheckBox) viewHashMap.get("153");
-                        if (checkBox153 != null && checkBox153.isChecked()) {
-                            lledit.setVisibility(View.VISIBLE);
-                        } else {
-                            lledit.setVisibility(View.GONE);
-                        }
-                    }
-                    if ("158".equals(element.getElementId())) {
-                        CheckBox checkBox1760 = (CheckBox) viewHashMap.get("1760");
-                        if (checkBox1760 != null && checkBox1760.isChecked()) {
-                            lledit.setVisibility(View.VISIBLE);
-                        } else {
-                            lledit.setVisibility(View.GONE);
-                        }
-                    }
-                    if ("163".equals(element.getElementId())) {
-                        CheckBox checkBox162 = (CheckBox) viewHashMap.get("162");
-                        if (checkBox162 != null && checkBox162.isChecked()) {
-                            lledit.setVisibility(View.VISIBLE);
-                        } else {
-                            lledit.setVisibility(View.GONE);
-                        }
-                    }
-                    if ("171".equals(element.getElementId())) {
-                        CheckBox checkBox170 = (CheckBox) viewHashMap.get("170");
-                        if (checkBox170 != null && checkBox170.isChecked()) {
-                            lledit.setVisibility(View.VISIBLE);
-                        } else {
-                            lledit.setVisibility(View.GONE);
-                        }
-                    }
-                    if ("178".equals(element.getElementId())) {
-                        CheckBox checkBox177 = (CheckBox) viewHashMap.get("177");
-                        if (checkBox177 != null && checkBox177.isChecked()) {
-                            lledit.setVisibility(View.VISIBLE);
-                        } else {
-                            lledit.setVisibility(View.GONE);
-                        }
-                    }
-
 
                     //关联跳转
                     //跳转ADL
@@ -903,6 +754,7 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
                                 bundle.putString("EMRCode", firstIdListBean.getEmrCode());
                                 bundle.putString("GUID", firstIdListBean.getGuId());
                                 bundle.putString("RecID", firstIdListBean.getRecId());
+                                bundle.putString("FromEMRCode", "DHCNURRYZKHLPGDCRHZLR");
                                 bundle.putString("LinkViewCode", "24");
                                 startFragment(NurRecordNewFragment.class, bundle, 1);
                             }
@@ -932,6 +784,7 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
                                 bundle.putString("EMRCode", firstIdListBean.getEmrCode());
                                 bundle.putString("GUID", firstIdListBean.getGuId());
                                 bundle.putString("RecID", firstIdListBean.getRecId());
+                                bundle.putString("FromEMRCode", "DHCNURRYZKHLPGDCRHZLR");
                                 bundle.putString("LinkViewCode", "60");
                                 startFragment(NurRecordNewFragment.class, bundle, 2);
                             }
@@ -960,8 +813,196 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
                                 bundle.putString("EMRCode", firstIdListBean.getEmrCode());
                                 bundle.putString("GUID", firstIdListBean.getGuId());
                                 bundle.putString("RecID", firstIdListBean.getRecId());
+                                bundle.putString("FromEMRCode", "DHCNURRYZKHLPGDCRHZLR");
                                 bundle.putString("LinkViewCode", "99");
                                 startFragment(NurRecordNewFragment.class, bundle, 3);
+                            }
+                        };
+                        spannableString.setSpan(clickableSpan, 0, title.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                        ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#62ABFF"));
+                        spannableString.setSpan(colorSpan, 0, title.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                        tvTitle.setText(spannableString);
+                        tvTitle.setMovementMethod(LinkMovementMethod.getInstance());
+                        edText.setEnabled(false);
+                    }
+                }
+
+                //儿科入院评估
+                if ("DHCNUREKHLPGDLR".equals(emrCode)) {
+
+                    //关联跳转
+                    //跳转ADL
+                    if ("550".equals(element.getElementId())) {
+                        TextView tvTitle = (TextView) viewHashMap.get(element.getElementId() + "_title");
+                        String title = tvTitle.getText().toString();
+                        SpannableString spannableString = new SpannableString(title);
+
+                        ClickableSpan clickableSpan = new ClickableSpan() {
+                            @Override
+                            public void onClick(@NonNull View widget) {
+                                ElementDataBean.FirstIdListBean firstIdListBean = firstIdListBeans.get(10);
+                                Bundle bundle = new Bundle();
+                                bundle.putString("EpisodeID", episodeID);
+                                bundle.putString("BedNo", bedNo);
+                                bundle.putString("PatName", patName);
+                                bundle.putString("EMRCode", firstIdListBean.getEmrCode());
+                                bundle.putString("GUID", firstIdListBean.getGuId());
+                                bundle.putString("RecID", firstIdListBean.getRecId());
+                                bundle.putString("FromEMRCode", "DHCNUREKHLPGDLR");
+                                bundle.putString("LinkViewCode", "29");
+                                startFragment(NurRecordNewFragment.class, bundle, 4);
+                            }
+                        };
+                        spannableString.setSpan(clickableSpan, 0, title.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                        ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#62ABFF"));
+                        spannableString.setSpan(colorSpan, 0, title.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                        tvTitle.setText(spannableString);
+                        tvTitle.setMovementMethod(LinkMovementMethod.getInstance());
+
+                        edText.setEnabled(false);
+                    }
+                    //跳转压疮
+                    if ("557".equals(element.getElementId())) {
+                        TextView tvTitle = (TextView) viewHashMap.get(element.getElementId() + "_title");
+                        String title = tvTitle.getText().toString();
+                        SpannableString spannableString = new SpannableString(title);
+
+                        ClickableSpan clickableSpan = new ClickableSpan() {
+                            @Override
+                            public void onClick(@NonNull View widget) {
+                                ElementDataBean.FirstIdListBean firstIdListBean = firstIdListBeans.get(9);
+                                Bundle bundle = new Bundle();
+                                bundle.putString("EpisodeID", episodeID);
+                                bundle.putString("BedNo", bedNo);
+                                bundle.putString("PatName", patName);
+                                bundle.putString("EMRCode", firstIdListBean.getEmrCode());
+                                bundle.putString("GUID", firstIdListBean.getGuId());
+                                bundle.putString("RecID", firstIdListBean.getRecId());
+                                bundle.putString("FromEMRCode", "DHCNUREKHLPGDLR");
+                                bundle.putString("LinkViewCode", "60");
+                                startFragment(NurRecordNewFragment.class, bundle, 5);
+                            }
+                        };
+                        spannableString.setSpan(clickableSpan, 0, title.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                        ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#62ABFF"));
+                        spannableString.setSpan(colorSpan, 0, title.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                        tvTitle.setText(spannableString);
+                        tvTitle.setMovementMethod(LinkMovementMethod.getInstance());
+                        edText.setEnabled(false);
+                    }
+                    //跳转跌倒
+                    if ("565".equals(element.getElementId())) {
+                        TextView tvTitle = (TextView) viewHashMap.get(element.getElementId() + "_title");
+                        String title = tvTitle.getText().toString();
+                        SpannableString spannableString = new SpannableString(title);
+
+                        ClickableSpan clickableSpan = new ClickableSpan() {
+                            @Override
+                            public void onClick(@NonNull View widget) {
+                                ElementDataBean.FirstIdListBean firstIdListBean = firstIdListBeans.get(8);
+                                Bundle bundle = new Bundle();
+                                bundle.putString("EpisodeID", episodeID);
+                                bundle.putString("BedNo", bedNo);
+                                bundle.putString("PatName", patName);
+                                bundle.putString("EMRCode", firstIdListBean.getEmrCode());
+                                bundle.putString("GUID", firstIdListBean.getGuId());
+                                bundle.putString("RecID", firstIdListBean.getRecId());
+                                bundle.putString("FromEMRCode", "DHCNUREKHLPGDLR");
+                                bundle.putString("LinkViewCode", "21");
+                                startFragment(NurRecordNewFragment.class, bundle, 6);
+                            }
+                        };
+                        spannableString.setSpan(clickableSpan, 0, title.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                        ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#62ABFF"));
+                        spannableString.setSpan(colorSpan, 0, title.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                        tvTitle.setText(spannableString);
+                        tvTitle.setMovementMethod(LinkMovementMethod.getInstance());
+                        edText.setEnabled(false);
+                    }
+                }
+                //产科入院评估
+                if ("DHCNURFKPGDLR".equals(emrCode)) {
+
+                    //关联跳转
+                    //跳转ADL
+                    if ("1773".equals(element.getElementId())) {
+                        TextView tvTitle = (TextView) viewHashMap.get(element.getElementId() + "_title");
+                        String title = tvTitle.getText().toString();
+                        SpannableString spannableString = new SpannableString(title);
+
+                        ClickableSpan clickableSpan = new ClickableSpan() {
+                            @Override
+                            public void onClick(@NonNull View widget) {
+                                ElementDataBean.FirstIdListBean firstIdListBean = firstIdListBeans.get(0);
+                                Bundle bundle = new Bundle();
+                                bundle.putString("EpisodeID", episodeID);
+                                bundle.putString("BedNo", bedNo);
+                                bundle.putString("PatName", patName);
+                                bundle.putString("EMRCode", firstIdListBean.getEmrCode());
+                                bundle.putString("GUID", firstIdListBean.getGuId());
+                                bundle.putString("RecID", firstIdListBean.getRecId());
+                                bundle.putString("FromEMRCode", "DHCNURFKPGDLR");
+                                bundle.putString("LinkViewCode", "24");
+                                startFragment(NurRecordNewFragment.class, bundle, 7);
+                            }
+                        };
+                        spannableString.setSpan(clickableSpan, 0, title.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                        ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#62ABFF"));
+                        spannableString.setSpan(colorSpan, 0, title.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                        tvTitle.setText(spannableString);
+                        tvTitle.setMovementMethod(LinkMovementMethod.getInstance());
+
+                        edText.setEnabled(false);
+                    }
+                    //跳转压疮
+                    if ("1780".equals(element.getElementId())) {
+                        TextView tvTitle = (TextView) viewHashMap.get(element.getElementId() + "_title");
+                        String title = tvTitle.getText().toString();
+                        SpannableString spannableString = new SpannableString(title);
+
+                        ClickableSpan clickableSpan = new ClickableSpan() {
+                            @Override
+                            public void onClick(@NonNull View widget) {
+                                ElementDataBean.FirstIdListBean firstIdListBean = firstIdListBeans.get(3);
+                                Bundle bundle = new Bundle();
+                                bundle.putString("EpisodeID", episodeID);
+                                bundle.putString("BedNo", bedNo);
+                                bundle.putString("PatName", patName);
+                                bundle.putString("EMRCode", firstIdListBean.getEmrCode());
+                                bundle.putString("GUID", firstIdListBean.getGuId());
+                                bundle.putString("RecID", firstIdListBean.getRecId());
+                                bundle.putString("FromEMRCode", "DHCNURFKPGDLR");
+                                bundle.putString("LinkViewCode", "60");
+                                startFragment(NurRecordNewFragment.class, bundle, 8);
+                            }
+                        };
+                        spannableString.setSpan(clickableSpan, 0, title.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                        ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#62ABFF"));
+                        spannableString.setSpan(colorSpan, 0, title.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                        tvTitle.setText(spannableString);
+                        tvTitle.setMovementMethod(LinkMovementMethod.getInstance());
+                        edText.setEnabled(false);
+                    }
+                    //跳转跌倒
+                    if ("1890".equals(element.getElementId())) {
+                        TextView tvTitle = (TextView) viewHashMap.get(element.getElementId() + "_title");
+                        String title = tvTitle.getText().toString();
+                        SpannableString spannableString = new SpannableString(title);
+
+                        ClickableSpan clickableSpan = new ClickableSpan() {
+                            @Override
+                            public void onClick(@NonNull View widget) {
+                                ElementDataBean.FirstIdListBean firstIdListBean = firstIdListBeans.get(1);
+                                Bundle bundle = new Bundle();
+                                bundle.putString("EpisodeID", episodeID);
+                                bundle.putString("BedNo", bedNo);
+                                bundle.putString("PatName", patName);
+                                bundle.putString("EMRCode", firstIdListBean.getEmrCode());
+                                bundle.putString("GUID", firstIdListBean.getGuId());
+                                bundle.putString("RecID", firstIdListBean.getRecId());
+                                bundle.putString("FromEMRCode", "DHCNURFKPGDLR");
+                                bundle.putString("LinkViewCode", "99");
+                                startFragment(NurRecordNewFragment.class, bundle, 9);
                             }
                         };
                         spannableString.setSpan(clickableSpan, 0, title.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
@@ -986,6 +1027,8 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
             }
 
         }
+
+        setViews("", "");
     }
 
     private LinearLayout getTextView(ElementDataBean.DataBean.InputBean.ElementBasesBean element) {
@@ -1004,6 +1047,24 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
         tvTitle.setGravity(Gravity.CENTER);
         tvTitle.setText(element.getNameText());
 
+        if (!StringUtils.isEmpty(element.getToolTipText())) {
+            tvTitle.setTextColor(Color.parseColor("#62ABFF"));
+            tvTitle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    tipDialog = new NurRecordTipDialog(getActivity());
+                    tipDialog.setNurRecordTip(element.getToolTipText());
+                    tipDialog.setSureOnclickListener(new NurRecordTipDialog.onSureOnclickListener() {
+                        @Override
+                        public void onSureClick() {
+                            tipDialog.dismiss();
+                        }
+                    });
+                    tipDialog.show();
+                }
+            });
+        }
+
         TextView textView = new TextView(getActivity());
         LinearLayout.LayoutParams tvparams2 = new LinearLayout.LayoutParams(0, ConvertUtils.dp2px(40f), 2.0f);
         textView.setLayoutParams(tvparams2);
@@ -1012,14 +1073,61 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
         textView.setBackground(getResources().getDrawable(R.drawable.nur_record_btn_bg));
         if (!StringUtils.isEmpty(element.getDefaultValue())) {
             textView.setText(element.getDefaultValue());
+            if ("DropRadioElement".equals(element.getElementType())) {
+                int defaultScore = 0;
+                for (int i = 0; element.getOprationItemList() != null && i < element.getOprationItemList().size(); i++) {
+                    ElementDataBean.DataBean.InputBean.ElementBasesBean.OprationItemListBean oprationItemListBean = element.getOprationItemList().get(i);
+                    if (element.getDefaultValue().equals(oprationItemListBean.getText())) {
+                        defaultScore = Integer.parseInt(oprationItemListBean.getValue());
+                        break;
+                    }
+                }
+                dropValue.put(element.getElementId(), new Integer[]{0, defaultScore});
+            }
+        } else {
+            if ("DropRadioElement".equals(element.getElementType())) {
+
+                int defaultScore = 0;
+                for (int i = 0; element.getOprationItemList() != null && i < element.getOprationItemList().size(); i++) {
+                    ElementDataBean.DataBean.InputBean.ElementBasesBean.OprationItemListBean oprationItemListBean = element.getOprationItemList().get(i);
+                    if ("true".equals(oprationItemListBean.getIsSelect())) {
+                        textView.setText(oprationItemListBean.getText());
+                        defaultScore = Integer.parseInt(oprationItemListBean.getValue());
+                        break;
+                    }
+                }
+                dropValue.put(element.getElementId(), new Integer[]{0, defaultScore});
+            }
         }
+
+        if ("true".equals(element.getDisable())) {
+            textView.setClickable(false);
+        }
+
         textView.setTag(element.getElementId());
         viewHashMap.put(element.getElementId(), textView);
 
         linearLayout.addView(tvTitle);
         linearLayout.addView(textView);
 
+        if ("true".equals(element.getIsHide())) {
+            linearLayout.clearAnimation();
+            linearLayout.setVisibility(View.GONE);
+        }
+
         viewHashMap.put(element.getElementId() + "_ll", linearLayout);
+
+        if (!StringUtils.isEmpty(element.getParentId())) {
+            List<String> childElementIdList = new ArrayList<>();
+            childElementIdList.add(element.getElementId());
+            if (pcViewHashMap.containsKey(element.getParentId())) {
+                List<String> childElementIdListExist = pcViewHashMap.get(element.getParentId());
+                if (childElementIdListExist != null && childElementIdListExist.size() > 0) {
+                    childElementIdList.addAll(childElementIdListExist);
+                }
+            }
+            pcViewHashMap.put(element.getParentId(), childElementIdList);
+        }
 
 
         return linearLayout;
@@ -1130,14 +1238,35 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
         tvTitle.setGravity(Gravity.CENTER);
         tvTitle.setText(element.getNameText());
 
+        if (!StringUtils.isEmpty(element.getToolTipText())) {
+            tvTitle.setTextColor(Color.parseColor("#62ABFF"));
+            tvTitle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    tipDialog = new NurRecordTipDialog(getActivity());
+                    tipDialog.setNurRecordTip(element.getToolTipText());
+                    tipDialog.setSureOnclickListener(new NurRecordTipDialog.onSureOnclickListener() {
+                        @Override
+                        public void onSureClick() {
+                            tipDialog.dismiss();
+                        }
+                    });
+                    tipDialog.show();
+                }
+            });
+        }
+
         LinearLayout llRadio = new LinearLayout(getActivity());
         LinearLayout.LayoutParams tvparams2 = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 2.0f);
         llRadio.setLayoutParams(tvparams2);
         llRadio.setOrientation(LinearLayout.VERTICAL);
         llRadio.setGravity(Gravity.CENTER);
 
+
+        List<String> viewElementIdList = new ArrayList<>();
+        List<String> childElementIdList = new ArrayList<>();
         List<ElementDataBean.DataBean.InputBean.ElementBasesBean.RadioElementListBean> radioElementListBeanList = element.getRadioElementList();
-        for (int i = 0; i < radioElementListBeanList.size(); i++) {
+        for (int i = 0; radioElementListBeanList != null && i < radioElementListBeanList.size(); i++) {
             ElementDataBean.DataBean.InputBean.ElementBasesBean.RadioElementListBean radioElementListBean = radioElementListBeanList.get(i);
             CheckBox checkBox = new CheckBox(getActivity());
             checkBox.setText(radioElementListBean.getNameText());
@@ -1145,17 +1274,49 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
             if (!StringUtils.isTrimEmpty(radioElementListBean.getDefaultValue()) && radioElementListBean.getNameText().equals(radioElementListBean.getDefaultValue())) {
                 checkBox.setChecked(true);
             } else {
-                checkBox.setChecked(false);
+                if ("1".equals(radioElementListBean.getIsSelect())) {
+                    checkBox.setChecked(true);
+                } else {
+                    checkBox.setChecked(false);
+                }
             }
 
             checkBox.setOnCheckedChangeListener(this);
+
+            if ("true".equals(radioElementListBean.getDisable())) {
+                checkBox.setClickable(false);
+            }
+
+            if ("true".equals(element.getIsHide())) {
+                checkBox.clearAnimation();
+                checkBox.setVisibility(View.GONE);
+            }
             viewHashMap.put(radioElementListBean.getElementId(), checkBox);
+            viewHashMap.put(radioElementListBean.getFormName() + "^" + radioElementListBean.getOprationItemList().get(0).getValue(), checkBox);
+            elementIdtoFormName.put(radioElementListBean.getElementId(), radioElementListBean.getFormName() + "^" + radioElementListBean.getOprationItemList().get(0).getValue());
+            viewElementIdList.add(radioElementListBean.getElementId());
+            childElementIdList.add(radioElementListBean.getElementId());
+
             llRadio.addView(checkBox);
         }
+        if (formNametoElementId.containsKey(radioElementListBeanList.get(0).getFormName())) {
+            List<String> viewElementIdListExist = formNametoElementId.get(radioElementListBeanList.get(0).getFormName());
+            viewElementIdList.addAll(viewElementIdListExist);
+        }
+        formNametoElementId.put(radioElementListBeanList.get(0).getFormName(), viewElementIdList);
 
         linearLayout.addView(tvTitle);
         linearLayout.addView(llRadio);
-        viewHashMap.put(element.getFormName() + "_ll", linearLayout);
+        viewHashMap.put(radioElementListBeanList.get(0).getFormName() + "_ll", linearLayout);
+        if (!StringUtils.isEmpty(radioElementListBeanList.get(0).getParentId())) {
+            if (pcViewHashMap.containsKey(radioElementListBeanList.get(0).getParentId())) {
+                List<String> childElementIdListExist = pcViewHashMap.get(radioElementListBeanList.get(0).getParentId());
+                if (childElementIdListExist != null && childElementIdListExist.size() > 0) {
+                    childElementIdList.addAll(childElementIdListExist);
+                }
+            }
+            pcViewHashMap.put(radioElementListBeanList.get(0).getParentId(), childElementIdList);
+        }
 
         return linearLayout;
     }
@@ -1176,14 +1337,34 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
         tvTitle.setGravity(Gravity.CENTER);
         tvTitle.setText(element.getNameText());
 
+        if (!StringUtils.isEmpty(element.getToolTipText())) {
+            tvTitle.setTextColor(Color.parseColor("#62ABFF"));
+            tvTitle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    tipDialog = new NurRecordTipDialog(getActivity());
+                    tipDialog.setNurRecordTip(element.getToolTipText());
+                    tipDialog.setSureOnclickListener(new NurRecordTipDialog.onSureOnclickListener() {
+                        @Override
+                        public void onSureClick() {
+                            tipDialog.dismiss();
+                        }
+                    });
+                    tipDialog.show();
+                }
+            });
+        }
+
         LinearLayout llCheck = new LinearLayout(getActivity());
         LinearLayout.LayoutParams tvparams2 = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 2.0f);
         llCheck.setLayoutParams(tvparams2);
         llCheck.setOrientation(LinearLayout.VERTICAL);
         llCheck.setGravity(Gravity.CENTER);
 
+        List<String> viewElementIdList = new ArrayList<>();
+        List<String> childElementIdList = new ArrayList<>();
         List<ElementDataBean.DataBean.InputBean.ElementBasesBean.RadioElementListBean> radioElementListBeanList = element.getRadioElementList();
-        for (int i = 0; i < radioElementListBeanList.size(); i++) {
+        for (int i = 0; radioElementListBeanList != null && i < radioElementListBeanList.size(); i++) {
             ElementDataBean.DataBean.InputBean.ElementBasesBean.RadioElementListBean radioElementListBean = radioElementListBeanList.get(i);
             CheckBox checkBox = new CheckBox(getActivity());
             checkBox.setText(radioElementListBean.getNameText());
@@ -1191,204 +1372,97 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
             if (!StringUtils.isTrimEmpty(radioElementListBean.getDefaultValue()) && radioElementListBean.getNameText().equals(radioElementListBean.getDefaultValue())) {
                 checkBox.setChecked(true);
             } else {
-                checkBox.setChecked(false);
+                if ("1".equals(radioElementListBean.getIsSelect())) {
+                    checkBox.setChecked(true);
+                } else {
+                    checkBox.setChecked(false);
+                }
             }
 
             checkBox.setOnCheckedChangeListener(this);
+
+            if ("true".equals(radioElementListBean.getDisable())) {
+                checkBox.setClickable(false);
+            }
+
+            if ("true".equals(element.getIsHide())) {
+                checkBox.clearAnimation();
+                checkBox.setVisibility(View.GONE);
+            }
             viewHashMap.put(radioElementListBean.getElementId(), checkBox);
+            viewHashMap.put(radioElementListBean.getFormName() + "^" + radioElementListBean.getOprationItemList().get(0).getValue(), checkBox);
+            elementIdtoFormName.put(radioElementListBean.getElementId(), radioElementListBean.getFormName() + "^" + radioElementListBean.getOprationItemList().get(0).getValue());
+            viewElementIdList.add(radioElementListBean.getElementId());
+            childElementIdList.add(radioElementListBean.getElementId());
+
             llCheck.addView(checkBox);
         }
+
+        if (formNametoElementId.containsKey(radioElementListBeanList.get(0).getFormName())) {
+            List<String> viewElementIdListExist = formNametoElementId.get(radioElementListBeanList.get(0).getFormName());
+            viewElementIdList.addAll(viewElementIdListExist);
+        }
+        formNametoElementId.put(radioElementListBeanList.get(0).getFormName(), viewElementIdList);
 
         linearLayout.addView(tvTitle);
         linearLayout.addView(llCheck);
 
+        viewHashMap.put(radioElementListBeanList.get(0).getElementId() + "_ll", linearLayout);
+
+        if (!StringUtils.isEmpty(radioElementListBeanList.get(0).getParentId())) {
+            if (pcViewHashMap.containsKey(radioElementListBeanList.get(0).getParentId())) {
+                List<String> childElementIdListExist = pcViewHashMap.get(radioElementListBeanList.get(0).getParentId());
+                if (childElementIdListExist != null && childElementIdListExist.size() > 0) {
+                    childElementIdList.addAll(childElementIdListExist);
+                }
+            }
+            pcViewHashMap.put(radioElementListBeanList.get(0).getParentId(), childElementIdList);
+        }
+
         return linearLayout;
     }
-
-    //    private LinearLayout getRadioView(ElementDataBean.DataBean.InputBean.ElementBasesBean element) {
-    //        LinearLayout linearLayout = new LinearLayout(getActivity());
-    //        LinearLayout.LayoutParams llparams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    //        llparams.setMargins(ConvertUtils.dp2px(12), ConvertUtils.dp2px(6), ConvertUtils.dp2px(12), ConvertUtils.dp2px(6));
-    //        linearLayout.setLayoutParams(llparams);
-    //        linearLayout.setOrientation(LinearLayout.HORIZONTAL);
-    //        linearLayout.setGravity(Gravity.CENTER);
-    //
-    //        TextView tvTitle = new TextView(getActivity());
-    //        LinearLayout.LayoutParams tvparams1 = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1.0f);
-    //        tvparams1.setMargins(0, 0, ConvertUtils.dp2px(12), 0);
-    //        tvTitle.setLayoutParams(tvparams1);
-    //        tvTitle.setTextColor(Color.parseColor("#4a4a4a"));
-    //        tvTitle.setGravity(Gravity.CENTER);
-    //        tvTitle.setText(element.getNameText());
-    //
-    //        FlowRadioGroup flowRadioGroup = new FlowRadioGroup(getContext());
-    //        LinearLayout.LayoutParams flowradioparams1 = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 2.0f);
-    //        flowRadioGroup.setLayoutParams(flowradioparams1);
-    //        flowRadioGroup.setOrientation(LinearLayout.HORIZONTAL);
-    //
-    //
-    //        for (int i = 0; i < element.getOprationItemList().size(); i++) {
-    //            ElementDataBean.DataBean.InputBean.ElementBasesBean.OprationItemListBean oprationItemListBean = element.getOprationItemList().get(i);
-    //            RadioButton radioButton = new RadioButton(getActivity());
-    //            radioButton.setText(oprationItemListBean.getText());
-    //
-    //
-    //            flowRadioGroup.addView(radioButton);
-    //        }
-    //        textView.setTag(element.getElementId());
-    //        viewHashMap.put(element.getElementId(), flowRadioGroup);
-    //        linearLayout.addView(tvTitle);
-    //        linearLayout.addView(flowRadioGroup);
-    //
-    //        return linearLayout;
-    //    }
-
-    //    private void showRPopupWindow(Context context, List<String> selectStrList, final TextView textView) {
-    //        PopupWindow popupWindow = new PopupWindow(context);
-    //        popupWindow.setWidth(textView.getWidth());
-    //        Drawable drawable = context.getResources().getDrawable(R.drawable.nur_record_btn_bg);
-    //        popupWindow.setBackgroundDrawable(drawable);
-    //
-    //        RecyclerView recyclerView = new RecyclerView(context);
-    //        recyclerView.setHasFixedSize(true);
-    //        recyclerView.setLayoutManager(new LinearLayoutManager(context));
-    //
-    //
-    //        OPopupWindowAdapter oPopupWindowAdapter = new OPopupWindowAdapter(selectStrList);
-    //        oPopupWindowAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-    //            @Override
-    //            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-    //                textView.setText(oPopupWindowAdapter.getItem(position));
-    //
-    //                if (popupWindow.isShowing()) {
-    //                    popupWindow.dismiss();
-    //                }
-    //            }
-    //        });
-    //        recyclerView.setAdapter(oPopupWindowAdapter);
-    //        popupWindow.setContentView(recyclerView);
-    //        popupWindow.setOutsideTouchable(true);
-    //
-    //
-    //        int tvBottom = textView.getBottom();
-    //        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-    //        DisplayMetrics dm = new DisplayMetrics();
-    //        wm.getDefaultDisplay().getMetrics(dm);
-    //        int screenBottom = dm.heightPixels;
-    //        if (screenBottom - tvBottom > 500) {
-    //            popupWindow.showAsDropDown(textView);
-    //        } else {
-    //            View contentView = popupWindow.getContentView();
-    //            //需要先测量，PopupWindow还未弹出时，宽高为0
-    //            contentView.measure(makeDropDownMeasureSpec(popupWindow.getWidth()),
-    //                    makeDropDownMeasureSpec(popupWindow.getHeight()));
-    //            int offsetY = -(popupWindow.getContentView().getMeasuredHeight() + textView.getHeight() + 5);
-    //            popupWindow.showAsDropDown(textView, 0, offsetY);
-    //        }
-    //    }
 
     private void ShowRadioScore(List<String> selectStrList, Context context, final TextView textView) {
         itemScore = 0;
         mSingleChoiceID = -1;
-        String[] m_Items = new String[selectStrList.size()];
+        String[] mItems = new String[selectStrList.size()];
         for (int i = 0; i < selectStrList.size(); i++) {
             if (textView.getText().toString().equals(selectStrList.get(i))) {
                 mSingleChoiceID = i;
+                itemScore = selectScoreList.get(i);
+                dropValue.put(textView.getTag().toString(), new Integer[]{dropValue.get(textView.getTag().toString()) == null ? 0 : dropValue.get(textView.getTag().toString())[1], itemScore});
             }
-            m_Items[i] = selectStrList.get(i);
+            mItems[i] = selectStrList.get(i);
         }
         AlertDialog.Builder localBuilder = new AlertDialog.Builder(context);
 
-        localBuilder.setSingleChoiceItems(m_Items, mSingleChoiceID,
+        localBuilder.setSingleChoiceItems(mItems, mSingleChoiceID,
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog,
                                         int whichButton) {
                         try {
-                            if (mSingleChoiceID != -1) {
-                                itemScore = itemScore - selectScoreList.get(mSingleChoiceID);
-                                itemScore = itemScore + selectScoreList.get(whichButton);
-                            } else {
-                                itemScore = itemScore + selectScoreList.get(whichButton);
-                            }
+//                            if (mSingleChoiceID != -1) {
+//                                itemScore = itemScore - selectScoreList.get(mSingleChoiceID);
+//                                itemScore = itemScore + selectScoreList.get(whichButton);
+//                            } else {
+//                                itemScore = itemScore + selectScoreList.get(whichButton);
+//                            }
+                            itemScore = selectScoreList.get(whichButton);
+                            mSingleChoiceID = whichButton;
                         } catch (Exception e) {
                             //                            showToast("分值计算出错");
                             e.printStackTrace();
                         }
-                        mSingleChoiceID = whichButton;
                     }
                 });
         localBuilder.setPositiveButton("确定",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        textView.setText(m_Items[mSingleChoiceID]);
-
-                        //Barthel评分
-                        if ("DHCNURBarthelLR".equals(emrCode)) {
-                            //                                showToast("分数变化" + itemScore);
-                            TextView tvScore = (TextView) viewHashMap.get("24");
-                            if (StringUtils.isEmpty(tvScore.getText().toString())) {
-                                tvScore.setText(itemScore + "");
-                            } else {
-                                tvScore.setText((Integer.parseInt(tvScore.getText().toString()) + itemScore) + "");
-                            }
-
-                            TextView tvGrade = (TextView) viewHashMap.get("36");
-                            int grade = Integer.parseInt(StringUtils.isTrimEmpty(tvScore.getText().toString()) ? "-1" : tvScore.getText().toString());
-                            if (grade < 0) {
-
-                            } else if (grade < 41) {
-                                tvGrade.setText("重度依赖");
-                            } else if (grade < 61) {
-                                tvGrade.setText("中度依赖");
-                            } else if (grade < 100) {
-                                tvGrade.setText("轻度依赖");
-                            } else {
-                                tvGrade.setText("无需依赖");
-                            }
-                        }
-                        //跌倒评估
-                        if ("DHCNURDDFXPGJHLJLDLR".equals(emrCode)) {
-
-                            if ("77".equals(textView.getTag().toString()) ||
-                                    "79".equals(textView.getTag().toString()) ||
-                                    "81".equals(textView.getTag().toString()) ||
-                                    "83".equals(textView.getTag().toString()) ||
-                                    "85".equals(textView.getTag().toString()) ||
-                                    "87".equals(textView.getTag().toString()) ||
-                                    "89".equals(textView.getTag().toString()) ||
-                                    "91".equals(textView.getTag().toString()) ||
-                                    "93".equals(textView.getTag().toString()) ||
-                                    "95".equals(textView.getTag().toString()) ||
-                                    "97".equals(textView.getTag().toString())) {
-                                //                                    showToast("分数变化" + itemScore);
-                                TextView tvScore = (TextView) viewHashMap.get("99");
-                                if (StringUtils.isEmpty(tvScore.getText().toString())) {
-                                    tvScore.setText(itemScore + "");
-                                } else {
-                                    tvScore.setText((Integer.parseInt(tvScore.getText().toString()) + itemScore) + "");
-                                }
-
-                            }
-
-                        }
-
-                        //管道滑脱
-                        if ("DHCNURGLHTFXYSPGJHLCSLR".equals(emrCode)) {
-                            if ("7".equals(textView.getTag().toString()) ||
-                                    "16".equals(textView.getTag().toString()) ||
-                                    "15".equals(textView.getTag().toString())) {
-                                //                                    showToast("分数变化" + itemScore);
-                                TextView tvScore = (TextView) viewHashMap.get("18");
-                                if (StringUtils.isEmpty(tvScore.getText().toString())) {
-                                    tvScore.setText(itemScore + "");
-                                } else {
-                                    tvScore.setText((Integer.parseInt(tvScore.getText().toString()) + itemScore) + "");
-                                }
-                            }
-                        }
-
+                        textView.setText(mItems[mSingleChoiceID]);
+                        dropValue.put(textView.getTag().toString(), new Integer[]{dropValue.get(textView.getTag().toString()) == null ? 0 : dropValue.get(textView.getTag().toString())[1], itemScore});
+                        setViews(textView.getTag().toString(), "drop");
                     }
                 });
         localBuilder.setNegativeButton("取消", null);// 设置对话框[否定]按钮
@@ -1416,8 +1490,25 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
         tvTitle.setGravity(Gravity.CENTER);
         tvTitle.setText(element.getNameText());
 
-        viewHashMap.put(element.getElementId() + "_title", tvTitle);
+        if (!StringUtils.isEmpty(element.getToolTipText())) {
+            tvTitle.setTextColor(Color.parseColor("#62ABFF"));
+            tvTitle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    tipDialog = new NurRecordTipDialog(getActivity());
+                    tipDialog.setNurRecordTip(element.getToolTipText());
+                    tipDialog.setSureOnclickListener(new NurRecordTipDialog.onSureOnclickListener() {
+                        @Override
+                        public void onSureClick() {
+                            tipDialog.dismiss();
+                        }
+                    });
+                    tipDialog.show();
+                }
+            });
+        }
 
+        viewHashMap.put(element.getElementId() + "_title", tvTitle);
 
         EditText editText = new EditText(getActivity());
         LinearLayout.LayoutParams edparams1 = new LinearLayout.LayoutParams(0, ConvertUtils.dp2px(40f), 2.0f);
@@ -1427,6 +1518,11 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
         } else {
             editText.setLayoutParams(edparams1);
         }
+        if ("NumberElement".equals(elementType)) {
+            editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+        } else {
+            editText.setInputType(InputType.TYPE_CLASS_TEXT);
+        }
         editText.setGravity(Gravity.CENTER);
         editText.setTextColor(Color.parseColor("#4a4a4a"));
         editText.setTextSize(14f);
@@ -1435,50 +1531,627 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
             editText.setText(element.getDefaultValue());
         }
         editText.setTag(element.getElementId());
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                setViews(editText.getTag().toString(), "");
+            }
+        });
+
+        if ("true".equals(element.getDisable())) {
+            editText.setEnabled(false);
+        }
+
+        elementIdtoFormName.put(element.getElementId(), element.getFormName());
+        List<String> elementList = new ArrayList<>();
+        elementList.add(element.getElementId());
+        formNametoElementId.put(element.getFormName(), elementList);
         viewHashMap.put(element.getElementId(), editText);
+
 
         linearLayout.addView(tvTitle);
         linearLayout.addView(editText);
 
+        if ("true".equals(element.getIsHide())) {
+            linearLayout.clearAnimation();
+            linearLayout.setVisibility(View.GONE);
+        }
+
         viewHashMap.put(element.getElementId() + "_ll", linearLayout);
+
+        if (!StringUtils.isEmpty(element.getParentId())) {
+            List<String> childElementIdList = new ArrayList<>();
+            childElementIdList.add(element.getElementId());
+            if (pcViewHashMap.containsKey(element.getParentId())) {
+                List<String> childElementIdListExist = pcViewHashMap.get(element.getParentId());
+                if (childElementIdListExist != null && childElementIdListExist.size() > 0) {
+                    childElementIdList.addAll(childElementIdListExist);
+                }
+            }
+            pcViewHashMap.put(element.getParentId(), childElementIdList);
+        }
 
         return linearLayout;
     }
 
-    private void ShowRadio(List<String> selectStrList, Context context, final TextView textView) {
+    private void setViews(String viewElementId, String isChecked) {
+        //界面初始化
+        if (StringUtils.isEmpty(viewElementId)) {
+            for (int i = 0; elementSetsBeans != null && i < elementSetsBeans.size(); i++) {
+                ElementDataBean.DataBean.InputBean.ElementSetsBean elementSetsBean = elementSetsBeans.get(i);
+                // check 控制 view
+                if (elementSetsBean.getFormName().startsWith("RadioElement_")) {
+                    CheckBox checkBox = (CheckBox) viewHashMap.get(elementSetsBean.getFormName() + "^" + elementSetsBean.getVal());
+                    if (checkBox != null && checkBox.isChecked()) {
+                        for (int i1 = 0; elementSetsBean.getChangeList() != null && i1 < elementSetsBean.getChangeList().size(); i1++) {
+                            ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean changeListBean = elementSetsBean.getChangeList().get(i1);
+                            LinearLayout linearLayout = (LinearLayout) viewHashMap.get(changeListBean.getId() + "_ll");
+                            if (linearLayout != null) {
+                                if (viewHashMap.get(changeListBean.getId()) instanceof EditText) {
+                                    EditText editText = (EditText) viewHashMap.get(changeListBean.getId());
+                                    String type = changeListBean.getType();
 
-        mSingleChoiceID = -1;
-        String[] m_Items = new String[selectStrList.size()];
-        for (int i = 0; i < selectStrList.size(); i++) {
-            if (textView.getText().toString().equals(selectStrList.get(i))) {
-                mSingleChoiceID = i;
+                                    if (type.contains("Enable") || type.contains("DisEnable")) {
+                                        if (editText != null) {
+                                            if (type.contains("Enable")) {
+                                                editText.setEnabled(true);
+                                            } else {
+                                                editText.setText("");
+                                                editText.setEnabled(false);
+                                            }
+                                        }
+                                    }
+
+                                    if (type.contains("Show")) {
+                                        linearLayout.setVisibility(View.VISIBLE);
+                                    } else if (type.contains("Hide")) {
+                                        if (editText != null) {
+                                            editText.setText("");
+                                            editText.setEnabled(false);
+                                        }
+                                        linearLayout.setVisibility(View.GONE);
+                                    }
+                                } else if (viewHashMap.get(changeListBean.getId()) instanceof TextView) {
+                                    TextView textView = (TextView) viewHashMap.get(changeListBean.getId());
+                                    String type = changeListBean.getType();
+
+                                    if (type.contains("Enable") || type.contains("DisEnable")) {
+                                        if (textView != null) {
+                                            if (type.contains("Enable")) {
+                                                textView.setClickable(true);
+                                            } else {
+                                                textView.setText("");
+                                                textView.setClickable(false);
+                                            }
+                                        }
+                                    }
+
+                                    if (type.contains("Show")) {
+                                        linearLayout.setVisibility(View.VISIBLE);
+                                    } else if (type.contains("Hide")) {
+                                        if (textView != null) {
+                                            textView.setText("");
+                                            textView.setClickable(false);
+                                        }
+                                        linearLayout.setVisibility(View.GONE);
+                                    }
+                                }
+                            } else {
+                                List<String> childElementIdList = pcViewHashMap.get(changeListBean.getId());
+                                if (childElementIdList != null && childElementIdList.size() > 0) {
+                                    for (int i2 = 0; i2 < childElementIdList.size(); i2++) {
+                                        if (viewHashMap.get(childElementIdList.get(i2)) instanceof EditText) {
+                                            EditText editTextChild = (EditText) viewHashMap.get(childElementIdList.get(i2));
+                                            String type = changeListBean.getType();
+
+                                            if (type.contains("Enable") || type.contains("DisEnable")) {
+                                                if (editTextChild != null) {
+                                                    if (type.contains("Enable")) {
+                                                        editTextChild.setEnabled(true);
+                                                    } else {
+                                                        editTextChild.setText("");
+                                                        editTextChild.setEnabled(false);
+                                                    }
+                                                }
+                                            }
+                                            LinearLayout linearLayoutChild = (LinearLayout) viewHashMap.get(childElementIdList.get(i2) + "_ll");
+                                            if (type.contains("Show")) {
+                                                if (linearLayoutChild != null) {
+                                                    linearLayoutChild.setVisibility(View.VISIBLE);
+                                                }
+                                            } else if (type.contains("Hide")) {
+                                                if (editTextChild != null) {
+                                                    editTextChild.setText("");
+                                                    editTextChild.setEnabled(false);
+                                                }
+                                                if (linearLayoutChild != null) {
+                                                    linearLayoutChild.setVisibility(View.GONE);
+                                                }
+                                            }
+                                        } else if (viewHashMap.get(childElementIdList.get(i2)) instanceof TextView) {
+                                            TextView textViewChild = (TextView) viewHashMap.get(childElementIdList.get(i2));
+                                            String type = changeListBean.getType();
+
+                                            if (type.contains("Enable") || type.contains("DisEnable")) {
+                                                if (textViewChild != null) {
+                                                    if (type.contains("Enable")) {
+                                                        textViewChild.setClickable(true);
+                                                    } else {
+                                                        textViewChild.setText("");
+                                                        textViewChild.setClickable(false);
+                                                    }
+                                                }
+                                            }
+
+                                            LinearLayout linearLayoutChild = (LinearLayout) viewHashMap.get(childElementIdList.get(i2) + "_ll");
+                                            if (type.contains("Show")) {
+                                                if (linearLayoutChild != null) {
+                                                    linearLayoutChild.setVisibility(View.VISIBLE);
+                                                }
+                                            } else if (type.contains("Hide")) {
+                                                if (textViewChild != null) {
+                                                    textViewChild.setText("");
+                                                    textViewChild.setClickable(false);
+                                                }
+                                                if (linearLayoutChild != null) {
+                                                    linearLayoutChild.setVisibility(View.GONE);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+
+                }
             }
-            m_Items[i] = selectStrList.get(i);
+            //操作联动
+        } else {
+            String formName = elementIdtoFormName.get(viewElementId) == null ? null : elementIdtoFormName.get(viewElementId).split("\\^")[0];
+
+            if ("true".equals(isChecked)) {
+
+                //radio互斥
+                if (formName != null && formName.startsWith("RadioElement_")) {
+
+                    //例外
+                    //跌倒评估
+                    if ("DHCNURDDFXPGJHLJLDLR".equals(emrCode) && formName.equals("RadioElement_69")) {
+
+                    } else {
+                        List<String> viewElementIdList = formNametoElementId.get(formName);
+                        if (viewElementIdList != null && viewElementIdList.size() > 0) {
+
+                            for (int i = 0; i < viewElementIdList.size(); i++) {
+                                if (!viewElementId.equals(viewElementIdList.get(i))) {
+                                    CheckBox checkBox = (CheckBox) viewHashMap.get(viewElementIdList.get(i));
+                                    if (checkBox != null && checkBox.isChecked()) {
+                                        checkBox.setChecked(false);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+                //check 控制 view 显隐 选中
+                for (int i = 0; elementSetsBeans != null && i < elementSetsBeans.size(); i++) {
+                    ElementDataBean.DataBean.InputBean.ElementSetsBean elementSetsBean = elementSetsBeans.get(i);
+
+                    if (elementSetsBean.getFormName().equals(formName)) {
+                        if (elementSetsBean.getFormName().startsWith("RadioElement_")) {
+                            CheckBox checkBox = (CheckBox) viewHashMap.get(elementSetsBean.getFormName() + "^" + elementSetsBean.getVal());
+                            if (checkBox != null && checkBox.isChecked() && elementSetsBean.getChangeList() != null && elementSetsBean.getChangeList().size() > 0) {
+                                for (int i1 = 0; i1 < elementSetsBean.getChangeList().size(); i1++) {
+                                    ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean changeListBean = elementSetsBean.getChangeList().get(i1);
+                                    LinearLayout linearLayout = (LinearLayout) viewHashMap.get(changeListBean.getId() + "_ll");
+                                    if (linearLayout != null) {
+                                        if (viewHashMap.get(changeListBean.getId()) instanceof EditText) {
+                                            EditText editText = (EditText) viewHashMap.get(changeListBean.getId());
+                                            String type = changeListBean.getType();
+
+                                            if (type.contains("Enable") || type.contains("DisEnable")) {
+                                                if (editText != null) {
+                                                    if (type.contains("Enable")) {
+                                                        editText.setEnabled(true);
+                                                    } else {
+                                                        editText.setText("");
+                                                        editText.setEnabled(false);
+                                                    }
+                                                }
+                                            }
+
+                                            if (type.contains("Show")) {
+                                                linearLayout.setVisibility(View.VISIBLE);
+                                            } else if (type.contains("Hide")) {
+                                                if (editText != null) {
+                                                    editText.setText("");
+                                                    editText.setEnabled(false);
+                                                }
+                                                linearLayout.setVisibility(View.GONE);
+                                            }
+                                        } else if (viewHashMap.get(changeListBean.getId()) instanceof TextView) {
+                                            TextView textView = (TextView) viewHashMap.get(changeListBean.getId());
+                                            String type = changeListBean.getType();
+
+                                            if (type.contains("Enable") || type.contains("DisEnable")) {
+                                                if (textView != null) {
+                                                    if (type.contains("Enable")) {
+                                                        textView.setClickable(true);
+                                                    } else {
+                                                        textView.setText("");
+                                                        textView.setClickable(false);
+                                                    }
+                                                }
+                                            }
+
+                                            if (type.contains("Show")) {
+                                                linearLayout.setVisibility(View.VISIBLE);
+                                            } else if (type.contains("Hide")) {
+                                                if (textView != null) {
+                                                    textView.setText("");
+                                                    textView.setClickable(false);
+                                                }
+                                                linearLayout.setVisibility(View.GONE);
+                                            }
+                                        }
+                                    } else {
+                                        List<String> childElementIdList = pcViewHashMap.get(changeListBean.getId());
+                                        if (childElementIdList != null && childElementIdList.size() > 0) {
+                                            for (int i2 = 0; i2 < childElementIdList.size(); i2++) {
+                                                if (viewHashMap.get(childElementIdList.get(i2)) instanceof EditText) {
+                                                    EditText editTextChild = (EditText) viewHashMap.get(childElementIdList.get(i2));
+                                                    String type = changeListBean.getType();
+
+                                                    if (type.contains("Enable") || type.contains("DisEnable")) {
+                                                        if (editTextChild != null) {
+                                                            if (type.contains("Enable")) {
+                                                                editTextChild.setEnabled(true);
+                                                            } else {
+                                                                editTextChild.setText("");
+                                                                editTextChild.setEnabled(false);
+                                                            }
+                                                        }
+                                                    }
+                                                    LinearLayout linearLayoutChild = (LinearLayout) viewHashMap.get(childElementIdList.get(i2) + "_ll");
+                                                    if (type.contains("Show")) {
+                                                        if (linearLayoutChild != null) {
+                                                            linearLayoutChild.setVisibility(View.VISIBLE);
+                                                        }
+                                                    } else if (type.contains("Hide")) {
+                                                        if (editTextChild != null) {
+                                                            editTextChild.setText("");
+                                                            editTextChild.setEnabled(false);
+                                                        }
+                                                        if (linearLayoutChild != null) {
+                                                            linearLayoutChild.setVisibility(View.GONE);
+                                                        }
+                                                    }
+                                                } else if (viewHashMap.get(childElementIdList.get(i2)) instanceof TextView) {
+                                                    TextView textViewChild = (TextView) viewHashMap.get(childElementIdList.get(i2));
+                                                    String type = changeListBean.getType();
+
+                                                    if (type.contains("Enable") || type.contains("DisEnable")) {
+                                                        if (textViewChild != null) {
+                                                            if (type.contains("Enable")) {
+                                                                textViewChild.setClickable(true);
+                                                            } else {
+                                                                textViewChild.setText("");
+                                                                textViewChild.setClickable(false);
+                                                            }
+                                                        }
+                                                    }
+
+                                                    LinearLayout linearLayoutChild = (LinearLayout) viewHashMap.get(childElementIdList.get(i2) + "_ll");
+                                                    if (type.contains("Show")) {
+                                                        if (linearLayoutChild != null) {
+                                                            linearLayoutChild.setVisibility(View.VISIBLE);
+                                                        }
+                                                    } else if (type.contains("Hide")) {
+                                                        if (textViewChild != null) {
+                                                            textViewChild.setText("");
+                                                            textViewChild.setClickable(false);
+                                                        }
+                                                        if (linearLayoutChild != null) {
+                                                            linearLayoutChild.setVisibility(View.GONE);
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            //分数 控制 选中
+            for (int i = 0; elementSetsBeans != null && i < elementSetsBeans.size(); i++) {
+                ElementDataBean.DataBean.InputBean.ElementSetsBean elementSetsBean = elementSetsBeans.get(i);
+
+                if (elementSetsBean.getFormName().equals(formName)) {
+                    if (elementSetsBean.getFormName().startsWith("TextElement_") || elementSetsBean.getFormName().startsWith("NumberElement_")) {
+                        EditText editText = (EditText) viewHashMap.get(viewElementId);
+                        int edTextInt = 0;
+                        try {
+                            edTextInt = Integer.parseInt(StringUtils.isEmpty(editText.getText().toString()) ? "-1" : editText.getText().toString());
+
+                            if (edTextInt > -1) {
+                                if ("EqNumber".equals(elementSetsBean.getSign())) {
+                                    int val = Integer.parseInt(elementSetsBean.getVal());
+                                    List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+                                    if (edTextInt == val && changeListBeans != null && changeListBeans.size() > 0) {
+                                        for (int i1 = 0; i1 < changeListBeans.size(); i1++) {
+                                            ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean changeListBean = changeListBeans.get(i1);
+                                            CheckBox checkBox = (CheckBox) viewHashMap.get("RadioElement_" + changeListBean.getId() + "^" + changeListBean.getItems());
+                                            if (checkBox != null) {
+                                                if (changeListBean.getType().contains("HasData")) {
+                                                    checkBox.setChecked(true);
+                                                }
+                                            }
+                                            if (viewHashMap.get(changeListBean.getId()) instanceof EditText) {
+                                                EditText editText1 = (EditText) viewHashMap.get(changeListBean.getId());
+                                                if (editText1 != null && !StringUtils.isTrimEmpty(changeListBean.getVal())) {
+                                                    if (changeListBean.getType().contains("HasData")) {
+                                                        editText1.setText(changeListBean.getVal());
+                                                    }
+                                                }
+                                            }
+
+                                        }
+                                    }
+                                } else if ("LeEqNumber".equals(elementSetsBean.getSign())) {
+                                    int val = Integer.parseInt(elementSetsBean.getVal());
+                                    List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+                                    if (edTextInt <= val && changeListBeans != null && changeListBeans.size() > 0) {
+                                        for (int i1 = 0; i1 < changeListBeans.size(); i1++) {
+                                            ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean changeListBean = changeListBeans.get(i1);
+                                            CheckBox checkBox = (CheckBox) viewHashMap.get("RadioElement_" + changeListBean.getId() + "^" + changeListBean.getItems());
+                                            if (checkBox != null) {
+                                                if (changeListBean.getType().contains("HasData")) {
+                                                    checkBox.setChecked(true);
+                                                }
+                                            }
+                                            if (viewHashMap.get(changeListBean.getId()) instanceof EditText) {
+                                                EditText editText1 = (EditText) viewHashMap.get(changeListBean.getId());
+                                                if (editText1 != null && !StringUtils.isTrimEmpty(changeListBean.getVal())) {
+                                                    if (changeListBean.getType().contains("HasData")) {
+                                                        editText1.setText(changeListBean.getVal());
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                } else if ("LeNumber".equals(elementSetsBean.getSign())) {
+                                    int val = Integer.parseInt(elementSetsBean.getVal());
+                                    List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+                                    if (edTextInt < val && changeListBeans != null && changeListBeans.size() > 0) {
+                                        for (int i1 = 0; i1 < changeListBeans.size(); i1++) {
+                                            ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean changeListBean = changeListBeans.get(i1);
+                                            CheckBox checkBox = (CheckBox) viewHashMap.get("RadioElement_" + changeListBean.getId() + "^" + changeListBean.getItems());
+                                            if (checkBox != null) {
+                                                if (changeListBean.getType().contains("HasData")) {
+                                                    checkBox.setChecked(true);
+                                                }
+                                            }
+                                            if (viewHashMap.get(changeListBean.getId()) instanceof EditText) {
+                                                EditText editText1 = (EditText) viewHashMap.get(changeListBean.getId());
+                                                if (editText1 != null && !StringUtils.isTrimEmpty(changeListBean.getVal())) {
+                                                    if (changeListBean.getType().contains("HasData")) {
+                                                        editText1.setText(changeListBean.getVal());
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                } else if ("GrEqNumber".equals(elementSetsBean.getSign())) {
+                                    int val = Integer.parseInt(elementSetsBean.getVal());
+                                    List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+                                    if (edTextInt >= val && changeListBeans != null && changeListBeans.size() > 0) {
+                                        for (int i1 = 0; i1 < changeListBeans.size(); i1++) {
+                                            ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean changeListBean = changeListBeans.get(i1);
+                                            CheckBox checkBox = (CheckBox) viewHashMap.get("RadioElement_" + changeListBean.getId() + "^" + changeListBean.getItems());
+                                            if (checkBox != null) {
+                                                if (changeListBean.getType().contains("HasData")) {
+                                                    checkBox.setChecked(true);
+                                                }
+                                            }
+                                            if (viewHashMap.get(changeListBean.getId()) instanceof EditText) {
+                                                EditText editText1 = (EditText) viewHashMap.get(changeListBean.getId());
+                                                if (editText1 != null && !StringUtils.isTrimEmpty(changeListBean.getVal())) {
+                                                    if (changeListBean.getType().contains("HasData")) {
+                                                        editText1.setText(changeListBean.getVal());
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                } else if ("GrNumber".equals(elementSetsBean.getSign())) {
+                                    int val = Integer.parseInt(elementSetsBean.getVal());
+                                    List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+                                    if (edTextInt > val && changeListBeans != null && changeListBeans.size() > 0) {
+                                        for (int i1 = 0; i1 < changeListBeans.size(); i1++) {
+                                            ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean changeListBean = changeListBeans.get(i1);
+                                            CheckBox checkBox = (CheckBox) viewHashMap.get("RadioElement_" + changeListBean.getId() + "^" + changeListBean.getItems());
+                                            if (checkBox != null) {
+                                                if (changeListBean.getType().contains("HasData")) {
+                                                    checkBox.setChecked(true);
+                                                }
+                                            }
+                                            if (viewHashMap.get(changeListBean.getId()) instanceof EditText) {
+                                                EditText editText1 = (EditText) viewHashMap.get(changeListBean.getId());
+                                                if (editText1 != null && !StringUtils.isTrimEmpty(changeListBean.getVal())) {
+                                                    if (changeListBean.getType().contains("HasData")) {
+                                                        editText1.setText(changeListBean.getVal());
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                } else if ("GrEqNumber1LeEqNumber2".equals(elementSetsBean.getSign())) {
+                                    int val1 = Integer.parseInt(elementSetsBean.getVal());
+                                    int val2 = Integer.parseInt(elementSetsBean.getVal2());
+                                    List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+                                    if (edTextInt >= val1 && edTextInt <= val2 && changeListBeans != null && changeListBeans.size() > 0) {
+                                        for (int i1 = 0; i1 < changeListBeans.size(); i1++) {
+                                            ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean changeListBean = changeListBeans.get(i1);
+                                            CheckBox checkBox = (CheckBox) viewHashMap.get("RadioElement_" + changeListBean.getId() + "^" + changeListBean.getItems());
+                                            if (checkBox != null) {
+                                                if (changeListBean.getType().contains("HasData")) {
+                                                    checkBox.setChecked(true);
+                                                }
+                                            }
+                                            if (viewHashMap.get(changeListBean.getId()) instanceof EditText) {
+                                                EditText editText1 = (EditText) viewHashMap.get(changeListBean.getId());
+                                                if (editText1 != null && !StringUtils.isTrimEmpty(changeListBean.getVal())) {
+                                                    if (changeListBean.getType().contains("HasData")) {
+                                                        editText1.setText(changeListBean.getVal());
+                                                    }
+                                                }
+                                            }
+
+                                        }
+                                    }
+                                } else if ("GrNumber1LeEqNumber2".equals(elementSetsBean.getSign())) {
+                                    int val1 = Integer.parseInt(elementSetsBean.getVal());
+                                    int val2 = Integer.parseInt(elementSetsBean.getVal2());
+                                    List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+                                    if (edTextInt > val1 && edTextInt <= val2 && changeListBeans != null && changeListBeans.size() > 0) {
+                                        for (int i1 = 0; i1 < changeListBeans.size(); i1++) {
+                                            ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean changeListBean = changeListBeans.get(i1);
+                                            CheckBox checkBox = (CheckBox) viewHashMap.get("RadioElement_" + changeListBean.getId() + "^" + changeListBean.getItems());
+                                            if (checkBox != null) {
+                                                if (changeListBean.getType().contains("HasData")) {
+                                                    checkBox.setChecked(true);
+                                                }
+                                            }
+                                            if (viewHashMap.get(changeListBean.getId()) instanceof EditText) {
+                                                EditText editText1 = (EditText) viewHashMap.get(changeListBean.getId());
+                                                if (editText1 != null && !StringUtils.isTrimEmpty(changeListBean.getVal())) {
+                                                    if (changeListBean.getType().contains("HasData")) {
+                                                        editText1.setText(changeListBean.getVal());
+                                                    }
+                                                }
+                                            }
+
+                                        }
+                                    }
+                                } else if ("GrEqNumber1LeNumber2".equals(elementSetsBean.getSign())) {
+                                    int val1 = Integer.parseInt(elementSetsBean.getVal());
+                                    int val2 = Integer.parseInt(elementSetsBean.getVal2());
+                                    List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+                                    if (edTextInt >= val1 && edTextInt < val2 && changeListBeans != null && changeListBeans.size() > 0) {
+                                        for (int i1 = 0; i1 < changeListBeans.size(); i1++) {
+                                            ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean changeListBean = changeListBeans.get(i1);
+                                            CheckBox checkBox = (CheckBox) viewHashMap.get("RadioElement_" + changeListBean.getId() + "^" + changeListBean.getItems());
+                                            if (checkBox != null) {
+                                                if (changeListBean.getType().contains("HasData")) {
+                                                    checkBox.setChecked(true);
+                                                }
+                                            }
+                                            if (viewHashMap.get(changeListBean.getId()) instanceof EditText) {
+                                                EditText editText1 = (EditText) viewHashMap.get(changeListBean.getId());
+                                                if (editText1 != null && !StringUtils.isTrimEmpty(changeListBean.getVal())) {
+                                                    if (changeListBean.getType().contains("HasData")) {
+                                                        editText1.setText(changeListBean.getVal());
+                                                    }
+                                                }
+                                            }
+
+                                        }
+                                    }
+                                } else if ("GrNumber1LeNumber2".equals(elementSetsBean.getSign())) {
+                                    int val1 = Integer.parseInt(elementSetsBean.getVal());
+                                    int val2 = Integer.parseInt(elementSetsBean.getVal2());
+                                    List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+                                    if (edTextInt > val1 && edTextInt < val2 && changeListBeans != null && changeListBeans.size() > 0) {
+                                        for (int i1 = 0; i1 < changeListBeans.size(); i1++) {
+                                            ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean changeListBean = changeListBeans.get(i1);
+                                            CheckBox checkBox = (CheckBox) viewHashMap.get("RadioElement_" + changeListBean.getId() + "^" + changeListBean.getItems());
+                                            if (checkBox != null) {
+                                                if (changeListBean.getType().contains("HasData")) {
+                                                    checkBox.setChecked(true);
+                                                }
+                                            }
+                                            if (viewHashMap.get(changeListBean.getId()) instanceof EditText) {
+                                                EditText editText1 = (EditText) viewHashMap.get(changeListBean.getId());
+                                                if (editText1 != null && !StringUtils.isTrimEmpty(changeListBean.getVal())) {
+                                                    if (changeListBean.getType().contains("HasData")) {
+                                                        editText1.setText(changeListBean.getVal());
+                                                    }
+                                                }
+                                            }
+
+                                        }
+                                    }
+                                }
+                            }
+                        } catch (NumberFormatException e) {
+                            showToast("分数数值不规范");
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+
+            //计分
+            for (int i = 0; statisticsListBeans != null && i < statisticsListBeans.size(); i++) {
+                ElementDataBean.DataBean.InputBean.StatisticsListBean statisticsListBean = statisticsListBeans.get(i);
+                String[] idStr = statisticsListBean.getEffects().split(",");
+                for (int i1 = 0; idStr != null && i1 < idStr.length; i1++) {
+                    if (idStr[i1].equals(viewElementId)) {
+                        EditText editText = (EditText) viewHashMap.get(statisticsListBean.getId());
+                        int score = Integer.parseInt(StringUtils.isEmpty(editText.getText().toString()) ? "0" : editText.getText().toString());
+
+                        if (isChecked.equals("true") || isChecked.equals("false")) {
+                            int changeScore = Integer.parseInt(elementIdtoFormName.get(viewElementId).split("\\^")[1]);
+                            CheckBox checkBox = (CheckBox) viewHashMap.get(viewElementId);
+                            if (checkBox.isChecked()) {
+                                score = score + changeScore;
+                            } else {
+                                score = score - changeScore;
+                            }
+                        } else if (isChecked.equals("drop")) {
+                            Integer[] scoreInt = dropValue.get(viewElementId);
+                            score = score - scoreInt[0] + scoreInt[1];
+                        }
+
+                        editText.setText(score + "");
+                    }
+                }
+            }
+
         }
-        AlertDialog.Builder localBuilder = new AlertDialog.Builder(context);
 
-        localBuilder.setSingleChoiceItems(m_Items, mSingleChoiceID,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog,
-                                        int whichButton) {
-                        mSingleChoiceID = whichButton;
+        //必填项填入内容之后还原view
+        if ("true".equals(isChecked)) {
+            String viewFormName = elementIdtoFormName.get(viewElementId) == null ? "" : elementIdtoFormName.get(viewElementId);
+            if (viewFormName.contains("RadioElement") || viewFormName.contains("CheckElement")) {
+                List<String> elementIdList = formNametoElementId.get(viewFormName.split("\\^")[0]);
+                for (int i = 0; elementIdList != null && i < elementIdList.size(); i++) {
+                    CheckBox checkBox = (CheckBox) viewHashMap.get(elementIdList.get(i));
+                    if (checkBox != null) {
+                        checkBox.setTextColor(Color.parseColor("#FF4A4A4A"));
                     }
-                });
-        localBuilder.setPositiveButton("确定",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        textView.setText(m_Items[mSingleChoiceID]);
-                    }
-                });
-        localBuilder.setNegativeButton("取消", null);// 设置对话框[否定]按钮
+                }
 
-        AlertDialog localAlertDialog = localBuilder.create();
-        localAlertDialog.setTitle("选择");
-        localAlertDialog.show();
-
-        localAlertDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+            }
+        }
     }
 
     @Override
@@ -1489,910 +2162,10 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-        //69  72
-        //70  74
-        //71  77 79 81 83 85 87 89 91 93 95 97 99
-        //跌倒评估
-        if ("DHCNURDDFXPGJHLJLDLR".equals(emrCode)) {
-            CheckBox checkBox69 = (CheckBox) viewHashMap.get("69");
-            TextView textView72 = (TextView) viewHashMap.get("72");
-
-            CheckBox checkBox70 = (CheckBox) viewHashMap.get("70");
-            TextView textView74 = (TextView) viewHashMap.get("74");
-
-            CheckBox checkBox71 = (CheckBox) viewHashMap.get("71");
-            TextView textView77 = (TextView) viewHashMap.get("77");
-            TextView textView79 = (TextView) viewHashMap.get("79");
-            TextView textView81 = (TextView) viewHashMap.get("81");
-            TextView textView83 = (TextView) viewHashMap.get("83");
-            TextView textView85 = (TextView) viewHashMap.get("85");
-            TextView textView87 = (TextView) viewHashMap.get("87");
-            TextView textView89 = (TextView) viewHashMap.get("89");
-            TextView textView91 = (TextView) viewHashMap.get("91");
-            TextView textView93 = (TextView) viewHashMap.get("93");
-            TextView textView95 = (TextView) viewHashMap.get("95");
-            TextView textView97 = (TextView) viewHashMap.get("97");
-            TextView textView99 = (TextView) viewHashMap.get("99");
-
-            LinearLayout linearLayout72 = (LinearLayout) viewHashMap.get("72_ll");
-
-            LinearLayout linearLayout74 = (LinearLayout) viewHashMap.get("74_ll");
-
-            LinearLayout linearLayout77 = (LinearLayout) viewHashMap.get("77_ll");
-            LinearLayout linearLayout79 = (LinearLayout) viewHashMap.get("79_ll");
-            LinearLayout linearLayout81 = (LinearLayout) viewHashMap.get("81_ll");
-            LinearLayout linearLayout83 = (LinearLayout) viewHashMap.get("83_ll");
-            LinearLayout linearLayout85 = (LinearLayout) viewHashMap.get("85_ll");
-            LinearLayout linearLayout87 = (LinearLayout) viewHashMap.get("87_ll");
-            LinearLayout linearLayout89 = (LinearLayout) viewHashMap.get("89_ll");
-            LinearLayout linearLayout91 = (LinearLayout) viewHashMap.get("91_ll");
-            LinearLayout linearLayout93 = (LinearLayout) viewHashMap.get("93_ll");
-            LinearLayout linearLayout95 = (LinearLayout) viewHashMap.get("95_ll");
-            LinearLayout linearLayout97 = (LinearLayout) viewHashMap.get("97_ll");
-            LinearLayout linearLayout99 = (LinearLayout) viewHashMap.get("99_ll");
-
-            String radiotag = buttonView.getTag().toString();
-            if (isChecked) {
-                switch (radiotag) {
-                    case "69":
-                        linearLayout72.setVisibility(View.VISIBLE);
-                        cancelCheck("70", "71");
-                        break;
-                    case "70":
-                        linearLayout74.setVisibility(View.VISIBLE);
-                        cancelCheck("69", "71");
-                        break;
-                    case "71":
-                        linearLayout77.setVisibility(View.VISIBLE);
-                        linearLayout79.setVisibility(View.VISIBLE);
-                        linearLayout81.setVisibility(View.VISIBLE);
-                        linearLayout83.setVisibility(View.VISIBLE);
-                        linearLayout85.setVisibility(View.VISIBLE);
-                        linearLayout87.setVisibility(View.VISIBLE);
-                        linearLayout89.setVisibility(View.VISIBLE);
-                        linearLayout91.setVisibility(View.VISIBLE);
-                        linearLayout93.setVisibility(View.VISIBLE);
-                        linearLayout95.setVisibility(View.VISIBLE);
-                        linearLayout97.setVisibility(View.VISIBLE);
-                        linearLayout99.setVisibility(View.VISIBLE);
-                        cancelCheck("69", "70");
-                        break;
-                    default:
-                        break;
-                }
-            } else {
-                switch (radiotag) {
-                    case "69":
-                        textView72.setText("");
-                        linearLayout72.setVisibility(View.GONE);
-                        break;
-                    case "70":
-                        textView74.setText("");
-                        linearLayout74.setVisibility(View.GONE);
-                        break;
-                    case "71":
-                        textView77.setText("");
-                        textView79.setText("");
-                        textView81.setText("");
-                        textView83.setText("");
-                        textView85.setText("");
-                        textView87.setText("");
-                        textView89.setText("");
-                        textView91.setText("");
-                        textView93.setText("");
-                        textView95.setText("");
-                        textView97.setText("");
-                        textView99.setText("");
-                        linearLayout77.setVisibility(View.GONE);
-                        linearLayout79.setVisibility(View.GONE);
-                        linearLayout81.setVisibility(View.GONE);
-                        linearLayout83.setVisibility(View.GONE);
-                        linearLayout85.setVisibility(View.GONE);
-                        linearLayout87.setVisibility(View.GONE);
-                        linearLayout89.setVisibility(View.GONE);
-                        linearLayout91.setVisibility(View.GONE);
-                        linearLayout93.setVisibility(View.GONE);
-                        linearLayout95.setVisibility(View.GONE);
-                        linearLayout97.setVisibility(View.GONE);
-                        linearLayout99.setVisibility(View.GONE);
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-
-        //压疮评估
-        if ("DHCNURYCFXPGJHLJLDCRHZLR".equals(emrCode)) {
-            TextView tvScore = (TextView) viewHashMap.get("60");
-
-            String radiotag = buttonView.getTag().toString();
-            if (isChecked) {
-                switch (radiotag) {
-                    //压疮风险互斥选项
-                    case "245":
-                        itemScore = itemScore + 1;
-                        cancelCheck("249", "248", "247");
-                        break;
-                    case "249":
-                        itemScore = itemScore + 2;
-                        cancelCheck("245", "248", "247");
-                        break;
-                    case "248":
-                        itemScore = itemScore + 3;
-                        cancelCheck("245", "249", "247");
-                        break;
-                    case "247":
-                        itemScore = itemScore + 4;
-                        cancelCheck("245", "249", "248");
-                        break;
-                    case "240":
-                        itemScore = itemScore + 1;
-                        cancelCheck("244", "243", "242");
-                        break;
-                    case "244":
-                        itemScore = itemScore + 2;
-                        cancelCheck("240", "243", "242");
-                        break;
-                    case "243":
-                        itemScore = itemScore + 3;
-                        cancelCheck("240", "244", "242");
-                        break;
-                    case "242":
-                        itemScore = itemScore + 4;
-                        cancelCheck("240", "244", "243");
-                        break;
-                    case "235":
-                        itemScore = itemScore
-                                + 1;
-                        cancelCheck("239", "238", "237");
-                        break;
-                    case "239":
-                        itemScore = itemScore + 2;
-                        cancelCheck("235", "238", "237");
-                        break;
-                    case "238":
-                        itemScore = itemScore + 3;
-                        cancelCheck("235", "239", "237");
-                        break;
-                    case "237":
-                        itemScore = itemScore + 4;
-                        cancelCheck("235", "239", "238");
-                        break;
-                    case "230":
-                        itemScore = itemScore + 1;
-                        cancelCheck("234", "233", "232");
-                        break;
-                    case "234":
-                        itemScore = itemScore + 2;
-                        cancelCheck("230", "233", "232");
-                        break;
-                    case "233":
-                        itemScore = itemScore + 3;
-                        cancelCheck("230", "234", "232");
-                        break;
-                    case "232":
-                        itemScore = itemScore + 4;
-                        cancelCheck("230", "234", "233");
-                        break;
-                    case "220":
-                        itemScore = itemScore + 1;
-                        cancelCheck("224", "223", "222");
-                        break;
-                    case "224":
-                        itemScore = itemScore + 2;
-                        cancelCheck("220", "223", "222");
-                        break;
-                    case "223":
-                        itemScore = itemScore + 3;
-                        cancelCheck("220", "224", "222");
-                        break;
-                    case "222":
-                        itemScore = itemScore + 4;
-                        cancelCheck("220", "224", "223");
-                        break;
-                    case "216":
-                        itemScore = itemScore + 1;
-                        cancelCheck("219", "218");
-                        break;
-                    case "219":
-                        itemScore = itemScore + 2;
-                        cancelCheck("216", "218");
-                        break;
-                    case "218":
-                        itemScore = itemScore + 3;
-                        cancelCheck("216", "219");
-                        break;
-                    default:
-                        break;
-                }
-            } else {
-                switch (radiotag) {
-                    //压疮风险互斥选项
-                    case "245":
-                        itemScore = itemScore - 1;
-                        break;
-                    case "249":
-                        itemScore = itemScore - 2;
-                        break;
-                    case "248":
-                        itemScore = itemScore - 3;
-                        break;
-                    case "247":
-                        itemScore = itemScore - 4;
-                        break;
-                    case "240":
-                        itemScore = itemScore - 1;
-                        break;
-                    case "244":
-                        itemScore = itemScore - 2;
-                        break;
-                    case "243":
-                        itemScore = itemScore - 3;
-                        break;
-                    case "242":
-                        itemScore = itemScore - 4;
-                        break;
-                    case "235":
-                        itemScore = itemScore - 1;
-                        break;
-                    case "239":
-                        itemScore = itemScore - 2;
-                        break;
-                    case "238":
-                        itemScore = itemScore - 3;
-                        break;
-                    case "237":
-                        itemScore = itemScore - 4;
-                        break;
-                    case "230":
-                        itemScore = itemScore - 1;
-                        break;
-                    case "234":
-                        itemScore = itemScore - 2;
-                        break;
-                    case "233":
-                        itemScore = itemScore - 3;
-                        break;
-                    case "232":
-                        itemScore = itemScore - 4;
-                        break;
-                    case "220":
-                        itemScore = itemScore - 1;
-                        break;
-                    case "224":
-                        itemScore = itemScore - 2;
-                        break;
-                    case "223":
-                        itemScore = itemScore - 3;
-                        break;
-                    case "222":
-                        itemScore = itemScore - 4;
-                        break;
-                    case "216":
-                        itemScore = itemScore - 1;
-                        break;
-                    case "219":
-                        itemScore = itemScore - 2;
-                        break;
-                    case "218":
-                        itemScore = itemScore - 3;
-                        break;
-                    default:
-                        break;
-                }
-            }
-            //            showToast("分数变化" + itemScore);
-            if (StringUtils.isEmpty(tvScore.getText().toString())) {
-                tvScore.setText(itemScore + "");
-            } else {
-                tvScore.setText((Integer.parseInt(tvScore.getText().toString()) + itemScore) + "");
-            }
-            itemScore = 0;
-        }
-
-        //入院评估
-        if ("DHCNURRYZKHLPGDCRHZLR".equals(emrCode)) {
-
-            TextView textView95 = (TextView) viewHashMap.get("95");
-            LinearLayout linearLayout95 = (LinearLayout) viewHashMap.get("95_ll");
-            TextView textView104 = (TextView) viewHashMap.get("104");
-            LinearLayout linearLayout104 = (LinearLayout) viewHashMap.get("104_ll");
-            TextView textView1762 = (TextView) viewHashMap.get("1762");
-            LinearLayout linearLayout1762 = (LinearLayout) viewHashMap.get("1762_ll");
-            TextView textView1764 = (TextView) viewHashMap.get("1764");
-            LinearLayout linearLayout1764 = (LinearLayout) viewHashMap.get("1764_ll");
-            TextView textView1766 = (TextView) viewHashMap.get("1766");
-            LinearLayout linearLayout1766 = (LinearLayout) viewHashMap.get("1766_ll");
-            TextView textView189 = (TextView) viewHashMap.get("189");
-            LinearLayout linearLayout189 = (LinearLayout) viewHashMap.get("189_ll");
-            TextView textView197 = (TextView) viewHashMap.get("197");
-            LinearLayout linearLayout197 = (LinearLayout) viewHashMap.get("197_ll");
-            TextView textView1769 = (TextView) viewHashMap.get("1769");
-            LinearLayout linearLayout1769 = (LinearLayout) viewHashMap.get("1769_ll");
-            TextView textView232 = (TextView) viewHashMap.get("232");
-            LinearLayout linearLayout232 = (LinearLayout) viewHashMap.get("232_ll");
-            TextView textView234 = (TextView) viewHashMap.get("234");
-            LinearLayout linearLayout234 = (LinearLayout) viewHashMap.get("234_ll");
-            TextView textView236 = (TextView) viewHashMap.get("236");
-            LinearLayout linearLayout236 = (LinearLayout) viewHashMap.get("236_ll");
-            TextView textView1801 = (TextView) viewHashMap.get("1801");
-            LinearLayout linearLayout1801 = (LinearLayout) viewHashMap.get("1801_ll");
-            //            CheckBox checkBox1815 = (CheckBox) viewHashMap.get("1815");
-            //            CheckBox checkBox1816 = (CheckBox) viewHashMap.get("1816");
-            //            LinearLayout linearLayout1815 = (LinearLayout) viewHashMap.get("RadioElement_1815_ll");
-            //            CheckBox checkBox1818 = (CheckBox) viewHashMap.get("1818");
-            //            CheckBox checkBox1820 = (CheckBox) viewHashMap.get("1820");
-            //            CheckBox checkBox1821 = (CheckBox) viewHashMap.get("1821");
-            //            LinearLayout linearLayout1818 = (LinearLayout) viewHashMap.get("RadioElement_1818_ll");
-
-            TextView textView131 = (TextView) viewHashMap.get("131");
-            LinearLayout linearLayout131 = (LinearLayout) viewHashMap.get("131_ll");
-            TextView textView140 = (TextView) viewHashMap.get("140");
-            LinearLayout linearLayout140 = (LinearLayout) viewHashMap.get("140_ll");
-            TextView textView144 = (TextView) viewHashMap.get("144");
-            LinearLayout linearLayout144 = (LinearLayout) viewHashMap.get("144_ll");
-            TextView textView154 = (TextView) viewHashMap.get("154");
-            LinearLayout linearLayout154 = (LinearLayout) viewHashMap.get("154_ll");
-            TextView textView158 = (TextView) viewHashMap.get("158");
-            LinearLayout linearLayout158 = (LinearLayout) viewHashMap.get("158_ll");
-            TextView textView163 = (TextView) viewHashMap.get("163");
-            LinearLayout linearLayout163 = (LinearLayout) viewHashMap.get("163_ll");
-            TextView textView171 = (TextView) viewHashMap.get("171");
-            LinearLayout linearLayout171 = (LinearLayout) viewHashMap.get("171_ll");
-            TextView textView178 = (TextView) viewHashMap.get("178");
-            LinearLayout linearLayout178 = (LinearLayout) viewHashMap.get("178_ll");
-
-
-            if (isChecked) {
-                switch (buttonView.getTag().toString()) {
-                    case "44":
-                        cancelCheck("46", "47");
-                        break;
-                    case "46":
-                        cancelCheck("44", "47");
-                        break;
-                    case "47":
-                        cancelCheck("44", "46");
-                        break;
-                    case "48":
-                        cancelCheck("50", "51", "52");
-                        break;
-                    case "50":
-                        cancelCheck("48", "51", "52");
-                        break;
-                    case "51":
-                        cancelCheck("48", "50", "52");
-                        break;
-                    case "52":
-                        cancelCheck("48", "50", "51");
-                        break;
-                    case "53":
-                        cancelCheck("55", "56", "57", "58");
-                        break;
-                    case "55":
-                        cancelCheck("53", "56", "57", "58");
-                        break;
-                    case "56":
-                        cancelCheck("53", "55", "57", "58");
-                        break;
-                    case "57":
-                        cancelCheck("53", "55", "56", "58");
-                        break;
-                    case "58":
-                        cancelCheck("53", "55", "56", "57");
-                        break;
-                    case "87":
-                        cancelCheck("89", "90", "91", "92");
-                        textView95.setText("");
-                        linearLayout95.setVisibility(View.GONE);
-                        break;
-                    case "89":
-                        cancelCheck("87", "90", "91", "92");
-                        textView95.setText("");
-                        linearLayout95.setVisibility(View.GONE);
-                        break;
-                    case "90":
-                        cancelCheck("87", "89", "91", "92");
-                        textView95.setText("");
-                        linearLayout95.setVisibility(View.GONE);
-                        break;
-                    case "91":
-                        cancelCheck("87", "89", "90", "92");
-                        textView95.setText("");
-                        linearLayout95.setVisibility(View.GONE);
-                        break;
-                    case "92":
-                        cancelCheck("87", "89", "90", "91");
-                        linearLayout95.setVisibility(View.VISIBLE);
-                        break;
-                    case "97":
-                        cancelCheck("99", "100", "101", "102", "103");
-                        textView104.setText("");
-                        linearLayout104.setVisibility(View.GONE);
-                        break;
-                    case "99":
-                        cancelCheck("97", "100", "101", "102", "103");
-                        textView104.setText("");
-                        linearLayout104.setVisibility(View.GONE);
-                        break;
-                    case "100":
-                        cancelCheck("97", "99", "101", "102", "103");
-                        textView104.setText("");
-                        linearLayout104.setVisibility(View.GONE);
-                        break;
-                    case "101":
-                        cancelCheck("97", "99", "100", "102", "103");
-                        textView104.setText("");
-                        linearLayout104.setVisibility(View.GONE);
-                        break;
-                    case "102":
-                        cancelCheck("97", "99", "100", "101", "103");
-                        textView104.setText("");
-                        linearLayout104.setVisibility(View.GONE);
-                        break;
-                    case "103":
-                        cancelCheck("97", "99", "100", "101", "102");
-                        linearLayout104.setVisibility(View.VISIBLE);
-                        break;
-                    case "106":
-                        cancelCheck("1761");
-                        linearLayout1762.setVisibility(View.VISIBLE);
-                        textView1764.setText("");
-                        textView1766.setText("");
-                        linearLayout1764.setVisibility(View.GONE);
-                        linearLayout1766.setVisibility(View.GONE);
-                        break;
-                    case "1761":
-                        cancelCheck("106");
-                        textView1762.setText("");
-                        linearLayout1762.setVisibility(View.GONE);
-                        linearLayout1764.setVisibility(View.VISIBLE);
-                        linearLayout1766.setVisibility(View.VISIBLE);
-                        break;
-                    //                    case "124":
-                    //                        cancelCheck("126", "127", "128", "129", "130");
-                    //                        break;
-                    //                    case "126":
-                    //                        cancelCheck("124", "127", "128", "129", "130");
-                    //                        break;
-                    //                    case "127":
-                    //                        cancelCheck("124", "126", "128", "129", "130");
-                    //                        break;
-                    //                    case "128":
-                    //                        cancelCheck("124", "126", "127", "129", "130");
-                    //                        break;
-                    //                    case "129":
-                    //                        cancelCheck("124", "126", "127", "128", "130");
-                    //                        break;
-                    case "130":
-                        linearLayout131.setVisibility(View.VISIBLE);
-                        break;
-                    case "133":
-                        cancelCheck("135", "136", "137", "138", "139", "1759");
-                        break;
-                    case "135":
-                        cancelCheck("133", "136", "137", "138", "139", "1759");
-                        break;
-                    case "136":
-                        cancelCheck("133", "135", "137", "138", "139", "1759");
-                        break;
-                    case "137":
-                        cancelCheck("133", "135", "136", "138", "139", "1759");
-                        break;
-                    case "138":
-                        cancelCheck("133", "135", "136", "137", "139", "1759");
-                        break;
-                    case "139":
-                        cancelCheck("133", "135", "136", "137", "138", "1759");
-                        linearLayout140.setVisibility(View.VISIBLE);
-                        break;
-                    case "1759":
-                        cancelCheck("133", "135", "136", "137", "138", "139");
-                        linearLayout144.setVisibility(View.VISIBLE);
-                        break;
-                    case "146":
-                        cancelCheck("148", "149", "150", "151", "152", "153", "1760");
-                        break;
-                    case "148":
-                        cancelCheck("146", "149", "150", "151", "152", "153", "1760");
-                        break;
-                    case "149":
-                        cancelCheck("146", "148", "150", "151", "152", "153", "1760");
-                        break;
-                    case "150":
-                        cancelCheck("146", "148", "149", "151", "152", "153", "1760");
-                        break;
-                    case "151":
-                        cancelCheck("146", "148", "149", "150", "152", "153", "1760");
-                        break;
-                    case "152":
-                        cancelCheck("146", "148", "149", "150", "151", "153", "1760");
-                        break;
-                    case "153":
-                        cancelCheck("146", "148", "149", "150", "151", "152", "1760");
-                        linearLayout154.setVisibility(View.VISIBLE);
-                        break;
-                    case "1760":
-                        cancelCheck("146", "148", "149", "150", "151", "152", "153");
-                        linearLayout158.setVisibility(View.VISIBLE);
-                        break;
-                    case "160":
-                        cancelCheck("162");
-                        break;
-                    case "162":
-                        cancelCheck("160");
-                        linearLayout163.setVisibility(View.VISIBLE);
-                        break;
-                    case "165":
-                        cancelCheck("167", "168", "169", "170");
-                        break;
-                    case "167":
-                        cancelCheck("165", "168", "169", "170");
-                        break;
-                    case "168":
-                        cancelCheck("165", "167", "169", "170");
-                        break;
-                    case "169":
-                        cancelCheck("165", "167", "168", "170");
-                        break;
-                    case "170":
-                        cancelCheck("165", "167", "168", "169");
-                        linearLayout171.setVisibility(View.VISIBLE);
-                        break;
-                    case "173":
-                        cancelCheck("175", "176", "177");
-                        break;
-                    case "175":
-                        cancelCheck("173", "176", "177");
-                        break;
-                    case "176":
-                        cancelCheck("173", "175", "177");
-                        break;
-                    case "177":
-                        cancelCheck("173", "175", "176");
-                        linearLayout178.setVisibility(View.VISIBLE);
-                        break;
-                    case "183":
-                        cancelCheck("185", "186", "187", "188");
-                        textView189.setText("");
-                        linearLayout189.setVisibility(View.GONE);
-                        break;
-                    case "185":
-                        cancelCheck("183", "186", "187", "188");
-                        textView189.setText("");
-                        linearLayout189.setVisibility(View.GONE);
-                        break;
-                    case "186":
-                        cancelCheck("183", "185", "187", "188");
-                        textView189.setText("");
-                        linearLayout189.setVisibility(View.GONE);
-                        break;
-                    case "187":
-                        cancelCheck("183", "185", "186", "188");
-                        textView189.setText("");
-                        linearLayout189.setVisibility(View.GONE);
-                        break;
-                    case "188":
-                        cancelCheck("183", "185", "186", "187");
-                        linearLayout189.setVisibility(View.VISIBLE);
-                        break;
-                    case "191":
-                        cancelCheck("193", "194", "195", "196");
-                        textView197.setText("");
-                        linearLayout197.setVisibility(View.GONE);
-                        break;
-                    case "193":
-                        cancelCheck("191", "194", "195", "196");
-                        textView197.setText("");
-                        linearLayout197.setVisibility(View.GONE);
-                        break;
-                    case "194":
-                        cancelCheck("191", "193", "195", "196");
-                        textView197.setText("");
-                        linearLayout197.setVisibility(View.GONE);
-                        break;
-                    case "195":
-                        cancelCheck("191", "193", "194", "196");
-                        textView197.setText("");
-                        linearLayout197.setVisibility(View.GONE);
-                        break;
-                    case "196":
-                        cancelCheck("191", "193", "194", "195");
-                        linearLayout197.setVisibility(View.VISIBLE);
-                        break;
-                    case "199":
-                        cancelCheck("201", "202");
-                        break;
-                    case "201":
-                        cancelCheck("199", "202");
-                        break;
-                    case "202":
-                        cancelCheck("199", "201");
-                        break;
-                    case "203":
-                        cancelCheck("205", "206");
-                        break;
-                    case "205":
-                        cancelCheck("203", "206");
-                        break;
-                    case "206":
-                        cancelCheck("203", "205");
-                        break;
-                    case "1768":
-                        linearLayout1769.setVisibility(View.VISIBLE);
-                        break;
-                    case "227":
-                        cancelCheck("229");
-                        textView232.setText("");
-                        textView234.setText("");
-                        textView236.setText("");
-                        linearLayout232.setVisibility(View.GONE);
-                        linearLayout234.setVisibility(View.GONE);
-                        linearLayout236.setVisibility(View.GONE);
-                        break;
-                    case "229":
-                        cancelCheck("227");
-                        linearLayout232.setVisibility(View.VISIBLE);
-                        linearLayout234.setVisibility(View.VISIBLE);
-                        linearLayout236.setVisibility(View.VISIBLE);
-                        break;
-                    case "240":
-                        cancelCheck("242");
-                        break;
-                    case "242":
-                        cancelCheck("240");
-                        break;
-                    case "243":
-                        cancelCheck("245", "246", "247", "248", "249", "250");
-                        break;
-                    case "245":
-                        cancelCheck("243", "246", "247", "248", "249", "250");
-                        break;
-                    case "246":
-                        cancelCheck("243", "245", "247", "248", "249", "250");
-                        break;
-                    case "247":
-                        cancelCheck("243", "245", "246", "248", "249", "250");
-                        break;
-                    case "248":
-                        cancelCheck("243", "245", "246", "247", "249", "250");
-                        break;
-                    case "249":
-                        cancelCheck("243", "245", "246", "247", "248", "250");
-                        break;
-                    case "250":
-                        cancelCheck("243", "245", "246", "247", "248", "249");
-                        break;
-                    case "1774":
-                        cancelCheck("1775", "1776", "1777");
-                        break;
-                    case "1775":
-                        cancelCheck("1774", "1776", "1777");
-                        break;
-                    case "1776":
-                        cancelCheck("1774", "1775", "1777");
-                        break;
-                    case "1777":
-                        cancelCheck("1774", "1775", "1776");
-                        break;
-                    case "1781":
-                        cancelCheck("1782", "1783", "1784", "1785");
-                        break;
-                    case "1782":
-                        cancelCheck("1781", "1783", "1784", "1785");
-                        break;
-                    case "1783":
-                        cancelCheck("1781", "1782", "1784", "1785");
-                        break;
-                    case "1784":
-                        cancelCheck("1781", "1782", "1783", "1785");
-                        break;
-                    case "1785":
-                        cancelCheck("1781", "1782", "1783", "1784");
-                        break;
-                    case "1789":
-                        cancelCheck("1793", "1818", "1820", "1821");
-                        break;
-                    case "1815":
-                        cancelCheck("1816");
-                        break;
-                    case "1816":
-                        cancelCheck("1815");
-                        break;
-                    case "1793":
-                        cancelCheck("1789", "1815", "1816");
-                        break;
-                    case "1818":
-                        cancelCheck("1820", "1821");
-                        break;
-                    case "1820":
-                        cancelCheck("1818", "1821");
-                        break;
-                    case "1821":
-                        cancelCheck("1818", "1820");
-                        break;
-                    case "1798":
-                        cancelCheck("1799", "1800");
-                        textView1801.setText("");
-                        linearLayout1801.setVisibility(View.GONE);
-                        break;
-                    case "1799":
-                        cancelCheck("1798", "1800");
-                        textView1801.setText("");
-                        linearLayout1801.setVisibility(View.GONE);
-                        break;
-                    case "1800":
-                        cancelCheck("1798", "1799");
-                        linearLayout1801.setVisibility(View.VISIBLE);
-                        break;
-                    default:
-                        break;
-
-                }
-            } else {
-                switch (buttonView.getTag().toString()) {
-                    case "92":
-                        textView95.setText("");
-                        linearLayout95.setVisibility(View.GONE);
-                        break;
-                    case "103":
-                        textView104.setText("");
-                        linearLayout104.setVisibility(View.GONE);
-                        break;
-                    case "106":
-                        textView1762.setText("");
-                        linearLayout1762.setVisibility(View.GONE);
-                        break;
-                    case "1761":
-                        textView1764.setText("");
-                        textView1766.setText("");
-                        linearLayout1764.setVisibility(View.GONE);
-                        linearLayout1766.setVisibility(View.GONE);
-                        break;
-                    case "188":
-                        textView189.setText("");
-                        linearLayout189.setVisibility(View.GONE);
-                        break;
-                    case "196":
-                        textView197.setText("");
-                        linearLayout197.setVisibility(View.GONE);
-                        break;
-                    case "1768":
-                        textView1769.setText("");
-                        linearLayout1769.setVisibility(View.GONE);
-                        break;
-                    case "229":
-                        textView232.setText("");
-                        textView234.setText("");
-                        textView236.setText("");
-                        linearLayout232.setVisibility(View.GONE);
-                        linearLayout234.setVisibility(View.GONE);
-                        linearLayout236.setVisibility(View.GONE);
-                        break;
-                    case "1800":
-                        textView1801.setText("");
-                        linearLayout1801.setVisibility(View.GONE);
-                        break;
-                    case "130":
-                        textView131.setText("");
-                        linearLayout131.setVisibility(View.GONE);
-                        break;
-                    case "139":
-                        textView140.setText("");
-                        linearLayout140.setVisibility(View.GONE);
-                        break;
-                    case "1759":
-                        textView144.setText("");
-                        linearLayout144.setVisibility(View.GONE);
-                        break;
-                    case "153":
-                        textView154.setText("");
-                        linearLayout154.setVisibility(View.GONE);
-                        break;
-                    case "1760":
-                        textView158.setText("");
-                        linearLayout158.setVisibility(View.GONE);
-                        break;
-                    case "162":
-                        textView163.setText("");
-                        linearLayout163.setVisibility(View.GONE);
-                        break;
-                    case "170":
-                        textView171.setText("");
-                        linearLayout171.setVisibility(View.GONE);
-                        break;
-                    case "177":
-                        textView178.setText("");
-                        linearLayout178.setVisibility(View.GONE);
-                        break;
-
-                    default:
-                        break;
-                }
-            }
+        if (isChecked) {
+            setViews(buttonView.getTag().toString(), "true");
+        } else {
+            setViews(buttonView.getTag().toString(), "false");
         }
     }
-
-    private void cancelCheck(String check1, String check2) {
-        cancelCheck(check1, check2, "-1", "-1", "-1", "-1", "-1");
-    }
-
-    private void cancelCheck(String check1, String check2, String check3) {
-        cancelCheck(check1, check2, check3, "-1", "-1", "-1", "-1");
-    }
-
-    private void cancelCheck(String check1, String check2, String check3, String check4) {
-        cancelCheck(check1, check2, check3, check4, "-1", "-1", "-1");
-    }
-
-    private void cancelCheck(String check1, String check2, String check3, String check4, String check5) {
-        cancelCheck(check1, check2, check3, check4, check5, "-1", "-1");
-    }
-
-    private void cancelCheck(String check1) {
-        cancelCheck(check1, "-1", "-1", "-1", "-1", "-1", "-1");
-    }
-
-    private void cancelCheck(String check1, String check2, String check3, String check4, String check5, String check6) {
-        cancelCheck(check1, check2, check3, check4, check5, check6, "-1");
-    }
-
-    private void cancelCheck(String check1, String check2, String check3, String check4, String check5, String check6, String check7) {
-
-        CheckBox checkBox1 = (CheckBox) viewHashMap.get(check1);
-        if (checkBox1 != null && checkBox1.isChecked()) {
-            checkBox1.setChecked(false);
-        }
-        if (!"-1".equals(check2)) {
-            CheckBox checkBox2 = (CheckBox) viewHashMap.get(check2);
-            if (checkBox2 != null && checkBox2.isChecked()) {
-                checkBox2.setChecked(false);
-            }
-        }
-        if (!"-1".equals(check3)) {
-            CheckBox checkBox3 = (CheckBox) viewHashMap.get(check3);
-            if (checkBox3 != null && checkBox3.isChecked()) {
-                checkBox3.setChecked(false);
-            }
-        }
-        if (!"-1".equals(check4)) {
-            CheckBox checkBox4 = (CheckBox) viewHashMap.get(check4);
-            if (checkBox4 != null && checkBox4.isChecked()) {
-                checkBox4.setChecked(false);
-            }
-        }
-        if (!"-1".equals(check5)) {
-            CheckBox checkBox5 = (CheckBox) viewHashMap.get(check5);
-            if (checkBox5 != null && checkBox5.isChecked()) {
-                checkBox5.setChecked(false);
-            }
-        }
-        if (!"-1".equals(check6)) {
-            CheckBox checkBox6 = (CheckBox) viewHashMap.get(check6);
-            if (checkBox6 != null && checkBox6.isChecked()) {
-                checkBox6.setChecked(false);
-            }
-        }
-        if (!"-1".equals(check7)) {
-            CheckBox checkBox7 = (CheckBox) viewHashMap.get(check7);
-            if (checkBox7 != null && checkBox7.isChecked()) {
-                checkBox7.setChecked(false);
-            }
-        }
-    }
-
-    public class OPopupWindowAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
-
-        public OPopupWindowAdapter(@Nullable List<String> data) {
-            super(R.layout.item_opopupwindow_text, data);
-        }
-
-        @Override
-        protected void convert(BaseViewHolder helper, String item) {
-            helper.setText(R.id.opopup_text, item);
-        }
-    }
-
-
 }
