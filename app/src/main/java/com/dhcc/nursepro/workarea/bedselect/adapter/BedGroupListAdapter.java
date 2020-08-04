@@ -22,14 +22,14 @@ import java.util.List;
  * @date 2018/8/29
  */
 public class BedGroupListAdapter extends BaseQuickAdapter<BedSelectListBean.BedListBean, BaseViewHolder> {
-    private boolean ifGroupClick=false;
-
-    public void setIfGroupClick(boolean ifGroupClick) {
-        this.ifGroupClick = ifGroupClick;
-    }
+    private boolean ifGroupClick = false;
 
     public BedGroupListAdapter(List<BedSelectListBean.BedListBean> data) {
         super(R.layout.item_bedselect_group, data);
+    }
+
+    public void setIfGroupClick(boolean ifGroupClick) {
+        this.ifGroupClick = ifGroupClick;
     }
 
     @Override
@@ -48,13 +48,13 @@ public class BedGroupListAdapter extends BaseQuickAdapter<BedSelectListBean.BedL
             }
         }
 
-        if (!ifGroupClick){
+        if (!ifGroupClick) {
             String bedsSelected = "";
-            bedsSelected = SPUtils.getInstance().getString(SharedPreference.ORDERSEARCHE_BEDSELECTED)+"";
+            bedsSelected = SPUtils.getInstance().getString(SharedPreference.ORDERSEARCHE_BEDSELECTED) + "";
             String[] bedSelected = bedsSelected.split(";");
             for (int i = 0; i < item.getGroupList().size(); i++) {
-                for (int k = 0; k <bedSelected.length ; k++) {
-                    if (item.getGroupList().get(i).getBedId().equals(bedSelected[k])){
+                for (int k = 0; k < bedSelected.length; k++) {
+                    if (item.getGroupList().get(i).getBedId().equals(bedSelected[k])) {
                         item.getGroupList().get(i).setSelect("1");
                     }
                 }
@@ -94,8 +94,26 @@ public class BedGroupListAdapter extends BaseQuickAdapter<BedSelectListBean.BedL
                 BedSelectListBean.BedListBean.GroupListBean groupListBean = (BedSelectListBean.BedListBean.GroupListBean) adapter.getItem(position);
                 if ("0".equals(groupListBean.getSelect())) {
                     groupListBean.setSelect("1");
+                    for (int i = 0; i < adapter.getData().size(); i++) {
+                        String bedcode = ((BedSelectListBean.BedListBean.GroupListBean) adapter.getData().get(i)).getBedCode();
+                        if (bedcode.startsWith(groupListBean.getBedCode() + "婴儿") ||
+                                (groupListBean.getBedCode().contains("婴儿") && bedcode.equals(groupListBean.getBedCode().substring(0, groupListBean.getBedCode().indexOf("婴儿")))) ||
+                                (groupListBean.getBedCode().contains("婴儿") && bedcode.contains("婴儿") && bedcode.substring(0, groupListBean.getBedCode().indexOf("婴儿")).equals(groupListBean.getBedCode().substring(0, groupListBean.getBedCode().indexOf("婴儿"))))
+                        ) {
+                            ((BedSelectListBean.BedListBean.GroupListBean) adapter.getData().get(i)).setSelect("1");
+                        }
+                    }
                 } else {
                     groupListBean.setSelect("0");
+                    for (int i = 0; i < adapter.getData().size(); i++) {
+                        String bedcode = ((BedSelectListBean.BedListBean.GroupListBean) adapter.getData().get(i)).getBedCode();
+                        if (bedcode.startsWith(groupListBean.getBedCode() + "婴儿") ||
+                                (groupListBean.getBedCode().contains("婴儿") && bedcode.equals(groupListBean.getBedCode().substring(0, groupListBean.getBedCode().indexOf("婴儿")))) ||
+                                (groupListBean.getBedCode().contains("婴儿") && bedcode.contains("婴儿") && bedcode.substring(0, groupListBean.getBedCode().indexOf("婴儿")).equals(groupListBean.getBedCode().substring(0, groupListBean.getBedCode().indexOf("婴儿"))))
+                        ) {
+                            ((BedSelectListBean.BedListBean.GroupListBean) adapter.getData().get(i)).setSelect("0");
+                        }
+                    }
                 }
                 bedListAdapter.notifyDataSetChanged();
             }

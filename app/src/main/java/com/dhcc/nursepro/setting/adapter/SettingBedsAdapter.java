@@ -31,35 +31,26 @@ public class SettingBedsAdapter extends BaseQuickAdapter<SettingBedListBean.BedL
         LinearLayout llBed = helper.getView(R.id.ll_settingbeds);
         TextView tvBedSelectBed = helper.getView(R.id.tv_settingbeds_bed);
         ImageView imgBedSex = helper.getView(R.id.img_settingbeds_sex);
+
+        tvBedSelectBed.setText(item.getBedCode());
+
+        if ("男".equals(item.getPatSex())) {
+            imgBedSex.setVisibility(View.VISIBLE);
+            imgBedSex.setImageResource(R.drawable.man);
+        } else if ("女".equals(item.getPatSex()))  {
+            imgBedSex.setVisibility(View.VISIBLE);
+            imgBedSex.setImageResource(R.drawable.woman);
+        }else {
+            imgBedSex.setVisibility(View.INVISIBLE);
+        }
+
         if ("0".equals(item.getSelect())) {
             llBed.setSelected(false);
             tvBedSelectBed.setSelected(false);
-            if ("男".equals(item.getPatSex())) {
-                imgBedSex.setVisibility(View.VISIBLE);
-                imgBedSex.setImageResource(R.drawable.man);
-            } else if ("女".equals(item.getPatSex()))  {
-                imgBedSex.setVisibility(View.VISIBLE);
-                imgBedSex.setImageResource(R.drawable.woman);
-            }else {
-                imgBedSex.setVisibility(View.INVISIBLE);
-            }
-
         } else {
             llBed.setSelected(true);
             tvBedSelectBed.setSelected(true);
-            if ("男".equals(item.getPatSex())) {
-                imgBedSex.setVisibility(View.VISIBLE);
-                imgBedSex.setImageResource(R.drawable.man);
-            } else if ("女".equals(item.getPatSex()))  {
-                imgBedSex.setVisibility(View.VISIBLE);
-                imgBedSex.setImageResource(R.drawable.woman);
-            }else {
-                imgBedSex.setVisibility(View.INVISIBLE);
-            }
-
         }
 
-
-        tvBedSelectBed.setText(item.getBedCode());
     }
 }

@@ -25,34 +25,36 @@ public class SettingBedsGroupAdapter extends BaseQuickAdapter<SettingBedListBean
 
     private LinearLayout llBedSelectGroup;
     private Boolean bFirst = false;
-    private int postionSel=-1;
+    private int postionSel = -1;
 
     private Intent intent = new Intent();
 
     public SettingBedsGroupAdapter(List<SettingBedListBean.BedListBean> data) {
         super(R.layout.item_settingbeds_group, data);
     }
-    public void setFirst(Boolean bFirst){
+
+    public void setFirst(Boolean bFirst) {
         this.bFirst = bFirst;
     }
 
-    public void setPostion(int postionSel){
+    public void setPostion(int postionSel) {
         this.postionSel = postionSel;
     }
+
     @Override
     protected void convert(final BaseViewHolder helper, final SettingBedListBean.BedListBean item) {
         llBedSelectGroup = helper.getView(R.id.ll_settingbeds_group);
-//  判断是是否点击选组进入，选组进入按组处理，第一次进入按后台返回处理
+        //  判断是是否点击选组进入，选组进入按组处理，第一次进入按后台返回处理
 
-//        if (postionSel == helper.getAdapterPosition()){
-//            llBedSelectGroup.setSelected(true);
-//            postionSel = -1;
-//        }else {
-//            llBedSelectGroup.setSelected(false);
-//            postionSel = -1;
-//        }
+        //        if (postionSel == helper.getAdapterPosition()){
+        //            llBedSelectGroup.setSelected(true);
+        //            postionSel = -1;
+        //        }else {
+        //            llBedSelectGroup.setSelected(false);
+        //            postionSel = -1;
+        //        }
 
-        if (bFirst){
+        if (bFirst) {
             if ("0".equals(item.getSelect())) {
                 llBedSelectGroup.setSelected(false);
                 for (int i = 0; i < item.getGroupList().size(); i++) {
@@ -97,30 +99,53 @@ public class SettingBedsGroupAdapter extends BaseQuickAdapter<SettingBedListBean
         settingBedsAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+
                 SettingBedListBean.BedListBean.GroupListBean groupListBean = (SettingBedListBean.BedListBean.GroupListBean) adapter.getItem(position);
                 if ("0".equals(groupListBean.getSelect())) {
                     groupListBean.setSelect("1");
+
+                    for (int i = 0; i < adapter.getData().size(); i++) {
+                        String bedcode = ((SettingBedListBean.BedListBean.GroupListBean) adapter.getData().get(i)).getBedCode();
+                        if (bedcode.startsWith(groupListBean.getBedCode() + "婴儿") ||
+                                (groupListBean.getBedCode().contains("婴儿") && bedcode.equals(groupListBean.getBedCode().substring(0, groupListBean.getBedCode().indexOf("婴儿")))) ||
+                                (groupListBean.getBedCode().contains("婴儿") && bedcode.contains("婴儿") && bedcode.substring(0, groupListBean.getBedCode().indexOf("婴儿")).equals(groupListBean.getBedCode().substring(0, groupListBean.getBedCode().indexOf("婴儿"))))
+                        ) {
+                            ((SettingBedListBean.BedListBean.GroupListBean) adapter.getData().get(i)).setSelect("1");
+                        }
+                    }
+
+
                 } else {
                     groupListBean.setSelect("0");
-                }
-                settingBedsAdapter.notifyItemChanged(position);
+                    for (int i = 0; i < adapter.getData().size(); i++) {
+                        String bedcode = ((SettingBedListBean.BedListBean.GroupListBean) adapter.getData().get(i)).getBedCode();
 
-//
-//                int selectNum = 0;
-//                for (int i = 0;i<item.getGroupList().size();i++){
-//                    if (item.getGroupList().get(i).getSelect().equals("1")){
-//                        selectNum++;
-//                    }
-//                }
-//                if (selectNum == item.getGroupList().size()){
-//                    intent.setAction("SURETHIS");
-//                    intent.putExtra("postion",helper.getAdapterPosition());
-//                    mContext.sendBroadcast(intent);
-//                }else {
-//                    intent.setAction("SURETHIS");
-//                    intent.putExtra("postion",helper.getAdapterPosition());
-//                    mContext.sendBroadcast(intent);
-//                }
+                        if (bedcode.startsWith(groupListBean.getBedCode() + "婴儿") ||
+                                (groupListBean.getBedCode().contains("婴儿") && bedcode.equals(groupListBean.getBedCode().substring(0, groupListBean.getBedCode().indexOf("婴儿")))) ||
+                                (groupListBean.getBedCode().contains("婴儿") && bedcode.contains("婴儿") && bedcode.substring(0, groupListBean.getBedCode().indexOf("婴儿")).equals(groupListBean.getBedCode().substring(0, groupListBean.getBedCode().indexOf("婴儿"))))
+                        ) {
+                            ((SettingBedListBean.BedListBean.GroupListBean) adapter.getData().get(i)).setSelect("0");
+                        }
+                    }
+                }
+                settingBedsAdapter.notifyDataSetChanged();
+
+                //
+                //                int selectNum = 0;
+                //                for (int i = 0;i<item.getGroupList().size();i++){
+                //                    if (item.getGroupList().get(i).getSelect().equals("1")){
+                //                        selectNum++;
+                //                    }
+                //                }
+                //                if (selectNum == item.getGroupList().size()){
+                //                    intent.setAction("SURETHIS");
+                //                    intent.putExtra("postion",helper.getAdapterPosition());
+                //                    mContext.sendBroadcast(intent);
+                //                }else {
+                //                    intent.setAction("SURETHIS");
+                //                    intent.putExtra("postion",helper.getAdapterPosition());
+                //                    mContext.sendBroadcast(intent);
+                //                }
             }
         });
         rectBedSelectBed.setAdapter(settingBedsAdapter);
