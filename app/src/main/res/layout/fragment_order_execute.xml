@@ -76,30 +76,10 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
-                    <LinearLayout
+                    <com.dhcc.res.nurse.ImgResetView
+                        android:id="@+id/img_reset"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:id="@+id/tv_orderexecute_patinfo"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="@dimen/dp_42"
-                            android:background="@color/white"
-                            android:gravity="center"
-                            android:textColor="@color/orderexecute_text_color"
-                            tools:text="01床 张患者"/>
-                        <ImageView
-                            android:visibility="gone"
-                            android:id="@+id/img_reset"
-                            android:layout_width="@dimen/dp_42"
-                            android:layout_height="@dimen/dp_42"
-                            android:src="@drawable/reset_selector"
-                            android:padding="@dimen/dp_10"
-                            android:layout_marginRight="@dimen/dp_1"
-                            ></ImageView>
-                    </LinearLayout>
-
+                        android:layout_height="wrap_content"></com.dhcc.res.nurse.ImgResetView>
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_2"

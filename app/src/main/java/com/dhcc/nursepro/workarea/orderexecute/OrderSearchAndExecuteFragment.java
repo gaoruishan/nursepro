@@ -49,6 +49,7 @@ import com.dhcc.nursepro.workarea.ordersearch.adapter.OrderSearchOrderTypeAdapte
 import com.dhcc.nursepro.workarea.ordersearch.adapter.OrderSearchPatientAdapter;
 import com.dhcc.nursepro.workarea.ordersearch.api.OrderSearchApiManager;
 import com.dhcc.nursepro.workarea.ordersearch.bean.OrderSearchBean;
+import com.dhcc.res.nurse.ImgResetView;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 
@@ -69,7 +70,6 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
     private RelativeLayout rlOrderexecuteScan;
 
     private RecyclerView recyOrderexecuteOrdertype;
-    private TextView tvOrderexecutePatinfo;
     private TextView tvOrderexecuteStartdatetime;
     private TextView tvOrderexecuteEnddatetime;
     private RecyclerView recyOrderexecutePatorder;
@@ -81,7 +81,7 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
     private TextView tvBottomHandletype;
     private View viewBottomHandleline;
     private ImageView imgBottomHandlesure;
-    private ImageView imgReset;
+    private ImgResetView imgReset;
 
     private String etChangeFlag;
 
@@ -200,6 +200,11 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
         });
         setToolbarRightCustomView(viewright);
 
+        startDate = SchDateTimeUtil.getStartDate();
+        startTime = SchDateTimeUtil.getStartTime();
+        endDate = SchDateTimeUtil.getEndDate();
+        endTime = SchDateTimeUtil.getEndTime();
+
         Bundle bundle = getArguments();
         if (bundle != null) {
             if (bundle.getString("sheetCode")!=null){
@@ -207,6 +212,10 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
                 regNoSearchOrd = bundle.getString("regNo");
                 patInfoFromTask = bundle.getString("patInfo");
                 bedStr = bundle.getString("bedStr");
+                startDate = bundle.getString("sttDateTime").substring(0, 10);
+                startTime = bundle.getString("sttDateTime").substring(11, 16);
+                endDate = bundle.getString("endDateTime").substring(0, 10);
+                endTime = bundle.getString("endDateTime").substring(11, 16);
                 ifFromTask = true;
             }else {
                 if (bundle.getString("regNo")!=null){
@@ -219,10 +228,6 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
             }
 
         }
-        startDate = SchDateTimeUtil.getStartDate();
-        startTime = SchDateTimeUtil.getStartTime();
-        endDate = SchDateTimeUtil.getEndDate();
-        endTime = SchDateTimeUtil.getEndTime();
 
         initView(view);
         initAdapter();
@@ -277,7 +282,7 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
                                 ScanResultBean.PatInfoBean patInfoBean = scanResultBean.getPatInfo();
                                 episodeId = patInfoBean.getEpisodeID();
                                 regNo = patInfoBean.getRegNo();
-                                tvOrderexecutePatinfo.setText("".equals(patInfoBean.getBedCode()) ? "未分床  " + patInfoBean.getName() : patInfoBean.getBedCode() + "  " + patInfoBean.getName());
+                                imgReset.setTvPatText("".equals(patInfoBean.getBedCode()) ? "未分床  " + patInfoBean.getName() : patInfoBean.getBedCode() + "  " + patInfoBean.getName());
 
                                 patInfo = patInfoBean.getBedCode() + "-" + patInfoBean.getName() + "-" + patInfoBean.getSex() + "-" + patInfoBean.getAge();
                                 patSaveInfo = patInfoBean.getBedCode() + "-" + patInfoBean.getName();
@@ -304,7 +309,7 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
                         episodeId = patInfoBean.getEpisodeID();
                         regNo = patInfoBean.getRegNo();
                         setToolbarCenterTitle(getString(R.string.title_orderexecute), 0xffffffff, 17);
-                        tvOrderexecutePatinfo.setText("".equals(patInfoBean.getBedCode()) ? "未分床  " + patInfoBean.getName() + "  " + patInfoBean.getSex() + "  " + patInfoBean.getAge() : patInfoBean.getBedCode().replace("床", "") + "床  " + patInfoBean.getName() + "  " + patInfoBean.getSex() + "  " + patInfoBean.getAge());
+                        imgReset.setTvPatText("".equals(patInfoBean.getBedCode()) ? "未分床  " + patInfoBean.getName() + "  " + patInfoBean.getSex() + "  " + patInfoBean.getAge() : patInfoBean.getBedCode().replace("床", "") + "床  " + patInfoBean.getName() + "  " + patInfoBean.getSex() + "  " + patInfoBean.getAge());
                         patInfo = "".equals(patInfoBean.getBedCode()) ? "未分床-" + patInfoBean.getName() + "-" + patInfoBean.getSex() + "-" + patInfoBean.getAge() : patInfoBean.getBedCode().replace("床", "") + "床-" + patInfoBean.getName() + "-" + patInfoBean.getSex() + "-" + patInfoBean.getAge();
                         patSaveInfo = patInfoBean.getBedCode() + "-" + patInfoBean.getName();
                         getView().postDelayed(new Runnable() {
@@ -417,26 +422,16 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
         rlOrderexecuteScan.setVisibility(View.GONE);
 
         recyOrderexecuteOrdertype = view.findViewById(R.id.recy_orderexecute_ordertype);
-        tvOrderexecutePatinfo = view.findViewById(R.id.tv_orderexecute_patinfo);
-        tvOrderexecutePatinfo.setText("全部患者");
+        imgReset = view.findViewById(R.id.img_reset);
+        imgReset.setTvPatText("全部患者");
         setToolbarCenterTitle(getString(R.string.title_ordersearch), 0xffffffff, 17);
         imgReset = view.findViewById(R.id.img_reset);
         imgReset.setVisibility(View.VISIBLE);
         patientPatsAdapter.setOnLoadMoreListener(this, recyOrderexecutePatorder);
-        imgReset.setOnTouchListener(new View.OnTouchListener() {
+        imgReset.setTouchListener(new ImgResetView.touchEventListner() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction())
-                {
-                    case MotionEvent.ACTION_DOWN:
-                        imgReset.setSelected(true);
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        imgReset.setSelected(false);
-                        resetPatOrders();
-                        break;
-                }
-                return true;
+            public void reset() {
+                resetPatOrders();
             }
         });
         tvOrderexecuteStartdatetime = view.findViewById(R.id.tv_orderexecute_startdatetime);
@@ -532,14 +527,14 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
     }
 
     private void resetPatOrders(){
-        tvOrderexecutePatinfo.setText("全部患者");
+        imgReset.setTvPatText("全部患者");
         setToolbarCenterTitle(getString(R.string.title_ordersearch), 0xffffffff, 17);
         llOrderexecuteNoselectbottom.setVisibility(View.GONE);
         llOrderexecuteSelectbottom.setVisibility(View.GONE);
         setHindBottm(10);
         if (ifFromTask){
             ifFromTask=false;
-            tvOrderexecutePatinfo.setText(patInfoFromTask);
+            imgReset.setTvPatText(patInfoFromTask);
         }else {
             sheetCode = "";
             regNo = "";
@@ -843,7 +838,9 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
     }
 
     public void playSound(int sound, int loop) {
-        if (getActivity()==null)return;
+        if (getActivity()==null) {
+            return;
+        }
         AudioManager mgr = (AudioManager) getActivity().getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
 
         float streamVolumeCurrent = mgr.getStreamVolume(AudioManager.STREAM_MUSIC);

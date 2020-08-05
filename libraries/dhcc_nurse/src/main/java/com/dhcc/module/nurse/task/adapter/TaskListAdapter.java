@@ -18,14 +18,14 @@ import java.util.List;
  * Date: 2020/8/3
  * Time:15:19
  */
-public class TaskListAdapter extends BaseQuickAdapter<TaskBean.OrdNumListBean.BodyBeanXXX.AllBeanXXX, BaseViewHolder> {
+public class TaskListAdapter extends BaseQuickAdapter<TaskBean.SchListBean.RecListBean.BodyBean.AllBean, BaseViewHolder> {
 
-    public TaskListAdapter(int layoutResId, @Nullable List<TaskBean.OrdNumListBean.BodyBeanXXX.AllBeanXXX> data) {
+    public TaskListAdapter(int layoutResId, @Nullable List<TaskBean.SchListBean.RecListBean.BodyBean.AllBean> data) {
         super(layoutResId, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, TaskBean.OrdNumListBean.BodyBeanXXX.AllBeanXXX item) {
+    protected void convert(BaseViewHolder helper, TaskBean.SchListBean.RecListBean.BodyBean.AllBean item) {
             helper.setText(R.id.tv_ord_name,item.getName())
                     .setText(R.id.tv_ord_num,item.getValue());
     }
