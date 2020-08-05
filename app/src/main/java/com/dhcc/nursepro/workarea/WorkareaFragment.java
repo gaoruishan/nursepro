@@ -156,6 +156,7 @@ public class WorkareaFragment extends BaseFragment {
             if (Action.DEVICE_SCAN_CODE.equals(intent.getAction())) {
                 Bundle bundle = new Bundle();
                 bundle = intent.getExtras();
+                workareaOrdExeUtil = new WorkareaOrdExeUtil(getActivity());
                 workareaOrdExeUtil.setScanInfo(bundle.getString("data"));
                 workareaOrdExeUtil.getScanInfo();
             }
