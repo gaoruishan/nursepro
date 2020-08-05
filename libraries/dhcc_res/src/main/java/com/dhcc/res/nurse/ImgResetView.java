@@ -43,7 +43,9 @@ public class ImgResetView extends LinearLayout {
                         break;
                     case MotionEvent.ACTION_UP:
                         imgReset.setSelected(false);
-                        touchEventListner.reset();
+                        if (touchEventListner!=null){
+                            touchEventListner.reset();
+                        }
                         break;
                 }
                 return true;

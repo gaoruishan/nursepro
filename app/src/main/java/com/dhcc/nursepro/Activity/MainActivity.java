@@ -49,7 +49,7 @@ import com.dhcc.nursepro.message.MessageFragment;
 import com.dhcc.nursepro.message.api.MessageApiManager;
 import com.dhcc.nursepro.message.bean.MessageBean;
 import com.dhcc.nursepro.setting.SettingFragment;
-import com.dhcc.nursepro.workarea.MServiceNewOrd;
+import com.dhcc.nursepro.workarea.workareautils.MServiceNewOrd;
 import com.dhcc.nursepro.workarea.WorkareaFragment;
 
 import java.util.List;

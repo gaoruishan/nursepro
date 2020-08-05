@@ -1,4 +1,4 @@
-package com.dhcc.nursepro.workarea;
+package com.dhcc.nursepro.workarea.workareautils;
 
 
 import android.app.Dialog;

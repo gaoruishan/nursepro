@@ -15,8 +15,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
@@ -27,7 +25,6 @@ import com.base.commlibs.utils.SchDateTimeUtil;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.module.nurse.education.HealthEduFragment;
 import com.dhcc.module.nurse.task.TaskOverviewFragment;
 import com.dhcc.nursepro.R;
@@ -45,7 +42,6 @@ import com.dhcc.nursepro.workarea.labout.LabOutListFragment;
 import com.dhcc.nursepro.workarea.labresult.LabPatsFragment;
 import com.dhcc.nursepro.workarea.milkloopsystem_wenling.MilkLoopSystemFragment;
 import com.dhcc.nursepro.workarea.motherbabylink.MotherBabyLinkFragment;
-import com.dhcc.nursepro.workarea.nurrecordnew.PatNurRecordFragment;
 import com.dhcc.nursepro.workarea.nurtour.NurTourFragment;
 import com.dhcc.nursepro.workarea.operation.OperationFragment;
 import com.dhcc.nursepro.workarea.orderexecute.OrderExecuteFragment;
@@ -59,11 +55,16 @@ import com.dhcc.nursepro.workarea.rjorder.RjOrderFragment;
 import com.dhcc.nursepro.workarea.shift.ShiftFragment;
 import com.dhcc.nursepro.workarea.taskmanage.TaskManageFragment;
 import com.dhcc.nursepro.workarea.vitalsign.VitalSignFragment;
+import com.dhcc.nursepro.workarea.workareaadapter.WorkAreaAdapter;
 import com.dhcc.nursepro.workarea.workareaapi.WorkareaApiManager;
 import com.dhcc.nursepro.workarea.workareabean.MainConfigBean;
 import com.dhcc.nursepro.workarea.workareabean.OperateResultBean;
 import com.dhcc.nursepro.workarea.workareabean.PreparedVerifyOrdBean;
 import com.dhcc.nursepro.workarea.workareabean.ScanResultBean;
+import com.dhcc.nursepro.workarea.workareautils.WorkareaMainConfig;
+import com.dhcc.nursepro.workarea.workareautils.WorkareaOperateDialog;
+import com.dhcc.nursepro.workarea.workareautils.WorkareaOrderDialog;
+import com.dhcc.nursepro.workarea.workareautils.WorkareaResultDialog;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -77,8 +78,9 @@ import java.util.Objects;
  */
 public class WorkareaFragment extends BaseFragment {
     private RecyclerView recConfig;
-    private List<MainConfigBean.MainListBean> ItemNameList = new ArrayList<MainConfigBean.MainListBean>();
-    private WorkAreaAdapter patEventsAdapter;
+    private WorkAreaAdapter workAreaAdapter;
+    private WorkareaMainConfig workareaMainConfig = new WorkareaMainConfig();
+    private ArrayList listMainConfig = new ArrayList();
 
     //广播相关
     private WorkAreaReceiver workAreaReceiver = new WorkAreaReceiver();
@@ -141,12 +143,22 @@ public class WorkareaFragment extends BaseFragment {
         recConfig = view.findViewById(R.id.recy_workarea);
         recConfig.setHasFixedSize(true);
         recConfig.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-        patEventsAdapter = new WorkAreaAdapter(new ArrayList<MainConfigBean.MainListBean>());
-        recConfig.setAdapter(patEventsAdapter);
-        patEventsAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+        workAreaAdapter = new WorkAreaAdapter(new ArrayList<HashMap>());
+        recConfig.setAdapter(workAreaAdapter);
+        workAreaAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                itemClick(ItemNameList.get(position).getModuleCode() + "");
+                try {
+                    Map map = (Map) adapter.getData().get(position);
+                    if (map.get("fragName")==null){
+                        showToast("该功能暂未开发");
+                    }else {
+                        Class<? extends BaseFragment> OrderExecuteFragmentClass = (Class<? extends BaseFragment>) Class.forName(map.get("fragName").toString());
+                        startFragment(OrderExecuteFragmentClass);
+                    }
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -174,8 +186,8 @@ public class WorkareaFragment extends BaseFragment {
                 map.put("fragicon",R.drawable.icon_workarea);
                 SharedPreference.FRAGMENTARY.add(map);
 
-                ItemNameList = mainConfigBean.getMainList();
-                patEventsAdapter.setNewData(ItemNameList);
+                listMainConfig = workareaMainConfig.getMainCoinfgList(mainConfigBean);
+                workAreaAdapter.setNewData(listMainConfig);
                 SPUtils.getInstance().put(SharedPreference.BLOODSCANTIMES, mainConfigBean.getScantimes());
                 DataCache.saveJson(mainConfigBean, SharedPreference.DATA_MAIN_CONFIG);
             }
@@ -186,127 +198,6 @@ public class WorkareaFragment extends BaseFragment {
             }
         });
     }
-
-    /**
-     * MainConfig
-     * ("BEDMAP");//床位图
-     * ("VITALSIGN");//生命体征
-     * ("EVENTS");//事件管理
-     * ("ORDERSEARCH");//医嘱查询
-     * ("ORDEREXECUTE");//医嘱执行
-     * ("CHECK");//检查报告
-     * ("LAB");//检验报告
-     * ("OPERATION");//手术申请
-     * ("LABOUT");//检验打包
-     * ("DOSINGREVIEW");//输液复核
-     * ("ALLOTBED");//入院分床
-     * ("DOCORDERLIST");//医嘱单
-     * ("BLOOD");//输血系统
-     * ("MILK");//母乳闭环
-     * ("MOTHERBABYLINK");//母婴关联
-     * ("MODELDETAIL");//护理病历
-     * ("NURTOUR");//巡视
-     * ("DRUGHANDOVER");//药品交接
-     * ("DRUGPREPARATION");//取备用药
-     * ("RLREG");//余液登记
-     */
-    public void itemClick(String itemName) {
-        switch (itemName) {
-            case "BEDMAP":
-                startFragment(BedMapFragment.class);
-                break;
-            case "VITALSIGN":
-                startFragment(VitalSignFragment.class);
-                break;
-            case "EVENTS":
-                startFragment(PatEventsFragment.class);
-                break;
-            case "ORDERSEARCH":
-                startFragment(OrderSearchFragment.class);
-                break;
-            case "ORDEREXECUTE":
-                startFragment(OrderExecuteFragment.class);
-                break;
-            case "CHECK":
-                startFragment(CheckPatsFragment.class);
-                break;
-            case "LAB":
-                startFragment(LabPatsFragment.class);
-                break;
-            case "OPERATION":
-                startFragment(OperationFragment.class);
-                break;
-            case "LABOUT":
-                startFragment(LabOutListFragment.class);
-                break;
-            case "DOSINGREVIEW":
-                startFragment(DosingReviewFragment.class);
-                break;
-            case "ALLOTBED":
-                startFragment(AllotBedFragment.class);
-                break;
-            case "DOCORDERLIST":
-                startFragment(DocOrderListFragment.class);
-                break;
-            case "BLOOD":
-                startFragment(BloodTransfusionSystemFragment.class);
-                break;
-            case "MILK":
-                startFragment(MilkLoopSystemFragment.class);
-                break;
-            case "MOTHERBABYLINK":
-                startFragment(MotherBabyLinkFragment.class);
-                break;
-            case "MODELDETAIL":
-                //老版
-//                startFragment(com.dhcc.nursepro.workarea.nurrecordold.PatNurRecordFragment.class);
-                //新版
-                startFragment(com.dhcc.nursepro.workarea.nurrecordnew.PatNurRecordFragment.class);
-                break;
-            case "NURTOUR":
-                startFragment(NurTourFragment.class);
-                break;
-            case "DRUGHANDOVER":
-                startFragment(DrugHandoverFragment.class);
-                break;
-            case "DRUGPREPARATION":
-                startFragment(DrugPreparationFragment.class);
-                break;
-            case "RLREG":
-                startFragment(RLRegFragment.class);
-                break;
-            case "SHIFT":
-                startFragment(ShiftFragment.class);
-                break;
-            case "IFOrdRec":
-                startFragment(DrugReceiveFragment.class);
-                break;
-                //w ##class(Nur.DHCNurPdaModule).Save("任务管理^TaskManageFragment^19^Y^")
-            case "TaskManageFragment":
-                startFragment(TaskManageFragment.class);
-                break;
-            case "PLYOUT":
-                startFragment(PlyOutListFragment.class);
-                break;
-            case "RJORD":
-                startFragment(RjOrderFragment.class);
-                break;
-            case "HealthEducationFragment":
-                //w ##class(Nur.DHCNurPdaModule).Save("健康宣教^HealthEducationFragment^21^Y^")
-                startFragment(HealthEduFragment.class);
-                break;
-            case "TaskOverviewFragment":
-                //w ##class(Nur.DHCNurPdaModule).Save("任务总览^TaskOverviewFragment^22^Y^")
-                startFragment(TaskOverviewFragment.class);
-                break;
-            case "ORDEXEANDSEARCH":
-                startFragment(OrderSearchAndExecuteFragment.class);
-                break;
-            default:
-                break;
-        }
-    }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -1110,250 +1001,6 @@ public class WorkareaFragment extends BaseFragment {
 
         //参数：1、Map中取值   2、当前音量     3、最大音量  4、优先级   5、重播次数   6、播放速度
 
-    }
-
-    public class WorkAreaAdapter extends BaseQuickAdapter<MainConfigBean.MainListBean, BaseViewHolder> {
-        public WorkAreaAdapter(@Nullable List<MainConfigBean.MainListBean> data) {
-            super(R.layout.item_workarea, data);
-        }
-
-        @Override
-        protected void convert(BaseViewHolder helper, MainConfigBean.MainListBean item) {
-            TextView tvItem = helper.getView(R.id.tv_workarea);
-            ImageView imageView = helper.getView(R.id.icon_workarea);
-
-            Map map = new HashMap();
-            map.put("code",item.getModuleCode());
-            map.put("desc",item.getModuleDesc());
-            switch (item.getModuleCode()) {
-                case "BEDMAP":
-                    tvItem.setText("床位图");
-                    tvItem.setText(item.getModuleDesc());
-                    imageView.setImageResource(R.drawable.icon_bedmap);
-                    map.put("fragName",BedMapFragment.class.getName());
-                    map.put("fragicon",R.drawable.icon_bedmap);
-                    SharedPreference.FRAGMENTARY.add(map);
-                    break;
-                case "VITALSIGN":
-                    tvItem.setText("生命体征");
-                    tvItem.setText(item.getModuleDesc());
-                    imageView.setImageResource(R.drawable.icon_vitalsign);
-                    map.put("fragName",VitalSignFragment.class.getName());
-                    map.put("fragicon",R.drawable.icon_vitalsign);
-                    SharedPreference.FRAGMENTARY.add(map);
-                    break;
-                case "EVENTS":
-                    tvItem.setText("事件登记");
-                    tvItem.setText(item.getModuleDesc());
-                    imageView.setImageResource(R.drawable.icon_events);
-                    map.put("fragName",PatEventsFragment.class.getName());
-                    map.put("fragicon",R.drawable.icon_events);
-                    SharedPreference.FRAGMENTARY.add(map);
-                    break;
-                case "ORDERSEARCH":
-                    tvItem.setText("医嘱查询");
-                    tvItem.setText(item.getModuleDesc());
-                    imageView.setImageResource(R.drawable.icon_orderserarch);
-                    map.put("fragName",OrderSearchFragment.class.getName());
-                    map.put("fragicon",R.drawable.icon_orderserarch);
-                    SharedPreference.FRAGMENTARY.add(map);
-                    break;
-                case "ORDEREXECUTE":
-                    tvItem.setText("医嘱执行");
-                    tvItem.setText(item.getModuleDesc());
-                    imageView.setImageResource(R.drawable.icon_orderexcute);
-                    map.put("fragName",OrderExecuteFragment.class.getName());
-                    map.put("fragicon",R.drawable.icon_orderexcute);
-                    SharedPreference.FRAGMENTARY.add(map);
-                    break;
-                case "CHECK":
-                    tvItem.setText("检查报告");
-                    tvItem.setText(item.getModuleDesc());
-                    imageView.setImageResource(R.drawable.icon_check);
-                    map.put("fragName", CheckPatsFragment.class.getName());
-                    map.put("fragicon",R.drawable.icon_check);
-                    SharedPreference.FRAGMENTARY.add(map);
-                    break;
-                case "LAB":
-                    tvItem.setText("检验结果");
-                    tvItem.setText(item.getModuleDesc());
-                    imageView.setImageResource(R.drawable.icon_lab);
-                    map.put("fragName", LabPatsFragment.class.getName());
-                    map.put("fragicon",R.drawable.icon_lab);
-                    SharedPreference.FRAGMENTARY.add(map);
-                    break;
-                case "OPERATION":
-                    tvItem.setText("手术查询");
-                    tvItem.setText(item.getModuleDesc());
-                    imageView.setImageResource(R.drawable.icon_operation);
-                    map.put("fragName",OperationFragment.class.getName());
-                    map.put("fragicon",R.drawable.icon_operation);
-                    SharedPreference.FRAGMENTARY.add(map);
-                    break;
-                case "LABOUT":
-                    tvItem.setText("检验打包");
-                    tvItem.setText(item.getModuleDesc());
-                    imageView.setImageResource(R.drawable.icon_labout);
-                    map.put("fragName",LabOutListFragment.class.getName());
-                    map.put("fragicon",R.drawable.icon_labout);
-                    SharedPreference.FRAGMENTARY.add(map);
-                    break;
-                case "DOSINGREVIEW":
-                    tvItem.setText("配液复核");
-                    tvItem.setText(item.getModuleDesc());
-                    imageView.setImageResource(R.drawable.icon_dosingreview);
-                    map.put("fragName",DosingReviewFragment.class.getName());
-                    map.put("fragicon",R.drawable.icon_dosingreview);
-                    SharedPreference.FRAGMENTARY.add(map);
-                    break;
-                case "ALLOTBED":
-                    tvItem.setText("入院分床");
-                    tvItem.setText(item.getModuleDesc());
-                    imageView.setImageResource(R.drawable.icon_allotbed);
-                    map.put("fragName",AllotBedFragment.class.getName());
-                    map.put("fragicon",R.drawable.icon_allotbed);
-                    SharedPreference.FRAGMENTARY.add(map);
-                    break;
-                case "DOCORDERLIST":
-                    tvItem.setText("医嘱单");
-                    tvItem.setText(item.getModuleDesc());
-                    imageView.setImageResource(R.drawable.icon_docorderlist);
-                    map.put("fragName",DocOrderListFragment.class.getName());
-                    map.put("fragicon",R.drawable.icon_docorderlist);
-                    SharedPreference.FRAGMENTARY.add(map);
-                    break;
-                case "BLOOD":
-                    tvItem.setText("输血系统");
-                    tvItem.setText(item.getModuleDesc());
-                    imageView.setImageResource(R.drawable.icon_blood);
-                    map.put("fragName",BloodTransfusionSystemFragment.class.getName());
-                    map.put("fragicon",R.drawable.icon_blood);
-                    SharedPreference.FRAGMENTARY.add(map);
-                    break;
-                case "MILK":
-                    tvItem.setText("母乳闭环");
-                    tvItem.setText(item.getModuleDesc());
-                    imageView.setImageResource(R.drawable.icon_milk);
-                    map.put("fragName",MilkLoopSystemFragment.class.getName());
-                    map.put("fragicon",R.drawable.icon_milk);
-                    SharedPreference.FRAGMENTARY.add(map);
-                    break;
-                case "MOTHERBABYLINK":
-                    tvItem.setText("母婴关联");
-                    tvItem.setText(item.getModuleDesc());
-                    imageView.setImageResource(R.drawable.icon_motherbabylink);
-                    map.put("fragName",MotherBabyLinkFragment.class.getName());
-                    map.put("fragicon",R.drawable.icon_motherbabylink);
-                    SharedPreference.FRAGMENTARY.add(map);
-                    break;
-                case "MODELDETAIL":
-                    tvItem.setText("护理病历");
-                    tvItem.setText(item.getModuleDesc());
-                    imageView.setImageResource(R.drawable.icon_events);
-                    map.put("fragName", PatNurRecordFragment.class.getName());
-                    map.put("fragicon",R.drawable.icon_events);
-                    SharedPreference.FRAGMENTARY.add(map);
-                    break;
-                case "NURTOUR":
-                    tvItem.setText("巡视");
-                    tvItem.setText(item.getModuleDesc());
-                    imageView.setImageResource(R.drawable.icon_tour);
-                    map.put("fragName",NurTourFragment.class.getName());
-                    map.put("fragicon",R.drawable.icon_tour);
-                    SharedPreference.FRAGMENTARY.add(map);
-                    break;
-                case "DRUGHANDOVER":
-                    tvItem.setText("药品交接");
-                    tvItem.setText(item.getModuleDesc());
-                    imageView.setImageResource(R.drawable.icon_drugpreparation);
-                    map.put("fragName",DrugHandoverFragment.class.getName());
-                    map.put("fragicon",R.drawable.icon_drugpreparation);
-                    SharedPreference.FRAGMENTARY.add(map);
-                    break;
-                case "DRUGPREPARATION":
-                    tvItem.setText("取备用药");
-                    tvItem.setText(item.getModuleDesc());
-                    imageView.setImageResource(R.drawable.icon_drugpreparation);
-                    map.put("fragName",DrugHandoverFragment.class.getName());
-                    map.put("fragicon",R.drawable.icon_drugpreparation);
-                    SharedPreference.FRAGMENTARY.add(map);
-                    break;
-                case "RLREG":
-                    tvItem.setText("余液登记");
-                    tvItem.setText(item.getModuleDesc());
-                    imageView.setImageResource(R.drawable.icon_drugrlreg);
-                    map.put("fragName",RLRegFragment.class.getName());
-                    map.put("fragicon",R.drawable.icon_drugrlreg);
-                    SharedPreference.FRAGMENTARY.add(map);
-                    break;
-                case "SHIFT":
-                    tvItem.setText("交班本");
-                    tvItem.setText(item.getModuleDesc());
-                    imageView.setImageResource(R.drawable.icon_drugrlreg);
-                    map.put("fragName",ShiftFragment.class.getName());
-                    map.put("fragicon",R.drawable.icon_drugrlreg);
-                    SharedPreference.FRAGMENTARY.add(map);
-                    break;
-                case "IFOrdRec":
-                    tvItem.setText("药品接收");
-                    tvItem.setText(item.getModuleDesc());
-                    imageView.setImageResource(R.drawable.icon_drugrlreg);
-                    map.put("fragName",DrugReceiveFragment.class.getName());
-                    map.put("fragicon",R.drawable.icon_drugrlreg);
-                    SharedPreference.FRAGMENTARY.add(map);
-                    break;
-               case "TaskManageFragment":
-                    tvItem.setText("任务管理");
-                    tvItem.setText(item.getModuleDesc());
-                    imageView.setImageResource(R.drawable.icon_task_manage);
-                   map.put("fragName",TaskManageFragment.class.getName());
-                   map.put("fragicon",R.drawable.icon_task_manage);
-                   SharedPreference.FRAGMENTARY.add(map);
-                    break;
-                case "PLYOUT":
-                    tvItem.setText("病理运送");
-                    tvItem.setText(item.getModuleDesc());
-                    imageView.setImageResource(R.drawable.icon_events);
-                    map.put("fragName",PlyOutListFragment.class.getName());
-                    map.put("fragicon",R.drawable.icon_events);
-                    SharedPreference.FRAGMENTARY.add(map);
-                    break;
-                case "RJORD":
-                    tvItem.setText("日间输液");
-                    tvItem.setText(item.getModuleDesc());
-                    imageView.setImageResource(R.drawable.icon_events);
-                    map.put("fragName", RjOrderFragment.class.getName());
-                    map.put("fragicon",R.drawable.icon_events);
-                    SharedPreference.FRAGMENTARY.add(map);
-                    break;
-                case "HealthEducationFragment":
-                    tvItem.setText("健康宣教");
-                    tvItem.setText(item.getModuleDesc());
-                    imageView.setImageResource(R.drawable.dhcc_main_nurse_education);
-                    map.put("fragName", HealthEduFragment.class.getName());
-                    map.put("fragicon",R.drawable.dhcc_main_nurse_education);
-                    SharedPreference.FRAGMENTARY.add(map);
-                    break;
-                case "TaskOverviewFragment":
-                    tvItem.setText("任务总览");
-                    tvItem.setText(item.getModuleDesc());
-                    imageView.setImageResource(R.drawable.dhcc_main_nurse_task_overview);
-                    map.put("fragName", TaskOverviewFragment.class.getName());
-                    map.put("fragicon",R.drawable.dhcc_main_nurse_task_overview);
-                    SharedPreference.FRAGMENTARY.add(map);
-                    break;
-                case "ORDEXEANDSEARCH":
-                    tvItem.setText("医嘱");
-                    tvItem.setText(item.getModuleDesc());
-                    imageView.setImageResource(R.drawable.dhcc_main_nurse_task_overview);
-                    map.put("fragName", TaskOverviewFragment.class.getName());
-                    map.put("fragicon",R.drawable.dhcc_main_nurse_task_overview);
-                    SharedPreference.FRAGMENTARY.add(map);
-                    break;
-                default:
-                    break;
-            }
-        }
     }
 
     public class WorkAreaReceiver extends BroadcastReceiver {

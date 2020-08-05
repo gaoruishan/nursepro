@@ -59,7 +59,7 @@
             android:name=".Activity.MyService"
             android:label="newOrdService" />
         <service
-            android:name=".workarea.MServiceNewOrd"
+            android:name=".workarea.workareautils.MServiceNewOrd"
             android:label="newOrdService" />
         <service
             android:name="com.base.commlibs.service.JWebSocketClientService"

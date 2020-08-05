@@ -139,8 +139,10 @@ public class TaskOverviewFragment extends BaseNurseFragment {
                         }
                         break;
                     case "nurOrdTask"://护嘱查询
+
                         break;
                     case "nurNormal"://常规治疗
+                        startFragment(NormalOrdTaskFragment.class);
                         break;
                     case "nurRate"://护理评估
                         break;
