@@ -20,7 +20,7 @@
             android:textColor="@color/black"
             android:text="全部患者"/>
         <ImageView
-            android:id="@+id/img_reset"
+            android:id="@+id/img_resetview"
             android:layout_width="@dimen/dp_42"
             android:layout_height="@dimen/dp_42"
             android:src="@drawable/reset_selector"

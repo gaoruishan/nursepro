@@ -358,7 +358,8 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
         rlOrderexecuteScan = view.findViewById(R.id.rl_orderexecute_scan);
 
         recyOrderexecuteOrdertype = view.findViewById(R.id.recy_orderexecute_ordertype);
-        tvOrderexecutePatinfo = view.findViewById(R.id.tv_orderexecute_patinfo);
+        tvOrderexecutePatinfo = view.findViewById(R.id.tv_patinfo);
+        view.findViewById(R.id.img_resetview).setVisibility(View.GONE);
         tvOrderexecuteStartdatetime = view.findViewById(R.id.tv_orderexecute_startdatetime);
         tvOrderexecuteEnddatetime = view.findViewById(R.id.tv_orderexecute_enddatetime);
         recyOrderexecutePatorder = view.findViewById(R.id.recy_orderexecute_patorder);

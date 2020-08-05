@@ -28,7 +28,7 @@ public class ImgResetView extends LinearLayout {
         super(context, attrs);
         View view = LayoutInflater.from(context).inflate(R.layout.dhcc_view_img_reset, this, false);
         tvPat = view.findViewById(R.id.tv_patinfo);
-        imgReset = view.findViewById(R.id.img_reset);
+        imgReset = view.findViewById(R.id.img_resetview);
         addView(view);
         initEvents();
     }
