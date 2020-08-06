@@ -282,7 +282,15 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                 String typeCode = typeAdapter.getData().get(listTypeSel.get(j)).getCode();
                 Map map = listPatInfo.get(i).getNeedMeasureInfoMap();
                 if (map!=null&&map.size()>0&&map.get(typeCode)!=null&&map.get(typeCode).equals("1")){
-                    listPatleftFilter.add(listPatInfo.get(i));
+                    Boolean ifExist = false;
+                    for (int k = 0; k < listPatleftFilter.size(); k++) {
+                        if (listPatleftFilter.get(k).getEpisodeId().equals(listPatInfo.get(i).getEpisodeId())){
+                            ifExist = true;
+                        }
+                    }
+                    if (!ifExist){
+                        listPatleftFilter.add(listPatInfo.get(i));
+                    }
                 }
             }
         }
