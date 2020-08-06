@@ -9,21 +9,16 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.workarea.vitalsign.bean.VitalSignBean;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class VitalSignTypeAdapter extends BaseQuickAdapter<Map, BaseViewHolder> {
+public class VitalSignTypeAdapter extends BaseQuickAdapter<VitalSignBean.LeftFilterBean, BaseViewHolder> {
 
     private List<Integer> filterList = new ArrayList<>();
-    private Boolean ifNumChange=true;
-
-    public void setIfNumChange(Boolean ifNumChange) {
-        this.ifNumChange = ifNumChange;
-    }
-
-    public VitalSignTypeAdapter(@Nullable List<Map> data) {
+    public VitalSignTypeAdapter(@Nullable List<VitalSignBean.LeftFilterBean> data) {
         super(R.layout.item_vitalsign_type, data);
     }
 
@@ -36,18 +31,17 @@ public class VitalSignTypeAdapter extends BaseQuickAdapter<Map, BaseViewHolder> 
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, Map item) {
-        if (ifNumChange){
-            helper.setText(R.id.tv_num,item.get("temNum") !=null? item.get("temNum")+"":"0");
-            if (item.get("temNum")==null || item.get("temNum").equals("0")){
-                helper.setVisible(R.id.tv_num,false);
-            }else {
-                helper.setVisible(R.id.tv_num,true);
-            }
+    protected void convert(BaseViewHolder helper, VitalSignBean.LeftFilterBean item) {
+        helper.setText(R.id.tv_num,item.getTemNum() !=0? item.getTemNum()+"":"0");
+        if (item.getTemNum()==0){
+            helper.setVisible(R.id.tv_num,false);
+        }else {
+            helper.setVisible(R.id.tv_num,true);
         }
 
+
         TextView tvVitalSignType = helper.getView(R.id.tv_vitalsign_type);
-        tvVitalSignType.setText((String) item.get("desc"));
+        tvVitalSignType.setText((String) item.getDesc());
         //        tvVitalSignType.setText(item.getDesc());
 
         if (isSelectedFilter(helper.getAdapterPosition())) {

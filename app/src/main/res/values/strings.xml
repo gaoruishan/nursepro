@@ -102,6 +102,8 @@
     <!-- 医嘱执行Button.settag-key值-->
     <string name="key_execode">key_execode</string>
     <string name="key_singleflag">key_singleflag</string>
+    <!-- 生命体征topTextview.settag-key值-->
+    <string name="key_vis_toptext">key_toptext</string>
     <!--#################################消息文字区#################################-->
 
     <!--#################################设置文字区#################################-->

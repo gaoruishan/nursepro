@@ -3,11 +3,15 @@ package com.dhcc.nursepro.workarea.vitalsign.api;
 import android.util.Log;
 
 import com.blankj.utilcode.util.ObjectUtils;
+import com.dhcc.nursepro.workarea.vitalsign.VitalSignFragment;
+import com.dhcc.nursepro.workarea.vitalsign.bean.VitalSignBean;
 import com.dhcc.nursepro.workarea.vitalsign.bean.VitalSignRecordBean;
 import com.dhcc.nursepro.workarea.vitalsign.bean.VitalSignSaveBean;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class VitalSignApiManager {
@@ -28,17 +32,78 @@ public class VitalSignApiManager {
                 if (jsonStr.isEmpty()) {
                     callback.onFail("-1", "网络错误，请求数据为空");
                 } else {
+
                     try {
-                        Map<String, Object> map = new HashMap<String, Object>();
-                        map = (Map<String, Object>) gson.fromJson(jsonStr, map.getClass());
-                        if (ObjectUtils.isEmpty(map)) {
+                        VitalSignBean vitalSignBean = gson.fromJson(jsonStr, VitalSignBean.class);
+
+                        if (ObjectUtils.isEmpty(vitalSignBean)) {
                             callback.onFail("-3", "网络错误，数据解析为空");
                         } else {
-                            String status = (String) map.get("status");
-                            if ("0".equals(status)) {
-                                callback.onSuccess(map);
+                            if ("0".equals(vitalSignBean.getStatus())) {
+                                Map<String, Object> map = new HashMap<String, Object>();
+                                map = (Map<String, Object>) gson.fromJson(jsonStr, map.getClass());
+                                vitalSignBean.setMapAll(map);
+                                List patList = (List) map.get("patInfoList");
+                                for (int i = 0; i <patList.size() ; i++) {
+                                    Map map1 = (Map) patList.get(i);
+                                    String patEpi = (String) map1.get("episodeId");
+                                    List list = (List) map1.get("needMeasureInfo");
+                                    for (int j = 0; j < vitalSignBean.getPatInfoList().size(); j++) {
+                                        if (vitalSignBean.getPatInfoList().get(j).getEpisodeId().equals(patEpi)){
+                                            vitalSignBean.getPatInfoList().get(j).setPatMap(map1);
+                                        }
+                                    }
+
+                                    if (list.size()>0){
+                                        Map map2 = (Map) list.get(0);
+                                        for (int j = 0; j < vitalSignBean.getPatInfoList().size(); j++) {
+                                            if (vitalSignBean.getPatInfoList().get(j).getEpisodeId().equals(patEpi)){
+                                                vitalSignBean.getPatInfoList().get(j).setNeedMeasureInfoMap(map2);
+                                            }
+                                        }
+                                    }
+
+                                }
+
+                                for (int i = 0; i < vitalSignBean.getTopFilter().size(); i++) {
+                                    for (int j = 0; j < vitalSignBean.getLeftFilter().size(); j++) {
+                                        VitalSignBean.LeftFilterBean leftFilterBean = new VitalSignBean.LeftFilterBean();
+                                        leftFilterBean.setCode(vitalSignBean.getLeftFilter().get(j).getCode());
+                                        leftFilterBean.setDesc(vitalSignBean.getLeftFilter().get(j).getDesc());
+                                        leftFilterBean.setTemNum(vitalSignBean.getLeftFilter().get(j).getTemNum());
+                                        vitalSignBean.getTopFilter().get(i).getLeftFilter().add(leftFilterBean);
+                                    }
+
+                                    for (int j = 0; j < vitalSignBean.getPatInfoList().size(); j++) {
+                                        String strCode = vitalSignBean.getTopFilter().get(i).getCode();
+                                        Map map1=vitalSignBean.getPatInfoList().get(j).getPatMap();
+                                        if (map1!=null&&map1.size()>0&&map1.get(strCode).equals("1")){
+                                            VitalSignBean.PatInfoListBean patInfoListBean = new VitalSignBean.PatInfoListBean();
+                                            patInfoListBean = vitalSignBean.getPatInfoList().get(j);
+                                            vitalSignBean.getTopFilter().get(i).getPatInfoList().add(patInfoListBean);
+                                        }
+                                    }
+                                }
+
+                                for (int i = 0; i < vitalSignBean.getTopFilter().size(); i++) {
+                                    for (int j = 0; j <vitalSignBean.getTopFilter().get(i).getPatInfoList().size() ; j++) {
+                                        for (int k = 0; k <vitalSignBean.getTopFilter().get(i).getLeftFilter().size() ; k++) {
+                                            String strCode = vitalSignBean.getTopFilter().get(i).getLeftFilter().get(k).getCode();
+                                            Map map1 = vitalSignBean.getTopFilter().get(i).getPatInfoList().get(j).getNeedMeasureInfoMap();
+                                            if (map1!=null&&map1.size()>0){
+                                                String strValue = vitalSignBean.getTopFilter().get(i).getPatInfoList().get(j).getNeedMeasureInfoMap().get(strCode).toString();
+                                                if (strValue.equals("1")){
+                                                    vitalSignBean.getTopFilter().get(i).getLeftFilter().get(k).setTemNum(vitalSignBean.getTopFilter().get(i).getLeftFilter().get(k).getTemNum()+1);
+                                                }
+                                            }
+                                        }
+
+                                    }
+                                }
+
+                                callback.onSuccess(vitalSignBean);
                             } else {
-                                callback.onFail((String) map.get("msgcode"), (String) map.get("msg"));
+                                callback.onFail(vitalSignBean.getMsgcode(), vitalSignBean.getMsg());
                             }
                         }
                     } catch (Exception e) {
@@ -177,7 +242,7 @@ public class VitalSignApiManager {
 
     public interface GetVitalSignListCallback extends VitalSignApiManager.CommonCallBack {
         //void onSuccess(VitalSignBean vitalSignBean);
-        void onSuccess(Map<String, Object> map);
+        void onSuccess(VitalSignBean vitalSignBean);
     }
 
     public interface GetVitalSignItemCallback extends VitalSignApiManager.CommonCallBack {
