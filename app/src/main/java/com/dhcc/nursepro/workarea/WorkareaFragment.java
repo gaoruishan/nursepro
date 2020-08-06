@@ -128,6 +128,7 @@ public class WorkareaFragment extends BaseFragment {
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
+            workareaOrdExeUtil = new WorkareaOrdExeUtil(getActivity());
             if (!(locId.equals(SPUtils.getInstance().getString(SharedPreference.LOCID)) && groupId.equals(SPUtils.getInstance().getString(SharedPreference.GROUPID)))) {
                 initData();
             }
@@ -156,7 +157,6 @@ public class WorkareaFragment extends BaseFragment {
             if (Action.DEVICE_SCAN_CODE.equals(intent.getAction())) {
                 Bundle bundle = new Bundle();
                 bundle = intent.getExtras();
-                workareaOrdExeUtil = new WorkareaOrdExeUtil(getActivity());
                 workareaOrdExeUtil.setScanInfo(bundle.getString("data"));
                 workareaOrdExeUtil.getScanInfo();
             }
