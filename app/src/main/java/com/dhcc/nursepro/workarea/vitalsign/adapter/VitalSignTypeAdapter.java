@@ -17,6 +17,11 @@ import java.util.Map;
 public class VitalSignTypeAdapter extends BaseQuickAdapter<Map, BaseViewHolder> {
 
     private List<Integer> filterList = new ArrayList<>();
+    private Boolean ifNumChange=true;
+
+    public void setIfNumChange(Boolean ifNumChange) {
+        this.ifNumChange = ifNumChange;
+    }
 
     public VitalSignTypeAdapter(@Nullable List<Map> data) {
         super(R.layout.item_vitalsign_type, data);
@@ -32,11 +37,13 @@ public class VitalSignTypeAdapter extends BaseQuickAdapter<Map, BaseViewHolder> 
 
     @Override
     protected void convert(BaseViewHolder helper, Map item) {
-        helper.setText(R.id.tv_num,item.get("temNum") !=null? item.get("temNum")+"":"0");
-        if (item.get("temNum")==null || item.get("temNum").equals("0")){
-            helper.setVisible(R.id.tv_num,false);
-        }else {
-            helper.setVisible(R.id.tv_num,true);
+        if (ifNumChange){
+            helper.setText(R.id.tv_num,item.get("temNum") !=null? item.get("temNum")+"":"0");
+            if (item.get("temNum")==null || item.get("temNum").equals("0")){
+                helper.setVisible(R.id.tv_num,false);
+            }else {
+                helper.setVisible(R.id.tv_num,true);
+            }
         }
 
         TextView tvVitalSignType = helper.getView(R.id.tv_vitalsign_type);

@@ -79,6 +79,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
     private SPUtils spUtils = SPUtils.getInstance();
 
     private Boolean ifLoading = true;
+    private Boolean ifLeftFilter=false;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -202,6 +203,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 typeAdapter.filterClicked(position);
                 typeAdapter.notifyDataSetChanged();
+                ifLeftFilter = true;
                 updatePatientData();
             }
         });
@@ -511,7 +513,14 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                 leftFilterListShow.add((Map) (leftFilterList.get(i)));
             }
         }
+        if (ifLeftFilter){
+            typeAdapter.setIfNumChange(false);
+            ifLeftFilter = false;
+        }else {
+            typeAdapter.setIfNumChange(true);
+        }
         typeAdapter.setNewData(leftFilterListShow);
+
     }
 
     //扫码获取信息
