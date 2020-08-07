@@ -203,6 +203,15 @@ public class OrderSearchFragment extends BaseFragment implements View.OnClickLis
                 sheetList = orderSearchBean.getSheetList();
                 detailColums = orderSearchBean.getDetailColums();
                 orders = orderSearchBean.getOrders();
+                for (int i = 0; i < patientAdapter.getData().size(); i++) {
+                    for (int j = 0; j < orders.size(); j++) {
+                        if (patientAdapter.getData().get(i).getBedCode().equals(orders.get(j).getBedCode())
+                                &&patientAdapter.getData().get(i).getName().equals(orders.get(j).getName())){
+                            orders.get(j).setIfPatRepeat("1");
+                        }
+                    }
+                }
+
                 if ("1".equals(pageNo)) {
 
                     //左侧列表判断有无默认值，有的话滑动到默认值类型

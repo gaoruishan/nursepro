@@ -570,6 +570,14 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
             public void onSuccess(OrderSearchBean orderSearchBean) {
                 askCount = 0;
                 hideLoadingTip();
+                for (int i = 0; i < patientPatsAdapter.getData().size(); i++) {
+                    for (int j = 0; j < orderSearchBean.getOrders().size(); j++) {
+                        if (patientPatsAdapter.getData().get(i).getBedCode().equals(orderSearchBean.getOrders().get(j).getBedCode())
+                                &&patientPatsAdapter.getData().get(i).getName().equals(orderSearchBean.getOrders().get(j).getName())){
+                            orderSearchBean.getOrders().get(j).setIfPatRepeat("1");
+                        }
+                    }
+                }
                 if ("1".equals(pageNo)) {
 
                     //左侧列表判断有无默认值，有的话滑动到默认值类型
