@@ -34,6 +34,7 @@ public class OrderSearchPatientAdapter extends BaseQuickAdapter<OrderSearchBean.
 
     @Override
     protected void convert(BaseViewHolder helper, OrderSearchBean.OrdersBean item) {
+
         Boolean ifPatRepeat = item.getIfPatRepeat().equals("0");
         helper.setGone(R.id.line_ordpat,!ifPatRepeat)
                 .setGone(R.id.tv_ospat_patinfo,ifPatRepeat)
