@@ -10,6 +10,7 @@ public class SheetListBean implements Serializable {
 
     private String code;
     private String desc;
+    private String num;
     private boolean select;
 
     public SheetListBean() {
@@ -18,6 +19,19 @@ public class SheetListBean implements Serializable {
     public SheetListBean(String code, String desc) {
         this.code = code;
         this.desc = desc;
+    }
+    public SheetListBean(String code, String desc,String num) {
+        this.code = code;
+        this.desc = desc;
+        this.num = num;
+    }
+
+    public String getNum() {
+        return num;
+    }
+
+    public void setNum(String num) {
+        this.num = num;
     }
 
     public boolean isSelect() {

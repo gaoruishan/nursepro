@@ -3,18 +3,29 @@ package com.dhcc.module.nurse;
 import android.content.Context;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.LayoutRes;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.base.commlibs.MessageEvent;
 import com.base.commlibs.comm.BaseCommFragment;
+import com.base.commlibs.utils.BasePopWindow;
 import com.blankj.utilcode.util.TimeUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.dhcc.module.nurse.task.FileterPop;
+import com.dhcc.module.nurse.task.adapter.TimeFilterAdapter;
+import com.dhcc.module.nurse.task.bean.TimesListBean;
 import com.dhcc.res.infusion.CustomSelectView;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.List;
 
 /**
  * 智护相关一个父类
@@ -67,6 +78,70 @@ public abstract class BaseNurseFragment extends BaseCommFragment {
         //改为白色
         super.setToolbarCenterTitle(title, 0xffffffff, 17);
     }
+    /**
+     * task添加时间筛选框
+     */
+    private TimeFilterAdapter timeFilterAdapter;
+    private View contentView;
+    public void setTimeListData(List<TimesListBean> listData){
+        timeFilterAdapter.setNewData(listData);
+    }
+    public void addToolBarRightPopWindow() {
+        contentView = LayoutInflater.from(mContext).inflate(R.layout.dhcc_task_filter_layout, null);
+        contentView.findViewById(R.id.tv_filter_clear_select).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                timeFilterAdapter.setSelectItem(-1);
+                timeFilterAdapter.notifyDataSetChanged();
+            }
+        });
+        contentView.findViewById(R.id.iv_finish_filter).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setMaskHind();
+            }
+        });
+        contentView.findViewById(R.id.tv_filter_ok).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setMaskHind();
+                if (timeFilterAdapter.getSelectItem()!=-1){
+                    onPopClicListner.sure(timeFilterAdapter.getData().get(timeFilterAdapter.getSelectItem()).getTimeStt(),timeFilterAdapter.getData().get(timeFilterAdapter.getSelectItem()).getTimeEnd());
+                }
+            }
+        });
+        RecyclerView recTime = contentView.findViewById(R.id.rec_task_timefilter);
+        timeFilterAdapter = AdapterFactory.getTimeFilterAdapter();
+        recTime.setAdapter(timeFilterAdapter);
+        recTime.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
+        timeFilterAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                timeFilterAdapter.setSelectItem(position);
+                timeFilterAdapter.notifyDataSetChanged();
+            }
+        });
+
+
+    }
+    public void setMaskShow(){
+        FileterPop.setMask(mContext, View.VISIBLE);
+        FileterPop.initPopupWindow(mContext, BasePopWindow.EnumLocation.RIGHT, contentView);
+    }
+    public void setMaskHind(){
+        FileterPop.setMask(mContext, View.INVISIBLE);
+        FileterPop.closePopWindow();
+    }
+    private OnPopClicListner onPopClicListner;
+    public void setOnPopClicListner(OnPopClicListner onPopClicListner){
+        this.onPopClicListner = onPopClicListner;
+    }
+    public interface OnPopClicListner{
+        void sure(String sttDt,String endDt);
+    }
+
+
 
     /**
      * 添加两个图片

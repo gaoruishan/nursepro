@@ -28,7 +28,6 @@
 
     <LinearLayout
         android:id="@+id/ll_oeporderinfo_singleorder"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_5">

@@ -61,6 +61,7 @@ public class HealthEduFragment extends BaseNurseFragment {
     @Override
     protected void initDatas() {
         super.initDatas();
+        setHindBottm(50);
         setToolbarCenterTitle("健康宣教");
         //调用点击
         tvNeed.callOnClick();

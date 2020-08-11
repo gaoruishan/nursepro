@@ -22,6 +22,7 @@ import com.dhcc.module.nurse.task.adapter.TaskListAdapter;
 import com.dhcc.module.nurse.task.adapter.TimeFilterAdapter;
 import com.dhcc.module.nurse.task.bean.ScanResultBean;
 import com.dhcc.module.nurse.task.bean.TaskBean;
+import com.dhcc.module.nurse.task.bean.TimesListBean;
 import com.dhcc.res.infusion.CustomDateTimeView;
 import com.dhcc.res.infusion.CustomSheetListView;
 import com.dhcc.res.infusion.bean.SheetListBean;
@@ -29,6 +30,7 @@ import com.dhcc.res.nurse.ImgResetView;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,13 +45,12 @@ public class TaskOverviewFragment extends BaseNurseFragment {
     private CustomDateTimeView customDate;
     private RecyclerView recTaskList;
     private TaskListAdapter taskListAdapter = AdapterFactory.getTaskListAdapter();
-    private TimeFilterAdapter timeFilterAdapter = AdapterFactory.getTimeFilterAdapter();
-    private View contentView;
     private String bedStr="",regNo="";
     private int askCount = 0;
     private ImgResetView imgReset;
     private List<SheetListBean> mSheetListBeanList = new ArrayList<>();
     private String sheetCode="";
+    private List<TimesListBean> timeListBeans = new ArrayList<>();
 
     @Override
     protected void initDatas() {
@@ -67,13 +68,15 @@ public class TaskOverviewFragment extends BaseNurseFragment {
         viewright.findViewById(R.id.img_toolbar_right).setOnClickListener(this);
         setToolbarRightCustomView(viewright);
 
-        contentView = LayoutInflater.from(mContext).inflate(R.layout.dhcc_task_filter_layout, null);
-        contentView.findViewById(R.id.tv_filter_clear_select).setOnClickListener(this);
-        contentView.findViewById(R.id.iv_finish_filter).setOnClickListener(this);
-        contentView.findViewById(R.id.tv_filter_ok).setOnClickListener(this);
-        RecyclerView recTime = contentView.findViewById(R.id.rec_task_timefilter);
-        recTime.setAdapter(timeFilterAdapter);
-        recTime.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
+        addToolBarRightPopWindow();
+        setOnPopClicListner(new OnPopClicListner() {
+            @Override
+            public void sure(String sttDt, String endDt) {
+                customDate.setStartDateTime(TimeUtils.string2Millis(sttDt, YYYY_MM_DD_HH_MM));
+                customDate.setEndDateTime(TimeUtils.string2Millis(endDt, YYYY_MM_DD_HH_MM));
+                getTaskViewList();
+            }
+        });
     }
 
     @Override
@@ -111,28 +114,22 @@ public class TaskOverviewFragment extends BaseNurseFragment {
     }
 
     private void initAdapter(){
-        timeFilterAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                timeFilterAdapter.setSelectItem(position);
-                timeFilterAdapter.notifyDataSetChanged();
-            }
-        });
 
         taskListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Bundle bundle = new Bundle();
+                bundle.putString("sheetCode",taskListAdapter.getData().get(position).getCode());
+                bundle.putString("bedStr",bedStr);
+                bundle.putString("regNo",regNo);
+                bundle.putString("patInfo",imgReset.getTvPatInfo());
+                bundle.putString("sttDateTime",customDate.getStartDateTimeText());
+                bundle.putString("endDateTime",customDate.getEndDateTimeText());
+                bundle.putSerializable("timeList", (Serializable) timeListBeans);
                 switch (sheetCode){
                     case "ordTask"://医嘱查询
                         try {
                             Class<? extends BaseFragment> OrderExecuteFragmentClass = (Class<? extends BaseFragment>) Class.forName("com.dhcc.nursepro.workarea.orderexecute.OrderSearchAndExecuteFragment");
-                            Bundle bundle = new Bundle();
-                            bundle.putString("sheetCode",taskListAdapter.getData().get(position).getCode());
-                            bundle.putString("bedStr",bedStr);
-                            bundle.putString("regNo",regNo);
-                            bundle.putString("patInfo",imgReset.getTvPatInfo());
-                            bundle.putString("sttDateTime",customDate.getStartDateTimeText());
-                            bundle.putString("endDateTime",customDate.getEndDateTimeText());
                             startFragment(OrderExecuteFragmentClass,bundle);
                         } catch (ClassNotFoundException e) {
                             e.printStackTrace();
@@ -142,7 +139,7 @@ public class TaskOverviewFragment extends BaseNurseFragment {
 
                         break;
                     case "nurNormal"://常规治疗
-                        startFragment(NormalOrdTaskFragment.class);
+                        startFragment(NormalOrdTaskFragment.class,bundle);
                         break;
                     case "nurRate"://护理评估
                         break;
@@ -179,25 +176,7 @@ public class TaskOverviewFragment extends BaseNurseFragment {
             }
         }
         if (v.getId() == R.id.img_toolbar_right_filter) {
-            FileterPop.setMask(mContext, View.VISIBLE);
-            FileterPop.initPopupWindow(mContext, BasePopWindow.EnumLocation.RIGHT, contentView);
-        }
-        if (v.getId() == R.id.tv_filter_clear_select) {
-            timeFilterAdapter.setSelectItem(-1);
-            timeFilterAdapter.notifyDataSetChanged();
-        }
-        if (v.getId() == R.id.iv_finish_filter) {
-            FileterPop.setMask(mContext, View.INVISIBLE);
-            FileterPop.closePopWindow();
-        }
-        if (v.getId() == R.id.tv_filter_ok) {
-            FileterPop.setMask(mContext, View.INVISIBLE);
-            FileterPop.closePopWindow();
-            if (timeFilterAdapter.getSelectItem()!=-1){
-                customDate.setStartDateTime(TimeUtils.string2Millis(timeFilterAdapter.getData().get(timeFilterAdapter.getSelectItem()).getTimeStt(), YYYY_MM_DD_HH_MM));
-                customDate.setEndDateTime(TimeUtils.string2Millis(timeFilterAdapter.getData().get(timeFilterAdapter.getSelectItem()).getTimeEnd(), YYYY_MM_DD_HH_MM));
-            }
-            getTaskViewList();
+            setMaskShow();
         }
     }
 
@@ -233,7 +212,8 @@ public class TaskOverviewFragment extends BaseNurseFragment {
                 if (sheetCode.equals("")){
                     sheetCode=bean.getSchSheetList().get(0).getSchCode();
                 }
-                timeFilterAdapter.setNewData(bean.getTimesList());
+                timeListBeans = bean.getTimesList();
+                setTimeListData(bean.getTimesList());
                 taskListFilter(bean);
             }
         });

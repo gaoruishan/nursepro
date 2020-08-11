@@ -7,6 +7,7 @@ import com.dhcc.module.nurse.education.adapter.HealthEduItemAdapter;
 import com.dhcc.module.nurse.education.adapter.HealthEduNeedAdapter;
 import com.dhcc.module.nurse.education.adapter.TaskOverviewAdapter;
 import com.dhcc.module.nurse.task.adapter.TaskListAdapter;
+import com.dhcc.module.nurse.task.adapter.TaskNormalOrdAdapter;
 import com.dhcc.module.nurse.task.adapter.TimeFilterAdapter;
 
 /**
@@ -67,6 +68,13 @@ public class AdapterFactory {
      */
     public static TaskListAdapter getTaskListAdapter() {
         return new TaskListAdapter(R.layout.item_task_ord,null);
+    }
+    /**
+     * 任务总览-常规治疗
+     * @return
+     */
+    public static TaskNormalOrdAdapter getTaskNormalOrdAdapter() {
+        return new TaskNormalOrdAdapter(R.layout.item_task_normalord,null);
     }
     /**
      * 任务总览-时间筛选

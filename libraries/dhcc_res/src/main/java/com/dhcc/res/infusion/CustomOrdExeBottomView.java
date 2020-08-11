@@ -99,6 +99,9 @@ public class CustomOrdExeBottomView extends BaseView {
         tvType = view.findViewById(R.id.tv_type);
         llBottom = view.findViewById(R.id.ll_bottom);
     }
+    public void setExeTypeVisible(int visible){
+        view.findViewById(R.id.ll_type).setVisibility(visible);
+    }
 
 
     public void setNoSelectVisibility(boolean noSelect) {

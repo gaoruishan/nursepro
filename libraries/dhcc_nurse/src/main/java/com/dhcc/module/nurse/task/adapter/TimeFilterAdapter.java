@@ -6,6 +6,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.module.nurse.R;
 import com.dhcc.module.nurse.task.bean.TaskBean;
+import com.dhcc.module.nurse.task.bean.TimesListBean;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ import java.util.List;
  * Date: 2020/8/4
  * Time:10:41
  */
-public class TimeFilterAdapter extends BaseQuickAdapter<TaskBean.TimesListBean, BaseViewHolder> {
+public class TimeFilterAdapter extends BaseQuickAdapter<TimesListBean, BaseViewHolder> {
 
     private int selectItem=-1;
 
@@ -28,12 +29,12 @@ public class TimeFilterAdapter extends BaseQuickAdapter<TaskBean.TimesListBean, 
         return selectItem;
     }
 
-    public TimeFilterAdapter(int layoutResId, @Nullable List<TaskBean.TimesListBean> data) {
+    public TimeFilterAdapter(int layoutResId, @Nullable List<TimesListBean> data) {
         super(layoutResId, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, TaskBean.TimesListBean item) {
+    protected void convert(BaseViewHolder helper, TimesListBean item) {
         helper.setText(R.id.tv_time_desc,item.getTimesDesc()+":")
                 .setText(R.id.tv_time_start,item.getTimeStt())
                 .setText(R.id.tv_time_end,item.getTimeEnd())

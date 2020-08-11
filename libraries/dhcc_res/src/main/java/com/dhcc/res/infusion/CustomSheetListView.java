@@ -29,6 +29,10 @@ public class CustomSheetListView extends LinearLayout {
     private SheetListAdapter sheetListAdapter;
     private BaseQuickAdapter.OnItemClickListener mOnItemClickListener;
 
+    public SheetListAdapter getSheetListAdapter() {
+        return sheetListAdapter;
+    }
+
     public CustomSheetListView(Context context) {
         this(context, null);
     }
@@ -91,6 +95,10 @@ public class CustomSheetListView extends LinearLayout {
             super(R.layout.dhcc_item_sheet_list, data);
         }
 
+        public String getSelectedCode() {
+            return selectedCode;
+        }
+
         void setSelectedCode(String selectedCode) {
             this.selectedCode = selectedCode;
             notifyDataSetChanged();
@@ -101,6 +109,12 @@ public class CustomSheetListView extends LinearLayout {
             LinearLayout llOrderType = helper.getView(R.id.ll_ordersearch_ordertype);
             View viewOrderType = helper.getView(R.id.view_ordersearch_ordertype);
             TextView tvOrderType = helper.getView(R.id.tv_ordersearch_ordertype);
+            if (item.getNum()!=null){
+                helper.setGone(R.id.tv_sheet_num,true);
+                helper.setText(R.id.tv_sheet_num,"项目数:"+item.getNum());
+            }else {
+                helper.setGone(R.id.tv_sheet_num,false);
+            }
 
             if (selectedCode == null || "".equals(selectedCode)) {
                 item.setSelect(0 == helper.getAdapterPosition());
