@@ -26,6 +26,7 @@ public class CustomDateTimeView extends LinearLayout implements View.OnClickList
     public static final long ONE_DAY = 24 * 60 * 60 * 1000L;
     private TextView tvChooseDateStart;
     private TextView tvChooseDateEnd;
+    private TextView tvZhi;
     private boolean isShowTime;
     private long startDateTime;
     private long endDateTime;
@@ -54,9 +55,15 @@ public class CustomDateTimeView extends LinearLayout implements View.OnClickList
         tvChooseDateStart.setOnClickListener(this);
         tvChooseDateEnd = findViewById(R.id.tv_choose_date_end);
         tvChooseDateEnd.setOnClickListener(this);
+        tvZhi = findViewById(R.id.tv_zhi);
         setChooseText(getStartDateTime(), tvChooseDateStart);
         setChooseText(getEndDateTime(), tvChooseDateEnd);
 
+    }
+
+    public void showOnlyOne(){
+        tvChooseDateEnd.setVisibility(GONE);
+        tvZhi.setVisibility(GONE);
     }
 
     private void setChooseText(long millseconds, TextView tv) {

@@ -144,6 +144,7 @@ public class TaskOverviewFragment extends BaseNurseFragment {
                     case "nurRate"://护理评估
                         break;
                     case "nurTemper"://体征查询
+                        startFragment(TempTaskFragment.class,bundle);
                         break;
                     default:
                         break;
@@ -157,6 +158,7 @@ public class TaskOverviewFragment extends BaseNurseFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
             bedStr = data.getStringExtra("bedselectinfoStr");
+            regNo="";
             if (askCount == 0) {
                 askCount++;
                 getTaskViewList();
@@ -196,6 +198,9 @@ public class TaskOverviewFragment extends BaseNurseFragment {
                 mSheetListBeanList = new ArrayList<>();
                 if (regNo.equals("")){
                     imgReset.setTvPatText("全部患者");
+                }
+                if (!bedStr.equals("")){
+                    imgReset.setTvPatText("选床患者");
                 }
                 for (int i = 0; i <bean.getSchSheetList().size() ; i++) {
                     mSheetListBeanList.add(new SheetListBean(bean.getSchSheetList().get(i).getSchCode(),bean.getSchSheetList().get(i).getSchDesc()));
@@ -243,6 +248,7 @@ public class TaskOverviewFragment extends BaseNurseFragment {
             @Override
             public void onSuccess(ScanResultBean bean, String type) {
                 regNo = bean.getPatInfo().getRegNo();
+                bedStr = "";
                 imgReset.setTvPatText("".equals(bean.getPatInfo().getBedCode()) ? "未分床  " + bean.getPatInfo().getName() + "  " + bean.getPatInfo().getSex() + "  " +
                         "" + bean.getPatInfo().getAge() : bean.getPatInfo().getBedCode().replace("床", "") + "床  " + bean.getPatInfo().getName() + "" +
                         "  " + bean.getPatInfo().getSex() + "  " + bean.getPatInfo().getAge());

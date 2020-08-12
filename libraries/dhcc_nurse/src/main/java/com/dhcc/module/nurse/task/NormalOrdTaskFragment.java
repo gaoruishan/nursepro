@@ -109,7 +109,6 @@ public class NormalOrdTaskFragment extends BaseNurseFragment {
         imgReset.setTouchListener(new ImgResetView.touchEventListner() {
             @Override
             public void reset() {
-                imgReset.setTvPatText("全部患者");
                 regNo = "";
                 bedStr = "";
                 getNormalOrdList();
@@ -172,6 +171,12 @@ public class NormalOrdTaskFragment extends BaseNurseFragment {
             public void onSuccess(NormalOrdTaskBean bean, String type) {
                 askCount = 0;
                 hideLoadingTip();
+                if (regNo.equals("")){
+                    imgReset.setTvPatText("全部患者");
+                }
+                if (!bedStr.equals("")){
+                    imgReset.setTvPatText("选床患者");
+                }
                 normalOrdTaskBean = bean;
                 mSheetListBeanList = new ArrayList<>();
 //                if (regNo.equals("")){
@@ -285,6 +290,7 @@ public class NormalOrdTaskFragment extends BaseNurseFragment {
             @Override
             public void onSuccess(ScanResultBean bean, String type) {
                 regNo = bean.getPatInfo().getRegNo();
+                bedStr="";
                 imgReset.setTvPatText("".equals(bean.getPatInfo().getBedCode()) ? "未分床  " + bean.getPatInfo().getName() + "  " + bean.getPatInfo().getSex() + "  " +
                         "" + bean.getPatInfo().getAge() : bean.getPatInfo().getBedCode().replace("床", "") + "床  " + bean.getPatInfo().getName() + "" +
                         "  " + bean.getPatInfo().getSex() + "  " + bean.getPatInfo().getAge());

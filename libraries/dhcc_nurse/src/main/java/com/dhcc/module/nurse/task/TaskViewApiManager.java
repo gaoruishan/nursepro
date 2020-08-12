@@ -7,6 +7,7 @@ import com.base.commlibs.http.ServiceCallBack;
 import com.dhcc.module.nurse.task.bean.NormalOrdTaskBean;
 import com.dhcc.module.nurse.task.bean.ScanResultBean;
 import com.dhcc.module.nurse.task.bean.TaskBean;
+import com.dhcc.module.nurse.task.bean.TempTaskBean;
 
 import java.util.HashMap;
 
@@ -49,7 +50,13 @@ public class TaskViewApiManager {
             }
         });
     }
-
+    /**
+     * Description:   获取常规治疗列表
+     * Input：
+     * Output：
+     * Others：
+     * @param callBack
+     */
     public static void getNormalTaskList(String regNo,String startDate,String endDate ,String bedStr ,final CommonCallBack<NormalOrdTaskBean> callBack) {
         HashMap<String, String> properties = CommWebService.addWardId(null);
         CommWebService.addGroupId(properties);
@@ -72,7 +79,32 @@ public class TaskViewApiManager {
             }
         });
     }
+    /**
+     * Description:   获取常规治疗列表
+     * Input：
+     * Output：
+     * Others：
+     * @param callBack
+     */
+    public static void getTempTaskList(String regNo,String needCodes,String date ,String bedStr ,final CommonCallBack<TempTaskBean> callBack) {
+        HashMap<String, String> properties = CommWebService.addWardId(null);
+        CommWebService.addLocId(properties);
+        CommWebService.addUserId(properties);
+        properties.put("date", "2020-08-10");
+        properties.put("bedStr", bedStr);
+        properties.put("regNo", regNo);
+        properties.put("needCodes", needCodes);
 
+        CommWebService.call("GetTempDateMeasureByDay", properties, new ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                ParserUtil<TempTaskBean> parserUtil = new ParserUtil<>();
+                TempTaskBean bean = parserUtil.parserResult(jsonStr, callBack, TempTaskBean.class);
+                if (bean == null) {return;}
+                parserUtil.parserStatus(bean, callBack);
+            }
+        });
+    }
     /**
      * Description:   获取扫码信息
      * Input：

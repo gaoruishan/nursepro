@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="@dimen/dp_85"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:id="@+id/ll_temp_all"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/dhcc_bg_ordertype_selector">
+
+                    <View
+                        android:id="@+id/view_temp_all"
+                        android:layout_width="@dimen/dp_5"
+                        android:layout_height="match_parent"
+                        android:background="#FF70AAF2" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dp_10"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/tv_temp_all"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:layout_marginTop="@dimen/dp_15"
+                            android:layout_marginBottom="@dimen/dp_2"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/sp_15"
+                            android:text="全部" />
+                        <TextView
+                            android:id="@+id/tv_temp_allnum"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textColor="@color/text_color_gray_5"
+                            android:textSize="@dimen/sp_12"
+                            android:text="项目数:" />
+
+                    </LinearLayout>
+                </LinearLayout>
+                <com.dhcc.res.infusion.CustomSheetListView
+                    android:id="@+id/custom_sheet_list"
+                    android:layout_width="@dimen/dp_85"
+                    android:layout_height="match_parent"
+                    android:background="@color/dhcc_orderexecute_left_bgcolor"
+                    android:orientation="vertical"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <com.dhcc.res.nurse.ImgResetView
+                    android:id="@+id/img_resetview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"></com.dhcc.res.nurse.ImgResetView>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_2"
+                    android:background="#f6f6f6"/>
+                <com.dhcc.res.infusion.CustomDateTimeView
+                    android:id="@+id/custom_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_2"
+                    android:background="#f6f6f6"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_list_ord"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

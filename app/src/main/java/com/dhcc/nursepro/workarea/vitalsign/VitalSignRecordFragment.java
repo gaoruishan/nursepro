@@ -98,6 +98,8 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
 
     private Map<Integer, EditText> editTextMap = new HashMap<>();
 
+    private boolean fromTask=false;
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -106,12 +108,18 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
 
         initView(view);
 
-        view.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                switchPatient();
-            }
-        }, 300);
+        if (fromTask){
+            et_time.setClickable(false);
+            view.findViewById(R.id.ll_vitalsign_prenex).setVisibility(View.GONE);
+            asyncGetVitalSignItems();
+        }else {
+            view.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    switchPatient();
+                }
+            }, 300);
+        }
 
     }
 
@@ -680,11 +688,18 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
 
         Bundle bundle = getArguments();
         if (bundle != null) {
-            timeFilterList = bundle.getStringArrayList("timeList");
-            dateFilterStr = bundle.getString("date");
-            timeFilterStr = bundle.getString("time");
-            timepoint = dateFilterStr + " " + timeFilterStr;
-            patientIndex = bundle.getInt("index");
+            if (bundle.getString("fromTask")!=null&&bundle.getString("fromTask").equals("Y")){
+                curEpisodeId = bundle.getString("episodeId");
+                timepoint = bundle.getString("timekey");
+                fromTask = true;
+            }else {
+                timeFilterList = bundle.getStringArrayList("timeList");
+                dateFilterStr = bundle.getString("date");
+                timeFilterStr = bundle.getString("time");
+                timepoint = dateFilterStr + " " + timeFilterStr;
+                patientIndex = bundle.getInt("index");
+            }
+
         }
 
         viewItemMap = new HashMap<>();

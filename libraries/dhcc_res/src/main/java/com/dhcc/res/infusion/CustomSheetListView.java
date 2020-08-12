@@ -28,6 +28,10 @@ public class CustomSheetListView extends LinearLayout {
     private RecyclerView rvSheet;
     private SheetListAdapter sheetListAdapter;
     private BaseQuickAdapter.OnItemClickListener mOnItemClickListener;
+    private Boolean ifSelectOne=true;
+    public void setIfSelectOne(Boolean ifSelectOne) {
+        this.ifSelectOne = ifSelectOne;
+    }
 
     public SheetListAdapter getSheetListAdapter() {
         return sheetListAdapter;
@@ -116,21 +120,30 @@ public class CustomSheetListView extends LinearLayout {
                 helper.setGone(R.id.tv_sheet_num,false);
             }
 
-            if (selectedCode == null || "".equals(selectedCode)) {
-                item.setSelect(0 == helper.getAdapterPosition());
-                if (0 == helper.getAdapterPosition()) {
-                    setSheetType(llOrderType, viewOrderType, tvOrderType, true, R.color.dhcc_ordersearch_left_text_selected_color, Typeface.DEFAULT_BOLD, View.VISIBLE);
+            if (ifSelectOne){
+                if (selectedCode == null || "".equals(selectedCode)) {
+                    item.setSelect(0 == helper.getAdapterPosition());
+                    if (0 == helper.getAdapterPosition()) {
+                        setSheetType(llOrderType, viewOrderType, tvOrderType, true, R.color.dhcc_ordersearch_left_text_selected_color, Typeface.DEFAULT_BOLD, View.VISIBLE);
+                    } else {
+                        setSheetType(llOrderType, viewOrderType, tvOrderType, false, R.color.dhcc_ordersearch_left_text_normal_color, Typeface.DEFAULT, View.INVISIBLE);
+                    }
                 } else {
-                    setSheetType(llOrderType, viewOrderType, tvOrderType, false, R.color.dhcc_ordersearch_left_text_normal_color, Typeface.DEFAULT, View.INVISIBLE);
+                    item.setSelect(selectedCode.equals(item.getCode()));
+                    if (selectedCode.equals(item.getCode())) {
+                        setSheetType(llOrderType, viewOrderType, tvOrderType, true, R.color.dhcc_ordersearch_left_text_selected_color, Typeface.DEFAULT_BOLD, View.VISIBLE);
+                    } else {
+                        setSheetType(llOrderType, viewOrderType, tvOrderType, false, R.color.dhcc_ordersearch_left_text_normal_color, Typeface.DEFAULT, View.INVISIBLE);
+                    }
                 }
-            } else {
-                item.setSelect(selectedCode.equals(item.getCode()));
-                if (selectedCode.equals(item.getCode())) {
-                    setSheetType(llOrderType, viewOrderType, tvOrderType, true, R.color.dhcc_ordersearch_left_text_selected_color, Typeface.DEFAULT_BOLD, View.VISIBLE);
-                } else {
+            }else {
+                if (item.getSelected().equals("0")){
                     setSheetType(llOrderType, viewOrderType, tvOrderType, false, R.color.dhcc_ordersearch_left_text_normal_color, Typeface.DEFAULT, View.INVISIBLE);
+                }else {
+                    setSheetType(llOrderType, viewOrderType, tvOrderType, true, R.color.dhcc_ordersearch_left_text_selected_color, Typeface.DEFAULT_BOLD, View.VISIBLE);
                 }
             }
+
             helper.setText(R.id.tv_ordersearch_ordertype, item.getDesc());
 
         }
