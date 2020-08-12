@@ -195,6 +195,9 @@ public class OrderSearchFragment extends BaseFragment implements View.OnClickLis
     }
 
     private void asyncInitData() {
+        if (pageNo.equals("1")){
+            patientAdapter.setNewData(new ArrayList<>());
+        }
         showLoadingTip(BaseActivity.LoadingType.FULL);
         OrderSearchApiManager.getOrder(bedStr, regNo, sheetCode, pageNo, startDate, startTime, endDate, endTime, screenParts,new OrderSearchApiManager.GetOrderCallback() {
             @Override
@@ -203,12 +206,10 @@ public class OrderSearchFragment extends BaseFragment implements View.OnClickLis
                 sheetList = orderSearchBean.getSheetList();
                 detailColums = orderSearchBean.getDetailColums();
                 orders = orderSearchBean.getOrders();
-                for (int i = 0; i < patientAdapter.getData().size(); i++) {
-                    for (int j = 0; j < orders.size(); j++) {
-                        if (patientAdapter.getData().get(i).getBedCode().equals(orders.get(j).getBedCode())
-                                &&patientAdapter.getData().get(i).getName().equals(orders.get(j).getName())){
-                            orders.get(j).setIfPatRepeat("1");
-                        }
+                if (patientAdapter.getData().size()>0&&orders.size()>0){
+                    if (patientAdapter.getData().get(patientAdapter.getData().size()-1).getBedCode().equals(orders.get(0).getBedCode())&&
+                            patientAdapter.getData().get(patientAdapter.getData().size()-1).getName().equals(orders.get(0).getName())){
+                        orders.get(0).setIfPatRepeat("1");
                     }
                 }
 

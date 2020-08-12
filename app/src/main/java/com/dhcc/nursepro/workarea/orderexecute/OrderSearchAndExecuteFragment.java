@@ -564,18 +564,19 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
         getAllPatOrders();
     }
     private void getAllPatOrders() {
+        if (pageNo.equals("1")){
+            patientPatsAdapter.setNewData(new ArrayList<>());
+        }
         showLoadingTip(BaseActivity.LoadingType.FULL);
         OrderSearchApiManager.getOrder(bedStr, regNoSearchOrd, sheetCode, pageNo, startDate, startTime, endDate, endTime, screenParts,new OrderSearchApiManager.GetOrderCallback() {
             @Override
             public void onSuccess(OrderSearchBean orderSearchBean) {
                 askCount = 0;
                 hideLoadingTip();
-                for (int i = 0; i < patientPatsAdapter.getData().size(); i++) {
-                    for (int j = 0; j < orderSearchBean.getOrders().size(); j++) {
-                        if (patientPatsAdapter.getData().get(i).getBedCode().equals(orderSearchBean.getOrders().get(j).getBedCode())
-                                &&patientPatsAdapter.getData().get(i).getName().equals(orderSearchBean.getOrders().get(j).getName())){
-                            orderSearchBean.getOrders().get(j).setIfPatRepeat("1");
-                        }
+                if (patientPatsAdapter.getData().size()>0&&orderSearchBean.getOrders().size()>0){
+                    if (patientPatsAdapter.getData().get(patientPatsAdapter.getData().size()-1).getBedCode().equals(orderSearchBean.getOrders().get(0).getBedCode())&&
+                            patientPatsAdapter.getData().get(patientPatsAdapter.getData().size()-1).getName().equals(orderSearchBean.getOrders().get(0).getName())){
+                        orderSearchBean.getOrders().get(0).setIfPatRepeat("1");
                     }
                 }
                 if ("1".equals(pageNo)) {
