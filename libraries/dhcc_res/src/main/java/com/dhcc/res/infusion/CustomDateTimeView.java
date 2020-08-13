@@ -129,6 +129,7 @@ public class CustomDateTimeView extends LinearLayout implements View.OnClickList
                 public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
                     setChooseText(millseconds, tvChooseDateStart);
                     if (startClick != null) {
+                        setStartDateTime(millseconds);
                         startClick.onDateSet(timePickerView,millseconds);
                     }
                 }
@@ -140,6 +141,7 @@ public class CustomDateTimeView extends LinearLayout implements View.OnClickList
                 public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
                     setChooseText(millseconds, tvChooseDateEnd);
                     if (endClick != null) {
+                        setEndDateTime(millseconds);
                         endClick.onDateSet(timePickerView,millseconds);
                     }
                 }

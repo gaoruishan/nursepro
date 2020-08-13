@@ -38,6 +38,7 @@ import com.dhcc.module.nurse.education.fragment.HealthEduContentFragment;
 import com.dhcc.module.nurse.task.TaskViewApiManager;
 import com.dhcc.module.nurse.task.adapter.TaskNormalOrdAdapter;
 import com.dhcc.module.nurse.task.bean.NormalOrdTaskBean;
+import com.dhcc.module.nurse.task.bean.OrderExecResultBean;
 import com.dhcc.module.nurse.task.bean.ScanResultBean;
 import com.dhcc.module.nurse.task.bean.TaskBean;
 import com.dhcc.module.nurse.task.bean.TimesListBean;
@@ -191,6 +192,28 @@ public class NormalOrdTaskFragment extends BaseNurseFragment {
         });
     }
 
+    private void exeNormalTask(){
+        String oeoreId = "";
+        String ordAdd = "";
+        for (int i = 0; i < normalOrdTaskBean.getBodyUnExec().get(i).getOrders().size(); i++) {
+            ordAdd = ordAdd+normalOrdTaskBean.getBodyUnExec().get(i).getOrders().get(i).get(0).getOrderInfo().getID()+"^";
+        }
+        if (ordAdd.contains("^")){
+            oeoreId = ordAdd.substring(0,ordAdd.length()-1);
+        }
+        TaskViewApiManager.getNormalTaskExecResult(oeoreId, new CommonCallBack<OrderExecResultBean>() {
+            @Override
+            public void onFail(String code, String msg) {
+                showToast(msg);
+            }
+
+            @Override
+            public void onSuccess(OrderExecResultBean bean, String type) {
+                showToast(bean.getMsg());
+            }
+        });
+    }
+
     @Override
     protected void initViews() {
         super.initViews();
@@ -200,7 +223,7 @@ public class NormalOrdTaskFragment extends BaseNurseFragment {
         beans.add(new ClickBean("执行", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                execEdu();
+                exeNormalTask();
             }
         }));
         customSelectBottom.addBottomView(beans);
@@ -217,8 +240,8 @@ public class NormalOrdTaskFragment extends BaseNurseFragment {
         customDate = f(R.id.custom_date, CustomDateTimeView.class);
         String curDate = SPStaticUtils.getString(SharedPreference.CURDATETIME);
         customDate.setShowTime(true);
-        customDate.setEndDateTime(TimeUtils.string2Millis(curDate, YYYY_MM_DD_HH_MM));
-        customDate.setStartDateTime(TimeUtils.string2Millis(curDate, YYYY_MM_DD_HH_MM) - CustomDateTimeView.ONE_DAY * 6);
+        customDate.setStartDateTime(TimeUtils.string2Millis(curDate.substring(0,10)+" 00:00", YYYY_MM_DD_HH_MM));
+        customDate.setEndDateTime(TimeUtils.string2Millis(curDate.substring(0,10)+" 23:59", YYYY_MM_DD_HH_MM));
         customDate.setOnDateSetListener(new OnDateSetListener() {
             @Override
             public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
@@ -276,9 +299,6 @@ public class NormalOrdTaskFragment extends BaseNurseFragment {
         customSelectBottom.setSelectText("已选 " + 0 + " 个");
     };
 
-    private void execEdu() {
-        showToast("执行医嘱");
-    }
 
     @Override
     protected void getScanOrdList() {

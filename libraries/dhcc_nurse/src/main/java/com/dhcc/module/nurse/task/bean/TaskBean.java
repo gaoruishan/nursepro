@@ -140,42 +140,6 @@ public class TaskBean extends CommResult {
                     this.unsee = unsee;
                 }
 
-                public static class AllBean {
-                    /**
-                     * code : DefaultSee
-                     * name : 需处理
-                     * value : 5
-                     */
-
-                    private String code;
-                    private String name;
-                    private String value;
-
-                    public String getCode() {
-                        return code;
-                    }
-
-                    public void setCode(String code) {
-                        this.code = code;
-                    }
-
-                    public String getName() {
-                        return name;
-                    }
-
-                    public void setName(String name) {
-                        this.name = name;
-                    }
-
-                    public String getValue() {
-                        return value;
-                    }
-
-                    public void setValue(String value) {
-                        this.value = value;
-                    }
-                }
-
                 public static class UnexecBean {
                     /**
                      * code : BLD

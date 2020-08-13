@@ -2,12 +2,10 @@ package com.dhcc.module.nurse.task.adapter;
 
 import android.support.annotation.Nullable;
 
-import com.base.commlibs.utils.SimpleCallBack;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.module.nurse.R;
-import com.dhcc.module.nurse.task.bean.TaskBean;
-import com.dhcc.res.infusion.CustomCheckView;
+import com.dhcc.module.nurse.task.bean.AllBean;
 
 import java.util.List;
 
@@ -18,14 +16,14 @@ import java.util.List;
  * Date: 2020/8/3
  * Time:15:19
  */
-public class TaskListAdapter extends BaseQuickAdapter<TaskBean.SchListBean.RecListBean.BodyBean.AllBean, BaseViewHolder> {
+public class TaskListAdapter extends BaseQuickAdapter<AllBean, BaseViewHolder> {
 
-    public TaskListAdapter(int layoutResId, @Nullable List<TaskBean.SchListBean.RecListBean.BodyBean.AllBean> data) {
+    public TaskListAdapter(int layoutResId, @Nullable List<AllBean> data) {
         super(layoutResId, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, TaskBean.SchListBean.RecListBean.BodyBean.AllBean item) {
+    protected void convert(BaseViewHolder helper, AllBean item) {
             helper.setText(R.id.tv_ord_name,item.getName())
                     .setText(R.id.tv_ord_num,item.getValue());
     }

@@ -21,6 +21,7 @@ import com.dhcc.module.nurse.AdapterFactory;
 import com.dhcc.module.nurse.BaseNurseFragment;
 import com.dhcc.module.nurse.R;
 import com.dhcc.module.nurse.task.adapter.TaskTempAdapter;
+import com.dhcc.module.nurse.task.bean.AllBean;
 import com.dhcc.module.nurse.task.bean.ScanResultBean;
 import com.dhcc.module.nurse.task.bean.TempTaskBean;
 import com.dhcc.module.nurse.task.bean.TimesListBean;
@@ -58,10 +59,13 @@ public class TempTaskFragment extends BaseNurseFragment {
     private ImgResetView imgReset;
     private String startDate;
     private String startTime;
+    private String endDate;
+    private String endTime;
     private int askCount = 0;
     private String regNo = "",bedStr = "",sheetCode,patInfoFromTask;
     private Boolean ifFromTask=false;
     private List<TimesListBean> timesListBeans= new ArrayList<>();
+    private List<AllBean> listAllBean = new ArrayList<>();
 
     @Override
     protected void initDatas() {
@@ -76,11 +80,16 @@ public class TempTaskFragment extends BaseNurseFragment {
                 bedStr = bundle.getString("bedStr");
                 startDate = bundle.getString("sttDateTime").substring(0, 10);
                 startTime = bundle.getString("sttDateTime").substring(11, 16);
+                endDate = bundle.getString("endDateTime").substring(0, 10);
+                endTime = bundle.getString("endDateTime").substring(11, 16);
                 timesListBeans = (List<TimesListBean>) bundle.getSerializable("timeList");
+                listAllBean = (List<AllBean>) bundle.getSerializable("listAllBean");
                 if (timesListBeans.size()>0){
                     setTimeListData(timesListBeans);
                 }
-                customDate.setStartDateTime(TimeUtils.string2Millis(startDate+" "+startTime, YYYY_MM_DD));
+
+                customDate.setStartDateTime(TimeUtils.string2Millis(startDate+" "+startTime, YYYY_MM_DD_HH_MM));
+                customDate.setEndDateTime(TimeUtils.string2Millis(endDate+" "+endTime, YYYY_MM_DD_HH_MM));
                 ifFromTask = true;
             }
         }
@@ -127,9 +136,11 @@ public class TempTaskFragment extends BaseNurseFragment {
         });
 
         customDate = f(R.id.custom_date, CustomDateTimeView.class);
-        customDate.showOnlyOne();
         String curDate = SPStaticUtils.getString(SharedPreference.CURDATETIME);
-        customDate.setStartDateTime(TimeUtils.string2Millis(curDate, YYYY_MM_DD));
+//        customDate.showOnlyOne();
+        customDate.setShowTime(true);
+        customDate.setStartDateTime(TimeUtils.string2Millis(curDate.substring(0,10)+" 00:00", YYYY_MM_DD_HH_MM));
+        customDate.setEndDateTime(TimeUtils.string2Millis(curDate.substring(0,10)+" 23:59", YYYY_MM_DD_HH_MM));
         customDate.setOnDateSetListener(new OnDateSetListener() {
             @Override
             public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
@@ -212,7 +223,7 @@ public class TempTaskFragment extends BaseNurseFragment {
 
     private void getTempTaskList() {
         showLoadingTip(BaseActivity.LoadingType.FULL);
-        TaskViewApiManager.getTempTaskList(regNo, "", customDate.getStartDateTimeText(), bedStr, new CommonCallBack<TempTaskBean>() {
+        TaskViewApiManager.getTempTaskList(regNo, "",  customDate.getStartDateTimeText(), customDate.getEndDateTimeText(), bedStr, new CommonCallBack<TempTaskBean>() {
             @Override
             public void onFail(String code, String msg) {
                 askCount = 0;
@@ -237,22 +248,25 @@ public class TempTaskFragment extends BaseNurseFragment {
                 for (int i = 0; i <bean.getTempDateList().size() ; i++) {
 //                    mSheetListBeanList.add(new SheetListBean(bean.getBodyUnExec().get(i).getCode(),bean.getBodyUnExec().get(i).getName(),bean.getBodyUnExec().get(i).getOrders().size()+""));
                 }
-                Map<String,Integer>  map= new HashMap();
-                for (int i = 0; i < bean.getTempDateList().size(); i++) {
-                    for (int j = 0; j < bean.getTempDateList().get(i).getObsDataList().size(); j++) {
-                        if (map.get(bean.getTempDateList().get(i).getObsDataList().get(j).getObsKey())==null){
-                            map.put(bean.getTempDateList().get(i).getObsDataList().get(j).getObsKey(),0);
-                        }
-                        int temNum = map.get(bean.getTempDateList().get(i).getObsDataList().get(j).getObsKey());
-                        map.put(bean.getTempDateList().get(i).getObsDataList().get(j).getObsKey(),temNum+1);
-                    }
+//                Map<String,Integer>  map= new HashMap();
+//                for (int i = 0; i < bean.getTempDateList().size(); i++) {
+//                    for (int j = 0; j < bean.getTempDateList().get(i).getObsDataList().size(); j++) {
+//                        if (map.get(bean.getTempDateList().get(i).getObsDataList().get(j).getObsKey())==null){
+//                            map.put(bean.getTempDateList().get(i).getObsDataList().get(j).getObsKey(),0);
+//                        }
+//                        int temNum = map.get(bean.getTempDateList().get(i).getObsDataList().get(j).getObsKey());
+//                        map.put(bean.getTempDateList().get(i).getObsDataList().get(j).getObsKey(),temNum+1);
+//                    }
+//                }
+//                mSheetListBeanList.add(new SheetListBean("breath","呼吸（次/分）",map.get("breath")+""));
+//                mSheetListBeanList.add(new SheetListBean("diaPressure","舒张压（mmHg）",map.get("diaPressure")+""));
+//                mSheetListBeanList.add(new SheetListBean("pulse","脉搏（次/分）",map.get("pulse")+""));
+//                mSheetListBeanList.add(new SheetListBean("sysPressure","收缩压（mmHg）",map.get("sysPressure")+""));
+//                mSheetListBeanList.add(new SheetListBean("temperature","腋温（℃）",map.get("temperature")+""));
+//                mSheetListBeanList.add(new SheetListBean("weight","体重（KG）",map.get("weight")+""));
+                for (int i = 0; i < listAllBean.size(); i++) {
+                    mSheetListBeanList.add(new SheetListBean(listAllBean.get(i).getCode(),listAllBean.get(i).getName(),listAllBean.get(i).getValue()));
                 }
-                mSheetListBeanList.add(new SheetListBean("breath","呼吸（次/分）",map.get("breath")+""));
-                mSheetListBeanList.add(new SheetListBean("diaPressure","舒张压（mmHg）",map.get("diaPressure")+""));
-                mSheetListBeanList.add(new SheetListBean("pulse","脉搏（次/分）",map.get("pulse")+""));
-                mSheetListBeanList.add(new SheetListBean("sysPressure","收缩压（mmHg）",map.get("sysPressure")+""));
-                mSheetListBeanList.add(new SheetListBean("temperature","腋温（℃）",map.get("temperature")+""));
-                mSheetListBeanList.add(new SheetListBean("weight","体重（KG）",map.get("weight")+""));
                 customSheet.setDatas(mSheetListBeanList);
                 taskTempAdapter.setNewData(bean.getTempDateList());
                 showAllTemp(true);
@@ -287,7 +301,7 @@ public class TempTaskFragment extends BaseNurseFragment {
             for (int i = 0; i < tempTaskBean.getTempDateList().size(); i++) {
                 for (int j = 0; j < tempTaskBean.getTempDateList().get(i).getObsDataList().size(); j++) {
                     for (int k = 0; k < customSheet.getSheetListAdapter().getData().size(); k++) {
-                        if (customSheet.getSheetListAdapter().getData().get(k).getSelected().equals("1")&&tempTaskBean.getTempDateList().get(i).getObsDataList().get(j).getObsKey().equals(customSheet.getSheetListAdapter().getData().get(k).getCode())){
+                        if (customSheet.getSheetListAdapter().getData().get(k).getSelected().equals("1")&&customSheet.getSheetListAdapter().getData().get(k).getCode().contains(tempTaskBean.getTempDateList().get(i).getObsDataList().get(j).getObsKey())){
                             tempTaskBean.getTempDateList().get(i).setSelect(true);
                         }
                     }

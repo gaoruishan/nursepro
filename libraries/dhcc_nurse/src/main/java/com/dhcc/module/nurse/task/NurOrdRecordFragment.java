@@ -170,8 +170,8 @@ public class NurOrdRecordFragment  extends BaseNurseFragment {
         customDate = f(R.id.custom_date, CustomDateTimeView.class);
         String curDate = SPStaticUtils.getString(SharedPreference.CURDATETIME);
         customDate.setShowTime(true);
-        customDate.setEndDateTime(TimeUtils.string2Millis(curDate, YYYY_MM_DD_HH_MM));
-        customDate.setStartDateTime(TimeUtils.string2Millis(curDate, YYYY_MM_DD_HH_MM) - CustomDateTimeView.ONE_DAY * 6);
+        customDate.setStartDateTime(TimeUtils.string2Millis(curDate.substring(0,10)+" 00:00", YYYY_MM_DD_HH_MM));
+        customDate.setEndDateTime(TimeUtils.string2Millis(curDate.substring(0,10)+" 23:59", YYYY_MM_DD_HH_MM));
         customDate.setOnDateSetListener(new OnDateSetListener() {
             @Override
             public void onDateSet(TimePickerDialog timePickerView, long millseconds) {

@@ -20,6 +20,7 @@ import com.dhcc.module.nurse.BaseNurseFragment;
 import com.dhcc.module.nurse.R;
 import com.dhcc.module.nurse.task.adapter.TaskListAdapter;
 import com.dhcc.module.nurse.task.adapter.TimeFilterAdapter;
+import com.dhcc.module.nurse.task.bean.AllBean;
 import com.dhcc.module.nurse.task.bean.ScanResultBean;
 import com.dhcc.module.nurse.task.bean.TaskBean;
 import com.dhcc.module.nurse.task.bean.TimesListBean;
@@ -89,8 +90,8 @@ public class TaskOverviewFragment extends BaseNurseFragment {
         customDate = f(R.id.custom_date, CustomDateTimeView.class);
         String curDate = SPStaticUtils.getString(SharedPreference.CURDATETIME);
         customDate.setShowTime(true);
-        customDate.setEndDateTime(TimeUtils.string2Millis(curDate, YYYY_MM_DD_HH_MM));
-        customDate.setStartDateTime(TimeUtils.string2Millis(curDate, YYYY_MM_DD_HH_MM) - CustomDateTimeView.ONE_DAY * 6);
+        customDate.setStartDateTime(TimeUtils.string2Millis(curDate.substring(0,10)+" 00:00", YYYY_MM_DD_HH_MM));
+        customDate.setEndDateTime(TimeUtils.string2Millis(curDate.substring(0,10)+" 23:59", YYYY_MM_DD_HH_MM));
         customDate.setOnDateSetListener(new OnDateSetListener() {
             @Override
             public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
@@ -126,6 +127,7 @@ public class TaskOverviewFragment extends BaseNurseFragment {
                 bundle.putString("sttDateTime",customDate.getStartDateTimeText());
                 bundle.putString("endDateTime",customDate.getEndDateTimeText());
                 bundle.putSerializable("timeList", (Serializable) timeListBeans);
+                bundle.putSerializable("listAllBean", (Serializable) taskListAdapter.getData());
                 switch (sheetCode){
                     case "ordTask"://医嘱查询
                         try {
@@ -144,6 +146,7 @@ public class TaskOverviewFragment extends BaseNurseFragment {
                     case "nurRate"://护理评估
                         break;
                     case "nurTemper"://体征查询
+
                         startFragment(TempTaskFragment.class,bundle);
                         break;
                     default:

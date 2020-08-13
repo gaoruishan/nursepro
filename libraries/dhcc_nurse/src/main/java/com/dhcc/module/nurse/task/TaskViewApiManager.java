@@ -1,12 +1,15 @@
 package com.dhcc.module.nurse.task;
 
+import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommWebService;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.http.ParserUtil;
 import com.base.commlibs.http.ServiceCallBack;
+import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.module.nurse.task.bean.NormalOrdTaskBean;
 import com.dhcc.module.nurse.task.bean.NurOrdRecordTaskBean;
 import com.dhcc.module.nurse.task.bean.NurOrdTaskBean;
+import com.dhcc.module.nurse.task.bean.OrderExecResultBean;
 import com.dhcc.module.nurse.task.bean.ScanResultBean;
 import com.dhcc.module.nurse.task.bean.TaskBean;
 import com.dhcc.module.nurse.task.bean.TempTaskBean;
@@ -82,17 +85,53 @@ public class TaskViewApiManager {
         });
     }
     /**
-     * Description:   获取常规治疗列表
+     * Description:   获取常规治疗执行
      * Input：
      * Output：
      * Others：
      * @param callBack
      */
-    public static void getTempTaskList(String regNo,String needCodes,String date ,String bedStr ,final CommonCallBack<TempTaskBean> callBack) {
+    public static void getNormalTaskExecResult(String oeoreId,final CommonCallBack<OrderExecResultBean> callBack) {
+        SPUtils spUtils = SPUtils.getInstance();
+        HashMap<String, String> properties = new HashMap<>();
+        properties.put("speed","");
+        properties.put("scanFlag", "0");
+        properties.put("batch", "");
+        properties.put("auditUserCode", "");
+        properties.put("auditUserPass", "");
+        properties.put("oeoreId", oeoreId);
+        properties.put("execStatusCode", "F");
+        properties.put("userId", spUtils.getString(SharedPreference.USERID));
+        properties.put("userDeptId", spUtils.getString(SharedPreference.LOCID));
+        properties.put("wardId", spUtils.getString(SharedPreference.WARDID));
+        properties.put("barCode","");
+
+
+        CommWebService.call("execOrSeeOrder", properties, new ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                ParserUtil<OrderExecResultBean> parserUtil = new ParserUtil<>();
+                OrderExecResultBean bean = parserUtil.parserResult(jsonStr, callBack, OrderExecResultBean.class);
+                if (bean == null) {return;}
+                parserUtil.parserStatus(bean, callBack);
+            }
+        });
+    }
+    /**
+     * Description:   获取体征任务列表
+     * Input：
+     * Output：
+     * Others：
+     * @param callBack
+     */
+    public static void getTempTaskList(String regNo,String needCodes,String startDate,String endDate,String bedStr ,final CommonCallBack<TempTaskBean> callBack) {
         HashMap<String, String> properties = CommWebService.addWardId(null);
         CommWebService.addLocId(properties);
         CommWebService.addUserId(properties);
-        properties.put("date", "2020-08-10");
+        properties.put("startDate", startDate.substring(0,10));
+        properties.put("startTime", startDate.substring(11,16));
+        properties.put("endDate", endDate.substring(0,10));
+        properties.put("endTime", endDate.substring(11,16));
         properties.put("bedStr", bedStr);
         properties.put("regNo", regNo);
         properties.put("needCodes", needCodes);
