@@ -175,6 +175,10 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
     private Boolean ifFromTask=false;
     private String patInfoFromTask="",regNoSearchOrd="";
 
+    private String labExecStatusCode="";
+    private List scanList = new ArrayList<String>();
+    private OrdersAddExecDialog ordAddDialog;
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -264,7 +268,9 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
                 //PAT 扫腕带返回患者信息
                 //ORD 扫医嘱条码返回医嘱信息
                 if ("PAT".equals(scanResultBean.getFlag())) {
-
+                    if (ordAddDialog!=null && ordAddDialog.isShowing()){
+                        ordAddDialog.dismiss();
+                    }
                     if ("104999".equals(scanResultBean.getMsgcode())) {
 
                         if (execResultDialog != null && execResultDialog.isShowing()) {
@@ -282,6 +288,7 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
                                 ScanResultBean.PatInfoBean patInfoBean = scanResultBean.getPatInfo();
                                 episodeId = patInfoBean.getEpisodeID();
                                 regNo = patInfoBean.getRegNo();
+                                bedStr="";
                                 imgReset.setTvPatText("".equals(patInfoBean.getBedCode()) ? "未分床  " + patInfoBean.getName() : patInfoBean.getBedCode() + "  " + patInfoBean.getName());
 
                                 patInfo = patInfoBean.getBedCode() + "-" + patInfoBean.getName() + "-" + patInfoBean.getSex() + "-" + patInfoBean.getAge();
@@ -308,6 +315,7 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
                         ScanResultBean.PatInfoBean patInfoBean = scanResultBean.getPatInfo();
                         episodeId = patInfoBean.getEpisodeID();
                         regNo = patInfoBean.getRegNo();
+                        bedStr="";
                         setToolbarCenterTitle(getString(R.string.title_orderexecute), 0xffffffff, 17);
                         imgReset.setTvPatText("".equals(patInfoBean.getBedCode()) ? "未分床  " + patInfoBean.getName() + "  " + patInfoBean.getSex() + "  " + patInfoBean.getAge() : patInfoBean.getBedCode().replace("床", "") + "床  " + patInfoBean.getName() + "  " + patInfoBean.getSex() + "  " + patInfoBean.getAge());
                         patInfo = "".equals(patInfoBean.getBedCode()) ? "未分床-" + patInfoBean.getName() + "-" + patInfoBean.getSex() + "-" + patInfoBean.getAge() : patInfoBean.getBedCode().replace("床", "") + "床-" + patInfoBean.getName() + "-" + patInfoBean.getSex() + "-" + patInfoBean.getAge();
@@ -352,7 +360,6 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
                         execOrderDialog.setPopMsgInfo(msg);
                         execOrderDialog.setCanExeFlag(scanResultBean.getCanExeFlag());
                         execOrderDialog.setOrderInfoEx(ordersBean.getSttDateTime() + " " + ordersBean.getPhcinDesc() + " " + ordersBean.getCtcpDesc() + "");
-                        execOrderDialog.show();
                         execOrderDialog.setSureOnclickListener(new OrderExecOrderDialog.onSureOnclickListener() {
                             @Override
                             public void onSureClick() {
@@ -367,6 +374,55 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
                                 execOrderDialog.dismiss();
                             }
                         });
+
+                        if (ordAddDialog==null){
+                            ordAddDialog = new OrdersAddExecDialog(getActivity());
+                        }
+                        if (scanResultBean.getBarCodeType()!=null&&scanResultBean.getBarCodeType().equals("LAB")){
+                            if (ordAddDialog.isShowing()){
+                                if (scanList.contains(scanInfo)){
+                                    showToast("该条码已扫描");
+                                }else {
+                                    scanList.add(scanInfo);
+                                    ordAddDialog.setAddString(scanResultBean);
+                                }
+
+                            }else {
+                                scanList = new ArrayList<String>();
+                                scanList.add(scanInfo);
+                                ordAddDialog.setAddString(scanResultBean);
+                                ordAddDialog.setPatInfo(patInfo);
+                                ordAddDialog.setCanceledOnTouchOutside(false);
+                                ordAddDialog.setCancelOnclickListener(new OrdersAddExecDialog.onCancelOnclickListener() {
+                                    @Override
+                                    public void onCancelClick() {
+                                        ordAddDialog.dismiss();
+                                    }
+                                });
+                                ordAddDialog.setSureOnclickListener(new OrdersAddExecDialog.onSureOnclickListener() {
+                                    @Override
+                                    public void onSureClick() {
+                                        String ordAdd = "";
+                                        for (int i = 0; i < ordAddDialog.getAddList().size(); i++) {
+                                            for (int j = 0; j < ordAddDialog.getAddList().get(i).getOrders().size(); j++) {
+                                                ordAdd = ordAdd+ordAddDialog.getAddList().get(i).getOrders().get(j).getID()+"^";
+                                            }
+                                        }
+                                        if (ordAdd.contains("^")){
+                                            oeoreId = ordAdd.substring(0,ordAdd.length()-1);
+                                        }
+                                        labExecStatusCode = "F";
+                                        execOrSeeOrder();
+                                    }
+                                });
+                                ordAddDialog.show();
+                            }
+                        }else if (ordAddDialog.isShowing()){
+                            showToast("请执行或取消已扫描医嘱再执行其他医嘱");
+                        }else {
+                            execOrderDialog.show();
+                        }
+
                     } else {
                         execResultDialog = new OrderExecResultDialog(getActivity());
                         execResultDialog.setExecresult("扫码执行成功");
@@ -431,6 +487,9 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
         imgReset.setTouchListener(new ImgResetView.touchEventListner() {
             @Override
             public void reset() {
+                bedStr="";
+                regNo = "";
+                pageNo = "1";
                 resetPatOrders();
             }
         });
@@ -518,6 +577,7 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
             bedStr = data.getStringExtra("bedselectinfoStr");
+            regNo = "";
             pageNo = "1";
             if (askCount == 0) {
                 askCount++;
@@ -573,6 +633,12 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
             public void onSuccess(OrderSearchBean orderSearchBean) {
                 askCount = 0;
                 hideLoadingTip();
+                if (regNo.equals("")){
+                    imgReset.setTvPatText("全部患者");
+                }
+                if (!bedStr.equals("")){
+                    imgReset.setTvPatText("选床患者");
+                }
                 if (patientPatsAdapter.getData().size()>0&&orderSearchBean.getOrders().size()>0){
                     if (patientPatsAdapter.getData().get(patientPatsAdapter.getData().size()-1).getBedCode().equals(orderSearchBean.getOrders().get(0).getBedCode())&&
                             patientPatsAdapter.getData().get(patientPatsAdapter.getData().size()-1).getName().equals(orderSearchBean.getOrders().get(0).getName())){
@@ -982,9 +1048,18 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
     }
 
     private void execOrSeeOrder() {
-        OrderExecuteApiManager.execOrSeeOrder("","",timeSaveInfo, orderSaveInfo, patSaveInfo, "0", skinBatch, skinUserCode, skinUserPass, oeoreId, execStatusCode, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
+        String execCode = "";
+        if (!labExecStatusCode.equals("")){
+            execCode = labExecStatusCode;
+        }else {
+            execCode = execStatusCode;
+        }
+        OrderExecuteApiManager.execOrSeeOrder("","",timeSaveInfo, orderSaveInfo, patSaveInfo, "0", skinBatch, skinUserCode, skinUserPass, oeoreId, execCode, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
             @Override
             public void onSuccess(OrderExecResultBean orderExecResultBean) {
+                if(ordAddDialog!=null&&ordAddDialog.isShowing()){
+                    ordAddDialog.dismiss();
+                }
                 skinBatch = "";
                 skinUserCode = "";
                 skinUserPass = "";
@@ -997,7 +1072,12 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
                 }
 
                 execResultDialog = new OrderExecResultDialog(getActivity());
-                execResultDialog.setExecresult("手动"+exeButtonDesc+"成功");
+                if (labExecStatusCode.equals("")){
+                    execResultDialog.setExecresult("手动"+exeButtonDesc+"成功");
+                }else {
+                    execResultDialog.setExecresult("执行成功");
+                }
+                labExecStatusCode = "";
                 execResultDialog.setImgId(R.drawable.icon_popup_sucess);
                 execResultDialog.setSureVisible(View.GONE);
                 execResultDialog.setCancleVisible(View.GONE);

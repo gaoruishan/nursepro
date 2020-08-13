@@ -219,9 +219,7 @@ public class WorkareaMainConfig {
                 break;
             case "ORDEXEANDSEARCH":
                 map.put("desc","医嘱");
-//                map.put("fragName", OrderSearchAndExecuteFragment.class.getName());
-
-                map.put("fragName", HealthEduFragment.class.getName());
+                map.put("fragName", OrderSearchAndExecuteFragment.class.getName());
                 map.put("fragicon",R.drawable.dhcc_main_nurse_task_overview);
                 SharedPreference.FRAGMENTARY.add(map);
                 break;

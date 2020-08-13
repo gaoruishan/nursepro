@@ -19,6 +19,15 @@ public class ScanResultBean {
     private String status;
     private String canExeFlag;
     private List<OrdersBean> orders;
+    private String barCodeType;
+
+    public String getBarCodeType() {
+        return barCodeType;
+    }
+
+    public void setBarCodeType(String barCodeType) {
+        this.barCodeType = barCodeType;
+    }
 
     public String getCanExeFlag() {
         return canExeFlag == null ? "" : canExeFlag;

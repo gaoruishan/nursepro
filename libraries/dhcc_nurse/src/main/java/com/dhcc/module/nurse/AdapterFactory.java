@@ -8,6 +8,7 @@ import com.dhcc.module.nurse.education.adapter.HealthEduNeedAdapter;
 import com.dhcc.module.nurse.education.adapter.TaskOverviewAdapter;
 import com.dhcc.module.nurse.task.adapter.TaskListAdapter;
 import com.dhcc.module.nurse.task.adapter.TaskNormalOrdAdapter;
+import com.dhcc.module.nurse.task.adapter.TaskNurOrdAdapter;
 import com.dhcc.module.nurse.task.adapter.TaskTempAdapter;
 import com.dhcc.module.nurse.task.adapter.TimeFilterAdapter;
 
@@ -83,6 +84,13 @@ public class AdapterFactory {
      */
     public static TaskTempAdapter getTaskTempAdapter() {
         return new TaskTempAdapter(R.layout.item_task_temp,null);
+    }
+    /**
+     * 任务总览-护嘱查询
+     * @return
+     */
+    public static TaskNurOrdAdapter getTaskNurOrdAdapter() {
+        return new TaskNurOrdAdapter(R.layout.item_task_nurord,null);
     }
     /**
      * 任务总览-时间筛选

@@ -109,6 +109,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     private String skinUserPass = "";
 
     private OrderExecOrderDialog execOrderDialog;
+    private OrdersAddExecDialog ordAddDialog;
 
     private SkinResultOrderDialog skinResultOrderDialog;
 
@@ -134,6 +135,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
      * execStatusCode F 执行，C 撤销执行，A 接受，S 完成，R 拒绝F 执行C 撤销执行A 接受R 拒绝S 完成N 阴性 Y 阳性""撤销处理 ST 皮试计时
      */
     private String execStatusCode;
+    private String labExecStatusCode="";
 
     private SoundPool soundPool;
     private HashMap<Integer, Integer> soundPoolMap = new HashMap<Integer, Integer>();
@@ -152,6 +154,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     //点击的按钮的名称
     private String exeButtonDesc = "";
 
+    private List scanList = new ArrayList<String>();
     //记录皮试执行按钮，如果未置结果，不显示
     private TextView btnSkinExe;
     @Override
@@ -205,7 +208,9 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 //PAT 扫腕带返回患者信息
                 //ORD 扫医嘱条码返回医嘱信息
                 if ("PAT".equals(scanResultBean.getFlag())) {
-
+                    if (ordAddDialog!=null && ordAddDialog.isShowing()){
+                        ordAddDialog.dismiss();
+                    }
                     if ("104999".equals(scanResultBean.getMsgcode())) {
 
                         if (execResultDialog != null && execResultDialog.isShowing()) {
@@ -289,7 +294,6 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                         execOrderDialog.setPopMsgInfo(msg);
                         execOrderDialog.setCanExeFlag(scanResultBean.getCanExeFlag());
                         execOrderDialog.setOrderInfoEx(ordersBean.getSttDateTime() + " " + ordersBean.getPhcinDesc() + " " + ordersBean.getCtcpDesc() + "");
-                        execOrderDialog.show();
                         execOrderDialog.setSureOnclickListener(new OrderExecOrderDialog.onSureOnclickListener() {
                             @Override
                             public void onSureClick() {
@@ -304,6 +308,55 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                                 execOrderDialog.dismiss();
                             }
                         });
+                        if (ordAddDialog==null){
+                            ordAddDialog = new OrdersAddExecDialog(getActivity());
+                        }
+                        if (scanResultBean.getBarCodeType()!=null&&scanResultBean.getBarCodeType().equals("LAB")){
+                            if (ordAddDialog.isShowing()){
+                                if (scanList.contains(scanInfo)){
+                                    showToast("该条码已扫描");
+                                }else {
+                                    scanList.add(scanInfo);
+                                    ordAddDialog.setAddString(scanResultBean);
+                                }
+
+                            }else {
+                                    scanList = new ArrayList<String>();
+                                    scanList.add(scanInfo);
+                                    ordAddDialog.setAddString(scanResultBean);
+                                    ordAddDialog.setPatInfo(patInfo);
+                                    ordAddDialog.setCanceledOnTouchOutside(false);
+                                    ordAddDialog.setCancelOnclickListener(new OrdersAddExecDialog.onCancelOnclickListener() {
+                                        @Override
+                                        public void onCancelClick() {
+                                            ordAddDialog.dismiss();
+                                        }
+                                    });
+                                    ordAddDialog.setSureOnclickListener(new OrdersAddExecDialog.onSureOnclickListener() {
+                                        @Override
+                                        public void onSureClick() {
+                                            String ordAdd = "";
+                                            for (int i = 0; i < ordAddDialog.getAddList().size(); i++) {
+                                                for (int j = 0; j < ordAddDialog.getAddList().get(i).getOrders().size(); j++) {
+                                                    ordAdd = ordAdd+ordAddDialog.getAddList().get(i).getOrders().get(j).getID()+"^";
+                                                }
+                                            }
+                                            if (ordAdd.contains("^")){
+                                                oeoreId = ordAdd.substring(0,ordAdd.length()-1);
+                                            }
+                                            labExecStatusCode = "F";
+                                            execOrSeeOrder();
+                                        }
+                                    });
+                                    ordAddDialog.show();
+                            }
+                        }else if (ordAddDialog.isShowing()){
+                            showToast("请执行或取消已扫描医嘱再执行其他医嘱");
+                        }else {
+                            execOrderDialog.show();
+                        }
+
+
                     } else {
                         execResultDialog = new OrderExecResultDialog(getActivity());
                         execResultDialog.setExecresult("扫码执行成功");
@@ -647,7 +700,9 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     }
 
     public void playSound(int sound, int loop) {
-        if (getActivity()==null)return;
+        if (getActivity()==null) {
+            return;
+        }
         AudioManager mgr = (AudioManager) getActivity().getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
 
         float streamVolumeCurrent = mgr.getStreamVolume(AudioManager.STREAM_MUSIC);
@@ -770,9 +825,18 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     }
 
     private void execOrSeeOrder() {
-        OrderExecuteApiManager.execOrSeeOrder("","",timeSaveInfo, orderSaveInfo, patSaveInfo, "0", skinBatch, skinUserCode, skinUserPass, oeoreId, execStatusCode, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
+        String execCode = "";
+        if (!labExecStatusCode.equals("")){
+            execCode = labExecStatusCode;
+        }else {
+            execCode = execStatusCode;
+        }
+        OrderExecuteApiManager.execOrSeeOrder("","",timeSaveInfo, orderSaveInfo, patSaveInfo, "0", skinBatch, skinUserCode, skinUserPass, oeoreId, execCode, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
             @Override
             public void onSuccess(OrderExecResultBean orderExecResultBean) {
+                if(ordAddDialog!=null&&ordAddDialog.isShowing()){
+                    ordAddDialog.dismiss();
+                }
                 skinBatch = "";
                 skinUserCode = "";
                 skinUserPass = "";
@@ -785,7 +849,12 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 }
 
                 execResultDialog = new OrderExecResultDialog(getActivity());
-                execResultDialog.setExecresult("手动"+exeButtonDesc+"成功");
+                if (labExecStatusCode.equals("")){
+                    execResultDialog.setExecresult("手动"+exeButtonDesc+"成功");
+                }else {
+                    execResultDialog.setExecresult("执行成功");
+                }
+                labExecStatusCode = "";
                 execResultDialog.setImgId(R.drawable.icon_popup_sucess);
                 execResultDialog.setSureVisible(View.GONE);
                 execResultDialog.setCancleVisible(View.GONE);

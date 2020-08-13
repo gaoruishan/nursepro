@@ -5,6 +5,8 @@ import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.http.ParserUtil;
 import com.base.commlibs.http.ServiceCallBack;
 import com.dhcc.module.nurse.task.bean.NormalOrdTaskBean;
+import com.dhcc.module.nurse.task.bean.NurOrdRecordTaskBean;
+import com.dhcc.module.nurse.task.bean.NurOrdTaskBean;
 import com.dhcc.module.nurse.task.bean.ScanResultBean;
 import com.dhcc.module.nurse.task.bean.TaskBean;
 import com.dhcc.module.nurse.task.bean.TempTaskBean;
@@ -31,9 +33,9 @@ public class TaskViewApiManager {
         CommWebService.addGroupId(properties);
         CommWebService.addLocId(properties);
         CommWebService.addUserId(properties);
-        properties.put("startDate", startDate.substring(0,11));
+        properties.put("startDate", startDate.substring(0,10));
         properties.put("startTime", startDate.substring(11,16));
-        properties.put("endDate", endDate.substring(0,11));
+        properties.put("endDate", endDate.substring(0,10));
         properties.put("endTime", endDate.substring(11,16));
         properties.put("bedStr", bedStr);
         properties.put("regNo", regNo);
@@ -62,9 +64,9 @@ public class TaskViewApiManager {
         CommWebService.addGroupId(properties);
         CommWebService.addLocId(properties);
         CommWebService.addUserId(properties);
-        properties.put("startDate", startDate.substring(0,11));
+        properties.put("startDate", startDate.substring(0,10));
         properties.put("startTime", startDate.substring(11,16));
-        properties.put("endDate", endDate.substring(0,11));
+        properties.put("endDate", endDate.substring(0,10));
         properties.put("endTime", endDate.substring(11,16));
         properties.put("bedStr", bedStr);
         properties.put("regNo", regNo);
@@ -106,6 +108,58 @@ public class TaskViewApiManager {
         });
     }
     /**
+     * Description:   获取护理计划列表
+     * Input：
+     * Output：
+     * Others：
+     * @param callBack
+     */
+    public static void getNurOrdTaskList(String regNo,String needCodes,String date ,String bedStr ,final CommonCallBack<NurOrdTaskBean> callBack) {
+        HashMap<String, String> properties = CommWebService.addWardId(null);
+        CommWebService.addLocId(properties);
+        CommWebService.addUserId(properties);
+        properties.put("bedStr", bedStr);
+        properties.put("regNo", regNo);
+        properties.put("taskStatus", "0");
+        properties.put("intType", "");
+        String startDate="2020-07-11 00:00:00";
+        String endDate="2020-08-11 23:59:00";
+        properties.put("startDate", startDate.substring(0,10));
+        properties.put("startTime", startDate.substring(11,16));
+        properties.put("endDate", endDate.substring(0,10));
+        properties.put("endTime", endDate.substring(11,16));
+        CommWebService.call("getNurPlanTaskList", properties, new ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                ParserUtil<NurOrdTaskBean> parserUtil = new ParserUtil<>();
+                NurOrdTaskBean bean = parserUtil.parserResult(jsonStr, callBack, NurOrdTaskBean.class);
+                if (bean == null) {return;}
+                parserUtil.parserStatus(bean, callBack);
+            }
+        });
+    }
+    /**
+     * Description:   获取护理计划录入配置
+     * Input：
+     * Output：
+     * Others：
+     * @param callBack
+     */
+    public static void getExecuteTaskList(String recordId,String interventionDR,final CommonCallBack<NurOrdRecordTaskBean> callBack) {
+        HashMap<String, String> properties = CommWebService.addUserId(null);
+        properties.put("recordId", recordId);
+        properties.put("interventionDR", interventionDR);
+        CommWebService.call("getExecuteTaskList", properties, new ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                ParserUtil<NurOrdRecordTaskBean> parserUtil = new ParserUtil<>();
+                NurOrdRecordTaskBean bean = parserUtil.parserResult(jsonStr, callBack, NurOrdRecordTaskBean.class);
+                if (bean == null) {return;}
+                parserUtil.parserStatus(bean, callBack);
+            }
+        });
+    }
+    /**
      * Description:   获取扫码信息
      * Input：
      * Output：
@@ -120,7 +174,9 @@ public class TaskViewApiManager {
             public void onResult(String jsonStr) {
                 ParserUtil<ScanResultBean> parserUtil = new ParserUtil<>();
                 ScanResultBean bean = parserUtil.parserResult(jsonStr, callBack, ScanResultBean.class);
-                if (bean == null) return;
+                if (bean == null) {
+                    return;
+                }
                 parserUtil.parserStatus(bean, callBack);
             }
         });

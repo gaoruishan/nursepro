@@ -136,7 +136,7 @@ public class TaskOverviewFragment extends BaseNurseFragment {
                         }
                         break;
                     case "nurOrdTask"://护嘱查询
-
+                        startFragment(NurOrdTaskFragment.class,bundle);
                         break;
                     case "nurNormal"://常规治疗
                         startFragment(NormalOrdTaskFragment.class,bundle);
