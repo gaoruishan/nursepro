@@ -3,9 +3,7 @@ package com.dhcc.module.nurse.task;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.EditText;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
@@ -18,26 +16,19 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.module.nurse.AdapterFactory;
 import com.dhcc.module.nurse.BaseNurseFragment;
 import com.dhcc.module.nurse.R;
-import com.dhcc.module.nurse.task.adapter.TaskNormalOrdAdapter;
 import com.dhcc.module.nurse.task.adapter.TaskNurOrdAdapter;
 import com.dhcc.module.nurse.task.bean.AllBean;
-import com.dhcc.module.nurse.task.bean.NormalOrdTaskBean;
-import com.dhcc.module.nurse.task.bean.NurOrdRecordTaskBean;
 import com.dhcc.module.nurse.task.bean.NurOrdTaskBean;
 import com.dhcc.module.nurse.task.bean.NurTaskSchBean;
 import com.dhcc.module.nurse.task.bean.ScanResultBean;
-import com.dhcc.module.nurse.task.bean.TempTaskBean;
 import com.dhcc.module.nurse.task.bean.TimesListBean;
 import com.dhcc.res.infusion.CustomDateTimeView;
-import com.dhcc.res.infusion.CustomOrdExeBottomView;
 import com.dhcc.res.infusion.CustomSheetListView;
-import com.dhcc.res.infusion.bean.ClickBean;
 import com.dhcc.res.infusion.bean.SheetListBean;
 import com.dhcc.res.nurse.ImgResetView;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,19 +43,63 @@ public class NurOrdTaskFragment  extends BaseNurseFragment {
 
     private CustomSheetListView customSheet;
     private CustomDateTimeView customDate;
-    private RecyclerView recNormalOrd;
     private TaskNurOrdAdapter taskNurOrdAdapter;
     private List<SheetListBean> mSheetListBeanList = new ArrayList<>();
     private ImgResetView imgReset;
-    private String startDate;
-    private String startTime;
-    private String endDate;
-    private String endTime;
     private int askCount = 0;
     private String regNo = "",bedStr = "",sheetCode="",patInfoFromTask,statusCode="1",inputTyp="0";
     private List<TimesListBean> timesListBeans= new ArrayList<>();
     private List<AllBean> listAllBean = new ArrayList<>();
     private NurTaskSchBean nurTaskSchBean ;
+
+    @Override
+    protected void initViews() {
+        super.initViews();
+        customSheet = f(R.id.custom_sheet_list, CustomSheetListView.class);
+        customSheet.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                if (nurTaskSchBean.getTypeList().size()>0){
+                    for (int i = 0; i < nurTaskSchBean.getTypeList().size(); i++) {
+                        if (customSheet.getSheetListAdapter().getData().get(position).getCode().equals(nurTaskSchBean.getTypeList().get(i).getLongNameEN())){
+                            inputTyp = nurTaskSchBean.getTypeList().get(i).getId();
+                        }
+                    }
+                    getNurOrdTaskList();
+                }
+
+            }
+        });
+        customDate = f(R.id.custom_date, CustomDateTimeView.class);
+        String curDate = SPStaticUtils.getString(SharedPreference.CURDATETIME);
+        customDate.setShowTime(true);
+        customDate.setStartDateTime(TimeUtils.string2Millis(curDate.substring(0,10)+" 00:00", YYYY_MM_DD_HH_MM));
+        customDate.setEndDateTime(TimeUtils.string2Millis(curDate.substring(0,10)+" 23:59", YYYY_MM_DD_HH_MM));
+        customDate.setOnDateSetListener(new OnDateSetListener() {
+            @Override
+            public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
+                getNurOrdTaskList();
+            }
+        }, new OnDateSetListener() {
+            @Override
+            public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
+                getNurOrdTaskList();
+            }
+        });
+
+        taskNurOrdAdapter = AdapterFactory.getTaskNurOrdAdapter();
+        RecyclerViewHelper.get(mContext, R.id.rv_list_ord).setAdapter(taskNurOrdAdapter);
+
+        taskNurOrdAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Bundle bundle = new Bundle();
+                bundle.putString("recordId",taskNurOrdAdapter.getData().get(position).getRecordId());
+                bundle.putString("interventionDR",taskNurOrdAdapter.getData().get(position).getInterventionDR());
+                startFragment(NurOrdRecordFragment.class,bundle);
+            }
+        });
+    }
 
     @Override
     protected void initDatas() {
@@ -77,10 +112,6 @@ public class NurOrdTaskFragment  extends BaseNurseFragment {
                 regNo = bundle.getString("regNo");
                 patInfoFromTask = bundle.getString("patInfo");
                 bedStr = bundle.getString("bedStr");
-                startDate = bundle.getString("sttDateTime").substring(0, 10);
-                startTime = bundle.getString("sttDateTime").substring(11, 16);
-                endDate = bundle.getString("endDateTime").substring(0, 10);
-                endTime = bundle.getString("endDateTime").substring(11, 16);
                 timesListBeans = (List<TimesListBean>) bundle.getSerializable("timeList");
                 listAllBean = (List<AllBean>) bundle.getSerializable("listAllBean");
                 mSheetListBeanList = new ArrayList<>();
@@ -91,8 +122,8 @@ public class NurOrdTaskFragment  extends BaseNurseFragment {
                 if (timesListBeans.size()>0){
                     setTimeListData(timesListBeans);
                 }
-                customDate.setStartDateTime(TimeUtils.string2Millis(startDate+" "+startTime, YYYY_MM_DD_HH_MM));
-                customDate.setEndDateTime(TimeUtils.string2Millis(endDate+" "+endTime, YYYY_MM_DD_HH_MM));
+                customDate.setStartDateTime(TimeUtils.string2Millis(bundle.getString("sttDateTime").substring(0, 10)+" "+bundle.getString("sttDateTime").substring(11, 16), YYYY_MM_DD_HH_MM));
+                customDate.setEndDateTime(TimeUtils.string2Millis(bundle.getString("endDateTime").substring(0, 10)+" "+bundle.getString("endDateTime").substring(11, 16), YYYY_MM_DD_HH_MM));
             }
         }
         customSheet.setSheetDefCode(sheetCode);
@@ -108,33 +139,9 @@ public class NurOrdTaskFragment  extends BaseNurseFragment {
         if (patInfoFromTask!=null){
             imgReset.setTvPatText(patInfoFromTask);
         }
-
-        showLoadingTip(BaseActivity.LoadingType.FULL);
-        TaskViewApiManager.getNurTaskSch(new CommonCallBack<NurTaskSchBean>() {
-            @Override
-            public void onFail(String code, String msg) {
-                hideLoadingTip();
-            }
-
-            @Override
-            public void onSuccess(NurTaskSchBean bean, String type) {
-                nurTaskSchBean = bean;
-                hideLoadingTip();
-                statusCode = nurTaskSchBean.getStatusList().get(0).getValue();
-                setStatusListData(bean.getStatusList());
-                if (nurTaskSchBean.getTypeList().size()>0) {
-                    for (int i = 0; i < nurTaskSchBean.getTypeList().size(); i++) {
-                        if (customSheet.getSheetListAdapter().getSelectedCode().equals(nurTaskSchBean.getTypeList().get(i).getLongNameEN())) {
-                            inputTyp = nurTaskSchBean.getTypeList().get(i).getId();
-                        }
-                    }
-                }
-
-                getNurOrdTaskList();
-            }
-        });
-
+        getNurTaskSch();
     }
+
     private void addToolBarRight(){
         addToolBarRightImageView(R.drawable.dhcc_filter_big_write, R.drawable.dhcc_icon_bed_select);
 
@@ -156,6 +163,55 @@ public class NurOrdTaskFragment  extends BaseNurseFragment {
         });
     }
 
+    private void getNurTaskSch(){
+        showLoadingTip(BaseActivity.LoadingType.FULL);
+        TaskViewApiManager.getNurTaskSch(new CommonCallBack<NurTaskSchBean>() {
+            @Override
+            public void onFail(String code, String msg) {
+                hideLoadingTip();
+            }
+
+            @Override
+            public void onSuccess(NurTaskSchBean bean, String type) {
+                nurTaskSchBean = bean;
+                hideLoadingTip();
+                statusCode = nurTaskSchBean.getStatusList().get(0).getValue();
+                setStatusListData(bean.getStatusList());
+                if (nurTaskSchBean.getTypeList().size()>0) {
+                    for (int i = 0; i < nurTaskSchBean.getTypeList().size(); i++) {
+                        if (customSheet.getSheetListAdapter().getSelectedCode().equals(nurTaskSchBean.getTypeList().get(i).getLongNameEN())) {
+                            inputTyp = nurTaskSchBean.getTypeList().get(i).getId();
+                        }
+                    }
+                }
+                getNurOrdTaskList();
+            }
+        });
+    }
+    private void getNurOrdTaskList() {
+        showLoadingTip(BaseActivity.LoadingType.FULL);
+        TaskViewApiManager.getNurOrdTaskList(customDate.getStartDateTimeText(),customDate.getEndDateTimeText(),regNo, statusCode, inputTyp, bedStr, new CommonCallBack<NurOrdTaskBean>() {
+            @Override
+            public void onFail(String code, String msg) {
+                askCount = 0;
+                hideLoadingTip();
+            }
+
+            @Override
+            public void onSuccess(NurOrdTaskBean bean, String type) {
+                askCount = 0;
+                hideLoadingTip();
+                if ("".equals(regNo)){
+                    imgReset.setTvPatText("全部患者");
+                }
+                if (!"".equals(bedStr)){
+                    imgReset.setTvPatText("选床患者");
+                }
+                taskNurOrdAdapter.setNewData(bean.getTaskDataList());
+            }
+        });
+    }
+
     @Override
     public void onClick(View v) {
         super.onClick(v);
@@ -171,6 +227,7 @@ public class NurOrdTaskFragment  extends BaseNurseFragment {
             }
         }
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
@@ -181,85 +238,6 @@ public class NurOrdTaskFragment  extends BaseNurseFragment {
                 getNurOrdTaskList();
             }
         }
-    }
-
-    private void getNurOrdTaskList() {
-        showLoadingTip(BaseActivity.LoadingType.FULL);
-        TaskViewApiManager.getNurOrdTaskList(customDate.getStartDateTimeText(),customDate.getEndDateTimeText(),regNo, statusCode, inputTyp, bedStr, new CommonCallBack<NurOrdTaskBean>() {
-            @Override
-            public void onFail(String code, String msg) {
-                askCount = 0;
-                hideLoadingTip();
-            }
-
-            @Override
-            public void onSuccess(NurOrdTaskBean bean, String type) {
-                askCount = 0;
-                hideLoadingTip();
-                if (regNo.equals("")){
-                    imgReset.setTvPatText("全部患者");
-                }
-                if (!bedStr.equals("")){
-                    imgReset.setTvPatText("选床患者");
-                }
-                taskNurOrdAdapter.setNewData(bean.getTaskDataList());
-            }
-        });
-    }
-
-    @Override
-    protected void initViews() {
-        super.initViews();
-        customSheet = f(R.id.custom_sheet_list, CustomSheetListView.class);
-        customSheet.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (nurTaskSchBean.getTypeList().size()>0){
-                    for (int i = 0; i < nurTaskSchBean.getTypeList().size(); i++) {
-                        if (customSheet.getSheetListAdapter().getData().get(position).getCode().equals(nurTaskSchBean.getTypeList().get(i).getLongNameEN())){
-                            inputTyp = nurTaskSchBean.getTypeList().get(i).getId();
-                        }
-                    }
-                    getNurOrdTaskList();
-                }
-
-            }
-        });
-
-        customDate = f(R.id.custom_date, CustomDateTimeView.class);
-        String curDate = SPStaticUtils.getString(SharedPreference.CURDATETIME);
-        customDate.setShowTime(true);
-        customDate.setStartDateTime(TimeUtils.string2Millis(curDate.substring(0,10)+" 00:00", YYYY_MM_DD_HH_MM));
-        customDate.setEndDateTime(TimeUtils.string2Millis(curDate.substring(0,10)+" 23:59", YYYY_MM_DD_HH_MM));
-        customDate.setOnDateSetListener(new OnDateSetListener() {
-            @Override
-            public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
-                getNurOrdTaskList();
-            }
-        }, new OnDateSetListener() {
-            @Override
-            public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
-                getNurOrdTaskList();
-            }
-        });
-
-
-        recNormalOrd = RecyclerViewHelper.get(mContext, R.id.rv_list_ord);
-        taskNurOrdAdapter = AdapterFactory.getTaskNurOrdAdapter();
-        recNormalOrd.setAdapter(taskNurOrdAdapter);
-
-        taskNurOrdAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Bundle bundle = new Bundle();
-                bundle.putString("recordId",taskNurOrdAdapter.getData().get(position).getRecordId());
-                bundle.putString("interventionDR",taskNurOrdAdapter.getData().get(position).getInterventionDR());
-                startFragment(NurOrdRecordFragment.class,bundle);
-
-
-            }
-        });
-
     }
 
     @Override

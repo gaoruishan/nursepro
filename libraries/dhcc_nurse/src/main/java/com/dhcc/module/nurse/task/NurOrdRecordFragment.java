@@ -41,39 +41,7 @@ public class NurOrdRecordFragment  extends BaseNurseFragment {
             recordId = bundle.getString("recordId");
             interventionDR = bundle.getString("interventionDR");
         }
-        getNormalOrdList();
-    }
-    @Override
-    public void onClick(View v) {
-        super.onClick(v);
-        if (v.getId() == R.id.img_toolbar_right1) {
-            setMaskShow();
-        }
-        if (v.getId() == R.id.img_toolbar_right2) {
-            try {
-                Class<? extends BaseFragment> BedFragmentClass = (Class<? extends BaseFragment>) Class.forName("com.dhcc.nursepro.workarea.bedselect.BedSelectFragment");
-                startFragment(BedFragmentClass,1);
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private void getNormalOrdList() {
-        showLoadingTip(BaseActivity.LoadingType.FULL);
-        TaskViewApiManager.getExecuteTaskList( recordId,  interventionDR, new CommonCallBack<NurOrdRecordTaskBean>() {
-            @Override
-            public void onFail(String code, String msg) {
-                hideLoadingTip();
-            }
-
-            @Override
-            public void onSuccess(NurOrdRecordTaskBean bean, String type) {
-                hideLoadingTip();
-                taskNurOrdRecordAdapter.setNewData(bean.getTaskSetList());
-                refreshRecordDesc();
-            }
-        });
+        getExecuteTaskList();
     }
 
     @Override
@@ -118,6 +86,23 @@ public class NurOrdRecordFragment  extends BaseNurseFragment {
             }
         });
     }
+    private void getExecuteTaskList() {
+        showLoadingTip(BaseActivity.LoadingType.FULL);
+        TaskViewApiManager.getExecuteTaskList( recordId,  interventionDR, new CommonCallBack<NurOrdRecordTaskBean>() {
+            @Override
+            public void onFail(String code, String msg) {
+                hideLoadingTip();
+            }
+
+            @Override
+            public void onSuccess(NurOrdRecordTaskBean bean, String type) {
+                hideLoadingTip();
+                taskNurOrdRecordAdapter.setNewData(bean.getTaskSetList());
+                refreshRecordDesc();
+            }
+        });
+    }
+
     private void refreshRecordDesc(){
         String strDesc = "";
         for (int i = 0; i < taskNurOrdRecordAdapter.getData().size(); i++) {
@@ -142,10 +127,6 @@ public class NurOrdRecordFragment  extends BaseNurseFragment {
                     if (strSub.contains("、")){
                         strSub =strSub.substring(0,strSub.length()-1)+"等";
                     }
-//                    if (strSub.contains("、")){
-//                        strSub =strSub;
-//                    }
-
                     if (!strSub.equals("")){
                         strSub = "有"+strSub+taskNurOrdRecordAdapter.getData().get(i).getItemName()+"的症状。  ";
                     }
@@ -156,6 +137,22 @@ public class NurOrdRecordFragment  extends BaseNurseFragment {
         }
         tvDesc.setText(strDesc);
     }
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+        if (v.getId() == R.id.img_toolbar_right1) {
+            setMaskShow();
+        }
+        if (v.getId() == R.id.img_toolbar_right2) {
+            try {
+                Class<? extends BaseFragment> BedFragmentClass = (Class<? extends BaseFragment>) Class.forName("com.dhcc.nursepro.workarea.bedselect.BedSelectFragment");
+                startFragment(BedFragmentClass,1);
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     @Override
     protected int setLayout() {
         return R.layout.fragment_task_nurordrecord;
