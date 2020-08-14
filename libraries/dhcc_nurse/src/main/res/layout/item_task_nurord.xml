@@ -32,6 +32,20 @@
             android:background="@drawable/dhcc_sex_female"></View>
 
     </LinearLayout>
+    <TextView
+        android:id="@+id/tv_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="1000003770 "
+        android:textColor="#101010"
+        android:textSize="@dimen/sp_16" />
+    <TextView
+        android:id="@+id/tv_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="1000003770 "
+        android:textColor="#101010"
+        android:textSize="@dimen/sp_16" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -124,6 +138,7 @@
 
 
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/ll_select"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

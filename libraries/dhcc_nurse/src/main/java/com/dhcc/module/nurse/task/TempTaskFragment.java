@@ -107,6 +107,11 @@ public class TempTaskFragment extends BaseNurseFragment {
                 customDate.setStartDateTime(TimeUtils.string2Millis(sttDt, YYYY_MM_DD));
                 showToast(sttDt);
             }
+
+            @Override
+            public void statusSure(String code) {
+
+            }
         });
     }
     @Override
@@ -268,8 +273,19 @@ public class TempTaskFragment extends BaseNurseFragment {
                     mSheetListBeanList.add(new SheetListBean(listAllBean.get(i).getCode(),listAllBean.get(i).getName(),listAllBean.get(i).getValue()));
                 }
                 customSheet.setDatas(mSheetListBeanList);
-                taskTempAdapter.setNewData(bean.getTempDateList());
                 showAllTemp(true);
+                taskTempAdapter.setNewData(bean.getTempDateList());
+                for (int i = 0; i < customSheet.getSheetListAdapter().getData().size(); i++) {
+                    if (sheetCode.equals(customSheet.getSheetListAdapter().getData().get(i).getCode())){
+                        customSheet.getSheetListAdapter().getData().get(i).setSelected("1");
+                        customSheet.getSheetListAdapter().notifyDataSetChanged();
+                        showAllTemp(false);
+                        getLeftFilterTaskList();
+                        sheetCode="";
+                    }
+                }
+
+                ifFromTask = false;
             }
         });
     }

@@ -33,7 +33,10 @@ public class TaskNurOrdAdapter extends BaseQuickAdapter<NurOrdTaskBean.TaskDataL
     @Override
     protected void convert(BaseViewHolder helper, NurOrdTaskBean.TaskDataListBean item) {
 //        setTextStatus(helper, orderInfoBean);
-        helper.setText(R.id.tv_patinfo,item.getEpisodeID()+item.getBedCode()+item.getName());
+        helper.setText(R.id.tv_patinfo,"患者信息："+item.getEpisodeID()+item.getBedCode()+item.getName())
+                .setText(R.id.tv_1,item.getInterventionTypeName())
+                .setText(R.id.tv_2,item.getExecuteItemName())
+                .setText(R.id.bl_tv_status,item.getTkStatusName());
 
 //        helper.setText(R.id.tv_oeporderinfo_orderdatetime, orderInfoBean.getSttDateTime())
 //                .setText(R.id.tv_oeporderinfo_orderoperate, orderInfoBean.getPhcinDesc())

@@ -1,38 +1,22 @@
 package com.dhcc.module.nurse.task;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
-import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.RecyclerViewHelper;
-import com.blankj.utilcode.util.SPStaticUtils;
-import com.blankj.utilcode.util.TimeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.module.nurse.AdapterFactory;
 import com.dhcc.module.nurse.BaseNurseFragment;
 import com.dhcc.module.nurse.R;
-import com.dhcc.module.nurse.task.adapter.TaskNurOrdAdapter;
-import com.dhcc.module.nurse.task.bean.NormalOrdTaskBean;
+import com.dhcc.module.nurse.task.adapter.TaskNurOrdRecordAdapter;
 import com.dhcc.module.nurse.task.bean.NurOrdRecordTaskBean;
-import com.dhcc.module.nurse.task.bean.NurOrdTaskBean;
-import com.dhcc.module.nurse.task.bean.ScanResultBean;
-import com.dhcc.module.nurse.task.bean.TimesListBean;
-import com.dhcc.res.infusion.CustomDateTimeView;
-import com.dhcc.res.infusion.CustomOrdExeBottomView;
-import com.dhcc.res.infusion.CustomSheetListView;
-import com.dhcc.res.infusion.bean.ClickBean;
-import com.dhcc.res.infusion.bean.SheetListBean;
-import com.dhcc.res.nurse.ImgResetView;
-import com.jzxiang.pickerview.TimePickerDialog;
-import com.jzxiang.pickerview.listener.OnDateSetListener;
-
-import java.util.ArrayList;
-import java.util.List;
+import cn.qqtheme.framework.picker.OptionPicker;
+import cn.qqtheme.framework.widget.WheelView;
 
 /**
  * com.dhcc.module.nurse.task
@@ -43,63 +27,22 @@ import java.util.List;
  */
 public class NurOrdRecordFragment  extends BaseNurseFragment {
 
-    private CustomSheetListView customSheet;
-    private CustomDateTimeView customDate;
     private RecyclerView recNormalOrd;
-    private TaskNurOrdAdapter taskNurOrdAdapter;
-    private List<SheetListBean> mSheetListBeanList = new ArrayList<>();
-    private NormalOrdTaskBean normalOrdTaskBean = new NormalOrdTaskBean();
-    private CustomOrdExeBottomView customSelectBottom;
-    private ImgResetView imgReset;
-    private int taskSheetSelet = 0;
-    private String startDate;
-    private String startTime;
-    private String endDate;
-    private String endTime;
-    private int askCount = 0;
-    private String regNo = "",bedStr = "",sheetCode,patInfoFromTask;
-    private Boolean ifFromTask=false;
-    private List<TimesListBean> timesListBeans= new ArrayList<>();
+    private TaskNurOrdRecordAdapter taskNurOrdRecordAdapter;
+    private TextView tvDesc;
     private String recordId,interventionDR;
 
     @Override
     protected void initDatas() {
         super.initDatas();
-        addToolBarRight();
         setHindBottm(50);
-        setToolbarCenterTitle("常规治疗");
+        setToolbarCenterTitle("护嘱任务执行");
         if (bundle != null) {
             recordId = bundle.getString("recordId");
             interventionDR = bundle.getString("interventionDR");
         }
-        imgReset = f(R.id.img_resetview, ImgResetView.class);
-        imgReset.setTouchListener(new ImgResetView.touchEventListner() {
-            @Override
-            public void reset() {
-                regNo = "";
-                bedStr = "";
-                getNormalOrdList();
-            }
-        });
-        if (patInfoFromTask!=null){
-            imgReset.setTvPatText(patInfoFromTask);
-        }
         getNormalOrdList();
     }
-    private void addToolBarRight(){
-        addToolBarRightImageView(R.drawable.dhcc_filter_big_write, R.drawable.dhcc_icon_bed_select);
-
-        addToolBarRightPopWindow();
-        setOnPopClicListner(new OnPopClicListner() {
-            @Override
-            public void sure(String sttDt, String endDt) {
-                customDate.setStartDateTime(TimeUtils.string2Millis(sttDt, YYYY_MM_DD_HH_MM));
-                customDate.setEndDateTime(TimeUtils.string2Millis(endDt, YYYY_MM_DD_HH_MM));
-                showToast(sttDt);
-            }
-        });
-    }
-
     @Override
     public void onClick(View v) {
         super.onClick(v);
@@ -115,31 +58,20 @@ public class NurOrdRecordFragment  extends BaseNurseFragment {
             }
         }
     }
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK) {
-            bedStr = data.getStringExtra("bedselectinfoStr");
-            if (askCount == 0) {
-                askCount++;
-                getNormalOrdList();
-            }
-        }
-    }
 
     private void getNormalOrdList() {
         showLoadingTip(BaseActivity.LoadingType.FULL);
         TaskViewApiManager.getExecuteTaskList( recordId,  interventionDR, new CommonCallBack<NurOrdRecordTaskBean>() {
             @Override
             public void onFail(String code, String msg) {
-                askCount = 0;
                 hideLoadingTip();
             }
 
             @Override
             public void onSuccess(NurOrdRecordTaskBean bean, String type) {
-                askCount = 0;
                 hideLoadingTip();
-                showToast(bean.getMsg()+bean.getTaskSetList().size());
+                taskNurOrdRecordAdapter.setNewData(bean.getTaskSetList());
+                refreshRecordDesc();
             }
         });
     }
@@ -147,113 +79,85 @@ public class NurOrdRecordFragment  extends BaseNurseFragment {
     @Override
     protected void initViews() {
         super.initViews();
-        customSelectBottom = f(R.id.custom_ordnormaltask_select_bottom, CustomOrdExeBottomView.class);
-        customSelectBottom.setExeTypeVisible(View.GONE);
-        List<ClickBean> beans = new ArrayList<>();
-        beans.add(new ClickBean("执行", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                execEdu();
-            }
-        }));
-        customSelectBottom.addBottomView(beans);
-        customSelectBottom.setSelectText("已选 " + 0 + " 个");
-
-        customSheet = f(R.id.custom_sheet_list, CustomSheetListView.class);
-        customSheet.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                getLeftFilterTaskList();
-            }
-        });
-
-        customDate = f(R.id.custom_date, CustomDateTimeView.class);
-        String curDate = SPStaticUtils.getString(SharedPreference.CURDATETIME);
-        customDate.setShowTime(true);
-        customDate.setStartDateTime(TimeUtils.string2Millis(curDate.substring(0,10)+" 00:00", YYYY_MM_DD_HH_MM));
-        customDate.setEndDateTime(TimeUtils.string2Millis(curDate.substring(0,10)+" 23:59", YYYY_MM_DD_HH_MM));
-        customDate.setOnDateSetListener(new OnDateSetListener() {
-            @Override
-            public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
-                getNormalOrdList();
-            }
-        }, new OnDateSetListener() {
-            @Override
-            public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
-                getNormalOrdList();
-            }
-        });
-
+        tvDesc = f(R.id.tv_record_desc,TextView.class);
 
         recNormalOrd = RecyclerViewHelper.get(mContext, R.id.rv_list_ord);
-        taskNurOrdAdapter = AdapterFactory.getTaskNurOrdAdapter();
-        recNormalOrd.setAdapter(taskNurOrdAdapter);
-
-        taskNurOrdAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+        taskNurOrdRecordAdapter = AdapterFactory.getTaskNurOrdRecordAdapter();
+        recNormalOrd.setAdapter(taskNurOrdRecordAdapter);
+        taskNurOrdRecordAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                startFragment(NurOrdTaskFragment.class);
-//                if (taskNurOrdAdapter.getData().get(position).get(0).getSelect()){
-//                    taskNurOrdAdapter.getData().get(position).get(0).setSelect(false);
-//                }else {
-//                    taskNurOrdAdapter.getData().get(position).get(0).setSelect(true);
-//                }
-//                taskNurOrdAdapter.notifyDataSetChanged();
-//                int taskSelect = 0;
-//                for (int i = 0; i < taskNurOrdAdapter.getData().size(); i++) {
-//                    if (taskNurOrdAdapter.getData().get(i).get(0).getSelect()){
-//                        taskSelect++;
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                if (view.getId()==R.id.tv_click){
+                        String[] items = new String[taskNurOrdRecordAdapter.getData().get(position).getData().getNoteList().size()];
+                        for (int i = 0; i < taskNurOrdRecordAdapter.getData().get(position).getData().getNoteList().size(); i++) {
+                            items[i] = taskNurOrdRecordAdapter.getData().get(position).getData().getNoteList().get(i).toString();
+                        }
+                        if (items.length>0){
+                            OptionPicker picker = new OptionPicker((Activity) mContext, items);
+                            picker.setCanceledOnTouchOutside(false);
+                            picker.setDividerRatio(WheelView.DividerConfig.FILL);
+                            picker.setSelectedIndex(0);
+                            picker.setCycleDisable(true);
+                            picker.setTextSize(20);
+                            picker.setOnOptionPickListener(new OptionPicker.OnOptionPickListener() {
+                                @Override
+                                public void onOptionPicked(int index, String item) {
+                                    taskNurOrdRecordAdapter.getData().get(position).setNoteSelec(item);
+                                    taskNurOrdRecordAdapter.notifyDataSetChanged();
+                                }
+                            });
+                            picker.show();
+                        }
+                }
+                if (view.getId()==R.id.tv_click1){
+                    if (taskNurOrdRecordAdapter.getData().get(position).getData().getSubItemList().size()>0){
+
+                    }
+                }
+                refreshRecordDesc();
+            }
+        });
+    }
+    private void refreshRecordDesc(){
+        String strDesc = "";
+        for (int i = 0; i < taskNurOrdRecordAdapter.getData().size(); i++) {
+            if (taskNurOrdRecordAdapter.getData().get(i).getWidgetType().equals("4")){
+                if (taskNurOrdRecordAdapter.getData().get(i).getItemValue().length()>0){
+                    String strItemSel = ":";
+                    if (taskNurOrdRecordAdapter.getData().get(i).getNoteSelec()!=null){
+                        strItemSel="("+taskNurOrdRecordAdapter.getData().get(i).getNoteSelec()+"):";
+                    }
+                    strDesc=strDesc+taskNurOrdRecordAdapter.getData().get(i).getItemName()+strItemSel+taskNurOrdRecordAdapter.getData().get(i).getItemValue()+";  ";
+                }
+            }
+
+            if (taskNurOrdRecordAdapter.getData().get(i).getData().getSubItemList().size()>0){
+                if (taskNurOrdRecordAdapter.getData().get(i).getWidgetType().equals("2")){
+                    String strSub = "";
+                    for (int j = 0; j < taskNurOrdRecordAdapter.getData().get(i).getData().getSubItemList().size(); j++) {
+                        if (taskNurOrdRecordAdapter.getData().get(i).getData().getSubItemList().get(j).getSubSelec().equals("1")){
+                            strSub =strSub+taskNurOrdRecordAdapter.getData().get(i).getData().getSubItemList().get(j).getSubItemName()+"、";
+                        }
+                    }
+                    if (strSub.contains("、")){
+                        strSub =strSub.substring(0,strSub.length()-1)+"等";
+                    }
+//                    if (strSub.contains("、")){
+//                        strSub =strSub;
 //                    }
-//                }
-//                customSelectBottom.setSelectText("已选 " + taskSelect + " 个");
 
+                    if (!strSub.equals("")){
+                        strSub = "有"+strSub+taskNurOrdRecordAdapter.getData().get(i).getItemName()+"的症状。  ";
+                    }
+                    strDesc = strDesc+strSub;
+
+                }
             }
-        });
-
-    }
-
-    private void getLeftFilterTaskList(){
-//        for (int i = 0; i < normalOrdTaskBean.getBodyUnExec().size(); i++) {
-//            if (sheetCode!=null&&normalOrdTaskBean.getBodyUnExec().get(i).getCode().equals(sheetCode)){
-//                customSheet.setSheetDefCode(sheetCode);
-//                sheetCode = "";
-//            }
-//        }
-//        for (int i = 0; i < taskNurOrdAdapter.getData().size(); i++) {
-//            taskNurOrdAdapter.getData().get(i).get(0).setSelect(false);
-//        }
-//        for (int i = 0; i < normalOrdTaskBean.getBodyUnExec().size(); i++) {
-//            if (normalOrdTaskBean.getBodyUnExec().get(i).getCode().equals(customSheet.getSheetListAdapter().getSelectedCode())){
-//                taskNurOrdAdapter.setNewData(normalOrdTaskBean.getBodyUnExec().get(i).getOrders());
-//            }
-//        }
-//        customSelectBottom.setSelectText("已选 " + 0 + " 个");
-    };
-
-    private void execEdu() {
-        showToast("执行医嘱");
-    }
-
-    @Override
-    protected void getScanOrdList() {
-        super.getScanOrdList();
-        TaskViewApiManager.getScaninfo(scanInfo, new CommonCallBack<ScanResultBean>() {
-            @Override
-            public void onFail(String code, String msg) {
-            }
-            @Override
-            public void onSuccess(ScanResultBean bean, String type) {
-                regNo = bean.getPatInfo().getRegNo();
-                bedStr="";
-                imgReset.setTvPatText("".equals(bean.getPatInfo().getBedCode()) ? "未分床  " + bean.getPatInfo().getName() + "  " + bean.getPatInfo().getSex() + "  " +
-                        "" + bean.getPatInfo().getAge() : bean.getPatInfo().getBedCode().replace("床", "") + "床  " + bean.getPatInfo().getName() + "" +
-                        "  " + bean.getPatInfo().getSex() + "  " + bean.getPatInfo().getAge());
-                getNormalOrdList();
-            }
-        });
+        }
+        tvDesc.setText(strDesc);
     }
     @Override
     protected int setLayout() {
-        return R.layout.fragment_task_normalord;
+        return R.layout.fragment_task_nurordrecord;
     }
 }

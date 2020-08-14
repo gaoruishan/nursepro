@@ -39,14 +39,34 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_1"
         android:background="#D7D7D7"/>
-    <!--<android.support.v4.widget.NestedScrollView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="@dimen/dp_0"-->
-        <!--android:layout_weight="20">-->
-        <LinearLayout
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/ll_statusfilter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_10"
+        android:orientation="vertical">
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_0"
-            android:layout_weight="20"
+            android:layout_height="wrap_content"
+            android:text="执行状态筛选"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp_15"
+            android:layout_marginBottom="@dimen/dp_10"></TextView>
+
+        <!--服务商-->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rec_task_statusfilter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <View android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_10"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="@dimen/dp_10"
             android:orientation="vertical">
             <TextView
@@ -66,6 +86,9 @@
             <View android:layout_width="match_parent"
                   android:layout_height="@dimen/dp_10"/>
         </LinearLayout>
-    <!--</android.support.v4.widget.NestedScrollView>-->
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_0"
+        android:layout_weight="1"></View>
     <include layout="@layout/dhcc_filter_bottom_layout"/>
 </LinearLayout>

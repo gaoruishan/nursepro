@@ -52,10 +52,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/white"/>
-                <com.dhcc.res.infusion.CustomOrdExeBottomView
-                    android:id="@+id/custom_ordnormaltask_select_bottom"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
             </LinearLayout>
         </LinearLayout>
 

@@ -6,9 +6,11 @@ import com.dhcc.module.nurse.education.adapter.HealthEduEndAdapter;
 import com.dhcc.module.nurse.education.adapter.HealthEduItemAdapter;
 import com.dhcc.module.nurse.education.adapter.HealthEduNeedAdapter;
 import com.dhcc.module.nurse.education.adapter.TaskOverviewAdapter;
+import com.dhcc.module.nurse.task.adapter.StatusFilterAdapter;
 import com.dhcc.module.nurse.task.adapter.TaskListAdapter;
 import com.dhcc.module.nurse.task.adapter.TaskNormalOrdAdapter;
 import com.dhcc.module.nurse.task.adapter.TaskNurOrdAdapter;
+import com.dhcc.module.nurse.task.adapter.TaskNurOrdRecordAdapter;
 import com.dhcc.module.nurse.task.adapter.TaskTempAdapter;
 import com.dhcc.module.nurse.task.adapter.TimeFilterAdapter;
 
@@ -93,10 +95,24 @@ public class AdapterFactory {
         return new TaskNurOrdAdapter(R.layout.item_task_nurord,null);
     }
     /**
+     * 任务总览-护嘱录入
+     * @return
+     */
+    public static TaskNurOrdRecordAdapter getTaskNurOrdRecordAdapter() {
+        return new TaskNurOrdRecordAdapter(R.layout.item_task_nurordrecord,null);
+    }
+    /**
      * 任务总览-时间筛选
      * @return
      */
     public static TimeFilterAdapter getTimeFilterAdapter() {
         return new TimeFilterAdapter(R.layout.item_task_timefilter,null);
+    }
+    /**
+     * 任务总览-护嘱任务状态筛选
+     * @return
+     */
+    public static StatusFilterAdapter getStatusFilterAdapter() {
+        return new StatusFilterAdapter(R.layout.item_task_statusfilter,null);
     }
 }

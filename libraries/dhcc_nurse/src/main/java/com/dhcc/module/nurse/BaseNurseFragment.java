@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -18,7 +19,9 @@ import com.base.commlibs.utils.BasePopWindow;
 import com.blankj.utilcode.util.TimeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.module.nurse.task.FileterPop;
+import com.dhcc.module.nurse.task.adapter.StatusFilterAdapter;
 import com.dhcc.module.nurse.task.adapter.TimeFilterAdapter;
+import com.dhcc.module.nurse.task.bean.StatusListBean;
 import com.dhcc.module.nurse.task.bean.TimesListBean;
 import com.dhcc.res.infusion.CustomSelectView;
 
@@ -83,17 +86,32 @@ public abstract class BaseNurseFragment extends BaseCommFragment {
      */
     private TimeFilterAdapter timeFilterAdapter;
     private View contentView;
+    private Boolean bStatus = false;
+    StatusFilterAdapter statusFilterAdapter;
+
+    public void setbStatus(Boolean bStatus) {
+        this.bStatus = bStatus;
+    }
+
     public void setTimeListData(List<TimesListBean> listData){
         timeFilterAdapter.setNewData(listData);
     }
+    public void setStatusListData(List<StatusListBean> listData){
+        if (listData.size()>0){
+            statusFilterAdapter.setSelectItem(0);
+        }
+        statusFilterAdapter.setNewData(listData);
+    }
+
     public void addToolBarRightPopWindow() {
         contentView = LayoutInflater.from(mContext).inflate(R.layout.dhcc_task_filter_layout, null);
         contentView.findViewById(R.id.tv_filter_clear_select).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 timeFilterAdapter.setSelectItem(-1);
                 timeFilterAdapter.notifyDataSetChanged();
+                statusFilterAdapter.setSelectItem(0);
+                statusFilterAdapter.notifyDataSetChanged();
             }
         });
         contentView.findViewById(R.id.iv_finish_filter).setOnClickListener(new View.OnClickListener() {
@@ -109,8 +127,13 @@ public abstract class BaseNurseFragment extends BaseCommFragment {
                 if (timeFilterAdapter.getSelectItem()!=-1){
                     onPopClicListner.sure(timeFilterAdapter.getData().get(timeFilterAdapter.getSelectItem()).getTimeStt(),timeFilterAdapter.getData().get(timeFilterAdapter.getSelectItem()).getTimeEnd());
                 }
+                if (statusFilterAdapter.getSelectItem()!=-1){
+                    onPopClicListner.statusSure(statusFilterAdapter.getData().get(statusFilterAdapter.getSelectItem()).getValue());
+                }
+
             }
         });
+
         RecyclerView recTime = contentView.findViewById(R.id.rec_task_timefilter);
         timeFilterAdapter = AdapterFactory.getTimeFilterAdapter();
         recTime.setAdapter(timeFilterAdapter);
@@ -123,6 +146,19 @@ public abstract class BaseNurseFragment extends BaseCommFragment {
             }
         });
 
+        RecyclerView recStatus = contentView.findViewById(R.id.rec_task_statusfilter);
+        statusFilterAdapter = AdapterFactory.getStatusFilterAdapter();
+        recStatus.setAdapter(statusFilterAdapter);
+        recStatus.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        statusFilterAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                statusFilterAdapter.setSelectItem(position);
+                statusFilterAdapter.notifyDataSetChanged();
+            }
+        });
+
+        contentView.findViewById(R.id.ll_statusfilter).setVisibility(bStatus?View.VISIBLE:View.GONE);
 
     }
     public void setMaskShow(){
@@ -139,6 +175,7 @@ public abstract class BaseNurseFragment extends BaseCommFragment {
     }
     public interface OnPopClicListner{
         void sure(String sttDt,String endDt);
+        void statusSure(String code);
     }
 
 

@@ -47,6 +47,15 @@ public class NurOrdRecordTaskBean extends CommResult {
         private String positionId;
         private String valueType;
         private String widgetType;
+        private String noteSelec;
+
+        public String getNoteSelec() {
+            return noteSelec;
+        }
+
+        public void setNoteSelec(String noteSelec) {
+            this.noteSelec = noteSelec;
+        }
 
         public DataBean getData() {
             return data;
@@ -182,6 +191,15 @@ public class NurOrdRecordTaskBean extends CommResult {
                 private String subItemSortNo;
                 private String subPositionId;
                 private String subWidgetType;
+                private String subSelec="0";
+
+                public String getSubSelec() {
+                    return subSelec;
+                }
+
+                public void setSubSelec(String subSelec) {
+                    this.subSelec = subSelec;
+                }
 
                 public String getSubItemDesc() {
                     return subItemDesc;

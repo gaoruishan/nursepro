@@ -131,6 +131,11 @@ public class NormalOrdTaskFragment extends BaseNurseFragment {
                 customDate.setEndDateTime(TimeUtils.string2Millis(endDt, YYYY_MM_DD_HH_MM));
                 showToast(sttDt);
             }
+
+            @Override
+            public void statusSure(String code) {
+
+            }
         });
     }
 

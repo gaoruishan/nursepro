@@ -9,6 +9,7 @@ import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.module.nurse.task.bean.NormalOrdTaskBean;
 import com.dhcc.module.nurse.task.bean.NurOrdRecordTaskBean;
 import com.dhcc.module.nurse.task.bean.NurOrdTaskBean;
+import com.dhcc.module.nurse.task.bean.NurTaskSchBean;
 import com.dhcc.module.nurse.task.bean.OrderExecResultBean;
 import com.dhcc.module.nurse.task.bean.ScanResultBean;
 import com.dhcc.module.nurse.task.bean.TaskBean;
@@ -153,16 +154,14 @@ public class TaskViewApiManager {
      * Others：
      * @param callBack
      */
-    public static void getNurOrdTaskList(String regNo,String needCodes,String date ,String bedStr ,final CommonCallBack<NurOrdTaskBean> callBack) {
+    public static void getNurOrdTaskList(String startDate,String endDate,String regNo,String taskStatus,String intType ,String bedStr ,final CommonCallBack<NurOrdTaskBean> callBack) {
         HashMap<String, String> properties = CommWebService.addWardId(null);
         CommWebService.addLocId(properties);
         CommWebService.addUserId(properties);
         properties.put("bedStr", bedStr);
         properties.put("regNo", regNo);
-        properties.put("taskStatus", "0");
-        properties.put("intType", "");
-        String startDate="2020-07-11 00:00:00";
-        String endDate="2020-08-11 23:59:00";
+        properties.put("taskStatus",taskStatus);
+        properties.put("intType", intType);
         properties.put("startDate", startDate.substring(0,10));
         properties.put("startTime", startDate.substring(11,16));
         properties.put("endDate", endDate.substring(0,10));
@@ -193,6 +192,25 @@ public class TaskViewApiManager {
             public void onResult(String jsonStr) {
                 ParserUtil<NurOrdRecordTaskBean> parserUtil = new ParserUtil<>();
                 NurOrdRecordTaskBean bean = parserUtil.parserResult(jsonStr, callBack, NurOrdRecordTaskBean.class);
+                if (bean == null) {return;}
+                parserUtil.parserStatus(bean, callBack);
+            }
+        });
+    }
+    /**
+     * Description:   获取护理计划筛选配置
+     * Input：
+     * Output：
+     * Others：
+     * @param callBack
+     */
+    public static void getNurTaskSch(final CommonCallBack<NurTaskSchBean> callBack) {
+        HashMap<String, String> properties = new HashMap<>();
+        CommWebService.call("getNurTaskSch", properties, new ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                ParserUtil<NurTaskSchBean> parserUtil = new ParserUtil<>();
+                NurTaskSchBean bean = parserUtil.parserResult(jsonStr, callBack, NurTaskSchBean.class);
                 if (bean == null) {return;}
                 parserUtil.parserStatus(bean, callBack);
             }

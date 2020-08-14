@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_2"
+                    android:background="#f6f6f6"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_list_ord"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="执行结果描述："
+                    android:textSize="14sp"
+                    android:textColor="@color/black"></TextView>
+                <TextView
+                    android:layout_margin="@dimen/dp_3"
+                    android:paddingLeft="@dimen/dp_5"
+                    android:paddingTop="@dimen/dp_3"
+                    android:paddingRight="@dimen/dp_5"
+                    android:paddingBottom="@dimen/dp_10"
+                    android:id="@+id/tv_record_desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_text_area"
+                    android:textColor="@color/black"></TextView>
+                <com.dhcc.res.infusion.CustomOrdExeBottomView
+                    android:visibility="gone"
+                    android:id="@+id/custom_ordnormaltask_select_bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/tv_sure"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_40"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:layout_marginBottom="@dimen/dp_5"
+                    android:background="@color/blue"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:text="确定"
+                    android:textSize="@dimen/dp_18"></TextView>
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>
