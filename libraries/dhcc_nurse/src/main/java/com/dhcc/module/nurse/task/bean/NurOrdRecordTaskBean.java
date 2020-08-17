@@ -13,6 +13,26 @@ import java.util.List;
  */
 public class NurOrdRecordTaskBean extends CommResult {
 
+    //{"curDate":"2020-08-17","curTime":"16:42:42","msg":"成功","msgcode":"999999","status":"0","taskSetList":[]}
+    private String curDate;
+    private String curTime;
+
+    public String getCurDate() {
+        return curDate;
+    }
+
+    public void setCurDate(String curDate) {
+        this.curDate = curDate;
+    }
+
+    public String getCurTime() {
+        return curTime;
+    }
+
+    public void setCurTime(String curTime) {
+        this.curTime = curTime;
+    }
+
     private List<TaskSetListBean> taskSetList;
 
     public List<TaskSetListBean> getTaskSetList() {

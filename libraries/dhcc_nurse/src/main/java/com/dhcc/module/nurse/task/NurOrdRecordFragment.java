@@ -8,14 +8,16 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.base.commlibs.BaseActivity;
-import com.base.commlibs.BaseFragment;
+import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.KeyBoardUtil;
 import com.base.commlibs.utils.RecyclerViewHelper;
+import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.module.nurse.AdapterFactory;
 import com.dhcc.module.nurse.BaseNurseFragment;
@@ -38,9 +40,10 @@ public class NurOrdRecordFragment  extends BaseNurseFragment {
 
     private RecyclerView recNormalOrd;
     private TaskNurOrdRecordAdapter taskNurOrdRecordAdapter;
-    private TextView tvDesc,tvPatinfo;
+    private TextView tvDesc,tvPatinfo,tvTime,tvNur;
     private String recordId,interventionDR,patInfo;
     private KeyboardView mKeyboard;
+    private CheckBox ckNur;
     @Override
     protected void initDatas() {
         super.initDatas();
@@ -52,6 +55,7 @@ public class NurOrdRecordFragment  extends BaseNurseFragment {
             recordId = bundle.getString("recordId");
             interventionDR = bundle.getString("interventionDR");
             patInfo = bundle.getString("patInfo");
+            episodeId = bundle.getString("episodeId");
             tvPatinfo.setText(patInfo);
         }
         getExecuteTaskList();
@@ -62,6 +66,9 @@ public class NurOrdRecordFragment  extends BaseNurseFragment {
         super.initViews();
         tvDesc = f(R.id.tv_record_desc,TextView.class);
         tvPatinfo = f(R.id.tv_patinfo,TextView.class);
+        tvTime = f(R.id.tv_exec_time,TextView.class);
+        tvNur = f(R.id.tv_exec_nur,TextView.class);
+        ckNur = f(R.id.ck_nurrecord,CheckBox.class);
         mKeyboard = f(R.id.ky_keyboard,KeyboardView.class);
 
         recNormalOrd = RecyclerViewHelper.get(mContext, R.id.rv_list_ord);
@@ -133,6 +140,8 @@ public class NurOrdRecordFragment  extends BaseNurseFragment {
             @Override
             public void onSuccess(NurOrdRecordTaskBean bean, String type) {
                 hideLoadingTip();
+                tvTime.setText(bean.getCurDate()+" "+bean.getCurTime());
+                tvNur.setText(getSpInfo(SharedPreference.USERNAME));
                 taskNurOrdRecordAdapter.setNewData(bean.getTaskSetList());
                 refreshRecordDesc();
             }
@@ -175,7 +184,7 @@ public class NurOrdRecordFragment  extends BaseNurseFragment {
     }
     private void executeNurTask(){
         showLoadingTip(BaseActivity.LoadingType.FULL);
-        TaskViewApiManager.executeNurTask(recordId, "", "", "", "", new CommonCallBack<NurTaskSchBean>() {
+        TaskViewApiManager.executeNurTask(recordId, tvDesc.getText().toString(), getTaskJson(), ckNur.isChecked()?"1":"", getRecordData(), new CommonCallBack<NurTaskSchBean>() {
             @Override
             public void onFail(String code, String msg) {
                 hideLoadingTip();
@@ -196,6 +205,48 @@ public class NurOrdRecordFragment  extends BaseNurseFragment {
             executeNurTask();
         }
     }
+    // [{"itemId":450,"exeNoteList":[""],"itemValue":"","childItemList":[{"childId":"450||1","childValue":""},{"childId":"450||2","childValue":""}]}]
+    private String getTaskJson(){
+        String taskJson = "[";
+        if (taskNurOrdRecordAdapter.getData().size()>0){
+            for (int i = 0; i < taskNurOrdRecordAdapter.getData().size(); i++) {
+                NurOrdRecordTaskBean.TaskSetListBean bean = taskNurOrdRecordAdapter.getData().get(i);
+                String itemJson = "{";
+                itemJson = itemJson+"\"itemId\":"+bean.getItemId()+",\"name\":\""+bean.getItemName()+"\",\"exeNoteList\":[\"";
+                String noteSel = bean.getNoteSelec()==null?"":bean.getNoteSelec();
+                itemJson = itemJson+noteSel+"\"],\"itemValue\":\""+bean.getItemValue()+
+                        "\",\"childItemList\":[";
+                if (bean.getData().getSubItemList().size()>0){
+                    for (int j = 0; j < bean.getData().getSubItemList().size(); j++) {
+                        if (j==bean.getData().getSubItemList().size()-1){
+                            itemJson=itemJson+"{\"childId\":\""+bean.getData().getSubItemList().get(i).getSubItemId()+"\",\"childValue\":\""+bean.getData().getSubItemList().get(i).getSubItemName()+"\"}]}";
+                        }else {
+                            itemJson=itemJson+"{\"childId\":\""+bean.getData().getSubItemList().get(i).getSubItemId()+"\",\"childValue\":\""+bean.getData().getSubItemList().get(i).getSubItemName()+"\"},";
+                        }
+                    }
+                }else {
+                    itemJson = itemJson+"]}";
+                }
+                if (i==taskNurOrdRecordAdapter.getData().size()-1){
+                    taskJson=taskJson+itemJson+"]";
+                }else {
+                    taskJson=taskJson+itemJson+",";
+                }
+            }
+        }else {
+            taskJson=taskJson+"]";
+        }
+        return taskJson;
+    }
+    // {"episodeID":1471,"locID":151,"userID":10211,"exedate":"2020-08-17","exetime":"15:18","exeDesc":"进食中出现咳嗽或呛咳、口中存留多量唾液、等吞咽功能及障碍症状。","emrRecordId":"","record":[{"id":450,"name":"评估吞咽功能","value":"进食中出现咳嗽或呛咳,口中存留多量唾液"}],"exeDescFlag":true}
+    private String getRecordData(){
+        String recordData = "{\"episodeID\":"+episodeId+",\"locID\":"+getSpInfo(SharedPreference.LOCID)+",\"userID\":"+getSpInfo(SharedPreference.USERID)+
+                ",\"exedate\":\""+tvTime.getText().toString().substring(0,10)+"\",\"exetime\":\""+tvTime.getText().toString().substring(11,16)+
+                "\",\"exeDesc\":\""+tvDesc.getText().toString()+"\",\"emrRecordId\":\""+recordId+"\",\"record\":"+getTaskJson()+",\"exeDescFlag\":"+
+                ckNur.isChecked()+"}";
+        return recordData;
+    }
+
 
     @Override
     protected int setLayout() {

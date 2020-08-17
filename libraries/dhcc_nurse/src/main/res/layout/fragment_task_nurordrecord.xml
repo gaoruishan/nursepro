@@ -32,6 +32,74 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_2"
                     android:background="#f6f6f6"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="@dimen/dp_2"
+                        android:paddingLeft="@dimen/dp_10"
+                        android:layout_marginBottom="@dimen/dp_5"
+                        android:layout_marginTop="@dimen/dp_5"
+                        android:text="执行时间："
+                        android:textColor="#101010"
+                        android:textSize="@dimen/sp_16" />
+                    <TextView
+                        android:id="@+id/tv_exec_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="@dimen/dp_10"
+                        android:layout_marginBottom="@dimen/dp_5"
+                        android:layout_marginTop="@dimen/dp_5"
+                        tools:text="2020-08-08 19:00"
+                        android:textColor="#101010"
+                        android:textSize="@dimen/sp_16" />
+
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_2"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:background="@drawable/dhcc_line_dash"
+                    android:layerType="software" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="@dimen/dp_2"
+                        android:paddingLeft="@dimen/dp_10"
+                        android:layout_marginBottom="@dimen/dp_5"
+                        android:layout_marginTop="@dimen/dp_5"
+                        android:text="执行护士："
+                        android:textColor="#101010"
+                        android:textSize="@dimen/sp_16" />
+                    <TextView
+                        android:id="@+id/tv_exec_nur"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="@dimen/dp_10"
+                        android:layout_marginBottom="@dimen/dp_5"
+                        android:layout_marginTop="@dimen/dp_5"
+                        tools:text="护士01"
+                        android:textColor="#101010"
+                        android:textSize="@dimen/sp_16" />
+
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_2"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:background="@drawable/dhcc_line_dash"
+                    android:layout_marginBottom="@dimen/dp_5"
+                    android:layerType="software" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_list_ord"
@@ -62,6 +130,43 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_text_area"
                     android:textColor="@color/blue"></TextView>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+                    <CheckBox
+                        android:id="@+id/ck_nurrecord"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@drawable/checkbox_nur"
+                        android:text="确定要将以上执行结果"
+                        android:paddingStart="@dimen/dp_5"
+                        android:paddingTop="@dimen/dp_5"
+                        android:paddingBottom="@dimen/dp_5"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/sp_13"
+                        android:layout_marginLeft="@dimen/dp_5"
+                        ></CheckBox>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@drawable/checkbox_nur"
+                        android:text="转入护理记录"
+                        android:textColor="@color/bg_gold"
+                        android:textSize="@dimen/sp_14"
+                        android:layout_marginLeft="@dimen/dp_5"
+                        ></TextView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@drawable/checkbox_nur"
+                        android:text="吗？"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/sp_13"
+                        android:layout_marginLeft="@dimen/dp_5"
+                        ></TextView>
+                </LinearLayout>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_10"/>

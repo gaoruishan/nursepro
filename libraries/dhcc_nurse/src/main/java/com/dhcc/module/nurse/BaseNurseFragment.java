@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.base.commlibs.MessageEvent;
 import com.base.commlibs.comm.BaseCommFragment;
 import com.base.commlibs.utils.BasePopWindow;
+import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.module.nurse.task.FileterPop;
@@ -178,6 +179,13 @@ public abstract class BaseNurseFragment extends BaseCommFragment {
         void statusSure(String code);
     }
 
+    /**
+     * 获取sp存储数据
+     * @param s
+     */
+    public String getSpInfo(String s){
+        return SPUtils.getInstance().getString(s);
+    }
 
 
     /**
