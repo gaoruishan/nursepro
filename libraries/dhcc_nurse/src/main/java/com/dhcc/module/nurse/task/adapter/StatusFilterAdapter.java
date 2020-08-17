@@ -6,7 +6,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.module.nurse.R;
 import com.dhcc.module.nurse.task.bean.StatusListBean;
-import com.dhcc.module.nurse.task.bean.TimesListBean;
 
 import java.util.List;
 

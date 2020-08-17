@@ -23,11 +23,14 @@
             android:textSize="@dimen/sp_16" />
         <EditText
             android:id="@+id/et_count"
-            android:layout_width="@dimen/dp_100"
+            android:minWidth="@dimen/dp_50"
+            android:maxWidth="@dimen/dp_250"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:background="@drawable/bg_text_area"
-            android:textSize="@dimen/sp_16" />
+            android:layout_marginLeft="@dimen/dp_2"
+            android:textSize="@dimen/sp_15" />
 
         <TextView
             android:id="@+id/tv_click"
@@ -35,7 +38,7 @@
             android:layout_height="wrap_content"
             android:text="点击"
             android:textColor="@color/black"
-            android:textSize="@dimen/dp_16"
+            android:textSize="@dimen/dp_15"
             android:layout_marginLeft="@dimen/dp_2"
             android:drawableEnd="@drawable/dhcc_arrow_down"></TextView>
         <TextView
@@ -54,9 +57,11 @@
     </com.nex3z.flowlayout.FlowLayout>
 
     <View
+        android:id="@+id/line_oeporderinfo_multiorder"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_1"
-        android:background="@color/dhcc_text_view_text_color"
+        android:layout_height="@dimen/dp_2"
         android:layout_marginTop="@dimen/dp_5"
-        android:layout_marginBottom="@dimen/dp_5"></View>
+        android:layout_marginBottom="@dimen/dp_3"
+        android:background="@drawable/dhcc_line_dash"
+        android:layerType="software" />
 </LinearLayout>

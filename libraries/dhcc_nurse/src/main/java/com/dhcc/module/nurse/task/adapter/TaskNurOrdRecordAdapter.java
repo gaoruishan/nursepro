@@ -1,38 +1,19 @@
 package com.dhcc.module.nurse.task.adapter;
 
-import android.app.Activity;
 import android.content.res.Configuration;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
-import com.base.commlibs.constant.SharedPreference;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.module.nurse.R;
-import com.dhcc.module.nurse.task.bean.NormalOrdTaskBean;
 import com.dhcc.module.nurse.task.bean.NurOrdRecordTaskBean;
-import com.dhcc.module.nurse.task.bean.NurOrdTaskBean;
 import com.nex3z.flowlayout.FlowLayout;
-import com.noober.background.drawable.DrawableCreator;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import cn.qqtheme.framework.picker.OptionPicker;
-import cn.qqtheme.framework.widget.WheelView;
 
 /**
  * com.dhcc.module.nurse.task.adapter
@@ -100,14 +81,11 @@ public class TaskNurOrdRecordAdapter extends BaseQuickAdapter<NurOrdRecordTaskBe
         llCk.removeAllViews();
         if (item.getData().getSubItemList().size()>0) {
             helper.setGone(R.id.tv_click,false);
-//            LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//            params1.setMargins(0, 0, 0, 0);
-//            layout.setLayoutParams(params1);
-            //                config.setSendValue(config.getItemCode() + "|" + config.getItemdeValue());
-            FlowLayout flowCheckGroup = new FlowLayout(mContext);
             for (int i = 0; i < item.getData().getSubItemList().size(); i++) {
                 CheckBox cb = new CheckBox(mContext);
                 cb.setText(item.getData().getSubItemList().get(i).getSubItemName());
+                cb.setButtonDrawable(R.drawable.checkbox_nur);
+                cb.setPadding(5,5,10,5);
                 if (item.getData().getSubItemList().get(i).getSubSelec().equals("0")){
                     cb.setChecked(false);
                 }else {

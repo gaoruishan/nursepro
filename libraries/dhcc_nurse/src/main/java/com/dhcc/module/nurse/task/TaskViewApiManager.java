@@ -217,6 +217,31 @@ public class TaskViewApiManager {
         });
     }
     /**
+     * Description:   获取护理计划执行
+     * Input：
+     * Output：
+     * Others：
+     * @param callBack
+     */
+    public static void executeNurTask(String taskRecordId,String executedContent,String taskJson,String transferFlag,String recordData,final CommonCallBack<NurTaskSchBean> callBack) {
+        HashMap<String, String> properties = CommWebService.addUserId(null);
+        CommWebService.addLocId(properties);
+        properties.put("taskRecordId", taskRecordId);
+        properties.put("executedContent", executedContent);
+        properties.put("taskJson", taskJson);
+        properties.put("transferFlag", transferFlag);
+        properties.put("recordData", recordData);
+        CommWebService.call("executeNurTask", properties, new ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                ParserUtil<NurTaskSchBean> parserUtil = new ParserUtil<>();
+                NurTaskSchBean bean = parserUtil.parserResult(jsonStr, callBack, NurTaskSchBean.class);
+                if (bean == null) {return;}
+                parserUtil.parserStatus(bean, callBack);
+            }
+        });
+    }
+    /**
      * Description:   获取扫码信息
      * Input：
      * Output：

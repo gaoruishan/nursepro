@@ -96,6 +96,7 @@ public class NurOrdTaskFragment  extends BaseNurseFragment {
                 Bundle bundle = new Bundle();
                 bundle.putString("recordId",taskNurOrdAdapter.getData().get(position).getRecordId());
                 bundle.putString("interventionDR",taskNurOrdAdapter.getData().get(position).getInterventionDR());
+                bundle.putString("patInfo",taskNurOrdAdapter.getData().get(position).getBedCode()+taskNurOrdAdapter.getData().get(position).getName());
                 startFragment(NurOrdRecordFragment.class,bundle);
             }
         });

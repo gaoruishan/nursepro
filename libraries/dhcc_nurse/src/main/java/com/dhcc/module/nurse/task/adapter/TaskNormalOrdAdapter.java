@@ -4,18 +4,14 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.ConvertUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.module.nurse.R;
-import com.dhcc.module.nurse.education.bean.EduOrdListBean;
 import com.dhcc.module.nurse.task.bean.NormalOrdTaskBean;
-import com.dhcc.module.nurse.task.bean.TaskBean;
 import com.noober.background.drawable.DrawableCreator;
 
 import java.util.List;

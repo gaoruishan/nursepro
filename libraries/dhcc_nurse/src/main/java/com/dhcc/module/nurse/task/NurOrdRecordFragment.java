@@ -22,6 +22,8 @@ import com.dhcc.module.nurse.BaseNurseFragment;
 import com.dhcc.module.nurse.R;
 import com.dhcc.module.nurse.task.adapter.TaskNurOrdRecordAdapter;
 import com.dhcc.module.nurse.task.bean.NurOrdRecordTaskBean;
+import com.dhcc.module.nurse.task.bean.NurTaskSchBean;
+
 import cn.qqtheme.framework.picker.OptionPicker;
 import cn.qqtheme.framework.widget.WheelView;
 
@@ -36,17 +38,21 @@ public class NurOrdRecordFragment  extends BaseNurseFragment {
 
     private RecyclerView recNormalOrd;
     private TaskNurOrdRecordAdapter taskNurOrdRecordAdapter;
-    private TextView tvDesc;
-    private String recordId,interventionDR;
+    private TextView tvDesc,tvPatinfo;
+    private String recordId,interventionDR,patInfo;
     private KeyboardView mKeyboard;
     @Override
     protected void initDatas() {
         super.initDatas();
+        hindMap();
         setHindBottm(50);
-        setToolbarCenterTitle("护嘱任务执行");
+        setToolbarCenterTitle("录入");
+        addToolBarRightTextView("保存", R.color.white);
         if (bundle != null) {
             recordId = bundle.getString("recordId");
             interventionDR = bundle.getString("interventionDR");
+            patInfo = bundle.getString("patInfo");
+            tvPatinfo.setText(patInfo);
         }
         getExecuteTaskList();
     }
@@ -55,6 +61,7 @@ public class NurOrdRecordFragment  extends BaseNurseFragment {
     protected void initViews() {
         super.initViews();
         tvDesc = f(R.id.tv_record_desc,TextView.class);
+        tvPatinfo = f(R.id.tv_patinfo,TextView.class);
         mKeyboard = f(R.id.ky_keyboard,KeyboardView.class);
 
         recNormalOrd = RecyclerViewHelper.get(mContext, R.id.rv_list_ord);
@@ -166,19 +173,27 @@ public class NurOrdRecordFragment  extends BaseNurseFragment {
         }
         tvDesc.setText(strDesc);
     }
+    private void executeNurTask(){
+        showLoadingTip(BaseActivity.LoadingType.FULL);
+        TaskViewApiManager.executeNurTask(recordId, "", "", "", "", new CommonCallBack<NurTaskSchBean>() {
+            @Override
+            public void onFail(String code, String msg) {
+                hideLoadingTip();
+                showToast(msg);
+            }
+
+            @Override
+            public void onSuccess(NurTaskSchBean bean, String type) {
+                hideLoadingTip();
+                showToast(bean.getMsg());
+            }
+        });
+    }
     @Override
     public void onClick(View v) {
         super.onClick(v);
-        if (v.getId() == R.id.img_toolbar_right1) {
-            setMaskShow();
-        }
-        if (v.getId() == R.id.img_toolbar_right2) {
-            try {
-                Class<? extends BaseFragment> BedFragmentClass = (Class<? extends BaseFragment>) Class.forName("com.dhcc.nursepro.workarea.bedselect.BedSelectFragment");
-                startFragment(BedFragmentClass,1);
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
+        if (v.getId() == R.id.tv_toolbar_right) {
+            executeNurTask();
         }
     }
 
