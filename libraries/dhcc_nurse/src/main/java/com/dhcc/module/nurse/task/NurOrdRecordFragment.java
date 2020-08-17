@@ -1,13 +1,20 @@
 package com.dhcc.module.nurse.task;
 
 import android.app.Activity;
+import android.content.Context;
+import android.inputmethodservice.KeyboardView;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
 import com.base.commlibs.http.CommonCallBack;
+import com.base.commlibs.utils.KeyBoardUtil;
 import com.base.commlibs.utils.RecyclerViewHelper;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.module.nurse.AdapterFactory;
@@ -31,7 +38,7 @@ public class NurOrdRecordFragment  extends BaseNurseFragment {
     private TaskNurOrdRecordAdapter taskNurOrdRecordAdapter;
     private TextView tvDesc;
     private String recordId,interventionDR;
-
+    private KeyboardView mKeyboard;
     @Override
     protected void initDatas() {
         super.initDatas();
@@ -48,11 +55,13 @@ public class NurOrdRecordFragment  extends BaseNurseFragment {
     protected void initViews() {
         super.initViews();
         tvDesc = f(R.id.tv_record_desc,TextView.class);
+        mKeyboard = f(R.id.ky_keyboard,KeyboardView.class);
 
         recNormalOrd = RecyclerViewHelper.get(mContext, R.id.rv_list_ord);
         taskNurOrdRecordAdapter = AdapterFactory.getTaskNurOrdRecordAdapter();
         recNormalOrd.setAdapter(taskNurOrdRecordAdapter);
         taskNurOrdRecordAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 if (view.getId()==R.id.tv_click){
@@ -81,6 +90,26 @@ public class NurOrdRecordFragment  extends BaseNurseFragment {
                     if (taskNurOrdRecordAdapter.getData().get(position).getData().getSubItemList().size()>0){
 
                     }
+                }
+                if (view.getId()==R.id.et_count){
+                    EditText editText = (EditText) view;
+                    if (taskNurOrdRecordAdapter.getData().get(position).getItemName().contains("℃")) {
+                        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                        KeyBoardUtil keyBoardUtil = new KeyBoardUtil(mKeyboard, editText, editText.getId());
+                        keyBoardUtil.setOngetNextFocusListener(new KeyBoardUtil.getNextFocusListener() {
+                            @Override
+                            public void getNextFocus(int id) {
+                                editText.clearFocus();
+                            }
+                        });
+                        keyBoardUtil.showKeyboard();
+                    } else {
+                        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.showSoftInput(editText, 0);
+                        mKeyboard.setVisibility(View.GONE);
+                    }
+
                 }
                 refreshRecordDesc();
             }

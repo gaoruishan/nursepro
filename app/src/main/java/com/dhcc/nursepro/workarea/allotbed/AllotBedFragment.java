@@ -37,7 +37,7 @@ import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.uiplugs.OptionView;
-import com.dhcc.nursepro.utils.KeyBoardUtil;
+import com.base.commlibs.utils.KeyBoardUtil;
 import com.dhcc.nursepro.workarea.allotbed.adapter.EmptyBedListAdapter;
 import com.dhcc.nursepro.workarea.allotbed.api.AllotBedApiManager;
 import com.dhcc.nursepro.workarea.allotbed.bean.AllotBedInfoBean;

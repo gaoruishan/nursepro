@@ -90,7 +90,7 @@
 
     </LinearLayout>
 
-    <com.dhcc.nursepro.utils.view.DIYKeyboardView
+    <com.base.commlibs.utils.view.DIYKeyboardView
         android:id="@+id/ky_keyboard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -1,4 +1,4 @@
-package com.dhcc.nursepro.utils.view;
+package com.base.commlibs.utils.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -10,7 +10,8 @@ import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.util.AttributeSet;
 
-import com.dhcc.nursepro.R;
+
+import com.base.commlibs.R;
 
 import java.util.List;
 

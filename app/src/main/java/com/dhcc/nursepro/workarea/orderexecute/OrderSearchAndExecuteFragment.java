@@ -633,7 +633,7 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
             public void onSuccess(OrderSearchBean orderSearchBean) {
                 askCount = 0;
                 hideLoadingTip();
-                if (regNo.equals("")){
+                if (regNoSearchOrd.equals("")){
                     imgReset.setTvPatText("全部患者");
                 }
                 if (!bedStr.equals("")){

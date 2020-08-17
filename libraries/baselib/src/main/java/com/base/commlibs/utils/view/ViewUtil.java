@@ -1,4 +1,4 @@
-package com.dhcc.nursepro.utils.view;
+package com.base.commlibs.utils.view;
 
 import android.view.View;
 

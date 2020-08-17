@@ -200,8 +200,12 @@ public class NormalOrdTaskFragment extends BaseNurseFragment {
     private void exeNormalTask(){
         String oeoreId = "";
         String ordAdd = "";
-        for (int i = 0; i < normalOrdTaskBean.getBodyUnExec().get(i).getOrders().size(); i++) {
-            ordAdd = ordAdd+normalOrdTaskBean.getBodyUnExec().get(i).getOrders().get(i).get(0).getOrderInfo().getID()+"^";
+        for (int i = 0; i < taskNormalOrdAdapter.getData().size(); i++) {
+            if (taskNormalOrdAdapter.getData().get(i).get(0).getSelect()){
+                for (int j = 0; j < taskNormalOrdAdapter.getData().get(i).size(); j++) {
+                    ordAdd = ordAdd+taskNormalOrdAdapter.getData().get(i).get(j).getOrderInfo().getID()+"^";
+                }
+            }
         }
         if (ordAdd.contains("^")){
             oeoreId = ordAdd.substring(0,ordAdd.length()-1);
@@ -215,6 +219,7 @@ public class NormalOrdTaskFragment extends BaseNurseFragment {
             @Override
             public void onSuccess(OrderExecResultBean bean, String type) {
                 showToast(bean.getMsg());
+                getNormalOrdList();
             }
         });
     }

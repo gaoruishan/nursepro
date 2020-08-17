@@ -1,12 +1,14 @@
 package com.dhcc.module.nurse.task.adapter;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -51,8 +53,17 @@ public class TaskNurOrdRecordAdapter extends BaseQuickAdapter<NurOrdRecordTaskBe
         helper.setText(R.id.tv_name, item.getItemName()+":")
                 .setText(R.id.et_count, ""+item.getItemValue())
                 .addOnClickListener(R.id.tv_click)
+                .addOnClickListener(R.id.et_count)
                 .addOnClickListener(R.id.tv_click1);
         EditText etCount = helper.getView(R.id.et_count);
+        etCount.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                etCount.callOnClick();
+                return false;
+            }
+        });
+        etCount.setRawInputType(Configuration.KEYBOARD_QWERTY);
         if (item.getWidgetType().equals("4")){
             etCount.setVisibility(View.VISIBLE);
         }else {

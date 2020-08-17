@@ -33,7 +33,7 @@ import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.uiplugs.OptionView;
-import com.dhcc.nursepro.utils.KeyBoardUtil;
+import com.base.commlibs.utils.KeyBoardUtil;
 import com.dhcc.nursepro.workarea.vitalsign.api.VitalSignApiManager;
 import com.dhcc.nursepro.workarea.vitalsign.bean.VitalSignRecordBean;
 import com.dhcc.nursepro.workarea.vitalsign.bean.VitalSignSaveBean;
@@ -436,7 +436,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
                 edText.setRawInputType(Configuration.KEYBOARD_QWERTY);
             }
 //            if (config.getValidate().equals("true")){
-//                edText.setRawInputType(Configuration.KEYBOARD_QWERTY);
+                edText.setRawInputType(Configuration.KEYBOARD_QWERTY);
 //            }
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             layoutParams.setMargins(ConvertUtils.dp2px(10), ConvertUtils.dp2px(11), ConvertUtils.dp2px(10), ConvertUtils.dp2px(15));//4个参数按顺序分别是左上右下

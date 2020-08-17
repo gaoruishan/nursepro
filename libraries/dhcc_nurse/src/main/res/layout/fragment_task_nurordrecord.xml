@@ -66,6 +66,18 @@
                     android:textSize="@dimen/dp_18"></TextView>
             </LinearLayout>
         </LinearLayout>
-
+        <com.base.commlibs.utils.view.DIYKeyboardView
+            android:id="@+id/ky_keyboard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="#E1E1E1"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:keyBackground="@color/text_color_gray_c"
+            android:keyTextColor="@color/blue"
+            android:keyTextSize="@dimen/sp_20"
+            android:shadowColor="#E1E1E1"
+            android:shadowRadius="0.0" />
     </LinearLayout>
 </LinearLayout>

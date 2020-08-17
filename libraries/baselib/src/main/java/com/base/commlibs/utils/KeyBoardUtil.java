@@ -1,4 +1,4 @@
-package com.dhcc.nursepro.utils;
+package com.base.commlibs.utils;
 
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
@@ -9,7 +9,7 @@ import android.text.InputType;
 import android.view.View;
 import android.widget.EditText;
 
-import com.dhcc.nursepro.R;
+import com.base.commlibs.R;
 
 
 /**
