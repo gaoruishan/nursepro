@@ -7,7 +7,7 @@ android {
         applicationId "com.dhcc.nursepro"
         minSdkVersion rootProject.android.minSdkVersion
         targetSdkVersion rootProject.android.targetSdkVersion
-        versionCode 26
+        versionCode 12
         versionName "3.1"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
