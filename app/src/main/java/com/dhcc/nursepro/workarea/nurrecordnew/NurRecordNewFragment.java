@@ -31,6 +31,7 @@ import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -69,6 +70,7 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
     private final HashMap<String, List<String>> formNametoElementId = new HashMap<>();
     //drop edittext
     private final HashMap<String, Integer[]> dropValue = new HashMap<>();
+    private final HashMap<String, Integer[]> dcDropValue = new HashMap<>();
     //parent child view
     private final HashMap<String, List<String>> pcViewHashMap = new HashMap<>();
 
@@ -85,6 +87,9 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
     private List<Integer> selectScoreList = new ArrayList<>();
     private int mSingleChoiceID = -1;
     private int itemScore = 0;
+    private List<String> dcSelectStrList = new ArrayList<>();
+    private boolean[] dcTempStatus;
+    private ListView lv;
     private List<ElementDataBean.DataBean.InputBean.ElementBasesBean> elements;
     private List<ElementDataBean.DataBean.InputBean.ElementSetsBean> elementSetsBeans;
     private List<ElementDataBean.DataBean.InputBean.StatisticsListBean> statisticsListBeans;
@@ -209,8 +214,9 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
         for (int i = 0; elements != null && i < elements.size(); i++) {
             ElementDataBean.DataBean.InputBean.ElementBasesBean element = elements.get(i);
 
-            if (stringBuilder.length() > 2) {
+            if (stringBuilder.length() > 2 && !stringBuilder.toString().endsWith(",")) {
                 stringBuilder.append(",");
+
             }
             if ("RadioElement".equals(element.getElementType())) {
                 List<ElementDataBean.DataBean.InputBean.ElementBasesBean.RadioElementListBean> radioElementListBeanList = element.getRadioElementList();
@@ -262,7 +268,7 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
 
                         if (radioElementListBeanList.size() == 1 && "其他".equals(radioElementListBeanList.get(0).getOprationItemList().get(0).getText())) {
 
-                        }else {
+                        } else {
 
 
                             List<String> elementIdList = formNametoElementId.get(radioElementListBeanList.get(0).getFormName());
@@ -349,13 +355,81 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
 
                 }
 
+            } else if ("DropCheckboxElement".equals(element.getElementType())) {
+
+
+                String dcText = ((TextView) viewHashMap.get(element.getElementId())).getText().toString();
+                if (StringUtils.isTrimEmpty(dcText)) {
+                    LinearLayout linearLayout = (LinearLayout) viewHashMap.get(element.getElementId() + "_ll");
+                    TextView textView = (TextView) viewHashMap.get(element.getElementId());
+                    if ("true".equals(element.getRequired()) && linearLayout.getVisibility() == View.VISIBLE) {
+                        textView.setBackgroundResource(R.drawable.nur_record_btnerror_bg);
+                        showToast("请填写必填项之后再保存");
+                        return;
+                    }
+
+                    //""DropRadioElement_31"":[]
+                    stringBuilder.append("\"")
+                            .append(element.getElementType())
+                            .append("_")
+                            .append(element.getElementId())
+                            .append("\"")
+                            .append(":")
+                            .append("[]");
+                } else {
+                    List<ElementDataBean.DataBean.InputBean.ElementBasesBean.OprationItemListBean> oprationItemListBeanList = element.getOprationItemList();
+                    int j;
+                    int checkedCount = 0;
+                    if (!stringBuilder.toString().endsWith(",")) {
+                        stringBuilder.append(",");
+                    }
+                    for (j = 0; oprationItemListBeanList != null && j < oprationItemListBeanList.size(); j++) {
+                        ElementDataBean.DataBean.InputBean.ElementBasesBean.OprationItemListBean oprationItemListBean = oprationItemListBeanList.get(j);
+
+                        if (j == 0) {
+                            stringBuilder.append("\"")
+                                    .append(element.getFormName())
+                                    .append("\":[");
+                        }
+                        String[] dcTextItem = dcText.split(",");
+
+                        for (int i1 = 0; i1 < dcTextItem.length; i1++) {
+                            String NumberValueStr = "";
+                            String TextStr = "";
+                            String ValueStr = "";
+                            if (dcTextItem[i1].equals(oprationItemListBean.getText())) {
+                                NumberValueStr = oprationItemListBean.getNumberValue();
+                                TextStr = oprationItemListBean.getText();
+                                ValueStr = oprationItemListBean.getValue();
+                                if (checkedCount > 0) {
+                                    stringBuilder.append(",");
+                                }
+                                stringBuilder.append("{\"NumberValue\":\"")
+                                        .append(NumberValueStr)
+                                        .append("\",\"Text\":\"")
+                                        .append(TextStr)
+                                        .append("\",\"Value\":\"")
+                                        .append(ValueStr)
+                                        .append("\"}");
+
+                                checkedCount++;
+                                break;
+                            }
+
+
+                        }
+
+                        if (j == oprationItemListBeanList.size() - 1) {
+                            stringBuilder.append("]");
+                        }
+                    }
+
+                }
+
             } else if ("CheckElement".equals(element.getElementType())) {
                 List<ElementDataBean.DataBean.InputBean.ElementBasesBean.RadioElementListBean> radioElementListBeanList = element.getRadioElementList();
                 int j;
                 int checkedCount = 0;
-                if (!stringBuilder.toString().endsWith(",")) {
-                    stringBuilder.append(",");
-                }
                 for (j = 0; radioElementListBeanList != null && j < radioElementListBeanList.size(); j++) {
                     ElementDataBean.DataBean.InputBean.ElementBasesBean.RadioElementListBean radioElementListBean = radioElementListBeanList.get(j);
                     String radioStr = ((CheckBox) viewHashMap.get(radioElementListBean.getElementId())).getText().toString();
@@ -412,29 +486,29 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
 
             } else if ("TextElement".equals(element.getElementType()) || "NumberElement".equals(element.getElementType()) || "TextareaElement".equals(element.getElementType())) {
                 //""DateElement_16"":""2020-01-14""
-                if (("DHCNURBarthelLR".equals(emrCode) && "32".equals(element.getElementId())) ||
-                        ("DHCNURDDFXPGJHLJLDLR".equals(emrCode) && "65".equals(element.getElementId())) ||
-                        ("DHCNURGLHTFXYSPGJHLCSLR".equals(emrCode) && "39".equals(element.getElementId())) ||
-                        ("DHCNURYCFXPGJHLJLDCRHZLR".equals(emrCode) && "168".equals(element.getElementId())) ||
-                        ("DHCNURRYZKHLPGDCRHZLR".equals(emrCode) && "1803".equals(element.getElementId())) ||
-                        ("DHCNURHLJLDLR".equals(emrCode) && "44".equals(element.getElementId())) ||
-                        ("DHCNURFKPGDLR".equals(emrCode) && "1803".equals(element.getElementId())) ||
-                        ("DHCNUREKHLPGDLR".equals(emrCode) && "580".equals(element.getElementId())) ||
-                        ("DHCNUREKDDFXPGLBHDLR".equals(emrCode) && "29".equals(element.getElementId())) ||
-                        ("DHCNUREKYCHLJL".equals(emrCode) && "168".equals(element.getElementId())) ||
-                        ("DHCNUREKRCSHNLADLLBBZSLR".equals(emrCode) && "34".equals(element.getElementId()))) {
-
-                    String userStr = "CA" + ((EditText) viewHashMap.get(element.getElementId())).getText().toString() + "*" + spUtils.getString(SharedPreference.USERCODE);
-                    stringBuilder.append("\"")
-                            .append(element.getElementType())
-                            .append("_")
-                            .append(element.getElementId())
-                            .append("\":\"")
-                            .append(userStr)
-                            .append("\"");
-                } else {
-                    EditText editText = (EditText) viewHashMap.get(element.getElementId());
-                    if (editText != null) {
+//                if (("DHCNURBarthelLR".equals(emrCode) && "32".equals(element.getElementId())) ||
+//                        ("DHCNURDDFXPGJHLJLDLR".equals(emrCode) && "65".equals(element.getElementId())) ||
+//                        ("DHCNURGLHTFXYSPGJHLCSLR".equals(emrCode) && "39".equals(element.getElementId())) ||
+//                        ("DHCNURYCFXPGJHLJLDCRHZLR".equals(emrCode) && "168".equals(element.getElementId())) ||
+//                        ("DHCNURRYZKHLPGDCRHZLR".equals(emrCode) && "1803".equals(element.getElementId())) ||
+//                        ("DHCNURHLJLDLR".equals(emrCode) && "44".equals(element.getElementId())) ||
+//                        ("DHCNURFKPGDLR".equals(emrCode) && "1803".equals(element.getElementId())) ||
+//                        ("DHCNUREKHLPGDLR".equals(emrCode) && "580".equals(element.getElementId())) ||
+//                        ("DHCNUREKDDFXPGLBHDLR".equals(emrCode) && "29".equals(element.getElementId())) ||
+//                        ("DHCNUREKYCHLJL".equals(emrCode) && "168".equals(element.getElementId())) ||
+//                        ("DHCNUREKRCSHNLADLLBBZSLR".equals(emrCode) && "34".equals(element.getElementId()))) {
+//
+//                    String userStr = "CA" + ((EditText) viewHashMap.get(element.getElementId())).getText().toString() + "*" + spUtils.getString(SharedPreference.USERCODE);
+//                    stringBuilder.append("\"")
+//                            .append(element.getElementType())
+//                            .append("_")
+//                            .append(element.getElementId())
+//                            .append("\":\"")
+//                            .append(userStr)
+//                            .append("\"");
+//                } else {
+                EditText editText = (EditText) viewHashMap.get(element.getElementId());
+                if (editText != null) {
 //                        LinearLayout linearLayout = (LinearLayout) viewHashMap.get(element.getElementId() + "_ll");
 //                        if ("true".equals(element.getRequired()) && StringUtils.isTrimEmpty(editText.getText().toString()) && linearLayout.getVisibility() == View.VISIBLE) {
 //                            editText.setBackgroundResource(R.drawable.nur_record_inputerror_bg);
@@ -442,15 +516,15 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
 //                            return;
 //                        }
 
-                        stringBuilder.append("\"")
-                                .append(element.getElementType())
-                                .append("_")
-                                .append(element.getElementId())
-                                .append("\":\"")
-                                .append(editText.getText().toString())
-                                .append("\"");
-                    }
+                    stringBuilder.append("\"")
+                            .append(element.getElementType())
+                            .append("_")
+                            .append(element.getElementId())
+                            .append("\":\"")
+                            .append(editText.getText().toString())
+                            .append("\"");
                 }
+//                }
 
             } else {
                 if (viewHashMap.get(element.getElementId()) instanceof TextView) {
@@ -670,6 +744,30 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
 
                 llNurrecord.addView(lldropRadio);
                 llNurrecord.addView(getDashLine());
+            } else if ("DropCheckboxElement".equals(element.getElementType())) {
+                LinearLayout lldropCheck = getTextView(element);
+                TextView tvdropCheck = (TextView) viewHashMap.get(element.getElementId());
+                tvdropCheck.setBackground(getResources().getDrawable(R.drawable.nur_record_btn_bg));
+
+                tvdropCheck.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        tvdropCheck.setBackgroundResource(R.drawable.nur_record_btn_bg);
+                        dcSelectStrList = new ArrayList<>();
+                        for (int i1 = 0; element.getOprationItemList() != null && i1 < element.getOprationItemList().size(); i1++) {
+                            dcSelectStrList.add(element.getOprationItemList().get(i1).getText());
+                        }
+                        dcSelectStrList.add("全选/取消全选");
+
+                        ShowDropCheck(dcSelectStrList, getActivity(), tvdropCheck);
+                    }
+                });
+
+                lldropCheck.clearAnimation();
+
+                llNurrecord.addView(lldropCheck);
+                llNurrecord.addView(getDashLine());
+
             } else if ("NumberElement".equals(element.getElementType())) {
                 LinearLayout llNumber = getEditText(element, "NumberElement");
                 EditText edNumber = (EditText) viewHashMap.get(element.getElementId());
@@ -682,55 +780,64 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
                 EditText edText = (EditText) viewHashMap.get(element.getElementId());
                 edText.setBackground(getResources().getDrawable(R.drawable.nur_record_input_bg));
 
-
-                if ("".equals(recId)) {
-
-                    //护士签名
-                    //Barthel评分
-                    if ("DHCNURBarthelLR".equals(emrCode) && "32".equals(element.getElementId())) {
-                        edText.setText(spUtils.getString(SharedPreference.USERNAME));
-                    }
-                    //跌倒评估
-                    if ("DHCNURDDFXPGJHLJLDLR".equals(emrCode) && "65".equals(element.getElementId())) {
-                        edText.setText(spUtils.getString(SharedPreference.USERNAME));
-                    }
-                    //管道滑脱
-                    if ("DHCNURGLHTFXYSPGJHLCSLR".equals(emrCode) && "39".equals(element.getElementId())) {
-                        edText.setText(spUtils.getString(SharedPreference.USERNAME));
-                    }
-                    //压疮评估
-                    if ("DHCNURYCFXPGJHLJLDCRHZLR".equals(emrCode) && "168".equals(element.getElementId())) {
-                        edText.setText(spUtils.getString(SharedPreference.USERNAME));
-                    }
-                    //入院评估
-                    if ("DHCNURRYZKHLPGDCRHZLR".equals(emrCode) && "1803".equals(element.getElementId())) {
-                        edText.setText(spUtils.getString(SharedPreference.USERNAME));
-                    }
-                    //护理记录单
-                    if ("DHCNURHLJLDLR".equals(emrCode) && "44".equals(element.getElementId())) {
-                        edText.setText(spUtils.getString(SharedPreference.USERNAME));
-                    }
-                    //产科入院评估
-                    if ("DHCNURFKPGDLR".equals(emrCode) && "1803".equals(element.getElementId())) {
-                        edText.setText(spUtils.getString(SharedPreference.USERNAME));
-                    }
-                    //儿科入院评估
-                    if ("DHCNUREKHLPGDLR".equals(emrCode) && "580".equals(element.getElementId())) {
-                        edText.setText(spUtils.getString(SharedPreference.USERNAME));
-                    }
-                    //儿科跌倒评估
-                    if ("DHCNUREKDDFXPGLBHDLR".equals(emrCode) && "29".equals(element.getElementId())) {
-                        edText.setText(spUtils.getString(SharedPreference.USERNAME));
-                    }
-                    //儿科压疮评估
-                    if ("DHCNUREKYCHLJL".equals(emrCode) && "168".equals(element.getElementId())) {
-                        edText.setText(spUtils.getString(SharedPreference.USERNAME));
-                    }
-                    //儿科日常生活ADL评估
-                    if ("DHCNUREKRCSHNLADLLBBZSLR".equals(emrCode) && "34".equals(element.getElementId())) {
+                if ("true".equals(element.getSignatureAuto())) {
+                    if ("CommonNOReplace".equals(element.getSignature())) {
+                        if ("".equals(recId)) {
+                            edText.setText(spUtils.getString(SharedPreference.USERNAME));
+                        }
+                    } else if ("Common".equals(element.getSignature())) {
                         edText.setText(spUtils.getString(SharedPreference.USERNAME));
                     }
                 }
+
+//                if ("".equals(recId)) {
+//
+//                    //护士签名
+//                    //Barthel评分
+//                    if ("DHCNURBarthelLR".equals(emrCode) && "32".equals(element.getElementId())) {
+//                        edText.setText(spUtils.getString(SharedPreference.USERNAME));
+//                    }
+//                    //跌倒评估
+//                    if ("DHCNURDDFXPGJHLJLDLR".equals(emrCode) && "65".equals(element.getElementId())) {
+//                        edText.setText(spUtils.getString(SharedPreference.USERNAME));
+//                    }
+//                    //管道滑脱
+//                    if ("DHCNURGLHTFXYSPGJHLCSLR".equals(emrCode) && "39".equals(element.getElementId())) {
+//                        edText.setText(spUtils.getString(SharedPreference.USERNAME));
+//                    }
+//                    //压疮评估
+//                    if ("DHCNURYCFXPGJHLJLDCRHZLR".equals(emrCode) && "168".equals(element.getElementId())) {
+//                        edText.setText(spUtils.getString(SharedPreference.USERNAME));
+//                    }
+//                    //入院评估
+//                    if ("DHCNURRYZKHLPGDCRHZLR".equals(emrCode) && "1803".equals(element.getElementId())) {
+//                        edText.setText(spUtils.getString(SharedPreference.USERNAME));
+//                    }
+//                    //护理记录单
+//                    if ("DHCNURHLJLDLR".equals(emrCode) && "44".equals(element.getElementId())) {
+//                        edText.setText(spUtils.getString(SharedPreference.USERNAME));
+//                    }
+//                    //产科入院评估
+//                    if ("DHCNURFKPGDLR".equals(emrCode) && "1803".equals(element.getElementId())) {
+//                        edText.setText(spUtils.getString(SharedPreference.USERNAME));
+//                    }
+//                    //儿科入院评估
+//                    if ("DHCNUREKHLPGDLR".equals(emrCode) && "580".equals(element.getElementId())) {
+//                        edText.setText(spUtils.getString(SharedPreference.USERNAME));
+//                    }
+//                    //儿科跌倒评估
+//                    if ("DHCNUREKDDFXPGLBHDLR".equals(emrCode) && "29".equals(element.getElementId())) {
+//                        edText.setText(spUtils.getString(SharedPreference.USERNAME));
+//                    }
+//                    //儿科压疮评估
+//                    if ("DHCNUREKYCHLJL".equals(emrCode) && "168".equals(element.getElementId())) {
+//                        edText.setText(spUtils.getString(SharedPreference.USERNAME));
+//                    }
+//                    //儿科日常生活ADL评估
+//                    if ("DHCNUREKRCSHNLADLLBBZSLR".equals(emrCode) && "34".equals(element.getElementId())) {
+//                        edText.setText(spUtils.getString(SharedPreference.USERNAME));
+//                    }
+//                }
 
                 lledit.clearAnimation();
                 //成人入院评估
@@ -1472,6 +1579,55 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
         localAlertDialog.show();
 
         localAlertDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+    }
+
+    private void ShowDropCheck(List<String> dcSelectStrList, Context context, final TextView textView) {
+        CharSequence[] dcmItems = new CharSequence[dcSelectStrList.size()];
+        dcTempStatus = new boolean[dcSelectStrList.size()];
+        for (int i = 0; i < dcSelectStrList.size(); i++) {
+            dcmItems[i] = dcSelectStrList.get(i);
+            String[] dcText = textView.getText().toString().split(",");
+            dcTempStatus[i] = false;
+            for (int i1 = 0; i1 < dcText.length; i1++) {
+                if (dcText[i1].equals(dcSelectStrList.get(i))) {
+                    dcTempStatus[i] = true;
+                    break;
+                }
+            }
+        }
+
+        AlertDialog ad = new AlertDialog.Builder(context)
+                .setTitle("选择")
+                .setMultiChoiceItems(dcmItems, dcTempStatus, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                        if (which == (dcmItems.length - 1)) {
+                            for (int i = 0; i < dcmItems.length; i++) {
+                                lv.setItemChecked(i, isChecked);
+                                dcTempStatus[i] = isChecked;
+                            }
+                        }
+                    }
+                })
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        String itmtxt = "";
+                        for (int i = 0; i < (dcmItems.length - 1); i++) {
+                            if (lv.getCheckedItemPositions().get(i)) {
+                                itmtxt = itmtxt + dcSelectStrList.get(i) + ",";
+                            }
+                        }
+                        if (itmtxt.endsWith(",")) {
+                            itmtxt = itmtxt.substring(0, itmtxt.length() - 1);
+                        }
+                        textView.setText(itmtxt);
+                    }
+                }).setNegativeButton("取消", null).create();
+        lv = ad.getListView();
+        ad.show();
+        ad.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
     }
 
     private LinearLayout getEditText(ElementDataBean.DataBean.InputBean.ElementBasesBean element, String elementType) {
