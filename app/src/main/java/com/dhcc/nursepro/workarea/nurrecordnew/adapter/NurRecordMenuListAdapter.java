@@ -13,6 +13,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.nurrecordnew.NurRecordMPGDListFragment;
+import com.dhcc.nursepro.workarea.nurrecordnew.NurRecordNewFragment;
 import com.dhcc.nursepro.workarea.nurrecordnew.bean.InWardPatListBean;
 import com.dhcc.nursepro.workarea.nurrecordnew.bean.RecModelListBean;
 
@@ -71,7 +72,8 @@ public class NurRecordMenuListAdapter extends BaseQuickAdapter<RecModelListBean.
                     bundle.putString("ModelNum", modelListBean.getModelNum());
                     bundle.putSerializable("ModelListBean", modelListBean);
                     if ("1".equals(Objects.requireNonNull(modelListBean).getModelType())) {
-//                        baseFragment.startFragment(NurRecordJLDListFragment.class, bundle);
+                        bundle.putString("RecID", "");
+                        baseFragment.startFragment(NurRecordNewFragment.class, bundle);
                     } else if ("2".equals(Objects.requireNonNull(modelListBean).getModelType())) {
 //                        baseFragment.startFragment(NurRecordPGDFragment.class, bundle);
                     } else if ("3".equals(Objects.requireNonNull(modelListBean).getModelType())) {
