@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,31 +35,7 @@ import java.util.List;
 public class SettingBedsFragment extends BaseFragment {
     private LinearLayout llBedselectAllselect;
     private RecyclerView recyBedselect;
-
-    private List<SettingBedListBean.BedListBean> bedList = new ArrayList<>();
     private SettingBedsGroupAdapter bedGroupListAdapter;
-
-    //是否全选状态，暂不关联各组变更状态
-    private boolean selectAll;
-
-
-    //    private IntentFilter intentFilter;
-    //    private DataReceiver dataReceiver = null;
-    //    //扫描腕带获取regNo、wardId
-    //    public class DataReceiver extends BroadcastReceiver {
-    //        @Override
-    //        public void onReceive(Context context, Intent intent) {
-    //            if (intent.getAction().equals("SURETHIS")){
-    //                int i = intent.getIntExtra("postion",-1);
-    //
-    //                showToast("---"+i);
-    //
-    //                bedGroupListAdapter.setPostion(i);
-    //                bedGroupListAdapter.notifyItemChanged(i);
-    //
-    //            }
-    //        }
-    //    }
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_setting_beds, container, false);
@@ -85,10 +60,6 @@ public class SettingBedsFragment extends BaseFragment {
         viewright.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //                Bundle bundle = new Bundle();
-                //                bundle.putString("bedselectinfoStr", getBedSelectInfoStr());
-                //                showToast(getBedSelectInfoStr());
-                //                finish(bundle);
                 settingBeds();
             }
         });
@@ -97,12 +68,6 @@ public class SettingBedsFragment extends BaseFragment {
         initView(view);
         initAdapter();
         initData();
-
-        //        //扫描广播
-        //        intentFilter = new IntentFilter();
-        //        intentFilter.addAction("SURETHIS");
-        //        dataReceiver = new DataReceiver();
-        //        getActivity().registerReceiver(dataReceiver,intentFilter);
     }
 
     private void initView(View view) {
@@ -111,18 +76,23 @@ public class SettingBedsFragment extends BaseFragment {
         llBedselectAllselect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bedGroupListAdapter.setFirst(true);
-                if (selectAll) {
-                    for (int i = 0; i < bedList.size(); i++) {
-                        bedList.get(i).setSelect("0");
+                if (llBedselectAllselect.isSelected()){
+                    llBedselectAllselect.setSelected(false);
+                    for (int i = 0; i < bedGroupListAdapter.getData().size(); i++) {
+                        bedGroupListAdapter.getData().get(i).setSelect("0");
+                        for (int j = 0; j < bedGroupListAdapter.getData().get(i).getGroupList().size(); j++) {
+                            bedGroupListAdapter.getData().get(i).getGroupList().get(j).setSelect("0");
+                        }
                     }
-                } else {
-                    for (int i = 0; i < bedList.size(); i++) {
-                        bedList.get(i).setSelect("1");
+                }else {
+                    llBedselectAllselect.setSelected(true);
+                    for (int i = 0; i < bedGroupListAdapter.getData().size(); i++) {
+                        bedGroupListAdapter.getData().get(i).setSelect("1");
+                        for (int j = 0; j < bedGroupListAdapter.getData().get(i).getGroupList().size(); j++) {
+                            bedGroupListAdapter.getData().get(i).getGroupList().get(j).setSelect("1");
+                        }
                     }
                 }
-                selectAll = !selectAll;
-                llBedselectAllselect.setSelected(selectAll);
                 bedGroupListAdapter.notifyDataSetChanged();
             }
         });
@@ -142,28 +112,14 @@ public class SettingBedsFragment extends BaseFragment {
         bedGroupListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                SettingBedListBean.BedListBean bedListBean = (SettingBedListBean.BedListBean) adapter.getItem(position);
-
-                if (view.getId() == R.id.ll_settingbeds_group) {
-                    if ("0".equals(bedListBean.getSelect())) {
-                        bedListBean.setSelect("1");
-                    } else {
-                        bedListBean.setSelect("0");
+                if (view.getId() == R.id.view_callrefresh) {
+                    llBedselectAllselect.setSelected(true);
+                    for (int i = 0; i < bedGroupListAdapter.getData().size(); i++) {
+                        if (bedGroupListAdapter.getData().get(i).getSelect().equals("0")){
+                            llBedselectAllselect.setSelected(false);
+                        }
                     }
-                    bedGroupListAdapter.setFirst(true);
-                    bedGroupListAdapter.notifyDataSetChanged();
-
-                    //                    if (view.isSelected()) {
-                    //                        view.setSelected(false);
-                    //                        for (int i = 0; i < groupList.size(); i++) {
-                    //                            groupList.get(i).setSelect("0");
-                    //                        }
-                    //                    } else {
-                    //                        view.setSelected(true);
-                    //                        for (int i = 0; i < groupList.size(); i++) {
-                    //                            groupList.get(i).setSelect("1");
-                    //                        }
-                    //                    }
+                    bedGroupListAdapter.notifyItemChanged(position);
                 }
             }
         });
@@ -180,11 +136,13 @@ public class SettingBedsFragment extends BaseFragment {
         SettingBedsApiManeger.getBedList(properties, "getBedList", new SettingBedsApiManeger.GetBedListCallback() {
             @Override
             public void onSuccess(SettingBedListBean settingBedListBean) {
-                bedList = settingBedListBean.getBedList();
-                for (int i = 0; i < bedList.size(); i++) {
-                    bedList.get(i).setSelect("0");
+                llBedselectAllselect.setSelected(true);
+                for (int i = 0; i < settingBedListBean.getBedList().size(); i++) {
+                    if (settingBedListBean.getBedList().get(i).getSelect().equals("0")){
+                        llBedselectAllselect.setSelected(false);
+                    }
                 }
-                bedGroupListAdapter.setNewData(bedList);
+                bedGroupListAdapter.setNewData(settingBedListBean.getBedList());
             }
 
             @Override
@@ -206,7 +164,6 @@ public class SettingBedsFragment extends BaseFragment {
             public void onSuccess(String msg) {
                 showToast("所管床设置完成");
                 finish();
-
             }
 
             @Override
@@ -224,10 +181,8 @@ public class SettingBedsFragment extends BaseFragment {
         HashMap<String, String> mapSelect = new HashMap<>();
         String bedIdStr = "";
         String statusStr = "";
-
-        StringBuffer bedselectinfoStr = new StringBuffer();
-        for (int i = 0; i < bedList.size(); i++) {
-            List<SettingBedListBean.BedListBean.GroupListBean> groupListBeanListLocal = bedList.get(i).getGroupList();
+        for (int i = 0; i < bedGroupListAdapter.getData().size(); i++) {
+            List<SettingBedListBean.BedListBean.GroupListBean> groupListBeanListLocal = bedGroupListAdapter.getData().get(i).getGroupList();
 
             for (int j = 0; j < groupListBeanListLocal.size(); j++) {
                 SettingBedListBean.BedListBean.GroupListBean groupListBean = groupListBeanListLocal.get(j);
@@ -259,8 +214,6 @@ public class SettingBedsFragment extends BaseFragment {
         }
         mapSelect.put("bedIdStr", bedIdStr);
         mapSelect.put("statusStr", statusStr);
-        Log.v("11111bed", bedIdStr);
-        Log.v("11111stat", statusStr);
         return mapSelect;
     }
 

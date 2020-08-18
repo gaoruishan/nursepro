@@ -35,14 +35,8 @@ import java.util.List;
 public class BedSelectFragment extends BaseFragment {
     private LinearLayout llBedselectAllselect;
     private RecyclerView recyBedselect;
-
-    private List<BedSelectListBean.BedListBean> bedList = new ArrayList<>();
     private BedGroupListAdapter bedGroupListAdapter;
-    private String bedsSelected = "";
     private String bedsSelectedSave = "";
-
-    //是否全选状态，暂不关联各组变更状态
-    private boolean selectAll;
 
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -76,7 +70,6 @@ public class BedSelectFragment extends BaseFragment {
         });
         setToolbarRightCustomView(viewright);
 
-        bedsSelected = SPUtils.getInstance().getString(SharedPreference.ORDERSEARCHE_BEDSELECTED)+"";
         initView(view);
         initAdapter();
         initData();
@@ -89,18 +82,23 @@ public class BedSelectFragment extends BaseFragment {
         llBedselectAllselect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bedGroupListAdapter.setIfGroupClick(true);
-                if (selectAll) {
-                    for (int i = 0; i < bedList.size(); i++) {
-                        bedList.get(i).setSelect("0");
+                if (llBedselectAllselect.isSelected()){
+                    llBedselectAllselect.setSelected(false);
+                    for (int i = 0; i < bedGroupListAdapter.getData().size(); i++) {
+                        bedGroupListAdapter.getData().get(i).setSelect("0");
+                        for (int j = 0; j < bedGroupListAdapter.getData().get(i).getGroupList().size(); j++) {
+                            bedGroupListAdapter.getData().get(i).getGroupList().get(j).setSelect("0");
+                        }
                     }
-                } else {
-                    for (int i = 0; i < bedList.size(); i++) {
-                        bedList.get(i).setSelect("1");
+                }else {
+                    llBedselectAllselect.setSelected(true);
+                    for (int i = 0; i < bedGroupListAdapter.getData().size(); i++) {
+                        bedGroupListAdapter.getData().get(i).setSelect("1");
+                        for (int j = 0; j < bedGroupListAdapter.getData().get(i).getGroupList().size(); j++) {
+                            bedGroupListAdapter.getData().get(i).getGroupList().get(j).setSelect("1");
+                        }
                     }
                 }
-                selectAll = !selectAll;
-                llBedselectAllselect.setSelected(selectAll);
                 bedGroupListAdapter.notifyDataSetChanged();
             }
         });
@@ -120,29 +118,16 @@ public class BedSelectFragment extends BaseFragment {
         bedGroupListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                BedSelectListBean.BedListBean bedListBean = (BedSelectListBean.BedListBean) adapter.getItem(position);
-
-                if (view.getId() == R.id.ll_bedselect_group) {
-                    bedGroupListAdapter.setIfGroupClick(true);
-                    if ("0".equals(bedListBean.getSelect())) {
-                        bedListBean.setSelect("1");
-                    } else {
-                        bedListBean.setSelect("0");
+                if (view.getId() == R.id.view_callrefresh) {
+                    llBedselectAllselect.setSelected(true);
+                    for (int i = 0; i < bedGroupListAdapter.getData().size(); i++) {
+                        if (bedGroupListAdapter.getData().get(i).getSelect().equals("0")){
+                            llBedselectAllselect.setSelected(false);
+                        }
                     }
                     bedGroupListAdapter.notifyItemChanged(position);
-
-                    //                    if (view.isSelected()) {
-                    //                        view.setSelected(false);
-                    //                        for (int i = 0; i < groupList.size(); i++) {
-                    //                            groupList.get(i).setSelect("0");
-                    //                        }
-                    //                    } else {
-                    //                        view.setSelected(true);
-                    //                        for (int i = 0; i < groupList.size(); i++) {
-                    //                            groupList.get(i).setSelect("1");
-                    //                        }
-                    //                    }
                 }
+
             }
         });
         recyBedselect.setAdapter(bedGroupListAdapter);
@@ -154,12 +139,14 @@ public class BedSelectFragment extends BaseFragment {
         BedListApiManager.getBedList(new BedListApiManager.GetBedListCallback() {
             @Override
             public void onSuccess(BedSelectListBean bedSelectListBean) {
-                bedList = bedSelectListBean.getBedList();
-                for (int i = 0; i < bedList.size(); i++) {
-                    bedList.get(i).setSelect("0");
-                }
                 hideLoadingTip();
-                bedGroupListAdapter.setNewData(bedList);
+                llBedselectAllselect.setSelected(true);
+                for (int i = 0; i < bedSelectListBean.getBedList().size(); i++) {
+                    if (bedSelectListBean.getBedList().get(i).getSelect().equals("0")){
+                        llBedselectAllselect.setSelected(false);
+                    }
+                }
+                bedGroupListAdapter.setNewData(bedSelectListBean.getBedList());
             }
 
             @Override
@@ -172,8 +159,8 @@ public class BedSelectFragment extends BaseFragment {
 
     private String getBedSelectInfoStr() {
         StringBuffer bedselectinfoStr = new StringBuffer();
-        for (int i = 0; i < bedList.size(); i++) {
-            List<BedSelectListBean.BedListBean.GroupListBean> groupListBeanListLocal = bedList.get(i).getGroupList();
+        for (int i = 0; i < bedGroupListAdapter.getData().size(); i++) {
+            List<BedSelectListBean.BedListBean.GroupListBean> groupListBeanListLocal = bedGroupListAdapter.getData().get(i).getGroupList();
 
             for (int j = 0; j < groupListBeanListLocal.size(); j++) {
                 BedSelectListBean.BedListBean.GroupListBean groupListBean = groupListBeanListLocal.get(j);
@@ -188,7 +175,6 @@ public class BedSelectFragment extends BaseFragment {
 
                 }
             }
-
 
         }
         if (!"".equals(bedselectinfoStr.toString()) && !bedselectinfoStr.toString().endsWith("}}")) {

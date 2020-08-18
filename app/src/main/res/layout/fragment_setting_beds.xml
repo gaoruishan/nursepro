@@ -35,21 +35,11 @@
             android:textColor="@color/bed_text_color"
             android:text="全选" />
     </LinearLayout>
-
-
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:background="#f5faff"
-        android:paddingTop="@dimen/dp_5"
-        android:layout_height="@dimen/dp_0"
-        android:layout_weight="1">
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recy_settingbeds"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
         </android.support.v7.widget.RecyclerView>
-    </android.support.v4.widget.NestedScrollView>
-
 
 </LinearLayout>

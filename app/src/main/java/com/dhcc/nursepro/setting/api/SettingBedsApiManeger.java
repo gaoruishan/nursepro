@@ -55,8 +55,6 @@ public class SettingBedsApiManeger {
                     } catch (Exception e) {
                         callback.onFail("-2", "网络错误，数据解析失败");
                     }
-
-
                 }
             }
         });
@@ -73,6 +71,14 @@ public class SettingBedsApiManeger {
                 } else {
                     try {
                         SettingBedListBean settingBedListBean = gson.fromJson(jsonStr, SettingBedListBean.class);
+                        for (int i = 0; i < settingBedListBean.getBedList().size(); i++) {
+                            settingBedListBean.getBedList().get(i).setSelect("1");
+                            for (int j = 0; j < settingBedListBean.getBedList().get(i).getGroupList().size(); j++) {
+                                if (settingBedListBean.getBedList().get(i).getGroupList().get(j).getSelect().equals("0")){
+                                    settingBedListBean.getBedList().get(i).setSelect("0");
+                                }
+                            }
+                        }
                         if (ObjectUtils.isEmpty(settingBedListBean)) {
                             callback.onFail("-3", "网络错误，数据解析为空");
                         } else {
@@ -89,8 +95,6 @@ public class SettingBedsApiManeger {
                     } catch (Exception e) {
                         callback.onFail("-2", "网络错误，数据解析失败");
                     }
-
-
                 }
             }
         });
