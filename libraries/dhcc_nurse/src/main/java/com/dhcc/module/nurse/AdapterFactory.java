@@ -6,6 +6,7 @@ import com.dhcc.module.nurse.education.adapter.HealthEduEndAdapter;
 import com.dhcc.module.nurse.education.adapter.HealthEduItemAdapter;
 import com.dhcc.module.nurse.education.adapter.HealthEduNeedAdapter;
 import com.dhcc.module.nurse.education.adapter.TaskOverviewAdapter;
+import com.dhcc.module.nurse.nurplan.adapter.NurPlanAdapter;
 import com.dhcc.module.nurse.task.adapter.StatusFilterAdapter;
 import com.dhcc.module.nurse.task.adapter.TaskListAdapter;
 import com.dhcc.module.nurse.task.adapter.TaskNormalOrdAdapter;
@@ -115,4 +116,13 @@ public class AdapterFactory {
     public static StatusFilterAdapter getStatusFilterAdapter() {
         return new StatusFilterAdapter(R.layout.item_task_statusfilter,null);
     }
+
+    /**
+     * 护理计划-问题列表
+     * @return
+     */
+    public static NurPlanAdapter getNurPlanAdapter() {
+        return new NurPlanAdapter(R.layout.item_nur_plan_question,null);
+    }
+
 }

@@ -3,7 +3,6 @@ package com.dhcc.module.nurse;
 import android.content.Context;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
-import android.support.annotation.LayoutRes;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,9 +12,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.base.commlibs.BaseActivity;
 import com.base.commlibs.MessageEvent;
+import com.base.commlibs.bean.PatientListBean;
 import com.base.commlibs.comm.BaseCommFragment;
+import com.base.commlibs.http.CommHttp;
+import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.BasePopWindow;
+import com.base.commlibs.utils.SimpleCallBack;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -86,7 +90,7 @@ public abstract class BaseNurseFragment extends BaseCommFragment {
      * task添加时间筛选框
      */
     private TimeFilterAdapter timeFilterAdapter;
-    private View contentView;
+    protected View contentView;
     private Boolean bStatus = false;
     StatusFilterAdapter statusFilterAdapter;
 
@@ -163,6 +167,9 @@ public abstract class BaseNurseFragment extends BaseCommFragment {
 
     }
     public void setMaskShow(){
+        setMaskShow(contentView);
+    }
+    public void setMaskShow(View contentView){
         FileterPop.setMask(mContext, View.VISIBLE);
         FileterPop.initPopupWindow(mContext, BasePopWindow.EnumLocation.RIGHT, contentView);
     }
@@ -258,4 +265,29 @@ public abstract class BaseNurseFragment extends BaseCommFragment {
     public void updateMessageEvent(MessageEvent event) {
         Log.e(getClass().getSimpleName(), "updateText:" + event.toString());
     }
+
+    public void getInWardPatList(SimpleCallBack<PatientListBean> callBack) {
+        showLoadingTip(BaseActivity.LoadingType.FULL);
+        CommHttp.getInWardPatList(new CommonCallBack<PatientListBean>() {
+            @Override
+            public void onFail(String code, String msg) {
+                hideLoadingTip();
+                onFailThings();
+            }
+
+            @Override
+            public void onSuccess(PatientListBean bean, String type) {
+                hideLoadingTip();
+                //获取第一个
+                if (bean.getPatInfoList() != null) {
+                    //默认第一个
+                    episodeId = bean.getPatInfoList().get(0).getEpisodeId();
+                    if (callBack != null) {
+                        callBack.call(bean,0);
+                    }
+                }
+            }
+        });
+    }
+
 }

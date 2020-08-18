@@ -67,6 +67,15 @@ public class CustomSkinTagView extends BaseView {
         }
         return this;
     }
+    public CustomSkinTagView setText(String s,int fontsize) {
+        if (!TextUtils.isEmpty(s)) {
+            rlGroup.setVisibility(VISIBLE);
+            tvName.setText(s);
+//            int dimen = s.length() >= 2 ? R.dimen.sp_15 : R.dimen.sp_22;
+            tvName.setTextSize(TypedValue.COMPLEX_UNIT_PX,mContext.getResources().getDimension(fontsize));
+        }
+        return this;
+    }
 
     public CustomSkinTagView setTextColor(String color) {
         if (!TextUtils.isEmpty(color)) {

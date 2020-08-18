@@ -10,8 +10,8 @@
         android:layout_height="@dimen/dp_60">
         <TextView
             android:id="@+id/tv_text"
-            android:layout_width="@dimen/dp_30"
-            android:layout_height="@dimen/dp_40"
+            android:layout_width="@dimen/dp_50"
+            android:layout_height="@dimen/dp_50"
             android:layout_centerInParent="true"
             android:gravity="center"
             android:rotation="-25"
@@ -30,8 +30,8 @@
 
         <com.noober.background.view.BLLinearLayout
             android:id="@+id/bl_circle_in"
-            android:layout_width="@dimen/dp_45"
-            android:layout_height="@dimen/dp_45"
+            android:layout_width="@dimen/dp_50"
+            android:layout_height="@dimen/dp_50"
             app:bl_stroke_width="@dimen/dp_2"
             android:layout_centerInParent="true"
             app:bl_corners_radius="@dimen/dp_30"
