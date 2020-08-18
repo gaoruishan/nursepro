@@ -13,6 +13,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.view.RotateTextView;
 import com.dhcc.nursepro.workarea.ordersearch.bean.OrderSearchBean;
+import com.nex3z.flowlayout.FlowLayout;
 
 import java.util.List;
 
@@ -33,11 +34,11 @@ public class OrderSearchPatientOrderInfoAdapter extends BaseQuickAdapter<OrderSe
     @Override
     protected void convert(BaseViewHolder helper, OrderSearchBean.OrdersBean.PatOrdsBean item) {
         OrderSearchBean.OrdersBean.PatOrdsBean.OrderInfoBean orderInfoBean = item.getOrderInfo();
-        LinearLayout llorderinfosingle = helper.getView(R.id.ll_osporderinfo_singleorder);
+        FlowLayout llorderinfosingle = helper.getView(R.id.ll_osporderinfo_singleorder);
         LinearLayout llExe = helper.getView(R.id.ll_executed);
         LinearLayout llorderinfomulti1 = helper.getView(R.id.ll_osporderinfo_multiorder1);
         View lineorderinfomulti = helper.getView(R.id.line_osporderinfo_multiorder);
-        LinearLayout llorderinfomulti2 = helper.getView(R.id.ll_osporderinfo_multiorder2);
+        FlowLayout llorderinfomulti2 = helper.getView(R.id.ll_osporderinfo_multiorder2);
         TextView tvOrderType = helper.getView(R.id.tv_osporderinfo_ordertype);
         GradientDrawable myGrad = (GradientDrawable) tvOrderType.getBackground();
 

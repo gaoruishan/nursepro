@@ -10,6 +10,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.dosingreview.bean.DosingReViewBean;
+import com.nex3z.flowlayout.FlowLayout;
 
 import java.util.List;
 
@@ -30,10 +31,10 @@ public class DosingReviewPatientOrderInfoAdapter extends BaseQuickAdapter<Dosing
     @Override
     protected void convert(BaseViewHolder helper, DosingReViewBean.OrdersBean.PatOrdsBean item) {
         DosingReViewBean.OrdersBean.PatOrdsBean.OrderInfoBean orderInfoBean = item.getOrderInfo();
-        LinearLayout llorderinfosingle = helper.getView(R.id.ll_drporderinfo_singleorder);
+        FlowLayout llorderinfosingle = helper.getView(R.id.ll_drporderinfo_singleorder);
         LinearLayout llorderinfomulti1 = helper.getView(R.id.ll_drporderinfo_multiorder1);
         View lineorderinfomulti = helper.getView(R.id.line_drporderinfo_multiorder);
-        LinearLayout llorderinfomulti2 = helper.getView(R.id.ll_drporderinfo_multiorder2);
+        FlowLayout llorderinfomulti2 = helper.getView(R.id.ll_drporderinfo_multiorder2);
         LinearLayout llOrderStatus = helper.getView(R.id.ll_drporderinfo_orderstatus);
         TextView tvOrderPrepare = helper.getView(R.id.tv_drporderinfo_orderprepare);
         TextView tvOrderVerify = helper.getView(R.id.tv_drporderinfo_orderverify);
