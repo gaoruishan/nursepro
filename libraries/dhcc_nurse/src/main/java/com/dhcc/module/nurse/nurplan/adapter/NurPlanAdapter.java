@@ -1,10 +1,10 @@
 package com.dhcc.module.nurse.nurplan.adapter;
 
-import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -36,14 +36,15 @@ public class NurPlanAdapter extends BaseQuickAdapter<QuestionListBean, BaseViewH
      * @param helper
      * @param item
      */
-    @SuppressLint("ResourceAsColor")
     @Override
     protected void convert(BaseViewHolder helper, QuestionListBean item) {
 
-        helper.addOnClickListener(R.id.tv_item_ques_undo).addOnClickListener(R.id.tv_item_ques_copy);
+        helper.addOnClickListener(R.id.tv_item_ques_undo)
+                .addOnClickListener(R.id.tv_item_ques_stop)
+                .addOnClickListener(R.id.tv_item_ques_copy);
 
-        String planStaColor = item.getPlanStatus().contains("未") ? "#000000": "#1cc498";
-        String cStaColor = item.getCStatus().contains("未") ?  "#000000": "#1cc498";
+        String planStaColor = item.getPlanStatus().contains("未") ? "#000000" : "#1cc498";
+        String cStaColor = item.getCStatus().contains("未") ? "#000000" : "#1cc498";
         String exprColor = "#FF4500";
         boolean hasHand = item.getSource().contains("手动");
         helper.setGone(R.id.tv_content, hasHand);
@@ -58,13 +59,13 @@ public class NurPlanAdapter extends BaseQuickAdapter<QuestionListBean, BaseViewH
         }
         helper.setText(R.id.tv_ques_name, item.getQueName())
                 .setGone(R.id.tv_create_time, !TextUtils.isEmpty(item.getCreateUser()))
-                .setText(R.id.tv_create_time, "创建:"+item.getCreateDateTime() + "  " + item.getCreateUser())
+                .setText(R.id.tv_create_time, "创建:" + item.getCreateDateTime() + "  " + item.getCreateUser())
 
                 .setGone(R.id.tv_cancel_time, !TextUtils.isEmpty(item.getCancelUser()))
-                .setText(R.id.tv_cancel_time, "取消:"+item.getCancelDateTime() + "  " + item.getCancelUser() + "  " + item.getCancelReason())
+                .setText(R.id.tv_cancel_time, "取消:" + item.getCancelDateTime() + "  " + item.getCancelUser() + "  " + item.getCancelReason())
 
                 .setGone(R.id.tv_stop_time, !TextUtils.isEmpty(item.getStopUser()))
-                .setText(R.id.tv_stop_time, "停止:"+item.getStopDateTime() + "  " + item.getStopUser() + "  " + item.getStopReason())
+                .setText(R.id.tv_stop_time, "停止:" + item.getStopDateTime() + "  " + item.getStopUser() + "  " + item.getStopReason())
 
                 .setGone(R.id.bl_plan_status, !TextUtils.isEmpty(item.getPlanStatus()))
                 .setText(R.id.bl_plan_status, item.getPlanStatus())
@@ -94,13 +95,19 @@ public class NurPlanAdapter extends BaseQuickAdapter<QuestionListBean, BaseViewH
         customSkinTagView.setText(item.getStatus(), R.dimen.dp_14);
         boolean hasColor = !TextUtils.isEmpty(item.getColor()) && item.getColor().contains("#");
         if (hasColor) {
-            customSkinTagView.setCircleColor(item.getColor() );
+            customSkinTagView.setCircleColor(item.getColor());
             customSkinTagView.setTextColor(item.getColor());
-        }else {
-            String stColor = item.getStatus().contains("已") ? "#1cc498": "#888888";
+        } else {
+            String stColor = item.getStatus().contains("已") ? "#1cc498" : "#888888";
             customSkinTagView.setCircleColor(stColor);
             customSkinTagView.setTextColor(stColor);
         }
+        //未停止
+        boolean isStop = "未停止".equals(item.getStatus());
+        helper.setGone(R.id.ll_select, isStop);
+        customSkinTagView.setVisibility(isStop ? View.GONE : View.VISIBLE);
+        helper.getView(R.id.ll_select).setSelected(item.isSelect());
+        helper.setVisible(R.id.ll_select, true).addOnClickListener(R.id.ll_select);
     }
 
     private Drawable getBgDrawable(String planStaColor) {

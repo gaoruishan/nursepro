@@ -26,17 +26,36 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-                <com.dhcc.res.infusion.CustomDateTimeView
-                    android:id="@+id/custom_date"
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:orientation="vertical"/>
+                    android:background="@color/blue_dark2"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_2"
-                    android:background="#f6f6f6"/>
+
+                    <EditText
+                        android:id="@+id/et_search"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_35"
+                        android:layout_marginBottom="@dimen/dp_8"
+                        android:layout_marginEnd="@dimen/dp_12"
+                        android:layout_marginStart="@dimen/dp_12"
+                        android:layout_marginTop="@dimen/dp_12"
+                        android:background="@drawable/dhcc_bg_search"
+                        android:drawablePadding="@dimen/dp_12"
+                        android:drawableStart="@drawable/dhcc_search"
+                        android:hint="护理问题描述"
+                        android:imeOptions="actionSearch"
+                        android:paddingEnd="@dimen/dp_12"
+                        android:paddingStart="@dimen/dp_12"
+                        android:singleLine="true"
+                        android:textColorHint="#B3B3B3"
+                        android:textSize="@dimen/sp_14" />
+
+                </LinearLayout>
+
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_list_plan"
@@ -53,33 +72,26 @@
             android:layout_height="@dimen/dp_45">
             <TextView
                 android:layout_weight="1"
-                android:id="@+id/tv_bottom_plan_day"
+                android:id="@+id/tv_bottom_cancel"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:background="#4a90e2"
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="@dimen/sp_15"
-                android:text="目标达成天数" />
+                android:text="取消" />
           <TextView
                 android:layout_weight="1"
-                android:id="@+id/tv_bottom_evaluation"
+                android:id="@+id/tv_bottom_ok"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:background="@color/blue_dark"
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="@dimen/sp_15"
-                android:text="评价" />
+                android:text="确定" />
 
         </LinearLayout>
     </LinearLayout>
 
-    <View
-        android:id="@+id/mask"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#88000000"
-        android:gravity="bottom"
-        android:visibility="invisible"/>
 </RelativeLayout>

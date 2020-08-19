@@ -11,10 +11,33 @@ import java.util.List;
  */
 public class NurPlanBean extends CommResult {
 
+    //问题列表
     private List<QuestionListBean> questionList;
+    //撤回原因
     private List<StatusReasonListBean> revokeReasonList;
+    //筛选
     private List<StatusReasonListBean> statusList;
+    //停止原因
     private List<StatusReasonListBean> stopReasonList;
+    //评价原因
+    private List<StatusReasonListBean> resultList;
+
+    public static QuestionListBean getSaveQuestionComments(List<QuestionListBean> data) {
+        for (QuestionListBean datum : data) {
+            if (datum.isSelect()) {
+                return datum;
+            }
+        }
+        return null;
+    }
+
+    public List<StatusReasonListBean> getResultList() {
+        return resultList;
+    }
+
+    public void setResultList(List<StatusReasonListBean> resultList) {
+        this.resultList = resultList;
+    }
 
     public List<QuestionListBean> getQuestionList() {
         return questionList;
@@ -47,7 +70,5 @@ public class NurPlanBean extends CommResult {
     public void setStopReasonList(List<StatusReasonListBean> stopReasonList) {
         this.stopReasonList = stopReasonList;
     }
-
-
 
 }

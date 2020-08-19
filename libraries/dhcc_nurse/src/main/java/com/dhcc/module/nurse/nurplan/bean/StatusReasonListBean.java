@@ -33,4 +33,13 @@ public class StatusReasonListBean {
     public void setValue(String value) {
         this.value = value;
     }
+
+    @Override
+    public String toString() {
+        return "StatusReasonListBean{" +
+                "text='" + text + '\'' +
+                ", value='" + value + '\'' +
+                ", select=" + select +
+                '}';
+    }
 }

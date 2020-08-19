@@ -28,12 +28,16 @@ public class FileterPop extends BasePopWindow {
     private static PopupWindow popupWindow;
 
     public static PopupWindow initPopupWindow(Activity mContext, EnumLocation from, @NonNull View popupWindowView) {
-        popupWindow = getPopupWindow(mContext, from, popupWindowView);
+        popupWindow = getPopupWindow(mContext, from, popupWindowView,SCREEN_PRESENT);
+        return popupWindow;
+    }
+    public static PopupWindow initPopupWindow(Activity mContext, EnumLocation from, @NonNull View popupWindowView,double SCREEN_PRESENT) {
+        popupWindow = getPopupWindow(mContext, from, popupWindowView,SCREEN_PRESENT);
         return popupWindow;
     }
 
     @NonNull
-    private static PopupWindow getPopupWindow(final Activity mContext, final EnumLocation from, View popupWindowView) {
+    private static PopupWindow getPopupWindow(final Activity mContext, final EnumLocation from, View popupWindowView,double SCREEN_PRESENT) {
         boolean hasNavigationBar = checkDeviceHasNavigationBar(mContext);
         //销毁
         closePopWindow();

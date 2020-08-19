@@ -32,6 +32,7 @@ import com.dhcc.res.infusion.CustomSelectView;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.greenrobot.greendao.annotation.NotNull;
 
 import java.util.List;
 
@@ -169,10 +170,22 @@ public abstract class BaseNurseFragment extends BaseCommFragment {
     public void setMaskShow(){
         setMaskShow(contentView);
     }
+
     public void setMaskShow(View contentView){
         FileterPop.setMask(mContext, View.VISIBLE);
         FileterPop.initPopupWindow(mContext, BasePopWindow.EnumLocation.RIGHT, contentView);
     }
+
+    /**
+     * 指定弹框宽度
+     * @param contentView
+     * @param screenWidth
+     */
+    public void setMaskShow(View contentView,double screenWidth){
+        FileterPop.setMask(mContext, View.VISIBLE);
+        FileterPop.initPopupWindow(mContext, BasePopWindow.EnumLocation.RIGHT, contentView,screenWidth);
+    }
+
     public void setMaskHind(){
         FileterPop.setMask(mContext, View.INVISIBLE);
         FileterPop.closePopWindow();
@@ -186,6 +199,32 @@ public abstract class BaseNurseFragment extends BaseCommFragment {
         void statusSure(String code);
     }
 
+    /**
+     * 获取筛选View布局
+     * @param clearListener
+     * @param okListener
+     * @return
+     */
+    public View getPopWindowView(@NotNull View.OnClickListener clearListener, @NotNull View.OnClickListener okListener) {
+        View contentView = LayoutInflater.from(mContext).inflate(R.layout.dhcc_task_filter_layout, null);
+        contentView.findViewById(R.id.tv_filter_clear_select).setOnClickListener(clearListener);
+        contentView.findViewById(R.id.iv_finish_filter).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setMaskHind();
+            }
+        });
+        contentView.findViewById(R.id.tv_filter_ok).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setMaskHind();
+                if (okListener != null) {
+                    okListener.onClick(v);
+                }
+            }
+        });
+        return contentView;
+    }
     /**
      * 获取sp存储数据
      * @param s

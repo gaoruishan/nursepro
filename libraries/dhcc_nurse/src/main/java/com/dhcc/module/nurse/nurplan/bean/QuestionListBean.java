@@ -53,6 +53,15 @@ public class QuestionListBean {
     private String stopDateTime;
     private String stopReason;
     private String stopUser;
+    private boolean select;
+
+    public boolean isSelect() {
+        return select;
+    }
+
+    public void setSelect(boolean select) {
+        this.select = select;
+    }
 
     public String getCreateUser() {
         return createUser == null ? "" : createUser;
