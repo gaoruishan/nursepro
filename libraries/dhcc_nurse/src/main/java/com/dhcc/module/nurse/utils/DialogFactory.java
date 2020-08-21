@@ -1,18 +1,27 @@
 package com.dhcc.module.nurse.utils;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
 
+import com.base.commlibs.utils.AppUtil;
 import com.base.commlibs.utils.CommDialog;
 import com.base.commlibs.utils.RecyclerViewHelper;
+import com.base.commlibs.utils.SimpleCallBack;
+import com.blankj.utilcode.util.TimeUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.module.nurse.R;
 import com.dhcc.module.nurse.nurplan.bean.StatusReasonListBean;
+import com.dhcc.res.infusion.CustomSelectView;
 
 import java.util.List;
 
@@ -26,7 +35,19 @@ public class DialogFactory extends CommDialog {
 
     private static Dialog commDialog;
 
-    public static Dialog showPlanDialog(Context context, String txt, String cancel, String ok, @DrawableRes int iv, List<StatusReasonListBean> revokeReasonList, @Nullable final View.OnClickListener l,String... s) {
+    /**
+     * 护理问题-评价/停止/撤销
+     * @param context
+     * @param txt
+     * @param cancel
+     * @param ok
+     * @param iv
+     * @param revokeReasonList
+     * @param l
+     * @param listener
+     * @return
+     */
+    public static Dialog showPlanDialog(Context context, String txt, String cancel, String ok, @DrawableRes int iv, List<StatusReasonListBean> revokeReasonList, @Nullable final View.OnClickListener l,BaseQuickAdapter.OnItemClickListener listener) {
         if (revokeReasonList == null||revokeReasonList.size()==0) {
             return null;
         }
@@ -55,16 +76,18 @@ public class DialogFactory extends CommDialog {
                     revokeReasonList.get(i).setSelect(i == position);
                 }
                 filterAdapter.notifyDataSetChanged();
+                if (listener != null) {
+                    listener.onItemClick(adapter,view,position);
+                }
             }
         });
         setImage(iv, view, R.id.iv_comm);
         setText(txt, view, R.id.tv_txt_comm);
-        setCommTextViewClick(ok, new View.OnClickListener() {
+        setCommButtonClick(ok, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String resonId = "";
                 for (int i = 0; i < revokeReasonList.size(); i++) {
-                    StatusReasonListBean bean = revokeReasonList.get(i);
                     if (revokeReasonList.get(i).isSelect()) {
                         resonId = revokeReasonList.get(i).getValue();
                         break;
@@ -81,7 +104,69 @@ public class DialogFactory extends CommDialog {
         return commDialog;
     }
 
-    public static void showCommentsDialog() {
+    /**
+     * 护理措施-停止/撤销
+     * @param context
+     * @param curDateTime
+     * @param callBack
+     * @return
+     */
+    public static Dialog showStopInterveDialog(Activity context, String curDateTime,SimpleCallBack<String> callBack) {
+        if (commDialog != null) {
+            commDialog.cancel();
+        }
+        View view = getView(context, R.layout.dialog_layout_nur_plan_interve);
+        commDialog = getCommDialog(context, view);
+        if(TextUtils.isEmpty(curDateTime)){
+            curDateTime = TimeUtils.getNowString();
+        }
+        String date = curDateTime.split(" ")[0];
+        String time = curDateTime.split(" ")[1];
+        CustomSelectView customSelectView = view.findViewById(R.id.custom_select_date);
+        Fragment fragment = AppUtil.getCurActivityFragment();
+        if (fragment != null) {
+            customSelectView.setCustomSelectTime(fragment.getFragmentManager(), date, time, null);
+        }
+        setText("提示", view, com.base.commlibs.R.id.tv_title);
+        setText("停止时间", view, com.base.commlibs.R.id.tv_message);
+        setCommButtonClick("取消", null, commDialog, view, com.base.commlibs.R.id.btn_no);
+        setCommButtonClick("确定", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (callBack != null) {
+                    callBack.call(customSelectView.getSelect(),0);
+                }
+            }
+        }, commDialog, view,R.id.btn_yes);
+        showCenterWindow(commDialog, view);
+        return commDialog;
+    }
 
+    public static Dialog showCancelInterveDialog(Activity context,SimpleCallBack<String> callBack) {
+        if (commDialog != null) {
+            commDialog.cancel();
+        }
+        View view = getView(context, R.layout.dialog_layout_nur_plan_interve2);
+        commDialog = getCommDialog(context, view);
+        EditText etInput = view.findViewById(R.id.et_input);
+        setText("提示", view, com.base.commlibs.R.id.tv_title);
+        setText("确认作废护理措施? \n措施作废后,关联护理任务将自动删除,是否继续?", view, com.base.commlibs.R.id.tv_message);
+        setCommButtonClick("取消", null, commDialog, view, com.base.commlibs.R.id.btn_no);
+        setCommButtonClick("确定", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String s = etInput.getText().toString();
+                if(TextUtils.isEmpty(s)){
+                    ToastUtils.showShort("请填写作废原因!");
+                    return;
+                }
+                cancel(commDialog);
+                if (callBack != null) {
+                    callBack.call(s,0);
+                }
+            }
+        }, view, com.base.commlibs.R.id.btn_yes);
+        showCenterWindow(commDialog, view);
+        return commDialog;
     }
 }

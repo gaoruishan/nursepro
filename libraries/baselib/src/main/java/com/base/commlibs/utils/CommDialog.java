@@ -137,15 +137,13 @@ public class CommDialog {
 
     public static Dialog showCommDialog(Context context, String txt, String ok, @Nullable final View.OnClickListener l, boolean... autoDismiss) {
         View view = getView(context, R.layout.comm_dialog_layout);
-        Dialog dialog = getCommDialog(context, view);
-        // 可取消
-        dialog.setCanceledOnTouchOutside(true);
+        commDialog = getCommDialog(context, view);
         view.findViewById(R.id.iv_comm).setVisibility(View.GONE);
         setText(txt, view, R.id.tv_txt_comm);
-        setCommTextViewClick(ok, l, dialog, view, R.id.tv_ok_comm);
+        setCommTextViewClick(ok, l, commDialog, view, R.id.tv_ok_comm);
         // 3秒自动消失
-        autoDialogDismiss(dialog, autoDismiss);
-        return dialog;
+        autoDialogDismiss(commDialog, autoDismiss);
+        return commDialog;
     }
 
     /**

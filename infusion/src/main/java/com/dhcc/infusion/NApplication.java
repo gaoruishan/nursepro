@@ -1,5 +1,6 @@
 package com.dhcc.infusion;
 
+import android.content.Context;
 import android.os.Handler;
 
 import com.base.commlibs.BaseApplication;
@@ -55,6 +56,23 @@ public class NApplication extends BaseApplication {
 
         Fresco.initialize(getApp());
 
+        //initIDataScanner();
+    }
+    private ScannerInterface idataScanner;
+    private void initIDataScanner() {
+        this.idataScanner = new ScannerInterface((Context)this);
+        this.idataScanner.open();
+        this.idataScanner.resultScan();
+        this.idataScanner.setOutputMode(1);
+        this.idataScanner.lockScanKey();
+        this.idataScanner.enablePlayBeep(true);
+        this.idataScanner.enableFailurePlayBeep(false);
+        this.idataScanner.enablePlayVibrate(false);
+        this.idataScanner.enableAddKeyValue(0);
+        this.idataScanner.lightSet(true);
+        this.idataScanner.timeOutSet(5);
+        this.idataScanner.intervalSet(0);
+        this.idataScanner.SetErrorBroadCast(false);
     }
 
 

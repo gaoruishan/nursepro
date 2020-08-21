@@ -9,6 +9,8 @@ import com.dhcc.module.nurse.education.adapter.HealthEduNeedAdapter;
 import com.dhcc.module.nurse.education.adapter.TaskOverviewAdapter;
 import com.dhcc.module.nurse.nurplan.adapter.NurPlanAdapter;
 import com.dhcc.module.nurse.nurplan.adapter.NurPlanAddListAdapter;
+import com.dhcc.module.nurse.nurplan.adapter.NurPlanGoalAdapter;
+import com.dhcc.module.nurse.nurplan.adapter.NurPlanInterveAdapter;
 import com.dhcc.module.nurse.task.adapter.StatusFilterAdapter;
 import com.dhcc.module.nurse.task.adapter.TaskListAdapter;
 import com.dhcc.module.nurse.task.adapter.TaskNormalOrdAdapter;
@@ -134,7 +136,20 @@ public class AdapterFactory {
     public static NurPlanAddListAdapter getNurPlanAddListAdapter() {
         return new NurPlanAddListAdapter(R.layout.item_nur_plan_question_add,null);
     }
-
+    /**
+     * 护理计划-目标
+     * @return
+     */
+    public static NurPlanGoalAdapter getNurPlanGoalAdapter() {
+        return new NurPlanGoalAdapter(R.layout.item_nur_plan_goal,null);
+    }
+    /**
+     * 护理计划-措施
+     * @return
+     */
+    public static NurPlanInterveAdapter getNurPlanInterveAdapter() {
+        return new NurPlanInterveAdapter(R.layout.item_nur_plan_goal,null);
+    }
     /**
      * 护理计划-血糖采集患者列表
      * @return

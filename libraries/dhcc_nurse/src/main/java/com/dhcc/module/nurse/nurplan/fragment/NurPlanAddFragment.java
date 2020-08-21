@@ -1,4 +1,4 @@
-package com.dhcc.module.nurse.nurplan;
+package com.dhcc.module.nurse.nurplan.fragment;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
@@ -15,6 +15,7 @@ import com.dhcc.module.nurse.AdapterFactory;
 import com.dhcc.module.nurse.BaseNurseFragment;
 import com.dhcc.module.nurse.R;
 import com.dhcc.module.nurse.education.BundleData;
+import com.dhcc.module.nurse.nurplan.NurPlanApiManager;
 import com.dhcc.module.nurse.nurplan.adapter.NurPlanAddListAdapter;
 import com.dhcc.module.nurse.nurplan.bean.NurPlanAddBean;
 import com.dhcc.module.nurse.nurplan.bean.QuestionAddListBean;

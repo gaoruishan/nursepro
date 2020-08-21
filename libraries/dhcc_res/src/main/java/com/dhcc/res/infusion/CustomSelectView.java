@@ -10,10 +10,13 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.base.commlibs.constant.SharedPreference;
+import com.blankj.utilcode.util.SPStaticUtils;
 import com.grs.dhcc_res.R;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.data.Type;
@@ -41,6 +44,7 @@ public class CustomSelectView extends LinearLayout {
     private RelativeLayout rlItem;
     private List<String> mSelectData;
     private OptionPicker.OnOptionPickListener listener;
+    private ImageView ivArrow;
 
     public CustomSelectView(Context context) {
         this(context, null);
@@ -64,6 +68,44 @@ public class CustomSelectView extends LinearLayout {
         rlItem = view.findViewById(R.id.rl_punct_part);
         tvTitle = view.findViewById(R.id.tv_title);
         tvPart = view.findViewById(R.id.tv_part);
+        ivArrow = view.findViewById(R.id.iv_arrow);
+    }
+
+    public CustomSelectView setSelectTime(final FragmentManager manager, OptionPicker.OnOptionPickListener listener){
+        String cur = SPStaticUtils.getString(SharedPreference.CURDATETIME);
+        if(!TextUtils.isEmpty(cur)){
+            String endDate = cur.substring(0, 10);
+            String endTime = cur.substring(11, 16);
+            setSelectTime(manager, endDate, endTime, listener);
+        }
+        return this;
+    }
+    /**
+     * 设置自定义选择框
+     * @param listener
+     */
+    public CustomSelectView setCustomSelectTime(final FragmentManager manager, final String date, String time, OptionPicker.OnOptionPickListener listener) {
+        rlItem.setBackgroundResource(R.drawable.dhcc_skin_bg_selected);
+        ivArrow.setImageResource(R.drawable.dhcc_icon_time_bottom);
+        if (!TextUtils.isEmpty(date)) {
+            setSelect(date + " " + time);
+        } else {
+            setSelect(time);
+        }
+        this.listener = listener;
+        OnClickListener onClickListener = new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.isEmpty(date)) {
+                    chooseTime(manager, System.currentTimeMillis(), "选择日期", Type.ALL);
+                } else {
+                    chooseTime(manager, System.currentTimeMillis(), "选择时间", Type.HOURS_MINS);
+                }
+            }
+        };
+        rlItem.setOnClickListener(onClickListener);
+
+        return this;
     }
 
     /**

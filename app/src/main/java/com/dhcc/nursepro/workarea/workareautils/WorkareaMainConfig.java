@@ -207,7 +207,8 @@ public class WorkareaMainConfig {
                 map.put("fragicon",R.drawable.icon_events);
                 SharedPreference.FRAGMENTARY.add(map);
                 break;
-            case "HealthEducationFragment":
+            case "HealthEduFragment":
+                //w ##class(Nur.DHCNurPdaModule).Save("健康宣教^HealthEduFragment^21^Y^")
                 map.put("desc","健康宣教");
                 map.put("fragName", HealthEduFragment.class.getName());
                 map.put("fragicon",R.drawable.dhcc_main_nurse_education);

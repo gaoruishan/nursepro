@@ -13,6 +13,27 @@ public class CommBean implements Serializable {
     private int type;
     private Object obj;
     private boolean show;
+    private boolean select;
+    private String curDateTime;
+
+    public String getCurDateTime() {
+        return curDateTime == null ? "" : curDateTime;
+    }
+
+    public void setCurDateTime(String curDateTime) {
+        this.curDateTime = curDateTime;
+    }
+
+    public boolean isSelect() {
+        return select;
+    }
+
+    public void setSelect(boolean select) {
+        this.select = select;
+    }
+
+    public CommBean() {
+    }
 
     public CommBean(String name) {
         this.name = name;
