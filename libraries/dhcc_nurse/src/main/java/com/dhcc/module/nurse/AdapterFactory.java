@@ -1,5 +1,6 @@
 package com.dhcc.module.nurse;
 
+import com.dhcc.module.nurse.bloodsugar.adapter.BloodSugarPatAdapter;
 import com.dhcc.module.nurse.education.adapter.HealthEduAddAdapter;
 import com.dhcc.module.nurse.education.adapter.HealthEduDrugAdapter;
 import com.dhcc.module.nurse.education.adapter.HealthEduEndAdapter;
@@ -132,5 +133,13 @@ public class AdapterFactory {
      */
     public static NurPlanAddListAdapter getNurPlanAddListAdapter() {
         return new NurPlanAddListAdapter(R.layout.item_nur_plan_question_add,null);
+    }
+
+    /**
+     * 护理计划-血糖采集患者列表
+     * @return
+     */
+    public static BloodSugarPatAdapter getBloodSugarPatAdapter() {
+        return new BloodSugarPatAdapter(R.layout.item_bloodsugar_patient,null);
     }
 }

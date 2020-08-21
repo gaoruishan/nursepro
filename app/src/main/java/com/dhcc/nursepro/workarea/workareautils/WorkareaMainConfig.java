@@ -1,6 +1,7 @@
 package com.dhcc.nursepro.workarea.workareautils;
 
 import com.base.commlibs.constant.SharedPreference;
+import com.dhcc.module.nurse.bloodsugar.BloodSugarFragment;
 import com.dhcc.module.nurse.education.HealthEduFragment;
 import com.dhcc.module.nurse.nurplan.NurPlanFragment;
 import com.dhcc.module.nurse.task.TaskOverviewFragment;
@@ -228,7 +229,7 @@ public class WorkareaMainConfig {
             case "BloodSugarFragment":
                 //w ##class(Nur.DHCNurPdaModule).Save("血糖采集^BloodSugarFragment^25^Y^")
                 map.put("desc","血糖采集");
-                map.put("fragName", NurPlanFragment.class.getName());
+                map.put("fragName", BloodSugarFragment.class.getName());
                 map.put("fragicon",R.drawable.dhcc_main_nurse_blood_sugar);
                 SharedPreference.FRAGMENTARY.add(map);
                 break;
