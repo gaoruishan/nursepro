@@ -45,6 +45,7 @@ public class CustomSelectView extends LinearLayout {
     private List<String> mSelectData;
     private OptionPicker.OnOptionPickListener listener;
     private ImageView ivArrow;
+    private int mPst;
 
     public CustomSelectView(Context context) {
         this(context, null);
@@ -155,6 +156,7 @@ public class CustomSelectView extends LinearLayout {
             @Override
             public void onOptionPicked(int index, String item) {
                 setSelect(item);
+                mPst = index;
                 if (listener != null) {
                     listener.onOptionPicked(index, item);
                 }
@@ -252,6 +254,24 @@ public class CustomSelectView extends LinearLayout {
     public String getSelect() {
         if (this.tvPart.getText() != null) {
             return this.tvPart.getText().toString();
+        }
+        return "";
+    }
+    public int getSelectPosition() {
+        if (mPst!= 0) {
+            return mPst;
+        }
+        return 0;
+    }
+    public String getSelectDate() {
+        if (getSelect() != null) {
+            return getSelect().split(" ")[0];
+        }
+        return "";
+    }
+    public String getSelectTime() {
+        if (getSelect() != null) {
+            return getSelect().split(" ")[1];
         }
         return "";
     }

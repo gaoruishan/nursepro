@@ -3,6 +3,7 @@ package com.dhcc.module.nurse.nurplan.bean;
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.utils.DataCache;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,6 +30,21 @@ public class InterveFreqBean extends CommResult {
             }
         }
         return "";
+    }
+
+    /**
+     * 获取选择类别
+     * @param freqList
+     * @return
+     */
+    public static List<String> getSelectData(List<FreqListBean> freqList) {
+        List<String > mStList = new ArrayList<>();
+        if (freqList != null) {
+            for (FreqListBean bean : freqList) {
+                mStList.add(bean.getNamee() + "(" + bean.getNamec() + ")");
+            }
+        }
+        return mStList;
     }
 
     public List<FreqListBean> getFreqList() {

@@ -261,7 +261,8 @@ public class NurPlanGoalInterveFragment extends BaseNurseFragment {
             String title = f(R.id.tv_title, TextView.class).getText().toString();
             PlanBundleData instance = new PlanBundleData()
                     .setTitle(title)
-                    .setPlanId(episodeId);
+                    .setQuestSub(questSub)
+                    .setPlanId(planId);
             startFragment(NurPlanAddIntervFragment.class, instance.build());
         }
     }

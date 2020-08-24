@@ -8,6 +8,7 @@ import com.base.commlibs.http.ServiceCallBack;
 import com.base.commlibs.utils.DataCache;
 import com.dhcc.module.nurse.nurplan.bean.InterveFreqBean;
 import com.dhcc.module.nurse.nurplan.bean.NurPlanAddBean;
+import com.dhcc.module.nurse.nurplan.bean.NurPlanAddInterveBean;
 import com.dhcc.module.nurse.nurplan.bean.NurPlanBean;
 import com.dhcc.module.nurse.nurplan.bean.NurPlanGoalBean;
 import com.dhcc.module.nurse.nurplan.bean.NurPlanInterveBean;
@@ -208,6 +209,45 @@ public class NurPlanApiManager {
         properties.put("intRecordIds", intRecordIds);
         properties.put("cancelReason", cancelReason);
         CommWebService.call("cancelInterventions", properties, new ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                CommWebService.parserCommResult(jsonStr,callBack);
+            }
+        });
+    }
+    /**
+     * 获取新增措施列表
+     */
+    public static void getInterventionList(String planId, String questionSub, String searchName, CommonCallBack<NurPlanAddInterveBean> callBack) {
+        HashMap<String, String> properties = new HashMap<>();
+        properties.put("planId", planId);
+        properties.put("questionSub", questionSub);
+        properties.put("searchName", searchName);
+        CommWebService.call("getInterventionList", properties, new ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                ParserUtil<NurPlanAddInterveBean> parserUtil = new ParserUtil<>();
+                NurPlanAddInterveBean bean = parserUtil.parserResult(jsonStr, callBack, NurPlanAddInterveBean.class);
+                if (bean == null) return;
+                parserUtil.parserStatus(bean, callBack);
+            }
+        });
+    }
+    /**
+     * 保存新增措施
+     */
+    public static void saveNewInterventionList(String planId, String questionSub, String inRowId, String freqDr, String weekStr, String startDate, String startTime, CommonCallBack<CommResult> callBack) {
+        HashMap<String, String> properties = CommWebService.addUserId(null);
+        CommWebService.addLocId(properties);
+        CommWebService.addWardId(properties);
+        properties.put("planId", planId);
+        properties.put("questionSub", questionSub);
+        properties.put("inRowId", inRowId);
+        properties.put("freqDr", freqDr);
+        properties.put("weekStr", weekStr);
+        properties.put("startDate", startDate);
+        properties.put("startTime", startTime);
+        CommWebService.call("saveNewInterventionList", properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 CommWebService.parserCommResult(jsonStr,callBack);

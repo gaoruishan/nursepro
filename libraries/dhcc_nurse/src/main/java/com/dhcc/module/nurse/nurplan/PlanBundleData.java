@@ -21,6 +21,7 @@ public class PlanBundleData extends BaseBundleData {
     public String questionList;
     public String position;
     public String planId;
+    public String questSub;
     public String title;
 
     public PlanBundleData() {
@@ -77,6 +78,14 @@ public class PlanBundleData extends BaseBundleData {
 
     public PlanBundleData setTitle(String title) {
         this.title = title;
+        return this;
+    }
+    public String getQuestSub() {
+        return getString("questSub");
+    }
+
+    public PlanBundleData setQuestSub(String questSub) {
+        this.questSub = questSub;
         return this;
     }
 
