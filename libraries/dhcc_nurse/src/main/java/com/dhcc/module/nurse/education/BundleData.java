@@ -3,7 +3,7 @@ package com.dhcc.module.nurse.education;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-import com.base.commlibs.utils.ReflectUtil;
+import com.dhcc.module.nurse.BaseBundleData;
 import com.dhcc.module.nurse.education.bean.EduSubjectListBean;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -17,9 +17,8 @@ import java.util.List;
  * @date:202020-07-22/11:53
  * @email:grs0515@163.com
  */
-public class BundleData {
+public class BundleData extends BaseBundleData {
 
-    private Bundle bundle;
     public String episodeId;
     public String desc;
     public String subjectIds;
@@ -30,11 +29,13 @@ public class BundleData {
     //已宣教-对应save中的id
     public String eduRecordId;
 
-    public BundleData() {
-    }
 
     public BundleData(Bundle bundle) {
-        this.bundle = bundle;
+        super(bundle);
+    }
+
+    public BundleData() {
+
     }
 
     public String getEduRecordId() {
@@ -90,12 +91,6 @@ public class BundleData {
         return getString("desc");
     }
 
-    private String getString(String key) {
-        if (bundle != null) {
-            return bundle.getString(key);
-        }
-        return "";
-    }
 
     public BundleData setDesc(String desc) {
         this.desc = desc;
@@ -118,7 +113,4 @@ public class BundleData {
         return this;
     }
 
-    public Bundle build() {
-        return ReflectUtil.getPublicFieldsToBundle(this);
-    }
 }

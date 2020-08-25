@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/tv_goal"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="@dimen/dp_38"
+                        android:background="@color/white"
+                        android:gravity="center"
+                        android:textColor="@color/dhcc_orderexecute_text_color"
+                        android:text="护理目标"/>
+                    <TextView
+                        android:id="@+id/tv_interve"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:text="护理措施"
+                        android:layout_height="@dimen/dp_38"
+                        android:background="@color/white"
+                        android:gravity="center"
+                        android:textColor="@color/dhcc_orderexecute_text_color" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:textSize="@dimen/dp_17"
+                    tools:text="空数据倒计时空数据"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:gravity="center"
+                    android:background="@color/white"
+                    android:layout_marginTop="@dimen/dp_3"
+                    android:layout_marginBottom="@dimen/dp_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_45"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_list_goal"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_list_interve"
+                    android:layout_weight="1"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"/>
+
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_45">
+            <TextView
+                android:layout_weight="1"
+                android:id="@+id/tv_bottom_plan_pre"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@color/text_color_gray_5"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_15"
+                android:text="上一个问题" />
+            <TextView
+                android:layout_weight="1"
+                android:id="@+id/tv_bottom_plan_next"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@color/text_color_gray_8"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_15"
+                android:text="下一个问题" />
+            <TextView
+                android:layout_weight="1"
+                android:id="@+id/tv_bottom_plan_all"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="#4a90e2"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_15"
+                android:visibility="gone"
+                android:text="全选" />
+            <TextView
+                android:layout_weight="1"
+                android:id="@+id/tv_bottom_save"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@color/blue_dark"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_15"
+                android:text="保存" />
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

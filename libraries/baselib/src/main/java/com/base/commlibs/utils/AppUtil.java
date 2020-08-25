@@ -1,6 +1,7 @@
 package com.base.commlibs.utils;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AppOpsManager;
 import android.app.Notification;
@@ -18,11 +19,14 @@ import android.media.SoundPool;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.base.commlibs.R;
 import com.base.commlibs.constant.SharedPreference;
+import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -45,6 +49,36 @@ public class AppUtil {
     private static Map<Integer, Integer> soundIDMap;
     private static SoundPool sSoundPool;
     private static String TAG = AppUtil.class.getSimpleName();
+
+    /**
+     * 获取当前Fragment名称
+     * @return
+     */
+    public static String getCurActivityFragmentName() {
+        //获取当前Activity的Fragment
+        Fragment fragment = getCurActivityFragment();
+        if (fragment != null) {
+            return fragment.getClass().getName();
+        }
+        return "";
+    }
+
+    /**
+     * 获取当前Fragment
+     * @return
+     */
+    public static Fragment getCurActivityFragment() {
+        //获取当前Activity的Fragment
+        Activity activity = ActivityUtils.getTopActivity();
+        if (activity instanceof AppCompatActivity) {
+            AppCompatActivity appCompatActivity = (AppCompatActivity) activity;
+            List<Fragment> fragments = appCompatActivity.getSupportFragmentManager().getFragments();
+            if (fragments.size() > 0) {
+               return fragments.get(0);
+            }
+        }
+        return null;
+    }
 
     /**
      * 是否支持多种扫描方式

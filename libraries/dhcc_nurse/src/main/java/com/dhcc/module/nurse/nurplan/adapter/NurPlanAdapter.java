@@ -41,22 +41,27 @@ public class NurPlanAdapter extends BaseQuickAdapter<QuestionListBean, BaseViewH
 
         helper.addOnClickListener(R.id.tv_item_ques_undo)
                 .addOnClickListener(R.id.tv_item_ques_stop)
+                .addOnClickListener(R.id.ll_content)
                 .addOnClickListener(R.id.tv_item_ques_copy);
+        //侧滑
+        helper.setGone(R.id.tv_item_ques_stop, !"已停止".equals(item.getStatus()));
+        helper.setGone(R.id.tv_item_ques_undo, !"已撤销".equals(item.getStatus()));
+
 
         String planStaColor = item.getPlanStatus().contains("未") ? "#000000" : "#1cc498";
         String cStaColor = item.getCStatus().contains("未") ? "#000000" : "#1cc498";
         String exprColor = "#FF4500";
-        boolean hasHand = item.getSource().contains("手动");
-        helper.setGone(R.id.tv_content, hasHand);
 
         List<QuestionListBean.AssessListBean> assessList = item.getAssessList();
-        if (assessList != null) {
+        boolean hasAssess = assessList != null && assessList.size() > 0;
+        if (hasAssess) {
             String str = "";
             for (QuestionListBean.AssessListBean bean : assessList) {
                 str += bean.getAssessSystemName() + "-" + bean.getAssessContent();
             }
             helper.setText(R.id.tv_content, "相关因素:" + str);
         }
+        helper.setGone(R.id.tv_content, hasAssess);
         helper.setText(R.id.tv_ques_name, item.getQueName())
                 .setGone(R.id.tv_create_time, !TextUtils.isEmpty(item.getCreateUser()))
                 .setText(R.id.tv_create_time, "创建:" + item.getCreateDateTime() + "  " + item.getCreateUser())
@@ -102,12 +107,13 @@ public class NurPlanAdapter extends BaseQuickAdapter<QuestionListBean, BaseViewH
             customSkinTagView.setCircleColor(stColor);
             customSkinTagView.setTextColor(stColor);
         }
-        //未停止
-        boolean isStop = "未停止".equals(item.getStatus());
+        //未停止->评价
+        boolean isStop = "未停止".equals(item.getStatus()) && "未评价".equals(item.getCStatus());
         helper.setGone(R.id.ll_select, isStop);
         customSkinTagView.setVisibility(isStop ? View.GONE : View.VISIBLE);
         helper.getView(R.id.ll_select).setSelected(item.isSelect());
-        helper.setVisible(R.id.ll_select, true).addOnClickListener(R.id.ll_select);
+        helper.setGone(R.id.ll_select, isStop).addOnClickListener(R.id.ll_select);
+
     }
 
     private Drawable getBgDrawable(String planStaColor) {

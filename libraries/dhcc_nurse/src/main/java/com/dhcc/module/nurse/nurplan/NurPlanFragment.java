@@ -21,12 +21,13 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.module.nurse.AdapterFactory;
 import com.dhcc.module.nurse.BaseNurseFragment;
 import com.dhcc.module.nurse.R;
-import com.dhcc.module.nurse.education.BundleData;
 import com.dhcc.module.nurse.education.bean.EduSheetListBean;
 import com.dhcc.module.nurse.nurplan.adapter.NurPlanAdapter;
 import com.dhcc.module.nurse.nurplan.bean.NurPlanBean;
 import com.dhcc.module.nurse.nurplan.bean.QuestionListBean;
 import com.dhcc.module.nurse.nurplan.bean.StatusReasonListBean;
+import com.dhcc.module.nurse.nurplan.fragment.NurPlanAddFragment;
+import com.dhcc.module.nurse.nurplan.fragment.NurPlanGoalInterveFragment;
 import com.dhcc.module.nurse.utils.DialogFactory;
 import com.dhcc.res.infusion.CustomDateTimeView;
 import com.dhcc.res.infusion.CustomSheetListView;
@@ -75,7 +76,7 @@ public class NurPlanFragment extends BaseNurseFragment {
         }
         //添加
         if (v.getId() == R.id.img_toolbar_right2) {
-            BundleData instance = new BundleData()
+            PlanBundleData instance = new PlanBundleData()
                     .setEpisodeId(episodeId);
             startFragment(NurPlanAddFragment.class, instance.build());
         }
@@ -97,6 +98,14 @@ public class NurPlanFragment extends BaseNurseFragment {
                     questionSub = bean.getRecordId().split("\\|\\|")[1];
                     //此护理问题评价为“已解决”提交后，其问题和目标评价结果不可修改!
                     saveQuestionComments();
+                }
+            }, new BaseQuickAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                    StatusReasonListBean b = (StatusReasonListBean) adapter.getData().get(position);
+                    if ("已解决".equals(b.getText())) {
+                        ToastUtils.showLong("评价为“已解决”提交后，其问题和目标评价结果不可修改!");
+                    }
                 }
             });
 
@@ -174,6 +183,8 @@ public class NurPlanFragment extends BaseNurseFragment {
                 getQuestionRecord();
             }
         });
+        //获取频次
+        NurPlanApiManager.getInterventionFreq();
     }
 
     @Override
@@ -234,6 +245,14 @@ public class NurPlanFragment extends BaseNurseFragment {
                     }
                     nurPlanAdapter.notifyDataSetChanged();
                 }
+                //跳转
+                if (view.getId() == R.id.ll_content) {
+                    PlanBundleData bundle = new PlanBundleData()
+                            .setQuestionList(mBean.getQuestionList())
+                            .setPosition(position + "");
+                    startFragment(NurPlanGoalInterveFragment.class, bundle.build());
+                }
+
             }
         });
         //初始化筛选
@@ -259,7 +278,7 @@ public class NurPlanFragment extends BaseNurseFragment {
                     }
                 });
             }
-        });
+        },null);
     }
 
     private void initFilterView() {

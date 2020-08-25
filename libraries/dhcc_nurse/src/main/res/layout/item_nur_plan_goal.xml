@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.guanaj.easyswipemenulibrary.EasySwipeMenuLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    app:contentView="@+id/ll_contentmenu"
+    app:rightMenuView="@+id/ll_rightmenu">
+
+<LinearLayout
+    android:id="@+id/ll_contentmenu"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingRight="@dimen/dp_10"
+    android:layout_marginTop="@dimen/dp_5"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/ll_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="@dimen/dp_8"
+            android:gravity="center"
+            android:clickable="true">
+
+            <ImageView
+                android:layout_width="@dimen/dp_25"
+                android:layout_height="@dimen/dp_25"
+                android:background="@drawable/dhcc_icon_orderexec_selector" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dp_8"
+                    android:layout_weight="1"
+                    tools:text="1000003770 "
+                    android:textColor="#FF4A4A4A"
+                    android:textSize="@dimen/sp_17" />
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <com.noober.background.view.BLTextView
+                        android:id="@+id/bl_tv_status"
+                        tools:text="需处理临嘱"
+                        app:bl_corners_radius="@dimen/dp_3"
+                        app:bl_solid_color="@color/blue"
+                        android:gravity="center"
+                        android:paddingLeft="@dimen/dp_8"
+                        android:layout_marginRight="@dimen/dp_20"
+                        android:textSize="@dimen/sp_12"
+                        android:paddingRight="@dimen/dp_8"
+                        android:paddingTop="@dimen/dp_3"
+                        android:paddingBottom="@dimen/dp_3"
+                        android:textColor="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <com.noober.background.view.BLTextView
+                        android:id="@+id/bl_tv_status_2"
+                        android:text="需处理临嘱"
+                        android:visibility="gone"
+                        android:gravity="center"
+                        android:paddingLeft="@dimen/dp_5"
+                        android:layout_marginRight="@dimen/dp_20"
+                        android:textSize="@dimen/sp_12"
+                        android:paddingRight="@dimen/dp_5"
+                        android:paddingTop="@dimen/dp_2"
+                        android:paddingBottom="@dimen/dp_2"
+                        android:textColor="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_content"
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_fre"
+                    tools:text="护士01"
+                    android:layout_marginTop="@dimen/dp_5"
+                    android:layout_marginEnd="@dimen/dp_6"
+                    android:textColor="@color/dhcc_ordersearch_text_color"
+                    android:textSize="@dimen/sp_13"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/tv_soure"
+                    tools:text="护士01"
+                    android:layout_marginTop="@dimen/dp_5"
+                    android:layout_marginEnd="@dimen/dp_6"
+                    android:textColor="@color/dhcc_ordersearch_text_color"
+                    android:textSize="@dimen/sp_13"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/ll_exeinfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+                <TextView
+                    android:id="@+id/tv_starttime"
+                    android:layout_marginTop="@dimen/dp_5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dp_6"
+                    android:textColor="@color/dhcc_grey"
+                    android:textSize="@dimen/sp_12"
+                    tools:text="2018-08-25 08:00" />
+
+                <TextView
+                    android:id="@+id/tv_exeuser"
+                    android:layout_marginTop="@dimen/dp_5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dp_6"
+                    android:textColor="@color/dhcc_grey"
+                    android:textSize="@dimen/sp_12"
+                    tools:text="皮试" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_createtime"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dp_6"
+                android:textColor="@color/dhcc_grey"
+                android:textSize="@dimen/sp_12"
+                tools:text="2018-08-25 08:00" />
+
+            <TextView
+                android:id="@+id/tv_exetime"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dp_5"
+                android:textColor="@color/dhcc_grey"
+                android:textSize="@dimen/sp_12"
+                android:visibility="gone"
+                tools:text="2018-08-25 08:00" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/line_oeporderinfo_multiorder"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_2"
+        android:layout_marginTop="@dimen/dp_5"
+        android:background="@drawable/dhcc_line_dash"
+        android:layerType="software" />
+</LinearLayout>
+
+<LinearLayout
+        android:id="@+id/ll_rightmenu"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/tv_item_ques_undo"
+            android:layout_width="@dimen/dp_50"
+            android:layout_height="match_parent"
+            android:text="作废"
+            android:gravity="center"
+            android:background="@android:color/holo_red_light"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_16"/>
+        <TextView
+            android:id="@+id/tv_item_ques_stop"
+            android:layout_width="@dimen/dp_50"
+            android:layout_height="match_parent"
+            android:text="停止"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:background="@color/bg_gold"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_16"/>
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_item_ques_copy"
+            android:layout_width="@dimen/dp_50"
+            android:layout_height="match_parent"
+            android:text="复制"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:background="@color/blue_dark"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_16"/>
+
+    </LinearLayout>
+</com.guanaj.easyswipemenulibrary.EasySwipeMenuLayout>
