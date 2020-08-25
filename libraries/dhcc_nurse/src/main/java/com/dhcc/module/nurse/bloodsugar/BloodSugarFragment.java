@@ -1,6 +1,8 @@
 package com.dhcc.module.nurse.bloodsugar;
 
 import android.graphics.Color;
+import android.os.Bundle;
+import android.support.v4.app.BundleCompat;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,6 +80,28 @@ public class BloodSugarFragment extends BaseNurseFragment {
 
         bloodSugarPatAdapter = AdapterFactory.getBloodSugarPatAdapter();
         RecyclerViewHelper.get(mContext, R.id.rv_list_ord).setAdapter(bloodSugarPatAdapter);
+        bloodSugarPatAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) { Bundle bundle = new Bundle();
+                bundle.putString("episodeId",bloodSugarPatAdapter.getItem(position).getEpisodeId());
+                bundle.putString("patInfo",bloodSugarPatAdapter.getItem(position).getBedCode()+" "+bloodSugarPatAdapter.getItem(position).getName());
+
+                if (view.getId()==R.id.tv_sugar_record){
+                    startFragment(BloodSugarRecordFragment.class,bundle);
+                }
+                if (view.getId()==R.id.tv_sugar_list){
+                    startFragment(BloodSugarNoteListFragment.class,bundle);
+                }
+                if (view.getId()==R.id.tv_sugar_preview){
+                    startFragment(BloodSugarValueMapFragment.class,bundle);
+                }
+            }
+        });
+        bloodSugarPatAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+            }
+        });
     }
 
     @Override

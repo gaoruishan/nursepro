@@ -17,6 +17,7 @@ import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.KeyBoardUtil;
 import com.base.commlibs.utils.RecyclerViewHelper;
+import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.module.nurse.AdapterFactory;
@@ -25,6 +26,11 @@ import com.dhcc.module.nurse.R;
 import com.dhcc.module.nurse.task.adapter.TaskNurOrdRecordAdapter;
 import com.dhcc.module.nurse.task.bean.NurOrdRecordTaskBean;
 import com.dhcc.module.nurse.task.bean.NurTaskSchBean;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import cn.qqtheme.framework.picker.OptionPicker;
 import cn.qqtheme.framework.widget.WheelView;
@@ -207,44 +213,46 @@ public class NurOrdRecordFragment  extends BaseNurseFragment {
     }
     // [{"itemId":450,"exeNoteList":[""],"itemValue":"","childItemList":[{"childId":"450||1","childValue":""},{"childId":"450||2","childValue":""}]}]
     private String getTaskJson(){
-        String taskJson = "[";
+        List list = new ArrayList();
         if (taskNurOrdRecordAdapter.getData().size()>0){
             for (int i = 0; i < taskNurOrdRecordAdapter.getData().size(); i++) {
                 NurOrdRecordTaskBean.TaskSetListBean bean = taskNurOrdRecordAdapter.getData().get(i);
-                String itemJson = "{";
-                itemJson = itemJson+"\"itemId\":"+bean.getItemId()+",\"name\":\""+bean.getItemName()+"\",\"exeNoteList\":[\"";
-                String noteSel = bean.getNoteSelec()==null?"":bean.getNoteSelec();
-                itemJson = itemJson+noteSel+"\"],\"itemValue\":\""+bean.getItemValue()+
-                        "\",\"childItemList\":[";
-                if (bean.getData().getSubItemList().size()>0){
+                Map map = new HashMap();
+                map.put("itemId", bean.getItemId());
+                map.put("name", bean.getItemName());
+                map.put("name", bean.getItemName());
+                map.put("itemValue", bean.getItemValue());
+                List list1 = new ArrayList();
+                list1.add(bean.getNoteSelec() == null ? "" : bean.getNoteSelec());
+                map.put("exeNoteList", list1);
+                List list2 = new ArrayList();
+                if (bean.getData().getSubItemList().size() > 0) {
                     for (int j = 0; j < bean.getData().getSubItemList().size(); j++) {
-                        if (j==bean.getData().getSubItemList().size()-1){
-                            itemJson=itemJson+"{\"childId\":\""+bean.getData().getSubItemList().get(i).getSubItemId()+"\",\"childValue\":\""+bean.getData().getSubItemList().get(i).getSubItemName()+"\"}]}";
-                        }else {
-                            itemJson=itemJson+"{\"childId\":\""+bean.getData().getSubItemList().get(i).getSubItemId()+"\",\"childValue\":\""+bean.getData().getSubItemList().get(i).getSubItemName()+"\"},";
-                        }
+                        Map map1 = new HashMap();
+                        map1.put("childId", bean.getData().getSubItemList().get(i).getSubItemId());
+                        map1.put("childValue", bean.getData().getSubItemList().get(i).getSubItemName());
+                        list2.add(map1);
                     }
-                }else {
-                    itemJson = itemJson+"]}";
                 }
-                if (i==taskNurOrdRecordAdapter.getData().size()-1){
-                    taskJson=taskJson+itemJson+"]";
-                }else {
-                    taskJson=taskJson+itemJson+",";
-                }
+                map.put("childItemList",list2);
+                list.add(map);
             }
-        }else {
-            taskJson=taskJson+"]";
         }
-        return taskJson;
+        return GsonUtils.toJson(list);
     }
     // {"episodeID":1471,"locID":151,"userID":10211,"exedate":"2020-08-17","exetime":"15:18","exeDesc":"进食中出现咳嗽或呛咳、口中存留多量唾液、等吞咽功能及障碍症状。","emrRecordId":"","record":[{"id":450,"name":"评估吞咽功能","value":"进食中出现咳嗽或呛咳,口中存留多量唾液"}],"exeDescFlag":true}
     private String getRecordData(){
-        String recordData = "{\"episodeID\":"+episodeId+",\"locID\":"+getSpInfo(SharedPreference.LOCID)+",\"userID\":"+getSpInfo(SharedPreference.USERID)+
-                ",\"exedate\":\""+tvTime.getText().toString().substring(0,10)+"\",\"exetime\":\""+tvTime.getText().toString().substring(11,16)+
-                "\",\"exeDesc\":\""+tvDesc.getText().toString()+"\",\"emrRecordId\":\""+recordId+"\",\"record\":"+getTaskJson()+",\"exeDescFlag\":"+
-                ckNur.isChecked()+"}";
-        return recordData;
+        Map recordDataMap = new HashMap();
+        recordDataMap.put("episodeID",episodeId);
+        recordDataMap.put("locID",getSpInfo(SharedPreference.LOCID));
+        recordDataMap.put("userID",getSpInfo(SharedPreference.USERID));
+        recordDataMap.put("exedate",tvTime.getText().toString().substring(0,10));
+        recordDataMap.put("exetime",tvTime.getText().toString().substring(11,16));
+        recordDataMap.put("exeDesc",tvDesc.getText().toString());
+        recordDataMap.put("emrRecordId",recordId);
+        recordDataMap.put("record",getTaskJson());
+        recordDataMap.put("exeDescFlag",ckNur.isChecked());
+        return GsonUtils.toJson(recordDataMap);
     }
 
 
