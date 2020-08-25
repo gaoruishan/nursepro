@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <com.dhcc.res.infusion.CustomDateTimeView
+        android:id="@+id/custom_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_2"
+        android:background="#f6f6f6"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/bloodsugar_chartsdetail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/dp_50"/>
+        <com.dhcc.module.nurse.bloodsugar.ChartLabelView
+            android:id="@+id/chart_label"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_67"
+            android:layout_alignParentBottom="true"
+            android:paddingLeft="@dimen/dp_15"
+            android:background="@color/white"></com.dhcc.module.nurse.bloodsugar.ChartLabelView>
+
+    </RelativeLayout>
+
+</LinearLayout>

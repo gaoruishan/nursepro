@@ -104,27 +104,27 @@
         android:paddingBottom="@dimen/dp_10">
 
         <TextView
-            android:id="@+id/tv_vitalsign_vitalsign_record"
+            android:id="@+id/tv_sugar_record"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/dp_20"
             android:textColor="@color/text_color_gray"
-            android:text="体征录入" />
+            android:text="血糖录入" />
 
         <TextView
-            android:id="@+id/tv_vitalsign_event_record"
+            android:id="@+id/tv_sugar_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/dp_20"
             android:textColor="@color/text_color_gray"
-            android:text="事件登记" />
+            android:text="血糖查询" />
 
         <TextView
-            android:id="@+id/tv_vitalsign_tmp_preview"
+            android:id="@+id/tv_sugar_preview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/dp_24"
-            android:text="体征曲线图" />
+            android:text="血糖曲线图" />
 
     </LinearLayout>
 

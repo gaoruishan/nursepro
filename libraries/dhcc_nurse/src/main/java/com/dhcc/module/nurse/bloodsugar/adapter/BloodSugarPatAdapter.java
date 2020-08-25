@@ -26,6 +26,9 @@ public class BloodSugarPatAdapter extends BaseQuickAdapter<BloodSugarPatsBean.Pa
     @Override
     protected void convert(BaseViewHolder helper, BloodSugarPatsBean.PatInfoListBean item) {
         helper.setText(R.id.tv_bloodsugar_patient_name,item.getName())
-                .setText(R.id.tv_bloodsugar_patient_bedno,item.getBedCode());
+                .setText(R.id.tv_bloodsugar_patient_bedno,item.getBedCode())
+                .addOnClickListener(R.id.tv_sugar_record)
+                .addOnClickListener(R.id.tv_sugar_list)
+                .addOnClickListener(R.id.tv_sugar_preview);
     }
 }

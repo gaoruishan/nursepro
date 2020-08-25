@@ -1,10 +1,10 @@
-package com.dhcc.nursepro.workarea.vitalsigndetail;
+package com.base.commlibs.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.widget.TextView;
 
-import com.dhcc.nursepro.R;
+import com.base.commlibs.R;
 import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.data.CandleEntry;
 import com.github.mikephil.charting.data.Entry;
