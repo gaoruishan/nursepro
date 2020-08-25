@@ -6,21 +6,14 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.InputType;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.Spanned;
 import android.text.TextWatcher;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
-import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,12 +21,10 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
@@ -42,6 +33,7 @@ import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.utils.InputDigitLengthFilter;
 import com.dhcc.nursepro.workarea.nurrecordnew.api.NurRecordOldApiManager;
 import com.dhcc.nursepro.workarea.nurrecordnew.bean.ElementDataBean;
 import com.dhcc.nursepro.workarea.nurrecordnew.bean.RecDataBean;
@@ -70,7 +62,8 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
     private final HashMap<String, List<String>> formNametoElementId = new HashMap<>();
     //drop edittext
     private final HashMap<String, Integer[]> dropValue = new HashMap<>();
-    private final HashMap<String, Integer[]> dcDropValue = new HashMap<>();
+    //drop id val关联
+    private final HashMap<String, List<String>> elementIdtoOprationItemList = new HashMap<>();
     //parent child view
     private final HashMap<String, List<String>> pcViewHashMap = new HashMap<>();
 
@@ -104,72 +97,73 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
     private String fromEMRCode = "";
 
     private NurRecordTipDialog tipDialog;
+    private NurRecordSaveErrorDialog errorDialog;
+
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        if (requestCode == 1 && resultCode == 100) {
+//            String key = data.getStringExtra("LinkViewCode");
+//            String value = data.getStringExtra("LinkViewValue");
+//            EditText editText1 = (EditText) viewHashMap.get(key);
+//            if (editText1 != null) {
+//                editText1.setText(value);
+//            }
+//        } else if (requestCode == 2 && resultCode == 100) {
+//            String key = data.getStringExtra("LinkViewCode");
+//            String value = data.getStringExtra("LinkViewValue");
+//            EditText editText1 = (EditText) viewHashMap.get(key);
+//            if (editText1 != null) {
+//                editText1.setText(value);
+//            }
+//        } else if (requestCode == 3 && resultCode == 100) {
+//            String key = data.getStringExtra("LinkViewCode");
+//            String value = data.getStringExtra("LinkViewValue");
+//
+//            EditText editText1 = (EditText) viewHashMap.get(key);
+//            if (editText1 != null) {
+//                editText1.setText(value);
+//            }
+//            int grade = Integer.parseInt(StringUtils.isEmpty(value) ? "-1" : value);
+//
+//            if (grade > -1) {
+//                CheckBox checkBox1793 = (CheckBox) viewHashMap.get("1793");
+//                checkBox1793.setChecked(true);
+//            }
+//        } else if ((requestCode == 4 || requestCode == 5 || requestCode == 6) && resultCode == 100) {
+//            String key = data.getStringExtra("LinkViewCode");
+//            String value = data.getStringExtra("LinkViewValue");
+//            EditText editText1 = (EditText) viewHashMap.get(key);
+//            if (editText1 != null) {
+//                editText1.setText(value);
+//            }
+//        } else if ((requestCode == 7 || requestCode == 8) && resultCode == 100) {
+//            String key = data.getStringExtra("LinkViewCode");
+//            String value = data.getStringExtra("LinkViewValue");
+//            EditText editText1 = (EditText) viewHashMap.get(key);
+//            if (editText1 != null) {
+//                editText1.setText(value);
+//            }
+//        } else if (requestCode == 9 && resultCode == 100) {
+//            String key = data.getStringExtra("LinkViewCode");
+//            String value = data.getStringExtra("LinkViewValue");
+//            EditText editText1 = (EditText) viewHashMap.get(key);
+//            if (editText1 != null) {
+//                editText1.setText(value);
+//            }
+//            int grade = Integer.parseInt(StringUtils.isEmpty(value) ? "-1" : value);
+//
+//            if (grade > -1) {
+//                CheckBox checkBox1892 = (CheckBox) viewHashMap.get("1892");
+//                checkBox1892.setChecked(true);
+//            }
+//        }
+//
+//    }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == 1 && resultCode == 100) {
-            String key = data.getStringExtra("LinkViewCode");
-            String value = data.getStringExtra("LinkViewValue");
-            EditText editText1 = (EditText) viewHashMap.get(key);
-            if (editText1 != null) {
-                editText1.setText(value);
-            }
-        } else if (requestCode == 2 && resultCode == 100) {
-            String key = data.getStringExtra("LinkViewCode");
-            String value = data.getStringExtra("LinkViewValue");
-            EditText editText1 = (EditText) viewHashMap.get(key);
-            if (editText1 != null) {
-                editText1.setText(value);
-            }
-        } else if (requestCode == 3 && resultCode == 100) {
-            String key = data.getStringExtra("LinkViewCode");
-            String value = data.getStringExtra("LinkViewValue");
-
-            EditText editText1 = (EditText) viewHashMap.get(key);
-            if (editText1 != null) {
-                editText1.setText(value);
-            }
-            int grade = Integer.parseInt(StringUtils.isEmpty(value) ? "-1" : value);
-
-            if (grade > -1) {
-                CheckBox checkBox1793 = (CheckBox) viewHashMap.get("1793");
-                checkBox1793.setChecked(true);
-            }
-        } else if ((requestCode == 4 || requestCode == 5 || requestCode == 6) && resultCode == 100) {
-            String key = data.getStringExtra("LinkViewCode");
-            String value = data.getStringExtra("LinkViewValue");
-            EditText editText1 = (EditText) viewHashMap.get(key);
-            if (editText1 != null) {
-                editText1.setText(value);
-            }
-        } else if ((requestCode == 7 || requestCode == 8) && resultCode == 100) {
-            String key = data.getStringExtra("LinkViewCode");
-            String value = data.getStringExtra("LinkViewValue");
-            EditText editText1 = (EditText) viewHashMap.get(key);
-            if (editText1 != null) {
-                editText1.setText(value);
-            }
-        } else if (requestCode == 9 && resultCode == 100) {
-            String key = data.getStringExtra("LinkViewCode");
-            String value = data.getStringExtra("LinkViewValue");
-            EditText editText1 = (EditText) viewHashMap.get(key);
-            if (editText1 != null) {
-                editText1.setText(value);
-            }
-            int grade = Integer.parseInt(StringUtils.isEmpty(value) ? "-1" : value);
-
-            if (grade > -1) {
-                CheckBox checkBox1892 = (CheckBox) viewHashMap.get("1892");
-                checkBox1892.setChecked(true);
-            }
-        }
-
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         spUtils = SPUtils.getInstance();
@@ -195,12 +189,7 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
         textView.setTextSize(15);
         textView.setText("  保存   ");
         textView.setTextColor(getResources().getColor(R.color.white));
-        viewright.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                save();
-            }
-        });
+        viewright.setOnClickListener(v -> save());
         setToolbarRightCustomView(viewright);
         initview(view);
 
@@ -208,6 +197,9 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
 
     }
 
+    /**
+     * 保存护理病历
+     */
     private void save() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("{");
@@ -266,13 +258,9 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
                 if (radioElementListBeanList != null && j >= radioElementListBeanList.size()) {
                     if ("true".equals(radioElementListBeanList.get(0).getRequired())) {
 
-                        if (radioElementListBeanList.size() == 1 && "其他".equals(radioElementListBeanList.get(0).getOprationItemList().get(0).getText())) {
-
-                        } else {
-
+                        if (!(radioElementListBeanList.size() == 1 && "其他".equals(radioElementListBeanList.get(0).getOprationItemList().get(0).getText()))) {
 
                             List<String> elementIdList = formNametoElementId.get(radioElementListBeanList.get(0).getFormName());
-                            List<CheckBox> checkBoxList = new ArrayList<>();
                             boolean oneSelected = false;
 
                             for (int i1 = 0; i1 < elementIdList.size(); i1++) {
@@ -307,6 +295,55 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
 
 
             } else if ("DropRadioElement".equals(element.getElementType())) {
+                String dropRadioStr = ((TextView) viewHashMap.get(element.getElementId())).getText().toString();
+                if (StringUtils.isTrimEmpty(dropRadioStr)) {
+                    LinearLayout linearLayout = (LinearLayout) viewHashMap.get(element.getElementId() + "_ll");
+                    TextView textView = (TextView) viewHashMap.get(element.getElementId());
+                    if ("true".equals(element.getRequired()) && linearLayout.getVisibility() == View.VISIBLE) {
+                        textView.setBackgroundResource(R.drawable.nur_record_btnerror_bg);
+                        showToast("请填写必填项之后再保存");
+                        return;
+                    }
+
+                    //""DropRadioElement_31"":[]
+                    stringBuilder.append("\"")
+                            .append(element.getElementType())
+                            .append("_")
+                            .append(element.getElementId())
+                            .append("\"")
+                            .append(":")
+                            .append("[]");
+                } else {
+                    //""DropRadioElement_29"":[{""NumberValue"":""21"",""Text"":""下拉单选2"",""Value"":""2""}]
+
+                    List<ElementDataBean.DataBean.InputBean.ElementBasesBean.OprationItemListBean> oprationItemList = element.getOprationItemList();
+                    String NumberValueStr = "";
+                    String TextStr = "";
+                    String ValueStr = "";
+                    for (int i1 = 0; oprationItemList != null && i1 < oprationItemList.size(); i1++) {
+                        if (oprationItemList.get(i1).getText().equals(dropRadioStr)) {
+                            NumberValueStr = oprationItemList.get(i1).getNumberValue();
+                            TextStr = oprationItemList.get(i1).getText();
+                            ValueStr = oprationItemList.get(i1).getValue();
+                            break;
+                        }
+                    }
+                    stringBuilder.append("\"")
+                            .append(element.getElementType())
+                            .append("_")
+                            .append(element.getElementId())
+                            .append("\":[{\"NumberValue\":\"")
+                            .append(NumberValueStr)
+                            .append("\",\"Text\":\"")
+                            .append(TextStr)
+                            .append("\",\"Value\":\"")
+                            .append(ValueStr)
+                            .append("\"}]");
+
+
+                }
+
+            } else if ("DropListElement".equals(element.getElementType())) {
                 String dropRadioStr = ((TextView) viewHashMap.get(element.getElementId())).getText().toString();
                 if (StringUtils.isTrimEmpty(dropRadioStr)) {
                     LinearLayout linearLayout = (LinearLayout) viewHashMap.get(element.getElementId() + "_ll");
@@ -393,11 +430,11 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
                         }
                         String[] dcTextItem = dcText.split(",");
 
-                        for (int i1 = 0; i1 < dcTextItem.length; i1++) {
-                            String NumberValueStr = "";
-                            String TextStr = "";
-                            String ValueStr = "";
-                            if (dcTextItem[i1].equals(oprationItemListBean.getText())) {
+                        for (String s : dcTextItem) {
+                            String NumberValueStr;
+                            String TextStr;
+                            String ValueStr;
+                            if (s.equals(oprationItemListBean.getText())) {
                                 NumberValueStr = oprationItemListBean.getNumberValue();
                                 TextStr = oprationItemListBean.getText();
                                 ValueStr = oprationItemListBean.getValue();
@@ -516,6 +553,20 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
 //                            return;
 //                        }
 
+                    if ("NumberElement".equals(element.getElementType())) {
+                        try {
+                            double edDou = Double.parseDouble(editText.getText().toString());
+                            boolean minError = !StringUtils.isEmpty(element.getMinError()) && edDou < Double.parseDouble(element.getMinError());
+                            boolean maxError = !StringUtils.isEmpty(element.getMaxError()) && edDou > Double.parseDouble(element.getMaxError());
+                            if (minError || maxError) {
+                                showToast("请检查输入数值");
+                                return;
+                            }
+                        } catch (NumberFormatException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
                     stringBuilder.append("\"")
                             .append(element.getElementType())
                             .append("_")
@@ -559,44 +610,55 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
                 .append(",\"templateVersionGuid\":\"").append(guid).append("\"}");
 
         String parr = stringBuilder.toString();
-
+        showLoadingTip(BaseActivity.LoadingType.FULL);
         NurRecordOldApiManager.saveNewEmrData(guid, episodeID, recId, parr, new NurRecordOldApiManager.RecDataCallback() {
             @Override
             public void onSuccess(RecDataBean recDataBean) {
+                hideLoadFailTip();
                 showToast("保存成功");
-                if (!StringUtils.isTrimEmpty(linkViewCode)) {
-                    EditText editText = (EditText) viewHashMap.get(linkViewCode);
-                    if (editText != null) {
-                        linkViewValue = editText.getText().toString();
-                        Intent intent = new Intent();
-
-                        if ("DHCNURBarthelLR".equals(emrCode)) {
-                            intent.putExtra("LinkViewCode", "1773");
-                        } else if ("DHCNURYCFXPGJHLJLDCRHZLR".equals(emrCode)) {
-                            intent.putExtra("LinkViewCode", "1780");
-                        } else if ("DHCNURDDFXPGJHLJLDLR".equals(emrCode)) {
-                            if (fromEMRCode.equals("DHCNURRYZKHLPGDCRHZLR")) {
-                                intent.putExtra("LinkViewCode", "1788");
-                            } else if (fromEMRCode.equals("DHCNURFKPGDLR")) {
-                                intent.putExtra("LinkViewCode", "1890");
-                            }
-                        } else if ("DHCNUREKRCSHNLADLLBBZSLR".equals(emrCode)) {
-                            intent.putExtra("LinkViewCode", "550");
-                        } else if ("DHCNUREKYCHLJL".equals(emrCode)) {
-                            intent.putExtra("LinkViewCode", "557");
-                        } else if ("DHCNUREKDDFXPGLBHDLR".equals(emrCode)) {
-                            intent.putExtra("LinkViewCode", "565");
-                        }
-                        intent.putExtra("LinkViewValue", linkViewValue);
-                        Objects.requireNonNull(getActivity()).setResult(100, intent);
-                    }
-                }
+//                if (!StringUtils.isTrimEmpty(linkViewCode)) {
+//                    EditText editText = (EditText) viewHashMap.get(linkViewCode);
+//                    if (editText != null) {
+//                        linkViewValue = editText.getText().toString();
+//                        Intent intent = new Intent();
+//
+//                        if ("DHCNURBarthelLR".equals(emrCode)) {
+//                            intent.putExtra("LinkViewCode", "1773");
+//                        } else if ("DHCNURYCFXPGJHLJLDCRHZLR".equals(emrCode)) {
+//                            intent.putExtra("LinkViewCode", "1780");
+//                        } else if ("DHCNURDDFXPGJHLJLDLR".equals(emrCode)) {
+//                            if (fromEMRCode.equals("DHCNURRYZKHLPGDCRHZLR")) {
+//                                intent.putExtra("LinkViewCode", "1788");
+//                            } else if (fromEMRCode.equals("DHCNURFKPGDLR")) {
+//                                intent.putExtra("LinkViewCode", "1890");
+//                            }
+//                        } else if ("DHCNUREKRCSHNLADLLBBZSLR".equals(emrCode)) {
+//                            intent.putExtra("LinkViewCode", "550");
+//                        } else if ("DHCNUREKYCHLJL".equals(emrCode)) {
+//                            intent.putExtra("LinkViewCode", "557");
+//                        } else if ("DHCNUREKDDFXPGLBHDLR".equals(emrCode)) {
+//                            intent.putExtra("LinkViewCode", "565");
+//                        }
+//                        intent.putExtra("LinkViewValue", linkViewValue);
+//                        Objects.requireNonNull(getActivity()).setResult(100, intent);
+//                    }
+//                }
                 Objects.requireNonNull(getActivity()).finish();
             }
 
             @Override
             public void onFail(String code, String msg) {
-                showToast("error" + code + ":" + msg);
+                hideLoadFailTip();
+                if (errorDialog != null && errorDialog.isShowing()) {
+                    errorDialog.dismiss();
+                }
+                errorDialog = new NurRecordSaveErrorDialog(getActivity());
+                errorDialog.setExecresult(msg);
+                errorDialog.setImgId(R.drawable.icon_popup_error_patient);
+                errorDialog.setSureVisible(View.VISIBLE);
+                errorDialog.setCancleVisible(View.GONE);
+                errorDialog.setSureOnclickListener(() -> errorDialog.dismiss());
+                errorDialog.show();
 //                if (!StringUtils.isTrimEmpty(linkViewCode)) {
 //                    EditText editText = (EditText) viewHashMap.get(linkViewCode);
 //                    if (editText != null) {
@@ -647,9 +709,12 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
     }
 
     private void initData() {
+        showLoadingTip(BaseActivity.LoadingType.FULL);
+
         NurRecordOldApiManager.GetXmlValues(episodeID, emrCode, recId, new NurRecordOldApiManager.GetXmlValuesCallback() {
             @Override
             public void onSuccess(ElementDataBean elementDataBean) {
+                hideLoadFailTip();
                 elements = elementDataBean.getData().getInput().getElementBases();
                 elementSetsBeans = elementDataBean.getData().getInput().getElementSets();
                 statisticsListBeans = elementDataBean.getData().getInput().getStatisticsList();
@@ -659,11 +724,15 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
 
             @Override
             public void onFail(String code, String msg) {
+                hideLoadFailTip();
                 showToast(msg);
             }
         });
     }
 
+    /**
+     * 添加各类型元素
+     */
     private void InputViews(List<ElementDataBean.DataBean.InputBean.ElementBasesBean> elements) {
         for (int i = 0; elements != null && i < elements.size(); i++) {
             ElementDataBean.DataBean.InputBean.ElementBasesBean element = elements.get(i);
@@ -671,12 +740,7 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
                 LinearLayout llDate = getTextView(element);
                 TextView tvDate = (TextView) viewHashMap.get(element.getElementId());
 
-                tvDate.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ShowDateTime(DATE_DIALOG, getActivity(), tvDate);
-                    }
-                });
+                tvDate.setOnClickListener(v -> ShowDateTime(DATE_DIALOG, getActivity(), tvDate));
                 llNurrecord.addView(llDate);
                 llNurrecord.addView(getDashLine());
 
@@ -684,12 +748,7 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
                 LinearLayout llTime = getTextView(element);
                 TextView tvTime = (TextView) viewHashMap.get(element.getElementId());
 
-                tvTime.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ShowDateTime(TIME_DIALOG, getActivity(), tvTime);
-                    }
-                });
+                tvTime.setOnClickListener(v -> ShowDateTime(TIME_DIALOG, getActivity(), tvTime));
                 llNurrecord.addView(llTime);
                 llNurrecord.addView(getDashLine());
             } else if ("RadioElement".equals(element.getElementType())) {
@@ -712,32 +771,72 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
                 TextView tvdropRadio = (TextView) viewHashMap.get(element.getElementId());
                 tvdropRadio.setBackground(getResources().getDrawable(R.drawable.nur_record_btn_bg));
 
-                tvdropRadio.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        tvdropRadio.setBackgroundResource(R.drawable.nur_record_btn_bg);
-                        selectStrList = new ArrayList<>();
-                        selectScoreList = new ArrayList<>();
-                        for (int i1 = 0; element.getOprationItemList() != null && i1 < element.getOprationItemList().size(); i1++) {
-                            try {
-                                selectStrList.add(element.getOprationItemList().get(i1).getText());
-                                int numberValue;
-                                if ("√".equals(element.getOprationItemList().get(i1).getNumberValue())) {
-                                    numberValue = 0;
-                                } else {
-                                    numberValue = Integer.parseInt(element.getOprationItemList().get(i1).getNumberValue());
-                                }
-                                selectScoreList.add(numberValue);
-                            } catch (NumberFormatException e) {
-                                showToast("分值转换出错");
-                                e.printStackTrace();
-                            }
-                        }
-                        selectStrList.add("");
-                        selectScoreList.add(0);
+                tvdropRadio.setOnClickListener(v -> {
+                    tvdropRadio.setBackgroundResource(R.drawable.nur_record_btn_bg);
+                    selectStrList = new ArrayList<>();
+                    selectScoreList = new ArrayList<>();
 
-                        ShowRadioScore(selectStrList, getActivity(), tvdropRadio);
+                    List<String> dropItremTextandNumberValue = new ArrayList<>();
+                    for (int i1 = 0; element.getOprationItemList() != null && i1 < element.getOprationItemList().size(); i1++) {
+                        try {
+                            selectStrList.add(element.getOprationItemList().get(i1).getText());
+                            int numberValue;
+                            if ("√".equals(element.getOprationItemList().get(i1).getNumberValue())) {
+                                numberValue = 0;
+                            } else {
+                                numberValue = Integer.parseInt(element.getOprationItemList().get(i1).getNumberValue());
+                            }
+                            selectScoreList.add(numberValue);
+                            dropItremTextandNumberValue.add(element.getOprationItemList().get(i1).getText() + "^" + numberValue);
+                        } catch (NumberFormatException e) {
+                            showToast("分值转换出错");
+                            e.printStackTrace();
+                        }
                     }
+                    elementIdtoOprationItemList.put(element.getElementId(), dropItremTextandNumberValue);
+                    selectStrList.add("");
+                    selectScoreList.add(0);
+
+                    ShowRadioScore(selectStrList, getActivity(), tvdropRadio);
+                });
+
+                lldropRadio.clearAnimation();
+
+                llNurrecord.addView(lldropRadio);
+                llNurrecord.addView(getDashLine());
+            } else if ("DropListElement".equals(element.getElementType())) {
+
+                LinearLayout lldropRadio = getTextView(element);
+                TextView tvdropRadio = (TextView) viewHashMap.get(element.getElementId());
+                tvdropRadio.setBackground(getResources().getDrawable(R.drawable.nur_record_btn_bg));
+
+                tvdropRadio.setOnClickListener(v -> {
+                    tvdropRadio.setBackgroundResource(R.drawable.nur_record_btn_bg);
+                    selectStrList = new ArrayList<>();
+                    selectScoreList = new ArrayList<>();
+
+                    List<String> dropItremTextandNumberValue = new ArrayList<>();
+                    for (int i1 = 0; element.getOprationItemList() != null && i1 < element.getOprationItemList().size(); i1++) {
+                        try {
+                            selectStrList.add(element.getOprationItemList().get(i1).getText());
+                            int numberValue;
+                            if ("√".equals(element.getOprationItemList().get(i1).getNumberValue())) {
+                                numberValue = 0;
+                            } else {
+                                numberValue = Integer.parseInt(element.getOprationItemList().get(i1).getNumberValue());
+                            }
+                            selectScoreList.add(numberValue);
+                            dropItremTextandNumberValue.add(element.getOprationItemList().get(i1).getText() + "^" + numberValue);
+                        } catch (NumberFormatException e) {
+                            showToast("分值转换出错");
+                            e.printStackTrace();
+                        }
+                    }
+                    elementIdtoOprationItemList.put(element.getElementId(), dropItremTextandNumberValue);
+                    selectStrList.add("");
+                    selectScoreList.add(0);
+
+                    ShowRadioScore(selectStrList, getActivity(), tvdropRadio);
                 });
 
                 lldropRadio.clearAnimation();
@@ -749,18 +848,15 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
                 TextView tvdropCheck = (TextView) viewHashMap.get(element.getElementId());
                 tvdropCheck.setBackground(getResources().getDrawable(R.drawable.nur_record_btn_bg));
 
-                tvdropCheck.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        tvdropCheck.setBackgroundResource(R.drawable.nur_record_btn_bg);
-                        dcSelectStrList = new ArrayList<>();
-                        for (int i1 = 0; element.getOprationItemList() != null && i1 < element.getOprationItemList().size(); i1++) {
-                            dcSelectStrList.add(element.getOprationItemList().get(i1).getText());
-                        }
-                        dcSelectStrList.add("全选/取消全选");
-
-                        ShowDropCheck(dcSelectStrList, getActivity(), tvdropCheck);
+                tvdropCheck.setOnClickListener(v -> {
+                    tvdropCheck.setBackgroundResource(R.drawable.nur_record_btn_bg);
+                    dcSelectStrList = new ArrayList<>();
+                    for (int i1 = 0; element.getOprationItemList() != null && i1 < element.getOprationItemList().size(); i1++) {
+                        dcSelectStrList.add(element.getOprationItemList().get(i1).getText());
                     }
+                    dcSelectStrList.add("全选/取消全选");
+
+                    ShowDropCheck(dcSelectStrList, getActivity(), tvdropCheck);
                 });
 
                 lldropCheck.clearAnimation();
@@ -840,286 +936,286 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
 //                }
 
                 lledit.clearAnimation();
-                //成人入院评估
-                if ("DHCNURRYZKHLPGDCRHZLR".equals(emrCode)) {
-
-                    //关联跳转
-                    //跳转ADL
-                    if ("1773".equals(element.getElementId())) {
-                        TextView tvTitle = (TextView) viewHashMap.get(element.getElementId() + "_title");
-                        String title = tvTitle.getText().toString();
-                        SpannableString spannableString = new SpannableString(title);
-
-                        ClickableSpan clickableSpan = new ClickableSpan() {
-                            @Override
-                            public void onClick(@NonNull View widget) {
-                                ElementDataBean.FirstIdListBean firstIdListBean = firstIdListBeans.get(0);
-                                Bundle bundle = new Bundle();
-                                bundle.putString("EpisodeID", episodeID);
-                                bundle.putString("BedNo", bedNo);
-                                bundle.putString("PatName", patName);
-                                bundle.putString("EMRCode", firstIdListBean.getEmrCode());
-                                bundle.putString("GUID", firstIdListBean.getGuId());
-                                bundle.putString("RecID", firstIdListBean.getRecId());
-                                bundle.putString("FromEMRCode", "DHCNURRYZKHLPGDCRHZLR");
-                                bundle.putString("LinkViewCode", "24");
-                                startFragment(NurRecordNewFragment.class, bundle, 1);
-                            }
-                        };
-                        spannableString.setSpan(clickableSpan, 0, title.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-                        ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#62ABFF"));
-                        spannableString.setSpan(colorSpan, 0, title.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-                        tvTitle.setText(spannableString);
-                        tvTitle.setMovementMethod(LinkMovementMethod.getInstance());
-
-                        edText.setEnabled(false);
-                    }
-                    //跳转压疮
-                    if ("1780".equals(element.getElementId())) {
-                        TextView tvTitle = (TextView) viewHashMap.get(element.getElementId() + "_title");
-                        String title = tvTitle.getText().toString();
-                        SpannableString spannableString = new SpannableString(title);
-
-                        ClickableSpan clickableSpan = new ClickableSpan() {
-                            @Override
-                            public void onClick(@NonNull View widget) {
-                                ElementDataBean.FirstIdListBean firstIdListBean = firstIdListBeans.get(3);
-                                Bundle bundle = new Bundle();
-                                bundle.putString("EpisodeID", episodeID);
-                                bundle.putString("BedNo", bedNo);
-                                bundle.putString("PatName", patName);
-                                bundle.putString("EMRCode", firstIdListBean.getEmrCode());
-                                bundle.putString("GUID", firstIdListBean.getGuId());
-                                bundle.putString("RecID", firstIdListBean.getRecId());
-                                bundle.putString("FromEMRCode", "DHCNURRYZKHLPGDCRHZLR");
-                                bundle.putString("LinkViewCode", "60");
-                                startFragment(NurRecordNewFragment.class, bundle, 2);
-                            }
-                        };
-                        spannableString.setSpan(clickableSpan, 0, title.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-                        ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#62ABFF"));
-                        spannableString.setSpan(colorSpan, 0, title.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-                        tvTitle.setText(spannableString);
-                        tvTitle.setMovementMethod(LinkMovementMethod.getInstance());
-                        edText.setEnabled(false);
-                    }
-                    //跳转跌倒
-                    if ("1788".equals(element.getElementId())) {
-                        TextView tvTitle = (TextView) viewHashMap.get(element.getElementId() + "_title");
-                        String title = tvTitle.getText().toString();
-                        SpannableString spannableString = new SpannableString(title);
-
-                        ClickableSpan clickableSpan = new ClickableSpan() {
-                            @Override
-                            public void onClick(@NonNull View widget) {
-                                ElementDataBean.FirstIdListBean firstIdListBean = firstIdListBeans.get(1);
-                                Bundle bundle = new Bundle();
-                                bundle.putString("EpisodeID", episodeID);
-                                bundle.putString("BedNo", bedNo);
-                                bundle.putString("PatName", patName);
-                                bundle.putString("EMRCode", firstIdListBean.getEmrCode());
-                                bundle.putString("GUID", firstIdListBean.getGuId());
-                                bundle.putString("RecID", firstIdListBean.getRecId());
-                                bundle.putString("FromEMRCode", "DHCNURRYZKHLPGDCRHZLR");
-                                bundle.putString("LinkViewCode", "99");
-                                startFragment(NurRecordNewFragment.class, bundle, 3);
-                            }
-                        };
-                        spannableString.setSpan(clickableSpan, 0, title.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-                        ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#62ABFF"));
-                        spannableString.setSpan(colorSpan, 0, title.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-                        tvTitle.setText(spannableString);
-                        tvTitle.setMovementMethod(LinkMovementMethod.getInstance());
-                        edText.setEnabled(false);
-                    }
-                }
-
-                //儿科入院评估
-                if ("DHCNUREKHLPGDLR".equals(emrCode)) {
-
-                    //关联跳转
-                    //跳转ADL
-                    if ("550".equals(element.getElementId())) {
-                        TextView tvTitle = (TextView) viewHashMap.get(element.getElementId() + "_title");
-                        String title = tvTitle.getText().toString();
-                        SpannableString spannableString = new SpannableString(title);
-
-                        ClickableSpan clickableSpan = new ClickableSpan() {
-                            @Override
-                            public void onClick(@NonNull View widget) {
-                                ElementDataBean.FirstIdListBean firstIdListBean = firstIdListBeans.get(10);
-                                Bundle bundle = new Bundle();
-                                bundle.putString("EpisodeID", episodeID);
-                                bundle.putString("BedNo", bedNo);
-                                bundle.putString("PatName", patName);
-                                bundle.putString("EMRCode", firstIdListBean.getEmrCode());
-                                bundle.putString("GUID", firstIdListBean.getGuId());
-                                bundle.putString("RecID", firstIdListBean.getRecId());
-                                bundle.putString("FromEMRCode", "DHCNUREKHLPGDLR");
-                                bundle.putString("LinkViewCode", "29");
-                                startFragment(NurRecordNewFragment.class, bundle, 4);
-                            }
-                        };
-                        spannableString.setSpan(clickableSpan, 0, title.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-                        ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#62ABFF"));
-                        spannableString.setSpan(colorSpan, 0, title.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-                        tvTitle.setText(spannableString);
-                        tvTitle.setMovementMethod(LinkMovementMethod.getInstance());
-
-                        edText.setEnabled(false);
-                    }
-                    //跳转压疮
-                    if ("557".equals(element.getElementId())) {
-                        TextView tvTitle = (TextView) viewHashMap.get(element.getElementId() + "_title");
-                        String title = tvTitle.getText().toString();
-                        SpannableString spannableString = new SpannableString(title);
-
-                        ClickableSpan clickableSpan = new ClickableSpan() {
-                            @Override
-                            public void onClick(@NonNull View widget) {
-                                ElementDataBean.FirstIdListBean firstIdListBean = firstIdListBeans.get(9);
-                                Bundle bundle = new Bundle();
-                                bundle.putString("EpisodeID", episodeID);
-                                bundle.putString("BedNo", bedNo);
-                                bundle.putString("PatName", patName);
-                                bundle.putString("EMRCode", firstIdListBean.getEmrCode());
-                                bundle.putString("GUID", firstIdListBean.getGuId());
-                                bundle.putString("RecID", firstIdListBean.getRecId());
-                                bundle.putString("FromEMRCode", "DHCNUREKHLPGDLR");
-                                bundle.putString("LinkViewCode", "60");
-                                startFragment(NurRecordNewFragment.class, bundle, 5);
-                            }
-                        };
-                        spannableString.setSpan(clickableSpan, 0, title.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-                        ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#62ABFF"));
-                        spannableString.setSpan(colorSpan, 0, title.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-                        tvTitle.setText(spannableString);
-                        tvTitle.setMovementMethod(LinkMovementMethod.getInstance());
-                        edText.setEnabled(false);
-                    }
-                    //跳转跌倒
-                    if ("565".equals(element.getElementId())) {
-                        TextView tvTitle = (TextView) viewHashMap.get(element.getElementId() + "_title");
-                        String title = tvTitle.getText().toString();
-                        SpannableString spannableString = new SpannableString(title);
-
-                        ClickableSpan clickableSpan = new ClickableSpan() {
-                            @Override
-                            public void onClick(@NonNull View widget) {
-                                ElementDataBean.FirstIdListBean firstIdListBean = firstIdListBeans.get(8);
-                                Bundle bundle = new Bundle();
-                                bundle.putString("EpisodeID", episodeID);
-                                bundle.putString("BedNo", bedNo);
-                                bundle.putString("PatName", patName);
-                                bundle.putString("EMRCode", firstIdListBean.getEmrCode());
-                                bundle.putString("GUID", firstIdListBean.getGuId());
-                                bundle.putString("RecID", firstIdListBean.getRecId());
-                                bundle.putString("FromEMRCode", "DHCNUREKHLPGDLR");
-                                bundle.putString("LinkViewCode", "21");
-                                startFragment(NurRecordNewFragment.class, bundle, 6);
-                            }
-                        };
-                        spannableString.setSpan(clickableSpan, 0, title.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-                        ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#62ABFF"));
-                        spannableString.setSpan(colorSpan, 0, title.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-                        tvTitle.setText(spannableString);
-                        tvTitle.setMovementMethod(LinkMovementMethod.getInstance());
-                        edText.setEnabled(false);
-                    }
-                }
-                //产科入院评估
-                if ("DHCNURFKPGDLR".equals(emrCode)) {
-
-                    //关联跳转
-                    //跳转ADL
-                    if ("1773".equals(element.getElementId())) {
-                        TextView tvTitle = (TextView) viewHashMap.get(element.getElementId() + "_title");
-                        String title = tvTitle.getText().toString();
-                        SpannableString spannableString = new SpannableString(title);
-
-                        ClickableSpan clickableSpan = new ClickableSpan() {
-                            @Override
-                            public void onClick(@NonNull View widget) {
-                                ElementDataBean.FirstIdListBean firstIdListBean = firstIdListBeans.get(0);
-                                Bundle bundle = new Bundle();
-                                bundle.putString("EpisodeID", episodeID);
-                                bundle.putString("BedNo", bedNo);
-                                bundle.putString("PatName", patName);
-                                bundle.putString("EMRCode", firstIdListBean.getEmrCode());
-                                bundle.putString("GUID", firstIdListBean.getGuId());
-                                bundle.putString("RecID", firstIdListBean.getRecId());
-                                bundle.putString("FromEMRCode", "DHCNURFKPGDLR");
-                                bundle.putString("LinkViewCode", "24");
-                                startFragment(NurRecordNewFragment.class, bundle, 7);
-                            }
-                        };
-                        spannableString.setSpan(clickableSpan, 0, title.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-                        ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#62ABFF"));
-                        spannableString.setSpan(colorSpan, 0, title.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-                        tvTitle.setText(spannableString);
-                        tvTitle.setMovementMethod(LinkMovementMethod.getInstance());
-
-                        edText.setEnabled(false);
-                    }
-                    //跳转压疮
-                    if ("1780".equals(element.getElementId())) {
-                        TextView tvTitle = (TextView) viewHashMap.get(element.getElementId() + "_title");
-                        String title = tvTitle.getText().toString();
-                        SpannableString spannableString = new SpannableString(title);
-
-                        ClickableSpan clickableSpan = new ClickableSpan() {
-                            @Override
-                            public void onClick(@NonNull View widget) {
-                                ElementDataBean.FirstIdListBean firstIdListBean = firstIdListBeans.get(3);
-                                Bundle bundle = new Bundle();
-                                bundle.putString("EpisodeID", episodeID);
-                                bundle.putString("BedNo", bedNo);
-                                bundle.putString("PatName", patName);
-                                bundle.putString("EMRCode", firstIdListBean.getEmrCode());
-                                bundle.putString("GUID", firstIdListBean.getGuId());
-                                bundle.putString("RecID", firstIdListBean.getRecId());
-                                bundle.putString("FromEMRCode", "DHCNURFKPGDLR");
-                                bundle.putString("LinkViewCode", "60");
-                                startFragment(NurRecordNewFragment.class, bundle, 8);
-                            }
-                        };
-                        spannableString.setSpan(clickableSpan, 0, title.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-                        ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#62ABFF"));
-                        spannableString.setSpan(colorSpan, 0, title.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-                        tvTitle.setText(spannableString);
-                        tvTitle.setMovementMethod(LinkMovementMethod.getInstance());
-                        edText.setEnabled(false);
-                    }
-                    //跳转跌倒
-                    if ("1890".equals(element.getElementId())) {
-                        TextView tvTitle = (TextView) viewHashMap.get(element.getElementId() + "_title");
-                        String title = tvTitle.getText().toString();
-                        SpannableString spannableString = new SpannableString(title);
-
-                        ClickableSpan clickableSpan = new ClickableSpan() {
-                            @Override
-                            public void onClick(@NonNull View widget) {
-                                ElementDataBean.FirstIdListBean firstIdListBean = firstIdListBeans.get(1);
-                                Bundle bundle = new Bundle();
-                                bundle.putString("EpisodeID", episodeID);
-                                bundle.putString("BedNo", bedNo);
-                                bundle.putString("PatName", patName);
-                                bundle.putString("EMRCode", firstIdListBean.getEmrCode());
-                                bundle.putString("GUID", firstIdListBean.getGuId());
-                                bundle.putString("RecID", firstIdListBean.getRecId());
-                                bundle.putString("FromEMRCode", "DHCNURFKPGDLR");
-                                bundle.putString("LinkViewCode", "99");
-                                startFragment(NurRecordNewFragment.class, bundle, 9);
-                            }
-                        };
-                        spannableString.setSpan(clickableSpan, 0, title.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-                        ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#62ABFF"));
-                        spannableString.setSpan(colorSpan, 0, title.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-                        tvTitle.setText(spannableString);
-                        tvTitle.setMovementMethod(LinkMovementMethod.getInstance());
-                        edText.setEnabled(false);
-                    }
-                }
+//                //成人入院评估
+//                if ("DHCNURRYZKHLPGDCRHZLR".equals(emrCode)) {
+//
+//                    //关联跳转
+//                    //跳转ADL
+//                    if ("1773".equals(element.getElementId())) {
+//                        TextView tvTitle = (TextView) viewHashMap.get(element.getElementId() + "_title");
+//                        String title = tvTitle.getText().toString();
+//                        SpannableString spannableString = new SpannableString(title);
+//
+//                        ClickableSpan clickableSpan = new ClickableSpan() {
+//                            @Override
+//                            public void onClick(@NonNull View widget) {
+//                                ElementDataBean.FirstIdListBean firstIdListBean = firstIdListBeans.get(0);
+//                                Bundle bundle = new Bundle();
+//                                bundle.putString("EpisodeID", episodeID);
+//                                bundle.putString("BedNo", bedNo);
+//                                bundle.putString("PatName", patName);
+//                                bundle.putString("EMRCode", firstIdListBean.getEmrCode());
+//                                bundle.putString("GUID", firstIdListBean.getGuId());
+//                                bundle.putString("RecID", firstIdListBean.getRecId());
+//                                bundle.putString("FromEMRCode", "DHCNURRYZKHLPGDCRHZLR");
+//                                bundle.putString("LinkViewCode", "24");
+//                                startFragment(NurRecordNewFragment.class, bundle, 1);
+//                            }
+//                        };
+//                        spannableString.setSpan(clickableSpan, 0, title.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+//                        ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#62ABFF"));
+//                        spannableString.setSpan(colorSpan, 0, title.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+//                        tvTitle.setText(spannableString);
+//                        tvTitle.setMovementMethod(LinkMovementMethod.getInstance());
+//
+//                        edText.setEnabled(false);
+//                    }
+//                    //跳转压疮
+//                    if ("1780".equals(element.getElementId())) {
+//                        TextView tvTitle = (TextView) viewHashMap.get(element.getElementId() + "_title");
+//                        String title = tvTitle.getText().toString();
+//                        SpannableString spannableString = new SpannableString(title);
+//
+//                        ClickableSpan clickableSpan = new ClickableSpan() {
+//                            @Override
+//                            public void onClick(@NonNull View widget) {
+//                                ElementDataBean.FirstIdListBean firstIdListBean = firstIdListBeans.get(3);
+//                                Bundle bundle = new Bundle();
+//                                bundle.putString("EpisodeID", episodeID);
+//                                bundle.putString("BedNo", bedNo);
+//                                bundle.putString("PatName", patName);
+//                                bundle.putString("EMRCode", firstIdListBean.getEmrCode());
+//                                bundle.putString("GUID", firstIdListBean.getGuId());
+//                                bundle.putString("RecID", firstIdListBean.getRecId());
+//                                bundle.putString("FromEMRCode", "DHCNURRYZKHLPGDCRHZLR");
+//                                bundle.putString("LinkViewCode", "60");
+//                                startFragment(NurRecordNewFragment.class, bundle, 2);
+//                            }
+//                        };
+//                        spannableString.setSpan(clickableSpan, 0, title.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+//                        ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#62ABFF"));
+//                        spannableString.setSpan(colorSpan, 0, title.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+//                        tvTitle.setText(spannableString);
+//                        tvTitle.setMovementMethod(LinkMovementMethod.getInstance());
+//                        edText.setEnabled(false);
+//                    }
+//                    //跳转跌倒
+//                    if ("1788".equals(element.getElementId())) {
+//                        TextView tvTitle = (TextView) viewHashMap.get(element.getElementId() + "_title");
+//                        String title = tvTitle.getText().toString();
+//                        SpannableString spannableString = new SpannableString(title);
+//
+//                        ClickableSpan clickableSpan = new ClickableSpan() {
+//                            @Override
+//                            public void onClick(@NonNull View widget) {
+//                                ElementDataBean.FirstIdListBean firstIdListBean = firstIdListBeans.get(1);
+//                                Bundle bundle = new Bundle();
+//                                bundle.putString("EpisodeID", episodeID);
+//                                bundle.putString("BedNo", bedNo);
+//                                bundle.putString("PatName", patName);
+//                                bundle.putString("EMRCode", firstIdListBean.getEmrCode());
+//                                bundle.putString("GUID", firstIdListBean.getGuId());
+//                                bundle.putString("RecID", firstIdListBean.getRecId());
+//                                bundle.putString("FromEMRCode", "DHCNURRYZKHLPGDCRHZLR");
+//                                bundle.putString("LinkViewCode", "99");
+//                                startFragment(NurRecordNewFragment.class, bundle, 3);
+//                            }
+//                        };
+//                        spannableString.setSpan(clickableSpan, 0, title.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+//                        ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#62ABFF"));
+//                        spannableString.setSpan(colorSpan, 0, title.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+//                        tvTitle.setText(spannableString);
+//                        tvTitle.setMovementMethod(LinkMovementMethod.getInstance());
+//                        edText.setEnabled(false);
+//                    }
+//                }
+//
+//                //儿科入院评估
+//                if ("DHCNUREKHLPGDLR".equals(emrCode)) {
+//
+//                    //关联跳转
+//                    //跳转ADL
+//                    if ("550".equals(element.getElementId())) {
+//                        TextView tvTitle = (TextView) viewHashMap.get(element.getElementId() + "_title");
+//                        String title = tvTitle.getText().toString();
+//                        SpannableString spannableString = new SpannableString(title);
+//
+//                        ClickableSpan clickableSpan = new ClickableSpan() {
+//                            @Override
+//                            public void onClick(@NonNull View widget) {
+//                                ElementDataBean.FirstIdListBean firstIdListBean = firstIdListBeans.get(10);
+//                                Bundle bundle = new Bundle();
+//                                bundle.putString("EpisodeID", episodeID);
+//                                bundle.putString("BedNo", bedNo);
+//                                bundle.putString("PatName", patName);
+//                                bundle.putString("EMRCode", firstIdListBean.getEmrCode());
+//                                bundle.putString("GUID", firstIdListBean.getGuId());
+//                                bundle.putString("RecID", firstIdListBean.getRecId());
+//                                bundle.putString("FromEMRCode", "DHCNUREKHLPGDLR");
+//                                bundle.putString("LinkViewCode", "29");
+//                                startFragment(NurRecordNewFragment.class, bundle, 4);
+//                            }
+//                        };
+//                        spannableString.setSpan(clickableSpan, 0, title.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+//                        ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#62ABFF"));
+//                        spannableString.setSpan(colorSpan, 0, title.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+//                        tvTitle.setText(spannableString);
+//                        tvTitle.setMovementMethod(LinkMovementMethod.getInstance());
+//
+//                        edText.setEnabled(false);
+//                    }
+//                    //跳转压疮
+//                    if ("557".equals(element.getElementId())) {
+//                        TextView tvTitle = (TextView) viewHashMap.get(element.getElementId() + "_title");
+//                        String title = tvTitle.getText().toString();
+//                        SpannableString spannableString = new SpannableString(title);
+//
+//                        ClickableSpan clickableSpan = new ClickableSpan() {
+//                            @Override
+//                            public void onClick(@NonNull View widget) {
+//                                ElementDataBean.FirstIdListBean firstIdListBean = firstIdListBeans.get(9);
+//                                Bundle bundle = new Bundle();
+//                                bundle.putString("EpisodeID", episodeID);
+//                                bundle.putString("BedNo", bedNo);
+//                                bundle.putString("PatName", patName);
+//                                bundle.putString("EMRCode", firstIdListBean.getEmrCode());
+//                                bundle.putString("GUID", firstIdListBean.getGuId());
+//                                bundle.putString("RecID", firstIdListBean.getRecId());
+//                                bundle.putString("FromEMRCode", "DHCNUREKHLPGDLR");
+//                                bundle.putString("LinkViewCode", "60");
+//                                startFragment(NurRecordNewFragment.class, bundle, 5);
+//                            }
+//                        };
+//                        spannableString.setSpan(clickableSpan, 0, title.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+//                        ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#62ABFF"));
+//                        spannableString.setSpan(colorSpan, 0, title.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+//                        tvTitle.setText(spannableString);
+//                        tvTitle.setMovementMethod(LinkMovementMethod.getInstance());
+//                        edText.setEnabled(false);
+//                    }
+//                    //跳转跌倒
+//                    if ("565".equals(element.getElementId())) {
+//                        TextView tvTitle = (TextView) viewHashMap.get(element.getElementId() + "_title");
+//                        String title = tvTitle.getText().toString();
+//                        SpannableString spannableString = new SpannableString(title);
+//
+//                        ClickableSpan clickableSpan = new ClickableSpan() {
+//                            @Override
+//                            public void onClick(@NonNull View widget) {
+//                                ElementDataBean.FirstIdListBean firstIdListBean = firstIdListBeans.get(8);
+//                                Bundle bundle = new Bundle();
+//                                bundle.putString("EpisodeID", episodeID);
+//                                bundle.putString("BedNo", bedNo);
+//                                bundle.putString("PatName", patName);
+//                                bundle.putString("EMRCode", firstIdListBean.getEmrCode());
+//                                bundle.putString("GUID", firstIdListBean.getGuId());
+//                                bundle.putString("RecID", firstIdListBean.getRecId());
+//                                bundle.putString("FromEMRCode", "DHCNUREKHLPGDLR");
+//                                bundle.putString("LinkViewCode", "21");
+//                                startFragment(NurRecordNewFragment.class, bundle, 6);
+//                            }
+//                        };
+//                        spannableString.setSpan(clickableSpan, 0, title.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+//                        ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#62ABFF"));
+//                        spannableString.setSpan(colorSpan, 0, title.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+//                        tvTitle.setText(spannableString);
+//                        tvTitle.setMovementMethod(LinkMovementMethod.getInstance());
+//                        edText.setEnabled(false);
+//                    }
+//                }
+//                //产科入院评估
+//                if ("DHCNURFKPGDLR".equals(emrCode)) {
+//
+//                    //关联跳转
+//                    //跳转ADL
+//                    if ("1773".equals(element.getElementId())) {
+//                        TextView tvTitle = (TextView) viewHashMap.get(element.getElementId() + "_title");
+//                        String title = tvTitle.getText().toString();
+//                        SpannableString spannableString = new SpannableString(title);
+//
+//                        ClickableSpan clickableSpan = new ClickableSpan() {
+//                            @Override
+//                            public void onClick(@NonNull View widget) {
+//                                ElementDataBean.FirstIdListBean firstIdListBean = firstIdListBeans.get(0);
+//                                Bundle bundle = new Bundle();
+//                                bundle.putString("EpisodeID", episodeID);
+//                                bundle.putString("BedNo", bedNo);
+//                                bundle.putString("PatName", patName);
+//                                bundle.putString("EMRCode", firstIdListBean.getEmrCode());
+//                                bundle.putString("GUID", firstIdListBean.getGuId());
+//                                bundle.putString("RecID", firstIdListBean.getRecId());
+//                                bundle.putString("FromEMRCode", "DHCNURFKPGDLR");
+//                                bundle.putString("LinkViewCode", "24");
+//                                startFragment(NurRecordNewFragment.class, bundle, 7);
+//                            }
+//                        };
+//                        spannableString.setSpan(clickableSpan, 0, title.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+//                        ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#62ABFF"));
+//                        spannableString.setSpan(colorSpan, 0, title.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+//                        tvTitle.setText(spannableString);
+//                        tvTitle.setMovementMethod(LinkMovementMethod.getInstance());
+//
+//                        edText.setEnabled(false);
+//                    }
+//                    //跳转压疮
+//                    if ("1780".equals(element.getElementId())) {
+//                        TextView tvTitle = (TextView) viewHashMap.get(element.getElementId() + "_title");
+//                        String title = tvTitle.getText().toString();
+//                        SpannableString spannableString = new SpannableString(title);
+//
+//                        ClickableSpan clickableSpan = new ClickableSpan() {
+//                            @Override
+//                            public void onClick(@NonNull View widget) {
+//                                ElementDataBean.FirstIdListBean firstIdListBean = firstIdListBeans.get(3);
+//                                Bundle bundle = new Bundle();
+//                                bundle.putString("EpisodeID", episodeID);
+//                                bundle.putString("BedNo", bedNo);
+//                                bundle.putString("PatName", patName);
+//                                bundle.putString("EMRCode", firstIdListBean.getEmrCode());
+//                                bundle.putString("GUID", firstIdListBean.getGuId());
+//                                bundle.putString("RecID", firstIdListBean.getRecId());
+//                                bundle.putString("FromEMRCode", "DHCNURFKPGDLR");
+//                                bundle.putString("LinkViewCode", "60");
+//                                startFragment(NurRecordNewFragment.class, bundle, 8);
+//                            }
+//                        };
+//                        spannableString.setSpan(clickableSpan, 0, title.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+//                        ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#62ABFF"));
+//                        spannableString.setSpan(colorSpan, 0, title.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+//                        tvTitle.setText(spannableString);
+//                        tvTitle.setMovementMethod(LinkMovementMethod.getInstance());
+//                        edText.setEnabled(false);
+//                    }
+//                    //跳转跌倒
+//                    if ("1890".equals(element.getElementId())) {
+//                        TextView tvTitle = (TextView) viewHashMap.get(element.getElementId() + "_title");
+//                        String title = tvTitle.getText().toString();
+//                        SpannableString spannableString = new SpannableString(title);
+//
+//                        ClickableSpan clickableSpan = new ClickableSpan() {
+//                            @Override
+//                            public void onClick(@NonNull View widget) {
+//                                ElementDataBean.FirstIdListBean firstIdListBean = firstIdListBeans.get(1);
+//                                Bundle bundle = new Bundle();
+//                                bundle.putString("EpisodeID", episodeID);
+//                                bundle.putString("BedNo", bedNo);
+//                                bundle.putString("PatName", patName);
+//                                bundle.putString("EMRCode", firstIdListBean.getEmrCode());
+//                                bundle.putString("GUID", firstIdListBean.getGuId());
+//                                bundle.putString("RecID", firstIdListBean.getRecId());
+//                                bundle.putString("FromEMRCode", "DHCNURFKPGDLR");
+//                                bundle.putString("LinkViewCode", "99");
+//                                startFragment(NurRecordNewFragment.class, bundle, 9);
+//                            }
+//                        };
+//                        spannableString.setSpan(clickableSpan, 0, title.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+//                        ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#62ABFF"));
+//                        spannableString.setSpan(colorSpan, 0, title.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+//                        tvTitle.setText(spannableString);
+//                        tvTitle.setMovementMethod(LinkMovementMethod.getInstance());
+//                        edText.setEnabled(false);
+//                    }
+//                }
 
 
                 llNurrecord.addView(lledit);
@@ -1138,6 +1234,9 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
         setViews("", "");
     }
 
+    /**
+     * 文本框
+     */
     private LinearLayout getTextView(ElementDataBean.DataBean.InputBean.ElementBasesBean element) {
         LinearLayout linearLayout = new LinearLayout(getActivity());
         LinearLayout.LayoutParams llparams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -1156,19 +1255,11 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
 
         if (!StringUtils.isEmpty(element.getToolTipText())) {
             tvTitle.setTextColor(Color.parseColor("#62ABFF"));
-            tvTitle.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    tipDialog = new NurRecordTipDialog(getActivity());
-                    tipDialog.setNurRecordTip(element.getToolTipText());
-                    tipDialog.setSureOnclickListener(new NurRecordTipDialog.onSureOnclickListener() {
-                        @Override
-                        public void onSureClick() {
-                            tipDialog.dismiss();
-                        }
-                    });
-                    tipDialog.show();
-                }
+            tvTitle.setOnClickListener(v -> {
+                tipDialog = new NurRecordTipDialog(getActivity());
+                tipDialog.setNurRecordTip(element.getToolTipText());
+                tipDialog.setSureOnclickListener(() -> tipDialog.dismiss());
+                tipDialog.show();
             });
         }
 
@@ -1180,26 +1271,26 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
         textView.setBackground(getResources().getDrawable(R.drawable.nur_record_btn_bg));
         if (!StringUtils.isEmpty(element.getDefaultValue())) {
             textView.setText(element.getDefaultValue());
-            if ("DropRadioElement".equals(element.getElementType())) {
+            if ("DropRadioElement".equals(element.getElementType()) || "DropListElement".equals(element.getElementType())) {
                 int defaultScore = 0;
                 for (int i = 0; element.getOprationItemList() != null && i < element.getOprationItemList().size(); i++) {
                     ElementDataBean.DataBean.InputBean.ElementBasesBean.OprationItemListBean oprationItemListBean = element.getOprationItemList().get(i);
                     if (element.getDefaultValue().equals(oprationItemListBean.getText())) {
-                        defaultScore = Integer.parseInt(oprationItemListBean.getValue());
+                        defaultScore = Integer.parseInt(oprationItemListBean.getNumberValue());
                         break;
                     }
                 }
                 dropValue.put(element.getElementId(), new Integer[]{0, defaultScore});
             }
         } else {
-            if ("DropRadioElement".equals(element.getElementType())) {
+            if ("DropRadioElement".equals(element.getElementType()) || "DropListElement".equals(element.getElementType())) {
 
                 int defaultScore = 0;
                 for (int i = 0; element.getOprationItemList() != null && i < element.getOprationItemList().size(); i++) {
                     ElementDataBean.DataBean.InputBean.ElementBasesBean.OprationItemListBean oprationItemListBean = element.getOprationItemList().get(i);
                     if ("true".equals(oprationItemListBean.getIsSelect())) {
                         textView.setText(oprationItemListBean.getText());
-                        defaultScore = Integer.parseInt(oprationItemListBean.getValue());
+                        defaultScore = Integer.parseInt(oprationItemListBean.getNumberValue());
                         break;
                     }
                 }
@@ -1213,6 +1304,8 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
 
         textView.setTag(element.getElementId());
         viewHashMap.put(element.getElementId(), textView);
+        elementIdtoFormName.put(element.getElementId(), element.getFormName());
+
 
         linearLayout.addView(tvTitle);
         linearLayout.addView(textView);
@@ -1240,42 +1333,37 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
         return linearLayout;
     }
 
+    /**
+     * 时间日期选择窗口
+     */
     protected void ShowDateTime(int id, Context context, final TextView textView) {
-        Dialog dialog = null;
+        Dialog dialog;
         c = Calendar.getInstance();
         String DateTimeStr = textView.getText().toString();
         switch (id) {
             case DATE_DIALOG:
                 if (DateTimeStr.split("-").length == 3) {
                     dialog = new DatePickerDialog(context,
-                            new DatePickerDialog.OnDateSetListener() {
-                                @Override
-                                public void onDateSet(DatePicker dp, int year,
-                                                      int month, int dayOfMonth) {
+                            (dp, year, month, dayOfMonth) -> {
 
-                                    DecimalFormat df = new DecimalFormat("00");
+                                DecimalFormat df = new DecimalFormat("00");
 
-                                    String datestr = year + "-" + df.format(month + 1)
-                                            + "-" + df.format(dayOfMonth);
-                                    textView.setText(datestr);
-                                }
+                                String datestr = year + "-" + df.format(month + 1)
+                                        + "-" + df.format(dayOfMonth);
+                                textView.setText(datestr);
                             }, Integer.parseInt(DateTimeStr.split("-")[0]),
                             Integer.parseInt(DateTimeStr.split("-")[1]) - 1,
                             Integer.parseInt(DateTimeStr.split("-")[2])
                     );
                 } else {
                     dialog = new DatePickerDialog(context,
-                            new DatePickerDialog.OnDateSetListener() {
-                                @Override
-                                public void onDateSet(DatePicker dp, int year,
-                                                      int month, int dayOfMonth) {
+                            (dp, year, month, dayOfMonth) -> {
 
-                                    DecimalFormat df = new DecimalFormat("00");
+                                DecimalFormat df = new DecimalFormat("00");
 
-                                    String datestr = year + "-" + df.format(month + 1)
-                                            + "-" + df.format(dayOfMonth);
-                                    textView.setText(datestr);
-                                }
+                                String datestr = year + "-" + df.format(month + 1)
+                                        + "-" + df.format(dayOfMonth);
+                                textView.setText(datestr);
                             }, c.get(Calendar.YEAR),
                             c.get(Calendar.MONTH),
                             c.get(Calendar.DAY_OF_MONTH)
@@ -1287,26 +1375,18 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
             case TIME_DIALOG:
                 if (DateTimeStr.split(":").length == 2) {
                     dialog = new TimePickerDialog(context,
-                            new TimePickerDialog.OnTimeSetListener() {
-                                @Override
-                                public void onTimeSet(TimePicker view, int hourOfDay,
-                                                      int minute) {
-                                    DecimalFormat df = new DecimalFormat("00");
-                                    String timeStr = df.format(hourOfDay) + ":" + df.format(minute);
-                                    textView.setText(timeStr);
-                                }
+                            (view, hourOfDay, minute) -> {
+                                DecimalFormat df = new DecimalFormat("00");
+                                String timeStr = df.format(hourOfDay) + ":" + df.format(minute);
+                                textView.setText(timeStr);
                             }, Integer.parseInt(DateTimeStr.split(":")[0]), Integer.parseInt(DateTimeStr.split(":")[1]),
                             false);
                 } else {
                     dialog = new TimePickerDialog(context,
-                            new TimePickerDialog.OnTimeSetListener() {
-                                @Override
-                                public void onTimeSet(TimePicker view, int hourOfDay,
-                                                      int minute) {
-                                    DecimalFormat df = new DecimalFormat("00");
-                                    String timeStr = df.format(hourOfDay) + ":" + df.format(minute);
-                                    textView.setText(timeStr);
-                                }
+                            (view, hourOfDay, minute) -> {
+                                DecimalFormat df = new DecimalFormat("00");
+                                String timeStr = df.format(hourOfDay) + ":" + df.format(minute);
+                                textView.setText(timeStr);
                             }, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE),
                             false);
                 }
@@ -1319,6 +1399,9 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
 
     }
 
+    /**
+     * 虚线分隔
+     */
     private View getDashLine() {
         View view = new View(getActivity());
         LinearLayout.LayoutParams viewparams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ConvertUtils.dp2px(4));
@@ -1329,6 +1412,9 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
 
     }
 
+    /**
+     * 平铺单选
+     */
     private LinearLayout getRadioView(ElementDataBean.DataBean.InputBean.ElementBasesBean element) {
         LinearLayout linearLayout = new LinearLayout(getActivity());
         LinearLayout.LayoutParams llparams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -1347,19 +1433,11 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
 
         if (!StringUtils.isEmpty(element.getToolTipText())) {
             tvTitle.setTextColor(Color.parseColor("#62ABFF"));
-            tvTitle.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    tipDialog = new NurRecordTipDialog(getActivity());
-                    tipDialog.setNurRecordTip(element.getToolTipText());
-                    tipDialog.setSureOnclickListener(new NurRecordTipDialog.onSureOnclickListener() {
-                        @Override
-                        public void onSureClick() {
-                            tipDialog.dismiss();
-                        }
-                    });
-                    tipDialog.show();
-                }
+            tvTitle.setOnClickListener(v -> {
+                tipDialog = new NurRecordTipDialog(getActivity());
+                tipDialog.setNurRecordTip(element.getToolTipText());
+                tipDialog.setSureOnclickListener(() -> tipDialog.dismiss());
+                tipDialog.show();
             });
         }
 
@@ -1381,11 +1459,7 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
             if (!StringUtils.isTrimEmpty(radioElementListBean.getDefaultValue()) && radioElementListBean.getNameText().equals(radioElementListBean.getDefaultValue())) {
                 checkBox.setChecked(true);
             } else {
-                if ("1".equals(radioElementListBean.getIsSelect())) {
-                    checkBox.setChecked(true);
-                } else {
-                    checkBox.setChecked(false);
-                }
+                checkBox.setChecked("1".equals(radioElementListBean.getIsSelect()));
             }
 
             checkBox.setOnCheckedChangeListener(this);
@@ -1399,8 +1473,8 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
                 checkBox.setVisibility(View.GONE);
             }
             viewHashMap.put(radioElementListBean.getElementId(), checkBox);
-            viewHashMap.put(radioElementListBean.getFormName() + "^" + radioElementListBean.getOprationItemList().get(0).getValue(), checkBox);
-            elementIdtoFormName.put(radioElementListBean.getElementId(), radioElementListBean.getFormName() + "^" + radioElementListBean.getOprationItemList().get(0).getValue());
+            viewHashMap.put(radioElementListBean.getFormName() + "^" + radioElementListBean.getOprationItemList().get(0).getNumberValue(), checkBox);
+            elementIdtoFormName.put(radioElementListBean.getElementId(), radioElementListBean.getFormName() + "^" + radioElementListBean.getOprationItemList().get(0).getNumberValue());
             viewElementIdList.add(radioElementListBean.getElementId());
             childElementIdList.add(radioElementListBean.getElementId());
 
@@ -1428,6 +1502,9 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
         return linearLayout;
     }
 
+    /**
+     * 平铺多选
+     */
     private LinearLayout getCheckView(ElementDataBean.DataBean.InputBean.ElementBasesBean element) {
         LinearLayout linearLayout = new LinearLayout(getActivity());
         LinearLayout.LayoutParams llparams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -1446,19 +1523,11 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
 
         if (!StringUtils.isEmpty(element.getToolTipText())) {
             tvTitle.setTextColor(Color.parseColor("#62ABFF"));
-            tvTitle.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    tipDialog = new NurRecordTipDialog(getActivity());
-                    tipDialog.setNurRecordTip(element.getToolTipText());
-                    tipDialog.setSureOnclickListener(new NurRecordTipDialog.onSureOnclickListener() {
-                        @Override
-                        public void onSureClick() {
-                            tipDialog.dismiss();
-                        }
-                    });
-                    tipDialog.show();
-                }
+            tvTitle.setOnClickListener(v -> {
+                tipDialog = new NurRecordTipDialog(getActivity());
+                tipDialog.setNurRecordTip(element.getToolTipText());
+                tipDialog.setSureOnclickListener(() -> tipDialog.dismiss());
+                tipDialog.show();
             });
         }
 
@@ -1479,11 +1548,7 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
             if (!StringUtils.isTrimEmpty(radioElementListBean.getDefaultValue()) && radioElementListBean.getNameText().equals(radioElementListBean.getDefaultValue())) {
                 checkBox.setChecked(true);
             } else {
-                if ("1".equals(radioElementListBean.getIsSelect())) {
-                    checkBox.setChecked(true);
-                } else {
-                    checkBox.setChecked(false);
-                }
+                checkBox.setChecked("1".equals(radioElementListBean.getIsSelect()));
             }
 
             checkBox.setOnCheckedChangeListener(this);
@@ -1497,8 +1562,8 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
                 checkBox.setVisibility(View.GONE);
             }
             viewHashMap.put(radioElementListBean.getElementId(), checkBox);
-            viewHashMap.put(radioElementListBean.getFormName() + "^" + radioElementListBean.getOprationItemList().get(0).getValue(), checkBox);
-            elementIdtoFormName.put(radioElementListBean.getElementId(), radioElementListBean.getFormName() + "^" + radioElementListBean.getOprationItemList().get(0).getValue());
+            viewHashMap.put(radioElementListBean.getFormName() + "^" + radioElementListBean.getOprationItemList().get(0).getNumberValue(), checkBox);
+            elementIdtoFormName.put(radioElementListBean.getElementId(), radioElementListBean.getFormName() + "^" + radioElementListBean.getOprationItemList().get(0).getNumberValue());
             viewElementIdList.add(radioElementListBean.getElementId());
             childElementIdList.add(radioElementListBean.getElementId());
 
@@ -1529,6 +1594,9 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
         return linearLayout;
     }
 
+    /**
+     * 下拉单选弹窗
+     */
     private void ShowRadioScore(List<String> selectStrList, Context context, final TextView textView) {
         itemScore = 0;
         mSingleChoiceID = -1;
@@ -1544,33 +1612,26 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
         AlertDialog.Builder localBuilder = new AlertDialog.Builder(context);
 
         localBuilder.setSingleChoiceItems(mItems, mSingleChoiceID,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog,
-                                        int whichButton) {
-                        try {
+                (dialog, whichButton) -> {
+                    try {
 //                            if (mSingleChoiceID != -1) {
 //                                itemScore = itemScore - selectScoreList.get(mSingleChoiceID);
 //                                itemScore = itemScore + selectScoreList.get(whichButton);
 //                            } else {
 //                                itemScore = itemScore + selectScoreList.get(whichButton);
 //                            }
-                            itemScore = selectScoreList.get(whichButton);
-                            mSingleChoiceID = whichButton;
-                        } catch (Exception e) {
-                            //                            showToast("分值计算出错");
-                            e.printStackTrace();
-                        }
+                        itemScore = selectScoreList.get(whichButton);
+                        mSingleChoiceID = whichButton;
+                    } catch (Exception e) {
+                        //                            showToast("分值计算出错");
+                        e.printStackTrace();
                     }
                 });
         localBuilder.setPositiveButton("确定",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        textView.setText(mItems[mSingleChoiceID]);
-                        dropValue.put(textView.getTag().toString(), new Integer[]{dropValue.get(textView.getTag().toString()) == null ? 0 : dropValue.get(textView.getTag().toString())[1], itemScore});
-                        setViews(textView.getTag().toString(), "drop");
-                    }
+                (dialog, which) -> {
+                    textView.setText(mItems[mSingleChoiceID]);
+                    dropValue.put(textView.getTag().toString(), new Integer[]{dropValue.get(textView.getTag().toString()) == null ? 0 : dropValue.get(textView.getTag().toString())[1], itemScore});
+                    setViews(textView.getTag().toString(), "drop");
                 });
         localBuilder.setNegativeButton("取消", null);// 设置对话框[否定]按钮
 
@@ -1581,6 +1642,9 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
         localAlertDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
     }
 
+    /**
+     * 下拉多选弹窗
+     */
     private void ShowDropCheck(List<String> dcSelectStrList, Context context, final TextView textView) {
         CharSequence[] dcmItems = new CharSequence[dcSelectStrList.size()];
         dcTempStatus = new boolean[dcSelectStrList.size()];
@@ -1588,8 +1652,8 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
             dcmItems[i] = dcSelectStrList.get(i);
             String[] dcText = textView.getText().toString().split(",");
             dcTempStatus[i] = false;
-            for (int i1 = 0; i1 < dcText.length; i1++) {
-                if (dcText[i1].equals(dcSelectStrList.get(i))) {
+            for (String s : dcText) {
+                if (s.equals(dcSelectStrList.get(i))) {
                     dcTempStatus[i] = true;
                     break;
                 }
@@ -1598,38 +1662,35 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
 
         AlertDialog ad = new AlertDialog.Builder(context)
                 .setTitle("选择")
-                .setMultiChoiceItems(dcmItems, dcTempStatus, new DialogInterface.OnMultiChoiceClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                        if (which == (dcmItems.length - 1)) {
-                            for (int i = 0; i < dcmItems.length; i++) {
-                                lv.setItemChecked(i, isChecked);
-                                dcTempStatus[i] = isChecked;
-                            }
+                .setMultiChoiceItems(dcmItems, dcTempStatus, (dialog, which, isChecked) -> {
+                    if (which == (dcmItems.length - 1)) {
+                        for (int i = 0; i < dcmItems.length; i++) {
+                            lv.setItemChecked(i, isChecked);
+                            dcTempStatus[i] = isChecked;
                         }
                     }
                 })
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                .setPositiveButton("确定", (dialog, which) -> {
 
-                        String itmtxt = "";
-                        for (int i = 0; i < (dcmItems.length - 1); i++) {
-                            if (lv.getCheckedItemPositions().get(i)) {
-                                itmtxt = itmtxt + dcSelectStrList.get(i) + ",";
-                            }
+                    StringBuilder itmtxt = new StringBuilder();
+                    for (int i = 0; i < (dcmItems.length - 1); i++) {
+                        if (lv.getCheckedItemPositions().get(i)) {
+                            itmtxt.append(dcSelectStrList.get(i)).append(",");
                         }
-                        if (itmtxt.endsWith(",")) {
-                            itmtxt = itmtxt.substring(0, itmtxt.length() - 1);
-                        }
-                        textView.setText(itmtxt);
                     }
+                    if (itmtxt.toString().endsWith(",")) {
+                        itmtxt = new StringBuilder(itmtxt.substring(0, itmtxt.length() - 1));
+                    }
+                    textView.setText(itmtxt.toString());
                 }).setNegativeButton("取消", null).create();
         lv = ad.getListView();
         ad.show();
         ad.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
     }
 
+    /**
+     * 输入框
+     */
     private LinearLayout getEditText(ElementDataBean.DataBean.InputBean.ElementBasesBean element, String elementType) {
         LinearLayout linearLayout = new LinearLayout(getActivity());
         LinearLayout.LayoutParams llparams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -1648,19 +1709,11 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
 
         if (!StringUtils.isEmpty(element.getToolTipText())) {
             tvTitle.setTextColor(Color.parseColor("#62ABFF"));
-            tvTitle.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    tipDialog = new NurRecordTipDialog(getActivity());
-                    tipDialog.setNurRecordTip(element.getToolTipText());
-                    tipDialog.setSureOnclickListener(new NurRecordTipDialog.onSureOnclickListener() {
-                        @Override
-                        public void onSureClick() {
-                            tipDialog.dismiss();
-                        }
-                    });
-                    tipDialog.show();
-                }
+            tvTitle.setOnClickListener(v -> {
+                tipDialog = new NurRecordTipDialog(getActivity());
+                tipDialog.setNurRecordTip(element.getToolTipText());
+                tipDialog.setSureOnclickListener(() -> tipDialog.dismiss());
+                tipDialog.show();
             });
         }
 
@@ -1675,7 +1728,12 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
             editText.setLayoutParams(edparams1);
         }
         if ("NumberElement".equals(elementType)) {
-            editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+            if (StringUtils.isEmpty(element.getPointLen()) || "0".equals(element.getPointLen())) {
+                editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+            } else {
+                editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                editText.setFilters(new InputFilter[]{new InputDigitLengthFilter(Integer.parseInt(element.getPointLen()))});
+            }
         } else {
             editText.setInputType(InputType.TYPE_CLASS_TEXT);
         }
@@ -1700,6 +1758,180 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
 
             @Override
             public void afterTextChanged(Editable s) {
+                if (isNumber(s.toString())) {
+                    double edDou = Double.parseDouble(s.toString());
+                    for (int i = 0; i < elements.size(); i++) {
+
+                        ElementDataBean.DataBean.InputBean.ElementBasesBean elementBasesBean = elements.get(i);
+                        if (editText.getTag().equals(elementBasesBean.getElementId()) && "NumberElement".equals(elementBasesBean.getElementType())) {
+
+                            if (StringUtils.isEmpty(elementBasesBean.getMaxError())) {
+
+                                if (StringUtils.isEmpty(elementBasesBean.getMaxWarning())) {
+
+                                    if (StringUtils.isEmpty(elementBasesBean.getMinWarning())) {
+
+                                        if (StringUtils.isEmpty(elementBasesBean.getMinError())) {
+                                            //不做操作
+                                            editText.setBackgroundResource(R.drawable.nur_record_input_bg);
+                                        } else {
+
+                                            if (edDou < Double.parseDouble(elementBasesBean.getMinError())) {
+                                                editText.setBackgroundResource(R.drawable.nur_record_inputerror_bg);
+                                            } else {
+                                                editText.setBackgroundResource(R.drawable.nur_record_input_bg);
+                                            }
+                                        }
+                                    } else {
+
+                                        if (StringUtils.isEmpty(elementBasesBean.getMinError())) {
+
+                                            if (edDou < Double.parseDouble(elementBasesBean.getMinWarning())) {
+                                                editText.setBackgroundResource(R.drawable.nur_record_inputwarning_bg);
+                                            } else {
+                                                editText.setBackgroundResource(R.drawable.nur_record_input_bg);
+                                            }
+                                        } else {
+
+                                            if (edDou < Double.parseDouble(elementBasesBean.getMinError())) {
+                                                editText.setBackgroundResource(R.drawable.nur_record_inputerror_bg);
+                                            } else if (Double.parseDouble(elementBasesBean.getMinWarning()) > edDou && edDou >= Double.parseDouble(elementBasesBean.getMinError())) {
+                                                editText.setBackgroundResource(R.drawable.nur_record_inputwarning_bg);
+                                            } else {
+                                                editText.setBackgroundResource(R.drawable.nur_record_input_bg);
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    if (StringUtils.isEmpty(elementBasesBean.getMinWarning())) {
+
+                                        if (StringUtils.isEmpty(elementBasesBean.getMinError())) {
+                                            if (edDou > (Double.parseDouble(elementBasesBean.getMaxWarning()))) {
+                                                editText.setBackgroundResource(R.drawable.nur_record_inputwarning_bg);
+                                            } else {
+                                                editText.setBackgroundResource(R.drawable.nur_record_input_bg);
+                                            }
+                                        } else {
+                                            if (edDou > (Double.parseDouble(elementBasesBean.getMaxWarning()))) {
+                                                editText.setBackgroundResource(R.drawable.nur_record_inputwarning_bg);
+                                            } else if (edDou < Double.parseDouble(elementBasesBean.getMinError())) {
+                                                editText.setBackgroundResource(R.drawable.nur_record_inputerror_bg);
+                                            } else {
+                                                editText.setBackgroundResource(R.drawable.nur_record_input_bg);
+                                            }
+                                        }
+                                    } else {
+                                        if (StringUtils.isEmpty(elementBasesBean.getMinError())) {
+                                            if (edDou > (Double.parseDouble(elementBasesBean.getMaxWarning()))) {
+                                                editText.setBackgroundResource(R.drawable.nur_record_inputwarning_bg);
+                                            } else if (edDou < Double.parseDouble(elementBasesBean.getMinWarning())) {
+                                                editText.setBackgroundResource(R.drawable.nur_record_inputwarning_bg);
+                                            } else {
+                                                editText.setBackgroundResource(R.drawable.nur_record_input_bg);
+                                            }
+                                        } else {
+                                            if (edDou > (Double.parseDouble(elementBasesBean.getMaxWarning()))) {
+                                                editText.setBackgroundResource(R.drawable.nur_record_inputwarning_bg);
+                                            } else if (Double.parseDouble(elementBasesBean.getMinWarning()) > edDou && edDou >= Double.parseDouble(elementBasesBean.getMinError())) {
+                                                editText.setBackgroundResource(R.drawable.nur_record_inputwarning_bg);
+                                            } else if (edDou < Double.parseDouble(elementBasesBean.getMinError())) {
+                                                editText.setBackgroundResource(R.drawable.nur_record_inputerror_bg);
+                                            } else {
+                                                editText.setBackgroundResource(R.drawable.nur_record_input_bg);
+                                            }
+                                        }
+                                    }
+                                }
+                            } else {
+                                if (StringUtils.isEmpty(elementBasesBean.getMaxWarning())) {
+                                    if (StringUtils.isEmpty(elementBasesBean.getMinWarning())) {
+                                        if (StringUtils.isEmpty(elementBasesBean.getMinError())) {
+                                            if (edDou > Double.parseDouble(elementBasesBean.getMaxError())) {
+                                                editText.setBackgroundResource(R.drawable.nur_record_inputerror_bg);
+                                            } else {
+                                                editText.setBackgroundResource(R.drawable.nur_record_input_bg);
+                                            }
+                                        } else {
+                                            if (edDou > Double.parseDouble(elementBasesBean.getMaxError())) {
+                                                editText.setBackgroundResource(R.drawable.nur_record_inputerror_bg);
+                                            } else if (edDou < Double.parseDouble(elementBasesBean.getMinError())) {
+                                                editText.setBackgroundResource(R.drawable.nur_record_inputerror_bg);
+                                            } else {
+                                                editText.setBackgroundResource(R.drawable.nur_record_input_bg);
+                                            }
+                                        }
+                                    } else {
+                                        if (StringUtils.isEmpty(elementBasesBean.getMinError())) {
+                                            if (edDou > Double.parseDouble(elementBasesBean.getMaxError())) {
+                                                editText.setBackgroundResource(R.drawable.nur_record_inputerror_bg);
+                                            } else if (edDou < Double.parseDouble(elementBasesBean.getMinWarning())) {
+                                                editText.setBackgroundResource(R.drawable.nur_record_inputwarning_bg);
+                                            } else {
+                                                editText.setBackgroundResource(R.drawable.nur_record_input_bg);
+                                            }
+                                        } else {
+                                            if (edDou > Double.parseDouble(elementBasesBean.getMaxError())) {
+                                                editText.setBackgroundResource(R.drawable.nur_record_inputerror_bg);
+                                            } else if (Double.parseDouble(elementBasesBean.getMinWarning()) > edDou && edDou >= Double.parseDouble(elementBasesBean.getMinError())) {
+                                                editText.setBackgroundResource(R.drawable.nur_record_inputwarning_bg);
+                                            } else if (edDou < Double.parseDouble(elementBasesBean.getMinError())) {
+                                                editText.setBackgroundResource(R.drawable.nur_record_inputerror_bg);
+                                            } else {
+                                                editText.setBackgroundResource(R.drawable.nur_record_input_bg);
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    if (StringUtils.isEmpty(elementBasesBean.getMinWarning())) {
+                                        if (StringUtils.isEmpty(elementBasesBean.getMinError())) {
+                                            if (edDou > Double.parseDouble(elementBasesBean.getMaxError())) {
+                                                editText.setBackgroundResource(R.drawable.nur_record_inputerror_bg);
+                                            } else if ((Double.parseDouble(elementBasesBean.getMaxWarning())) < edDou && edDou <= (Double.parseDouble(elementBasesBean.getMaxError()))) {
+                                                editText.setBackgroundResource(R.drawable.nur_record_inputwarning_bg);
+                                            } else {
+                                                editText.setBackgroundResource(R.drawable.nur_record_input_bg);
+                                            }
+                                        } else {
+                                            if (edDou > Double.parseDouble(elementBasesBean.getMaxError())) {
+                                                editText.setBackgroundResource(R.drawable.nur_record_inputerror_bg);
+                                            } else if ((Double.parseDouble(elementBasesBean.getMaxWarning())) < edDou && edDou <= (Double.parseDouble(elementBasesBean.getMaxError()))) {
+                                                editText.setBackgroundResource(R.drawable.nur_record_inputwarning_bg);
+                                            } else if (edDou < Double.parseDouble(elementBasesBean.getMinError())) {
+                                                editText.setBackgroundResource(R.drawable.nur_record_inputerror_bg);
+                                            } else {
+                                                editText.setBackgroundResource(R.drawable.nur_record_input_bg);
+                                            }
+                                        }
+                                    } else {
+                                        if (StringUtils.isEmpty(elementBasesBean.getMinError())) {
+                                            if (edDou > Double.parseDouble(elementBasesBean.getMaxError())) {
+                                                editText.setBackgroundResource(R.drawable.nur_record_inputerror_bg);
+                                            } else if ((Double.parseDouble(elementBasesBean.getMaxWarning())) < edDou && edDou <= (Double.parseDouble(elementBasesBean.getMaxError()))) {
+                                                editText.setBackgroundResource(R.drawable.nur_record_inputwarning_bg);
+                                            } else if (edDou < Double.parseDouble(elementBasesBean.getMinWarning())) {
+                                                editText.setBackgroundResource(R.drawable.nur_record_inputwarning_bg);
+                                            } else {
+                                                editText.setBackgroundResource(R.drawable.nur_record_input_bg);
+                                            }
+                                        } else {
+                                            if (edDou > Double.parseDouble(elementBasesBean.getMaxError())) {
+                                                editText.setBackgroundResource(R.drawable.nur_record_inputerror_bg);
+                                            } else if ((Double.parseDouble(elementBasesBean.getMaxWarning())) < edDou && edDou <= (Double.parseDouble(elementBasesBean.getMaxError()))) {
+                                                editText.setBackgroundResource(R.drawable.nur_record_inputwarning_bg);
+                                            } else if (Double.parseDouble(elementBasesBean.getMinWarning()) > edDou && edDou >= Double.parseDouble(elementBasesBean.getMinError())) {
+                                                editText.setBackgroundResource(R.drawable.nur_record_inputwarning_bg);
+                                            } else if (edDou < Double.parseDouble(elementBasesBean.getMinError())) {
+                                                editText.setBackgroundResource(R.drawable.nur_record_inputerror_bg);
+                                            } else {
+                                                editText.setBackgroundResource(R.drawable.nur_record_input_bg);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
                 setViews(editText.getTag().toString(), "");
             }
         });
@@ -1740,295 +1972,94 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
         return linearLayout;
     }
 
+    /**
+     * View级联控制 显示隐藏 是否可编辑 选中未选中 评分
+     */
     private void setViews(String viewElementId, String isChecked) {
-        //界面初始化
         if (StringUtils.isEmpty(viewElementId)) {
+            //界面初始化
             for (int i = 0; elementSetsBeans != null && i < elementSetsBeans.size(); i++) {
                 ElementDataBean.DataBean.InputBean.ElementSetsBean elementSetsBean = elementSetsBeans.get(i);
-                // check 控制 view
+
+                // check 控制 view（可能单一元素，可能一组元素） 是否可编辑 显示隐藏
                 if (elementSetsBean.getFormName().startsWith("RadioElement_")) {
                     CheckBox checkBox = (CheckBox) viewHashMap.get(elementSetsBean.getFormName() + "^" + elementSetsBean.getVal());
                     if (checkBox != null && checkBox.isChecked()) {
                         for (int i1 = 0; elementSetsBean.getChangeList() != null && i1 < elementSetsBean.getChangeList().size(); i1++) {
                             ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean changeListBean = elementSetsBean.getChangeList().get(i1);
                             LinearLayout linearLayout = (LinearLayout) viewHashMap.get(changeListBean.getId() + "_ll");
-                            if (linearLayout != null) {
-                                if (viewHashMap.get(changeListBean.getId()) instanceof EditText) {
-                                    EditText editText = (EditText) viewHashMap.get(changeListBean.getId());
-                                    String type = changeListBean.getType();
 
-                                    if (type.contains("Enable") || type.contains("DisEnable")) {
-                                        if (editText != null) {
-                                            if (type.contains("Enable")) {
-                                                editText.setEnabled(true);
-                                            } else {
-                                                editText.setText("");
-                                                editText.setEnabled(false);
-                                            }
-                                        }
-                                    }
-
-                                    if (type.contains("Show")) {
-                                        linearLayout.setVisibility(View.VISIBLE);
-                                    } else if (type.contains("Hide")) {
-                                        if (editText != null) {
-                                            editText.setText("");
-                                            editText.setEnabled(false);
-                                        }
-                                        linearLayout.setVisibility(View.GONE);
-                                    }
-                                } else if (viewHashMap.get(changeListBean.getId()) instanceof TextView) {
-                                    TextView textView = (TextView) viewHashMap.get(changeListBean.getId());
-                                    String type = changeListBean.getType();
-
-                                    if (type.contains("Enable") || type.contains("DisEnable")) {
-                                        if (textView != null) {
-                                            if (type.contains("Enable")) {
-                                                textView.setClickable(true);
-                                            } else {
-                                                textView.setText("");
-                                                textView.setClickable(false);
-                                            }
-                                        }
-                                    }
-
-                                    if (type.contains("Show")) {
-                                        linearLayout.setVisibility(View.VISIBLE);
-                                    } else if (type.contains("Hide")) {
-                                        if (textView != null) {
-                                            textView.setText("");
-                                            textView.setClickable(false);
-                                        }
-                                        linearLayout.setVisibility(View.GONE);
-                                    }
-                                }
-                            } else {
-                                List<String> childElementIdList = pcViewHashMap.get(changeListBean.getId());
-                                if (childElementIdList != null && childElementIdList.size() > 0) {
-                                    for (int i2 = 0; i2 < childElementIdList.size(); i2++) {
-                                        if (viewHashMap.get(childElementIdList.get(i2)) instanceof EditText) {
-                                            EditText editTextChild = (EditText) viewHashMap.get(childElementIdList.get(i2));
-                                            String type = changeListBean.getType();
-
-                                            if (type.contains("Enable") || type.contains("DisEnable")) {
-                                                if (editTextChild != null) {
-                                                    if (type.contains("Enable")) {
-                                                        editTextChild.setEnabled(true);
-                                                    } else {
-                                                        editTextChild.setText("");
-                                                        editTextChild.setEnabled(false);
-                                                    }
-                                                }
-                                            }
-                                            LinearLayout linearLayoutChild = (LinearLayout) viewHashMap.get(childElementIdList.get(i2) + "_ll");
-                                            if (type.contains("Show")) {
-                                                if (linearLayoutChild != null) {
-                                                    linearLayoutChild.setVisibility(View.VISIBLE);
-                                                }
-                                            } else if (type.contains("Hide")) {
-                                                if (editTextChild != null) {
-                                                    editTextChild.setText("");
-                                                    editTextChild.setEnabled(false);
-                                                }
-                                                if (linearLayoutChild != null) {
-                                                    linearLayoutChild.setVisibility(View.GONE);
-                                                }
-                                            }
-                                        } else if (viewHashMap.get(childElementIdList.get(i2)) instanceof TextView) {
-                                            TextView textViewChild = (TextView) viewHashMap.get(childElementIdList.get(i2));
-                                            String type = changeListBean.getType();
-
-                                            if (type.contains("Enable") || type.contains("DisEnable")) {
-                                                if (textViewChild != null) {
-                                                    if (type.contains("Enable")) {
-                                                        textViewChild.setClickable(true);
-                                                    } else {
-                                                        textViewChild.setText("");
-                                                        textViewChild.setClickable(false);
-                                                    }
-                                                }
-                                            }
-
-                                            LinearLayout linearLayoutChild = (LinearLayout) viewHashMap.get(childElementIdList.get(i2) + "_ll");
-                                            if (type.contains("Show")) {
-                                                if (linearLayoutChild != null) {
-                                                    linearLayoutChild.setVisibility(View.VISIBLE);
-                                                }
-                                            } else if (type.contains("Hide")) {
-                                                if (textViewChild != null) {
-                                                    textViewChild.setText("");
-                                                    textViewChild.setClickable(false);
-                                                }
-                                                if (linearLayoutChild != null) {
-                                                    linearLayoutChild.setVisibility(View.GONE);
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
+                            setEditTextorTextView(changeListBean, linearLayout);
                         }
                     }
 
 
                 }
             }
-            //操作联动
         } else {
+            //操作联动
             String formName = elementIdtoFormName.get(viewElementId) == null ? null : elementIdtoFormName.get(viewElementId).split("\\^")[0];
 
+            //check选中控制
             if ("true".equals(isChecked)) {
 
                 //radio互斥
                 if (formName != null && formName.startsWith("RadioElement_")) {
 
-                    //例外
-                    //跌倒评估
-                    if ("DHCNURDDFXPGJHLJLDLR".equals(emrCode) && formName.equals("RadioElement_69")) {
+                    List<String> viewElementIdList = formNametoElementId.get(formName);
+                    if (viewElementIdList != null && viewElementIdList.size() > 0) {
 
-                    } else {
-                        List<String> viewElementIdList = formNametoElementId.get(formName);
-                        if (viewElementIdList != null && viewElementIdList.size() > 0) {
-
-                            for (int i = 0; i < viewElementIdList.size(); i++) {
-                                if (!viewElementId.equals(viewElementIdList.get(i))) {
-                                    CheckBox checkBox = (CheckBox) viewHashMap.get(viewElementIdList.get(i));
-                                    if (checkBox != null && checkBox.isChecked()) {
-                                        checkBox.setChecked(false);
-                                    }
+                        for (int i = 0; i < viewElementIdList.size(); i++) {
+                            if (!viewElementId.equals(viewElementIdList.get(i))) {
+                                CheckBox checkBox = (CheckBox) viewHashMap.get(viewElementIdList.get(i));
+                                if (checkBox != null && checkBox.isChecked()) {
+                                    checkBox.setChecked(false);
                                 }
                             }
                         }
                     }
-
                 }
 
                 //check 控制 view 显隐 选中
                 for (int i = 0; elementSetsBeans != null && i < elementSetsBeans.size(); i++) {
                     ElementDataBean.DataBean.InputBean.ElementSetsBean elementSetsBean = elementSetsBeans.get(i);
 
-                    if (elementSetsBean.getFormName().equals(formName)) {
-                        if (elementSetsBean.getFormName().startsWith("RadioElement_")) {
-                            CheckBox checkBox = (CheckBox) viewHashMap.get(elementSetsBean.getFormName() + "^" + elementSetsBean.getVal());
-                            if (checkBox != null && checkBox.isChecked() && elementSetsBean.getChangeList() != null && elementSetsBean.getChangeList().size() > 0) {
-                                for (int i1 = 0; i1 < elementSetsBean.getChangeList().size(); i1++) {
+                    if (elementSetsBean.getFormName().equals(formName) && elementSetsBean.getFormName().startsWith("RadioElement_")) {
+                        CheckBox checkBox = (CheckBox) viewHashMap.get(elementSetsBean.getFormName() + "^" + elementSetsBean.getVal());
+                        if (checkBox != null && checkBox.isChecked() && elementSetsBean.getChangeList() != null && elementSetsBean.getChangeList().size() > 0) {
+                            for (int i1 = 0; i1 < elementSetsBean.getChangeList().size(); i1++) {
+                                ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean changeListBean = elementSetsBean.getChangeList().get(i1);
+                                LinearLayout linearLayout = (LinearLayout) viewHashMap.get(changeListBean.getId() + "_ll");
+                                setEditTextorTextView(changeListBean, linearLayout);
+                            }
+                        }
+                    }
+                }
+            } else if ("drop".equals(isChecked)) {
+                //drop 控制 view 显隐
+                for (int i = 0; elementSetsBeans != null && i < elementSetsBeans.size(); i++) {
+                    ElementDataBean.DataBean.InputBean.ElementSetsBean elementSetsBean = elementSetsBeans.get(i);
+
+                    if (elementSetsBean.getFormName().equals(formName) && (elementSetsBean.getFormName().startsWith("DropRadioElement_")||elementSetsBean.getFormName().startsWith("DropListElement_"))) {
+                        TextView textView = (TextView) viewHashMap.get(viewElementId);
+                        if (textView != null && !StringUtils.isEmpty(textView.getText().toString()) && elementSetsBean.getChangeList() != null && elementSetsBean.getChangeList().size() > 0) {
+                            String tvStr = textView.getText().toString();
+                            String numberValue = "";
+                            List<String> dropTextandNumberValue = elementIdtoOprationItemList.get(viewElementId);
+                            for (int i1 = 0; i1 < dropTextandNumberValue.size(); i1++) {
+                                String[] TN = dropTextandNumberValue.get(i1).split("\\^");
+                                if (TN != null && TN.length == 2) {
+                                    if (tvStr.equals(TN[0])) {
+                                        numberValue = TN[1];
+                                    }
+                                }
+                            }
+
+                            for (int i1 = 0; i1 < elementSetsBean.getChangeList().size(); i1++) {
+                                if (numberValue.equals(elementSetsBean.getVal())) {
                                     ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean changeListBean = elementSetsBean.getChangeList().get(i1);
                                     LinearLayout linearLayout = (LinearLayout) viewHashMap.get(changeListBean.getId() + "_ll");
-                                    if (linearLayout != null) {
-                                        if (viewHashMap.get(changeListBean.getId()) instanceof EditText) {
-                                            EditText editText = (EditText) viewHashMap.get(changeListBean.getId());
-                                            String type = changeListBean.getType();
-
-                                            if (type.contains("Enable") || type.contains("DisEnable")) {
-                                                if (editText != null) {
-                                                    if (type.contains("Enable")) {
-                                                        editText.setEnabled(true);
-                                                    } else {
-                                                        editText.setText("");
-                                                        editText.setEnabled(false);
-                                                    }
-                                                }
-                                            }
-
-                                            if (type.contains("Show")) {
-                                                linearLayout.setVisibility(View.VISIBLE);
-                                            } else if (type.contains("Hide")) {
-                                                if (editText != null) {
-                                                    editText.setText("");
-                                                    editText.setEnabled(false);
-                                                }
-                                                linearLayout.setVisibility(View.GONE);
-                                            }
-                                        } else if (viewHashMap.get(changeListBean.getId()) instanceof TextView) {
-                                            TextView textView = (TextView) viewHashMap.get(changeListBean.getId());
-                                            String type = changeListBean.getType();
-
-                                            if (type.contains("Enable") || type.contains("DisEnable")) {
-                                                if (textView != null) {
-                                                    if (type.contains("Enable")) {
-                                                        textView.setClickable(true);
-                                                    } else {
-                                                        textView.setText("");
-                                                        textView.setClickable(false);
-                                                    }
-                                                }
-                                            }
-
-                                            if (type.contains("Show")) {
-                                                linearLayout.setVisibility(View.VISIBLE);
-                                            } else if (type.contains("Hide")) {
-                                                if (textView != null) {
-                                                    textView.setText("");
-                                                    textView.setClickable(false);
-                                                }
-                                                linearLayout.setVisibility(View.GONE);
-                                            }
-                                        }
-                                    } else {
-                                        List<String> childElementIdList = pcViewHashMap.get(changeListBean.getId());
-                                        if (childElementIdList != null && childElementIdList.size() > 0) {
-                                            for (int i2 = 0; i2 < childElementIdList.size(); i2++) {
-                                                if (viewHashMap.get(childElementIdList.get(i2)) instanceof EditText) {
-                                                    EditText editTextChild = (EditText) viewHashMap.get(childElementIdList.get(i2));
-                                                    String type = changeListBean.getType();
-
-                                                    if (type.contains("Enable") || type.contains("DisEnable")) {
-                                                        if (editTextChild != null) {
-                                                            if (type.contains("Enable")) {
-                                                                editTextChild.setEnabled(true);
-                                                            } else {
-                                                                editTextChild.setText("");
-                                                                editTextChild.setEnabled(false);
-                                                            }
-                                                        }
-                                                    }
-                                                    LinearLayout linearLayoutChild = (LinearLayout) viewHashMap.get(childElementIdList.get(i2) + "_ll");
-                                                    if (type.contains("Show")) {
-                                                        if (linearLayoutChild != null) {
-                                                            linearLayoutChild.setVisibility(View.VISIBLE);
-                                                        }
-                                                    } else if (type.contains("Hide")) {
-                                                        if (editTextChild != null) {
-                                                            editTextChild.setText("");
-                                                            editTextChild.setEnabled(false);
-                                                        }
-                                                        if (linearLayoutChild != null) {
-                                                            linearLayoutChild.setVisibility(View.GONE);
-                                                        }
-                                                    }
-                                                } else if (viewHashMap.get(childElementIdList.get(i2)) instanceof TextView) {
-                                                    TextView textViewChild = (TextView) viewHashMap.get(childElementIdList.get(i2));
-                                                    String type = changeListBean.getType();
-
-                                                    if (type.contains("Enable") || type.contains("DisEnable")) {
-                                                        if (textViewChild != null) {
-                                                            if (type.contains("Enable")) {
-                                                                textViewChild.setClickable(true);
-                                                            } else {
-                                                                textViewChild.setText("");
-                                                                textViewChild.setClickable(false);
-                                                            }
-                                                        }
-                                                    }
-
-                                                    LinearLayout linearLayoutChild = (LinearLayout) viewHashMap.get(childElementIdList.get(i2) + "_ll");
-                                                    if (type.contains("Show")) {
-                                                        if (linearLayoutChild != null) {
-                                                            linearLayoutChild.setVisibility(View.VISIBLE);
-                                                        }
-                                                    } else if (type.contains("Hide")) {
-                                                        if (textViewChild != null) {
-                                                            textViewChild.setText("");
-                                                            textViewChild.setClickable(false);
-                                                        }
-                                                        if (linearLayoutChild != null) {
-                                                            linearLayoutChild.setVisibility(View.GONE);
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
+                                    setEditTextorTextView(changeListBean, linearLayout);
                                 }
                             }
                         }
@@ -2043,7 +2074,7 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
                 if (elementSetsBean.getFormName().equals(formName)) {
                     if (elementSetsBean.getFormName().startsWith("TextElement_") || elementSetsBean.getFormName().startsWith("NumberElement_")) {
                         EditText editText = (EditText) viewHashMap.get(viewElementId);
-                        int edTextInt = 0;
+                        int edTextInt;
                         try {
                             edTextInt = Integer.parseInt(StringUtils.isEmpty(editText.getText().toString()) ? "-1" : editText.getText().toString());
 
@@ -2274,7 +2305,7 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
                         EditText editText = (EditText) viewHashMap.get(statisticsListBean.getId());
                         int score = Integer.parseInt(StringUtils.isEmpty(editText.getText().toString()) ? "0" : editText.getText().toString());
 
-                        if (isChecked.equals("true") || isChecked.equals("false")) {
+                        if ("true".equals(isChecked) || "false".equals(isChecked)) {
                             int changeScore = Integer.parseInt(elementIdtoFormName.get(viewElementId).split("\\^")[1]);
                             CheckBox checkBox = (CheckBox) viewHashMap.get(viewElementId);
                             if (checkBox.isChecked()) {
@@ -2282,12 +2313,12 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
                             } else {
                                 score = score - changeScore;
                             }
-                        } else if (isChecked.equals("drop")) {
+                        } else if ("drop".equals(isChecked)) {
                             Integer[] scoreInt = dropValue.get(viewElementId);
                             score = score - scoreInt[0] + scoreInt[1];
                         }
 
-                        editText.setText(score + "");
+                        editText.setText(String.valueOf(score));
                     }
                 }
             }
@@ -2308,6 +2339,141 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
 
             }
         }
+    }
+
+    /**
+     * check drop 控制 edit text 显隐编辑点击
+     * @param changeListBean
+     * @param linearLayout
+     */
+    private void setEditTextorTextView(ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean changeListBean, LinearLayout linearLayout) {
+        if (linearLayout != null) {
+            //控制单一元素
+            if (viewHashMap.get(changeListBean.getId()) instanceof EditText) {
+                EditText editText = (EditText) viewHashMap.get(changeListBean.getId());
+                String type = changeListBean.getType();
+
+                if (type.contains("Enable") || type.contains("DisEnable")) {
+                    if (editText != null) {
+                        if (type.contains("Enable")) {
+                            editText.setEnabled(true);
+                        } else {
+                            editText.setText("");
+                            editText.setEnabled(false);
+                        }
+                    }
+                }
+
+                if (type.contains("Show")) {
+                    linearLayout.setVisibility(View.VISIBLE);
+                } else if (type.contains("Hide")) {
+                    if (editText != null) {
+                        editText.setText("");
+                    }
+                    linearLayout.setVisibility(View.GONE);
+                }
+            } else if (viewHashMap.get(changeListBean.getId()) instanceof TextView) {
+                TextView textView = (TextView) viewHashMap.get(changeListBean.getId());
+                String type = changeListBean.getType();
+
+                if (type.contains("Enable") || type.contains("DisEnable")) {
+                    if (textView != null) {
+                        if (type.contains("Enable")) {
+                            textView.setClickable(true);
+                        } else {
+                            textView.setText("");
+                            textView.setClickable(false);
+                        }
+                    }
+                }
+
+                if (type.contains("Show")) {
+                    linearLayout.setVisibility(View.VISIBLE);
+                } else if (type.contains("Hide")) {
+                    if (textView != null) {
+                        textView.setText("");
+                    }
+                    linearLayout.setVisibility(View.GONE);
+                }
+            }
+        } else {
+            //控制一组元素
+            List<String> childElementIdList = pcViewHashMap.get(changeListBean.getId());
+            if (childElementIdList != null && childElementIdList.size() > 0) {
+                for (int i2 = 0; i2 < childElementIdList.size(); i2++) {
+                    if (viewHashMap.get(childElementIdList.get(i2)) instanceof EditText) {
+                        EditText editTextChild = (EditText) viewHashMap.get(childElementIdList.get(i2));
+                        String type = changeListBean.getType();
+
+                        if (type.contains("Enable") || type.contains("DisEnable")) {
+                            if (editTextChild != null) {
+                                if (type.contains("Enable")) {
+                                    editTextChild.setEnabled(true);
+                                } else {
+                                    editTextChild.setText("");
+                                    editTextChild.setEnabled(false);
+                                }
+                            }
+                        }
+                        LinearLayout linearLayoutChild = (LinearLayout) viewHashMap.get(childElementIdList.get(i2) + "_ll");
+                        if (type.contains("Show")) {
+                            if (linearLayoutChild != null) {
+                                linearLayoutChild.setVisibility(View.VISIBLE);
+                            }
+                        } else if (type.contains("Hide")) {
+                            if (editTextChild != null) {
+                                editTextChild.setText("");
+                            }
+                            if (linearLayoutChild != null) {
+                                linearLayoutChild.setVisibility(View.GONE);
+                            }
+                        }
+                    } else if (viewHashMap.get(childElementIdList.get(i2)) instanceof TextView) {
+                        TextView textViewChild = (TextView) viewHashMap.get(childElementIdList.get(i2));
+                        String type = changeListBean.getType();
+
+                        if (type.contains("Enable") || type.contains("DisEnable")) {
+                            if (textViewChild != null) {
+                                if (type.contains("Enable")) {
+                                    textViewChild.setClickable(true);
+                                } else {
+                                    textViewChild.setText("");
+                                    textViewChild.setClickable(false);
+                                }
+                            }
+                        }
+
+                        LinearLayout linearLayoutChild = (LinearLayout) viewHashMap.get(childElementIdList.get(i2) + "_ll");
+                        if (type.contains("Show")) {
+                            if (linearLayoutChild != null) {
+                                linearLayoutChild.setVisibility(View.VISIBLE);
+                            }
+                        } else if (type.contains("Hide")) {
+                            if (textViewChild != null) {
+                                textViewChild.setText("");
+                            }
+                            if (linearLayoutChild != null) {
+                                linearLayoutChild.setVisibility(View.GONE);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public boolean isNumber(Object obj) {
+        if (obj instanceof Number) {
+            return true;
+        } else if (obj instanceof String) {
+            try {
+                Double.parseDouble((String) obj);
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+        }
+        return false;
     }
 
     @Override

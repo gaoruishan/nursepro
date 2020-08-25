@@ -11,8 +11,13 @@ import com.blankj.utilcode.util.StringUtils;
 import com.dhcc.nursepro.R;
 
 /**
+ * NurRecordTipDialog
+ * 项目说明提示弹窗
  *
+ * @author DevLix126
+ * created at 2020/8/6 10:44
  */
+
 public class NurRecordTipDialog extends Dialog {
     private TextView tvPopupNurrecordtip;
     private TextView tvPopupSure;

@@ -24,6 +24,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NotificationCompat;
 import android.view.KeyEvent;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
@@ -36,6 +37,7 @@ import com.allenliu.versionchecklib.v2.builder.UIData;
 import com.allenliu.versionchecklib.v2.callback.CustomDownloadFailedListener;
 import com.allenliu.versionchecklib.v2.callback.CustomVersionDialogListener;
 import com.base.commlibs.BaseActivity;
+import com.base.commlibs.bean.UpdateBean;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.constant.PermissionConstants;
@@ -43,14 +45,13 @@ import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.nursepro.Activity.update.BaseDialog;
 import com.dhcc.nursepro.Activity.update.api.UpdateApiManager;
-import com.base.commlibs.bean.UpdateBean;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.message.MessageFragment;
 import com.dhcc.nursepro.message.api.MessageApiManager;
 import com.dhcc.nursepro.message.bean.MessageBean;
 import com.dhcc.nursepro.setting.SettingFragment;
-import com.dhcc.nursepro.workarea.workareautils.MServiceNewOrd;
 import com.dhcc.nursepro.workarea.WorkareaFragment;
+import com.dhcc.nursepro.workarea.workareautils.MServiceNewOrd;
 
 import java.util.List;
 
@@ -150,25 +151,6 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
             registerReceiver(mainReceiver, mainfilter);
         }
     }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        setIntent(intent);
-        onParseIntent();
-
-    }
-
-    private void onParseIntent() {
-        Intent messageIntent = getIntent();
-        if (messageIntent != null) {
-            if (messageIntent.getIntExtra("message", 0) == 1) {
-                switchMainTab(TAB_MESSAGE);
-                setRbMessageTitle();
-            }
-        }
-    }
-
 
     /**
      * 更新
@@ -277,8 +259,8 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
     }
 
     @Override
-    public void setmessage(int messageNum,String soundFlag,String vibrateFlag) {
-        super.setmessage(messageNum,soundFlag,vibrateFlag);
+    public void setmessage(int messageNum, String soundFlag, String vibrateFlag) {
+        super.setmessage(messageNum, soundFlag, vibrateFlag);
 
 
         Drawable drawable;
@@ -288,7 +270,7 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         } else {
             drawable = getResources().getDrawable(R.drawable.tabbar_item_havemessage_selector);
             drawable.setBounds(8, 0, drawable.getIntrinsicWidth() + 8, drawable.getIntrinsicHeight());
-            showNotification(this,soundFlag,vibrateFlag);
+            showNotification(this, soundFlag, vibrateFlag);
         }
         rbMessage.setCompoundDrawables(null, drawable, null, null);
     }
@@ -338,14 +320,61 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         rbWorkarea.setChecked(true);
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        onParseIntent();
+
+    }
+
+    private void onParseIntent() {
+        Intent messageIntent = getIntent();
+        if (messageIntent != null) {
+            if (messageIntent.getIntExtra("message", 0) == 1) {
+                switchMainTab(TAB_MESSAGE);
+                setRbMessageTitle();
+            }
+        }
+    }
+
+    public void switchMainTab(int targetIndex) {
+        fragmentTransaction = mFragmentManager.beginTransaction();
+        if (targetIndex == TAB_WORKAREA) {
+            fragmentTransaction.show(mFragments[0]).hide(mFragments[1]).hide(mFragments[2]).commitAllowingStateLoss();
+
+            rbWorkarea.setChecked(true);
+            rbMessage.setChecked(false);
+            rbSetting.setChecked(false);
+
+        } else if (targetIndex == TAB_MESSAGE) {
+            fragmentTransaction.show(mFragments[1]).hide(mFragments[0]).hide(mFragments[2]).commitAllowingStateLoss();
+
+            rbWorkarea.setChecked(false);
+            rbMessage.setChecked(true);
+            rbSetting.setChecked(false);
+        } else {
+            fragmentTransaction.show(mFragments[2]).hide(mFragments[0]).hide(mFragments[1]).commitAllowingStateLoss();
+
+            rbWorkarea.setChecked(false);
+            rbMessage.setChecked(false);
+            rbSetting.setChecked(true);
+        }
+
+    }
+
+    public void setRbMessageTitle() {
+        setToolbarCenterTitle(getString(R.string.tabbar_message));
+    }
+
     public void notifyMessage() {
         MessageApiManager.getMessage(new MessageApiManager.GetMessageCallback() {
             @Override
             public void onSuccess(MessageBean msgs) {
-                int messageNum = (msgs.getNewOrdPatList()!=null?msgs.getNewOrdPatList().size():0)
-                        + (msgs.getAbnormalPatList()!=null?msgs.getAbnormalPatList().size():0)
-                        + (msgs.getConPatList()!=null?msgs.getConPatList().size():0);
-                setmessage(messageNum,msgs.getSoundFlag(),msgs.getVibrateFlag());
+                int messageNum = (msgs.getNewOrdPatList() != null ? msgs.getNewOrdPatList().size() : 0)
+                        + (msgs.getAbnormalPatList() != null ? msgs.getAbnormalPatList().size() : 0)
+                        + (msgs.getConPatList() != null ? msgs.getConPatList().size() : 0);
+                setmessage(messageNum, msgs.getSoundFlag(), msgs.getVibrateFlag());
 
             }
 
@@ -356,23 +385,38 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         });
     }
 
-    private void showNotification(Context context,String soundFlag,String vibrateFlag) {
+    private void showNotification(Context context, String soundFlag, String vibrateFlag) {
         Boolean bLight = spUtils.getBoolean(SharedPreference.LIGHT, true);
 //        Boolean bSound = spUtils.getBoolean(SharedPreference.SOUND, true);
 //        Boolean bVibrator = spUtils.getBoolean(SharedPreference.VIBRATOR, true);
         Boolean bSound = spUtils.getBoolean(SharedPreference.LIGHT, true) && soundFlag.equals("1");
-        Boolean bVibrator =spUtils.getBoolean(SharedPreference.LIGHT, true) &&  vibrateFlag.equals("1");
+        Boolean bVibrator = spUtils.getBoolean(SharedPreference.LIGHT, true) && vibrateFlag.equals("1");
 
-        Notification.Builder builder;
+        NotificationCompat.Builder builder = null;
+        NotificationChannel channel1, channel2;
         if (Build.VERSION.SDK_INT >= 26) {
-
-            NotificationChannel channel = new NotificationChannel("nursepro", "channel_name", NotificationManager.IMPORTANCE_HIGH);
             if (notificationManager != null) {
-                notificationManager.createNotificationChannel(channel);
+                notificationManager.deleteNotificationChannel("mobilenurse1");
+                notificationManager.deleteNotificationChannel("mobilenurse2");
             }
-            builder = new Notification.Builder(context, "nursepro");
+            channel1 = new NotificationChannel("mobilenurse1", "响铃消息", NotificationManager.IMPORTANCE_HIGH);
+            channel2 = new NotificationChannel("mobilenurse2", "静音消息", NotificationManager.IMPORTANCE_HIGH);
+
+
+            if (notificationManager != null) {
+                //Android8.0消息提示音是否响铃配置 还需处理
+                if (bSound) {
+                    channel1.getAudioAttributes();
+                    notificationManager.createNotificationChannel(channel1);
+                    builder = new NotificationCompat.Builder(context, "mobilenurse1");
+                } else {
+                    channel2.setSound(null, null);
+                    notificationManager.createNotificationChannel(channel2);
+                    builder = new NotificationCompat.Builder(context, "mobilenurse2");
+                }
+            }
         } else {
-            builder = new Notification.Builder(context);
+            builder = new NotificationCompat.Builder(context);
         }
 
 
@@ -399,10 +443,10 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
                 .setOngoing(false)
                 /**向通知添加声音、闪灯和振动效果的最简单、最一致的方式是使用当前的用户默认设置，使用defaults属性，可以组合：**/
                 //                .setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND | Notification.DEFAULT_LIGHTS)
-                .setContentIntent(PendingIntent.getActivity(context, 1, intent, PendingIntent.FLAG_CANCEL_CURRENT))
-                .build();
+                .setContentIntent(PendingIntent.getActivity(context, 1, intent, PendingIntent.FLAG_CANCEL_CURRENT));
 
-        Notification notification = builder.getNotification();
+        Notification notification = builder.build();
+
         if (bVibrator) {
             notification.defaults |= Notification.DEFAULT_VIBRATE;
         }
@@ -423,18 +467,18 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
      * 播放系统默认提示音
      *
      * @return MediaPlayer对象
-     *
      * @throws Exception
      */
-    public void defaultMediaPlayer(){
+    public void defaultMediaPlayer() {
         try {
             Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             Ringtone r = RingtoneManager.getRingtone(this, notification);
             r.play();
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
     }
+
     /**
      * radiobutton 点击监听事件
      *
@@ -483,37 +527,8 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
 
     }
 
-    public void switchMainTab(int targetIndex) {
-        fragmentTransaction = mFragmentManager.beginTransaction();
-        if (targetIndex == TAB_WORKAREA) {
-            fragmentTransaction.show(mFragments[0]).hide(mFragments[1]).hide(mFragments[2]).commitAllowingStateLoss();
-
-            rbWorkarea.setChecked(true);
-            rbMessage.setChecked(false);
-            rbSetting.setChecked(false);
-
-        } else if (targetIndex == TAB_MESSAGE) {
-            fragmentTransaction.show(mFragments[1]).hide(mFragments[0]).hide(mFragments[2]).commitAllowingStateLoss();
-
-            rbWorkarea.setChecked(false);
-            rbMessage.setChecked(true);
-            rbSetting.setChecked(false);
-        } else {
-            fragmentTransaction.show(mFragments[2]).hide(mFragments[0]).hide(mFragments[1]).commitAllowingStateLoss();
-
-            rbWorkarea.setChecked(false);
-            rbMessage.setChecked(false);
-            rbSetting.setChecked(true);
-        }
-
-    }
-
     public void setRbWorkareaTitle() {
         setToolbarCenterTitle(getString(R.string.tabbar_workarea));
-    }
-
-    public void setRbMessageTitle() {
-        setToolbarCenterTitle(getString(R.string.tabbar_message));
     }
 
     public void setRbSettingTitle() {

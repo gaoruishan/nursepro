@@ -150,9 +150,11 @@ public class NurRecordMPGDListFragment extends BaseFragment {
             String parr = episodeID + "^" + TimeUtils.date2String(TimeUtils.getDate(System.currentTimeMillis(), -6, TimeConstants.DAY), "yyyy-MM-dd") + "^00:00^" + TimeUtils.date2String(TimeUtils.getDate(System.currentTimeMillis(), 0, TimeConstants.DAY), "yyyy-MM-dd") + "^23:59^" + modelListBean.getModelCode() + "^false";
 
             //            NurRecordOldApiManager.getN(parr, modelListBean.getGetListMth(), new NurRecordOldApiManager.CareRecCommCallback() {
+            showLoadingTip(BaseActivity.LoadingType.FULL);
             NurRecordOldApiManager.getNewEmrList(parr, new NurRecordOldApiManager.CareRecCommCallback() {
                 @Override
                 public void onSuccess(CareRecCommListBean careRecCommListBean) {
+                    hideLoadFailTip();
                     initTitle(careRecCommListBean.getTitleList());
                     mpgdListDetailAdapter.setListTitle(careRecCommListBean.getTitleList());
                     listMap = (List<Map>) careRecCommListBean.getMap().get("dataList");
@@ -162,6 +164,7 @@ public class NurRecordMPGDListFragment extends BaseFragment {
 
                 @Override
                 public void onFail(String code, String msg) {
+                    hideLoadFailTip();
                     showToast("error" + code + ":" + msg);
                 }
             });

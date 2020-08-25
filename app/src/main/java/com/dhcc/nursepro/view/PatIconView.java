@@ -1,17 +1,12 @@
 package com.dhcc.nursepro.view;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.Scroller;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.ConvertUtils;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.bedmap.bean.BedMapBean;
 import com.dhcc.nursepro.workarea.checkresult.bean.CheckPatsListBean;
