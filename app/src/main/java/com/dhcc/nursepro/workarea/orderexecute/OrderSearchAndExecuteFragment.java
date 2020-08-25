@@ -169,6 +169,7 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
     //全部医嘱查询相关
     private String bedStr = "";
     private String pageNo = "1";
+    private Boolean ifLoadMore = false;
     private OrderSearchOrderTypeAdapter orderSearcheTypeAdapter = new OrderSearchOrderTypeAdapter(new ArrayList<>());
     private OrderSearchPatientAdapter patientPatsAdapter = new OrderSearchPatientAdapter(new ArrayList<>());
     private int askCount = 0;
@@ -489,7 +490,6 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
             public void reset() {
                 bedStr="";
                 regNo = "";
-                pageNo = "1";
                 resetPatOrders();
             }
         });
@@ -546,6 +546,10 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
         //        patientAdapter = new OrderExecutePatientAdapter(new ArrayList<OrderExecuteBean.OrdersBean>());
         //        recyOrderexecutePatorder.setAdapter(patientAdapter);
         patientOrderAdapter = new OrderExecutePatientOrderAdapter(new ArrayList<>());
+        recyOrderexecuteOrdertype.setAdapter(orderTypeAdapter);
+        patientOrderAdapter.setOnLoadMoreListener(this, recyOrderexecuteOrdertype);
+        recyOrderexecuteOrdertype.setAdapter(orderTypeAdapter);
+
         patientOrderAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -578,7 +582,6 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
         if (resultCode == Activity.RESULT_OK) {
             bedStr = data.getStringExtra("bedselectinfoStr");
             regNo = "";
-            pageNo = "1";
             if (askCount == 0) {
                 askCount++;
                 resetPatOrders();
@@ -611,7 +614,6 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
                     presenter.setOrdTypeSelectedCode(sheetCode);
                     screenParts = null;
                 }
-                pageNo = "1";
                 getAllPatOrders();
 
                 //左侧刷新分类选中状态显示
@@ -624,9 +626,16 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
         getAllPatOrders();
     }
     private void getAllPatOrders() {
-        if (pageNo.equals("1")){
+        if (!ifLoadMore){
+            pageNo = "1";
+        }
+        if ("1".equals(pageNo)){
             patientPatsAdapter.setNewData(new ArrayList<>());
         }
+        ifLoadMore = false;
+//        if (pageNo.equals("1")){
+//            patientPatsAdapter.setNewData(new ArrayList<>());
+//        }
         showLoadingTip(BaseActivity.LoadingType.FULL);
         OrderSearchApiManager.getOrder(bedStr, regNoSearchOrd, sheetCode, pageNo, startDate, startTime, endDate, endTime, screenParts,new OrderSearchApiManager.GetOrderCallback() {
             @Override
@@ -701,154 +710,181 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
     @Override
     public void onLoadMoreRequested() {
         pageNo = Integer.valueOf(pageNo) + 1 + "";
-        getAllPatOrders();
+        ifLoadMore = true;
+        if ("".equals(episodeId)){
+            getAllPatOrders();
+        }else {
+            asyncInitData();
+        }
+
     }
 
 
     private void asyncInitData() {
         showLoadingTip(BaseActivity.LoadingType.FULL);
-        OrderExecuteApiManager.getOrder(regNo, sheetCode, startDate, startTime, endDate, endTime,screenParts, new OrderExecuteApiManager.GetOrderCallback() {
+        if (!ifLoadMore){
+            pageNo = "1";
+        }
+        if ("1".equals(pageNo)){
+            patientOrderAdapter.setNewData(new ArrayList<>());
+        }
+        ifLoadMore = false;
+        OrderExecuteApiManager.getOrder(pageNo,regNo, sheetCode, startDate, startTime, endDate, endTime,screenParts, new OrderExecuteApiManager.GetOrderCallback() {
             @Override
             public void onSuccess(OrderExecuteBean orderExecuteBean) {
                 askCount = 0;
                 hideLoadingTip();
-                sheetList = orderExecuteBean.getSheetList();
-                detailColums = orderExecuteBean.getDetailColums();
-                buttons = orderExecuteBean.getButtons();
-                //                orders = orderExecuteBean.getOrders();
-                //                patientAdapter.setNewData(orders);
-                llBtn.removeAllViews();
-                viewBottomHandleline.setVisibility(View.GONE);
-                tvBottomHandletype.setVisibility(View.GONE);
-                imgBottomHandlesure.setVisibility(View.GONE);
+                if ("1".equals(pageNo)) {
+                    sheetList = orderExecuteBean.getSheetList();
+                    detailColums = orderExecuteBean.getDetailColums();
+                    buttons = orderExecuteBean.getButtons();
+                    //                orders = orderExecuteBean.getOrders();
+                    //                patientAdapter.setNewData(orders);
+                    llBtn.removeAllViews();
+                    viewBottomHandleline.setVisibility(View.GONE);
+                    tvBottomHandletype.setVisibility(View.GONE);
+                    imgBottomHandlesure.setVisibility(View.GONE);
 
-                for (int i = 0; i <buttons.size() ; i++) {
-                    if (buttons.get(i).getExecode()!=null && buttons.get(i).getExecode().contains("|")){
-                        typelist = new ArrayList();
-                        String[] stype = buttons.get(i).getExecode().split("\\^");
-                        for (int j = 0; j <stype.length ; j++) {
-                            typelist.add(stype[j]);
-                        };
-                        viewBottomHandleline.setVisibility(View.VISIBLE);
-                        tvBottomHandletype.setVisibility(View.VISIBLE);
-                        String deftype = typelist.get(0).toString();
-                        tvBottomHandletype.setText(deftype.substring(deftype.indexOf("|")+1,deftype.length()));
-                        imgBottomHandlesure.setVisibility(View.VISIBLE);
-                        handleCode = deftype.substring(0,deftype.indexOf("|"));
-                    }
-                    TextView tvButton = new TextView(getContext());
-                    tvButton.setText(buttons.get(i).getDesc());
-                    btnSkinExe = null;
-                    if (buttons.get(i).getDesc().startsWith("执行")){
-                        btnSkinExe = tvButton;
-                    }
-                    //        titleTV.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+                    for (int i = 0; i <buttons.size() ; i++) {
+                        if (buttons.get(i).getExecode()!=null && buttons.get(i).getExecode().contains("|")){
+                            typelist = new ArrayList();
+                            String[] stype = buttons.get(i).getExecode().split("\\^");
+                            for (int j = 0; j <stype.length ; j++) {
+                                typelist.add(stype[j]);
+                            };
+                            viewBottomHandleline.setVisibility(View.VISIBLE);
+                            tvBottomHandletype.setVisibility(View.VISIBLE);
+                            String deftype = typelist.get(0).toString();
+                            tvBottomHandletype.setText(deftype.substring(deftype.indexOf("|")+1,deftype.length()));
+                            imgBottomHandlesure.setVisibility(View.VISIBLE);
+                            handleCode = deftype.substring(0,deftype.indexOf("|"));
+                        }
+                        TextView tvButton = new TextView(getContext());
+                        tvButton.setText(buttons.get(i).getDesc());
+                        btnSkinExe = null;
+                        if (buttons.get(i).getDesc().startsWith("执行")){
+                            btnSkinExe = tvButton;
+                        }
+                        //        titleTV.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
 //                if (config.getItemDesc().length() > 7) {
 //                    titleTV.setTextSize(12);
 //                } else {
 //                    titleTV.setTextSize(16);
 //                }
-                    tvButton.setGravity(Gravity.CENTER);
-                    LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(ConvertUtils.dp2px(90), ViewGroup.LayoutParams.MATCH_PARENT);
-                    titleParams.setMargins(0, 0, 0, 0);//4个参数按顺序分别是左上右下
-                    tvButton.setLayoutParams(titleParams);
-                    if (i%2 == 0){
-                        tvButton.setBackgroundResource(R.color.blue);
-                    }else {
-                        tvButton.setBackgroundResource(R.color.blue_dark);
-                    }
-                    tvButton.setTextColor(getResources().getColor(R.color.white));
-                    if (buttons.get(i).getExecode()!=null){
-                        tvButton.setTag(R.string.key_execode,buttons.get(i).getExecode());
-                    }else {
-                        //非配置按钮--皮试计时
-                        tvButton.setTag(R.string.key_execode,"UNKNOW");
-                    }
-                    tvButton.setTag(R.string.key_singleflag,buttons.get(i).getSingleFlag());
+                        tvButton.setGravity(Gravity.CENTER);
+                        LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(ConvertUtils.dp2px(90), ViewGroup.LayoutParams.MATCH_PARENT);
+                        titleParams.setMargins(0, 0, 0, 0);//4个参数按顺序分别是左上右下
+                        tvButton.setLayoutParams(titleParams);
+                        if (i%2 == 0){
+                            tvButton.setBackgroundResource(R.color.blue);
+                        }else {
+                            tvButton.setBackgroundResource(R.color.blue_dark);
+                        }
+                        tvButton.setTextColor(getResources().getColor(R.color.white));
+                        if (buttons.get(i).getExecode()!=null){
+                            tvButton.setTag(R.string.key_execode,buttons.get(i).getExecode());
+                        }else {
+                            //非配置按钮--皮试计时
+                            tvButton.setTag(R.string.key_execode,"UNKNOW");
+                        }
+                        tvButton.setTag(R.string.key_singleflag,buttons.get(i).getSingleFlag());
 
 
-                    tvButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            exeButtonDesc = tvButton.getText().toString();
-                            String strexecode = tvButton.getTag(R.string.key_execode).toString();
-                            String strSingleFlag = tvButton.getTag(R.string.key_singleflag).toString();
-                            if (strexecode.equals("UNKNOW")){
-                                showToast("未配置按钮，不可操作");
-                            }else {
-                                if (strexecode.contains("|")){
-                                    execStatusCode = handleCode;
+                        tvButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                exeButtonDesc = tvButton.getText().toString();
+                                String strexecode = tvButton.getTag(R.string.key_execode).toString();
+                                String strSingleFlag = tvButton.getTag(R.string.key_singleflag).toString();
+                                if (strexecode.equals("UNKNOW")){
+                                    showToast("未配置按钮，不可操作");
                                 }else {
-                                    execStatusCode = strexecode;
-                                }
-                                if ("PSD".equals(sheetCode) && exeButtonDesc.contains("皮试")) {
-                                    //跟处理医嘱相同方式置皮试结果
                                     if (strexecode.contains("|")){
-                                        execOrSeeOrder();
+                                        execStatusCode = handleCode;
                                     }else {
-                                        //弹框置皮试结果
-                                        if (oeoreId.split("\\^").length > 1) {
-                                            showToast("皮试结果只能逐一设置，请选择单条医嘱执行");
-                                        } else {
-                                            showSkinResultOrderDialog(strSingleFlag);
-                                        }
+                                        execStatusCode = strexecode;
                                     }
-                                } else {
-                                    execOrSeeOrder();
+                                    if ("PSD".equals(sheetCode) && exeButtonDesc.contains("皮试")) {
+                                        //跟处理医嘱相同方式置皮试结果
+                                        if (strexecode.contains("|")){
+                                            execOrSeeOrder();
+                                        }else {
+                                            //弹框置皮试结果
+                                            if (oeoreId.split("\\^").length > 1) {
+                                                showToast("皮试结果只能逐一设置，请选择单条医嘱执行");
+                                            } else {
+                                                showSkinResultOrderDialog(strSingleFlag);
+                                            }
+                                        }
+                                    } else {
+                                        execOrSeeOrder();
+                                    }
                                 }
                             }
-                        }
-                    });
+                        });
 
-                    llBtn.addView(tvButton);
+                        llBtn.addView(tvButton);
 
-                }
-
-                if (buttons.size() == 0) {
-                    llOrderexecuteNoselectbottom.setVisibility(View.GONE);
-                    llOrderexecuteSelectbottom.setVisibility(View.GONE);
-                    setHindBottm(10);
-                } else {
-                    llOrderexecuteNoselectbottom.setVisibility(View.VISIBLE);
-                    llOrderexecuteSelectbottom.setVisibility(View.GONE);
-                    setHindBottm(10);
-                    tvBottomNoselecttext.setText("请选择医嘱");
-                }
-
-                if (orderExecuteBean.getOrders().size() > 0) {
-                    patient = orderExecuteBean.getOrders().get(0);
-                    //                    tvOrderexecutePatinfo.setText("".equals(patient.getBedCode()) ? "未分" : patient.getBedCode() + "  " + patient.getName());
-                    patOrders = patient.getPatOrds();
-                } else {
-                    patOrders = null;
-                }
-                if (patOrders != null) {
-                    patientOrderAdapter.setSize(patOrders.size());
-                    patientOrderAdapter.setDetailColums(detailColums);
-                }
-                patientOrderAdapter.setNewData(patOrders);
-                patientOrderAdapter.loadMoreEnd();
-                recyOrderexecutePatorder.scrollToPosition(0);
-
-                //左侧列表判断有无默认值，有的话滑动到默认值类型
-                if (!"".equals(orderExecuteBean.getSheetDefCode())) {
-                    if (!sheetCodePresenter.equals(orderExecuteBean.getSheetDefCode())){
-                        sheetCodePresenter  = orderExecuteBean.getSheetDefCode();
-                        presenter.setOrdTypeSelectedCode(orderExecuteBean.getSheetDefCode());
-                        screenParts = "";
                     }
-                    orderTypeAdapter.setSelectedCode(orderExecuteBean.getSheetDefCode());
-                }
-                orderTypeAdapter.setNewData(sheetList);
 
-                if (!"".equals(orderExecuteBean.getSheetDefCode())) {
-                    for (int i = 0; i < sheetList.size(); i++) {
-                        if (sheetList.get(i).getCode().equals(orderExecuteBean.getSheetDefCode())) {
-                            recyOrderexecuteOrdertype.scrollToPosition(i);
-                            break;
+                    if (buttons.size() == 0) {
+                        llOrderexecuteNoselectbottom.setVisibility(View.GONE);
+                        llOrderexecuteSelectbottom.setVisibility(View.GONE);
+                        setHindBottm(10);
+                    } else {
+                        llOrderexecuteNoselectbottom.setVisibility(View.VISIBLE);
+                        llOrderexecuteSelectbottom.setVisibility(View.GONE);
+                        setHindBottm(10);
+                        tvBottomNoselecttext.setText("请选择医嘱");
+                    }
+
+                    if (orderExecuteBean.getOrders().size() > 0) {
+                        patient = orderExecuteBean.getOrders().get(0);
+                        //                    tvOrderexecutePatinfo.setText("".equals(patient.getBedCode()) ? "未分" : patient.getBedCode() + "  " + patient.getName());
+                        patOrders = patient.getPatOrds();
+                    } else {
+                        patOrders = null;
+                    }
+                    if (patOrders != null) {
+                        patientOrderAdapter.setSize(patOrders.size());
+                        patientOrderAdapter.setDetailColums(detailColums);
+                    }
+                    patientOrderAdapter.setNewData(patOrders);
+                    if (patOrders==null || patOrders.size() == 0) {
+                        patientOrderAdapter.loadMoreEnd();
+                    } else {
+                        patientOrderAdapter.loadMoreComplete();
+                    }
+                    recyOrderexecutePatorder.scrollToPosition(0);
+
+                    //左侧列表判断有无默认值，有的话滑动到默认值类型
+                    if (!"".equals(orderExecuteBean.getSheetDefCode())) {
+                        if (!sheetCodePresenter.equals(orderExecuteBean.getSheetDefCode())){
+                            sheetCodePresenter  = orderExecuteBean.getSheetDefCode();
+                            presenter.setOrdTypeSelectedCode(orderExecuteBean.getSheetDefCode());
+                            screenParts = "";
+                        }
+                        orderTypeAdapter.setSelectedCode(orderExecuteBean.getSheetDefCode());
+                    }
+                    orderTypeAdapter.setNewData(sheetList);
+
+                    if (!"".equals(orderExecuteBean.getSheetDefCode())) {
+                        for (int i = 0; i < sheetList.size(); i++) {
+                            if (sheetList.get(i).getCode().equals(orderExecuteBean.getSheetDefCode())) {
+                                recyOrderexecuteOrdertype.scrollToPosition(i);
+                                break;
+                            }
                         }
                     }
+                }else {
+                    if (patOrders.size() == 0) {
+                        patientOrderAdapter.loadMoreEnd();
+                    } else {
+                        patientOrderAdapter.addData(patOrders);
+                        patientOrderAdapter.loadMoreComplete();
+                    }
                 }
+
 
             }
 

@@ -95,12 +95,12 @@ public class OrderExecutePatientOrderAdapter extends BaseQuickAdapter<List<Order
 
         View view = helper.getView(R.id.line_oepat_orderinfo);
         View bottomView = helper.getView(R.id.view_oepat_bottom);
-        if (helper.getLayoutPosition() < size - 1) {
-            view.setVisibility(View.VISIBLE);
-            bottomView.setVisibility(View.GONE);
-        } else {
-            view.setVisibility(View.GONE);
-            bottomView.setVisibility(View.VISIBLE);
-        }
+//        if (helper.getLayoutPosition() < size - 1) {
+//            view.setVisibility(View.VISIBLE);
+//            bottomView.setVisibility(View.GONE);
+//        } else {
+//            view.setVisibility(View.GONE);
+//            bottomView.setVisibility(View.VISIBLE);
+//        }
     }
 }

@@ -35,7 +35,7 @@ public class OrderExecuteApiService {
         });
     }
 
-    public static void getOrder(String regNo, String sheetCode, String startDate, String startTime, String endDate, String endTime, String screenParts,final ServiceCallBack callback) {
+    public static void getOrder(String pageNo,String regNo, String sheetCode, String startDate, String startTime, String endDate, String endTime, String screenParts,final ServiceCallBack callback) {
         SPUtils spUtils = SPUtils.getInstance();
         HashMap<String, String> properties = new HashMap<>();
         properties.put("wardId", spUtils.getString(SharedPreference.WARDID));
@@ -44,7 +44,7 @@ public class OrderExecuteApiService {
         properties.put("groupId", spUtils.getString(SharedPreference.GROUPID));
         properties.put("locId", spUtils.getString(SharedPreference.LOCID));
         properties.put("bedStr", "");
-        properties.put("pageNo", "1");
+        properties.put("pageNo", pageNo);
 
         properties.put("regNo", regNo);
         properties.put("sheetCode", sheetCode);

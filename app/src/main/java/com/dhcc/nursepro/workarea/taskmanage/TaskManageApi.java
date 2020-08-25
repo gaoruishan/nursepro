@@ -48,7 +48,7 @@ public class TaskManageApi {
         request.bedStr = "";
         request.pageNo = "1";
 
-        OrderExecuteApiManager.getOrder(request.regNo, request.sheetCode, request.startDate, request.startTime, request.endDate, request.endTime, request.screenParts, callback);
+        OrderExecuteApiManager.getOrder("1",request.regNo, request.sheetCode, request.startDate, request.startTime, request.endDate, request.endTime, request.screenParts, callback);
     }
 
     public static void execOrSeeOrder(TaskManageRequest.ExecOrSeeOrder request,final OrderExecuteApiManager.ExecOrSeeOrderCallback callback) {
