@@ -700,6 +700,7 @@ public class ElementDataBean {
                 public static class ChangeListBean {
                     private String Id;
                     private String Items;
+                    private String SelectItems;
                     private String Type;
                     private String Val;
 
@@ -717,6 +718,14 @@ public class ElementDataBean {
 
                     public void setItems(String Items) {
                         this.Items = Items;
+                    }
+
+                    public String getSelectItems() {
+                        return SelectItems;
+                    }
+
+                    public void setSelectItems(String selectItems) {
+                        SelectItems = selectItems;
                     }
 
                     public String getType() {

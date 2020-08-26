@@ -771,12 +771,17 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
                 TextView tvdropRadio = (TextView) viewHashMap.get(element.getElementId());
                 tvdropRadio.setBackground(getResources().getDrawable(R.drawable.nur_record_btn_bg));
 
+                List<String> dropItremTextandNumberValue = new ArrayList<>();
+                for (int i1 = 0; element.getOprationItemList() != null && i1 < element.getOprationItemList().size(); i1++) {
+                    dropItremTextandNumberValue.add(element.getOprationItemList().get(i1).getText() + "^" + element.getOprationItemList().get(i1).getNumberValue());
+                }
+                elementIdtoOprationItemList.put(element.getElementId(), dropItremTextandNumberValue);
+
                 tvdropRadio.setOnClickListener(v -> {
                     tvdropRadio.setBackgroundResource(R.drawable.nur_record_btn_bg);
                     selectStrList = new ArrayList<>();
                     selectScoreList = new ArrayList<>();
 
-                    List<String> dropItremTextandNumberValue = new ArrayList<>();
                     for (int i1 = 0; element.getOprationItemList() != null && i1 < element.getOprationItemList().size(); i1++) {
                         try {
                             selectStrList.add(element.getOprationItemList().get(i1).getText());
@@ -787,13 +792,11 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
                                 numberValue = Integer.parseInt(element.getOprationItemList().get(i1).getNumberValue());
                             }
                             selectScoreList.add(numberValue);
-                            dropItremTextandNumberValue.add(element.getOprationItemList().get(i1).getText() + "^" + numberValue);
                         } catch (NumberFormatException e) {
                             showToast("分值转换出错");
                             e.printStackTrace();
                         }
                     }
-                    elementIdtoOprationItemList.put(element.getElementId(), dropItremTextandNumberValue);
                     selectStrList.add("");
                     selectScoreList.add(0);
 
@@ -810,12 +813,17 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
                 TextView tvdropRadio = (TextView) viewHashMap.get(element.getElementId());
                 tvdropRadio.setBackground(getResources().getDrawable(R.drawable.nur_record_btn_bg));
 
+                List<String> dropItremTextandNumberValue = new ArrayList<>();
+                for (int i1 = 0; element.getOprationItemList() != null && i1 < element.getOprationItemList().size(); i1++) {
+                    dropItremTextandNumberValue.add(element.getOprationItemList().get(i1).getText() + "^" + element.getOprationItemList().get(i1).getNumberValue());
+                }
+                elementIdtoOprationItemList.put(element.getElementId(), dropItremTextandNumberValue);
+
                 tvdropRadio.setOnClickListener(v -> {
                     tvdropRadio.setBackgroundResource(R.drawable.nur_record_btn_bg);
                     selectStrList = new ArrayList<>();
                     selectScoreList = new ArrayList<>();
 
-                    List<String> dropItremTextandNumberValue = new ArrayList<>();
                     for (int i1 = 0; element.getOprationItemList() != null && i1 < element.getOprationItemList().size(); i1++) {
                         try {
                             selectStrList.add(element.getOprationItemList().get(i1).getText());
@@ -826,13 +834,11 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
                                 numberValue = Integer.parseInt(element.getOprationItemList().get(i1).getNumberValue());
                             }
                             selectScoreList.add(numberValue);
-                            dropItremTextandNumberValue.add(element.getOprationItemList().get(i1).getText() + "^" + numberValue);
                         } catch (NumberFormatException e) {
                             showToast("分值转换出错");
                             e.printStackTrace();
                         }
                     }
-                    elementIdtoOprationItemList.put(element.getElementId(), dropItremTextandNumberValue);
                     selectStrList.add("");
                     selectScoreList.add(0);
 
@@ -1972,6 +1978,35 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
         return linearLayout;
     }
 
+    public boolean isNumber(Object obj) {
+        if (obj instanceof Number) {
+            return true;
+        } else if (obj instanceof String) {
+            try {
+                Double.parseDouble((String) obj);
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_nur_record_new, container, false);
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+        if (isChecked) {
+            setViews(buttonView.getTag().toString(), "true");
+        } else {
+            setViews(buttonView.getTag().toString(), "false");
+        }
+    }
+
     /**
      * View级联控制 显示隐藏 是否可编辑 选中未选中 评分
      */
@@ -2040,13 +2075,13 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
                 for (int i = 0; elementSetsBeans != null && i < elementSetsBeans.size(); i++) {
                     ElementDataBean.DataBean.InputBean.ElementSetsBean elementSetsBean = elementSetsBeans.get(i);
 
-                    if (elementSetsBean.getFormName().equals(formName) && (elementSetsBean.getFormName().startsWith("DropRadioElement_")||elementSetsBean.getFormName().startsWith("DropListElement_"))) {
+                    if (elementSetsBean.getFormName().equals(formName) && (elementSetsBean.getFormName().startsWith("DropRadioElement_") || elementSetsBean.getFormName().startsWith("DropListElement_"))) {
                         TextView textView = (TextView) viewHashMap.get(viewElementId);
                         if (textView != null && !StringUtils.isEmpty(textView.getText().toString()) && elementSetsBean.getChangeList() != null && elementSetsBean.getChangeList().size() > 0) {
                             String tvStr = textView.getText().toString();
                             String numberValue = "";
                             List<String> dropTextandNumberValue = elementIdtoOprationItemList.get(viewElementId);
-                            for (int i1 = 0; i1 < dropTextandNumberValue.size(); i1++) {
+                            for (int i1 = 0; dropTextandNumberValue!=null && i1 < dropTextandNumberValue.size(); i1++) {
                                 String[] TN = dropTextandNumberValue.get(i1).split("\\^");
                                 if (TN != null && TN.length == 2) {
                                     if (tvStr.equals(TN[0])) {
@@ -2083,208 +2118,59 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
                                     int val = Integer.parseInt(elementSetsBean.getVal());
                                     List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
                                     if (edTextInt == val && changeListBeans != null && changeListBeans.size() > 0) {
-                                        for (int i1 = 0; i1 < changeListBeans.size(); i1++) {
-                                            ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean changeListBean = changeListBeans.get(i1);
-                                            CheckBox checkBox = (CheckBox) viewHashMap.get("RadioElement_" + changeListBean.getId() + "^" + changeListBean.getItems());
-                                            if (checkBox != null) {
-                                                if (changeListBean.getType().contains("HasData")) {
-                                                    checkBox.setChecked(true);
-                                                }
-                                            }
-                                            if (viewHashMap.get(changeListBean.getId()) instanceof EditText) {
-                                                EditText editText1 = (EditText) viewHashMap.get(changeListBean.getId());
-                                                if (editText1 != null && !StringUtils.isTrimEmpty(changeListBean.getVal())) {
-                                                    if (changeListBean.getType().contains("HasData")) {
-                                                        editText1.setText(changeListBean.getVal());
-                                                    }
-                                                }
-                                            }
-
-                                        }
+                                        ValSetView(changeListBeans);
                                     }
                                 } else if ("LeEqNumber".equals(elementSetsBean.getSign())) {
                                     int val = Integer.parseInt(elementSetsBean.getVal());
                                     List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
                                     if (edTextInt <= val && changeListBeans != null && changeListBeans.size() > 0) {
-                                        for (int i1 = 0; i1 < changeListBeans.size(); i1++) {
-                                            ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean changeListBean = changeListBeans.get(i1);
-                                            CheckBox checkBox = (CheckBox) viewHashMap.get("RadioElement_" + changeListBean.getId() + "^" + changeListBean.getItems());
-                                            if (checkBox != null) {
-                                                if (changeListBean.getType().contains("HasData")) {
-                                                    checkBox.setChecked(true);
-                                                }
-                                            }
-                                            if (viewHashMap.get(changeListBean.getId()) instanceof EditText) {
-                                                EditText editText1 = (EditText) viewHashMap.get(changeListBean.getId());
-                                                if (editText1 != null && !StringUtils.isTrimEmpty(changeListBean.getVal())) {
-                                                    if (changeListBean.getType().contains("HasData")) {
-                                                        editText1.setText(changeListBean.getVal());
-                                                    }
-                                                }
-                                            }
-                                        }
+                                        ValSetView(changeListBeans);
                                     }
                                 } else if ("LeNumber".equals(elementSetsBean.getSign())) {
                                     int val = Integer.parseInt(elementSetsBean.getVal());
                                     List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
                                     if (edTextInt < val && changeListBeans != null && changeListBeans.size() > 0) {
-                                        for (int i1 = 0; i1 < changeListBeans.size(); i1++) {
-                                            ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean changeListBean = changeListBeans.get(i1);
-                                            CheckBox checkBox = (CheckBox) viewHashMap.get("RadioElement_" + changeListBean.getId() + "^" + changeListBean.getItems());
-                                            if (checkBox != null) {
-                                                if (changeListBean.getType().contains("HasData")) {
-                                                    checkBox.setChecked(true);
-                                                }
-                                            }
-                                            if (viewHashMap.get(changeListBean.getId()) instanceof EditText) {
-                                                EditText editText1 = (EditText) viewHashMap.get(changeListBean.getId());
-                                                if (editText1 != null && !StringUtils.isTrimEmpty(changeListBean.getVal())) {
-                                                    if (changeListBean.getType().contains("HasData")) {
-                                                        editText1.setText(changeListBean.getVal());
-                                                    }
-                                                }
-                                            }
-                                        }
+                                        ValSetView(changeListBeans);
                                     }
                                 } else if ("GrEqNumber".equals(elementSetsBean.getSign())) {
                                     int val = Integer.parseInt(elementSetsBean.getVal());
                                     List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
                                     if (edTextInt >= val && changeListBeans != null && changeListBeans.size() > 0) {
-                                        for (int i1 = 0; i1 < changeListBeans.size(); i1++) {
-                                            ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean changeListBean = changeListBeans.get(i1);
-                                            CheckBox checkBox = (CheckBox) viewHashMap.get("RadioElement_" + changeListBean.getId() + "^" + changeListBean.getItems());
-                                            if (checkBox != null) {
-                                                if (changeListBean.getType().contains("HasData")) {
-                                                    checkBox.setChecked(true);
-                                                }
-                                            }
-                                            if (viewHashMap.get(changeListBean.getId()) instanceof EditText) {
-                                                EditText editText1 = (EditText) viewHashMap.get(changeListBean.getId());
-                                                if (editText1 != null && !StringUtils.isTrimEmpty(changeListBean.getVal())) {
-                                                    if (changeListBean.getType().contains("HasData")) {
-                                                        editText1.setText(changeListBean.getVal());
-                                                    }
-                                                }
-                                            }
-                                        }
+                                        ValSetView(changeListBeans);
                                     }
                                 } else if ("GrNumber".equals(elementSetsBean.getSign())) {
                                     int val = Integer.parseInt(elementSetsBean.getVal());
                                     List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
                                     if (edTextInt > val && changeListBeans != null && changeListBeans.size() > 0) {
-                                        for (int i1 = 0; i1 < changeListBeans.size(); i1++) {
-                                            ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean changeListBean = changeListBeans.get(i1);
-                                            CheckBox checkBox = (CheckBox) viewHashMap.get("RadioElement_" + changeListBean.getId() + "^" + changeListBean.getItems());
-                                            if (checkBox != null) {
-                                                if (changeListBean.getType().contains("HasData")) {
-                                                    checkBox.setChecked(true);
-                                                }
-                                            }
-                                            if (viewHashMap.get(changeListBean.getId()) instanceof EditText) {
-                                                EditText editText1 = (EditText) viewHashMap.get(changeListBean.getId());
-                                                if (editText1 != null && !StringUtils.isTrimEmpty(changeListBean.getVal())) {
-                                                    if (changeListBean.getType().contains("HasData")) {
-                                                        editText1.setText(changeListBean.getVal());
-                                                    }
-                                                }
-                                            }
-                                        }
+                                        ValSetView(changeListBeans);
                                     }
                                 } else if ("GrEqNumber1LeEqNumber2".equals(elementSetsBean.getSign())) {
                                     int val1 = Integer.parseInt(elementSetsBean.getVal());
                                     int val2 = Integer.parseInt(elementSetsBean.getVal2());
                                     List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
                                     if (edTextInt >= val1 && edTextInt <= val2 && changeListBeans != null && changeListBeans.size() > 0) {
-                                        for (int i1 = 0; i1 < changeListBeans.size(); i1++) {
-                                            ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean changeListBean = changeListBeans.get(i1);
-                                            CheckBox checkBox = (CheckBox) viewHashMap.get("RadioElement_" + changeListBean.getId() + "^" + changeListBean.getItems());
-                                            if (checkBox != null) {
-                                                if (changeListBean.getType().contains("HasData")) {
-                                                    checkBox.setChecked(true);
-                                                }
-                                            }
-                                            if (viewHashMap.get(changeListBean.getId()) instanceof EditText) {
-                                                EditText editText1 = (EditText) viewHashMap.get(changeListBean.getId());
-                                                if (editText1 != null && !StringUtils.isTrimEmpty(changeListBean.getVal())) {
-                                                    if (changeListBean.getType().contains("HasData")) {
-                                                        editText1.setText(changeListBean.getVal());
-                                                    }
-                                                }
-                                            }
-
-                                        }
+                                        ValSetView(changeListBeans);
                                     }
                                 } else if ("GrNumber1LeEqNumber2".equals(elementSetsBean.getSign())) {
                                     int val1 = Integer.parseInt(elementSetsBean.getVal());
                                     int val2 = Integer.parseInt(elementSetsBean.getVal2());
                                     List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
                                     if (edTextInt > val1 && edTextInt <= val2 && changeListBeans != null && changeListBeans.size() > 0) {
-                                        for (int i1 = 0; i1 < changeListBeans.size(); i1++) {
-                                            ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean changeListBean = changeListBeans.get(i1);
-                                            CheckBox checkBox = (CheckBox) viewHashMap.get("RadioElement_" + changeListBean.getId() + "^" + changeListBean.getItems());
-                                            if (checkBox != null) {
-                                                if (changeListBean.getType().contains("HasData")) {
-                                                    checkBox.setChecked(true);
-                                                }
-                                            }
-                                            if (viewHashMap.get(changeListBean.getId()) instanceof EditText) {
-                                                EditText editText1 = (EditText) viewHashMap.get(changeListBean.getId());
-                                                if (editText1 != null && !StringUtils.isTrimEmpty(changeListBean.getVal())) {
-                                                    if (changeListBean.getType().contains("HasData")) {
-                                                        editText1.setText(changeListBean.getVal());
-                                                    }
-                                                }
-                                            }
-
-                                        }
+                                        ValSetView(changeListBeans);
                                     }
                                 } else if ("GrEqNumber1LeNumber2".equals(elementSetsBean.getSign())) {
                                     int val1 = Integer.parseInt(elementSetsBean.getVal());
                                     int val2 = Integer.parseInt(elementSetsBean.getVal2());
                                     List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
                                     if (edTextInt >= val1 && edTextInt < val2 && changeListBeans != null && changeListBeans.size() > 0) {
-                                        for (int i1 = 0; i1 < changeListBeans.size(); i1++) {
-                                            ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean changeListBean = changeListBeans.get(i1);
-                                            CheckBox checkBox = (CheckBox) viewHashMap.get("RadioElement_" + changeListBean.getId() + "^" + changeListBean.getItems());
-                                            if (checkBox != null) {
-                                                if (changeListBean.getType().contains("HasData")) {
-                                                    checkBox.setChecked(true);
-                                                }
-                                            }
-                                            if (viewHashMap.get(changeListBean.getId()) instanceof EditText) {
-                                                EditText editText1 = (EditText) viewHashMap.get(changeListBean.getId());
-                                                if (editText1 != null && !StringUtils.isTrimEmpty(changeListBean.getVal())) {
-                                                    if (changeListBean.getType().contains("HasData")) {
-                                                        editText1.setText(changeListBean.getVal());
-                                                    }
-                                                }
-                                            }
-
-                                        }
+                                        ValSetView(changeListBeans);
                                     }
                                 } else if ("GrNumber1LeNumber2".equals(elementSetsBean.getSign())) {
                                     int val1 = Integer.parseInt(elementSetsBean.getVal());
                                     int val2 = Integer.parseInt(elementSetsBean.getVal2());
                                     List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
                                     if (edTextInt > val1 && edTextInt < val2 && changeListBeans != null && changeListBeans.size() > 0) {
-                                        for (int i1 = 0; i1 < changeListBeans.size(); i1++) {
-                                            ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean changeListBean = changeListBeans.get(i1);
-                                            CheckBox checkBox = (CheckBox) viewHashMap.get("RadioElement_" + changeListBean.getId() + "^" + changeListBean.getItems());
-                                            if (checkBox != null) {
-                                                if (changeListBean.getType().contains("HasData")) {
-                                                    checkBox.setChecked(true);
-                                                }
-                                            }
-                                            if (viewHashMap.get(changeListBean.getId()) instanceof EditText) {
-                                                EditText editText1 = (EditText) viewHashMap.get(changeListBean.getId());
-                                                if (editText1 != null && !StringUtils.isTrimEmpty(changeListBean.getVal())) {
-                                                    if (changeListBean.getType().contains("HasData")) {
-                                                        editText1.setText(changeListBean.getVal());
-                                                    }
-                                                }
-                                            }
-
-                                        }
+                                        ValSetView(changeListBeans);
                                     }
                                 }
                             }
@@ -2343,6 +2229,7 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
 
     /**
      * check drop 控制 edit text 显隐编辑点击
+     *
      * @param changeListBean
      * @param linearLayout
      */
@@ -2462,32 +2349,38 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
         }
     }
 
-    public boolean isNumber(Object obj) {
-        if (obj instanceof Number) {
-            return true;
-        } else if (obj instanceof String) {
-            try {
-                Double.parseDouble((String) obj);
-                return true;
-            } catch (Exception e) {
-                return false;
+    public void ValSetView(List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans) {
+        for (int i1 = 0; i1 < changeListBeans.size(); i1++) {
+            ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean changeListBean = changeListBeans.get(i1);
+            CheckBox checkBox = (CheckBox) viewHashMap.get("RadioElement_" + changeListBean.getId() + "^" + changeListBean.getItems());
+            if (checkBox != null) {
+                if (changeListBean.getType().contains("HasData")) {
+                    checkBox.setChecked(true);
+                }
             }
-        }
-        return false;
-    }
 
-    @Override
-    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_nur_record_new, container, false);
-    }
+            if (viewHashMap.get(changeListBean.getId()) instanceof TextView) {
+                TextView textView1 = (TextView) viewHashMap.get(changeListBean.getId());
+                if (textView1 != null && !StringUtils.isTrimEmpty(changeListBean.getSelectItems())) {
+                    if (changeListBean.getType().contains("HasData")) {
+                        List<String> dropItremTextandNumberValue = elementIdtoOprationItemList.get(changeListBean.getId());
 
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        for (int i = 0; dropItremTextandNumberValue != null && i < dropItremTextandNumberValue.size(); i++) {
+                            if (dropItremTextandNumberValue.get(i).split("\\^").length == 2 && dropItremTextandNumberValue.get(i).split("\\^")[1].equals(changeListBean.getSelectItems())) {
+                                textView1.setText(dropItremTextandNumberValue.get(i).split("\\^")[0]);
+                            }
+                        }
+                    }
+                }
+            } else if (viewHashMap.get(changeListBean.getId()) instanceof EditText) {
+                EditText editText1 = (EditText) viewHashMap.get(changeListBean.getId());
+                if (editText1 != null && !StringUtils.isTrimEmpty(changeListBean.getVal())) {
+                    if (changeListBean.getType().contains("HasData")) {
+                        editText1.setText(changeListBean.getVal());
+                    }
+                }
+            }
 
-        if (isChecked) {
-            setViews(buttonView.getTag().toString(), "true");
-        } else {
-            setViews(buttonView.getTag().toString(), "false");
         }
     }
 }
