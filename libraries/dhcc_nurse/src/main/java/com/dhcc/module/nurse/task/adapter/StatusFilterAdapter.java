@@ -19,6 +19,15 @@ import java.util.List;
 public class StatusFilterAdapter  extends BaseQuickAdapter<StatusListBean, BaseViewHolder> {
 
     private int selectItem=-1;
+    private Boolean bCheckbox = false;
+
+    public void setbCheckbox(Boolean bCheckbox) {
+        this.bCheckbox = bCheckbox;
+    }
+
+    public Boolean getbCheckbox() {
+        return bCheckbox;
+    }
 
     public void setSelectItem(int selectItem) {
         this.selectItem = selectItem;
@@ -34,10 +43,16 @@ public class StatusFilterAdapter  extends BaseQuickAdapter<StatusListBean, BaseV
 
     @Override
     protected void convert(BaseViewHolder helper, StatusListBean item) {
-        helper.setText(R.id.tv_time_desc,item.getText()+":")
-                .setTextColor(R.id.tv_time_desc,selectItem==helper.getAdapterPosition()?mContext.getResources().getColor(R.color.blue):mContext.getResources().getColor(R.color.black))
-                .setBackgroundRes(R.id.ll_status_filter,selectItem==helper.getAdapterPosition()?R.drawable.bg_timefilter_select:R.drawable.bg_timefilter_unselect)
-                .setBackgroundRes(R.id.view_select,selectItem==helper.getAdapterPosition()?R.drawable.time_select:R.drawable.time_unselect);
-
+        if (bCheckbox){
+            helper.setText(R.id.tv_time_desc,item.getText()+"")
+                    .setTextColor(R.id.tv_time_desc,item.getSelect()?mContext.getResources().getColor(R.color.blue):mContext.getResources().getColor(R.color.black))
+                    .setBackgroundRes(R.id.ll_status_filter,item.getSelect()?R.drawable.bg_timefilter_select:R.drawable.bg_timefilter_unselect)
+                    .setGone(R.id.view_select,false);
+        }else {
+            helper.setText(R.id.tv_time_desc,item.getText()+":")
+                    .setTextColor(R.id.tv_time_desc,selectItem==helper.getAdapterPosition()?mContext.getResources().getColor(R.color.blue):mContext.getResources().getColor(R.color.black))
+                    .setBackgroundRes(R.id.ll_status_filter,selectItem==helper.getAdapterPosition()?R.drawable.bg_timefilter_select:R.drawable.bg_timefilter_unselect)
+                    .setBackgroundRes(R.id.view_select,selectItem==helper.getAdapterPosition()?R.drawable.time_select:R.drawable.time_unselect);
+        }
     }
 }

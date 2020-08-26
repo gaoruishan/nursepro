@@ -14,6 +14,7 @@ import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.RecyclerViewHelper;
+import com.base.commlibs.utils.SchDateTimeUtil;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.JsonUtils;
@@ -58,7 +59,7 @@ public class BloodSugarRecordFragment extends BaseNurseFragment {
     private FlowLayout flOp;
     private TextView tvState;
     private EditText etValue,etNote;
-    private String episodeId = "",rowId="";
+    private String episodeId = "",rowId="",sugarRowId="";
     private ArrayList<TextView> tvList = new ArrayList<>();
     private BloodSugarValueAndItemBean itemBean;
 
@@ -72,9 +73,9 @@ public class BloodSugarRecordFragment extends BaseNurseFragment {
         tvState.setOnClickListener(this);
         customDate = f(R.id.custom_date, CustomDateTimeView.class);
         String curDate = SPStaticUtils.getString(SharedPreference.CURDATETIME);
-        customDate.setShowTime(false);
+        customDate.setShowTime(true);
         customDate.showOnlyOne();
-        customDate.setStartDateTime(TimeUtils.string2Millis(curDate.substring(0,10), YYYY_MM_DD));
+        customDate.setStartDateTime(SchDateTimeUtil.getStartDateTime());
         customDate.setOnDateSetListener(new OnDateSetListener() {
             @Override
             public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
@@ -116,6 +117,7 @@ public class BloodSugarRecordFragment extends BaseNurseFragment {
                 tvState.setText(bean.getSugarList().get(0).getDesc());
                 etValue.setText(bean.getSugarList().get(0).getValue());
                 rowId = bean.getSugarList().get(0).getRowId();
+                sugarRowId = bean.getSugarList().get(0).getSugarRowId();
                 setOptions(0);
             }
         });
@@ -157,14 +159,14 @@ public class BloodSugarRecordFragment extends BaseNurseFragment {
         super.onClick(v);
         if (v.getId() == R.id.tv_toolbar_right) {
             Map sugarMap = new HashMap();
-            sugarMap.put("sugarRowID",rowId);
+            sugarMap.put("sugarRowID",sugarRowId);
             sugarMap.put("episodeId",episodeId);
             sugarMap.put("rowId",rowId);
             sugarMap.put("value",etValue.getText().toString());
             sugarMap.put("user", SPUtils.getInstance().getString(SharedPreference.USERID));
             sugarMap.put("userLocId",SPUtils.getInstance().getString(SharedPreference.LOCID));
-            sugarMap.put("date",customDate.getStartDateTimeText());
-            sugarMap.put("time","00:00");
+            sugarMap.put("date",customDate.getStartDateTimeText().substring(0,10));
+            sugarMap.put("time",customDate.getStartDateTimeText().substring(11,16));
             sugarMap.put("obsNote",etNote.getText().toString());
 
             saveBloodSugar(GsonUtils.toJson(sugarMap));
@@ -187,6 +189,7 @@ public class BloodSugarRecordFragment extends BaseNurseFragment {
                         tvState.setText(item);
                         etValue.setText(itemBean.getSugarList().get(index).getValue());
                         rowId = itemBean.getSugarList().get(index).getRowId();
+                        sugarRowId = itemBean.getSugarList().get(index).getSugarRowId();
                         setOptions(index);
                     }
                 });

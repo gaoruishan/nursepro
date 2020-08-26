@@ -13,7 +13,41 @@ import java.util.List;
  */
 public class BloodSugarNotelistBean extends CommResult {
     private List<SugarInfoListBean> sugarInfoList;
+    private List<FilterListBean> filterList;
 
+    public List<FilterListBean> getFilterList() {
+        return filterList;
+    }
+
+    public void setFilterList(List<FilterListBean> filterList) {
+        this.filterList = filterList;
+    }
+
+    public static class FilterListBean {
+        /**
+         * code : FBS
+         * desc : 空腹血糖
+         */
+
+        private String code;
+        private String desc;
+
+        public String getCode() {
+            return code;
+        }
+
+        public void setCode(String code) {
+            this.code = code;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
+
+        public void setDesc(String desc) {
+            this.desc = desc;
+        }
+    }
     public List<SugarInfoListBean> getSugarInfoList() {
         return sugarInfoList;
     }

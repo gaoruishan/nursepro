@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="@dimen/dp_20"
+    android:layout_height="@dimen/dp_25"
     android:layout_marginLeft="@dimen/dp_3"
     android:layout_marginRight="@dimen/dp_3"
     android:orientation="horizontal"
@@ -10,8 +10,8 @@
     tools:ignore="MissingDefaultResource">
     <View
         android:id="@+id/view_ck"
-        android:layout_width="@dimen/dp_13"
-        android:layout_height="@dimen/dp_13"
+        android:layout_width="@dimen/dp_18"
+        android:layout_height="@dimen/dp_18"
         android:background="@drawable/checkbox_selector"
         ></View>
     <View
@@ -24,8 +24,9 @@
     <TextView
         android:id="@+id/tv_label"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         tools:text="早餐前"
+        android:textSize="@dimen/sp_15"
         android:textColor="@color/black"
         android:layout_marginLeft="@dimen/dp_3"
         ></TextView>

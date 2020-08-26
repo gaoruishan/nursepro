@@ -24,6 +24,7 @@ import java.util.Map;
 public class ChartLabelView extends FlowLayout {
     private LinearLayout llView;
     private Context mContext;
+    private ArrayList<View> listView = new ArrayList<>();
     private ArrayList<String> listCode = new ArrayList<>();
     public ChartLabelView(Context context) {
         super(context,null);
@@ -33,7 +34,16 @@ public class ChartLabelView extends FlowLayout {
         mContext = context;
 
     }
-    public void setData(ArrayList<String> listCode,HashMap<String, Integer> map){
+
+    public void setListCode(ArrayList<String> listCode) {
+        this.listCode = new ArrayList<>();
+        for (int i = 0; i < listCode.size(); i++) {
+            String code = listCode.get(i);
+            this.listCode.add(code);
+        }
+    }
+
+    public void setData(ArrayList<String> listCode, HashMap<String, Integer> map){
         for (int i = 0; i < listCode.size(); i++) {
             View view = LayoutInflater.from(mContext).inflate(R.layout.chart_label_view, this, false);
             View view1 = view.findViewById(R.id.view_color);
@@ -54,11 +64,26 @@ public class ChartLabelView extends FlowLayout {
 
                 }
             });
+            listView.add(view2);
             addView(view);
         }
     }
 
 
+    public void selectAll(){
+        if (listView.size()>0){
+            for(View view: listView){
+                view.setSelected(true);
+            }
+        }
+    }
+    public void cancleAll(){
+        if (listView.size()>0){
+            for(View view: listView){
+                view.setSelected(false);
+            }
+        }
+    }
     public void changeData(String code,Boolean sel){
         if (sel){
             listCode.add(code);

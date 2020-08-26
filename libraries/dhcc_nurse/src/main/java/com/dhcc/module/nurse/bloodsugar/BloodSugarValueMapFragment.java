@@ -2,6 +2,8 @@ package com.dhcc.module.nurse.bloodsugar;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.constant.SharedPreference;
@@ -43,9 +45,15 @@ public class BloodSugarValueMapFragment   extends BaseNurseFragment {
 
     private CustomDateTimeView customDate;
     private ChartLabelView chartLabelView;
+    private LinearLayout llAll,llCancle;
+    private View viewAll,viewCancle;
     private BloodSugarNotelistAdapter bloodSugarNotelistAdapter;
     private LineChart bloodSugarChartsdetail;
+    private BloodSugarNotelistBean bloodSugarNotelistBean;
 
+    private ArrayList<String> listCode = new ArrayList();
+    private HashMap<String, Integer> mapColor = new HashMap<String, Integer>();
+    private HashMap<String,ArrayList<Entry>> mapValue = new HashMap<>();
     private Typeface tfRegular;
     private Typeface tfLight;
 
@@ -54,6 +62,12 @@ public class BloodSugarValueMapFragment   extends BaseNurseFragment {
         super.initViews();
         customDate = f(R.id.custom_date, CustomDateTimeView.class);
         chartLabelView = f(R.id.chart_label, ChartLabelView.class);
+        llAll = f(R.id.ll_select_all, LinearLayout.class);
+        llAll.setOnClickListener(this::onClick);
+        llCancle = f(R.id.ll_select_cancle, LinearLayout.class);
+        llCancle.setOnClickListener(this::onClick);
+        viewAll = f(R.id.view_ck_all, View.class);
+        viewCancle = f(R.id.view_ck_cancle, View.class);
         bloodSugarNotelistAdapter = AdapterFactory.getBloodSugarNotelistAdapter();
         String curDate = SPStaticUtils.getString(SharedPreference.CURDATETIME);
         customDate.setShowTime(false);
@@ -161,34 +175,39 @@ public class BloodSugarValueMapFragment   extends BaseNurseFragment {
     }
 
     private void setData(List<BloodSugarNotelistBean.SugarInfoListBean> beans) {
-        ArrayList<String> listCode = new ArrayList();
-        HashMap<String, Integer> mapColor = new HashMap<String, Integer>();
-        listCode.add("午餐前");
-        mapColor.put("午餐前",Color.RED);
-        listCode.add("午餐后");
-        mapColor.put("午餐后",Color.YELLOW);
-        listCode.add("夜间");
-        mapColor.put("夜间",Color.GRAY);
-        listCode.add("早餐后");
-        mapColor.put("早餐后",Color.GREEN);
-        listCode.add("晚餐前");
-        mapColor.put("晚餐前",Color.BLACK);
-        listCode.add("晚餐后");
-        mapColor.put("晚餐后",Color.BLUE);
-        listCode.add("睡前");
-        mapColor.put("睡前",Color.LTGRAY);
-        listCode.add("空腹血糖");
-        mapColor.put("空腹血糖",Color.CYAN);
-        listCode.add("随机");
-        mapColor.put("随机",Color.DKGRAY);
+        bloodSugarChartsdetail.clear();
+        listCode = new ArrayList();
+        mapColor = new HashMap<String, Integer>();
+        ArrayList<Integer> listColor = new ArrayList<>();
+        listColor.add(Color.RED);
+        listColor.add(Color.YELLOW);
+        listColor.add(Color.GRAY);
+        listColor.add(Color.GREEN);
+        listColor.add(Color.BLACK);
+        listColor.add(Color.BLUE);
+        listColor.add(Color.LTGRAY);
+        listColor.add(Color.CYAN);
+        listColor.add(Color.DKGRAY);
+        for (int i = 0; i < bloodSugarNotelistBean.getFilterList().size(); i++) {
+            listCode.add(bloodSugarNotelistBean.getFilterList().get(i).getDesc());
+            if (i<listColor.size()){
+                mapColor.put(bloodSugarNotelistBean.getFilterList().get(i).getDesc(),listColor.get(i));
+            }else {
+                mapColor.put(bloodSugarNotelistBean.getFilterList().get(i).getDesc(),listColor.get(0));
+            }
+        }
 
-        HashMap<String,ArrayList<Entry>> mapValue = new HashMap<>();
+        mapValue = new HashMap<>();
         HashMap<String,LineDataSet> mapSet = new HashMap<>();
         for (int i = 0; i < listCode.size(); i++) {
             ArrayList<Entry> values = new ArrayList<>();
             mapValue.put(listCode.get(i),values);
             LineDataSet set = null;
             mapSet.put(listCode.get(i),set);
+        }
+        if (listCode.size()>0){
+            llCancle.setVisibility(View.VISIBLE);
+            llAll.setVisibility(View.VISIBLE);
         }
 
         HashMap map = new HashMap();
@@ -203,7 +222,7 @@ public class BloodSugarValueMapFragment   extends BaseNurseFragment {
                             try {
                                 list.add(Float.parseFloat((String)beans.get(j).getSugarData().get(k).getSugar()));
                             }catch (Exception e){
-                                list.add(0.1f);
+                                list.add(-1f);
                             }
 
                         }
@@ -223,18 +242,6 @@ public class BloodSugarValueMapFragment   extends BaseNurseFragment {
                 }
             }
         }
-        if (bloodSugarChartsdetail.getData() != null &&
-                bloodSugarChartsdetail.getData().getDataSetCount() > 0) {
-            for (int i = 0; i < listCode.size(); i++) {
-                LineDataSet set = (LineDataSet) bloodSugarChartsdetail.getData().getDataSetByIndex(i);
-                set.setValues(mapValue.get(listCode.get(i)));
-                set.setDrawValues(false);
-                mapSet.put(listCode.get(i),set);
-            }
-            bloodSugarChartsdetail.getData().notifyDataChanged();
-            bloodSugarChartsdetail.notifyDataSetChanged();
-        } else {
-
             LineData data = new LineData();
             chartLabelView.removeAllViews();
             chartLabelView.setData(listCode,mapColor);
@@ -283,7 +290,8 @@ public class BloodSugarValueMapFragment   extends BaseNurseFragment {
                     bloodSugarChartsdetail.notifyDataSetChanged();
                 }
             });
-        }
+
+            llAll.performClick();
     }
 
 
@@ -299,6 +307,7 @@ public class BloodSugarValueMapFragment   extends BaseNurseFragment {
             @Override
             public void onSuccess(BloodSugarNotelistBean bean, String type) {
                 hideLoadingTip();
+                bloodSugarNotelistBean = bean;
                 ArrayList<BloodSugarNotelistBean.SugarInfoListBean.SugarDataBean> list = new ArrayList<>();
                 for (int i = 0; i < bean.getSugarInfoList().size(); i++) {
                     for (int j = 0; j < bean.getSugarInfoList().get(i).getSugarData().size(); j++) {
@@ -321,6 +330,45 @@ public class BloodSugarValueMapFragment   extends BaseNurseFragment {
         });
     }
 
+
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+        if (v.getId()==R.id.ll_select_all){
+            bloodSugarChartsdetail.clear();
+            viewCancle.setSelected(false);
+            viewAll.setSelected(true);
+            chartLabelView.selectAll();
+            chartLabelView.setListCode(listCode);
+            LineData data1 = new LineData();
+            for (int i = 0; i < listCode.size();  i++) {
+                LineDataSet set = new LineDataSet(mapValue.get(listCode.get(i)),listCode.get(i));
+                set.setAxisDependency(YAxis.AxisDependency.LEFT);
+                set.setColor(mapColor.get(listCode.get(i)));
+                set.setCircleColor(mapColor.get(listCode.get(i)));
+                set.setLineWidth(2f);
+                set.setCircleRadius(3f);
+                set.setFillAlpha(65);
+                set.setFillColor(mapColor.get(listCode.get(i)));
+                set.setHighLightColor(Color.rgb(244, 117, 117));
+                set.setDrawCircleHole(false);
+                set.setDrawValues(false);
+                data1.addDataSet(set);
+            }
+            data1.setValueTextColor(Color.BLACK);
+            data1.setValueTextSize(100f);
+            // set data
+            bloodSugarChartsdetail.setData(data1);
+            bloodSugarChartsdetail.notifyDataSetChanged();
+        }
+        if (v.getId()==R.id.ll_select_cancle){
+            viewCancle.setSelected(true);
+            viewAll.setSelected(false);
+            chartLabelView.setListCode(new ArrayList<>());
+            bloodSugarChartsdetail.clear();
+            chartLabelView.cancleAll();
+        }
+    }
 
     @Override
     protected void getScanOrdList() {

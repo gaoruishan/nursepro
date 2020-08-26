@@ -92,18 +92,46 @@ public abstract class BaseNurseFragment extends BaseCommFragment {
      */
     private TimeFilterAdapter timeFilterAdapter;
     protected View contentView;
-    private Boolean bStatus = false;
+    private RecyclerView recStatus;
+    private Boolean bStatus = false,bTime = false;
     StatusFilterAdapter statusFilterAdapter;
+    private Boolean bCheckbox = false;
+
+    public void setbCheckbox(Boolean bCheckbox) {
+        this.bCheckbox = bCheckbox;
+        if (bCheckbox){
+            if (statusFilterAdapter!=null){
+                statusFilterAdapter.setbCheckbox(true);
+                statusFilterAdapter.setSelectItem(-1);
+                statusFilterAdapter.notifyDataSetChanged();
+            }
+        }
+    }
 
     public void setbStatus(Boolean bStatus) {
         this.bStatus = bStatus;
+        if (contentView!=null){
+            contentView.findViewById(R.id.ll_statusfilter).setVisibility(bStatus?View.VISIBLE:View.GONE);
+        }
+    }
+
+    public void setbTime(Boolean bTime) {
+        this.bTime = bTime;
+        if (contentView!=null){
+            contentView.findViewById(R.id.ll_time_filter).setVisibility(bTime?View.VISIBLE:View.GONE);
+        }
     }
 
     public void setTimeListData(List<TimesListBean> listData){
         timeFilterAdapter.setNewData(listData);
     }
     public void setStatusListData(List<StatusListBean> listData){
-        if (listData.size()>0){
+        if (bCheckbox){
+            if (statusFilterAdapter!=null && listData.size()>0){
+                statusFilterAdapter.setSelectItem(-1);
+                statusFilterAdapter.notifyDataSetChanged();
+            }
+        }else if (listData.size()>0){
             statusFilterAdapter.setSelectItem(0);
         }
         statusFilterAdapter.setNewData(listData);
@@ -117,6 +145,11 @@ public abstract class BaseNurseFragment extends BaseCommFragment {
                 timeFilterAdapter.setSelectItem(-1);
                 timeFilterAdapter.notifyDataSetChanged();
                 statusFilterAdapter.setSelectItem(0);
+                if (bCheckbox){
+                    for (int i = 0; i < statusFilterAdapter.getData().size(); i++) {
+                        statusFilterAdapter.getData().get(i).setSelect(false);
+                    }
+                }
                 statusFilterAdapter.notifyDataSetChanged();
             }
         });
@@ -136,6 +169,15 @@ public abstract class BaseNurseFragment extends BaseCommFragment {
                 if (statusFilterAdapter.getSelectItem()!=-1){
                     onPopClicListner.statusSure(statusFilterAdapter.getData().get(statusFilterAdapter.getSelectItem()).getValue());
                 }
+                if (statusFilterAdapter.getbCheckbox()){
+                    String codes = "";
+                    for (int i = 0; i < statusFilterAdapter.getData().size(); i++) {
+                        if (statusFilterAdapter.getData().get(i).getSelect()){
+                            codes = codes+";"+statusFilterAdapter.getData().get(i).getText();
+                        }
+                    }
+                    onPopClicListner.statusSure(codes);
+                }
 
             }
         });
@@ -152,19 +194,29 @@ public abstract class BaseNurseFragment extends BaseCommFragment {
             }
         });
 
-        RecyclerView recStatus = contentView.findViewById(R.id.rec_task_statusfilter);
+        recStatus = contentView.findViewById(R.id.rec_task_statusfilter);
         statusFilterAdapter = AdapterFactory.getStatusFilterAdapter();
         recStatus.setAdapter(statusFilterAdapter);
         recStatus.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         statusFilterAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                statusFilterAdapter.setSelectItem(position);
-                statusFilterAdapter.notifyDataSetChanged();
+                if (bCheckbox){
+                    if (statusFilterAdapter.getItem(position).getSelect()){
+                        statusFilterAdapter.getItem(position).setSelect(false);
+                    }else {
+                        statusFilterAdapter.getItem(position).setSelect(true);
+                    }
+                    statusFilterAdapter.notifyDataSetChanged();
+                }else {
+                    statusFilterAdapter.setSelectItem(position);
+                    statusFilterAdapter.notifyDataSetChanged();
+                }
             }
         });
 
         contentView.findViewById(R.id.ll_statusfilter).setVisibility(bStatus?View.VISIBLE:View.GONE);
+        contentView.findViewById(R.id.ll_time_filter).setVisibility(bTime?View.VISIBLE:View.GONE);
 
     }
     public void setMaskShow(){

@@ -1,5 +1,8 @@
 package com.dhcc.module.nurse.bloodsugar;
 
+import android.graphics.Color;
+import android.view.View;
+
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommonCallBack;
@@ -13,11 +16,14 @@ import com.dhcc.module.nurse.bloodsugar.adapter.BloodSugarNotelistAdapter;
 import com.dhcc.module.nurse.bloodsugar.bean.BloodSugarNotelistBean;
 import com.dhcc.module.nurse.task.TaskViewApiManager;
 import com.dhcc.module.nurse.task.bean.ScanResultBean;
+import com.dhcc.module.nurse.task.bean.StatusListBean;
 import com.dhcc.res.infusion.CustomDateTimeView;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * com.dhcc.module.nurse.bloodsugar
@@ -30,7 +36,8 @@ public class BloodSugarNoteListFragment  extends BaseNurseFragment {
 
     private CustomDateTimeView customDate;
     private BloodSugarNotelistAdapter bloodSugarNotelistAdapter;
-
+    private ArrayList<BloodSugarNotelistBean.SugarInfoListBean.SugarDataBean> listBeans =new ArrayList<>();
+    private BloodSugarNotelistBean bloodSugarNotelistBean;
     @Override
     protected void initViews() {
         super.initViews();
@@ -63,7 +70,40 @@ public class BloodSugarNoteListFragment  extends BaseNurseFragment {
             setToolbarCenterTitle(bundle.getString("patInfo"));
             episodeId = bundle.getString("episodeId");
         }
+        addToolBarRightImageView(0, R.drawable.dhcc_filter_big_write);
+        setbStatus(true);
+        setbTime(false);
+        addToolBarRightPopWindow();
+        setbCheckbox(true);
+        setOnPopClicListner(new OnPopClicListner() {
+            @Override
+            public void sure(String sttDt, String endDt) {
+
+            }
+
+            @Override
+            public void statusSure(String code) {
+                String[] str = code.split(";");
+                listFilter(str);
+            }
+        });
+
         getBloodSugarPats();
+    }
+
+    private void listFilter(String[] str){
+        ArrayList<BloodSugarNotelistBean.SugarInfoListBean.SugarDataBean> list = new ArrayList<>();
+        for (int i = 0; i < listBeans.size(); i++) {
+            for (int j = 0; j < str.length; j++) {
+                if (str[j].equals(listBeans.get(i).getCode())){
+                    list.add(listBeans.get(i));
+                }
+            }
+        }
+        bloodSugarNotelistAdapter.setNewData(list);
+        if (str.length==1){
+            bloodSugarNotelistAdapter.setNewData(listBeans);
+        }
     }
 
 
@@ -79,18 +119,38 @@ public class BloodSugarNoteListFragment  extends BaseNurseFragment {
             @Override
             public void onSuccess(BloodSugarNotelistBean bean, String type) {
                 hideLoadingTip();
-                ArrayList<BloodSugarNotelistBean.SugarInfoListBean.SugarDataBean> list = new ArrayList<>();
+                bloodSugarNotelistBean = bean;
+                listBeans = new ArrayList<>();
                 for (int i = 0; i < bean.getSugarInfoList().size(); i++) {
                     for (int j = 0; j < bean.getSugarInfoList().get(i).getSugarData().size(); j++) {
                         bean.getSugarInfoList().get(i).getSugarData().get(j).setDate(bean.getSugarInfoList().get(i).getDate());
-                        list.add(bean.getSugarInfoList().get(i).getSugarData().get(j));
+                        listBeans.add(bean.getSugarInfoList().get(i).getSugarData().get(j));
                     }
                 }
-                bloodSugarNotelistAdapter.setNewData(list);
+                bloodSugarNotelistAdapter.setNewData(listBeans);
+
+                List<StatusListBean> listBeans = new ArrayList<>();
+
+                for (int i = 0; i < bloodSugarNotelistBean.getFilterList().size(); i++) {
+                    StatusListBean statusListBean = new StatusListBean();
+                    statusListBean.setText(bloodSugarNotelistBean.getFilterList().get(i).getDesc());
+                    statusListBean.setValue("code"+i);
+                    listBeans.add(statusListBean);
+                }
+
+                setStatusListData(listBeans);
             }
         });
     }
 
+
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+        if (v.getId() == R.id.img_toolbar_right2) {
+            setMaskShow();
+        }
+    }
 
     @Override
     protected void getScanOrdList() {

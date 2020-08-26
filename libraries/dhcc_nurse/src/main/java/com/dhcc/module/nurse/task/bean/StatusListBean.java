@@ -15,6 +15,15 @@ public class StatusListBean {
 
     private String text;
     private String value;
+    private Boolean select = false;
+
+    public Boolean getSelect() {
+        return select;
+    }
+
+    public void setSelect(Boolean select) {
+        this.select = select;
+    }
 
     public String getText() {
         return text;
