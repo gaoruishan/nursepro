@@ -121,10 +121,11 @@ public class NurPlanAddFragment extends BaseNurseFragment {
             @Override
             public void onSuccess(CommResult bean, String type) {
                 onSuccessThings(bean);
-                getQuestionList();
+                finishDelayed();
             }
         });
     }
+
 
     @Override
     protected int setLayout() {

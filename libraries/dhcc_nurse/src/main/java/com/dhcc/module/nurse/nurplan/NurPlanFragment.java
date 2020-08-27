@@ -188,6 +188,15 @@ public class NurPlanFragment extends BaseNurseFragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        //方便刷新
+        if (episodeId != null) {
+            getQuestionRecord();
+        }
+    }
+
+    @Override
     protected void initViews() {
         super.initViews();
         addToolBarRightImageView(R.drawable.dhcc_filter_big_write, R.drawable.dhcc_icon_add);
@@ -291,7 +300,10 @@ public class NurPlanFragment extends BaseNurseFragment {
             @Override
             public void onClick(View v) {
                 StatusReasonListBean bean = notifyFilterAdapter(TYPE_INT_2, null);
-                status = bean.getValue();
+                status = "";
+                if (bean != null) {
+                    status = bean.getValue();
+                }
                 getQuestionRecord();
             }
         });

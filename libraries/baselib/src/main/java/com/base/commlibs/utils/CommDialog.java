@@ -30,6 +30,7 @@ import com.blankj.utilcode.util.ActivityUtils;
 public class CommDialog {
 
     protected static final String TAG = CommDialog.class.getSimpleName();
+    public static final int DELAY_MILLIS = 2500;
     private static Dialog commDialog;
 
     /**
@@ -283,7 +284,7 @@ public class CommDialog {
                 public void run() {
                     cancel(dialog);
                 }
-            }, 2500);
+            }, DELAY_MILLIS);
 
         }
     }

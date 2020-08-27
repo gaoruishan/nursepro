@@ -1,6 +1,7 @@
 package com.dhcc.module.nurse;
 
 import android.content.Context;
+import android.os.Handler;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.v7.widget.GridLayoutManager;
@@ -19,6 +20,7 @@ import com.base.commlibs.comm.BaseCommFragment;
 import com.base.commlibs.http.CommHttp;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.BasePopWindow;
+import com.base.commlibs.utils.CommDialog;
 import com.base.commlibs.utils.SimpleCallBack;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
@@ -381,4 +383,12 @@ public abstract class BaseNurseFragment extends BaseCommFragment {
         });
     }
 
+    public void finishDelayed() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                finish();
+            }
+        }, CommDialog.DELAY_MILLIS);
+    }
 }

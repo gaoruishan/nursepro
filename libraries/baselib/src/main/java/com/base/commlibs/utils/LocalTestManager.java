@@ -63,7 +63,7 @@ public class LocalTestManager {
         //        l.add("getTransBloodList");
 //        l.add("getEducationList");
 //        l.add("getEduContents");
-        l.add("getInterventionList");
+//        l.add("getInterventionList");
     }
 
     /**

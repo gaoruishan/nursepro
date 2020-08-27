@@ -59,6 +59,13 @@ public class NurPlanGoalInterveFragment extends BaseNurseFragment {
     protected void initDatas() {
         super.initDatas();
         setToolbarCenterTitle("护理计划");
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //方便刷新
         initGoalInterveData();
     }
 

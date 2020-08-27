@@ -2,6 +2,7 @@ package com.dhcc.module.nurse.nurplan.bean;
 
 import com.base.commlibs.bean.CommBean;
 import com.base.commlibs.http.CommResult;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,7 @@ public class NurPlanGoalBean extends CommResult {
             }
         }
         if (mStList.size() > 0) {
-            return mStList.toString();
+            return new Gson().toJson(mStList);
         }
         return null;
     }

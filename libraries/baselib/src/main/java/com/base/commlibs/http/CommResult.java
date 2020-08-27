@@ -15,6 +15,17 @@ public class CommResult {
     private String msg;
     private String msgcode;
     private String status;
+    //是否结束 1 关闭
+    private String isClose;
+
+    public boolean getIsClose() {
+        String s = isClose == null ? "" : isClose;
+        return "1".equals(s);
+    }
+
+    public void setIsClose(String isClose) {
+        this.isClose = isClose;
+    }
 
     public String getMsg() {
         return msg;

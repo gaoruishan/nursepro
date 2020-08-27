@@ -74,6 +74,7 @@ public class NurPlanAddIntervFragment extends BaseNurseFragment {
             @Override
             public void onSuccess(CommResult bean, String type) {
                 onSuccessThings(bean);
+                finishDelayed();
             }
         });
     }
