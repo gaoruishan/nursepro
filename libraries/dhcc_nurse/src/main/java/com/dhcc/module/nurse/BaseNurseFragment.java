@@ -95,13 +95,14 @@ public abstract class BaseNurseFragment extends BaseCommFragment {
     private TimeFilterAdapter timeFilterAdapter;
     protected View contentView;
     private RecyclerView recStatus;
-    private Boolean bStatus = false,bTime = false;
+    private Boolean bStatus = false,bTime = true;
     StatusFilterAdapter statusFilterAdapter;
     private Boolean bCheckbox = false;
 
     public void setbCheckbox(Boolean bCheckbox) {
         this.bCheckbox = bCheckbox;
         if (bCheckbox){
+            recStatus.setLayoutManager(new GridLayoutManager(getActivity(), 1));
             if (statusFilterAdapter!=null){
                 statusFilterAdapter.setbCheckbox(true);
                 statusFilterAdapter.setSelectItem(-1);
@@ -199,7 +200,7 @@ public abstract class BaseNurseFragment extends BaseCommFragment {
         recStatus = contentView.findViewById(R.id.rec_task_statusfilter);
         statusFilterAdapter = AdapterFactory.getStatusFilterAdapter();
         recStatus.setAdapter(statusFilterAdapter);
-        recStatus.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        recStatus.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         statusFilterAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {

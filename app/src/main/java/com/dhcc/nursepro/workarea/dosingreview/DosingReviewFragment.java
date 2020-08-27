@@ -132,12 +132,21 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
 
     private void asyncInitData() {
         showLoadingTip(BaseActivity.LoadingType.FULL);
+        if (pageNo.equals("1")){
+            patientAdapter.setNewData(new ArrayList<>());
+        }
         DosingReviewApiManager.getInfusionOrdList(infusionFlag, startDate, endDate, pageNo, new DosingReviewApiManager.DosingReviewCallback() {
             @Override
             public void onSuccess(DosingReViewBean dosingReViewBean) {
                 hideLoadingTip();
                 topfilterBeans = dosingReViewBean.getTopfilter();
                 orders = dosingReViewBean.getOrders();
+                if (patientAdapter.getData().size()>0&&orders.size()>0){
+                    if (patientAdapter.getData().get(patientAdapter.getData().size()-1).getBedCode().equals(orders.get(0).getBedCode())&&
+                            patientAdapter.getData().get(patientAdapter.getData().size()-1).getName().equals(orders.get(0).getName())){
+                        orders.get(0).setIfPatRepeat("1");
+                    }
+                }
 
                 if ("1".equals(pageNo)) {
                     patientAdapter.setNewData(orders);

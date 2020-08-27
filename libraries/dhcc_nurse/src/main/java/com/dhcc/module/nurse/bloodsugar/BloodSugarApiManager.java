@@ -5,12 +5,15 @@ import com.base.commlibs.http.CommWebService;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.http.ParserUtil;
 import com.base.commlibs.http.ServiceCallBack;
+import com.blankj.utilcode.util.GsonUtils;
 import com.dhcc.module.nurse.bloodsugar.bean.BloodSugarNotelistBean;
 import com.dhcc.module.nurse.bloodsugar.bean.BloodSugarPatsBean;
 import com.dhcc.module.nurse.bloodsugar.bean.BloodSugarValueAndItemBean;
 import com.dhcc.module.nurse.task.bean.TaskBean;
+import com.google.gson.Gson;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * com.dhcc.module.nurse.bloodsugar

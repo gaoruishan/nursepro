@@ -14,6 +14,7 @@ import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.RecyclerViewHelper;
 import com.blankj.utilcode.util.ConvertUtils;
+import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.SPStaticUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -31,7 +32,9 @@ import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 血糖采集
@@ -69,12 +72,12 @@ public class BloodSugarFragment extends BaseNurseFragment {
         customDate.setOnDateSetListener(new OnDateSetListener() {
             @Override
             public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
-
+                getBloodSugarPats();
             }
         }, new OnDateSetListener() {
             @Override
             public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
-
+                getBloodSugarPats();
             }
         });
 
@@ -124,6 +127,7 @@ public class BloodSugarFragment extends BaseNurseFragment {
             public void onSuccess(BloodSugarPatsBean bean, String type) {
                 hideLoadingTip();
                 bloodSugarPatsBean = bean;
+                mSheetListBeanList = new ArrayList<>();
                 for (int i = 0; i < bean.getLeftFilter().size(); i++) {
                     mSheetListBeanList.add(new SheetListBean(bean.getLeftFilter().get(i).getCode(),bean.getLeftFilter().get(i).getDesc()));
                 }
@@ -172,9 +176,12 @@ public class BloodSugarFragment extends BaseNurseFragment {
     private void topFilter(){
         ArrayList<BloodSugarPatsBean.PatInfoListBean> listBeans = new ArrayList<>();
         for (int i = 0; i < bloodSugarPatsBean.getPatInfoList().size(); i++) {
-//            if ()
-
+            Map map = GsonUtils.fromJson(GsonUtils.toJson(bloodSugarPatsBean.getPatInfoList().get(i)), HashMap.class);
+            if (map != null && map.get(topFilterCode)!=null &&"1".equals(map.get(topFilterCode))){
+                listBeans.add(bloodSugarPatsBean.getPatInfoList().get(i));
+            }
         }
+        bloodSugarPatAdapter.setNewData(listBeans);
     }
 
 

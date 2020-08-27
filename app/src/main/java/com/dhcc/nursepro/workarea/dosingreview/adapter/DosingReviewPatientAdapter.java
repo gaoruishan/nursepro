@@ -28,8 +28,14 @@ public class DosingReviewPatientAdapter extends BaseQuickAdapter<DosingReViewBea
 
     @Override
     protected void convert(BaseViewHolder helper, DosingReViewBean.OrdersBean item) {
-        helper.setText(R.id.tv_drpat_patinfo, "".equals(item.getBedCode()) ? "未分床" : item.getBedCode() + "  " + item.getName());
-
+        Boolean ifPatRepeat = item.getIfPatRepeat().equals("0");
+        helper.setText(R.id.tv_drpat_patinfo, "".equals(item.getBedCode()) ? "未分床" : item.getBedCode() + "  " + item.getName())
+                .setGone(R.id.line_ordpat,!ifPatRepeat)
+                .setGone(R.id.tv_drpat_patinfo,ifPatRepeat)
+                .setGone(R.id.view_ord_divice,ifPatRepeat);;
+        if (helper.getAdapterPosition()==0){
+            helper.setGone(R.id.view_ord_divice,false);
+        }
         RecyclerView recyPatientOrder = helper.getView(R.id.recy_drpat_patorder);
 
         //提高展示效率

@@ -148,7 +148,7 @@ public class BloodSugarNoteListFragment  extends BaseNurseFragment {
     public void onClick(View v) {
         super.onClick(v);
         if (v.getId() == R.id.img_toolbar_right2) {
-            setMaskShow();
+            setMaskShow(contentView,0.5f);
         }
     }
 

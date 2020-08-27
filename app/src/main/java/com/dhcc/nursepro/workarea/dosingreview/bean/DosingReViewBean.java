@@ -75,6 +75,15 @@ public class DosingReViewBean {
         private String bedCode;
         private String name;
         private List<List<PatOrdsBean>> patOrds;
+        private String ifPatRepeat="0";
+
+        public String getIfPatRepeat() {
+            return ifPatRepeat;
+        }
+
+        public void setIfPatRepeat(String ifPatRepeat) {
+            this.ifPatRepeat = ifPatRepeat;
+        }
 
         public String getBedCode() {
             return bedCode;

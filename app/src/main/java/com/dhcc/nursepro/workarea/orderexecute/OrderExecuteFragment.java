@@ -510,6 +510,13 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
             @Override
             public void onSuccess(OrderExecuteBean orderExecuteBean) {
                 hideLoadingTip();
+                if (orderExecuteBean.getOrders().size() > 0) {
+                    patient = orderExecuteBean.getOrders().get(0);
+                    //                    tvOrderexecutePatinfo.setText("".equals(patient.getBedCode()) ? "未分" : patient.getBedCode() + "  " + patient.getName());
+                    patOrders = patient.getPatOrds();
+                } else {
+                    patOrders = null;
+                }
                 if ("1".equals(pageNo)) {
                     sheetList = orderExecuteBean.getSheetList();
                     detailColums = orderExecuteBean.getDetailColums();
@@ -614,13 +621,6 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                         tvBottomNoselecttext.setText("请选择医嘱");
                     }
 
-                    if (orderExecuteBean.getOrders().size() > 0) {
-                        patient = orderExecuteBean.getOrders().get(0);
-                        //                    tvOrderexecutePatinfo.setText("".equals(patient.getBedCode()) ? "未分" : patient.getBedCode() + "  " + patient.getName());
-                        patOrders = patient.getPatOrds();
-                    } else {
-                        patOrders = null;
-                    }
                     if (patOrders != null) {
                         patientOrderAdapter.setSize(patOrders.size());
                         patientOrderAdapter.setDetailColums(detailColums);
@@ -655,7 +655,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                     }
 
                 }else {
-                    if (patOrders.size() == 0) {
+                    if (patOrders==null || patOrders.size() == 0) {
                         patientOrderAdapter.loadMoreEnd();
                     } else {
                         patientOrderAdapter.addData(patOrders);

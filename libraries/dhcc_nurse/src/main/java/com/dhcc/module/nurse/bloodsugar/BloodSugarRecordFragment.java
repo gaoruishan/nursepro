@@ -1,7 +1,10 @@
 package com.dhcc.module.nurse.bloodsugar;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.graphics.Color;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,6 +72,70 @@ public class BloodSugarRecordFragment extends BaseNurseFragment {
         flOp = f(R.id.fl_option, FlowLayout.class);
         tvState = f(R.id.tv_sugar_state, TextView.class);
         etValue = f(R.id.et_sugar_value, EditText.class);
+        etValue.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                etValue.setBackgroundResource(R.drawable.vital_sign_input_bg);
+                if (itemBean!=null && itemBean.getSugarList().size()>0){
+                    for (int i = 0; i < itemBean.getSugarList().size(); i++) {
+                        if (itemBean.getSugarList().get(i).getDesc().equals(tvState.getText().toString())){
+                            if (isNumber(s.toString()) && itemBean.getSugarList().get(i).getNormalValueRangFrom() != null) {
+                                if (itemBean.getSugarList().get(i).getErrorValueLowTo() != null) {
+                                    if (isNumber(etValue.getText().toString() + "")) {
+                                        double edDou = Double.parseDouble(etValue.getText().toString());
+                                        if (edDou >= Double.parseDouble(itemBean.getSugarList().get(i).getErrorValueHightFrom()) || edDou <= Double.parseDouble(itemBean.getSugarList().get(i).getErrorValueLowTo())) {
+                                            etValue.setBackground(getResources().getDrawable(R.drawable.vital_sign_inputerror_bg));
+                                        } else if ((Double.parseDouble(itemBean.getSugarList().get(i).getErrorValueLowTo()) < edDou && edDou < Double.parseDouble(itemBean.getSugarList().get(i).getNormalValueRangFrom()))
+                                                || (edDou < Double.parseDouble(itemBean.getSugarList().get(i).getErrorValueHightFrom()) && edDou > Double.parseDouble(itemBean.getSugarList().get(i).getNormalValueRangTo()))) {
+                                            etValue.setBackgroundResource(R.drawable.vital_sign_inputwarning_bg);
+                                        } else {
+                                            etValue.setBackgroundResource(R.drawable.vital_sign_input_bg);
+                                        }
+                                    } else {
+                                        etValue.setBackgroundResource(R.drawable.vital_sign_input_bg);
+                                        if (itemBean.getSugarList().get(i).getSymbol() != null) {
+                                            if (itemBean.getSugarList().get(i).getSymbol().size() > 0) {
+                                                etValue.setBackgroundResource(R.drawable.vital_sign_input_bggreen);
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    if (isNumber(etValue.getText().toString() + "")) {
+                                        double edDou = Double.parseDouble(etValue.getText().toString());
+                                        if (edDou < Double.parseDouble(itemBean.getSugarList().get(i).getNormalValueRangFrom())
+                                                || edDou > Double.parseDouble(itemBean.getSugarList().get(i).getNormalValueRangTo())) {
+                                            etValue.setBackgroundResource(R.drawable.vital_sign_inputwarning_bg);
+                                        } else {
+                                            etValue.setBackgroundResource(R.drawable.vital_sign_input_bg);
+                                        }
+                                    } else {
+                                        etValue.setBackgroundResource(R.drawable.vital_sign_input_bg);
+                                        if (itemBean.getSugarList().get(i).getSymbol() != null) {
+                                            if (itemBean.getSugarList().get(i).getSymbol().size() > 0) {
+                                                etValue.setBackgroundResource(R.drawable.vital_sign_input_bggreen);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+        });
+
+        etValue.setRawInputType(Configuration.KEYBOARD_QWERTY);
         etNote = f(R.id.et_note, EditText.class);
         tvState.setOnClickListener(this);
         customDate = f(R.id.custom_date, CustomDateTimeView.class);
@@ -84,7 +151,7 @@ public class BloodSugarRecordFragment extends BaseNurseFragment {
         }, new OnDateSetListener() {
             @Override
             public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
-
+                getBloodSugarRecord();
             }
         });
 
@@ -229,6 +296,20 @@ public class BloodSugarRecordFragment extends BaseNurseFragment {
         }
 
     }
+    public boolean isNumber(Object obj) {
+        if (obj instanceof Number) {
+            return true;
+        } else if (obj instanceof String) {
+            try {
+                Double.parseDouble((String) obj);
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+        }
+        return false;
+    }
+
     @Override
     protected int setLayout() {
         return R.layout.fragment_blood_sugar_record;
