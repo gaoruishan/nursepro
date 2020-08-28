@@ -553,7 +553,7 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
         patientOrderAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                OrderExecuteBean.OrdersBean.PatOrdsBean patOrdsBean = patOrders.get(position).get(0);
+                OrderExecuteBean.OrdersBean.PatOrdsBean patOrdsBean = patientOrderAdapter.getItem(position).get(0);
                 if (view.getId() == R.id.ll_oepat_orderselect) {
 //                    if ("PSD".equals(sheetCode)) {
 //                        llorderexecuteselectnum.setVisibility(View.GONE);
@@ -974,34 +974,34 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
         if (btnSkinExe != null){
             btnSkinExe.setVisibility(View.VISIBLE);
         }
-        for (int i = 0; i < patOrders.size(); i++) {
+        for (int i = 0; i < patientOrderAdapter.getData().size(); i++) {
 
             String orderDescs = "";
-            for (int j = 0; j < patOrders.get(i).size(); j++) {
-                if (j == patOrders.get(i).size() - 1) {
-                    orderDescs = orderDescs + patOrders.get(i).get(j).getOrderInfo().getArcimDesc();
+            for (int j = 0; j < patientOrderAdapter.getData().get(i).size(); j++) {
+                if (j == patientOrderAdapter.getData().get(i).size() - 1) {
+                    orderDescs = orderDescs + patientOrderAdapter.getData().get(i).get(j).getOrderInfo().getArcimDesc();
                 } else {
-                    orderDescs = orderDescs + patOrders.get(i).get(j).getOrderInfo().getArcimDesc() + "\n";
+                    orderDescs = orderDescs + patientOrderAdapter.getData().get(i).get(j).getOrderInfo().getArcimDesc() + "\n";
                 }
             }
-            if (patOrders.get(i) != null && patOrders.get(i).get(0) != null && patOrders.get(i).get(0).getSelect() != null && "1".equals(patOrders.get(i).get(0).getSelect())) {
+            if (patientOrderAdapter.getData().get(i) != null && patientOrderAdapter.getData().get(i).get(0) != null && patientOrderAdapter.getData().get(i).get(0).getSelect() != null && "1".equals(patientOrderAdapter.getData().get(i).get(0).getSelect())) {
 
                 if (btnSkinExe != null){
-                    if (patOrders.get(i).get(0).getOrderInfo().getDisposeStatCode().startsWith("皮试") && "皮".equals(patOrders.get(i).get(0).getOrderInfo().getSkinResult())){
+                    if (patientOrderAdapter.getData().get(i).get(0).getOrderInfo().getDisposeStatCode().startsWith("皮试") && "皮".equals(patientOrderAdapter.getData().get(i).get(0).getOrderInfo().getSkinResult())){
                         btnSkinExe.setVisibility(View.GONE);
                     }
                 }
 
                 if (selectCount == 0) {
-                    sbOeoreId.append(patOrders.get(i).get(0).getOrderInfo().getID());
+                    sbOeoreId.append(patientOrderAdapter.getData().get(i).get(0).getOrderInfo().getID());
                     //                    sbOrderSaveInfo.append(patOrders.get(i).get(0).getOrderInfo().getArcimDesc());
                     sbOrderSaveInfo.append(orderDescs);
-                    sbTimeSaveInfo.append(patOrders.get(i).get(0).getOrderInfo().getSttDateTime());
+                    sbTimeSaveInfo.append(patientOrderAdapter.getData().get(i).get(0).getOrderInfo().getSttDateTime());
                 } else {
-                    sbOeoreId.append("^" + patOrders.get(i).get(0).getOrderInfo().getID());
+                    sbOeoreId.append("^" + patientOrderAdapter.getData().get(i).get(0).getOrderInfo().getID());
                     //                    sbOrderSaveInfo.append("^" + patOrders.get(i).get(0).getOrderInfo().getArcimDesc());
                     sbOrderSaveInfo.append("^" + orderDescs);
-                    sbTimeSaveInfo.append("^" + patOrders.get(i).get(0).getOrderInfo().getSttDateTime());
+                    sbTimeSaveInfo.append("^" + patientOrderAdapter.getData().get(i).get(0).getOrderInfo().getSttDateTime());
                 }
                 selectCount++;
             }

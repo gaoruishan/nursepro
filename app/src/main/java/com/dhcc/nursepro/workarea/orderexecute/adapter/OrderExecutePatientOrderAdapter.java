@@ -62,6 +62,7 @@ public class OrderExecutePatientOrderAdapter extends BaseQuickAdapter<List<Order
             topview.setVisibility(View.GONE);
         }
         LinearLayout lloepatOrderSelect = helper.getView(R.id.ll_oepat_orderselect);
+        lloepatOrderSelect.setSelected(false);
         if (item.size() > 0) {
             OrderExecuteBean.OrdersBean.PatOrdsBean patOrdsBean = item.get(0);
             if (patOrdsBean.getSelect() == null || "0".equals(patOrdsBean.getSelect()) || "".equals(patOrdsBean.getSelect())) {
