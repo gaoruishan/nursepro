@@ -999,7 +999,6 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
                     sbTimeSaveInfo.append(patientOrderAdapter.getData().get(i).get(0).getOrderInfo().getSttDateTime());
                 } else {
                     sbOeoreId.append("^" + patientOrderAdapter.getData().get(i).get(0).getOrderInfo().getID());
-                    //                    sbOrderSaveInfo.append("^" + patOrders.get(i).get(0).getOrderInfo().getArcimDesc());
                     sbOrderSaveInfo.append("^" + orderDescs);
                     sbTimeSaveInfo.append("^" + patientOrderAdapter.getData().get(i).get(0).getOrderInfo().getSttDateTime());
                 }
