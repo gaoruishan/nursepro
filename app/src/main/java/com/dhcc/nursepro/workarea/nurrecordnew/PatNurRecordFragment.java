@@ -17,7 +17,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.nurrecordnew.adapter.NurRecordMenuListAdapter;
 import com.dhcc.nursepro.workarea.nurrecordnew.adapter.NurRecordPatListAdapter;
-import com.dhcc.nursepro.workarea.nurrecordnew.api.NurRecordOldApiManager;
+import com.dhcc.nursepro.workarea.nurrecordnew.api.NurRecordNewApiManager;
 import com.dhcc.nursepro.workarea.nurrecordnew.bean.InWardPatListBean;
 import com.dhcc.nursepro.workarea.nurrecordnew.bean.RecModelListBean;
 
@@ -94,7 +94,7 @@ public class PatNurRecordFragment extends BaseFragment {
 
     private void initData() {
         showLoadingTip(BaseActivity.LoadingType.FULL);
-        NurRecordOldApiManager.getInWardPatList(new NurRecordOldApiManager.InWardPatListCallback() {
+        NurRecordNewApiManager.getInWardPatList(new NurRecordNewApiManager.InWardPatListCallback() {
             @Override
             public void onSuccess(InWardPatListBean inWardPatListBean) {
                 hideLoadingTip();
@@ -116,7 +116,7 @@ public class PatNurRecordFragment extends BaseFragment {
 
     private void getModelList(InWardPatListBean.PatInfoListBean patInfoListBean) {
         showLoadingTip(BaseActivity.LoadingType.FULL);
-        NurRecordOldApiManager.getModelList(patInfoListBean.getEpisodeId(), new NurRecordOldApiManager.RecModelListCallback() {
+        NurRecordNewApiManager.getModelList(patInfoListBean.getEpisodeId(), new NurRecordNewApiManager.RecModelListCallback() {
             @Override
             public void onSuccess(RecModelListBean recModelListBean) {
                 hideLoadFailTip();

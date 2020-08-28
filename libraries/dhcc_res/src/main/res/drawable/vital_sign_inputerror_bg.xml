@@ -3,7 +3,7 @@
     <solid android:color="#FFFFFF" />
     <stroke
         android:width="0.5dp"
-        android:color="@color/lab_warning_red" />
+        android:color="#FFEA4300" />
 
     <padding
         android:bottom="1dp"
