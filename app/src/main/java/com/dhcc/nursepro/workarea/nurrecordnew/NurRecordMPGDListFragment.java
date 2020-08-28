@@ -22,7 +22,7 @@ import com.blankj.utilcode.util.TimeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.nurrecordnew.adapter.MPGDListDetailAdapter;
-import com.dhcc.nursepro.workarea.nurrecordnew.api.NurRecordOldApiManager;
+import com.dhcc.nursepro.workarea.nurrecordnew.api.NurRecordNewApiManager;
 import com.dhcc.nursepro.workarea.nurrecordnew.bean.RecModelListBean;
 import com.dhcc.nursepro.workarea.nurrecordnew.bean.CareRecCommListBean;
 
@@ -151,7 +151,7 @@ public class NurRecordMPGDListFragment extends BaseFragment {
 
             //            NurRecordOldApiManager.getN(parr, modelListBean.getGetListMth(), new NurRecordOldApiManager.CareRecCommCallback() {
             showLoadingTip(BaseActivity.LoadingType.FULL);
-            NurRecordOldApiManager.getNewEmrList(parr, new NurRecordOldApiManager.CareRecCommCallback() {
+            NurRecordNewApiManager.getNewEmrList(parr, new NurRecordNewApiManager.CareRecCommCallback() {
                 @Override
                 public void onSuccess(CareRecCommListBean careRecCommListBean) {
                     hideLoadFailTip();

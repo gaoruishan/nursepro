@@ -2,12 +2,11 @@ package com.dhcc.nursepro.workarea.nurrecordnew.api;
 
 import com.blankj.utilcode.util.ObjectUtils;
 import com.dhcc.nursepro.workarea.nurrecordnew.bean.CareRecCommListBean;
+import com.dhcc.nursepro.workarea.nurrecordnew.bean.DataSourceBean;
 import com.dhcc.nursepro.workarea.nurrecordnew.bean.ElementDataBean;
 import com.dhcc.nursepro.workarea.nurrecordnew.bean.InWardPatListBean;
-import com.dhcc.nursepro.workarea.nurrecordnew.bean.ItemConfigbyEmrCodeBean;
 import com.dhcc.nursepro.workarea.nurrecordnew.bean.RecDataBean;
 import com.dhcc.nursepro.workarea.nurrecordnew.bean.RecModelListBean;
-import com.dhcc.nursepro.workarea.nurrecordnew.bean.SyncEmrData;
 import com.google.gson.Gson;
 
 import java.util.Map;
@@ -18,10 +17,10 @@ import java.util.Map;
  * @author Devlix126
  * created at 2019/7/5 10:35
  */
-public class NurRecordOldApiManager {
+public class NurRecordNewApiManager {
 
     public static void getInWardPatList(final InWardPatListCallback callback) {
-        NurRecordOldApiService.getInWardPatList(new NurRecordOldApiService.ServiceCallBack() {
+        NurRecordNewApiService.getInWardPatList(new NurRecordNewApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();
@@ -53,7 +52,7 @@ public class NurRecordOldApiManager {
     }
 
     public static void getModelList(String episodeID, final RecModelListCallback callback) {
-        NurRecordOldApiService.getModelList(episodeID, new NurRecordOldApiService.ServiceCallBack() {
+        NurRecordNewApiService.getModelList(episodeID, new NurRecordNewApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();
@@ -86,7 +85,7 @@ public class NurRecordOldApiManager {
     }
 
     public static void getNewEmrList(String parr, final CareRecCommCallback callback) {
-        NurRecordOldApiService.getNewEmrList(parr, new NurRecordOldApiService.ServiceCallBack() {
+        NurRecordNewApiService.getNewEmrList(parr, new NurRecordNewApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();
@@ -121,44 +120,12 @@ public class NurRecordOldApiManager {
         });
     }
 
-    public static void getItemConfigByEmrCode(String episodeId, String emrCode, final ItemConfigByEmrCodeCallback callback) {
-        NurRecordOldApiService.getItemConfigByEmrCode(episodeId, emrCode, new NurRecordOldApiService.ServiceCallBack() {
-            @Override
-            public void onResult(String jsonStr) {
-                Gson gson = new Gson();
-                if (jsonStr.isEmpty()) {
-                    callback.onFail("-1", "网络错误，请求数据为空");
-                } else {
-                    try {
-                        ItemConfigbyEmrCodeBean itemConfigbyEmrCodeBean = gson.fromJson(jsonStr, ItemConfigbyEmrCodeBean.class);
-                        if (ObjectUtils.isEmpty(itemConfigbyEmrCodeBean)) {
-                            callback.onFail("-3", "网络错误，数据解析为空");
-                        } else {
-                            if ("0".equals(itemConfigbyEmrCodeBean.getStatus())) {
-                                if (callback != null) {
-                                    callback.onSuccess(itemConfigbyEmrCodeBean);
-                                }
-                            } else {
-                                if (callback != null) {
-                                    callback.onFail(itemConfigbyEmrCodeBean.getMsgcode(), itemConfigbyEmrCodeBean.getMsg());
-                                }
-                            }
-                        }
-                    } catch (Exception e) {
-                        callback.onFail("-2", "网络错误，数据解析失败");
-                    }
-
-                }
-            }
-        });
-    }
-
     public static void GetXmlValues(String episodeId, String emrCode, String id, final GetXmlValuesCallback callback) {
-        NurRecordOldApiService.GetXmlValues(episodeId, emrCode, id, new NurRecordOldApiService.ServiceCallBack() {
+        NurRecordNewApiService.GetXmlValues(episodeId, emrCode, id, new NurRecordNewApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();
-
+//
 //                if ("DHCNURBarthelLR".equals(emrCode)) {
 //                    //日常生活ADL评估
 //                    jsonStr = "{\"data\":{\"Input\":{\"ElementBases\":[{\"BindingTemplateID\":\"\",\"CallBackEffects\":\"\",\"CallBackReturnMapEffects\":\"\",\"DataSourceRef\":\"\",\"DefaultValue\":\"2020-06-23\",\"Disable\":\"\",\"ElementId\":\"28\",\"ElementType\":\"DateElement\",\"FormName\":\"DateElement_28\",\"IsHide\":\"\",\"NameText\":\"日期输入\",\"OprationItemList\":[],\"SaveField\":\"CareDate\",\"ToolTipText\":\"\"},{\"BindingTemplateID\":\"\",\"CallBackEffects\":\"\",\"CallBackReturnMapEffects\":\"\",\"DataSourceRef\":\"\",\"DefaultValue\":\"16:36:49\",\"Disable\":\"\",\"ElementId\":\"26\",\"ElementType\":\"TimeElement\",\"FormName\":\"TimeElement_26\",\"IsHide\":\"\",\"NameText\":\"时间输入\",\"OprationItemList\":[],\"SaveField\":\"CareTime\",\"ToolTipText\":\"\"},{\"BindingTemplateID\":\"\",\"CallBackEffects\":\"\",\"CallBackReturnMapEffects\":\"\",\"DataSourceRef\":\"\",\"DefaultValue\":\"\",\"Disable\":\"\",\"ElementId\":\"4\",\"ElementType\":\"DropRadioElement\",\"FormName\":\"DropRadioElement_4\",\"IsHide\":\"\",\"NameText\":\"进食\",\"OprationItemList\":[{\"NumberValue\":\"0\",\"Text\":\"需极大帮助或完全依赖他人，或留置胃管\",\"Value\":\"1\"},{\"NumberValue\":\"5\",\"Text\":\"需部分帮助\",\"Value\":\"2\"},{\"NumberValue\":\"10\",\"Text\":\"可独立进食\",\"Value\":\"3\"}],\"SaveField\":\"Item1\",\"ToolTipText\":\"\"},{\"BindingTemplateID\":\"\",\"CallBackEffects\":\"\",\"CallBackReturnMapEffects\":\"\",\"DataSourceRef\":\"\",\"DefaultValue\":\"\",\"Disable\":\"\",\"ElementId\":\"6\",\"ElementType\":\"DropRadioElement\",\"FormName\":\"DropRadioElement_6\",\"IsHide\":\"\",\"NameText\":\"洗澡\",\"OprationItemList\":[{\"NumberValue\":\"0\",\"Text\":\"在洗澡过程中需他人帮助\",\"Value\":\"1\"},{\"NumberValue\":\"5\",\"Text\":\"准备好洗澡水后，可自己独立完成洗澡过程\",\"Value\":\"2\"}],\"SaveField\":\"Item2\",\"ToolTipText\":\"\"},{\"BindingTemplateID\":\"\",\"CallBackEffects\":\"\",\"CallBackReturnMapEffects\":\"\",\"DataSourceRef\":\"\",\"DefaultValue\":\"\",\"Disable\":\"\",\"ElementId\":\"8\",\"ElementType\":\"DropRadioElement\",\"FormName\":\"DropRadioElement_8\",\"IsHide\":\"\",\"NameText\":\"修饰\",\"OprationItemList\":[{\"NumberValue\":\"0\",\"Text\":\"需他人帮助\",\"Value\":\"1\"},{\"NumberValue\":\"5\",\"Text\":\"可自己独立完成\",\"Value\":\"2\"}],\"SaveField\":\"Item3\",\"ToolTipText\":\"\"},{\"BindingTemplateID\":\"\",\"CallBackEffects\":\"\",\"CallBackReturnMapEffects\":\"\",\"DataSourceRef\":\"\",\"DefaultValue\":\"\",\"Disable\":\"\",\"ElementId\":\"10\",\"ElementType\":\"DropRadioElement\",\"FormName\":\"DropRadioElement_10\",\"IsHide\":\"\",\"NameText\":\"穿衣\",\"OprationItemList\":[{\"NumberValue\":\"0\",\"Text\":\"需极大帮助或完全依赖他人\",\"Value\":\"1\"},{\"NumberValue\":\"5\",\"Text\":\"需部分帮助\",\"Value\":\"2\"},{\"NumberValue\":\"10\",\"Text\":\"可独立完成\",\"Value\":\"3\"}],\"SaveField\":\"Item4\",\"ToolTipText\":\"\"},{\"BindingTemplateID\":\"\",\"CallBackEffects\":\"\",\"CallBackReturnMapEffects\":\"\",\"DataSourceRef\":\"\",\"DefaultValue\":\"\",\"Disable\":\"\",\"ElementId\":\"12\",\"ElementType\":\"DropRadioElement\",\"FormName\":\"DropRadioElement_12\",\"IsHide\":\"\",\"NameText\":\"控制大便\",\"OprationItemList\":[{\"NumberValue\":\"0\",\"Text\":\"完全失控\",\"Value\":\"1\"},{\"NumberValue\":\"5\",\"Text\":\"偶尔失控，或需要他人提示\",\"Value\":\"2\"},{\"NumberValue\":\"10\",\"Text\":\"可控制大便\",\"Value\":\"3\"}],\"SaveField\":\"Item5\",\"ToolTipText\":\"\"},{\"BindingTemplateID\":\"\",\"CallBackEffects\":\"\",\"CallBackReturnMapEffects\":\"\",\"DataSourceRef\":\"\",\"DefaultValue\":\"\",\"Disable\":\"\",\"ElementId\":\"14\",\"ElementType\":\"DropRadioElement\",\"FormName\":\"DropRadioElement_14\",\"IsHide\":\"\",\"NameText\":\"控制小便\",\"OprationItemList\":[{\"NumberValue\":\"0\",\"Text\":\"完全失控\",\"Value\":\"1\"},{\"NumberValue\":\"5\",\"Text\":\"偶尔失控，或需要他人提示\",\"Value\":\"2\"},{\"NumberValue\":\"10\",\"Text\":\"可控制小便\",\"Value\":\"3\"}],\"SaveField\":\"Item6\",\"ToolTipText\":\"\"},{\"BindingTemplateID\":\"\",\"CallBackEffects\":\"\",\"CallBackReturnMapEffects\":\"\",\"DataSourceRef\":\"\",\"DefaultValue\":\"\",\"Disable\":\"\",\"ElementId\":\"16\",\"ElementType\":\"DropRadioElement\",\"FormName\":\"DropRadioElement_16\",\"IsHide\":\"\",\"NameText\":\"如厕\",\"OprationItemList\":[{\"NumberValue\":\"0\",\"Text\":\"需极大帮助或完全依赖他人\",\"Value\":\"1\"},{\"NumberValue\":\"5\",\"Text\":\"需部分帮助\",\"Value\":\"2\"},{\"NumberValue\":\"10\",\"Text\":\"可独立完成\",\"Value\":\"3\"}],\"SaveField\":\"Item7\",\"ToolTipText\":\"\"},{\"BindingTemplateID\":\"\",\"CallBackEffects\":\"\",\"CallBackReturnMapEffects\":\"\",\"DataSourceRef\":\"\",\"DefaultValue\":\"\",\"Disable\":\"\",\"ElementId\":\"18\",\"ElementType\":\"DropRadioElement\",\"FormName\":\"DropRadioElement_18\",\"IsHide\":\"\",\"NameText\":\"床椅移动\",\"OprationItemList\":[{\"NumberValue\":\"0\",\"Text\":\"完全依赖他人\",\"Value\":\"1\"},{\"NumberValue\":\"5\",\"Text\":\"需极大帮助\",\"Value\":\"2\"},{\"NumberValue\":\"10\",\"Text\":\"需部分帮助\",\"Value\":\"3\"},{\"NumberValue\":\"15\",\"Text\":\"可独立完成\",\"Value\":\"4\"}],\"SaveField\":\"Item8\",\"ToolTipText\":\"\"},{\"BindingTemplateID\":\"\",\"CallBackEffects\":\"\",\"CallBackReturnMapEffects\":\"\",\"DataSourceRef\":\"\",\"DefaultValue\":\"\",\"Disable\":\"\",\"ElementId\":\"20\",\"ElementType\":\"DropRadioElement\",\"FormName\":\"DropRadioElement_20\",\"IsHide\":\"\",\"NameText\":\"平地行走\",\"OprationItemList\":[{\"NumberValue\":\"0\",\"Text\":\"完全依赖他人\",\"Value\":\"1\"},{\"NumberValue\":\"5\",\"Text\":\"需极大帮助\",\"Value\":\"2\"},{\"NumberValue\":\"10\",\"Text\":\"需部分帮助\",\"Value\":\"3\"},{\"NumberValue\":\"15\",\"Text\":\"可独立在平地上行走45m\",\"Value\":\"4\"}],\"SaveField\":\"Item9\",\"ToolTipText\":\"\"},{\"BindingTemplateID\":\"\",\"CallBackEffects\":\"\",\"CallBackReturnMapEffects\":\"\",\"DataSourceRef\":\"\",\"DefaultValue\":\"\",\"Disable\":\"\",\"ElementId\":\"22\",\"ElementType\":\"DropRadioElement\",\"FormName\":\"DropRadioElement_22\",\"IsHide\":\"\",\"NameText\":\"上下楼梯\",\"OprationItemList\":[{\"NumberValue\":\"0\",\"Text\":\"需极大帮助或完全依赖他人\",\"Value\":\"1\"},{\"NumberValue\":\"5\",\"Text\":\"需部分帮助\",\"Value\":\"2\"},{\"NumberValue\":\"10\",\"Text\":\"可独立上下楼梯\",\"Value\":\"3\"}],\"SaveField\":\"Item10\",\"ToolTipText\":\"\"},{\"BindingTemplateID\":\"\",\"CallBackEffects\":\"\",\"CallBackReturnMapEffects\":\"\",\"DataSourceRef\":\"\",\"DefaultValue\":\"\",\"Disable\":\"\",\"ElementId\":\"24\",\"ElementType\":\"NumberElement\",\"FormName\":\"NumberElement_24\",\"IsHide\":\"\",\"NameText\":\"Barthel指数总分\",\"OprationItemList\":[],\"SaveField\":\"Item11\",\"ToolTipText\":\"\"},{\"BindingTemplateID\":\"\",\"CallBackEffects\":\"\",\"CallBackReturnMapEffects\":\"\",\"DataSourceRef\":\"\",\"DefaultValue\":\"\",\"Disable\":\"\",\"ElementId\":\"32\",\"ElementType\":\"TextElement\",\"FormName\":\"TextElement_32\",\"IsHide\":\"\",\"NameText\":\"评估护士:\",\"OprationItemList\":[],\"SaveField\":\"Item12\",\"ToolTipText\":\"\"}],\"ElementSets\":[],\"TemplateIndentity\":\"\",\"statisticsList\":[{\"CalType\":\"Sum\",\"Effects\":\"4,6,8,10,12,14,16,18,20,22\",\"Id\":\"24\"}]},\"Table\":[]},\"firstIdList\":[],\"msg\":\"\",\"status\":\"0\"}";
@@ -229,8 +196,41 @@ public class NurRecordOldApiManager {
         });
     }
 
+    public static void getDataSource(String dataSourceRef, String episodeId, final GetDataSourceCallback callback) {
+        NurRecordNewApiService.getDataSource(dataSourceRef, episodeId, new NurRecordNewApiService.ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                Gson gson = new Gson();
+
+                if (jsonStr.isEmpty()) {
+                    callback.onFail("-1", "网络错误，请求数据为空");
+                } else {
+                    try {
+                        DataSourceBean dataSourceBean = gson.fromJson(jsonStr, DataSourceBean.class);
+                        if (ObjectUtils.isEmpty(dataSourceBean)) {
+                            callback.onFail("-3", "网络错误，数据解析为空");
+                        } else {
+                            if ("0".equals(dataSourceBean.getStatus())) {
+                                if (callback != null) {
+                                    callback.onSuccess(dataSourceBean);
+                                }
+                            } else {
+                                if (callback != null) {
+                                    callback.onFail(dataSourceBean.getMsg(), dataSourceBean.getMsg());
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        callback.onFail("-2", "网络错误，数据解析失败");
+                    }
+
+                }
+            }
+        });
+    }
+
     public static void saveNewEmrData(String guId, String episodeId, String recordId, String parr, final RecDataCallback callback) {
-        NurRecordOldApiService.saveNewEmrData(guId, episodeId, recordId, parr, new NurRecordOldApiService.ServiceCallBack() {
+        NurRecordNewApiService.saveNewEmrData(guId, episodeId, recordId, parr, new NurRecordNewApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();
@@ -263,426 +263,6 @@ public class NurRecordOldApiManager {
     }
 
 
-    public static void getPGDId(String episodeID, String emrCode, final RecDataCallback callback) {
-        NurRecordOldApiService.getPGDId(episodeID, emrCode, new NurRecordOldApiService.ServiceCallBack() {
-            @Override
-            public void onResult(String jsonStr) {
-                Gson gson = new Gson();
-                if (jsonStr.isEmpty()) {
-                    callback.onFail("-1", "网络错误，请求数据为空");
-                } else {
-                    try {
-                        RecDataBean recDataBean = gson.fromJson(jsonStr, RecDataBean.class);
-                        if (ObjectUtils.isEmpty(recDataBean)) {
-                            callback.onFail("-3", "网络错误，数据解析为空");
-                        } else {
-                            if ("0".equals(recDataBean.getStatus())) {
-                                if (callback != null) {
-                                    callback.onSuccess(recDataBean);
-                                }
-                            } else {
-                                if (callback != null) {
-                                    callback.onFail(recDataBean.getMsgcode(), recDataBean.getMsg());
-                                }
-                            }
-                        }
-                    } catch (Exception e) {
-                        callback.onFail("-2", "网络错误，数据解析失败");
-                    }
-
-                }
-            }
-        });
-    }
-
-    public static void getPGDVal(String pgdId, String methodName, final RecDataCallback callback) {
-        NurRecordOldApiService.getPGDVal(pgdId, methodName, new NurRecordOldApiService.ServiceCallBack() {
-            @Override
-            public void onResult(String jsonStr) {
-                Gson gson = new Gson();
-                if (jsonStr.isEmpty()) {
-                    callback.onFail("-1", "网络错误，请求数据为空");
-                } else {
-                    try {
-                        RecDataBean recDataBean = gson.fromJson(jsonStr, RecDataBean.class);
-                        if (ObjectUtils.isEmpty(recDataBean)) {
-                            callback.onFail("-3", "网络错误，数据解析为空");
-                        } else {
-                            if ("0".equals(recDataBean.getStatus())) {
-                                if (callback != null) {
-                                    callback.onSuccess(recDataBean);
-                                }
-                            } else {
-                                if (callback != null) {
-                                    callback.onFail(recDataBean.getMsgcode(), recDataBean.getMsg());
-                                }
-                            }
-                        }
-                    } catch (Exception e) {
-                        callback.onFail("-2", "网络错误，数据解析失败");
-                    }
-
-                }
-            }
-        });
-    }
-
-    public static void getEmrXML(String episodeID, String emrCode, final RecDataCallback callback) {
-        NurRecordOldApiService.getEmrXML(episodeID, emrCode, new NurRecordOldApiService.ServiceCallBack() {
-            @Override
-            public void onResult(String jsonStr) {
-                Gson gson = new Gson();
-                if (jsonStr.isEmpty()) {
-                    callback.onFail("-1", "网络错误，请求数据为空");
-                } else {
-                    try {
-                        RecDataBean recDataBean = gson.fromJson(jsonStr, RecDataBean.class);
-                        if (ObjectUtils.isEmpty(recDataBean)) {
-                            callback.onFail("-3", "网络错误，数据解析为空");
-                        } else {
-                            if ("0".equals(recDataBean.getStatus())) {
-                                if (callback != null) {
-                                    callback.onSuccess(recDataBean);
-                                }
-                            } else {
-                                if (callback != null) {
-                                    callback.onFail(recDataBean.getMsgcode(), recDataBean.getMsg());
-                                }
-                            }
-                        }
-                    } catch (Exception e) {
-                        callback.onFail("-2", "网络错误，数据解析失败");
-                    }
-
-                }
-            }
-        });
-    }
-
-    public static void getDateTime(final RecDataCallback callback) {
-        NurRecordOldApiService.getDateTime(new NurRecordOldApiService.ServiceCallBack() {
-            @Override
-            public void onResult(String jsonStr) {
-                Gson gson = new Gson();
-                if (jsonStr.isEmpty()) {
-                    callback.onFail("-1", "网络错误，请求数据为空");
-                } else {
-                    try {
-                        RecDataBean recDataBean = gson.fromJson(jsonStr, RecDataBean.class);
-                        if (ObjectUtils.isEmpty(recDataBean)) {
-                            callback.onFail("-3", "网络错误，数据解析为空");
-                        } else {
-                            if ("0".equals(recDataBean.getStatus())) {
-                                if (callback != null) {
-                                    callback.onSuccess(recDataBean);
-                                }
-                            } else {
-                                if (callback != null) {
-                                    callback.onFail(recDataBean.getMsgcode(), recDataBean.getMsg());
-                                }
-                            }
-                        }
-                    } catch (Exception e) {
-                        callback.onFail("-2", "网络错误，数据解析失败");
-                    }
-
-                }
-            }
-        });
-    }
-
-    public static void getEmrPatinfo(String episodeID, String emrCode, final RecDataCallback callback) {
-        NurRecordOldApiService.getEmrPatinfo(episodeID, emrCode, new NurRecordOldApiService.ServiceCallBack() {
-            @Override
-            public void onResult(String jsonStr) {
-                Gson gson = new Gson();
-                if (jsonStr.isEmpty()) {
-                    callback.onFail("-1", "网络错误，请求数据为空");
-                } else {
-                    try {
-                        RecDataBean recDataBean = gson.fromJson(jsonStr, RecDataBean.class);
-                        if (ObjectUtils.isEmpty(recDataBean)) {
-                            callback.onFail("-3", "网络错误，数据解析为空");
-                        } else {
-                            if ("0".equals(recDataBean.getStatus())) {
-                                if (callback != null) {
-                                    callback.onSuccess(recDataBean);
-                                }
-                            } else {
-                                if (callback != null) {
-                                    callback.onFail(recDataBean.getMsgcode(), recDataBean.getMsg());
-                                }
-                            }
-                        }
-                    } catch (Exception e) {
-                        callback.onFail("-2", "网络错误，数据解析失败");
-                    }
-
-                }
-            }
-        });
-    }
-
-    public static void linkEmrData(String episodeID, String emrCode, final SyncEmrDataCallback callback) {
-        NurRecordOldApiService.linkEmrData(episodeID, emrCode, new NurRecordOldApiService.ServiceCallBack() {
-            @Override
-            public void onResult(String jsonStr) {
-                Gson gson = new Gson();
-                if (jsonStr.isEmpty()) {
-                    callback.onFail("-1", "网络错误，请求数据为空");
-                } else {
-                    try {
-                        SyncEmrData syncEmrData = gson.fromJson(jsonStr, SyncEmrData.class);
-                        if (ObjectUtils.isEmpty(syncEmrData)) {
-                            callback.onFail("-3", "网络错误，数据解析为空");
-                        } else {
-                            if ("0".equals(syncEmrData.getStatus())) {
-                                if (callback != null) {
-                                    callback.onSuccess(syncEmrData);
-                                }
-                            } else {
-                                if (callback != null) {
-                                    callback.onFail(syncEmrData.getMsgcode(), syncEmrData.getMsg());
-                                }
-                            }
-                        }
-                    } catch (Exception e) {
-                        callback.onFail("-2", "网络错误，数据解析失败");
-                    }
-
-                }
-            }
-        });
-    }
-
-    public static void savePGDData(String parr, String pgdId, String methodName, final RecDataCallback callback) {
-        NurRecordOldApiService.savePGDData(parr, pgdId, methodName, new NurRecordOldApiService.ServiceCallBack() {
-            @Override
-            public void onResult(String jsonStr) {
-                Gson gson = new Gson();
-                if (jsonStr.isEmpty()) {
-                    callback.onFail("-1", "网络错误，请求数据为空");
-                } else {
-                    try {
-                        RecDataBean recDataBean = gson.fromJson(jsonStr, RecDataBean.class);
-                        if (ObjectUtils.isEmpty(recDataBean)) {
-                            callback.onFail("-3", "网络错误，数据解析为空");
-                        } else {
-                            if ("0".equals(recDataBean.getStatus())) {
-                                if (callback != null) {
-                                    callback.onSuccess(recDataBean);
-                                }
-                            } else {
-                                if (callback != null) {
-                                    callback.onFail(recDataBean.getMsgcode(), recDataBean.getMsg());
-                                }
-                            }
-                        }
-                    } catch (Exception e) {
-                        callback.onFail("-2", "网络错误，数据解析失败");
-                    }
-
-                }
-            }
-        });
-    }
-
-    public static void getCareRecComm(String parr, String methodName, final CareRecCommCallback callback) {
-        NurRecordOldApiService.getCareRecComm(parr, methodName, new NurRecordOldApiService.ServiceCallBack() {
-            @Override
-            public void onResult(String jsonStr) {
-                Gson gson = new Gson();
-                if (jsonStr.isEmpty()) {
-                    callback.onFail("-1", "网络错误，请求数据为空");
-                } else {
-                    try {
-                        CareRecCommListBean careRecCommListBean = gson.fromJson(jsonStr, CareRecCommListBean.class);
-                        Map JsonMap = gson.fromJson(jsonStr, Map.class);
-                        careRecCommListBean.setMap(JsonMap);
-                        if (ObjectUtils.isEmpty(careRecCommListBean)) {
-                            callback.onFail("-3", "网络错误，数据解析为空");
-                        } else {
-                            if ("0".equals(careRecCommListBean.getStatus())) {
-                                if (callback != null) {
-                                    callback.onSuccess(careRecCommListBean);
-                                }
-                            } else {
-                                if (callback != null) {
-                                    callback.onFail(careRecCommListBean.getMsgcode(), careRecCommListBean.getMsg());
-                                }
-                            }
-                        }
-                    } catch (Exception e) {
-                        callback.onFail("-2", "网络错误，数据解析失败");
-                    }
-
-                }
-            }
-        });
-    }
-
-    public static void getJLDVal(String par, String rw, String methodName, final RecDataCallback callback) {
-        NurRecordOldApiService.getJLDVal(par, rw, methodName, new NurRecordOldApiService.ServiceCallBack() {
-            @Override
-            public void onResult(String jsonStr) {
-                Gson gson = new Gson();
-                if (jsonStr.isEmpty()) {
-                    callback.onFail("-1", "网络错误，请求数据为空");
-                } else {
-                    try {
-                        RecDataBean recDataBean = gson.fromJson(jsonStr, RecDataBean.class);
-                        if (ObjectUtils.isEmpty(recDataBean)) {
-                            callback.onFail("-3", "网络错误，数据解析为空");
-                        } else {
-                            if ("0".equals(recDataBean.getStatus())) {
-                                if (callback != null) {
-                                    callback.onSuccess(recDataBean);
-                                }
-                            } else {
-                                if (callback != null) {
-                                    callback.onFail(recDataBean.getMsgcode(), recDataBean.getMsg());
-                                }
-                            }
-                        }
-                    } catch (Exception e) {
-                        callback.onFail("-2", "网络错误，数据解析失败");
-                    }
-
-                }
-            }
-        });
-    }
-
-    public static void saveJLDData(String parr, String episodeID, String emrCode, String methodName, final RecDataCallback callback) {
-        NurRecordOldApiService.saveJLDData(parr, episodeID, emrCode, methodName, new NurRecordOldApiService.ServiceCallBack() {
-            @Override
-            public void onResult(String jsonStr) {
-                Gson gson = new Gson();
-                if (jsonStr.isEmpty()) {
-                    callback.onFail("-1", "网络错误，请求数据为空");
-                } else {
-                    try {
-                        RecDataBean recDataBean = gson.fromJson(jsonStr, RecDataBean.class);
-                        if (ObjectUtils.isEmpty(recDataBean)) {
-                            callback.onFail("-3", "网络错误，数据解析为空");
-                        } else {
-                            if ("0".equals(recDataBean.getStatus())) {
-                                if (callback != null) {
-                                    callback.onSuccess(recDataBean);
-                                }
-                            } else {
-                                if (callback != null) {
-                                    callback.onFail(recDataBean.getMsgcode(), recDataBean.getMsg());
-                                }
-                            }
-                        }
-                    } catch (Exception e) {
-                        callback.onFail("-2", "网络错误，数据解析失败");
-                    }
-
-                }
-            }
-        });
-    }
-
-    public static void getMPGDList(String parr, String methodName, final CareRecCommCallback callback) {
-        NurRecordOldApiService.getMPGDList(parr, methodName, new NurRecordOldApiService.ServiceCallBack() {
-            @Override
-            public void onResult(String jsonStr) {
-                Gson gson = new Gson();
-                if (jsonStr.isEmpty()) {
-                    callback.onFail("-1", "网络错误，请求数据为空");
-                } else {
-                    try {
-                        CareRecCommListBean careRecCommListBean = gson.fromJson(jsonStr, CareRecCommListBean.class);
-                        Map JsonMap = gson.fromJson(jsonStr, Map.class);
-                        careRecCommListBean.setMap(JsonMap);
-                        if (ObjectUtils.isEmpty(careRecCommListBean)) {
-                            callback.onFail("-3", "网络错误，数据解析为空");
-                        } else {
-                            if ("0".equals(careRecCommListBean.getStatus())) {
-                                if (callback != null) {
-                                    callback.onSuccess(careRecCommListBean);
-                                }
-                            } else {
-                                if (callback != null) {
-                                    callback.onFail(careRecCommListBean.getMsgcode(), careRecCommListBean.getMsg());
-                                }
-                            }
-                        }
-                    } catch (Exception e) {
-                        callback.onFail("-2", "网络错误，数据解析失败");
-                    }
-
-                }
-            }
-        });
-    }
-
-    public static void getMPGDVal(String par, String rw, String methodName, final RecDataCallback callback) {
-        NurRecordOldApiService.getMPGDVal(par, rw, methodName, new NurRecordOldApiService.ServiceCallBack() {
-            @Override
-            public void onResult(String jsonStr) {
-                Gson gson = new Gson();
-                if (jsonStr.isEmpty()) {
-                    callback.onFail("-1", "网络错误，请求数据为空");
-                } else {
-                    try {
-                        RecDataBean recDataBean = gson.fromJson(jsonStr, RecDataBean.class);
-                        if (ObjectUtils.isEmpty(recDataBean)) {
-                            callback.onFail("-3", "网络错误，数据解析为空");
-                        } else {
-                            if ("0".equals(recDataBean.getStatus())) {
-                                if (callback != null) {
-                                    callback.onSuccess(recDataBean);
-                                }
-                            } else {
-                                if (callback != null) {
-                                    callback.onFail(recDataBean.getMsgcode(), recDataBean.getMsg());
-                                }
-                            }
-                        }
-                    } catch (Exception e) {
-                        callback.onFail("-2", "网络错误，数据解析失败");
-                    }
-
-                }
-            }
-        });
-    }
-
-    public static void saveMPGDData(String parr, String pgdId, String methodName, final RecDataCallback callback) {
-        NurRecordOldApiService.saveMPGDData(parr, pgdId, methodName, new NurRecordOldApiService.ServiceCallBack() {
-            @Override
-            public void onResult(String jsonStr) {
-                Gson gson = new Gson();
-                if (jsonStr.isEmpty()) {
-                    callback.onFail("-1", "网络错误，请求数据为空");
-                } else {
-                    try {
-                        RecDataBean recDataBean = gson.fromJson(jsonStr, RecDataBean.class);
-                        if (ObjectUtils.isEmpty(recDataBean)) {
-                            callback.onFail("-3", "网络错误，数据解析为空");
-                        } else {
-                            if ("0".equals(recDataBean.getStatus())) {
-                                if (callback != null) {
-                                    callback.onSuccess(recDataBean);
-                                }
-                            } else {
-                                if (callback != null) {
-                                    callback.onFail(recDataBean.getMsgcode(), recDataBean.getMsg());
-                                }
-                            }
-                        }
-                    } catch (Exception e) {
-                        callback.onFail("-2", "网络错误，数据解析失败");
-                    }
-
-                }
-            }
-        });
-    }
-
     public interface CommonCallBack {
         void onFail(String code, String msg);
     }
@@ -695,31 +275,20 @@ public class NurRecordOldApiManager {
         void onSuccess(RecModelListBean recModelListBean);
     }
 
-    public interface RecDataCallback extends CommonCallBack {
-        void onSuccess(RecDataBean recDataBean);
-    }
-
-    public interface SyncEmrDataCallback extends CommonCallBack {
-        void onSuccess(SyncEmrData syncEmrData);
-    }
-
     public interface CareRecCommCallback extends CommonCallBack {
         void onSuccess(CareRecCommListBean careRecCommListBean);
-    }
-
-    public interface ItemConfigByEmrCodeCallback extends CommonCallBack {
-        void onSuccess(ItemConfigbyEmrCodeBean itemConfigbyEmrCodeBean);
     }
 
     public interface GetXmlValuesCallback extends CommonCallBack {
         void onSuccess(ElementDataBean elementDataBean);
     }
 
-    public interface getNewEmrListCallback extends CommonCallBack {
-        void onSuccess(ElementDataBean elementDataBean);
+    public interface GetDataSourceCallback extends CommonCallBack {
+        void onSuccess(DataSourceBean dataSourceBean);
     }
 
-    public interface saveNewEmrDataCallback extends CommonCallBack {
-        void onSuccess(ElementDataBean elementDataBean);
+    public interface RecDataCallback extends CommonCallBack {
+        void onSuccess(RecDataBean recDataBean);
     }
+
 }
