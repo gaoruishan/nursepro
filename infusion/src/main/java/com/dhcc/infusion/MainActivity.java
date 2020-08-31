@@ -22,11 +22,14 @@ import android.widget.Toast;
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.MessageEvent;
 import com.base.commlibs.constant.Action;
+import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
+import com.base.commlibs.service.JWebSocketClientService;
 import com.base.commlibs.service.MServiceNewOrd;
 import com.base.commlibs.utils.AppUtil;
 import com.base.commlibs.utils.UserUtil;
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.VibrateUtils;
 import com.dhcc.infusion.update.UpdateAppUtil;
 import com.dhcc.module.infusion.message.MessageFragment;
@@ -34,6 +37,7 @@ import com.dhcc.module.infusion.message.api.MessageApiManager;
 import com.dhcc.module.infusion.message.bean.NotifyMessageBean;
 import com.dhcc.module.infusion.setting.SettingFragment;
 import com.dhcc.module.infusion.workarea.WorkAreaFragment;
+import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -126,6 +130,7 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
 
         if (mainReceiver != null) {
             mainfilter.addAction(Action.NEWMESSAGE_SERVICE);
+            mainfilter.addAction(JWebSocketClientService.ACTION_WEB_SOCKET);
             registerReceiver(mainReceiver, mainfilter);
         }
     }
@@ -360,6 +365,13 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         public void onReceive(Context context, Intent intent) {
             if (Action.NEWMESSAGE_SERVICE.equals(intent.getAction())) {
                 notifyMessage();
+            }
+            if (JWebSocketClientService.ACTION_WEB_SOCKET.equals(intent.getAction())) {
+                String message = intent.getStringExtra(JWebSocketClientService.MESSAGE);
+                CommResult result = new Gson().fromJson(message, CommResult.class);
+                if (!"0".equals(result.getStatus())) {
+                    ToastUtils.showShort(result.getMsg());
+                }
             }
         }
     }

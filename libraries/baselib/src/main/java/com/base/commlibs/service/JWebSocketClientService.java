@@ -18,6 +18,7 @@ import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.utils.AppUtil;
 import com.blankj.utilcode.util.SPStaticUtils;
 
+import org.java_websocket.enums.ReadyState;
 import org.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
@@ -39,6 +40,7 @@ public class JWebSocketClientService extends Service {
     PowerManager.WakeLock wakeLock;//锁屏唤醒
     private JWebSocketClientBinder mBinder = new JWebSocketClientBinder();
     private Handler mHandler = new Handler();
+    private JWebSocketClientCallBack webSocketClientCallBack;
     private Runnable heartBeatRunnable = new Runnable() {
         @Override
         public void run() {
@@ -127,6 +129,9 @@ public class JWebSocketClientService extends Service {
             public void onOpen(ServerHandshake handshakedata) {
                 super.onOpen(handshakedata);
                 Log.e("JWebSocketClientService", "websocket连接成功");
+                if (webSocketClientCallBack != null) {
+                    webSocketClientCallBack.onOpen();
+                }
             }
 
             @Override
@@ -139,6 +144,18 @@ public class JWebSocketClientService extends Service {
                 sendBroadcast(intent);
 
                 checkLockAndShowNotification(message);
+            }
+
+            @Override
+            public void onClose(int code, String reason, boolean remote) {
+                super.onClose(code, reason, remote);
+                //退出
+                //sendMsg("exit");
+            }
+
+            @Override
+            public void onError(Exception ex) {
+                super.onError(ex);
             }
         };
         connect();
@@ -177,9 +194,6 @@ public class JWebSocketClientService extends Service {
             sendNotification(content);
         }
     }
-
-
-//    -----------------------------------消息通知--------------------------------------------------------
 
     /**
      * 连接websocket
@@ -225,14 +239,23 @@ public class JWebSocketClientService extends Service {
 //        notifyManager.notify(1, notification);//id要保证唯一
     }
 
+
+//    -----------------------------------消息通知--------------------------------------------------------
+
+    public void setJWebSocketClientCallBack(JWebSocketClientCallBack webSocketClientCallBack) {
+        this.webSocketClientCallBack = webSocketClientCallBack;
+    }
+
     /**
      * 发送消息
      * @param msg
      */
     public void sendMsg(String msg) {
         if (null != client) {
-            Log.e("JWebSocketClientService", "发送的消息：" + msg);
-            client.send(msg);
+            Log.e("JWebSocketClientService", client.getReadyState() + "  发送的消息：" + msg);
+            if (ReadyState.OPEN.equals(client.getReadyState())) {
+                client.send(msg);
+            }
         }
     }
 
@@ -252,6 +275,10 @@ public class JWebSocketClientService extends Service {
                 }
             }
         }.start();
+    }
+
+    public interface JWebSocketClientCallBack {
+        void onOpen();
     }
 
     //灰色保活
