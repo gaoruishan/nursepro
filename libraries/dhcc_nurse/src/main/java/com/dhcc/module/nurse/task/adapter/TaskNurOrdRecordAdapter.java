@@ -8,6 +8,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.module.nurse.R;
@@ -79,32 +82,62 @@ public class TaskNurOrdRecordAdapter extends BaseQuickAdapter<NurOrdRecordTaskBe
 
         FlowLayout llCk = helper.getView(R.id.ll_ck);
         llCk.removeAllViews();
+        RadioGroup rbGroup = helper.getView(R.id.ll_rb);
+        rbGroup.removeAllViews();
         if (item.getData().getSubItemList().size()>0) {
-            helper.setGone(R.id.tv_click,false);
-            for (int i = 0; i < item.getData().getSubItemList().size(); i++) {
-                CheckBox cb = new CheckBox(mContext);
-                cb.setText(item.getData().getSubItemList().get(i).getSubItemName());
-                cb.setButtonDrawable(R.drawable.checkbox_nur);
-                cb.setPadding(5,5,10,5);
-                if (item.getData().getSubItemList().get(i).getSubSelec().equals("0")){
-                    cb.setChecked(false);
-                }else {
-                    cb.setChecked(true);
-                }
-                int finalI = i;
-                cb.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (cb.isChecked()) {
-                            item.getData().getSubItemList().get(finalI).setSubSelec("1");
-                        } else {
-                            item.getData().getSubItemList().get(finalI).setSubSelec("0");
-                        }
-                        helper.getView(R.id.tv_click1).callOnClick();
+            if (item.getWidgetType().equals("2")){
+                helper.setGone(R.id.tv_click,false);
+                for (int i = 0; i < item.getData().getSubItemList().size(); i++) {
+                    CheckBox cb = new CheckBox(mContext);
+                    cb.setText(item.getData().getSubItemList().get(i).getSubItemName());
+                    cb.setButtonDrawable(R.drawable.checkbox_nur);
+                    cb.setPadding(5,5,10,5);
+                    if (item.getData().getSubItemList().get(i).getSubSelec().equals("0")){
+                        cb.setChecked(false);
+                    }else {
+                        cb.setChecked(true);
                     }
-                });
-                llCk.addView(cb);
+                    int finalI = i;
+                    cb.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (cb.isChecked()) {
+                                item.getData().getSubItemList().get(finalI).setSubSelec("1");
+                            } else {
+                                item.getData().getSubItemList().get(finalI).setSubSelec("0");
+                            }
+                            helper.getView(R.id.tv_click1).callOnClick();
+                        }
+                    });
+                    llCk.addView(cb);
+                }
+            }else {
+                helper.setGone(R.id.tv_click,false);
+                for (int i = 0; i < item.getData().getSubItemList().size(); i++) {
+                    RadioButton rb = new RadioButton(mContext);
+                    rb.setText(item.getData().getSubItemList().get(i).getSubItemName());
+//                    rb.setButtonDrawable(R.drawable.checkbox_nur);
+                    rb.setPadding(5,5,10,5);
+                    if (item.getData().getSubItemList().get(i).getSubSelec().equals("0")){
+                        rb.setChecked(false);
+                    }else {
+                        rb.setChecked(true);
+                    }
+                    int finalI = i;
+                    rb.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            for (int j = 0; j < item.getData().getSubItemList().size(); j++) {
+                                item.getData().getSubItemList().get(j).setSubSelec("0");
+                            }
+                            item.getData().getSubItemList().get(finalI).setSubSelec("1");
+                            helper.getView(R.id.tv_click1).callOnClick();
+                        }
+                    });
+                    rbGroup.addView(rb);
+                }
             }
+
         }else {
             helper.setGone(R.id.tv_click,item.getData().getNoteList().size()>0?true:false);
         }

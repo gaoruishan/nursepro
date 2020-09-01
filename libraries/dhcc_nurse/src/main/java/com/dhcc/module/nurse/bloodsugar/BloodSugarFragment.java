@@ -138,6 +138,9 @@ public class BloodSugarFragment extends BaseNurseFragment {
                 textViewList = new ArrayList<>();
 
                 for (int i = 0; i < bean.getTopFilter().size(); i++) {
+                    if (getContext() == null){
+                        return;
+                    }
                     TextView tvButton = new TextView(getContext());
                     tvButton.setText(bean.getTopFilter().get(i).getDesc());
                     tvButton.setGravity(Gravity.CENTER);

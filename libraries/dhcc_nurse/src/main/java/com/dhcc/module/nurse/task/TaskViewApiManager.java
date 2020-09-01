@@ -230,7 +230,8 @@ public class TaskViewApiManager {
         properties.put("executedContent", executedContent);
         properties.put("taskJson", taskJson);
         properties.put("transferFlag", transferFlag);
-        properties.put("recordData", recordData);
+        String sData = recordData.replaceAll("\\\\","");
+        properties.put("recordData", sData);
         CommWebService.call("executeNurTask", properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {

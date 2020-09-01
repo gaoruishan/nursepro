@@ -16,7 +16,15 @@ public class NurOrdRecordTaskBean extends CommResult {
     //{"curDate":"2020-08-17","curTime":"16:42:42","msg":"成功","msgcode":"999999","status":"0","taskSetList":[]}
     private String curDate;
     private String curTime;
+    private String executeTemplate;
 
+    public String getExecuteTemplate() {
+        return executeTemplate;
+    }
+
+    public void setExecuteTemplate(String executeTemplate) {
+        this.executeTemplate = executeTemplate;
+    }
     public String getCurDate() {
         return curDate;
     }

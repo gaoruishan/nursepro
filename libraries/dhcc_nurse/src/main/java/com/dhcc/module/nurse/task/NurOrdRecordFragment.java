@@ -46,8 +46,10 @@ public class NurOrdRecordFragment  extends BaseNurseFragment {
 
     private RecyclerView recNormalOrd;
     private TaskNurOrdRecordAdapter taskNurOrdRecordAdapter;
-    private TextView tvDesc,tvPatinfo,tvTime,tvNur;
-    private String recordId,interventionDR,patInfo;
+    private TextView tvPatinfo,tvTime,tvNur;
+    private EditText tvDesc;
+    private String recordId,interventionDR,patInfo,recordDesc="";
+    private NurOrdRecordTaskBean recordTaskBean;
     private KeyboardView mKeyboard;
     private CheckBox ckNur;
     @Override
@@ -70,7 +72,7 @@ public class NurOrdRecordFragment  extends BaseNurseFragment {
     @Override
     protected void initViews() {
         super.initViews();
-        tvDesc = f(R.id.tv_record_desc,TextView.class);
+        tvDesc = f(R.id.tv_record_desc,EditText.class);
         tvPatinfo = f(R.id.tv_patinfo,TextView.class);
         tvTime = f(R.id.tv_exec_time,TextView.class);
         tvNur = f(R.id.tv_exec_nur,TextView.class);
@@ -146,6 +148,8 @@ public class NurOrdRecordFragment  extends BaseNurseFragment {
             @Override
             public void onSuccess(NurOrdRecordTaskBean bean, String type) {
                 hideLoadingTip();
+                recordTaskBean= bean;
+                recordDesc = bean.getExecuteTemplate();
                 tvTime.setText(bean.getCurDate()+" "+bean.getCurTime());
                 tvNur.setText(getSpInfo(SharedPreference.USERNAME));
                 taskNurOrdRecordAdapter.setNewData(bean.getTaskSetList());
@@ -153,40 +157,63 @@ public class NurOrdRecordFragment  extends BaseNurseFragment {
             }
         });
     }
+    public static List<Integer> findAllIndex(String string,int index,String findStr){
+        List<Integer> list =new ArrayList<>();
+        if (index != -1){
+            int num = string.indexOf(findStr,index);
+            list.add(num);
+            //递归进行查找
+            List myList = findAllIndex(string,string.indexOf(findStr,num+1),findStr);
+            list.addAll(myList);
+        }
+        return list;
+    }
 
     private void refreshRecordDesc(){
         String strDesc = "";
+        recordDesc = recordTaskBean.getExecuteTemplate();
+        List<Integer> listFrom = findAllIndex(recordDesc,0,"[");
+        List<Integer> listTo = findAllIndex(recordDesc,0,"]");
+
         for (int i = 0; i < taskNurOrdRecordAdapter.getData().size(); i++) {
+
+            String  strIndex ="["+ (i+1)+"]";
             if (taskNurOrdRecordAdapter.getData().get(i).getWidgetType().equals("4")){
                 if (taskNurOrdRecordAdapter.getData().get(i).getItemValue().length()>0){
                     String strItemSel = ":";
                     if (taskNurOrdRecordAdapter.getData().get(i).getNoteSelec()!=null){
                         strItemSel="("+taskNurOrdRecordAdapter.getData().get(i).getNoteSelec()+"):";
                     }
+                    recordDesc = recordDesc.replace(strIndex,taskNurOrdRecordAdapter.getData().get(i).getItemValue());
                     strDesc=strDesc+taskNurOrdRecordAdapter.getData().get(i).getItemName()+strItemSel+taskNurOrdRecordAdapter.getData().get(i).getItemValue()+";  ";
                 }
             }
 
             if (taskNurOrdRecordAdapter.getData().get(i).getData().getSubItemList().size()>0){
-                if (taskNurOrdRecordAdapter.getData().get(i).getWidgetType().equals("2")){
+                if (taskNurOrdRecordAdapter.getData().get(i).getWidgetType().equals("2") || taskNurOrdRecordAdapter.getData().get(i).getWidgetType().equals("1")){
                     String strSub = "";
                     for (int j = 0; j < taskNurOrdRecordAdapter.getData().get(i).getData().getSubItemList().size(); j++) {
                         if (taskNurOrdRecordAdapter.getData().get(i).getData().getSubItemList().get(j).getSubSelec().equals("1")){
                             strSub =strSub+taskNurOrdRecordAdapter.getData().get(i).getData().getSubItemList().get(j).getSubItemName()+"、";
                         }
                     }
-                    if (strSub.contains("、")){
-                        strSub =strSub.substring(0,strSub.length()-1)+"等";
-                    }
-                    if (!strSub.equals("")){
-                        strSub = "有"+strSub+taskNurOrdRecordAdapter.getData().get(i).getItemName()+"的症状。  ";
-                    }
-                    strDesc = strDesc+strSub;
+//                    if (strSub.contains("、")){
+//                        strSub =strSub.substring(0,strSub.length()-1)+"等";
+//                    }
+//                    if (!strSub.equals("")){
+//                        strSub = "有"+strSub+taskNurOrdRecordAdapter.getData().get(i).getItemName()+"的症状。  ";
+//                    }
+//                    strDesc = strDesc+strSub;
 
+                    if (strSub.contains("、")){
+                        strSub =strSub.substring(0,strSub.length()-1);
+                    }
+                    recordDesc = recordDesc.replace(strIndex,strSub);
                 }
             }
+            recordDesc = recordDesc.replace(strIndex,"");
         }
-        tvDesc.setText(strDesc);
+        tvDesc.setText(recordDesc);
     }
     private void executeNurTask(){
         showLoadingTip(BaseActivity.LoadingType.FULL);
