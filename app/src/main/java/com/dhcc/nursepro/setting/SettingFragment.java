@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -258,6 +259,13 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                     int messageNum = (msgs.getNewOrdPatList()!=null?msgs.getNewOrdPatList().size():0)
                             + (msgs.getAbnormalPatList()!=null?msgs.getAbnormalPatList().size():0)
                             + (msgs.getConPatList()!=null?msgs.getConPatList().size():0);
+                    if (msgs.getSkinTimeList()!=null && msgs.getSkinTimeList().size()>0){
+                        for (int i = 0; i < msgs.getSkinTimeList().size(); i++) {
+                            if (TextUtils.isEmpty(msgs.getSkinTimeList().get(i).getOverTime())){
+                                messageNum++;
+                            }
+                        }
+                    }
                     setMessage(messageNum,msgs.getSoundFlag(),msgs.getVibrateFlag());
                 }
 

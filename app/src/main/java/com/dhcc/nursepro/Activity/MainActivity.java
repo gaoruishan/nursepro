@@ -25,6 +25,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
@@ -374,8 +375,15 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
                 int messageNum = (msgs.getNewOrdPatList() != null ? msgs.getNewOrdPatList().size() : 0)
                         + (msgs.getAbnormalPatList() != null ? msgs.getAbnormalPatList().size() : 0)
                         + (msgs.getConPatList() != null ? msgs.getConPatList().size() : 0);
-                setmessage(messageNum, msgs.getSoundFlag(), msgs.getVibrateFlag());
+                if (msgs.getSkinTimeList()!=null && msgs.getSkinTimeList().size()>0){
+                    for (int i = 0; i < msgs.getSkinTimeList().size(); i++) {
+                        if (TextUtils.isEmpty(msgs.getSkinTimeList().get(i).getOverTime())){
+                            messageNum++;
+                        }
+                    }
+                }
 
+                setmessage(messageNum, msgs.getSoundFlag(), msgs.getVibrateFlag());
             }
 
             @Override
