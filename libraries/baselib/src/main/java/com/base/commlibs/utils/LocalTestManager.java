@@ -68,11 +68,10 @@ public class LocalTestManager {
 
     /**
      * 添加方法名的集合
-     * @param l
+     * @param list
      */
-    public static void setMethodNameList(List<String> l) {
-        l.clear();
-        l.addAll(l);
+    public static void setMethodNameList(List<String> list) {
+        l.addAll(list);
     }
 
     /**

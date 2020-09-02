@@ -1,0 +1,1066 @@
+{
+  "data": {
+    "Input": {
+      "ElementBases": [
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "2020-06-28",
+          "Disable": "",
+          "ElementId": "3",
+          "ElementType": "DateElement",
+          "FormName": "DateElement_3",
+          "IsHide": "",
+          "NameText": "评估日期",
+          "OprationItemList": [],
+          "ParentId": "",
+          "SaveField": "CareDate",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "16:15:43",
+          "Disable": "",
+          "ElementId": "5",
+          "ElementType": "TimeElement",
+          "FormName": "TimeElement_5",
+          "IsHide": "",
+          "NameText": "评估时间",
+          "OprationItemList": [],
+          "ParentId": "",
+          "SaveField": "CareTime",
+          "ToolTipText": ""
+        },
+        {
+          "ElementType": "RadioElement",
+          "NameText": "低风险评判",
+          "RadioElementList": [
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "69",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_69",
+              "IsHide": "",
+              "NameText": "低风险评判",
+              "OprationItemList": [
+                {
+                  "NumberValue": "1",
+                  "Text": "低风险评判",
+                  "Value": "1"
+                }
+              ],
+              "ParentId": "",
+              "SaveField": "Item32",
+              "ToolTipText": ""
+            }
+          ],
+          "SaveField": "Item32"
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "72",
+          "ElementType": "DropRadioElement",
+          "FormName": "DropRadioElement_72",
+          "IsHide": "true",
+          "NameText": "下拉单选",
+          "OprationItemList": [
+            {
+              "NumberValue": "1",
+              "Text": "1.完全瘫痪",
+              "Value": "1"
+            },
+            {
+              "NumberValue": "2",
+              "Text": "2.完全行动障碍",
+              "Value": "2"
+            },
+            {
+              "NumberValue": "0",
+              "Text": "3.无",
+              "Value": "0"
+            }
+          ],
+          "ParentId": "69",
+          "SaveField": "Item33",
+          "ToolTipText": ""
+        },
+        {
+          "ElementType": "RadioElement",
+          "NameText": "高风险评判",
+          "RadioElementList": [
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "高风险评判",
+              "Disable": "",
+              "ElementId": "70",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_69",
+              "IsHide": "",
+              "NameText": "高风险评判",
+              "OprationItemList": [
+                {
+                  "NumberValue": "2",
+                  "Text": "高风险评判",
+                  "Value": "2"
+                }
+              ],
+              "ParentId": "69",
+              "SaveField": "Item32",
+              "ToolTipText": ""
+            }
+          ],
+          "SaveField": "Item32"
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "74",
+          "ElementType": "DropRadioElement",
+          "FormName": "DropRadioElement_74",
+          "IsHide": "true",
+          "NameText": "下拉单选",
+          "OprationItemList": [
+            {
+              "NumberValue": "1",
+              "Text": "1.住院前6个月内发生≥2次跌倒",
+              "Value": "1"
+            },
+            {
+              "NumberValue": "2",
+              "Text": "2.住院期间发生跌倒",
+              "Value": "2"
+            },
+            {
+              "NumberValue": "3",
+              "Text": "3.癫痫史",
+              "Value": "3"
+            },
+            {
+              "NumberValue": "0",
+              "Text": "4.无",
+              "Value": "0"
+            }
+          ],
+          "ParentId": "70",
+          "SaveField": "Item34",
+          "ToolTipText": ""
+        },
+        {
+          "ElementType": "RadioElement",
+          "NameText": "评分评判",
+          "RadioElementList": [
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "71",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_69",
+              "IsHide": "",
+              "NameText": "评分评判",
+              "OprationItemList": [
+                {
+                  "NumberValue": "3",
+                  "Text": "评分评判",
+                  "Value": "3"
+                }
+              ],
+              "ParentId": "70",
+              "SaveField": "Item32",
+              "ToolTipText": ""
+            }
+          ],
+          "SaveField": "Item32"
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "77",
+          "ElementType": "DropRadioElement",
+          "FormName": "DropRadioElement_77",
+          "IsHide": "true",
+          "NameText": "年龄",
+          "OprationItemList": [
+            {
+              "NumberValue": "1",
+              "Text": "60-69岁",
+              "Value": "1"
+            },
+            {
+              "NumberValue": "2",
+              "Text": "70-79岁",
+              "Value": "2"
+            },
+            {
+              "NumberValue": "3",
+              "Text": "≥80岁",
+              "Value": "3"
+            },
+            {
+              "NumberValue": "0",
+              "Text": "<60岁",
+              "Value": "0"
+            }
+          ],
+          "ParentId": "75",
+          "SaveField": "Item35",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "79",
+          "ElementType": "DropRadioElement",
+          "FormName": "DropRadioElement_79",
+          "IsHide": "true",
+          "NameText": "跌倒史",
+          "OprationItemList": [
+            {
+              "NumberValue": "5",
+              "Text": "近6个月曾有不明原因跌倒经历",
+              "Value": "1"
+            },
+            {
+              "NumberValue": "0",
+              "Text": "无",
+              "Value": "2"
+            }
+          ],
+          "ParentId": "75",
+          "SaveField": "Item36",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "81",
+          "ElementType": "DropRadioElement",
+          "FormName": "DropRadioElement_81",
+          "IsHide": "true",
+          "NameText": "排泄、排便和排尿",
+          "OprationItemList": [
+            {
+              "NumberValue": "0",
+              "Text": "正常",
+              "Value": "1"
+            },
+            {
+              "NumberValue": "2",
+              "Text": "失禁",
+              "Value": "2"
+            },
+            {
+              "NumberValue": "2",
+              "Text": "紧迫或频繁的排泄",
+              "Value": "3"
+            },
+            {
+              "NumberValue": "4",
+              "Text": "失禁且紧迫和频繁的排泄",
+              "Value": "4"
+            }
+          ],
+          "ParentId": "75",
+          "SaveField": "Item37",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "83",
+          "ElementType": "DropRadioElement",
+          "FormName": "DropRadioElement_83",
+          "IsHide": "true",
+          "NameText": "使用跌倒风险药物：镇痛/麻醉剂、抗癫痫药、降压药、利尿剂、催眠药、泻药、镇静剂和精神药物",
+          "OprationItemList": [
+            {
+              "NumberValue": "3",
+              "Text": "使用1种跌倒风险药物",
+              "Value": "1"
+            },
+            {
+              "NumberValue": "5",
+              "Text": "使用≥2种跌倒风险药物",
+              "Value": "2"
+            },
+            {
+              "NumberValue": "7",
+              "Text": "在过去24小时内曾有手术镇静史",
+              "Value": "3"
+            },
+            {
+              "NumberValue": "0",
+              "Text": "无",
+              "Value": "4"
+            }
+          ],
+          "ParentId": "75",
+          "SaveField": "Item38",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "85",
+          "ElementType": "DropRadioElement",
+          "FormName": "DropRadioElement_85",
+          "IsHide": "true",
+          "NameText": "携带导管：指任何与患者相连接的导管，如静脉输液、胸腔引流管、留置导尿等",
+          "OprationItemList": [
+            {
+              "NumberValue": "1",
+              "Text": "携带1种导管",
+              "Value": "1"
+            },
+            {
+              "NumberValue": "2",
+              "Text": "携带2种导管",
+              "Value": "2"
+            },
+            {
+              "NumberValue": "3",
+              "Text": "携带≥3种导管",
+              "Value": "3"
+            },
+            {
+              "NumberValue": "0",
+              "Text": "无",
+              "Value": "4"
+            }
+          ],
+          "ParentId": "75",
+          "SaveField": "Item39",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "移动、转运或行走时需要辅助或监管",
+          "Disable": "",
+          "ElementId": "87",
+          "ElementType": "DropRadioElement",
+          "FormName": "DropRadioElement_87",
+          "IsHide": "true",
+          "NameText": "辅助或监管",
+          "OprationItemList": [
+            {
+              "NumberValue": "2",
+              "Text": "移动、转运或行走时需要辅助或监管",
+              "Value": "1"
+            },
+            {
+              "NumberValue": "0",
+              "Text": "无",
+              "Value": "2"
+            }
+          ],
+          "ParentId": "75",
+          "SaveField": "Item40",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "步态不稳定",
+          "Disable": "",
+          "ElementId": "89",
+          "ElementType": "DropRadioElement",
+          "FormName": "DropRadioElement_89",
+          "IsHide": "true",
+          "NameText": "步态",
+          "OprationItemList": [
+            {
+              "NumberValue": "2",
+              "Text": "步态不稳定",
+              "Value": "1"
+            },
+            {
+              "NumberValue": "0",
+              "Text": "无",
+              "Value": "2"
+            }
+          ],
+          "ParentId": "75",
+          "SaveField": "Item41",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "因视觉或听觉障碍而影响移动",
+          "Disable": "",
+          "ElementId": "91",
+          "ElementType": "DropRadioElement",
+          "FormName": "DropRadioElement_91",
+          "IsHide": "true",
+          "NameText": "视觉或听觉障碍",
+          "OprationItemList": [
+            {
+              "NumberValue": "2",
+              "Text": "因视觉或听觉障碍而影响移动",
+              "Value": "1"
+            },
+            {
+              "NumberValue": "0",
+              "Text": "无",
+              "Value": "2"
+            }
+          ],
+          "ParentId": "75",
+          "SaveField": "Item42",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "无",
+          "Disable": "",
+          "ElementId": "93",
+          "ElementType": "DropRadioElement",
+          "FormName": "DropRadioElement_93",
+          "IsHide": "true",
+          "NameText": "定向力障碍",
+          "OprationItemList": [
+            {
+              "NumberValue": "1",
+              "Text": "定向力障碍",
+              "Value": "1"
+            },
+            {
+              "NumberValue": "0",
+              "Text": "无",
+              "Value": "2"
+            }
+          ],
+          "ParentId": "75",
+          "SaveField": "Item43",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "无",
+          "Disable": "",
+          "ElementId": "95",
+          "ElementType": "DropRadioElement",
+          "FormName": "DropRadioElement_95",
+          "IsHide": "true",
+          "NameText": "烦躁",
+          "OprationItemList": [
+            {
+              "NumberValue": "2",
+              "Text": "烦躁",
+              "Value": "1"
+            },
+            {
+              "NumberValue": "0",
+              "Text": "无",
+              "Value": "2"
+            }
+          ],
+          "ParentId": "75",
+          "SaveField": "Item44",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "认知限制或障碍",
+          "Disable": "",
+          "ElementId": "97",
+          "ElementType": "DropRadioElement",
+          "FormName": "DropRadioElement_97",
+          "IsHide": "true",
+          "NameText": "认知限制或障碍",
+          "OprationItemList": [
+            {
+              "NumberValue": "4",
+              "Text": "认知限制或障碍",
+              "Value": "1"
+            },
+            {
+              "NumberValue": "0",
+              "Text": "无",
+              "Value": "2"
+            }
+          ],
+          "ParentId": "75",
+          "SaveField": "Item45",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "10",
+          "Disable": "",
+          "ElementId": "99",
+          "ElementType": "NumberElement",
+          "FormName": "NumberElement_99",
+          "IsHide": "true",
+          "NameText": "总分",
+          "OprationItemList": [],
+          "ParentId": "75",
+          "SaveField": "Item46",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "37",
+          "ElementType": "DropRadioElement",
+          "FormName": "DropRadioElement_37",
+          "IsHide": "",
+          "NameText": "光线充足，照明良好",
+          "OprationItemList": [
+            {
+              "NumberValue": "1",
+              "Text": "√",
+              "Value": "1"
+            },
+            {
+              "NumberValue": "2",
+              "Text": "0",
+              "Value": "2"
+            }
+          ],
+          "ParentId": "35",
+          "SaveField": "Item17",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "39",
+          "ElementType": "DropRadioElement",
+          "FormName": "DropRadioElement_39",
+          "IsHide": "",
+          "NameText": "地面清洁，无水迹，湿拖地时有防滑警示标识",
+          "OprationItemList": [
+            {
+              "NumberValue": "1",
+              "Text": "√",
+              "Value": "1"
+            },
+            {
+              "NumberValue": "2",
+              "Text": "0",
+              "Value": "2"
+            }
+          ],
+          "ParentId": "35",
+          "SaveField": "Item18",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "41",
+          "ElementType": "DropRadioElement",
+          "FormName": "DropRadioElement_41",
+          "IsHide": "",
+          "NameText": "活动区域无障碍物",
+          "OprationItemList": [
+            {
+              "NumberValue": "1",
+              "Text": "√",
+              "Value": "1"
+            },
+            {
+              "NumberValue": "2",
+              "Text": "0",
+              "Value": "2"
+            }
+          ],
+          "ParentId": "35",
+          "SaveField": "Item19",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "43",
+          "ElementType": "DropRadioElement",
+          "FormName": "DropRadioElement_43",
+          "IsHide": "",
+          "NameText": "呼叫器放于患者手可及处，教会使用方法",
+          "OprationItemList": [
+            {
+              "NumberValue": "1",
+              "Text": "√",
+              "Value": "1"
+            },
+            {
+              "NumberValue": "2",
+              "Text": "0",
+              "Value": "2"
+            }
+          ],
+          "ParentId": "35",
+          "SaveField": "Item20",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "45",
+          "ElementType": "DropRadioElement",
+          "FormName": "DropRadioElement_45",
+          "IsHide": "",
+          "NameText": "常用物品放在患者易取处",
+          "OprationItemList": [
+            {
+              "NumberValue": "1",
+              "Text": "√",
+              "Value": "1"
+            },
+            {
+              "NumberValue": "2",
+              "Text": "0",
+              "Value": "2"
+            }
+          ],
+          "ParentId": "35",
+          "SaveField": "Item21",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "47",
+          "ElementType": "DropRadioElement",
+          "FormName": "DropRadioElement_47",
+          "IsHide": "",
+          "NameText": "使用床档、床刹",
+          "OprationItemList": [
+            {
+              "NumberValue": "1",
+              "Text": "√",
+              "Value": "1"
+            },
+            {
+              "NumberValue": "2",
+              "Text": "0",
+              "Value": "2"
+            }
+          ],
+          "ParentId": "35",
+          "SaveField": "Item22",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "49",
+          "ElementType": "DropRadioElement",
+          "FormName": "DropRadioElement_49",
+          "IsHide": "",
+          "NameText": "衣裤长短合适，穿防滑鞋",
+          "OprationItemList": [
+            {
+              "NumberValue": "1",
+              "Text": "√",
+              "Value": "1"
+            },
+            {
+              "NumberValue": "2",
+              "Text": "0",
+              "Value": "2"
+            }
+          ],
+          "ParentId": "35",
+          "SaveField": "Item23",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "51",
+          "ElementType": "DropRadioElement",
+          "FormName": "DropRadioElement_51",
+          "IsHide": "",
+          "NameText": "必要时适当使用保护性约束",
+          "OprationItemList": [
+            {
+              "NumberValue": "1",
+              "Text": "√",
+              "Value": "1"
+            },
+            {
+              "NumberValue": "2",
+              "Text": "0",
+              "Value": "2"
+            }
+          ],
+          "ParentId": "35",
+          "SaveField": "Item24",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "53",
+          "ElementType": "DropRadioElement",
+          "FormName": "DropRadioElement_53",
+          "IsHide": "",
+          "NameText": "高风险患者床头挂跌倒警示标识",
+          "OprationItemList": [
+            {
+              "NumberValue": "1",
+              "Text": "√",
+              "Value": "1"
+            },
+            {
+              "NumberValue": "2",
+              "Text": "0",
+              "Value": "2"
+            }
+          ],
+          "ParentId": "35",
+          "SaveField": "Item25",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "55",
+          "ElementType": "DropRadioElement",
+          "FormName": "DropRadioElement_55",
+          "IsHide": "",
+          "NameText": "高风险患者重点交接，定时巡视",
+          "OprationItemList": [
+            {
+              "NumberValue": "1",
+              "Text": "√",
+              "Value": "1"
+            },
+            {
+              "NumberValue": "2",
+              "Text": "0",
+              "Value": "2"
+            }
+          ],
+          "ParentId": "35",
+          "SaveField": "Item26",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "57",
+          "ElementType": "DropRadioElement",
+          "FormName": "DropRadioElement_57",
+          "IsHide": "",
+          "NameText": "讲解防跌倒相关知识，提高自我照顾技巧",
+          "OprationItemList": [
+            {
+              "NumberValue": "1",
+              "Text": "√",
+              "Value": "1"
+            },
+            {
+              "NumberValue": "2",
+              "Text": "0",
+              "Value": "2"
+            }
+          ],
+          "ParentId": "35",
+          "SaveField": "Item27",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "59",
+          "ElementType": "DropRadioElement",
+          "FormName": "DropRadioElement_59",
+          "IsHide": "",
+          "NameText": "指导使用特殊药物注意事项",
+          "OprationItemList": [
+            {
+              "NumberValue": "1",
+              "Text": "√",
+              "Value": "1"
+            },
+            {
+              "NumberValue": "2",
+              "Text": "0",
+              "Value": "2"
+            }
+          ],
+          "ParentId": "35",
+          "SaveField": "Item28",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "61",
+          "ElementType": "DropRadioElement",
+          "FormName": "DropRadioElement_61",
+          "IsHide": "",
+          "NameText": "合理安排陪护人员，陪护人员不可与患者在同一病床休息",
+          "OprationItemList": [
+            {
+              "NumberValue": "1",
+              "Text": "√",
+              "Value": "1"
+            },
+            {
+              "NumberValue": "2",
+              "Text": "0",
+              "Value": "2"
+            }
+          ],
+          "ParentId": "35",
+          "SaveField": "Item29",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "63",
+          "ElementType": "DropRadioElement",
+          "FormName": "DropRadioElement_63",
+          "IsHide": "",
+          "NameText": "必要时提供辅助具，并教会使用方法",
+          "OprationItemList": [
+            {
+              "NumberValue": "1",
+              "Text": "√",
+              "Value": "1"
+            },
+            {
+              "NumberValue": "2",
+              "Text": "0",
+              "Value": "2"
+            }
+          ],
+          "ParentId": "35",
+          "SaveField": "Item30",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "nurse",
+          "Disable": "",
+          "ElementId": "65",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_65",
+          "IsHide": "",
+          "NameText": "护士签名",
+          "OprationItemList": [],
+          "ParentId": "35",
+          "SaveField": "Item31",
+          "ToolTipText": ""
+        }
+      ],
+      "ElementSets": [
+        {
+          "ChangeList": [
+            {
+              "Id": "72",
+              "Type": "Show,Enable"
+            },
+            {
+              "Id": "74",
+              "Type": ""
+            },
+            {
+              "Id": "75",
+              "Type": ""
+            }
+          ],
+          "FormName": "RadioElement_69",
+          "Val": "1"
+        },
+        {
+          "ChangeList": [
+            {
+              "Id": "72",
+              "Type": ""
+            },
+            {
+              "Id": "74",
+              "Type": "Show,Enable"
+            },
+            {
+              "Id": "75",
+              "Type": ""
+            }
+          ],
+          "FormName": "RadioElement_69",
+          "Val": "2"
+        },
+        {
+          "ChangeList": [
+            {
+              "Id": "75",
+              "Type": "Show"
+            },
+            {
+              "Id": "74",
+              "Type": ""
+            },
+            {
+              "Id": "72",
+              "Type": ""
+            }
+          ],
+          "FormName": "RadioElement_69",
+          "Val": "3"
+        }
+      ],
+      "TemplateIndentity": "",
+      "statisticsList": [
+        {
+          "CalType": "Sum",
+          "Effects": "77,79,81,83,85,87,89,91,93,95,97",
+          "Id": "99"
+        }
+      ]
+    },
+    "Table": []
+  },
+  "firstIdList": [
+    {
+      "EmrCode": "DHCNURBarthelLR",
+      "GuId": "6DCA2DE8907646B7B621D24364200F1D",
+      "RecId": "7746"
+    },
+    {
+      "EmrCode": "DHCNURDDFXPGJHLJLDLR",
+      "GuId": "165A867CFBB94662AE844DAD91A14835",
+      "RecId": "7758"
+    },
+    {
+      "EmrCode": "DHCNURGLHTFXYSPGJHLCSLR",
+      "GuId": "09579D9FEF1E4CF0B3FC4AE9B99E8768",
+      "RecId": "7717"
+    },
+    {
+      "EmrCode": "DHCNURYCFXPGJHLJLDCRHZLR",
+      "GuId": "704FFD85BCBA43DD8550EC2FB961658B",
+      "RecId": ""
+    }
+  ],
+  "msg": "",
+  "status": "0"
+}

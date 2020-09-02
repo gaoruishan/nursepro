@@ -299,6 +299,9 @@ public class AppUtil {
     @TargetApi(Build.VERSION_CODES.KITKAT)
     private static boolean isNotificationEnabled(Context context) {
 
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+            return true;
+        }
         String CHECK_OP_NO_THROW = "checkOpNoThrow";
         String OP_POST_NOTIFICATION = "OP_POST_NOTIFICATION";
 

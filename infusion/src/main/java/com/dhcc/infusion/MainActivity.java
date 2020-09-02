@@ -13,6 +13,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.CompoundButton;
@@ -21,10 +22,10 @@ import android.widget.Toast;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.MessageEvent;
+import com.base.commlibs.WeSocketActivity;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
-import com.base.commlibs.service.JWebSocketClientService;
 import com.base.commlibs.service.MServiceNewOrd;
 import com.base.commlibs.utils.AppUtil;
 import com.base.commlibs.utils.UserUtil;
@@ -45,7 +46,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
-public class MainActivity extends BaseActivity implements RadioButton.OnCheckedChangeListener {
+public class MainActivity extends WeSocketActivity implements RadioButton.OnCheckedChangeListener {
 
     private static final int TAB_WORKAREA = 9001;
     private static final int TAB_MESSAGE = 9002;
@@ -110,48 +111,21 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Log.e(TAG, "(MainActivity.java:297) " + requestCode);
-    }
+    public void onMessageReceive(String msg) {
+        try {
+            if (TextUtils.isEmpty(msg)) {
+                return;
+            }
+            if (msg.contains("{") && msg.contains("}")) {
+                CommResult result = new Gson().fromJson(msg, CommResult.class);
+                if (!"0".equals(result.getStatus())) {
+                    ToastUtils.showShort(result.getMsg());
+                }
+            }
+        } catch (Exception e) {
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (mainReceiver != null && !UserUtil.isMsgNoticeFlag()) {
-            unregisterReceiver(mainReceiver);
         }
-    }
 
-    @Override
-    protected void onResume(@Nullable Bundle args) {
-        super.onResume(args);
-        UpdateAppUtil.onResume(MainActivity.this);
-
-        if (mainReceiver != null) {
-            mainfilter.addAction(Action.NEWMESSAGE_SERVICE);
-            mainfilter.addAction(JWebSocketClientService.ACTION_WEB_SOCKET);
-            registerReceiver(mainReceiver, mainfilter);
-        }
-    }
-
-
-
-    @Override
-    public void setmessage(int messageNum,String soundFlag,String vibrateFlag) {
-        super.setmessage(messageNum,"1","1");
-
-
-        Drawable drawable;
-        if (messageNum < 1) {
-            drawable = getResources().getDrawable(R.drawable.tabbar_item_message_selector);
-            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-        } else {
-            drawable = getResources().getDrawable(R.drawable.tabbar_item_havemessage_selector);
-            drawable.setBounds(8, 0, drawable.getIntrinsicWidth() + 8, drawable.getIntrinsicHeight());
-            AppUtil.showNotification(MainActivity.this,new Intent(MainActivity.this, MainActivity.class));
-        }
-        rbMessage.setCompoundDrawables(null, drawable, null, null);
     }
 
     /**
@@ -197,6 +171,48 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         rbMessage.setOnCheckedChangeListener(this);
         rbSetting.setOnCheckedChangeListener(this);
         rbWorkarea.setChecked(true);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.e(TAG, "(MainActivity.java:297) " + requestCode);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mainReceiver != null && !UserUtil.isMsgNoticeFlag()) {
+            unregisterReceiver(mainReceiver);
+        }
+    }
+
+    @Override
+    protected void onResume(@Nullable Bundle args) {
+        super.onResume(args);
+        UpdateAppUtil.onResume(MainActivity.this);
+
+        if (mainReceiver != null) {
+            mainfilter.addAction(Action.NEWMESSAGE_SERVICE);
+            registerReceiver(mainReceiver, mainfilter);
+        }
+    }
+
+    @Override
+    public void setmessage(int messageNum, String soundFlag, String vibrateFlag) {
+        super.setmessage(messageNum, "1", "1");
+
+
+        Drawable drawable;
+        if (messageNum < 1) {
+            drawable = getResources().getDrawable(R.drawable.tabbar_item_message_selector);
+            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        } else {
+            drawable = getResources().getDrawable(R.drawable.tabbar_item_havemessage_selector);
+            drawable.setBounds(8, 0, drawable.getIntrinsicWidth() + 8, drawable.getIntrinsicHeight());
+            AppUtil.showNotification(MainActivity.this, new Intent(MainActivity.this, MainActivity.class));
+        }
+        rbMessage.setCompoundDrawables(null, drawable, null, null);
     }
 
     @Override
@@ -300,7 +316,7 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
                     } catch (Exception e) {
                     }
                 }
-                setmessage(messageNum,"1","1");
+                setmessage(messageNum, "1", "1");
             }
         });
     }
@@ -317,7 +333,7 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    AppUtil.showNotification(MainActivity.this,new Intent(MainActivity.this, MainActivity.class));
+                    AppUtil.showNotification(MainActivity.this, new Intent(MainActivity.this, MainActivity.class));
                 }
             }, 2000);
             try {
@@ -365,13 +381,6 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         public void onReceive(Context context, Intent intent) {
             if (Action.NEWMESSAGE_SERVICE.equals(intent.getAction())) {
                 notifyMessage();
-            }
-            if (JWebSocketClientService.ACTION_WEB_SOCKET.equals(intent.getAction())) {
-                String message = intent.getStringExtra(JWebSocketClientService.MESSAGE);
-                CommResult result = new Gson().fromJson(message, CommResult.class);
-                if (!"0".equals(result.getStatus())) {
-                    ToastUtils.showShort(result.getMsg());
-                }
             }
         }
     }

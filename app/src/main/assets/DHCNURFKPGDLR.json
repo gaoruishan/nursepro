@@ -1,0 +1,4531 @@
+{
+  "data": {
+    "Input": {
+      "ElementBases": [
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "outside,$5546AE29F2AD4EB38929EC69F28F4189,$5546AE29F2AD4EB38929EC69F28F4189!9E89131DE2724B219617D7B52D49F7C1",
+          "DefaultValue": "内分泌代谢病科",
+          "Disable": "",
+          "ElementId": "289",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_289",
+          "IsHide": "",
+          "NameText": "科室",
+          "OprationItemList": [],
+          "ParentId": "",
+          "SaveField": "Item64",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "outside,$5546AE29F2AD4EB38929EC69F28F4189,$5546AE29F2AD4EB38929EC69F28F4189!D079131CA99B4F7DAA6D9910F09C340D",
+          "DefaultValue": "03",
+          "Disable": "",
+          "ElementId": "291",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_291",
+          "IsHide": "",
+          "NameText": "床号",
+          "OprationItemList": [],
+          "ParentId": "",
+          "SaveField": "Item65",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "outside,$5546AE29F2AD4EB38929EC69F28F4189,$5546AE29F2AD4EB38929EC69F28F4189!681BC3C438EA4038BBC14F68F3FABD5D",
+          "DefaultValue": "孙凯",
+          "Disable": "",
+          "ElementId": "293",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_293",
+          "IsHide": "",
+          "NameText": "姓名",
+          "OprationItemList": [],
+          "ParentId": "",
+          "SaveField": "Item66",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "outside,$5546AE29F2AD4EB38929EC69F28F4189,$5546AE29F2AD4EB38929EC69F28F4189!EEC533CCE8214787982304357ABBD365",
+          "DefaultValue": "1199533",
+          "Disable": "",
+          "ElementId": "295",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_295",
+          "IsHide": "",
+          "NameText": "住院号",
+          "OprationItemList": [],
+          "ParentId": "",
+          "SaveField": "Item67",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "outside,$5546AE29F2AD4EB38929EC69F28F4189,$5546AE29F2AD4EB38929EC69F28F4189!41D46590AB8947D78AB7C7C0DAC96221",
+          "DefaultValue": "男",
+          "Disable": "",
+          "ElementId": "297",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_297",
+          "IsHide": "",
+          "NameText": "性别",
+          "OprationItemList": [],
+          "ParentId": "",
+          "SaveField": "Item68",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "outside,$5546AE29F2AD4EB38929EC69F28F4189,$5546AE29F2AD4EB38929EC69F28F4189!95707AEE7AD44F8AAE492CDE78716ED4",
+          "DefaultValue": "31岁",
+          "Disable": "",
+          "ElementId": "299",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_299",
+          "IsHide": "",
+          "NameText": "年龄",
+          "OprationItemList": [],
+          "ParentId": "",
+          "SaveField": "Item69",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "outside,$5546AE29F2AD4EB38929EC69F28F4189,$5546AE29F2AD4EB38929EC69F28F4189!68AD018894534AD7B5249FEEBD6DE436",
+          "DefaultValue": "2020-07-14",
+          "Disable": "",
+          "ElementId": "23",
+          "ElementType": "DateElement",
+          "FormName": "DateElement_23",
+          "IsHide": "",
+          "NameText": "入院日期",
+          "OprationItemList": [],
+          "ParentId": "22",
+          "SaveField": "Item1",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "outside,$5546AE29F2AD4EB38929EC69F28F4189,$5546AE29F2AD4EB38929EC69F28F4189!5B581936E5DA422AB5CFA0748D0D148F",
+          "DefaultValue": "10:48",
+          "Disable": "",
+          "ElementId": "27",
+          "ElementType": "TimeElement",
+          "FormName": "TimeElement_27",
+          "IsHide": "",
+          "NameText": "入院时间",
+          "OprationItemList": [],
+          "ParentId": "22",
+          "SaveField": "Item2",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "outside,$5546AE29F2AD4EB38929EC69F28F4189,$5546AE29F2AD4EB38929EC69F28F4189!1EEAC728336E44F7A81C181C5C02FD2C",
+          "DefaultValue": "高血压",
+          "Disable": "",
+          "ElementId": "30",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_30",
+          "IsHide": "",
+          "NameText": "入院诊断",
+          "OprationItemList": [],
+          "ParentId": "29",
+          "SaveField": "Item3",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "34",
+          "ElementType": "DateElement",
+          "FormName": "DateElement_34",
+          "IsHide": "",
+          "NameText": "转入日期",
+          "OprationItemList": [],
+          "ParentId": "33",
+          "SaveField": "Item4",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "38",
+          "ElementType": "TimeElement",
+          "FormName": "TimeElement_38",
+          "IsHide": "",
+          "NameText": "转入时间",
+          "OprationItemList": [],
+          "ParentId": "33",
+          "SaveField": "Item5",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "41",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_41",
+          "IsHide": "",
+          "NameText": "转入诊断",
+          "OprationItemList": [],
+          "ParentId": "40",
+          "SaveField": "Item6",
+          "ToolTipText": ""
+        },
+        {
+          "ElementType": "RadioElement",
+          "NameText": "转入",
+          "RadioElementList": [
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "44",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_44",
+              "IsHide": "",
+              "NameText": "急诊",
+              "OprationItemList": [
+                {
+                  "NumberValue": "1",
+                  "Text": "急诊",
+                  "Value": "1"
+                }
+              ],
+              "ParentId": "40",
+              "SaveField": "Item7",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "46",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_44",
+              "IsHide": "",
+              "NameText": "门诊",
+              "OprationItemList": [
+                {
+                  "NumberValue": "2",
+                  "Text": "门诊",
+                  "Value": "2"
+                }
+              ],
+              "ParentId": "40",
+              "SaveField": "Item7",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "47",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_44",
+              "IsHide": "",
+              "NameText": "转入",
+              "OprationItemList": [
+                {
+                  "NumberValue": "3",
+                  "Text": "转入",
+                  "Value": "3"
+                }
+              ],
+              "ParentId": "40",
+              "SaveField": "Item7",
+              "ToolTipText": ""
+            }
+          ],
+          "SaveField": "Item7"
+        },
+        {
+          "ElementType": "RadioElement",
+          "NameText": "平车",
+          "RadioElementList": [
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "48",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_48",
+              "IsHide": "",
+              "NameText": "步行",
+              "OprationItemList": [
+                {
+                  "NumberValue": "1",
+                  "Text": "步行",
+                  "Value": "1"
+                }
+              ],
+              "ParentId": "40",
+              "SaveField": "Item8",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "50",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_48",
+              "IsHide": "",
+              "NameText": "扶行",
+              "OprationItemList": [
+                {
+                  "NumberValue": "2",
+                  "Text": "扶行",
+                  "Value": "2"
+                }
+              ],
+              "ParentId": "40",
+              "SaveField": "Item8",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "51",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_48",
+              "IsHide": "",
+              "NameText": "轮椅",
+              "OprationItemList": [
+                {
+                  "NumberValue": "3",
+                  "Text": "轮椅",
+                  "Value": "3"
+                }
+              ],
+              "ParentId": "40",
+              "SaveField": "Item8",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "52",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_48",
+              "IsHide": "",
+              "NameText": "平车",
+              "OprationItemList": [
+                {
+                  "NumberValue": "4",
+                  "Text": "平车",
+                  "Value": "4"
+                }
+              ],
+              "ParentId": "40",
+              "SaveField": "Item8",
+              "ToolTipText": ""
+            }
+          ],
+          "SaveField": "Item8"
+        },
+        {
+          "ElementType": "RadioElement",
+          "NameText": "其他",
+          "RadioElementList": [
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "53",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_53",
+              "IsHide": "",
+              "NameText": "自费",
+              "OprationItemList": [
+                {
+                  "NumberValue": "1",
+                  "Text": "自费",
+                  "Value": "1"
+                }
+              ],
+              "ParentId": "40",
+              "SaveField": "Item9",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "55",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_53",
+              "IsHide": "",
+              "NameText": "职工医保",
+              "OprationItemList": [
+                {
+                  "NumberValue": "2",
+                  "Text": "职工医保",
+                  "Value": "2"
+                }
+              ],
+              "ParentId": "40",
+              "SaveField": "Item9",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "56",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_53",
+              "IsHide": "",
+              "NameText": "城乡居民医保",
+              "OprationItemList": [
+                {
+                  "NumberValue": "3",
+                  "Text": "城乡居民医保",
+                  "Value": "3"
+                }
+              ],
+              "ParentId": "40",
+              "SaveField": "Item9",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "57",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_53",
+              "IsHide": "",
+              "NameText": "商业保险",
+              "OprationItemList": [
+                {
+                  "NumberValue": "4",
+                  "Text": "商业保险",
+                  "Value": "4"
+                }
+              ],
+              "ParentId": "40",
+              "SaveField": "Item9",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "58",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_53",
+              "IsHide": "",
+              "NameText": "其他",
+              "OprationItemList": [
+                {
+                  "NumberValue": "5",
+                  "Text": "其他",
+                  "Value": "5"
+                }
+              ],
+              "ParentId": "40",
+              "SaveField": "Item9",
+              "ToolTipText": ""
+            }
+          ],
+          "SaveField": "Item9"
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "67",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_67",
+          "IsHide": "",
+          "NameText": "体温",
+          "OprationItemList": [],
+          "ParentId": "66",
+          "SaveField": "Item10",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "70",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_70",
+          "IsHide": "",
+          "NameText": "收缩压",
+          "OprationItemList": [],
+          "ParentId": "66",
+          "SaveField": "Item11",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "1809",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_1809",
+          "IsHide": "",
+          "NameText": "舒张压",
+          "OprationItemList": [],
+          "ParentId": "66",
+          "SaveField": "Item133",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "73",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_73",
+          "IsHide": "",
+          "NameText": "脉搏",
+          "OprationItemList": [],
+          "ParentId": "66",
+          "SaveField": "Item12",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "1811",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_1811",
+          "IsHide": "",
+          "NameText": "心率",
+          "OprationItemList": [],
+          "ParentId": "66",
+          "SaveField": "Item134",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "120",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_120",
+          "IsHide": "",
+          "NameText": "呼吸",
+          "OprationItemList": [],
+          "ParentId": "66",
+          "SaveField": "Item23",
+          "ToolTipText": ""
+        },
+        {
+          "ElementType": "RadioElement",
+          "NameText": "其他",
+          "RadioElementList": [
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "87",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_87",
+              "IsHide": "",
+              "NameText": "清醒",
+              "OprationItemList": [
+                {
+                  "NumberValue": "1",
+                  "Text": "清醒",
+                  "Value": "1"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item14",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "89",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_87",
+              "IsHide": "",
+              "NameText": "嗜睡",
+              "OprationItemList": [
+                {
+                  "NumberValue": "2",
+                  "Text": "嗜睡",
+                  "Value": "2"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item14",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "90",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_87",
+              "IsHide": "",
+              "NameText": "模糊",
+              "OprationItemList": [
+                {
+                  "NumberValue": "3",
+                  "Text": "模糊",
+                  "Value": "3"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item14",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "91",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_87",
+              "IsHide": "",
+              "NameText": "昏迷",
+              "OprationItemList": [
+                {
+                  "NumberValue": "4",
+                  "Text": "昏迷",
+                  "Value": "4"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item14",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "92",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_87",
+              "IsHide": "",
+              "NameText": "其他",
+              "OprationItemList": [
+                {
+                  "NumberValue": "5",
+                  "Text": "其他",
+                  "Value": "5"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item14",
+              "ToolTipText": ""
+            }
+          ],
+          "SaveField": "Item14"
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "true",
+          "ElementId": "95",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_95",
+          "IsHide": "true",
+          "NameText": "意识状态",
+          "OprationItemList": [],
+          "ParentId": "65",
+          "SaveField": "Item15",
+          "ToolTipText": ""
+        },
+        {
+          "ElementType": "RadioElement",
+          "NameText": "其他",
+          "RadioElementList": [
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "97",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_97",
+              "IsHide": "",
+              "NameText": "正常",
+              "OprationItemList": [
+                {
+                  "NumberValue": "1",
+                  "Text": "正常",
+                  "Value": "1"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item16",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "99",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_97",
+              "IsHide": "",
+              "NameText": "苍白",
+              "OprationItemList": [
+                {
+                  "NumberValue": "2",
+                  "Text": "苍白",
+                  "Value": "2"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item16",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "100",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_97",
+              "IsHide": "",
+              "NameText": "潮红",
+              "OprationItemList": [
+                {
+                  "NumberValue": "3",
+                  "Text": "潮红",
+                  "Value": "3"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item16",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "101",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_97",
+              "IsHide": "",
+              "NameText": "黄疸",
+              "OprationItemList": [
+                {
+                  "NumberValue": "4",
+                  "Text": "黄疸",
+                  "Value": "4"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item16",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "102",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_97",
+              "IsHide": "",
+              "NameText": "紫绀",
+              "OprationItemList": [
+                {
+                  "NumberValue": "5",
+                  "Text": "紫绀",
+                  "Value": "5"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item16",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "103",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_97",
+              "IsHide": "",
+              "NameText": "其他",
+              "OprationItemList": [
+                {
+                  "NumberValue": "6",
+                  "Text": "其他",
+                  "Value": "6"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item16",
+              "ToolTipText": ""
+            }
+          ],
+          "SaveField": "Item16"
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "true",
+          "ElementId": "104",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_104",
+          "IsHide": "true",
+          "NameText": "皮肤粘膜：颜色",
+          "OprationItemList": [],
+          "ParentId": "65",
+          "SaveField": "Item17",
+          "ToolTipText": ""
+        },
+        {
+          "ElementType": "RadioElement",
+          "NameText": "皮肤黏膜:完整性",
+          "RadioElementList": [
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "106",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_106",
+              "IsHide": "",
+              "NameText": "完整：",
+              "OprationItemList": [
+                {
+                  "NumberValue": "1",
+                  "Text": "完整：",
+                  "Value": "1"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item18",
+              "ToolTipText": ""
+            }
+          ],
+          "SaveField": "Item18"
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "true",
+          "ElementId": "1762",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_1762",
+          "IsHide": "true",
+          "NameText": "手术瘢痕部位",
+          "OprationItemList": [],
+          "ParentId": "106",
+          "SaveField": "Item117",
+          "ToolTipText": ""
+        },
+        {
+          "ElementType": "RadioElement",
+          "NameText": "",
+          "RadioElementList": [
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "1761",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_106",
+              "IsHide": "",
+              "NameText": "不完整：",
+              "OprationItemList": [
+                {
+                  "NumberValue": "2",
+                  "Text": "不完整：",
+                  "Value": "2"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item18",
+              "ToolTipText": ""
+            }
+          ],
+          "SaveField": "Item18"
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "true",
+          "ElementId": "1764",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_1764",
+          "IsHide": "true",
+          "NameText": "带入压疮部位",
+          "OprationItemList": [],
+          "ParentId": "1761",
+          "SaveField": "Item118",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "true",
+          "ElementId": "1766",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_1766",
+          "IsHide": "true",
+          "NameText": "破损部位",
+          "OprationItemList": [],
+          "ParentId": "1761",
+          "SaveField": "Item119",
+          "ToolTipText": ""
+        },
+        {
+          "ElementType": "RadioElement",
+          "NameText": "其他",
+          "RadioElementList": [
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "124",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_124",
+              "IsHide": "",
+              "NameText": "正常",
+              "OprationItemList": [
+                {
+                  "NumberValue": "1",
+                  "Text": "正常",
+                  "Value": "1"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item24",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "126",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_124",
+              "IsHide": "",
+              "NameText": "水肿",
+              "OprationItemList": [
+                {
+                  "NumberValue": "2",
+                  "Text": "水肿",
+                  "Value": "2"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item24",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "127",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_124",
+              "IsHide": "",
+              "NameText": "脱水",
+              "OprationItemList": [
+                {
+                  "NumberValue": "3",
+                  "Text": "脱水",
+                  "Value": "3"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item24",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "128",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_124",
+              "IsHide": "",
+              "NameText": "皮疹",
+              "OprationItemList": [
+                {
+                  "NumberValue": "4",
+                  "Text": "皮疹",
+                  "Value": "4"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item24",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "129",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_124",
+              "IsHide": "",
+              "NameText": "皮下出血",
+              "OprationItemList": [
+                {
+                  "NumberValue": "5",
+                  "Text": "皮下出血",
+                  "Value": "5"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item24",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "130",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_124",
+              "IsHide": "",
+              "NameText": "其他",
+              "OprationItemList": [
+                {
+                  "NumberValue": "6",
+                  "Text": "其他",
+                  "Value": "6"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item24",
+              "ToolTipText": ""
+            }
+          ],
+          "SaveField": "Item24"
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "true",
+          "ElementId": "131",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_131",
+          "IsHide": "true",
+          "NameText": "皮肤粘膜：外观",
+          "OprationItemList": [],
+          "ParentId": "65",
+          "SaveField": "Item25",
+          "ToolTipText": ""
+        },
+        {
+          "ElementType": "RadioElement",
+          "NameText": "无法评估",
+          "RadioElementList": [
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "133",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_133",
+              "IsHide": "",
+              "NameText": "正常",
+              "OprationItemList": [
+                {
+                  "NumberValue": "1",
+                  "Text": "正常",
+                  "Value": "1"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item26",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "135",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_133",
+              "IsHide": "",
+              "NameText": "失禁",
+              "OprationItemList": [
+                {
+                  "NumberValue": "2",
+                  "Text": "失禁",
+                  "Value": "2"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item26",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "136",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_133",
+              "IsHide": "",
+              "NameText": "尿潴留",
+              "OprationItemList": [
+                {
+                  "NumberValue": "3",
+                  "Text": "尿潴留",
+                  "Value": "3"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item26",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "137",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_133",
+              "IsHide": "",
+              "NameText": "保留尿管",
+              "OprationItemList": [
+                {
+                  "NumberValue": "4",
+                  "Text": "保留尿管",
+                  "Value": "4"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item26",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "138",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_133",
+              "IsHide": "",
+              "NameText": "人工瘘管",
+              "OprationItemList": [
+                {
+                  "NumberValue": "5",
+                  "Text": "人工瘘管",
+                  "Value": "5"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item26",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "139",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_133",
+              "IsHide": "",
+              "NameText": "无法评估",
+              "OprationItemList": [
+                {
+                  "NumberValue": "6",
+                  "Text": "无法评估",
+                  "Value": "6"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item26",
+              "ToolTipText": ""
+            }
+          ],
+          "SaveField": "Item26"
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "true",
+          "ElementId": "140",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_140",
+          "IsHide": "true",
+          "NameText": "单行输入",
+          "OprationItemList": [],
+          "ParentId": "65",
+          "SaveField": "Item27",
+          "ToolTipText": ""
+        },
+        {
+          "ElementType": "RadioElement",
+          "NameText": "其他",
+          "RadioElementList": [
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "1759",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_133",
+              "IsHide": "",
+              "NameText": "其他",
+              "OprationItemList": [
+                {
+                  "NumberValue": "7",
+                  "Text": "其他",
+                  "Value": "7"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item26",
+              "ToolTipText": ""
+            }
+          ],
+          "SaveField": "Item26"
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "true",
+          "ElementId": "144",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_144",
+          "IsHide": "true",
+          "NameText": "单行输入",
+          "OprationItemList": [],
+          "ParentId": "65",
+          "SaveField": "Item29",
+          "ToolTipText": ""
+        },
+        {
+          "ElementType": "RadioElement",
+          "NameText": "无法评估",
+          "RadioElementList": [
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "146",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_146",
+              "IsHide": "",
+              "NameText": "正常",
+              "OprationItemList": [
+                {
+                  "NumberValue": "1",
+                  "Text": "正常",
+                  "Value": "1"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item30",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "148",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_146",
+              "IsHide": "",
+              "NameText": "失禁",
+              "OprationItemList": [
+                {
+                  "NumberValue": "2",
+                  "Text": "失禁",
+                  "Value": "2"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item30",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "149",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_146",
+              "IsHide": "",
+              "NameText": "腹泻",
+              "OprationItemList": [
+                {
+                  "NumberValue": "3",
+                  "Text": "腹泻",
+                  "Value": "3"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item30",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "150",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_146",
+              "IsHide": "",
+              "NameText": "便秘",
+              "OprationItemList": [
+                {
+                  "NumberValue": "4",
+                  "Text": "便秘",
+                  "Value": "4"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item30",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "151",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_146",
+              "IsHide": "",
+              "NameText": "便血",
+              "OprationItemList": [
+                {
+                  "NumberValue": "5",
+                  "Text": "便血",
+                  "Value": "5"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item30",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "152",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_146",
+              "IsHide": "",
+              "NameText": "肠造瘘",
+              "OprationItemList": [
+                {
+                  "NumberValue": "6",
+                  "Text": "肠造瘘",
+                  "Value": "6"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item30",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "153",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_146",
+              "IsHide": "",
+              "NameText": "无法评估",
+              "OprationItemList": [
+                {
+                  "NumberValue": "7",
+                  "Text": "无法评估",
+                  "Value": "7"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item30",
+              "ToolTipText": ""
+            }
+          ],
+          "SaveField": "Item30"
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "true",
+          "ElementId": "154",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_154",
+          "IsHide": "true",
+          "NameText": "单行输入",
+          "OprationItemList": [],
+          "ParentId": "65",
+          "SaveField": "Item31",
+          "ToolTipText": ""
+        },
+        {
+          "ElementType": "RadioElement",
+          "NameText": "其他",
+          "RadioElementList": [
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "1760",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_146",
+              "IsHide": "",
+              "NameText": "其他",
+              "OprationItemList": [
+                {
+                  "NumberValue": "8",
+                  "Text": "其他",
+                  "Value": "8"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item30",
+              "ToolTipText": ""
+            }
+          ],
+          "SaveField": "Item30"
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "true",
+          "ElementId": "158",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_158",
+          "IsHide": "true",
+          "NameText": "单行输入",
+          "OprationItemList": [],
+          "ParentId": "65",
+          "SaveField": "Item33",
+          "ToolTipText": ""
+        },
+        {
+          "ElementType": "RadioElement",
+          "NameText": "有",
+          "RadioElementList": [
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "160",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_160",
+              "IsHide": "",
+              "NameText": "无",
+              "OprationItemList": [
+                {
+                  "NumberValue": "1",
+                  "Text": "无",
+                  "Value": "1"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item34",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "162",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_160",
+              "IsHide": "",
+              "NameText": "有",
+              "OprationItemList": [
+                {
+                  "NumberValue": "2",
+                  "Text": "有",
+                  "Value": "2"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item34",
+              "ToolTipText": ""
+            }
+          ],
+          "SaveField": "Item34"
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "1868",
+          "ElementType": "ContainerElement",
+          "FormName": "RadioElement_160",
+          "IsHide": "true",
+          "NameText": "部位数量",
+          "OprationItemList": [],
+          "ParentId": "65",
+          "SaveField": "",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "1869",
+          "ElementType": "TextareaElement",
+          "FormName": "TextareaElement_1869",
+          "IsHide": "true",
+          "NameText": "部位数量",
+          "OprationItemList": [],
+          "ParentId": "1868",
+          "SaveField": "Item148",
+          "ToolTipText": ""
+        },
+        {
+          "ElementType": "RadioElement",
+          "NameText": "其他",
+          "RadioElementList": [
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "165",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_165",
+              "IsHide": "",
+              "NameText": "情绪稳定",
+              "OprationItemList": [
+                {
+                  "NumberValue": "1",
+                  "Text": "情绪稳定",
+                  "Value": "1"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item36",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "167",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_165",
+              "IsHide": "",
+              "NameText": "焦虑",
+              "OprationItemList": [
+                {
+                  "NumberValue": "2",
+                  "Text": "焦虑",
+                  "Value": "2"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item36",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "168",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_165",
+              "IsHide": "",
+              "NameText": "紧张",
+              "OprationItemList": [
+                {
+                  "NumberValue": "3",
+                  "Text": "紧张",
+                  "Value": "3"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item36",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "169",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_165",
+              "IsHide": "",
+              "NameText": "恐惧",
+              "OprationItemList": [
+                {
+                  "NumberValue": "4",
+                  "Text": "恐惧",
+                  "Value": "4"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item36",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "170",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_165",
+              "IsHide": "",
+              "NameText": "其他",
+              "OprationItemList": [
+                {
+                  "NumberValue": "5",
+                  "Text": "其他",
+                  "Value": "5"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item36",
+              "ToolTipText": ""
+            }
+          ],
+          "SaveField": "Item36"
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "true",
+          "ElementId": "171",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_171",
+          "IsHide": "true",
+          "NameText": "单行输入",
+          "OprationItemList": [],
+          "ParentId": "65",
+          "SaveField": "Item37",
+          "ToolTipText": ""
+        },
+        {
+          "ElementType": "RadioElement",
+          "NameText": "无法认知",
+          "RadioElementList": [
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "173",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_173",
+              "IsHide": "",
+              "NameText": "了解",
+              "OprationItemList": [
+                {
+                  "NumberValue": "1",
+                  "Text": "了解",
+                  "Value": "1"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item38",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "175",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_173",
+              "IsHide": "",
+              "NameText": "部分了解",
+              "OprationItemList": [
+                {
+                  "NumberValue": "2",
+                  "Text": "部分了解",
+                  "Value": "2"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item38",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "176",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_173",
+              "IsHide": "",
+              "NameText": "不了解",
+              "OprationItemList": [
+                {
+                  "NumberValue": "3",
+                  "Text": "不了解",
+                  "Value": "3"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item38",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "177",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_173",
+              "IsHide": "",
+              "NameText": "无法认知",
+              "OprationItemList": [
+                {
+                  "NumberValue": "4",
+                  "Text": "无法认知",
+                  "Value": "4"
+                }
+              ],
+              "ParentId": "65",
+              "SaveField": "Item38",
+              "ToolTipText": ""
+            }
+          ],
+          "SaveField": "Item38"
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "true",
+          "ElementId": "178",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_178",
+          "IsHide": "true",
+          "NameText": "单行输入",
+          "OprationItemList": [],
+          "ParentId": "65",
+          "SaveField": "Item39",
+          "ToolTipText": ""
+        },
+        {
+          "ElementType": "RadioElement",
+          "NameText": "其他",
+          "RadioElementList": [
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "183",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_183",
+              "IsHide": "",
+              "NameText": "正常",
+              "OprationItemList": [
+                {
+                  "NumberValue": "1",
+                  "Text": "正常",
+                  "Value": "1"
+                }
+              ],
+              "ParentId": "181",
+              "SaveField": "Item40",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "185",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_183",
+              "IsHide": "",
+              "NameText": "难入睡",
+              "OprationItemList": [
+                {
+                  "NumberValue": "2",
+                  "Text": "难入睡",
+                  "Value": "2"
+                }
+              ],
+              "ParentId": "181",
+              "SaveField": "Item40",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "186",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_183",
+              "IsHide": "",
+              "NameText": "易醒",
+              "OprationItemList": [
+                {
+                  "NumberValue": "3",
+                  "Text": "易醒",
+                  "Value": "3"
+                }
+              ],
+              "ParentId": "181",
+              "SaveField": "Item40",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "187",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_183",
+              "IsHide": "",
+              "NameText": "服药",
+              "OprationItemList": [
+                {
+                  "NumberValue": "4",
+                  "Text": "服药",
+                  "Value": "4"
+                }
+              ],
+              "ParentId": "181",
+              "SaveField": "Item40",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "188",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_183",
+              "IsHide": "",
+              "NameText": "其他",
+              "OprationItemList": [
+                {
+                  "NumberValue": "5",
+                  "Text": "其他",
+                  "Value": "5"
+                }
+              ],
+              "ParentId": "181",
+              "SaveField": "Item40",
+              "ToolTipText": ""
+            }
+          ],
+          "SaveField": "Item40"
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "true",
+          "ElementId": "189",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_189",
+          "IsHide": "true",
+          "NameText": "单行输入",
+          "OprationItemList": [],
+          "ParentId": "181",
+          "SaveField": "Item41",
+          "ToolTipText": ""
+        },
+        {
+          "ElementType": "RadioElement",
+          "NameText": "其他",
+          "RadioElementList": [
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "191",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_191",
+              "IsHide": "",
+              "NameText": "正常",
+              "OprationItemList": [
+                {
+                  "NumberValue": "1",
+                  "Text": "正常",
+                  "Value": "1"
+                }
+              ],
+              "ParentId": "181",
+              "SaveField": "Item42",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "193",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_191",
+              "IsHide": "",
+              "NameText": "食欲减退",
+              "OprationItemList": [
+                {
+                  "NumberValue": "2",
+                  "Text": "食欲减退",
+                  "Value": "2"
+                }
+              ],
+              "ParentId": "181",
+              "SaveField": "Item42",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "194",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_191",
+              "IsHide": "",
+              "NameText": "食欲亢进",
+              "OprationItemList": [
+                {
+                  "NumberValue": "3",
+                  "Text": "食欲亢进",
+                  "Value": "3"
+                }
+              ],
+              "ParentId": "181",
+              "SaveField": "Item42",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "195",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_191",
+              "IsHide": "",
+              "NameText": "吞咽困难",
+              "OprationItemList": [
+                {
+                  "NumberValue": "4",
+                  "Text": "吞咽困难",
+                  "Value": "4"
+                }
+              ],
+              "ParentId": "181",
+              "SaveField": "Item42",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "196",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_191",
+              "IsHide": "",
+              "NameText": "其他",
+              "OprationItemList": [
+                {
+                  "NumberValue": "5",
+                  "Text": "其他",
+                  "Value": "5"
+                }
+              ],
+              "ParentId": "181",
+              "SaveField": "Item42",
+              "ToolTipText": ""
+            }
+          ],
+          "SaveField": "Item42"
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "true",
+          "ElementId": "197",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_197",
+          "IsHide": "true",
+          "NameText": "单行输入",
+          "OprationItemList": [],
+          "ParentId": "181",
+          "SaveField": "Item43",
+          "ToolTipText": ""
+        },
+        {
+          "ElementType": "RadioElement",
+          "NameText": "已戒",
+          "RadioElementList": [
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "199",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_199",
+              "IsHide": "",
+              "NameText": "饮",
+              "OprationItemList": [
+                {
+                  "NumberValue": "1",
+                  "Text": "饮",
+                  "Value": "1"
+                }
+              ],
+              "ParentId": "181",
+              "SaveField": "Item44",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "201",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_199",
+              "IsHide": "",
+              "NameText": "不饮",
+              "OprationItemList": [
+                {
+                  "NumberValue": "2",
+                  "Text": "不饮",
+                  "Value": "2"
+                }
+              ],
+              "ParentId": "181",
+              "SaveField": "Item44",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "202",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_199",
+              "IsHide": "",
+              "NameText": "已戒",
+              "OprationItemList": [
+                {
+                  "NumberValue": "3",
+                  "Text": "已戒",
+                  "Value": "3"
+                }
+              ],
+              "ParentId": "181",
+              "SaveField": "Item44",
+              "ToolTipText": ""
+            }
+          ],
+          "SaveField": "Item44"
+        },
+        {
+          "ElementType": "RadioElement",
+          "NameText": "已戒",
+          "RadioElementList": [
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "203",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_203",
+              "IsHide": "",
+              "NameText": "吸",
+              "OprationItemList": [
+                {
+                  "NumberValue": "1",
+                  "Text": "吸",
+                  "Value": "1"
+                }
+              ],
+              "ParentId": "181",
+              "SaveField": "Item45",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "205",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_203",
+              "IsHide": "",
+              "NameText": "不吸",
+              "OprationItemList": [
+                {
+                  "NumberValue": "2",
+                  "Text": "不吸",
+                  "Value": "2"
+                }
+              ],
+              "ParentId": "181",
+              "SaveField": "Item45",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "206",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_203",
+              "IsHide": "",
+              "NameText": "已戒",
+              "OprationItemList": [
+                {
+                  "NumberValue": "3",
+                  "Text": "已戒",
+                  "Value": "3"
+                }
+              ],
+              "ParentId": "181",
+              "SaveField": "Item45",
+              "ToolTipText": ""
+            }
+          ],
+          "SaveField": "Item45"
+        },
+        {
+          "ElementType": "CheckElement",
+          "NameText": "精神病",
+          "RadioElementList": [
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "216",
+              "ElementType": "CheckElement",
+              "FormName": "CheckElement_216",
+              "IsHide": "",
+              "NameText": "无",
+              "OprationItemList": [
+                {
+                  "NumberValue": "1",
+                  "Text": "无",
+                  "Value": "1"
+                }
+              ],
+              "ParentId": "181",
+              "SaveField": "Item46",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "218",
+              "ElementType": "CheckElement",
+              "FormName": "CheckElement_216",
+              "IsHide": "",
+              "NameText": "高血压",
+              "OprationItemList": [
+                {
+                  "NumberValue": "2",
+                  "Text": "高血压",
+                  "Value": "2"
+                }
+              ],
+              "ParentId": "181",
+              "SaveField": "Item46",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "219",
+              "ElementType": "CheckElement",
+              "FormName": "CheckElement_216",
+              "IsHide": "",
+              "NameText": "心脏病",
+              "OprationItemList": [
+                {
+                  "NumberValue": "3",
+                  "Text": "心脏病",
+                  "Value": "3"
+                }
+              ],
+              "ParentId": "181",
+              "SaveField": "Item46",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "220",
+              "ElementType": "CheckElement",
+              "FormName": "CheckElement_216",
+              "IsHide": "",
+              "NameText": "糖尿病",
+              "OprationItemList": [
+                {
+                  "NumberValue": "4",
+                  "Text": "糖尿病",
+                  "Value": "4"
+                }
+              ],
+              "ParentId": "181",
+              "SaveField": "Item46",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "221",
+              "ElementType": "CheckElement",
+              "FormName": "CheckElement_216",
+              "IsHide": "",
+              "NameText": "脑血管病",
+              "OprationItemList": [
+                {
+                  "NumberValue": "5",
+                  "Text": "脑血管病",
+                  "Value": "5"
+                }
+              ],
+              "ParentId": "181",
+              "SaveField": "Item46",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "222",
+              "ElementType": "CheckElement",
+              "FormName": "CheckElement_216",
+              "IsHide": "",
+              "NameText": "手术史",
+              "OprationItemList": [
+                {
+                  "NumberValue": "6",
+                  "Text": "手术史",
+                  "Value": "6"
+                }
+              ],
+              "ParentId": "181",
+              "SaveField": "Item46",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "223",
+              "ElementType": "CheckElement",
+              "FormName": "CheckElement_216",
+              "IsHide": "",
+              "NameText": "精神病",
+              "OprationItemList": [
+                {
+                  "NumberValue": "7",
+                  "Text": "精神病",
+                  "Value": "7"
+                }
+              ],
+              "ParentId": "181",
+              "SaveField": "Item46",
+              "ToolTipText": ""
+            }
+          ],
+          "SaveField": "Item46"
+        },
+        {
+          "ElementType": "RadioElement",
+          "NameText": "其他",
+          "RadioElementList": [
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "1768",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_1768",
+              "IsHide": "",
+              "NameText": "其他",
+              "OprationItemList": [
+                {
+                  "NumberValue": "1",
+                  "Text": "其他",
+                  "Value": "1"
+                }
+              ],
+              "ParentId": "181",
+              "SaveField": "Item120",
+              "ToolTipText": ""
+            }
+          ],
+          "SaveField": "Item120"
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "1769",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_1769",
+          "IsHide": "true",
+          "NameText": "其他",
+          "OprationItemList": [],
+          "ParentId": "1768",
+          "SaveField": "Item121",
+          "ToolTipText": ""
+        },
+        {
+          "ElementType": "RadioElement",
+          "NameText": "有",
+          "RadioElementList": [
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "227",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_227",
+              "IsHide": "",
+              "NameText": "无",
+              "OprationItemList": [
+                {
+                  "NumberValue": "1",
+                  "Text": "无",
+                  "Value": "1"
+                }
+              ],
+              "ParentId": "181",
+              "SaveField": "Item48",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "229",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_227",
+              "IsHide": "",
+              "NameText": "有",
+              "OprationItemList": [
+                {
+                  "NumberValue": "2",
+                  "Text": "有",
+                  "Value": "2"
+                }
+              ],
+              "ParentId": "181",
+              "SaveField": "Item48",
+              "ToolTipText": ""
+            }
+          ],
+          "SaveField": "Item48"
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "232",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_232",
+          "IsHide": "",
+          "NameText": "药物",
+          "OprationItemList": [],
+          "ParentId": "181",
+          "SaveField": "Item49",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "234",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_234",
+          "IsHide": "",
+          "NameText": "食物",
+          "OprationItemList": [],
+          "ParentId": "181",
+          "SaveField": "Item50",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "236",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_236",
+          "IsHide": "",
+          "NameText": "其他",
+          "OprationItemList": [],
+          "ParentId": "181",
+          "SaveField": "Item51",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "238",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_238",
+          "IsHide": "",
+          "NameText": "社会情况：职业",
+          "OprationItemList": [],
+          "ParentId": "181",
+          "SaveField": "Item52",
+          "ToolTipText": ""
+        },
+        {
+          "ElementType": "RadioElement",
+          "NameText": "离退",
+          "RadioElementList": [
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "240",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_240",
+              "IsHide": "",
+              "NameText": "在职",
+              "OprationItemList": [
+                {
+                  "NumberValue": "1",
+                  "Text": "在职",
+                  "Value": "1"
+                }
+              ],
+              "ParentId": "181",
+              "SaveField": "Item53",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "242",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_240",
+              "IsHide": "",
+              "NameText": "离退",
+              "OprationItemList": [
+                {
+                  "NumberValue": "2",
+                  "Text": "离退",
+                  "Value": "2"
+                }
+              ],
+              "ParentId": "181",
+              "SaveField": "Item53",
+              "ToolTipText": ""
+            }
+          ],
+          "SaveField": "Item53"
+        },
+        {
+          "ElementType": "RadioElement",
+          "NameText": "文盲",
+          "RadioElementList": [
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "243",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_243",
+              "IsHide": "",
+              "NameText": "小学",
+              "OprationItemList": [
+                {
+                  "NumberValue": "1",
+                  "Text": "小学",
+                  "Value": "1"
+                }
+              ],
+              "ParentId": "181",
+              "SaveField": "Item54",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "245",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_243",
+              "IsHide": "",
+              "NameText": "初中",
+              "OprationItemList": [
+                {
+                  "NumberValue": "2",
+                  "Text": "初中",
+                  "Value": "2"
+                }
+              ],
+              "ParentId": "181",
+              "SaveField": "Item54",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "246",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_243",
+              "IsHide": "",
+              "NameText": "高中",
+              "OprationItemList": [
+                {
+                  "NumberValue": "3",
+                  "Text": "高中",
+                  "Value": "3"
+                }
+              ],
+              "ParentId": "181",
+              "SaveField": "Item54",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "247",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_243",
+              "IsHide": "",
+              "NameText": "大学",
+              "OprationItemList": [
+                {
+                  "NumberValue": "4",
+                  "Text": "大学",
+                  "Value": "4"
+                }
+              ],
+              "ParentId": "181",
+              "SaveField": "Item54",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "248",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_243",
+              "IsHide": "",
+              "NameText": "研究生",
+              "OprationItemList": [
+                {
+                  "NumberValue": "5",
+                  "Text": "研究生",
+                  "Value": "5"
+                }
+              ],
+              "ParentId": "181",
+              "SaveField": "Item54",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "249",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_243",
+              "IsHide": "",
+              "NameText": "学龄前",
+              "OprationItemList": [
+                {
+                  "NumberValue": "6",
+                  "Text": "学龄前",
+                  "Value": "6"
+                }
+              ],
+              "ParentId": "181",
+              "SaveField": "Item54",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "250",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_243",
+              "IsHide": "",
+              "NameText": "文盲",
+              "OprationItemList": [
+                {
+                  "NumberValue": "7",
+                  "Text": "文盲",
+                  "Value": "7"
+                }
+              ],
+              "ParentId": "181",
+              "SaveField": "Item54",
+              "ToolTipText": ""
+            }
+          ],
+          "SaveField": "Item54"
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "inside,S0101T3,22",
+          "DefaultValue": "0",
+          "Disable": "",
+          "ElementId": "1773",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_1773",
+          "IsHide": "",
+          "NameText": "日常生活活动能力评定（ADL）",
+          "OprationItemList": [],
+          "ParentId": "1771",
+          "SaveField": "Item122",
+          "ToolTipText": ""
+        },
+        {
+          "ElementType": "RadioElement",
+          "NameText": "重度依赖",
+          "RadioElementList": [
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "true",
+              "ElementId": "1774",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_1774",
+              "IsHide": "",
+              "NameText": "无需依赖",
+              "OprationItemList": [
+                {
+                  "NumberValue": "1",
+                  "Text": "无需依赖",
+                  "Value": "1"
+                }
+              ],
+              "ParentId": "1770",
+              "SaveField": "Item123",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "true",
+              "ElementId": "1775",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_1774",
+              "IsHide": "",
+              "NameText": "轻度依赖",
+              "OprationItemList": [
+                {
+                  "NumberValue": "2",
+                  "Text": "轻度依赖",
+                  "Value": "2"
+                }
+              ],
+              "ParentId": "1770",
+              "SaveField": "Item123",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "true",
+              "ElementId": "1776",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_1774",
+              "IsHide": "",
+              "NameText": "中度依赖",
+              "OprationItemList": [
+                {
+                  "NumberValue": "3",
+                  "Text": "中度依赖",
+                  "Value": "3"
+                }
+              ],
+              "ParentId": "1770",
+              "SaveField": "Item123",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "true",
+              "ElementId": "1777",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_1774",
+              "IsHide": "",
+              "NameText": "重度依赖",
+              "OprationItemList": [
+                {
+                  "NumberValue": "4",
+                  "Text": "重度依赖",
+                  "Value": "4"
+                }
+              ],
+              "ParentId": "1770",
+              "SaveField": "Item123",
+              "ToolTipText": ""
+            }
+          ],
+          "SaveField": "Item123"
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "inside,S0101T16,13",
+          "DefaultValue": "5",
+          "Disable": "",
+          "ElementId": "1780",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_1780",
+          "IsHide": "",
+          "NameText": "压疮风险评估（Braden）",
+          "OprationItemList": [],
+          "ParentId": "1778",
+          "SaveField": "Item124",
+          "ToolTipText": ""
+        },
+        {
+          "ElementType": "RadioElement",
+          "NameText": "极高危",
+          "RadioElementList": [
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "true",
+              "ElementId": "1781",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_1781",
+              "IsHide": "",
+              "NameText": "无危险",
+              "OprationItemList": [
+                {
+                  "NumberValue": "1",
+                  "Text": "无危险",
+                  "Value": "1"
+                }
+              ],
+              "ParentId": "1770",
+              "SaveField": "Item125",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "true",
+              "ElementId": "1782",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_1781",
+              "IsHide": "",
+              "NameText": "低危",
+              "OprationItemList": [
+                {
+                  "NumberValue": "2",
+                  "Text": "低危",
+                  "Value": "2"
+                }
+              ],
+              "ParentId": "1770",
+              "SaveField": "Item125",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "true",
+              "ElementId": "1783",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_1781",
+              "IsHide": "",
+              "NameText": "中危",
+              "OprationItemList": [
+                {
+                  "NumberValue": "3",
+                  "Text": "中危",
+                  "Value": "3"
+                }
+              ],
+              "ParentId": "1770",
+              "SaveField": "Item125",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "true",
+              "ElementId": "1784",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_1781",
+              "IsHide": "",
+              "NameText": "高危",
+              "OprationItemList": [
+                {
+                  "NumberValue": "4",
+                  "Text": "高危",
+                  "Value": "4"
+                }
+              ],
+              "ParentId": "1770",
+              "SaveField": "Item125",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "true",
+              "ElementId": "1785",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_1781",
+              "IsHide": "",
+              "NameText": "极高危",
+              "OprationItemList": [
+                {
+                  "NumberValue": "5",
+                  "Text": "极高危",
+                  "Value": "5"
+                }
+              ],
+              "ParentId": "1770",
+              "SaveField": "Item125",
+              "ToolTipText": ""
+            }
+          ],
+          "SaveField": "Item125"
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "inside,S0101T31,14",
+          "DefaultValue": "6",
+          "Disable": "",
+          "ElementId": "1890",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_1890",
+          "IsHide": "",
+          "NameText": "跌倒风险评估量表(约翰霍普金斯评分)",
+          "OprationItemList": [],
+          "ParentId": "1889",
+          "SaveField": "Item149",
+          "ToolTipText": ""
+        },
+        {
+          "ElementType": "RadioElement",
+          "NameText": "直接评定：",
+          "RadioElementList": [
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "1891",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_1891",
+              "IsHide": "",
+              "NameText": "直接评定：",
+              "OprationItemList": [
+                {
+                  "NumberValue": "1",
+                  "Text": "直接评定：",
+                  "Value": "1"
+                }
+              ],
+              "ParentId": "1770",
+              "SaveField": "Item150",
+              "ToolTipText": ""
+            }
+          ],
+          "SaveField": "Item150"
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "1893",
+          "ElementType": "ContainerElement",
+          "FormName": "RadioElement_1891",
+          "IsHide": "true",
+          "NameText": "容器",
+          "OprationItemList": [],
+          "ParentId": "1891",
+          "SaveField": "",
+          "ToolTipText": ""
+        },
+        {
+          "ElementType": "RadioElement",
+          "NameText": "低风险",
+          "RadioElementList": [
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "1894",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_1894",
+              "IsHide": "true",
+              "NameText": "高风险",
+              "OprationItemList": [
+                {
+                  "NumberValue": "1",
+                  "Text": "高风险",
+                  "Value": "1"
+                }
+              ],
+              "ParentId": "1893",
+              "SaveField": "Item151",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "1895",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_1894",
+              "IsHide": "true",
+              "NameText": "低风险",
+              "OprationItemList": [
+                {
+                  "NumberValue": "2",
+                  "Text": "低风险",
+                  "Value": "2"
+                }
+              ],
+              "ParentId": "1893",
+              "SaveField": "Item151",
+              "ToolTipText": ""
+            }
+          ],
+          "SaveField": "Item151"
+        },
+        {
+          "ElementType": "RadioElement",
+          "NameText": "评分评估：",
+          "RadioElementList": [
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "1892",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_1891",
+              "IsHide": "",
+              "NameText": "评分评估：",
+              "OprationItemList": [
+                {
+                  "NumberValue": "2",
+                  "Text": "评分评估：",
+                  "Value": "2"
+                }
+              ],
+              "ParentId": "1770",
+              "SaveField": "Item150",
+              "ToolTipText": ""
+            }
+          ],
+          "SaveField": "Item150"
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "1896",
+          "ElementType": "ContainerElement",
+          "FormName": "RadioElement_1891",
+          "IsHide": "true",
+          "NameText": "容器",
+          "OprationItemList": [],
+          "ParentId": "1892",
+          "SaveField": "",
+          "ToolTipText": ""
+        },
+        {
+          "ElementType": "RadioElement",
+          "NameText": "高风险",
+          "RadioElementList": [
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "1897",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_1897",
+              "IsHide": "true",
+              "NameText": "低风险",
+              "OprationItemList": [
+                {
+                  "NumberValue": "1",
+                  "Text": "低风险",
+                  "Value": "1"
+                }
+              ],
+              "ParentId": "1896",
+              "SaveField": "Item152",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "1898",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_1897",
+              "IsHide": "true",
+              "NameText": "中风险",
+              "OprationItemList": [
+                {
+                  "NumberValue": "2",
+                  "Text": "中风险",
+                  "Value": "2"
+                }
+              ],
+              "ParentId": "1896",
+              "SaveField": "Item152",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "1899",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_1897",
+              "IsHide": "true",
+              "NameText": "高风险",
+              "OprationItemList": [
+                {
+                  "NumberValue": "3",
+                  "Text": "高风险",
+                  "Value": "3"
+                }
+              ],
+              "ParentId": "1896",
+              "SaveField": "Item152",
+              "ToolTipText": ""
+            }
+          ],
+          "SaveField": "Item152"
+        },
+        {
+          "ElementType": "RadioElement",
+          "NameText": "有",
+          "RadioElementList": [
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "1844",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_1844",
+              "IsHide": "",
+              "NameText": "无",
+              "OprationItemList": [
+                {
+                  "NumberValue": "1",
+                  "Text": "无",
+                  "Value": "1"
+                }
+              ],
+              "ParentId": "1770",
+              "SaveField": "Item141",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "1846",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_1844",
+              "IsHide": "",
+              "NameText": "有",
+              "OprationItemList": [
+                {
+                  "NumberValue": "2",
+                  "Text": "有",
+                  "Value": "2"
+                }
+              ],
+              "ParentId": "1770",
+              "SaveField": "Item141",
+              "ToolTipText": ""
+            }
+          ],
+          "SaveField": "Item141"
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "1850",
+          "ElementType": "ContainerElement",
+          "FormName": "RadioElement_1844",
+          "IsHide": "true",
+          "NameText": " 末次生产日期",
+          "OprationItemList": [],
+          "ParentId": "1770",
+          "SaveField": "",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "1851",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_1851",
+          "IsHide": "true",
+          "NameText": "末次生产日期",
+          "OprationItemList": [],
+          "ParentId": "1850",
+          "SaveField": "Item142",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "1832",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_1832",
+          "IsHide": "",
+          "NameText": "月经史：末次月经日期 ",
+          "OprationItemList": [],
+          "ParentId": "1770",
+          "SaveField": "Item137",
+          "ToolTipText": ""
+        },
+        {
+          "ElementType": "RadioElement",
+          "NameText": "有",
+          "RadioElementList": [
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "1841",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_1841",
+              "IsHide": "",
+              "NameText": "无",
+              "OprationItemList": [
+                {
+                  "NumberValue": "1",
+                  "Text": "无",
+                  "Value": "1"
+                }
+              ],
+              "ParentId": "1770",
+              "SaveField": "Item140",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "1843",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_1841",
+              "IsHide": "",
+              "NameText": "有",
+              "OprationItemList": [
+                {
+                  "NumberValue": "2",
+                  "Text": "有",
+                  "Value": "2"
+                }
+              ],
+              "ParentId": "1770",
+              "SaveField": "Item140",
+              "ToolTipText": ""
+            }
+          ],
+          "SaveField": "Item140"
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "1837",
+          "ElementType": "ContainerElement",
+          "FormName": "RadioElement_1841",
+          "IsHide": "true",
+          "NameText": "有",
+          "OprationItemList": [],
+          "ParentId": "1770",
+          "SaveField": "",
+          "ToolTipText": ""
+        },
+        {
+          "ElementType": "RadioElement",
+          "NameText": "血性",
+          "RadioElementList": [
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "1838",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_1838",
+              "IsHide": "true",
+              "NameText": "脓性",
+              "OprationItemList": [
+                {
+                  "NumberValue": "1",
+                  "Text": "脓性",
+                  "Value": "1"
+                }
+              ],
+              "ParentId": "1837",
+              "SaveField": "Item139",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "1840",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_1838",
+              "IsHide": "true",
+              "NameText": "血性",
+              "OprationItemList": [
+                {
+                  "NumberValue": "2",
+                  "Text": "血性",
+                  "Value": "2"
+                }
+              ],
+              "ParentId": "1837",
+              "SaveField": "Item139",
+              "ToolTipText": ""
+            }
+          ],
+          "SaveField": "Item139"
+        },
+        {
+          "ElementType": "RadioElement",
+          "NameText": "异常",
+          "RadioElementList": [
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "1853",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_1853",
+              "IsHide": "",
+              "NameText": "正常",
+              "OprationItemList": [
+                {
+                  "NumberValue": "1",
+                  "Text": "正常",
+                  "Value": "1"
+                }
+              ],
+              "ParentId": "1770",
+              "SaveField": "Item143",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "1855",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_1853",
+              "IsHide": "",
+              "NameText": "异常",
+              "OprationItemList": [
+                {
+                  "NumberValue": "2",
+                  "Text": "异常",
+                  "Value": "2"
+                }
+              ],
+              "ParentId": "1770",
+              "SaveField": "Item143",
+              "ToolTipText": ""
+            }
+          ],
+          "SaveField": "Item143"
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "1857",
+          "ElementType": "ContainerElement",
+          "FormName": "RadioElement_1853",
+          "IsHide": "true",
+          "NameText": "异常",
+          "OprationItemList": [],
+          "ParentId": "1770",
+          "SaveField": "",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "1858",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_1858",
+          "IsHide": "true",
+          "NameText": "",
+          "OprationItemList": [],
+          "ParentId": "1857",
+          "SaveField": "Item144",
+          "ToolTipText": ""
+        },
+        {
+          "ElementType": "RadioElement",
+          "NameText": "有",
+          "RadioElementList": [
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "1859",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_1859",
+              "IsHide": "",
+              "NameText": "无",
+              "OprationItemList": [
+                {
+                  "NumberValue": "1",
+                  "Text": "无",
+                  "Value": "1"
+                }
+              ],
+              "ParentId": "1770",
+              "SaveField": "Item145",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "1861",
+              "ElementType": "RadioElement",
+              "FormName": "RadioElement_1859",
+              "IsHide": "",
+              "NameText": "有",
+              "OprationItemList": [
+                {
+                  "NumberValue": "2",
+                  "Text": "有",
+                  "Value": "2"
+                }
+              ],
+              "ParentId": "1770",
+              "SaveField": "Item145",
+              "ToolTipText": ""
+            }
+          ],
+          "SaveField": "Item145"
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "1862",
+          "ElementType": "ContainerElement",
+          "FormName": "RadioElement_1859",
+          "IsHide": "true",
+          "NameText": "腹痛有",
+          "OprationItemList": [],
+          "ParentId": "1770",
+          "SaveField": "",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "1863",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_1863",
+          "IsHide": "true",
+          "NameText": "单行输入",
+          "OprationItemList": [],
+          "ParentId": "1862",
+          "SaveField": "Item146",
+          "ToolTipText": ""
+        },
+        {
+          "ElementType": "CheckElement",
+          "NameText": "其他人 ",
+          "RadioElementList": [
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "1864",
+              "ElementType": "CheckElement",
+              "FormName": "CheckElement_1864",
+              "IsHide": "",
+              "NameText": "本人",
+              "OprationItemList": [
+                {
+                  "NumberValue": "1",
+                  "Text": "本人",
+                  "Value": "1"
+                }
+              ],
+              "ParentId": "1770",
+              "SaveField": "Item147",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "1867",
+              "ElementType": "CheckElement",
+              "FormName": "CheckElement_1864",
+              "IsHide": "",
+              "NameText": "家属",
+              "OprationItemList": [
+                {
+                  "NumberValue": "2",
+                  "Text": "家属",
+                  "Value": "2"
+                }
+              ],
+              "ParentId": "1770",
+              "SaveField": "Item147",
+              "ToolTipText": ""
+            },
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "1866",
+              "ElementType": "CheckElement",
+              "FormName": "CheckElement_1864",
+              "IsHide": "",
+              "NameText": "其他人 ",
+              "OprationItemList": [
+                {
+                  "NumberValue": "3",
+                  "Text": "其他人 ",
+                  "Value": "3"
+                }
+              ],
+              "ParentId": "1770",
+              "SaveField": "Item147",
+              "ToolTipText": ""
+            }
+          ],
+          "SaveField": "Item147"
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "1803",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_1803",
+          "IsHide": "",
+          "NameText": "评估护士签名",
+          "OprationItemList": [],
+          "ParentId": "1770",
+          "SaveField": "Item132",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "2020-07-15",
+          "Disable": "",
+          "ElementId": "1805",
+          "ElementType": "DateElement",
+          "FormName": "DateElement_1805",
+          "IsHide": "",
+          "NameText": "评估记录时间",
+          "OprationItemList": [],
+          "ParentId": "1770",
+          "SaveField": "CareDate",
+          "ToolTipText": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DefaultValue": "11:21:31",
+          "Disable": "",
+          "ElementId": "1806",
+          "ElementType": "TimeElement",
+          "FormName": "TimeElement_1806",
+          "IsHide": "",
+          "NameText": "评估记录时间2",
+          "OprationItemList": [],
+          "ParentId": "1770",
+          "SaveField": "CareTime",
+          "ToolTipText": ""
+        }
+      ],
+      "ElementSets": [
+        {
+          "ChangeList": [
+            {
+              "Id": "95",
+              "Type": "Show,Enable"
+            }
+          ],
+          "FormName": "RadioElement_87",
+          "Val": "5"
+        },
+        {
+          "ChangeList": [
+            {
+              "Id": "104",
+              "Type": "Show,Enable"
+            }
+          ],
+          "FormName": "RadioElement_97",
+          "Val": "6"
+        },
+        {
+          "ChangeList": [
+            {
+              "Id": "1763",
+              "Type": "Show"
+            },
+            {
+              "Id": "1762",
+              "Type": "Show,Enable"
+            },
+            {
+              "Id": "1765",
+              "Type": ""
+            },
+            {
+              "Id": "1764",
+              "Type": ""
+            },
+            {
+              "Id": "1767",
+              "Type": ""
+            },
+            {
+              "Id": "1766",
+              "Type": ""
+            }
+          ],
+          "FormName": "RadioElement_106",
+          "Val": "1"
+        },
+        {
+          "ChangeList": [
+            {
+              "Id": "1763",
+              "Type": ""
+            },
+            {
+              "Id": "1762",
+              "Type": ""
+            },
+            {
+              "Id": "1765",
+              "Type": "Show"
+            },
+            {
+              "Id": "1764",
+              "Type": "Show,Enable"
+            },
+            {
+              "Id": "1767",
+              "Type": "Show"
+            },
+            {
+              "Id": "1766",
+              "Type": "Show,Enable"
+            }
+          ],
+          "FormName": "RadioElement_106",
+          "Val": "2"
+        },
+        {
+          "FormName": "RadioElement_124",
+          "Val": "1"
+        },
+        {
+          "ChangeList": [
+            {
+              "Id": "131",
+              "Type": "Show,Enable"
+            }
+          ],
+          "FormName": "RadioElement_124",
+          "Val": "6"
+        },
+        {
+          "ChangeList": [
+            {
+              "Id": "140",
+              "Type": "Show,Enable"
+            },
+            {
+              "Id": "144",
+              "Type": ""
+            }
+          ],
+          "FormName": "RadioElement_133",
+          "Val": "6"
+        },
+        {
+          "ChangeList": [
+            {
+              "Id": "140",
+              "Type": ""
+            },
+            {
+              "Id": "144",
+              "Type": "Show,Enable"
+            }
+          ],
+          "FormName": "RadioElement_133",
+          "Val": "7"
+        },
+        {
+          "ChangeList": [
+            {
+              "Id": "158",
+              "Type": "Show,Enable"
+            }
+          ],
+          "FormName": "RadioElement_146",
+          "Val": "1"
+        },
+        {
+          "ChangeList": [
+            {
+              "Id": "154",
+              "Type": "Show,Enable"
+            },
+            {
+              "Id": "158",
+              "Type": ""
+            }
+          ],
+          "FormName": "RadioElement_146",
+          "Val": "7"
+        },
+        {
+          "ChangeList": [
+            {
+              "Id": "154",
+              "Type": ""
+            },
+            {
+              "Id": "158",
+              "Type": "Show,Enable"
+            }
+          ],
+          "FormName": "RadioElement_146",
+          "Val": "8"
+        },
+        {
+          "ChangeList": [
+            {
+              "Id": "1868",
+              "Type": "Hide,DisEnable"
+            }
+          ],
+          "FormName": "RadioElement_160",
+          "Val": "1"
+        },
+        {
+          "ChangeList": [
+            {
+              "Id": "1868",
+              "Type": "Show,Enable"
+            }
+          ],
+          "FormName": "RadioElement_160",
+          "Val": "2"
+        },
+        {
+          "ChangeList": [
+            {
+              "Id": "171",
+              "Type": "Show,Enable"
+            }
+          ],
+          "FormName": "RadioElement_165",
+          "Val": "5"
+        },
+        {
+          "ChangeList": [
+            {
+              "Id": "178",
+              "Type": "Show,Enable"
+            }
+          ],
+          "FormName": "RadioElement_173",
+          "Val": "4"
+        },
+        {
+          "ChangeList": [
+            {
+              "Id": "189",
+              "Type": "Show,Enable"
+            }
+          ],
+          "FormName": "RadioElement_183",
+          "Val": "5"
+        },
+        {
+          "ChangeList": [
+            {
+              "Id": "197",
+              "Type": "Show,Enable"
+            }
+          ],
+          "FormName": "RadioElement_191",
+          "Val": "5"
+        },
+        {
+          "ChangeList": [
+            {
+              "Id": "1769",
+              "Type": "Show,Enable"
+            }
+          ],
+          "FormName": "RadioElement_1768",
+          "Val": "1"
+        },
+        {
+          "ChangeList": [
+            {
+              "Id": "1774",
+              "Items": "1",
+              "Type": "HasData"
+            }
+          ],
+          "FormName": "TextElement_1773",
+          "Val": "100"
+        },
+        {
+          "ChangeList": [
+            {
+              "Id": "1774",
+              "Items": "2",
+              "Type": "HasData"
+            }
+          ],
+          "FormName": "TextElement_1773",
+          "Sign": "GrEqNumber1LeEqNumber2",
+          "Val": "61",
+          "Val2": "99"
+        },
+        {
+          "ChangeList": [
+            {
+              "Id": "1774",
+              "Items": "3",
+              "Type": "HasData"
+            }
+          ],
+          "FormName": "TextElement_1773",
+          "Sign": "GrEqNumber1LeEqNumber2",
+          "Val": "41",
+          "Val2": "60"
+        },
+        {
+          "ChangeList": [
+            {
+              "Id": "1774",
+              "Items": "4",
+              "Type": "HasData"
+            }
+          ],
+          "FormName": "TextElement_1773",
+          "Sign": "LeEqNumber",
+          "Val": "40"
+        },
+        {
+          "ChangeList": [
+            {
+              "Id": "1781",
+              "Items": "5",
+              "Type": "HasData"
+            }
+          ],
+          "FormName": "TextElement_1780",
+          "Sign": "LeEqNumber",
+          "Val": "9"
+        },
+        {
+          "ChangeList": [
+            {
+              "Id": "1781",
+              "Items": "4",
+              "Type": "HasData"
+            }
+          ],
+          "FormName": "TextElement_1780",
+          "Sign": "GrEqNumber1LeEqNumber2",
+          "Val": "10",
+          "Val2": "12"
+        },
+        {
+          "ChangeList": [
+            {
+              "Id": "1781",
+              "Items": "3",
+              "Type": "HasData"
+            }
+          ],
+          "FormName": "TextElement_1780",
+          "Sign": "GrEqNumber1LeEqNumber2",
+          "Val": "13",
+          "Val2": "14"
+        },
+        {
+          "ChangeList": [
+            {
+              "Id": "1781",
+              "Items": "2",
+              "Type": "HasData"
+            }
+          ],
+          "FormName": "TextElement_1780",
+          "Sign": "GrEqNumber1LeEqNumber2",
+          "Val": "15",
+          "Val2": "18"
+        },
+        {
+          "ChangeList": [
+            {
+              "Id": "1781",
+              "Items": "1",
+              "Type": "HasData"
+            }
+          ],
+          "FormName": "TextElement_1780",
+          "Sign": "GrEqNumber1LeEqNumber2",
+          "Val": "19",
+          "Val2": "23"
+        },
+        {
+          "ChangeList": [
+            {
+              "Id": "1897",
+              "Items": "1",
+              "Type": "HasData,Show,Enable"
+            }
+          ],
+          "FormName": "TextElement_1890",
+          "Sign": "GrEqNumber1LeEqNumber2",
+          "Val": "0",
+          "Val2": "5"
+        },
+        {
+          "ChangeList": [
+            {
+              "Id": "1897",
+              "Items": "2",
+              "Type": "HasData,Show,Enable"
+            }
+          ],
+          "FormName": "TextElement_1890",
+          "Sign": "GrEqNumber1LeEqNumber2",
+          "Val": "6",
+          "Val2": "13"
+        },
+        {
+          "ChangeList": [
+            {
+              "Id": "1897",
+              "Items": "3",
+              "Type": "HasData,Show,Enable"
+            }
+          ],
+          "FormName": "TextElement_1890",
+          "Sign": "GrNumber",
+          "Val": "13"
+        },
+        {
+          "ChangeList": [
+            {
+              "Id": "1893",
+              "Type": "Show,Enable"
+            },
+            {
+              "Id": "1896",
+              "Type": ""
+            }
+          ],
+          "FormName": "RadioElement_1891",
+          "Val": "1"
+        },
+        {
+          "ChangeList": [
+            {
+              "Id": "1893",
+              "Type": ""
+            },
+            {
+              "Id": "1896",
+              "Type": "Show,Enable"
+            }
+          ],
+          "FormName": "RadioElement_1891",
+          "Val": "2"
+        },
+        {
+          "ChangeList": [
+            {
+              "Id": "1850",
+              "Type": "Hide"
+            }
+          ],
+          "FormName": "RadioElement_1844",
+          "Val": "1"
+        },
+        {
+          "ChangeList": [
+            {
+              "Id": "1850",
+              "Type": "Show,Enable"
+            }
+          ],
+          "FormName": "RadioElement_1844",
+          "Val": "2"
+        },
+        {
+          "ChangeList": [
+            {
+              "Id": "1837",
+              "Type": "Hide"
+            }
+          ],
+          "FormName": "RadioElement_1841",
+          "Val": "1"
+        },
+        {
+          "ChangeList": [
+            {
+              "Id": "1837",
+              "Type": "Show,Enable"
+            }
+          ],
+          "FormName": "RadioElement_1841",
+          "Val": "2"
+        },
+        {
+          "ChangeList": [
+            {
+              "Id": "1857",
+              "Type": "Hide"
+            }
+          ],
+          "FormName": "RadioElement_1853",
+          "Val": "1"
+        },
+        {
+          "ChangeList": [
+            {
+              "Id": "1857",
+              "Type": "Show,Enable"
+            }
+          ],
+          "FormName": "RadioElement_1853",
+          "Val": "2"
+        },
+        {
+          "ChangeList": [
+            {
+              "Id": "1862",
+              "Type": "Hide"
+            }
+          ],
+          "FormName": "RadioElement_1859",
+          "Val": "1"
+        },
+        {
+          "ChangeList": [
+            {
+              "Id": "1862",
+              "Type": "Show"
+            }
+          ],
+          "FormName": "RadioElement_1859",
+          "Val": "2"
+        }
+      ],
+      "TemplateIndentity": "",
+      "statisticsList": []
+    },
+    "Table": []
+  },
+  "firstIdList": [
+    {
+      "EmrCode": "DHCNURBarthelLR",
+      "GuId": "6DCA2DE8907646B7B621D24364200F1D",
+      "RecId": "56013"
+    },
+    {
+      "EmrCode": "DHCNURDDFXPGJHLJLDLR",
+      "GuId": "165A867CFBB94662AE844DAD91A14835",
+      "RecId": "56000"
+    },
+    {
+      "EmrCode": "DHCNURGLHTFXYSPGJHLCSLR",
+      "GuId": "09579D9FEF1E4CF0B3FC4AE9B99E8768",
+      "RecId": ""
+    },
+    {
+      "EmrCode": "DHCNURYCFXPGJHLJLDCRHZLR",
+      "GuId": "704FFD85BCBA43DD8550EC2FB961658B",
+      "RecId": "56014"
+    },
+    {
+      "EmrCode": "DHCNURRYZKHLPGDCRHZLR",
+      "GuId": "DC863A50617045D09D7B9BD41223DDE7",
+      "RecId": "56016"
+    },
+    {
+      "EmrCode": "DHCNURHLJLDLR",
+      "GuId": "2E173FE7FC19410093DC2EE1D5CC64C4",
+      "RecId": ""
+    },
+    {
+      "EmrCode": "DHCNURFKPGDLR",
+      "GuId": "B0415883177F40C19640044D0B7DC509",
+      "RecId": ""
+    },
+    {
+      "EmrCode": "DHCNUREKHLPGDLR",
+      "GuId": "30ED6CA8F3E8427492DDD90DF14464A1",
+      "RecId": ""
+    },
+    {
+      "EmrCode": "DHCNUREKDDFXPGLBHDLR",
+      "GuId": "588CC790D57A41A39A8E41CB4522F6F0",
+      "RecId": ""
+    },
+    {
+      "EmrCode": "DHCNUREKYCHLJL",
+      "GuId": "C886511C4A7C4010BC089C4A56B3B3A6",
+      "RecId": ""
+    },
+    {
+      "EmrCode": "DHCNUREKRCSHNLADLLBBZSLR",
+      "GuId": "65B771F844144DAA8BC35A42C03D1F22",
+      "RecId": ""
+    }
+  ],
+  "msg": "",
+  "status": "0"
+}

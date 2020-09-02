@@ -16,35 +16,29 @@ import android.util.Log;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.utils.AppUtil;
+import com.blankj.utilcode.util.DeviceUtils;
 import com.blankj.utilcode.util.SPStaticUtils;
 
-import org.java_websocket.enums.ReadyState;
 import org.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
 
 public class JWebSocketClientService extends Service {
 
-    public static final String WS = "ws://"
-            + SPStaticUtils.getString(SharedPreference.WEBIP)
-            + SPStaticUtils.getString(SharedPreference.WEBPATH)
-            + "/Nur.PDAWebSocket.cls";//websocket测试地址
-
     public static final String ACTION_WEB_SOCKET = "com.websocket.service.content";
     public static final String MESSAGE = "message";
     private final static int GRAY_SERVICE_ID = 1001;
     //    -------------------------------------websocket心跳检测------------------------------------------------
     private static final long HEART_BEAT_RATE = 10 * 1000;//每隔10秒进行一次对长连接的心跳检测
-    private static final String TAG = JWebSocketClientService.class.getSimpleName();
+    private static final String TAG = "JWebSocketClientService";
     public JWebSocketClient client;
     PowerManager.WakeLock wakeLock;//锁屏唤醒
     private JWebSocketClientBinder mBinder = new JWebSocketClientBinder();
     private Handler mHandler = new Handler();
-    private JWebSocketClientCallBack webSocketClientCallBack;
     private Runnable heartBeatRunnable = new Runnable() {
         @Override
         public void run() {
-            Log.e("JWebSocketClientService", "心跳包检测websocket连接状态");
+            Log.e(TAG, "心跳包检测websocket连接状态");
             if (client != null) {
                 if (client.isClosed()) {
                     reconnectWs();
@@ -122,21 +116,26 @@ public class JWebSocketClientService extends Service {
      * 初始化websocket连接
      */
     private void initSocketClient() {
+        //需要端口号
+        String WS = "ws://"
+                + SPStaticUtils.getString(SharedPreference.WEBIP)
+                + SPStaticUtils.getString(SharedPreference.WEBPATH)
+                + "/Nur.PDAWebSocket.cls";//websocket测试地址
         URI uri = URI.create(WS);
-        Log.e(TAG, "(JWebSocketClientService.java:124) " + uri);
+        Log.e(TAG,"(JWebSocketClientService.java:123) "+WS);
         client = new JWebSocketClient(uri) {
             @Override
             public void onOpen(ServerHandshake handshakedata) {
                 super.onOpen(handshakedata);
-                Log.e("JWebSocketClientService", "websocket连接成功");
-                if (webSocketClientCallBack != null) {
-                    webSocketClientCallBack.onOpen();
-                }
+                Log.e(TAG, "websocket连接成功");
+                String s = "userId=" + SPStaticUtils.getString(SharedPreference.USERID);
+                s += "^deviceId=" + DeviceUtils.getAndroidID();
+                sendMsg(s);
             }
 
             @Override
             public void onMessage(String message) {
-                Log.e("JWebSocketClientService", "收到的消息：" + message);
+                Log.e(TAG, "收到的消息：" + message);
 
                 Intent intent = new Intent();
                 intent.setAction(ACTION_WEB_SOCKET);
@@ -149,13 +148,7 @@ public class JWebSocketClientService extends Service {
             @Override
             public void onClose(int code, String reason, boolean remote) {
                 super.onClose(code, reason, remote);
-                //退出
-                //sendMsg("exit");
-            }
-
-            @Override
-            public void onError(Exception ex) {
-                super.onError(ex);
+                Log.e(TAG, "websocket断开连接  " + reason);
             }
         };
         connect();
@@ -192,6 +185,20 @@ public class JWebSocketClientService extends Service {
             sendNotification(content);
         } else {
             sendNotification(content);
+        }
+    }
+
+
+//    -----------------------------------消息通知--------------------------------------------------------
+
+    /**
+     * 发送消息
+     * @param msg
+     */
+    public void sendMsg(String msg) {
+        if (null != client) {
+            Log.e(TAG, "发送的消息：" + msg);
+            client.send(msg);
         }
     }
 
@@ -239,26 +246,6 @@ public class JWebSocketClientService extends Service {
 //        notifyManager.notify(1, notification);//id要保证唯一
     }
 
-
-//    -----------------------------------消息通知--------------------------------------------------------
-
-    public void setJWebSocketClientCallBack(JWebSocketClientCallBack webSocketClientCallBack) {
-        this.webSocketClientCallBack = webSocketClientCallBack;
-    }
-
-    /**
-     * 发送消息
-     * @param msg
-     */
-    public void sendMsg(String msg) {
-        if (null != client) {
-            Log.e("JWebSocketClientService", client.getReadyState() + "  发送的消息：" + msg);
-            if (ReadyState.OPEN.equals(client.getReadyState())) {
-                client.send(msg);
-            }
-        }
-    }
-
     /**
      * 开启重连
      */
@@ -268,17 +255,13 @@ public class JWebSocketClientService extends Service {
             @Override
             public void run() {
                 try {
-                    Log.e("JWebSocketClientService", "开启重连");
+                    Log.e(TAG, "开启重连");
                     client.reconnectBlocking();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         }.start();
-    }
-
-    public interface JWebSocketClientCallBack {
-        void onOpen();
     }
 
     //灰色保活

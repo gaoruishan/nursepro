@@ -2,9 +2,6 @@ package com.dhcc.nursepro.workarea.nurrecordnew;
 
 
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -24,12 +21,11 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.base.commlibs.BaseActivity;
-import com.base.commlibs.BaseFragment;
 import com.base.commlibs.constant.SharedPreference;
+import com.base.commlibs.http.CommonCallBack;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
@@ -40,9 +36,7 @@ import com.dhcc.nursepro.workarea.nurrecordnew.bean.DataSourceBean;
 import com.dhcc.nursepro.workarea.nurrecordnew.bean.ElementDataBean;
 import com.dhcc.nursepro.workarea.nurrecordnew.bean.RecDataBean;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -54,9 +48,7 @@ import java.util.Objects;
  * @author Devlix126
  * created at 2019/9/16 10:54
  */
-public class NurRecordNewFragment extends BaseFragment implements CompoundButton.OnCheckedChangeListener {
-    private final static int DATE_DIALOG = 0;
-    private final static int TIME_DIALOG = 1;
+public class NurRecordNewFragment extends NurRecordNewViewHelper implements CompoundButton.OnCheckedChangeListener {
     //view
     private final HashMap<String, View> viewHashMap = new HashMap<>();
     //id formname 关联
@@ -80,14 +72,11 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
     private String emrCode = "";
     private String guid = "";
     private String recId = "";
-    private Calendar c = null;
     private List<String> selectStrList = new ArrayList<>();
     private List<Integer> selectScoreList = new ArrayList<>();
     private int mSingleChoiceID = -1;
     private int itemScore = 0;
     private List<String> dcSelectStrList = new ArrayList<>();
-    private boolean[] dcTempStatus;
-    private ListView lv;
     private List<ElementDataBean.DataBean.InputBean.ElementBasesBean> elements;
     private List<ElementDataBean.DataBean.InputBean.ElementSetsBean> elementSetsBeans;
     private List<ElementDataBean.DataBean.InputBean.StatisticsListBean> statisticsListBeans;
@@ -623,9 +612,9 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
     private void initData() {
         showLoadingTip(BaseActivity.LoadingType.FULL);
 
-        NurRecordNewApiManager.GetXmlValues(episodeID, emrCode, recId, new NurRecordNewApiManager.GetXmlValuesCallback() {
+        NurRecordNewApiManager.GetXmlValues(episodeID, emrCode, recId, new CommonCallBack<ElementDataBean>() {
             @Override
-            public void onSuccess(ElementDataBean elementDataBean) {
+            public void onSuccess(ElementDataBean elementDataBean, String type) {
                 hideLoadFailTip();
                 elements = elementDataBean.getData().getInput().getElementBases();
                 elementSetsBeans = elementDataBean.getData().getInput().getElementSets();
@@ -1028,90 +1017,6 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
         return linearLayout;
     }
 
-    /**
-     * 时间日期选择窗口
-     *
-     * @param id
-     * @param context
-     * @param textView
-     */
-    protected void ShowDateTime(int id, Context context, final TextView textView) {
-        Dialog dialog;
-        c = Calendar.getInstance();
-        String DateTimeStr = textView.getText().toString();
-        switch (id) {
-            case DATE_DIALOG:
-                if (DateTimeStr.split("-").length == 3) {
-                    dialog = new DatePickerDialog(context,
-                            (dp, year, month, dayOfMonth) -> {
-
-                                DecimalFormat df = new DecimalFormat("00");
-
-                                String datestr = year + "-" + df.format(month + 1)
-                                        + "-" + df.format(dayOfMonth);
-                                textView.setText(datestr);
-                            }, Integer.parseInt(DateTimeStr.split("-")[0]),
-                            Integer.parseInt(DateTimeStr.split("-")[1]) - 1,
-                            Integer.parseInt(DateTimeStr.split("-")[2])
-                    );
-                } else {
-                    dialog = new DatePickerDialog(context,
-                            (dp, year, month, dayOfMonth) -> {
-
-                                DecimalFormat df = new DecimalFormat("00");
-
-                                String datestr = year + "-" + df.format(month + 1)
-                                        + "-" + df.format(dayOfMonth);
-                                textView.setText(datestr);
-                            }, c.get(Calendar.YEAR),
-                            c.get(Calendar.MONTH),
-                            c.get(Calendar.DAY_OF_MONTH)
-                    );
-                }
-
-                dialog.show();
-                break;
-            case TIME_DIALOG:
-                if (DateTimeStr.split(":").length == 2) {
-                    dialog = new TimePickerDialog(context,
-                            (view, hourOfDay, minute) -> {
-                                DecimalFormat df = new DecimalFormat("00");
-                                String timeStr = df.format(hourOfDay) + ":" + df.format(minute);
-                                textView.setText(timeStr);
-                            }, Integer.parseInt(DateTimeStr.split(":")[0]), Integer.parseInt(DateTimeStr.split(":")[1]),
-                            false);
-                } else {
-                    dialog = new TimePickerDialog(context,
-                            (view, hourOfDay, minute) -> {
-                                DecimalFormat df = new DecimalFormat("00");
-                                String timeStr = df.format(hourOfDay) + ":" + df.format(minute);
-                                textView.setText(timeStr);
-                            }, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE),
-                            false);
-                }
-
-                dialog.show();
-                break;
-            default:
-                break;
-        }
-
-    }
-
-    /**
-     * 虚线分隔
-     *
-     * @return
-     */
-    private View getDashLine() {
-        View view = new View(getActivity());
-        LinearLayout.LayoutParams viewparams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ConvertUtils.dp2px(4));
-        view.setLayoutParams(viewparams);
-        view.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        view.setBackground(getResources().getDrawable(R.drawable.line_dash));
-        return view;
-
-    }
 
     /**
      * 平铺单选
@@ -1353,55 +1258,6 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
         localAlertDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
     }
 
-    /**
-     * 下拉多选弹窗
-     *
-     * @param dcSelectStrList
-     * @param context
-     * @param textView
-     */
-    private void ShowDropCheck(List<String> dcSelectStrList, Context context, final TextView textView) {
-        CharSequence[] dcmItems = new CharSequence[dcSelectStrList.size()];
-        dcTempStatus = new boolean[dcSelectStrList.size()];
-        for (int i = 0; i < dcSelectStrList.size(); i++) {
-            dcmItems[i] = dcSelectStrList.get(i);
-            String[] dcText = textView.getText().toString().split(",");
-            dcTempStatus[i] = false;
-            for (String s : dcText) {
-                if (s.equals(dcSelectStrList.get(i))) {
-                    dcTempStatus[i] = true;
-                    break;
-                }
-            }
-        }
-
-        AlertDialog ad = new AlertDialog.Builder(context)
-                .setTitle("选择")
-                .setMultiChoiceItems(dcmItems, dcTempStatus, (dialog, which, isChecked) -> {
-                    if (which == (dcmItems.length - 1)) {
-                        for (int i = 0; i < dcmItems.length; i++) {
-                            lv.setItemChecked(i, isChecked);
-                            dcTempStatus[i] = isChecked;
-                        }
-                    }
-                })
-                .setPositiveButton("确定", (dialog, which) -> {
-
-                    StringBuilder itmtxt = new StringBuilder();
-                    for (int i = 0; i < (dcmItems.length - 1); i++) {
-                        if (lv.getCheckedItemPositions().get(i)) {
-                            itmtxt.append(dcSelectStrList.get(i)).append(",");
-                        }
-                    }
-                    if (itmtxt.toString().endsWith(",")) {
-                        itmtxt = new StringBuilder(itmtxt.substring(0, itmtxt.length() - 1));
-                    }
-                    textView.setText(itmtxt.toString());
-                }).setNegativeButton("取消", null).create();
-        lv = ad.getListView();
-        ad.show();
-        ad.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-    }
 
     /**
      * 输入框
@@ -1441,6 +1297,7 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
         EditText editText = new EditText(getActivity());
         LinearLayout.LayoutParams edparams1 = new LinearLayout.LayoutParams(0, ConvertUtils.dp2px(40f), 2.0f);
         LinearLayout.LayoutParams edparams2 = new LinearLayout.LayoutParams(0, ConvertUtils.dp2px(70f), 2.0f);
+
         if ("TextareaElement".equals(elementType)) {
             editText.setLayoutParams(edparams2);
         } else {
@@ -1456,6 +1313,8 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
         } else {
             editText.setInputType(InputType.TYPE_CLASS_TEXT);
         }
+        //多行显示 在setInputType之后
+        editText.setSingleLine(false);
         editText.setGravity(Gravity.CENTER);
         editText.setTextColor(Color.parseColor("#4a4a4a"));
         editText.setTextSize(14f);
@@ -1694,25 +1553,6 @@ public class NurRecordNewFragment extends BaseFragment implements CompoundButton
         return linearLayout;
     }
 
-    /**
-     * 是否为数字
-     *
-     * @param obj
-     * @return
-     */
-    public boolean isNumber(Object obj) {
-        if (obj instanceof Number) {
-            return true;
-        } else if (obj instanceof String) {
-            try {
-                Double.parseDouble((String) obj);
-                return true;
-            } catch (Exception e) {
-                return false;
-            }
-        }
-        return false;
-    }
 
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
