@@ -49,6 +49,15 @@ public class TaskManageBean extends CommResult  {
         private String patRegNo;
         private String sheetOrdNum;
         private List<SheetPatListBean> sheetList;
+        private String patSex;
+
+        public String getPatSex() {
+            return patSex == null ? "" : patSex;
+        }
+
+        public void setPatSex(String patSex) {
+            this.patSex = patSex;
+        }
 
         public String getBedCode() {
             return bedCode;

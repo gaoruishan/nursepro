@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.base.commlibs.BaseActivity;
 import com.base.commlibs.MessageEvent;
 import com.base.commlibs.comm.BaseCommFragment;
 import com.base.commlibs.http.CommonCallBack;
@@ -69,14 +70,16 @@ public class TaskManageFragment extends BaseCommFragment {
     private void getOrderTasks() {
         getStartDateTime(customDate);
         getEndDateTime(customDate);
+        showLoadingTip(BaseActivity.LoadingType.FULL);
         TaskManageApi.getOrderTasks(params, new CommonCallBack<TaskManageBean>() {
             @Override
             public void onFail(String code, String msg) {
-
+                hideLoadingTip();
             }
 
             @Override
             public void onSuccess(TaskManageBean bean, String type) {
+                hideLoadingTip();
                 mBean = bean;
                 switchTabDatas(selectPosition);
             }

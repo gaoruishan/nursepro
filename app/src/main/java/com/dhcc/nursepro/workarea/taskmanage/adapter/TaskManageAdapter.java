@@ -26,12 +26,13 @@ public class TaskManageAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
     protected void convert(BaseViewHolder helper, MultiItemEntity item) {
         if (TaskManageBean.TYPE_1 == item.getItemType()) {
             TaskManageBean.TaskPatListBean bean = (TaskManageBean.TaskPatListBean) item;
-            helper.setText(R.id.tv_bed, bean.getBedCode()).setText(R.id.tv_name, bean.getPatName())
-                    .setText(R.id.tv_regno, "登记号:" + bean.getPatRegNo()).setText(R.id.tv_num, "数量: " + bean.getSheetOrdNum());
+            helper.setImageResource(R.id.img_sex, "M".equals(bean.getPatSex()) ? R.drawable.man : R.drawable.sex_female);
+            helper.setText(R.id.tv_bed1, bean.getBedCode()+"床").setText(R.id.tv_name1, bean.getPatName())
+                    .setText(R.id.tv_regno1, "登记号:" + bean.getPatRegNo()).setText(R.id.tv_num1, "数量: " + bean.getSheetOrdNum());
         }
         if (TaskManageBean.TYPE_2 == item.getItemType()) {
             TaskManageBean.TaskSheetListBean bean = (TaskManageBean.TaskSheetListBean) item;
-            helper.setText(R.id.tv_type,"类别: "+ bean.getSheetDesc()).setText(R.id.tv_num, "数量: " + bean.getSheetOrdNum());
+            helper.setText(R.id.tv_type2,"类别: "+ bean.getSheetDesc()).setText(R.id.tv_num2, "数量: " + bean.getSheetOrdNum());
         }
     }
 }

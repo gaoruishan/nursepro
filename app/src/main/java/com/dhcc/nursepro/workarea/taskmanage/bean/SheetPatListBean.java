@@ -16,6 +16,15 @@ public class SheetPatListBean {
     private String sheetCode;
     private String sheetDesc;
     private String sheetPatOrdNum;
+    private String patSex;
+
+    public String getPatSex() {
+        return patSex == null ? "" : patSex;
+    }
+
+    public void setPatSex(String patSex) {
+        this.patSex = patSex;
+    }
 
     public String getBedCode() {
         return bedCode == null ? "" : bedCode;

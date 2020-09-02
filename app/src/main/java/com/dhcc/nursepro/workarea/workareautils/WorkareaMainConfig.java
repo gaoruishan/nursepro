@@ -190,6 +190,7 @@ public class WorkareaMainConfig {
                 SharedPreference.FRAGMENTARY.add(map);
                 break;
             case "TaskManageFragment":
+                //w ##class(Nur.DHCNurPdaModule).Save("任务管理^TaskManageFragment^26^Y^")
                 map.put("desc","任务管理");
                 map.put("fragName", TaskManageFragment.class.getName());
                 map.put("fragicon",R.drawable.icon_task_manage);
