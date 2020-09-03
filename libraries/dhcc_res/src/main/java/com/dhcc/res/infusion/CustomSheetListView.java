@@ -115,7 +115,7 @@ public class CustomSheetListView extends LinearLayout {
             TextView tvOrderType = helper.getView(R.id.tv_ordersearch_ordertype);
             if (item.getNum()!=null){
                 helper.setGone(R.id.tv_sheet_num,true);
-                helper.setText(R.id.tv_sheet_num,"项目数:"+item.getNum());
+                helper.setText(R.id.tv_sheet_num,item.getNum());
             }else {
                 helper.setGone(R.id.tv_sheet_num,false);
             }
