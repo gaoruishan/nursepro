@@ -171,7 +171,7 @@ public class TempTaskFragment extends BaseNurseFragment {
                     bundle.putString("timekey", customDate.getStartDateTimeText().substring(0,10)+" "+taskTempAdapter.getData().get(position).getTimeKey());
                     bundle.putString("episodeId", taskTempAdapter.getData().get(position).getEpisodeId());
                     Class<? extends BaseFragment> VitalSignRecordFragmentClass = (Class<? extends BaseFragment>) Class.forName("com.dhcc.nursepro.workarea.vitalsign.VitalSignRecordFragment");
-                    startFragment(VitalSignRecordFragmentClass,bundle);
+                    startFragment(VitalSignRecordFragmentClass,bundle,1);
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -217,11 +217,15 @@ public class TempTaskFragment extends BaseNurseFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
-            bedStr = data.getStringExtra("bedselectinfoStr");
-            regNo="";
-            if (askCount == 0) {
-                askCount++;
+            if ("saveTemp".equals(data.getStringExtra("bedselectinfoStr"))){
                 getTempTaskList();
+            }else {
+                bedStr = data.getStringExtra("bedselectinfoStr");
+                regNo="";
+                if (askCount == 0) {
+                    askCount++;
+                    getTempTaskList();
+                }
             }
         }
     }
@@ -245,32 +249,13 @@ public class TempTaskFragment extends BaseNurseFragment {
                     imgReset.setTvPatText("选床患者");
                 }
                 tempTaskBean = bean;
-                tvOrderNum.setText("项目数："+bean.getTempDateList().size());
+                tvOrderNum.setText("总数："+bean.getTempDateList().size());
                 mSheetListBeanList = new ArrayList<>();
-//                if (regNo.equals("")){
-//                    imgReset.setTvPatText("全部患者");
-//                }
-                for (int i = 0; i <bean.getTempDateList().size() ; i++) {
-//                    mSheetListBeanList.add(new SheetListBean(bean.getBodyUnExec().get(i).getCode(),bean.getBodyUnExec().get(i).getName(),bean.getBodyUnExec().get(i).getOrders().size()+""));
-                }
-//                Map<String,Integer>  map= new HashMap();
-//                for (int i = 0; i < bean.getTempDateList().size(); i++) {
-//                    for (int j = 0; j < bean.getTempDateList().get(i).getObsDataList().size(); j++) {
-//                        if (map.get(bean.getTempDateList().get(i).getObsDataList().get(j).getObsKey())==null){
-//                            map.put(bean.getTempDateList().get(i).getObsDataList().get(j).getObsKey(),0);
-//                        }
-//                        int temNum = map.get(bean.getTempDateList().get(i).getObsDataList().get(j).getObsKey());
-//                        map.put(bean.getTempDateList().get(i).getObsDataList().get(j).getObsKey(),temNum+1);
-//                    }
-//                }
-//                mSheetListBeanList.add(new SheetListBean("breath","呼吸（次/分）",map.get("breath")+""));
-//                mSheetListBeanList.add(new SheetListBean("diaPressure","舒张压（mmHg）",map.get("diaPressure")+""));
-//                mSheetListBeanList.add(new SheetListBean("pulse","脉搏（次/分）",map.get("pulse")+""));
-//                mSheetListBeanList.add(new SheetListBean("sysPressure","收缩压（mmHg）",map.get("sysPressure")+""));
-//                mSheetListBeanList.add(new SheetListBean("temperature","腋温（℃）",map.get("temperature")+""));
-//                mSheetListBeanList.add(new SheetListBean("weight","体重（KG）",map.get("weight")+""));
-                for (int i = 0; i < listAllBean.size(); i++) {
-                    mSheetListBeanList.add(new SheetListBean(listAllBean.get(i).getCode(),listAllBean.get(i).getName(),listAllBean.get(i).getValue()));
+
+                for (int i = 0; i < bean.getTempCodeList().size(); i++) {
+                    mSheetListBeanList.add(new SheetListBean(bean.getTempCodeList().get(i).getCode(),
+                                                             bean.getTempCodeList().get(i).getDesc(),
+                            bean.getTempCodeList().get(i).getNumDesc()+":" + bean.getTempCodeList().get(i).getNum()));
                 }
                 customSheet.setDatas(mSheetListBeanList);
                 showAllTemp(true);

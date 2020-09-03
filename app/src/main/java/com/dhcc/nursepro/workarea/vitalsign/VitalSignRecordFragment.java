@@ -220,6 +220,11 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
             public void onSuccess(VitalSignSaveBean bean) {
                 hideLoadFailTip();
                 showToast("保存成功");
+                if (fromTask){
+                    Bundle bundle = new Bundle();
+                    bundle.putString("bedselectinfoStr","saveTemp");
+                    finish(bundle);
+                }
                 oldMap.putAll(newMap);
                 waiting = false;
                 if (type == SAVE_TEMP_VALUE_NEXT) {

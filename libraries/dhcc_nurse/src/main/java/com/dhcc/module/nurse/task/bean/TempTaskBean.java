@@ -12,7 +12,16 @@ import java.util.List;
  * Time:10:18
  */
 public class TempTaskBean extends CommResult {
+    private List<TempCodeListBean> tempCodeList;
     private List<TempDateListBean> tempDateList;
+
+    public List<TempCodeListBean> getTempCodeList() {
+        return tempCodeList;
+    }
+
+    public void setTempCodeList(List<TempCodeListBean> tempCodeList) {
+        this.tempCodeList = tempCodeList;
+    }
 
     public List<TempDateListBean> getTempDateList() {
         return tempDateList;
@@ -22,6 +31,51 @@ public class TempTaskBean extends CommResult {
         this.tempDateList = tempDateList;
     }
 
+    public static class TempCodeListBean {
+        /**
+         * code : all
+         * desc : 全部
+         * num : 127
+         * numDesc : 任务数
+         */
+
+        private String code;
+        private String desc;
+        private String num;
+        private String numDesc;
+
+        public String getCode() {
+            return code;
+        }
+
+        public void setCode(String code) {
+            this.code = code;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
+
+        public void setDesc(String desc) {
+            this.desc = desc;
+        }
+
+        public String getNum() {
+            return num;
+        }
+
+        public void setNum(String num) {
+            this.num = num;
+        }
+
+        public String getNumDesc() {
+            return numDesc;
+        }
+
+        public void setNumDesc(String numDesc) {
+            this.numDesc = numDesc;
+        }
+    }
     public static class TempDateListBean {
         /**
          * bedCode : 04

@@ -141,6 +141,8 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
     @Override
     protected void onResume(@Nullable Bundle args) {
         super.onResume(args);
+        //清空查询所选床位
+        SPUtils.getInstance().put(SharedPreference.ORDERSEARCHE_BEDSELECTED,"");
         if (hasRequest == 0) {
             getNewVersion();
         } else if (hasRequest == 1 && canUpdate == 1) {
