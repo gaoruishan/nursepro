@@ -99,6 +99,7 @@ public class AllotBedFragment extends BaseFragment implements View.OnClickListen
         showToolbarNavigationIcon(R.drawable.icon_back_blue);
         setToolbarCenterTitle(getString(R.string.title_allotbeds));
         setToolbarBottomLineVisibility(false);
+
         //右上角保存按钮
         viewright = View.inflate(getActivity(), R.layout.view_fratoolbar_right, null);
         TextView textView = viewright.findViewById(R.id.tv_fratoobar_right);

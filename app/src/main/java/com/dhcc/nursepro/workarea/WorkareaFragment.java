@@ -58,7 +58,8 @@ public class WorkareaFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         setStatusBarBackgroundViewVisibility(false, 0xffffffff);
         setToolbarType(BaseActivity.ToolbarType.HIDE);
-        hindMap();
+//        hindMap();
+
 
         initView(view);
         initData();

@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -73,6 +75,9 @@ public class PatEventsFragment extends BaseFragment implements View.OnClickListe
         if (bundle != null) {
             String regNo = bundle.getString("regNo");
             getUserMsg(regNo);
+            rlscan.setVisibility(View.GONE);
+        }else if (!TextUtils.isEmpty(singleRegNo)){
+            getUserMsg(singleRegNo);
             rlscan.setVisibility(View.GONE);
         }
 

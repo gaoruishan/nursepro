@@ -21,6 +21,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -28,6 +29,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.base.commlibs.base.BaseBottomLoadingView;
@@ -37,6 +39,7 @@ import com.base.commlibs.base.BaseTopLoadingView;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.SPUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -53,6 +56,8 @@ public class BaseFragment extends Fragment {
     protected static final String TAG = BaseFragment.class.getSimpleName();
     // 视图组,负责管理加载、加载失败等视图的显隐
     protected FrameLayout mContainer;
+    protected LinearLayout linearLayoutTitle,llTitTop,llTitRight;
+    protected TextView tvName;
     protected View mContainerChild;
     protected FrameLayout mContainerMaskContainer;
     // 加载FullLoadingView
@@ -72,6 +77,11 @@ public class BaseFragment extends Fragment {
     // 记录是否显示了LoadFailTip
     private boolean isLoadFailTipShowing;
 
+
+    private Intent broadCastIntent = new Intent();
+    public String singleEpisodeId = "";
+    public String singleRegNo = "";
+
     /**
      * 判断是否大于等于LOLLIPOP
      *
@@ -85,6 +95,18 @@ public class BaseFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setlitener();
+
+        mfilter.addAction(Action.DEVICE_SCAN_CODE);
+        mfilter.addAction(Action.NEWMESSAGE_SERVICE);
+        mfilter.addAction(Action.ORDER_HANDLE_TYPE);
+//        mfilter.addAction(Action.ORDER_HANDLE_REFUSE);
+//        mfilter.addAction(Action.ORDER_HANDLE_COMPLETE);
+        mfilter.addAction(Action.SKIN_TEST_YANG);
+        mfilter.addAction(Action.SKIN_TEST_YIN);
+        mfilter.addAction(Action.DOSING_REVIEW);
+        mfilter.addAction(Action.TOUR_DOSINGID);
+        mfilter.addAction(Action.DRUG_RLREG);
+        mfilter.addAction(Action.NUR_RECORD_XML_VIEW);
     }
 
     /**
@@ -117,6 +139,21 @@ public class BaseFragment extends Fragment {
 
     }
 
+    /**
+     * BaseFragment通过广播向SingleMainActivity传递msg
+     */
+    public void setMsgToSingleActivity(String msg) {
+        broadCastIntent.setAction(Action.SETSINGLEMSG);
+        broadCastIntent.putExtra("data", msg);
+        getActivity().sendBroadcast(broadCastIntent);
+    }
+
+    /**
+     * SIngleMainActivity通过此方法向BaseFragment单人模式传递数据
+     */
+    public void setMsgToSingleBaseFragment(String episodeId) {
+        showToast(episodeId);
+    }
     /**
      * 所属Activity中onCreate之前调用(只适用于UniversalActivity及其子类)
      *
@@ -212,6 +249,12 @@ public class BaseFragment extends Fragment {
      * @param type
      */
     public void setToolbarType(BaseActivity.ToolbarType type) {
+        if (SPUtils.getInstance().getString(Action.SINGLEMODEL).equals("1")){
+            type = BaseActivity.ToolbarType.HIDE;
+            llTitTop.setVisibility(View.VISIBLE);
+        }else {
+            llTitTop.setVisibility(View.GONE);
+        }
         Activity activity = getActivity();
         if (activity != null && activity instanceof BaseActivity) {
             ((BaseActivity) activity).setToolbarType(type);
@@ -250,6 +293,15 @@ public class BaseFragment extends Fragment {
      * @param size  单位:DIP
      */
     public void setToolbarCenterTitle(CharSequence title, int color, int size) {
+        if (SPUtils.getInstance().getString(Action.SINGLEMODEL).equals("1")){
+            tvName.setLines(1);
+            tvName.setMaxLines(1);
+            tvName.setEllipsize(TextUtils.TruncateAt.END);
+            tvName.setTextSize(TypedValue.COMPLEX_UNIT_DIP, size-2);
+            tvName.setText(title);
+            tvName.setGravity(Gravity.CENTER);
+        }
+        setMsgToSingleActivity(title.toString());
         Activity activity = getActivity();
         if (activity != null && activity instanceof BaseActivity) {
             ((BaseActivity) activity).setToolbarCenterTitle(title, color, size);
@@ -267,25 +319,32 @@ public class BaseFragment extends Fragment {
                 ((BaseActivity) activity).setListener(new BaseActivity.Listener() {
                     @Override
                     public void changMap(String map) {
-                        try {
-                            Class<? extends BaseFragment> aClass = (Class<? extends BaseFragment>) Class.forName(map);
-                            if (!aClass.getName().contains("WorkareaFragment")){
-                                startFragment(aClass);
-                            }
-                            if (SharedPreference.LastActivity == null){
-                                SharedPreference.LastActivity = (BaseActivity) activity;
-                            }else {
-                                SharedPreference.LastActivity.finish();
-                                SharedPreference.LastActivity = (BaseActivity) activity;
-                            }
-                            if (aClass.getName().contains("WorkareaFragment")){
-                                startActivity(new Intent(getActivity(),Class.forName("com.dhcc.nursepro.Activity.MainActivity")));
-                                SharedPreference.LastActivity = null;
-                                finish();
-                            };
+                        if (SPUtils.getInstance().getString(Action.SINGLEMODEL).equals("1")){
+                            broadCastIntent.setAction(Action.SINGLEMAP);
+                            broadCastIntent.putExtra("data", map);
+                            getActivity().sendBroadcast(broadCastIntent);
+                        }else {
+                            try {
+                                Class<? extends BaseFragment> aClass = (Class<? extends BaseFragment>) Class.forName(map);
+                                if (!aClass.getName().contains("WorkareaFragment")){
+                                    startFragment(aClass);
+                                }
+                                if (SharedPreference.LastActivity == null){
+                                    SharedPreference.LastActivity = (BaseActivity) activity;
+                                }else {
+                                    SharedPreference.LastActivity.finish();
+                                    SharedPreference.LastActivity = (BaseActivity) activity;
+                                }
+                                if (aClass.getName().contains("WorkareaFragment")){
+                                    startActivity(new Intent(getActivity(),Class.forName("com.dhcc.nursepro.Activity.MainActivity")));
+                                    SharedPreference.LastActivity = null;
+                                    finish();
+                                };
 //                        finish();
-                        } catch (ClassNotFoundException e) {
-                            e.printStackTrace();
+                            } catch (ClassNotFoundException e) {
+                                e.printStackTrace();
+                            }
+
                         }
                     }
                 });
@@ -336,6 +395,10 @@ public class BaseFragment extends Fragment {
      * @param view
      */
     public void setToolbarRightCustomView(View view) {
+        if (SPUtils.getInstance().getString(Action.SINGLEMODEL).equals("1")){
+            llTitRight.removeAllViews();
+            llTitRight.addView(view);
+        }
         Activity activity = getActivity();
         if (activity != null && activity instanceof BaseActivity) {
             ((BaseActivity) activity).setToolbarRightCustomView(view);
@@ -435,11 +498,17 @@ public class BaseFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         mRequestTag = getClass().getName() + "@" + UUID.randomUUID();
         mContainer = new FrameLayout(getActivity());
+        linearLayoutTitle = (LinearLayout) View.inflate(getActivity(), R.layout.activity_base_linelayout, null);
+        llTitTop = linearLayoutTitle.findViewById(R.id.ll_title_top);
+        llTitRight = linearLayoutTitle.findViewById(R.id.ll_title_right);
+        tvName = linearLayoutTitle.findViewById(R.id.tv_title_name);
+
         mContainerChild = onCreateViewByYM(inflater, container, savedInstanceState);
         if (mContainerChild != null && mContainerChild.getParent() == null) {
-            mContainer.addView(mContainerChild,
+            linearLayoutTitle.addView(mContainerChild,
                     new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
                             FrameLayout.LayoutParams.MATCH_PARENT));
+            mContainer.addView(linearLayoutTitle);
         }
         Log.e(TAG,"("+this.getClass().getSimpleName()+".java:35) ");
         return mContainer;

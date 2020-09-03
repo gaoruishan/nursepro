@@ -218,6 +218,9 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         BackgroundLibrary.inject(this);
         super.onCreate(savedInstanceState);
+        if (SPUtils.getInstance().getString(Action.SINGLEMODEL).equals("1")){
+            mToolbarType = ToolbarType.HIDE;
+        }
         getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(this);
         // 生成请求数据的标记
         mRequestTag = getClass().getName() + "@" + UUID.randomUUID();
@@ -1511,14 +1514,30 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         // nothing
     }
     public void setListener(Listener listener) {
-        for (int i = 0; i <listFragment.size() ; i++) {
-            Map map = (Map) listFragment.get(i);
-            if (map.get("fragName").toString().contains(SharedPreference.Fragment_show)){
-                listFragment.remove(i);
-                break;
+        listFragment = new ArrayList();
+        if (SharedPreference.FRAGMENTARY.size()>0){
+            if ("1".equals(SPUtils.getInstance().getString(Action.SINGLEMODEL))){
+                for (int i = 0; i <SharedPreference.FRAGMENTARY.size() ; i++) {
+                    Map map = (Map) SharedPreference.FRAGMENTARY.get(i);
+                    if (!map.get("fragName").toString().contains(SharedPreference.Fragment_show) && map.get("singleModel")!=null && "1".equals(map.get("singleModel"))){
+                        listFragment.add(SharedPreference.FRAGMENTARY.get(i));
+                    }
+                }
+                fragMapAdapter.setNewData(listFragment);
+            }else {
+                listFragment.addAll(SharedPreference.FRAGMENTARY);
+                for (int i = 0; i <listFragment.size() ; i++) {
+                    Map map = (Map) listFragment.get(i);
+                    if (map.get("fragName").toString().contains(SharedPreference.Fragment_show)){
+                        listFragment.remove(i);
+                        break;
+                    }
+                }
+                fragMapAdapter.setNewData(listFragment);
             }
+
         }
-        fragMapAdapter.setNewData(listFragment);
+
         this.listener = listener;
     }
     public interface Listener{

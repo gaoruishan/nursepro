@@ -175,6 +175,9 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
             if (execResultDialog != null && execResultDialog.isShowing()) {
                 execResultDialog.dismiss();
             }
+        }else if (!TextUtils.isEmpty(singleRegNo)){
+            scanInfo = singleRegNo;
+            getScanInfo();
         }
         startDate = SchDateTimeUtil.getStartDate();
         startTime = SchDateTimeUtil.getStartTime();

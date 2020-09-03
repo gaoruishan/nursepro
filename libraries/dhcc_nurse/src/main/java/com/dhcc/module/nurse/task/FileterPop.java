@@ -44,7 +44,12 @@ public class FileterPop extends BasePopWindow {
         //内容，高度，宽度
         if (EnumLocation.BOTTOM == from) {
             popupWindow = new PopupWindow(popupWindowView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
-        } else {
+        } else if (EnumLocation.LEFT == from){
+            popupWindow = new PopupWindow(popupWindowView
+                    , (int) (getScreenSize(mContext).x * SCREEN_PRESENT)
+                    , ViewGroup.LayoutParams.WRAP_CONTENT
+                    , true);
+        }else {
             popupWindow = new PopupWindow(popupWindowView
                     , (int) (getScreenSize(mContext).x * SCREEN_PRESENT)
                     , ViewGroup.LayoutParams.MATCH_PARENT
@@ -73,12 +78,16 @@ public class FileterPop extends BasePopWindow {
             popupWindow.setAnimationStyle(R.style.dhcc_AnimationBottomFade);
         }
         //菜单背景色
-        ColorDrawable dw = new ColorDrawable(0xff000000);
-        popupWindow.setBackgroundDrawable(dw);
+        if (EnumLocation.LEFT == from) {
+        }else {
+            ColorDrawable dw = new ColorDrawable(0xff000000);
+            popupWindow.setBackgroundDrawable(dw);
+        }
+
         //显示位置
         if (EnumLocation.LEFT == from) {
             //显示在界面0,0位置上
-            popupWindow.showAtLocation(mContext.getWindow().getDecorView(), Gravity.LEFT, 0, 0);
+            popupWindow.showAtLocation(mContext.getWindow().getDecorView(), Gravity.LEFT|Gravity.TOP, 0, 150);
         } else if (EnumLocation.RIGHT == from) {
             popupWindow.showAtLocation(mContext.getWindow().getDecorView(), Gravity.RIGHT, 0, 0);
 //			popupWindow.showAtLocation(mContext.getLayoutInflater().inflate(showAtLocation, null), Gravity.RIGHT, 0, 0);

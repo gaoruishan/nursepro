@@ -117,6 +117,8 @@ public class SharedPreference {
     //判断是否显示底部菜单栏
 
     public static List FRAGMENTARY = new ArrayList<HashMap>();
+    //存放Fragment
+    public static HashMap<String,BaseFragment> FRAGMENTMAP = new HashMap<String,BaseFragment>();
     public static final String MAP_SHOW = "MAP_SHOW";
     //记录上一个fragment，可返回（挽回一次误操作跳转）
     public static BaseActivity LastActivity;

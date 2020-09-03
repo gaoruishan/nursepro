@@ -1,11 +1,25 @@
 package com.dhcc.nursepro.workarea.workareautils;
 
+import android.app.Activity;
+import android.content.Intent;
+
+import com.base.commlibs.BaseFragment;
+import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
+import com.base.commlibs.utils.DataCache;
+import com.base.commlibs.utils.SchDateTimeUtil;
+import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.StringUtils;
 import com.dhcc.module.nurse.bloodsugar.BloodSugarFragment;
 import com.dhcc.module.nurse.education.HealthEduFragment;
 import com.dhcc.module.nurse.nurplan.NurPlanFragment;
 import com.dhcc.module.nurse.task.TaskOverviewFragment;
+import com.dhcc.nursepro.Activity.MainActivity;
+import com.dhcc.nursepro.Activity.SingleMainActivity;
+import com.dhcc.nursepro.Activity.SplashActivity;
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.login.LoginActivity;
+import com.dhcc.nursepro.workarea.WorkareaFragment;
 import com.dhcc.nursepro.workarea.allotbed.AllotBedFragment;
 import com.dhcc.nursepro.workarea.bedmap.BedMapFragment;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.BloodTransfusionSystemFragment;
@@ -31,6 +45,7 @@ import com.dhcc.nursepro.workarea.rjorder.RjOrderFragment;
 import com.dhcc.nursepro.workarea.shift.ShiftFragment;
 import com.dhcc.nursepro.workarea.taskmanage.TaskManageFragment;
 import com.dhcc.nursepro.workarea.vitalsign.VitalSignFragment;
+import com.dhcc.nursepro.workarea.workareaapi.WorkareaApiManager;
 import com.dhcc.nursepro.workarea.workareabean.MainConfigBean;
 
 import java.util.ArrayList;
@@ -61,30 +76,35 @@ public class WorkareaMainConfig {
                 map.put("desc","床位图");
                 map.put("fragName", BedMapFragment.class.getName());
                 map.put("fragicon",R.drawable.icon_bedmap);
+                map.put("singleModel","1");
                 SharedPreference.FRAGMENTARY.add(map);
                 break;
             case "VITALSIGN":
                 map.put("desc","生命体征");
                 map.put("fragName", VitalSignFragment.class.getName());
                 map.put("fragicon",R.drawable.icon_vitalsign);
+                map.put("singleModel","1");
                 SharedPreference.FRAGMENTARY.add(map);
                 break;
             case "EVENTS":
                 map.put("desc","事件登记");
                 map.put("fragName", PatEventsFragment.class.getName());
                 map.put("fragicon",R.drawable.icon_events);
+                map.put("singleModel","1");
                 SharedPreference.FRAGMENTARY.add(map);
                 break;
             case "ORDERSEARCH":
                 map.put("desc","医嘱查询");
                 map.put("fragName", OrderSearchFragment.class.getName());
                 map.put("fragicon",R.drawable.icon_orderserarch);
+                map.put("singleModel","1");
                 SharedPreference.FRAGMENTARY.add(map);
                 break;
             case "ORDEREXECUTE":
                 map.put("desc","医嘱执行");
                 map.put("fragName", OrderExecuteFragment.class.getName());
                 map.put("fragicon",R.drawable.icon_orderexcute);
+                map.put("singleModel","1");
                 SharedPreference.FRAGMENTARY.add(map);
                 break;
             case "CHECK":
@@ -253,4 +273,48 @@ public class WorkareaMainConfig {
         }
         return map;
     }
+
+    public void getMainConfigData(Activity activity) {
+//        locId = spUtils.getString(SharedPreference.LOCID);
+//        groupId = spUtils.getString(SharedPreference.GROUPID);
+        SharedPreference.FRAGMENTMAP = new HashMap();
+        WorkareaApiManager.getMainConfig(new WorkareaApiManager.GetMainconfigCallback() {
+            @Override
+            public void onSuccess(MainConfigBean mainConfigBean) {
+                if (mainConfigBean.getSchStDateTime() != null && mainConfigBean.getSchEnDateTime() != null) {
+                    SchDateTimeUtil.putSchStartEndDateTime(mainConfigBean.getSchStDateTime(),mainConfigBean.getSchEnDateTime());
+
+                    if (StringUtils.isEmpty(mainConfigBean.getCurDateTime())) {
+                        SPUtils.getInstance().put(SharedPreference.CURDATETIME, mainConfigBean.getSchEnDateTime());
+                    } else {
+                        SPUtils.getInstance().put(SharedPreference.CURDATETIME, mainConfigBean.getCurDateTime());
+                    }
+                }
+//                SharedPreference.FRAGMENTARY = new ArrayList();
+//                Map map = new HashMap();
+//                map.put("code","Main");
+//                map.put("desc","主页");
+//                map.put("fragName", WorkareaFragment.class.getName());
+//                map.put("fragicon",R.drawable.icon_workarea);
+//                SharedPreference.FRAGMENTARY.add(map);
+
+                WorkareaMainConfig workareaMainConfig = new WorkareaMainConfig();
+                workareaMainConfig.getMainCoinfgList(mainConfigBean);
+//                workAreaAdapter.setNewData(listMainConfig);
+                SPUtils.getInstance().put(SharedPreference.BLOODSCANTIMES, mainConfigBean.getScantimes());
+                DataCache.saveJson(mainConfigBean, SharedPreference.DATA_MAIN_CONFIG);
+                if (SPUtils.getInstance().getString(Action.SINGLEMODEL,"0").equals("0")){
+                    activity.startActivity(new Intent(activity, MainActivity.class));
+                }else {
+                    activity.startActivity(new Intent(activity, SingleMainActivity.class));
+                }
+                activity.finish();
+            }
+            @Override
+            public void onFail(String code, String msg) {
+//                showToast("error" + code + ":" + msg);
+            }
+        });
+    }
+
 }

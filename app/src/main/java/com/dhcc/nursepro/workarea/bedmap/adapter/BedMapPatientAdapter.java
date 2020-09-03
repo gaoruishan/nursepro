@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.base.commlibs.constant.Action;
+import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.nursepro.R;
@@ -35,7 +37,7 @@ public class BedMapPatientAdapter extends BaseQuickAdapter<BedMapBean.PatInfoLis
     @SuppressLint("ResourceAsColor")
     @Override
     protected void convert(BaseViewHolder helper, BedMapBean.PatInfoListBean item) {
-        helper.setText(R.id.tv_bedmap_patient_bedno, "".equals(item.getBedCode()) ? "未分床" : item.getBedCode())
+        helper.setText(R.id.tv_bedmap_patient_bedno, "".equals(item.getBedCode()) ? "未分床" : item.getBedCode().replaceAll("床","")+"床")
                 .setText(R.id.tv_bedmap_patient_name, item.getName())
                 .setText(R.id.tv_bedmap_patient_carelevel,item.getCareLevel());
         View line = helper.getView(R.id.line_bedmap_patient);
@@ -69,6 +71,12 @@ public class BedMapPatientAdapter extends BaseQuickAdapter<BedMapBean.PatInfoLis
             recySkinOrder.setAdapter(skinOrderAdapter);
         }
 
-
+        if (SPUtils.getInstance().getString(Action.SINGLEMODEL).equals("1")){
+            line.setVisibility(View.GONE);
+            llSkinOrder.setVisibility(View.GONE);
+        }else{
+            line.setVisibility(View.VISIBLE);
+            llSkinOrder.setVisibility(View.VISIBLE);
+        }
     }
 }

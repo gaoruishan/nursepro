@@ -14,9 +14,11 @@ import android.widget.Toast;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
+import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.dialog.SettingVersionDialog;
 import com.blankj.utilcode.util.SPUtils;
+import com.dhcc.nursepro.Activity.SingleMainActivity;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.greendao.DaoSession;
 import com.dhcc.nursepro.greendao.GreenDaoHelper;
@@ -50,6 +52,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     private RelativeLayout rlBeds;
     private RelativeLayout rlWay;
     private RelativeLayout rlReq;
+    private RelativeLayout rlSingle;
     private NurseInfo loginNurseInfo;
     private List<Map<String, String>> locsList;
     private List<NurseInfo> nurseInfoList;
@@ -96,7 +99,8 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         rlWay.setOnClickListener(this);
         rlReq = view.findViewById(R.id.rl_setting_failrequest);
         rlReq.setOnClickListener(this);
-
+        rlSingle = view.findViewById(R.id.rl_setting_singlemodel);
+        rlSingle.setOnClickListener(this);
 
     }
 
@@ -132,6 +136,12 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 break;
             case R.id.rl_setting_failrequest:
                 startFragment(LocalRequesetFragment.class);
+                break;
+            case R.id.rl_setting_singlemodel:
+                spUtils.put(Action.SINGLEMODEL,"1");
+                Intent i = new Intent(getActivity(), SingleMainActivity.class);
+                startActivity(i);
+                finish();
                 break;
             case R.id.tv_setting_relogin:
                 SettingExitDialog settingExitDialog = new SettingExitDialog(getActivity());

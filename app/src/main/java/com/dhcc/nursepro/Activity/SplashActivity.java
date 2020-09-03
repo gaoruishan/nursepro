@@ -9,9 +9,11 @@ import com.base.commlibs.http.CommHttp;
 import com.base.commlibs.utils.LocalTestManager;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.login.LoginActivity;
+import com.dhcc.nursepro.workarea.workareautils.WorkareaMainConfig;
 
 public class SplashActivity extends AppCompatActivity {
 
+    private long delayMillis =2000 ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().setBackgroundDrawable(null);
@@ -20,15 +22,19 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+
                 if (LocalTestManager.isTest()) {
                     CommHttp.initBroadcastList();
-                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+//                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+
+                    WorkareaMainConfig workareaMainConfig = new WorkareaMainConfig();
+                    workareaMainConfig.getMainConfigData(SplashActivity.this);
                 }else {
                     startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                 }
-                finish();
+//                finish();
             }
-        },2000);
+        },delayMillis);
     }
 
 }

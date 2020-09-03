@@ -55,4 +55,11 @@ public class Action {
     //View XML
     public static final String NUR_RECORD_XML_VIEW = "com.dhcc.nursepro.nurrecord.xmlview.Action";
 
+
+    //单人模式导航切换模块广播
+    public static final String SINGLEMAP = appName+".siglemap.Action";
+    public static final String SETSINGLEMSG = appName+".siglemsg.Action";
+    //记录当前模式
+    public static final String SINGLEMODEL = appName+".siglemap.Action";
+
 }

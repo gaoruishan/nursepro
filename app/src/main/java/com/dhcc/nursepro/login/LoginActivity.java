@@ -1,5 +1,6 @@
 package com.dhcc.nursepro.login;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -35,6 +36,7 @@ import com.dhcc.nursepro.login.bean.BroadCastListBean;
 import com.dhcc.nursepro.login.bean.LoginBean;
 import com.dhcc.nursepro.login.bean.NurseInfo;
 import com.dhcc.nursepro.utils.TransBroadcastUtil;
+import com.dhcc.nursepro.workarea.workareautils.WorkareaMainConfig;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -503,7 +505,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             if (k < nurseInfoList.size() && l < loginBean.getLocs().size()) {
                 saveUserInfo();
                 spUtils.put(SharedPreference.ORDERSEARCHE_BEDSELECTED,"");
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                if (spUtils.getString(Action.SINGLEMODEL,"0").equals("1")){
+                    startSingleActivity();
+                }else {
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                }
                 finish();
             }
 
@@ -513,7 +519,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 daoSession.getNurseInfoDao().insert(loginNurseInfo);
                 saveUserInfo();
                 spUtils.put(SharedPreference.ORDERSEARCHE_BEDSELECTED,"");
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                if (spUtils.getString(Action.SINGLEMODEL,"0").equals("1")){
+                    startSingleActivity();
+                }else {
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                }
                 finish();
             }
         } else {
@@ -522,7 +532,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             daoSession.getNurseInfoDao().insert(loginNurseInfo);
             saveUserInfo();
             spUtils.put(SharedPreference.ORDERSEARCHE_BEDSELECTED,"");
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            if (spUtils.getString(Action.SINGLEMODEL,"0").equals("1")){
+                startSingleActivity();
+            }else {
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            }
             finish();
         }
     }
@@ -666,5 +680,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 initData("login", null);
             }
         }
+    }
+
+    private void startSingleActivity(){
+        WorkareaMainConfig workareaMainConfig = new WorkareaMainConfig();
+        workareaMainConfig.getMainConfigData(LoginActivity.this);
     }
 }
