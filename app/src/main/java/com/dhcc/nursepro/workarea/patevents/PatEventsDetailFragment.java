@@ -55,7 +55,10 @@ public class PatEventsDetailFragment extends BaseFragment implements View.OnClic
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setToolbarType(BaseActivity.ToolbarType.TOP);
+//        setToolbarType(BaseActivity.ToolbarType.TOP);
+        if (isSingleModel){
+            hindMap();
+        }
         setToolbarBottomLineVisibility(true);
 
         //右上角保存按钮
@@ -70,8 +73,8 @@ public class PatEventsDetailFragment extends BaseFragment implements View.OnClic
                 sureClicked();
             }
         });
-        setToolbarRightCustomView(viewright);
-
+//        setToolbarRightCustomView(viewright);
+        setToolbarRightCustomViewSingleShow(viewright);
         Bundle bundle = getArguments();
         if (bundle != null) {
             recId = bundle.getString("recId");

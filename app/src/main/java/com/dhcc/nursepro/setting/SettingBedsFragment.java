@@ -64,7 +64,7 @@ public class SettingBedsFragment extends BaseFragment {
             }
         });
         setToolbarRightCustomViewSingleShow(viewright);
-        if (bSingleModel){
+        if (isSingleModel){
             hindMap();
         }
 

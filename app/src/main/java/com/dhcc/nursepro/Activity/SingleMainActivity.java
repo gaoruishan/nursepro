@@ -174,13 +174,11 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
     private TextView tvPatArea;
 
     private String fragName;
-    private String episodeId,regNo;
-    private BaseFragment singleFragment;
-
+    private String episodeId = "",regNo = "";
     private DaoSession daoSession = GreenDaoHelper.getDaoSession();
     private List<NurseInfo> nurseInfoList;
     private NurseInfo loginNurseInfo;
-    private List<Map<String, String>> locsList;
+    private List<Map<String, String>> locsList = new ArrayList<>();
     //所有患者信息
     private List<Map<String, String>> patInfoMapList =new ArrayList<>();
     @Override
@@ -491,32 +489,39 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
 
     }
     private void startNewFragment(BaseFragment baseFragment){
-        baseFragment.singleEpisodeId = episodeId;
-        baseFragment.singleRegNo = regNo;
-        baseFragment.listRegNo = new ArrayList<>();
-        for (int i = 0; i < bedBean.getPatInfoList().size(); i++) {
-            baseFragment.listRegNo.add(bedBean.getPatInfoList().get(i).getRegNo());
-        }
+        if ((System.currentTimeMillis() - mExitTime) > 1000) {
+            //大于2000ms才可切换
+            baseFragment.singleEpisodeId = episodeId;
+            baseFragment.singleRegNo = regNo;
+            baseFragment.listRegNo = new ArrayList<>();
+            for (int i = 0; i < bedBean.getPatInfoList().size(); i++) {
+                baseFragment.listRegNo.add(bedBean.getPatInfoList().get(i).getRegNo());
+            }
 
-        mFragmentManager = getSupportFragmentManager();
-        ft = mFragmentManager.beginTransaction();
-        List<Fragment> oldFragments = mFragmentManager.getFragments();
+            mFragmentManager = getSupportFragmentManager();
+            ft = mFragmentManager.beginTransaction();
+            List<Fragment> oldFragments = mFragmentManager.getFragments();
 
-        if (oldFragments != null && oldFragments.size() > 0) {
-            for (Fragment old : oldFragments) {
-                if (old != null) {
-                    ft.remove(old);
+            if (oldFragments != null && oldFragments.size() > 0) {
+                for (Fragment old : oldFragments) {
+                    if (old != null) {
+                        ft.remove(old);
+                    }
                 }
             }
+
+            mFragments = new Fragment[1];
+            mFragments[0] =baseFragment;
+
+            ft.add(R.id.fragment, mFragments[0], "");
+            ft.commitAllowingStateLoss();
+
+            setFragmentIndicator();
+            //并记录下本次点击“返回键”的时刻，以便下次进行判断
+            mExitTime = System.currentTimeMillis();
+        } else {
+            showToast("操作过于频繁，请重试");
         }
-
-        mFragments = new Fragment[1];
-        mFragments[0] =baseFragment;
-
-        ft.add(R.id.fragment, mFragments[0], "");
-        ft.commitAllowingStateLoss();
-
-        setFragmentIndicator();
 
     }
 
@@ -691,6 +696,16 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
         return super.onKeyDown(keyCode, event);
     }
 
+
+
+    public void setTvPatHindMapTop(int Top) {
+        if (rlHindPat!=null){
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) rlHindPat.getLayoutParams();
+            layoutParams.topMargin=dp2px(Top);
+            rlHindPat.setLayoutParams(layoutParams);
+        }
+    }
+
     @Override
     public void onClick(View v) {
         setMaskHind();
@@ -699,10 +714,12 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
                 rlHindPat.setSelected(false);
                 tvTopName.setVisibility(View.GONE);
                 rlPat.setVisibility(View.VISIBLE);
+                setTvPatHindMapTop(25);
             }else {
                 rlHindPat.setSelected(true);
                 tvTopName.setVisibility(View.VISIBLE);
                 rlPat.setVisibility(View.GONE);
+                setTvPatHindMapTop(55);
             }
         }
         if (v.getId() == R.id.tv_single_msg){
@@ -743,6 +760,11 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
         }
     }
 
+
+
+    /**
+     * 切换病区
+     */
     private void changeLoc() {
         Gson gson = new Gson();
         java.lang.reflect.Type type = new TypeToken<List<Map<String, String>>>() {
@@ -754,9 +776,6 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
         for (int i = 0; i < locsList.size(); i++) {
             locDesc[i] = locsList.get(i).get("LocDesc");
         }
-        //                Toast.makeText(NurseSetActivity.this,LocJson,Toast.LENGTH_LONG).show();
-
-
         final OptionPicker picker = new OptionPicker(this, locDesc);
         picker.setCanceledOnTouchOutside(false);
         picker.setDividerRatio(WheelView.DividerConfig.FILL);
@@ -821,6 +840,13 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
         });
         picker.show();
     }
+
+    /**
+     * 广播接收
+     * NEWMESSAGE_SERVICE：消息刷新
+     *SINGLEMAP：切换fragment
+     * SETSINGLEMSG：患者切换
+     */
     public class MainReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -847,9 +873,9 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
         }
     }
 
-
-
-
+    /**
+     * 左右侧popWindow，左侧设置，右侧选床
+     */
     private BedMapPatientAdapter bedMapPatientAdapter = new BedMapPatientAdapter(new ArrayList<>());
     public void addToolBarRightPopWindow() {
         contentView = LayoutInflater.from(this).inflate(R.layout.dhcc_task_filter_single_map_layout, null);
@@ -864,6 +890,7 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
                 rlHindPat.setSelected(false);
                 tvTopName.setVisibility(View.GONE);
                 rlPat.setVisibility(View.VISIBLE);
+                setTvPatHindMapTop(25);
             }
         });
         //提高展示效率
@@ -934,8 +961,6 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
         FileterPop.setMask(this, View.INVISIBLE);
         FileterPop.closePopWindow();
     }
-
-
     public void addToolBarLeftPopWindow() {
         contentView1 = LayoutInflater.from(this).inflate(R.layout.dhcc_task_filter_single_settinng, null);
         contentView1.findViewById(R.id.tv_single_msg).setOnClickListener(this);
@@ -957,43 +982,36 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
 
 
 
-    private void putNewFragment(){
+    private void putNewFragment() {
         SharedPreference.FRAGMENTMAP = new HashMap();
-        SharedPreference.FRAGMENTMAP.put(BedMapFragment.class.getName(),new BedMapFragment());
-        SharedPreference.FRAGMENTMAP.put(VitalSignFragment.class.getName(),new VitalSignFragment());
-        SharedPreference.FRAGMENTMAP.put(PatEventsFragment.class.getName(),new PatEventsFragment());
-        SharedPreference.FRAGMENTMAP.put(OrderSearchFragment.class.getName(),new OrderSearchFragment());
-        SharedPreference.FRAGMENTMAP.put(OrderExecuteFragment.class.getName(),new OrderExecuteFragment());
-        SharedPreference.FRAGMENTMAP.put(CheckPatsFragment.class.getName(),new CheckPatsFragment());
-        SharedPreference.FRAGMENTMAP.put(LabPatsFragment.class.getName(),new LabPatsFragment());
-        SharedPreference.FRAGMENTMAP.put(OperationFragment.class.getName(),new OperationFragment());
-        SharedPreference.FRAGMENTMAP.put(LabOutListFragment.class.getName(),new LabOutListFragment());
-        SharedPreference.FRAGMENTMAP.put(DosingReviewFragment.class.getName(),new DosingReviewFragment());
-        SharedPreference.FRAGMENTMAP.put(AllotBedFragment.class.getName(),new AllotBedFragment());
-        SharedPreference.FRAGMENTMAP.put(DocOrderListFragment.class.getName(),new DocOrderListFragment());
-        SharedPreference.FRAGMENTMAP.put(BloodTransfusionSystemFragment.class.getName(),new BloodTransfusionSystemFragment());
-        SharedPreference.FRAGMENTMAP.put(MilkLoopSystemFragment.class.getName(),new MilkLoopSystemFragment());
-        SharedPreference.FRAGMENTMAP.put(MotherBabyLinkFragment.class.getName(),new MotherBabyLinkFragment());
-        SharedPreference.FRAGMENTMAP.put(PatNurRecordFragment.class.getName(),new PatNurRecordFragment());
-        SharedPreference.FRAGMENTMAP.put(NurTourFragment.class.getName(),new NurTourFragment());
-        SharedPreference.FRAGMENTMAP.put(DrugHandoverFragment.class.getName(),new DrugHandoverFragment());
-        SharedPreference.FRAGMENTMAP.put(RLRegFragment.class.getName(),new RLRegFragment());
-        SharedPreference.FRAGMENTMAP.put(ShiftFragment.class.getName(),new ShiftFragment());
-        SharedPreference.FRAGMENTMAP.put(DrugReceiveFragment.class.getName(),new DrugReceiveFragment());
-        SharedPreference.FRAGMENTMAP.put(TaskManageFragment.class.getName(),new TaskManageFragment());
-        SharedPreference.FRAGMENTMAP.put(PlyOutListFragment.class.getName(),new PlyOutListFragment());
-        SharedPreference.FRAGMENTMAP.put(RjOrderFragment.class.getName(),new RjOrderFragment());
-        SharedPreference.FRAGMENTMAP.put(HealthEduFragment.class.getName(),new HealthEduFragment());
-        SharedPreference.FRAGMENTMAP.put(TaskOverviewFragment.class.getName(),new TaskOverviewFragment());
-        SharedPreference.FRAGMENTMAP.put(NurPlanFragment.class.getName(),new NurPlanFragment());
-        SharedPreference.FRAGMENTMAP.put(BloodSugarFragment.class.getName(),new BloodSugarFragment());
-        SharedPreference.FRAGMENTMAP.put(OrderSearchAndExecuteFragment.class.getName(),new OrderSearchAndExecuteFragment());
-}
-
-//    @Override
-//    public void setToolbarCenterTitle(CharSequence title, int color, int size) {
-//        super.setToolbarCenterTitle(title, color, size);
-//
-//        showToast(title);
-//    }
+        SharedPreference.FRAGMENTMAP.put(BedMapFragment.class.getName(), new BedMapFragment());
+        SharedPreference.FRAGMENTMAP.put(VitalSignFragment.class.getName(), new VitalSignFragment());
+        SharedPreference.FRAGMENTMAP.put(PatEventsFragment.class.getName(), new PatEventsFragment());
+        SharedPreference.FRAGMENTMAP.put(OrderSearchFragment.class.getName(), new OrderSearchFragment());
+        SharedPreference.FRAGMENTMAP.put(OrderExecuteFragment.class.getName(), new OrderExecuteFragment());
+        SharedPreference.FRAGMENTMAP.put(CheckPatsFragment.class.getName(), new CheckPatsFragment());
+        SharedPreference.FRAGMENTMAP.put(LabPatsFragment.class.getName(), new LabPatsFragment());
+        SharedPreference.FRAGMENTMAP.put(OperationFragment.class.getName(), new OperationFragment());
+        SharedPreference.FRAGMENTMAP.put(LabOutListFragment.class.getName(), new LabOutListFragment());
+        SharedPreference.FRAGMENTMAP.put(DosingReviewFragment.class.getName(), new DosingReviewFragment());
+        SharedPreference.FRAGMENTMAP.put(AllotBedFragment.class.getName(), new AllotBedFragment());
+        SharedPreference.FRAGMENTMAP.put(DocOrderListFragment.class.getName(), new DocOrderListFragment());
+        SharedPreference.FRAGMENTMAP.put(BloodTransfusionSystemFragment.class.getName(), new BloodTransfusionSystemFragment());
+        SharedPreference.FRAGMENTMAP.put(MilkLoopSystemFragment.class.getName(), new MilkLoopSystemFragment());
+        SharedPreference.FRAGMENTMAP.put(MotherBabyLinkFragment.class.getName(), new MotherBabyLinkFragment());
+        SharedPreference.FRAGMENTMAP.put(PatNurRecordFragment.class.getName(), new PatNurRecordFragment());
+        SharedPreference.FRAGMENTMAP.put(NurTourFragment.class.getName(), new NurTourFragment());
+        SharedPreference.FRAGMENTMAP.put(DrugHandoverFragment.class.getName(), new DrugHandoverFragment());
+        SharedPreference.FRAGMENTMAP.put(RLRegFragment.class.getName(), new RLRegFragment());
+        SharedPreference.FRAGMENTMAP.put(ShiftFragment.class.getName(), new ShiftFragment());
+        SharedPreference.FRAGMENTMAP.put(DrugReceiveFragment.class.getName(), new DrugReceiveFragment());
+        SharedPreference.FRAGMENTMAP.put(TaskManageFragment.class.getName(), new TaskManageFragment());
+        SharedPreference.FRAGMENTMAP.put(PlyOutListFragment.class.getName(), new PlyOutListFragment());
+        SharedPreference.FRAGMENTMAP.put(RjOrderFragment.class.getName(), new RjOrderFragment());
+        SharedPreference.FRAGMENTMAP.put(HealthEduFragment.class.getName(), new HealthEduFragment());
+        SharedPreference.FRAGMENTMAP.put(TaskOverviewFragment.class.getName(), new TaskOverviewFragment());
+        SharedPreference.FRAGMENTMAP.put(NurPlanFragment.class.getName(), new NurPlanFragment());
+        SharedPreference.FRAGMENTMAP.put(BloodSugarFragment.class.getName(), new BloodSugarFragment());
+        SharedPreference.FRAGMENTMAP.put(OrderSearchAndExecuteFragment.class.getName(), new OrderSearchAndExecuteFragment());
+    }
 }

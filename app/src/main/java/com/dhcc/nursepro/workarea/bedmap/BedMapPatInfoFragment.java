@@ -52,7 +52,7 @@ public class BedMapPatInfoFragment extends BaseFragment {
 
         //toolbar 背景 默认蓝色
         setToolbarBackground(new ColorDrawable(0xffffffff));
-        if (bSingleModel){
+        if (isSingleModel){
             hindMap();
         }
         //toolbar 导航按钮隐藏

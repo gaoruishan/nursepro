@@ -52,7 +52,10 @@ public class OrderInfoDetailFragment extends BaseFragment {
             infomap = (Map) bundle.getSerializable("ord");
         }
         setStatusBarBackgroundViewVisibility(true, 0xffffffff);
-        setToolbarType(BaseActivity.ToolbarType.TOP);
+//        setToolbarType(BaseActivity.ToolbarType.TOP);
+        if (isSingleModel){
+            hindMap();
+        }
         setToolbarBackground(new ColorDrawable(0xffffffff));
         showToolbarNavigationIcon(R.drawable.icon_back_blue);
         setToolbarCenterTitle(getString(R.string.title_orderinfodetail));

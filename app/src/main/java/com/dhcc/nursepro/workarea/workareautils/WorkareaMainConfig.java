@@ -82,7 +82,7 @@ public class WorkareaMainConfig {
                 map.put("desc","生命体征");
                 map.put("fragName", VitalSignFragment.class.getName());
                 map.put("fragicon",R.drawable.icon_vitalsign);
-                map.put("singleModel","1");
+//                map.put("singleModel","1");
                 SharedPreference.FRAGMENTARY.add(map);
                 break;
             case "EVENTS":
@@ -96,7 +96,6 @@ public class WorkareaMainConfig {
                 map.put("desc","医嘱查询");
                 map.put("fragName", OrderSearchFragment.class.getName());
                 map.put("fragicon",R.drawable.icon_orderserarch);
-                map.put("singleModel","1");
                 SharedPreference.FRAGMENTARY.add(map);
                 break;
             case "ORDEREXECUTE":

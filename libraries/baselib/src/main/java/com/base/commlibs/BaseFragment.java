@@ -83,7 +83,7 @@ public class BaseFragment extends Fragment {
     public String singleEpisodeId = "";
     public String singleRegNo = "";
     public ArrayList<String> listRegNo = new ArrayList<>();
-    public Boolean bSingleModel = SPUtils.getInstance().getString(Action.SINGLEMODEL).equals("1");
+    public Boolean isSingleModel = SPUtils.getInstance().getString(Action.SINGLEMODEL).equals("1");
 
     /**
      * 判断是否大于等于LOLLIPOP
@@ -253,7 +253,7 @@ public class BaseFragment extends Fragment {
      * @param type
      */
     public void setToolbarType(BaseActivity.ToolbarType type) {
-        if (bSingleModel){
+        if (isSingleModel){
             type = BaseActivity.ToolbarType.HIDE;
             llTitTop.setVisibility(View.VISIBLE);
         }else {
@@ -297,7 +297,7 @@ public class BaseFragment extends Fragment {
      * @param size  单位:DIP
      */
     public void setToolbarCenterTitle(CharSequence title, int color, int size) {
-        if (bSingleModel){
+        if (isSingleModel){
             tvName.setLines(1);
             tvName.setMaxLines(1);
             tvName.setEllipsize(TextUtils.TruncateAt.END);
@@ -323,7 +323,7 @@ public class BaseFragment extends Fragment {
                 ((BaseActivity) activity).setListener(new BaseActivity.Listener() {
                     @Override
                     public void changMap(String map) {
-                        if (bSingleModel){
+                        if (isSingleModel){
                             broadCastIntent.setAction(Action.SINGLEMAP);
                             broadCastIntent.putExtra("data", map);
                             getActivity().sendBroadcast(broadCastIntent);
@@ -399,7 +399,7 @@ public class BaseFragment extends Fragment {
      * @param view
      */
     public void setToolbarRightCustomView(View view) {
-        if (bSingleModel){
+        if (isSingleModel){
             llTitRight.removeAllViews();
             llTitRight.addView(view);
         }

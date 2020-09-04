@@ -61,7 +61,7 @@ public class SettingWayFragment extends BaseFragment implements View.OnClickList
             }
         });
         setToolbarRightCustomViewSingleShow(viewright);
-        if (bSingleModel){
+        if (isSingleModel){
             hindMap();
         }
         initView(view);

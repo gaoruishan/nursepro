@@ -79,6 +79,8 @@ public class FileterPop extends BasePopWindow {
         }
         //菜单背景色
         if (EnumLocation.LEFT == from) {
+            ColorDrawable dw = new ColorDrawable(0x00000000);
+            popupWindow.setBackgroundDrawable(dw);
         }else {
             ColorDrawable dw = new ColorDrawable(0xff000000);
             popupWindow.setBackgroundDrawable(dw);
@@ -87,7 +89,7 @@ public class FileterPop extends BasePopWindow {
         //显示位置
         if (EnumLocation.LEFT == from) {
             //显示在界面0,0位置上
-            popupWindow.showAtLocation(mContext.getWindow().getDecorView(), Gravity.LEFT|Gravity.TOP, 0, 150);
+            popupWindow.showAtLocation(mContext.getWindow().getDecorView(), Gravity.LEFT|Gravity.TOP, 0, 130);
         } else if (EnumLocation.RIGHT == from) {
             popupWindow.showAtLocation(mContext.getWindow().getDecorView(), Gravity.RIGHT, 0, 0);
 //			popupWindow.showAtLocation(mContext.getLayoutInflater().inflate(showAtLocation, null), Gravity.RIGHT, 0, 0);
