@@ -636,6 +636,23 @@ public class BaseFragment extends Fragment {
                               @Nullable Bundle args) {
         startFragment(fragCls, args, -1);
     }
+    public void startFragment(@NonNull String fragName,
+                              @Nullable Bundle args, int requestCode) {
+        // 判断
+        if (TextUtils.isEmpty(fragName) || !fragName.contains("com.dhcc")) {
+            return;
+        }
+        try {
+            Class<? extends BaseFragment> fragClass = (Class<? extends BaseFragment>) Class.forName(fragName);
+            startFragment(fragClass, args,requestCode);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void startFragment(@NonNull String fragName, @Nullable Bundle args) {
+        startFragment(fragName, args,-1);
+    }
 
     /**
      * 使用UniversalActivity启动给定的Fragment

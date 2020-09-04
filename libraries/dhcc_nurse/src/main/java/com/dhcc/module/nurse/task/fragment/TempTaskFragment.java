@@ -1,4 +1,4 @@
-package com.dhcc.module.nurse.task;
+package com.dhcc.module.nurse.task.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -20,6 +20,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.module.nurse.AdapterFactory;
 import com.dhcc.module.nurse.BaseNurseFragment;
 import com.dhcc.module.nurse.R;
+import com.dhcc.module.nurse.task.TaskViewApiManager;
 import com.dhcc.module.nurse.task.adapter.TaskTempAdapter;
 import com.dhcc.module.nurse.task.bean.AllBean;
 import com.dhcc.module.nurse.task.bean.ScanResultBean;
@@ -34,9 +35,7 @@ import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * com.dhcc.module.nurse.task
@@ -199,7 +198,7 @@ public class TempTaskFragment extends BaseNurseFragment {
         super.onClick(v);
         if (v.getId() == R.id.img_toolbar_right2) {
             try {
-                Class<? extends BaseFragment> BedFragmentClass = (Class<? extends BaseFragment>) Class.forName("com.dhcc.nursepro.workarea.bedselect.BedSelectFragment");
+                Class<? extends BaseFragment> BedFragmentClass = (Class<? extends BaseFragment>) Class.forName(FRAGMENT_BED_SELECT);
                 startFragment(BedFragmentClass,1);
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();

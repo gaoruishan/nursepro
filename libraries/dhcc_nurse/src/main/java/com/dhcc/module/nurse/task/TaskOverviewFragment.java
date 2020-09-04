@@ -5,13 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
+
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommonCallBack;
-import com.base.commlibs.utils.BasePopWindow;
 import com.blankj.utilcode.util.SPStaticUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -19,11 +18,14 @@ import com.dhcc.module.nurse.AdapterFactory;
 import com.dhcc.module.nurse.BaseNurseFragment;
 import com.dhcc.module.nurse.R;
 import com.dhcc.module.nurse.task.adapter.TaskListAdapter;
-import com.dhcc.module.nurse.task.adapter.TimeFilterAdapter;
 import com.dhcc.module.nurse.task.bean.AllBean;
 import com.dhcc.module.nurse.task.bean.ScanResultBean;
 import com.dhcc.module.nurse.task.bean.TaskBean;
 import com.dhcc.module.nurse.task.bean.TimesListBean;
+import com.dhcc.module.nurse.task.fragment.NormalOrdTaskFragment;
+import com.dhcc.module.nurse.task.fragment.NurOrdTaskFragment;
+import com.dhcc.module.nurse.task.fragment.NurRateFragment;
+import com.dhcc.module.nurse.task.fragment.TempTaskFragment;
 import com.dhcc.res.infusion.CustomDateTimeView;
 import com.dhcc.res.infusion.CustomSheetListView;
 import com.dhcc.res.infusion.bean.SheetListBean;
@@ -124,15 +126,16 @@ public class TaskOverviewFragment extends BaseNurseFragment {
         taskListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                List<AllBean> data = taskListAdapter.getData();
                 Bundle bundle = new Bundle();
-                bundle.putString("sheetCode",taskListAdapter.getData().get(position).getCode());
+                bundle.putString("sheetCode",data.get(position).getCode());
                 bundle.putString("bedStr",bedStr);
                 bundle.putString("regNo",regNo);
                 bundle.putString("patInfo",imgReset.getTvPatInfo());
                 bundle.putString("sttDateTime",customDate.getStartDateTimeText());
                 bundle.putString("endDateTime",customDate.getEndDateTimeText());
                 bundle.putSerializable("timeList", (Serializable) timeListBeans);
-                bundle.putSerializable("listAllBean", (Serializable) taskListAdapter.getData());
+                bundle.putSerializable("listAllBean", (Serializable) data);
                 switch (sheetCode){
                     case "ordTask"://医嘱查询
                         try {
@@ -149,6 +152,14 @@ public class TaskOverviewFragment extends BaseNurseFragment {
                         startFragment(NormalOrdTaskFragment.class,bundle);
                         break;
                     case "nurRate"://护理评估
+                        bundle.putString("Name", data.get(position).getName());
+                        bundle.putString("EMRCode", data.get(position).getEmrCode());
+                        bundle.putString("GUID", "");
+                        bundle.putString("ModelNum", data.get(position).getValue());
+                        bundle.putString("CodeId", data.get(position).getCode());
+                        bundle.putSerializable("ModelListBean", "");
+                        bundle.putString("RecID", "");
+                        startFragment(NurRateFragment.class, bundle);
                         break;
                     case "nurTemper"://体征查询
 
@@ -179,7 +190,7 @@ public class TaskOverviewFragment extends BaseNurseFragment {
         super.onClick(v);
         if (v.getId() == R.id.img_toolbar_right) {
             try {
-                Class<? extends BaseFragment> BedFragmentClass = (Class<? extends BaseFragment>) Class.forName("com.dhcc.nursepro.workarea.bedselect.BedSelectFragment");
+                Class<? extends BaseFragment> BedFragmentClass = (Class<? extends BaseFragment>) Class.forName(FRAGMENT_BED_SELECT);
                 startFragment(BedFragmentClass,1);
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();

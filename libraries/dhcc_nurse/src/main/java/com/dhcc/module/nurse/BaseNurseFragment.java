@@ -50,6 +50,8 @@ public abstract class BaseNurseFragment extends BaseCommFragment {
 
     public static final String YYYY_MM_DD_HH_MM = "yyyy-MM-dd HH:mm";
     public static final String YYYY_MM_DD = "yyyy-MM-dd";
+    //床位选择
+    public static final String FRAGMENT_BED_SELECT = "com.dhcc.nursepro.workarea.bedselect.BedSelectFragment";
     /**
      * 传递数据
      */

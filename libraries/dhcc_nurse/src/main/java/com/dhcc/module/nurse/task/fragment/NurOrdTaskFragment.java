@@ -1,4 +1,4 @@
-package com.dhcc.module.nurse.task;
+package com.dhcc.module.nurse.task.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.base.commlibs.BaseActivity;
-import com.base.commlibs.BaseFragment;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.RecyclerViewHelper;
@@ -16,6 +15,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.module.nurse.AdapterFactory;
 import com.dhcc.module.nurse.BaseNurseFragment;
 import com.dhcc.module.nurse.R;
+import com.dhcc.module.nurse.task.TaskViewApiManager;
 import com.dhcc.module.nurse.task.adapter.TaskNurOrdAdapter;
 import com.dhcc.module.nurse.task.bean.AllBean;
 import com.dhcc.module.nurse.task.bean.NurOrdTaskBean;
@@ -221,12 +221,7 @@ public class NurOrdTaskFragment  extends BaseNurseFragment {
             setMaskShow();
         }
         if (v.getId() == R.id.img_toolbar_right2) {
-            try {
-                Class<? extends BaseFragment> BedFragmentClass = (Class<? extends BaseFragment>) Class.forName("com.dhcc.nursepro.workarea.bedselect.BedSelectFragment");
-                startFragment(BedFragmentClass,1);
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
+            startFragment(FRAGMENT_BED_SELECT,null,1);
         }
     }
 

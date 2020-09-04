@@ -64,6 +64,7 @@ public class LocalTestManager {
 //        l.add("getEducationList");
 //        l.add("getEduContents");
 //        l.add("getInterventionList");
+//        l.add("getNeedEmr");
     }
 
     /**
