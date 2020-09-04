@@ -106,7 +106,7 @@
                                 android:ellipsize="end"
                                 android:maxEms="6"
                                 android:singleLine="true"
-                                android:textColor="@color/black"
+                                android:textColor="@color/blue"
                                 android:textSize="@dimen/sp_17"
                                 android:textStyle="bold"
                                 tools:text="刘患者" />
@@ -168,13 +168,13 @@
                             android:id="@+id/tv_setting_username"
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/dp_24"
+                            android:minWidth="@dimen/dp_70"
                             android:gravity="center"
                             android:textColor="@color/text_view_text_color"
                             android:textSize="@dimen/sp_15"
-                            android:layout_marginLeft="@dimen/dp_5"
+                            android:layout_marginLeft="@dimen/dp_12"
                             android:textStyle="bold"
-                            android:text="护士" />
-
+                            android:text="护士00" />
                             <TextView
                                 android:id="@+id/tv_setting_loc"
                                 android:layout_width="wrap_content"
@@ -186,22 +186,6 @@
                                 android:textColor="@color/text_view_text_color"
                                 android:textSize="@dimen/sp_13" />
                     </LinearLayout>
-                    <View
-                        android:layout_width="@dimen/dp_0"
-                        android:layout_height="1dp"
-                        android:layout_weight="1"></View>
-                    <TextView
-                        android:visibility="gone"
-                        android:id="@+id/tv_single_fragname"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_20"
-                        tools:text="床位图"
-                        android:layout_marginEnd="@dimen/dp_10"
-                        android:gravity="center"
-                        android:textColor="@color/blue"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/sp_15" />
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>

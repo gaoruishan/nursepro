@@ -279,7 +279,9 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                                 patInfoDialog.dismiss();
                             }
                         });
-                        patInfoDialog.show();
+                        if (!bSingleModel){
+                            patInfoDialog.show();
+                        }
                     }
 
                 } else {
@@ -1010,6 +1012,26 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
             }
         }
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (patInfoDialog != null) {
+            patInfoDialog.dismiss();
+        }
+        if (execOrderDialog != null) {
+            execOrderDialog.dismiss();
+        }
+        if (ordAddDialog != null) {
+            ordAddDialog.dismiss();
+        }
+        if (skinResultOrderDialog != null) {
+            skinResultOrderDialog.dismiss();
+        }
+        if (execResultDialog != null) {
+            execResultDialog.dismiss();
+        }
     }
 
     @Override

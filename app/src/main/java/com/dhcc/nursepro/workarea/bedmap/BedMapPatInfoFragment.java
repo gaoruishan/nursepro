@@ -48,9 +48,13 @@ public class BedMapPatInfoFragment extends BaseFragment {
         //状态栏 背景 默认蓝色
         setStatusBarBackgroundViewVisibility(true, 0xffffffff);
         //toolbar type
-        setToolbarType(BaseActivity.ToolbarType.TOP);
+//        setToolbarType(BaseActivity.ToolbarType.TOP);
+
         //toolbar 背景 默认蓝色
         setToolbarBackground(new ColorDrawable(0xffffffff));
+        if (bSingleModel){
+            hindMap();
+        }
         //toolbar 导航按钮隐藏
         //        hideToolbarNavigationIcon();
         //toolbar 导航按钮显示 默认白色返回按钮

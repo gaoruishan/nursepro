@@ -76,7 +76,6 @@ public class WorkareaMainConfig {
                 map.put("desc","床位图");
                 map.put("fragName", BedMapFragment.class.getName());
                 map.put("fragicon",R.drawable.icon_bedmap);
-                map.put("singleModel","1");
                 SharedPreference.FRAGMENTARY.add(map);
                 break;
             case "VITALSIGN":

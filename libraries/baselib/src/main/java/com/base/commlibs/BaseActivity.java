@@ -123,7 +123,7 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
     protected Animation mShowAction ;
     protected Animation mHiddenAction ;
     private FragMapAdapter fragMapAdapter;
-    private List listFragment;
+    private List listFragment = new ArrayList();;
     // 子类通过setContentView方法设置的View会添加到这个容器里面
     protected FrameLayout mContainer;
     // mContainer中子类的设置的View

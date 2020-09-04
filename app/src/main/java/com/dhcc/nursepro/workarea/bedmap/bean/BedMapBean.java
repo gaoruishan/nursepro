@@ -2,6 +2,7 @@ package com.dhcc.nursepro.workarea.bedmap.bean;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * BedMapBean
@@ -169,6 +170,24 @@ public class BedMapBean implements Serializable {
         private String epdNotReport;
         private String epdReport;
         private String RQDDate;
+        private Map patMap;
+        private String patStr;
+
+        public String getPatStr() {
+            return patStr;
+        }
+
+        public void setPatStr(String patStr) {
+            this.patStr = patStr;
+        }
+
+        public Map getPatMap() {
+            return patMap;
+        }
+
+        public void setPatMap(Map patMap) {
+            this.patMap = patMap;
+        }
 
         public String getRQDDate() {
             return RQDDate;
