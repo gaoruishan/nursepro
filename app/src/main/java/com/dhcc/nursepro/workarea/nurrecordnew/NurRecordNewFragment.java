@@ -863,7 +863,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                     }
                 }
 
-                if (StringUtils.isEmpty(guid)) {
+                if (!StringUtils.isEmpty(guid)) {
                     callBackEffects = element.getCallBackEffects();
                     callBackReturnMapEffects = element.getCallBackReturnMapEffects();
                     Bundle bundle = new Bundle();
