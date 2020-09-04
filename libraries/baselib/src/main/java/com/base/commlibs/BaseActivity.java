@@ -218,7 +218,7 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         BackgroundLibrary.inject(this);
         super.onCreate(savedInstanceState);
-        if (SPUtils.getInstance().getString(Action.SINGLEMODEL).equals("1")){
+        if (SPUtils.getInstance().getString(SharedPreference.SINGLEMODEL).equals("1")){
             mToolbarType = ToolbarType.HIDE;
         }
         getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(this);
@@ -1516,7 +1516,7 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
     public void setListener(Listener listener) {
         listFragment = new ArrayList();
         if (SharedPreference.FRAGMENTARY.size()>0){
-            if ("1".equals(SPUtils.getInstance().getString(Action.SINGLEMODEL))){
+            if ("1".equals(SPUtils.getInstance().getString(SharedPreference.SINGLEMODEL))){
                 for (int i = 0; i <SharedPreference.FRAGMENTARY.size() ; i++) {
                     Map map = (Map) SharedPreference.FRAGMENTARY.get(i);
                     if (!map.get("fragName").toString().contains(SharedPreference.Fragment_show) && map.get("singleModel")!=null && "1".equals(map.get("singleModel"))){

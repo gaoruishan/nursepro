@@ -61,6 +61,9 @@ import java.util.Map;
  */
 public class WorkareaMainConfig {
     public ArrayList getMainCoinfgList(MainConfigBean mainConfigBean){
+        if ("1".equals(SPUtils.getInstance().getString(SharedPreference.SINGLEMODEL))){
+            SharedPreference.FRAGMENTARY = new ArrayList();
+        }
         ArrayList listConfig=new ArrayList();
         for (int i = 0; i <mainConfigBean.getMainList().size() ; i++) {
             listConfig.add(getMainConfigItem(mainConfigBean.getMainList().get(i)));
@@ -301,7 +304,7 @@ public class WorkareaMainConfig {
 //                workAreaAdapter.setNewData(listMainConfig);
                 SPUtils.getInstance().put(SharedPreference.BLOODSCANTIMES, mainConfigBean.getScantimes());
                 DataCache.saveJson(mainConfigBean, SharedPreference.DATA_MAIN_CONFIG);
-                if (SPUtils.getInstance().getString(Action.SINGLEMODEL,"0").equals("0")){
+                if (SPUtils.getInstance().getString(SharedPreference.SINGLEMODEL,"0").equals("0")){
                     activity.startActivity(new Intent(activity, MainActivity.class));
                 }else {
                     activity.startActivity(new Intent(activity, SingleMainActivity.class));

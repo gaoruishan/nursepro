@@ -124,4 +124,7 @@ public class SharedPreference {
     public static BaseActivity LastActivity;
     //记录当前fragment，导航栏不显示
     public static String Fragment_show;
+
+    //记录当前模式
+    public static final String SINGLEMODEL = "SINGLEMODEL";
 }

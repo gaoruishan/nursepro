@@ -83,7 +83,7 @@ public class BaseFragment extends Fragment {
     public String singleEpisodeId = "";
     public String singleRegNo = "";
     public ArrayList<String> listRegNo = new ArrayList<>();
-    public Boolean isSingleModel = SPUtils.getInstance().getString(Action.SINGLEMODEL).equals("1");
+    public Boolean isSingleModel = SPUtils.getInstance().getString(SharedPreference.SINGLEMODEL).equals("1");
 
     /**
      * 判断是否大于等于LOLLIPOP

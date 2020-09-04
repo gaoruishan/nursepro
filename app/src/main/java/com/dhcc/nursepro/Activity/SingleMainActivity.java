@@ -732,7 +732,7 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
             startFragment(SettingWayFragment.class);
         }
         if (v.getId() == R.id.tv_single_areamodel){
-            spUtils.put(Action.SINGLEMODEL,"0");
+            spUtils.put(SharedPreference.SINGLEMODEL,"0");
             Intent i = new Intent(SingleMainActivity.this, MainActivity.class);
             startActivity(i);
             finish();

@@ -505,7 +505,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             if (k < nurseInfoList.size() && l < loginBean.getLocs().size()) {
                 saveUserInfo();
                 spUtils.put(SharedPreference.ORDERSEARCHE_BEDSELECTED,"");
-                if (spUtils.getString(Action.SINGLEMODEL,"0").equals("1")){
+                if (spUtils.getString(SharedPreference.SINGLEMODEL,"0").equals("1")){
                     startSingleActivity();
                 }else {
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
@@ -519,7 +519,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 daoSession.getNurseInfoDao().insert(loginNurseInfo);
                 saveUserInfo();
                 spUtils.put(SharedPreference.ORDERSEARCHE_BEDSELECTED,"");
-                if (spUtils.getString(Action.SINGLEMODEL,"0").equals("1")){
+                if (spUtils.getString(SharedPreference.SINGLEMODEL,"0").equals("1")){
                     startSingleActivity();
                 }else {
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
@@ -532,7 +532,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             daoSession.getNurseInfoDao().insert(loginNurseInfo);
             saveUserInfo();
             spUtils.put(SharedPreference.ORDERSEARCHE_BEDSELECTED,"");
-            if (spUtils.getString(Action.SINGLEMODEL,"0").equals("1")){
+            if (spUtils.getString(SharedPreference.SINGLEMODEL,"0").equals("1")){
                 startSingleActivity();
             }else {
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));

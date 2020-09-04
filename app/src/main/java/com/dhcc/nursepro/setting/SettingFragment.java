@@ -138,7 +138,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 startFragment(LocalRequesetFragment.class);
                 break;
             case R.id.rl_setting_singlemodel:
-                spUtils.put(Action.SINGLEMODEL,"1");
+                spUtils.put(SharedPreference.SINGLEMODEL,"1");
                 Intent i = new Intent(getActivity(), SingleMainActivity.class);
                 startActivity(i);
                 finish();

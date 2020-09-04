@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.base.commlibs.constant.Action;
+import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -71,7 +72,7 @@ public class BedMapPatientAdapter extends BaseQuickAdapter<BedMapBean.PatInfoLis
             recySkinOrder.setAdapter(skinOrderAdapter);
         }
 
-        if (SPUtils.getInstance().getString(Action.SINGLEMODEL).equals("1")){
+        if (SPUtils.getInstance().getString(SharedPreference.SINGLEMODEL).equals("1")){
             line.setVisibility(View.GONE);
             llSkinOrder.setVisibility(View.GONE);
         }else{
