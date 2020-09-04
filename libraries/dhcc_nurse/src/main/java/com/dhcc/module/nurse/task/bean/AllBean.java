@@ -20,6 +20,15 @@ public class AllBean  implements Serializable {
     private String name;
     private String value;
     private String groupCode;
+    private String emrCode;
+
+    public String getEmrCode() {
+        return emrCode == null ? "" : emrCode;
+    }
+
+    public void setEmrCode(String emrCode) {
+        this.emrCode = emrCode;
+    }
 
     public String getGroupCode() {
         return groupCode;

@@ -1,0 +1,147 @@
+{
+  "msg": "成功",
+  "msgcode": "999999",
+  "recData": [
+    {
+      "bedCode": "07",
+      "episodeID": "18",
+      "patientName": "pu01",
+      "recordScore": [
+        {
+          "EmrCode": "2D938C77302E42519C3AFC097FB045AA",
+          "endDate": "65624",
+          "endTime": "63000",
+          "linkCode": "DHCNURNJSGCRMYYMORSEDDPGD",
+          "name": "白班",
+          "recordName": "跌倒_坠床风险评估单",
+          "score": "true",
+          "startDate": "65624",
+          "startTime": "30600",
+          "url": "DHCNURmorsepgd.csp?EmrCode=2D938C77302E42519C3AFC097FB045AA&EpisodeID=18"
+        }
+      ],
+      "sex": "男"
+    },
+    {
+      "bedCode": "02",
+      "episodeID": "45",
+      "patientName": "住院N2",
+      "recordScore": [
+        {
+          "EmrCode": "3AE5726E60B84B76A2A2C5AE434F273F",
+          "endDate": "65624",
+          "endTime": "63000",
+          "linkCode": "DHCNURBRADENPFLR",
+          "name": "白班",
+          "recordName": "Braden压力性损伤风险评估单",
+          "score": "true",
+          "startDate": "65624",
+          "startTime": "30600",
+          "url": "DHCNURBRADENPFbardenycfxyspf.csp?EmrCode=3AE5726E60B84B76A2A2C5AE434F273F&EpisodeID=45"
+        }
+      ],
+      "sex": "女"
+    },
+    {
+      "bedCode": "05",
+      "episodeID": "62",
+      "patientName": "张毅",
+      "recordScore": [
+        {
+          "EmrCode": "2D938C77302E42519C3AFC097FB045AA",
+          "endDate": "65624",
+          "endTime": "63000",
+          "linkCode": "DHCNURNJSGCRMYYMORSEDDPGD",
+          "name": "白班",
+          "recordName": "跌倒_坠床风险评估单",
+          "score": "true",
+          "startDate": "65624",
+          "startTime": "30600",
+          "url": "DHCNURmorsepgd.csp?EmrCode=2D938C77302E42519C3AFC097FB045AA&EpisodeID=62"
+        }
+      ],
+      "sex": "男"
+    },
+    {
+      "bedCode": "12",
+      "episodeID": "890",
+      "patientName": "输血测试1",
+      "recordScore": [
+        {
+          "EmrCode": "2D938C77302E42519C3AFC097FB045AA",
+          "endDate": "65624",
+          "endTime": "63000",
+          "linkCode": "DHCNURNJSGCRMYYMORSEDDPGD",
+          "name": "白班",
+          "recordName": "跌倒_坠床风险评估单",
+          "score": "true",
+          "startDate": "65624",
+          "startTime": "30600",
+          "url": "DHCNURmorsepgd.csp?EmrCode=2D938C77302E42519C3AFC097FB045AA&EpisodeID=890"
+        }
+      ],
+      "sex": "男"
+    },
+    {
+      "bedCode": "43",
+      "episodeID": "1246",
+      "patientName": "林测1",
+      "recordScore": [
+        {
+          "EmrCode": "2D938C77302E42519C3AFC097FB045AA",
+          "endDate": "65624",
+          "endTime": "63000",
+          "linkCode": "DHCNURNJSGCRMYYMORSEDDPGD",
+          "name": "白班",
+          "recordName": "跌倒_坠床风险评估单",
+          "score": "true",
+          "startDate": "65624",
+          "startTime": "30600",
+          "url": "DHCNURmorsepgd.csp?EmrCode=2D938C77302E42519C3AFC097FB045AA&EpisodeID=1246"
+        }
+      ],
+      "sex": "女"
+    },
+    {
+      "bedCode": "+1",
+      "episodeID": "1454",
+      "patientName": "住院演示",
+      "recordScore": [
+        {
+          "EmrCode": "3AE5726E60B84B76A2A2C5AE434F273F",
+          "endDate": "65624",
+          "endTime": "63000",
+          "linkCode": "DHCNURBRADENPFLR",
+          "name": "白班",
+          "recordName": "Braden压力性损伤风险评估单",
+          "score": "true",
+          "startDate": "65624",
+          "startTime": "30600",
+          "url": "DHCNURBRADENPFbardenycfxyspf.csp?EmrCode=3AE5726E60B84B76A2A2C5AE434F273F&EpisodeID=1454"
+        }
+      ],
+      "sex": "女"
+    },
+    {
+      "bedCode": "+1",
+      "episodeID": "1454",
+      "patientName": "住院演示",
+      "recordScore": [
+        {
+          "EmrCode": "3AE5726E60B84B76A2A2C5AE434F273F",
+          "endDate": "65624",
+          "endTime": "63000",
+          "linkCode": "DHCNURBRADENPFLR",
+          "name": "白班",
+          "recordName": "Braden压力性损伤风险评估单",
+          "score": "true",
+          "startDate": "65624",
+          "startTime": "30600",
+          "url": "DHCNURBRADENPFbardenycfxyspf.csp?EmrCode=3AE5726E60B84B76A2A2C5AE434F273F&EpisodeID=1454"
+        }
+      ],
+      "sex": "女"
+    }
+  ],
+  "status": "0"
+}

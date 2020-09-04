@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -113,35 +114,30 @@ public class CustomSheetListView extends LinearLayout {
             LinearLayout llOrderType = helper.getView(R.id.ll_ordersearch_ordertype);
             View viewOrderType = helper.getView(R.id.view_ordersearch_ordertype);
             TextView tvOrderType = helper.getView(R.id.tv_ordersearch_ordertype);
-            if (item.getNum()!=null){
-                helper.setGone(R.id.tv_sheet_num,true);
-                helper.setText(R.id.tv_sheet_num,item.getNum());
-            }else {
-                helper.setGone(R.id.tv_sheet_num,false);
-            }
+            helper.setGone(R.id.tv_sheet_num, !TextUtils.isEmpty(item.getNum()));
+            helper.setText(R.id.tv_sheet_num,"项目数:"+item.getNum());
 
+            int normalColor = R.color.dhcc_ordersearch_left_text_normal_color;
+            int selectedColor = R.color.dhcc_ordersearch_left_text_selected_color;
             if (ifSelectOne){
+                boolean select;
                 if (selectedCode == null || "".equals(selectedCode)) {
                     item.setSelect(0 == helper.getAdapterPosition());
-                    if (0 == helper.getAdapterPosition()) {
-                        setSheetType(llOrderType, viewOrderType, tvOrderType, true, R.color.dhcc_ordersearch_left_text_selected_color, Typeface.DEFAULT_BOLD, View.VISIBLE);
-                    } else {
-                        setSheetType(llOrderType, viewOrderType, tvOrderType, false, R.color.dhcc_ordersearch_left_text_normal_color, Typeface.DEFAULT, View.INVISIBLE);
-                    }
+                    select = 0 == helper.getAdapterPosition();
                 } else {
                     item.setSelect(selectedCode.equals(item.getCode()));
-                    if (selectedCode.equals(item.getCode())) {
-                        setSheetType(llOrderType, viewOrderType, tvOrderType, true, R.color.dhcc_ordersearch_left_text_selected_color, Typeface.DEFAULT_BOLD, View.VISIBLE);
-                    } else {
-                        setSheetType(llOrderType, viewOrderType, tvOrderType, false, R.color.dhcc_ordersearch_left_text_normal_color, Typeface.DEFAULT, View.INVISIBLE);
-                    }
+                    select = selectedCode.equals(item.getCode());
                 }
+                int color = select ? selectedColor : normalColor;
+                Typeface typeface = select ? Typeface.DEFAULT_BOLD : Typeface.DEFAULT;
+                int visible = select ? View.VISIBLE : View.INVISIBLE;
+                setSheetType(llOrderType, viewOrderType, tvOrderType, select, color, typeface, visible);
             }else {
-                if (item.getSelected().equals("0")){
-                    setSheetType(llOrderType, viewOrderType, tvOrderType, false, R.color.dhcc_ordersearch_left_text_normal_color, Typeface.DEFAULT, View.INVISIBLE);
-                }else {
-                    setSheetType(llOrderType, viewOrderType, tvOrderType, true, R.color.dhcc_ordersearch_left_text_selected_color, Typeface.DEFAULT_BOLD, View.VISIBLE);
-                }
+                boolean select = !"0".equals(item.getSelected());
+                int color = select ? selectedColor : normalColor;
+                Typeface typeface = select ? Typeface.DEFAULT_BOLD : Typeface.DEFAULT;
+                int visible = select ? View.VISIBLE : View.INVISIBLE;
+                setSheetType(llOrderType, viewOrderType, tvOrderType, select, color, typeface, visible);
             }
 
             helper.setText(R.id.tv_ordersearch_ordertype, item.getDesc());

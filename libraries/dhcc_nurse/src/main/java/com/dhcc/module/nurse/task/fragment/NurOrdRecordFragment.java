@@ -1,4 +1,4 @@
-package com.dhcc.module.nurse.task;
+package com.dhcc.module.nurse.task.fragment;
 
 import android.app.Activity;
 import android.content.Context;
@@ -18,11 +18,11 @@ import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.KeyBoardUtil;
 import com.base.commlibs.utils.RecyclerViewHelper;
 import com.blankj.utilcode.util.GsonUtils;
-import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.module.nurse.AdapterFactory;
 import com.dhcc.module.nurse.BaseNurseFragment;
 import com.dhcc.module.nurse.R;
+import com.dhcc.module.nurse.task.TaskViewApiManager;
 import com.dhcc.module.nurse.task.adapter.TaskNurOrdRecordAdapter;
 import com.dhcc.module.nurse.task.bean.NurOrdRecordTaskBean;
 import com.dhcc.module.nurse.task.bean.NurTaskSchBean;

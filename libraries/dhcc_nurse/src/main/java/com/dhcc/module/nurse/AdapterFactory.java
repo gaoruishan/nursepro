@@ -17,6 +17,7 @@ import com.dhcc.module.nurse.task.adapter.TaskListAdapter;
 import com.dhcc.module.nurse.task.adapter.TaskNormalOrdAdapter;
 import com.dhcc.module.nurse.task.adapter.TaskNurOrdAdapter;
 import com.dhcc.module.nurse.task.adapter.TaskNurOrdRecordAdapter;
+import com.dhcc.module.nurse.task.adapter.TaskNurRateAdapter;
 import com.dhcc.module.nurse.task.adapter.TaskTempAdapter;
 import com.dhcc.module.nurse.task.adapter.TimeFilterAdapter;
 
@@ -99,6 +100,13 @@ public class AdapterFactory {
      */
     public static TaskNurOrdAdapter getTaskNurOrdAdapter() {
         return new TaskNurOrdAdapter(R.layout.item_task_nurord,null);
+    }
+    /**
+     * 任务总览-护理评估
+     * @return
+     */
+    public static TaskNurRateAdapter getTaskNurRateAdapter() {
+        return new TaskNurRateAdapter(R.layout.item_task_nur_rate,null);
     }
     /**
      * 任务总览-护嘱录入

@@ -284,6 +284,17 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
 
     private void initView(View view) {
 
+        if (bSingleModel){
+            view.findViewById(R.id.img_back).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.img_back).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+        }else {
+            view.findViewById(R.id.img_back).setVisibility(View.GONE);
+        }
         llMessageNeworderTitle = view.findViewById(R.id.ll_message_neworder_title);
         llMessageNeworderTitle.setOnClickListener(this);
         tvMessageNeworderCount = view.findViewById(R.id.tv_message_neworder_count);

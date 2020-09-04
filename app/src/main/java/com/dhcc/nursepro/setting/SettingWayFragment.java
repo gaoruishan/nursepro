@@ -40,7 +40,7 @@ public class SettingWayFragment extends BaseFragment implements View.OnClickList
         super.onViewCreated(view, savedInstanceState);
 
         setStatusBarBackgroundViewVisibility(true, 0xffffffff);
-        setToolbarType(BaseActivity.ToolbarType.TOP);
+//        setToolbarType(BaseActivity.ToolbarType.TOP);
         setToolbarBackground(new ColorDrawable(0xffffffff));
         showToolbarNavigationIcon(R.drawable.icon_back_blue);
         setToolbarCenterTitle("消息提醒");
@@ -60,7 +60,10 @@ public class SettingWayFragment extends BaseFragment implements View.OnClickList
                 finish();
             }
         });
-        setToolbarRightCustomView(viewright);
+        setToolbarRightCustomViewSingleShow(viewright);
+        if (bSingleModel){
+            hindMap();
+        }
         initView(view);
 
     }

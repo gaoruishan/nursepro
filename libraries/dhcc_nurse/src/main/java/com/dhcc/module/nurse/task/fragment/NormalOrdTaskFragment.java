@@ -1,4 +1,4 @@
-package com.dhcc.module.nurse.task;
+package com.dhcc.module.nurse.task.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -147,7 +147,7 @@ public class NormalOrdTaskFragment extends BaseNurseFragment {
         }
         if (v.getId() == R.id.img_toolbar_right2) {
             try {
-                Class<? extends BaseFragment> BedFragmentClass = (Class<? extends BaseFragment>) Class.forName("com.dhcc.nursepro.workarea.bedselect.BedSelectFragment");
+                Class<? extends BaseFragment> BedFragmentClass = (Class<? extends BaseFragment>) Class.forName(FRAGMENT_BED_SELECT);
                 startFragment(BedFragmentClass,1);
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();

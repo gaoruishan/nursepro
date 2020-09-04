@@ -43,6 +43,7 @@ import com.blankj.utilcode.util.SPUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -81,6 +82,8 @@ public class BaseFragment extends Fragment {
     private Intent broadCastIntent = new Intent();
     public String singleEpisodeId = "";
     public String singleRegNo = "";
+    public ArrayList<String> listRegNo = new ArrayList<>();
+    public Boolean bSingleModel = SPUtils.getInstance().getString(Action.SINGLEMODEL).equals("1");
 
     /**
      * 判断是否大于等于LOLLIPOP
@@ -135,6 +138,7 @@ public class BaseFragment extends Fragment {
             String scanInfo = bundle.getString("data");
             //               .replace("||","-");
             intent.putExtra("data", scanInfo);
+            setMsgToSingleActivity(scanInfo);
         }
 
     }
@@ -249,7 +253,7 @@ public class BaseFragment extends Fragment {
      * @param type
      */
     public void setToolbarType(BaseActivity.ToolbarType type) {
-        if (SPUtils.getInstance().getString(Action.SINGLEMODEL).equals("1")){
+        if (bSingleModel){
             type = BaseActivity.ToolbarType.HIDE;
             llTitTop.setVisibility(View.VISIBLE);
         }else {
@@ -293,7 +297,7 @@ public class BaseFragment extends Fragment {
      * @param size  单位:DIP
      */
     public void setToolbarCenterTitle(CharSequence title, int color, int size) {
-        if (SPUtils.getInstance().getString(Action.SINGLEMODEL).equals("1")){
+        if (bSingleModel){
             tvName.setLines(1);
             tvName.setMaxLines(1);
             tvName.setEllipsize(TextUtils.TruncateAt.END);
@@ -319,7 +323,7 @@ public class BaseFragment extends Fragment {
                 ((BaseActivity) activity).setListener(new BaseActivity.Listener() {
                     @Override
                     public void changMap(String map) {
-                        if (SPUtils.getInstance().getString(Action.SINGLEMODEL).equals("1")){
+                        if (bSingleModel){
                             broadCastIntent.setAction(Action.SINGLEMAP);
                             broadCastIntent.putExtra("data", map);
                             getActivity().sendBroadcast(broadCastIntent);
@@ -395,7 +399,7 @@ public class BaseFragment extends Fragment {
      * @param view
      */
     public void setToolbarRightCustomView(View view) {
-        if (SPUtils.getInstance().getString(Action.SINGLEMODEL).equals("1")){
+        if (bSingleModel){
             llTitRight.removeAllViews();
             llTitRight.addView(view);
         }
@@ -404,7 +408,17 @@ public class BaseFragment extends Fragment {
             ((BaseActivity) activity).setToolbarRightCustomView(view);
         }
     }
-
+    /**
+     * 设置Toolbar右边自定义视图-单患者模式下也可以显示
+     *
+     * @param view
+     */
+    public void setToolbarRightCustomViewSingleShow(View view) {
+        Activity activity = getActivity();
+        if (activity != null && activity instanceof BaseActivity) {
+            ((BaseActivity) activity).setToolbarRightCustomView(view);
+        }
+    }
     /**
      * 设置Toolbar-BottomLine是否显示
      *
@@ -621,6 +635,23 @@ public class BaseFragment extends Fragment {
     public void startFragment(@NonNull Class<? extends BaseFragment> fragCls,
                               @Nullable Bundle args) {
         startFragment(fragCls, args, -1);
+    }
+    public void startFragment(@NonNull String fragName,
+                              @Nullable Bundle args, int requestCode) {
+        // 判断
+        if (TextUtils.isEmpty(fragName) || !fragName.contains("com.dhcc")) {
+            return;
+        }
+        try {
+            Class<? extends BaseFragment> fragClass = (Class<? extends BaseFragment>) Class.forName(fragName);
+            startFragment(fragClass, args,requestCode);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void startFragment(@NonNull String fragName, @Nullable Bundle args) {
+        startFragment(fragName, args,-1);
     }
 
     /**
@@ -1068,7 +1099,25 @@ public class BaseFragment extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.e(TAG,"(BaseReceiver.java:910) "+intent.toString());
-            getScanMsg(intent);
+            boolean bRegNo = false;
+            String strScan = "";
+            if (Objects.requireNonNull(intent.getAction()).equals(Action.DEVICE_SCAN_CODE)) {
+                Bundle bundle = new Bundle();
+                bundle = intent.getExtras();
+                String scanInfo = bundle.getString("data");
+                for (int i = 0; i < listRegNo.size(); i++) {
+                    if (scanInfo.equals(listRegNo.get(i))){
+                        bRegNo = true;
+                        strScan = scanInfo;
+                    }
+                }
+            }
+
+            if (bRegNo){
+                setMsgToSingleActivity(strScan);
+            }else {
+                getScanMsg(intent);
+            }
         }
     }
 }

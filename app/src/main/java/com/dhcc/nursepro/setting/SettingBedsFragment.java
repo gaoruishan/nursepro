@@ -45,7 +45,7 @@ public class SettingBedsFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setStatusBarBackgroundViewVisibility(true, 0xffffffff);
-        setToolbarType(BaseActivity.ToolbarType.TOP);
+//        setToolbarType(BaseActivity.ToolbarType.TOP);
         setToolbarBackground(new ColorDrawable(0xffffffff));
         showToolbarNavigationIcon(R.drawable.icon_back_blue);
 
@@ -63,7 +63,10 @@ public class SettingBedsFragment extends BaseFragment {
                 settingBeds();
             }
         });
-        setToolbarRightCustomView(viewright);
+        setToolbarRightCustomViewSingleShow(viewright);
+        if (bSingleModel){
+            hindMap();
+        }
 
         initView(view);
         initAdapter();

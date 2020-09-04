@@ -57,6 +57,7 @@ import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.utils.BasePopWindow;
 import com.blankj.utilcode.constant.PermissionConstants;
 import com.blankj.utilcode.util.ConvertUtils;
+import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -82,6 +83,7 @@ import com.dhcc.nursepro.view.PatIconView;
 import com.dhcc.nursepro.workarea.allotbed.AllotBedFragment;
 import com.dhcc.nursepro.workarea.bedmap.BedMapFragment;
 import com.dhcc.nursepro.workarea.bedmap.BedMapPatFragment;
+import com.dhcc.nursepro.workarea.bedmap.BedMapPatInfoFragment;
 import com.dhcc.nursepro.workarea.bedmap.adapter.BedMapPatientAdapter;
 import com.dhcc.nursepro.workarea.bedmap.api.BedMapApiManager;
 import com.dhcc.nursepro.workarea.bedmap.bean.BedMapBean;
@@ -156,10 +158,11 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
     private NotificationManager notificationManager;
 
     private BedMapBean bedBean = new BedMapBean();
+    private Map bedMap;
     private TextView tvBedmappatBedno;
     private TextView tvAge;
     private TextView tvBedmappatName;
-    private TextView tvNurse,tvFragName,tvTopName;
+    private TextView tvNurse,tvTopName;
     private RelativeLayout rlPat,rlHindPat;
     private ImageView imgBedmappatSex;
     private TextView tvBedmappatCarelevel;
@@ -178,6 +181,8 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
     private List<NurseInfo> nurseInfoList;
     private NurseInfo loginNurseInfo;
     private List<Map<String, String>> locsList;
+    //所有患者信息
+    private List<Map<String, String>> patInfoMapList =new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -232,6 +237,12 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
             @Override
             public void onSuccess(BedMapBean bedMapBean, Map bedMapMap) {
                 hideLoadingTip();
+                bedMap= bedMapMap;
+                for (int i = 0; i < bedMapBean.getPatInfoList().size(); i++) {
+                    Map map = GsonUtils.fromJson(GsonUtils.toJson(bedMapBean.getPatInfoList().get(i)), HashMap.class);
+                    bedMapBean.getPatInfoList().get(i).setPatMap(map);
+                }
+                patInfoMapList = (List<Map<String, String>>) bedMapMap.get("patInfoList");
                 bedBean = bedMapBean;
                 if (bedMapPatientAdapter!=null){
                     bedMapPatientAdapter.setNewData(bedBean.getPatInfoList());
@@ -241,6 +252,7 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
                 showPatInfo();
                 addToolBarRightPopWindow();
                 addToolBarLeftPopWindow();
+                notifyMessage();
             }
 
             @Override
@@ -273,8 +285,8 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
         patIconView.showLeft();
         patIconView.setVisibility(View.VISIBLE);
         if (fragName==null){
-            fragName = BedMapFragment.class.getName();
-            startNewFragment(new BedMapFragment());
+            fragName = OrderExecuteFragment.class.getName();
+            startNewFragment(new OrderExecuteFragment());
         }else {
             putNewFragment();
             startNewFragment(SharedPreference.FRAGMENTMAP.get(fragName));
@@ -414,9 +426,15 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
         if (messageNum < 1) {
             drawable = getResources().getDrawable(R.drawable.tabbar_item_message_selector);
             drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+            if (contentView1!=null){
+                contentView1.findViewById(R.id.view_point_red).setVisibility(View.GONE);
+            }
         } else {
             drawable = getResources().getDrawable(R.drawable.tabbar_item_havemessage_selector);
             drawable.setBounds(8, 0, drawable.getIntrinsicWidth() + 8, drawable.getIntrinsicHeight());
+            if (contentView1!=null){
+                contentView1.findViewById(R.id.view_point_red).setVisibility(View.VISIBLE);
+            }
             showNotification(this, soundFlag, vibrateFlag);
         }
     }
@@ -425,7 +443,6 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
      * 初始化各模块界面
      */
     private void initTabView() {
-
         tvLoc = findViewById(R.id.tv_setting_loc);
         tvLoc.setOnClickListener(this);
         tvLoc.setText(spUtils.getString(SharedPreference.LOCDESC));
@@ -433,9 +450,24 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
         tvBedmappatBedno = findViewById(R.id.tv_bedmappat_bedno);
         tvAge = findViewById(R.id.tv_bedmappat_age);
         tvBedmappatName = findViewById(R.id.tv_bedmappat_name);
+        tvBedmappatName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (int i = 0; i < patInfoMapList.size(); i++) {
+                    if (patInfoMapList.get(i).get("episodeId").equals(episodeId)){
+                        patInfoMapList = (List<Map<String, String>>) bedMap.get("patInfoList");
+                        Gson gson = new Gson();
+                        Map map = patInfoMapList.get(i);
+                        String jsonMap = gson.toJson(map);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("jsonmap",jsonMap);
+                        startFragment(BedMapPatInfoFragment.class,bundle);
+                    }
+                }
+            }
+        });
         tvTopName = findViewById(R.id.tv_top_patinfo);
         tvNurse = findViewById(R.id.tv_setting_username);
-        tvFragName = findViewById(R.id.tv_single_fragname);
         rlHindPat = findViewById(R.id.rl_hindpat);
         rlHindPat.setOnClickListener(this);
         rlPat = findViewById(R.id.rl_patinfo);
@@ -461,6 +493,11 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
     private void startNewFragment(BaseFragment baseFragment){
         baseFragment.singleEpisodeId = episodeId;
         baseFragment.singleRegNo = regNo;
+        baseFragment.listRegNo = new ArrayList<>();
+        for (int i = 0; i < bedBean.getPatInfoList().size(); i++) {
+            baseFragment.listRegNo.add(bedBean.getPatInfoList().get(i).getRegNo());
+        }
+
         mFragmentManager = getSupportFragmentManager();
         ft = mFragmentManager.beginTransaction();
         List<Fragment> oldFragments = mFragmentManager.getFragments();
@@ -798,7 +835,14 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
                 }
             }
             if (Action.SETSINGLEMSG.equals(intent.getAction())) {
-                tvFragName.setText(intent.getStringExtra("data"));
+                for (int i = 0; i < bedBean.getPatInfoList().size(); i++) {
+                    String msg = intent.getStringExtra("data");
+                    if (msg.equals(bedBean.getPatInfoList().get(i).getRegNo())){
+                        episodeId = bedBean.getPatInfoList().get(i).getEpisodeId();
+                        regNo = bedBean.getPatInfoList().get(i).getRegNo();
+                        showPatInfo();
+                    }
+                }
             }
         }
     }
@@ -841,10 +885,10 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
             tvButton.setText(bedBean.getTopFilter().get(i).getDesc());
             tvButton.setGravity(Gravity.CENTER);
             LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(ConvertUtils.dp2px(90), ViewGroup.LayoutParams.MATCH_PARENT);
-            titleParams.setMargins(0, 30, 0, 30);//4个参数按顺序分别是左上右下
             tvButton.setLayoutParams(titleParams);
             tvButton.setBackgroundResource(R.color.blue);
             tvButton.setTextColor(getResources().getColor(R.color.white));
+            tvButton.setPadding(0,30,0,30);
 
             tvButton.setTag(R.string.key_singleflag,bedBean.getTopFilter().get(i).getCode());
 
@@ -853,8 +897,16 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
             tvButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    showToast(tvButton.getTag(R.string.key_singleflag).toString());
                     llPatArea.setVisibility(View.GONE);
+                    ArrayList<BedMapBean.PatInfoListBean> listBeans = new ArrayList<>();
+                    for (int j = 0; j < bedBean.getPatInfoList().size(); j++) {
+                        if (bedBean.getPatInfoList().get(j).getPatMap().get(tvButton.getTag(R.string.key_singleflag).toString())!=null
+                                && "1".equals(bedBean.getPatInfoList().get(j).getPatMap().get(tvButton.getTag(R.string.key_singleflag).toString()))){
+                            listBeans.add(bedBean.getPatInfoList().get(j));
+                        };
+                    }
+                    bedMapPatientAdapter.setNewData(listBeans);
+                    tvPatArea.setText(tvButton.getText().toString());
                 }
             });
         }
