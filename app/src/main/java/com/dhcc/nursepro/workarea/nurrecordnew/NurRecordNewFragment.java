@@ -1674,74 +1674,180 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                 if (elementSetsBean.getFormName().equals(formName)) {
                     if (elementSetsBean.getFormName().startsWith("TextElement_") || elementSetsBean.getFormName().startsWith("NumberElement_")) {
                         EditText editText = (EditText) viewHashMap.get(viewElementId);
-                        int edTextInt;
-                        try {
-                            edTextInt = Integer.parseInt(StringUtils.isEmpty(editText.getText().toString()) ? "-1" : editText.getText().toString());
+                        if (!StringUtils.isEmpty(editText.getText().toString())) {
+                            if ("EqUnEmptyText".equals(elementSetsBean.getSign())) {
+                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+                                if (changeListBeans != null && changeListBeans.size() > 0) {
+                                    ValSetView(changeListBeans);
+                                }
+                            } else{
+                                if (editText.getText().toString().matches("[0-9]+")) {
+                                    int edTextInt;
+                                    try {
+                                        edTextInt = Integer.parseInt(StringUtils.isEmpty(editText.getText().toString()) ? "-1" : editText.getText().toString());
 
-                            if (edTextInt > -1) {
-                                if ("EqNumber".equals(elementSetsBean.getSign())) {
-                                    int val = Integer.parseInt(elementSetsBean.getVal());
-                                    List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
-                                    if (edTextInt == val && changeListBeans != null && changeListBeans.size() > 0) {
-                                        ValSetView(changeListBeans);
+                                        if (edTextInt > -1) {
+                                            //Number
+                                            if ("EqNumber".equals(elementSetsBean.getSign())) {
+                                                int val = Integer.parseInt(elementSetsBean.getVal());
+                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+                                                if (edTextInt == val && changeListBeans != null && changeListBeans.size() > 0) {
+                                                    ValSetView(changeListBeans);
+                                                }
+                                            } else if ("NEqNumber".equals(elementSetsBean.getSign())) {
+                                                int val = Integer.parseInt(elementSetsBean.getVal());
+                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+                                                if (edTextInt != val && changeListBeans != null && changeListBeans.size() > 0) {
+                                                    ValSetView(changeListBeans);
+                                                }
+                                            } else if ("LeEqNumber".equals(elementSetsBean.getSign())) {
+                                                int val = Integer.parseInt(elementSetsBean.getVal());
+                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+                                                if (edTextInt <= val && changeListBeans != null && changeListBeans.size() > 0) {
+                                                    ValSetView(changeListBeans);
+                                                }
+                                            } else if ("LeNumber".equals(elementSetsBean.getSign())) {
+                                                int val = Integer.parseInt(elementSetsBean.getVal());
+                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+                                                if (edTextInt < val && changeListBeans != null && changeListBeans.size() > 0) {
+                                                    ValSetView(changeListBeans);
+                                                }
+                                            } else if ("GrEqNumber".equals(elementSetsBean.getSign())) {
+                                                int val = Integer.parseInt(elementSetsBean.getVal());
+                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+                                                if (edTextInt >= val && changeListBeans != null && changeListBeans.size() > 0) {
+                                                    ValSetView(changeListBeans);
+                                                }
+                                            } else if ("GrNumber".equals(elementSetsBean.getSign())) {
+                                                int val = Integer.parseInt(elementSetsBean.getVal());
+                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+                                                if (edTextInt > val && changeListBeans != null && changeListBeans.size() > 0) {
+                                                    ValSetView(changeListBeans);
+                                                }
+                                            } else if ("GrEqNumber1LeEqNumber2".equals(elementSetsBean.getSign())) {
+                                                int val1 = Integer.parseInt(elementSetsBean.getVal());
+                                                int val2 = Integer.parseInt(elementSetsBean.getVal2());
+                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+                                                if (edTextInt >= val1 && edTextInt <= val2 && changeListBeans != null && changeListBeans.size() > 0) {
+                                                    ValSetView(changeListBeans);
+                                                }
+                                            } else if ("GrNumber1LeEqNumber2".equals(elementSetsBean.getSign())) {
+                                                int val1 = Integer.parseInt(elementSetsBean.getVal());
+                                                int val2 = Integer.parseInt(elementSetsBean.getVal2());
+                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+                                                if (edTextInt > val1 && edTextInt <= val2 && changeListBeans != null && changeListBeans.size() > 0) {
+                                                    ValSetView(changeListBeans);
+                                                }
+                                            } else if ("GrEqNumber1LeNumber2".equals(elementSetsBean.getSign())) {
+                                                int val1 = Integer.parseInt(elementSetsBean.getVal());
+                                                int val2 = Integer.parseInt(elementSetsBean.getVal2());
+                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+                                                if (edTextInt >= val1 && edTextInt < val2 && changeListBeans != null && changeListBeans.size() > 0) {
+                                                    ValSetView(changeListBeans);
+                                                }
+                                            } else if ("GrNumber1LeNumber2".equals(elementSetsBean.getSign())) {
+                                                int val1 = Integer.parseInt(elementSetsBean.getVal());
+                                                int val2 = Integer.parseInt(elementSetsBean.getVal2());
+                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+                                                if (edTextInt > val1 && edTextInt < val2 && changeListBeans != null && changeListBeans.size() > 0) {
+                                                    ValSetView(changeListBeans);
+                                                }
+                                                //Text
+                                            } else if ("Equal".equals(elementSetsBean.getSign())) {
+                                                int val = Integer.parseInt(elementSetsBean.getVal());
+                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+                                                if (edTextInt == val && changeListBeans != null && changeListBeans.size() > 0) {
+                                                    ValSetView(changeListBeans);
+                                                }
+                                            } else if ("NEqText".equals(elementSetsBean.getSign())) {
+                                                int val = Integer.parseInt(elementSetsBean.getVal());
+                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+                                                if (edTextInt != val && changeListBeans != null && changeListBeans.size() > 0) {
+                                                    ValSetView(changeListBeans);
+                                                }
+                                            } else if ("LeEqText".equals(elementSetsBean.getSign())) {
+                                                int val = Integer.parseInt(elementSetsBean.getVal());
+                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+                                                if (edTextInt <= val && changeListBeans != null && changeListBeans.size() > 0) {
+                                                    ValSetView(changeListBeans);
+                                                }
+                                            } else if ("LeText".equals(elementSetsBean.getSign())) {
+                                                int val = Integer.parseInt(elementSetsBean.getVal());
+                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+                                                if (edTextInt < val && changeListBeans != null && changeListBeans.size() > 0) {
+                                                    ValSetView(changeListBeans);
+                                                }
+                                            } else if ("GrEqText".equals(elementSetsBean.getSign())) {
+                                                int val = Integer.parseInt(elementSetsBean.getVal());
+                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+                                                if (edTextInt >= val && changeListBeans != null && changeListBeans.size() > 0) {
+                                                    ValSetView(changeListBeans);
+                                                }
+                                            } else if ("GrText".equals(elementSetsBean.getSign())) {
+                                                int val = Integer.parseInt(elementSetsBean.getVal());
+                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+                                                if (edTextInt > val && changeListBeans != null && changeListBeans.size() > 0) {
+                                                    ValSetView(changeListBeans);
+                                                }
+                                            } else if ("GrEqText1LeEqText2".equals(elementSetsBean.getSign())) {
+                                                int val1 = Integer.parseInt(elementSetsBean.getVal());
+                                                int val2 = Integer.parseInt(elementSetsBean.getVal2());
+                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+                                                if (edTextInt >= val1 && edTextInt <= val2 && changeListBeans != null && changeListBeans.size() > 0) {
+                                                    ValSetView(changeListBeans);
+                                                }
+                                            } else if ("GrText1LeEqText2".equals(elementSetsBean.getSign())) {
+                                                int val1 = Integer.parseInt(elementSetsBean.getVal());
+                                                int val2 = Integer.parseInt(elementSetsBean.getVal2());
+                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+                                                if (edTextInt > val1 && edTextInt <= val2 && changeListBeans != null && changeListBeans.size() > 0) {
+                                                    ValSetView(changeListBeans);
+                                                }
+                                            } else if ("GrEqText1LeText2".equals(elementSetsBean.getSign())) {
+                                                int val1 = Integer.parseInt(elementSetsBean.getVal());
+                                                int val2 = Integer.parseInt(elementSetsBean.getVal2());
+                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+                                                if (edTextInt >= val1 && edTextInt < val2 && changeListBeans != null && changeListBeans.size() > 0) {
+                                                    ValSetView(changeListBeans);
+                                                }
+                                            } else if ("GrText1LeText2".equals(elementSetsBean.getSign())) {
+                                                int val1 = Integer.parseInt(elementSetsBean.getVal());
+                                                int val2 = Integer.parseInt(elementSetsBean.getVal2());
+                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+                                                if (edTextInt > val1 && edTextInt < val2 && changeListBeans != null && changeListBeans.size() > 0) {
+                                                    ValSetView(changeListBeans);
+                                                }
+                                            }
+                                        }
+                                    } catch (NumberFormatException e) {
+                                        showToast("分数数值不规范");
+                                        e.printStackTrace();
                                     }
-                                } else if ("LeEqNumber".equals(elementSetsBean.getSign())) {
-                                    int val = Integer.parseInt(elementSetsBean.getVal());
-                                    List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
-                                    if (edTextInt <= val && changeListBeans != null && changeListBeans.size() > 0) {
-                                        ValSetView(changeListBeans);
-                                    }
-                                } else if ("LeNumber".equals(elementSetsBean.getSign())) {
-                                    int val = Integer.parseInt(elementSetsBean.getVal());
-                                    List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
-                                    if (edTextInt < val && changeListBeans != null && changeListBeans.size() > 0) {
-                                        ValSetView(changeListBeans);
-                                    }
-                                } else if ("GrEqNumber".equals(elementSetsBean.getSign())) {
-                                    int val = Integer.parseInt(elementSetsBean.getVal());
-                                    List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
-                                    if (edTextInt >= val && changeListBeans != null && changeListBeans.size() > 0) {
-                                        ValSetView(changeListBeans);
-                                    }
-                                } else if ("GrNumber".equals(elementSetsBean.getSign())) {
-                                    int val = Integer.parseInt(elementSetsBean.getVal());
-                                    List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
-                                    if (edTextInt > val && changeListBeans != null && changeListBeans.size() > 0) {
-                                        ValSetView(changeListBeans);
-                                    }
-                                } else if ("GrEqNumber1LeEqNumber2".equals(elementSetsBean.getSign())) {
-                                    int val1 = Integer.parseInt(elementSetsBean.getVal());
-                                    int val2 = Integer.parseInt(elementSetsBean.getVal2());
-                                    List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
-                                    if (edTextInt >= val1 && edTextInt <= val2 && changeListBeans != null && changeListBeans.size() > 0) {
-                                        ValSetView(changeListBeans);
-                                    }
-                                } else if ("GrNumber1LeEqNumber2".equals(elementSetsBean.getSign())) {
-                                    int val1 = Integer.parseInt(elementSetsBean.getVal());
-                                    int val2 = Integer.parseInt(elementSetsBean.getVal2());
-                                    List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
-                                    if (edTextInt > val1 && edTextInt <= val2 && changeListBeans != null && changeListBeans.size() > 0) {
-                                        ValSetView(changeListBeans);
-                                    }
-                                } else if ("GrEqNumber1LeNumber2".equals(elementSetsBean.getSign())) {
-                                    int val1 = Integer.parseInt(elementSetsBean.getVal());
-                                    int val2 = Integer.parseInt(elementSetsBean.getVal2());
-                                    List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
-                                    if (edTextInt >= val1 && edTextInt < val2 && changeListBeans != null && changeListBeans.size() > 0) {
-                                        ValSetView(changeListBeans);
-                                    }
-                                } else if ("GrNumber1LeNumber2".equals(elementSetsBean.getSign())) {
-                                    int val1 = Integer.parseInt(elementSetsBean.getVal());
-                                    int val2 = Integer.parseInt(elementSetsBean.getVal2());
-                                    List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
-                                    if (edTextInt > val1 && edTextInt < val2 && changeListBeans != null && changeListBeans.size() > 0) {
-                                        ValSetView(changeListBeans);
+                                } else {
+                                    String edTextStr = editText.getText().toString();
+                                    if ("ContainsText".equals(elementSetsBean.getSign())) {
+                                        String val = elementSetsBean.getVal();
+                                        List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+                                        if (edTextStr.contains(val) && changeListBeans != null && changeListBeans.size() > 0) {
+                                            ValSetView(changeListBeans);
+                                        }
+                                    } else if ("NContainsText".equals(elementSetsBean.getSign())) {
+                                        String val = elementSetsBean.getVal();
+                                        List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+                                        if (!edTextStr.contains(val) && changeListBeans != null && changeListBeans.size() > 0) {
+                                            ValSetView(changeListBeans);
+                                        }
                                     }
                                 }
                             }
-                        } catch (NumberFormatException e) {
-                            showToast("分数数值不规范");
-                            e.printStackTrace();
+
+                        } else {
+                            if ("EqEmptyText".equals(elementSetsBean.getSign())) {
+                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+                                if (changeListBeans != null && changeListBeans.size() > 0) {
+                                    ValSetView(changeListBeans);
+                                }
+                            }
                         }
                     }
                 }
