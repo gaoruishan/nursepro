@@ -1,5 +1,6 @@
 package com.dhcc.nursepro.workarea.vitalsign;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -37,6 +38,8 @@ import com.base.commlibs.utils.KeyBoardUtil;
 import com.dhcc.nursepro.workarea.vitalsign.api.VitalSignApiManager;
 import com.dhcc.nursepro.workarea.vitalsign.bean.VitalSignRecordBean;
 import com.dhcc.nursepro.workarea.vitalsign.bean.VitalSignSaveBean;
+import com.dhcc.nursepro.workarea.vitalsigndetail.VitalSignChartsDetailFragment;
+import com.dhcc.nursepro.workarea.vitalsigndetail.VitalSignDetailFragment;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jzxiang.pickerview.TimePickerDialog;
@@ -60,6 +63,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
 
     private TextView tv_pre;
     private TextView tv_next;
+    private TextView tvVisList,tvVisPreview;
 
     private String timepoint;
 
@@ -104,12 +108,20 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        setToolbarType(BaseActivity.ToolbarType.TOP);
+        if (isSingleModel){
+            setToolbarCenterTitle("体征录入", 0xffffffff, 17);
+        }
         initData();
 
         initView(view);
 
         if (fromTask){
             et_time.setClickable(false);
+            view.findViewById(R.id.ll_vitalsign_prenex).setVisibility(View.GONE);
+            asyncGetVitalSignItems();
+        }else if (isSingleModel){
+//            et_time.setClickable(false);
             view.findViewById(R.id.ll_vitalsign_prenex).setVisibility(View.GONE);
             asyncGetVitalSignItems();
         }else {
@@ -122,6 +134,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
         }
 
     }
+
 
     @Override
     public void getScanMsg(Intent intent) {
@@ -289,7 +302,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
     }
 
     private void asyncGetVitalSignItems() {
-
+        recordContentView.removeAllViews();
         showLoadingTip(BaseActivity.LoadingType.FULL);
         VitalSignApiManager.getVitalSignItems(curEpisodeId, timepoint, new VitalSignApiManager.GetVitalSignItemCallback() {
             @Override
@@ -681,6 +694,18 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
         picker.show();
     }
 
+    @Override
+    public void setMsgToSingleBaseFragment(String msg) {
+        super.setMsgToSingleBaseFragment(msg);
+        timepoint = msg;
+        if (et_time!=null){
+            et_time.setText(timepoint);
+        }
+        dateFilterStr = timepoint.substring(0,10);
+        timeFilterStr = timepoint.substring(11,16);
+        asyncGetVitalSignItems();
+    }
+
     private void initData() {
 
         //取出sp中的列表
@@ -705,6 +730,12 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
                 patientIndex = bundle.getInt("index");
             }
 
+        }else {
+            curEpisodeId = singleEpisodeId;
+            dateFilterStr = SPUtils.getInstance().getString(SharedPreference.CURDATETIME).substring(0,10);
+            timeFilterStr = SPUtils.getInstance().getString(SharedPreference.CURDATETIME).substring(11,16);
+            timepoint = SPUtils.getInstance().getString(SharedPreference.CURDATETIME).substring(0,16);
+//            fromTask = true;
         }
 
         viewItemMap = new HashMap<>();
@@ -719,10 +750,19 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
 
         recordContentView = view.findViewById(R.id.ll_vitalsign_record_content);
 
+        if (isSingleModel){
+            view.findViewById(R.id.ll_vitalsign_patient_skinorder).setVisibility(View.VISIBLE);
+        }else {
+            view.findViewById(R.id.ll_vitalsign_patient_skinorder).setVisibility(View.GONE);
+        }
         tv_next = view.findViewById(R.id.tv_vitalsign_record_next);
         tv_next.setOnClickListener(this);
         tv_pre = view.findViewById(R.id.tv_vitalsign_record_pre);
         tv_pre.setOnClickListener(this);
+        tvVisList = view.findViewById(R.id.tv_vitalsign_record_list);
+        tvVisList.setOnClickListener(this);
+        tvVisPreview = view.findViewById(R.id.tv_vitalsign_tmp_preview);
+        tvVisPreview.setOnClickListener(this);
 
 
         //右上角保存按钮
@@ -745,6 +785,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
 
     @Override
     public void onClick(View v) {
+        Bundle bundle = new Bundle();
         switch (v.getId()) {
             case R.id.et_vital_sign_record_time:
                 chooseTime(TimeUtils.string2Millis(dateFilterStr + " " + timeFilterStr + ":00"));
@@ -754,6 +795,14 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
                 break;
             case R.id.tv_vitalsign_record_pre:
                 prePatient();
+                break;
+            case R.id.tv_vitalsign_record_list:
+                bundle.putString("episodeId", singleEpisodeId);
+                startFragment(VitalSignDetailFragment.class, bundle,1);
+                break;
+            case R.id.tv_vitalsign_tmp_preview:
+                bundle.putString("episodeId", singleEpisodeId);
+                startFragment(VitalSignChartsDetailFragment.class, bundle);
                 break;
             default:
                 break;

@@ -24,6 +24,7 @@ import com.dhcc.nursepro.workarea.allotbed.AllotBedFragment;
 import com.dhcc.nursepro.workarea.bedmap.BedMapFragment;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.BloodTransfusionSystemFragment;
 import com.dhcc.nursepro.workarea.checkresult.CheckPatsFragment;
+import com.dhcc.nursepro.workarea.checkresult.CheckResultListFragment;
 import com.dhcc.nursepro.workarea.docorderlist.DocOrderListFragment;
 import com.dhcc.nursepro.workarea.dosingreview.DosingReviewFragment;
 import com.dhcc.nursepro.workarea.drugloopsystem.drughandover.DrugHandoverFragment;
@@ -31,6 +32,7 @@ import com.dhcc.nursepro.workarea.drugloopsystem.residualliquidregistration.RLRe
 import com.dhcc.nursepro.workarea.infusiondrugreceive.DrugReceiveFragment;
 import com.dhcc.nursepro.workarea.labout.LabOutListFragment;
 import com.dhcc.nursepro.workarea.labresult.LabPatsFragment;
+import com.dhcc.nursepro.workarea.labresult.LabResultListFragment;
 import com.dhcc.nursepro.workarea.milkloopsystem_wenling.MilkLoopSystemFragment;
 import com.dhcc.nursepro.workarea.motherbabylink.MotherBabyLinkFragment;
 import com.dhcc.nursepro.workarea.nurrecordnew.PatNurRecordFragment;
@@ -45,6 +47,7 @@ import com.dhcc.nursepro.workarea.rjorder.RjOrderFragment;
 import com.dhcc.nursepro.workarea.shift.ShiftFragment;
 import com.dhcc.nursepro.workarea.taskmanage.TaskManageFragment;
 import com.dhcc.nursepro.workarea.vitalsign.VitalSignFragment;
+import com.dhcc.nursepro.workarea.vitalsign.VitalSignRecordFragment;
 import com.dhcc.nursepro.workarea.workareaapi.WorkareaApiManager;
 import com.dhcc.nursepro.workarea.workareabean.MainConfigBean;
 
@@ -87,6 +90,13 @@ public class WorkareaMainConfig {
                 map.put("fragicon",R.drawable.icon_vitalsign);
 //                map.put("singleModel","1");
                 SharedPreference.FRAGMENTARY.add(map);
+
+                Map mapVital = new HashMap();
+                mapVital.put("desc","生命体征");
+                mapVital.put("fragName", VitalSignRecordFragment.class.getName());
+                mapVital.put("fragicon",R.drawable.icon_vitalsign);
+                mapVital.put("singleModel","1");
+                SharedPreference.FRAGMENTARY.add(mapVital);
                 break;
             case "EVENTS":
                 map.put("desc","事件登记");
@@ -113,12 +123,26 @@ public class WorkareaMainConfig {
                 map.put("fragName", CheckPatsFragment.class.getName());
                 map.put("fragicon",R.drawable.icon_check);
                 SharedPreference.FRAGMENTARY.add(map);
+
+                Map map1 = new HashMap();
+                map1.put("desc","检查报告");
+                map1.put("fragName", CheckResultListFragment.class.getName());
+                map1.put("fragicon",R.drawable.icon_check);
+                map1.put("singleModel","2");
+                SharedPreference.FRAGMENTARY.add(map1);
                 break;
             case "LAB":
                 map.put("desc","检验结果");
                 map.put("fragName", LabPatsFragment.class.getName());
                 map.put("fragicon",R.drawable.icon_lab);
                 SharedPreference.FRAGMENTARY.add(map);
+
+                Map map2 = new HashMap();
+                map2.put("desc","检验结果");
+                map2.put("fragName", LabResultListFragment.class.getName());
+                map2.put("fragicon",R.drawable.icon_lab);
+                map2.put("singleModel","2");
+                SharedPreference.FRAGMENTARY.add(map2);
                 break;
             case "OPERATION":
                 map.put("desc","手术查询");

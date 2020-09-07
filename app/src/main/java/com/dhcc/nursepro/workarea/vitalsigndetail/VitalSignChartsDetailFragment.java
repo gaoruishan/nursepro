@@ -66,8 +66,11 @@ public class VitalSignChartsDetailFragment extends BaseFragment implements View.
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        setToolbarType(BaseActivity.ToolbarType.TOP);
+//        setToolbarType(BaseActivity.ToolbarType.TOP);
         setToolbarBottomLineVisibility(true);
+        if (isSingleModel){
+            hindMap();
+        }
         setToolbarCenterTitle(getString(R.string.title_vitalsignchartsdetail), 0xffffffff, 17);
 
         //        tfRegular = Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Regular.ttf");

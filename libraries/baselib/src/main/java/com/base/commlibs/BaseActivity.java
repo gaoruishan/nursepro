@@ -1519,18 +1519,23 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
             if ("1".equals(SPUtils.getInstance().getString(SharedPreference.SINGLEMODEL))){
                 for (int i = 0; i <SharedPreference.FRAGMENTARY.size() ; i++) {
                     Map map = (Map) SharedPreference.FRAGMENTARY.get(i);
-                    if (!map.get("fragName").toString().contains(SharedPreference.Fragment_show) && map.get("singleModel")!=null && "1".equals(map.get("singleModel"))){
+                    if (!map.get("fragName").toString().contains(SharedPreference.Fragment_show) &&
+                            map.get("singleModel")!=null &&
+                            ( "1".equals(map.get("singleModel"))|| "2".equals(map.get("singleModel")))){
                         listFragment.add(SharedPreference.FRAGMENTARY.get(i));
                     }
                 }
                 fragMapAdapter.setNewData(listFragment);
             }else {
-                listFragment.addAll(SharedPreference.FRAGMENTARY);
-                for (int i = 0; i <listFragment.size() ; i++) {
-                    Map map = (Map) listFragment.get(i);
-                    if (map.get("fragName").toString().contains(SharedPreference.Fragment_show)){
-                        listFragment.remove(i);
-                        break;
+//                listFragment.addAll(SharedPreference.FRAGMENTARY);
+                for (int i = 0; i <SharedPreference.FRAGMENTARY.size() ; i++) {
+                    Map map = (Map) SharedPreference.FRAGMENTARY.get(i);
+                    if (!map.get("fragName").toString().contains(SharedPreference.Fragment_show)){
+                        if (map.get("singleModel")==null){
+                            listFragment.add(map);
+                        }else if (! "2".equals(map.get("singleModel"))){
+                            listFragment.add(map);
+                        }
                     }
                 }
                 fragMapAdapter.setNewData(listFragment);

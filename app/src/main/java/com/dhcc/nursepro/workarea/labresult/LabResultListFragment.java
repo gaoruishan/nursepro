@@ -40,9 +40,14 @@ public class LabResultListFragment extends BaseFragment {
 
         setToolbarType(BaseActivity.ToolbarType.TOP);
         setToolbarBottomLineVisibility(true);
-        Bundle bundle = getArguments();
-        episodeId = bundle.getString("episodeId");
-        patmsg = bundle.getString("patmsg");
+        if (isSingleModel){
+            episodeId=singleEpisodeId;
+            patmsg = "检验结果";
+        }else {
+            Bundle bundle = getArguments();
+            episodeId = bundle.getString("episodeId");
+            patmsg = bundle.getString("patmsg");
+        }
         setToolbarCenterTitle(patmsg, 0xffffffff, 17);
 
         initview(view);

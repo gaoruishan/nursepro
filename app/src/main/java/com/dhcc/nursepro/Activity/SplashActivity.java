@@ -31,6 +31,7 @@ public class SplashActivity extends AppCompatActivity {
                     workareaMainConfig.getMainConfigData(SplashActivity.this);
                 }else {
                     startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                    finish();
                 }
 //                finish();
             }

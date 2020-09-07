@@ -54,7 +54,10 @@ public class VitalSignDetailFragment extends BaseFragment implements View.OnClic
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        setToolbarType(BaseActivity.ToolbarType.TOP);
+//        setToolbarType(BaseActivity.ToolbarType.TOP);
+        if (isSingleModel){
+            hindMap();
+        }
         setToolbarBottomLineVisibility(true);
         setToolbarCenterTitle(getString(R.string.title_vitalsigndetail), 0xffffffff, 17);
 
@@ -93,9 +96,15 @@ public class VitalSignDetailFragment extends BaseFragment implements View.OnClic
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Map bean = listMap.get(position);
-                mBundle.putString("time", bean.get("time").toString());
-                mBundle.putString("date", bean.get("date").toString());
-                startFragment(VitalSignRecordFragment.class, mBundle);
+                if (isSingleModel){
+                    Bundle bundle = new Bundle();
+                    bundle.putString("datetime", bean.get("date").toString()+" "+bean.get("time").toString());
+                    finish(bundle);
+                }else {
+                    mBundle.putString("time", bean.get("time").toString());
+                    mBundle.putString("date", bean.get("date").toString());
+                    startFragment(VitalSignRecordFragment.class, mBundle);
+                }
             }
         });
     }

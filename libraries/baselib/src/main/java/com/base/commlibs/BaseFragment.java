@@ -84,6 +84,11 @@ public class BaseFragment extends Fragment {
     public String singleRegNo = "";
     public ArrayList<String> listRegNo = new ArrayList<>();
     public Boolean isSingleModel = SPUtils.getInstance().getString(SharedPreference.SINGLEMODEL).equals("1");
+    //判断当前页面是调换患者还是执行
+    public Boolean isChangePat = true;
+
+    //判断患者信息是扫码获得还是点击获得
+    public Boolean isGetPatByScan = false;
 
     /**
      * 判断是否大于等于LOLLIPOP
@@ -138,7 +143,6 @@ public class BaseFragment extends Fragment {
             String scanInfo = bundle.getString("data");
             //               .replace("||","-");
             intent.putExtra("data", scanInfo);
-            setMsgToSingleActivity(scanInfo);
         }
 
     }
@@ -155,8 +159,8 @@ public class BaseFragment extends Fragment {
     /**
      * SIngleMainActivity通过此方法向BaseFragment单人模式传递数据
      */
-    public void setMsgToSingleBaseFragment(String episodeId) {
-        showToast(episodeId);
+    public void setMsgToSingleBaseFragment(String msg) {
+//        showToast(msg);
     }
     /**
      * 所属Activity中onCreate之前调用(只适用于UniversalActivity及其子类)
@@ -1112,9 +1116,21 @@ public class BaseFragment extends Fragment {
                     }
                 }
             }
-
+            //判断当前扫码是不是患者列表中的一个regNo
             if (bRegNo){
-                setMsgToSingleActivity(strScan);
+                //判断是否为执行页
+                if (isChangePat){
+                    setMsgToSingleActivity(strScan);
+                }else {
+                    //如果在执行页并且当前患者和扫码患者相同的情况下走执行操作
+                    if (singleRegNo.equals(intent.getExtras().getString("data"))){
+                        getScanMsg(intent);
+                    }else {
+                        setMsgToSingleActivity(strScan);
+                    }
+
+                }
+
             }else {
                 getScanMsg(intent);
             }

@@ -175,7 +175,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
             if (execResultDialog != null && execResultDialog.isShowing()) {
                 execResultDialog.dismiss();
             }
-        }else if (!TextUtils.isEmpty(singleRegNo)){
+        }else if (!TextUtils.isEmpty(singleRegNo)&&isGetPatByScan){
             scanInfo = singleRegNo;
             getScanInfo();
         }
@@ -426,7 +426,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
         llBtn = view.findViewById(R.id.ll_orderexecute_btn);
 
         rlOrderexecuteScan = view.findViewById(R.id.rl_orderexecute_scan);
-        if (isSingleModel){
+        if (isSingleModel&&isGetPatByScan){
             rlOrderexecuteScan.setVisibility(View.GONE);
         }
 

@@ -1,5 +1,6 @@
 package com.dhcc.nursepro.Activity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -87,8 +88,10 @@ import com.dhcc.nursepro.workarea.bedmap.BedMapPatInfoFragment;
 import com.dhcc.nursepro.workarea.bedmap.adapter.BedMapPatientAdapter;
 import com.dhcc.nursepro.workarea.bedmap.api.BedMapApiManager;
 import com.dhcc.nursepro.workarea.bedmap.bean.BedMapBean;
+import com.dhcc.nursepro.workarea.bedselect.BedSelectFragment;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.BloodTransfusionSystemFragment;
 import com.dhcc.nursepro.workarea.checkresult.CheckPatsFragment;
+import com.dhcc.nursepro.workarea.checkresult.CheckResultListFragment;
 import com.dhcc.nursepro.workarea.docorderlist.DocOrderListFragment;
 import com.dhcc.nursepro.workarea.dosingreview.DosingReviewFragment;
 import com.dhcc.nursepro.workarea.drugloopsystem.drughandover.DrugHandoverFragment;
@@ -96,6 +99,7 @@ import com.dhcc.nursepro.workarea.drugloopsystem.residualliquidregistration.RLRe
 import com.dhcc.nursepro.workarea.infusiondrugreceive.DrugReceiveFragment;
 import com.dhcc.nursepro.workarea.labout.LabOutListFragment;
 import com.dhcc.nursepro.workarea.labresult.LabPatsFragment;
+import com.dhcc.nursepro.workarea.labresult.LabResultListFragment;
 import com.dhcc.nursepro.workarea.milkloopsystem_wenling.MilkLoopSystemFragment;
 import com.dhcc.nursepro.workarea.motherbabylink.MotherBabyLinkFragment;
 import com.dhcc.nursepro.workarea.nurrecordnew.PatNurRecordFragment;
@@ -110,6 +114,7 @@ import com.dhcc.nursepro.workarea.rjorder.RjOrderFragment;
 import com.dhcc.nursepro.workarea.shift.ShiftFragment;
 import com.dhcc.nursepro.workarea.taskmanage.TaskManageFragment;
 import com.dhcc.nursepro.workarea.vitalsign.VitalSignFragment;
+import com.dhcc.nursepro.workarea.vitalsign.VitalSignRecordFragment;
 import com.dhcc.nursepro.workarea.workareautils.MServiceNewOrd;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -132,6 +137,7 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
     private FragmentManager mFragmentManager;
     private FragmentTransaction ft;
     private Fragment[] mFragments;
+    private BaseFragment curFragment = new BaseFragment();
     private FragmentTransaction fragmentTransaction;
     private ProgressDialog pd;
     private SharedPreferences sp;
@@ -171,10 +177,11 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
 
     protected View contentView,contentView1;
     private LinearLayout llPatArea;
-    private TextView tvPatArea;
+    private TextView tvPatArea,tvPrePat,tvNextPat;
 
     private String fragName;
-    private String episodeId = "",regNo = "";
+    private String episodeId = "",regNo = "",strPatArea = "";
+    private Boolean isGetScanPat = false;
     private DaoSession daoSession = GreenDaoHelper.getDaoSession();
     private List<NurseInfo> nurseInfoList;
     private NurseInfo loginNurseInfo;
@@ -493,6 +500,13 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
             //大于2000ms才可切换
             baseFragment.singleEpisodeId = episodeId;
             baseFragment.singleRegNo = regNo;
+            if (isGetScanPat){
+                baseFragment.isGetPatByScan = true;
+            }
+            isGetScanPat = false;
+            if (baseFragment.getClass().getName().equals(OrderExecuteFragment.class.getName())){
+                baseFragment.isChangePat = false;
+            }
             baseFragment.listRegNo = new ArrayList<>();
             for (int i = 0; i < bedBean.getPatInfoList().size(); i++) {
                 baseFragment.listRegNo.add(bedBean.getPatInfoList().get(i).getRegNo());
@@ -517,9 +531,11 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
             ft.commitAllowingStateLoss();
 
             setFragmentIndicator();
+            curFragment = baseFragment;
             //并记录下本次点击“返回键”的时刻，以便下次进行判断
             mExitTime = System.currentTimeMillis();
         } else {
+            isGetScanPat = false;
             showToast("操作过于频繁，请重试");
         }
 
@@ -726,7 +742,7 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
             startFragment(MessageFragment.class);
         }
         if (v.getId() == R.id.tv_single_bed){
-            startFragment(SettingBedsFragment.class);
+            startFragment(SettingBedsFragment.class,1);
         }
         if (v.getId() == R.id.tv_single_notice){
             startFragment(SettingWayFragment.class);
@@ -757,6 +773,14 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
                     }
                 }
             }
+        }
+
+        if (v.getId() == R.id.tv_pat_pre){
+
+
+        }
+        if (v.getId() == R.id.tv_pat_next){
+
         }
     }
 
@@ -866,6 +890,7 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
                     if (msg.equals(bedBean.getPatInfoList().get(i).getRegNo())){
                         episodeId = bedBean.getPatInfoList().get(i).getEpisodeId();
                         regNo = bedBean.getPatInfoList().get(i).getRegNo();
+                        isGetScanPat = true;
                         showPatInfo();
                     }
                 }
@@ -899,6 +924,10 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
         recPat.setLayoutManager(new LinearLayoutManager(this));
         recPat.setAdapter(bedMapPatientAdapter);
         llPatArea = contentView.findViewById(R.id.ll_patarea);
+        tvPrePat = contentView.findViewById(R.id.tv_pat_pre);
+        tvPrePat.setOnClickListener(this);
+        tvNextPat = contentView.findViewById(R.id.tv_pat_next);
+        tvNextPat.setOnClickListener(this);
         tvPatArea = contentView.findViewById(R.id.tv_patarea_select);
         tvPatArea.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -907,6 +936,9 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
             }
         });
         llPatArea.removeAllViews();
+        if (bedBean.getTopFilter().size()>0){
+            strPatArea = bedBean.getTopFilter().get(0).getDesc();
+        }
         for (int i = 0; i < bedBean.getTopFilter().size(); i++) {
             TextView tvButton = new TextView(SingleMainActivity.this);
             tvButton.setText(bedBean.getTopFilter().get(i).getDesc());
@@ -981,16 +1013,29 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
     }
 
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            if (data.getStringExtra("datetime") != null){
+                curFragment.setMsgToSingleBaseFragment(data.getStringExtra("datetime"));
+            }else {
+                asyncInitData();
+            }
 
+        }
+    }
     private void putNewFragment() {
         SharedPreference.FRAGMENTMAP = new HashMap();
         SharedPreference.FRAGMENTMAP.put(BedMapFragment.class.getName(), new BedMapFragment());
         SharedPreference.FRAGMENTMAP.put(VitalSignFragment.class.getName(), new VitalSignFragment());
+        SharedPreference.FRAGMENTMAP.put(VitalSignRecordFragment.class.getName(), new VitalSignRecordFragment());
         SharedPreference.FRAGMENTMAP.put(PatEventsFragment.class.getName(), new PatEventsFragment());
         SharedPreference.FRAGMENTMAP.put(OrderSearchFragment.class.getName(), new OrderSearchFragment());
         SharedPreference.FRAGMENTMAP.put(OrderExecuteFragment.class.getName(), new OrderExecuteFragment());
         SharedPreference.FRAGMENTMAP.put(CheckPatsFragment.class.getName(), new CheckPatsFragment());
+        SharedPreference.FRAGMENTMAP.put(CheckResultListFragment.class.getName(), new CheckResultListFragment());
         SharedPreference.FRAGMENTMAP.put(LabPatsFragment.class.getName(), new LabPatsFragment());
+        SharedPreference.FRAGMENTMAP.put(LabResultListFragment.class.getName(), new LabResultListFragment());
         SharedPreference.FRAGMENTMAP.put(OperationFragment.class.getName(), new OperationFragment());
         SharedPreference.FRAGMENTMAP.put(LabOutListFragment.class.getName(), new LabOutListFragment());
         SharedPreference.FRAGMENTMAP.put(DosingReviewFragment.class.getName(), new DosingReviewFragment());

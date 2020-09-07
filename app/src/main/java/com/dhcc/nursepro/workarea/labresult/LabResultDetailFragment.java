@@ -33,14 +33,16 @@ public class LabResultDetailFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        setToolbarType(BaseActivity.ToolbarType.TOP);
+//        setToolbarType(BaseActivity.ToolbarType.TOP);
         setToolbarBottomLineVisibility(true);
 
         Bundle bundle = getArguments();
         oeordId = bundle.getString("oeordId");
         orderName = bundle.getString("orderName");
         setToolbarCenterTitle(orderName,0xffffffff,17);
-
+        if (isSingleModel){
+            hindMap();
+        }
         initview(view);
         initdata();
     }

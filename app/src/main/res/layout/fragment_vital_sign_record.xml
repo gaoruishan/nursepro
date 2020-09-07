@@ -3,12 +3,40 @@
     android:id="@+id/activityPopup"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/ll_vitalsign_patient_skinorder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:paddingTop="@dimen/dp_5"
+        android:paddingBottom="@dimen/dp_5">
+
+        <TextView
+            android:id="@+id/tv_vitalsign_record_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/dp_20"
+            android:background="@drawable/vital_sign_border"
+            android:textColor="@color/text_color_gray"
+            android:text="体征记录" />
+
+        <TextView
+            android:id="@+id/tv_vitalsign_tmp_preview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/dp_24"
+            android:background="@drawable/vital_sign_border"
+            android:text="体征曲线图" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@color/white"
+        android:layout_below="@+id/ll_vitalsign_patient_skinorder"
         android:layout_above="@+id/ky_keyboard">
         <LinearLayout
             android:layout_width="match_parent"

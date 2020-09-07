@@ -166,7 +166,9 @@ public class SettingBedsFragment extends BaseFragment {
             @Override
             public void onSuccess(String msg) {
                 showToast("所管床设置完成");
-                finish();
+                Bundle bundle = new Bundle();
+                bundle.putString("selected", "1");
+                finish(bundle);
             }
 
             @Override
