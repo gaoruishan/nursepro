@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -205,12 +206,14 @@ public class DocOrderListFragment extends BaseFragment {
     }
 
     private void initDataPats(){
+        showLoadingTip(BaseActivity.LoadingType.FULL);
         HashMap<String,String> map = new HashMap<>();
         map.put("wardId",spUtils.getString(SharedPreference.WARDID));
         map.put("userId",spUtils.getString(SharedPreference.USERID));
         DocOrderListApiManager.getPatsList(map, "getInWardPatList", new DocOrderListApiManager.getPatsListCallback() {
             @Override
             public void onSuccess(DocOrdersPatsListBean docOrdersPatsListBean) {
+                hideLoadingTip();
                 patsListBeanList = docOrdersPatsListBean.getPatInfoList();
                 patsAdapter.setNewData(patsListBeanList);
                 episodId = patsListBeanList.get(0).getEpisodeId();
@@ -218,24 +221,9 @@ public class DocOrderListFragment extends BaseFragment {
                 String getEpisodId;
                 if (bundle != null) {
                     getEpisodId = bundle.getString("episodeid");
-                    for (int i = 0;i<patsListBeanList.size();i++){
-                        if ( patsListBeanList.get(i).getEpisodeId().equals(getEpisodId)){
-//                    patSel = i;
-                            patsAdapter.setSelectItem(i);
-                            patsAdapter.notifyDataSetChanged();
-                            episodId = patsListBeanList.get(i).getEpisodeId();
-//                            recPats.setLayoutManager(new LinearLayoutManager(getActivity()));
-//                            recPats.smoothScrollToPosition(i);
-                            recPats.scrollToPosition(i);
-
-
-                            LinearLayoutManager mLayoutManager =
-                                    (LinearLayoutManager) recPats.getLayoutManager();
-                            mLayoutManager.scrollToPositionWithOffset(i, 0);
-                            initDataOrders();
-                            break;
-                        }
-                    }
+                    locatePat(getEpisodId);
+                }else if (isSingleModel&&!TextUtils.isEmpty(singleEpisodeId)){
+                    locatePat(singleEpisodeId);
                 }else {
                     initDataOrders();
                 }
@@ -243,11 +231,33 @@ public class DocOrderListFragment extends BaseFragment {
 
             @Override
             public void onFail(String code, String msg) {
+                hideLoadingTip();
                 showToast("error" + code + ":" + msg);
             }
         });
     }
 
+    private void locatePat(String getEpisodId){
+        for (int i = 0;i<patsListBeanList.size();i++){
+            if ( patsListBeanList.get(i).getEpisodeId().equals(getEpisodId)){
+//                    patSel = i;
+                patsAdapter.setSelectItem(i);
+                patsAdapter.notifyDataSetChanged();
+                episodId = patsListBeanList.get(i).getEpisodeId();
+//                            recPats.setLayoutManager(new LinearLayoutManager(getActivity()));
+//                            recPats.smoothScrollToPosition(i);
+                recPats.scrollToPosition(i);
+
+
+                LinearLayoutManager mLayoutManager =
+                        (LinearLayoutManager) recPats.getLayoutManager();
+                mLayoutManager.scrollToPositionWithOffset(i, 0);
+                initDataOrders();
+                break;
+            }
+        }
+
+    }
 
     private void filterData(){
         List<List<DocOrderListBean.OrdListBean>> orderListTemp = new ArrayList<>();

@@ -13,6 +13,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -99,13 +100,16 @@ public class AllotBedFragment extends BaseFragment implements View.OnClickListen
         showToolbarNavigationIcon(R.drawable.icon_back_blue);
         setToolbarCenterTitle(getString(R.string.title_allotbeds));
         setToolbarBottomLineVisibility(false);
-
+        setToolbarCenterTitle(getString(R.string.title_allotbeds), 0xffffffff, 17);
         //右上角保存按钮
         viewright = View.inflate(getActivity(), R.layout.view_fratoolbar_right, null);
         TextView textView = viewright.findViewById(R.id.tv_fratoobar_right);
         textView.setTextSize(15);
         textView.setText("   确认   ");
         textView.setTextColor(getResources().getColor(R.color.blue_dark));
+        if (isSingleModel){
+            textView.setTextColor(getResources().getColor(R.color.white));
+        }
         viewright.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,6 +123,9 @@ public class AllotBedFragment extends BaseFragment implements View.OnClickListen
 
         initView(view);
         initAdapter();
+        if (isSingleModel&&!TextUtils.isEmpty(singleRegNo)){
+            initScanMsg(singleRegNo);
+        }
 
     }
 
@@ -248,6 +255,9 @@ public class AllotBedFragment extends BaseFragment implements View.OnClickListen
 
     private void initView(View view) {
         rlAllotBedScan = view.findViewById(R.id.rl_allotbed_scan);
+        if (isSingleModel){
+            rlAllotBedScan.setVisibility(View.GONE);
+        }
         scrollBedallot = view.findViewById(R.id.scroll_bedallot);
         tvMainDoc = view.findViewById(R.id.tv_allotbed_maindoc);
         tvMainDoc.setOnClickListener(this);

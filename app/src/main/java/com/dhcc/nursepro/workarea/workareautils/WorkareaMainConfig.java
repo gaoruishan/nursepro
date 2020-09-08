@@ -95,7 +95,7 @@ public class WorkareaMainConfig {
                 mapVital.put("desc","生命体征");
                 mapVital.put("fragName", VitalSignRecordFragment.class.getName());
                 mapVital.put("fragicon",R.drawable.icon_vitalsign);
-                mapVital.put("singleModel","1");
+                mapVital.put("singleModel","2");
                 SharedPreference.FRAGMENTARY.add(mapVital);
                 break;
             case "EVENTS":
@@ -166,12 +166,14 @@ public class WorkareaMainConfig {
                 map.put("desc","入院分床");
                 map.put("fragName", AllotBedFragment.class.getName());
                 map.put("fragicon",R.drawable.icon_allotbed);
+                map.put("singleModel","1");
                 SharedPreference.FRAGMENTARY.add(map);
                 break;
             case "DOCORDERLIST":
                 map.put("desc","医嘱单");
                 map.put("fragName", DocOrderListFragment.class.getName());
                 map.put("fragicon",R.drawable.icon_docorderlist);
+                map.put("singleModel","1");
                 SharedPreference.FRAGMENTARY.add(map);
                 break;
             case "BLOOD":
