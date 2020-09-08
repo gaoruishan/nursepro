@@ -179,6 +179,11 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
 
     }
 
+    @Override
+    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_nur_record_new, container, false);
+    }
+
     /**
      * 保存护理病历
      */
@@ -614,6 +619,12 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
 
         NurRecordNewApiManager.GetXmlValues(episodeID, emrCode, recId, new CommonCallBack<ElementDataBean>() {
             @Override
+            public void onFail(String code, String msg) {
+                hideLoadFailTip();
+                showToast(msg);
+            }
+
+            @Override
             public void onSuccess(ElementDataBean elementDataBean, String type) {
                 hideLoadFailTip();
                 elements = elementDataBean.getData().getInput().getElementBases();
@@ -621,12 +632,6 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                 statisticsListBeans = elementDataBean.getData().getInput().getStatisticsList();
                 firstIdListBeans = elementDataBean.getFirstIdList();
                 InputViews(elements);
-            }
-
-            @Override
-            public void onFail(String code, String msg) {
-                hideLoadFailTip();
-                showToast(msg);
             }
         });
     }
@@ -1017,7 +1022,6 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
         return linearLayout;
     }
 
-
     /**
      * 平铺单选
      *
@@ -1077,10 +1081,6 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                 checkBox.setClickable(false);
             }
 
-            if ("true".equals(element.getIsHide())) {
-                checkBox.clearAnimation();
-                checkBox.setVisibility(View.GONE);
-            }
             viewHashMap.put(radioElementListBean.getElementId(), checkBox);
             viewHashMap.put(radioElementListBean.getFormName() + "^" + radioElementListBean.getOprationItemList().get(0).getNumberValue(), checkBox);
             elementIdtoFormName.put(radioElementListBean.getElementId(), radioElementListBean.getFormName() + "^" + radioElementListBean.getOprationItemList().get(0).getNumberValue());
@@ -1097,6 +1097,12 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
 
         linearLayout.addView(tvTitle);
         linearLayout.addView(llRadio);
+
+        if ("true".equals(radioElementListBeanList.get(0).getIsHide())) {
+            linearLayout.clearAnimation();
+            linearLayout.setVisibility(View.GONE);
+        }
+
         viewHashMap.put(radioElementListBeanList.get(0).getFormName() + "_ll", linearLayout);
         if (!StringUtils.isEmpty(radioElementListBeanList.get(0).getParentId())) {
             if (pcViewHashMap.containsKey(radioElementListBeanList.get(0).getParentId())) {
@@ -1169,10 +1175,6 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                 checkBox.setClickable(false);
             }
 
-            if ("true".equals(element.getIsHide())) {
-                checkBox.clearAnimation();
-                checkBox.setVisibility(View.GONE);
-            }
             viewHashMap.put(radioElementListBean.getElementId(), checkBox);
             viewHashMap.put(radioElementListBean.getFormName() + "^" + radioElementListBean.getOprationItemList().get(0).getNumberValue(), checkBox);
             elementIdtoFormName.put(radioElementListBean.getElementId(), radioElementListBean.getFormName() + "^" + radioElementListBean.getOprationItemList().get(0).getNumberValue());
@@ -1190,6 +1192,11 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
 
         linearLayout.addView(tvTitle);
         linearLayout.addView(llCheck);
+
+        if ("true".equals(radioElementListBeanList.get(0).getIsHide())) {
+            linearLayout.clearAnimation();
+            linearLayout.setVisibility(View.GONE);
+        }
 
         viewHashMap.put(radioElementListBeanList.get(0).getElementId() + "_ll", linearLayout);
 
@@ -1257,7 +1264,6 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
 
         localAlertDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
     }
-
 
     /**
      * 输入框
@@ -1553,12 +1559,6 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
         return linearLayout;
     }
 
-
-    @Override
-    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_nur_record_new, container, false);
-    }
-
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
@@ -1680,7 +1680,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                                 if (changeListBeans != null && changeListBeans.size() > 0) {
                                     ValSetView(changeListBeans);
                                 }
-                            } else{
+                            } else {
                                 if (editText.getText().toString().matches("[0-9]+")) {
                                     int edTextInt;
                                     try {
@@ -1959,7 +1959,30 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
             List<String> childElementIdList = pcViewHashMap.get(changeListBean.getId());
             if (childElementIdList != null && childElementIdList.size() > 0) {
                 for (int i2 = 0; i2 < childElementIdList.size(); i2++) {
-                    if (viewHashMap.get(childElementIdList.get(i2)) instanceof EditText) {
+                    if (viewHashMap.get(childElementIdList.get(i2)) instanceof CheckBox) {
+                        CheckBox checkBox = (CheckBox) viewHashMap.get(childElementIdList.get(i2));
+                        String type = changeListBean.getType();
+
+                        if (type.contains("Enable") || type.contains("DisEnable")) {
+                            if (checkBox != null) {
+                                checkBox.setClickable(type.contains("Enable"));
+                            }
+                        }
+
+                        LinearLayout linearLayoutChild = (LinearLayout) viewHashMap.get(childElementIdList.get(i2) + "_ll");
+                        if (type.contains("Show")) {
+                            if (linearLayoutChild != null) {
+                                linearLayoutChild.setVisibility(View.VISIBLE);
+                            }
+                        } else if (type.contains("Hide")) {
+                            if (checkBox != null) {
+                                checkBox.setChecked(false);
+                            }
+                            if (linearLayoutChild != null) {
+                                linearLayoutChild.setVisibility(View.GONE);
+                            }
+                        }
+                    } else if (viewHashMap.get(childElementIdList.get(i2)) instanceof EditText) {
                         EditText editTextChild = (EditText) viewHashMap.get(childElementIdList.get(i2));
                         String type = changeListBean.getType();
 
