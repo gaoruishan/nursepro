@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
@@ -142,7 +143,7 @@ public class BloodSugarRecordFragment extends BaseNurseFragment {
         String curDate = SPStaticUtils.getString(SharedPreference.CURDATETIME);
         customDate.setShowTime(true);
         customDate.showOnlyOne();
-        customDate.setStartDateTime(SchDateTimeUtil.getStartDateTime());
+        customDate.setStartDateTime(SchDateTimeUtil.getCurDateTime());
         customDate.setOnDateSetListener(new OnDateSetListener() {
             @Override
             public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
@@ -180,6 +181,13 @@ public class BloodSugarRecordFragment extends BaseNurseFragment {
             @Override
             public void onSuccess(BloodSugarValueAndItemBean bean, String type) {
                 hideLoadingTip();
+
+                if (!TextUtils.isEmpty(bean.getCurDateTime())){
+                    if (bean.getCurDateTime().length() == 16) {
+                        customDate.setStartDateTime(TimeUtils.string2Millis(bean.getCurDateTime(),"yyyy-MM-dd HH:mm"));
+                    }
+
+                }
                 itemBean = bean;
                 tvState.setText(bean.getSugarList().get(0).getDesc());
                 etValue.setText(bean.getSugarList().get(0).getValue());

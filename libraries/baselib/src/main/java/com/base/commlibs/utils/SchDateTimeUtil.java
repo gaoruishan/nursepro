@@ -17,6 +17,21 @@ public class SchDateTimeUtil {
      * 开始时间(毫秒值)
      * @return
      */
+    public static Long getCurDateTime() {
+        String startDateTime = SPStaticUtils.getString(SharedPreference.CURDATETIME);
+        if(!TextUtils.isEmpty(startDateTime)){
+            if (startDateTime.length() == 16) {
+                return TimeUtils.string2Millis(startDateTime,"yyyy-MM-dd HH:mm");
+            }
+            //"yyyy-MM-dd HH:mm:ss"
+            return TimeUtils.string2Millis(startDateTime);
+        }
+        return System.currentTimeMillis();
+    }
+    /**
+     * 开始时间(毫秒值)
+     * @return
+     */
     public static Long getStartDateTime() {
         String startDateTime = SPStaticUtils.getString(SharedPreference.SCHSTDATETIME);
         if(!TextUtils.isEmpty(startDateTime)){

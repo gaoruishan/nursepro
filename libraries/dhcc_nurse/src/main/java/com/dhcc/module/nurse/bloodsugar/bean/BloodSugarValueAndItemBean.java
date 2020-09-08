@@ -12,6 +12,16 @@ import java.util.List;
  * Time:17:30
  */
 public class BloodSugarValueAndItemBean  extends CommResult {
+    private String curDateTime;
+
+    public String getCurDateTime() {
+        return curDateTime;
+    }
+
+    public void setCurDateTime(String curDateTime) {
+        this.curDateTime = curDateTime;
+    }
+
     private List<SugarListBean> sugarList;
 
     public List<SugarListBean> getSugarList() {
