@@ -103,6 +103,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
     private Map<Integer, EditText> editTextMap = new HashMap<>();
 
     private boolean fromTask=false;
+    private String patInfo="";
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -118,6 +119,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
 
         if (fromTask){
             et_time.setClickable(false);
+            setToolbarCenterTitle(patInfo, 0xffffffff, 17);
             view.findViewById(R.id.ll_vitalsign_prenex).setVisibility(View.GONE);
             asyncGetVitalSignItems();
         }else if (isSingleModel){
@@ -721,6 +723,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
             if (bundle.getString("fromTask")!=null&&bundle.getString("fromTask").equals("Y")){
                 curEpisodeId = bundle.getString("episodeId");
                 timepoint = bundle.getString("timekey");
+                patInfo = bundle.getString("patInfo");
                 fromTask = true;
             }else {
                 timeFilterList = bundle.getStringArrayList("timeList");

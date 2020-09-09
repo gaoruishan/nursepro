@@ -169,6 +169,7 @@ public class TempTaskFragment extends BaseNurseFragment {
                     bundle.putSerializable("fromTask", "Y");
                     bundle.putString("timekey", customDate.getStartDateTimeText().substring(0,10)+" "+taskTempAdapter.getData().get(position).getTimeKey());
                     bundle.putString("episodeId", taskTempAdapter.getData().get(position).getEpisodeId());
+                    bundle.putString("patInfo", taskTempAdapter.getData().get(position).getBedCode()+taskTempAdapter.getData().get(position).getName());
                     Class<? extends BaseFragment> VitalSignRecordFragmentClass = (Class<? extends BaseFragment>) Class.forName("com.dhcc.nursepro.workarea.vitalsign.VitalSignRecordFragment");
                     startFragment(VitalSignRecordFragmentClass,bundle,1);
                 } catch (ClassNotFoundException e) {

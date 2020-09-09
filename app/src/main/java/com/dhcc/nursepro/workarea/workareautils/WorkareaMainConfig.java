@@ -200,6 +200,12 @@ public class WorkareaMainConfig {
                 map.put("fragicon",R.drawable.icon_events);
                 SharedPreference.FRAGMENTARY.add(map);
                 break;
+            case "MODELDETAILOLD":
+                map.put("desc","护理病历");
+                map.put("fragName", com.dhcc.nursepro.workarea.nurrecordold.PatNurRecordFragment.class.getName());
+                map.put("fragicon",R.drawable.icon_events);
+                SharedPreference.FRAGMENTARY.add(map);
+                break;
             case "NURTOUR":
                 map.put("desc","巡视");
                 map.put("fragName", NurTourFragment.class.getName());
