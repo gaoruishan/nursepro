@@ -30,8 +30,10 @@ import com.blankj.utilcode.util.ActivityUtils;
 public class CommDialog {
 
     protected static final String TAG = CommDialog.class.getSimpleName();
-    public static final int DELAY_MILLIS = 2500;
+    //配置时间
+    public static final int DELAY_MILLIS = UserUtil.getShowDialogTime();
     private static Dialog commDialog;
+
 
     /**
      * 弹框

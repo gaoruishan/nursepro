@@ -1,14 +1,11 @@
 package com.base.commlibs.constant;
 
-import android.app.Activity;
-
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * SharedPreference
@@ -114,6 +111,8 @@ public class SharedPreference {
     public static final String NET_LOG = "NET_LOG";
     //是否开启webSocket
     public static final String WEBSOCKET_FLAG = "WEBSOCKET_FLAG";
+    //显示弹框时间 毫秒
+    public static final String IS_SHOW_DIALOG_TIME = "IS_SHOW_DIALOG_TIME";
     //判断是否显示底部菜单栏
 
     public static List FRAGMENTARY = new ArrayList<HashMap>();

@@ -40,6 +40,12 @@ public class ConfigBean extends CommResult {
     private String isNetLog;
     //是否开启webSocket
     private String webSocketFlag;
+    //显示弹框时间 毫秒
+    private String showDialogTime;
+
+    public String getShowDialogTime() {
+        return showDialogTime == null ? "" : showDialogTime;
+    }
 
     public String getWebSocketFlag() {
         return webSocketFlag == null ? "" : webSocketFlag;
