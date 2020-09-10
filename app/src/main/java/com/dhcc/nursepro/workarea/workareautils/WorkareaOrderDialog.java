@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -351,6 +352,7 @@ public class WorkareaOrderDialog extends Dialog {
     }
 
     private void setBtnExec(String scanPat, String canExeFlag) {
+        Log.e("TAG","(WorkareaOrderDialog.java:355) "+scanPat+"-"+canExeFlag+"-"+btnType);
         if (tvPopupOrderExec != null) {
 
             switch (btnType) {

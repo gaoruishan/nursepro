@@ -53,6 +53,7 @@ public class TaskManageOrdListFragment extends BaseCommFragment {
     private TaskManageRequest.ExecOrSeeOrder paramExecOrSeeOrder;
     private SkinResultOrderDialog skinResultOrderDialog;
     private String patInfo = "";
+    private boolean refresh;
 
     @Override
     protected void initDatas() {
@@ -96,11 +97,14 @@ public class TaskManageOrdListFragment extends BaseCommFragment {
                 } else {
                     patientOrderAdapter.setNewData(null);
                 }
-                //更新之前数据
-                MessageEvent messageEvent = new MessageEvent(MessageEvent.MessageType.UPDATE_TASK_MANAGE_LIST);
-                messageEvent.setTag(updateNum);
-                messageEvent.setMessage(sheetCode);
-                EventBus.getDefault().post(messageEvent);
+                if (refresh) {
+                    //更新之前数据
+                    MessageEvent messageEvent = new MessageEvent(MessageEvent.MessageType.UPDATE_TASK_MANAGE_LIST);
+                    messageEvent.setTag(updateNum);
+                    messageEvent.setMessage(sheetCode);
+                    EventBus.getDefault().post(messageEvent);
+                    refresh = false;
+                }
             }
 
             @Override
@@ -280,6 +284,7 @@ public class TaskManageOrdListFragment extends BaseCommFragment {
             @Override
             public void onSuccess(OrderExecResultBean orderExecResultBean) {
                 DialogFactory.showCommDialog(mContext, orderExecResultBean.getMsg(), null, 0, null, true);
+                refresh = true;
                 getOrdList();//刷新
             }
 
