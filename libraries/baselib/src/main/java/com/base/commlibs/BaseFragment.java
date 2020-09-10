@@ -82,6 +82,7 @@ public class BaseFragment extends Fragment {
     private Intent broadCastIntent = new Intent();
     public String singleEpisodeId = "";
     public String singleRegNo = "";
+    public String singlePatInfo = "";
     public ArrayList<String> listRegNo = new ArrayList<>();
     public Boolean isSingleModel = SPUtils.getInstance().getString(SharedPreference.SINGLEMODEL).equals("1");
     //判断当前页面是调换患者还是执行

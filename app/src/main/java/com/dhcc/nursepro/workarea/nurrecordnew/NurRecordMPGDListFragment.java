@@ -69,7 +69,7 @@ public class NurRecordMPGDListFragment extends BaseFragment {
             modelListBean = (RecModelListBean.MenuListBean.ModelListBean) bundle.getSerializable("ModelListBean");
         }
 
-        setToolbarType(BaseActivity.ToolbarType.TOP);
+//        setToolbarType(BaseActivity.ToolbarType.TOP);
         setToolbarBottomLineVisibility(true);
 
         setToolbarCenterTitle(bedNo + "    " + patName, 0xffffffff, 17);
@@ -94,8 +94,12 @@ public class NurRecordMPGDListFragment extends BaseFragment {
                 startFragment(NurRecordNewFragment.class, bundle);
             }
         });
-        setToolbarRightCustomView(viewright);
-
+        if (isSingleModel){
+            hindMap();
+            setToolbarRightCustomViewSingleShow(viewright);
+        }else {
+            setToolbarRightCustomView(viewright);
+        }
         initView(view);
         initAdapter();
     }

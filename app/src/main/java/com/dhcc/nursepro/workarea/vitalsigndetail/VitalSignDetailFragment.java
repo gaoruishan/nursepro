@@ -47,7 +47,7 @@ public class VitalSignDetailFragment extends BaseFragment implements View.OnClic
     private List<VitalSignDetailBean.TempConfigBean> listBeansTitle = new ArrayList<>();
     private VitalSignDetailAdapter vitalSignDetailAdapter;
     private SPUtils spUtils = SPUtils.getInstance();
-    private String episodeId, stDate, enDate, datestr;
+    private String episodeId, stDate, enDate, datestr,patInfo="";
     private Bundle mBundle;
 
     @Override
@@ -66,6 +66,10 @@ public class VitalSignDetailFragment extends BaseFragment implements View.OnClic
         Bundle bundle = getArguments();
         mBundle = bundle;
         episodeId = bundle.getString("episodeId");
+        if (bundle.getString("patInfo")!=null){
+            patInfo = bundle.getString("patInfo");
+        }
+        setToolbarCenterTitle(getString(R.string.title_vitalsigndetail)+"("+patInfo+")", 0xffffffff, 17);
 
         initView(view);
         initData();

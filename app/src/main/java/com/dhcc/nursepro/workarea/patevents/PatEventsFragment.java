@@ -41,6 +41,7 @@ public class PatEventsFragment extends BaseFragment implements View.OnClickListe
     private String episodeIdNow = null;
 
     private SPUtils spUtils = SPUtils.getInstance();
+    private String patInfo = "";
 
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -101,6 +102,10 @@ public class PatEventsFragment extends BaseFragment implements View.OnClickListe
                     bundle.putString("eventTime", listItem.get(position).getEventTime());
                     bundle.putString("eventId", listItem.get(position).getEventId());
                     bundle.putString("userId", listItem.get(position).getAddUser());
+                    if (isSingleModel){
+                        patInfo = singlePatInfo;
+                    }
+                    bundle.putString("patInfo", patInfo);
                     startFragment(PatEventsDetailFragment.class, bundle);
                 } else if (view.getId() == R.id.tv_patevents_eventdel) {
                     HashMap<String, String> mapDel = new HashMap<String, String>();
@@ -137,6 +142,7 @@ public class PatEventsFragment extends BaseFragment implements View.OnClickListe
             @Override
             public void onSuccess(ScanGetUserMsgBean scanGetUserMsgBean) {
                 ScanGetUserMsgBean.PatInfoBean patInfoBean = scanGetUserMsgBean.getPatInfo();
+                patInfo = patInfoBean.getBedCode() +" "+patInfoBean.getName();
                 episodeIdNow = patInfoBean.getEpisodeID();
                 String usermsg = patInfoBean.getBedCode() + "--" + patInfoBean.getName();
                 tveventuser.setText(usermsg);
@@ -186,6 +192,10 @@ public class PatEventsFragment extends BaseFragment implements View.OnClickListe
                 Bundle bundle = new Bundle();
                 bundle.putString("recId", null);
                 bundle.putString("episodeId", episodeIdNow);
+                if (isSingleModel){
+                    patInfo = singlePatInfo;
+                }
+                bundle.putString("patInfo", patInfo);
                 startFragment(PatEventsDetailFragment.class, bundle);
             }
         });

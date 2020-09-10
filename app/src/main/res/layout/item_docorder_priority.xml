@@ -13,7 +13,10 @@
         android:layout_height="@dimen/dp_23"
         android:background="@drawable/bg_docorders_selector"
         android:gravity="center"
-        android:layout_margin="@dimen/dp_12"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_5"
+        android:layout_marginBottom="@dimen/dp_5"
         android:textColor="@drawable/textcolor_itemorders_selector"
         android:textSize="@dimen/sp_13"
         tools:text="01床" />

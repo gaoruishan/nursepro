@@ -59,6 +59,7 @@ public class VitalSignChartsDetailFragment extends BaseFragment implements View.
     private String enDate;
     private String episodeId;
     private String datestr;
+    private String patInfo = "";
 
     private List<Map> listMap = new ArrayList<>();
 
@@ -71,7 +72,6 @@ public class VitalSignChartsDetailFragment extends BaseFragment implements View.
         if (isSingleModel){
             hindMap();
         }
-        setToolbarCenterTitle(getString(R.string.title_vitalsignchartsdetail), 0xffffffff, 17);
 
         //        tfRegular = Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Regular.ttf");
         //        tfLight = Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Light.ttf");
@@ -83,7 +83,11 @@ public class VitalSignChartsDetailFragment extends BaseFragment implements View.
 
         if (bundle != null) {
             episodeId = bundle.getString("episodeId");
+            if (bundle.getString("patInfo")!=null){
+                patInfo = bundle.getString("patInfo");
+            }
         }
+        setToolbarCenterTitle(getString(R.string.title_vitalsignchartsdetail)+"("+patInfo+")", 0xffffffff, 17);
 
         initView(view);
 

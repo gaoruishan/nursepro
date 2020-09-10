@@ -161,10 +161,11 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
             callBackReturnMapEffects = bundle.getString("CallBackReturnMapEffects", "");
         }
 
-        setToolbarType(BaseActivity.ToolbarType.TOP);
+//        setToolbarType(BaseActivity.ToolbarType.TOP);
         setToolbarBottomLineVisibility(true);
 
         setToolbarCenterTitle(bedNo + "    " + patName, 0xffffffff, 17);
+
         //右上角按钮"新建"
         View viewright = View.inflate(getActivity(), R.layout.view_fratoolbar_right, null);
         TextView textView = viewright.findViewById(R.id.tv_fratoobar_right);
@@ -172,7 +173,13 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
         textView.setText("  保存   ");
         textView.setTextColor(getResources().getColor(R.color.white));
         viewright.setOnClickListener(v -> save());
-        setToolbarRightCustomView(viewright);
+//        setToolbarRightCustomView(viewright);
+        if (isSingleModel){
+            hindMap();
+            setToolbarRightCustomViewSingleShow(viewright);
+        }else {
+            setToolbarRightCustomView(viewright);
+        }
         initview(view);
 
         initData();

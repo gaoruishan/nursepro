@@ -78,11 +78,19 @@ public class DocOrderListFragment extends BaseFragment {
 
         initView(view);
         initAdapter();
-        initDataPats();
+        if (!isSingleModel){
+            initDataPats();
+        }else if (isSingleModel&&!TextUtils.isEmpty(singleEpisodeId)){
+            episodId = singleEpisodeId;
+            initDataOrders();
+        }
     }
 
     private void initView(View view){
         recPats = view.findViewById(R.id.recy_docorder_pat);
+        if (isSingleModel){
+            recPats.setVisibility(View.GONE);
+        }
         recPriority = view.findViewById(R.id.rec_docorder_priority);
         recStatus = view.findViewById(R.id.rec_docorder_status);
         recType = view.findViewById(R.id.rec_docorder_type);

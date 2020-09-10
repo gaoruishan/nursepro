@@ -198,6 +198,7 @@ public class WorkareaMainConfig {
                 map.put("desc","护理病历");
                 map.put("fragName", PatNurRecordFragment.class.getName());
                 map.put("fragicon",R.drawable.icon_events);
+                map.put("singleModel","1");
                 SharedPreference.FRAGMENTARY.add(map);
                 break;
             case "MODELDETAILOLD":

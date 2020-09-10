@@ -39,7 +39,7 @@ public class PatEventsDetailFragment extends BaseFragment implements View.OnClic
     private int isel = 0;
     private String eventId;
     private TimeWheel mTimeWheel;
-    private String recId, episodeId, eventDate="", eventTime="", buneventId, userId;
+    private String recId, episodeId, eventDate="", eventTime="", buneventId, userId,patInfo = "";
     private Calendar calendar;
     private long currentTimeMillis;
     private long tenYears = 10L * 365 * 1000 * 60 * 60 * 24L;
@@ -86,16 +86,17 @@ public class PatEventsDetailFragment extends BaseFragment implements View.OnClic
             }
             eventId = bundle.getString("eventId");
             userId = bundle.getString("userId");
+            patInfo = bundle.getString("patInfo");
         }
         if (recId == null) {
-            setToolbarCenterTitle(getStringSafe(R.string.title_addpatevents), 0xffffffff, 17);
+            setToolbarCenterTitle(getStringSafe(R.string.title_addpatevents)+"("+patInfo+")", 0xffffffff, 17);
             String schDT = SPUtils.getInstance().getString(SharedPreference.SCHSTDATETIME);
             if (schDT.length()<17){
                 schDT = schDT + ":00";
             }
             currentTimeMillis = TimeUtils.string2Millis(schDT.replace("/", "-").replace(",", " "));
         } else {
-            setToolbarCenterTitle(getStringSafe(R.string.title_changepatevents), 0xffffffff, 17);
+            setToolbarCenterTitle(getStringSafe(R.string.title_changepatevents)+"("+patInfo+")", 0xffffffff, 17);
             currentTimeMillis = TimeUtils.string2Millis(eventDate + " " + eventTime);
         }
 

@@ -180,7 +180,7 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
     private TextView tvPatArea,tvPrePat,tvNextPat;
 
     private String fragName;
-    private String episodeId = "",regNo = "",strPatArea = "";
+    private String episodeId = "",regNo = "",strPatArea = "",patInfo = "";
     private Boolean isGetScanPat = false;
     private DaoSession daoSession = GreenDaoHelper.getDaoSession();
     private List<NurseInfo> nurseInfoList;
@@ -254,6 +254,7 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
                 }
                 episodeId = bedMapBean.getPatInfoList().get(0).getEpisodeId();
                 regNo = bedMapBean.getPatInfoList().get(0).getRegNo();
+                patInfo = bedMapBean.getPatInfoList().get(0).getBedCode()+" "+bedMapBean.getPatInfoList().get(0).getName();
                 showPatInfo();
                 addToolBarRightPopWindow();
                 addToolBarLeftPopWindow();
@@ -279,7 +280,7 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
         tvAge.setText(patInfoListBean.getAge());
         tvBedmappatName.setText(patInfoListBean.getName());
         tvTopName.setText((patInfoListBean.getBedCode().isEmpty() ? "未分床" : patInfoListBean.getBedCode().replace("床","")+"床")
-                           +patInfoListBean.getName());
+                +patInfoListBean.getName());
         tvBedmappatCarelevel.setText(patInfoListBean.getCareLevel());
         if ("男".equals(patInfoListBean.getSex())) {
             imgBedmappatSex.setImageResource(R.drawable.sex_male);
@@ -500,6 +501,7 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
             //大于2000ms才可切换
             baseFragment.singleEpisodeId = episodeId;
             baseFragment.singleRegNo = regNo;
+            baseFragment.singlePatInfo = patInfo;
             if (isGetScanPat){
                 baseFragment.isGetPatByScan = true;
             }
@@ -890,6 +892,7 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
                     if (msg.equals(bedBean.getPatInfoList().get(i).getRegNo())){
                         episodeId = bedBean.getPatInfoList().get(i).getEpisodeId();
                         regNo = bedBean.getPatInfoList().get(i).getRegNo();
+                        patInfo = bedBean.getPatInfoList().get(i).getBedCode()+" "+bedBean.getPatInfoList().get(i).getName();
                         isGetScanPat = true;
                         showPatInfo();
                     }
@@ -910,6 +913,7 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 episodeId = bedMapPatientAdapter.getItem(position).getEpisodeId();
                 regNo = bedMapPatientAdapter.getItem(position).getRegNo();
+                patInfo = bedBean.getPatInfoList().get(position).getBedCode()+" "+bedBean.getPatInfoList().get(position).getName();
                 showPatInfo();
                 setMaskHind();
                 rlHindPat.setSelected(false);

@@ -161,6 +161,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                     String episodeId = (String) patientInfo.get("episodeId");
                     Bundle bundle = new Bundle();
                     bundle.putString("episodeId", episodeId);
+                    bundle.putString("patInfo", patientAdapter.getItem(position).getBedCode()+" "+patientAdapter.getItem(position).getName());
                     bundle.putInt("index", position);
                     startFragment(VitalSignChartsDetailFragment.class, bundle);
 
@@ -169,6 +170,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                     String episodeId = (String) patientInfo.get("episodeId");
                     Bundle bundle = new Bundle();
                     bundle.putString("episodeId", episodeId);
+                    bundle.putString("patInfo", patientAdapter.getItem(position).getBedCode()+" "+patientAdapter.getItem(position).getName());
                     bundle.putInt("index", position);
                     startFragment(VitalSignDetailFragment.class, bundle);
 

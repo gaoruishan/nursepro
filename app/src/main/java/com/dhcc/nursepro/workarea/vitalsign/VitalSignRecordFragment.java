@@ -801,10 +801,12 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
                 break;
             case R.id.tv_vitalsign_record_list:
                 bundle.putString("episodeId", singleEpisodeId);
+                bundle.putString("patInfo", singlePatInfo);
                 startFragment(VitalSignDetailFragment.class, bundle,1);
                 break;
             case R.id.tv_vitalsign_tmp_preview:
                 bundle.putString("episodeId", singleEpisodeId);
+                bundle.putString("patInfo", singlePatInfo);
                 startFragment(VitalSignChartsDetailFragment.class, bundle);
                 break;
             default:

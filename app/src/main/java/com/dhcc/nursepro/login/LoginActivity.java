@@ -510,7 +510,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 }else {
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 }
-                finish();
+
             }
 
             //本地数据库未保存用户信息，数据库添加用户数据，SP设置用户数据，跳转页面
@@ -523,8 +523,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     startSingleActivity();
                 }else {
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    finish();
                 }
-                finish();
+
             }
         } else {
             //本地数据库未存储用户登录数据，数据库添加用户数据，SP设置用户数据，跳转页面
@@ -536,8 +537,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 startSingleActivity();
             }else {
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                finish();
             }
-            finish();
+
         }
     }
 
