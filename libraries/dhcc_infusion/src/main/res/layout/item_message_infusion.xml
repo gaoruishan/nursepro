@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.guanaj.easyswipemenulibrary.EasySwipeMenuLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
-    app:contentView="@+id/ll_message_content"
-    app:rightMenuView="@+id/ll_message_rightmenu">
+    >
 
     <LinearLayout
         android:background="@drawable/infusion_bg_select_selector"
@@ -28,6 +28,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/ll_message_rightmenu"
         android:layout_width="@dimen/dp_100"
         android:layout_height="match_parent"
@@ -43,4 +44,4 @@
 
     </LinearLayout>
 
-</com.guanaj.easyswipemenulibrary.EasySwipeMenuLayout>
+</LinearLayout>
