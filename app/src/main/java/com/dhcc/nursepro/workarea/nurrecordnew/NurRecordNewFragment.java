@@ -174,10 +174,10 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
         textView.setTextColor(getResources().getColor(R.color.white));
         viewright.setOnClickListener(v -> save());
 //        setToolbarRightCustomView(viewright);
-        if (isSingleModel){
+        if (isSingleModel) {
             hindMap();
             setToolbarRightCustomViewSingleShow(viewright);
-        }else {
+        } else {
             setToolbarRightCustomView(viewright);
         }
         initview(view);
@@ -1110,7 +1110,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
             linearLayout.setVisibility(View.GONE);
         }
 
-        viewHashMap.put(radioElementListBeanList.get(0).getFormName() + "_ll", linearLayout);
+        viewHashMap.put(radioElementListBeanList.get(0).getElementId() + "_ll", linearLayout);
         if (!StringUtils.isEmpty(radioElementListBeanList.get(0).getParentId())) {
             if (pcViewHashMap.containsKey(radioElementListBeanList.get(0).getParentId())) {
                 List<String> childElementIdListExist = pcViewHashMap.get(radioElementListBeanList.get(0).getParentId());
@@ -1914,7 +1914,30 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
     private void setEditTextorTextView(ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean changeListBean, LinearLayout linearLayout) {
         if (linearLayout != null) {
             //控制单一元素
-            if (viewHashMap.get(changeListBean.getId()) instanceof EditText) {
+            if (viewHashMap.get(changeListBean.getId()) instanceof CheckBox) {
+                LinearLayout llCheck = (LinearLayout) linearLayout.getChildAt(1);
+                List<CheckBox> checkBoxes = new ArrayList<>();
+                if (llCheck != null) {
+                    for (int i = 0; i < llCheck.getChildCount(); i++) {
+                        CheckBox checkBox = (CheckBox) llCheck.getChildAt(i);
+                        if (checkBox != null) {
+                            checkBoxes.add(checkBox);
+                        }
+                    }
+                }
+
+                String type = changeListBean.getType();
+                if (type.contains("Show")) {
+                    linearLayout.setVisibility(View.VISIBLE);
+                } else if (type.contains("Hide")) {
+                    if (checkBoxes.size() > 0) {
+                        for (int i = 0; i < checkBoxes.size(); i++) {
+                            checkBoxes.get(i).setChecked(false);
+                        }
+                    }
+                    linearLayout.setVisibility(View.GONE);
+                }
+            } else if (viewHashMap.get(changeListBean.getId()) instanceof EditText) {
                 EditText editText = (EditText) viewHashMap.get(changeListBean.getId());
                 String type = changeListBean.getType();
 
