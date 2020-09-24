@@ -10,6 +10,7 @@ import com.base.commlibs.utils.DataCache;
 import com.base.commlibs.utils.SchDateTimeUtil;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.dhcc.module.nurse.bloodsugar.BloodSugarFragment;
 import com.dhcc.module.nurse.education.HealthEduFragment;
 import com.dhcc.module.nurse.nurplan.NurPlanFragment;
@@ -347,6 +348,8 @@ public class WorkareaMainConfig {
             @Override
             public void onFail(String code, String msg) {
 //                showToast("error" + code + ":" + msg);
+                ToastUtils.showShort(msg);
+                activity.startActivity(new Intent(activity, LoginActivity.class));
             }
         });
     }

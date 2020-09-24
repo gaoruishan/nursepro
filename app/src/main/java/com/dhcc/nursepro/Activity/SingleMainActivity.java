@@ -265,13 +265,15 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
             public void onFail(String code, String msg) {
                 hideLoadingTip();
                 showToast("error" + code + ":" + msg);
+                SPUtils.getInstance().put(SharedPreference.SINGLEMODEL,"0");
+                startActivity(new Intent(SingleMainActivity.this, LoginActivity.class));
+                finish();
             }
         });
     }
 
     private void showPatInfo(){
-        BedMapBean.PatInfoListBean patInfoListBean = null;
-        for (int i = 0; i < bedBean.getPatInfoList().size(); i++) {
+        BedMapBean.PatInfoListBean patInfoListBean = null;        for (int i = 0; i < bedBean.getPatInfoList().size(); i++) {
             if (bedBean.getPatInfoList().get(i).getEpisodeId().equals(episodeId)){
                 patInfoListBean = bedBean.getPatInfoList().get(i);
             }
