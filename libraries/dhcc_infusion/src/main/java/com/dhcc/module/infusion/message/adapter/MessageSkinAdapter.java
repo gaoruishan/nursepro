@@ -1,5 +1,6 @@
 package com.dhcc.module.infusion.message.adapter;
 
+import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -77,6 +78,13 @@ public class MessageSkinAdapter extends BaseQuickAdapter<MessageSkinBean.SkinTim
         }
         final SelectTextView stv1 = helper.getView(R.id.stv1);
         final SelectTextView stv2 = helper.getView(R.id.stv2);
+        //颜色
+        if (!TextUtils.isEmpty(item.getYinColor())) {
+            stv1.setUnSelectTextColor(Color.parseColor(item.getYinColor()));
+        }
+         if (!TextUtils.isEmpty(item.getYangColor())) {
+             stv2.setUnSelectTextColor(Color.parseColor(item.getYangColor()));
+        }
 
         if ("-".equals(item.getSkinResutl())) {
             //阴性

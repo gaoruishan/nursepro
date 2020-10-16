@@ -93,7 +93,8 @@
             android:layout_width="@dimen/dp_130"
             android:layout_height="@dimen/dp_40"
             android:layout_marginRight="@dimen/dp_17"
-            android:text="阴性"
+            android:text="阴性( - )"
+            android:textStyle="bold"
             android:gravity="center"
             app:selectedBg="@drawable/dhcc_bg_selected"
             app:selectedTextColor="@color/blue_dark" />
@@ -103,7 +104,8 @@
             android:layout_width="@dimen/dp_130"
             android:layout_height="@dimen/dp_40"
             android:layout_marginLeft="@dimen/dp_17"
-            android:text="阳性"
+            android:text="阳性( + )"
+            android:textStyle="bold"
             android:gravity="center"
             app:selectedBg="@drawable/dhcc_bg_selected"
             app:selectedTextColor="@color/blue_dark" />

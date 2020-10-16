@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingDefaultResource" >
     <color name="dhcc_colorPrimary">#4C95EF</color>
     <color name="dhcc_colorPrimaryDark">#303F9F</color>
 
@@ -30,7 +31,7 @@
 
     <color name="dhcc_white">#FFFFFF</color>
     <!-- 白色 -->
-    <color name="dhcc_ivory">#FFFFF0</color>
+    <color name="dhcc_ivory" >#FFFFF0</color>
     <!-- 象牙色 -->
     <color name="dhcc_lightyellow">#FFFFE0</color>
     <!-- 亮黄色 -->

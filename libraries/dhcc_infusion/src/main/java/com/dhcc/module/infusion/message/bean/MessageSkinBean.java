@@ -47,8 +47,26 @@ public class MessageSkinBean extends CommResult {
         private String skinTestDateTime;
         private String skinTestAuditCtcpDesc;
         private String skinTestAuditDateTime;
+        private String yinColor;
+        private String yangColor;
         private boolean select;
         private List<OeoreGroupBean> OeoreGroup;
+
+        public String getYinColor() {
+            return yinColor == null ? "" : yinColor;
+        }
+
+        public void setYinColor(String yinColor) {
+            this.yinColor = yinColor;
+        }
+
+        public String getYangColor() {
+            return yangColor == null ? "" : yangColor;
+        }
+
+        public void setYangColor(String yangColor) {
+            this.yangColor = yangColor;
+        }
 
         public String getSkinTestCtcpDesc() {
             return skinTestCtcpDesc == null ? "" : skinTestCtcpDesc;
