@@ -24,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.base.commlibs.BaseActivity;
+import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommonCallBack;
 import com.blankj.utilcode.util.ConvertUtils;
@@ -34,6 +35,7 @@ import com.dhcc.nursepro.utils.InputDigitLengthFilter;
 import com.dhcc.nursepro.workarea.nurrecordnew.api.NurRecordNewApiManager;
 import com.dhcc.nursepro.workarea.nurrecordnew.bean.DataSourceBean;
 import com.dhcc.nursepro.workarea.nurrecordnew.bean.ElementDataBean;
+import com.dhcc.nursepro.workarea.nurrecordnew.bean.NurRecordKnowledgeContentBean;
 import com.dhcc.nursepro.workarea.nurrecordnew.bean.RecDataBean;
 
 import java.util.ArrayList;
@@ -85,11 +87,15 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
     private SPUtils spUtils;
 
     private List<ElementDataBean.FirstIdListBean> firstIdListBeans = new ArrayList<>();
-    //跳转单据关联View
+
+    private String emrCodeJump = "";
+    private String guidJump = "";
+    private String recIdJump = "";
     private String callBackEffects = "";
     private String callBackReturnMapEffects = "";
 
     private NurRecordTipDialog tipDialog;
+    private NurRecordQuoteDialog quoteDialog;
     private NurRecordSaveErrorDialog errorDialog;
 
     @Override
@@ -161,7 +167,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
             callBackReturnMapEffects = bundle.getString("CallBackReturnMapEffects", "");
         }
 
-//        setToolbarType(BaseActivity.ToolbarType.TOP);
+        //        setToolbarType(BaseActivity.ToolbarType.TOP);
         setToolbarBottomLineVisibility(true);
 
         setToolbarCenterTitle(bedNo + "    " + patName, 0xffffffff, 17);
@@ -173,7 +179,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
         textView.setText("  保存   ");
         textView.setTextColor(getResources().getColor(R.color.white));
         viewright.setOnClickListener(v -> save());
-//        setToolbarRightCustomView(viewright);
+        //        setToolbarRightCustomView(viewright);
         if (isSingleModel) {
             hindMap();
             setToolbarRightCustomViewSingleShow(viewright);
@@ -187,8 +193,47 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
     }
 
     @Override
+    public void getScanMsg(Intent intent) {
+        super.getScanMsg(intent);
+        if (intent.getAction().equals(Action.NURRECORD_KONWLEDGETREEID)) {
+            Bundle bundle = new Bundle();
+            bundle = intent.getExtras();
+            getKnowledgeContent(bundle.getString("knowledgeTreeId"));
+
+        }
+    }
+
+    @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_nur_record_new, container, false);
+    }
+
+    private void getKnowledgeContent(String knowledgeTreeId) {
+        NurRecordNewApiManager.getKnowledgeContent(knowledgeTreeId, new NurRecordNewApiManager.GetKnowledgeContentCallback() {
+            @Override
+            public void onSuccess(NurRecordKnowledgeContentBean knowledgeContentBean) {
+                StringBuilder stringBuilder = new StringBuilder();
+                List<List<NurRecordKnowledgeContentBean.KnowledgeContentBean>> contentBean = knowledgeContentBean.getKnowledgeContent();
+                for (int i = 0; i < contentBean.size(); i++) {
+                    if (contentBean.get(i) != null) {
+                        if (contentBean.get(i).size() > 0) {
+                            if ("FreeText".equals(contentBean.get(i).get(0).getType())) {
+                                stringBuilder.append(contentBean.get(i).get(0).getTitle());
+                            }
+                        }
+                    }
+                }
+
+                quoteDialog.setKnowledgeContent(stringBuilder.toString());
+
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+                showToast(msg);
+            }
+        });
+
     }
 
     /**
@@ -519,12 +564,12 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
 
                 EditText editText = (EditText) viewHashMap.get(element.getElementId());
                 if (editText != null) {
-//                        LinearLayout linearLayout = (LinearLayout) viewHashMap.get(element.getElementId() + "_ll");
-//                        if ("true".equals(element.getRequired()) && StringUtils.isTrimEmpty(editText.getText().toString()) && linearLayout.getVisibility() == View.VISIBLE) {
-//                            editText.setBackgroundResource(R.drawable.nur_record_inputerror_bg);
-//                            showToast("请填写必填项之后再保存");
-//                            return;
-//                        }
+                    //                        LinearLayout linearLayout = (LinearLayout) viewHashMap.get(element.getElementId() + "_ll");
+                    //                        if ("true".equals(element.getRequired()) && StringUtils.isTrimEmpty(editText.getText().toString()) && linearLayout.getVisibility() == View.VISIBLE) {
+                    //                            editText.setBackgroundResource(R.drawable.nur_record_inputerror_bg);
+                    //                            showToast("请填写必填项之后再保存");
+                    //                            return;
+                    //                        }
 
                     if ("NumberElement".equals(element.getElementType())) {
                         try {
@@ -548,18 +593,18 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                             .append(editText.getText().toString())
                             .append("\"");
                 }
-//                }
+                //                }
 
             } else {
                 if (viewHashMap.get(element.getElementId()) instanceof TextView) {
                     TextView textView = (TextView) viewHashMap.get(element.getElementId());
                     if (textView != null) {
-//                        LinearLayout linearLayout = (LinearLayout) viewHashMap.get(element.getElementId() + "_ll");
-//                        if ("true".equals(element.getRequired()) && StringUtils.isTrimEmpty(textView.getText().toString()) && linearLayout.getVisibility() == View.VISIBLE) {
-//                            textView.setBackgroundResource(R.drawable.nur_record_btnerror_bg);
-//                            showToast("请填写必填项之后再保存");
-//                            return;
-//                        }
+                        //                        LinearLayout linearLayout = (LinearLayout) viewHashMap.get(element.getElementId() + "_ll");
+                        //                        if ("true".equals(element.getRequired()) && StringUtils.isTrimEmpty(textView.getText().toString()) && linearLayout.getVisibility() == View.VISIBLE) {
+                        //                            textView.setBackgroundResource(R.drawable.nur_record_btnerror_bg);
+                        //                            showToast("请填写必填项之后再保存");
+                        //                            return;
+                        //                        }
 
                         stringBuilder.append("\"")
                                 .append(element.getElementType())
@@ -792,6 +837,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                 llNurrecord.addView(getDashLine());
             } else if ("TextElement".equals(element.getElementType())) {
                 LinearLayout lledit = getEditText(element, "TextElement");
+                TextView tvTitle = (TextView) viewHashMap.get(element.getElementId() + "_title");
                 EditText edText = (EditText) viewHashMap.get(element.getElementId());
                 edText.setBackground(getResources().getDrawable(R.drawable.nur_record_input_bg));
 
@@ -828,6 +874,29 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
         }
 
         setViews("", "");
+    }
+
+    private void showQuoteDialog(EditText edQuote) {
+        if (quoteDialog != null && quoteDialog.isShowing()) {
+            quoteDialog.dismiss();
+        }
+
+        quoteDialog = new NurRecordQuoteDialog(getActivity());
+        quoteDialog.setSureOnclickListener(new NurRecordQuoteDialog.onSureOnclickListener() {
+            @Override
+            public void onSureClick() {
+                edQuote.setText(edQuote.getText() + quoteDialog.getKnowledgeContent());
+                quoteDialog.dismiss();
+            }
+        });
+        quoteDialog.setCancelOnclickListener(new NurRecordQuoteDialog.onCancelOnclickListener() {
+            @Override
+            public void onCancelClick() {
+                quoteDialog.dismiss();
+            }
+        });
+        quoteDialog.show();
+
     }
 
     /**
@@ -1244,12 +1313,12 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
         localBuilder.setSingleChoiceItems(mItems, mSingleChoiceID,
                 (dialog, whichButton) -> {
                     try {
-//                            if (mSingleChoiceID != -1) {
-//                                itemScore = itemScore - selectScoreList.get(mSingleChoiceID);
-//                                itemScore = itemScore + selectScoreList.get(whichButton);
-//                            } else {
-//                                itemScore = itemScore + selectScoreList.get(whichButton);
-//                            }
+                        //                            if (mSingleChoiceID != -1) {
+                        //                                itemScore = itemScore - selectScoreList.get(mSingleChoiceID);
+                        //                                itemScore = itemScore + selectScoreList.get(whichButton);
+                        //                            } else {
+                        //                                itemScore = itemScore + selectScoreList.get(whichButton);
+                        //                            }
                         itemScore = selectScoreList.get(whichButton);
                         mSingleChoiceID = whichButton;
                     } catch (Exception e) {
@@ -1303,6 +1372,38 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                 tipDialog.setSureOnclickListener(() -> tipDialog.dismiss());
                 tipDialog.show();
             });
+        }
+
+        if (!StringUtils.isEmpty(element.getBindingTemplateID()) && !"true".equals(element.getIsHide())) {
+            tvTitle.setTextColor(Color.parseColor("#62ABFF"));
+            tvTitle.setOnClickListener(v -> {
+                String emrCode = element.getBindingTemplateID();
+                String guid = "";
+                String recId = "";
+                for (int i = 0; i < firstIdListBeans.size(); i++) {
+                    if (firstIdListBeans.get(i).getEmrCode().equals(emrCode)) {
+                        guid = firstIdListBeans.get(i).getGuId();
+                        recId = firstIdListBeans.get(i).getRecId();
+                        break;
+                    }
+                }
+
+                if (!StringUtils.isEmpty(guid)) {
+                    callBackEffects = element.getCallBackEffects();
+                    callBackReturnMapEffects = element.getCallBackReturnMapEffects();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("EpisodeID", episodeID);
+                    bundle.putString("BedNo", bedNo);
+                    bundle.putString("PatName", patName);
+                    bundle.putString("EMRCode", emrCode);
+                    bundle.putString("GUID", guid);
+                    bundle.putString("RecID", recId);
+                    bundle.putString("CallBackEffects", callBackEffects);
+                    bundle.putString("CallBackReturnMapEffects", callBackReturnMapEffects);
+                    startFragment(NurRecordNewFragment.class, bundle, 10001);
+                }
+            });
+
         }
 
         viewHashMap.put(element.getElementId() + "_title", tvTitle);
@@ -1532,6 +1633,23 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
             editText.setEnabled(false);
         }
 
+        TextView tvQuote = null;
+        if ("TextareaElement".equals(elementType) && "RefMeasure".equals(element.getFoundationJS())) {
+            tvQuote = new TextView(getActivity());
+            LinearLayout.LayoutParams tvparams3 = new LinearLayout.LayoutParams(0, ConvertUtils.dp2px(40f), 1.0f);
+            tvparams3.setMargins(0, 0, 0, 0);
+            tvQuote.setLayoutParams(tvparams3);
+            tvQuote.setTextColor(Color.parseColor("#62abff"));
+            tvQuote.setGravity(Gravity.CENTER);
+            tvQuote.setText("引用");
+            tvQuote.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showQuoteDialog(editText);
+                }
+            });
+        }
+
         elementIdtoDataSourceRef.put(element.getElementId(), element.getDataSourceRef());
 
         elementIdtoFormName.put(element.getElementId(), element.getFormName());
@@ -1543,6 +1661,10 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
 
         linearLayout.addView(tvTitle);
         linearLayout.addView(editText);
+
+        if ("TextareaElement".equals(elementType) && "RefMeasure".equals(element.getFoundationJS()) && tvQuote != null) {
+            linearLayout.addView(tvQuote);
+        }
 
         if ("true".equals(element.getIsHide())) {
             linearLayout.clearAnimation();

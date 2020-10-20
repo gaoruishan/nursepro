@@ -77,6 +77,7 @@ public class ElementDataBean extends CommResult {
              * ElementId : 436
              * ElementType : TextElement
              * FormName : TextElement_436
+             * FoundationJS : "RefMeasure"
              * GatherImportMapEffects :
              * IsHide :
              * MaxError :
@@ -147,6 +148,7 @@ public class ElementDataBean extends CommResult {
                 private String ElementId;
                 private String ElementType;
                 private String FormName;
+                private String FoundationJS;
                 private String GatherImportMapEffects;
                 private String IsHide;
                 private String MaxError;
@@ -234,6 +236,14 @@ public class ElementDataBean extends CommResult {
 
                 public void setElementType(String ElementType) {
                     this.ElementType = ElementType;
+                }
+
+                public String getFoundationJS() {
+                    return FoundationJS;
+                }
+
+                public void setFoundationJS(String foundationJS) {
+                    FoundationJS = foundationJS;
                 }
 
                 public String getFormName() {
