@@ -17,10 +17,10 @@ import com.blankj.utilcode.util.ServiceUtils;
  * @date:202020-04-15/09:38
  * @email:grs0515@163.com
  */
-public abstract class BaseService extends Service {
+public abstract class BindService extends Service {
 
     public interface ServiceCallBack {
-        void call(BaseService service);
+        void call(BindService service);
     }
 
     /**
@@ -33,7 +33,7 @@ public abstract class BaseService extends Service {
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
                 //程序走到这里之后，就得到了Service对象
-                BaseService mService = ((BaseService.ServiceBinder) service).getInstance();
+                BindService mService = ((BindService.ServiceBinder) service).getInstance();
                 if (callBack != null) {
                     callBack.call(mService);
                 }
@@ -48,8 +48,8 @@ public abstract class BaseService extends Service {
 
     public class ServiceBinder extends Binder {
 
-        public BaseService getInstance() {
-            return BaseService .this;
+        public BindService getInstance() {
+            return BindService.this;
         }
 
     }

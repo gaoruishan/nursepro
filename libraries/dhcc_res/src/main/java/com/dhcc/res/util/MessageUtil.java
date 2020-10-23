@@ -1,4 +1,4 @@
-package com.dhcc.module.infusion.message;
+package com.dhcc.res.util;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -7,8 +7,8 @@ import android.util.TypedValue;
 import android.view.View;
 
 import com.base.commlibs.MessageEvent;
-import com.dhcc.module.infusion.R;
 import com.dhcc.res.infusion.CountView;
+import com.grs.dhcc_res.R;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -25,6 +25,7 @@ public class MessageUtil {
     public static final String HH_MM_SS = "HH:mm:ss";
     public static final TimeZone GMT = TimeZone.getTimeZone("GMT");
     public static boolean setCountTime(Context mContext, CountView cvCount, String testStartTime, String formatEndTime, boolean otherOk,CountView.OnCountViewStatusListener listener) {
+
         SimpleDateFormat formatter1 = new SimpleDateFormat(HH_MM_SS);
         String formatNowTime = formatter1.format(new Date(System.currentTimeMillis()));
         //结束时间> 现在时间
@@ -46,6 +47,7 @@ public class MessageUtil {
                         listener.onStop();
                     }
                     EventBus.getDefault().post(new MessageEvent(MessageEvent.MessageType.NOTIFY_MESSAGE));
+                    EventBus.getDefault().post(new MessageEvent(MessageEvent.MessageType.REQUEST_APP_MESSAGE_LIST));
                 }
             });
         }

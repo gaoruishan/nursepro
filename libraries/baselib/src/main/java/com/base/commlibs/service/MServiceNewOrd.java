@@ -1,17 +1,19 @@
 package com.base.commlibs.service;
 
-import android.app.Service;
 import android.content.Intent;
 import android.os.Handler;
-import android.os.IBinder;
 import android.os.Message;
+import android.util.Log;
 
 import com.base.commlibs.constant.Action;
 
-public class MServiceNewOrd extends Service {
+public class MServiceNewOrd extends AliveService {
 
+    public static final int DELAY_MILLIS = 2 * 60 * 1000;
+//        public static final int DELAY_MILLIS = 2 * 1000;
     private Handler mHandler = new Handler();
     private Boolean isDestroy = false;
+
 
     @Override
     public void onCreate() {
@@ -22,6 +24,8 @@ public class MServiceNewOrd extends Service {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
+                Log.e(TAG, "心跳包检测mHandler连接状态");
+//                ActivityUtils.isActivityAlive()
                 switch (msg.what) {
                     case 0:
                         Intent i = new Intent();
@@ -30,7 +34,7 @@ public class MServiceNewOrd extends Service {
                         removeMessages(0);
                         if (!isDestroy) {
                             //这里想2分钟s刷新消息列表
-                            sendEmptyMessageDelayed(0, 2 * 60 * 1000);
+                            sendEmptyMessageDelayed(0, DELAY_MILLIS);
                             break;
                         }
                 }
@@ -51,8 +55,4 @@ public class MServiceNewOrd extends Service {
         isDestroy = true;
     }
 
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
 }

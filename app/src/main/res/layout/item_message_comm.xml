@@ -115,7 +115,7 @@
                 android:textSize="@dimen/sp_20"
                 android:visibility="gone"
             />
-            <com.dhcc.nursepro.view.CountView
+            <com.dhcc.res.infusion.CountView
                 android:id="@+id/cv_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

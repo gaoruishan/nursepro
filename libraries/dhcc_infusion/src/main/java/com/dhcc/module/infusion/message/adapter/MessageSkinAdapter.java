@@ -16,7 +16,7 @@ import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.module.infusion.R;
-import com.dhcc.module.infusion.message.MessageUtil;
+import com.dhcc.res.util.MessageUtil;
 import com.dhcc.module.infusion.message.api.MessageApiManager;
 import com.dhcc.module.infusion.message.bean.MessageSkinBean;
 import com.dhcc.module.infusion.utils.DialogFactory;

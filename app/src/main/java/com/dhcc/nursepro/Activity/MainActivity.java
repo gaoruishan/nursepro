@@ -6,9 +6,11 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -20,12 +22,15 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
@@ -38,12 +43,17 @@ import com.allenliu.versionchecklib.v2.builder.UIData;
 import com.allenliu.versionchecklib.v2.callback.CustomDownloadFailedListener;
 import com.allenliu.versionchecklib.v2.callback.CustomVersionDialogListener;
 import com.base.commlibs.BaseActivity;
+import com.base.commlibs.MessageEvent;
 import com.base.commlibs.bean.UpdateBean;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
+import com.base.commlibs.service.MServiceNewOrd;
+import com.base.commlibs.utils.AppUtil;
 import com.blankj.utilcode.constant.PermissionConstants;
 import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.ServiceUtils;
+import com.blankj.utilcode.util.VibrateUtils;
 import com.dhcc.nursepro.Activity.update.BaseDialog;
 import com.dhcc.nursepro.Activity.update.api.UpdateApiManager;
 import com.dhcc.nursepro.R;
@@ -52,7 +62,10 @@ import com.dhcc.nursepro.message.api.MessageApiManager;
 import com.dhcc.nursepro.message.bean.MessageBean;
 import com.dhcc.nursepro.setting.SettingFragment;
 import com.dhcc.nursepro.workarea.WorkareaFragment;
-import com.dhcc.nursepro.workarea.workareautils.MServiceNewOrd;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -91,6 +104,7 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
 
     // 新医嘱提示
     private NotificationManager notificationManager;
+    private ServiceConnection serviceConnection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,10 +114,25 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
 
         //此处为暂时调用，应该在登录成功后初始化tabviews
         initTabView();
+        serviceConnection = new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+                Log.e(TAG, "服务与活动成功绑定");
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName componentName) {
+                Log.e(TAG, "服务与活动成功断开");
+            }
+        };
 
         Intent i = new Intent(this, MServiceNewOrd.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startService(i);
+
+        Intent bindIntent = new Intent(this, MServiceNewOrd.class);
+        bindService(bindIntent, serviceConnection, BIND_AUTO_CREATE);
+
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
         //应用无操作定时退出
@@ -111,16 +140,25 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         if (exitTime > 0) {
             startTimer();
         }
+        //注册事件总线
+        EventBus.getDefault().register(this);
         //请求SD卡权限
         PermissionUtils.permission(PermissionConstants.STORAGE).request();
     }
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
+
         Intent i = new Intent(this, MServiceNewOrd.class);
         stopService(i);
 
+        if (serviceConnection != null && ServiceUtils.isServiceRunning(MServiceNewOrd.class)) {
+            unbindService(serviceConnection);
+        }
+
+        super.onDestroy();
+        //注册事件总线
+        EventBus.getDefault().unregister(this);
         if (notificationManager != null) {
             notificationManager.cancel(1);
         }
@@ -561,6 +599,30 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    /**
+     * 接收事件- 更新数据
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void updateData(MessageEvent event) {
+        if (event.getType() == MessageEvent.MessageType.NOTIFY_MESSAGE) {
+            Log.e(getClass().getSimpleName(), "updateData:" + event.getType());
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    AppUtil.showNotification(MainActivity.this, new Intent(MainActivity.this, MainActivity.class));
+                }
+            }, 2000);
+            try {
+                AppUtil.playSound(this, R.raw.notice_message);
+            } catch (Exception e) {
+
+            }
+            VibrateUtils.vibrate(3000);
+
+        }
     }
 
     public class MainReceiver extends BroadcastReceiver {
