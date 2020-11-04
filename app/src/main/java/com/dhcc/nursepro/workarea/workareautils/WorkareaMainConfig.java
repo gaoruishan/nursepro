@@ -3,8 +3,6 @@ package com.dhcc.nursepro.workarea.workareautils;
 import android.app.Activity;
 import android.content.Intent;
 
-import com.base.commlibs.BaseFragment;
-import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.utils.DataCache;
 import com.base.commlibs.utils.SchDateTimeUtil;
@@ -17,10 +15,9 @@ import com.dhcc.module.nurse.nurplan.NurPlanFragment;
 import com.dhcc.module.nurse.task.TaskOverviewFragment;
 import com.dhcc.nursepro.Activity.MainActivity;
 import com.dhcc.nursepro.Activity.SingleMainActivity;
-import com.dhcc.nursepro.Activity.SplashActivity;
+import com.dhcc.nursepro.BuildConfig;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.login.LoginActivity;
-import com.dhcc.nursepro.workarea.WorkareaFragment;
 import com.dhcc.nursepro.workarea.allotbed.AllotBedFragment;
 import com.dhcc.nursepro.workarea.bedmap.BedMapFragment;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.BloodTransfusionSystemFragment;
@@ -54,6 +51,7 @@ import com.dhcc.nursepro.workarea.workareabean.MainConfigBean;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -68,12 +66,24 @@ public class WorkareaMainConfig {
         if ("1".equals(SPUtils.getInstance().getString(SharedPreference.SINGLEMODEL))){
             SharedPreference.FRAGMENTARY = new ArrayList();
         }
+        //添加测试
+        testModel(mainConfigBean.getMainList());
         ArrayList listConfig=new ArrayList();
         for (int i = 0; i <mainConfigBean.getMainList().size() ; i++) {
             listConfig.add(getMainConfigItem(mainConfigBean.getMainList().get(i)));
         }
         return listConfig;
     }
+    /**
+     * 添加测模块
+     * @param mainList
+     */
+    private void testModel(List<MainConfigBean.MainListBean> mainList ) {
+        if (BuildConfig.DEBUG) {
+            mainList.add(new MainConfigBean.MainListBean("NurPlanFragment","护理计划"));
+        }
+    }
+
     private Map getMainConfigItem(MainConfigBean.MainListBean item){
 
         Map map = new HashMap();

@@ -66,6 +66,12 @@ public class LocalTestManager {
 //        l.add("getInterventionList");
 //        l.add("getNeedEmr");
         l.add("getNotifyList");
+        l.add("getQuestionRecord");
+        l.add("getQuestionList");
+        l.add("getInterventionFreq");
+        l.add("getGoalByQestId");
+        l.add("getInterventionByQestId");
+
     }
 
     /**

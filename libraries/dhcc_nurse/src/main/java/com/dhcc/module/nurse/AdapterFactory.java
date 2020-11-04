@@ -157,7 +157,7 @@ public class AdapterFactory {
      * @return
      */
     public static NurPlanInterveAdapter getNurPlanInterveAdapter() {
-        return new NurPlanInterveAdapter(R.layout.item_nur_plan_goal,null);
+        return new NurPlanInterveAdapter(R.layout.item_nur_plan_interv,null);
     }
     /**
      * 护理计划-血糖采集患者列表

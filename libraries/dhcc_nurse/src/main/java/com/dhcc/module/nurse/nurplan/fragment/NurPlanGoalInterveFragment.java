@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
+import com.base.commlibs.utils.DataCache;
 import com.base.commlibs.utils.RecyclerViewHelper;
 import com.base.commlibs.utils.SimpleCallBack;
 import com.blankj.utilcode.util.ToastUtils;
@@ -21,12 +22,16 @@ import com.dhcc.module.nurse.nurplan.NurPlanApiManager;
 import com.dhcc.module.nurse.nurplan.PlanBundleData;
 import com.dhcc.module.nurse.nurplan.adapter.NurPlanGoalAdapter;
 import com.dhcc.module.nurse.nurplan.adapter.NurPlanInterveAdapter;
+import com.dhcc.module.nurse.nurplan.bean.InterveFreqBean;
 import com.dhcc.module.nurse.nurplan.bean.NurPlanGoalBean;
 import com.dhcc.module.nurse.nurplan.bean.NurPlanInterveBean;
 import com.dhcc.module.nurse.nurplan.bean.QuestionListBean;
 import com.dhcc.module.nurse.utils.DialogFactory;
+import com.dhcc.res.util.SelectUtil;
 
 import java.util.List;
+
+import cn.qqtheme.framework.picker.OptionPicker;
 
 /**
  * 目标措施
@@ -60,13 +65,6 @@ public class NurPlanGoalInterveFragment extends BaseNurseFragment {
         super.initDatas();
         setToolbarCenterTitle("护理计划");
 
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        //方便刷新
-        initGoalInterveData();
     }
 
     @Override
@@ -104,6 +102,24 @@ public class NurPlanGoalInterveFragment extends BaseNurseFragment {
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 NurPlanInterveBean.InterventionListBean bean = interveAdapter.getData().get(position);
                 intRecordIds = bean.getRowID();
+                //修改频次
+                if (view.getId() == R.id.bl_tv_fre_select) {
+                    InterveFreqBean json = DataCache.getJson(InterveFreqBean.class, InterveFreqBean.class.getSimpleName());
+                    if (json != null) {
+                        new SelectUtil().setSelectData(mContext, InterveFreqBean.getSelectData(json.getFreqList()), new OptionPicker.OnOptionPickListener() {
+                            @Override
+                            public void onOptionPicked(int index, String item) {
+                                //设置ID
+                                bean.setFreqDR(json.getFreqList().get(index).getId());
+                                //选中
+                                bean.setSelect(!bean.isSelect());
+                                interveAdapter.notifyItemChanged(position);
+                            }
+                        });
+                    }
+
+                    return;
+                }
                 //作废
                 if (view.getId() == R.id.tv_item_ques_undo) {
                     DialogFactory.showCancelInterveDialog(mContext, new SimpleCallBack<String>() {
@@ -168,6 +184,13 @@ public class NurPlanGoalInterveFragment extends BaseNurseFragment {
                 getInterventionByQestId();
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //方便刷新
+        initGoalInterveData();
     }
 
     private void initGoalInterveData() {

@@ -122,6 +122,14 @@ public class MainConfigBean {
         private String moduleCode;
         private String moduleDesc;
 
+        public MainListBean() {
+        }
+
+        public MainListBean(String moduleCode, String moduleDesc) {
+            this.moduleCode = moduleCode;
+            this.moduleDesc = moduleDesc;
+        }
+
         public String getModuleCode() {
             return moduleCode;
         }

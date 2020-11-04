@@ -1,0 +1,1255 @@
+{
+  "msg": "成功",
+  "msgcode": "999999",
+  "questionList": [
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "便秘",
+      "queRowID": "9",
+      "queTypeName": "肠胃",
+      "queTypeRowID": "4"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "腹泻",
+      "queRowID": "10",
+      "queTypeName": "肠胃",
+      "queTypeRowID": "4"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "肠造口照护能力不足",
+      "queRowID": "11",
+      "queTypeName": "肠胃",
+      "queTypeRowID": "4"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "恶心",
+      "queRowID": "12",
+      "queTypeName": "肠胃",
+      "queTypeRowID": "4"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "心悸",
+      "queRowID": "13",
+      "queTypeName": "心脏血管",
+      "queTypeRowID": "1"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "心跳过速",
+      "queRowID": "14",
+      "queTypeName": "心脏血管",
+      "queTypeRowID": "1"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "心跳过慢",
+      "queRowID": "15",
+      "queTypeName": "心脏血管",
+      "queTypeRowID": "1"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "心律不整",
+      "queRowID": "16",
+      "queTypeName": "心脏血管",
+      "queTypeRowID": "1"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "心脏功能受损 - 冠状动脉性",
+      "queRowID": "17",
+      "queTypeName": "心脏血管",
+      "queTypeRowID": "1"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "心脏功能受损-先天性",
+      "queRowID": "18",
+      "queTypeName": "心脏血管",
+      "queTypeRowID": "1"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "心脏功能受损-瓣膜性",
+      "queRowID": "19",
+      "queTypeName": "心脏血管",
+      "queTypeRowID": "1"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "心脏功能受损-心肌梗塞",
+      "queRowID": "23",
+      "queTypeName": "心脏血管",
+      "queTypeRowID": "1"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "心脏功能受损-心脏衰竭",
+      "queRowID": "24",
+      "queTypeName": "心脏血管",
+      "queTypeRowID": "1"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "胸闷、胸痛",
+      "queRowID": "25",
+      "queTypeName": "心脏血管",
+      "queTypeRowID": "1"
+    },
+    {
+      "checked": "0",
+      "childs": [],
+      "queName": "血压改变",
+      "queRowID": "26",
+      "queTypeName": "心脏血管",
+      "queTypeRowID": "1"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "认知混乱-慢性",
+      "queRowID": "30",
+      "queTypeName": "神经",
+      "queTypeRowID": "3"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "特定知识缺失-检查",
+      "queRowID": "31",
+      "queTypeName": "神经",
+      "queTypeRowID": "3"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "知识缺失",
+      "queRowID": "32",
+      "queTypeName": "神经",
+      "queTypeRowID": "3"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "思考过程紊乱",
+      "queRowID": "33",
+      "queTypeName": "神经",
+      "queTypeRowID": "3"
+    },
+    {
+      "checked": "0",
+      "childs": [
+        {
+          "checked": "1",
+          "queName": "电解质不平衡-高血钾",
+          "queRowID": "36",
+          "queTypeName": "神经",
+          "queTypeRowID": "3"
+        },
+        {
+          "checked": "1",
+          "queName": "电解质不平衡-低血钾",
+          "queRowID": "37",
+          "queTypeName": "神经",
+          "queTypeRowID": "3"
+        },
+        {
+          "checked": "1",
+          "queName": "电解质不平衡-高血钠",
+          "queRowID": "38",
+          "queTypeName": "神经",
+          "queTypeRowID": "3"
+        },
+        {
+          "checked": "1",
+          "queName": "电解质不平衡-低血钠",
+          "queRowID": "39",
+          "queTypeName": "神经",
+          "queTypeRowID": "3"
+        },
+        {
+          "checked": "1",
+          "queName": "电解质不平衡-高血钙",
+          "queRowID": "40",
+          "queTypeName": "神经",
+          "queTypeRowID": "3"
+        },
+        {
+          "checked": "1",
+          "queName": "电解质不平衡-低血钙",
+          "queRowID": "41",
+          "queTypeName": "神经",
+          "queTypeRowID": "3"
+        }
+      ],
+      "queName": "电解质不平衡",
+      "queRowID": "35",
+      "queTypeName": "神经",
+      "queTypeRowID": "3"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "出院准备照护需求",
+      "queRowID": "46",
+      "queTypeName": "精神",
+      "queTypeRowID": "12"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "家庭因应能力失调",
+      "queRowID": "47",
+      "queTypeName": "精神",
+      "queTypeRowID": "12"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "创伤后症候群",
+      "queRowID": "48",
+      "queTypeName": "精神",
+      "queTypeRowID": "12"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "哀伤",
+      "queRowID": "49",
+      "queTypeName": "精神",
+      "queTypeRowID": "12"
+    },
+    {
+      "checked": "0",
+      "childs": [
+        {
+          "checked": "1",
+          "queName": "周产期哀伤-早产儿",
+          "queRowID": "51",
+          "queTypeName": "精神",
+          "queTypeRowID": "12"
+        },
+        {
+          "checked": "1",
+          "queName": "周产期哀伤-先天性缺陷",
+          "queRowID": "52",
+          "queTypeName": "精神",
+          "queTypeRowID": "12"
+        },
+        {
+          "checked": "1",
+          "queName": "周产期哀伤-新生儿死亡",
+          "queRowID": "53",
+          "queTypeName": "精神",
+          "queTypeRowID": "12"
+        },
+        {
+          "checked": "1",
+          "queName": "周产期哀伤-其他",
+          "queRowID": "54",
+          "queTypeName": "精神",
+          "queTypeRowID": "12"
+        }
+      ],
+      "queName": "周产期哀伤",
+      "queRowID": "50",
+      "queTypeName": "精神",
+      "queTypeRowID": "12"
+    },
+    {
+      "checked": "0",
+      "childs": [
+        {
+          "checked": "1",
+          "queName": "出血-紫斑、瘀斑",
+          "queRowID": "56",
+          "queTypeName": "血液",
+          "queTypeRowID": "5"
+        },
+        {
+          "checked": "1",
+          "queName": "出血-咳血",
+          "queRowID": "57",
+          "queTypeName": "血液",
+          "queTypeRowID": "5"
+        },
+        {
+          "checked": "1",
+          "queName": "出血-上肠胃道出血",
+          "queRowID": "58",
+          "queTypeName": "血液",
+          "queTypeRowID": "5"
+        },
+        {
+          "checked": "1",
+          "queName": "出血-下肠胃道出血",
+          "queRowID": "59",
+          "queTypeName": "血液",
+          "queTypeRowID": "5"
+        },
+        {
+          "checked": "1",
+          "queName": "出血-血尿",
+          "queRowID": "60",
+          "queTypeName": "血液",
+          "queTypeRowID": "5"
+        },
+        {
+          "checked": "1",
+          "queName": "出血-其他",
+          "queRowID": "61",
+          "queTypeName": "血液",
+          "queTypeRowID": "5"
+        }
+      ],
+      "queName": "出血",
+      "queRowID": "55",
+      "queTypeName": "血液",
+      "queTypeRowID": "5"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "体液容积缺失",
+      "queRowID": "62",
+      "queTypeName": "血液",
+      "queTypeRowID": "5"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "高危险性出血倾向",
+      "queRowID": "63",
+      "queTypeName": "血液",
+      "queTypeRowID": "5"
+    },
+    {
+      "checked": "0",
+      "childs": [
+        {
+          "checked": "1",
+          "queName": "体液容积过量-肋膜积水",
+          "queRowID": "65",
+          "queTypeName": "血液",
+          "queTypeRowID": "5"
+        },
+        {
+          "checked": "1",
+          "queName": "体液容积过量-腹水",
+          "queRowID": "66",
+          "queTypeName": "血液",
+          "queTypeRowID": "5"
+        },
+        {
+          "checked": "1",
+          "queName": "体液容积过量-水肿",
+          "queRowID": "67",
+          "queTypeName": "血液",
+          "queTypeRowID": "5"
+        },
+        {
+          "checked": "1",
+          "queName": "体液容积过量-阴囊水肿",
+          "queRowID": "68",
+          "queTypeName": "血液",
+          "queTypeRowID": "5"
+        },
+        {
+          "checked": "1",
+          "queName": "体液容积过量-其他",
+          "queRowID": "69",
+          "queTypeName": "血液",
+          "queTypeRowID": "5"
+        }
+      ],
+      "queName": "体液容积过量",
+      "queRowID": "64",
+      "queTypeName": "血液",
+      "queTypeRowID": "5"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "不遵从 -服药( 特定的 )",
+      "queRowID": "70",
+      "queTypeName": "一般共通",
+      "queTypeRowID": "13"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "输血反应",
+      "queRowID": "71",
+      "queTypeName": "一般共通",
+      "queTypeRowID": "13"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "化学药物治疗照护需求",
+      "queRowID": "76",
+      "queTypeName": "内分泌",
+      "queTypeRowID": "6"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "放射线治疗照护需求",
+      "queRowID": "77",
+      "queTypeName": "内分泌",
+      "queTypeRowID": "6"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "贫血",
+      "queRowID": "82",
+      "queTypeName": "一般共通",
+      "queTypeRowID": "13"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "吞咽障碍",
+      "queRowID": "83",
+      "queTypeName": "一般共通",
+      "queTypeRowID": "13"
+    },
+    {
+      "checked": "0",
+      "childs": [
+        {
+          "checked": "1",
+          "queName": "感染-血流",
+          "queRowID": "89",
+          "queTypeName": "一般共通",
+          "queTypeRowID": "13"
+        },
+        {
+          "checked": "1",
+          "queName": "感染-伤口",
+          "queRowID": "90",
+          "queTypeName": "一般共通",
+          "queTypeRowID": "13"
+        },
+        {
+          "checked": "1",
+          "queName": "感染-皮肤及软组织",
+          "queRowID": "91",
+          "queTypeName": "一般共通",
+          "queTypeRowID": "13"
+        },
+        {
+          "checked": "1",
+          "queName": "感染-呼吸道",
+          "queRowID": "92",
+          "queTypeName": "一般共通",
+          "queTypeRowID": "13"
+        },
+        {
+          "checked": "1",
+          "queName": "感染-耳鼻喉口",
+          "queRowID": "93",
+          "queTypeName": "一般共通",
+          "queTypeRowID": "13"
+        },
+        {
+          "checked": "1",
+          "queName": "感染-泌尿道",
+          "queRowID": "94",
+          "queTypeName": "一般共通",
+          "queTypeRowID": "13"
+        },
+        {
+          "checked": "1",
+          "queName": "感染-肠胃道",
+          "queRowID": "95",
+          "queTypeName": "一般共通",
+          "queTypeRowID": "13"
+        },
+        {
+          "checked": "1",
+          "queName": "感染-眼部",
+          "queRowID": "96",
+          "queTypeName": "一般共通",
+          "queTypeRowID": "13"
+        },
+        {
+          "checked": "1",
+          "queName": "感染-中枢神经系统",
+          "queRowID": "97",
+          "queTypeName": "一般共通",
+          "queTypeRowID": "13"
+        },
+        {
+          "checked": "1",
+          "queName": "感染-其他",
+          "queRowID": "98",
+          "queTypeName": "一般共通",
+          "queTypeRowID": "13"
+        }
+      ],
+      "queName": "感染",
+      "queRowID": "88",
+      "queTypeName": "一般共通",
+      "queTypeRowID": "13"
+    },
+    {
+      "checked": "0",
+      "childs": [
+        {
+          "checked": "1",
+          "queName": "高危险性感染-受创组织",
+          "queRowID": "100",
+          "queTypeName": "一般共通",
+          "queTypeRowID": "13"
+        },
+        {
+          "checked": "1",
+          "queName": "高危险性感染-免疫功能受抑制",
+          "queRowID": "101",
+          "queTypeName": "一般共通",
+          "queTypeRowID": "13"
+        },
+        {
+          "checked": "1",
+          "queName": "高危险性感染-侵入性管路",
+          "queRowID": "102",
+          "queTypeName": "一般共通",
+          "queTypeRowID": "13"
+        },
+        {
+          "checked": "1",
+          "queName": "高危险性感染-肾脏移植",
+          "queRowID": "103",
+          "queTypeName": "一般共通",
+          "queTypeRowID": "13"
+        },
+        {
+          "checked": "1",
+          "queName": "高危险性感染-脑脊髓液渗漏",
+          "queRowID": "104",
+          "queTypeName": "一般共通",
+          "queTypeRowID": "13"
+        },
+        {
+          "checked": "1",
+          "queName": "高危险性感染-蝶骨手术",
+          "queRowID": "105",
+          "queTypeName": "一般共通",
+          "queTypeRowID": "13"
+        },
+        {
+          "checked": "1",
+          "queName": "高危险性感染-其他",
+          "queRowID": "106",
+          "queTypeName": "一般共通",
+          "queTypeRowID": "13"
+        }
+      ],
+      "queName": "高危险性感染",
+      "queRowID": "99",
+      "queTypeName": "一般共通",
+      "queTypeRowID": "13"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "低效性呼吸型态",
+      "queRowID": "109",
+      "queTypeName": "呼吸",
+      "queTypeRowID": "2"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "气体交换障碍",
+      "queRowID": "110",
+      "queTypeName": "呼吸",
+      "queTypeRowID": "2"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "安宁关怀照护需求",
+      "queRowID": "111",
+      "queTypeName": "精神",
+      "queTypeRowID": "12"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "混乱-急性",
+      "queRowID": "112",
+      "queTypeName": "精神",
+      "queTypeRowID": "12"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "沟通障碍",
+      "queRowID": "113",
+      "queTypeName": "精神",
+      "queTypeRowID": "12"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "社交互动障碍",
+      "queRowID": "114",
+      "queTypeName": "精神",
+      "queTypeRowID": "12"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "高危险性损伤-抽搐",
+      "queRowID": "116",
+      "queTypeName": "神经",
+      "queTypeRowID": "3"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "高危险性肺吸入",
+      "queRowID": "117",
+      "queTypeName": "神经",
+      "queTypeRowID": "3"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "高危险性暴力行为",
+      "queRowID": "123",
+      "queTypeName": "神经",
+      "queTypeRowID": "3"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "高危险性自我伤害",
+      "queRowID": "124",
+      "queTypeName": "神经",
+      "queTypeRowID": "3"
+    },
+    {
+      "checked": "0",
+      "childs": [
+        {
+          "checked": "1",
+          "queName": "自我照顾能力缺失-进食",
+          "queRowID": "130",
+          "queTypeName": "一般共通",
+          "queTypeRowID": "13"
+        },
+        {
+          "checked": "1",
+          "queName": "自我照顾能力缺失-沐浴/卫生",
+          "queRowID": "131",
+          "queTypeName": "一般共通",
+          "queTypeRowID": "13"
+        },
+        {
+          "checked": "1",
+          "queName": "自我照顾能力缺失-穿着/修饰",
+          "queRowID": "132",
+          "queTypeName": "一般共通",
+          "queTypeRowID": "13"
+        },
+        {
+          "checked": "1",
+          "queName": "自我照顾能力缺失-如厕",
+          "queRowID": "133",
+          "queTypeName": "一般共通",
+          "queTypeRowID": "13"
+        }
+      ],
+      "queName": "自我照顾能力缺失",
+      "queRowID": "129",
+      "queTypeName": "一般共通",
+      "queTypeRowID": "13"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "焦虑",
+      "queRowID": "134",
+      "queTypeName": "精神",
+      "queTypeRowID": "12"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "无力感",
+      "queRowID": "135",
+      "queTypeName": "精神",
+      "queTypeRowID": "12"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "个人因应能力失调",
+      "queRowID": "136",
+      "queTypeName": "精神",
+      "queTypeRowID": "12"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "身体心像紊乱",
+      "queRowID": "137",
+      "queTypeName": "精神",
+      "queTypeRowID": "12"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "感觉知觉改变-幻觉",
+      "queRowID": "139",
+      "queTypeName": "感官",
+      "queTypeRowID": "10"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "感官知觉障碍-听觉",
+      "queRowID": "140",
+      "queTypeName": "感官",
+      "queTypeRowID": "10"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "感官知觉障碍-视觉",
+      "queRowID": "141",
+      "queTypeName": "感官",
+      "queTypeRowID": "10"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "肝功能障碍",
+      "queRowID": "145",
+      "queTypeName": "皮肤",
+      "queTypeRowID": "11"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "胆红素值过高",
+      "queRowID": "147",
+      "queTypeName": "皮肤",
+      "queTypeRowID": "11"
+    },
+    {
+      "checked": "0",
+      "childs": [
+        {
+          "checked": "1",
+          "queName": "口腔黏膜改变-溃疡",
+          "queRowID": "149",
+          "queTypeName": "皮肤",
+          "queTypeRowID": "11"
+        },
+        {
+          "checked": "1",
+          "queName": "口腔黏膜改变-肿瘤",
+          "queRowID": "150",
+          "queTypeName": "皮肤",
+          "queTypeRowID": "11"
+        },
+        {
+          "checked": "1",
+          "queName": "口腔黏膜改变-肉瘤",
+          "queRowID": "151",
+          "queTypeName": "皮肤",
+          "queTypeRowID": "11"
+        }
+      ],
+      "queName": "口腔黏膜改变",
+      "queRowID": "148",
+      "queTypeName": "皮肤",
+      "queTypeRowID": "11"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "高危险性周边神经血管功能失调",
+      "queRowID": "161",
+      "queTypeName": "皮肤",
+      "queTypeRowID": "11"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "组织灌流失效-心肺",
+      "queRowID": "162",
+      "queTypeName": "血液",
+      "queTypeRowID": "5"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "组织灌流失效-周边",
+      "queRowID": "163",
+      "queTypeName": "血液",
+      "queTypeRowID": "5"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "组织灌流失效-脑",
+      "queRowID": "164",
+      "queTypeName": "血液",
+      "queTypeRowID": "5"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "组织灌流失效-肠胃",
+      "queRowID": "165",
+      "queTypeName": "血液",
+      "queTypeRowID": "5"
+    },
+    {
+      "checked": "0",
+      "childs": [
+        {
+          "checked": "1",
+          "queName": "排尿型态障碍-排尿困难",
+          "queRowID": "167",
+          "queTypeName": "生殖",
+          "queTypeRowID": "8"
+        },
+        {
+          "checked": "1",
+          "queName": "排尿型态障碍-尿潴留",
+          "queRowID": "168",
+          "queTypeName": "生殖",
+          "queTypeRowID": "8"
+        },
+        {
+          "checked": "1",
+          "queName": "排尿型态障碍-尿失禁",
+          "queRowID": "169",
+          "queTypeName": "生殖",
+          "queTypeRowID": "8"
+        }
+      ],
+      "queName": "排尿型态障碍",
+      "queRowID": "166",
+      "queTypeName": "生殖",
+      "queTypeRowID": "8"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "肾功能障碍",
+      "queRowID": "170",
+      "queTypeName": "生殖",
+      "queTypeRowID": "8"
+    },
+    {
+      "checked": "0",
+      "childs": [
+        {
+          "checked": "1",
+          "queName": "高危险性妊娠照护需求-妊娠诱发性高血压",
+          "queRowID": "172",
+          "queTypeName": "生殖",
+          "queTypeRowID": "8"
+        },
+        {
+          "checked": "1",
+          "queName": "高危险性妊娠照护需求-妊娠糖尿病",
+          "queRowID": "173",
+          "queTypeName": "生殖",
+          "queTypeRowID": "8"
+        },
+        {
+          "checked": "1",
+          "queName": "高危险性妊娠照护需求-早期子宫收缩",
+          "queRowID": "174",
+          "queTypeName": "生殖",
+          "queTypeRowID": "8"
+        },
+        {
+          "checked": "1",
+          "queName": "高危险性妊娠照护需求-产前出血",
+          "queRowID": "175",
+          "queTypeName": "生殖",
+          "queTypeRowID": "8"
+        },
+        {
+          "checked": "1",
+          "queName": "高危险性妊娠照护需求-早期破水",
+          "queRowID": "176",
+          "queTypeName": "生殖",
+          "queTypeRowID": "8"
+        },
+        {
+          "checked": "1",
+          "queName": "高危险性妊娠照护需求-其他",
+          "queRowID": "177",
+          "queTypeName": "生殖",
+          "queTypeRowID": "8"
+        }
+      ],
+      "queName": "高危险性妊娠照护需求",
+      "queRowID": "171",
+      "queTypeName": "生殖",
+      "queTypeRowID": "8"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "组织灌流失效-外围",
+      "queRowID": "179",
+      "queTypeName": "血液",
+      "queTypeRowID": "5"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "高危险性废用综合征",
+      "queRowID": "180",
+      "queTypeName": "其他",
+      "queTypeRowID": "14"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "高危险性静脉血栓",
+      "queRowID": "181",
+      "queTypeName": "其他",
+      "queTypeRowID": "14"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "泌尿造口照护能力不足",
+      "queRowID": "188",
+      "queTypeName": "其他",
+      "queTypeRowID": "14"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "排便型态障碍-便失禁",
+      "queRowID": "189",
+      "queTypeName": "肠胃",
+      "queTypeRowID": "4"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "强暴创伤症候群",
+      "queRowID": "190",
+      "queTypeName": "其他",
+      "queTypeRowID": "14"
+    },
+    {
+      "checked": "0",
+      "childs": [
+        {
+          "checked": "1",
+          "queName": "造口相关并发症-造口出血",
+          "queRowID": "192",
+          "queTypeName": "其他",
+          "queTypeRowID": "14"
+        },
+        {
+          "checked": "1",
+          "queName": "造口相关并发症-造口坏死",
+          "queRowID": "193",
+          "queTypeName": "其他",
+          "queTypeRowID": "14"
+        },
+        {
+          "checked": "1",
+          "queName": "造口相关并发症-造口回缩/凹陷",
+          "queRowID": "194",
+          "queTypeName": "其他",
+          "queTypeRowID": "14"
+        },
+        {
+          "checked": "1",
+          "queName": "造口相关并发症-黏膜肉芽肿",
+          "queRowID": "195",
+          "queTypeName": "其他",
+          "queTypeRowID": "14"
+        },
+        {
+          "checked": "1",
+          "queName": "造口相关并发症-黏膜异位",
+          "queRowID": "196",
+          "queTypeName": "其他",
+          "queTypeRowID": "14"
+        },
+        {
+          "checked": "1",
+          "queName": "造口相关并发症-造口旁疝",
+          "queRowID": "197",
+          "queTypeName": "其他",
+          "queTypeRowID": "14"
+        },
+        {
+          "checked": "1",
+          "queName": "造口相关并发症-造口皮肤黏膜分离",
+          "queRowID": "198",
+          "queTypeName": "其他",
+          "queTypeRowID": "14"
+        },
+        {
+          "checked": "1",
+          "queName": "造口相关并发症-造口狭窄",
+          "queRowID": "199",
+          "queTypeName": "其他",
+          "queTypeRowID": "14"
+        },
+        {
+          "checked": "1",
+          "queName": "造口相关并发症-造口脱垂",
+          "queRowID": "200",
+          "queTypeName": "其他",
+          "queTypeRowID": "14"
+        },
+        {
+          "checked": "1",
+          "queName": "造口相关并发症-造口周围皮炎",
+          "queRowID": "201",
+          "queTypeName": "其他",
+          "queTypeRowID": "14"
+        }
+      ],
+      "queName": "造口相关并发症",
+      "queRowID": "191",
+      "queTypeName": "其他",
+      "queTypeRowID": "14"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "体温低",
+      "queRowID": "262",
+      "queTypeName": "一般共通",
+      "queTypeRowID": "13"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "高血压",
+      "queRowID": "263",
+      "queTypeName": "心脏血管",
+      "queTypeRowID": "1"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "低血压",
+      "queRowID": "264",
+      "queTypeName": "心脏血管",
+      "queTypeRowID": "1"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "疼痛",
+      "queRowID": "265",
+      "queTypeName": "感官",
+      "queTypeRowID": "10"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "血氧饱和度低",
+      "queRowID": "266",
+      "queTypeName": "心脏血管",
+      "queTypeRowID": "1"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "气促",
+      "queRowID": "267",
+      "queTypeName": "呼吸",
+      "queTypeRowID": "2"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "便秘",
+      "queRowID": "268",
+      "queTypeName": "肠胃",
+      "queTypeRowID": "4"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "腹泻",
+      "queRowID": "269",
+      "queTypeName": "肠胃",
+      "queTypeRowID": "4"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "低血糖",
+      "queRowID": "270",
+      "queTypeName": "内分泌",
+      "queTypeRowID": "6"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "高血糖",
+      "queRowID": "271",
+      "queTypeName": "内分泌",
+      "queTypeRowID": "6"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "有发生营养失调的风险",
+      "queRowID": "272",
+      "queTypeName": "一般共通",
+      "queTypeRowID": "13"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "有发生感染的风险",
+      "queRowID": "273",
+      "queTypeName": "一般共通",
+      "queTypeRowID": "13"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "自理能力缺陷",
+      "queRowID": "274",
+      "queTypeName": "一般共通",
+      "queTypeRowID": "13"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "有自杀的风险",
+      "queRowID": "275",
+      "queTypeName": "神经",
+      "queTypeRowID": "3"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "高危险性皮肤受损",
+      "queRowID": "276",
+      "queTypeName": "皮肤",
+      "queTypeRowID": "11"
+    },
+    {
+      "checked": "1",
+      "childs": [],
+      "queName": "高危险性跌倒",
+      "queRowID": "277",
+      "queTypeName": "一般共通",
+      "queTypeRowID": "13"
+    }
+  ],
+  "questionTypeList": [
+    {
+      "code": "",
+      "desc": "全部",
+      "id": ""
+    },
+    {
+      "code": "1",
+      "desc": "心脏血管",
+      "id": "1"
+    },
+    {
+      "code": "2",
+      "desc": "呼吸",
+      "id": "2"
+    },
+    {
+      "code": "3",
+      "desc": "神经",
+      "id": "3"
+    },
+    {
+      "code": "4",
+      "desc": "肠胃",
+      "id": "4"
+    },
+    {
+      "code": "5",
+      "desc": "血液",
+      "id": "5"
+    },
+    {
+      "code": "6",
+      "desc": "内分泌",
+      "id": "6"
+    },
+    {
+      "code": "7",
+      "desc": "骨骼肌肉",
+      "id": "7"
+    },
+    {
+      "code": "8",
+      "desc": "生殖",
+      "id": "8"
+    },
+    {
+      "code": "9",
+      "desc": "头颈口咽",
+      "id": "9"
+    },
+    {
+      "code": "10",
+      "desc": "感官",
+      "id": "10"
+    },
+    {
+      "code": "11",
+      "desc": "皮肤",
+      "id": "11"
+    },
+    {
+      "code": "12",
+      "desc": "精神",
+      "id": "12"
+    },
+    {
+      "code": "13",
+      "desc": "一般共通",
+      "id": "13"
+    },
+    {
+      "code": "14",
+      "desc": "其他",
+      "id": "14"
+    }
+  ],
+  "status": "0"
+}
