@@ -134,7 +134,9 @@ public class BaseWebServiceUtils {
         SharedPreference.MethodName = methodName;
         // 添加本地json测试
         if (LocalTestManager.isTest(methodName)) {
-            LogUtils.e(methodName +" 测试= "+properties.toString());
+            if (properties != null) {
+                LogUtils.e(methodName +" 测试= "+properties.toString());
+            }
             LocalTestManager.callLocalJson(methodName,webServiceCallBack);
             return;
         }

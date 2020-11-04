@@ -98,9 +98,9 @@ public class LocalTestManager {
      */
     public static boolean isTest(String methodName) {
         //配置后台开启
-        if (UserUtil.isLocalTest(methodName)) {
-            return true;
-        }
+//        if (UserUtil.isLocalTest(methodName)) {
+//            return true;
+//        }
         if (TEST) {
             return l.contains(methodName);
         }

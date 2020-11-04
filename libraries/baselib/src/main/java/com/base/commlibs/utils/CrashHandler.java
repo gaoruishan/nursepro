@@ -151,6 +151,10 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
                 //存储信息到map
                 mAppInfo.put("versionName", versionName);
                 mAppInfo.put("versionCode", versionCode);
+                mAppInfo.put("Device Manufacturer", Build.MANUFACTURER);
+                mAppInfo.put("Device Model ", Build.MODEL);
+                mAppInfo.put("Android Version ",  Build.VERSION.RELEASE );
+                mAppInfo.put("Android SDK ",  Build.VERSION.SDK_INT+"");
             }
             //通过反射获取构建信息
             Field[] fields = Build.class.getFields();

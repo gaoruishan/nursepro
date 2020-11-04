@@ -3,6 +3,8 @@ package com.base.commlibs.service;
 import android.annotation.SuppressLint;
 import android.app.KeyguardManager;
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -19,14 +21,15 @@ import com.base.commlibs.utils.AppUtil;
  * @date:202020-10-23/09:55
  * @email:grs0515@163.com
  */
-public  class AliveService extends Service {
+public class AliveService extends Service {
 
     public static final String ACTION_WEB_SOCKET = "com.websocket.service.content";
     public static final String MESSAGE = "message";
+    public static final String TAG = "AliveService";
     private final static int GRAY_SERVICE_ID = 1001;
     //    -------------------------------------websocket心跳检测------------------------------------------------
     private static final long HEART_BEAT_RATE = 10 * 1000;//每隔10秒进行一次对长连接的心跳检测
-    public static final String TAG = "AliveService";
+    private static final String CHANNEL_ID_STRING = "10000";
     private PowerManager.WakeLock wakeLock;//锁屏唤醒
     private JWebSocketClientBinder mBinder = new JWebSocketClientBinder();
 //    private Handler mHandler = new Handler();
@@ -49,21 +52,48 @@ public  class AliveService extends Service {
 //        mHandler.postDelayed(heartBeatRunnable, HEART_BEAT_RATE);//开启心跳检测
 
         //设置service为前台服务，提高优先级
-        if (Build.VERSION.SDK_INT < 18) {
+        if (Build.VERSION.SDK_INT <= 18) {
             //Android4.3以下 ，隐藏Notification上的图标
             startForeground(GRAY_SERVICE_ID, new Notification());
-        } else if (Build.VERSION.SDK_INT > 18 && Build.VERSION.SDK_INT < 25) {
+        } else if (Build.VERSION.SDK_INT > 18 && Build.VERSION.SDK_INT <= 25) {
             //Android4.3 - Android7.0，隐藏Notification上的图标
             Intent innerIntent = new Intent(this, GrayInnerService.class);
             startService(innerIntent);
             startForeground(GRAY_SERVICE_ID, new Notification());
         } else {
             //Android7.0以上app启动后通知栏会出现一条"正在运行"的通知
-            startForeground(GRAY_SERVICE_ID, new Notification());
+//            startForeground(GRAY_SERVICE_ID, new Notification());
+            startForegroundSdkO();
         }
 
         acquireWakeLock();
         return START_STICKY;
+    }
+
+    private void startForegroundSdkO() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID_STRING, "护士站", NotificationManager.IMPORTANCE_HIGH);
+            if (notificationManager != null) {
+                notificationManager.createNotificationChannel(mChannel);
+                Notification notification = new Notification.Builder(getApplicationContext(), CHANNEL_ID_STRING).build();
+                startForeground(GRAY_SERVICE_ID, notification);
+            }
+        }
+    }
+
+    //获取电源锁，保持该服务在屏幕熄灭时仍然获取CPU时，保持运行
+    @SuppressLint("InvalidWakeLockTag")
+    private void acquireWakeLock() {
+        if (null == wakeLock) {
+            PowerManager pm = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
+            if (pm != null) {
+                wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK | PowerManager.ON_AFTER_RELEASE, "PostLocationService");
+                if (wakeLock != null) {
+                    wakeLock.acquire();
+                }
+            }
+        }
     }
 
     @Override
@@ -76,18 +106,6 @@ public  class AliveService extends Service {
         return mBinder;
     }
 
-
-    //获取电源锁，保持该服务在屏幕熄灭时仍然获取CPU时，保持运行
-    @SuppressLint("InvalidWakeLockTag")
-    private void acquireWakeLock() {
-        if (null == wakeLock) {
-            PowerManager pm = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
-            wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK | PowerManager.ON_AFTER_RELEASE, "PostLocationService");
-            if (null != wakeLock) {
-                wakeLock.acquire();
-            }
-        }
-    }
     /**
      * 检查锁屏状态，如果锁屏先点亮屏幕
      */
@@ -95,14 +113,16 @@ public  class AliveService extends Service {
         //管理锁屏的一个服务
         KeyguardManager km = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
         //锁屏
-        if (km.inKeyguardRestrictedInputMode()) {
+        if (km!=null&&km.inKeyguardRestrictedInputMode()) {
             //获取电源管理器对象
             PowerManager pm = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
-            if (!pm.isScreenOn()) {
+            if (pm!=null&&!pm.isScreenOn()) {
                 @SuppressLint("InvalidWakeLockTag") PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP |
                         PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "bright");
-                wl.acquire();  //点亮屏幕
-                wl.release();  //任务结束后释放
+                if (wl != null) {
+                    wl.acquire();  //点亮屏幕
+                    wl.release();  //任务结束后释放
+                }
             }
         }
     }
