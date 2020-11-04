@@ -46,7 +46,6 @@ public class NurPlanInterveAdapter extends BaseQuickAdapter<NurPlanInterveBean.I
                 .setText(R.id.tv_exetime, "执行: " + item.getExectime())
                 .setGone(R.id.tv_starttime, !TextUtils.isEmpty(item.getStartDatetime()))
                 .setText(R.id.tv_starttime, " " + item.getStartDatetime())
-                .setGone(R.id.bl_tv_fre_select, !TextUtils.isEmpty(item.getFreqDR()))
                 .setGone(R.id.tv_fre, !TextUtils.isEmpty(item.getFreqDR()))
                 .setText(R.id.tv_fre, "频率: " + InterveFreqBean.getFreq(item.getFreqDR()))
                 .setGone(R.id.tv_soure, !TextUtils.isEmpty(item.getDataSource()))
@@ -65,10 +64,12 @@ public class NurPlanInterveAdapter extends BaseQuickAdapter<NurPlanInterveBean.I
         } else if (isStop) {
             color = "#FF4500";
         }
+        boolean canSelect = !(commits || isCancel || isStop);
         blTvStatus.setBackground(getBgDrawable(color));
         helper.setGone(R.id.tv_item_ques_undo, commits)
                 .setGone(R.id.tv_item_ques_stop, commits)
-                .setVisible(R.id.ll_select, !( isCancel || isStop));
+                .setGone(R.id.bl_tv_fre_select, canSelect)
+                .setVisible(R.id.ll_select, canSelect);
 
     }
 
