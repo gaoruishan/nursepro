@@ -9,6 +9,8 @@ import com.dhcc.nursepro.workarea.nurrecordnew.bean.CareRecCommListBean;
 import com.dhcc.nursepro.workarea.nurrecordnew.bean.DataSourceBean;
 import com.dhcc.nursepro.workarea.nurrecordnew.bean.ElementDataBean;
 import com.dhcc.nursepro.workarea.nurrecordnew.bean.InWardPatListBean;
+import com.dhcc.nursepro.workarea.nurrecordnew.bean.NurRecordKnowledgeContentBean;
+import com.dhcc.nursepro.workarea.nurrecordnew.bean.NurRecordKnowledgeTreeBean;
 import com.dhcc.nursepro.workarea.nurrecordnew.bean.RecDataBean;
 import com.dhcc.nursepro.workarea.nurrecordnew.bean.RecModelListBean;
 import com.google.gson.Gson;
@@ -272,6 +274,73 @@ public class NurRecordNewApiManager {
         });
     }
 
+    public static void getKnowledgeTree(final GetKnowledgeTreeCallback callback) {
+        NurRecordNewApiService.getKnowledgeTree(new NurRecordNewApiService.ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                Gson gson = new Gson();
+
+                if (jsonStr.isEmpty()) {
+                    callback.onFail("-1", "网络错误，请求数据为空");
+                } else {
+                    try {
+                        NurRecordKnowledgeTreeBean knowledgeTreeBean = gson.fromJson(jsonStr, NurRecordKnowledgeTreeBean.class);
+                        if (ObjectUtils.isEmpty(knowledgeTreeBean)) {
+                            callback.onFail("-3", "网络错误，数据解析为空");
+                        } else {
+                            if ("0".equals(knowledgeTreeBean.getStatus())) {
+                                if (callback != null) {
+                                    Map KnowledgeMap = gson.fromJson(jsonStr, Map.class);
+                                    callback.onSuccess(knowledgeTreeBean, KnowledgeMap);
+                                }
+                            } else {
+                                if (callback != null) {
+                                    callback.onFail(knowledgeTreeBean.getMsg(), knowledgeTreeBean.getMsg());
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        callback.onFail("-2", "网络错误，数据解析失败");
+                    }
+
+                }
+            }
+        });
+    }
+
+    public static void getKnowledgeContent(String knowledgeId, final GetKnowledgeContentCallback callback) {
+        NurRecordNewApiService.getKnowledgeContent(knowledgeId, new NurRecordNewApiService.ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                Gson gson = new Gson();
+
+                if (jsonStr.isEmpty()) {
+                    callback.onFail("-1", "网络错误，请求数据为空");
+                } else {
+                    try {
+                        NurRecordKnowledgeContentBean knowledgeContentBean = gson.fromJson(jsonStr, NurRecordKnowledgeContentBean.class);
+                        if (ObjectUtils.isEmpty( knowledgeContentBean)) {
+                            callback.onFail("-3", "网络错误，数据解析为空");
+                        } else {
+                            if ("0".equals( knowledgeContentBean.getStatus())) {
+                                if (callback != null) {
+                                    callback.onSuccess(knowledgeContentBean);
+                                }
+                            } else {
+                                if (callback != null) {
+                                    callback.onFail( knowledgeContentBean.getMsg(),  knowledgeContentBean.getMsg());
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        callback.onFail("-2", "网络错误，数据解析失败");
+                    }
+
+                }
+            }
+        });
+    }
+
 
     public interface CommonCallBack {
         void onFail(String code, String msg);
@@ -295,6 +364,14 @@ public class NurRecordNewApiManager {
 
     public interface GetDataSourceCallback extends CommonCallBack {
         void onSuccess(DataSourceBean dataSourceBean);
+    }
+
+    public interface GetKnowledgeTreeCallback extends CommonCallBack {
+        void onSuccess(NurRecordKnowledgeTreeBean knowledgeTreeBean, Map<String,String> knowledgeMap);
+    }
+
+    public interface GetKnowledgeContentCallback extends CommonCallBack {
+        void onSuccess(NurRecordKnowledgeContentBean knowledgeContentBean);
     }
 
     public interface RecDataCallback extends CommonCallBack {

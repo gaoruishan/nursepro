@@ -1,17 +1,13 @@
 package com.dhcc.nursepro.workarea.bedmap.adapter;
 
 import android.annotation.SuppressLint;
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -60,24 +56,21 @@ public class BedMapPatientAdapter extends BaseQuickAdapter<BedMapBean.PatInfoLis
         PatIconView patIcon = helper.getView(R.id.pacicon_bedmap);
         patIcon.setIconShow(item);
 
-        List<BedMapBean.PatInfoListBean.SkinOrdBean> skinOrdBeanList = item.getSkinOrd();
-        if (skinOrdBeanList == null || skinOrdBeanList.size() < 1) {
-            line.setVisibility(View.GONE);
-            llSkinOrder.setVisibility(View.GONE);
-        } else {
-            line.setVisibility(View.VISIBLE);
-            llSkinOrder.setVisibility(View.VISIBLE);
-
-            BedMapPatientSkinOrderAdapter skinOrderAdapter = new BedMapPatientSkinOrderAdapter(skinOrdBeanList);
-            recySkinOrder.setAdapter(skinOrderAdapter);
-        }
-
         if (SPUtils.getInstance().getString(SharedPreference.SINGLEMODEL).equals("1")){
             line.setVisibility(View.GONE);
             llSkinOrder.setVisibility(View.GONE);
         }else{
-            line.setVisibility(View.VISIBLE);
-            llSkinOrder.setVisibility(View.VISIBLE);
+            List<BedMapBean.PatInfoListBean.SkinOrdBean> skinOrdBeanList = item.getSkinOrd();
+            if (skinOrdBeanList == null || skinOrdBeanList.size() < 1) {
+                line.setVisibility(View.GONE);
+                llSkinOrder.setVisibility(View.GONE);
+            } else {
+                line.setVisibility(View.VISIBLE);
+                llSkinOrder.setVisibility(View.VISIBLE);
+
+                BedMapPatientSkinOrderAdapter skinOrderAdapter = new BedMapPatientSkinOrderAdapter(skinOrdBeanList);
+                recySkinOrder.setAdapter(skinOrderAdapter);
+            }
         }
     }
 }

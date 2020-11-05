@@ -104,6 +104,34 @@ public class NurRecordNewApiService {
         });
     }
 
+    public static void getKnowledgeTree(final ServiceCallBack callback) {
+        SPUtils spUtils = SPUtils.getInstance();
+        HashMap<String, String> properties = new HashMap<>();
+        properties.put("locId", spUtils.getString(SharedPreference.LOCID));
+        properties.put("hospitalId", spUtils.getString(SharedPreference.HOSPITALROWID));
+
+        WebServiceUtils.callWebService("getKnowledgeTree", properties, new WebServiceUtils.WebServiceCallBack() {
+            @Override
+            public void callBack(String result) {
+                callback.onResult(result);
+            }
+        });
+    }
+
+
+    public static void getKnowledgeContent(String knowledgeId,final ServiceCallBack callback) {
+        HashMap<String, String> properties = new HashMap<>();
+        properties.put("knowledgeId", knowledgeId);
+
+        WebServiceUtils.callWebService("getKnowledgeContent", properties, new WebServiceUtils.WebServiceCallBack() {
+            @Override
+            public void callBack(String result) {
+                callback.onResult(result);
+            }
+        });
+    }
+
+
 
     public interface ServiceCallBack {
         void onResult(String jsonStr);

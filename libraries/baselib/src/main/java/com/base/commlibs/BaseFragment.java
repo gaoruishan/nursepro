@@ -185,6 +185,7 @@ public class BaseFragment extends Fragment {
         mfilter.addAction(Action.TOUR_DOSINGID);
         mfilter.addAction(Action.DRUG_RLREG);
         mfilter.addAction(Action.NUR_RECORD_XML_VIEW);
+        mfilter.addAction(Action.NURRECORD_KONWLEDGETREEID);
     }
 
     public Toolbar getToolbar() {
