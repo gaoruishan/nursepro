@@ -145,7 +145,7 @@ public class DayPayListFragment extends BaseFragment {
                 tvInHosTime.setText(dayPayListBean.getPatInfo().getInHospDateTime());
                 tvPrePay.setText(dayPayListBean.getPatInfo().getPrepay());
                 tvBalance.setText(dayPayListBean.getPatInfo().getBalance());
-                tvTotalSum.setText(dayPayListBean.getPatInfo().getInfee());
+                tvTotalSum.setText(dayPayListBean.getPatInfo().getTotalSum());
                 tvInFee.setText(dayPayListBean.getPatInfo().getInfee());
                 if (dayPayListBean.getPriceList().size()<1){
                     llPayEmp.setVisibility(View.VISIBLE);
