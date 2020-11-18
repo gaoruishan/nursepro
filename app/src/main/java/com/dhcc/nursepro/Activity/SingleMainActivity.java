@@ -58,6 +58,7 @@ import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.module.nurse.bloodsugar.BloodSugarFragment;
 import com.dhcc.module.nurse.education.HealthEduFragment;
@@ -255,7 +256,12 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
             @Override
             public void onFail(String code, String msg) {
                 hideLoadingTip();
-                showToast("error" + code + ":" + msg);
+                if (patInfoMapList.size()<1){
+                    showToast("床位获取失败，请重试");
+                }else {
+                    showToast("error" + code + ":" + msg);
+                }
+
                 SPUtils.getInstance().put(SharedPreference.SINGLEMODEL,"0");
                 startActivity(new Intent(SingleMainActivity.this, LoginActivity.class));
                 finish();
@@ -477,7 +483,9 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
         findViewById(R.id.tv_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setMaskLeftShow(contentView1,0.2f);
+                if (contentView1!=null){
+                    setMaskLeftShow(contentView1,0.2f);
+                }
             }
         });
         findViewById(R.id.tv_patmap).setOnClickListener(new View.OnClickListener() {

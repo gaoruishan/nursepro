@@ -509,6 +509,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     startSingleActivity();
                 }else {
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    finish();
                 }
 
             }
