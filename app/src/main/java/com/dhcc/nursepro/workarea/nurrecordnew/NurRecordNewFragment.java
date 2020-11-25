@@ -1028,6 +1028,38 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
             });
         }
 
+        if (!StringUtils.isEmpty(element.getBindingTemplateID()) && !"true".equals(element.getIsHide())) {
+            tvTitle.setTextColor(Color.parseColor("#62ABFF"));
+            tvTitle.setOnClickListener(v -> {
+                String emrCode = element.getBindingTemplateID();
+                String guid = "";
+                String recId = "";
+                for (int i = 0; i < firstIdListBeans.size(); i++) {
+                    if (firstIdListBeans.get(i).getEmrCode().equals(emrCode)) {
+                        guid = firstIdListBeans.get(i).getGuId();
+                        recId = firstIdListBeans.get(i).getRecId();
+                        break;
+                    }
+                }
+
+                if (!StringUtils.isEmpty(guid)) {
+                    callBackEffects = element.getCallBackEffects();
+                    callBackReturnMapEffects = element.getCallBackReturnMapEffects();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("EpisodeID", episodeID);
+                    bundle.putString("BedNo", bedNo);
+                    bundle.putString("PatName", patName);
+                    bundle.putString("EMRCode", emrCode);
+                    bundle.putString("GUID", guid);
+                    bundle.putString("RecID", recId);
+                    bundle.putString("CallBackEffects", callBackEffects);
+                    bundle.putString("CallBackReturnMapEffects", callBackReturnMapEffects);
+                    startFragment(NurRecordNewFragment.class, bundle, 10001);
+                }
+            });
+
+        }
+
         TextView textView = new TextView(getActivity());
         LinearLayout.LayoutParams tvparams2 = new LinearLayout.LayoutParams(0, ConvertUtils.dp2px(40f), 2.0f);
         textView.setLayoutParams(tvparams2);
@@ -1130,6 +1162,40 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
             });
         }
 
+        ElementDataBean.DataBean.InputBean.ElementBasesBean.RadioElementListBean radioElement = element.getRadioElementList().get(0);
+
+        if (radioElement != null && !StringUtils.isEmpty(radioElement.getBindingTemplateID()) && !"true".equals(radioElement.getIsHide())) {
+            tvTitle.setTextColor(Color.parseColor("#62ABFF"));
+            tvTitle.setOnClickListener(v -> {
+                String emrCode = radioElement.getBindingTemplateID();
+                String guid = "";
+                String recId = "";
+                for (int i = 0; i < firstIdListBeans.size(); i++) {
+                    if (firstIdListBeans.get(i).getEmrCode().equals(emrCode)) {
+                        guid = firstIdListBeans.get(i).getGuId();
+                        recId = firstIdListBeans.get(i).getRecId();
+                        break;
+                    }
+                }
+
+                if (!StringUtils.isEmpty(guid)) {
+                    callBackEffects = radioElement.getCallBackEffects();
+                    callBackReturnMapEffects = radioElement.getCallBackReturnMapEffects();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("EpisodeID", episodeID);
+                    bundle.putString("BedNo", bedNo);
+                    bundle.putString("PatName", patName);
+                    bundle.putString("EMRCode", emrCode);
+                    bundle.putString("GUID", guid);
+                    bundle.putString("RecID", recId);
+                    bundle.putString("CallBackEffects", callBackEffects);
+                    bundle.putString("CallBackReturnMapEffects", callBackReturnMapEffects);
+                    startFragment(NurRecordNewFragment.class, bundle, 10001);
+                }
+            });
+
+        }
+
         LinearLayout llRadio = new LinearLayout(getActivity());
         LinearLayout.LayoutParams tvparams2 = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 2.0f);
         llRadio.setLayoutParams(tvparams2);
@@ -1223,6 +1289,40 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                 tipDialog.setSureOnclickListener(() -> tipDialog.dismiss());
                 tipDialog.show();
             });
+        }
+
+        ElementDataBean.DataBean.InputBean.ElementBasesBean.RadioElementListBean radioElement = element.getRadioElementList().get(0);
+
+        if (radioElement != null && !StringUtils.isEmpty(radioElement.getBindingTemplateID()) && !"true".equals(radioElement.getIsHide())) {
+            tvTitle.setTextColor(Color.parseColor("#62ABFF"));
+            tvTitle.setOnClickListener(v -> {
+                String emrCode = radioElement.getBindingTemplateID();
+                String guid = "";
+                String recId = "";
+                for (int i = 0; i < firstIdListBeans.size(); i++) {
+                    if (firstIdListBeans.get(i).getEmrCode().equals(emrCode)) {
+                        guid = firstIdListBeans.get(i).getGuId();
+                        recId = firstIdListBeans.get(i).getRecId();
+                        break;
+                    }
+                }
+
+                if (!StringUtils.isEmpty(guid)) {
+                    callBackEffects = radioElement.getCallBackEffects();
+                    callBackReturnMapEffects = radioElement.getCallBackReturnMapEffects();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("EpisodeID", episodeID);
+                    bundle.putString("BedNo", bedNo);
+                    bundle.putString("PatName", patName);
+                    bundle.putString("EMRCode", emrCode);
+                    bundle.putString("GUID", guid);
+                    bundle.putString("RecID", recId);
+                    bundle.putString("CallBackEffects", callBackEffects);
+                    bundle.putString("CallBackReturnMapEffects", callBackReturnMapEffects);
+                    startFragment(NurRecordNewFragment.class, bundle, 10001);
+                }
+            });
+
         }
 
         LinearLayout llCheck = new LinearLayout(getActivity());
