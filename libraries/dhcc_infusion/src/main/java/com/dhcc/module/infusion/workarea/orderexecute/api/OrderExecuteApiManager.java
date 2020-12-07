@@ -18,7 +18,18 @@ import java.util.HashMap;
 public class OrderExecuteApiManager extends BaseApiManager {
 
     public static void getOrder(String regNo, String sheetCode, String startDate, String startTime, String endDate, String endTime, final CommonCallBack<OrderExecuteBean> callBack) {
-        OrderExecuteApiService.getOrder(regNo, sheetCode, startDate, startTime, endDate, endTime, new ServiceCallBack() {
+        HashMap<String, String> properties = CommWebService.addUserId(null);
+        CommWebService.addLocId(properties);
+        CommWebService.addHospitalId(properties);
+        CommWebService.addGroupId(properties);
+        properties.put("regNo", regNo);
+        properties.put("sheetCode", sheetCode);
+        properties.put("startDate", startDate);
+        properties.put("startTime", startTime);
+        properties.put("endDate", endDate);
+        properties.put("endTime", endTime);
+
+        CommWebService.call(getOrders, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<OrderExecuteBean> parserUtil = new ParserUtil<>();
@@ -27,19 +38,20 @@ public class OrderExecuteApiManager extends BaseApiManager {
                 parserUtil.parserStatus(bean, callBack);
             }
         });
+
     }
 
-    public static void execOrder(String oeoreId, String exeCode, String sheetCode,final CommonCallBack<CommResult> callBack) {
+    public static void execOrder(String oeoreId, String exeCode, String sheetCode, final CommonCallBack<CommResult> callBack) {
         HashMap<String, String> properties = CommWebService.addUserId(null);
         CommWebService.addLocId(properties);
         properties.put("oeoreId", oeoreId);
         properties.put("sheetCode", sheetCode);
         properties.put("exeCode", exeCode);
 
-        CommWebService.call("execOrder", properties, new ServiceCallBack() {
+        CommWebService.call(execOrder, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
-                CommWebService.parserCommResult(jsonStr,callBack);
+                CommWebService.parserCommResult(jsonStr, callBack);
             }
         });
     }

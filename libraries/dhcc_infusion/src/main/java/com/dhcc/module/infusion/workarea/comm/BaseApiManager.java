@@ -4,6 +4,7 @@ import com.base.commlibs.http.CommWebService;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.http.ParserUtil;
 import com.base.commlibs.http.ServiceCallBack;
+import com.dhcc.module.infusion.ServerAPI;
 import com.dhcc.module.infusion.workarea.comm.bean.ScanInfoBean;
 
 import java.util.HashMap;
@@ -14,7 +15,7 @@ import java.util.HashMap;
  * @date:202019-11-14/14:20
  * @email:grs0515@163.com
  */
-public class BaseApiManager {
+public class BaseApiManager extends ServerAPI {
     /**
      * 获取扫码信息
      * PAT 扫腕带返回患者信息
@@ -25,7 +26,7 @@ public class BaseApiManager {
         CommWebService.addLocId(properties);
         properties.put("regNo", regNo);
         properties.put("barcode", barcode);
-        CommWebService.call("getScanInfo", properties, new ServiceCallBack() {
+        CommWebService.call(getScanInfo, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<ScanInfoBean> parserUtil = new ParserUtil<>();

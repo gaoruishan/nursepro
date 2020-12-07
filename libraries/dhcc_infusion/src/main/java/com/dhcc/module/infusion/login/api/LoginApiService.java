@@ -22,11 +22,11 @@ public class LoginApiService extends ServerAPI {
         properties.put("logonWardId", logonWardId);
         properties.put("scanFlag", scanFlag);
         properties.put("logonLocType", SPUtils.getInstance().getString(SharedPreference.LOGONLOCTYPE));
-        CommWebService.call(LOGON, properties, callback);
+        CommWebService.call(Logon, properties, callback);
     }
 
     public static void getBroadcastList(ServiceCallBack callBack) {
-        CommWebService.call("getBroadcastConfig", null, callBack);
+        CommWebService.call(getBroadcastConfig, null, callBack);
     }
 
 

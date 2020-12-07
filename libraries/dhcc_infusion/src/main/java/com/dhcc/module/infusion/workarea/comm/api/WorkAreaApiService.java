@@ -2,6 +2,7 @@ package com.dhcc.module.infusion.workarea.comm.api;
 
 import com.base.commlibs.http.CommWebService;
 import com.base.commlibs.http.ServiceCallBack;
+import com.dhcc.module.infusion.ServerAPI;
 
 import java.util.HashMap;
 
@@ -10,7 +11,7 @@ import java.util.HashMap;
  * @date:202019-05-20/16:52
  * @email:grs0515@163.com
  */
-public class WorkAreaApiService {
+public class WorkAreaApiService extends ServerAPI {
     /**
      * Description:  获取医嘱详情
      * Input：       oeoreId:执行记录ID
@@ -19,7 +20,7 @@ public class WorkAreaApiService {
     public static void getOrdInfo(String oeoreId, ServiceCallBack callBack) {
         HashMap<String, String> properties = new HashMap<>();
         properties.put("oeoreId", oeoreId);
-        CommWebService.call("getOrdInfo", properties, callBack);
+        CommWebService.call(getOrdInfo, properties, callBack);
     }
 
     /**
@@ -31,7 +32,7 @@ public class WorkAreaApiService {
     public static void getPatInfo(String regNo, ServiceCallBack callBack) {
         HashMap<String, String> properties = new HashMap<>();
         properties.put("regNo", regNo);
-        CommWebService.call("getPatInfo", properties, callBack);
+        CommWebService.call(getPatInfo, properties, callBack);
     }
 
 }
