@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import com.base.commlibs.http.CommWebService;
 import com.base.commlibs.http.ServiceCallBack;
+import com.dhcc.module.infusion.ServerAPI;
 
 import java.util.HashMap;
 
@@ -12,7 +13,7 @@ import java.util.HashMap;
  * @date:202019-04-24/14:53
  * @email:grs0515@163.com
  */
-public class DosingApiService {
+public class DosingApiService extends ServerAPI {
     /**
      * Description:  按接单号查询医嘱
      * Input：       regNo:登记号,oeoreId:执行记录ID,userId:用户ID,locId:科室ID
@@ -27,7 +28,7 @@ public class DosingApiService {
         }
         properties.put("oeoreId", oeoreId);
 
-        CommWebService.callUserIdLocId("getOrdList", properties, callBack);
+        CommWebService.callUserIdLocId(getOrdList, properties, callBack);
 
     }
 
@@ -46,7 +47,7 @@ public class DosingApiService {
         if (!TextUtils.isEmpty(password)) {
             properties.put("password", password);
         }
-        CommWebService.callUserIdLocId("despensingOrd", properties, callBack);
+        CommWebService.callUserIdLocId(despensingOrd, properties, callBack);
     }
 
 
@@ -59,7 +60,7 @@ public class DosingApiService {
     public static void getPatInfo(String regNo, ServiceCallBack callBack) {
         HashMap<String, String> properties = new HashMap<>();
         properties.put("regNo", regNo);
-        CommWebService.call("getPatInfo", properties, callBack);
+        CommWebService.call(getPatInfo, properties, callBack);
     }
 
 }

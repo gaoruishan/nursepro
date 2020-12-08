@@ -8,6 +8,7 @@ import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.http.ParserUtil;
 import com.base.commlibs.http.ServiceCallBack;
 import com.base.commlibs.http.BaseRequestParams;
+import com.dhcc.module.infusion.ServerAPI;
 import com.dhcc.module.infusion.workarea.transblood.bean.TransBloodDetailBean;
 import com.dhcc.module.infusion.workarea.transblood.bean.TransBloodListBean;
 
@@ -19,14 +20,14 @@ import java.util.HashMap;
  * @date:202020-03-05/14:56
  * @email:grs0515@163.com
  */
-public class TransBloodApiManager {
+public class TransBloodApiManager extends ServerAPI {
 
     /**
      * 获取输血列表
      */
     public static void getTransBloodList(@NonNull BaseRequestParams params, final CommonCallBack<TransBloodListBean> callBack) {
         HashMap<String, String> properties = BaseRequestParams.getProperties(params);
-        CommWebService.callJson("getTransBloodList", properties, new ServiceCallBack() {
+        CommWebService.callJson(getTransBloodList, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<TransBloodListBean> parserUtil = new ParserUtil<>();
@@ -42,7 +43,7 @@ public class TransBloodApiManager {
      */
     public static void getTransBloodDetail(@NonNull BaseRequestParams params, final CommonCallBack<TransBloodDetailBean> callBack) {
         HashMap<String, String> properties = BaseRequestParams.getProperties(params);
-        CommWebService.callJson("getTransBloodDetail", properties, new ServiceCallBack() {
+        CommWebService.callJson(getTransBloodDetail, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<TransBloodDetailBean> parserUtil = new ParserUtil<>();
@@ -58,7 +59,7 @@ public class TransBloodApiManager {
      */
     public static void bloodReceive(@NonNull BaseRequestParams params, final CommonCallBack<CommResult> callBack) {
         HashMap<String, String> properties = BaseRequestParams.getProperties(params);
-        CommWebService.callJson("bloodReceive", properties, new ServiceCallBack() {
+        CommWebService.callJson(bloodReceive, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 CommWebService.parserCommResult(jsonStr,callBack);
@@ -70,7 +71,7 @@ public class TransBloodApiManager {
      */
     public static void bloodCheck(@NonNull BaseRequestParams params, final CommonCallBack<CommResult> callBack) {
         HashMap<String, String> properties = BaseRequestParams.getProperties(params);
-        CommWebService.callJson("bloodCheck", properties, new ServiceCallBack() {
+        CommWebService.callJson(bloodCheck, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 CommWebService.parserCommResult(jsonStr,callBack);
@@ -83,7 +84,7 @@ public class TransBloodApiManager {
      */
     public static void startTransfusion(@NonNull BaseRequestParams params, final CommonCallBack<CommResult> callBack) {
         HashMap<String, String> properties = BaseRequestParams.getProperties(params);
-        CommWebService.callJson("startTransfusion", properties, new ServiceCallBack() {
+        CommWebService.callJson(startTransfusion, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 CommWebService.parserCommResult(jsonStr,callBack);
@@ -96,7 +97,7 @@ public class TransBloodApiManager {
      */
     public static void bloodPatrol(@NonNull BaseRequestParams params, final CommonCallBack<CommResult> callBack) {
         HashMap<String, String> properties = BaseRequestParams.getProperties(params);
-        CommWebService.callJson("bloodPatrol", properties, new ServiceCallBack() {
+        CommWebService.callJson(bloodPatrol, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 CommWebService.parserCommResult(jsonStr,callBack);
@@ -108,7 +109,7 @@ public class TransBloodApiManager {
      */
     public static void endTransfusion(@NonNull BaseRequestParams params, final CommonCallBack<CommResult> callBack) {
         HashMap<String, String> properties = BaseRequestParams.getProperties(params);
-        CommWebService.callJson("endTransfusion", properties, new ServiceCallBack() {
+        CommWebService.callJson(endTransfusion, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 CommWebService.parserCommResult(jsonStr,callBack);
@@ -121,7 +122,7 @@ public class TransBloodApiManager {
      */
     public static void recycleBloodbag(BaseRequestParams params, final CommonCallBack<CommResult> callBack) {
         HashMap<String, String> properties = BaseRequestParams.getProperties(params);
-        CommWebService.callJson("recycleBloodbag", properties, new ServiceCallBack() {
+        CommWebService.callJson(recycleBloodbag, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 CommWebService.parserCommResult(jsonStr,callBack);

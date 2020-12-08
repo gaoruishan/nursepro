@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import com.base.commlibs.http.CommWebService;
 import com.base.commlibs.http.ServiceCallBack;
+import com.dhcc.module.infusion.ServerAPI;
 
 import java.util.HashMap;
 
@@ -12,7 +13,7 @@ import java.util.HashMap;
  * @date:202019-04-28/09:13
  * @email:grs0515@163.com
  */
-public class PatrolApiService {
+public class PatrolApiService extends ServerAPI {
     /**
      *  Description:  按接单号查询医嘱
      *  Input：       regNo:登记号,oeoreId:执行记录ID,userId:用户ID,locId:科室ID,barCode:条码号
@@ -26,7 +27,7 @@ public class PatrolApiService {
         }
         properties.put("curOeoreId", curOeoreId);
         properties.put("barCode", barCode);
-        CommWebService.callUserIdLocId("getTourOrdList",properties,callBack);
+        CommWebService.callUserIdLocId(getTourOrdList,properties,callBack);
     }
     /**
      * Description:  巡视
@@ -44,7 +45,7 @@ public class PatrolApiService {
             properties.put("puncturePart", puncturePart);
         }
         properties.put("tourContent", tourContent);
-        CommWebService.callUserIdLocId("tourOrd",properties,callBack);
+        CommWebService.callUserIdLocId(tourOrd,properties,callBack);
 
     }
 }

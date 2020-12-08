@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import com.base.commlibs.http.CommWebService;
 import com.base.commlibs.http.ServiceCallBack;
+import com.dhcc.module.infusion.ServerAPI;
 
 import java.util.HashMap;
 
@@ -12,7 +13,7 @@ import java.util.HashMap;
  * @date:202019-05-20/16:27
  * @email:grs0515@163.com
  */
-public class MessageApiService {
+public class MessageApiService extends ServerAPI {
 
 
     /**
@@ -22,7 +23,7 @@ public class MessageApiService {
      */
     public static void getInfusionMessage(com.base.commlibs.http.ServiceCallBack callBack) {
         HashMap<String, String> properties = CommWebService.addLocId(null);
-        CommWebService.call("getInfusionMessage", properties, callBack);
+        CommWebService.call(getInfusionMessage, properties, callBack);
     }
 
     /**
@@ -32,7 +33,7 @@ public class MessageApiService {
      */
     public static void getSkinTestMessage(com.base.commlibs.http.ServiceCallBack callBack) {
         HashMap<String, String> properties = CommWebService.addLocId(null);
-        CommWebService.call("getSkinTestMessage", properties, callBack);
+        CommWebService.call(getSkinTestMessage, properties, callBack);
     }
     /**
      * Description: 置皮试结果
@@ -51,11 +52,11 @@ public class MessageApiService {
             if(!TextUtils.isEmpty(auditPassword)){
                 properties.put("auditPassword", auditPassword);
             }
-            CommWebService.call("setSkinTestResult", properties, callBack);
+            CommWebService.call(setSkinTestResult, properties, callBack);
         }
     }
 
     public static void getNotifyMessage(ServiceCallBack callBack) {
-        CommWebService.callUserIdLocId("getNotifyMessage",null,callBack);
+        CommWebService.callUserIdLocId(getNotifyMessage,null,callBack);
     }
 }

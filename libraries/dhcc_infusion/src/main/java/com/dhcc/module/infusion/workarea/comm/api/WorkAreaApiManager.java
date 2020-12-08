@@ -4,6 +4,7 @@ import com.base.commlibs.http.CommWebService;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.http.ParserUtil;
 import com.base.commlibs.http.ServiceCallBack;
+import com.dhcc.module.infusion.ServerAPI;
 import com.dhcc.module.infusion.workarea.comm.bean.MainConfigBean;
 import com.dhcc.module.infusion.workarea.comm.bean.OrdInfoBean;
 import com.dhcc.module.infusion.workarea.comm.bean.PatDetailBean;
@@ -15,7 +16,7 @@ import java.util.HashMap;
  * @date:202019-05-20/16:50
  * @email:grs0515@163.com
  */
-public class WorkAreaApiManager {
+public class WorkAreaApiManager extends ServerAPI {
     /**
      * Description:  获取医嘱详情
      * Input：       oeoreId:执行记录ID
@@ -62,7 +63,7 @@ public class WorkAreaApiManager {
         HashMap<String, String> properties = CommWebService.addUserId(null);
         CommWebService.addGroupId(properties);
         CommWebService.addLocId(properties);
-        CommWebService.call("getMainConfig", properties, new ServiceCallBack() {
+        CommWebService.call(getMainConfig, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<MainConfigBean> parser = new ParserUtil<>();

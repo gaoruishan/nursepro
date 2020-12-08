@@ -29,7 +29,7 @@ public class InjectApiManager extends BaseApiManager {
         properties.put("startDate", stDate);
         properties.put("endDate", enDate);
         properties.put("barCode", barCode);
-        CommWebService.call("getInjectOrdList", properties, new ServiceCallBack() {
+        CommWebService.call(getInjectOrdList, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<InjectListBean> parserUtil = new ParserUtil<>();
@@ -39,14 +39,7 @@ public class InjectApiManager extends BaseApiManager {
             }
         });
     }
-    /**
-     * Description:  配液/复核
-     * Input：       oeoreId:执行记录ID,userId:用户ID,type:操作类型(Despensing,Audit),locId:科室Id
-     * other:		  w ##class(Nur.OPPDA.Despensing).despensingOrd("568-3-1","1","Audit",1)
-     */
-    public static void despensingOrd(String oeoreId, String type, String userCode, String password, ServiceCallBack callBack) {
 
-    }
     /**
      * Description:  配液/复核
      * Input：       oeoreId:执行记录ID,userId:用户ID,type:操作类型(Despensing,Audit),locId:科室Id
@@ -62,7 +55,7 @@ public class InjectApiManager extends BaseApiManager {
         if (!TextUtils.isEmpty(password)) {
             properties.put("password", password);
         }
-        CommWebService.callUserIdLocId("injectDespensing", properties, new ServiceCallBack() {
+        CommWebService.callUserIdLocId(injectDespensing, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 CommWebService.parserCommResult(jsonStr,callback);
@@ -76,7 +69,7 @@ public class InjectApiManager extends BaseApiManager {
         HashMap<String, String> properties = CommWebService.addUserId(null);
         CommWebService.addLocId(properties);
         properties.put("oeoreId", oeoreId);
-        CommWebService.call("exeInjectOrd", properties, new ServiceCallBack() {
+        CommWebService.call(exeInjectOrd, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 CommWebService.parserCommResult(jsonStr, callBack);
