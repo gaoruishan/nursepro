@@ -2163,6 +2163,12 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                 EditText editText = (EditText) viewHashMap.get(changeListBean.getId());
                 String type = changeListBean.getType();
 
+                if (type.contains("HasData")) {
+                    if (editText != null) {
+                        editText.setText(changeListBean.getVal());
+                    }
+                }
+
                 if (type.contains("Enable") || type.contains("DisEnable")) {
                     if (editText != null) {
                         if (type.contains("Enable")) {
