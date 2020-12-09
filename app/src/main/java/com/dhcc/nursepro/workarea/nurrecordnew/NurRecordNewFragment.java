@@ -60,6 +60,9 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
     private final HashMap<String, Integer[]> dropValue = new HashMap<>();
     //drop id val关联
     private final HashMap<String, List<String>> elementIdtoOprationItemList = new HashMap<>();
+    //edit、text statistic计分
+    private final List<Integer> etPointList = new ArrayList<>();
+
     //parent child view
     private final HashMap<String, List<String>> pcViewHashMap = new HashMap<>();
 
@@ -1225,7 +1228,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
 
             viewHashMap.put(radioElementListBean.getElementId(), checkBox);
             viewHashMap.put(radioElementListBean.getFormName() + "^" + radioElementListBean.getOprationItemList().get(0).getValue(), checkBox);
-            elementIdtoFormName.put(radioElementListBean.getElementId(), radioElementListBean.getFormName() + "^" + radioElementListBean.getOprationItemList().get(0).getValue());
+            elementIdtoFormName.put(radioElementListBean.getElementId(), radioElementListBean.getFormName() + "^" + radioElementListBean.getOprationItemList().get(0).getNumberValue());
             viewElementIdList.add(radioElementListBean.getElementId());
             childElementIdList.add(radioElementListBean.getElementId());
 
@@ -1353,7 +1356,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
 
             viewHashMap.put(radioElementListBean.getElementId(), checkBox);
             viewHashMap.put(radioElementListBean.getFormName() + "^" + radioElementListBean.getOprationItemList().get(0).getValue(), checkBox);
-            elementIdtoFormName.put(radioElementListBean.getElementId(), radioElementListBean.getFormName() + "^" + radioElementListBean.getOprationItemList().get(0).getValue());
+            elementIdtoFormName.put(radioElementListBean.getElementId(), radioElementListBean.getFormName() + "^" + radioElementListBean.getOprationItemList().get(0).getNumberValue());
             viewElementIdList.add(radioElementListBean.getElementId());
             childElementIdList.add(radioElementListBean.getElementId());
 
@@ -1903,7 +1906,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                 if (elementSetsBean.getFormName().equals(formName)) {
                     if (elementSetsBean.getFormName().startsWith("TextElement_") || elementSetsBean.getFormName().startsWith("NumberElement_")) {
                         EditText editText = (EditText) viewHashMap.get(viewElementId);
-                        if (!StringUtils.isEmpty(editText.getText().toString())) {
+                        if (editText != null && !StringUtils.isEmpty(editText.getText().toString())) {
                             if ("EqUnEmptyText".equals(elementSetsBean.getSign())) {
                                 List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
                                 if (changeListBeans != null && changeListBeans.size() > 0) {
@@ -2086,25 +2089,43 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
             for (int i = 0; statisticsListBeans != null && i < statisticsListBeans.size(); i++) {
                 ElementDataBean.DataBean.InputBean.StatisticsListBean statisticsListBean = statisticsListBeans.get(i);
                 String[] idStr = statisticsListBean.getEffects().split(",");
-                for (int i1 = 0; idStr != null && i1 < idStr.length; i1++) {
-                    if (idStr[i1].equals(viewElementId)) {
-                        EditText editText = (EditText) viewHashMap.get(statisticsListBean.getId());
-                        int score = Integer.parseInt(StringUtils.isEmpty(editText.getText().toString()) ? "0" : editText.getText().toString());
-
-                        if ("true".equals(isChecked) || "false".equals(isChecked)) {
-                            int changeScore = Integer.parseInt(elementIdtoFormName.get(viewElementId).split("\\^")[1]);
-                            CheckBox checkBox = (CheckBox) viewHashMap.get(viewElementId);
-                            if (checkBox.isChecked()) {
-                                score = score + changeScore;
-                            } else {
-                                score = score - changeScore;
-                            }
-                        } else if ("drop".equals(isChecked)) {
-                            Integer[] scoreInt = dropValue.get(viewElementId);
-                            score = score - scoreInt[0] + scoreInt[1];
+                if ("".equals(isChecked)) {
+                    etPointList.clear();
+                    for (String s : idStr) {
+                        TextView textView = (TextView) viewHashMap.get(s);
+                        if (textView != null) {
+                            etPointList.add(StringUtils.isEmpty(textView.getText().toString()) ? 0 : Integer.parseInt(textView.getText().toString()));
                         }
+                    }
+                }
 
-                        editText.setText(String.valueOf(score));
+                for (String s : idStr) {
+                    if (s.equals(viewElementId)) {
+                        EditText editText = (EditText) viewHashMap.get(statisticsListBean.getId());
+                        if (editText != null) {
+                            int score = Integer.parseInt(StringUtils.isEmpty(editText.getText().toString()) ? "0" : editText.getText().toString());
+
+                            if ("true".equals(isChecked) || "false".equals(isChecked)) {
+                                int changeScore = Integer.parseInt(elementIdtoFormName.get(viewElementId).split("\\^")[1]);
+                                CheckBox checkBox = (CheckBox) viewHashMap.get(viewElementId);
+                                if (checkBox != null && checkBox.isChecked()) {
+                                    score = score + changeScore;
+                                } else {
+                                    score = score - changeScore;
+                                }
+                            } else if ("drop".equals(isChecked)) {
+                                Integer[] scoreInt = dropValue.get(viewElementId);
+                                if (scoreInt != null) {
+                                    score = score - scoreInt[0] + scoreInt[1];
+                                }
+                            } else {
+                                score = 0;
+                                for (int j = 0; j < etPointList.size(); j++) {
+                                    score = score + etPointList.get(j);
+                                }
+                            }
+                            editText.setText(String.valueOf(score));
+                        }
                     }
                 }
             }

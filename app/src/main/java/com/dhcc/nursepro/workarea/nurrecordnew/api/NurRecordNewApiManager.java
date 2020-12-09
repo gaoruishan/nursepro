@@ -186,6 +186,7 @@ public class NurRecordNewApiManager {
 //        mStList.add("DHCNURRYZKHLPGDCRHZLR");//入院评估
 //        mStList.add("DHCNURHLJLDLR");//护理记录单
 //        mStList.add("DHCNURHZZLNLPDB");
+//        emrCode = "DHCNURHZZLNLPDB";
         LocalTestManager.setMethodNameList(mStList);
 
         String methodName = "GetXmlValues";
