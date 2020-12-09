@@ -1224,8 +1224,8 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
             }
 
             viewHashMap.put(radioElementListBean.getElementId(), checkBox);
-            viewHashMap.put(radioElementListBean.getFormName() + "^" + radioElementListBean.getOprationItemList().get(0).getNumberValue(), checkBox);
-            elementIdtoFormName.put(radioElementListBean.getElementId(), radioElementListBean.getFormName() + "^" + radioElementListBean.getOprationItemList().get(0).getNumberValue());
+            viewHashMap.put(radioElementListBean.getFormName() + "^" + radioElementListBean.getOprationItemList().get(0).getValue(), checkBox);
+            elementIdtoFormName.put(radioElementListBean.getElementId(), radioElementListBean.getFormName() + "^" + radioElementListBean.getOprationItemList().get(0).getValue());
             viewElementIdList.add(radioElementListBean.getElementId());
             childElementIdList.add(radioElementListBean.getElementId());
 
@@ -1352,8 +1352,8 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
             }
 
             viewHashMap.put(radioElementListBean.getElementId(), checkBox);
-            viewHashMap.put(radioElementListBean.getFormName() + "^" + radioElementListBean.getOprationItemList().get(0).getNumberValue(), checkBox);
-            elementIdtoFormName.put(radioElementListBean.getElementId(), radioElementListBean.getFormName() + "^" + radioElementListBean.getOprationItemList().get(0).getNumberValue());
+            viewHashMap.put(radioElementListBean.getFormName() + "^" + radioElementListBean.getOprationItemList().get(0).getValue(), checkBox);
+            elementIdtoFormName.put(radioElementListBean.getElementId(), radioElementListBean.getFormName() + "^" + radioElementListBean.getOprationItemList().get(0).getValue());
             viewElementIdList.add(radioElementListBean.getElementId());
             childElementIdList.add(radioElementListBean.getElementId());
 
@@ -2191,6 +2191,12 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
             } else if (viewHashMap.get(changeListBean.getId()) instanceof TextView) {
                 TextView textView = (TextView) viewHashMap.get(changeListBean.getId());
                 String type = changeListBean.getType();
+
+                if (type.contains("HasData")) {
+                    if (textView != null) {
+                        textView.setText(changeListBean.getVal());
+                    }
+                }
 
                 if (type.contains("Enable") || type.contains("DisEnable")) {
                     if (textView != null) {
