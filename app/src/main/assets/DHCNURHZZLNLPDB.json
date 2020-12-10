@@ -92,7 +92,7 @@
           "CallBackReturnMapEffects": "",
           "DataSourceRef": "outside,$5546AE29F2AD4EB38929EC69F28F4189,$5546AE29F2AD4EB38929EC69F28F4189!9E89131DE2724B219617D7B52D49F7C1",
           "DataSourceRefInfo": "",
-          "DefaultValue": "东华测试科室",
+          "DefaultValue": "妇科",
           "Disable": "true",
           "ElementId": "389",
           "ElementType": "TextElement",
@@ -120,7 +120,7 @@
           "CallBackReturnMapEffects": "",
           "DataSourceRef": "outside,$5546AE29F2AD4EB38929EC69F28F4189,$5546AE29F2AD4EB38929EC69F28F4189!FB47FF62082B49248440375828B5FA6F",
           "DataSourceRefInfo": "",
-          "DefaultValue": "0002000005",
+          "DefaultValue": "0002086094",
           "Disable": "true",
           "ElementId": "391",
           "ElementType": "TextElement",
@@ -148,7 +148,7 @@
           "CallBackReturnMapEffects": "",
           "DataSourceRef": "outside,$5546AE29F2AD4EB38929EC69F28F4189,$5546AE29F2AD4EB38929EC69F28F4189!D079131CA99B4F7DAA6D9910F09C340D",
           "DataSourceRefInfo": "",
-          "DefaultValue": "CS01",
+          "DefaultValue": "03",
           "Disable": "true",
           "ElementId": "393",
           "ElementType": "TextElement",
@@ -176,7 +176,7 @@
           "CallBackReturnMapEffects": "",
           "DataSourceRef": "outside,$5546AE29F2AD4EB38929EC69F28F4189,$5546AE29F2AD4EB38929EC69F28F4189!681BC3C438EA4038BBC14F68F3FABD5D",
           "DataSourceRefInfo": "",
-          "DefaultValue": "东华测试1",
+          "DefaultValue": "程艳丽",
           "Disable": "true",
           "ElementId": "395",
           "ElementType": "TextElement",
@@ -204,7 +204,7 @@
           "CallBackReturnMapEffects": "",
           "DataSourceRef": "outside,$5546AE29F2AD4EB38929EC69F28F4189,$5546AE29F2AD4EB38929EC69F28F4189!41D46590AB8947D78AB7C7C0DAC96221",
           "DataSourceRefInfo": "",
-          "DefaultValue": "男",
+          "DefaultValue": "女",
           "Disable": "true",
           "ElementId": "397",
           "ElementType": "TextElement",
@@ -232,7 +232,7 @@
           "CallBackReturnMapEffects": "",
           "DataSourceRef": "outside,$5546AE29F2AD4EB38929EC69F28F4189,$5546AE29F2AD4EB38929EC69F28F4189!95707AEE7AD44F8AAE492CDE78716ED4",
           "DataSourceRefInfo": "",
-          "DefaultValue": "24岁",
+          "DefaultValue": "38岁",
           "Disable": "true",
           "ElementId": "399",
           "ElementType": "TextElement",
@@ -260,7 +260,7 @@
           "CallBackReturnMapEffects": "",
           "DataSourceRef": "outside,$5546AE29F2AD4EB38929EC69F28F4189,$5546AE29F2AD4EB38929EC69F28F4189!1EEAC728336E44F7A81C181C5C02FD2C",
           "DataSourceRefInfo": "",
-          "DefaultValue": "头痛,手骨折,不愉快,上肢骨折,骨肿物,新生儿低血糖症,32131132132,,迷恋老铁综合征",
+          "DefaultValue": "异位妊娠破裂",
           "Disable": "true",
           "ElementId": "401",
           "ElementType": "TextElement",
@@ -288,7 +288,7 @@
           "CallBackReturnMapEffects": "",
           "DataSourceRef": "",
           "DataSourceRefInfo": "",
-          "DefaultValue": "2020-12-08",
+          "DefaultValue": "2020-12-09",
           "Disable": "",
           "ElementId": "423",
           "ElementType": "DateElement",
@@ -316,7 +316,7 @@
           "CallBackReturnMapEffects": "",
           "DataSourceRef": "",
           "DataSourceRefInfo": "",
-          "DefaultValue": "16:48:20",
+          "DefaultValue": "17:36",
           "Disable": "",
           "ElementId": "604",
           "ElementType": "TimeElement",
@@ -453,7 +453,7 @@
           "CallBackReturnMapEffects": "",
           "DataSourceRef": "",
           "DataSourceRefInfo": "",
-          "DefaultValue": "",
+          "DefaultValue": "0",
           "Disable": "true",
           "ElementId": "665",
           "ElementType": "NumberElement",
@@ -485,7 +485,7 @@
               "CallBackReturnMapEffects": "",
               "DataSourceRef": "",
               "DataSourceRefInfo": "",
-              "DefaultValue": "5分准备好洗澡水后可自己独立完成洗澡过程",
+              "DefaultValue": "",
               "Disable": "",
               "ElementId": "631",
               "ElementType": "RadioElement",
@@ -519,7 +519,7 @@
               "CallBackReturnMapEffects": "",
               "DataSourceRef": "",
               "DataSourceRefInfo": "",
-              "DefaultValue": "",
+              "DefaultValue": "0分在洗澡过程中需他人帮助",
               "Disable": "",
               "ElementId": "632",
               "ElementType": "RadioElement",
@@ -556,7 +556,7 @@
           "CallBackReturnMapEffects": "",
           "DataSourceRef": "",
           "DataSourceRefInfo": "",
-          "DefaultValue": "",
+          "DefaultValue": "0",
           "Disable": "true",
           "ElementId": "666",
           "ElementType": "NumberElement",
@@ -659,7 +659,7 @@
           "CallBackReturnMapEffects": "",
           "DataSourceRef": "",
           "DataSourceRefInfo": "",
-          "DefaultValue": "",
+          "DefaultValue": "0",
           "Disable": "true",
           "ElementId": "667",
           "ElementType": "NumberElement",
@@ -796,7 +796,7 @@
           "CallBackReturnMapEffects": "",
           "DataSourceRef": "",
           "DataSourceRefInfo": "",
-          "DefaultValue": "",
+          "DefaultValue": "0",
           "Disable": "true",
           "ElementId": "668",
           "ElementType": "NumberElement",
@@ -828,7 +828,7 @@
               "CallBackReturnMapEffects": "",
               "DataSourceRef": "",
               "DataSourceRefInfo": "",
-              "DefaultValue": "",
+              "DefaultValue": "10分可控制大便",
               "Disable": "",
               "ElementId": "642",
               "ElementType": "RadioElement",
@@ -896,7 +896,7 @@
               "CallBackReturnMapEffects": "",
               "DataSourceRef": "",
               "DataSourceRefInfo": "",
-              "DefaultValue": "0分完全失控",
+              "DefaultValue": "",
               "Disable": "",
               "ElementId": "644",
               "ElementType": "RadioElement",
@@ -933,7 +933,7 @@
           "CallBackReturnMapEffects": "",
           "DataSourceRef": "",
           "DataSourceRefInfo": "",
-          "DefaultValue": "",
+          "DefaultValue": "10",
           "Disable": "true",
           "ElementId": "669",
           "ElementType": "NumberElement",
@@ -1070,7 +1070,7 @@
           "CallBackReturnMapEffects": "",
           "DataSourceRef": "",
           "DataSourceRefInfo": "",
-          "DefaultValue": "",
+          "DefaultValue": "0",
           "Disable": "true",
           "ElementId": "670",
           "ElementType": "NumberElement",
@@ -1136,7 +1136,7 @@
               "CallBackReturnMapEffects": "",
               "DataSourceRef": "",
               "DataSourceRefInfo": "",
-              "DefaultValue": "5分需部分帮助",
+              "DefaultValue": "",
               "Disable": "",
               "ElementId": "652",
               "ElementType": "RadioElement",
@@ -1170,7 +1170,7 @@
               "CallBackReturnMapEffects": "",
               "DataSourceRef": "",
               "DataSourceRefInfo": "",
-              "DefaultValue": "",
+              "DefaultValue": "0分需极大帮助或完全依赖他人",
               "Disable": "",
               "ElementId": "653",
               "ElementType": "RadioElement",
@@ -1207,7 +1207,7 @@
           "CallBackReturnMapEffects": "",
           "DataSourceRef": "",
           "DataSourceRefInfo": "",
-          "DefaultValue": "",
+          "DefaultValue": "0",
           "Disable": "true",
           "ElementId": "671",
           "ElementType": "NumberElement",
@@ -1378,7 +1378,7 @@
           "CallBackReturnMapEffects": "",
           "DataSourceRef": "",
           "DataSourceRefInfo": "",
-          "DefaultValue": "",
+          "DefaultValue": "0",
           "Disable": "true",
           "ElementId": "672",
           "ElementType": "NumberElement",
@@ -1549,7 +1549,7 @@
           "CallBackReturnMapEffects": "",
           "DataSourceRef": "",
           "DataSourceRefInfo": "",
-          "DefaultValue": "",
+          "DefaultValue": "0",
           "Disable": "true",
           "ElementId": "673",
           "ElementType": "NumberElement",
@@ -1686,7 +1686,7 @@
           "CallBackReturnMapEffects": "",
           "DataSourceRef": "",
           "DataSourceRefInfo": "",
-          "DefaultValue": "",
+          "DefaultValue": "0",
           "Disable": "true",
           "ElementId": "674",
           "ElementType": "NumberElement",
@@ -1714,7 +1714,7 @@
           "CallBackReturnMapEffects": "",
           "DataSourceRef": "",
           "DataSourceRefInfo": "",
-          "DefaultValue": "",
+          "DefaultValue": "10",
           "Disable": "true",
           "ElementId": "675",
           "ElementType": "NumberElement",
@@ -1742,7 +1742,7 @@
           "CallBackReturnMapEffects": "",
           "DataSourceRef": "",
           "DataSourceRefInfo": "",
-          "DefaultValue": "",
+          "DefaultValue": "高度依赖",
           "Disable": "",
           "ElementId": "583",
           "ElementType": "DropRadioElement",
@@ -1791,7 +1791,7 @@
           "CallBackReturnMapEffects": "",
           "DataSourceRef": "",
           "DataSourceRefInfo": "",
-          "DefaultValue": "",
+          "DefaultValue": "全部都需照护",
           "Disable": "",
           "ElementId": "584",
           "ElementType": "DropRadioElement",
@@ -1840,7 +1840,7 @@
           "CallBackReturnMapEffects": "",
           "DataSourceRef": "",
           "DataSourceRefInfo": "",
-          "DefaultValue": "",
+          "DefaultValue": "赵敦",
           "Disable": "",
           "ElementId": "507",
           "ElementType": "TextElement",
@@ -1892,28 +1892,6 @@
         }
       ],
       "ElementSets": [
-        {
-          "ChangeList": [
-            {
-              "Id": "667",
-              "Type": "HasData",
-              "Val": "5"
-            }
-          ],
-          "FormName": "RadioElement_636",
-          "Val": "1"
-        },
-        {
-          "ChangeList": [
-            {
-              "Id": "667",
-              "Type": "HasData",
-              "Val": "0"
-            }
-          ],
-          "FormName": "RadioElement_636",
-          "Val": "2"
-        },
         {
           "ChangeList": [
             {
@@ -1973,6 +1951,56 @@
       "statisticsList": [
         {
           "CalType": "Sum",
+          "Effects": "628,629,630",
+          "Id": "665"
+        },
+        {
+          "CalType": "Sum",
+          "Effects": "631,632",
+          "Id": "666"
+        },
+        {
+          "CalType": "Sum",
+          "Effects": "636,638",
+          "Id": "667"
+        },
+        {
+          "CalType": "Sum",
+          "Effects": "639,640,641",
+          "Id": "668"
+        },
+        {
+          "CalType": "Sum",
+          "Effects": "642,643,644",
+          "Id": "669"
+        },
+        {
+          "CalType": "Sum",
+          "Effects": "648,649,650",
+          "Id": "670"
+        },
+        {
+          "CalType": "Sum",
+          "Effects": "651,652,653",
+          "Id": "671"
+        },
+        {
+          "CalType": "Sum",
+          "Effects": "654,655,656,657",
+          "Id": "672"
+        },
+        {
+          "CalType": "Sum",
+          "Effects": "658,659,660,661",
+          "Id": "673"
+        },
+        {
+          "CalType": "Sum",
+          "Effects": "662,663,664",
+          "Id": "674"
+        },
+        {
+          "CalType": "Sum",
           "Effects": "665,666,667,668,669,670,671,672,673,674",
           "Id": "675"
         }
@@ -1984,12 +2012,12 @@
     {
       "EmrCode": "DHCNURHZZLNLPDB",
       "GuId": "46F2504088ED47E487E203AE5C010C38",
-      "RecId": "320"
+      "RecId": "608803"
     },
     {
       "EmrCode": "DHCNURHZRYHLPGD1",
       "GuId": "8ED9122BB76E4B23B5D7088ECAC354E7",
-      "RecId": "437"
+      "RecId": ""
     }
   ],
   "msg": "",

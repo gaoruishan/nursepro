@@ -2092,9 +2092,13 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                 if ("".equals(isChecked)) {
                     etPointList.clear();
                     for (String s : idStr) {
-                        TextView textView = (TextView) viewHashMap.get(s);
-                        if (textView != null) {
-                            etPointList.add(StringUtils.isEmpty(textView.getText().toString()) ? 0 : Integer.parseInt(textView.getText().toString()));
+                        if (viewHashMap.get(s) instanceof CheckBox) {
+
+                        } else if (viewHashMap.get(s) instanceof TextView) {
+                            TextView textView = (TextView) viewHashMap.get(s);
+                            if (textView != null) {
+                                etPointList.add(StringUtils.isEmpty(textView.getText().toString()) ? 0 : Integer.parseInt(textView.getText().toString()));
+                            }
                         }
                     }
                 }
