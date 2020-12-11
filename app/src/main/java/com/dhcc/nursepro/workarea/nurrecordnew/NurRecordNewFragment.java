@@ -27,7 +27,9 @@ import com.base.commlibs.BaseActivity;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommonCallBack;
+import com.blankj.utilcode.constant.RegexConstants;
 import com.blankj.utilcode.util.ConvertUtils;
+import com.blankj.utilcode.util.RegexUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.dhcc.nursepro.R;
@@ -2089,15 +2091,18 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
             for (int i = 0; statisticsListBeans != null && i < statisticsListBeans.size(); i++) {
                 ElementDataBean.DataBean.InputBean.StatisticsListBean statisticsListBean = statisticsListBeans.get(i);
                 String[] idStr = statisticsListBean.getEffects().split(",");
+                etPointList.clear();
                 if ("".equals(isChecked)) {
-                    etPointList.clear();
                     for (String s : idStr) {
                         if (viewHashMap.get(s) instanceof CheckBox) {
-
+                            //不做操作
                         } else if (viewHashMap.get(s) instanceof TextView) {
+                            // EditText、TextView 存分
                             TextView textView = (TextView) viewHashMap.get(s);
                             if (textView != null) {
-                                etPointList.add(StringUtils.isEmpty(textView.getText().toString()) ? 0 : Integer.parseInt(textView.getText().toString()));
+                                if (RegexUtils.isMatch(RegexConstants.REGEX_INTEGER, textView.getText().toString())) {
+                                    etPointList.add(Integer.parseInt(textView.getText().toString()));
+                                }
                             }
                         }
                     }
@@ -2123,9 +2128,11 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                                     score = score - scoreInt[0] + scoreInt[1];
                                 }
                             } else {
-                                score = 0;
-                                for (int j = 0; j < etPointList.size(); j++) {
-                                    score = score + etPointList.get(j);
+                                if (etPointList.size() > 0) {
+                                    score = 0;
+                                    for (int j = 0; j < etPointList.size(); j++) {
+                                        score = score + etPointList.get(j);
+                                    }
                                 }
                             }
                             editText.setText(String.valueOf(score));
