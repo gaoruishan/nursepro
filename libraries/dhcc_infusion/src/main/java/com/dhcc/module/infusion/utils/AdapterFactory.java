@@ -9,6 +9,7 @@ import com.dhcc.module.infusion.workarea.blood.adapter.BloodCollectionAdapter;
 import com.dhcc.module.infusion.workarea.comm.adapter.DetailLogAdapter;
 import com.dhcc.module.infusion.workarea.comm.adapter.PatInfoAdapter;
 import com.dhcc.module.infusion.workarea.dosing.adapter.CommDosingAdapter;
+import com.dhcc.module.infusion.workarea.drugreceive.adapter.DrugReceivedAdapter;
 import com.dhcc.module.infusion.workarea.inject.adapter.InjectAdapter;
 import com.dhcc.module.infusion.workarea.orderexecute.adapter.OrderExecutePatOrderAdapter;
 import com.dhcc.module.infusion.workarea.patrol.adapter.InfusionTourAdapter;
@@ -133,5 +134,13 @@ public class AdapterFactory {
      */
     public static BaseTransBloodAdapter getTransBloodTourListAdapter() {
         return new TransBloodTourListAdapter(R.layout.item_trans_blood_tour_list, null);
+    }
+
+    /**
+     * 药品接收
+     * @return
+     */
+    public static DrugReceivedAdapter getDrugReceiveAdapter() {
+        return new DrugReceivedAdapter(R.layout.item_drug_receive,null);
     }
 }
