@@ -40,6 +40,7 @@ import com.dhcc.nursepro.workarea.orderexecute.OrderExecuteFragment;
 import com.dhcc.nursepro.workarea.orderexecute.OrderSearchAndExecuteFragment;
 import com.dhcc.nursepro.workarea.ordersearch.OrderSearchFragment;
 import com.dhcc.nursepro.workarea.patevents.PatEventsFragment;
+import com.dhcc.nursepro.workarea.pathandover.PatHandoverFragment;
 import com.dhcc.nursepro.workarea.plyout.PlyOutListFragment;
 import com.dhcc.nursepro.workarea.rjorder.RjOrderFragment;
 import com.dhcc.nursepro.workarea.shift.ShiftFragment;
@@ -81,6 +82,7 @@ public class WorkareaMainConfig {
     private void testModel(List<MainConfigBean.MainListBean> mainList ) {
         if (BuildConfig.DEBUG) {
             mainList.add(new MainConfigBean.MainListBean("NurPlanFragment","护理计划"));
+            mainList.add(new MainConfigBean.MainListBean("PatHandover","患者交接"));
         }
     }
 
@@ -304,6 +306,13 @@ public class WorkareaMainConfig {
                 map.put("desc","医嘱");
                 map.put("fragName", OrderSearchAndExecuteFragment.class.getName());
                 map.put("fragicon",R.drawable.dhcc_main_nurse_task_overview);
+                SharedPreference.FRAGMENTARY.add(map);
+                break;
+            case "PatHandover":
+                //w ##class(Nur.DHCNurPdaModule).Save("护理计划^NurPlanFragment^24^Y^")
+                map.put("desc","患者交接");
+                map.put("fragName", PatHandoverFragment.class.getName());
+                map.put("fragicon",R.drawable.icon_events);
                 SharedPreference.FRAGMENTARY.add(map);
                 break;
             default:

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".workarea.pathandover.PatHandoverFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:background="@color/white"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_time_bottom" />
+
+        <TextView
+            android:id="@+id/tv_pathandover_startdate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/dp_16"
+            android:paddingEnd="@dimen/dp_16"
+            android:textColor="@color/pathandover_text_color"
+            tools:text="2021-1-10" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="至"
+            android:textColor="#62abff"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_pathandover_enddate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/dp_16"
+            android:paddingEnd="@dimen/dp_16"
+            android:textColor="@color/pathandover_text_color"
+            tools:text="2021-1-13" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_5"
+        android:background="#f6f6f6" />
+
+    <RelativeLayout
+        android:id="@+id/rl_pathandover_scan"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <TextView
+            android:id="@+id/tv_pathandover_warning"
+            android:layout_width="@dimen/dp_260"
+            android:layout_height="@dimen/dp_55"
+            android:layout_centerInParent="true"
+            android:background="#FFF5FAFF"
+            android:gravity="center"
+            android:text="请您使用扫码设备，扫描病人腕带"
+            android:textColor="#FF9B9B9B"
+            android:textSize="@dimen/sp_14" />
+
+        <TextView
+            android:id="@+id/tv_pathandover_warningtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_22"
+            android:layout_above="@+id/tv_pathandover_warning"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="@dimen/dp_30"
+            android:text="请扫描腕带"
+            android:textColor="#FF62ABFF"
+            android:textSize="@dimen/sp_20"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="@dimen/dp_91"
+            android:layout_above="@+id/tv_pathandover_warningtitle"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:src="@drawable/icon_patient_scan" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_pathandover_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recy_pathandover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+</LinearLayout>
