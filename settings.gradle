@@ -1,4 +1,4 @@
-include ':app', ':health'
+include ':app'
 include ':infusion'
 
 include ':libraries',
@@ -6,5 +6,4 @@ include ':libraries',
         ':libraries:dhcc_res',
         ':libraries:TimePickerDialog',
         ':libraries:dhcc_infusion',
-        ':libraries:dhcc_health',
         ":libraries:dhcc_nurse"

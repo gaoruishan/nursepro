@@ -58,7 +58,6 @@
         <activity
             android:name="com.base.commlibs.UniversalActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|locale|layoutDirection"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Slide"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name="com.base.commlibs.BaseActivity" />
