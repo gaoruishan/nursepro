@@ -1,0 +1,49 @@
+{
+  "msg": "成功",
+  "msgcode": "",
+  "status": 0,
+  "OrdList": [
+    {
+      "OeoreGroup": [
+        {
+          "ArcimDesc": "0.9%氯化钠注射液[500ml]",
+          "BedCode": "18",
+          "DoseQtyUnit": "500 ml",
+          "PatName": "王佳佳",
+          "PhOrdQtyUnit": "1500 ml",
+          "SttDateTime": "2020-03-11 12:00"
+        }
+      ],
+      "OeoreId": "75||268||740",
+      "Stkbin": "A01"
+    },
+    {
+      "OeoreGroup": [
+        {
+          "ArcimDesc": "0.9%氯化钠注射液[500ml]",
+          "BedCode": "18",
+          "DoseQtyUnit": "500 ml",
+          "PatName": "王佳佳",
+          "PhOrdQtyUnit": "1500 ml",
+          "SttDateTime": "2020-03-10 16:00"
+        }
+      ],
+      "OeoreId": "75||268||738",
+      "Stkbin": "A01"
+    },
+    {
+      "OeoreGroup": [
+        {
+          "ArcimDesc": "0.9%氯化钠注射液[500ml]",
+          "BedCode": "18",
+          "DoseQtyUnit": "500 ml",
+          "PatName": "王佳佳",
+          "PhOrdQtyUnit": "1500 ml",
+          "SttDateTime": "2020-03-11 08:00"
+        }
+      ],
+      "OeoreId": "75||268||739",
+      "Stkbin": "A01"
+    }
+  ]
+}

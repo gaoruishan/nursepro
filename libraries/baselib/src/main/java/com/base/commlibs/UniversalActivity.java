@@ -1,5 +1,6 @@
 package com.base.commlibs;
 
+import android.content.pm.ActivityInfo;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,6 +21,12 @@ public class UniversalActivity extends BaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        //竖屏
+        try {
+            //设置坚屏 一定要放到try catch里面，否则会崩溃
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        } catch (Exception e) {
+        }
         // 分析启动Fragment
         String rootFragmentClassName = getIntent().getStringExtra(RootFragmentClassName);
         if (!TextUtils.isEmpty(rootFragmentClassName)) {

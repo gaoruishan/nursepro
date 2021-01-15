@@ -2,7 +2,7 @@ package com.dhcc.module.infusion.workarea.patrol.adapter;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -57,6 +57,7 @@ public class PatrolOrdListAdapter extends CommQuickAdapter<OrdListBean, BaseView
         if (Arrays.asList(OrdState.STATE_4).contains(item.getOrdState())) {
             //显示主医嘱
             helper.setGone(R.id.ll_block, true).setGone(R.id.rv_child, false);
+            helper.setBackgroundColor(R.id.ll_block, ContextCompat.getColor(mContext, R.color.state_gray));
             if (item.getOeoreSubList() != null) {
                 if (item.getOeoreSubList().size() > 1) {
                     swichUi(helper);

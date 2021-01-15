@@ -72,6 +72,15 @@ public class ServerAPI {
     public static final String getOrders = "getOrders";
     //医嘱执行
     public static final String execOrder = "execOrder";
+    //药品接受列表
+    public static final String getIFOrdListByBarCode = "getIFOrdListByBarCode";
+    //输液接收
+    public static final String BatchIFSave = "BatchIFSave";
+
+
+
+
+
     /*=======输血系统(广西医科大一附)=========*/
     //输血列表
     public static final String getTransBloodList = "getTransBloodList";
@@ -89,5 +98,6 @@ public class ServerAPI {
     public static final String endTransfusion = "endTransfusion";
     //输血回收
     public static final String recycleBloodbag = "recycleBloodbag";
+
 
 }

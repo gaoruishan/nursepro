@@ -72,6 +72,8 @@ public class LocalTestManager {
         l.add("getGoalByQestId");
         l.add("getInterventionByQestId");
 
+        l.add("getIFOrdListByBarCode");
+
     }
 
     /**
