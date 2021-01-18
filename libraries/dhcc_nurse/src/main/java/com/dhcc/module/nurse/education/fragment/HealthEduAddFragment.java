@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import com.base.commlibs.MessageEvent;
@@ -22,7 +23,9 @@ import com.gavin.com.library.listener.PowerGroupListener;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author:gaoruishan
@@ -44,7 +47,29 @@ public class HealthEduAddFragment extends BaseNurseFragment {
 
         setToolbarCenterTitle(this.desc + "");
 
-        healthEduAddAdapter.setNewData(eduSubjectList);
+        if (eduSubjectList == null) {
+            return;
+        }
+        //添加排序
+        Map<String, EduSubjectListBean> parMap = new HashMap<>();
+        for (EduSubjectListBean bean : eduSubjectList) {
+            if ("0".equals(bean.getPid())) {
+                parMap.put(bean.getId(), bean);
+            }
+        }
+        List<EduSubjectListBean> newEduSubjectList = new ArrayList<>();
+        for (String key : parMap.keySet()) {
+            EduSubjectListBean eduSubjectListBean = parMap.get(key);
+            //添加父
+            newEduSubjectList.add(eduSubjectListBean);
+            Log.e(TAG,"(HealthEduAddFragment.java:61) "+key);
+            for (EduSubjectListBean bean : eduSubjectList) {
+                if (key.equals(bean.getPid())) {
+                    newEduSubjectList.add(bean);
+                }
+            }
+        }
+        healthEduAddAdapter.setNewData(newEduSubjectList);
     }
 
     @Override
