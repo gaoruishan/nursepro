@@ -70,6 +70,34 @@ public class GetConnectAndPatBean implements Serializable {
     private PatInfoBean patInfo;
     private String status;
 
+    private String NurEmrId;
+    private String emrCode;
+    private String guid;
+
+    public String getNurEmrId() {
+        return NurEmrId;
+    }
+
+    public void setNurEmrId(String nurEmrId) {
+        NurEmrId = nurEmrId;
+    }
+
+    public String getEmrCode() {
+        return emrCode;
+    }
+
+    public void setEmrCode(String emrCode) {
+        this.emrCode = emrCode;
+    }
+
+    public String getGuid() {
+        return guid;
+    }
+
+    public void setGuid(String guid) {
+        this.guid = guid;
+    }
+
     public String getAllChildRec() {
         return allChildRec;
     }

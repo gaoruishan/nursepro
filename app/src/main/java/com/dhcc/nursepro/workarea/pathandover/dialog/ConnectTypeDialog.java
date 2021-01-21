@@ -290,20 +290,22 @@ public class ConnectTypeDialog extends Dialog implements CompoundButton.OnChecke
 
         for (int i = 0; i < typeList.size(); i++) {
             CheckBox checkBox = new CheckBox(context);
-
             checkBox.setText(typeList.get(i).split(":")[0]);
             checkBox.setTag(typeList.get(i).split(":")[1]);
+            checkBox.setOnCheckedChangeListener(this);
 
+            checkList.add(checkBox);
+            llRadio.addView(checkBox);
+        }
+
+        for (int i = 0; i < checkList.size(); i++) {
+            CheckBox checkBox = checkList.get(i);
             if (selectType.equals(checkBox.getText())) {
                 checkBox.setChecked(true);
+                typeCode = typeList.get(i).split(":")[1];
             } else {
                 checkBox.setChecked(false);
             }
-
-            checkBox.setOnCheckedChangeListener(this);
-
-            llRadio.addView(checkBox);
-            checkList.add(checkBox);
         }
         return llRadio;
     }

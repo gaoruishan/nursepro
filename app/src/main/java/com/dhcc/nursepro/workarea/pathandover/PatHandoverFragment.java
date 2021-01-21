@@ -161,6 +161,7 @@ public class PatHandoverFragment extends BaseFragment implements View.OnClickLis
                 }
                 connectTypeDialog = new ConnectTypeDialog(getActivity());
                 connectTypeDialog.setTitleStr("请选择交接类型");
+                connectTypeDialog.setTypeList(connectType);
                 if ("".equals(regNo)) {
                     connectTypeDialog.setRegNo("");
                     connectTypeDialog.setRegNoVisible(View.VISIBLE);
@@ -185,8 +186,6 @@ public class PatHandoverFragment extends BaseFragment implements View.OnClickLis
                     }
                 }
 
-
-                connectTypeDialog.setTypeList(connectType);
 
                 connectTypeDialog.setSureOnclickListener(new ConnectTypeDialog.onSureOnclickListener() {
                     @Override

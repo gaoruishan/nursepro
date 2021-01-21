@@ -16,6 +16,7 @@ import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
 import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.StringUtils;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.nurrecordnew.NurRecordNewFragment;
 import com.dhcc.nursepro.workarea.pathandover.api.PatHandoverApiManager;
@@ -56,8 +57,7 @@ public class PatHandoverCheckFragment extends BaseFragment {
     private PathandoverConfirmDialog confirmDialog;
     private SPUtils spUtils = SPUtils.getInstance();
     private GetConnectAndPatBean.PatInfoBean patInfo;
-    private String emrCode = "";
-    private String guid = "";
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -214,24 +214,13 @@ public class PatHandoverCheckFragment extends BaseFragment {
 
     private void jumpToNurRecord() {
 
-        if ("1".equals(subTypeCode)) {
-            emrCode = "DHCNURSSHZJJDSQ";
-            guid = "c31ecf43e4514eb789b064cd33920a5a";
-        } else if ("2".equals(subTypeCode)) {
-            emrCode = "DHCNURSSHZJJDSZ";
-            guid = "dbd004bafbdf4519a23b9943e8994711";
-        } else {
-            emrCode = "DHCNURSSHZJJDSH";
-            guid = "67f9a5d6397c4f86945907b35f409559";
-        }
-
         Bundle bundle = new Bundle();
         bundle.putString("EpisodeID", patInfo.getEpisodeID());
         bundle.putString("BedNo", patInfo.getBedCode());
         bundle.putString("PatName", patInfo.getName());
-        bundle.putString("EMRCode", emrCode);
-        bundle.putString("GUID", guid);
-        bundle.putString("RecID", "");
+        bundle.putString("EMRCode", getConnectAndPatBean.getEmrCode());
+        bundle.putString("GUID", getConnectAndPatBean.getGuid());
+        bundle.putString("RecID", StringUtils.isEmpty(getConnectAndPatBean.getNurEmrId()) ? "" : getConnectAndPatBean.getNurEmrId());
         startFragment(NurRecordNewFragment.class, bundle);
 
     }
