@@ -267,7 +267,7 @@ public class UserUtil {
         if (isEmpty(SharedPreference.IS_SHOW_DIALOG_TIME)) {
             return Integer.valueOf(SPStaticUtils.getString(SharedPreference.IS_SHOW_DIALOG_TIME));
         }
-        return 2500;
+        return 1500;
     }
     /**
      * 是否本地json测试

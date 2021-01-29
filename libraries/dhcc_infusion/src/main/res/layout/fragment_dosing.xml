@@ -9,7 +9,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+        <!--切换科室-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/white">
 
+            <!--只需引入自定组件, 即可具有布局/业务功能-->
+            <com.dhcc.module.infusion.view.CustomSelectLocWindow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"/>
+
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_63"
@@ -123,8 +136,8 @@
     <!--扫码-->
     <com.dhcc.res.infusion.CustomScanView
         android:id="@+id/custom_scan"
+        android:layout_marginTop="@dimen/dp_45"
         android:layout_width="match_parent"
-        android:visibility="gone"
         android:layout_height="match_parent"
     />
 </RelativeLayout>
