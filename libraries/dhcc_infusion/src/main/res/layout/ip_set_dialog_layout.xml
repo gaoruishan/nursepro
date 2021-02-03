@@ -46,6 +46,13 @@
                     android:textColor="@color/black"
                     android:background="@color/bg_blue_light"
                     />
+
+                <com.dhcc.res.infusion.CustomSpinnerView
+                    android:id="@+id/custom_spinner_ip"
+                    android:background="@color/bg_blue_light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
                 <TextView
                     android:layout_width="@dimen/dp_10"
                     android:layout_height="match_parent"
@@ -65,18 +72,32 @@
                     android:background="@color/bg_blue_light"
                 />
             </LinearLayout>
-
-            <EditText
-                android:id="@+id/message3"
-                android:layout_width="match_parent"
+            <LinearLayout
                 android:layout_marginTop="@dimen/dp_20"
-                android:layout_height="@dimen/dp_50"
-                android:gravity="center"
-                android:hint="资源路径"
-                android:digits="/AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
-                android:textColor="@color/black"
                 android:background="@color/bg_blue_light"
-            />
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_50">
+
+                <EditText
+                    android:id="@+id/message3"
+                    android:layout_width="0dp"
+                    android:layout_weight="8"
+                    android:layout_height="@dimen/dp_50"
+                    android:gravity="center"
+                    android:hint="资源路径"
+                    android:digits="/AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
+                    android:textColor="@color/black"
+                    android:background="@color/bg_blue_light"
+                    />
+
+                <com.dhcc.res.infusion.CustomSpinnerView
+                    android:id="@+id/custom_spinner_path"
+                    android:background="@color/bg_blue_light"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 

@@ -17,6 +17,7 @@ import java.util.List;
 public class SharedPreference {
 
     public static final String WEBIP = "WEBIP";
+    public static final String WEBIPS = "WEBIPS";
     public static final String WEBPATH = "WEBPATH";
     public static final String LOGONLOCTYPE = "LOGONLOCTYPE";
     public static final String WINDOWNAME = "WINDOWNAME";

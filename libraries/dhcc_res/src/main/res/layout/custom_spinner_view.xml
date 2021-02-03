@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <!--
+        代码加载下拉数组，各种属性，及其监听
+        1、是下拉还是弹出框
+        spinnerMode="dropdown"
+        spinnerMode="dialog"
+        2、下拉宽度：默认宽度和spinner差不多，去掉左边的下拉按钮宽度
+        dropDownWidth="xxdp"
+        3、下拉背景色
+        popupBackground="resColor/resMipmap"
+        4、背景色：会遮住默认右侧的下拉按钮
+        background="resColor/resMipmap"
+    -->
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="@dimen/dp_40"
+        android:layout_height="@dimen/dp_40"
+        android:overlapAnchor="false"
+        android:spinnerMode="dropdown"
+        android:background="@drawable/shape_spinner_drop_down"
+        android:popupBackground="@color/bg_blue_light"
+        />
+
+</LinearLayout>

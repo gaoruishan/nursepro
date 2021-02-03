@@ -170,6 +170,12 @@ public class UserUtil {
         if (!TextUtils.isEmpty(ip)) {
             SPStaticUtils.put(SharedPreference.WEBIP, ip);
             CommFile.write(SharedPreference.WEBIP, ip);
+
+            String ips = SPStaticUtils.getString(SharedPreference.WEBIPS, "");
+            if (!ips.contains(ip)) {
+                ips = ips + "," + ip;
+            }
+            SPStaticUtils.put(SharedPreference.WEBIPS, ips);
         }
         if (!TextUtils.isEmpty(path)) {
             SPStaticUtils.put(SharedPreference.WEBPATH, path);

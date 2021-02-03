@@ -22,8 +22,10 @@ import org.ksoap2.transport.HttpTransportSE;
 import org.kxml2.kdom.Element;
 import org.kxml2.kdom.Node;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -32,8 +34,11 @@ import java.util.concurrent.Executors;
 
 public class BaseWebServiceUtils {
 
-    public static final String DEFAULT_IP = "114.115.136.233";
+//    public static final String DEFAULT_IP = "10.1.21.123";
+    public static final String DEFAULT_IP = "172.100.100.60";
     public static final String DTHEALTH_WEB = "/imedical/web";
+    public static final String PATH_IMEDICAL = "/imedical/web";
+    public static final String PATH_DTHEALTH = "/dthealth/web";
     //    public static final String WEB_SERVER_URL = "http://10.1.5.87/dthealth/web/Nur.PDA.WebService.cls";
     // 门诊输液新接口
     public static final String NUR_OPPDA_SERVICE = "/Nur.OPPDA.WebService.cls";
@@ -260,6 +265,13 @@ public class BaseWebServiceUtils {
         intent.setData(Uri.parse(url));
         intent.setAction(Intent.ACTION_VIEW);
         context.startActivity(intent);
+    }
+
+    public static List<String> getPathList() {
+        List<String> spinnerItems = new ArrayList<>();
+        spinnerItems.add(PATH_IMEDICAL);
+        spinnerItems.add(PATH_DTHEALTH);
+        return spinnerItems;
     }
 
 

@@ -7,11 +7,19 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.base.commlibs.constant.SharedPreference;
+import com.base.commlibs.wsutils.BaseWebServiceUtils;
+import com.blankj.utilcode.util.SPStaticUtils;
 import com.dhcc.module.infusion.R;
+import com.dhcc.res.infusion.CustomSpinnerView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -36,6 +44,7 @@ public class SetIPDialog extends Dialog {
     private onNoOnclickListener noOnclickListener;//取消按钮被点击了的监听器
     private onYesOnclickListener yesOnclickListener;//确定按钮被点击了的监听器
     private String messagePath;
+    private CustomSpinnerView customSpinnerPath,customSpinnerIP;
 
     public SetIPDialog(Context context) {
         super(context, R.style.MyDialog);
@@ -90,7 +99,55 @@ public class SetIPDialog extends Dialog {
         messageIP = findViewById(R.id.message);
         messagePort = findViewById(R.id.message2);
         messageRes = (EditText) findViewById(R.id.message3);
+        customSpinnerIP = findViewById(R.id.custom_spinner_ip);
+        customSpinnerPath = findViewById(R.id.custom_spinner_path);
 
+        String ips = SPStaticUtils.getString(SharedPreference.WEBIPS, "");
+        String ip = SPStaticUtils.getString(SharedPreference.WEBIP);
+        List<String> spinnerIp = new ArrayList<>();
+        spinnerIp.add(ip);
+        if(!TextUtils.isEmpty(ips)){
+            String[] split = ips.split(",");
+            for (String s : split) {
+                if (s.contains(":")) {
+                    s = s.split(":")[0];
+                }
+                if(!TextUtils.isEmpty(s)){
+                    if (!spinnerIp.contains(s)) {
+                        spinnerIp.add(s);
+                    }
+                }
+            }
+        }
+        String s = BaseWebServiceUtils.DEFAULT_IP;
+        if (!spinnerIp.contains(s)) {
+            spinnerIp.add(s);
+        }
+        customSpinnerIP.initDataView(spinnerIp, new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String s = spinnerIp.get(position);
+                messageIP.setText(s);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        List<String> spinnerItems = BaseWebServiceUtils.getPathList();
+        customSpinnerPath.initDataView(spinnerItems, new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String s = spinnerItems.get(position);
+                messageRes.setText(s);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     /**
