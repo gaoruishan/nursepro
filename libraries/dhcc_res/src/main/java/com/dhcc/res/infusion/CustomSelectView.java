@@ -72,15 +72,16 @@ public class CustomSelectView extends LinearLayout {
         ivArrow = view.findViewById(R.id.iv_arrow);
     }
 
-    public CustomSelectView setSelectTime(final FragmentManager manager, OptionPicker.OnOptionPickListener listener){
+    public CustomSelectView setSelectTime(final FragmentManager manager, OptionPicker.OnOptionPickListener listener) {
         String cur = SPStaticUtils.getString(SharedPreference.CURDATETIME);
-        if(!TextUtils.isEmpty(cur)){
+        if (!TextUtils.isEmpty(cur)) {
             String endDate = cur.substring(0, 10);
             String endTime = cur.substring(11, 16);
             setSelectTime(manager, endDate, endTime, listener);
         }
         return this;
     }
+
     /**
      * 设置自定义选择框
      * @param listener
@@ -172,6 +173,9 @@ public class CustomSelectView extends LinearLayout {
      * @param listener
      */
     public CustomSelectView setSelectTime(final FragmentManager manager, final String date, String time, OptionPicker.OnOptionPickListener listener) {
+        //隐藏/显示
+        boolean isNull = !TextUtils.isEmpty(date) && !TextUtils.isEmpty(time);
+        setVisibility(isNull ? VISIBLE : GONE);
         if (!TextUtils.isEmpty(date)) {
             setSelect(date + " " + time);
         } else {
@@ -257,18 +261,21 @@ public class CustomSelectView extends LinearLayout {
         }
         return "";
     }
+
     public int getSelectPosition() {
-        if (mPst!= 0) {
+        if (mPst != 0) {
             return mPst;
         }
         return 0;
     }
+
     public String getSelectDate() {
         if (getSelect() != null) {
             return getSelect().split(" ")[0];
         }
         return "";
     }
+
     public String getSelectTime() {
         if (getSelect() != null) {
             return getSelect().split(" ")[1];
