@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -61,6 +62,31 @@ public abstract class BaseView extends LinearLayout {
         }
         setOrientation(VERTICAL);
         setBackgroundColor(ContextCompat.getColor(context, R.color.white));
+    }
+    /**
+     * PatName : lh041101
+     * PatRegNo : 0000000435
+     * patSex : 女
+     */
+    public static int getPatSexDrawable(String patSex) {
+        if ("男".equals(patSex)) {
+            return R.drawable.dhcc_sex_male;
+        } else if ("女".equals(patSex)) {
+            return R.drawable.dhcc_sex_female;
+        } else {
+            return R.drawable.dhcc_sex_male;
+        }
+    }
+
+    /**
+     * 设置图片
+     * @param imageView
+     * @param resId
+     */
+    public void setImageResource(ImageView imageView, @DrawableRes int resId) {
+        if (imageView != null && resId != 0) {
+            imageView.setImageResource(resId);
+        }
     }
     /**
      * 设置背景颜色

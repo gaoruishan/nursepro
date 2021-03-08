@@ -2,7 +2,7 @@ package com.dhcc.module.nurse.nurplan;
 
 import android.os.Bundle;
 
-import com.dhcc.module.nurse.BaseBundleData;
+import com.base.commlibs.comm.BaseBundleData;
 import com.dhcc.module.nurse.nurplan.bean.QuestionListBean;
 import com.google.gson.Gson;
 

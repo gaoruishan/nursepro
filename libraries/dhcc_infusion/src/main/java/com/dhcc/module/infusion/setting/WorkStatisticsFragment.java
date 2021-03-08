@@ -19,9 +19,12 @@ import com.base.commlibs.utils.UserUtil;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.dhcc.module.infusion.InfusionBundleData;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.setting.adapter.WorkStatisticsAdapter;
 import com.dhcc.module.infusion.setting.api.SettingApiManeger;
+import com.dhcc.module.infusion.setting.bean.TypeListBean;
 import com.dhcc.module.infusion.setting.bean.WorkStatisticsBean;
 import com.dhcc.module.infusion.utils.AdapterFactory;
 import com.dhcc.module.infusion.utils.RecyclerViewHelper;
@@ -45,6 +48,7 @@ public class WorkStatisticsFragment extends BaseFragment{
     private BaseHelper helper;
     private WorkStatisticsAdapter workStatisticsAdapter;
     private CustomBarChart cbcChart;
+    private WorkStatisticsBean mBean;
 
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -67,6 +71,17 @@ public class WorkStatisticsFragment extends BaseFragment{
         setDateTime();
 
         getWorkLoad();
+
+        workStatisticsAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+
+                InfusionBundleData bundle = new InfusionBundleData()
+                        .setUserTypeList(workStatisticsAdapter.getData().get(position).getUserTypeList())
+                        .setTypeList(mBean.getTypeList());
+                startFragment(NurWorkListFragment.class,bundle.build());
+            }
+        });
     }
 
     private void setDateTime() {
@@ -102,7 +117,8 @@ public class WorkStatisticsFragment extends BaseFragment{
 
             @Override
             public void onSuccess(WorkStatisticsBean bean, String type) {
-                List<WorkStatisticsBean.TypeListBean> typeList = bean.getTypeList();
+                mBean = bean;
+                List<TypeListBean> typeList = bean.getTypeList();
                 if (typeList == null || typeList.size() <= 0) {
                     ToastUtils.showLong("暂无数据,请重新选择日期");
                     return;
@@ -127,13 +143,13 @@ public class WorkStatisticsFragment extends BaseFragment{
         });
     }
 
-    private void setWorkTypeChartData(List<WorkStatisticsBean.TypeListBean> beanTpeList) {
+    private void setWorkTypeChartData(List<TypeListBean> beanTpeList) {
         // 反转
         Collections.reverse(beanTpeList);
         List<String> mStList = new ArrayList<>();
         List<Integer> mIntegerList = new ArrayList<>();
         int allTimes = 0;
-        for (WorkStatisticsBean.TypeListBean b : beanTpeList) {
+        for (TypeListBean b : beanTpeList) {
             if (!TextUtils.isEmpty(b.getWorkTypeNum())) {
                 mStList.add(b.getWorkTypeDesc());
                 int num = Integer.valueOf(b.getWorkTypeNum());

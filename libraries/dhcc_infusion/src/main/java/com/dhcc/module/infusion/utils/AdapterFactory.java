@@ -143,4 +143,5 @@ public class AdapterFactory {
     public static DrugReceivedAdapter getDrugReceiveAdapter() {
         return new DrugReceivedAdapter(R.layout.item_drug_receive,null);
     }
+
 }

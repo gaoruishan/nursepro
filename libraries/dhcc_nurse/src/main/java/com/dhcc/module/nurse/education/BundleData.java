@@ -3,7 +3,6 @@ package com.dhcc.module.nurse.education;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-import com.dhcc.module.nurse.BaseBundleData;
 import com.dhcc.module.nurse.education.bean.EduSubjectListBean;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

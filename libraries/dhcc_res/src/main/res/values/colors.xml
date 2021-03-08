@@ -4,6 +4,15 @@
     <color name="dhcc_colorPrimary">#4C95EF</color>
     <color name="dhcc_colorPrimaryDark">#303F9F</color>
 
+    <color name="text_color">#4A4A4A</color>
+    <color name="search_hint_color">#B3B3B3</color>
+    <color name="top_text_selected_color">#62ABFF</color>
+    <color name="top_text_normal_color">#000000</color>
+    <color name="top_right_color">#333333</color>
+    <color name="left_bgcolor">#DFEEFF</color>
+    <color name="left_text_normal_color">#000000</color>
+    <color name="left_text_selected_color">#4A90E2</color>
+
     <color name="dhcc_color_base_content">#F7F8F9</color>
 
     <color name="dhcc_user_attr_line_color">#EEEEEE</color>

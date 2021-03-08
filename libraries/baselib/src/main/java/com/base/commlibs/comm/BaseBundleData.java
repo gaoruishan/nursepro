@@ -1,4 +1,4 @@
-package com.dhcc.module.nurse;
+package com.base.commlibs.comm;
 
 import android.os.Bundle;
 
@@ -24,6 +24,10 @@ public class BaseBundleData {
     }
 
     public BaseBundleData(Bundle bundle) {
+        this.bundle = bundle;
+    }
+
+    public void setBundle(Bundle bundle) {
         this.bundle = bundle;
     }
 

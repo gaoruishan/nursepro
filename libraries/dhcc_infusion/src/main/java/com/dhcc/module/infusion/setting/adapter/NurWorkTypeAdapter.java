@@ -14,9 +14,9 @@ import java.util.List;
  * @date:202019-04-23/10:49
  * @email:grs0515@163.com
  */
-public class WorkStatisticsAdapter extends BaseQuickAdapter<WorkStatisticsBean.UserListBean, BaseViewHolder> {
+public class NurWorkTypeAdapter extends BaseQuickAdapter<WorkStatisticsBean.UserListBean, BaseViewHolder> {
 
-    public WorkStatisticsAdapter(int layoutResId, @Nullable List<WorkStatisticsBean.UserListBean> data) {
+    public NurWorkTypeAdapter(int layoutResId, @Nullable List<WorkStatisticsBean.UserListBean> data) {
         super(layoutResId, data);
     }
 

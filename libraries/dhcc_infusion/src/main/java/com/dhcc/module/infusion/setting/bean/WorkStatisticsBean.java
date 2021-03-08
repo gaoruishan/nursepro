@@ -45,31 +45,6 @@ public class WorkStatisticsBean extends CommResult {
         this.UserList = UserList;
     }
 
-    public static class TypeListBean {
-        /**
-         * WorkTypeDesc : 配液
-         * WorkTypeNum : 8
-         */
-
-        private String WorkTypeDesc;
-        private String WorkTypeNum;
-
-        public String getWorkTypeDesc() {
-            return WorkTypeDesc;
-        }
-
-        public void setWorkTypeDesc(String WorkTypeDesc) {
-            this.WorkTypeDesc = WorkTypeDesc;
-        }
-
-        public String getWorkTypeNum() {
-            return WorkTypeNum;
-        }
-
-        public void setWorkTypeNum(String WorkTypeNum) {
-            this.WorkTypeNum = WorkTypeNum;
-        }
-    }
 
     public static class UserListBean {
         /**

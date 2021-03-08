@@ -78,16 +78,15 @@ public abstract class BaseInfusionFragment extends BaseFragment {
     protected BaseHelper helper;
     protected CustomSelectView customSelectChannel;
     protected CustomOnOffView customOnOff;
+    protected Bundle bundle;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mContext = this.getActivity();
+        bundle = getArguments();
         setCommToolBar();
-        if (mContext instanceof BaseActivity) {
-            ((BaseActivity) mContext).openMultiScan(AppUtil.isMultiScan());
-            ((BaseActivity) mContext).addGlobalView(ViewGlobal.createGlobal(mContext));
-        }
+        addGlobalView();
         AppUtil.initPlay(mContext, 0, R.raw.operate_success);
         helper = new BaseHelper(mContext);
         initViews();
@@ -104,6 +103,14 @@ public abstract class BaseInfusionFragment extends BaseFragment {
             addHandInputToToolbarRight();
         }
     }
+
+    protected void addGlobalView() {
+        if (mContext instanceof BaseActivity) {
+            ((BaseActivity) mContext).openMultiScan(AppUtil.isMultiScan());
+            ((BaseActivity) mContext).addGlobalView(ViewGlobal.createGlobal(mContext));
+        }
+    }
+
     private void setCommToolBar() {
         setStatusBarBackgroundViewVisibility(true, 0xffffffff);
         setToolbarBackground(new ColorDrawable(0xffffffff));

@@ -18,12 +18,16 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.base.commlibs.BaseFragment;
 import com.base.commlibs.R;
 import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.ActivityUtils;
@@ -50,6 +54,17 @@ public class AppUtil {
     private static SoundPool sSoundPool;
     private static String TAG = AppUtil.class.getSimpleName();
 
+    /**
+     * 开启一个新Fragment
+     * @param fragCls
+     * @param args
+     */
+    public static void startFragment(@NonNull Class<? extends BaseFragment> fragCls, @Nullable Bundle args) {
+        Fragment curActivityFragment = getCurActivityFragment();
+        if (curActivityFragment instanceof BaseFragment) {
+            ((BaseFragment) curActivityFragment).startFragment(fragCls,args);
+        }
+    }
     /**
      * 获取当前Fragment名称
      * @return
