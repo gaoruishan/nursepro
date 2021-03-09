@@ -185,7 +185,8 @@ public class PatrolFragment extends BaseInfusionFragment implements View.OnClick
         final String distantTime = csvSelectTime.getSelect();
 
         String tourContent = "WorkInfusionState|" + csvSelectStatus.getSelect();
-        if (PatrolBean.State_Pause.equals(csvSelectStatus.getSelect())) {
+
+        if (PatrolBean.State_Pause.equals(csvSelectStatus.getSelect())|| llMeasure.getVisibility()==View.VISIBLE) {
             tourContent = tourContent + "^WorkInfusionReason|" + csvSelectReason.getSelect();
             if (!TextUtils.isEmpty(edMeasure.getText())) {
                 tourContent = tourContent + "^WorkInfusionMeasure|" + edMeasure.getText().toString();

@@ -102,8 +102,13 @@ public class CustomSpeedView extends LinearLayout implements View.OnClickListene
     public int getSpeed() {
         String s = etSpeed.getText().toString();
         if (!TextUtils.isEmpty(s)) {
-            int integer = Integer.valueOf(s);
-            return integer > 0 ? integer : 0;
+            s = s.replaceAll(" ","");
+            try {
+                int integer = Integer.valueOf(s);
+                return integer > 0 ? integer : 0;
+            } catch (Exception e) {
+                return 0;
+            }
         }
         return 0;
     }

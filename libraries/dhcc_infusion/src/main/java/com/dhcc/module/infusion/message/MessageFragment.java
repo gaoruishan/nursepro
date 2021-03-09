@@ -59,6 +59,7 @@ public class MessageFragment extends BaseFragment implements CustomTabView.OnTab
                 for (int i = 0; i < data.size(); i++) {
                     MessageInfusionBean.InfusionTimeListBean bean = data.get(i);
                     bean.setSelect(false);
+                    //扫腕带 定位患者
                     if (bean.getPatRegNo().equals(scanInfo)) {
                         bean.setSelect(true);
                         rvMsgInfusion.scrollToPosition(i);
@@ -72,6 +73,7 @@ public class MessageFragment extends BaseFragment implements CustomTabView.OnTab
                 for (int i = 0; i < data.size(); i++) {
                     MessageSkinBean.SkinTimeListBean bean = data.get(i);
                     bean.setSelect(false);
+                    //扫腕带 定位患者
                     if (bean.getPatRegNo().equals(scanInfo)) {
                         bean.setSelect(true);
                         rvMsgSkin.scrollToPosition(i);

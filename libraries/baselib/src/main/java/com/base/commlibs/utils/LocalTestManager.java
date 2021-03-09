@@ -15,6 +15,7 @@ import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -104,12 +105,15 @@ public class LocalTestManager {
      * @param methodName
      * @return
      */
-    public static boolean isTest(String methodName) {
+    public static boolean isTest(String methodName, HashMap<String, String> properties) {
         //配置后台开启
 //        if (UserUtil.isLocalTest(methodName)) {
 //            return true;
 //        }
         if (TEST) {
+            if (BaseWebServiceUtils.REQUST_METHOD.equalsIgnoreCase(methodName)) {
+                methodName = properties.get(BaseWebServiceUtils.METHOD);
+            }
             return l.contains(methodName);
         }
         return false;

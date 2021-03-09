@@ -24,6 +24,7 @@ public class CommWebService {
     public static final String COM_DHCC_INFUSION = "com.dhcc.infusion";
     public static final String COM_DHCC_NURSEPRO = "com.dhcc.nursepro";
     public static final String COM_DHCC_HEALTH = "com.dhcc.health";
+    public static final float OPPDA_VERSION = 3.1f;
 
     /**
      * 添加用户id和科室id
@@ -48,7 +49,7 @@ public class CommWebService {
      */
     public static void call(String methodName, HashMap<String, String> properties, final ServiceCallBack callBack) {
         String appPackageName = AppUtils.getAppPackageName();
-        Log.e(TAG,"(CommWebService.java:44) "+appPackageName);
+        Log.e(TAG, "(CommWebService.java:44) " + appPackageName);
         // 检查properties
         checkProperties(properties);
 
@@ -68,13 +69,13 @@ public class CommWebService {
             HashMap<String, String> propertiesNew = new HashMap<>();
             for (Map.Entry<String, String> entry : properties.entrySet()) {
                 //去除 空Value
-                if(entry != null&&!TextUtils.isEmpty(entry.getValue())){
+                if (entry != null && !TextUtils.isEmpty(entry.getValue())) {
                     propertiesNew.put(entry.getKey(), entry.getValue());
                 }
             }
             properties.clear();
             properties.putAll(propertiesNew);
-        }else {
+        } else {
             properties = new HashMap<>();
         }
 
@@ -86,13 +87,38 @@ public class CommWebService {
      * @param properties
      */
     public static void callInfusion(String methodName, HashMap<String, String> properties, ServiceCallBack callBack) {
-        BaseWebServiceUtils.callWebOPPDAService(methodName, properties, new BaseWebServiceUtils.WebServiceCallBack() {
-            @Override
-            public void callBack(String result) {
-                callBack.onResult(result);
-            }
-        });
+        boolean version = getAppVersion(OPPDA_VERSION);
+        Log.e(TAG, "(CommWebService.java:90) version=" + version);
+        if (version) {
+            BaseWebServiceUtils.callWebOPPDAServiceJson(methodName, properties, new BaseWebServiceUtils.WebServiceCallBack() {
+                @Override
+                public void callBack(String result) {
+                    callBack.onResult(result);
+                }
+            });
+        } else {
+            BaseWebServiceUtils.callWebOPPDAService(methodName, properties, new BaseWebServiceUtils.WebServiceCallBack() {
+                @Override
+                public void callBack(String result) {
+                    callBack.onResult(result);
+                }
+            });
+        }
     }
+
+    private static boolean getAppVersion(float v) {
+        String versionName = AppUtils.getAppVersionName();
+        if (!TextUtils.isEmpty(versionName)) {
+            try {
+                return Float.valueOf(versionName) > v;
+            } catch (Exception e) {
+                return false;
+            }
+
+        }
+        return false;
+    }
+
     public static void callJson(String methodName, HashMap<String, String> properties, final ServiceCallBack callBack) {
         BaseWebServiceUtils.callWebOPPDAServiceJson(methodName, properties, new BaseWebServiceUtils.WebServiceCallBack() {
             @Override
@@ -101,6 +127,7 @@ public class CommWebService {
             }
         });
     }
+
     /**
      * 统一(护士站)
      * @param methodName
@@ -115,6 +142,7 @@ public class CommWebService {
             }
         });
     }
+
     /**
      * 统一(康复)
      * @param methodName

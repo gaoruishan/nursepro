@@ -31,7 +31,7 @@ public class CommDialog {
 
     protected static final String TAG = CommDialog.class.getSimpleName();
     //配置时间
-    public static final int DELAY_MILLIS = UserUtil.getShowDialogTime();
+    public static  int DELAY_MILLIS = UserUtil.getShowDialogTime();
     private static Dialog commDialog;
 
 

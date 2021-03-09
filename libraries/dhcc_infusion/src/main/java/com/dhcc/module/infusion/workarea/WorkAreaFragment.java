@@ -1,5 +1,6 @@
 package com.dhcc.module.infusion.workarea;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
+import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.CommRes;
@@ -52,6 +54,8 @@ public class WorkAreaFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         setStatusBarBackgroundViewVisibility(false, 0xffffffff);
         setToolbarType(BaseActivity.ToolbarType.HIDE);
+        //调用注册广播(虽然继承了baseFragment,但父类不是UniversalActivity)
+        onPreActivityCreate(null,null);
         initView(view);
         getMainConfig();
     }
@@ -104,7 +108,22 @@ public class WorkAreaFragment extends BaseFragment {
             }
         });
     }
-
+    @Override
+    public void getScanMsg(Intent intent) {
+        super.getScanMsg(intent);
+        String scanInfo = doScanInfo(intent);
+        //扫码Action
+        if (Action.DEVICE_SCAN_CODE.equals(intent.getAction())
+                && !TextUtils.isEmpty(scanInfo)) {
+            //医嘱id
+            if (scanInfo.contains("-")||scanInfo.contains("||")) {
+                scanInfo = scanInfo.replaceAll("-", "\\|\\|");
+                Bundle bundle = new Bundle();
+                bundle.putString("id", scanInfo);
+                startFragment(MedicalDetailFragment.class, bundle);
+            }
+        }
+    }
     public class WorkAreaAdapter extends BaseQuickAdapter<ConfigBean, BaseViewHolder> {
         WorkAreaAdapter(@Nullable List<ConfigBean> data) {
             super(R.layout.item_workarea, data);

@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.utils.LocalTestManager;
+import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.google.gson.Gson;
@@ -56,6 +57,10 @@ public class BaseWebServiceUtils {
     private static final String NAMESPACE = "http://www.dhcc.com.cn";
     // 默认超时时间
     private static final int TIME_OUT = 10*1000;
+    public static final String REQUST_METHOD = "RequstString";
+    public static final String PARAMS = "params";
+    public static final String VERSION = "version";
+    public static final String METHOD = "method";
 
     /**
      * OPPDA门诊服务器地址
@@ -90,8 +95,10 @@ public class BaseWebServiceUtils {
         HashMap<String, String> propertiesTest = new HashMap<>();
         //解决=的乱码问题
         Gson gson = new GsonBuilder().disableHtmlEscaping().create();
-        propertiesTest.put("json", gson.toJson(properties));
-        callWebOPPDAService(methodName, propertiesTest, webServiceCallBack);
+        propertiesTest.put(PARAMS, gson.toJson(properties));
+        propertiesTest.put(VERSION, AppUtils.getAppVersionName()+"");
+        propertiesTest.put(METHOD, methodName);
+        callWebOPPDAService(REQUST_METHOD, propertiesTest, webServiceCallBack);
     }
 
     /**
@@ -138,7 +145,7 @@ public class BaseWebServiceUtils {
     public synchronized static void callWebService(String url, final String methodName, HashMap<String, String> properties, final WebServiceCallBack webServiceCallBack) {
         SharedPreference.MethodName = methodName;
         // 添加本地json测试
-        if (LocalTestManager.isTest(methodName)) {
+        if (LocalTestManager.isTest(methodName,properties)) {
             if (properties != null) {
                 LogUtils.e(methodName +" 测试= "+properties.toString());
             }
