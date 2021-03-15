@@ -138,6 +138,7 @@ public class InjectFragment extends BaseInfusionFragment implements View.OnClick
 
             @Override
             public void onSuccess(CommResult bean, String type) {
+                regNo = null;//置空
                 onSuccessThings(bean);
                 getInjectOrdList();
             }

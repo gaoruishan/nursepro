@@ -151,6 +151,7 @@ public class ContinueFragment extends BaseInfusionFragment implements View.OnCli
 
             @Override
             public void onSuccess(CommResult bean, String type) {
+                mBean = null; //置空
                 if (scanInfo != null) {
                     getOrdList(scanInfo,true);
                 }
