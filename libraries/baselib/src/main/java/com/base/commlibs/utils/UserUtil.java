@@ -251,6 +251,7 @@ public class UserUtil {
      * @param loginBean
      */
     public static void setUserConfig(ConfigBean loginBean) {
+        SPStaticUtils.put(SharedPreference.API_JSON, loginBean.getApiJson());
         SPStaticUtils.put(SharedPreference.IS_SHOW_DIALOG_TIME, loginBean.getShowDialogTime());
         SPStaticUtils.put(SharedPreference.WEBSOCKET_FLAG, loginBean.getWebSocketFlag());
         SPStaticUtils.put(SharedPreference.NET_LOG, loginBean.getIsNetLog());

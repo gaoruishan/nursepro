@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.base.commlibs.constant.SharedPreference;
+import com.base.commlibs.http.CommWebService;
 import com.base.commlibs.utils.LocalTestManager;
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.LogUtils;
@@ -95,6 +96,12 @@ public class BaseWebServiceUtils {
         HashMap<String, String> propertiesTest = new HashMap<>();
         //解决=的乱码问题
         Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+        //统一添加公共参数
+        CommWebService.addGroupId(properties);
+        CommWebService.addHospitalId(properties);
+        CommWebService.addLocId(properties);
+        CommWebService.addUserId(properties);
+        CommWebService.addWardId(properties);
         propertiesTest.put(PARAMS, gson.toJson(properties));
         propertiesTest.put(VERSION, AppUtils.getAppVersionName()+"");
         propertiesTest.put(METHOD, methodName);

@@ -114,6 +114,9 @@ public class SharedPreference {
     public static final String WEBSOCKET_FLAG = "WEBSOCKET_FLAG";
     //显示弹框时间 毫秒
     public static final String IS_SHOW_DIALOG_TIME = "IS_SHOW_DIALOG_TIME";
+    //统一后台接口
+    public static final String API_JSON= "API_JSON";
+
     //判断是否显示底部菜单栏
 
     public static List FRAGMENTARY = new ArrayList<HashMap>();

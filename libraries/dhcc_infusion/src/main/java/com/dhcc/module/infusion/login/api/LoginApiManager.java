@@ -4,8 +4,6 @@ import com.base.commlibs.bean.LoginBean;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.http.ParserUtil;
 import com.base.commlibs.http.ServiceCallBack;
-import com.base.commlibs.utils.TransBroadcastUtil;
-import com.dhcc.module.infusion.login.bean.ScanCodeBean;
 
 /**
  * LoginApiManager
@@ -27,30 +25,5 @@ public class LoginApiManager {
         });
     }
 
-    public static void getBroadcastList(final CommonCallBack<ScanCodeBean> callBack) {
-        LoginApiService.getBroadcastList(new ServiceCallBack() {
-            @Override
-            public void onResult(String jsonStr) {
-                ParserUtil<ScanCodeBean> parserUtil = new ParserUtil<>();
-                ScanCodeBean bean = parserUtil.parserResult(jsonStr, callBack, ScanCodeBean.class,"");
-                if (bean == null) return;
-                parserUtil.parserStatus(bean, callBack);
-            }
-        });
-    }
 
-
-    public static void initBroadcastList() {
-        LoginApiManager.getBroadcastList(new CommonCallBack<ScanCodeBean>() {
-            @Override
-            public void onFail(String code, String msg) {
-
-            }
-
-            @Override
-            public void onSuccess(ScanCodeBean bean, String type) {
-                TransBroadcastUtil.setScanActionList(bean.getBroadcastList());
-            }
-        });
-    }
 }

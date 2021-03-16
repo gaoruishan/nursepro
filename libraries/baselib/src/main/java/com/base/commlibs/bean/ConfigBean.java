@@ -42,6 +42,12 @@ public class ConfigBean extends CommResult {
     private String webSocketFlag;
     //显示弹框时间 毫秒
     private String showDialogTime;
+    //统一接口
+    private String apiJson;
+
+    public String getApiJson() {
+        return apiJson == null ? "" : apiJson;
+    }
 
     public String getShowDialogTime() {
         return showDialogTime == null ? "" : showDialogTime;
