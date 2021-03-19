@@ -1,7 +1,6 @@
 package com.dhcc.module.infusion.workarea.inject;
 
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.View;
 
 import com.base.commlibs.http.CommResult;
@@ -95,6 +94,7 @@ public class InjectFragment extends BaseInfusionFragment implements View.OnClick
             public void onSuccess(ScanInfoBean bean, String type) {
                 //PAT 扫腕带返回患者信息
                 if (PAT.equals(bean.getFlag())) {
+                    regNo = bean.getPatInfo().getPatRegNo();
                     getInjectOrdList();
                 }
                 //ORD 扫医嘱条码返回医嘱信息
@@ -147,12 +147,7 @@ public class InjectFragment extends BaseInfusionFragment implements View.OnClick
 
     protected void getInjectOrdList() {
         exeFlag = customOnOff.isSelect() ? "0" : "1";
-        String scanInfo = this.scanInfo;
-        if (!TextUtils.isEmpty(regNo)) {
-            // 防止标签重新赋值
-            scanInfo = regNo;
-        }
-        InjectApiManager.getInjectOrdList(scanInfo, customDate.getStartDateTimeText(), customDate.getEndDateTimeText(), exeFlag, "", new CommonCallBack<InjectListBean>() {
+        InjectApiManager.getInjectOrdList(regNo, customDate.getStartDateTimeText(), customDate.getEndDateTimeText(), exeFlag, scanInfo, new CommonCallBack<InjectListBean>() {
             @Override
             public void onFail(String code, String msg) {
                 onFailThings();
@@ -167,7 +162,7 @@ public class InjectFragment extends BaseInfusionFragment implements View.OnClick
                 }
                 injectListBean = bean;
                 injectAdapter.setInitData(bean);
-                regNo = injectListBean.getPatInfo().getPatRegNo();
+//                regNo = injectListBean.getPatInfo().getPatRegNo();
                 setCustomPatViewData(customPat, injectListBean.getPatInfo());
             }
         });
