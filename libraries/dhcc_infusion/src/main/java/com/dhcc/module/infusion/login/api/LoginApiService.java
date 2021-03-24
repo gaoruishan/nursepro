@@ -25,9 +25,5 @@ public class LoginApiService extends ServerAPI {
         CommWebService.call(Logon, properties, callback);
     }
 
-    public static void getBroadcastList(ServiceCallBack callBack) {
-        CommWebService.call(getBroadcastConfig, null, callBack);
-    }
-
 
 }
