@@ -1,8 +1,6 @@
 package com.dhcc.nursepro.utils.wsutils;
 
 import com.base.commlibs.wsutils.BaseWebServiceUtils;
-import com.blankj.utilcode.util.SPUtils;
-import com.base.commlibs.constant.SharedPreference;
 
 import java.util.HashMap;
 
@@ -21,8 +19,7 @@ public class WebServiceUtils {
                                       HashMap<String, String> properties,
                                       final WebServiceCallBack webServiceCallBack) {
         // 创建HttpTransportSE对象，传递WebService服务器地址
-        String url = "http://" + SPUtils.getInstance().getString(SharedPreference.WEBIP) +SPUtils.getInstance().getString(SharedPreference.WEBPATH)+"/Nur.PDA.WebService.cls";
-        BaseWebServiceUtils.callWebService(url,methodName,properties,webServiceCallBack);
+        BaseWebServiceUtils.callWebPDAService(methodName,properties,webServiceCallBack);
     }
 
 

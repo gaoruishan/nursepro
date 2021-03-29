@@ -4,7 +4,6 @@ import com.base.commlibs.bean.BroadcastListBean;
 import com.base.commlibs.bean.PatientListBean;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.utils.TransBroadcastUtil;
-import com.base.commlibs.wsutils.BaseWebServiceUtils;
 import com.blankj.utilcode.util.SPUtils;
 
 import java.util.HashMap;
@@ -28,10 +27,9 @@ public class CommHttp {
         properties.put("userCode", userCode);
         properties.put("password", password);
         properties.put("logonWardId", SPUtils.getInstance().getString(SharedPreference.WARDID));
-        String url = BaseWebServiceUtils.getServiceUrl(BaseWebServiceUtils.NUR_PDA_SERVICE);
-        BaseWebServiceUtils.callWebService(url,"Logon", properties, new BaseWebServiceUtils.WebServiceCallBack() {
+        CommWebService.call("Logon", properties, new ServiceCallBack() {
             @Override
-            public void callBack(String result) {
+            public void onResult(String result) {
                 CommWebService.parserCommResult(result, callBack);
             }
         });

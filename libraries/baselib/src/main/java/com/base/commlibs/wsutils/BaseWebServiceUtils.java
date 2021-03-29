@@ -8,6 +8,7 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.base.commlibs.BuildConfig;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommWebService;
 import com.base.commlibs.utils.LocalTestManager;
@@ -41,11 +42,13 @@ public class BaseWebServiceUtils {
     public static final String DTHEALTH_WEB = "/imedical/web";
     public static final String PATH_IMEDICAL = "/imedical/web";
     public static final String PATH_DTHEALTH = "/dthealth/web";
-    //    public static final String WEB_SERVER_URL = "http://10.1.5.87/dthealth/web/Nur.PDA.WebService.cls";
+    // 新接口
+    public static final String NUR_MNIS_SERVICE = "/Nur.MNIS.Service.WebService.cls";
+
     // 门诊输液新接口
     public static final String NUR_OPPDA_SERVICE = "/Nur.OPPDA.WebService.cls";
     // 护士站接口
-    public static final String NUR_PDA_SERVICE = "/Nur.PDA.WebService.cls";
+    public static final String NUR_PDA_SERVICE = BuildConfig.DEBUG? NUR_MNIS_SERVICE:"/Nur.PDA.WebService.cls";
 
     //
     public static final String OLD_PDA_SERVICE1 = "/DHCNurDocOrdPda.cls";
@@ -58,10 +61,11 @@ public class BaseWebServiceUtils {
     private static final String NAMESPACE = "http://www.dhcc.com.cn";
     // 默认超时时间
     private static final int TIME_OUT = 10*1000;
-    public static final String REQUST_METHOD = "RequstString";
+    public static final String REQUST_METHOD = "RequstData";
     public static final String PARAMS = "params";
     public static final String VERSION = "version";
     public static final String METHOD = "method";
+    public static final String LOGON_INFO = "logonInfo";
 
     /**
      * OPPDA门诊服务器地址
@@ -80,7 +84,6 @@ public class BaseWebServiceUtils {
                 }
             }
         }
-
         callWebService(url, methodName, properties, webServiceCallBack);
     }
 
@@ -93,19 +96,43 @@ public class BaseWebServiceUtils {
     public static void callWebOPPDAServiceJson(final String methodName,
                                                HashMap<String, String> properties,
                                                final WebServiceCallBack webServiceCallBack) {
+
+        HashMap<String, String> propertiesTest = convertRequestData(methodName, properties);
+        callWebOPPDAService(REQUST_METHOD, propertiesTest, webServiceCallBack);
+    }
+
+    /**
+     * 转换数据格式
+     * @param methodName
+     * @param properties
+     * @return
+     */
+    protected static HashMap<String, String> convertRequestData(String methodName, HashMap<String, String> properties) {
         HashMap<String, String> propertiesTest = new HashMap<>();
         //解决=的乱码问题
         Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+        //统一添加公共参数
+        addCommProperties(properties);
+        //添加logonInfo对象
+        HashMap<String, String> propertiesLogonInfo = new HashMap<>();
+        addCommProperties(propertiesLogonInfo);
+        properties.put(LOGON_INFO, gson.toJson(propertiesLogonInfo));
+
+        propertiesTest.put(PARAMS, gson.toJson(properties));
+        propertiesTest.put(VERSION, AppUtils.getAppVersionName()+"");
+        //方法首字母大写
+        methodName = methodName.substring(0, 1).toUpperCase() + methodName.substring(1);
+        propertiesTest.put(METHOD, methodName);
+        return propertiesTest;
+    }
+
+    private static void addCommProperties(HashMap<String, String> properties) {
         //统一添加公共参数
         CommWebService.addGroupId(properties);
         CommWebService.addHospitalId(properties);
         CommWebService.addLocId(properties);
         CommWebService.addUserId(properties);
         CommWebService.addWardId(properties);
-        propertiesTest.put(PARAMS, gson.toJson(properties));
-        propertiesTest.put(VERSION, AppUtils.getAppVersionName()+"");
-        propertiesTest.put(METHOD, methodName);
-        callWebOPPDAService(REQUST_METHOD, propertiesTest, webServiceCallBack);
     }
 
     /**
@@ -116,15 +143,12 @@ public class BaseWebServiceUtils {
                                          final WebServiceCallBack webServiceCallBack) {
         // 创建HttpTransportSE对象，传递WebService服务器地址,默认Nur.PDA.WebService.cls
         String url = getServiceUrl(NUR_PDA_SERVICE);
-        callWebService(url, methodName, properties, webServiceCallBack);
-    }
-
-    public static void callWebPDAService(String Cls, final String methodName,
-                                         HashMap<String, String> properties,
-                                         final WebServiceCallBack webServiceCallBack) {
-        // 创建HttpTransportSE对象，传递WebService服务器地址,默认Nur.PDA.WebService.cls
-        String url = getServiceUrl(Cls);
-        callWebService(url, methodName, properties, webServiceCallBack);
+        if (url.contains(NUR_MNIS_SERVICE)) {
+            properties = convertRequestData(methodName, properties);
+            callWebService(url, REQUST_METHOD, properties, webServiceCallBack);
+        }else {
+            callWebService(url, methodName, properties, webServiceCallBack);
+        }
     }
 
     /**
@@ -156,7 +180,7 @@ public class BaseWebServiceUtils {
             if (properties != null) {
                 LogUtils.e(methodName +" 测试= "+properties.toString());
             }
-            LocalTestManager.callLocalJson(methodName,webServiceCallBack);
+//            LocalTestManager.callLocalJson(methodName,webServiceCallBack);
             return;
         }
         final HttpTransportSE httpTransportSE = new HttpTransportSE(url,TIME_OUT);

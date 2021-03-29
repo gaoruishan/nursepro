@@ -5,13 +5,16 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.dhcc.nursepro.R;
+import com.dhcc.res.infusion.CustomSpinnerView;
+
+import java.util.List;
 
 /**
  * 创建自定义的dialog
@@ -29,6 +32,7 @@ public class SetIPDialog extends Dialog {
     private String messageStrIP;//从外界设置的IP
     private String messageStrPort;//外界到处的端口号
     private TextView messageRes;//资源路径
+    private TextView messageService;//资源路径
     //确定文本和取消文本的显示内容
     private String yesStr, noStr;
     private onNoOnclickListener noOnclickListener;//取消按钮被点击了的监听器
@@ -90,6 +94,21 @@ public class SetIPDialog extends Dialog {
         messageIP = findViewById(R.id.message);
         messagePort = findViewById(R.id.message2);
         messageRes = (EditText) findViewById(R.id.message3);
+        CustomSpinnerView customSpinnerPath = findViewById(R.id.custom_spinner_path);
+        List<String> spinnerItems = com.base.commlibs.wsutils.BaseWebServiceUtils.getPathList();
+        customSpinnerPath.initDataView(spinnerItems, new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String s = spinnerItems.get(position);
+                messageRes.setText(s);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
     }
 
     /**
@@ -177,6 +196,7 @@ public class SetIPDialog extends Dialog {
             return messageIP.getText().toString() + ":" + messagePort.getText().toString();
         }
     }
+
     public String getAddr() {
         String path = messageRes.getText().toString();
         if (!TextUtils.isEmpty(path)) {// 不包含'/'

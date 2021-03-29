@@ -26,14 +26,14 @@ public class SplashActivity extends AppCompatActivity {
                 if (LocalTestManager.isTest()) {
                     CommHttp.initBroadcastList();
 //                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
-
                     WorkareaMainConfig workareaMainConfig = new WorkareaMainConfig();
                     workareaMainConfig.getMainConfigData(SplashActivity.this);
                 }else {
                     startActivity(new Intent(SplashActivity.this, LoginActivity.class));
-                    finish();
                 }
-//                finish();
+
+                finish();
+
             }
         },delayMillis);
     }

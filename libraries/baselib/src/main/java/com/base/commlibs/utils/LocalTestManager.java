@@ -66,14 +66,14 @@ public class LocalTestManager {
 //        l.add("getEduContents");
 //        l.add("getInterventionList");
 //        l.add("getNeedEmr");
-        l.add("getNotifyList");
-        l.add("getQuestionRecord");
-        l.add("getQuestionList");
-        l.add("getInterventionFreq");
-        l.add("getGoalByQestId");
-        l.add("getInterventionByQestId");
-
-        l.add("getIFOrdListByBarCode");
+//        l.add("getNotifyList");
+//        l.add("getQuestionRecord");
+//        l.add("getQuestionList");
+//        l.add("getInterventionFreq");
+//        l.add("getGoalByQestId");
+//        l.add("getInterventionByQestId");
+//
+//        l.add("getIFOrdListByBarCode");
 
     }
 
