@@ -223,7 +223,7 @@ public class ElementDataBean extends CommResult {
                 }
 
                 public String getElementId() {
-                    return ElementId;
+                    return ElementId==null?"":ElementId;
                 }
 
                 public void setElementId(String ElementId) {
@@ -231,7 +231,7 @@ public class ElementDataBean extends CommResult {
                 }
 
                 public String getElementType() {
-                    return ElementType;
+                    return ElementType==null?"":ElementType;
                 }
 
                 public void setElementType(String ElementType) {

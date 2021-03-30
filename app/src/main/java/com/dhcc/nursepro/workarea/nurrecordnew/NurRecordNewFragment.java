@@ -339,7 +339,12 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
 
 
             } else if ("DropRadioElement".equals(element.getElementType())) {
-                String dropRadioStr = ((TextView) viewHashMap.get(element.getElementId())).getText().toString();
+//                String dropRadioStr = ((TextView) viewHashMap.get(element.getElementId())).getText().toString();
+                TextView textView1 = (TextView) viewHashMap.get(element.getElementId());
+                String dropRadioStr = null;
+                if (textView1 != null) {
+                    dropRadioStr = textView1.getText().toString();
+                }
                 if (StringUtils.isTrimEmpty(dropRadioStr)) {
                     LinearLayout linearLayout = (LinearLayout) viewHashMap.get(element.getElementId() + "_ll");
                     TextView textView = (TextView) viewHashMap.get(element.getElementId());
@@ -388,11 +393,19 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                 }
 
             } else if ("DropListElement".equals(element.getElementType())) {
-                String dropRadioStr = ((TextView) viewHashMap.get(element.getElementId())).getText().toString();
+//                String dropRadioStr = ((TextView) viewHashMap.get(element.getElementId())).getText().toString();
+                TextView textView1 = (TextView) viewHashMap.get(element.getElementId());
+                String dropRadioStr = null;
+                if (textView1 != null) {
+                    dropRadioStr = textView1.getText().toString();
+                }
                 if (StringUtils.isTrimEmpty(dropRadioStr)) {
                     LinearLayout linearLayout = (LinearLayout) viewHashMap.get(element.getElementId() + "_ll");
                     TextView textView = (TextView) viewHashMap.get(element.getElementId());
-                    if ("true".equals(element.getRequired()) && linearLayout.getVisibility() == View.VISIBLE) {
+                    if ("true".equals(element.getRequired())
+                            && linearLayout!=null
+                            && textView!=null
+                            && linearLayout.getVisibility() == View.VISIBLE) {
                         textView.setBackgroundResource(R.drawable.nur_record_btnerror_bg);
                         showToast("请填写必填项之后再保存");
                         return;
@@ -437,13 +450,18 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                 }
 
             } else if ("DropCheckboxElement".equals(element.getElementType())) {
-
-
-                String dcText = ((TextView) viewHashMap.get(element.getElementId())).getText().toString();
+                TextView textView1 = (TextView) viewHashMap.get(element.getElementId());
+                String dcText = null;
+                if (textView1 != null) {
+                     dcText = textView1.getText().toString();
+                }
                 if (StringUtils.isTrimEmpty(dcText)) {
                     LinearLayout linearLayout = (LinearLayout) viewHashMap.get(element.getElementId() + "_ll");
                     TextView textView = (TextView) viewHashMap.get(element.getElementId());
-                    if ("true".equals(element.getRequired()) && linearLayout.getVisibility() == View.VISIBLE) {
+                    if ("true".equals(element.getRequired())
+                            && linearLayout!=null
+                            && textView!=null
+                            && linearLayout.getVisibility() == View.VISIBLE) {
                         textView.setBackgroundResource(R.drawable.nur_record_btnerror_bg);
                         showToast("请填写必填项之后再保存");
                         return;
