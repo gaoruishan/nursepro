@@ -1,12 +1,13 @@
 package com.dhcc.nursepro.workarea.pathandover.api;
 
+import com.base.commlibs.NurseAPI;
 import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.nursepro.utils.wsutils.WebServiceUtils;
 
 import java.util.HashMap;
 
-public class PatHandoverApiService {
+public class PatHandoverApiService extends NurseAPI {
 
     /**
      * 获取交接列表接口：getConnectList
@@ -20,7 +21,7 @@ public class PatHandoverApiService {
         properties.put("type", type);
         properties.put("wardId", SPUtils.getInstance().getString(SharedPreference.WARDID));
 
-        WebServiceUtils.callWebService("getConnectList", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(getConnectList, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -36,7 +37,7 @@ public class PatHandoverApiService {
         HashMap<String, String> properties = new HashMap<>();
         properties.put("regNo", regNo);
 
-        WebServiceUtils.callWebService("getScanConnect", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(getScanConnect, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -56,7 +57,7 @@ public class PatHandoverApiService {
         properties.put("userId", SPUtils.getInstance().getString(SharedPreference.USERID));
         properties.put("wardId", SPUtils.getInstance().getString(SharedPreference.WARDID));
 
-        WebServiceUtils.callWebService("saveConnect", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(saveConnect, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -74,7 +75,7 @@ public class PatHandoverApiService {
         properties.put("regNo", regNo);
         properties.put("type", type);
 
-        WebServiceUtils.callWebService("getConnectAndPat", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(getConnectAndPat, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -88,7 +89,7 @@ public class PatHandoverApiService {
         properties.put("userCode", userCode);
         properties.put("password", password);
 
-        WebServiceUtils.callWebService("getNurseInfo", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(getNurseInfo, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -113,7 +114,7 @@ public class PatHandoverApiService {
         properties.put("thirdUser", thirdUser);
         properties.put("wardId", SPUtils.getInstance().getString(SharedPreference.WARDID));
 
-        WebServiceUtils.callWebService("saveConnectSub", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(saveConnectSub, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);

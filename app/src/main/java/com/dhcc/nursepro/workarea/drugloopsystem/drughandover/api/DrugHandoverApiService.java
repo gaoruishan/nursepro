@@ -1,5 +1,6 @@
 package com.dhcc.nursepro.workarea.drugloopsystem.drughandover.api;
 
+import com.base.commlibs.NurseAPI;
 import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.nursepro.utils.wsutils.WebServiceUtils;
@@ -12,13 +13,13 @@ import java.util.HashMap;
  * @author Devlix126
  * created at 2019/5/28 11:23
  */
-public class DrugHandoverApiService {
+public class DrugHandoverApiService extends NurseAPI {
 
     public static void getOrdListByBarCode(String barCode, final ServiceCallBack callback) {
         HashMap<String, String> properties = new HashMap<>();
         properties.put("barCode", barCode);
 
-        WebServiceUtils.callWebService("getOrdListByBarCode", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(getOrdListByBarCode, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -37,7 +38,7 @@ public class DrugHandoverApiService {
         properties.put("barCode", barCode);
         properties.put("type", type);
 
-        WebServiceUtils.callWebService("BatchSave", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(BatchSave, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -53,7 +54,7 @@ public class DrugHandoverApiService {
         properties.put("startDate", startdate);
         properties.put("endDate", enddate);
 
-        WebServiceUtils.callWebService("getOrdRecieveList", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(getOrdRecieveList, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);

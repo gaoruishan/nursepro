@@ -31,6 +31,7 @@ import android.widget.TextView;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
+import com.base.commlibs.NurseAPI;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.ConvertUtils;
@@ -188,7 +189,7 @@ public class AllotBedFragment extends BaseFragment implements View.OnClickListen
         map.put("mainDoc", selectDoc);
         map.put("mainNurse", selectNur);
         map.put("dataArr", result);
-        AllotBedApiManager.getAllotBedResult(map, "allotBed", new AllotBedApiManager.getAllotBedResultCallBack() {
+        AllotBedApiManager.getAllotBedResult(map, NurseAPI.allotBed, new AllotBedApiManager.getAllotBedResultCallBack() {
             @Override
             public void onSuccess(AllotBedInfoBean allotBedResultBean) {
                 listBeans = allotBedResultBean.getEmptyBedList();
@@ -327,7 +328,7 @@ public class AllotBedFragment extends BaseFragment implements View.OnClickListen
         map.put("locId", spUtils.getString(SharedPreference.LOCID));
         map.put("linkLocId", spUtils.getString(SharedPreference.LINKLOC));
         map.put("episodeId", episodeIdNow);
-        AllotBedApiManager.getAllotBed(map, "getAllotInfo", new AllotBedApiManager.getAllotBedCallBack() {
+        AllotBedApiManager.getAllotBed(map, NurseAPI.getAllotInfo, new AllotBedApiManager.getAllotBedCallBack() {
             @Override
             public void onSuccess(AllotBedInfoBean allotBedInfoBean) {
 
@@ -354,7 +355,7 @@ public class AllotBedFragment extends BaseFragment implements View.OnClickListen
         mapmsg.put("regNo", regNo);
         mapmsg.put("wardId", wardId);
         regNoNow = regNo;
-        AllotBedApiManager.getUserMsg(mapmsg, "getPatWristInfo", new AllotBedApiManager.GetUserMsgCallBack() {
+        AllotBedApiManager.getUserMsg(mapmsg, NurseAPI.getPatWristInfo, new AllotBedApiManager.GetUserMsgCallBack() {
             @Override
             public void onSuccess(GetScanPatsBean getScanPatsBean) {
                 rlAllotBedScan.setVisibility(View.GONE);

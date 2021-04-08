@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.base.commlibs.NurseAPI;
 import com.base.commlibs.bean.PatientListBean;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommResult;
@@ -237,11 +238,11 @@ public class NurPlanFragment extends BaseNurseFragment {
                 recordId = nurPlanAdapter.getItem(position).getRecordId();
                 //撤销
                 if (view.getId() == R.id.tv_item_ques_undo) {
-                    cancelStopQuestion("cancelQuestion", "撤销", mBean.getRevokeReasonList());
+                    cancelStopQuestion(NurseAPI.cancelQuestion, "撤销", mBean.getRevokeReasonList());
                 }
                 //停止
                 if (view.getId() == R.id.tv_item_ques_stop) {
-                    cancelStopQuestion("stopQuestion", "停止", mBean.getStopReasonList());
+                    cancelStopQuestion(NurseAPI.stopQuestion, "停止", mBean.getStopReasonList());
                 }
                 //复制
                 if (view.getId() == R.id.tv_item_ques_copy) {

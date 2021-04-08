@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
+import com.base.commlibs.NurseAPI;
 import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
@@ -91,7 +92,7 @@ public class PlyOutListFragment extends BaseFragment implements View.OnClickList
                 map.put("carryNo", CarrayNo);
             }
         }
-        PlyOutApiManager.getLabOutListMsg(map, "getPlyOutList", new PlyOutApiManager.getLabOutCallBack() {
+        PlyOutApiManager.getLabOutListMsg(map, NurseAPI.getPlyOutList, new PlyOutApiManager.getLabOutCallBack() {
             @Override
             public void onSuccess(PlyOutListAllBean labOutListAllBean) {
                 hideLoadFailTip();

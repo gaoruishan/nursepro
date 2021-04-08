@@ -1,5 +1,6 @@
 package com.dhcc.module.nurse.education;
 
+import com.base.commlibs.NurseAPI;
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommWebService;
 import com.base.commlibs.http.CommonCallBack;
@@ -17,7 +18,7 @@ import java.util.HashMap;
  * @date:202020-07-17/17:47
  * @email:grs0515@163.com
  */
-public class HealthEduApiManager {
+public class HealthEduApiManager extends NurseAPI {
     /**
      * Description:   获取宣教数据
      * Input：        wardId, episodeId, hospID, startDate, endDate
@@ -35,7 +36,7 @@ public class HealthEduApiManager {
         properties.put("startDate", startDate);
         properties.put("endDate", endDate);
 
-        CommWebService.call("getEducationList", properties, new ServiceCallBack() {
+        CommWebService.call(getEducationList, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<HealthEduBean> parserUtil = new ParserUtil<>();
@@ -50,7 +51,7 @@ public class HealthEduApiManager {
         HashMap<String, String>  properties = new HashMap<String, String>();
         properties.put("subjectIds", subjectIds);
 
-        CommWebService.call("getEduContents", properties, new ServiceCallBack() {
+        CommWebService.call(getEduContents, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<HealthEduContentBean> parserUtil = new ParserUtil<>();
@@ -69,7 +70,7 @@ public class HealthEduApiManager {
      * ClassMethod saveEdu(episodeId, Subject, Content, EducationDate, EducationTime, EduItemList, UserId, LocId, WardId, id = "", SubjectIds = "", eduTaskIds = "[]")
      */
     public static void saveEdu(SaveEduParams params,CommonCallBack<CommResult> callBack) {
-        CommWebService.call("saveEdu", params.getProperties(), new ServiceCallBack() {
+        CommWebService.call(saveEdu, params.getProperties(), new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 CommWebService.parserCommResult(jsonStr,callBack);
@@ -87,7 +88,7 @@ public class HealthEduApiManager {
         properties.put("startDate", startDate);
         properties.put("endDate", endDate);
 
-        CommWebService.call("getEduOrdList", properties, new ServiceCallBack() {
+        CommWebService.call(getEduOrdList, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<EduOrdListBean> parserUtil = new ParserUtil<>();

@@ -8,8 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
+import com.base.commlibs.NurseAPI;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.labresult.adapter.LabResultDetailAdapter;
 import com.dhcc.nursepro.workarea.labresult.api.LabApiManager;
@@ -59,7 +59,7 @@ public class LabResultDetailFragment extends BaseFragment {
     private void initdata(){
         HashMap<String,String> map = new HashMap<String, String>();
         map.put("oeoreId",oeordId);
-        LabApiManager.getLabDetailMsg(map, "getLabResult", new LabApiManager.GeLabDetailCallback() {
+        LabApiManager.getLabDetailMsg(map, NurseAPI.getLabResult, new LabApiManager.GeLabDetailCallback() {
             @Override
             public void onSuccess(LabReslutDetailBean labReslutDetailBean) {
                 listbeans = labReslutDetailBean.getResultDetail();

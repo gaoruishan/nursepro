@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.base.commlibs.NurseAPI;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -95,7 +96,7 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
                 map.put("carryNo", CarrayNo);
             }
         }
-        LabOutApiManager.getLabOutListMsg(map, "getLabOutList", new LabOutApiManager.getLabOutCallBack() {
+        LabOutApiManager.getLabOutListMsg(map, NurseAPI.getLabOutList, new LabOutApiManager.getLabOutCallBack() {
             @Override
             public void onSuccess(LabOutListAllBean labOutListAllBean) {
                 hideLoadFailTip();

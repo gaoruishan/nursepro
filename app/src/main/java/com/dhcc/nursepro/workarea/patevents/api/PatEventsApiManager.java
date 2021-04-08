@@ -1,7 +1,7 @@
 package com.dhcc.nursepro.workarea.patevents.api;
 
+import com.base.commlibs.NurseAPI;
 import com.blankj.utilcode.util.ObjectUtils;
-import com.dhcc.nursepro.workarea.bedmap.bean.BedMapBean;
 import com.dhcc.nursepro.workarea.patevents.bean.EventItemBean;
 import com.dhcc.nursepro.workarea.patevents.bean.EventResultBean;
 import com.dhcc.nursepro.workarea.patevents.bean.PatEventsBean;
@@ -52,7 +52,7 @@ public class PatEventsApiManager {
     public static void getPatEventsList(HashMap<String, String> map, final GetEventsSelectCallBack callback) {
 
 
-        PatEventsApiService.getEventMsg(map, "getPatEvents", new PatEventsApiService.ServiceCallBack() {
+        PatEventsApiService.getEventMsg(map, NurseAPI.getPatEvents, new PatEventsApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();
@@ -86,7 +86,7 @@ public class PatEventsApiManager {
     //事件types services数据
     public static void getEventsTypes(HashMap<String, String> map, final GetEventsTypesCallBack callback) {
 
-        PatEventsApiService.getEventMsg(map, "getEventItem", new PatEventsApiService.ServiceCallBack() {
+        PatEventsApiService.getEventMsg(map, NurseAPI.getEventItem, new PatEventsApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();
@@ -123,7 +123,7 @@ public class PatEventsApiManager {
     //事件types services数据
     public static void getUserMsg(HashMap<String, String> map, final GetUserMsgCallBack callback) {
 
-        PatEventsApiService.getEventMsg(map, "getPatWristInfo", new PatEventsApiService.ServiceCallBack() {
+        PatEventsApiService.getEventMsg(map, NurseAPI.getPatWristInfo, new PatEventsApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 Gson gson = new Gson();

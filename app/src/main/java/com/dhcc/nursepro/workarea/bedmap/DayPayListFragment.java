@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
+import com.base.commlibs.NurseAPI;
 import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
@@ -21,14 +22,11 @@ import com.dhcc.nursepro.utils.DateUtils;
 import com.dhcc.nursepro.workarea.bedmap.adapter.DayPayTypeAdapter;
 import com.dhcc.nursepro.workarea.bedmap.api.BedMapApiManager;
 import com.dhcc.nursepro.workarea.bedmap.bean.DayPayListBean;
-import com.google.gson.Gson;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * com.dhcc.nursepro.workarea.bedmap
@@ -136,7 +134,7 @@ public class DayPayListFragment extends BaseFragment {
         map.put("episodeId", episodeId);
         map.put("userId", SPUtils.getInstance().getString(SharedPreference.USERID));
         map.put("schDate",payDate);
-        BedMapApiManager.getDayPayList(map, "getInfeeDetailByDate", new BedMapApiManager.GetDayPayListCallback() {
+        BedMapApiManager.getDayPayList(map, NurseAPI.getInfeeDetailByDate, new BedMapApiManager.GetDayPayListCallback() {
             @Override
             public void onSuccess(DayPayListBean dayPayListBean) {
 

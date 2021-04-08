@@ -10,17 +10,17 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.SPUtils;
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
+import com.base.commlibs.NurseAPI;
+import com.base.commlibs.constant.SharedPreference;
+import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.dhcc.nursepro.R;
-import com.base.commlibs.constant.SharedPreference;
 import com.dhcc.nursepro.utils.DateUtils;
 import com.dhcc.nursepro.workarea.operation.adapter.OperationAdapter;
 import com.dhcc.nursepro.workarea.operation.api.OperationApiManager;
 import com.dhcc.nursepro.workarea.operation.bean.OperationBean;
-import com.dhcc.nursepro.workarea.orderexecute.OrderHandleTypeFragment;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 
@@ -98,7 +98,7 @@ public class OperationFragment extends BaseFragment implements View.OnClickListe
         properties.put("endDate", endDate);
         properties.put("endTime", endTime);
         properties.put("wardId", spUtils.getString(SharedPreference.WARDID));
-        OperationApiManager.getOperationList(properties, "getOperationList", new OperationApiManager.GetOperationCallback() {
+        OperationApiManager.getOperationList(properties, NurseAPI.getOperationList, new OperationApiManager.GetOperationCallback() {
             @Override
             public void onSuccess(OperationBean operationBean) {
                 hideLoadFailTip();

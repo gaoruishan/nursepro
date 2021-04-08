@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
+import com.base.commlibs.NurseAPI;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
@@ -133,7 +134,7 @@ public class MilkBottlingFragment extends BaseFragment implements View.OnClickLi
         map.put("amount", etAmount.getText().toString());
         map.put("userId", spUtils.getString(SharedPreference.USERID));
         map.put("type", milkBagOperation);
-        MilkLoopApiManager.getMilkOperateResult(map, "bottling", new MilkLoopApiManager.MilkOperateCallback() {
+        MilkLoopApiManager.getMilkOperateResult(map, NurseAPI.bottling, new MilkLoopApiManager.MilkOperateCallback() {
             @Override
             public void onSuccess(MilkOperatResultBean milkOperatResultBean) {
                 if (milkOperateResultDialog != null && milkOperateResultDialog.isShowing()) {
@@ -274,7 +275,7 @@ public class MilkBottlingFragment extends BaseFragment implements View.OnClickLi
         HashMap<String, String> map = new HashMap<>();
         map.put("bagNo", bagNo);
         map.put("wardId", spUtils.getString(SharedPreference.WARDID));
-        MilkLoopApiManager.getMilkReceiveBagInfo(map, "getMilkBagInfo", new MilkLoopApiManager.MilkReceiveBagInfoCallback() {
+        MilkLoopApiManager.getMilkReceiveBagInfo(map, NurseAPI.getMilkBagInfo, new MilkLoopApiManager.MilkReceiveBagInfoCallback() {
             @Override
             public void onSuccess(MilkReceiveBagInfoBean milkReceiveBagInfoBean) {
                 String bed = milkReceiveBagInfoBean.getPatInfo().getBedCode().equals("") ? "未分床" : milkReceiveBagInfoBean.getPatInfo().getBedCode();
@@ -303,7 +304,7 @@ public class MilkBottlingFragment extends BaseFragment implements View.OnClickLi
         HashMap<String, String> map = new HashMap<>();
         map.put("bagNo", bagCode);
         map.put("bottleNo", bottleNo);
-        MilkLoopApiManager.getMilkBottlingInfo(map, "getBottlingInfo", new MilkLoopApiManager.MilkBottlingInfoCallback() {
+        MilkLoopApiManager.getMilkBottlingInfo(map, NurseAPI.getBottlingInfo, new MilkLoopApiManager.MilkBottlingInfoCallback() {
             @Override
             public void onSuccess(MilkBottlingInfoBean milkBottlingInfoBean) {
                 tvSure.setTextColor(getResources().getColor(R.color.blue));

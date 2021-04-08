@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
+import com.base.commlibs.NurseAPI;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
@@ -128,7 +129,7 @@ public class PlyOutDetailFragment extends BaseFragment {
             map.put("locDr", carryLocDr);
             map.put("saveFlag", saveFlag);
         }
-        PlyOutApiManager.getLabOutDetailMsg(map, "getPlyOutDetail", new PlyOutApiManager.getLabOutDetailCallBack() {
+        PlyOutApiManager.getLabOutDetailMsg(map, NurseAPI.getPlyOutDetail, new PlyOutApiManager.getLabOutDetailCallBack() {
             @Override
             public void onSuccess(PlyOutDetailBean labOutDetailBean) {
                 //                setToolbarCenterTitle("检验打包",0xffffffff,17);
@@ -202,7 +203,7 @@ public class PlyOutDetailFragment extends BaseFragment {
             map.put("Type", type);
         }
 
-        PlyOutApiManager.delOrdMsg(map, "delOrExchangePly", new PlyOutApiManager.delOrdCallBack() {
+        PlyOutApiManager.delOrdMsg(map, NurseAPI.delOrExchangePly, new PlyOutApiManager.delOrdCallBack() {
             @Override
             public void onSuccess(DelOrderBean delOrderBean) {
                 hideLoadFailTip();

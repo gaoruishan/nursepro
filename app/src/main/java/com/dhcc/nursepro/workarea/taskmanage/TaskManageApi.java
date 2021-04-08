@@ -1,5 +1,6 @@
 package com.dhcc.nursepro.workarea.taskmanage;
 
+import com.base.commlibs.NurseAPI;
 import com.base.commlibs.http.CommWebService;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.http.ParserUtil;
@@ -15,12 +16,12 @@ import com.dhcc.res.infusion.CustomDateTimeView;
  * @date:202020-05-11/15:37
  * @email:grs0515@163.com
  */
-public class TaskManageApi {
+public class TaskManageApi extends NurseAPI {
 
     /// Description:     获取医嘱任务
     public static void getOrderTasks(TaskManageRequest.GetOrderTasks request,CommonCallBack<TaskManageBean> callBack) {
 
-        CommWebService.call("getOrderTasks", request.getProperties(), new ServiceCallBack() {
+        CommWebService.call(getOrderTasks, request.getProperties(), new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<TaskManageBean> parserUtil = new ParserUtil<>();

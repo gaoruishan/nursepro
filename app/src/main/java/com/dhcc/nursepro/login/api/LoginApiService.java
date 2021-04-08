@@ -1,5 +1,6 @@
 package com.dhcc.nursepro.login.api;
 
+import com.base.commlibs.NurseAPI;
 import com.dhcc.nursepro.utils.wsutils.WebServiceUtils;
 
 import java.util.HashMap;
@@ -10,12 +11,12 @@ import java.util.HashMap;
  * @author DevLix126
  * @date 2018/8/13
  */
-public class LoginApiService {
+public class LoginApiService extends NurseAPI {
 
     public static void getBroadcastConfig(final ServiceCallBack callback) {
 
         HashMap<String, String> properties = new HashMap<String, String>();
-        WebServiceUtils.callWebService("getBroadcastConfig", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(getBroadcastConfig, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -28,7 +29,7 @@ public class LoginApiService {
 
         HashMap<String, String> properties = new HashMap<String, String>();
         properties.put("userCode", userCode);
-        WebServiceUtils.callWebService("GetUserPwd", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(GetUserPwd, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -42,7 +43,7 @@ public class LoginApiService {
 
         HashMap<String, String> properties = new HashMap<String, String>();
         properties.put("userCode", userCode);
-        WebServiceUtils.callWebService("ScanLogon", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(ScanLogon, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -58,7 +59,7 @@ public class LoginApiService {
         properties.put("userCode", userCode);
         properties.put("password", password);
         properties.put("logonWardId", logonWardId);
-        WebServiceUtils.callWebService("Logon", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(Logon, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);

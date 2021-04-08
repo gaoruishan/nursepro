@@ -1,19 +1,16 @@
 package com.dhcc.module.nurse.bloodsugar;
 
+import com.base.commlibs.NurseAPI;
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommWebService;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.http.ParserUtil;
 import com.base.commlibs.http.ServiceCallBack;
-import com.blankj.utilcode.util.GsonUtils;
 import com.dhcc.module.nurse.bloodsugar.bean.BloodSugarNotelistBean;
 import com.dhcc.module.nurse.bloodsugar.bean.BloodSugarPatsBean;
 import com.dhcc.module.nurse.bloodsugar.bean.BloodSugarValueAndItemBean;
-import com.dhcc.module.nurse.task.bean.TaskBean;
-import com.google.gson.Gson;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * com.dhcc.module.nurse.bloodsugar
@@ -22,7 +19,7 @@ import java.util.Map;
  * Date: 2020/8/19
  * Time:17:23
  */
-public class BloodSugarApiManager {
+public class BloodSugarApiManager extends NurseAPI {
     /**
      * Description:患者列表
      *
@@ -33,7 +30,7 @@ public class BloodSugarApiManager {
         CommWebService.addUserId(properties);
         properties.put("date", date);
 
-        CommWebService.call("getSugarPatList", properties, new ServiceCallBack() {
+        CommWebService.call(getSugarPatList, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<BloodSugarPatsBean> parserUtil = new ParserUtil<>();
@@ -55,7 +52,7 @@ public class BloodSugarApiManager {
         properties.put("date", date);
         properties.put("episodeId", episodeId);
 
-        CommWebService.call("getSugarValueAndItem", properties, new ServiceCallBack() {
+        CommWebService.call(getSugarValueAndItem, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<BloodSugarValueAndItemBean> parserUtil = new ParserUtil<>();
@@ -76,7 +73,7 @@ public class BloodSugarApiManager {
         HashMap<String, String> properties = new HashMap<>();
         properties.put("sugarInfo", sugarInfo);
 
-        CommWebService.call("saveSugarInfo", properties, new ServiceCallBack() {
+        CommWebService.call(saveSugarInfo, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<CommResult> parserUtil = new ParserUtil<>();
@@ -99,7 +96,7 @@ public class BloodSugarApiManager {
         properties.put("startDate", startDate);
         properties.put("endDate", endDate);
 
-        CommWebService.call("getSugarValueByDate", properties, new ServiceCallBack() {
+        CommWebService.call(getSugarValueByDate, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<BloodSugarNotelistBean> parserUtil = new ParserUtil<>();

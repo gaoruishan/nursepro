@@ -1,5 +1,6 @@
 package com.dhcc.nursepro.workarea.orderexecute.api;
 
+import com.base.commlibs.NurseAPI;
 import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.nursepro.utils.wsutils.WebServiceUtils;
@@ -12,7 +13,7 @@ import java.util.HashMap;
  * @author DevLix126
  * @date 2018/8/24
  */
-public class OrderExecuteApiService {
+public class OrderExecuteApiService extends NurseAPI {
     /**
      * Description: 皮试计时
      * Input：	oeoriId 执行记录Id
@@ -27,7 +28,7 @@ public class OrderExecuteApiService {
         properties.put("observeTime", observeTime);
         properties.put("note", note);
 
-        WebServiceUtils.callWebService("skinTime", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(skinTime, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callBack.onResult(result);
@@ -55,7 +56,7 @@ public class OrderExecuteApiService {
         properties.put("endTime", endTime);
         properties.put("screenParts", screenParts);
 
-        WebServiceUtils.callWebService("getOrders", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(getOrders, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -79,7 +80,7 @@ public class OrderExecuteApiService {
         properties.put("wardId", spUtils.getString(SharedPreference.WARDID));
         properties.put("barCode",barCode);
 
-        WebServiceUtils.callWebService("execOrSeeOrder", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(execOrSeeOrder, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callBack.onResult(result);
@@ -99,7 +100,7 @@ public class OrderExecuteApiService {
         properties.put("userId", spUtils.getString(SharedPreference.USERID));
         properties.put("userDeptId", "");
 
-        WebServiceUtils.callWebService("getScanInfo", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(getScanInfo, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -119,7 +120,7 @@ public class OrderExecuteApiService {
         properties.put("userId", spUtils.getString(SharedPreference.USERID));
         properties.put("userDeptId", "");
 
-        WebServiceUtils.callWebService("getScanInfoByMain", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(getScanInfoByMain, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);

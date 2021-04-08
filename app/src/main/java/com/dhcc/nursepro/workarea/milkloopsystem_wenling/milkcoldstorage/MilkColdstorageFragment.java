@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
+import com.base.commlibs.NurseAPI;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
@@ -132,7 +133,7 @@ public class MilkColdstorageFragment extends BaseFragment implements View.OnClic
         final HashMap<String, String> map = new HashMap<>();
         map.put("bottleNo", strBags);
         map.put("userId", spUtils.getString(SharedPreference.USERID));
-        MilkLoopApiManager.getMilkOperateResult(map, "coldStorageWL", new MilkLoopApiManager.MilkOperateCallback() {
+        MilkLoopApiManager.getMilkOperateResult(map, NurseAPI.coldStorageWL, new MilkLoopApiManager.MilkOperateCallback() {
             @Override
             public void onSuccess(MilkOperatResultBean milkOperatResultBean) {
                 rlScan.setVisibility(View.VISIBLE);
@@ -185,7 +186,7 @@ public class MilkColdstorageFragment extends BaseFragment implements View.OnClic
         final HashMap<String, String> map = new HashMap<>();
         map.put("bagNo", bottleNo);
         //            map.put("wardId",spUtils.getString(SharedPreference.WARDID));
-        MilkLoopApiManager.getMilkColdstorageInfo(map, "getcoldInfoWL", new MilkLoopApiManager.MilkColdstorageInfoCallback() {
+        MilkLoopApiManager.getMilkColdstorageInfo(map, NurseAPI.getcoldInfoWL, new MilkLoopApiManager.MilkColdstorageInfoCallback() {
             @Override
             public void onSuccess(MilkColdPatinfoBean milkColdPatinfoBean) {
 

@@ -15,12 +15,12 @@ import android.widget.TextView;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
+import com.base.commlibs.NurseAPI;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.login.LoginActivity;
 import com.dhcc.nursepro.utils.DateUtils;
 import com.dhcc.nursepro.workarea.milkloopsystem_wenling.MilkOperateResultDialog;
 import com.dhcc.nursepro.workarea.milkloopsystem_wenling.api.MilkLoopApiManager;
@@ -31,10 +31,8 @@ import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
 import cn.qqtheme.framework.picker.OptionPicker;
 import cn.qqtheme.framework.widget.WheelView;
@@ -105,7 +103,7 @@ public class MilkReceiveFragment extends BaseFragment implements View.OnClickLis
         map.put("time", timestr);
         map.put("userId", spUtils.getString(SharedPreference.USERID));
         map.put("recType",tvType.getText().toString());
-        MilkLoopApiManager.getMilkOperateResult(map, "receiveBagWL", new MilkLoopApiManager.MilkOperateCallback() {
+        MilkLoopApiManager.getMilkOperateResult(map, NurseAPI.receiveBagWL, new MilkLoopApiManager.MilkOperateCallback() {
             @Override
             public void onSuccess(MilkOperatResultBean milkReceiveBagBean) {
                 if (milkOperateResultDialog != null && milkOperateResultDialog.isShowing()) {
@@ -213,7 +211,7 @@ public class MilkReceiveFragment extends BaseFragment implements View.OnClickLis
         HashMap<String, String> map = new HashMap<>();
         map.put("bagNo", bagNo);
         map.put("wardId", spUtils.getString(SharedPreference.WARDID));
-        MilkLoopApiManager.getMilkReceiveBagInfo(map, "getMilkBagInfoWL", new MilkLoopApiManager.MilkReceiveBagInfoCallback() {
+        MilkLoopApiManager.getMilkReceiveBagInfo(map, NurseAPI.getMilkBagInfoWL, new MilkLoopApiManager.MilkReceiveBagInfoCallback() {
             @Override
             public void onSuccess(MilkReceiveBagInfoBean milkReceiveBagInfoBean) {
                 String bed = milkReceiveBagInfoBean.getPatInfo().getBedCode().equals("") ? "未分床" : milkReceiveBagInfoBean.getPatInfo().getBedCode();

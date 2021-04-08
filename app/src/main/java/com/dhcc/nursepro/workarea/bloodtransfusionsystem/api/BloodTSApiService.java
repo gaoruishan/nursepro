@@ -1,5 +1,6 @@
 package com.dhcc.nursepro.workarea.bloodtransfusionsystem.api;
 
+import com.base.commlibs.NurseAPI;
 import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.nursepro.utils.wsutils.WebServiceUtils;
@@ -12,7 +13,7 @@ import java.util.HashMap;
  * @author DevLix126
  * @date 2018/9/19
  */
-public class BloodTSApiService {
+public class BloodTSApiService extends NurseAPI {
 
     /**
      * 获取病人信息
@@ -23,7 +24,7 @@ public class BloodTSApiService {
         properties.put("regNo", regNo);
         properties.put("wardId", spUtils.getString(SharedPreference.WARDID));
 
-        WebServiceUtils.callWebService("getPatWristInfo", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(getPatWristInfo, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -39,7 +40,7 @@ public class BloodTSApiService {
         properties.put("bloodbagId", bloodbagId);
         properties.put("bloodProductId", bloodProductId);
 
-        WebServiceUtils.callWebService("getBloodInfo", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(getBloodInfo, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -62,7 +63,7 @@ public class BloodTSApiService {
         SPUtils spUtils = SPUtils.getInstance();
         properties.put("userId", spUtils.getString(SharedPreference.USERID));
 
-        WebServiceUtils.callWebService("bloodRecive", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(bloodRecive, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -81,7 +82,7 @@ public class BloodTSApiService {
         properties.put("bloodProductId", bloodProductId);
         properties.put("type", type);
 
-        WebServiceUtils.callWebService("getInfusionBloodInfo", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(getInfusionBloodInfo, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -102,7 +103,7 @@ public class BloodTSApiService {
         properties.put("pass2",  pass2.replace(" ",""));
         properties.put("type", type);
 
-        WebServiceUtils.callWebService("startTransfusion", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(startTransfusion, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -129,7 +130,7 @@ public class BloodTSApiService {
         properties.put("userId", spUtils.getString(SharedPreference.USERID));
         properties.put("dataArr",dataArr);
 
-        WebServiceUtils.callWebService("bloodPatrol", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(bloodPatrol, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -149,7 +150,7 @@ public class BloodTSApiService {
         properties.put("endType", endType);
         properties.put("type", type);
 
-        WebServiceUtils.callWebService("endTransfusion", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(endTransfusion, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -166,7 +167,7 @@ public class BloodTSApiService {
         properties.put("bloodRowId", bloodRowId);
         properties.put("userId", SPUtils.getInstance().getString(SharedPreference.USERID));
 
-        WebServiceUtils.callWebService("recycleBloodbag", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(recycleBloodbag, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -183,7 +184,7 @@ public class BloodTSApiService {
         properties.put("type", type);
         properties.put("date", date);
 
-        WebServiceUtils.callWebService("getBloodList", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(getBloodList, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -198,7 +199,7 @@ public class BloodTSApiService {
         HashMap<String, String> properties = new HashMap<>();
         properties.put("bloodRowId", bloodRowId);
 
-        WebServiceUtils.callWebService("getBloodPatrolRecord", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(getBloodPatrolRecord, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -214,7 +215,7 @@ public class BloodTSApiService {
         HashMap<String, String> properties = new HashMap<>();
         properties.put("episodeId", episodeId);
 
-        WebServiceUtils.callWebService("getBloodTemData", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(getBloodTemData, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);

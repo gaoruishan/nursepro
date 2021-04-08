@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.base.commlibs.NurseAPI;
 import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.base.commlibs.BaseActivity;
@@ -105,7 +106,7 @@ public class CheckResultListFragment extends BaseFragment {
         map.put("hospitalId", spUtils.getString(SharedPreference.HOSPITALROWID));
         //        map.put("episodeId","96");
         //        map.put("hospitalId","0");
-        CheckApiManager.getCheckListMsg(map, "getRisOrderList", new CheckApiManager.CheckListCallback() {
+        CheckApiManager.getCheckListMsg(map, NurseAPI.getRisOrderList, new CheckApiManager.CheckListCallback() {
             @Override
             public void onSuccess(CheckResultListBean checkResultListBean) {
                 listBeans = checkResultListBean.getRisOrdList();

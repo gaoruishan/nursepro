@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
+import com.base.commlibs.NurseAPI;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
@@ -103,7 +104,7 @@ public class DrugReceiveFragment extends BaseFragment implements View.OnClickLis
         map.put("endDate", endDate);
 //        map.put("locId", "197");
         map.put("locId", spUtils.getString(SharedPreference.LOCID));
-        DrugReceiveApiManager.getIfOrDList(map, "getIFOrdListByBarCode", new DrugReceiveApiManager.ifOrdLIstCallback() {
+        DrugReceiveApiManager.getIfOrDList(map, NurseAPI.getIFOrdListByBarCode, new DrugReceiveApiManager.ifOrdLIstCallback() {
             @Override
             public void onSuccess(IfOrdListBean ifOrdListBean) {
                 hideLoadFailTip();
@@ -132,7 +133,7 @@ public class DrugReceiveFragment extends BaseFragment implements View.OnClickLis
         map.put("userId", spUtils.getString(SharedPreference.USERID));
 //        map.put("locId", "197");
         map.put("locId", spUtils.getString(SharedPreference.LOCID));
-        DrugReceiveApiManager.ordSaveMsg(map, "BatchIFSave", new DrugReceiveApiManager.ordSaveResultCallback() {
+        DrugReceiveApiManager.ordSaveMsg(map, NurseAPI.BatchIFSave, new DrugReceiveApiManager.ordSaveResultCallback() {
             @Override
             public void onSuccess(BatchIFSaveResultBean batchIFSaveResultBean) {
                 hideLoadFailTip();

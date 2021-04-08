@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.base.commlibs.NurseAPI;
 import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.base.commlibs.BaseActivity;
@@ -186,7 +187,7 @@ public class DocOrderListFragment extends BaseFragment {
         HashMap<String,String> map = new HashMap<>();
         map.put("episodId",episodId);
         map.put("wardId",spUtils.getString(SharedPreference.WARDID));
-        DocOrderListApiManager.getDocOrderList(map, "getDocOrderList", new DocOrderListApiManager.getDocOrderListCallBack() {
+        DocOrderListApiManager.getDocOrderList(map, NurseAPI.getDocOrderList, new DocOrderListApiManager.getDocOrderListCallBack() {
             @Override
             public void onSuccess(DocOrderListBean docOrderListBean) {
                 hideLoadingTip();
@@ -218,7 +219,7 @@ public class DocOrderListFragment extends BaseFragment {
         HashMap<String,String> map = new HashMap<>();
         map.put("wardId",spUtils.getString(SharedPreference.WARDID));
         map.put("userId",spUtils.getString(SharedPreference.USERID));
-        DocOrderListApiManager.getPatsList(map, "getInWardPatList", new DocOrderListApiManager.getPatsListCallback() {
+        DocOrderListApiManager.getPatsList(map, NurseAPI.getInWardPatList, new DocOrderListApiManager.getPatsListCallback() {
             @Override
             public void onSuccess(DocOrdersPatsListBean docOrdersPatsListBean) {
                 hideLoadingTip();

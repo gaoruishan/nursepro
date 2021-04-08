@@ -4,22 +4,17 @@ package com.dhcc.nursepro.workarea.milkloopsystem_wenling.milkbindorder;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
+import com.base.commlibs.NurseAPI;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
@@ -27,15 +22,9 @@ import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.milkloopsystem_wenling.MilkOperateResultDialog;
 import com.dhcc.nursepro.workarea.milkloopsystem_wenling.api.MilkLoopApiManager;
 import com.dhcc.nursepro.workarea.milkloopsystem_wenling.bean.MilkBindOrderBean;
-import com.dhcc.nursepro.workarea.milkloopsystem_wenling.bean.MilkBottlingInfoBean;
-import com.dhcc.nursepro.workarea.milkloopsystem_wenling.bean.MilkOperatResultBean;
 import com.dhcc.nursepro.workarea.milkloopsystem_wenling.bean.MilkReceiveBagInfoBean;
-import com.dhcc.nursepro.workarea.orderexecute.api.OrderExecuteApiManager;
-import com.dhcc.nursepro.workarea.orderexecute.bean.ScanResultBean;
 
 import java.util.HashMap;
-
-import static android.content.Context.INPUT_METHOD_SERVICE;
 
 /**
  * com.dhcc.nursepro.workarea.milkloopsystem.MilkReceive
@@ -217,7 +206,7 @@ public class MilkBindOrderFragment extends BaseFragment implements View.OnClickL
         HashMap<String, String> map = new HashMap<>();
         map.put("bagNo", bagNo);
 //        map.put("wardId", spUtils.getString(SharedPreference.WARDID));
-        MilkLoopApiManager.getMilkReceiveBagInfo(map, "getBottleInfo", new MilkLoopApiManager.MilkReceiveBagInfoCallback() {
+        MilkLoopApiManager.getMilkReceiveBagInfo(map, NurseAPI.getBottleInfo, new MilkLoopApiManager.MilkReceiveBagInfoCallback() {
             @Override
             public void onSuccess(MilkReceiveBagInfoBean milkReceiveBagInfoBean) {
                 String bed = milkReceiveBagInfoBean.getPatInfo().getBedCode().equals("") ? "未分床" : milkReceiveBagInfoBean.getPatInfo().getBedCode();
@@ -250,7 +239,7 @@ public class MilkBindOrderFragment extends BaseFragment implements View.OnClickL
         map.put("bagNo", bagCode);
         map.put("oeoreId", bottleNo);
         map.put("userId",spUtils.getString(SharedPreference.USERID));
-        MilkLoopApiManager.getMilkBindOrder(map, "bagBottle", new MilkLoopApiManager.MilkBindOrderCallback() {
+        MilkLoopApiManager.getMilkBindOrder(map, NurseAPI.bagBottle, new MilkLoopApiManager.MilkBindOrderCallback() {
             @Override
             public void onSuccess(MilkBindOrderBean milkBindOrderBean) {
 //                tvSure.setTextColor(getResources().getColor(R.color.blue));

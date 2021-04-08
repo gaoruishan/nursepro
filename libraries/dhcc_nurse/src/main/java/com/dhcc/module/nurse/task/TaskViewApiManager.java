@@ -1,5 +1,6 @@
 package com.dhcc.module.nurse.task;
 
+import com.base.commlibs.NurseAPI;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommWebService;
 import com.base.commlibs.http.CommonCallBack;
@@ -25,7 +26,7 @@ import java.util.HashMap;
  * Date: 2020/8/3
  * Time:14:40
  */
-public class TaskViewApiManager {
+public class TaskViewApiManager extends NurseAPI {
     /**
      * Description:   获取任务总览列表
      * Input：
@@ -45,7 +46,7 @@ public class TaskViewApiManager {
         properties.put("bedStr", bedStr);
         properties.put("regNo", regNo);
 
-        CommWebService.call("getExecuteSummaryData", properties, new ServiceCallBack() {
+        CommWebService.call(getExecuteSummaryData, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<TaskBean> parserUtil = new ParserUtil<>();
@@ -77,7 +78,7 @@ public class TaskViewApiManager {
         properties.put("bedStr", bedStr);
         properties.put("regNo", regNo);
 
-        CommWebService.call("getNormalOrdTask", properties, new ServiceCallBack() {
+        CommWebService.call(getNormalOrdTask, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<NormalOrdTaskBean> parserUtil = new ParserUtil<>();
@@ -113,7 +114,7 @@ public class TaskViewApiManager {
         properties.put("barCode", "");
 
 
-        CommWebService.call("execOrSeeOrder", properties, new ServiceCallBack() {
+        CommWebService.call(execOrSeeOrder, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<OrderExecResultBean> parserUtil = new ParserUtil<>();
@@ -145,7 +146,7 @@ public class TaskViewApiManager {
         properties.put("regNo", regNo);
         properties.put("needCodes", needCodes);
 
-        CommWebService.call("GetTempDateMeasureByDay", properties, new ServiceCallBack() {
+        CommWebService.call(GetTempDateMeasureByDay, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<TempTaskBean> parserUtil = new ParserUtil<>();
@@ -177,7 +178,7 @@ public class TaskViewApiManager {
         properties.put("startTime", startDate.substring(11, 16));
         properties.put("endDate", endDate.substring(0, 10));
         properties.put("endTime", endDate.substring(11, 16));
-        CommWebService.call("getNurPlanTaskList", properties, new ServiceCallBack() {
+        CommWebService.call(getNurPlanTaskList, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<NurOrdTaskBean> parserUtil = new ParserUtil<>();
@@ -201,7 +202,7 @@ public class TaskViewApiManager {
         HashMap<String, String> properties = CommWebService.addUserId(null);
         properties.put("recordId", recordId);
         properties.put("interventionDR", interventionDR);
-        CommWebService.call("getExecuteTaskList", properties, new ServiceCallBack() {
+        CommWebService.call(getExecuteTaskList, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<NurOrdRecordTaskBean> parserUtil = new ParserUtil<>();
@@ -223,7 +224,7 @@ public class TaskViewApiManager {
      */
     public static void getNurTaskSch(final CommonCallBack<NurTaskSchBean> callBack) {
         HashMap<String, String> properties = new HashMap<>();
-        CommWebService.call("getNurTaskSch", properties, new ServiceCallBack() {
+        CommWebService.call(getNurTaskSch, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<NurTaskSchBean> parserUtil = new ParserUtil<>();
@@ -252,7 +253,7 @@ public class TaskViewApiManager {
         properties.put("transferFlag", transferFlag);
         String sData = recordData.replaceAll("\\\\", "");
         properties.put("recordData", sData);
-        CommWebService.call("executeNurTask", properties, new ServiceCallBack() {
+        CommWebService.call(executeNurTask, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<NurTaskSchBean> parserUtil = new ParserUtil<>();
@@ -275,7 +276,7 @@ public class TaskViewApiManager {
     public static void getScaninfo(String regNo, final CommonCallBack<ScanResultBean> callBack) {
         HashMap<String, String> properties = CommWebService.addWardId(null);
         properties.put("regNo", regNo);
-        CommWebService.call("getPatWristInfo", properties, new ServiceCallBack() {
+        CommWebService.call(getPatWristInfo, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<ScanResultBean> parserUtil = new ParserUtil<>();
@@ -298,7 +299,7 @@ public class TaskViewApiManager {
         properties.put("regNo", "");
         properties.put("bedStr", bedStr);
         properties.put("schDate", schDate);
-        CommWebService.call("getNeedEmr", properties, new ServiceCallBack() {
+        CommWebService.call(getNeedEmr, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<NurRateTaskBean> parserUtil = new ParserUtil<>();

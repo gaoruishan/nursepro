@@ -11,12 +11,12 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.base.commlibs.BaseFragment;
+import com.base.commlibs.NurseAPI;
+import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.base.commlibs.BaseActivity;
-import com.base.commlibs.BaseFragment;
 import com.dhcc.nursepro.R;
-import com.base.commlibs.constant.SharedPreference;
 import com.dhcc.nursepro.setting.adapter.SettingBedsGroupAdapter;
 import com.dhcc.nursepro.setting.api.SettingBedsApiManeger;
 import com.dhcc.nursepro.setting.bean.SettingBedListBean;
@@ -136,7 +136,7 @@ public class SettingBedsFragment extends BaseFragment {
         properties.put("wardId", spUtils.getString(SharedPreference.WARDID));
         properties.put("userId", spUtils.getString(SharedPreference.USERID));
 
-        SettingBedsApiManeger.getBedList(properties, "getBedList", new SettingBedsApiManeger.GetBedListCallback() {
+        SettingBedsApiManeger.getBedList(properties, NurseAPI.getBedList, new SettingBedsApiManeger.GetBedListCallback() {
             @Override
             public void onSuccess(SettingBedListBean settingBedListBean) {
                 llBedselectAllselect.setSelected(true);
@@ -162,7 +162,7 @@ public class SettingBedsFragment extends BaseFragment {
         properties.put("wardId", spUtils.getString(SharedPreference.WARDID));
         properties.put("userId", spUtils.getString(SharedPreference.USERID));
 
-        SettingBedsApiManeger.getSettingMsgList(properties, "setManagedBeds", new SettingBedsApiManeger.SettingBedsCallback() {
+        SettingBedsApiManeger.getSettingMsgList(properties, NurseAPI.setManagedBeds, new SettingBedsApiManeger.SettingBedsCallback() {
             @Override
             public void onSuccess(String msg) {
                 showToast("所管床设置完成");

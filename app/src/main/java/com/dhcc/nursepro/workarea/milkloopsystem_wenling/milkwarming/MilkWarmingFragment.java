@@ -14,10 +14,10 @@ import android.widget.TextView;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
+import com.base.commlibs.NurseAPI;
 import com.base.commlibs.constant.Action;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.milkloopsystem_wenling.api.MilkLoopApiManager;
-import com.dhcc.nursepro.workarea.milkloopsystem_wenling.bean.MilkOperatResultBean;
 import com.dhcc.nursepro.workarea.milkloopsystem_wenling.bean.MilkWarmingBaginfoBean;
 import com.dhcc.nursepro.workarea.milkloopsystem_wenling.bean.MilkWarmingSttBean;
 
@@ -85,7 +85,7 @@ public class MilkWarmingFragment extends BaseFragment implements View.OnClickLis
     private void initData(){
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("bagNo",bagNo);
-        MilkLoopApiManager.getMilkWarminginfo(map,"getHeatInfo", new MilkLoopApiManager.MilkWarmingBagInfoCallback() {
+        MilkLoopApiManager.getMilkWarminginfo(map, NurseAPI.getHeatInfo, new MilkLoopApiManager.MilkWarmingBagInfoCallback() {
             @Override
             public void onSuccess(MilkWarmingBaginfoBean milkWarmingBaginfoBean) {
 
@@ -115,7 +115,7 @@ public class MilkWarmingFragment extends BaseFragment implements View.OnClickLis
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("bagNo",bagNo);
         map.put("userId","3");
-        MilkLoopApiManager.getMilkWarmingStt(map,"bagHeatStt", new MilkLoopApiManager.MilkWarmingSttCallback() {
+        MilkLoopApiManager.getMilkWarmingStt(map,NurseAPI.bagHeatStt, new MilkLoopApiManager.MilkWarmingSttCallback() {
             @Override
             public void onSuccess(MilkWarmingSttBean milkWarmingSttBean) {
 
@@ -136,7 +136,7 @@ public class MilkWarmingFragment extends BaseFragment implements View.OnClickLis
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("bagNo",bagNo);
         map.put("userId","3");
-        MilkLoopApiManager.getMilkWarmingStt(map,"bagHeatEnd", new MilkLoopApiManager.MilkWarmingSttCallback() {
+        MilkLoopApiManager.getMilkWarmingStt(map,NurseAPI.bagHeatEnd, new MilkLoopApiManager.MilkWarmingSttCallback() {
             @Override
             public void onSuccess(MilkWarmingSttBean milkWarmingSttBean) {
 

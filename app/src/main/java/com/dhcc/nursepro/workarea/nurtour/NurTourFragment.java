@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
+import com.base.commlibs.NurseAPI;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.ConvertUtils;
@@ -363,7 +364,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         HashMap<String, String> map = new HashMap<>();
         map.put("locId", spUtils.getString(SharedPreference.LOCID));
         map.put("userId", spUtils.getString(SharedPreference.USERID));
-        TourApiManager.getGradeTourList(map, "getGradeTourList", new TourApiManager.getGradeTourListcall() {
+        TourApiManager.getGradeTourList(map, NurseAPI.getGradeTourList, new TourApiManager.getGradeTourListcall() {
             @Override
             public void onSuccess(GradeTourListBean gradeTourListBean) {
                 gradeTourTypeList = gradeTourListBean.getLeftFilter();
@@ -405,7 +406,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         if (!(episodeId.equals(""))) {
             map.put("episodeId", episodeId);
         }
-        TourApiManager.getPatsList(map, "getSumTourList", new TourApiManager.getPatsListCallback() {
+        TourApiManager.getPatsList(map, NurseAPI.getSumTourList, new TourApiManager.getPatsListCallback() {
             @Override
             public void onSuccess(AllTourListBean tourPatsListBean) {
                 if ((episodeId.equals(""))) {
@@ -442,7 +443,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         HashMap<String, String> map = new HashMap<>();
         map.put("locId", spUtils.getString(SharedPreference.LOCID));
         map.put("userId", spUtils.getString(SharedPreference.USERID));
-        TourApiManager.getInfusionList(map, "getInfusionTourList", new TourApiManager.getInfusionlcall() {
+        TourApiManager.getInfusionList(map, NurseAPI.getInfusionTourList, new TourApiManager.getInfusionlcall() {
             @Override
             public void onSuccess(InfusionListBean infusionListBean) {
                 infusionPatsListBeanList = infusionListBean.getPatInfoList();
@@ -501,7 +502,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
             llModelLastTour.setVisibility(View.GONE);
         }
 
-        TourApiManager.getModelData(map, "getModelData", new TourApiManager.getModelDatacall() {
+        TourApiManager.getModelData(map, NurseAPI.getModelData, new TourApiManager.getModelDatacall() {
             @Override
             public void onSuccess(ModelDataBean modelDataBean) {
                 if (modelFlag.equals("update")) {
@@ -589,7 +590,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         }
         map.put("tourType", modelType);
         map.put("userId", spUtils.getString(SharedPreference.USERID));
-        TourApiManager.getTourSaveMsg(map, "saveTour", new TourApiManager.getTourSavecall() {
+        TourApiManager.getTourSaveMsg(map, NurseAPI.saveTour, new TourApiManager.getTourSavecall() {
             @Override
             public void onSuccess(TourSaveBean tourSaveBean) {
                 viewright.setVisibility(View.GONE);
@@ -637,7 +638,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         map.put("id", modelTourId);
         map.put("tourType", modelType);
         map.put("userId", spUtils.getString(SharedPreference.USERID));
-        TourApiManager.getTourDeleteMsg(map, "deleteTour", new TourApiManager.getTourDeleteCall() {
+        TourApiManager.getTourDeleteMsg(map, NurseAPI.deleteTour, new TourApiManager.getTourDeleteCall() {
             @Override
             public void onSuccess(DeleteTourBean deleteTourBean) {
                 viewright.setVisibility(View.GONE);

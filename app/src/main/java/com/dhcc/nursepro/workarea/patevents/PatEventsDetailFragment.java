@@ -9,13 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.base.commlibs.BaseFragment;
+import com.base.commlibs.NurseAPI;
+import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.base.commlibs.BaseActivity;
-import com.base.commlibs.BaseFragment;
 import com.dhcc.nursepro.R;
-import com.base.commlibs.constant.SharedPreference;
 import com.dhcc.nursepro.workarea.patevents.adapter.PatEventsDetailAdapter;
 import com.dhcc.nursepro.workarea.patevents.api.PatEventsApiManager;
 import com.dhcc.nursepro.workarea.patevents.bean.EventItemBean;
@@ -137,7 +137,7 @@ public class PatEventsDetailFragment extends BaseFragment implements View.OnClic
         map.put("eventId", eventId);
         map.put("userId", userIdNow);
 
-        String methodName = "saveEvent";
+        String methodName = NurseAPI.saveEvent;
         PatEventsApiManager.getEventsResultMsg(map, methodName, new PatEventsApiManager.GetEventsResultMsgCallBack() {
             @Override
             public void onSuccess(String msgs) {

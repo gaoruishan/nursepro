@@ -7,19 +7,19 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.SPUtils;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
-import com.dhcc.nursepro.R;
+import com.base.commlibs.NurseAPI;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
+import com.blankj.utilcode.util.SPUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.patevents.adapter.PatEventsAdapter;
 import com.dhcc.nursepro.workarea.patevents.api.PatEventsApiManager;
 import com.dhcc.nursepro.workarea.patevents.bean.PatEventsBean;
@@ -110,7 +110,7 @@ public class PatEventsFragment extends BaseFragment implements View.OnClickListe
                 } else if (view.getId() == R.id.tv_patevents_eventdel) {
                     HashMap<String, String> mapDel = new HashMap<String, String>();
                     mapDel.put("recId", listItem.get(position).getRecId());
-                    String methodName = "DelEvent";
+                    String methodName = NurseAPI.DelEvent;
                     PatEventsApiManager.getEventsResultMsg(mapDel, methodName, new PatEventsApiManager.GetEventsResultMsgCallBack() {
                         @Override
                         public void onSuccess(String msgs) {

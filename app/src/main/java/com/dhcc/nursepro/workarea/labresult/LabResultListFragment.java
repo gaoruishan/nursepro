@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.base.commlibs.NurseAPI;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
@@ -86,7 +87,7 @@ public class LabResultListFragment extends BaseFragment {
 
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("episodeId", episodeId);
-        LabApiManager.getLabListMsg(map, "getLabOrdList", new LabApiManager.GeLabListCallback() {
+        LabApiManager.getLabListMsg(map, NurseAPI.getLabOrdList, new LabApiManager.GeLabListCallback() {
             @Override
             public void onSuccess(LabResultListBean labResultListBean) {
                 listBeans = labResultListBean.getLabOrderList();

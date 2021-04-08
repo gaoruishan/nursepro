@@ -1,12 +1,13 @@
 package com.dhcc.nursepro.workarea.vitalsign.api;
 
+import com.base.commlibs.NurseAPI;
 import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.nursepro.utils.wsutils.WebServiceUtils;
 
 import java.util.HashMap;
 
-public class VitalSignApiService {
+public class VitalSignApiService extends NurseAPI {
 
     public interface ServiceCallBack{
         void onResult(String jsonStr);
@@ -36,7 +37,7 @@ public class VitalSignApiService {
         properties.put("date", date);
         properties.put("time", time);
 
-        WebServiceUtils.callWebService("getTempPatList", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(getTempPatList, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -60,7 +61,7 @@ public class VitalSignApiService {
 
         properties.put("locId", SPUtils.getInstance().getString(SharedPreference.LOCID));
 
-        WebServiceUtils.callWebService("getTempValue", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(getTempValue, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -78,7 +79,7 @@ public class VitalSignApiService {
         //就诊号
         properties.put("episodeId", episodeId);
 
-        WebServiceUtils.callWebService("getPatTempImage", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(getPatTempImage, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -107,7 +108,7 @@ public class VitalSignApiService {
         //填写人科室Id
         properties.put("userLocId", SPUtils.getInstance().getString("LOCID"));
 
-        WebServiceUtils.callWebService("saveTempData", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(saveTempData, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);

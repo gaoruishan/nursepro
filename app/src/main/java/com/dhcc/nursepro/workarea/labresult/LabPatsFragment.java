@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.base.commlibs.NurseAPI;
 import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.base.commlibs.BaseActivity;
@@ -96,7 +97,7 @@ public class LabPatsFragment extends BaseFragment implements View.OnClickListene
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("wardId", spUtils.getString("WARDID"));
         map.put("userId", spUtils.getString("USERID"));
-        LabApiManager.getPatsList(map, "getInWardPatList", new LabApiManager.GetCheckResultCallback() {
+        LabApiManager.getPatsList(map, NurseAPI.getInWardPatList, new LabApiManager.GetCheckResultCallback() {
             @Override
             public void onSuccess(PatsListBean patsListBean) {
                 hideLoadFailTip();

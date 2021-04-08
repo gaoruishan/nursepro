@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.base.commlibs.NurseAPI;
 import com.blankj.utilcode.util.SPUtils;
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
@@ -92,7 +93,7 @@ public class MotherBabyLinkFragment extends BaseFragment {
         HashMap<String, String> mapmsg = new HashMap<String, String>();
         mapmsg.put("regNo", regNo);
         mapmsg.put("wardId", wardId);
-        LinkApiManager.getMotherMsg(mapmsg, "getPatWristInfo", new LinkApiManager.GetMotherMsgCallBack() {
+        LinkApiManager.getMotherMsg(mapmsg, NurseAPI.getPatWristInfo, new LinkApiManager.GetMotherMsgCallBack() {
             @Override
             public void onSuccess(ScanMotherInfoBean scanMotherInfoBean) {
                 ScanMotherInfoBean.PatInfoBean patInfoBean = scanMotherInfoBean.getPatInfo();
@@ -122,7 +123,7 @@ public class MotherBabyLinkFragment extends BaseFragment {
         mapmsg.put("motherEpisodeId", motherEpisodeId);
         mapmsg.put("babyRegNo", babyRegNo);
 
-        LinkApiManager.getLinkResultMsg(mapmsg, "motherRelationBaby", new LinkApiManager.GetLinkMsgCallback() {
+        LinkApiManager.getLinkResultMsg(mapmsg, NurseAPI.motherRelationBaby, new LinkApiManager.GetLinkMsgCallback() {
             @Override
             public void onSuccess(LinkResultBean linkResultBean) {
 

@@ -1,5 +1,6 @@
 package com.base.commlibs.http;
 
+import com.base.commlibs.NurseAPI;
 import com.base.commlibs.bean.BroadcastListBean;
 import com.base.commlibs.bean.PatientListBean;
 import com.base.commlibs.constant.SharedPreference;
@@ -27,7 +28,7 @@ public class CommHttp {
         properties.put("userCode", userCode);
         properties.put("password", password);
         properties.put("logonWardId", SPUtils.getInstance().getString(SharedPreference.WARDID));
-        CommWebService.call("Logon", properties, new ServiceCallBack() {
+        CommWebService.call(NurseAPI.Logon, properties, new ServiceCallBack() {
             @Override
             public void onResult(String result) {
                 CommWebService.parserCommResult(result, callBack);
@@ -50,7 +51,7 @@ public class CommHttp {
                 TransBroadcastUtil.setScanActionList(bean.broadcastList);
             }
         };
-        CommWebService.call("getBroadcastConfig", new HashMap<String, String> (), new ServiceCallBack() {
+        CommWebService.call(NurseAPI.getBroadcastConfig, new HashMap<String, String> (), new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<ScanCodeBean> parserUtil = new ParserUtil<>();
@@ -69,7 +70,7 @@ public class CommHttp {
     public static void getInWardPatList(final CommonCallBack<PatientListBean> callBack) {
         HashMap<String, String> properties = CommWebService.addUserId(null);
         CommWebService.addWardId(properties);
-        CommWebService.callHealth("getInWardPatList", properties, new ServiceCallBack() {
+        CommWebService.callHealth(NurseAPI.getInWardPatList, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<PatientListBean> parserUtil = new ParserUtil<>();

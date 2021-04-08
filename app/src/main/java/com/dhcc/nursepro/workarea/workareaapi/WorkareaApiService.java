@@ -1,18 +1,19 @@
 package com.dhcc.nursepro.workarea.workareaapi;
 
+import com.base.commlibs.NurseAPI;
 import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.nursepro.utils.wsutils.WebServiceUtils;
 
 import java.util.HashMap;
 
-public class WorkareaApiService {
+public class WorkareaApiService extends NurseAPI {
 
     public static void getMainConfig(final WorkareaApiService.ServiceCallBack callback) {
         HashMap<String, String> properties = new HashMap<String, String>();
         properties.put("locId",SPUtils.getInstance().getString(SharedPreference.LOCID));
         properties.put("groupId",SPUtils.getInstance().getString(SharedPreference.GROUPID));
-        WebServiceUtils.callWebService("getMainConfig", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(getMainConfig, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -39,7 +40,7 @@ public class WorkareaApiService {
         properties.put("userId", spUtils.getString(SharedPreference.USERID));
         properties.put("userDeptId", "");
 
-        WebServiceUtils.callWebService("getScanInfoByMain", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(getScanInfoByMain, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -63,7 +64,7 @@ public class WorkareaApiService {
         properties.put("oeoriId", oeoriId);
         properties.put("status", status);
 
-        WebServiceUtils.callWebService("preparedVerifyOrd", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(preparedVerifyOrd, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -87,7 +88,7 @@ public class WorkareaApiService {
         properties.put("userId", spUtils.getString(SharedPreference.USERID));
         properties.put("locId", spUtils.getString(SharedPreference.LOCID));
 
-        WebServiceUtils.callWebService("tourOrd", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(tourOrd, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -112,7 +113,7 @@ public class WorkareaApiService {
         properties.put("infusionState", infusionState);
         properties.put("infusionReason", infusionReason);
 
-        WebServiceUtils.callWebService("suspendOrd", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(suspendOrd, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -134,7 +135,7 @@ public class WorkareaApiService {
         properties.put("userId", spUtils.getString(SharedPreference.USERID));
         properties.put("locId", spUtils.getString(SharedPreference.LOCID));
 
-        WebServiceUtils.callWebService("continueOrd", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(continueOrd, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -160,7 +161,7 @@ public class WorkareaApiService {
         properties.put("ResidualQty", ResidualQty);
         properties.put("infusionReason", infusionReason);
 
-        WebServiceUtils.callWebService("stopOrd", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(stopOrd, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -184,7 +185,7 @@ public class WorkareaApiService {
         properties.put("userId", spUtils.getString(SharedPreference.USERID));
         properties.put("locId", spUtils.getString(SharedPreference.LOCID));
 
-        WebServiceUtils.callWebService("finishOrd", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(finishOrd, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);

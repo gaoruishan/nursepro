@@ -11,9 +11,7 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
-import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.RelativeSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +20,7 @@ import android.widget.TextView;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
+import com.base.commlibs.NurseAPI;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
@@ -147,7 +146,7 @@ public class LabOutDetailFragment extends BaseFragment {
             map.put("locDr", carryLocDr);
             map.put("saveFlag", saveFlag);
         }
-        LabOutApiManager.getLabOutDetailMsg(map, "getLabOutDetail", new LabOutApiManager.getLabOutDetailCallBack() {
+        LabOutApiManager.getLabOutDetailMsg(map, NurseAPI.getLabOutDetail, new LabOutApiManager.getLabOutDetailCallBack() {
             @Override
             public void onSuccess(LabOutDetailBean labOutDetailBean) {
                 hideLoadingTip();
@@ -238,7 +237,7 @@ public class LabOutDetailFragment extends BaseFragment {
             map.put("Type", type);
         }
 
-        LabOutApiManager.delOrdMsg(map, "delOrExchange", new LabOutApiManager.delOrdCallBack() {
+        LabOutApiManager.delOrdMsg(map, NurseAPI.delOrExchange, new LabOutApiManager.delOrdCallBack() {
             @Override
             public void onSuccess(DelOrderBean delOrderBean) {
                 hideLoadFailTip();

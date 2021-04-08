@@ -1,5 +1,6 @@
 package com.dhcc.nursepro.workarea.drugloopsystem.residualliquidregistration.api;
 
+import com.base.commlibs.NurseAPI;
 import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.nursepro.utils.wsutils.WebServiceUtils;
@@ -12,7 +13,7 @@ import java.util.HashMap;
  * @author Devlix126
  * created at 2019/5/29 16:03
  */
-public class RLRegApiService {
+public class RLRegApiService extends NurseAPI {
 
     public static void getResidualQtyList(String startDate, String endDate, final ServiceCallBack callback) {
         SPUtils spUtils = SPUtils.getInstance();
@@ -23,7 +24,7 @@ public class RLRegApiService {
         properties.put("startDate", startDate);
         properties.put("endDate", endDate);
 
-        WebServiceUtils.callWebService("getResidualQtyList", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(getResidualQtyList, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -45,7 +46,7 @@ public class RLRegApiService {
         properties.put("regQtyUnit", regQtyUnit);
         properties.put("wayDesc", wayDesc);
 
-        WebServiceUtils.callWebService("residualQtyReg", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(residualQtyReg, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);

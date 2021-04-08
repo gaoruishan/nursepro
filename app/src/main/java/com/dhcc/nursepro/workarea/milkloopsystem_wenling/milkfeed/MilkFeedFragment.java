@@ -14,21 +14,17 @@ import android.widget.TextView;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
+import com.base.commlibs.NurseAPI;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.milkloopsystem_wenling.adapter.MilkFeedAdapter;
-import com.dhcc.nursepro.workarea.milkloopsystem_wenling.adapter.MilkFreezingScanedAdapter;
 import com.dhcc.nursepro.workarea.milkloopsystem_wenling.api.MilkLoopApiManager;
 import com.dhcc.nursepro.workarea.milkloopsystem_wenling.bean.MilkFeedExeListBean;
-import com.dhcc.nursepro.workarea.milkloopsystem_wenling.bean.MilkFreezingBagInfoBean;
 import com.dhcc.nursepro.workarea.milkloopsystem_wenling.bean.MilkOperatResultBean;
 import com.dhcc.nursepro.workarea.milkloopsystem_wenling.bean.ScanInfoBean;
 import com.dhcc.nursepro.workarea.orderexecute.OrderExecOrderDialog;
-import com.dhcc.nursepro.workarea.orderexecute.api.OrderExecuteApiManager;
-import com.dhcc.nursepro.workarea.orderexecute.bean.ScanResultBean;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -98,7 +94,7 @@ public class MilkFeedFragment extends BaseFragment {
         map.put("exeFlag","0");
         map.put("sttDate",spUtils.getString(SharedPreference.SCHSTDATETIME));
         map.put("endDate",spUtils.getString(SharedPreference.SCHENDATETIME));
-        MilkLoopApiManager.getMilkFeedExeList(map, "getExeList", new MilkLoopApiManager.MilkFeedExeListCallback() {
+        MilkLoopApiManager.getMilkFeedExeList(map, NurseAPI.getExeList, new MilkLoopApiManager.MilkFeedExeListCallback() {
             @Override
             public void onSuccess(MilkFeedExeListBean milkFeedExeListBean) {
                 milkFeedAdapter.setNewData(milkFeedExeListBean.getExeList());
@@ -136,7 +132,7 @@ public class MilkFeedFragment extends BaseFragment {
         map.put("userId",spUtils.getString(SharedPreference.USERID));
         map.put("wardId",spUtils.getString(SharedPreference.WARDID));
 
-        MilkLoopApiManager.getScanInfo(map, "getScanInfoWL", new MilkLoopApiManager.MilkFeedGetScanInfoCallback() {
+        MilkLoopApiManager.getScanInfo(map, NurseAPI.getScanInfoWL, new MilkLoopApiManager.MilkFeedGetScanInfoCallback() {
             @Override
             public void onSuccess(ScanInfoBean scanInfoBean) {
                 if (scanInfoBean.getFlag().equals("PAT")){
@@ -194,7 +190,7 @@ public class MilkFeedFragment extends BaseFragment {
         map.put("oeoreId",orderId);
         map.put("userId",spUtils.getString(SharedPreference.USERID));
         map.put("locId",spUtils.getString(SharedPreference.LOCID));
-        MilkLoopApiManager.getMilkOperateResult(map, "exeStart", new MilkLoopApiManager.MilkOperateCallback() {
+        MilkLoopApiManager.getMilkOperateResult(map, NurseAPI.exeStart, new MilkLoopApiManager.MilkOperateCallback() {
             @Override
             public void onSuccess(MilkOperatResultBean milkOperatResultBean) {
                 showToast(milkOperatResultBean.getMsg());
@@ -220,7 +216,7 @@ public class MilkFeedFragment extends BaseFragment {
         map.put("userId",spUtils.getString(SharedPreference.USERID));
         map.put("powderAmount",moMilk);
         map.put("breastAmount",otMilk);
-        MilkLoopApiManager.getMilkOperateResult(map, "exeEnd", new MilkLoopApiManager.MilkOperateCallback() {
+        MilkLoopApiManager.getMilkOperateResult(map, NurseAPI.exeEnd, new MilkLoopApiManager.MilkOperateCallback() {
             @Override
             public void onSuccess(MilkOperatResultBean milkOperatResultBean) {
                 showToast("结束喂养");

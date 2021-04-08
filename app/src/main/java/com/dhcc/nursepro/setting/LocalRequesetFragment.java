@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.base.commlibs.NurseAPI;
 import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.base.commlibs.BaseActivity;
@@ -57,7 +58,7 @@ public class LocalRequesetFragment extends BaseFragment {
             map.remove("patInfo");
             map.remove("starttime");
             map.remove("failreason");
-            SettingBedsApiManeger.getReqResult(map, "execOrSeeOrderByDateTime", new SettingBedsApiManeger.GetReqResultCallback() {
+            SettingBedsApiManeger.getReqResult(map, NurseAPI.execOrSeeOrderByDateTime, new SettingBedsApiManeger.GetReqResultCallback() {
                 @Override
                 public void onSuccess(LocalOrderExecResultBean localOrderExecResultBean) {
                     String orderidDel1 = map.get("oeoreId");
@@ -173,7 +174,7 @@ public class LocalRequesetFragment extends BaseFragment {
                         map.remove("patInfo");
                         map.remove("starttime");
                         map.remove("failreason");
-                    SettingBedsApiManeger.getReqResult(map, "execOrSeeOrderByDateTime", new SettingBedsApiManeger.GetReqResultCallback() {
+                    SettingBedsApiManeger.getReqResult(map, NurseAPI.execOrSeeOrderByDateTime, new SettingBedsApiManeger.GetReqResultCallback() {
                         @Override
                         public void onSuccess(LocalOrderExecResultBean localOrderExecResultBean) {
                             showToast(localOrderExecResultBean.getMsg());

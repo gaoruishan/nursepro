@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
+import com.base.commlibs.NurseAPI;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.ConvertUtils;
@@ -323,7 +324,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
         mapmsg.put("regNo", regNo);
         mapmsg.put("wardId", wardId);
         //获取用户信息，跟allotbed共用一个api
-        AllotBedApiManager.getUserMsg(mapmsg, "getPatWristInfo", new AllotBedApiManager.GetUserMsgCallBack() {
+        AllotBedApiManager.getUserMsg(mapmsg, NurseAPI.getPatWristInfo, new AllotBedApiManager.GetUserMsgCallBack() {
             @Override
             public void onSuccess(GetScanPatsBean getScanPatsBean) {
                 for (int i = 0; i < vitalSignBeanAll.getPatInfoList().size(); i++) {

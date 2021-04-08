@@ -11,6 +11,7 @@ import com.allenliu.versionchecklib.v2.builder.DownloadBuilder;
 import com.allenliu.versionchecklib.v2.builder.UIData;
 import com.allenliu.versionchecklib.v2.callback.CustomDownloadFailedListener;
 import com.allenliu.versionchecklib.v2.callback.CustomVersionDialogListener;
+import com.base.commlibs.NurseAPI;
 import com.base.commlibs.bean.UpdateBean;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommWebService;
@@ -90,7 +91,7 @@ public class UpdateAppUtil {
                 checkAndStartDownload(bean.getAppAddress(), bean.getNewVersion(), context,false);
             }
         };
-        CommWebService.call("getNewVersion", properties, new ServiceCallBack() {
+        CommWebService.call(NurseAPI.getNewVersion, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<UpdateBean> parserUtil = new ParserUtil<>();

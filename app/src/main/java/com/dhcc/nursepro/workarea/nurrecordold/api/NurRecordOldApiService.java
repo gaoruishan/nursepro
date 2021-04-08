@@ -1,5 +1,6 @@
 package com.dhcc.nursepro.workarea.nurrecordold.api;
 
+import com.base.commlibs.NurseAPI;
 import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.nursepro.utils.wsutils.WebServiceUtils;
@@ -12,7 +13,7 @@ import java.util.HashMap;
  * @author Devlix126
  * created at 2019/7/5 10:35
  */
-public class NurRecordOldApiService {
+public class NurRecordOldApiService extends NurseAPI {
 
     public static void getInWardPatList(final ServiceCallBack callback) {
         SPUtils spUtils = SPUtils.getInstance();
@@ -21,7 +22,7 @@ public class NurRecordOldApiService {
         properties.put("userId", spUtils.getString(SharedPreference.USERID));
 
 
-        WebServiceUtils.callWebService("getInWardPatList", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(getInWardPatList, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -35,7 +36,7 @@ public class NurRecordOldApiService {
         properties.put("locId", spUtils.getString(SharedPreference.LOCID));
         properties.put("episodeId", episodeID);
 
-        WebServiceUtils.callWebService("getModelList", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(getModelList, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -50,7 +51,7 @@ public class NurRecordOldApiService {
         properties.put("episodeId", episodeID);
         properties.put("emrCode", emrCode);
 
-        WebServiceUtils.callWebService("getPGDId", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(getPGDId, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -81,7 +82,7 @@ public class NurRecordOldApiService {
         properties.put("episodeId", episodeID);
         properties.put("emrCode", emrCode);
 
-        WebServiceUtils.callWebService("getEmrXml", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(getEmrXml, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -93,7 +94,7 @@ public class NurRecordOldApiService {
     public static void getDateTime(final ServiceCallBack callback) {
         HashMap<String, String> properties = new HashMap<>();
 
-        WebServiceUtils.callWebService("getDateTime", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(getDateTime, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -108,7 +109,7 @@ public class NurRecordOldApiService {
         properties.put("emrCode", emrCode);
         properties.put("userId", SPUtils.getInstance().getString(SharedPreference.USERID));
 
-        WebServiceUtils.callWebService("getEmrPatinfo", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(getEmrPatinfo, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -122,7 +123,7 @@ public class NurRecordOldApiService {
         properties.put("episodeId", episodeID);
         properties.put("emrCode", emrCode);
 
-        WebServiceUtils.callWebService("linkEmrData", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(linkEmrData, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);
@@ -237,7 +238,7 @@ public class NurRecordOldApiService {
         properties.put("episodeId", episodeId);
         properties.put("emrCode", emrCode);
 
-        WebServiceUtils.callWebService("getItemConfigByEmrCode", properties, new WebServiceUtils.WebServiceCallBack() {
+        WebServiceUtils.callWebService(getItemConfigByEmrCode, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);

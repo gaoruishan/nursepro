@@ -13,28 +13,24 @@ import android.widget.TextView;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
+import com.base.commlibs.NurseAPI;
 import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.utils.DateUtils;
-import com.dhcc.nursepro.workarea.WorkareaFragment;
 import com.dhcc.nursepro.workarea.shift.adapter.ShiftDetailAdapter;
 import com.dhcc.nursepro.workarea.shift.adapter.ShiftTopAdapter;
 import com.dhcc.nursepro.workarea.shift.api.ShiftApiManager;
 import com.dhcc.nursepro.workarea.shift.bean.ShiftBean;
 import com.dhcc.nursepro.workarea.shift.bean.ShiftDetailBean;
-import com.google.gson.Gson;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * com.dhcc.nursepro.workarea.shift
@@ -112,7 +108,7 @@ public class ShiftFragment extends BaseFragment {
         HashMap map = new HashMap<String,String>();
         map.put("wardId", SPUtils.getInstance().getString(SharedPreference.WARDID));
         map.put("schDate", shiftDate);
-        ShiftApiManager.getShiftList(map, "getShiftData", new ShiftApiManager.GetShiftTopListCallback() {
+        ShiftApiManager.getShiftList(map, NurseAPI.getShiftData, new ShiftApiManager.GetShiftTopListCallback() {
             @Override
             public void onSuccess(ShiftBean shiftBean) {
                 hideLoadFailTip();
@@ -180,7 +176,7 @@ public class ShiftFragment extends BaseFragment {
         map.put("wardId", SPUtils.getInstance().getString(SharedPreference.WARDID));
         map.put("schDate", shiftDate);
         map.put("id", shiftId);
-        ShiftApiManager.getShiftDataDetail(map, "getShiftDataDetail", new ShiftApiManager.GetShiftDetailListCallback() {
+        ShiftApiManager.getShiftDataDetail(map, NurseAPI.getShiftDataDetail, new ShiftApiManager.GetShiftDetailListCallback() {
             @Override
             public void onSuccess(ShiftDetailBean shiftBean) {
                 hideLoadFailTip();

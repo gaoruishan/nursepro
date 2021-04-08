@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
+import com.base.commlibs.NurseAPI;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
@@ -132,7 +133,7 @@ public class MilkFreezingFragment extends BaseFragment implements View.OnClickLi
         map.put("bagNo", strBags);
         map.put("userId", spUtils.getString(SharedPreference.USERID));
         map.put("operation", "freeze");
-        MilkLoopApiManager.getMilkOperateResult(map, "bagFreezingWL", new MilkLoopApiManager.MilkOperateCallback() {
+        MilkLoopApiManager.getMilkOperateResult(map, NurseAPI.bagFreezingWL, new MilkLoopApiManager.MilkOperateCallback() {
             @Override
             public void onSuccess(MilkOperatResultBean milkOperatResultBean) {
                 if (milkOperateResultDialog != null && milkOperateResultDialog.isShowing()) {
@@ -185,7 +186,7 @@ public class MilkFreezingFragment extends BaseFragment implements View.OnClickLi
         final HashMap<String, String> map = new HashMap<>();
         map.put("bagNo", bagNo);
         //            map.put("wardId",spUtils.getString(SharedPreference.WARDID));
-        MilkLoopApiManager.getMilkFreezingBagInfo(map, "getBagFreezingInfoWL", new MilkLoopApiManager.MilkFreezingBagInfoCallback() {
+        MilkLoopApiManager.getMilkFreezingBagInfo(map, NurseAPI.getBagFreezingInfoWL, new MilkLoopApiManager.MilkFreezingBagInfoCallback() {
             @Override
             public void onSuccess(MilkFreezingBagInfoBean milkFreezingBagInfoBean) {
 
