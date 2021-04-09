@@ -143,6 +143,9 @@ public class BaseWebServiceUtils {
                                          final WebServiceCallBack webServiceCallBack) {
         // 创建HttpTransportSE对象，传递WebService服务器地址,默认Nur.PDA.WebService.cls
         String url = getServiceUrl(NUR_PDA_SERVICE);
+        if (properties == null) {
+            properties = new HashMap<>();
+        }
         if (url.contains(NUR_MNIS_SERVICE)) {
             properties = convertRequestData(methodName, properties);
             callWebService(url, REQUST_METHOD, properties, webServiceCallBack);
