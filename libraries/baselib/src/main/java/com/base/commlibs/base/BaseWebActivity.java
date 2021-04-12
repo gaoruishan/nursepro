@@ -2,8 +2,6 @@ package com.base.commlibs.base;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.net.http.SslError;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -11,11 +9,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
-import android.webkit.SslErrorHandler;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 
 import com.base.commlibs.BaseActivity;
@@ -38,28 +33,28 @@ public abstract class BaseWebActivity extends BaseActivity {
     private com.just.agentweb.WebViewClient mWebViewClient = new com.just.agentweb.WebViewClient() {
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            Log.e(TAG, "(WebActivity.java:39) onPageStarted  " + url);
+            Log.e(TAG, "(BaseWebActivity.java:41) onPageStarted  " + url);
             onWebViewPageStarted(view, url, favicon);
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
-            Log.e(TAG, "(WebActivity.java:47) onPageFinished");
+            Log.e(TAG, "(BaseWebActivity.java:47) onPageFinished");
             onWebViewPageFinished(view, url);
         }
     };
     private com.just.agentweb.WebChromeClient mWebChromeClient = new com.just.agentweb.WebChromeClient() {
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
-            Log.e(TAG, "(WebActivity.java:47) onProgressChanged  " + newProgress);
+            Log.e(TAG, "(BaseWebActivity.java:55) onProgressChanged  " + newProgress);
             onWebChromeProgressChanged(view,newProgress);
         }
 
         @Override
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
-            Log.e(TAG, "(WebActivity.java:59) onReceivedTitle " + title);
+            Log.e(TAG, "(BaseWebActivity.java:62) onReceivedTitle " + title);
             onWebChromeReceivedTitle(view,title);
         }
     };
@@ -109,7 +104,7 @@ public abstract class BaseWebActivity extends BaseActivity {
      * @param url
      */
     protected void initWebView(LinearLayout linearLayout, String url) {
-        Log.e(TAG, "(WebActivity.java:131) AgentWeb  "+url);
+        Log.e(TAG, "(BaseWebActivity.java:112) initWebView  "+url);
         mAgentWeb = AgentWeb.with(this)
                 //传入AgentWeb的父控件。
                 .setAgentWebParent(linearLayout, -1, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
@@ -131,7 +126,7 @@ public abstract class BaseWebActivity extends BaseActivity {
                 .ready()
                 //WebView载入该url地址的页面并显示。
                 .go(url);
-
+        //注入js
         addJavascriptInterfaceAgentWeb();
 
         AgentWebConfig.debug();
@@ -195,82 +190,12 @@ public abstract class BaseWebActivity extends BaseActivity {
      * 注入js
      */
     protected void addJavascriptInterfaceAgentWeb() {
-        //注入对象
-        mAgentWeb.getJsInterfaceHolder().addJavaObject("JsInterface", new JsInterface());
-    }
-
-    /**
-     * 设置web属性
-     * @param webview
-     */
-    public void setWebSetting(WebView webview, WebViewClient client) {
-        //支持js
-        webview.getSettings().setJavaScriptEnabled(true);
-        // 设置可以支持缩放
-        webview.getSettings().setSupportZoom(true);
-        // 显示放大缩小
-        webview.getSettings().setBuiltInZoomControls(true);
-        webview.getSettings().setDisplayZoomControls(false);
-        webview.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
-        //取消滚动条白边效果
-        webview.setWebChromeClient(new WebChromeClient());
-        addJavascriptInterfaceWebView(webview);
-        webview.setWebViewClient(new WebViewClient() {
-
-            @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                super.onPageStarted(view, url, favicon);
-                if (client != null) {
-                    client.onPageStarted(view, url, favicon);
-                }
-            }
-
-            @Override
-            public void onPageFinished(WebView webView, String url) {
-                Log.e(TAG, "(WebActivity.java:207) " + url);
-                if (client != null) {
-                    client.onPageFinished(webView, url);
-                }
-            }
-
-            @Override
-            public void onReceivedError(WebView view, int errorCode,
-                                        String description, String failingUrl) {
-                super.onReceivedError(view, errorCode, description, failingUrl);
-            }
-
-            @Override
-            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-                //super.onReceivedSslError(view, handler, error);
-                handler.proceed();
-            }
-        });
-
-        //设置默认为utf-8
-        webview.getSettings().setDefaultTextEncodingName("UTF-8");
-        webview.getSettings().setBlockNetworkImage(false);
-        //扩大比例的缩放
-        webview.getSettings().setUseWideViewPort(true);
-        //自适应屏幕
-        webview.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
-        webview.getSettings().setLoadWithOverviewMode(true);
-
-        // 解决对某些标签的不支持出现白屏
-        webview.getSettings().setDomStorageEnabled(true);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            //注意安卓5.0以上的权限
-            webview.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        Log.e(TAG,"(BaseWebActivity.java:199) 注入对象");
+        if(mAgentWeb!=null){
+            mAgentWeb.getJsInterfaceHolder().addJavaObject("android",new JsInterface());
         }
     }
 
-    /**
-     * 注入js
-     * @param webview
-     */
-    protected void addJavascriptInterfaceWebView(WebView webview) {
-        webview.addJavascriptInterface(new JsInterface(), "JsInterface");
-    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -280,7 +205,19 @@ public abstract class BaseWebActivity extends BaseActivity {
         return super.onKeyDown(keyCode, event);
     }
 
+    /**
+     * html源码
+     * @param html
+     * @param charactersets
+     */
     protected abstract void onHtmlSource(String html, String charactersets);
+
+    /**
+     * 事件
+     * @param content
+     * @param type
+     */
+    protected abstract void onCallEvents(String content, String type);
 
     /**
      * Js和Web交互
@@ -288,9 +225,15 @@ public abstract class BaseWebActivity extends BaseActivity {
     public class JsInterface {
 
         @JavascriptInterface
-        public void getHtmlSource(String html, String charactersets) {
-            LogUtils.e(TAG, "getHtmlSource==" + html);
-            onHtmlSource(html, charactersets);
+        public void callAndroid(String content, String type) {
+            Log.e(TAG,"(JsInterface.java:292) charactersets="+type);
+            LogUtils.e("BaseWebActivity", "(JsInterface.java:292) 网页  " + content);
+            type = type.toUpperCase();
+            if (type.contains("GBK") || type.contains("UTF")) {
+                onHtmlSource(content, type);
+            }else {
+                onCallEvents(content, type);
+            }
         }
     }
 

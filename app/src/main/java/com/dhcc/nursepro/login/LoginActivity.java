@@ -24,6 +24,8 @@ import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.utils.SchDateTimeUtil;
 import com.base.commlibs.utils.UserUtil;
+import com.base.commlibs.view.WebActivity;
+import com.base.commlibs.wsutils.BaseWebServiceUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.dhcc.nursepro.Activity.MainActivity;
@@ -94,6 +96,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         nurseInfoList = daoSession.getNurseInfoDao().queryBuilder().list();
         initView();
         getBroadCastConfig();
+    }
+
+    public void testWebView(View view) {
+        WebActivity.start(this, BaseWebServiceUtils.getServiceUrl("/hello.html"));
     }
 
     private void initView() {
