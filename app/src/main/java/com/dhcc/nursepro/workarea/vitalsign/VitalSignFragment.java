@@ -54,7 +54,7 @@ import java.util.Map;
  * Date: 2020/8/6
  * Time:14:02
  */
-public class VitalSignFragment extends BaseFragment implements View.OnClickListener{
+public class VitalSignFragment extends BaseFragment implements View.OnClickListener {
 
     private TextView tvVitalSignChooseTime;
     private TextView tvResetting;
@@ -65,7 +65,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
     private VitalSignPatientAdapter patientAdapter;
     private VitalSignTypeAdapter typeAdapter = new VitalSignTypeAdapter(new ArrayList<>());
 
-    private List<VitalSignBean.LeftFilterBean> listLeftFilter =new ArrayList();
+    private List<VitalSignBean.LeftFilterBean> listLeftFilter = new ArrayList();
     private List<VitalSignBean.PatInfoListBean> listPatInfo = new ArrayList<>();
     private List<TextView> textViewList = new ArrayList<>();
     private List timeFilterList = new ArrayList();
@@ -73,15 +73,11 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
     private SPUtils spUtils = SPUtils.getInstance();
     private String timeFilterStr = "";
     private String dateFilterStr = "";
-    private String topFilterCode="";
+    private String topFilterCode = "";
     private Boolean ifLoading = true;
 
-    private VitalSignBean vitalSignBeanAll = new VitalSignBean();;
+    private VitalSignBean vitalSignBeanAll = new VitalSignBean();
 
-    @Override
-    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_vital_sign, container, false);
-    }
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -91,17 +87,6 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
         setToolbarCenterTitle(getString(R.string.title_vitalsign), 0xffffffff, 17);
         initView(view);
         initAdapter();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        getView().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                asyncInitData();
-            }
-        }, 300);
     }
 
     private void initView(View view) {
@@ -154,15 +139,14 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
 
                 } else if (view.getId() == R.id.tv_vitalsign_tmp_preview) {
                     //体温单预览
-
 //                    String episodeId = (String) patientInfo.get("episodeId");
-//                    //                    viewPatientTempImages("94");
 //                    viewPatientTempImages(episodeId);
 
+                    //体征曲线图
                     String episodeId = (String) patientInfo.get("episodeId");
                     Bundle bundle = new Bundle();
                     bundle.putString("episodeId", episodeId);
-                    bundle.putString("patInfo", patientAdapter.getItem(position).getBedCode()+" "+patientAdapter.getItem(position).getName());
+                    bundle.putString("patInfo", patientAdapter.getItem(position).getBedCode() + " " + patientAdapter.getItem(position).getName());
                     bundle.putInt("index", position);
                     startFragment(VitalSignChartsDetailFragment.class, bundle);
 
@@ -171,7 +155,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                     String episodeId = (String) patientInfo.get("episodeId");
                     Bundle bundle = new Bundle();
                     bundle.putString("episodeId", episodeId);
-                    bundle.putString("patInfo", patientAdapter.getItem(position).getBedCode()+" "+patientAdapter.getItem(position).getName());
+                    bundle.putString("patInfo", patientAdapter.getItem(position).getBedCode() + " " + patientAdapter.getItem(position).getName());
                     bundle.putInt("index", position);
                     startFragment(VitalSignDetailFragment.class, bundle);
 
@@ -192,8 +176,90 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
         recyVitalSignPatient.setAdapter(patientAdapter);
     }
 
+    private void leftFilter() {
+        List<VitalSignBean.PatInfoListBean> listPatleftFilter = new ArrayList<>();
+        List<Integer> listTypeSel = typeAdapter.getFilterList();
+        for (int i = 0; i < listPatInfo.size(); i++) {
+            for (int j = 0; j < listTypeSel.size(); j++) {
+                String typeCode = typeAdapter.getData().get(listTypeSel.get(j)).getCode();
+                Map map = listPatInfo.get(i).getNeedMeasureInfoMap();
+                if (map != null && map.size() > 0 && map.get(typeCode) != null && map.get(typeCode).equals("1")) {
+                    Boolean ifExist = false;
+                    for (int k = 0; k < listPatleftFilter.size(); k++) {
+                        if (listPatleftFilter.get(k).getEpisodeId().equals(listPatInfo.get(i).getEpisodeId())) {
+                            ifExist = true;
+                        }
+                    }
+                    if (!ifExist) {
+                        listPatleftFilter.add(listPatInfo.get(i));
+                    }
+                }
+            }
+        }
+        patientAdapter.setNewData(listPatleftFilter);
+        if (listTypeSel.size() < 1) {
+            topFilter();
+        } else {
+            tvResetting.setSelected(true);
+            tvResetting.setText("重置");
+            tvResetting.setTextColor(getResources().getColor(R.color.vital_sign_type_selected_text));
+        }
+    }
+
+    private void topFilter() {
+        tvResetting.setSelected(false);
+        tvResetting.setText("筛选");
+        tvResetting.setTextColor(getResources().getColor(R.color.vital_sign_type_normal_text));
+        typeAdapter.setFilterList(new ArrayList<>());
+        listLeftFilter = new ArrayList<>();
+        for (int i = 0; i < vitalSignBeanAll.getTopFilter().size(); i++) {
+            if (topFilterCode.equals(vitalSignBeanAll.getTopFilter().get(i).getCode())) {
+                for (int j = 0; j < vitalSignBeanAll.getTopFilter().get(i).getLeftFilter().size(); j++) {
+                    if (vitalSignBeanAll.getTopFilter().get(i).getLeftFilter().get(j).getTemNum() > 0) {
+                        listLeftFilter.add(vitalSignBeanAll.getTopFilter().get(i).getLeftFilter().get(j));
+                    }
+                }
+            }
+        }
+        typeAdapter.setNewData(listLeftFilter);
+        listPatInfo = new ArrayList<>();
+        for (int i = 0; i < vitalSignBeanAll.getTopFilter().size(); i++) {
+            if (topFilterCode.equals(vitalSignBeanAll.getTopFilter().get(i).getCode())) {
+                listPatInfo = vitalSignBeanAll.getTopFilter().get(i).getPatInfoList();
+                patientAdapter.setNewData(listPatInfo);
+            }
+        }
+    }
+
+    //扫码获取信息
+    @Override
+    public void getScanMsg(Intent intent) {
+        super.getScanMsg(intent);
+        if (intent.getAction().equals(Action.DEVICE_SCAN_CODE)) {
+            Bundle bundle = new Bundle();
+            bundle = intent.getExtras();
+            initScanMsg(bundle.getString("data"));
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getView().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                asyncInitData();
+            }
+        }, 300);
+    }
+
+    @Override
+    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_vital_sign, container, false);
+    }
+
     private void asyncInitData() {
-        if (ifLoading){
+        if (ifLoading) {
             showLoadingTip(BaseActivity.LoadingType.FULL);
             ifLoading = false;
         }
@@ -219,14 +285,14 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                     titleParams.weight = 1;
                     tvButton.setLayoutParams(titleParams);
                     tvButton.setTextColor(Color.parseColor("#000000"));
-                    if (topFilterCode.equals("")){
+                    if (topFilterCode.equals("")) {
                         tvButton.setTextColor(Color.parseColor("#4A90E2"));
                         topFilterCode = vitalSignBeanAll.getTopFilter().get(0).getCode();
-                    }else if (topFilterCode.equals(vitalSignBeanAll.getTopFilter().get(i).getCode())){
+                    } else if (topFilterCode.equals(vitalSignBeanAll.getTopFilter().get(i).getCode())) {
                         tvButton.setTextColor(Color.parseColor("#4A90E2"));
                     }
                     tvButton.setTextSize(15);
-                    tvButton.setTag(R.string.key_vis_toptext,vitalSignBeanAll.getTopFilter().get(i).getCode());
+                    tvButton.setTag(R.string.key_vis_toptext, vitalSignBeanAll.getTopFilter().get(i).getCode());
                     tvButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -252,71 +318,6 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
         });
     }
 
-    private void topFilter(){
-        tvResetting.setSelected(false);
-        tvResetting.setText("筛选");
-        tvResetting.setTextColor(getResources().getColor(R.color.vital_sign_type_normal_text));
-        typeAdapter.setFilterList(new ArrayList<>());
-        listLeftFilter = new ArrayList<>();
-        for (int i = 0; i < vitalSignBeanAll.getTopFilter().size(); i++) {
-            if (topFilterCode.equals(vitalSignBeanAll.getTopFilter().get(i).getCode())){
-                for (int j = 0; j < vitalSignBeanAll.getTopFilter().get(i).getLeftFilter().size(); j++) {
-                    if (vitalSignBeanAll.getTopFilter().get(i).getLeftFilter().get(j).getTemNum()>0){
-                        listLeftFilter.add(vitalSignBeanAll.getTopFilter().get(i).getLeftFilter().get(j));
-                    }
-                }
-            }
-        }
-        typeAdapter.setNewData(listLeftFilter);
-        listPatInfo = new ArrayList<>();
-        for (int i = 0; i < vitalSignBeanAll.getTopFilter().size(); i++) {
-            if (topFilterCode.equals(vitalSignBeanAll.getTopFilter().get(i).getCode())){
-                listPatInfo = vitalSignBeanAll.getTopFilter().get(i).getPatInfoList();
-                patientAdapter.setNewData(listPatInfo);
-            }
-        }
-    }
-
-    private void leftFilter(){
-        List<VitalSignBean.PatInfoListBean> listPatleftFilter = new ArrayList<>();
-        List<Integer> listTypeSel = typeAdapter.getFilterList();
-        for (int i = 0; i < listPatInfo.size(); i++) {
-            for (int j = 0; j < listTypeSel.size(); j++) {
-                String typeCode = typeAdapter.getData().get(listTypeSel.get(j)).getCode();
-                Map map = listPatInfo.get(i).getNeedMeasureInfoMap();
-                if (map!=null&&map.size()>0&&map.get(typeCode)!=null&&map.get(typeCode).equals("1")){
-                    Boolean ifExist = false;
-                    for (int k = 0; k < listPatleftFilter.size(); k++) {
-                        if (listPatleftFilter.get(k).getEpisodeId().equals(listPatInfo.get(i).getEpisodeId())){
-                            ifExist = true;
-                        }
-                    }
-                    if (!ifExist){
-                        listPatleftFilter.add(listPatInfo.get(i));
-                    }
-                }
-            }
-        }
-        patientAdapter.setNewData(listPatleftFilter);
-        if (listTypeSel.size()<1){
-            topFilter();
-        }else {
-            tvResetting.setSelected(true);
-            tvResetting.setText("重置");
-            tvResetting.setTextColor(getResources().getColor(R.color.vital_sign_type_selected_text));
-        }
-    }
-
-    //扫码获取信息
-    @Override
-    public void getScanMsg(Intent intent) {
-        super.getScanMsg(intent);
-        if (intent.getAction().equals(Action.DEVICE_SCAN_CODE)) {
-            Bundle bundle = new Bundle();
-            bundle = intent.getExtras();
-            initScanMsg(bundle.getString("data"));
-        }
-    }
     //扫码直接进入
     private void initScanMsg(String regNo) {
         String wardId = spUtils.getString(SharedPreference.WARDID);
@@ -347,6 +348,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                     }
                 }
             }
+
             @Override
             public void onFail(String code, String msg) {
                 showToast("error" + code + ":" + msg);
@@ -354,6 +356,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
         });
 
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -361,8 +364,8 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                 topFilter();
                 break;
             case R.id.tv_vitalsign_time:
-                Long currentTimeMillis = TimeUtils.string2Millis(dateFilterStr +  " " + timeFilterStr + ":00");
-                DateUtils.chooseDateTime(currentTimeMillis,getContext(), getFragmentManager(), new OnDateSetListener() {
+                Long currentTimeMillis = TimeUtils.string2Millis(dateFilterStr + " " + timeFilterStr + ":00");
+                DateUtils.chooseDateTime(currentTimeMillis, getContext(), getFragmentManager(), new OnDateSetListener() {
                     @Override
                     public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
                         String date = TimeUtils.millis2String(millseconds).substring(0, 10);
@@ -386,6 +389,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                 break;
         }
     }
+
     //体温单图片
     private void viewPatientTempImages(String episodeId) {
         showLoadingTip(BaseActivity.LoadingType.FULL);
@@ -398,18 +402,30 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                     showToast("该病人无体温单");
                     return;
                 }
-                ImagePipeline imagePipeline = Fresco.getImagePipeline();
+
                 ArrayList<String> urls = new ArrayList<>();
                 for (int i = 0; i < sum; i++) {
                     Map item = (Map) ((ArrayList) map.get("urlList")).get(i);
                     urls.add((String) item.get("url"));
-                    Uri uri = Uri.parse((String) item.get("url"));
-                    imagePipeline.evictFromMemoryCache(uri);
-                    imagePipeline.evictFromDiskCache(uri);
-                    imagePipeline.evictFromCache(uri);
                 }
-                new ImageViewer.Builder(getContext(), urls).setStartPosition(0).show();
+
+                Bundle bundle = new Bundle();
+                bundle.putStringArrayList("IMGURLS", urls);
+                startFragment(VitalSignTempImgFragment.class, bundle);
+
+//                ImagePipeline imagePipeline = Fresco.getImagePipeline();
+//                ArrayList<String> urls = new ArrayList<>();
+//                for (int i = 0; i < sum; i++) {
+//                    Map item = (Map) ((ArrayList) map.get("urlList")).get(i);
+//                    urls.add((String) item.get("url"));
+//                    Uri uri = Uri.parse((String) item.get("url"));
+//                    imagePipeline.evictFromMemoryCache(uri);
+//                    imagePipeline.evictFromDiskCache(uri);
+//                    imagePipeline.evictFromCache(uri);
+//                }
+//                new ImageViewer.Builder(getContext(), urls).setStartPosition(0).show();
             }
+
             @Override
             public void onFail(String code, String msg) {
                 hideLoadFailTip();
