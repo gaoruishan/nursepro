@@ -4,7 +4,7 @@ import com.base.commlibs.http.CommWebService;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.http.ParserUtil;
 import com.base.commlibs.http.ServiceCallBack;
-import com.dhcc.module.infusion.ServerAPI;
+import com.base.commlibs.InfusionAPI;
 import com.dhcc.module.infusion.workarea.comm.bean.MainConfigBean;
 import com.dhcc.module.infusion.workarea.comm.bean.OrdInfoBean;
 import com.dhcc.module.infusion.workarea.comm.bean.PatDetailBean;
@@ -16,7 +16,7 @@ import java.util.HashMap;
  * @date:202019-05-20/16:50
  * @email:grs0515@163.com
  */
-public class WorkAreaApiManager extends ServerAPI {
+public class WorkAreaApiManager extends InfusionAPI {
     /**
      * Description:  获取医嘱详情
      * Input：       oeoreId:执行记录ID

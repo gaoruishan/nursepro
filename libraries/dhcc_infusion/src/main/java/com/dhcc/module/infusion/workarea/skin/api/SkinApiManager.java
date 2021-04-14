@@ -7,7 +7,7 @@ import com.base.commlibs.http.CommWebService;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.http.ParserUtil;
 import com.base.commlibs.http.ServiceCallBack;
-import com.dhcc.module.infusion.ServerAPI;
+import com.base.commlibs.InfusionAPI;
 import com.dhcc.module.infusion.workarea.skin.bean.SkinListBean;
 
 import java.util.HashMap;
@@ -17,7 +17,7 @@ import java.util.HashMap;
  * @date:202019-11-04/15:29
  * @email:grs0515@163.com
  */
-public class SkinApiManager extends ServerAPI {
+public class SkinApiManager extends InfusionAPI {
 
     /**
      * Description:  皮试医嘱查询
@@ -31,7 +31,7 @@ public class SkinApiManager extends ServerAPI {
         properties.put("startDate", stDate);
         properties.put("endDate", enDate);
         properties.put("barCode", barCode);
-        CommWebService.call(getSkinOrdList, properties, new ServiceCallBack() {
+        CommWebService.call(GetSkinTestOrdList, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<SkinListBean> parserUtil = new ParserUtil<>();
@@ -60,7 +60,7 @@ public class SkinApiManager extends ServerAPI {
         if (!TextUtils.isEmpty(password)) {
             properties.put("password", password);
         }
-        CommWebService.callUserIdLocId(skinDespensingOrd, properties, new ServiceCallBack() {
+        CommWebService.callUserIdLocId(SkinTestDispensingOrd, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 CommWebService.parserCommResult(jsonStr,callback);
@@ -78,7 +78,7 @@ public class SkinApiManager extends ServerAPI {
         properties.put("oeoriId", oeoriId);
         properties.put("observeTime", observeTime);
         properties.put("note", note);
-        CommWebService.call(skinTime, properties, new ServiceCallBack() {
+        CommWebService.call(SetSkinTestTime, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<CommResult> parserUtil = new ParserUtil<>();

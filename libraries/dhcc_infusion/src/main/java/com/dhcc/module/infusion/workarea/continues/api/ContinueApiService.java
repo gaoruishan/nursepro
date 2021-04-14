@@ -4,7 +4,7 @@ import android.text.TextUtils;
 
 import com.base.commlibs.http.CommWebService;
 import com.base.commlibs.http.ServiceCallBack;
-import com.dhcc.module.infusion.ServerAPI;
+import com.base.commlibs.InfusionAPI;
 
 import java.util.HashMap;
 
@@ -13,7 +13,7 @@ import java.util.HashMap;
  * @date:202019-04-29/10:12
  * @email:grs0515@163.com
  */
-public class ContinueApiService extends ServerAPI {
+public class ContinueApiService extends InfusionAPI {
 
     /**
      * Description:  按接单号查询医嘱
@@ -31,7 +31,7 @@ public class ContinueApiService extends ServerAPI {
         }
         properties.put("barCode", barCode);
 
-        CommWebService.callUserIdLocId(getChangeOrdList, properties, callBack);
+        CommWebService.callUserIdLocId(GetChangeOrdList, properties, callBack);
     }
 
 
@@ -58,6 +58,6 @@ public class ContinueApiService extends ServerAPI {
             properties.put("newWayFlag", newWayFlag);
         }
         properties.put("ifSpeed", ifSpeed);
-        CommWebService.callUserIdLocId(changeOrd, properties, callBack);
+        CommWebService.callUserIdLocId(ChangeOrd, properties, callBack);
     }
 }

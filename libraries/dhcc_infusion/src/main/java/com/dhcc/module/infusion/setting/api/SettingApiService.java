@@ -3,7 +3,7 @@ package com.dhcc.module.infusion.setting.api;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommWebService;
 import com.blankj.utilcode.util.SPUtils;
-import com.dhcc.module.infusion.ServerAPI;
+import com.base.commlibs.InfusionAPI;
 
 import java.util.HashMap;
 
@@ -12,7 +12,7 @@ import java.util.HashMap;
  * @date:202019-05-20/16:08
  * @email:grs0515@163.com
  */
-public class SettingApiService extends ServerAPI {
+public class SettingApiService extends InfusionAPI {
     /**
      * Description: 工作量统计
      * Input： locId:科室ID,sttDate:开始日期,endDate:结束日期
@@ -24,6 +24,6 @@ public class SettingApiService extends ServerAPI {
         properties.put("locId", spUtils.getString(SharedPreference.LOCID));
         properties.put("sttDate", sttDate);
         properties.put("endDate", endDate);
-        CommWebService.call(getWorkload,properties, callBack);
+        CommWebService.call(GetWorkload,properties, callBack);
     }
 }

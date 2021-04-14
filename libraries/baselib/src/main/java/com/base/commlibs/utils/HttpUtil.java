@@ -64,6 +64,7 @@ public class HttpUtil {
     public static String sendGetRequest(final String urlString, final HttpCallbackListener listener) {
         // 因为网络请求是耗时操作，所以需要另外开启一个线程来执行该任务。
         URL url;
+        Log.e(TAG,"(HttpUtil.java:67) "+urlString);
         HttpURLConnection httpURLConnection = null;
         try {
             // 根据URL地址创建URL对象

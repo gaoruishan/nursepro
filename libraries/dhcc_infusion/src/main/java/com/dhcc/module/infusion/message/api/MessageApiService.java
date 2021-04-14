@@ -4,7 +4,7 @@ import android.text.TextUtils;
 
 import com.base.commlibs.http.CommWebService;
 import com.base.commlibs.http.ServiceCallBack;
-import com.dhcc.module.infusion.ServerAPI;
+import com.base.commlibs.InfusionAPI;
 
 import java.util.HashMap;
 
@@ -13,7 +13,7 @@ import java.util.HashMap;
  * @date:202019-05-20/16:27
  * @email:grs0515@163.com
  */
-public class MessageApiService extends ServerAPI {
+public class MessageApiService extends InfusionAPI {
 
 
     /**
@@ -52,7 +52,7 @@ public class MessageApiService extends ServerAPI {
             if(!TextUtils.isEmpty(auditPassword)){
                 properties.put("auditPassword", auditPassword);
             }
-            CommWebService.call(setSkinTestResult, properties, callBack);
+            CommWebService.call(SetSkinTestResult, properties, callBack);
         }
     }
 

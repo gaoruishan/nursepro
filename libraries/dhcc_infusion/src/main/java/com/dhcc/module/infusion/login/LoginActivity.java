@@ -9,7 +9,6 @@ import android.support.v4.app.ActivityCompat;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -92,6 +91,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         nurseInfoList = GreenDaoHelper.getDaoSession().getInfusionInfoDao().queryBuilder().list();
         initView();
         //获取广播码
+        CommHttp.getNurseConfig();
         CommHttp.initBroadcastList();
         openMultiScan(AppUtil.isMultiScan());
         //请求SD卡权限
@@ -237,6 +237,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 public void onYesClick() {
                     String ip = showDialog.getIp();
                     if (AppUtil.isIP(ip)) {
+                        CommHttp.getNurseConfig();
                         UserUtil.setWebIpAndPath(ip, showDialog.getAddr());
                         //重写请求
                         CommHttp.initBroadcastList();

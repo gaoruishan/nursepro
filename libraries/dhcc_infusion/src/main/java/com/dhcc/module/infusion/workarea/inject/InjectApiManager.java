@@ -29,7 +29,7 @@ public class InjectApiManager extends BaseApiManager {
         properties.put("startDate", stDate);
         properties.put("endDate", enDate);
         properties.put("barCode", barCode);
-        CommWebService.call(getInjectOrdList, properties, new ServiceCallBack() {
+        CommWebService.call(GetInjectOrdList, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<InjectListBean> parserUtil = new ParserUtil<>();
@@ -69,7 +69,7 @@ public class InjectApiManager extends BaseApiManager {
         HashMap<String, String> properties = CommWebService.addUserId(null);
         CommWebService.addLocId(properties);
         properties.put("oeoreId", oeoreId);
-        CommWebService.call(exeInjectOrd, properties, new ServiceCallBack() {
+        CommWebService.call(InjectOrd, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 CommWebService.parserCommResult(jsonStr, callBack);

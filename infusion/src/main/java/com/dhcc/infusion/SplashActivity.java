@@ -22,6 +22,7 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if (LocalTestManager.isTest()) {
+                    CommHttp.getNurseConfig();
                     CommHttp.initBroadcastList();
                     ActivityUtils.startActivity(new Intent(Action.MainActivity));
                 }else {

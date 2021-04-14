@@ -1,10 +1,18 @@
 package com.base.commlibs.http;
 
+import android.text.TextUtils;
+
 import com.base.commlibs.NurseAPI;
 import com.base.commlibs.bean.BroadcastListBean;
+import com.base.commlibs.bean.NurseConfig;
 import com.base.commlibs.bean.PatientListBean;
 import com.base.commlibs.constant.SharedPreference;
+import com.base.commlibs.utils.HttpUtil;
+import com.base.commlibs.utils.SimpleCallBack;
 import com.base.commlibs.utils.TransBroadcastUtil;
+import com.base.commlibs.wsutils.BaseWebServiceUtils;
+import com.blankj.utilcode.util.GsonUtils;
+import com.blankj.utilcode.util.SPStaticUtils;
 import com.blankj.utilcode.util.SPUtils;
 
 import java.util.HashMap;
@@ -17,6 +25,37 @@ import java.util.List;
  * @email:grs0515@163.com
  */
 public class CommHttp {
+
+    private static final String TAG = "CommHttp";
+
+    public static void getNurseConfig() {
+        HttpUtil.get(BaseWebServiceUtils.getServiceUrl(BaseWebServiceUtils.NUR_CONFIG), new SimpleCallBack<String>() {
+            @Override
+            public void call(String result, int type) {
+                NurseConfig config = GsonUtils.fromJson(result, NurseConfig.class);
+                if (config != null) {
+                    if(!TextUtils.isEmpty(config.getDefaultIP())){
+                        SPStaticUtils.put(SharedPreference.WEBIP,config.getDefaultIP());
+                    }
+                    if(!TextUtils.isEmpty(config.getDefaultPath())){
+                        SPStaticUtils.put(SharedPreference.WEBPATH,config.getDefaultPath());
+                    }
+                    if(!TextUtils.isEmpty(config.getWebServicePassword())){
+                        SPStaticUtils.put(SharedPreference.WEB_SERVICE_PASSWORD,config.getWebServicePassword());
+                    }
+                    if(!TextUtils.isEmpty(config.getWebServiceUserName())){
+                        SPStaticUtils.put(SharedPreference.WEB_SERVICE_USERNAME,config.getWebServiceUserName());
+                    }
+                    if(!TextUtils.isEmpty(config.getOppdaService())){
+                        SPStaticUtils.put(SharedPreference.OPPDA_SERVICE,config.getOppdaService());
+                    }
+                    if(!TextUtils.isEmpty(config.getPdaService())){
+                        SPStaticUtils.put(SharedPreference.PDA_SERVICE,config.getPdaService());
+                    }
+                }
+            }
+        });
+    }
     /**
      * 检查用户/密码
      * @param userCode
@@ -86,4 +125,6 @@ public class CommHttp {
         public List<BroadcastListBean> broadcastList;
 
     }
+
+
 }

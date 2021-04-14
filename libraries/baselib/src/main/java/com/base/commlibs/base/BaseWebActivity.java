@@ -3,6 +3,8 @@ package com.base.commlibs.base;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -75,6 +77,7 @@ public abstract class BaseWebActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
+        Log.e(TAG,"(BaseWebActivity.java:80) onDestroy");
         if (mAgentWeb != null) {
             mAgentWeb.getWebLifeCycle().onDestroy();
         }
@@ -83,6 +86,7 @@ public abstract class BaseWebActivity extends BaseActivity {
 
     @Override
     protected void onPause() {
+        Log.e(TAG,"(BaseWebActivity.java:88) onPause");
         if (mAgentWeb != null) {
             mAgentWeb.getWebLifeCycle().onPause();
         }
@@ -92,6 +96,7 @@ public abstract class BaseWebActivity extends BaseActivity {
 
     @Override
     protected void onResume() {
+        Log.e(TAG,"(BaseWebActivity.java:97) onResume");
         if (mAgentWeb != null) {
             mAgentWeb.getWebLifeCycle().onResume();
         }
@@ -220,20 +225,36 @@ public abstract class BaseWebActivity extends BaseActivity {
     protected abstract void onCallEvents(String content, String type);
 
     /**
+     * 请求
+     * @param content
+     * @param type
+     */
+    protected abstract void onCallRequest(String content, String type);
+
+    private Handler deliver = new Handler(Looper.getMainLooper());
+
+    /**
      * Js和Web交互
      */
     public class JsInterface {
 
         @JavascriptInterface
         public void callAndroid(String content, String type) {
-            Log.e(TAG,"(JsInterface.java:292) charactersets="+type);
-            LogUtils.e("BaseWebActivity", "(JsInterface.java:292) 网页  " + content);
-            type = type.toUpperCase();
-            if (type.contains("GBK") || type.contains("UTF")) {
-                onHtmlSource(content, type);
-            }else {
-                onCallEvents(content, type);
-            }
+            LogUtils.e("(JsInterface.java:292)  type= "+ type+" ,content=  " + content);
+            String finalType = type.toUpperCase();
+            deliver.post(new Runnable() {
+                @Override
+                public void run() {
+                    if (finalType.contains("GBK") || finalType.contains("UTF")) {
+                        onHtmlSource(content, finalType);
+                    }else if (finalType.equalsIgnoreCase("request")){
+                        onCallRequest(content,finalType);
+                    } else {
+                        onCallEvents(content, finalType);
+                    }
+                }
+            });
+
         }
     }
 

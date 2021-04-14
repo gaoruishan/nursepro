@@ -5,7 +5,7 @@ import android.text.TextUtils;
 import com.base.commlibs.http.CommWebService;
 import com.base.commlibs.http.ServiceCallBack;
 import com.base.commlibs.utils.UserUtil;
-import com.dhcc.module.infusion.ServerAPI;
+import com.base.commlibs.InfusionAPI;
 
 import java.util.HashMap;
 
@@ -16,7 +16,7 @@ import java.util.HashMap;
  * Date: 2019/3/7
  * Time:9:24
  */
-public class PunctureApiService extends ServerAPI {
+public class PunctureApiService extends InfusionAPI {
     /**
      * Description:  按接单号查询医嘱
      * Input：       regNo:登记号,oeoreId:执行记录ID,userId:用户ID,locId:科室ID,barCode:条码号
@@ -36,7 +36,7 @@ public class PunctureApiService extends ServerAPI {
         String windowName = UserUtil.getWindowName();
         properties.put("winCode", windowName);
 
-        CommWebService.callUserIdLocId(getPunctOrdList,properties,callBack);
+        CommWebService.callUserIdLocId(GetPunctureOrdList,properties,callBack);
     }
 
 
@@ -60,7 +60,7 @@ public class PunctureApiService extends ServerAPI {
         if(!TextUtils.isEmpty(newWayFlag)){
             properties.put("newWayFlag", newWayFlag);
         }
-        CommWebService.callUserIdLocId(punctureOrd,properties,callBack);
+        CommWebService.callUserIdLocId(PunctureOrd,properties,callBack);
     }
 
 }

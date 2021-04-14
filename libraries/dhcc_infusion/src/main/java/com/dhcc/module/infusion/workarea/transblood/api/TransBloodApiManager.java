@@ -8,7 +8,7 @@ import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.http.ParserUtil;
 import com.base.commlibs.http.ServiceCallBack;
 import com.base.commlibs.http.BaseRequestParams;
-import com.dhcc.module.infusion.ServerAPI;
+import com.base.commlibs.InfusionAPI;
 import com.dhcc.module.infusion.workarea.transblood.bean.TransBloodDetailBean;
 import com.dhcc.module.infusion.workarea.transblood.bean.TransBloodListBean;
 
@@ -20,7 +20,7 @@ import java.util.HashMap;
  * @date:202020-03-05/14:56
  * @email:grs0515@163.com
  */
-public class TransBloodApiManager extends ServerAPI {
+public class TransBloodApiManager extends InfusionAPI {
 
     /**
      * 获取输血列表

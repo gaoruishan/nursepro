@@ -8,12 +8,12 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.base.commlibs.BuildConfig;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommWebService;
 import com.base.commlibs.utils.LocalTestManager;
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.SPStaticUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -34,34 +34,34 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
-
 public class BaseWebServiceUtils {
 
-//    public static final String DEFAULT_IP = "10.1.21.123";
-    public static final String DEFAULT_IP = "172.100.100.60";
+    //测试库
+    public static final String DEFAULT_IP = "10.1.21.123";
+//    public static final String DEFAULT_IP = "172.100.100.60";
     public static final String DTHEALTH_WEB = "/imedical/web";
     public static final String PATH_IMEDICAL = "/imedical/web";
     public static final String PATH_DTHEALTH = "/dthealth/web";
-    // 新接口
+    public static final String NUR_CONFIG = "/nurseconfig.html";
+    // 住院
     public static final String NUR_MNIS_SERVICE = "/Nur.MNIS.Service.WebService.cls";
+    // 门诊
+    public static final String NUR_MOES_SERVICE = "/Nur.MOES.Service.WebService.cls";
 
     // 门诊输液新接口
-    public static final String NUR_OPPDA_SERVICE = "/Nur.OPPDA.WebService.cls";
+    public static String NUR_OPPDA_SERVICE = SPStaticUtils.getString(SharedPreference.OPPDA_SERVICE, NUR_MOES_SERVICE);
     // 护士站接口
-    public static final String NUR_PDA_SERVICE = BuildConfig.DEBUG? NUR_MNIS_SERVICE:"/Nur.PDA.WebService.cls";
-
-    //
-    public static final String OLD_PDA_SERVICE1 = "/DHCNurDocOrdPda.cls";
-    public static final String OLD_PDA_SERVICE2 = "/DHCNUREMRNEWOnPage.cls";
+    public static String NUR_PDA_SERVICE = SPStaticUtils.getString(SharedPreference.PDA_SERVICE, NUR_MNIS_SERVICE);;
+    public static String userNamestr = SPStaticUtils.getString(SharedPreference.WEB_SERVICE_USERNAME, "dhwebservice");
+    public static String passWordstr = SPStaticUtils.getString(SharedPreference.WEB_SERVICE_PASSWORD, "dhwebservice");
 
     // 含有3个线程的线程池
-    private static final ExecutorService executorService = Executors
-            .newFixedThreadPool(5);
+    private static final ExecutorService executorService = Executors.newFixedThreadPool(5);
     // 命名空间
     private static final String NAMESPACE = "http://www.dhcc.com.cn";
     // 默认超时时间
-    private static final int TIME_OUT = 10*1000;
-    public static final String REQUST_METHOD = "RequstData";
+    private static final int TIME_OUT = 10 * 1000;
+    public static final String REQUST_METHOD = "RequestData";
     public static final String PARAMS = "params";
     public static final String VERSION = "version";
     public static final String METHOD = "method";
@@ -73,9 +73,24 @@ public class BaseWebServiceUtils {
     public static void callWebOPPDAService(final String methodName,
                                            HashMap<String, String> properties,
                                            final WebServiceCallBack webServiceCallBack) {
+        //替换双竖杆
+        replaceProperties(properties);
         // 创建HttpTransportSE对象，传递WebService服务器地址,默认Nur.PDA.WebService.cls
         String url = getServiceUrl(NUR_OPPDA_SERVICE);
-        if (properties != null) {//替换双竖杆
+        if (url.contains(NUR_MOES_SERVICE)) {
+            properties = convertRequestData(methodName, properties);
+            callWebService(url, REQUST_METHOD, properties, webServiceCallBack);
+        } else {
+            callWebService(url, methodName, properties, webServiceCallBack);
+        }
+    }
+
+    /**
+     * 替换双竖杆
+     * @param properties
+     */
+    protected static void replaceProperties(HashMap<String, String> properties) {
+        if (properties != null) {
             for (Iterator<Map.Entry<String, String>> it = properties.entrySet().iterator(); it.hasNext(); ) {
                 Map.Entry<String, String> entry = it.next();
                 if (entry != null && entry.getValue() != null) {
@@ -84,7 +99,6 @@ public class BaseWebServiceUtils {
                 }
             }
         }
-        callWebService(url, methodName, properties, webServiceCallBack);
     }
 
     /**
@@ -114,16 +128,24 @@ public class BaseWebServiceUtils {
         //统一添加公共参数
         addCommProperties(properties);
         //添加logonInfo对象
-        HashMap<String, String> propertiesLogonInfo = new HashMap<>();
-        addCommProperties(propertiesLogonInfo);
-        properties.put(LOGON_INFO, gson.toJson(propertiesLogonInfo));
+        addLogonInfo(properties, gson);
 
         propertiesTest.put(PARAMS, gson.toJson(properties));
-        propertiesTest.put(VERSION, AppUtils.getAppVersionName()+"");
+        propertiesTest.put(VERSION, AppUtils.getAppVersionName() + "");
         //方法首字母大写
         methodName = methodName.substring(0, 1).toUpperCase() + methodName.substring(1);
         propertiesTest.put(METHOD, methodName);
         return propertiesTest;
+    }
+
+    private static void addLogonInfo(HashMap<String, String> properties, Gson gson) {
+        HashMap<String, String> propertiesLogonInfo = new HashMap<>();
+        String userId = SPStaticUtils.getString(SharedPreference.USERID);
+        //存在用户信息
+        if (!TextUtils.isEmpty(userId)) {
+            addCommProperties(propertiesLogonInfo);
+            properties.put(LOGON_INFO, gson.toJson(propertiesLogonInfo));
+        }
     }
 
     private static void addCommProperties(HashMap<String, String> properties) {
@@ -149,14 +171,13 @@ public class BaseWebServiceUtils {
         if (url.contains(NUR_MNIS_SERVICE)) {
             properties = convertRequestData(methodName, properties);
             callWebService(url, REQUST_METHOD, properties, webServiceCallBack);
-        }else {
+        } else {
             callWebService(url, methodName, properties, webServiceCallBack);
         }
     }
 
     /**
      * 获取服务器URL
-     *
      * @param serviceCls
      * @return
      */
@@ -170,7 +191,6 @@ public class BaseWebServiceUtils {
 
     /**
      * WebService服务器地址
-     *
      * @param url                请求URL
      * @param methodName         WebService的调用方法名
      * @param properties         WebService的参数
@@ -179,14 +199,14 @@ public class BaseWebServiceUtils {
     public synchronized static void callWebService(String url, final String methodName, HashMap<String, String> properties, final WebServiceCallBack webServiceCallBack) {
         SharedPreference.MethodName = methodName;
         // 添加本地json测试
-        if (LocalTestManager.isTest(methodName,properties)) {
+        if (LocalTestManager.isTest(methodName, properties)) {
             if (properties != null) {
-                LogUtils.e(methodName +" 测试= "+properties.toString());
+                LogUtils.e(methodName + " 测试= " + properties.toString());
             }
 //            LocalTestManager.callLocalJson(methodName,webServiceCallBack);
             return;
         }
-        final HttpTransportSE httpTransportSE = new HttpTransportSE(url,TIME_OUT);
+        final HttpTransportSE httpTransportSE = new HttpTransportSE(url, TIME_OUT);
 
 
         // 创建SoapObject对象
@@ -214,8 +234,6 @@ public class BaseWebServiceUtils {
         LogUtils.e(soapObject.toString());
 
 
-        String userNamestr = "dhwebservice";
-        String passWordstr = "dhwebservice";
         Element[] header = new Element[1];
         header[0] = new Element().createElement("", "Security");
         header[0].setAttribute("", "xmlns", "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd");
@@ -237,16 +255,16 @@ public class BaseWebServiceUtils {
                 super.handleMessage(msg);
                 // 将返回值回调到callBack的参数中
                 LogUtils.json(LogUtils.E, msg.obj);
-                SharedPreference.DHC_CALLBACK_JSON = SharedPreference.MethodName+"-"+msg.obj.toString();
+                SharedPreference.DHC_CALLBACK_JSON = SharedPreference.MethodName + "-" + msg.obj.toString();
                 //重试机制-数据空,1s后再请求
-                if (LocalTestManager.isRequest(methodName,properties,msg.obj)) {
+                if (LocalTestManager.isRequest(methodName, properties, msg.obj)) {
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             callWebService(url, methodName, properties, webServiceCallBack);
                         }
-                    },1000);
-                }else {
+                    }, 1000);
+                } else {
                     webServiceCallBack.callBack((String) msg.obj);
                 }
             }
@@ -271,8 +289,8 @@ public class BaseWebServiceUtils {
                     }
                 } catch (Exception e) {
                     //捕获异常 保存日志
-                    Log.e("json", "Exception= "+jsonstr+e.toString());
-                    LocalTestManager.saveLog(methodName + "_err",jsonstr+"\n Exception= \n"+e.toString());
+                    Log.e("json", "Exception= " + jsonstr + e.toString());
+                    LocalTestManager.saveLog(methodName + "_err", jsonstr + "\n Exception= \n" + e.toString());
                 } finally {
                     // 将获取的消息利用Handler发送到主线程
                     mHandler.sendMessage(mHandler.obtainMessage(0,
@@ -284,7 +302,6 @@ public class BaseWebServiceUtils {
 
     /**
      * 获取服务IP地址
-     *
      * @return
      */
     public static String getServiceIP() {

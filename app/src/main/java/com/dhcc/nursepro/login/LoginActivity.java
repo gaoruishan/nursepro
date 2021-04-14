@@ -22,10 +22,13 @@ import android.widget.Toast;
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
+import com.base.commlibs.http.CommHttp;
 import com.base.commlibs.utils.SchDateTimeUtil;
 import com.base.commlibs.utils.UserUtil;
 import com.base.commlibs.view.WebActivity;
 import com.base.commlibs.wsutils.BaseWebServiceUtils;
+import com.blankj.utilcode.constant.PermissionConstants;
+import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.dhcc.nursepro.Activity.MainActivity;
@@ -95,7 +98,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         UserUtil.checkWebPath();
         nurseInfoList = daoSession.getNurseInfoDao().queryBuilder().list();
         initView();
+        CommHttp.getNurseConfig();
         getBroadCastConfig();
+        PermissionUtils.permission(PermissionConstants.STORAGE).request();
     }
 
     public void testWebView(View view) {
@@ -338,6 +343,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                 String ip = showDialog.getIp();
                                 UserUtil.setWebIpAndPath(ip,showDialog.getAddr());UserUtil.setWebIpAndPath(ip,showDialog.getAddr());
                                 showDialog.dismiss();
+                                CommHttp.getNurseConfig();
                                 getBroadCastConfig();
                             }
 

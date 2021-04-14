@@ -24,6 +24,7 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
 
                 if (LocalTestManager.isTest()) {
+                    CommHttp.getNurseConfig();
                     CommHttp.initBroadcastList();
 //                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
                     WorkareaMainConfig workareaMainConfig = new WorkareaMainConfig();

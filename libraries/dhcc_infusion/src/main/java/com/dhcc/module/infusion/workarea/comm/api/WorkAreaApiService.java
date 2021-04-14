@@ -2,7 +2,7 @@ package com.dhcc.module.infusion.workarea.comm.api;
 
 import com.base.commlibs.http.CommWebService;
 import com.base.commlibs.http.ServiceCallBack;
-import com.dhcc.module.infusion.ServerAPI;
+import com.base.commlibs.InfusionAPI;
 
 import java.util.HashMap;
 
@@ -11,7 +11,7 @@ import java.util.HashMap;
  * @date:202019-05-20/16:52
  * @email:grs0515@163.com
  */
-public class WorkAreaApiService extends ServerAPI {
+public class WorkAreaApiService extends InfusionAPI {
     /**
      * Description:  获取医嘱详情
      * Input：       oeoreId:执行记录ID

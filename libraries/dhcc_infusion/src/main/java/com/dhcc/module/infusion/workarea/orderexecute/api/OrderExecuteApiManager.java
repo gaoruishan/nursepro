@@ -29,7 +29,7 @@ public class OrderExecuteApiManager extends BaseApiManager {
         properties.put("endDate", endDate);
         properties.put("endTime", endTime);
 
-        CommWebService.call(getOrders, properties, new ServiceCallBack() {
+        CommWebService.call(GetOrdList, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<OrderExecuteBean> parserUtil = new ParserUtil<>();

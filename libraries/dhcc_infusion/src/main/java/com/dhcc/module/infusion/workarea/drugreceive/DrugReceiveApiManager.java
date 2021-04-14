@@ -5,7 +5,7 @@ import com.base.commlibs.http.CommWebService;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.http.ParserUtil;
 import com.base.commlibs.http.ServiceCallBack;
-import com.dhcc.module.infusion.ServerAPI;
+import com.base.commlibs.InfusionAPI;
 
 import java.util.HashMap;
 
@@ -14,7 +14,7 @@ import java.util.HashMap;
  * @date:202021/1/5/16:35
  * @email:grs0515@163.com
  */
-public class DrugReceiveApiManager extends ServerAPI {
+public class DrugReceiveApiManager extends InfusionAPI {
 
     //输液接受列表
     public static void getIFOrdListByBarCode( String sttDate, String endDate, CommonCallBack<IfOrdListBean> callback) {
@@ -22,7 +22,7 @@ public class DrugReceiveApiManager extends ServerAPI {
         properties.put("sttDate", sttDate);
         properties.put("endDate", endDate);
 
-        CommWebService.call(getIFOrdListByBarCode, properties, new ServiceCallBack() {
+        CommWebService.call(GetReceiveOrdList, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<IfOrdListBean> parser = new ParserUtil<>();
@@ -38,7 +38,7 @@ public class DrugReceiveApiManager extends ServerAPI {
         CommWebService.addLocId(properties);
         properties.put("OeoreId", barcode);
 
-        CommWebService.call(BatchIFSave, properties, new ServiceCallBack() {
+        CommWebService.call(ReceiveOrd, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                CommWebService.parserCommResult(jsonStr,callback);

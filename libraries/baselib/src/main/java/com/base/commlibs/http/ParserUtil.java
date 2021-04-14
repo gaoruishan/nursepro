@@ -29,6 +29,24 @@ public class ParserUtil<T extends CommResult> {
     public ParserUtil() {
     }
 
+    public  CommResult parserCommResult(String jsonStr) {
+        if (jsonStr == null||jsonStr.isEmpty()) {
+            showToast(null, "网络错误，请求数据为空", ERR_CODE_1);
+        }else {
+            try {
+                CommResult t = new Gson().fromJson(jsonStr, CommResult.class);
+                if (ObjectUtils.isEmpty(t)) {
+                    showToast(null, "网络错误，数据解析为空", ERR_CODE_3);
+                } else {
+                    return t;
+                }
+            } catch (Exception e) {
+                showToast(null, "网络错误，数据解析失败", ERR_CODE_2);
+            }
+        }
+        return null;
+    }
+
     /**
      * 1.1,json解析-strNull控制是否有提示
      * @param jsonStr  当返回null或者""时
@@ -56,7 +74,9 @@ public class ParserUtil<T extends CommResult> {
      * @param code
      */
     private void showToast(CommonCallBack callback, String msg, String code) {
-        callback.onFail(code, msg);
+        if (callback != null) {
+            callback.onFail(code, msg);
+        }
         //如果为null不提示
         if (!TextUtils.isEmpty(msg)) {
             CommDialog.showCommDialog(ActivityUtils.getTopActivity(), "error  " + code + ":" + msg + "_" + SharedPreference.MethodName, "", R.drawable.icon_popup_error_patient, null, true);

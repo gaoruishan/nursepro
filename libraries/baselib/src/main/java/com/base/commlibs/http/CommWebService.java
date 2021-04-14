@@ -6,7 +6,6 @@ import android.util.Log;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.wsutils.BaseWebServiceUtils;
 import com.blankj.utilcode.util.AppUtils;
-import com.blankj.utilcode.util.SPStaticUtils;
 import com.blankj.utilcode.util.SPUtils;
 
 import java.util.HashMap;
@@ -88,22 +87,12 @@ public class CommWebService {
      * @param properties
      */
     public static void callInfusion(String methodName, HashMap<String, String> properties, ServiceCallBack callBack) {
-        boolean apiJson =!TextUtils.isEmpty(SPStaticUtils.getString(SharedPreference.API_JSON));
-        if (apiJson) {
-            BaseWebServiceUtils.callWebOPPDAServiceJson(methodName, properties, new BaseWebServiceUtils.WebServiceCallBack() {
-                @Override
-                public void callBack(String result) {
-                    callBack.onResult(result);
-                }
-            });
-        } else {
-            BaseWebServiceUtils.callWebOPPDAService(methodName, properties, new BaseWebServiceUtils.WebServiceCallBack() {
-                @Override
-                public void callBack(String result) {
-                    callBack.onResult(result);
-                }
-            });
-        }
+        BaseWebServiceUtils.callWebOPPDAService(methodName, properties, new BaseWebServiceUtils.WebServiceCallBack() {
+            @Override
+            public void callBack(String result) {
+                callBack.onResult(result);
+            }
+        });
     }
 
     private static boolean getAppVersion(float v) {

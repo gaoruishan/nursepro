@@ -134,9 +134,11 @@ public class LocalTestManager {
      * @param obj
      * @return
      */
-    public static boolean isRequest(String methodName, Object properties, Object obj) {
+    public static boolean isRequest(String methodName, HashMap<String, String> properties, Object obj) {
         if (properties != null) {
-            properties = properties.toString();
+            if (BaseWebServiceUtils.REQUST_METHOD.equalsIgnoreCase(methodName)) {
+                methodName = properties.get(BaseWebServiceUtils.METHOD);
+            }
         }
         //有数据直接返回
         if (!ObjectUtils.isEmpty(obj)) {

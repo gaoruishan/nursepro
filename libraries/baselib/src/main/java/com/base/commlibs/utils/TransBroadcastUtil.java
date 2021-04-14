@@ -52,6 +52,7 @@ public class TransBroadcastUtil {
             filter.addAction(broadcastList.get(i).getAction());
         }
         mContext.registerReceiver(mReceiver, filter);
+        Log.e("TAG","(TransBroadcastUtil.java:55) setScanActionList");
     }
 
     /**

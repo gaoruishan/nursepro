@@ -16,6 +16,11 @@ import java.util.List;
  */
 public class SharedPreference {
 
+    public static final String WEB_SERVICE_USERNAME = "webServiceUserName";
+    public static final String WEB_SERVICE_PASSWORD = "webServicePassword";
+    public static final String OPPDA_SERVICE = "oppdaService";
+    public static final String PDA_SERVICE = "pdaService";
+
     public static final String WEBIP = "WEBIP";
     public static final String WEBIPS = "WEBIPS";
     public static final String WEBPATH = "WEBPATH";

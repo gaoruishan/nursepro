@@ -32,7 +32,7 @@ public class BloodCollectApiManager extends BaseApiManager {
         properties.put("exeFlag", exeFlag);
         properties.put("startDate", stDate);
         properties.put("endDate", enDate);
-        CommWebService.call(getLabOrdList, properties, new ServiceCallBack() {
+        CommWebService.call(GetLabOrdList, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<BloodCollectBean> parserUtil = new ParserUtil<>();
@@ -50,7 +50,7 @@ public class BloodCollectApiManager extends BaseApiManager {
         HashMap<String, String> properties = CommWebService.addUserId(null);
         CommWebService.addLocId(properties);
         properties.put("labNo", labNo);
-        CommWebService.call(exeLabOrd, properties, new ServiceCallBack() {
+        CommWebService.call(LabOrd, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 CommWebService.parserCommResult(jsonStr, callBack);
