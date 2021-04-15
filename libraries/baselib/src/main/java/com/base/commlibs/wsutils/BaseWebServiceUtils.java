@@ -197,15 +197,18 @@ public class BaseWebServiceUtils {
      * @param webServiceCallBack 回调接口
      */
     public synchronized static void callWebService(String url, final String methodName, HashMap<String, String> properties, final WebServiceCallBack webServiceCallBack) {
-        SharedPreference.MethodName = methodName;
         // 添加本地json测试
-        if (LocalTestManager.isTest(methodName, properties)) {
+        String methodNameTest = getMethodName(methodName, properties);
+        if (LocalTestManager.isTest(methodNameTest, properties)) {
             if (properties != null) {
-                LogUtils.e(methodName + " 测试= " + properties.toString());
+                LogUtils.e(methodNameTest + " 测试= " + properties.toString());
             }
-//            LocalTestManager.callLocalJson(methodName,webServiceCallBack);
+            LocalTestManager.callLocalJson(methodNameTest,webServiceCallBack);
             return;
         }
+
+        SharedPreference.MethodName = methodNameTest;
+
         final HttpTransportSE httpTransportSE = new HttpTransportSE(url, TIME_OUT);
 
 
@@ -249,6 +252,7 @@ public class BaseWebServiceUtils {
         soapEnvelope.headerOut = header;
 
         // 用于子线程与主线程通信的Handler
+        String finalMethodNameTest = methodNameTest;
         final Handler mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
@@ -257,7 +261,7 @@ public class BaseWebServiceUtils {
                 LogUtils.json(LogUtils.E, msg.obj);
                 SharedPreference.DHC_CALLBACK_JSON = SharedPreference.MethodName + "-" + msg.obj.toString();
                 //重试机制-数据空,1s后再请求
-                if (LocalTestManager.isRequest(methodName, properties, msg.obj)) {
+                if (LocalTestManager.isRequest(finalMethodNameTest, properties, msg.obj)) {
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -290,14 +294,27 @@ public class BaseWebServiceUtils {
                 } catch (Exception e) {
                     //捕获异常 保存日志
                     Log.e("json", "Exception= " + jsonstr + e.toString());
-                    LocalTestManager.saveLog(methodName + "_err", jsonstr + "\n Exception= \n" + e.toString());
+                    LocalTestManager.saveLog(finalMethodNameTest + "_err", jsonstr + "\n Exception= \n" + e.toString());
                 } finally {
                     // 将获取的消息利用Handler发送到主线程
-                    mHandler.sendMessage(mHandler.obtainMessage(0,
-                            jsonstr));
+                    mHandler.sendMessage(mHandler.obtainMessage(0, jsonstr));
                 }
             }
         });
+    }
+
+    /**
+     * 新版本-取请求方法
+     * @param methodName
+     * @param properties
+     * @return
+     */
+    public static String getMethodName(String methodName, HashMap<String, String> properties) {
+        String methodNameTest = methodName;
+        if (BaseWebServiceUtils.REQUST_METHOD.equalsIgnoreCase(methodName)) {
+            methodNameTest = properties.get(BaseWebServiceUtils.METHOD);
+        }
+        return methodNameTest;
     }
 
     /**

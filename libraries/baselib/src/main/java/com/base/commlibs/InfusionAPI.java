@@ -7,6 +7,32 @@ package com.base.commlibs;
  * @email:grs0515@163.com
  */
 public class InfusionAPI {
+    /**
+     * 8.5 替换的方法
+     * getOrders → GetOrdList
+     * getOrdList → GetDispensingOrdList
+     * despensingOrd → DispensingOrd
+     * getPunctOrdList → GetPunctureOrdList
+     * punctureOrd → PunctureOrd
+     * getTourOrdList → GetTourOrdList
+     * tourOrd → TourOrd
+     * getChangeOrdList → GetChangeOrdList
+     * changeOrd → ChangeOrd
+     * getFinishOrdList → GetExtractOrdList
+     * extractOrd → ExtractOrd
+     * getSkinOrdList → GetSkinTestOrdList
+     * setSkinTestResult → SetSkinTestResult
+     * skinTime → SetSkinTestTime
+     * skinDespensingOrd → SkinTestDispensingOrd
+     * getInjectOrdList → GetInjectOrdList
+     * exeInjectOrd → InjectOrd
+     * getLabOrdList → GetLabOrdList
+     * exeLabOrd → LabOrd
+     * getIFOrdListByBarCode → GetReceiveOrdList
+     * BatchIFSave → ReceiveOrd
+     * getWorkload→ GetWorkload
+     */
+
 
     //登陆
     public static final String Logon = "Logon";

@@ -46,9 +46,9 @@ public class LocalTestManager {
         //对应的方法名
 //        l.add("getInfusionMessage");//消息-输液
 //        l.add("getSkinTestMessage");//消息-皮试
-//        l.add("getOrdList");//配液
+//        l.add("GetDispensingOrdList");//配液
 //        l.add("getSkinOrdList");
-//        l.add("getPunctOrdList");//穿刺
+//        l.add("GetPunctureOrdList");//穿刺
 //        l.add("punctureOrd");//穿刺
 //        l.add("getTourOrdList");//巡视
 //        l.add("tourOrd");//巡视
@@ -111,9 +111,6 @@ public class LocalTestManager {
 //            return true;
 //        }
         if (TEST) {
-            if (BaseWebServiceUtils.REQUST_METHOD.equalsIgnoreCase(methodName)) {
-                methodName = properties.get(BaseWebServiceUtils.METHOD);
-            }
             return l.contains(methodName);
         }
         return false;
@@ -135,11 +132,7 @@ public class LocalTestManager {
      * @return
      */
     public static boolean isRequest(String methodName, HashMap<String, String> properties, Object obj) {
-        if (properties != null) {
-            if (BaseWebServiceUtils.REQUST_METHOD.equalsIgnoreCase(methodName)) {
-                methodName = properties.get(BaseWebServiceUtils.METHOD);
-            }
-        }
+
         //有数据直接返回
         if (!ObjectUtils.isEmpty(obj)) {
             //保存数据不为null
