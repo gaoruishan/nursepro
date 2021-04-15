@@ -17,6 +17,7 @@
     <string name="title_vitalsign">生命体征</string>
     <string name="title_vitalsign_record">体征录入</string>
     <string name="title_vitalsigndetail">体征记录</string>
+    <string name="title_vitalsigntempimg">体温单预览</string>
     <string name="title_vitalsignchartsdetail">体征图表</string>
     <string name="vitalsign_record_pre">上一位</string>
     <string name="vitalsign_record_next">下一位</string>
