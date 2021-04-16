@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.base.commlibs.InfusionAPI;
 import com.base.commlibs.http.BaseRequestParams;
 import com.base.commlibs.http.CommWebService;
 import com.base.commlibs.http.CommonCallBack;
@@ -123,7 +124,7 @@ public class CustomScanBloodView extends BaseView {
         HashMap<String, String> properties =  BaseRequestParams.getProperties(params);
         properties.put("barCode", scanInfo);
         properties.put("isPat", isAddPat+"");
-        CommWebService.callJson("getBarcodeFlag", properties, new ServiceCallBack() {
+        CommWebService.call(InfusionAPI.getBarcodeFlag, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<ScanBarCodeBean> parserUtil = new ParserUtil<>();

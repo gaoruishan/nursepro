@@ -102,20 +102,6 @@ public class BaseWebServiceUtils {
     }
 
     /**
-     * 使用json一个参数
-     * @param methodName
-     * @param properties
-     * @param webServiceCallBack
-     */
-    public static void callWebOPPDAServiceJson(final String methodName,
-                                               HashMap<String, String> properties,
-                                               final WebServiceCallBack webServiceCallBack) {
-
-        HashMap<String, String> propertiesTest = convertRequestData(methodName, properties);
-        callWebOPPDAService(REQUST_METHOD, propertiesTest, webServiceCallBack);
-    }
-
-    /**
      * 转换数据格式
      * @param methodName
      * @param properties
