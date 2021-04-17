@@ -108,6 +108,8 @@ public class InfusionAPI {
 
 
     /*=======输血系统(广西医科大一附)=========*/
+    //每次扫码 获取类型
+    public static final String getBarcodeFlag = "GetBarcodeFlag";
     //输血列表
     public static final String getTransBloodList = "getTransBloodList";
     //输血详情
