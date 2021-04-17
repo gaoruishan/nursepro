@@ -36,7 +36,7 @@ public class OrderExecuteApiService extends NurseAPI {
         });
     }
 
-    public static void getOrder(String pageNo,String regNo, String sheetCode, String startDate, String startTime, String endDate, String endTime, String screenParts,final ServiceCallBack callback) {
+    public static void getOrder(String pageNo, String regNo, String sheetCode, String startDate, String startTime, String endDate, String endTime, String screenParts, final ServiceCallBack callback) {
         SPUtils spUtils = SPUtils.getInstance();
         HashMap<String, String> properties = new HashMap<>();
         properties.put("wardId", spUtils.getString(SharedPreference.WARDID));
@@ -65,10 +65,10 @@ public class OrderExecuteApiService extends NurseAPI {
 
     }
 
-    public static void execOrSeeOrder(String speed,String barCode,String scanFlag, String batch, String auditUserCode, String auditUserPass, String oeoreId, String execStatusCode, final ServiceCallBack callBack) {
+    public static void execOrSeeOrder(String speed, String barCode, String scanFlag, String batch, String auditUserCode, String auditUserPass, String oeoreId, String execStatusCode, String wayNo, final ServiceCallBack callBack) {
         SPUtils spUtils = SPUtils.getInstance();
         HashMap<String, String> properties = new HashMap<>();
-        properties.put("speed",speed);
+        properties.put("speed", speed);
         properties.put("scanFlag", scanFlag);
         properties.put("batch", batch);
         properties.put("auditUserCode ", auditUserCode);
@@ -78,7 +78,8 @@ public class OrderExecuteApiService extends NurseAPI {
         properties.put("userId", spUtils.getString(SharedPreference.USERID));
         properties.put("userDeptId", spUtils.getString(SharedPreference.LOCID));
         properties.put("wardId", spUtils.getString(SharedPreference.WARDID));
-        properties.put("barCode",barCode);
+        properties.put("barCode", barCode);
+        properties.put("wayNo", wayNo);
 
         WebServiceUtils.callWebService(execOrSeeOrder, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override

@@ -57,9 +57,10 @@ import java.util.List;
  * created at 2018/8/31 10:21
  */
 
-public class OrderExecuteFragment extends BaseFragment implements View.OnClickListener,BaseQuickAdapter.RequestLoadMoreListener {
+public class OrderExecuteFragment extends BaseFragment implements View.OnClickListener, BaseQuickAdapter.RequestLoadMoreListener {
+    //处理类型
+    public static List typelist = new ArrayList();
     private RelativeLayout rlOrderexecuteScan;
-
     private RecyclerView recyOrderexecuteOrdertype;
     private TextView tvOrderexecutePatinfo;
     private TextView tvOrderexecuteStartdatetime;
@@ -73,9 +74,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     private TextView tvBottomHandletype;
     private View viewBottomHandleline;
     private ImageView imgBottomHandlesure;
-
     private String etChangeFlag;
-
     private List<OrderExecuteBean.ButtonsBean> buttons;
     private int selectCount;
     //    private List<OrderExecuteBean.OrdersBean> orders;
@@ -85,7 +84,6 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     private List<OrderExecuteBean.DetailColumsBean> detailColums;
     private OrderExecuteOrderTypeAdapter orderTypeAdapter;
     private OrderExecutePatientOrderAdapter patientOrderAdapter;
-
     private SPUtils spUtils = SPUtils.getInstance();
     private String scanInfo = "";
     private String barCode = "";
@@ -97,7 +95,6 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     private String startTime;
     private String endDate;
     private String endTime;
-
     private BasePushDialog basePushDialog;
     private PatInfoDialog patInfoDialog;
     private String patInfo = "";
@@ -107,20 +104,15 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     private String skinBatch = "";
     private String skinUserCode = "";
     private String skinUserPass = "";
-
     private OrderExecOrderDialog execOrderDialog;
     private OrdersAddExecDialog ordAddDialog;
-
     private SkinResultOrderDialog skinResultOrderDialog;
-
     private OrderExecResultDialog execResultDialog;
-
     /**
      * 一个按钮可选择执行类型进行操作
      * 处理类型类型 A 接受R 拒绝S 完成   皮试结果 Y 阳性N 阴性
      */
     private String handleCode = "";
-
     /**
      * 医嘱id
      * 多个医嘱进行处理，接口依然调用execOrSeeOrder，第一个参数拼串，，每个医嘱的ID 用^分割
@@ -128,28 +120,21 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
      */
     private StringBuffer sbOeoreId;
     private String oeoreId = "";
-
-
     /**
      * 操作
      * execStatusCode F 执行，C 撤销执行，A 接受，S 完成，R 拒绝F 执行C 撤销执行A 接受R 拒绝S 完成N 阴性 Y 阳性""撤销处理 ST 皮试计时
      */
     private String execStatusCode;
-    private String labExecStatusCode="";
-
+    private String labExecStatusCode = "";
     private SoundPool soundPool;
     private HashMap<Integer, Integer> soundPoolMap = new HashMap<Integer, Integer>();
-
     private String episodeId = "";
     private StringBuffer sbOrderSaveInfo;
     private String orderSaveInfo = "";
     private StringBuffer sbTimeSaveInfo;
     private String timeSaveInfo = "";
     private OrdExeFilterPresenter presenter;
-    private String screenParts="";
-
-    //处理类型
-    public static List typelist = new ArrayList();
+    private String screenParts = "";
     private LinearLayout llBtn;
     //点击的按钮的名称
     private String exeButtonDesc = "";
@@ -159,6 +144,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     private TextView btnSkinExe;
     private String pageNo = "1";
     private Boolean ifLoadMore = false;
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -175,7 +161,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
             if (execResultDialog != null && execResultDialog.isShowing()) {
                 execResultDialog.dismiss();
             }
-        }else if (!TextUtils.isEmpty(singleRegNo)&&isGetPatByScan){
+        } else if (!TextUtils.isEmpty(singleRegNo) && isGetPatByScan) {
             scanInfo = singleRegNo;
             getScanInfo();
         }
@@ -201,6 +187,36 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
         });
     }
 
+    @Override
+    public void getScanMsg(Intent intent) {
+        super.getScanMsg(intent);
+        if (Action.ORDER_HANDLE_TYPE.equals(intent.getAction())) {
+            Bundle bundle = new Bundle();
+            bundle = intent.getExtras();
+            String bundleDesc = bundle.getString("handledesc");
+            String budleCode = bundle.getString("handlecode");
+            basePushDialog.dismiss();
+            tvBottomHandletype.setText(bundleDesc);
+            handleCode = budleCode;
+        }
+        if (Action.DEVICE_SCAN_CODE.equals(intent.getAction())) {
+            Bundle bundle = new Bundle();
+            bundle = intent.getExtras();
+            scanInfo = bundle.getString("data");
+            barCode = bundle.getString("data");
+            getScanInfo();
+            if (execResultDialog != null && execResultDialog.isShowing()) {
+                execResultDialog.dismiss();
+            }
+        }
+
+    }
+
+    @Override
+    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_order_execute, container, false);
+    }
+
     private void getScanInfo() {
 
         OrderExecuteApiManager.getScanMsg(episodeId, scanInfo, new OrderExecuteApiManager.GetScanCallBack() {
@@ -213,7 +229,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 //PAT 扫腕带返回患者信息
                 //ORD 扫医嘱条码返回医嘱信息
                 if ("PAT".equals(scanResultBean.getFlag())) {
-                    if (ordAddDialog!=null && ordAddDialog.isShowing()){
+                    if (ordAddDialog != null && ordAddDialog.isShowing()) {
                         ordAddDialog.dismiss();
                     }
                     if ("104999".equals(scanResultBean.getMsgcode())) {
@@ -221,7 +237,9 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                         if (execResultDialog != null && execResultDialog.isShowing()) {
                             execResultDialog.dismiss();
                         }
-                        if (isSingleModel&&getActivity()==null){return;}
+                        if (isSingleModel && getActivity() == null) {
+                            return;
+                        }
                         execResultDialog = new OrderExecResultDialog(getActivity());
                         execResultDialog.setExecresult(scanResultBean.getMsg() + "是否继续执行医嘱？");
                         execResultDialog.setImgId(R.drawable.icon_popup_error_patient);
@@ -269,10 +287,12 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                                 asyncInitData();
                             }
                         }, 300);
-                        if (patInfoDialog!=null){
+                        if (patInfoDialog != null) {
                             patInfoDialog.dismiss();
                         }
-                        if (isSingleModel&&getActivity()==null){return;}
+                        if (isSingleModel && getActivity() == null) {
+                            return;
+                        }
                         patInfoDialog = new PatInfoDialog(getActivity());
                         patInfoDialog.setPatInfo(patInfo);
                         patInfoDialog.setSureOnclickListener(new PatInfoDialog.onSureOnclickListener() {
@@ -281,7 +301,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                                 patInfoDialog.dismiss();
                             }
                         });
-                        if (!isSingleModel){
+                        if (!isSingleModel) {
                             patInfoDialog.show();
                         }
 
@@ -299,7 +319,9 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                     if ("1".equals(scanResultBean.getDiagFlag())) {
 
 
-                        if (isSingleModel&&getActivity()==null){return;}
+                        if (isSingleModel && getActivity() == null) {
+                            return;
+                        }
                         execOrderDialog = new OrderExecOrderDialog(getActivity());
                         execOrderDialog.setPatInfo(patInfo);
                         List<ScanResultBean.OrdersBean> ordersBeanList = scanResultBean.getOrders();
@@ -322,58 +344,62 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                                 execOrderDialog.dismiss();
                             }
                         });
-                        if (ordAddDialog==null){
-                            if (isSingleModel&&getActivity()==null){return;}
+                        if (ordAddDialog == null) {
+                            if (isSingleModel && getActivity() == null) {
+                                return;
+                            }
                             ordAddDialog = new OrdersAddExecDialog(getActivity());
                         }
-                        if (scanResultBean.getBarCodeType()!=null&&scanResultBean.getBarCodeType().equals("LAB")){
-                            if (ordAddDialog.isShowing()){
-                                if (scanList.contains(scanInfo)){
+                        if (scanResultBean.getBarCodeType() != null && scanResultBean.getBarCodeType().equals("LAB")) {
+                            if (ordAddDialog.isShowing()) {
+                                if (scanList.contains(scanInfo)) {
                                     showToast("该条码已扫描");
-                                }else {
+                                } else {
                                     scanList.add(scanInfo);
                                     ordAddDialog.setAddString(scanResultBean);
                                 }
 
-                            }else {
-                                    scanList = new ArrayList<String>();
-                                    scanList.add(scanInfo);
-                                    ordAddDialog.setAddString(scanResultBean);
-                                    ordAddDialog.setPatInfo(patInfo);
-                                    ordAddDialog.setCanceledOnTouchOutside(false);
-                                    ordAddDialog.setCancelOnclickListener(new OrdersAddExecDialog.onCancelOnclickListener() {
-                                        @Override
-                                        public void onCancelClick() {
-                                            ordAddDialog.dismiss();
-                                        }
-                                    });
-                                    ordAddDialog.setSureOnclickListener(new OrdersAddExecDialog.onSureOnclickListener() {
-                                        @Override
-                                        public void onSureClick() {
-                                            String ordAdd = "";
-                                            for (int i = 0; i < ordAddDialog.getAddList().size(); i++) {
-                                                for (int j = 0; j < ordAddDialog.getAddList().get(i).getOrders().size(); j++) {
-                                                    ordAdd = ordAdd+ordAddDialog.getAddList().get(i).getOrders().get(j).getID()+"^";
-                                                }
+                            } else {
+                                scanList = new ArrayList<String>();
+                                scanList.add(scanInfo);
+                                ordAddDialog.setAddString(scanResultBean);
+                                ordAddDialog.setPatInfo(patInfo);
+                                ordAddDialog.setCanceledOnTouchOutside(false);
+                                ordAddDialog.setCancelOnclickListener(new OrdersAddExecDialog.onCancelOnclickListener() {
+                                    @Override
+                                    public void onCancelClick() {
+                                        ordAddDialog.dismiss();
+                                    }
+                                });
+                                ordAddDialog.setSureOnclickListener(new OrdersAddExecDialog.onSureOnclickListener() {
+                                    @Override
+                                    public void onSureClick() {
+                                        String ordAdd = "";
+                                        for (int i = 0; i < ordAddDialog.getAddList().size(); i++) {
+                                            for (int j = 0; j < ordAddDialog.getAddList().get(i).getOrders().size(); j++) {
+                                                ordAdd = ordAdd + ordAddDialog.getAddList().get(i).getOrders().get(j).getID() + "^";
                                             }
-                                            if (ordAdd.contains("^")){
-                                                oeoreId = ordAdd.substring(0,ordAdd.length()-1);
-                                            }
-                                            labExecStatusCode = "F";
-                                            execOrSeeOrder();
                                         }
-                                    });
-                                    ordAddDialog.show();
+                                        if (ordAdd.contains("^")) {
+                                            oeoreId = ordAdd.substring(0, ordAdd.length() - 1);
+                                        }
+                                        labExecStatusCode = "F";
+                                        execOrSeeOrder();
+                                    }
+                                });
+                                ordAddDialog.show();
                             }
-                        }else if (ordAddDialog.isShowing()){
+                        } else if (ordAddDialog.isShowing()) {
                             showToast("请执行或取消已扫描医嘱再执行其他医嘱");
-                        }else {
+                        } else {
                             execOrderDialog.show();
                         }
 
 
                     } else {
-                        if (isSingleModel&&getActivity()==null){return;}
+                        if (isSingleModel && getActivity() == null) {
+                            return;
+                        }
                         execResultDialog = new OrderExecResultDialog(getActivity());
                         execResultDialog.setExecresult("扫码执行成功");
                         execResultDialog.setImgId(R.drawable.icon_popup_sucess);
@@ -403,7 +429,9 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 if (execResultDialog != null && execResultDialog.isShowing()) {
                     execResultDialog.dismiss();
                 }
-                if (isSingleModel&&getActivity()==null){return;}
+                if (isSingleModel && getActivity() == null) {
+                    return;
+                }
                 execResultDialog = new OrderExecResultDialog(getActivity());
                 execResultDialog.setExecresult(msg);
                 execResultDialog.setImgId(R.drawable.icon_popup_error_patient);
@@ -426,7 +454,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
         llBtn = view.findViewById(R.id.ll_orderexecute_btn);
 
         rlOrderexecuteScan = view.findViewById(R.id.rl_orderexecute_scan);
-        if (isSingleModel&&isGetPatByScan){
+        if (isSingleModel && isGetPatByScan) {
             rlOrderexecuteScan.setVisibility(View.GONE);
         }
 
@@ -469,7 +497,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 sheetCode = ((OrderExecuteBean.SheetListBean) adapter.getItem(position)).getCode();
-                if (!sheetCode.equals(sheetCodePresenter)){
+                if (!sheetCode.equals(sheetCodePresenter)) {
                     sheetCodePresenter = sheetCode;
                     presenter.setOrdTypeSelectedCode(sheetCode);
                     screenParts = "";
@@ -517,14 +545,14 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
 
     private void asyncInitData() {
         showLoadingTip(BaseActivity.LoadingType.FULL);
-        if (!ifLoadMore){
+        if (!ifLoadMore) {
             pageNo = "1";
         }
-        if ("1".equals(pageNo)){
+        if ("1".equals(pageNo)) {
             patientOrderAdapter.setNewData(new ArrayList<>());
         }
         ifLoadMore = false;
-        OrderExecuteApiManager.getOrder(pageNo,regNo, sheetCode, startDate, startTime, endDate, endTime,screenParts, new OrderExecuteApiManager.GetOrderCallback() {
+        OrderExecuteApiManager.getOrder(pageNo, regNo, sheetCode, startDate, startTime, endDate, endTime, screenParts, new OrderExecuteApiManager.GetOrderCallback() {
             @Override
             public void onSuccess(OrderExecuteBean orderExecuteBean) {
                 hideLoadingTip();
@@ -546,25 +574,28 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                     tvBottomHandletype.setVisibility(View.GONE);
                     imgBottomHandlesure.setVisibility(View.GONE);
 
-                    for (int i = 0; i <buttons.size() ; i++) {
-                        if (buttons.get(i).getExecode()!=null && buttons.get(i).getExecode().contains("|")){
+                    for (int i = 0; i < buttons.size(); i++) {
+                        if (buttons.get(i).getExecode() != null && buttons.get(i).getExecode().contains("|")) {
                             typelist = new ArrayList();
                             String[] stype = buttons.get(i).getExecode().split("\\^");
-                            for (int j = 0; j <stype.length ; j++) {
+                            for (int j = 0; j < stype.length; j++) {
                                 typelist.add(stype[j]);
-                            };
+                            }
+                            ;
                             viewBottomHandleline.setVisibility(View.VISIBLE);
                             tvBottomHandletype.setVisibility(View.VISIBLE);
                             String deftype = typelist.get(0).toString();
-                            tvBottomHandletype.setText(deftype.substring(deftype.indexOf("|")+1,deftype.length()));
+                            tvBottomHandletype.setText(deftype.substring(deftype.indexOf("|") + 1, deftype.length()));
                             imgBottomHandlesure.setVisibility(View.VISIBLE);
-                            handleCode = deftype.substring(0,deftype.indexOf("|"));
+                            handleCode = deftype.substring(0, deftype.indexOf("|"));
                         }
-                        if (isSingleModel&&getActivity()==null){return;}
+                        if (isSingleModel && getActivity() == null) {
+                            return;
+                        }
                         TextView tvButton = new TextView(getContext());
                         tvButton.setText(buttons.get(i).getDesc());
                         btnSkinExe = null;
-                        if (buttons.get(i).getDesc().startsWith("执行")){
+                        if (buttons.get(i).getDesc().startsWith("执行")) {
                             btnSkinExe = tvButton;
                         }
                         //        titleTV.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
@@ -577,19 +608,19 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                         LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(ConvertUtils.dp2px(90), ViewGroup.LayoutParams.MATCH_PARENT);
                         titleParams.setMargins(0, 0, 0, 0);//4个参数按顺序分别是左上右下
                         tvButton.setLayoutParams(titleParams);
-                        if (i%2 == 0){
+                        if (i % 2 == 0) {
                             tvButton.setBackgroundResource(R.color.blue);
-                        }else {
+                        } else {
                             tvButton.setBackgroundResource(R.color.blue_dark);
                         }
                         tvButton.setTextColor(getResources().getColor(R.color.white));
-                        if (buttons.get(i).getExecode()!=null){
-                            tvButton.setTag(R.string.key_execode,buttons.get(i).getExecode());
-                        }else {
+                        if (buttons.get(i).getExecode() != null) {
+                            tvButton.setTag(R.string.key_execode, buttons.get(i).getExecode());
+                        } else {
                             //非配置按钮--皮试计时
-                            tvButton.setTag(R.string.key_execode,"UNKNOW");
+                            tvButton.setTag(R.string.key_execode, "UNKNOW");
                         }
-                        tvButton.setTag(R.string.key_singleflag,buttons.get(i).getSingleFlag());
+                        tvButton.setTag(R.string.key_singleflag, buttons.get(i).getSingleFlag());
 
 
                         tvButton.setOnClickListener(new View.OnClickListener() {
@@ -598,19 +629,19 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                                 exeButtonDesc = tvButton.getText().toString();
                                 String strexecode = tvButton.getTag(R.string.key_execode).toString();
                                 String strSingleFlag = tvButton.getTag(R.string.key_singleflag).toString();
-                                if (strexecode.equals("UNKNOW")){
+                                if (strexecode.equals("UNKNOW")) {
                                     showToast("未配置按钮，不可操作");
-                                }else {
-                                    if (strexecode.contains("|")){
+                                } else {
+                                    if (strexecode.contains("|")) {
                                         execStatusCode = handleCode;
-                                    }else {
+                                    } else {
                                         execStatusCode = strexecode;
                                     }
                                     if ("PSD".equals(sheetCode) && exeButtonDesc.contains("皮试")) {
                                         //跟处理医嘱相同方式置皮试结果
-                                        if (strexecode.contains("|")){
+                                        if (strexecode.contains("|")) {
                                             execOrSeeOrder();
-                                        }else {
+                                        } else {
                                             //弹框置皮试结果
                                             if (oeoreId.split("\\^").length > 1) {
                                                 showToast("皮试结果只能逐一设置，请选择单条医嘱执行");
@@ -646,7 +677,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                     }
                     patientOrderAdapter.setNewData(patOrders);
 //                    patientOrderAdapter.loadMoreEnd();
-                    if (patOrders==null || patOrders.size() == 0) {
+                    if (patOrders == null || patOrders.size() == 0) {
                         patientOrderAdapter.loadMoreEnd();
                     } else {
                         patientOrderAdapter.loadMoreComplete();
@@ -655,8 +686,8 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
 
                     //左侧列表判断有无默认值，有的话滑动到默认值类型
                     if (!"".equals(orderExecuteBean.getSheetDefCode())) {
-                        if (!sheetCodePresenter.equals(orderExecuteBean.getSheetDefCode())){
-                            sheetCodePresenter  = orderExecuteBean.getSheetDefCode();
+                        if (!sheetCodePresenter.equals(orderExecuteBean.getSheetDefCode())) {
+                            sheetCodePresenter = orderExecuteBean.getSheetDefCode();
                             presenter.setOrdTypeSelectedCode(orderExecuteBean.getSheetDefCode());
                             screenParts = "";
                         }
@@ -673,8 +704,8 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                         }
                     }
 
-                }else {
-                    if (patOrders==null || patOrders.size() == 0) {
+                } else {
+                    if (patOrders == null || patOrders.size() == 0) {
                         patientOrderAdapter.loadMoreEnd();
                     } else {
                         patientOrderAdapter.addData(patOrders);
@@ -697,7 +728,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
      * 扫码执行
      */
     private void execOrSeeOrderScan(String creattime, String order, String oeoreIdScan, String execStatusCodeScan) {
-        OrderExecuteApiManager.execOrSeeOrder("",barCode,creattime, order, patSaveInfo, "1", "", "", "", oeoreIdScan, execStatusCodeScan, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
+        OrderExecuteApiManager.execOrSeeOrder("", barCode, creattime, order, patSaveInfo, "1", "", "", "", oeoreIdScan, execStatusCodeScan, "", new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
             @Override
             public void onSuccess(OrderExecResultBean orderExecResultBean) {
 
@@ -705,7 +736,9 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                     execResultDialog.dismiss();
                 }
 
-                if (isSingleModel&&getActivity()==null){return;}
+                if (isSingleModel && getActivity() == null) {
+                    return;
+                }
                 execResultDialog = new OrderExecResultDialog(getActivity());
                 execResultDialog.setExecresult("扫码执行成功");
                 execResultDialog.setImgId(R.drawable.icon_popup_sucess);
@@ -727,7 +760,9 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 if (execResultDialog != null && execResultDialog.isShowing()) {
                     execResultDialog.dismiss();
                 }
-                if (isSingleModel&&getActivity()==null){return;}
+                if (isSingleModel && getActivity() == null) {
+                    return;
+                }
                 execResultDialog = new OrderExecResultDialog(getActivity());
                 execResultDialog.setExecresult(msg);
                 execResultDialog.setImgId(R.drawable.icon_popup_error_patient);
@@ -745,7 +780,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     }
 
     public void playSound(int sound, int loop) {
-        if (getActivity()==null) {
+        if (getActivity() == null) {
             return;
         }
         AudioManager mgr = (AudioManager) getActivity().getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
@@ -768,7 +803,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
         sbOrderSaveInfo = new StringBuffer();
         sbTimeSaveInfo = new StringBuffer();
         selectCount = 0;
-        if (btnSkinExe != null){
+        if (btnSkinExe != null) {
             btnSkinExe.setVisibility(View.VISIBLE);
         }
         for (int i = 0; i < patientOrderAdapter.getData().size(); i++) {
@@ -783,8 +818,8 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
             }
             if (patientOrderAdapter.getData().get(i) != null && patientOrderAdapter.getData().get(i).get(0) != null && patientOrderAdapter.getData().get(i).get(0).getSelect() != null && "1".equals(patientOrderAdapter.getData().get(i).get(0).getSelect())) {
 
-                if (btnSkinExe != null){
-                    if (patientOrderAdapter.getData().get(i).get(0).getOrderInfo().getDisposeStatCode().startsWith("皮试") && "皮".equals(patientOrderAdapter.getData().get(i).get(0).getOrderInfo().getSkinResult())){
+                if (btnSkinExe != null) {
+                    if (patientOrderAdapter.getData().get(i).get(0).getOrderInfo().getDisposeStatCode().startsWith("皮试") && "皮".equals(patientOrderAdapter.getData().get(i).get(0).getOrderInfo().getSkinResult())) {
                         btnSkinExe.setVisibility(View.GONE);
                     }
                 }
@@ -833,7 +868,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 chooseTime(TimeUtils.string2Millis(tvOrderexecuteEnddatetime.getText().toString() + ":00"));
                 break;
             case R.id.tv_bottom_handletype:
-                    basePushDialog = showPushDialog(new OrderHandleTypeFragment());
+                basePushDialog = showPushDialog(new OrderHandleTypeFragment());
                 break;
             default:
                 break;
@@ -841,29 +876,29 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     }
 
     private void chooseTime(long currentTimeMillis) {
-        DateUtils.chooseDateTime(currentTimeMillis,getContext(), getFragmentManager(), new OnDateSetListener() {
+        DateUtils.chooseDateTime(currentTimeMillis, getContext(), getFragmentManager(), new OnDateSetListener() {
             @Override
             public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
-                    String date = TimeUtils.millis2String(millseconds).substring(0, 10);
-                    String time = TimeUtils.millis2String(millseconds).substring(11, 16);
+                String date = TimeUtils.millis2String(millseconds).substring(0, 10);
+                String time = TimeUtils.millis2String(millseconds).substring(11, 16);
 
-                    if ("START".equals(etChangeFlag)) {
-                        if (!date.equals(startDate) || !time.equals(startTime)) {
-                            //日期时间发生改变，需重新请求数据
-                            startDate = date;
-                            startTime = time;
-                            asyncInitData();
-                        }
-                        tvOrderexecuteStartdatetime.setText(TimeUtils.millis2String(millseconds).substring(0, 16));
-                    } else {
-                        if (!date.equals(endDate) || !time.equals(endTime)) {
-                            //日期时间发生改变，需重新请求数据
-                            endDate = date;
-                            endTime = time;
-                            asyncInitData();
-                        }
-                        tvOrderexecuteEnddatetime.setText(TimeUtils.millis2String(millseconds).substring(0, 16));
+                if ("START".equals(etChangeFlag)) {
+                    if (!date.equals(startDate) || !time.equals(startTime)) {
+                        //日期时间发生改变，需重新请求数据
+                        startDate = date;
+                        startTime = time;
+                        asyncInitData();
                     }
+                    tvOrderexecuteStartdatetime.setText(TimeUtils.millis2String(millseconds).substring(0, 16));
+                } else {
+                    if (!date.equals(endDate) || !time.equals(endTime)) {
+                        //日期时间发生改变，需重新请求数据
+                        endDate = date;
+                        endTime = time;
+                        asyncInitData();
+                    }
+                    tvOrderexecuteEnddatetime.setText(TimeUtils.millis2String(millseconds).substring(0, 16));
+                }
             }
         });
 
@@ -871,15 +906,15 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
 
     private void execOrSeeOrder() {
         String execCode = "";
-        if (!labExecStatusCode.equals("")){
+        if (!labExecStatusCode.equals("")) {
             execCode = labExecStatusCode;
-        }else {
+        } else {
             execCode = execStatusCode;
         }
-        OrderExecuteApiManager.execOrSeeOrder("","",timeSaveInfo, orderSaveInfo, patSaveInfo, "0", skinBatch, skinUserCode, skinUserPass, oeoreId, execCode, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
+        OrderExecuteApiManager.execOrSeeOrder("", "", timeSaveInfo, orderSaveInfo, patSaveInfo, "0", skinBatch, skinUserCode, skinUserPass, oeoreId, execCode, "", new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
             @Override
             public void onSuccess(OrderExecResultBean orderExecResultBean) {
-                if(ordAddDialog!=null&&ordAddDialog.isShowing()){
+                if (ordAddDialog != null && ordAddDialog.isShowing()) {
                     ordAddDialog.dismiss();
                 }
                 skinBatch = "";
@@ -893,11 +928,13 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                     execResultDialog.dismiss();
                 }
 
-                if (isSingleModel&&getActivity()==null){return;}
+                if (isSingleModel && getActivity() == null) {
+                    return;
+                }
                 execResultDialog = new OrderExecResultDialog(getActivity());
-                if (labExecStatusCode.equals("")){
-                    execResultDialog.setExecresult("手动"+exeButtonDesc+"成功");
-                }else {
+                if (labExecStatusCode.equals("")) {
+                    execResultDialog.setExecresult("手动" + exeButtonDesc + "成功");
+                } else {
                     execResultDialog.setExecresult("执行成功");
                 }
                 labExecStatusCode = "";
@@ -923,7 +960,9 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 if (execResultDialog != null && execResultDialog.isShowing()) {
                     execResultDialog.dismiss();
                 }
-                if (isSingleModel&&getActivity()==null){return;}
+                if (isSingleModel && getActivity() == null) {
+                    return;
+                }
                 execResultDialog = new OrderExecResultDialog(getActivity());
                 execResultDialog.setExecresult(msg);
                 execResultDialog.setImgId(R.drawable.icon_popup_error_patient);
@@ -947,7 +986,9 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
 //        String s = f(R.id.tv_bottom_todo, TextView.class).getText().toString();
         if (!TextUtils.isEmpty(exeButtonDesc) && exeButtonDesc.contains("计时")) {
             // 皮试计时
-            if (isSingleModel&&getActivity()==null){return;}
+            if (isSingleModel && getActivity() == null) {
+                return;
+            }
             DialogFactory.showCountTime(getActivity(), new DialogFactory.CommClickListener() {
                 @Override
                 public void data(Object[] args) {
@@ -961,7 +1002,9 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
         if (skinResultOrderDialog != null && skinResultOrderDialog.isShowing()) {
             skinResultOrderDialog.dismiss();
         }
-        if (isSingleModel&&getActivity()==null){return;}
+        if (isSingleModel && getActivity() == null) {
+            return;
+        }
         skinResultOrderDialog = new SkinResultOrderDialog(getActivity());
         skinResultOrderDialog.setPatInfo(patInfo);
         skinResultOrderDialog.setSingleFlag(skinSinge);
@@ -1000,36 +1043,13 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
 
             @Override
             public void onSuccess(CommResult bean, String type) {
-                if (isSingleModel&&getActivity()==null){return;}
+                if (isSingleModel && getActivity() == null) {
+                    return;
+                }
                 DialogFactory.showCommDialog(getActivity(), bean.getMsg(), null, 0, null, true);
                 asyncInitData();//刷新
             }
         });
-    }
-
-    @Override
-    public void getScanMsg(Intent intent) {
-        super.getScanMsg(intent);
-        if (Action.ORDER_HANDLE_TYPE.equals(intent.getAction())) {
-            Bundle bundle = new Bundle();
-            bundle = intent.getExtras();
-            String bundleDesc=bundle.getString("handledesc");
-            String budleCode=bundle.getString("handlecode");
-            basePushDialog.dismiss();
-            tvBottomHandletype.setText(bundleDesc);
-            handleCode = budleCode;
-        }
-        if (Action.DEVICE_SCAN_CODE.equals(intent.getAction())) {
-            Bundle bundle = new Bundle();
-            bundle = intent.getExtras();
-            scanInfo = bundle.getString("data");
-            barCode = bundle.getString("data");
-            getScanInfo();
-            if (execResultDialog != null && execResultDialog.isShowing()) {
-                execResultDialog.dismiss();
-            }
-        }
-
     }
 
     @Override
@@ -1050,11 +1070,6 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
         if (execResultDialog != null) {
             execResultDialog.dismiss();
         }
-    }
-
-    @Override
-    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_order_execute, container, false);
     }
 
     @Override

@@ -36,6 +36,15 @@ public class ScanResultBean {
     private List<StopNoteListBean> StopNoteList;
     private List<SuspendNoteListBean> SuspendNoteList;
     private List<TourNoteListBean> TourNoteList;
+    private List<WayNoList> wayNoList;
+
+    public List<WayNoList> getWayNoList() {
+        return wayNoList;
+    }
+
+    public void setWayNoList(List<WayNoList> wayNoList) {
+        this.wayNoList = wayNoList;
+    }
 
     public List<TourNoteListBean> getTourNoteList() {
         return TourNoteList;
@@ -1230,6 +1239,33 @@ public class ScanResultBean {
 
         public void setNoteId(String noteId) {
             this.noteId = noteId;
+        }
+    }
+
+    public static class WayNoList {
+
+        /**
+         * wayNo : New
+         * wayNum : 新通道
+         */
+
+        private String wayNo;
+        private String wayNum;
+
+        public String getWayNo() {
+            return wayNo;
+        }
+
+        public void setWayNo(String wayNo) {
+            this.wayNo = wayNo;
+        }
+
+        public String getWayNum() {
+            return wayNum;
+        }
+
+        public void setWayNum(String wayNum) {
+            this.wayNum = wayNum;
         }
     }
 }

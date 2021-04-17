@@ -19,14 +19,15 @@ import com.dhcc.res.infusion.CustomDateTimeView;
 public class TaskManageApi extends NurseAPI {
 
     /// Description:     获取医嘱任务
-    public static void getOrderTasks(TaskManageRequest.GetOrderTasks request,CommonCallBack<TaskManageBean> callBack) {
+    public static void getOrderTasks(TaskManageRequest.GetOrderTasks request, CommonCallBack<TaskManageBean> callBack) {
 
         CommWebService.call(getOrderTasks, request.getProperties(), new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<TaskManageBean> parserUtil = new ParserUtil<>();
                 TaskManageBean bean = parserUtil.parserResult(jsonStr, callBack, TaskManageBean.class);
-                if (bean == null) return;
+                if (bean == null)
+                    return;
                 parserUtil.parserStatus(bean, callBack);
             }
         });
@@ -49,12 +50,12 @@ public class TaskManageApi extends NurseAPI {
         request.bedStr = "";
         request.pageNo = "1";
 
-        OrderExecuteApiManager.getOrder("1",request.regNo, request.sheetCode, request.startDate, request.startTime, request.endDate, request.endTime, request.screenParts, callback);
+        OrderExecuteApiManager.getOrder("1", request.regNo, request.sheetCode, request.startDate, request.startTime, request.endDate, request.endTime, request.screenParts, callback);
     }
 
-    public static void execOrSeeOrder(TaskManageRequest.ExecOrSeeOrder request,final OrderExecuteApiManager.ExecOrSeeOrderCallback callback) {
+    public static void execOrSeeOrder(TaskManageRequest.ExecOrSeeOrder request, final OrderExecuteApiManager.ExecOrSeeOrderCallback callback) {
         request.speed = "";
         request.barCode = "";
-        OrderExecuteApiManager.execOrSeeOrder(request.speed,request.barCode,request.scanFlag, request.batch, request.auditUserCode, request.auditUserPass, request.oeoreId, request.execStatusCode, callback,request.getProperties());
+        OrderExecuteApiManager.execOrSeeOrder(request.speed, request.barCode, request.scanFlag, request.batch, request.auditUserCode, request.auditUserPass, request.oeoreId, request.execStatusCode, "", callback, request.getProperties());
     }
 }

@@ -54,10 +54,11 @@ public class WorkareaOrdExeUtil {
     private String reason = "";
     private String regNoByPat = "";
     private String regNoByOrd = "";
+    private String wayNo = "";
 
 
-    public WorkareaOrdExeUtil(Context context){
-        this.mContext=context;
+    public WorkareaOrdExeUtil(Context context) {
+        this.mContext = context;
         //提示音集合
         soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 100);
         soundPoolMap.put(1, soundPool.load(mContext, R.raw.notice22, 1));
@@ -83,7 +84,8 @@ public class WorkareaOrdExeUtil {
                         @Override
                         public void onSureClick() {
                             if ("exe".equals(orderDialog.getBtnType())) {
-                                ordSpeed = orderDialog.getSpeed() + " " +orderDialog.getSpeedUnit();
+                                ordSpeed = orderDialog.getSpeed() + " " + orderDialog.getSpeedUnit();
+                                wayNo = orderDialog.getWayNo();
                                 execOrSeeOrderScan(patSaveInfo, orderDialog.getSttDateTime(), orderDialog.getArcimDesc(), orderDialog.getOrderId(), "F", orderDialog.getBedCode());
                                 orderDialog.dismiss();
                             } else {
@@ -136,7 +138,7 @@ public class WorkareaOrdExeUtil {
                                 public void onSureClick() {
                                     //                                        suspendOrd(operateDialog.getOrderId(), operateDialog.getIfState(), operateDialog.getRemarkinfo());
                                     //                                        operateDialog.dismiss();
-                                    ordSpeed = operateDialog.getSpeed() +" "+ operateDialog.getSpeedUnit();
+                                    ordSpeed = operateDialog.getSpeed() + " " + operateDialog.getSpeedUnit();
                                     reason = operateDialog.getRemarkinfo();
                                     tourOrd(operateDialog.getOrderId());
                                     operateDialog.dismiss();
@@ -192,7 +194,7 @@ public class WorkareaOrdExeUtil {
                                 operateDialog.setSureOnclickListener(new WorkareaOperateDialog.onSureOnclickListener() {
                                     @Override
                                     public void onSureClick() {
-                                        ordSpeed = operateDialog.getSpeed() +" "+ operateDialog.getSpeedUnit();
+                                        ordSpeed = operateDialog.getSpeed() + " " + operateDialog.getSpeedUnit();
                                         suspendOrd(operateDialog.getOrderId(), operateDialog.getIfState(), operateDialog.getRemarkinfo());
                                         operateDialog.dismiss();
                                     }
@@ -243,7 +245,7 @@ public class WorkareaOrdExeUtil {
                             operateDialog.setSureOnclickListener(new WorkareaOperateDialog.onSureOnclickListener() {
                                 @Override
                                 public void onSureClick() {
-                                    ordSpeed = operateDialog.getSpeed() +" "+ operateDialog.getSpeedUnit();
+                                    ordSpeed = operateDialog.getSpeed() + " " + operateDialog.getSpeedUnit();
                                     stopOrd(operateDialog.getOrderId(), operateDialog.getIfState(), operateDialog.getRemainingliquid(), operateDialog.getRemarkinfo());
                                     operateDialog.dismiss();
                                 }
@@ -287,7 +289,7 @@ public class WorkareaOrdExeUtil {
                                 public void onSureClick() {
                                     //                                        suspendOrd(operateDialog.getOrderId(), operateDialog.getIfState(), operateDialog.getRemarkinfo());
                                     //                                        operateDialog.dismiss();
-                                    ordSpeed = operateDialog.getSpeed() +" "+ operateDialog.getSpeedUnit();
+                                    ordSpeed = operateDialog.getSpeed() + " " + operateDialog.getSpeedUnit();
                                     reason = operateDialog.getRemarkinfo();
                                     endOrd(operateDialog.getOrderId());
                                     operateDialog.dismiss();
@@ -401,8 +403,8 @@ public class WorkareaOrdExeUtil {
                         if ("Y".equals(ordersBean.getVerifyFlag())) {
                             orderInfoEx = orderInfoEx + "\n" + "复核： " + ordersBean.getFuHeDate() + " " + ordersBean.getFuHeTime() + " " + ordersBean.getFuHeUser();
                         }
-                        if (ordersBean.getExecDateTime() != null && !ordersBean.getExecDateTime().equals("")&& ordersBean.getExecCtcpDesc()!=null&& !ordersBean.getExecCtcpDesc().equals("")){
-                            orderInfoEx = orderInfoEx +"\n"+"执行："+ordersBean.getExecDateTime()+" "+ordersBean.getExecCtcpDesc();
+                        if (ordersBean.getExecDateTime() != null && !ordersBean.getExecDateTime().equals("") && ordersBean.getExecCtcpDesc() != null && !ordersBean.getExecCtcpDesc().equals("")) {
+                            orderInfoEx = orderInfoEx + "\n" + "执行：" + ordersBean.getExecDateTime() + " " + ordersBean.getExecCtcpDesc();
                         }
                         orderDialog.setOrderInfoEx(orderInfoEx);
 
@@ -421,11 +423,12 @@ public class WorkareaOrdExeUtil {
                             }
                         }
                         orderDialog.setSpiList(ls);
+                        orderDialog.setWayNoList(scanResultBean.getWayNoList());
                         orderDialog.setBtnExecText(scanResultBean.getBtnDesc());
                         orderDialog.setBtnType(scanResultBean.getBtnType());
                         orderDialog.setIfState(scanResultBean.getIfState());
 
-                        if (ordersBean.getFilteFlagExtend() != null && ordersBean.getFilteFlagExtend().equals("JP")){
+                        if (ordersBean.getFilteFlagExtend() != null && ordersBean.getFilteFlagExtend().equals("JP")) {
                             orderDialog.setJp(View.VISIBLE);
                         }
                         if (orderDialog != null && !orderDialog.isShowing()) {
@@ -502,8 +505,8 @@ public class WorkareaOrdExeUtil {
             });
             resultDialog.show();
             return;
-        } else if (!(regNoByOrd.replaceAll(" ","")).equals((regNoByPat.replaceAll(" ","")))) {
-            regNoByOrd="";
+        } else if (!(regNoByOrd.replaceAll(" ", "")).equals((regNoByPat.replaceAll(" ", "")))) {
+            regNoByOrd = "";
             regNoByPat = "";
             if (resultDialog != null && resultDialog.isShowing()) {
                 resultDialog.dismiss();
@@ -524,12 +527,13 @@ public class WorkareaOrdExeUtil {
             return;
         }
 
-        OrderExecuteApiManager.execOrSeeOrder(ordSpeed, barCode, creattime, order, execpatInfo, "1", "", "", "", oeoreIdScan, execStatusCodeScan, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
+        OrderExecuteApiManager.execOrSeeOrder(ordSpeed, barCode, creattime, order, execpatInfo, "1", "", "", "", oeoreIdScan, execStatusCodeScan, wayNo, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
             @Override
             public void onSuccess(OrderExecResultBean orderExecResultBean) {
                 barCode = "";
-                regNoByOrd="";
+                regNoByOrd = "";
                 regNoByPat = "";
+                wayNo = "";
 
                 if (resultDialog != null && resultDialog.isShowing()) {
                     resultDialog.dismiss();
@@ -554,7 +558,7 @@ public class WorkareaOrdExeUtil {
                 if (resultDialog != null && resultDialog.isShowing()) {
                     resultDialog.dismiss();
                 }
-                regNoByOrd="";
+                regNoByOrd = "";
                 regNoByPat = "";
                 playSound(1, 0);
                 resultDialog = new WorkareaResultDialog(mContext);
@@ -837,7 +841,9 @@ public class WorkareaOrdExeUtil {
     }
 
     public void playSound(int sound, int loop) {
-        if (mContext==null){return;}
+        if (mContext == null) {
+            return;
+        }
         AudioManager mgr = (AudioManager) mContext.getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
 
         float streamVolumeCurrent = mgr.getStreamVolume(AudioManager.STREAM_MUSIC);

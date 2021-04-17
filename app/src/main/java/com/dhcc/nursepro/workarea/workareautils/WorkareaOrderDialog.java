@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,8 +23,10 @@ import com.blankj.utilcode.util.StringUtils;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.workareaadapter.OrderExecuteOrderDialogAdapter;
 import com.dhcc.nursepro.workarea.workareabean.ScanResultBean;
+import com.nex3z.flowlayout.FlowLayout;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -41,6 +45,11 @@ public class WorkareaOrderDialog extends Dialog {
     private TextView tvPopupMsg;
     private TextView tvPopupOrderinfo;
     private TextView tvPopupOrderunit;
+    private LinearLayout llSpiSpeed;
+    private Spinner spiSpeed;
+    private EditText etSpeed;
+    private LinearLayout llWay;
+    private FlowLayout flWay;
     private RecyclerView recyPopupChildOrderInfo;
     private TextView tvPopupOrderinfoex;
     private LinearLayout llExbtn;
@@ -58,6 +67,13 @@ public class WorkareaOrderDialog extends Dialog {
     private String patInfo = "";
     private String orderInfo = "";
     private String orderUnit = "";
+    private List<String> spiList = new ArrayList<>();
+    private String speedUnit = "";
+    private String speed = "";
+    private List<ScanResultBean.WayNoList> wayNoList = new ArrayList<>();
+    private HashMap<String, View> wayCheckMap = new HashMap<>();
+    private String wayNo = "";
+    private int ifJpShow = View.GONE;
     private List<ScanResultBean.OrdersBean> childOrders = new ArrayList<>();
     private String orderInfoEx = "";
     private String msgInfo = "";
@@ -81,89 +97,7 @@ public class WorkareaOrderDialog extends Dialog {
     private onSuspendContinueclickListener suspendContinueclickListener;
     private onStopOnclickListener stopOnclickListener;
     private onEndOnclickListener endOnclickListener;
-    private LinearLayout llSpiSpeed;
-    private Spinner spiSpeed;
-    private List spiList = new ArrayList<String>();
-    private String speedUnit = "";
-    private String speed = "";
-    private int llSpeed = View.GONE;
-    private Boolean ifSpeedEdit = true;
-    private EditText etSpeed;
 
-    private int ifJpShow = View.GONE;
-
-    public void setJp(int ifJpShow){
-        this.ifJpShow = ifJpShow;
-        if (tvJp != null){
-            tvJp.setVisibility(ifJpShow);
-        }
-    }
-
-    public int getJp() {
-        return ifJpShow;
-    }
-
-    public String getSpeed() {
-        if (etSpeed != null){
-            return etSpeed.getText().toString();
-        }else {
-            return speed;
-        }
-    }
-
-    public void setSpeed(String speed) {
-        this.speed = speed;
-        if (etSpeed != null){
-            etSpeed.setText(speed);
-        }
-
-    }
-
-    public String getSpeedUnit() {
-        return speedUnit;
-    }
-
-    public void setSpeedUnit(String speed) {
-        this.speedUnit = speed;
-    }
-
-    public List getSpiList() {
-        return spiList;
-    }
-
-    public void setSpiList(List spiList) {
-        this.spiList = spiList;
-        if (spiSpeed != null && spiList.size()>0){
-//            List ls = new ArrayList<String>();
-//            ls.add("滴/秒");
-//            ls.add("滴/分");
-            ArrayAdapter arr_adapter= new ArrayAdapter<String>(getContext(), R.layout.spinner_item, spiList);
-            //设置样式
-            arr_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spiSpeed.setAdapter(arr_adapter);
-            if (spiList.size()>0){
-                spiSpeed.setSelection(0);
-            }
-
-            for (int i = 0; i <spiList.size() ; i++) {
-                if (speedUnit.equals(spiList.get(i))){
-                    spiSpeed.setSelection(i);
-                }
-            }
-            spiSpeed.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    spiSpeed.setSelection(position);
-                    speedUnit = spiList.get(position)+"";
-                }
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-
-                }
-            });
-        }
-
-    }
     public WorkareaOrderDialog(Context context) {
         super(context, R.style.MyDialog);
         this.context = context;
@@ -235,6 +169,88 @@ public class WorkareaOrderDialog extends Dialog {
         }
     }
 
+    public String getSpeed() {
+        if (etSpeed != null) {
+            return etSpeed.getText().toString();
+        } else {
+            return speed;
+        }
+    }
+
+    public void setSpeed(String speed) {
+        this.speed = speed;
+        if (etSpeed != null) {
+            etSpeed.setText(speed);
+        }
+
+    }
+
+    public String getSpeedUnit() {
+        return speedUnit;
+    }
+
+    public void setSpeedUnit(String speed) {
+        this.speedUnit = speed;
+    }
+
+    public List getSpiList() {
+        return spiList;
+    }
+
+    public void setSpiList(List spiList) {
+        this.spiList = spiList;
+        if (spiSpeed != null && spiList.size() > 0) {
+//            List ls = new ArrayList<String>();
+//            ls.add("滴/秒");
+//            ls.add("滴/分");
+            ArrayAdapter arr_adapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_item, spiList);
+            //设置样式
+            arr_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spiSpeed.setAdapter(arr_adapter);
+            if (spiList.size() > 0) {
+                spiSpeed.setSelection(0);
+            }
+
+            for (int i = 0; i < spiList.size(); i++) {
+                if (speedUnit.equals(spiList.get(i))) {
+                    spiSpeed.setSelection(i);
+                }
+            }
+            spiSpeed.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    spiSpeed.setSelection(position);
+                    speedUnit = spiList.get(position) + "";
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+        }
+
+    }
+
+    public void setWayNoList(List<ScanResultBean.WayNoList> wayNoList) {
+        this.wayNoList = wayNoList;
+    }
+
+    public String getWayNo() {
+        return wayNo;
+    }
+
+    public int getJp() {
+        return ifJpShow;
+    }
+
+    public void setJp(int ifJpShow) {
+        this.ifJpShow = ifJpShow;
+        if (tvJp != null) {
+            tvJp.setVisibility(ifJpShow);
+        }
+    }
+
     public List<ScanResultBean.OrdersBean> getChildOrders() {
         return childOrders;
     }
@@ -286,14 +302,15 @@ public class WorkareaOrderDialog extends Dialog {
     public void setBtnType(String btnType) {
         this.btnType = btnType;
 
-        if (!StringUtils.isEmpty(btnType) && tvPopupOrderExec != null && llExbtn1 != null && llExbtn2 != null && llSpiSpeed != null) {
-            if (!btnExecText.equals("")){
+        if (!StringUtils.isEmpty(btnType) && tvPopupOrderExec != null && llExbtn1 != null && llExbtn2 != null && llSpiSpeed != null && llWay != null) {
+            if (!btnExecText.equals("")) {
                 llExbtn.setVisibility(View.VISIBLE);
                 llExbtn1.setVisibility(View.GONE);
                 llExbtn2.setVisibility(View.GONE);
                 tvPopupOrderExec.setText(btnExecText);
             }
             llSpiSpeed.setVisibility(View.GONE);
+            llWay.setVisibility(View.GONE);
             switch (btnType) {
                 case "peiye":
                     llExbtn.setVisibility(View.VISIBLE);
@@ -313,6 +330,7 @@ public class WorkareaOrderDialog extends Dialog {
                     llExbtn2.setVisibility(View.GONE);
                     tvPopupOrderExec.setText("执行");
                     llSpiSpeed.setVisibility(View.VISIBLE);
+                    llWay.setVisibility(View.VISIBLE);
                     break;
                 case "exed":
                     llExbtn.setVisibility(View.GONE);
@@ -326,6 +344,45 @@ public class WorkareaOrderDialog extends Dialog {
 
         }
         setBtnExec(scanPat, canExeFlag);
+    }
+
+    private void setBtnExec(String scanPat, String canExeFlag) {
+        Log.e("TAG", "(WorkareaOrderDialog.java:355) " + scanPat + "-" + canExeFlag + "-" + btnType);
+        if (tvPopupOrderExec != null) {
+
+            switch (btnType) {
+                case "peiye":
+                case "fuhe":
+                    tvPopupOrderExec.setEnabled(true);
+                    tvPopupOrderExec.setClickable(true);
+                    tvPopupOrderExec.setBackgroundResource(R.drawable.bg_dialog_sure);
+                    break;
+                case "exe":
+                    if ("1".equals(scanPat) && "1".equals(canExeFlag)) {
+                        tvPopupOrderExec.setEnabled(true);
+                        tvPopupOrderExec.setClickable(true);
+                        tvPopupOrderExec.setBackgroundResource(R.drawable.bg_dialog_sure);
+                        tvPopupMsg.setText(tvPopupMsg.getText().toString().replace(",请扫描患者腕带", ""));
+                    } else {
+                        tvPopupOrderExec.setEnabled(false);
+                        tvPopupOrderExec.setClickable(false);
+                        tvPopupOrderExec.setBackgroundResource(R.drawable.bg_dialog_unclick);
+//                        tvPopupMsg.setText(msgInfo+",请扫描患者腕带");
+                        tvPopupMsg.setText(msgInfo + "");
+                    }
+                    break;
+                case "exed":
+                    tvPopupOrderExec.setEnabled(false);
+                    tvPopupOrderExec.setClickable(false);
+                    tvPopupOrderExec.setBackgroundResource(R.drawable.bg_dialog_unclick);
+                    break;
+                default:
+
+                    break;
+            }
+        }
+
+
     }
 
     public String getIfState() {
@@ -349,45 +406,6 @@ public class WorkareaOrderDialog extends Dialog {
     public void setScanPat(String scanPat) {
         this.scanPat = scanPat;
         setBtnExec(scanPat, canExeFlag);
-    }
-
-    private void setBtnExec(String scanPat, String canExeFlag) {
-        Log.e("TAG","(WorkareaOrderDialog.java:355) "+scanPat+"-"+canExeFlag+"-"+btnType);
-        if (tvPopupOrderExec != null) {
-
-            switch (btnType) {
-                case "peiye":
-                case "fuhe":
-                    tvPopupOrderExec.setEnabled(true);
-                    tvPopupOrderExec.setClickable(true);
-                    tvPopupOrderExec.setBackgroundResource(R.drawable.bg_dialog_sure);
-                    break;
-                case "exe":
-                    if ("1".equals(scanPat) && "1".equals(canExeFlag)) {
-                        tvPopupOrderExec.setEnabled(true);
-                        tvPopupOrderExec.setClickable(true);
-                        tvPopupOrderExec.setBackgroundResource(R.drawable.bg_dialog_sure);
-                        tvPopupMsg.setText(tvPopupMsg.getText().toString().replace(",请扫描患者腕带",""));
-                    } else {
-                        tvPopupOrderExec.setEnabled(false);
-                        tvPopupOrderExec.setClickable(false);
-                        tvPopupOrderExec.setBackgroundResource(R.drawable.bg_dialog_unclick);
-//                        tvPopupMsg.setText(msgInfo+",请扫描患者腕带");
-                        tvPopupMsg.setText(msgInfo+"");
-                    }
-                    break;
-                case "exed":
-                    tvPopupOrderExec.setEnabled(false);
-                    tvPopupOrderExec.setClickable(false);
-                    tvPopupOrderExec.setBackgroundResource(R.drawable.bg_dialog_unclick);
-                    break;
-                default:
-
-                    break;
-            }
-        }
-
-
     }
 
     public void setCanExeFlag(String canExeFlag) {
@@ -467,6 +485,11 @@ public class WorkareaOrderDialog extends Dialog {
         tvPopupMsg = findViewById(R.id.tv_popup_msg);
         tvPopupOrderinfo = findViewById(R.id.tv_popup_orderinfo);
         tvPopupOrderunit = findViewById(R.id.tv_popup_orderunit);
+        llSpiSpeed = findViewById(R.id.ll_speed);
+        spiSpeed = findViewById(R.id.sp_speedunit);
+        etSpeed = findViewById(R.id.et_speed);
+        llWay = findViewById(R.id.ll_way);
+        flWay = findViewById(R.id.fl_way);
         recyPopupChildOrderInfo = findViewById(R.id.recy_popup_childOrderInfo);
         tvPopupOrderinfoex = findViewById(R.id.tv_popup_orderinfoex);
         llExbtn = findViewById(R.id.ll_exbtn);
@@ -491,10 +514,6 @@ public class WorkareaOrderDialog extends Dialog {
         //设置的布局管理
         recyPopupChildOrderInfo.setLayoutManager(new LinearLayoutManager(context));
 
-
-        llSpiSpeed =findViewById(R.id.ll_speed);
-        spiSpeed = findViewById(R.id.sp_speedunit);
-        etSpeed = findViewById(R.id.et_speed);
     }
 
     private void initAdapter() {
@@ -529,24 +548,22 @@ public class WorkareaOrderDialog extends Dialog {
             tvPopupMsg.setText(msgInfo);
         }
 
-        llSpiSpeed.setVisibility(llSpeed);
-
         tvJp.setVisibility(ifJpShow);
 
-        if (spiSpeed != null && spiList.size()>0){
+        if (spiSpeed != null && spiList.size() > 0) {
 //            List ls = new ArrayList<String>();
 //            ls.add("滴/秒");
 //            ls.add("滴/分");
-            ArrayAdapter arr_adapter= new ArrayAdapter<String>(getContext(), R.layout.spinner_item, spiList);
+            ArrayAdapter<String> arr_adapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item, spiList);
             //设置样式
             arr_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spiSpeed.setAdapter(arr_adapter);
-            if (spiList.size()>0){
+            if (spiList.size() > 0) {
                 spiSpeed.setSelection(0);
             }
 
-            for (int i = 0; i <spiList.size() ; i++) {
-                if (speedUnit.equals(spiList.get(i))){
+            for (int i = 0; i < spiList.size(); i++) {
+                if (speedUnit.equals(spiList.get(i))) {
                     spiSpeed.setSelection(i);
                 }
             }
@@ -554,28 +571,68 @@ public class WorkareaOrderDialog extends Dialog {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     spiSpeed.setSelection(position);
-                    speedUnit = spiList.get(position)+"";
+                    speedUnit = spiList.get(position) + "";
                 }
+
                 @Override
                 public void onNothingSelected(AdapterView<?> parent) {
 
                 }
             });
         }
-        if (etSpeed != null){
+        if (etSpeed != null) {
             etSpeed.setText(speed);
-            etSpeed.setEnabled(ifSpeedEdit);
-            spiSpeed.setEnabled(ifSpeedEdit);
-            spiSpeed.setSelected(ifSpeedEdit);
-            if (ifSpeedEdit){
-                etSpeed.setTextColor(Color.parseColor("#4A4A4A"));
-            }else {
-                etSpeed.setTextColor(Color.parseColor("#9B9B9B"));
-            }
+            etSpeed.setTextColor(Color.parseColor("#4A4A4A"));
+
+//            boolean ifSpeedEdit = true;
+//            etSpeed.setEnabled(ifSpeedEdit);
+//            spiSpeed.setEnabled(ifSpeedEdit);
+//            spiSpeed.setSelected(ifSpeedEdit);
+//            if (ifSpeedEdit){
+//                etSpeed.setTextColor(Color.parseColor("#4A4A4A"));
+//            }else {
+//                etSpeed.setTextColor(Color.parseColor("#9B9B9B"));
+//            }
         }
+
+        if (wayNoList != null && wayNoList.size() > 0) {
+            for (int i = 0; i < wayNoList.size(); i++) {
+                CheckBox checkBox = new CheckBox(context);
+                checkBox.setText(wayNoList.get(i).getWayNum());
+                checkBox.setTag(wayNoList.get(i).getWayNo());
+                wayCheckMap.put(String.valueOf(checkBox.getId()), checkBox);
+                checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            for (View checkBox1 : wayCheckMap.values()) {
+                                if (checkBox1 instanceof CheckBox) {
+                                    if (buttonView.getId() == checkBox1.getId()) {
+//                                        ((CheckBox) checkBox1).setChecked(true);
+                                        wayNo = checkBox1.getTag().toString();
+                                    } else {
+                                        ((CheckBox) checkBox1).setChecked(false);
+                                    }
+                                }
+                            }
+
+                        } else {
+                            wayNo = "";
+                        }
+                    }
+                });
+                flWay.addView(checkBox);
+                if (i == wayNoList.size() - 1) {
+                    checkBox.setChecked(true);
+                }
+            }
+
+        }
+
         //执行按钮文字变更
         llSpiSpeed.setVisibility(View.GONE);
-        if (!btnExecText.equals("")){
+        llWay.setVisibility(View.GONE);
+        if (!btnExecText.equals("")) {
             llExbtn.setVisibility(View.VISIBLE);
             llExbtn1.setVisibility(View.GONE);
             llExbtn2.setVisibility(View.GONE);
@@ -600,6 +657,7 @@ public class WorkareaOrderDialog extends Dialog {
                 llExbtn2.setVisibility(View.GONE);
                 tvPopupOrderExec.setText("执行");
                 llSpiSpeed.setVisibility(View.VISIBLE);
+                llWay.setVisibility(View.VISIBLE);
                 break;
             case "exed":
                 llExbtn.setVisibility(View.GONE);
@@ -640,7 +698,7 @@ public class WorkareaOrderDialog extends Dialog {
                     tvPopupOrderExec.setEnabled(false);
                     tvPopupOrderExec.setClickable(false);
                     tvPopupOrderExec.setBackgroundResource(R.drawable.bg_dialog_unclick);
-                   // tvPopupMsg.setText(msgInfo+",请扫描患者腕带");
+                    // tvPopupMsg.setText(msgInfo+",请扫描患者腕带");
 //                    tvPopupMsg.setText(msgInfo+"");
                 }
                 break;
@@ -706,6 +764,10 @@ public class WorkareaOrderDialog extends Dialog {
         });
     }
 
+    @Override
+    public void setCanceledOnTouchOutside(boolean cancel) {
+        super.setCanceledOnTouchOutside(false);
+    }
 
     /**
      * 设置确定按钮被点击的接口
@@ -747,9 +809,5 @@ public class WorkareaOrderDialog extends Dialog {
      */
     public interface onEndOnclickListener {
         void onEndClick();
-    }
-    @Override
-    public void setCanceledOnTouchOutside(boolean cancel) {
-        super.setCanceledOnTouchOutside(false);
     }
 }
