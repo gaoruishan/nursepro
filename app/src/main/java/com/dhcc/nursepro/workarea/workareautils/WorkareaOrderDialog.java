@@ -72,6 +72,7 @@ public class WorkareaOrderDialog extends Dialog {
     private String speed = "";
     private List<ScanResultBean.WayNoList> wayNoList = new ArrayList<>();
     private HashMap<String, View> wayCheckMap = new HashMap<>();
+    private int wayCheckSelectId = -1;
     private String wayNo = "";
     private int ifJpShow = View.GONE;
     private List<ScanResultBean.OrdersBean> childOrders = new ArrayList<>();
@@ -234,6 +235,43 @@ public class WorkareaOrderDialog extends Dialog {
 
     public void setWayNoList(List<ScanResultBean.WayNoList> wayNoList) {
         this.wayNoList = wayNoList;
+        if (flWay != null && wayNoList != null) {
+            flWay.removeAllViews();
+            flWay.clearAnimation();
+            for (int i = 0; i < wayNoList.size(); i++) {
+                CheckBox checkBox = new CheckBox(context);
+                checkBox.setId(View.generateViewId());
+                checkBox.setText(wayNoList.get(i).getWayNum());
+                checkBox.setTag(wayNoList.get(i).getWayNo());
+                wayCheckMap.put(String.valueOf(checkBox.getId()), checkBox);
+                checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            for (View checkBox1 : wayCheckMap.values()) {
+
+                                if (buttonView.getId() == checkBox1.getId()) {
+//                                        ((CheckBox) checkBox1).setChecked(true);
+                                    wayNo = checkBox1.getTag().toString();
+                                    wayCheckSelectId = checkBox1.getId();
+                                } else {
+                                    ((CheckBox) checkBox1).setChecked(false);
+                                }
+                            }
+                        } else {
+                            if (buttonView.getId() == wayCheckSelectId) {
+                                wayNo = "";
+                            }
+                        }
+                    }
+                });
+                flWay.addView(checkBox);
+                if (i == wayNoList.size() - 1) {
+                    checkBox.setChecked(true);
+                }
+            }
+        }
+
     }
 
     public String getWayNo() {
@@ -596,8 +634,11 @@ public class WorkareaOrderDialog extends Dialog {
         }
 
         if (wayNoList != null && wayNoList.size() > 0) {
+            flWay.removeAllViews();
+            flWay.clearAnimation();
             for (int i = 0; i < wayNoList.size(); i++) {
                 CheckBox checkBox = new CheckBox(context);
+                checkBox.setId(View.generateViewId());
                 checkBox.setText(wayNoList.get(i).getWayNum());
                 checkBox.setTag(wayNoList.get(i).getWayNo());
                 wayCheckMap.put(String.valueOf(checkBox.getId()), checkBox);
@@ -606,18 +647,19 @@ public class WorkareaOrderDialog extends Dialog {
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         if (isChecked) {
                             for (View checkBox1 : wayCheckMap.values()) {
-                                if (checkBox1 instanceof CheckBox) {
-                                    if (buttonView.getId() == checkBox1.getId()) {
+
+                                if (buttonView.getId() == checkBox1.getId()) {
 //                                        ((CheckBox) checkBox1).setChecked(true);
-                                        wayNo = checkBox1.getTag().toString();
-                                    } else {
-                                        ((CheckBox) checkBox1).setChecked(false);
-                                    }
+                                    wayNo = checkBox1.getTag().toString();
+                                    wayCheckSelectId = checkBox1.getId();
+                                } else {
+                                    ((CheckBox) checkBox1).setChecked(false);
                                 }
                             }
-
                         } else {
-                            wayNo = "";
+                            if (buttonView.getId() == wayCheckSelectId) {
+                                wayNo = "";
+                            }
                         }
                     }
                 });
