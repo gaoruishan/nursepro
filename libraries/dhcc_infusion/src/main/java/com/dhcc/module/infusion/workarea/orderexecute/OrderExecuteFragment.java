@@ -64,7 +64,6 @@ public class OrderExecuteFragment extends BaseInfusionFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setToolbarCenterTitle("医嘱执行");
         showScanPatHand();
         setDateTime();
         sheetListView = f(R.id.custom_sheet_list, CustomSheetListView.class);
@@ -229,7 +228,12 @@ public class OrderExecuteFragment extends BaseInfusionFragment {
             @Override
             public void onSuccess(OrderExecuteBean bean, String type) {
                 hideLoadingTip();
-                sheetListView.setDatas(bean.getSheetList());
+                //单个
+                if (bean.getSheetList() != null && bean.getSheetList().size() == 1) {
+                    sheetListView.setVisibility(View.GONE);
+                }else {
+                    sheetListView.setDatas(bean.getSheetList());
+                }
                 buttons = bean.getButtons();
                 //左侧列表判断有无默认值，有的话滑动到默认值类型
                 bottomView.addBottomView(buttons);

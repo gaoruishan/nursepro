@@ -58,7 +58,7 @@
                     android:layout_marginTop="@dimen/dp_5"
                     android:layout_marginBottom="@dimen/dp_5"
                     android:text="医生说明：说明说明说明说明说明说明"
-                    android:textColor="#FF4A4A4A"
+                    android:textColor="@color/blue"
                     android:textSize="@dimen/sp_12"
                 />
             </LinearLayout>
