@@ -1,5 +1,9 @@
 package com.base.commlibs;
 
+import com.base.commlibs.constant.SharedPreference;
+import com.base.commlibs.wsutils.BaseWebServiceUtils;
+import com.blankj.utilcode.util.SPStaticUtils;
+
 /**
  * API接口
  * @author:gaoruishan
@@ -7,31 +11,50 @@ package com.base.commlibs;
  * @email:grs0515@163.com
  */
 public class InfusionAPI {
+
     /**
      * 8.5 替换的方法
      * getOrders → GetOrdList
      * getOrdList → GetDispensingOrdList
      * despensingOrd → DispensingOrd
      * getPunctOrdList → GetPunctureOrdList
-     * punctureOrd → PunctureOrd
-     * getTourOrdList → GetTourOrdList
-     * tourOrd → TourOrd
-     * getChangeOrdList → GetChangeOrdList
-     * changeOrd → ChangeOrd
      * getFinishOrdList → GetExtractOrdList
-     * extractOrd → ExtractOrd
      * getSkinOrdList → GetSkinTestOrdList
-     * setSkinTestResult → SetSkinTestResult
      * skinTime → SetSkinTestTime
      * skinDespensingOrd → SkinTestDispensingOrd
-     * getInjectOrdList → GetInjectOrdList
      * exeInjectOrd → InjectOrd
-     * getLabOrdList → GetLabOrdList
      * exeLabOrd → LabOrd
      * getIFOrdListByBarCode → GetReceiveOrdList
      * BatchIFSave → ReceiveOrd
-     * getWorkload→ GetWorkload
      */
+
+    /**
+     * 兼容老版本
+     */
+    public static boolean isNew() {
+        return BaseWebServiceUtils.NUR_MOES_SERVICE.equals(SPStaticUtils.getString(SharedPreference.OPPDA_SERVICE));
+    }
+
+    //获取医嘱列表
+    public static String GetOrdList = isNew() ? "getOrdList" : "getOrders";
+    //配液列表
+    public static String GetDispensingOrdList = isNew() ? "getDispensingOrdList" : "getOrdList";
+    //配液复核
+    public static String DispensingOrd = isNew() ? "dispensingOrd" : "despensingOrd";
+    //穿刺列表
+    public static String GetPunctureOrdList = isNew() ? "getPunctureOrdList" : "getPunctOrdList";
+    //拔针列表
+    public static String GetExtractOrdList = isNew() ? "getExtractOrdList" : "getFinishOrdList";
+    //皮试列表
+    public static String GetSkinTestOrdList = isNew() ? "getSkinTestOrdList" : "getSkinOrdList";
+    //皮试计时
+    public static String SetSkinTestTime = isNew() ? "setSkinTestTime" : "skinTime";
+    //皮试配液
+    public static String SkinTestDispensingOrd = isNew() ? "skinTestDispensingOrd" : "skinDespensingOrd";
+    //注射执行
+    public static String InjectOrd = isNew() ? "injectOrd" : "exeInjectOrd";
+    //采血执行
+    public static String LabOrd = isNew() ? "labOrd" : "exeLabOrd";
 
 
     //登陆
@@ -45,66 +68,43 @@ public class InfusionAPI {
     //消息列表-皮试
     public static final String getSkinTestMessage = "getSkinTestMessage";
     //置皮试结果
-    public static final String SetSkinTestResult = "SetSkinTestResult";
+    public static final String SetSkinTestResult = "setSkinTestResult";
     //消息数量提示(安医附院)
     public static final String getNotifyMessage = "getNotifyMessage";
     //工作量统计
-    public static final String GetWorkload = "GetWorkload";
-    //配液列表
-    public static final String GetDispensingOrdList = "GetDispensingOrdList";
-    //配液复核
-    public static final String DispensingOrd = "DispensingOrd";
+    public static final String GetWorkload = "getWorkload";
     //患者信息
     public static final String getPatInfo = "getPatInfo";
     //获取医嘱详情
     public static final String getOrdInfo = "getOrdInfo";
-    //穿刺列表
-    public static final String GetPunctureOrdList = "GetPunctureOrdList";
     //穿刺执行
-    public static final String PunctureOrd = "PunctureOrd";
+    public static final String PunctureOrd = "punctureOrd";
     //巡视列表
-    public static final String GetTourOrdList = "GetTourOrdList";
+    public static final String GetTourOrdList = "getTourOrdList";
     //巡视执行
-    public static final String TourOrd = "TourOrd";
+    public static final String TourOrd = "tourOrd";
     //续液列表
-    public static final String GetChangeOrdList = "GetChangeOrdList";
+    public static final String GetChangeOrdList = "getChangeOrdList";
     //续液执行
-    public static final String ChangeOrd = "ChangeOrd";
-    //拔针列表
-    public static final String GetExtractOrdList = "GetExtractOrdList";
+    public static final String ChangeOrd = "changeOrd";
     //拔针执行
-    public static final String ExtractOrd = "ExtractOrd";
-    //皮试列表
-    public static final String GetSkinTestOrdList = "GetSkinTestOrdList";
-    //皮试配液
-    public static final String SkinTestDispensingOrd = "SkinTestDispensingOrd";
-    //皮试计时
-    public static final String SetSkinTestTime = "SetSkinTestTime";
+    public static final String ExtractOrd = "extractOrd";
     //获取扫码信息-采血/注射/医嘱执行
     public static final String getScanInfo = "getScanInfo";
     //采血列表
-    public static final String GetLabOrdList = "GetLabOrdList";
-    //采血执行
-    public static final String LabOrd = "LabOrd";
+    public static final String GetLabOrdList = "getLabOrdList";
     //采血核对
     public static final String auditOrd = "auditOrd";
     //注射列表
-    public static final String GetInjectOrdList = "GetInjectOrdList";
+    public static final String GetInjectOrdList = "getInjectOrdList";
     //注射配液
-    public static final String injectDespensing = "InjectDispensingOrd";
-    //注射执行
-    public static final String InjectOrd = "InjectOrd";
-    //获取医嘱列表
-    public static final String GetOrdList = "GetOrdList";
+    public static final String injectDespensing = "injectDispensingOrd";
     //医嘱执行
     public static final String execOrder = "execOrder";
     //药品接受列表
-    public static final String GetReceiveOrdList = "GetReceiveOrdList";
+    public static final String GetReceiveOrdList = "getReceiveOrdList";
     //输液接收
-    public static final String ReceiveOrd = "ReceiveOrd";
-
-
-
+    public static final String ReceiveOrd = "receiveOrd";
 
 
     /*=======输血系统(广西医科大一附)=========*/

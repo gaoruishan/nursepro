@@ -42,14 +42,14 @@ public class BaseWebServiceUtils {
     public static final String DTHEALTH_WEB = "/imedical/web";
     public static final String PATH_IMEDICAL = "/imedical/web";
     public static final String PATH_DTHEALTH = "/dthealth/web";
-    public static final String NUR_CONFIG = "/nurseconfig.html";
+    public static final String NUR_CONFIG = "/nursepdaconfig.html";
     // 住院
     public static final String NUR_MNIS_SERVICE = "/Nur.MNIS.Service.WebService.cls";
     // 门诊
     public static final String NUR_MOES_SERVICE = "/Nur.MOES.Service.WebService.cls";
 
     // 门诊输液新接口
-    public static String NUR_OPPDA_SERVICE = SPStaticUtils.getString(SharedPreference.OPPDA_SERVICE, NUR_MOES_SERVICE);
+    public static String NUR_OPPDA_SERVICE = SPStaticUtils.getString(SharedPreference.OPPDA_SERVICE, "/Nur.OPPDA.WebService.cls");
     // 护士站接口
     public static String NUR_PDA_SERVICE = SPStaticUtils.getString(SharedPreference.PDA_SERVICE, NUR_MNIS_SERVICE);;
     public static String userNamestr = SPStaticUtils.getString(SharedPreference.WEB_SERVICE_USERNAME, "dhwebservice");
