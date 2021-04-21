@@ -125,4 +125,6 @@
     <color name="pathandover_text_color">#FF4A4A4A</color>
     <color name="pathandover_highlight_text_color">#FF62ABFF</color>
     <color name="pathandover_line_color">#FF4A4A4A</color>
+
+    <color name="infusionsituation_text_color">#FF4A4A4A</color>
 </resources>

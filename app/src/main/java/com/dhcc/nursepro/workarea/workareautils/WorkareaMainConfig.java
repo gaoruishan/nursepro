@@ -18,6 +18,7 @@ import com.dhcc.nursepro.Activity.SingleMainActivity;
 import com.dhcc.nursepro.BuildConfig;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.login.LoginActivity;
+import com.dhcc.nursepro.workarea.Infusionsituation.InfusionSituationFragment;
 import com.dhcc.nursepro.workarea.allotbed.AllotBedFragment;
 import com.dhcc.nursepro.workarea.bedmap.BedMapFragment;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.BloodTransfusionSystemFragment;
@@ -83,6 +84,7 @@ public class WorkareaMainConfig {
         if (BuildConfig.DEBUG) {
             mainList.add(new MainConfigBean.MainListBean("NurPlanFragment","护理计划"));
             mainList.add(new MainConfigBean.MainListBean("PatHandover","患者交接"));
+            mainList.add(new MainConfigBean.MainListBean("InfusionSituation","输液信息"));
         }
     }
 
@@ -313,6 +315,12 @@ public class WorkareaMainConfig {
                 map.put("desc","患者交接");
                 map.put("fragName", PatHandoverFragment.class.getName());
                 map.put("fragicon",R.drawable.icon_events);
+                SharedPreference.FRAGMENTARY.add(map);
+                break;
+            case "InfusionSituation":
+                map.put("desc","输液信息");
+                map.put("fragName", InfusionSituationFragment.class.getName());
+                map.put("fragicon",R.drawable.icon_blood);
                 SharedPreference.FRAGMENTARY.add(map);
                 break;
             default:

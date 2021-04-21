@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="@dimen/dp_12"
+    tools:context=".workarea.Infusionsituation.InfusionDetailFragment">
+
+    <com.noober.background.view.BLTextView
+        android:id="@+id/tv_infusiondetail_patinfo"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:textColor="@color/infusionsituation_text_color"
+        android:textStyle="bold"
+        tools:text="06床-苏患者-男-62岁-02791538"
+        app:bl_solid_color="#e6f3ff"
+        app:bl_stroke_color="#4a7cdb"
+        app:bl_stroke_width="1dp"/>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recy_infusiondetail"
+        android:layout_marginTop="@dimen/dp_12"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:background="#4a7cdb"
+        android:layerType="software"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_wayno_is"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/infusionsituation_text_color"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            tools:text="通道1" />
+
+        <com.noober.background.view.BLTextView
+            android:id="@+id/tv_orderstatus_is"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/dp_6"
+            android:paddingTop="@dimen/dp_2"
+            android:paddingEnd="@dimen/dp_6"
+            android:paddingBottom="@dimen/dp_2"
+            tools:text="输注中" />
+    </LinearLayout>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recy_orders_is"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_6"
+        android:layout_marginStart="@dimen/dp_6" />
+
+    <TextView
+        android:id="@+id/tv_orderinfoex_is"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_6"
+        android:layout_marginStart="@dimen/dp_6"
+        android:layout_marginBottom="@dimen/dp_6"
+        tools:text="开始日期时间：2020-10-20 08:00\n预计用时：00:50\n实际用时：00:55\n结束日期时间：2020-10-20 08:55" />
+</LinearLayout>

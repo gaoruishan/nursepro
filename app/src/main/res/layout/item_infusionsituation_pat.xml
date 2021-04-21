@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.noober.background.view.BLLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_margin="6dp"
+    android:paddingStart="@dimen/dp_12"
+    android:paddingTop="@dimen/dp_8"
+    android:paddingEnd="@dimen/dp_12"
+    android:paddingBottom="8dp"
+    app:bl_corners_topLeftRadius="8dp"
+    app:bl_corners_bottomRightRadius="8dp"
+    app:bl_solid_color="#e6f3ff"
+    app:bl_stroke_color="#4a7cdb"
+    app:bl_stroke_width="1dp">
+
+    <TextView
+        android:id="@+id/tv_patinfo_is"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/infusionsituation_text_color"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:text="06床-苏患者-男-62岁-02791538" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recy_ways_is"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_6"/>
+
+</com.noober.background.view.BLLinearLayout>

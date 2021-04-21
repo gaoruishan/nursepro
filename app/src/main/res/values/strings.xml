@@ -108,6 +108,10 @@
 
     <!-- 患者交接 -->
     <string name="title_patienthandover">患者交接</string>
+
+    <!-- 输液情况 -->
+    <string name="title_infusionsituation">病区输液信息总览</string>
+    <string name="title_infusiondetail">患者输液信息明细</string>
     <!--#################################消息文字区#################################-->
 
     <!--#################################设置文字区#################################-->
