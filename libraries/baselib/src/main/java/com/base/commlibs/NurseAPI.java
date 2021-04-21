@@ -258,4 +258,10 @@ public class NurseAPI {
     public static final String getOrdInfo = "getOrdInfo";
     public static final String TakeOrd = "TakeOrd";
     public static final String getTakeOrdList = "getTakeOrdList";
+
+    /**
+     * 输液情况
+     */
+    public static final String GetInfusionByWard = "GetInfusionByWard";
+    public static final String GetInfusionDetailByWard = "GetInfusionDetailByWard";
 }

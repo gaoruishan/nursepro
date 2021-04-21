@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Editable;
@@ -22,11 +23,11 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
-import com.base.commlibs.http.CommonCallBack;
 import com.blankj.utilcode.constant.RegexConstants;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.RegexUtils;
@@ -37,10 +38,13 @@ import com.dhcc.nursepro.utils.InputDigitLengthFilter;
 import com.dhcc.nursepro.workarea.nurrecordnew.api.NurRecordNewApiManager;
 import com.dhcc.nursepro.workarea.nurrecordnew.bean.DataSourceBean;
 import com.dhcc.nursepro.workarea.nurrecordnew.bean.ElementDataBean;
+import com.dhcc.nursepro.workarea.nurrecordnew.bean.MEViewLink;
 import com.dhcc.nursepro.workarea.nurrecordnew.bean.NurRecordKnowledgeContentBean;
 import com.dhcc.nursepro.workarea.nurrecordnew.bean.RecDataBean;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -55,9 +59,22 @@ import java.util.Objects;
 public class NurRecordNewFragment extends NurRecordNewViewHelper implements CompoundButton.OnCheckedChangeListener {
     //view
     private final HashMap<String, View> viewHashMap = new HashMap<>();
+    //inputview
+    private final List<String> inputViewFormNameList = new ArrayList<>();
+    //saveview
+    private final List<String> saveViewFormNameList = new ArrayList<>();
+
     //id formname 关联
     private final HashMap<String, String> elementIdtoFormName = new HashMap<>();
     private final HashMap<String, List<String>> formNametoElementId = new HashMap<>();
+
+    //item id 关联
+    private final HashMap<String, String> itemtoElementId = new HashMap<>();
+
+    //parent child view
+    private final HashMap<String, List<String>> pcViewHashMap = new HashMap<>();
+    private final HashMap<String, String> cpViewHashMap = new HashMap<>();
+
     //drop edittext
     private final HashMap<String, Integer[]> dropValue = new HashMap<>();
     //drop id val关联
@@ -65,13 +82,15 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
     //edit、text statistic计分
     private final List<Integer> etPointList = new ArrayList<>();
 
-    //parent child view
-    private final HashMap<String, List<String>> pcViewHashMap = new HashMap<>();
+    //num 医学表达式关联
+    private final List<MEViewLink> meViewLinkList = new ArrayList<>();
 
     //跳转回传取值关联
     private final HashMap<String, String> elementIdtoDataSourceRef = new HashMap<>();
-
-
+    private final String emrCodeJump = "";
+    private final String guidJump = "";
+    private final String recIdJump = "";
+    private boolean addLine;
     private LinearLayout llNurrecord;
     private String episodeID = "";
     private String bedNo = "";
@@ -87,15 +106,11 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
     private List<ElementDataBean.DataBean.InputBean.ElementBasesBean> elements;
     private List<ElementDataBean.DataBean.InputBean.ElementSetsBean> elementSetsBeans;
     private List<ElementDataBean.DataBean.InputBean.StatisticsListBean> statisticsListBeans;
-
-
-    private SPUtils spUtils;
-
     private List<ElementDataBean.FirstIdListBean> firstIdListBeans = new ArrayList<>();
-
-    private String emrCodeJump = "";
-    private String guidJump = "";
-    private String recIdJump = "";
+    private List<ElementDataBean.StrictCodeListBean> strictCodeListBeans = new ArrayList<>();
+    private List<ElementDataBean.FunListBean> funListBeans = new ArrayList<>();
+    private SPUtils spUtils;
+    private String userGroupId = "";
     private String callBackEffects = "";
     private String callBackReturnMapEffects = "";
 
@@ -111,10 +126,22 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
             String callbackElementFormName = data.getStringExtra("CallBackReturnMapEffects");
             if (!StringUtils.isEmpty(callbackElementId) && callbackElementId.split(",").length > 0) {
                 String[] callbackElementIds = callbackElementId.split(",");
-                for (String elementId : callbackElementIds) {
+                for (int i = 0; i < callbackElementIds.length; i++) {
+                    String elementId = callbackElementIds[i];
                     String dataSourceRef = elementIdtoDataSourceRef.get(elementId);
                     if (!StringUtils.isEmpty(dataSourceRef)) {
                         setCallBackViewText(elementId, dataSourceRef, episodeID);
+                    } else {
+                        if (!StringUtils.isEmpty(callbackElementFormName) && callbackElementFormName.split(",").length == callbackElementIds.length) {
+                            String[] callbackElementFormNameStr = callbackElementFormName.split(",");
+
+                            if (callbackElementFormNameStr[i].split("\\^").length == 3) {
+                                TextView textView = (TextView) viewHashMap.get(elementId);
+                                if (textView != null) {
+                                    textView.setText(callbackElementFormNameStr[i].split("\\^")[2]);
+                                }
+                            }
+                        }
                     }
                 }
 
@@ -160,6 +187,8 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
         super.onViewCreated(view, savedInstanceState);
 
         spUtils = SPUtils.getInstance();
+        userGroupId = spUtils.getString(SharedPreference.GROUPID, "");
+
         if (getArguments() != null) {
             Bundle bundle = getArguments();
             episodeID = bundle.getString("EpisodeID", "");
@@ -183,14 +212,11 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
         textView.setTextSize(15);
         textView.setText("  保存   ");
         textView.setTextColor(getResources().getColor(R.color.white));
-        viewright.setOnClickListener(v -> save());
+        viewright.setOnClickListener(v -> save(new ArrayList<>()));
         //        setToolbarRightCustomView(viewright);
-        if (isSingleModel) {
-            hindMap();
-            setToolbarRightCustomViewSingleShow(viewright);
-        } else {
-            setToolbarRightCustomView(viewright);
-        }
+
+        setToolbarRightCustomView(viewright);
+
         initview(view);
 
         initData();
@@ -204,12 +230,12 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
             Bundle bundle = new Bundle();
             bundle = intent.getExtras();
             getKnowledgeContent(bundle.getString("knowledgeTreeId"));
-
         }
     }
 
     @Override
-    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup
+            container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_nur_record_new, container, false);
     }
 
@@ -228,9 +254,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                         }
                     }
                 }
-
                 quoteDialog.setKnowledgeContent(stringBuilder.toString());
-
             }
 
             @Override
@@ -243,12 +267,24 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
 
     /**
      * 保存护理病历
+     *
+     * @param saveViewFormNameList
      */
-    private void save() {
+    private void save(List<String> saveViewFormNameList) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("{");
         for (int i = 0; elements != null && i < elements.size(); i++) {
             ElementDataBean.DataBean.InputBean.ElementBasesBean element = elements.get(i);
+
+            String saveFormName = "";
+            saveFormName = element.getFormName();
+            if (StringUtils.isEmpty(saveFormName) && element.getRadioElementList() != null && element.getRadioElementList().size() > 0) {
+                saveFormName = element.getRadioElementList().get(0).getFormName();
+            }
+
+            if (saveViewFormNameList.size() > 0 && !saveViewFormNameList.contains(saveFormName)) {
+                continue;
+            }
 
             if (stringBuilder.length() > 2 && !stringBuilder.toString().endsWith(",")) {
                 stringBuilder.append(",");
@@ -339,12 +375,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
 
 
             } else if ("DropRadioElement".equals(element.getElementType())) {
-//                String dropRadioStr = ((TextView) viewHashMap.get(element.getElementId())).getText().toString();
-                TextView textView1 = (TextView) viewHashMap.get(element.getElementId());
-                String dropRadioStr = null;
-                if (textView1 != null) {
-                    dropRadioStr = textView1.getText().toString();
-                }
+                String dropRadioStr = ((TextView) viewHashMap.get(element.getElementId())).getText().toString();
                 if (StringUtils.isTrimEmpty(dropRadioStr)) {
                     LinearLayout linearLayout = (LinearLayout) viewHashMap.get(element.getElementId() + "_ll");
                     TextView textView = (TextView) viewHashMap.get(element.getElementId());
@@ -393,19 +424,11 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                 }
 
             } else if ("DropListElement".equals(element.getElementType())) {
-//                String dropRadioStr = ((TextView) viewHashMap.get(element.getElementId())).getText().toString();
-                TextView textView1 = (TextView) viewHashMap.get(element.getElementId());
-                String dropRadioStr = null;
-                if (textView1 != null) {
-                    dropRadioStr = textView1.getText().toString();
-                }
+                String dropRadioStr = ((TextView) viewHashMap.get(element.getElementId())).getText().toString();
                 if (StringUtils.isTrimEmpty(dropRadioStr)) {
                     LinearLayout linearLayout = (LinearLayout) viewHashMap.get(element.getElementId() + "_ll");
                     TextView textView = (TextView) viewHashMap.get(element.getElementId());
-                    if ("true".equals(element.getRequired())
-                            && linearLayout!=null
-                            && textView!=null
-                            && linearLayout.getVisibility() == View.VISIBLE) {
+                    if ("true".equals(element.getRequired()) && linearLayout.getVisibility() == View.VISIBLE) {
                         textView.setBackgroundResource(R.drawable.nur_record_btnerror_bg);
                         showToast("请填写必填项之后再保存");
                         return;
@@ -450,18 +473,13 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                 }
 
             } else if ("DropCheckboxElement".equals(element.getElementType())) {
-                TextView textView1 = (TextView) viewHashMap.get(element.getElementId());
-                String dcText = null;
-                if (textView1 != null) {
-                     dcText = textView1.getText().toString();
-                }
+
+
+                String dcText = ((TextView) viewHashMap.get(element.getElementId())).getText().toString();
                 if (StringUtils.isTrimEmpty(dcText)) {
                     LinearLayout linearLayout = (LinearLayout) viewHashMap.get(element.getElementId() + "_ll");
                     TextView textView = (TextView) viewHashMap.get(element.getElementId());
-                    if ("true".equals(element.getRequired())
-                            && linearLayout!=null
-                            && textView!=null
-                            && linearLayout.getVisibility() == View.VISIBLE) {
+                    if ("true".equals(element.getRequired()) && linearLayout.getVisibility() == View.VISIBLE) {
                         textView.setBackgroundResource(R.drawable.nur_record_btnerror_bg);
                         showToast("请填写必填项之后再保存");
                         return;
@@ -608,15 +626,28 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                         }
                     }
 
-                    stringBuilder.append("\"")
-                            .append(element.getElementType())
-                            .append("_")
-                            .append(element.getElementId())
-                            .append("\":\"")
-                            .append(editText.getText().toString())
-                            .append("\"");
+                    if ("TextElement".equals(element.getElementType()) && "true".equals(element.getSignatureAuto())) {
+
+                        String userStr = "CA" + ((EditText) viewHashMap.get(element.getElementId())).getText().toString() + "*" + spUtils.getString(SharedPreference.USERCODE);
+                        stringBuilder.append("\"")
+                                .append(element.getElementType())
+                                .append("_")
+                                .append(element.getElementId())
+                                .append("\":\"")
+                                .append(userStr)
+                                .append("\"");
+                    } else {
+
+                        stringBuilder.append("\"")
+                                .append(element.getElementType())
+                                .append("_")
+                                .append(element.getElementId())
+                                .append("\":\"")
+                                .append(editText.getText().toString())
+                                .append("\"");
+
+                    }
                 }
-                //                }
 
             } else {
                 if (viewHashMap.get(element.getElementId()) instanceof TextView) {
@@ -651,24 +682,67 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                 .append(",\"templateVersionGuid\":\"").append(guid).append("\"}");
 
         String parr = stringBuilder.toString();
+
+        StringBuilder stringBuilder1 = new StringBuilder();
+        //"^{""LOGON.CTLOCID"":""688"",""LOGON.WARDID"":""70"",""LOGON.GROUPDESC"":""住院护士"",""LOGON.USERID"":""2961"",""SubjectionTemplateGuid"":""58595b9a61064ba18cc82bd82db00540""}")
+        stringBuilder1.append("^{")
+                .append("\"LOGON.CTLOCID\":\"").append(spUtils.getString(SharedPreference.LOCID)).append("\"")
+                .append(",\"LOGON.WARDID\":\"").append(spUtils.getString(SharedPreference.WARDID)).append("\"")
+                .append(",\"LOGON.GROUPDESC\":\"").append(spUtils.getString(SharedPreference.GROUPDESC)).append("\"")
+                .append(",\"LOGON.USERID\":\"").append(spUtils.getString(SharedPreference.USERID)).append("\"")
+                .append(",\"SubjectionTemplateGuid\":\"").append(guid).append("\"}");
+
+        String printTemplateEmrCode = stringBuilder1.toString();
+
         showLoadingTip(BaseActivity.LoadingType.FULL);
-        NurRecordNewApiManager.saveNewEmrData(guid, episodeID, recId, parr, new NurRecordNewApiManager.RecDataCallback() {
+        NurRecordNewApiManager.saveNewEmrData(guid, episodeID, recId, parr, printTemplateEmrCode, new NurRecordNewApiManager.RecDataCallback() {
             @Override
             public void onSuccess(RecDataBean recDataBean) {
-                hideLoadFailTip();
-                showToast("保存成功");
+                hideLoadingTip();
+                Toast.makeText(getActivity(), "保存成功", Toast.LENGTH_SHORT).show();
                 if (!StringUtils.isEmpty(callBackEffects)) {
                     Intent intent = new Intent();
+
+                    String[] effects = callBackEffects.split(",");
+                    String[] returnMap = callBackReturnMapEffects.split(",");
+
+                    //returnMap赋值
+                    if (returnMap.length > 0 && returnMap.length == effects.length) {
+                        for (int i = 0; i < returnMap.length; i++) {
+                            String[] returnMapItem = returnMap[i].split("\\^");
+                            if (returnMapItem.length == 2) {
+                                String[] returnMapItemStr = returnMapItem[0].split("_");
+                                if (returnMapItemStr.length == 2 && returnMapItemStr[1].equals(effects[i])) {
+                                    List<String> returnElementId = formNametoElementId.get(returnMapItem[1]);
+                                    if (returnElementId != null && returnElementId.size() == 1) {
+                                        TextView textView = (TextView) viewHashMap.get(returnElementId.get(0));
+                                        if (textView != null) {
+                                            String value = textView.getText().toString();
+                                            callBackReturnMapEffects = callBackReturnMapEffects.replace(returnMap[i], returnMap[i] + "^" + value);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+
                     intent.putExtra("CallBackEffects", callBackEffects);
                     intent.putExtra("CallBackReturnMapEffects", callBackReturnMapEffects);
                     Objects.requireNonNull(getActivity()).setResult(20002, intent);
                 }
-                Objects.requireNonNull(getActivity()).finish();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Objects.requireNonNull(getActivity()).finish();
+                    }
+                }, 1000);
+
             }
 
             @Override
             public void onFail(String code, String msg) {
-                hideLoadFailTip();
+                hideLoadingTip();
                 if (errorDialog != null && errorDialog.isShowing()) {
                     errorDialog.dismiss();
                 }
@@ -686,66 +760,61 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
 
     private void initview(View view) {
         llNurrecord = view.findViewById(R.id.ll_nurrecord);
-
+        llNurrecord.clearAnimation();
     }
 
     private void initData() {
         showLoadingTip(BaseActivity.LoadingType.FULL);
 
-        NurRecordNewApiManager.GetXmlValues(episodeID, emrCode, recId, new CommonCallBack<ElementDataBean>() {
+        NurRecordNewApiManager.GetXmlValues(episodeID, emrCode, recId, new NurRecordNewApiManager.GetXmlValuesCallback() {
             @Override
-            public void onFail(String code, String msg) {
-                hideLoadFailTip();
-                showToast(msg);
-            }
-
-            @Override
-            public void onSuccess(ElementDataBean elementDataBean, String type) {
-                hideLoadFailTip();
+            public void onSuccess(ElementDataBean elementDataBean) {
+                hideLoadingTip();
                 elements = elementDataBean.getData().getInput().getElementBases();
                 elementSetsBeans = elementDataBean.getData().getInput().getElementSets();
                 statisticsListBeans = elementDataBean.getData().getInput().getStatisticsList();
                 firstIdListBeans = elementDataBean.getFirstIdList();
+
+                strictCodeListBeans = elementDataBean.getStrictCodeList();
+                funListBeans = elementDataBean.getFunList();
+
                 InputViews(elements);
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+                hideLoadingTip();
+                showToast(msg);
             }
         });
     }
 
     /**
      * 添加各类型元素
+     *
+     * @param elements
      */
     private void InputViews(List<ElementDataBean.DataBean.InputBean.ElementBasesBean> elements) {
         for (int i = 0; elements != null && i < elements.size(); i++) {
             ElementDataBean.DataBean.InputBean.ElementBasesBean element = elements.get(i);
-            if ("DateElement".equals(element.getElementType())) {
+            if ("ContainerElement".equals(element.getElementType())) {
+                LinearLayout llContainer = getContainerView(element);
+                llNurrecord.addView(llContainer);
+            } else if ("LableElement".equals(element.getElementType())) {
+                LinearLayout llLable = getLableView(element);
+                addView(element, llLable);
+            } else if ("DateElement".equals(element.getElementType())) {
                 LinearLayout llDate = getTextView(element);
-                TextView tvDate = (TextView) viewHashMap.get(element.getElementId());
-
-                tvDate.setOnClickListener(v -> ShowDateTime(DATE_DIALOG, getActivity(), tvDate));
-                llNurrecord.addView(llDate);
-                llNurrecord.addView(getDashLine());
-
+                addView(element, llDate);
             } else if ("TimeElement".equals(element.getElementType())) {
                 LinearLayout llTime = getTextView(element);
-                TextView tvTime = (TextView) viewHashMap.get(element.getElementId());
-
-                tvTime.setOnClickListener(v -> ShowDateTime(TIME_DIALOG, getActivity(), tvTime));
-                llNurrecord.addView(llTime);
-                llNurrecord.addView(getDashLine());
+                addView(element, llTime);
             } else if ("RadioElement".equals(element.getElementType())) {
                 LinearLayout llRadio = getRadioView(element);
-
-                llNurrecord.addView(llRadio);
-                llNurrecord.addView(getDashLine());
-
+                addView(element, llRadio);
             } else if ("CheckElement".equals(element.getElementType())) {
                 LinearLayout llCheck = getCheckView(element);
-
-                llCheck.clearAnimation();
-
-                llNurrecord.addView(llCheck);
-                llNurrecord.addView(getDashLine());
-
+                addView(element, llCheck);
             } else if ("DropRadioElement".equals(element.getElementType())) {
 
                 LinearLayout lldropRadio = getTextView(element);
@@ -786,8 +855,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
 
                 lldropRadio.clearAnimation();
 
-                llNurrecord.addView(lldropRadio);
-                llNurrecord.addView(getDashLine());
+                addView(element, lldropRadio);
             } else if ("DropListElement".equals(element.getElementType())) {
 
                 LinearLayout lldropRadio = getTextView(element);
@@ -820,6 +888,8 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                             e.printStackTrace();
                         }
                     }
+
+                    //添加一个选项 用来清空数据，可根据医院需求去掉
                     selectStrList.add("");
                     selectScoreList.add(0);
 
@@ -828,8 +898,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
 
                 lldropRadio.clearAnimation();
 
-                llNurrecord.addView(lldropRadio);
-                llNurrecord.addView(getDashLine());
+                addView(element, lldropRadio);
             } else if ("DropCheckboxElement".equals(element.getElementType())) {
                 LinearLayout lldropCheck = getTextView(element);
                 TextView tvdropCheck = (TextView) viewHashMap.get(element.getElementId());
@@ -847,17 +916,14 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                 });
 
                 lldropCheck.clearAnimation();
-
-                llNurrecord.addView(lldropCheck);
-                llNurrecord.addView(getDashLine());
-
+                addView(element, lldropCheck);
             } else if ("NumberElement".equals(element.getElementType())) {
                 LinearLayout llNumber = getEditText(element, "NumberElement");
                 EditText edNumber = (EditText) viewHashMap.get(element.getElementId());
                 edNumber.setBackground(getResources().getDrawable(R.drawable.nur_record_input_bg));
 
-                llNurrecord.addView(llNumber);
-                llNurrecord.addView(getDashLine());
+                llNumber.clearAnimation();
+                addView(element, llNumber);
             } else if ("TextElement".equals(element.getElementType())) {
                 LinearLayout lledit = getEditText(element, "TextElement");
                 TextView tvTitle = (TextView) viewHashMap.get(element.getElementId() + "_title");
@@ -865,70 +931,77 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                 edText.setBackground(getResources().getDrawable(R.drawable.nur_record_input_bg));
 
                 if ("true".equals(element.getSignatureAuto())) {
-                    if ("CommonNOReplace".equals(element.getSignature())) {
-                        if ("".equals(recId)) {
+
+                    boolean mode = false;
+                    boolean sign = false;
+                    if (strictCodeListBeans != null && strictCodeListBeans.size() > 0) {
+                        mode = true;
+                        ElementDataBean.StrictCodeListBean.RoseListBean roseListBean = new ElementDataBean.StrictCodeListBean.RoseListBean();
+                        ElementDataBean.StrictCodeListBean.InputsListBean inputsListBean = new ElementDataBean.StrictCodeListBean.InputsListBean();
+                        roseListBean.setCode(userGroupId);
+                        inputsListBean.setCode(element.getFormName());
+
+                        for (int i1 = 0; i1 < strictCodeListBeans.size(); i1++) {
+                            List<ElementDataBean.StrictCodeListBean.RoseListBean> roseListBeans = strictCodeListBeans.get(i1).getRoseList();
+                            List<ElementDataBean.StrictCodeListBean.InputsListBean> inputsListBeans = strictCodeListBeans.get(i1).getInputsList();
+
+                            if (roseListBeans.contains(roseListBean) && inputsListBeans.contains(inputsListBean)) {
+                                sign = true;
+                            }
+                        }
+                    }
+
+                    if (!mode || (mode && sign)) {
+                        if ("CommonNOReplace".equals(element.getSignature())) {
+                            if ("".equals(recId)) {
+                                edText.setText(spUtils.getString(SharedPreference.USERNAME));
+                            }
+                        } else if ("Common".equals(element.getSignature())) {
                             edText.setText(spUtils.getString(SharedPreference.USERNAME));
                         }
-                    } else if ("Common".equals(element.getSignature())) {
-                        edText.setText(spUtils.getString(SharedPreference.USERNAME));
                     }
                 }
 
                 lledit.clearAnimation();
-
-                llNurrecord.addView(lledit);
-                llNurrecord.addView(getDashLine());
+                addView(element, lledit);
             } else if ("TextareaElement".equals(element.getElementType())) {
                 LinearLayout lledit = getEditText(element, "TextareaElement");
                 EditText edText = (EditText) viewHashMap.get(element.getElementId());
                 edText.setBackground(getResources().getDrawable(R.drawable.nur_record_input_bg));
-
-                llNurrecord.addView(lledit);
-                llNurrecord.addView(getDashLine());
+                lledit.clearAnimation();
+                addView(element, lledit);
             } else if ("ButtonElement".equals(element.getElementType())) {
-                if (!StringUtils.isEmpty(element.getBindingTemplateID()) && !"true".equals(element.getIsHide())) {
-                    LinearLayout llButton = getButtonView(element);
-
-                    llNurrecord.addView(llButton);
-                    llNurrecord.addView(getDashLine());
-                }
+//                if (!StringUtils.isEmpty(element.getBindingTemplateID()) && !"true".equals(element.getIsHide())) {
+                LinearLayout llButton = getButtonView(element);
+                llButton.clearAnimation();
+                addView(element, llButton);
+//                }
             }
 
         }
 
-        setViews("", "");
+        initViewSet("", "");
+
+        initViewMode();
+
+        initMELinkViewList();
     }
 
-    private void showQuoteDialog(EditText edQuote) {
-        if (quoteDialog != null && quoteDialog.isShowing()) {
-            quoteDialog.dismiss();
+    private void initMELinkViewList() {
+        for (int i = 0; i < meViewLinkList.size(); i++) {
+            for (int j = 0; j < funListBeans.size(); j++) {
+                if (meViewLinkList.get(i).getLinkName().equals(funListBeans.get(j).getName())) {
+                    meViewLinkList.get(i).setLinkContent(funListBeans.get(j).getContent());
+                }
+            }
         }
-
-        quoteDialog = new NurRecordQuoteDialog(getActivity());
-        quoteDialog.setSureOnclickListener(new NurRecordQuoteDialog.onSureOnclickListener() {
-            @Override
-            public void onSureClick() {
-                edQuote.setText(edQuote.getText() + quoteDialog.getKnowledgeContent());
-                quoteDialog.dismiss();
-            }
-        });
-        quoteDialog.setCancelOnclickListener(new NurRecordQuoteDialog.onCancelOnclickListener() {
-            @Override
-            public void onCancelClick() {
-                quoteDialog.dismiss();
-            }
-        });
-        quoteDialog.show();
-
     }
 
     /**
-     * 单据跳转元素
-     *
      * @param element
      * @return
      */
-    private LinearLayout getButtonView(ElementDataBean.DataBean.InputBean.ElementBasesBean element) {
+    private LinearLayout getLableView(ElementDataBean.DataBean.InputBean.ElementBasesBean element) {
         LinearLayout linearLayout = new LinearLayout(getActivity());
         LinearLayout.LayoutParams llparams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         llparams.setMargins(ConvertUtils.dp2px(12), ConvertUtils.dp2px(6), ConvertUtils.dp2px(12), ConvertUtils.dp2px(6));
@@ -936,85 +1009,143 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
         linearLayout.setOrientation(LinearLayout.HORIZONTAL);
         linearLayout.setGravity(Gravity.CENTER);
 
-        TextView tvTitle = new TextView(getActivity());
-        LinearLayout.LayoutParams tvparams1 = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1.0f);
-        tvparams1.setMargins(0, 0, ConvertUtils.dp2px(12), 0);
-        tvTitle.setLayoutParams(tvparams1);
-        tvTitle.setTextColor(Color.parseColor("#4a4a4a"));
-        tvTitle.setGravity(Gravity.CENTER);
-        tvTitle.setText("跳转单据");
+        TextView tvLable = new TextView(getActivity());
+        LinearLayout.LayoutParams tvparams1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        tvLable.setLayoutParams(tvparams1);
+        tvLable.setTextColor(Color.parseColor("#4a4a4a"));
+        tvLable.setGravity(Gravity.START);
+        tvLable.setText(element.getNameText());
+        linearLayout.addView(tvLable);
 
-        TextView textView = new TextView(getActivity());
-        LinearLayout.LayoutParams tvparams2 = new LinearLayout.LayoutParams(0, ConvertUtils.dp2px(40f), 2.0f);
-        textView.setLayoutParams(tvparams2);
-        textView.setGravity(Gravity.CENTER);
-        textView.setTextColor(Color.parseColor("#4a4a4a"));
-        textView.setBackground(getResources().getDrawable(R.drawable.nur_record_btn_bg));
-        textView.setText(element.getNameText());
+        linearLayout.clearAnimation();
+//        if ("true".equals(element.getIsHide())) {
+//            linearLayout.setVisibility(View.VISIBLE);
+//            addLine = true;
+//        } else {
+//            linearLayout.setVisibility(View.GONE);
+//            addLine = false;
+//        }
 
-        textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        viewHashMap.put(element.getElementId() + "_ll", linearLayout);
 
-                String emrCode = element.getBindingTemplateID();
-                String guid = "";
-                String recId = "";
-                for (int i = 0; i < firstIdListBeans.size(); i++) {
-                    if (firstIdListBeans.get(i).getEmrCode().equals(emrCode)) {
-                        guid = firstIdListBeans.get(i).getGuId();
-                        recId = firstIdListBeans.get(i).getRecId();
-                        break;
+        return linearLayout;
+    }
+
+    /**
+     * 严格模式配置
+     */
+    private void initViewMode() {
+        if (strictCodeListBeans != null && strictCodeListBeans.size() > 0) {
+            for (int i = 0; i < strictCodeListBeans.size(); i++) {
+                List<ElementDataBean.StrictCodeListBean.RoseListBean> roseListBeans = strictCodeListBeans.get(i).getRoseList();
+                ElementDataBean.StrictCodeListBean.RoseListBean roseListBean = new ElementDataBean.StrictCodeListBean.RoseListBean();
+                roseListBean.setCode(userGroupId);
+                if (roseListBeans != null && roseListBeans.contains(roseListBean)) {
+
+                    List<ElementDataBean.StrictCodeListBean.InputsListBean> inputsListBeans = strictCodeListBeans.get(i).getInputsList();
+                    if (inputsListBeans != null && inputsListBeans.size() > 0) {
+                        for (int j = 0; j < inputsListBeans.size(); j++) {
+                            String inputViewFormName = inputsListBeans.get(j).getCode();
+                            if (inputViewFormNameList.contains(inputViewFormName)) {
+                                List<String> viewElementIds = formNametoElementId.get(inputViewFormName);
+                                for (int k = 0; k < viewElementIds.size(); k++) {
+                                    String viewElementId = viewElementIds.get(k);
+                                    if (viewHashMap.get(viewElementId) instanceof CheckBox) {
+                                        CheckBox checkBox = (CheckBox) viewHashMap.get(viewElementIds.get(k));
+                                        checkBox.setEnabled(true);
+                                        checkBox.setClickable(true);
+                                    } else if (viewHashMap.get(viewElementId) instanceof EditText) {
+                                        EditText editText = (EditText) viewHashMap.get(viewElementIds.get(k));
+                                        editText.setEnabled(true);
+                                        editText.setFocusable(true);
+                                        editText.setBackground(getResources().getDrawable(R.drawable.nur_record_input_bg));
+                                    } else if (viewHashMap.get(viewElementId) instanceof TextView) {
+                                        TextView textView = (TextView) viewHashMap.get(viewElementIds.get(k));
+                                        textView.setEnabled(true);
+                                        textView.setClickable(true);
+                                        textView.setBackground(getResources().getDrawable(R.drawable.nur_record_btn_bg));
+                                    }
+
+                                    if (cpViewHashMap.containsKey(viewElementId)) {
+                                        String containerId = cpViewHashMap.get(viewElementId);
+                                        if (viewHashMap.get(containerId + "_containerll") instanceof LinearLayout) {
+                                            LinearLayout llContainer = (LinearLayout) viewHashMap.get(containerId + "_containerll");
+                                            if (i % 2 == 0) {
+                                                llContainer.setBackgroundColor(Color.parseColor("#FDF5E6"));
+                                            } else {
+                                                llContainer.setBackgroundColor(Color.parseColor("#BBFFFF"));
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+                } else {
+                    List<ElementDataBean.StrictCodeListBean.InputsListBean> inputsListBeans = strictCodeListBeans.get(i).getInputsList();
+                    if (inputsListBeans != null && inputsListBeans.size() > 0) {
+                        for (int j = 0; j < inputsListBeans.size(); j++) {
+                            String inputViewFormName = inputsListBeans.get(j).getCode();
+                            if (inputViewFormNameList.contains(inputViewFormName)) {
+                                List<String> viewElementIds = formNametoElementId.get(inputViewFormName);
+                                for (int k = 0; k < viewElementIds.size(); k++) {
+                                    String viewElementId = viewElementIds.get(k);
+                                    if (viewHashMap.get(viewElementId) instanceof CheckBox) {
+                                        CheckBox checkBox = (CheckBox) viewHashMap.get(viewElementIds.get(k));
+                                        checkBox.setClickable(false);
+                                        checkBox.setEnabled(false);
+                                    } else if (viewHashMap.get(viewElementId) instanceof EditText) {
+                                        EditText editText = (EditText) viewHashMap.get(viewElementIds.get(k));
+                                        editText.setBackground(getResources().getDrawable(R.drawable.nur_record_input_bg_uneditable));
+                                        editText.setFocusable(false);
+                                        editText.setEnabled(false);
+                                    } else if (viewHashMap.get(viewElementId) instanceof TextView) {
+                                        TextView textView = (TextView) viewHashMap.get(viewElementIds.get(k));
+                                        textView.setBackground(getResources().getDrawable(R.drawable.nur_record_btn_bg_unclickable));
+                                        textView.setClickable(false);
+                                        textView.setEnabled(false);
+                                    }
+
+                                    if (cpViewHashMap.containsKey(viewElementId)) {
+                                        String parentId = cpViewHashMap.get(viewElementId);
+                                        if (viewHashMap.get(parentId + "_containerll") instanceof LinearLayout) {
+                                            LinearLayout llContainer = (LinearLayout) viewHashMap.get(parentId + "_containerll");
+                                            if (i % 2 == 0) {
+                                                llContainer.setBackgroundColor(Color.parseColor("#FDF5E6"));
+                                            } else {
+                                                llContainer.setBackgroundColor(Color.parseColor("#BBFFFF"));
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
                     }
                 }
-
-                if (!StringUtils.isEmpty(guid)) {
-                    callBackEffects = element.getCallBackEffects();
-                    callBackReturnMapEffects = element.getCallBackReturnMapEffects();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("EpisodeID", episodeID);
-                    bundle.putString("BedNo", bedNo);
-                    bundle.putString("PatName", patName);
-                    bundle.putString("EMRCode", emrCode);
-                    bundle.putString("GUID", guid);
-                    bundle.putString("RecID", recId);
-                    bundle.putString("CallBackEffects", callBackEffects);
-                    bundle.putString("CallBackReturnMapEffects", callBackReturnMapEffects);
-                    startFragment(NurRecordNewFragment.class, bundle, 10001);
-                }
             }
-        });
-
-
-        if ("true".equals(element.getDisable())) {
-            textView.setClickable(false);
         }
+    }
 
-        textView.setTag(element.getElementId());
-        viewHashMap.put(element.getElementId(), textView);
-        elementIdtoFormName.put(element.getElementId(), element.getFormName());
-
-        linearLayout.addView(tvTitle);
-        linearLayout.addView(textView);
+    /**
+     * 容器
+     *
+     * @param element
+     * @return
+     */
+    private LinearLayout getContainerView(ElementDataBean.DataBean.InputBean.ElementBasesBean element) {
+        LinearLayout linearLayout = new LinearLayout(getActivity());
+        LinearLayout.LayoutParams llparams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        linearLayout.setLayoutParams(llparams);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
 
         if ("true".equals(element.getIsHide())) {
             linearLayout.clearAnimation();
             linearLayout.setVisibility(View.GONE);
         }
 
-        viewHashMap.put(element.getElementId() + "_ll", linearLayout);
-
-        if (!StringUtils.isEmpty(element.getParentId())) {
-            List<String> childElementIdList = new ArrayList<>();
-            childElementIdList.add(element.getElementId());
-            if (pcViewHashMap.containsKey(element.getParentId())) {
-                List<String> childElementIdListExist = pcViewHashMap.get(element.getParentId());
-                if (childElementIdListExist != null && childElementIdListExist.size() > 0) {
-                    childElementIdList.addAll(childElementIdListExist);
-                }
-            }
-            pcViewHashMap.put(element.getParentId(), childElementIdList);
-        }
-
+        viewHashMap.put(element.getElementId() + "_containerll", linearLayout);
 
         return linearLayout;
     }
@@ -1089,6 +1220,12 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
         textView.setGravity(Gravity.CENTER);
         textView.setTextColor(Color.parseColor("#4a4a4a"));
         textView.setBackground(getResources().getDrawable(R.drawable.nur_record_btn_bg));
+
+        if ("DateElement".equals(element.getElementType())) {
+            textView.setOnClickListener(v -> ShowDateTime(DATE_DIALOG, getActivity(), textView));
+        } else if ("TimeElement".equals(element.getElementType())) {
+            textView.setOnClickListener(v -> ShowDateTime(TIME_DIALOG, getActivity(), textView));
+        }
         if (!StringUtils.isEmpty(element.getDefaultValue())) {
             textView.setText(element.getDefaultValue());
             if ("DropRadioElement".equals(element.getElementType()) || "DropListElement".equals(element.getElementType())) {
@@ -1120,12 +1257,18 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
 
         if ("true".equals(element.getDisable())) {
             textView.setClickable(false);
+            textView.setBackground(getResources().getDrawable(R.drawable.nur_record_btn_bg_unclickable));
         }
 
         textView.setTag(element.getElementId());
         viewHashMap.put(element.getElementId(), textView);
         elementIdtoFormName.put(element.getElementId(), element.getFormName());
         elementIdtoDataSourceRef.put(element.getElementId(), element.getDataSourceRef());
+
+        inputViewFormNameList.add(element.getFormName());
+        List<String> viewElementIdList = new ArrayList<>();
+        viewElementIdList.add(element.getElementId());
+        formNametoElementId.put(element.getFormName(), viewElementIdList);
 
         linearLayout.addView(tvTitle);
         linearLayout.addView(textView);
@@ -1137,20 +1280,54 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
 
         viewHashMap.put(element.getElementId() + "_ll", linearLayout);
 
-        if (!StringUtils.isEmpty(element.getParentId())) {
+        if (!StringUtils.isEmpty(element.getContainerId())) {
             List<String> childElementIdList = new ArrayList<>();
             childElementIdList.add(element.getElementId());
-            if (pcViewHashMap.containsKey(element.getParentId())) {
-                List<String> childElementIdListExist = pcViewHashMap.get(element.getParentId());
+            if (pcViewHashMap.containsKey(element.getContainerId())) {
+                List<String> childElementIdListExist = pcViewHashMap.get(element.getContainerId());
                 if (childElementIdListExist != null && childElementIdListExist.size() > 0) {
                     childElementIdList.addAll(childElementIdListExist);
                 }
             }
-            pcViewHashMap.put(element.getParentId(), childElementIdList);
+            pcViewHashMap.put(element.getContainerId(), childElementIdList);
+            cpViewHashMap.put(element.getElementId(), element.getContainerId());
         }
 
 
         return linearLayout;
+    }
+
+    /**
+     * 布局中添加view（及分割线）
+     *
+     * @param element
+     * @param linearlayout
+     */
+    private void addView(ElementDataBean.DataBean.InputBean.ElementBasesBean element, LinearLayout linearlayout) {
+        String containerId = "";
+        if (StringUtils.isEmpty(element.getContainerId())) {
+            if (element.getRadioElementList() != null && element.getRadioElementList().size() > 0) {
+                containerId = element.getRadioElementList().get(0).getContainerId();
+            }
+        } else {
+            containerId = element.getContainerId();
+        }
+
+
+        if (StringUtils.isEmpty(containerId)) {
+            llNurrecord.addView(linearlayout);
+            llNurrecord.addView(getDashLine());
+        } else {
+            LinearLayout llContainer = (LinearLayout) viewHashMap.get(containerId + "_containerll");
+
+            if (llContainer == null) {
+//                llNurrecord.addView(linearlayout);
+//                llNurrecord.addView(getDashLine());
+            } else {
+                llContainer.addView(linearlayout);
+                llContainer.addView(getDashLine());
+            }
+        }
     }
 
     /**
@@ -1225,7 +1402,6 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
         llRadio.setOrientation(LinearLayout.VERTICAL);
         llRadio.setGravity(Gravity.CENTER);
 
-
         List<String> viewElementIdList = new ArrayList<>();
         List<String> childElementIdList = new ArrayList<>();
         List<ElementDataBean.DataBean.InputBean.ElementBasesBean.RadioElementListBean> radioElementListBeanList = element.getRadioElementList();
@@ -1259,6 +1435,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
             viewElementIdList.addAll(viewElementIdListExist);
         }
         formNametoElementId.put(radioElementListBeanList.get(0).getFormName(), viewElementIdList);
+        inputViewFormNameList.add(radioElementListBeanList.get(0).getFormName());
 
         linearLayout.addView(tvTitle);
         linearLayout.addView(llRadio);
@@ -1269,14 +1446,15 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
         }
 
         viewHashMap.put(radioElementListBeanList.get(0).getElementId() + "_ll", linearLayout);
-        if (!StringUtils.isEmpty(radioElementListBeanList.get(0).getParentId())) {
-            if (pcViewHashMap.containsKey(radioElementListBeanList.get(0).getParentId())) {
-                List<String> childElementIdListExist = pcViewHashMap.get(radioElementListBeanList.get(0).getParentId());
+        if (!StringUtils.isEmpty(radioElementListBeanList.get(0).getContainerId())) {
+            if (pcViewHashMap.containsKey(radioElementListBeanList.get(0).getContainerId())) {
+                List<String> childElementIdListExist = pcViewHashMap.get(radioElementListBeanList.get(0).getContainerId());
                 if (childElementIdListExist != null && childElementIdListExist.size() > 0) {
                     childElementIdList.addAll(childElementIdListExist);
                 }
             }
-            pcViewHashMap.put(radioElementListBeanList.get(0).getParentId(), childElementIdList);
+            pcViewHashMap.put(radioElementListBeanList.get(0).getContainerId(), childElementIdList);
+            cpViewHashMap.put(radioElementListBeanList.get(0).getElementId(), radioElementListBeanList.get(0).getContainerId());
         }
 
         return linearLayout;
@@ -1371,6 +1549,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
             checkBox.setOnCheckedChangeListener(this);
 
             if ("true".equals(radioElementListBean.getDisable())) {
+                llCheck.clearAnimation();
                 checkBox.setClickable(false);
             }
 
@@ -1389,6 +1568,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
         }
         formNametoElementId.put(radioElementListBeanList.get(0).getFormName(), viewElementIdList);
 
+        inputViewFormNameList.add(radioElementListBeanList.get(0).getFormName());
         linearLayout.addView(tvTitle);
         linearLayout.addView(llCheck);
 
@@ -1399,14 +1579,15 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
 
         viewHashMap.put(radioElementListBeanList.get(0).getElementId() + "_ll", linearLayout);
 
-        if (!StringUtils.isEmpty(radioElementListBeanList.get(0).getParentId())) {
-            if (pcViewHashMap.containsKey(radioElementListBeanList.get(0).getParentId())) {
-                List<String> childElementIdListExist = pcViewHashMap.get(radioElementListBeanList.get(0).getParentId());
+        if (!StringUtils.isEmpty(radioElementListBeanList.get(0).getContainerId())) {
+            if (pcViewHashMap.containsKey(radioElementListBeanList.get(0).getContainerId())) {
+                List<String> childElementIdListExist = pcViewHashMap.get(radioElementListBeanList.get(0).getContainerId());
                 if (childElementIdListExist != null && childElementIdListExist.size() > 0) {
                     childElementIdList.addAll(childElementIdListExist);
                 }
             }
-            pcViewHashMap.put(radioElementListBeanList.get(0).getParentId(), childElementIdList);
+            pcViewHashMap.put(radioElementListBeanList.get(0).getContainerId(), childElementIdList);
+            cpViewHashMap.put(radioElementListBeanList.get(0).getElementId(), radioElementListBeanList.get(0).getContainerId());
         }
 
         return linearLayout;
@@ -1453,7 +1634,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                 (dialog, which) -> {
                     textView.setText(mItems[mSingleChoiceID]);
                     dropValue.put(textView.getTag().toString(), new Integer[]{dropValue.get(textView.getTag().toString()) == null ? 0 : dropValue.get(textView.getTag().toString())[1], itemScore});
-                    setViews(textView.getTag().toString(), "drop");
+                    initViewSet(textView.getTag().toString(), "drop");
                 });
         localBuilder.setNegativeButton("取消", null);// 设置对话框[否定]按钮
 
@@ -1546,6 +1727,16 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
             } else {
                 editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
                 editText.setFilters(new InputFilter[]{new InputDigitLengthFilter(Integer.parseInt(element.getPointLen()))});
+            }
+
+            if (!StringUtils.isEmpty(element.getMEName())) {
+                MEViewLink meViewLink = new MEViewLink(element.getMEName(), element.getElementId());
+                HashMap<String, String> MEHashMap = new HashMap<>();
+                for (int i = 0; i < element.getOprationItemList().size(); i++) {
+                    MEHashMap.put(element.getOprationItemList().get(i).getText(), element.getOprationItemList().get(i).getValue());
+                }
+                meViewLink.setMEHashMap(MEHashMap);
+                meViewLinkList.add(meViewLink);
             }
         } else {
             editText.setInputType(InputType.TYPE_CLASS_TEXT);
@@ -1748,11 +1939,12 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                         }
                     }
                 }
-                setViews(editText.getTag().toString(), "");
+                initViewSet(editText.getTag().toString(), "");
             }
         });
 
         if ("true".equals(element.getDisable())) {
+            editText.setBackground(getResources().getDrawable(R.drawable.nur_record_input_bg_uneditable));
             editText.setEnabled(false);
         }
 
@@ -1776,11 +1968,16 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
         elementIdtoDataSourceRef.put(element.getElementId(), element.getDataSourceRef());
 
         elementIdtoFormName.put(element.getElementId(), element.getFormName());
-        List<String> elementList = new ArrayList<>();
-        elementList.add(element.getElementId());
-        formNametoElementId.put(element.getFormName(), elementList);
         viewHashMap.put(element.getElementId(), editText);
 
+        inputViewFormNameList.add(element.getFormName());
+        List<String> viewElementIdList = new ArrayList<>();
+        viewElementIdList.add(element.getElementId());
+        formNametoElementId.put(element.getFormName(), viewElementIdList);
+
+        if (!StringUtils.isEmpty(element.getSaveField())) {
+            itemtoElementId.put(element.getSaveField(), element.getElementId());
+        }
 
         linearLayout.addView(tvTitle);
         linearLayout.addView(editText);
@@ -1796,378 +1993,722 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
 
         viewHashMap.put(element.getElementId() + "_ll", linearLayout);
 
-        if (!StringUtils.isEmpty(element.getParentId())) {
+        if (!StringUtils.isEmpty(element.getContainerId())) {
             List<String> childElementIdList = new ArrayList<>();
             childElementIdList.add(element.getElementId());
-            if (pcViewHashMap.containsKey(element.getParentId())) {
-                List<String> childElementIdListExist = pcViewHashMap.get(element.getParentId());
+            if (pcViewHashMap.containsKey(element.getContainerId())) {
+                List<String> childElementIdListExist = pcViewHashMap.get(element.getContainerId());
                 if (childElementIdListExist != null && childElementIdListExist.size() > 0) {
                     childElementIdList.addAll(childElementIdListExist);
                 }
             }
-            pcViewHashMap.put(element.getParentId(), childElementIdList);
+            pcViewHashMap.put(element.getContainerId(), childElementIdList);
+            cpViewHashMap.put(element.getElementId(), element.getContainerId());
         }
 
         return linearLayout;
+    }
+
+    /**
+     * 按钮
+     * 保存
+     * 单据跳转
+     *
+     * @param element
+     * @return
+     */
+    private LinearLayout getButtonView(ElementDataBean.DataBean.InputBean.ElementBasesBean element) {
+        LinearLayout linearLayout = new LinearLayout(getActivity());
+        LinearLayout.LayoutParams llparams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        llparams.setMargins(ConvertUtils.dp2px(12), ConvertUtils.dp2px(6), ConvertUtils.dp2px(12), ConvertUtils.dp2px(6));
+        linearLayout.setLayoutParams(llparams);
+        linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+        linearLayout.setGravity(Gravity.CENTER);
+
+        TextView tvTitle = new TextView(getActivity());
+        LinearLayout.LayoutParams tvparams1 = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1.0f);
+        tvparams1.setMargins(0, 0, ConvertUtils.dp2px(12), 0);
+        tvTitle.setLayoutParams(tvparams1);
+        tvTitle.setTextColor(Color.parseColor("#4a4a4a"));
+        tvTitle.setGravity(Gravity.CENTER);
+        tvTitle.setText(element.getNameText());
+        if (!StringUtils.isEmpty(element.getBindingTemplateID()) && !"true".equals(element.getIsHide())) {
+            tvTitle.setText("跳转单据");
+        }
+
+        TextView textView = new TextView(getActivity());
+        LinearLayout.LayoutParams tvparams2 = new LinearLayout.LayoutParams(0, ConvertUtils.dp2px(40f), 2.0f);
+        textView.setLayoutParams(tvparams2);
+        textView.setGravity(Gravity.CENTER);
+        textView.setTextColor(Color.parseColor("#4a4a4a"));
+        textView.setBackground(getResources().getDrawable(R.drawable.nur_record_btn_bg));
+        textView.setText(element.getNameText());
+
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //保存、采集数据保存
+                if ("保存".equals(element.getNameText())) {
+                    if (!StringUtils.isEmpty(element.getGatherImportMapEffects())) {
+                        saveViewFormNameList.clear();
+                        saveViewFormNameList.addAll(Arrays.asList(element.getGatherImportMapEffects().replace("^", "").split(",")));
+                        save(saveViewFormNameList);
+                    } else {
+                        save(new ArrayList<>());
+                    }
+                    //跳转单据
+                } else if (!StringUtils.isEmpty(element.getBindingTemplateID()) && !"true".equals(element.getIsHide())) {
+                    String emrCode = element.getBindingTemplateID();
+                    String guid = "";
+                    String recId = "";
+                    for (int i = 0; i < firstIdListBeans.size(); i++) {
+                        if (firstIdListBeans.get(i).getEmrCode().equals(emrCode)) {
+                            guid = firstIdListBeans.get(i).getGuId();
+                            recId = firstIdListBeans.get(i).getRecId();
+                            break;
+                        }
+                    }
+
+                    if (!StringUtils.isEmpty(guid)) {
+                        callBackEffects = element.getCallBackEffects();
+                        callBackReturnMapEffects = element.getCallBackReturnMapEffects();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("EpisodeID", episodeID);
+                        bundle.putString("BedNo", bedNo);
+                        bundle.putString("PatName", patName);
+                        bundle.putString("EMRCode", emrCode);
+                        bundle.putString("GUID", guid);
+                        bundle.putString("RecID", recId);
+                        bundle.putString("CallBackEffects", callBackEffects);
+                        bundle.putString("CallBackReturnMapEffects", callBackReturnMapEffects);
+                        startFragment(NurRecordNewFragment.class, bundle, 10001);
+                    }
+                    //未配置
+                } else {
+                    showToast("未配置按钮");
+                }
+            }
+        });
+
+
+        if ("true".equals(element.getDisable())) {
+            textView.setClickable(false);
+            textView.setBackground(getResources().getDrawable(R.drawable.nur_record_btn_bg_unclickable));
+
+        }
+
+        textView.setTag(element.getElementId());
+        viewHashMap.put(element.getElementId(), textView);
+        elementIdtoFormName.put(element.getElementId(), element.getFormName());
+
+        inputViewFormNameList.add(element.getFormName());
+        List<String> viewElementIdList = new ArrayList<>();
+        viewElementIdList.add(element.getElementId());
+        formNametoElementId.put(element.getFormName(), viewElementIdList);
+
+        linearLayout.addView(tvTitle);
+        linearLayout.addView(textView);
+
+        if ("true".equals(element.getIsHide())) {
+            linearLayout.clearAnimation();
+            linearLayout.setVisibility(View.GONE);
+        }
+
+        viewHashMap.put(element.getElementId() + "_ll", linearLayout);
+
+        if (!StringUtils.isEmpty(element.getContainerId())) {
+            List<String> childElementIdList = new ArrayList<>();
+            childElementIdList.add(element.getElementId());
+            if (pcViewHashMap.containsKey(element.getContainerId())) {
+                List<String> childElementIdListExist = pcViewHashMap.get(element.getContainerId());
+                if (childElementIdListExist != null && childElementIdListExist.size() > 0) {
+                    childElementIdList.addAll(childElementIdListExist);
+                }
+            }
+            pcViewHashMap.put(element.getContainerId(), childElementIdList);
+            cpViewHashMap.put(element.getElementId(), element.getContainerId());
+        }
+
+
+        return linearLayout;
+    }
+
+    private void showQuoteDialog(EditText edQuote) {
+        if (quoteDialog != null && quoteDialog.isShowing()) {
+            quoteDialog.dismiss();
+        }
+
+        quoteDialog = new NurRecordQuoteDialog(getActivity());
+        quoteDialog.setSureOnclickListener(new NurRecordQuoteDialog.onSureOnclickListener() {
+            @Override
+            public void onSureClick() {
+                edQuote.setText(edQuote.getText() + quoteDialog.getKnowledgeContent());
+                quoteDialog.dismiss();
+            }
+        });
+        quoteDialog.setCancelOnclickListener(new NurRecordQuoteDialog.onCancelOnclickListener() {
+            @Override
+            public void onCancelClick() {
+                quoteDialog.dismiss();
+            }
+        });
+        quoteDialog.show();
+
     }
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
         if (isChecked) {
-            setViews(buttonView.getTag().toString(), "true");
+            initViewSet(buttonView.getTag().toString(), "check");
         } else {
-            setViews(buttonView.getTag().toString(), "false");
+            initViewSet(buttonView.getTag().toString(), "uncheck");
         }
+
     }
 
     /**
-     * View级联控制 显示隐藏 是否可编辑 选中未选中 评分
+     * 初始化元素配置
+     * 级联元素配置
      *
      * @param viewElementId
-     * @param isChecked
+     * @param status
      */
-    private void setViews(String viewElementId, String isChecked) {
-        if (StringUtils.isEmpty(viewElementId)) {
-            //界面初始化
-            for (int i = 0; elementSetsBeans != null && i < elementSetsBeans.size(); i++) {
-                ElementDataBean.DataBean.InputBean.ElementSetsBean elementSetsBean = elementSetsBeans.get(i);
+    private void initViewSet(String viewElementId, String status) {
 
-                // check 控制 view（可能单一元素，可能一组元素） 是否可编辑 显示隐藏
-                if (elementSetsBean.getFormName().startsWith("RadioElement_")) {
-                    CheckBox checkBox = (CheckBox) viewHashMap.get(elementSetsBean.getFormName() + "^" + elementSetsBean.getVal());
-                    if (checkBox != null && checkBox.isChecked()) {
-                        for (int i1 = 0; elementSetsBean.getChangeList() != null && i1 < elementSetsBean.getChangeList().size(); i1++) {
-                            ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean changeListBean = elementSetsBean.getChangeList().get(i1);
-                            LinearLayout linearLayout = (LinearLayout) viewHashMap.get(changeListBean.getId() + "_ll");
+        //操作联动
+        String formName = elementIdtoFormName.get(viewElementId) == null ? null : elementIdtoFormName.get(viewElementId).split("\\^")[0];
 
-                            setEditTextorTextView(changeListBean, linearLayout);
-                        }
-                    }
+        for (int i = 0; elementSetsBeans != null && i < elementSetsBeans.size(); i++) {
 
-
-                }
+            //单元素配置
+            if (!StringUtils.isEmpty(formName) && !formName.equals(elementSetsBeans.get(i).getFormName())) {
+                continue;
             }
-        } else {
-            //操作联动
-            String formName = elementIdtoFormName.get(viewElementId) == null ? null : elementIdtoFormName.get(viewElementId).split("\\^")[0];
 
-            //check选中控制
-            if ("true".equals(isChecked)) {
+            ElementDataBean.DataBean.InputBean.ElementSetsBean elementSetsBean = elementSetsBeans.get(i);
+            //执行全部配置
+            String allSatisfy = elementSetsBean.getAllSatisfyFire();
+            //仅执行第一条匹配配置
+            String onlySatisfy = elementSetsBean.getOnlySatisfyFire();
+            //计数
+            int satisfySetCount = 0;
 
-                //radio互斥
-                if (formName != null && formName.startsWith("RadioElement_")) {
+            List<ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean> setDataListBeans = elementSetsBean.getSetDataList();
+            for (int j = 0; j < setDataListBeans.size(); j++) {
 
-                    List<String> viewElementIdList = formNametoElementId.get(formName);
-                    if (viewElementIdList != null && viewElementIdList.size() > 0) {
+                ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean setDataListBean = setDataListBeans.get(j);
 
-                        for (int i = 0; i < viewElementIdList.size(); i++) {
-                            if (!viewElementId.equals(viewElementIdList.get(i))) {
-                                CheckBox checkBox = (CheckBox) viewHashMap.get(viewElementIdList.get(i));
-                                if (checkBox != null && checkBox.isChecked()) {
-                                    checkBox.setChecked(false);
-                                }
-                            }
-                        }
-                    }
-                }
-
-                //check 控制 view 显隐 选中
-                for (int i = 0; elementSetsBeans != null && i < elementSetsBeans.size(); i++) {
-                    ElementDataBean.DataBean.InputBean.ElementSetsBean elementSetsBean = elementSetsBeans.get(i);
-
-                    if (elementSetsBean.getFormName().equals(formName) && elementSetsBean.getFormName().startsWith("RadioElement_")) {
-                        CheckBox checkBox = (CheckBox) viewHashMap.get(elementSetsBean.getFormName() + "^" + elementSetsBean.getVal());
-                        if (checkBox != null && checkBox.isChecked() && elementSetsBean.getChangeList() != null && elementSetsBean.getChangeList().size() > 0) {
-                            for (int i1 = 0; i1 < elementSetsBean.getChangeList().size(); i1++) {
-                                ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean changeListBean = elementSetsBean.getChangeList().get(i1);
-                                LinearLayout linearLayout = (LinearLayout) viewHashMap.get(changeListBean.getId() + "_ll");
-                                setEditTextorTextView(changeListBean, linearLayout);
-                            }
-                        }
-                    }
-                }
-            } else if ("drop".equals(isChecked)) {
-                //drop 控制 view 显隐
-                for (int i = 0; elementSetsBeans != null && i < elementSetsBeans.size(); i++) {
-                    ElementDataBean.DataBean.InputBean.ElementSetsBean elementSetsBean = elementSetsBeans.get(i);
-
-                    if (elementSetsBean.getFormName().equals(formName) && (elementSetsBean.getFormName().startsWith("DropRadioElement_") || elementSetsBean.getFormName().startsWith("DropListElement_"))) {
-                        TextView textView = (TextView) viewHashMap.get(viewElementId);
-                        if (textView != null && !StringUtils.isEmpty(textView.getText().toString()) && elementSetsBean.getChangeList() != null && elementSetsBean.getChangeList().size() > 0) {
-                            String tvStr = textView.getText().toString();
-                            String numberValue = "";
-                            List<String> dropTextandNumberValue = elementIdtoOprationItemList.get(viewElementId);
-                            for (int i1 = 0; dropTextandNumberValue != null && i1 < dropTextandNumberValue.size(); i1++) {
-                                String[] TN = dropTextandNumberValue.get(i1).split("\\^");
-                                if (TN != null && TN.length == 2) {
-                                    if (tvStr.equals(TN[0])) {
-                                        numberValue = TN[1];
-                                    }
-                                }
-                            }
-
-                            for (int i1 = 0; i1 < elementSetsBean.getChangeList().size(); i1++) {
-                                if (numberValue.equals(elementSetsBean.getVal())) {
-                                    ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean changeListBean = elementSetsBean.getChangeList().get(i1);
+                //checkbox变更控制其它元素
+                if ("check".equals(status) || "uncheck".equals(status) || "".equals(status)) {
+                    if (setDataListBean.getFormName().startsWith("RadioElement_")) {
+                        //val-选中项
+                        if (StringUtils.isEmpty(setDataListBean.getSign())) {
+                            CheckBox checkBox = (CheckBox) viewHashMap.get(setDataListBean.getFormName() + "^" + setDataListBean.getVal());
+                            if (checkBox != null && checkBox.isChecked()) {
+                                for (int k = 0; setDataListBean.getChangeList() != null && k < setDataListBean.getChangeList().size(); k++) {
+                                    ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean changeListBean = setDataListBean.getChangeList().get(k);
+                                    LinearLayout llContainer = (LinearLayout) viewHashMap.get(changeListBean.getId() + "_containerll");
                                     LinearLayout linearLayout = (LinearLayout) viewHashMap.get(changeListBean.getId() + "_ll");
-                                    setEditTextorTextView(changeListBean, linearLayout);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
 
-            //分数 控制 选中
-            for (int i = 0; elementSetsBeans != null && i < elementSetsBeans.size(); i++) {
-                ElementDataBean.DataBean.InputBean.ElementSetsBean elementSetsBean = elementSetsBeans.get(i);
-
-                if (elementSetsBean.getFormName().equals(formName)) {
-                    if (elementSetsBean.getFormName().startsWith("TextElement_") || elementSetsBean.getFormName().startsWith("NumberElement_")) {
-                        EditText editText = (EditText) viewHashMap.get(viewElementId);
-                        if (editText != null && !StringUtils.isEmpty(editText.getText().toString())) {
-                            if ("EqUnEmptyText".equals(elementSetsBean.getSign())) {
-                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
-                                if (changeListBeans != null && changeListBeans.size() > 0) {
-                                    ValSetView(changeListBeans);
-                                }
-                            } else {
-                                if (editText.getText().toString().matches("[0-9]+")) {
-                                    int edTextInt;
-                                    try {
-                                        edTextInt = Integer.parseInt(StringUtils.isEmpty(editText.getText().toString()) ? "-1" : editText.getText().toString());
-
-                                        if (edTextInt > -1) {
-                                            //Number
-                                            if ("EqNumber".equals(elementSetsBean.getSign())) {
-                                                int val = Integer.parseInt(elementSetsBean.getVal());
-                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
-                                                if (edTextInt == val && changeListBeans != null && changeListBeans.size() > 0) {
-                                                    ValSetView(changeListBeans);
-                                                }
-                                            } else if ("NEqNumber".equals(elementSetsBean.getSign())) {
-                                                int val = Integer.parseInt(elementSetsBean.getVal());
-                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
-                                                if (edTextInt != val && changeListBeans != null && changeListBeans.size() > 0) {
-                                                    ValSetView(changeListBeans);
-                                                }
-                                            } else if ("LeEqNumber".equals(elementSetsBean.getSign())) {
-                                                int val = Integer.parseInt(elementSetsBean.getVal());
-                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
-                                                if (edTextInt <= val && changeListBeans != null && changeListBeans.size() > 0) {
-                                                    ValSetView(changeListBeans);
-                                                }
-                                            } else if ("LeNumber".equals(elementSetsBean.getSign())) {
-                                                int val = Integer.parseInt(elementSetsBean.getVal());
-                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
-                                                if (edTextInt < val && changeListBeans != null && changeListBeans.size() > 0) {
-                                                    ValSetView(changeListBeans);
-                                                }
-                                            } else if ("GrEqNumber".equals(elementSetsBean.getSign())) {
-                                                int val = Integer.parseInt(elementSetsBean.getVal());
-                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
-                                                if (edTextInt >= val && changeListBeans != null && changeListBeans.size() > 0) {
-                                                    ValSetView(changeListBeans);
-                                                }
-                                            } else if ("GrNumber".equals(elementSetsBean.getSign())) {
-                                                int val = Integer.parseInt(elementSetsBean.getVal());
-                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
-                                                if (edTextInt > val && changeListBeans != null && changeListBeans.size() > 0) {
-                                                    ValSetView(changeListBeans);
-                                                }
-                                            } else if ("GrEqNumber1LeEqNumber2".equals(elementSetsBean.getSign())) {
-                                                int val1 = Integer.parseInt(elementSetsBean.getVal());
-                                                int val2 = Integer.parseInt(elementSetsBean.getVal2());
-                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
-                                                if (edTextInt >= val1 && edTextInt <= val2 && changeListBeans != null && changeListBeans.size() > 0) {
-                                                    ValSetView(changeListBeans);
-                                                }
-                                            } else if ("GrNumber1LeEqNumber2".equals(elementSetsBean.getSign())) {
-                                                int val1 = Integer.parseInt(elementSetsBean.getVal());
-                                                int val2 = Integer.parseInt(elementSetsBean.getVal2());
-                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
-                                                if (edTextInt > val1 && edTextInt <= val2 && changeListBeans != null && changeListBeans.size() > 0) {
-                                                    ValSetView(changeListBeans);
-                                                }
-                                            } else if ("GrEqNumber1LeNumber2".equals(elementSetsBean.getSign())) {
-                                                int val1 = Integer.parseInt(elementSetsBean.getVal());
-                                                int val2 = Integer.parseInt(elementSetsBean.getVal2());
-                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
-                                                if (edTextInt >= val1 && edTextInt < val2 && changeListBeans != null && changeListBeans.size() > 0) {
-                                                    ValSetView(changeListBeans);
-                                                }
-                                            } else if ("GrNumber1LeNumber2".equals(elementSetsBean.getSign())) {
-                                                int val1 = Integer.parseInt(elementSetsBean.getVal());
-                                                int val2 = Integer.parseInt(elementSetsBean.getVal2());
-                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
-                                                if (edTextInt > val1 && edTextInt < val2 && changeListBeans != null && changeListBeans.size() > 0) {
-                                                    ValSetView(changeListBeans);
-                                                }
-                                                //Text
-                                            } else if ("Equal".equals(elementSetsBean.getSign())) {
-                                                int val = Integer.parseInt(elementSetsBean.getVal());
-                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
-                                                if (edTextInt == val && changeListBeans != null && changeListBeans.size() > 0) {
-                                                    ValSetView(changeListBeans);
-                                                }
-                                            } else if ("NEqText".equals(elementSetsBean.getSign())) {
-                                                int val = Integer.parseInt(elementSetsBean.getVal());
-                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
-                                                if (edTextInt != val && changeListBeans != null && changeListBeans.size() > 0) {
-                                                    ValSetView(changeListBeans);
-                                                }
-                                            } else if ("LeEqText".equals(elementSetsBean.getSign())) {
-                                                int val = Integer.parseInt(elementSetsBean.getVal());
-                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
-                                                if (edTextInt <= val && changeListBeans != null && changeListBeans.size() > 0) {
-                                                    ValSetView(changeListBeans);
-                                                }
-                                            } else if ("LeText".equals(elementSetsBean.getSign())) {
-                                                int val = Integer.parseInt(elementSetsBean.getVal());
-                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
-                                                if (edTextInt < val && changeListBeans != null && changeListBeans.size() > 0) {
-                                                    ValSetView(changeListBeans);
-                                                }
-                                            } else if ("GrEqText".equals(elementSetsBean.getSign())) {
-                                                int val = Integer.parseInt(elementSetsBean.getVal());
-                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
-                                                if (edTextInt >= val && changeListBeans != null && changeListBeans.size() > 0) {
-                                                    ValSetView(changeListBeans);
-                                                }
-                                            } else if ("GrText".equals(elementSetsBean.getSign())) {
-                                                int val = Integer.parseInt(elementSetsBean.getVal());
-                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
-                                                if (edTextInt > val && changeListBeans != null && changeListBeans.size() > 0) {
-                                                    ValSetView(changeListBeans);
-                                                }
-                                            } else if ("GrEqText1LeEqText2".equals(elementSetsBean.getSign())) {
-                                                int val1 = Integer.parseInt(elementSetsBean.getVal());
-                                                int val2 = Integer.parseInt(elementSetsBean.getVal2());
-                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
-                                                if (edTextInt >= val1 && edTextInt <= val2 && changeListBeans != null && changeListBeans.size() > 0) {
-                                                    ValSetView(changeListBeans);
-                                                }
-                                            } else if ("GrText1LeEqText2".equals(elementSetsBean.getSign())) {
-                                                int val1 = Integer.parseInt(elementSetsBean.getVal());
-                                                int val2 = Integer.parseInt(elementSetsBean.getVal2());
-                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
-                                                if (edTextInt > val1 && edTextInt <= val2 && changeListBeans != null && changeListBeans.size() > 0) {
-                                                    ValSetView(changeListBeans);
-                                                }
-                                            } else if ("GrEqText1LeText2".equals(elementSetsBean.getSign())) {
-                                                int val1 = Integer.parseInt(elementSetsBean.getVal());
-                                                int val2 = Integer.parseInt(elementSetsBean.getVal2());
-                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
-                                                if (edTextInt >= val1 && edTextInt < val2 && changeListBeans != null && changeListBeans.size() > 0) {
-                                                    ValSetView(changeListBeans);
-                                                }
-                                            } else if ("GrText1LeText2".equals(elementSetsBean.getSign())) {
-                                                int val1 = Integer.parseInt(elementSetsBean.getVal());
-                                                int val2 = Integer.parseInt(elementSetsBean.getVal2());
-                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
-                                                if (edTextInt > val1 && edTextInt < val2 && changeListBeans != null && changeListBeans.size() > 0) {
-                                                    ValSetView(changeListBeans);
-                                                }
-                                            }
-                                        }
-                                    } catch (NumberFormatException e) {
-                                        showToast("分数数值不规范");
-                                        e.printStackTrace();
-                                    }
-                                } else {
-                                    String edTextStr = editText.getText().toString();
-                                    if ("ContainsText".equals(elementSetsBean.getSign())) {
-                                        String val = elementSetsBean.getVal();
-                                        List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
-                                        if (edTextStr.contains(val) && changeListBeans != null && changeListBeans.size() > 0) {
-                                            ValSetView(changeListBeans);
-                                        }
-                                    } else if ("NContainsText".equals(elementSetsBean.getSign())) {
-                                        String val = elementSetsBean.getVal();
-                                        List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
-                                        if (!edTextStr.contains(val) && changeListBeans != null && changeListBeans.size() > 0) {
-                                            ValSetView(changeListBeans);
-                                        }
-                                    }
+                                    setViewStatus(changeListBean, llContainer, linearLayout);
+                                    satisfySetCount++;
                                 }
                             }
 
                         } else {
-                            if ("EqEmptyText".equals(elementSetsBean.getSign())) {
-                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
-                                if (changeListBeans != null && changeListBeans.size() > 0) {
-                                    ValSetView(changeListBeans);
+                            //sign-无选中项
+                            if ("EqEmptyArray".equals(setDataListBean.getSign())) {
+                                List<String> elementIdList = formNametoElementId.get(elementSetsBean.getFormName());
+                                int k;
+                                for (k = 0; k < elementIdList.size(); k++) {
+                                    CheckBox checkBox2 = (CheckBox) viewHashMap.get(elementIdList.get(k));
+                                    if (checkBox2 != null && checkBox2.isChecked()) {
+                                        break;
+                                    }
                                 }
-                            }
-                        }
-                    }
-                }
-            }
+                                if (k >= elementIdList.size()) {
+                                    for (int l = 0; setDataListBean.getChangeList() != null && l < setDataListBean.getChangeList().size(); l++) {
+                                        ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean changeListBean = setDataListBean.getChangeList().get(l);
+                                        LinearLayout llContainer = (LinearLayout) viewHashMap.get(changeListBean.getId() + "_containerll");
+                                        LinearLayout linearLayout = (LinearLayout) viewHashMap.get(changeListBean.getId() + "_ll");
 
-            //计分
-            for (int i = 0; statisticsListBeans != null && i < statisticsListBeans.size(); i++) {
-                ElementDataBean.DataBean.InputBean.StatisticsListBean statisticsListBean = statisticsListBeans.get(i);
-                String[] idStr = statisticsListBean.getEffects().split(",");
-                etPointList.clear();
-                if ("".equals(isChecked)) {
-                    for (String s : idStr) {
-                        if (viewHashMap.get(s) instanceof CheckBox) {
-                            //不做操作
-                        } else if (viewHashMap.get(s) instanceof TextView) {
-                            // EditText、TextView 存分
-                            TextView textView = (TextView) viewHashMap.get(s);
-                            if (textView != null) {
-                                if (RegexUtils.isMatch(RegexConstants.REGEX_INTEGER, textView.getText().toString())) {
-                                    etPointList.add(Integer.parseInt(textView.getText().toString()));
-                                }
-                            }
-                        }
-                    }
-                }
-
-                for (String s : idStr) {
-                    if (s.equals(viewElementId)) {
-                        EditText editText = (EditText) viewHashMap.get(statisticsListBean.getId());
-                        if (editText != null) {
-                            int score = Integer.parseInt(StringUtils.isEmpty(editText.getText().toString()) ? "0" : editText.getText().toString());
-
-                            if ("true".equals(isChecked) || "false".equals(isChecked)) {
-                                int changeScore = Integer.parseInt(elementIdtoFormName.get(viewElementId).split("\\^")[1]);
-                                CheckBox checkBox = (CheckBox) viewHashMap.get(viewElementId);
-                                if (checkBox != null && checkBox.isChecked()) {
-                                    score = score + changeScore;
-                                } else {
-                                    score = score - changeScore;
-                                }
-                            } else if ("drop".equals(isChecked)) {
-                                Integer[] scoreInt = dropValue.get(viewElementId);
-                                if (scoreInt != null) {
-                                    score = score - scoreInt[0] + scoreInt[1];
-                                }
-                            } else {
-                                if (etPointList.size() > 0) {
-                                    score = 0;
-                                    for (int j = 0; j < etPointList.size(); j++) {
-                                        score = score + etPointList.get(j);
+                                        setViewStatus(changeListBean, llContainer, linearLayout);
+                                        satisfySetCount++;
                                     }
                                 }
                             }
-                            editText.setText(String.valueOf(score));
+                        }
+
+                    } else if (setDataListBean.getFormName().startsWith("CheckElement_")) {
+                        if (StringUtils.isEmpty(setDataListBean.getSign())) {
+
+                        } else {
+                            //sign-无选中项
+                            if ("EqEmptyArray".equals(setDataListBean.getSign())) {
+                                List<String> elementIdList = formNametoElementId.get(elementSetsBean.getFormName());
+                                int k;
+                                for (k = 0; k < elementIdList.size(); k++) {
+                                    CheckBox checkBox2 = (CheckBox) viewHashMap.get(elementIdList.get(k));
+                                    if (checkBox2 != null && checkBox2.isChecked()) {
+                                        break;
+                                    }
+                                }
+                                if (k >= elementIdList.size()) {
+                                    for (int l = 0; setDataListBean.getChangeList() != null && l < setDataListBean.getChangeList().size(); l++) {
+                                        ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean changeListBean = setDataListBean.getChangeList().get(l);
+                                        LinearLayout llContainer = (LinearLayout) viewHashMap.get(changeListBean.getId() + "_containerll");
+                                        LinearLayout linearLayout = (LinearLayout) viewHashMap.get(changeListBean.getId() + "_ll");
+
+                                        setViewStatus(changeListBean, llContainer, linearLayout);
+                                        satisfySetCount++;
+                                    }
+                                }
+                                //sign-有选中项
+                            } else if ("EqUnEmptyArray".equals(setDataListBean.getSign())) {
+                                List<String> elementIdList = formNametoElementId.get(elementSetsBean.getFormName());
+                                int k;
+                                for (k = 0; k < elementIdList.size(); k++) {
+                                    CheckBox checkBox2 = (CheckBox) viewHashMap.get(elementIdList.get(k));
+                                    if (checkBox2 != null && checkBox2.isChecked()) {
+                                        break;
+                                    }
+                                }
+                                if (k < elementIdList.size()) {
+                                    for (int l = 0; setDataListBean.getChangeList() != null && l < setDataListBean.getChangeList().size(); l++) {
+                                        ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean changeListBean = setDataListBean.getChangeList().get(l);
+                                        LinearLayout llContainer = (LinearLayout) viewHashMap.get(changeListBean.getId() + "_containerll");
+                                        LinearLayout linearLayout = (LinearLayout) viewHashMap.get(changeListBean.getId() + "_ll");
+
+                                        setViewStatus(changeListBean, llContainer, linearLayout);
+                                        satisfySetCount++;
+                                    }
+                                }
+                                //sign-包含特定选中项
+                            } else if ("ContainsAnyArry".equals(setDataListBean.getSign())) {
+                                List<String> valList = Arrays.asList(setDataListBean.getVal().split(",").clone());
+                                for (int i1 = 0; i1 < valList.size(); i1++) {
+                                    CheckBox checkBox = (CheckBox) viewHashMap.get(setDataListBean.getFormName() + "^" + valList.get(i1));
+                                    if (checkBox != null && checkBox.isChecked()) {
+                                        for (int i2 = 0; setDataListBean.getChangeList() != null && i2 < setDataListBean.getChangeList().size(); i2++) {
+                                            ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean changeListBean = setDataListBean.getChangeList().get(i2);
+                                            LinearLayout llContainer = (LinearLayout) viewHashMap.get(changeListBean.getId() + "_containerll");
+                                            LinearLayout linearLayout = (LinearLayout) viewHashMap.get(changeListBean.getId() + "_ll");
+
+                                            setViewStatus(changeListBean, llContainer, linearLayout);
+                                            satisfySetCount++;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+                }
+
+                //drop 控制 view 显隐
+                if ("drop".equals(status) || "".equals(status)) {
+
+                    if (setDataListBean.getFormName().startsWith("DropRadioElement_") || setDataListBean.getFormName().startsWith("DropListElement_")) {
+                        TextView textView = (TextView) viewHashMap.get(viewElementId);
+                        if (StringUtils.isEmpty(setDataListBean.getSign())) {
+                            if (textView != null && !StringUtils.isEmpty(textView.getText().toString()) && setDataListBean.getChangeList() != null) {
+                                String tvStr = textView.getText().toString();
+                                String numberValue = "";
+                                List<String> dropTextandNumberValue = elementIdtoOprationItemList.get(viewElementId);
+                                for (int k = 0; dropTextandNumberValue != null && k < dropTextandNumberValue.size(); k++) {
+                                    String[] TN = dropTextandNumberValue.get(k).split("\\^");
+                                    if (TN != null && TN.length == 2) {
+                                        if (tvStr.equals(TN[0])) {
+                                            numberValue = TN[1];
+                                        }
+                                    }
+                                }
+
+
+                                if (numberValue.equals(setDataListBean.getVal())) {
+                                    List<ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean> changeListBeanList = setDataListBean.getChangeList();
+                                    for (int l = 0; l < changeListBeanList.size(); l++) {
+                                        ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean changeListBean = setDataListBean.getChangeList().get(l);
+                                        LinearLayout llContainer = (LinearLayout) viewHashMap.get(changeListBean.getId() + "_containerll");
+                                        LinearLayout linearLayout = (LinearLayout) viewHashMap.get(changeListBean.getId() + "_ll");
+
+                                        setViewStatus(changeListBean, llContainer, linearLayout);
+                                        satisfySetCount++;
+                                    }
+
+                                }
+
+                            }
+                        } else {
+                            if ("EqEmptyArray".equals(setDataListBean.getSign())) {
+                                if (textView != null && StringUtils.isEmpty(textView.getText().toString()) && setDataListBean.getChangeList() != null) {
+                                    for (int l = 0; l < setDataListBean.getChangeList().size(); l++) {
+                                        ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean changeListBean = setDataListBean.getChangeList().get(l);
+                                        LinearLayout llContainer = (LinearLayout) viewHashMap.get(changeListBean.getId() + "_containerll");
+                                        LinearLayout linearLayout = (LinearLayout) viewHashMap.get(changeListBean.getId() + "_ll");
+
+                                        setViewStatus(changeListBean, llContainer, linearLayout);
+                                        satisfySetCount++;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                //分数 控制 选中
+                if (setDataListBean.getFormName().startsWith("TextElement_") || setDataListBean.getFormName().startsWith("NumberElement_")) {
+                    EditText editText = (EditText) viewHashMap.get(viewElementId);
+                    if (editText != null && !StringUtils.isEmpty(editText.getText().toString())) {
+                        if ("EqUnEmptyText".equals(setDataListBean.getSign())) {
+                            List<ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean> changeListBeans = setDataListBean.getChangeList();
+                            if (changeListBeans != null && changeListBeans.size() > 0) {
+                                ValSetView(changeListBeans);
+                            }
+                        } else {
+                            if (editText.getText().toString().matches("[0-9]+")) {
+                                int edTextInt;
+                                try {
+                                    edTextInt = Integer.parseInt(StringUtils.isEmpty(editText.getText().toString()) ? "-1" : editText.getText().toString());
+
+                                    if (edTextInt > -1) {
+                                        //Number
+                                        if ("EqNumber".equals(setDataListBean.getSign())) {
+                                            int val = Integer.parseInt(setDataListBean.getVal());
+                                            List<ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean> changeListBeans = setDataListBean.getChangeList();
+                                            if (edTextInt == val && changeListBeans != null && changeListBeans.size() > 0) {
+                                                ValSetView(changeListBeans);
+                                            }
+                                        } else if ("NEqNumber".equals(setDataListBean.getSign())) {
+                                            int val = Integer.parseInt(setDataListBean.getVal());
+                                            List<ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean> changeListBeans = setDataListBean.getChangeList();
+                                            if (edTextInt != val && changeListBeans != null && changeListBeans.size() > 0) {
+                                                ValSetView(changeListBeans);
+                                            }
+                                        } else if ("LeEqNumber".equals(setDataListBean.getSign())) {
+                                            int val = Integer.parseInt(setDataListBean.getVal());
+                                            List<ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean> changeListBeans = setDataListBean.getChangeList();
+                                            if (edTextInt <= val && changeListBeans != null && changeListBeans.size() > 0) {
+                                                ValSetView(changeListBeans);
+                                            }
+                                        } else if ("LeNumber".equals(setDataListBean.getSign())) {
+                                            int val = Integer.parseInt(setDataListBean.getVal());
+                                            List<ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean> changeListBeans = setDataListBean.getChangeList();
+                                            if (edTextInt < val && changeListBeans != null && changeListBeans.size() > 0) {
+                                                ValSetView(changeListBeans);
+                                            }
+                                        } else if ("GrEqNumber".equals(setDataListBean.getSign())) {
+                                            int val = Integer.parseInt(setDataListBean.getVal());
+                                            List<ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean> changeListBeans = setDataListBean.getChangeList();
+                                            if (edTextInt >= val && changeListBeans != null && changeListBeans.size() > 0) {
+                                                ValSetView(changeListBeans);
+                                            }
+                                        } else if ("GrNumber".equals(setDataListBean.getSign())) {
+                                            int val = Integer.parseInt(setDataListBean.getVal());
+                                            List<ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean> changeListBeans = setDataListBean.getChangeList();
+                                            if (edTextInt > val && changeListBeans != null && changeListBeans.size() > 0) {
+                                                ValSetView(changeListBeans);
+                                            }
+                                        } else if ("GrEqNumber1LeEqNumber2".equals(setDataListBean.getSign())) {
+                                            int val1 = Integer.parseInt(setDataListBean.getVal());
+                                            int val2 = Integer.parseInt(setDataListBean.getVal2());
+                                            List<ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean> changeListBeans = setDataListBean.getChangeList();
+                                            if (edTextInt >= val1 && edTextInt <= val2 && changeListBeans != null && changeListBeans.size() > 0) {
+                                                ValSetView(changeListBeans);
+                                            }
+                                        } else if ("GrNumber1LeEqNumber2".equals(setDataListBean.getSign())) {
+                                            int val1 = Integer.parseInt(setDataListBean.getVal());
+                                            int val2 = Integer.parseInt(setDataListBean.getVal2());
+                                            List<ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean> changeListBeans = setDataListBean.getChangeList();
+                                            if (edTextInt > val1 && edTextInt <= val2 && changeListBeans != null && changeListBeans.size() > 0) {
+                                                ValSetView(changeListBeans);
+                                            }
+                                        } else if ("GrEqNumber1LeNumber2".equals(setDataListBean.getSign())) {
+                                            int val1 = Integer.parseInt(setDataListBean.getVal());
+                                            int val2 = Integer.parseInt(setDataListBean.getVal2());
+                                            List<ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean> changeListBeans = setDataListBean.getChangeList();
+                                            if (edTextInt >= val1 && edTextInt < val2 && changeListBeans != null && changeListBeans.size() > 0) {
+                                                ValSetView(changeListBeans);
+                                            }
+                                        } else if ("GrNumber1LeNumber2".equals(setDataListBean.getSign())) {
+                                            int val1 = Integer.parseInt(setDataListBean.getVal());
+                                            int val2 = Integer.parseInt(setDataListBean.getVal2());
+                                            List<ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean> changeListBeans = setDataListBean.getChangeList();
+                                            if (edTextInt > val1 && edTextInt < val2 && changeListBeans != null && changeListBeans.size() > 0) {
+                                                ValSetView(changeListBeans);
+                                            }
+                                            //Text
+                                        } else if ("Equal".equals(setDataListBean.getSign())) {
+                                            int val = Integer.parseInt(setDataListBean.getVal());
+                                            List<ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean> changeListBeans = setDataListBean.getChangeList();
+                                            if (edTextInt == val && changeListBeans != null && changeListBeans.size() > 0) {
+                                                ValSetView(changeListBeans);
+                                            }
+                                        } else if ("NEqText".equals(setDataListBean.getSign())) {
+                                            int val = Integer.parseInt(setDataListBean.getVal());
+                                            List<ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean> changeListBeans = setDataListBean.getChangeList();
+                                            if (edTextInt != val && changeListBeans != null && changeListBeans.size() > 0) {
+                                                ValSetView(changeListBeans);
+                                            }
+                                        } else if ("LeEqText".equals(setDataListBean.getSign())) {
+                                            int val = Integer.parseInt(setDataListBean.getVal());
+                                            List<ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean> changeListBeans = setDataListBean.getChangeList();
+                                            if (edTextInt <= val && changeListBeans != null && changeListBeans.size() > 0) {
+                                                ValSetView(changeListBeans);
+                                            }
+                                        } else if ("LeText".equals(setDataListBean.getSign())) {
+                                            int val = Integer.parseInt(setDataListBean.getVal());
+                                            List<ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean> changeListBeans = setDataListBean.getChangeList();
+                                            if (edTextInt < val && changeListBeans != null && changeListBeans.size() > 0) {
+                                                ValSetView(changeListBeans);
+                                            }
+                                        } else if ("GrEqText".equals(setDataListBean.getSign())) {
+                                            int val = Integer.parseInt(setDataListBean.getVal());
+                                            List<ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean> changeListBeans = setDataListBean.getChangeList();
+                                            if (edTextInt >= val && changeListBeans != null && changeListBeans.size() > 0) {
+                                                ValSetView(changeListBeans);
+                                            }
+                                        } else if ("GrText".equals(setDataListBean.getSign())) {
+                                            int val = Integer.parseInt(setDataListBean.getVal());
+                                            List<ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean> changeListBeans = setDataListBean.getChangeList();
+                                            if (edTextInt > val && changeListBeans != null && changeListBeans.size() > 0) {
+                                                ValSetView(changeListBeans);
+                                            }
+                                        } else if ("GrEqText1LeEqText2".equals(setDataListBean.getSign())) {
+                                            int val1 = Integer.parseInt(setDataListBean.getVal());
+                                            int val2 = Integer.parseInt(setDataListBean.getVal2());
+                                            List<ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean> changeListBeans = setDataListBean.getChangeList();
+                                            if (edTextInt >= val1 && edTextInt <= val2 && changeListBeans != null && changeListBeans.size() > 0) {
+                                                ValSetView(changeListBeans);
+                                            }
+                                        } else if ("GrText1LeEqText2".equals(setDataListBean.getSign())) {
+                                            int val1 = Integer.parseInt(setDataListBean.getVal());
+                                            int val2 = Integer.parseInt(setDataListBean.getVal2());
+                                            List<ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean> changeListBeans = setDataListBean.getChangeList();
+                                            if (edTextInt > val1 && edTextInt <= val2 && changeListBeans != null && changeListBeans.size() > 0) {
+                                                ValSetView(changeListBeans);
+                                            }
+                                        } else if ("GrEqText1LeText2".equals(setDataListBean.getSign())) {
+                                            int val1 = Integer.parseInt(setDataListBean.getVal());
+                                            int val2 = Integer.parseInt(setDataListBean.getVal2());
+                                            List<ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean> changeListBeans = setDataListBean.getChangeList();
+                                            if (edTextInt >= val1 && edTextInt < val2 && changeListBeans != null && changeListBeans.size() > 0) {
+                                                ValSetView(changeListBeans);
+                                            }
+                                        } else if ("GrText1LeText2".equals(setDataListBean.getSign())) {
+                                            int val1 = Integer.parseInt(setDataListBean.getVal());
+                                            int val2 = Integer.parseInt(setDataListBean.getVal2());
+                                            List<ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean> changeListBeans = setDataListBean.getChangeList();
+                                            if (edTextInt > val1 && edTextInt < val2 && changeListBeans != null && changeListBeans.size() > 0) {
+                                                ValSetView(changeListBeans);
+                                            }
+                                        }
+                                    }
+                                } catch (NumberFormatException e) {
+                                    showToast("分数数值不规范");
+                                    e.printStackTrace();
+                                }
+                            } else {
+                                String edTextStr = editText.getText().toString();
+                                if ("ContainsText".equals(setDataListBean.getSign())) {
+                                    String val = setDataListBean.getVal();
+                                    List<ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean> changeListBeans = setDataListBean.getChangeList();
+                                    if (edTextStr.contains(val) && changeListBeans != null && changeListBeans.size() > 0) {
+                                        ValSetView(changeListBeans);
+                                    }
+                                } else if ("NContainsText".equals(setDataListBean.getSign())) {
+                                    String val = setDataListBean.getVal();
+                                    List<ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean> changeListBeans = setDataListBean.getChangeList();
+                                    if (!edTextStr.contains(val) && changeListBeans != null && changeListBeans.size() > 0) {
+                                        ValSetView(changeListBeans);
+                                    }
+                                }
+                            }
+                        }
+
+                    } else {
+                        if ("EqEmptyText".equals(setDataListBean.getSign())) {
+                            List<ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean> changeListBeans = setDataListBean.getChangeList();
+                            if (changeListBeans != null && changeListBeans.size() > 0) {
+                                ValSetView(changeListBeans);
+                            }
+                        }
+                    }
+                }
+
+                if ("true".equals(onlySatisfy) && satisfySetCount > 0) {
+                    break;
+                }
+            }
+        }
+
+        if (formName != null && formName.startsWith("RadioElement_") && "check".equals(status)) {
+            //radio互斥
+            List<String> viewElementIdList = formNametoElementId.get(formName);
+            if (viewElementIdList != null && viewElementIdList.size() > 0) {
+
+                for (int l = 0; l < viewElementIdList.size(); l++) {
+                    CheckBox checkBox2 = (CheckBox) viewHashMap.get(viewElementIdList.get(l));
+                    if (checkBox2 != null) {
+                        if (!viewElementId.equals(viewElementIdList.get(l)) && checkBox2.isChecked()) {
+                            checkBox2.setChecked(false);
+                        }
+                    }
+
+                }
+            }
+        }
+
+        //计分
+        for (int i = 0; statisticsListBeans != null && i < statisticsListBeans.size(); i++) {
+            ElementDataBean.DataBean.InputBean.StatisticsListBean statisticsListBean = statisticsListBeans.get(i);
+            String[] idStr = statisticsListBean.getEffects().split(",");
+            etPointList.clear();
+            if ("".equals(status)) {
+                for (String s : idStr) {
+                    if (viewHashMap.get(s) instanceof CheckBox) {
+                        //不做操作
+                    } else if (viewHashMap.get(s) instanceof TextView) {
+                        // EditText、TextView 存分
+                        TextView textView = (TextView) viewHashMap.get(s);
+                        if (textView != null) {
+                            if (RegexUtils.isMatch(RegexConstants.REGEX_INTEGER, textView.getText().toString())) {
+                                etPointList.add(Integer.parseInt(textView.getText().toString()));
+                            }
                         }
                     }
                 }
             }
 
+            for (String s : idStr) {
+                if (s.equals(viewElementId)) {
+                    EditText editText = (EditText) viewHashMap.get(statisticsListBean.getId());
+                    if (editText != null) {
+                        int score = Integer.parseInt(StringUtils.isEmpty(editText.getText().toString()) ? "0" : editText.getText().toString());
+
+                        if ("check".equals(status) || "uncheck".equals(status)) {
+                            int changeScore = Integer.parseInt(elementIdtoFormName.get(viewElementId).split("\\^")[1]);
+                            CheckBox checkBox = (CheckBox) viewHashMap.get(viewElementId);
+                            if (checkBox != null && checkBox.isChecked()) {
+                                score = score + changeScore;
+                            } else {
+                                score = score - changeScore;
+                            }
+                        } else if ("drop".equals(status)) {
+                            Integer[] scoreInt = dropValue.get(viewElementId);
+                            if (scoreInt != null) {
+                                score = score - scoreInt[0] + scoreInt[1];
+                            }
+                        } else {
+                            if (etPointList.size() > 0) {
+                                score = 0;
+                                for (int j = 0; j < etPointList.size(); j++) {
+                                    score = score + etPointList.get(j);
+                                }
+                            }
+                        }
+                        editText.setText(String.valueOf(score));
+                    }
+                }
+            }
+        }
+
+        //医学表达式赋值
+        for (int i = 0; i < meViewLinkList.size(); i++) {
+            MEViewLink meViewLink = meViewLinkList.get(i);
+
+            if (meViewLink.getMEHashMap().containsValue(viewElementId)) {
+                if (meViewLink.getLinkName().equals("出入平衡（新）")) {
+                    EditText editText1 = (EditText) viewHashMap.get(meViewLink.getMEHashMap().get("item1"));
+                    EditText editText2 = (EditText) viewHashMap.get(meViewLink.getMEHashMap().get("item2"));
+                    EditText editText3 = (EditText) viewHashMap.get(meViewLink.getResultViewId());
+
+                    if (editText1 != null && editText2 != null && editText3 != null) {
+                        try {
+                            int num1 = Integer.parseInt(StringUtils.isTrimEmpty(editText1.getText().toString()) ? "0" : editText1.getText().toString());
+                            int num2 = Integer.parseInt(StringUtils.isTrimEmpty(editText2.getText().toString()) ? "0" : editText2.getText().toString());
+                            int result = num1 - num2;
+                            editText3.setText(String.valueOf(result));
+                        } catch (NumberFormatException e) {
+                            showToast("分数数值不规范");
+                            e.printStackTrace();
+                        }
+                    }
+                } else if (meViewLink.getLinkName().equals("BMI指数")) {
+                    EditText editText1 = (EditText) viewHashMap.get(meViewLink.getMEHashMap().get("item1"));
+                    EditText editText2 = (EditText) viewHashMap.get(meViewLink.getMEHashMap().get("item2"));
+                    EditText editText3 = (EditText) viewHashMap.get(meViewLink.getResultViewId());
+
+                    if (editText1 != null && editText2 != null && editText3 != null) {
+                        try {
+                            int num1 = Integer.parseInt(StringUtils.isTrimEmpty(editText1.getText().toString()) ? "0" : editText1.getText().toString());
+                            int num2 = Integer.parseInt(StringUtils.isTrimEmpty(editText2.getText().toString()) ? "0" : editText2.getText().toString());
+                            if (num1 == 0) {
+                                Toast.makeText(getActivity(), "请填写体重以计算BMI指数", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            if (num2 == 0) {
+                                Toast.makeText(getActivity(), "请填写身高以计算BMI指数", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+
+                            double result1 = num2 * num2;
+                            double result2 = num1 * 1.0f / result1;
+                            BigDecimal bg = new BigDecimal(result2);
+                            double result = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                            editText3.setText(String.valueOf(result));
+
+                        } catch (NumberFormatException e) {
+                            showToast("分数数值不规范");
+                            e.printStackTrace();
+                        }
+                    }
+                } else if (meViewLink.getLinkName().equals("cm转m")) {
+                    EditText editText1 = (EditText) viewHashMap.get(meViewLink.getMEHashMap().get("item1"));
+                    EditText editText2 = (EditText) viewHashMap.get(meViewLink.getResultViewId());
+
+                    if (editText1 != null && editText2 != null) {
+                        try {
+                            int num1 = Integer.parseInt(StringUtils.isTrimEmpty(editText1.getText().toString()) ? "0" : editText1.getText().toString());
+
+                            double result1 = num1 * 1.0f / 100;
+                            BigDecimal bg = new BigDecimal(result1);
+                            double result = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                            editText2.setText(String.valueOf(result));
+
+                        } catch (NumberFormatException e) {
+                            showToast("分数数值不规范");
+                            e.printStackTrace();
+                        }
+                    }
+                } else if (meViewLink.getLinkName().equals("kg转g")) {
+                    EditText editText1 = (EditText) viewHashMap.get(meViewLink.getMEHashMap().get("item1"));
+                    EditText editText2 = (EditText) viewHashMap.get(meViewLink.getResultViewId());
+
+                    if (editText1 != null && editText2 != null) {
+                        try {
+                            double num1 = Double.parseDouble(StringUtils.isTrimEmpty(editText1.getText().toString()) ? "0" : editText1.getText().toString());
+                            double result = num1 * 1000;
+                            editText2.setText(String.valueOf(result));
+
+                        } catch (NumberFormatException e) {
+                            showToast("分数数值不规范");
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
         }
 
         //必填项填入内容之后还原view
-        if ("true".equals(isChecked)) {
+        if ("check".equals(status)) {
             String viewFormName = elementIdtoFormName.get(viewElementId) == null ? "" : elementIdtoFormName.get(viewElementId);
             if (viewFormName.contains("RadioElement") || viewFormName.contains("CheckElement")) {
                 List<String> elementIdList = formNametoElementId.get(viewFormName.split("\\^")[0]);
-                for (int i = 0; elementIdList != null && i < elementIdList.size(); i++) {
-                    CheckBox checkBox = (CheckBox) viewHashMap.get(elementIdList.get(i));
+                for (int k = 0; elementIdList != null && k < elementIdList.size(); k++) {
+                    CheckBox checkBox = (CheckBox) viewHashMap.get(elementIdList.get(k));
                     if (checkBox != null) {
                         checkBox.setTextColor(Color.parseColor("#FF4A4A4A"));
                     }
@@ -2178,12 +2719,28 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
     }
 
     /**
-     * check drop 控制 edit text 显隐编辑点击
+     * 控制容器 显示隐藏
+     * 控制元素 显示隐藏 是否可编辑 赋值
      *
      * @param changeListBean
+     * @param llContainer
      * @param linearLayout
      */
-    private void setEditTextorTextView(ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean changeListBean, LinearLayout linearLayout) {
+    private void setViewStatus(ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean changeListBean, LinearLayout llContainer, LinearLayout linearLayout) {
+        String type = changeListBean.getType();
+        if (llContainer != null) {
+            //控制容器
+            if (type.contains("Show")) {
+                llContainer.clearAnimation();
+                llContainer.setVisibility(View.VISIBLE);
+            }
+
+            if (type.contains("Hide")) {
+                llContainer.clearAnimation();
+                llContainer.setVisibility(View.GONE);
+            }
+        }
+
         if (linearLayout != null) {
             //控制单一元素
             if (viewHashMap.get(changeListBean.getId()) instanceof CheckBox) {
@@ -2198,7 +2755,22 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                     }
                 }
 
-                String type = changeListBean.getType();
+                if (type.contains("Enable")) {
+                    if (checkBoxes.size() > 0) {
+                        for (int i = 0; i < checkBoxes.size(); i++) {
+                            checkBoxes.get(i).setEnabled(true);
+                            checkBoxes.get(i).setClickable(true);
+                        }
+                    }
+                } else if (type.contains("DisEnable")) {
+                    if (checkBoxes.size() > 0) {
+                        for (int i = 0; i < checkBoxes.size(); i++) {
+                            checkBoxes.get(i).setClickable(false);
+                            checkBoxes.get(i).setEnabled(false);
+                        }
+                    }
+                }
+
                 if (type.contains("Show")) {
                     linearLayout.setVisibility(View.VISIBLE);
                 } else if (type.contains("Hide")) {
@@ -2211,160 +2783,662 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                 }
             } else if (viewHashMap.get(changeListBean.getId()) instanceof EditText) {
                 EditText editText = (EditText) viewHashMap.get(changeListBean.getId());
-                String type = changeListBean.getType();
 
                 if (type.contains("HasData")) {
-                    if (editText != null) {
-                        editText.setText(changeListBean.getVal());
-                    }
+                    editText.setText(changeListBean.getVal());
                 }
 
-                if (type.contains("Enable") || type.contains("DisEnable")) {
-                    if (editText != null) {
-                        if (type.contains("Enable")) {
-                            editText.setEnabled(true);
-                        } else {
-                            editText.setText("");
-                            editText.setEnabled(false);
-                        }
-                    }
+                if (type.contains("Enable")) {
+                    editText.setFocusable(true);
+                    editText.setEnabled(true);
+                    editText.setBackground(getResources().getDrawable(R.drawable.nur_record_input_bg));
+                } else if (type.contains("DisEnable")) {
+                    editText.setText("");
+                    editText.setBackground(getResources().getDrawable(R.drawable.nur_record_input_bg_uneditable));
+                    editText.setFocusable(false);
+                    editText.setEnabled(false);
                 }
+
 
                 if (type.contains("Show")) {
                     linearLayout.setVisibility(View.VISIBLE);
                 } else if (type.contains("Hide")) {
-                    if (editText != null) {
-                        editText.setText("");
-                    }
+                    editText.setText("");
                     linearLayout.setVisibility(View.GONE);
                 }
             } else if (viewHashMap.get(changeListBean.getId()) instanceof TextView) {
                 TextView textView = (TextView) viewHashMap.get(changeListBean.getId());
-                String type = changeListBean.getType();
 
                 if (type.contains("HasData")) {
-                    if (textView != null) {
-                        textView.setText(changeListBean.getVal());
-                    }
+                    textView.setText(changeListBean.getVal());
                 }
 
-                if (type.contains("Enable") || type.contains("DisEnable")) {
-                    if (textView != null) {
-                        if (type.contains("Enable")) {
-                            textView.setClickable(true);
-                        } else {
-                            textView.setText("");
-                            textView.setClickable(false);
-                        }
-                    }
+                if (type.contains("Enable")) {
+                    textView.setClickable(true);
+                    textView.setBackground(getResources().getDrawable(R.drawable.nur_record_btn_bg));
+                } else if (type.contains("DisEnable")) {
+                    textView.setText("");
+                    textView.setClickable(false);
+                    textView.setBackground(getResources().getDrawable(R.drawable.nur_record_btn_bg_unclickable));
                 }
 
                 if (type.contains("Show")) {
                     linearLayout.setVisibility(View.VISIBLE);
                 } else if (type.contains("Hide")) {
-                    if (textView != null) {
-                        textView.setText("");
-                    }
+                    textView.setText("");
                     linearLayout.setVisibility(View.GONE);
-                }
-            }
-        } else {
-            //控制一组元素
-            List<String> childElementIdList = pcViewHashMap.get(changeListBean.getId());
-            if (childElementIdList != null && childElementIdList.size() > 0) {
-                for (int i2 = 0; i2 < childElementIdList.size(); i2++) {
-                    if (viewHashMap.get(childElementIdList.get(i2)) instanceof CheckBox) {
-                        CheckBox checkBox = (CheckBox) viewHashMap.get(childElementIdList.get(i2));
-                        String type = changeListBean.getType();
-
-                        if (type.contains("Enable") || type.contains("DisEnable")) {
-                            if (checkBox != null) {
-                                checkBox.setClickable(type.contains("Enable"));
-                            }
-                        }
-
-                        LinearLayout linearLayoutChild = (LinearLayout) viewHashMap.get(childElementIdList.get(i2) + "_ll");
-                        if (type.contains("Show")) {
-                            if (linearLayoutChild != null) {
-                                linearLayoutChild.setVisibility(View.VISIBLE);
-                            }
-                        } else if (type.contains("Hide")) {
-                            if (checkBox != null) {
-                                checkBox.setChecked(false);
-                            }
-                            if (linearLayoutChild != null) {
-                                linearLayoutChild.setVisibility(View.GONE);
-                            }
-                        }
-                    } else if (viewHashMap.get(childElementIdList.get(i2)) instanceof EditText) {
-                        EditText editTextChild = (EditText) viewHashMap.get(childElementIdList.get(i2));
-                        String type = changeListBean.getType();
-
-                        if (type.contains("Enable") || type.contains("DisEnable")) {
-                            if (editTextChild != null) {
-                                if (type.contains("Enable")) {
-                                    editTextChild.setEnabled(true);
-                                } else {
-                                    editTextChild.setText("");
-                                    editTextChild.setEnabled(false);
-                                }
-                            }
-                        }
-                        LinearLayout linearLayoutChild = (LinearLayout) viewHashMap.get(childElementIdList.get(i2) + "_ll");
-                        if (type.contains("Show")) {
-                            if (linearLayoutChild != null) {
-                                linearLayoutChild.setVisibility(View.VISIBLE);
-                            }
-                        } else if (type.contains("Hide")) {
-                            if (editTextChild != null) {
-                                editTextChild.setText("");
-                            }
-                            if (linearLayoutChild != null) {
-                                linearLayoutChild.setVisibility(View.GONE);
-                            }
-                        }
-                    } else if (viewHashMap.get(childElementIdList.get(i2)) instanceof TextView) {
-                        TextView textViewChild = (TextView) viewHashMap.get(childElementIdList.get(i2));
-                        String type = changeListBean.getType();
-
-                        if (type.contains("Enable") || type.contains("DisEnable")) {
-                            if (textViewChild != null) {
-                                if (type.contains("Enable")) {
-                                    textViewChild.setClickable(true);
-                                } else {
-                                    textViewChild.setText("");
-                                    textViewChild.setClickable(false);
-                                }
-                            }
-                        }
-
-                        LinearLayout linearLayoutChild = (LinearLayout) viewHashMap.get(childElementIdList.get(i2) + "_ll");
-                        if (type.contains("Show")) {
-                            if (linearLayoutChild != null) {
-                                linearLayoutChild.setVisibility(View.VISIBLE);
-                            }
-                        } else if (type.contains("Hide")) {
-                            if (textViewChild != null) {
-                                textViewChild.setText("");
-                            }
-                            if (linearLayoutChild != null) {
-                                linearLayoutChild.setVisibility(View.GONE);
-                            }
-                        }
-                    }
                 }
             }
         }
     }
 
     /**
+     * View级联控制 显示隐藏 是否可编辑 选中未选中 评分
+     *
+     * @param viewElementId
+     * @param isChecked
+     */
+//    private void setViews(String viewElementId, String isChecked) {
+//        if (StringUtils.isEmpty(viewElementId)) {
+//            //界面初始化
+//            for (int i = 0; elementSetsBeans != null && i < elementSetsBeans.size(); i++) {
+//                ElementDataBean.DataBean.InputBean.ElementSetsBean elementSetsBean = elementSetsBeans.get(i);
+//
+//                // check 控制 view（可能单一元素，可能一组元素） 是否可编辑 显示隐藏
+//                if ((elementSetsBean.getFormName().startsWith("RadioElement_") || elementSetsBean.getFormName().startsWith("CheckElement_"))) {
+//                    CheckControlView(elementSetsBean.getSetDataList());
+//                }
+//            }
+//        } else {
+//            //操作联动
+//            String formName = elementIdtoFormName.get(viewElementId) == null ? null : elementIdtoFormName.get(viewElementId).split("\\^")[0];
+//
+//            //check选中控制
+//            if ("true".equals(isChecked)) {
+//
+//                //radio互斥
+//                if (formName != null && formName.startsWith("RadioElement_")) {
+//
+//                    List<String> viewElementIdList = formNametoElementId.get(formName);
+//                    if (viewElementIdList != null && viewElementIdList.size() > 0) {
+//
+//                        for (int i = 0; i < viewElementIdList.size(); i++) {
+//                            if (!viewElementId.equals(viewElementIdList.get(i))) {
+//                                CheckBox checkBox = (CheckBox) viewHashMap.get(viewElementIdList.get(i));
+//                                if (checkBox != null && checkBox.isChecked()) {
+//                                    checkBox.setChecked(false);
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//
+//                //check 控制 view 显隐 选中
+//                for (int i = 0; elementSetsBeans != null && i < elementSetsBeans.size(); i++) {
+//                    ElementDataBean.DataBean.InputBean.ElementSetsBean elementSetsBean = elementSetsBeans.get(i);
+//
+//                    if (elementSetsBean.getFormName().equals(formName) && (elementSetsBean.getFormName().startsWith("RadioElement_") || elementSetsBean.getFormName().startsWith("CheckElement_"))) {
+//                        CheckControlView(elementSetsBean);
+//                    }
+//                }
+//            } else if ("drop".equals(isChecked)) {
+//                //drop 控制 view 显隐
+//                for (int i = 0; elementSetsBeans != null && i < elementSetsBeans.size(); i++) {
+//                    ElementDataBean.DataBean.InputBean.ElementSetsBean elementSetsBean = elementSetsBeans.get(i);
+//
+//                    if (elementSetsBean.getFormName().equals(formName) && (elementSetsBean.getFormName().startsWith("DropRadioElement_") || elementSetsBean.getFormName().startsWith("DropListElement_"))) {
+//                        TextView textView = (TextView) viewHashMap.get(viewElementId);
+//                        if (textView != null && !StringUtils.isEmpty(textView.getText().toString()) && elementSetsBean.getChangeList() != null && elementSetsBean.getChangeList().size() > 0) {
+//                            String tvStr = textView.getText().toString();
+//                            String numberValue = "";
+//                            List<String> dropTextandNumberValue = elementIdtoOprationItemList.get(viewElementId);
+//                            for (int i1 = 0; dropTextandNumberValue != null && i1 < dropTextandNumberValue.size(); i1++) {
+//                                String[] TN = dropTextandNumberValue.get(i1).split("\\^");
+//                                if (TN != null && TN.length == 2) {
+//                                    if (tvStr.equals(TN[0])) {
+//                                        numberValue = TN[1];
+//                                    }
+//                                }
+//                            }
+//
+//                            for (int i1 = 0; i1 < elementSetsBean.getSetDataList().size(); i1++) {
+//                                if (numberValue.equals(elementSetsBean.getSetDataList().get(i1).getVal())) {
+//                                    ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean changeListBean = elementSetsBean.getChangeList().get(i1);
+//                                    LinearLayout linearLayout = (LinearLayout) viewHashMap.get(changeListBean.getId() + "_ll");
+//                                    setEditTextorTextView(changeListBean, linearLayout);
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//
+//            //分数 控制 选中
+//            for (int i = 0; elementSetsBeans != null && i < elementSetsBeans.size(); i++) {
+//                ElementDataBean.DataBean.InputBean.ElementSetsBean elementSetsBean = elementSetsBeans.get(i);
+//
+//                if (elementSetsBean.getFormName().equals(formName)) {
+//                    if (elementSetsBean.getFormName().startsWith("TextElement_") || elementSetsBean.getFormName().startsWith("NumberElement_")) {
+//                        EditText editText = (EditText) viewHashMap.get(viewElementId);
+//                        if (editText != null && !StringUtils.isEmpty(editText.getText().toString())) {
+//                            if ("EqUnEmptyText".equals(elementSetsBean.getSign())) {
+//                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+//                                if (changeListBeans != null && changeListBeans.size() > 0) {
+//                                    ValSetView(changeListBeans);
+//                                }
+//                            } else {
+//                                if (editText.getText().toString().matches("[0-9]+")) {
+//                                    int edTextInt;
+//                                    try {
+//                                        edTextInt = Integer.parseInt(StringUtils.isEmpty(editText.getText().toString()) ? "-1" : editText.getText().toString());
+//
+//                                        if (edTextInt > -1) {
+//                                            //Number
+//                                            if ("EqNumber".equals(elementSetsBean.getSign())) {
+//                                                int val = Integer.parseInt(elementSetsBean.getVal());
+//                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+//                                                if (edTextInt == val && changeListBeans != null && changeListBeans.size() > 0) {
+//                                                    ValSetView(changeListBeans);
+//                                                }
+//                                            } else if ("NEqNumber".equals(elementSetsBean.getSign())) {
+//                                                int val = Integer.parseInt(elementSetsBean.getVal());
+//                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+//                                                if (edTextInt != val && changeListBeans != null && changeListBeans.size() > 0) {
+//                                                    ValSetView(changeListBeans);
+//                                                }
+//                                            } else if ("LeEqNumber".equals(elementSetsBean.getSign())) {
+//                                                int val = Integer.parseInt(elementSetsBean.getVal());
+//                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+//                                                if (edTextInt <= val && changeListBeans != null && changeListBeans.size() > 0) {
+//                                                    ValSetView(changeListBeans);
+//                                                }
+//                                            } else if ("LeNumber".equals(elementSetsBean.getSign())) {
+//                                                int val = Integer.parseInt(elementSetsBean.getVal());
+//                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+//                                                if (edTextInt < val && changeListBeans != null && changeListBeans.size() > 0) {
+//                                                    ValSetView(changeListBeans);
+//                                                }
+//                                            } else if ("GrEqNumber".equals(elementSetsBean.getSign())) {
+//                                                int val = Integer.parseInt(elementSetsBean.getVal());
+//                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+//                                                if (edTextInt >= val && changeListBeans != null && changeListBeans.size() > 0) {
+//                                                    ValSetView(changeListBeans);
+//                                                }
+//                                            } else if ("GrNumber".equals(elementSetsBean.getSign())) {
+//                                                int val = Integer.parseInt(elementSetsBean.getVal());
+//                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+//                                                if (edTextInt > val && changeListBeans != null && changeListBeans.size() > 0) {
+//                                                    ValSetView(changeListBeans);
+//                                                }
+//                                            } else if ("GrEqNumber1LeEqNumber2".equals(elementSetsBean.getSign())) {
+//                                                int val1 = Integer.parseInt(elementSetsBean.getVal());
+//                                                int val2 = Integer.parseInt(elementSetsBean.getVal2());
+//                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+//                                                if (edTextInt >= val1 && edTextInt <= val2 && changeListBeans != null && changeListBeans.size() > 0) {
+//                                                    ValSetView(changeListBeans);
+//                                                }
+//                                            } else if ("GrNumber1LeEqNumber2".equals(elementSetsBean.getSign())) {
+//                                                int val1 = Integer.parseInt(elementSetsBean.getVal());
+//                                                int val2 = Integer.parseInt(elementSetsBean.getVal2());
+//                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+//                                                if (edTextInt > val1 && edTextInt <= val2 && changeListBeans != null && changeListBeans.size() > 0) {
+//                                                    ValSetView(changeListBeans);
+//                                                }
+//                                            } else if ("GrEqNumber1LeNumber2".equals(elementSetsBean.getSign())) {
+//                                                int val1 = Integer.parseInt(elementSetsBean.getVal());
+//                                                int val2 = Integer.parseInt(elementSetsBean.getVal2());
+//                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+//                                                if (edTextInt >= val1 && edTextInt < val2 && changeListBeans != null && changeListBeans.size() > 0) {
+//                                                    ValSetView(changeListBeans);
+//                                                }
+//                                            } else if ("GrNumber1LeNumber2".equals(elementSetsBean.getSign())) {
+//                                                int val1 = Integer.parseInt(elementSetsBean.getVal());
+//                                                int val2 = Integer.parseInt(elementSetsBean.getVal2());
+//                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+//                                                if (edTextInt > val1 && edTextInt < val2 && changeListBeans != null && changeListBeans.size() > 0) {
+//                                                    ValSetView(changeListBeans);
+//                                                }
+//                                                //Text
+//                                            } else if ("Equal".equals(elementSetsBean.getSign())) {
+//                                                int val = Integer.parseInt(elementSetsBean.getVal());
+//                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+//                                                if (edTextInt == val && changeListBeans != null && changeListBeans.size() > 0) {
+//                                                    ValSetView(changeListBeans);
+//                                                }
+//                                            } else if ("NEqText".equals(elementSetsBean.getSign())) {
+//                                                int val = Integer.parseInt(elementSetsBean.getVal());
+//                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+//                                                if (edTextInt != val && changeListBeans != null && changeListBeans.size() > 0) {
+//                                                    ValSetView(changeListBeans);
+//                                                }
+//                                            } else if ("LeEqText".equals(elementSetsBean.getSign())) {
+//                                                int val = Integer.parseInt(elementSetsBean.getVal());
+//                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+//                                                if (edTextInt <= val && changeListBeans != null && changeListBeans.size() > 0) {
+//                                                    ValSetView(changeListBeans);
+//                                                }
+//                                            } else if ("LeText".equals(elementSetsBean.getSign())) {
+//                                                int val = Integer.parseInt(elementSetsBean.getVal());
+//                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+//                                                if (edTextInt < val && changeListBeans != null && changeListBeans.size() > 0) {
+//                                                    ValSetView(changeListBeans);
+//                                                }
+//                                            } else if ("GrEqText".equals(elementSetsBean.getSign())) {
+//                                                int val = Integer.parseInt(elementSetsBean.getVal());
+//                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+//                                                if (edTextInt >= val && changeListBeans != null && changeListBeans.size() > 0) {
+//                                                    ValSetView(changeListBeans);
+//                                                }
+//                                            } else if ("GrText".equals(elementSetsBean.getSign())) {
+//                                                int val = Integer.parseInt(elementSetsBean.getVal());
+//                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+//                                                if (edTextInt > val && changeListBeans != null && changeListBeans.size() > 0) {
+//                                                    ValSetView(changeListBeans);
+//                                                }
+//                                            } else if ("GrEqText1LeEqText2".equals(elementSetsBean.getSign())) {
+//                                                int val1 = Integer.parseInt(elementSetsBean.getVal());
+//                                                int val2 = Integer.parseInt(elementSetsBean.getVal2());
+//                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+//                                                if (edTextInt >= val1 && edTextInt <= val2 && changeListBeans != null && changeListBeans.size() > 0) {
+//                                                    ValSetView(changeListBeans);
+//                                                }
+//                                            } else if ("GrText1LeEqText2".equals(elementSetsBean.getSign())) {
+//                                                int val1 = Integer.parseInt(elementSetsBean.getVal());
+//                                                int val2 = Integer.parseInt(elementSetsBean.getVal2());
+//                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+//                                                if (edTextInt > val1 && edTextInt <= val2 && changeListBeans != null && changeListBeans.size() > 0) {
+//                                                    ValSetView(changeListBeans);
+//                                                }
+//                                            } else if ("GrEqText1LeText2".equals(elementSetsBean.getSign())) {
+//                                                int val1 = Integer.parseInt(elementSetsBean.getVal());
+//                                                int val2 = Integer.parseInt(elementSetsBean.getVal2());
+//                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+//                                                if (edTextInt >= val1 && edTextInt < val2 && changeListBeans != null && changeListBeans.size() > 0) {
+//                                                    ValSetView(changeListBeans);
+//                                                }
+//                                            } else if ("GrText1LeText2".equals(elementSetsBean.getSign())) {
+//                                                int val1 = Integer.parseInt(elementSetsBean.getVal());
+//                                                int val2 = Integer.parseInt(elementSetsBean.getVal2());
+//                                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+//                                                if (edTextInt > val1 && edTextInt < val2 && changeListBeans != null && changeListBeans.size() > 0) {
+//                                                    ValSetView(changeListBeans);
+//                                                }
+//                                            }
+//                                        }
+//                                    } catch (NumberFormatException e) {
+//                                        showToast("分数数值不规范");
+//                                        e.printStackTrace();
+//                                    }
+//                                } else {
+//                                    String edTextStr = editText.getText().toString();
+//                                    if ("ContainsText".equals(elementSetsBean.getSign())) {
+//                                        String val = elementSetsBean.getVal();
+//                                        List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+//                                        if (edTextStr.contains(val) && changeListBeans != null && changeListBeans.size() > 0) {
+//                                            ValSetView(changeListBeans);
+//                                        }
+//                                    } else if ("NContainsText".equals(elementSetsBean.getSign())) {
+//                                        String val = elementSetsBean.getVal();
+//                                        List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+//                                        if (!edTextStr.contains(val) && changeListBeans != null && changeListBeans.size() > 0) {
+//                                            ValSetView(changeListBeans);
+//                                        }
+//                                    }
+//                                }
+//                            }
+//
+//                        } else {
+//                            if ("EqEmptyText".equals(elementSetsBean.getSign())) {
+//                                List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans = elementSetsBean.getChangeList();
+//                                if (changeListBeans != null && changeListBeans.size() > 0) {
+//                                    ValSetView(changeListBeans);
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//
+//            //计分
+//            for (int i = 0; statisticsListBeans != null && i < statisticsListBeans.size(); i++) {
+//                ElementDataBean.DataBean.InputBean.StatisticsListBean statisticsListBean = statisticsListBeans.get(i);
+//                String[] idStr = statisticsListBean.getEffects().split(",");
+//                etPointList.clear();
+//                if ("".equals(isChecked)) {
+//                    for (String s : idStr) {
+//                        if (viewHashMap.get(s) instanceof CheckBox) {
+//                            //不做操作
+//                        } else if (viewHashMap.get(s) instanceof TextView) {
+//                            // EditText、TextView 存分
+//                            TextView textView = (TextView) viewHashMap.get(s);
+//                            if (textView != null) {
+//                                if (RegexUtils.isMatch(RegexConstants.REGEX_INTEGER, textView.getText().toString())) {
+//                                    etPointList.add(Integer.parseInt(textView.getText().toString()));
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//
+//                for (String s : idStr) {
+//                    if (s.equals(viewElementId)) {
+//                        EditText editText = (EditText) viewHashMap.get(statisticsListBean.getId());
+//                        if (editText != null) {
+//                            int score = Integer.parseInt(StringUtils.isEmpty(editText.getText().toString()) ? "0" : editText.getText().toString());
+//
+//                            if ("true".equals(isChecked) || "false".equals(isChecked)) {
+//                                int changeScore = Integer.parseInt(elementIdtoFormName.get(viewElementId).split("\\^")[1]);
+//                                CheckBox checkBox = (CheckBox) viewHashMap.get(viewElementId);
+//                                if (checkBox != null && checkBox.isChecked()) {
+//                                    score = score + changeScore;
+//                                } else {
+//                                    score = score - changeScore;
+//                                }
+//                            } else if ("drop".equals(isChecked)) {
+//                                Integer[] scoreInt = dropValue.get(viewElementId);
+//                                if (scoreInt != null) {
+//                                    score = score - scoreInt[0] + scoreInt[1];
+//                                }
+//                            } else {
+//                                if (etPointList.size() > 0) {
+//                                    score = 0;
+//                                    for (int j = 0; j < etPointList.size(); j++) {
+//                                        score = score + etPointList.get(j);
+//                                    }
+//                                }
+//                            }
+//                            editText.setText(String.valueOf(score));
+//                        }
+//                    }
+//                }
+//            }
+//
+//        }
+//
+//
+//        //必填项填入内容之后还原view
+//        if ("true".equals(isChecked)) {
+//            String viewFormName = elementIdtoFormName.get(viewElementId) == null ? "" : elementIdtoFormName.get(viewElementId);
+//            if (viewFormName.contains("RadioElement") || viewFormName.contains("CheckElement")) {
+//                List<String> elementIdList = formNametoElementId.get(viewFormName.split("\\^")[0]);
+//                for (int i = 0; elementIdList != null && i < elementIdList.size(); i++) {
+//                    CheckBox checkBox = (CheckBox) viewHashMap.get(elementIdList.get(i));
+//                    if (checkBox != null) {
+//                        checkBox.setTextColor(Color.parseColor("#FF4A4A4A"));
+//                    }
+//                }
+//
+//            }
+//        }
+//
+//        //check取消选中 级联
+//        if ("false".equals(isChecked)) {
+//            for (int i = 0; elementSetsBeans != null && i < elementSetsBeans.size(); i++) {
+//                ElementDataBean.DataBean.InputBean.ElementSetsBean elementSetsBean = elementSetsBeans.get(i);
+//
+//                // check 控制 view 显示隐藏
+//                if ((elementSetsBean.getFormName().startsWith("RadioElement_") || elementSetsBean.getFormName().startsWith("CheckElement_"))) {
+//                    CheckControlView(elementSetsBean);
+//                }
+//            }
+//        }
+//    }
+
+//    private void CheckControlView(ElementDataBean.DataBean.InputBean.ElementSetsBean elementSetsBean) {
+//        if (StringUtils.isEmpty(elementSetsBean.getVal())) {
+//            if ("EqEmptyArray".equals(elementSetsBean.getSign())) {
+//
+//                List<String> elementIdList = formNametoElementId.get(elementSetsBean.getFormName());
+//                int j;
+//                for (j = 0; j < elementIdList.size(); j++) {
+//                    CheckBox checkBox2 = (CheckBox) viewHashMap.get(elementIdList.get(j));
+//                    if (checkBox2 != null && checkBox2.isChecked()) {
+//                        break;
+//                    }
+//                }
+//                if (j >= elementIdList.size()) {
+//                    for (int i1 = 0; i1 < elementSetsBean.getChangeList().size(); i1++) {
+//                        ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean changeListBean = elementSetsBean.getChangeList().get(i1);
+//                        LinearLayout linearLayout = (LinearLayout) viewHashMap.get(changeListBean.getId() + "_ll");
+//
+//                        setEditTextorTextView(changeListBean, linearLayout);
+//                    }
+//                }
+//
+//            } else if ("EqUnEmptyArray".equals(elementSetsBean.getSign())) {
+//                List<String> elementIdList = formNametoElementId.get(elementSetsBean.getFormName());
+//                int j;
+//                for (j = 0; j < elementIdList.size(); j++) {
+//                    CheckBox checkBox2 = (CheckBox) viewHashMap.get(elementIdList.get(j));
+//                    if (checkBox2 != null && checkBox2.isChecked()) {
+//                        break;
+//                    }
+//                }
+//                if (j < elementIdList.size()) {
+//                    for (int i1 = 0; i1 < elementSetsBean.getChangeList().size(); i1++) {
+//                        ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean changeListBean = elementSetsBean.getChangeList().get(i1);
+//                        LinearLayout linearLayout = (LinearLayout) viewHashMap.get(changeListBean.getId() + "_ll");
+//
+//                        setEditTextorTextView(changeListBean, linearLayout);
+//                    }
+//                }
+//            }
+//        } else {
+//            if ("ContainsAnyArry".equals(elementSetsBean.getSign())) {
+//                List<String> valList = Arrays.asList(elementSetsBean.getVal().split(",").clone());
+//                for (int i1 = 0; valList != null && i1 < valList.size(); i1++) {
+//                    CheckBox checkBox = (CheckBox) viewHashMap.get(elementSetsBean.getFormName() + "^" + valList.get(i1));
+//                    if (checkBox != null && checkBox.isChecked()) {
+//                        for (int i2 = 0; elementSetsBean.getChangeList() != null && i2 < elementSetsBean.getChangeList().size(); i2++) {
+//                            ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean changeListBean = elementSetsBean.getChangeList().get(i2);
+//                            LinearLayout linearLayout = (LinearLayout) viewHashMap.get(changeListBean.getId() + "_ll");
+//
+//                            setEditTextorTextView(changeListBean, linearLayout);
+//                        }
+//                    }
+//                }
+//            } else {
+//                CheckBox checkBox = (CheckBox) viewHashMap.get(elementSetsBean.getFormName() + "^" + elementSetsBean.getVal());
+//                if (checkBox != null && checkBox.isChecked()) {
+//                    for (int i1 = 0; elementSetsBean.getChangeList() != null && i1 < elementSetsBean.getChangeList().size(); i1++) {
+//                        ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean changeListBean = elementSetsBean.getChangeList().get(i1);
+//                        LinearLayout linearLayout = (LinearLayout) viewHashMap.get(changeListBean.getId() + "_ll");
+//
+//                        setEditTextorTextView(changeListBean, linearLayout);
+//                    }
+//                }
+//            }
+//        }
+//    }
+
+    /**
+     * check drop 控制 edit text 显隐编辑点击
+     *
+     * @param changeListBean
+     * @param linearLayout
+     */
+//    private void setEditTextorTextView(ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean changeListBean, LinearLayout linearLayout) {
+//        if (linearLayout != null) {
+//            //控制单一元素
+//            if (viewHashMap.get(changeListBean.getId()) instanceof CheckBox) {
+//                LinearLayout llCheck = (LinearLayout) linearLayout.getChildAt(1);
+//                List<CheckBox> checkBoxes = new ArrayList<>();
+//                if (llCheck != null) {
+//                    for (int i = 0; i < llCheck.getChildCount(); i++) {
+//                        CheckBox checkBox = (CheckBox) llCheck.getChildAt(i);
+//                        if (checkBox != null) {
+//                            checkBoxes.add(checkBox);
+//                        }
+//                    }
+//                }
+//
+//                String type = changeListBean.getType();
+//                if (type.contains("Show")) {
+//                    linearLayout.setVisibility(View.VISIBLE);
+//                } else if (type.contains("Hide")) {
+//                    if (checkBoxes.size() > 0) {
+//                        for (int i = 0; i < checkBoxes.size(); i++) {
+//                            checkBoxes.get(i).setChecked(false);
+//                        }
+//                    }
+//                    linearLayout.setVisibility(View.GONE);
+//                }
+//            } else if (viewHashMap.get(changeListBean.getId()) instanceof EditText) {
+//                EditText editText = (EditText) viewHashMap.get(changeListBean.getId());
+//                String type = changeListBean.getType();
+//
+//                if (type.contains("HasData")) {
+//                    if (editText != null) {
+//                        editText.setText(changeListBean.getVal());
+//                    }
+//                }
+//
+//                if (type.contains("Enable") || type.contains("DisEnable")) {
+//                    if (editText != null) {
+//                        if (type.contains("Enable")) {
+//                            editText.setEnabled(true);
+//                        } else {
+//                            editText.setText("");
+//                            editText.setEnabled(false);
+//                        }
+//                    }
+//                }
+//
+//                if (type.contains("Show")) {
+//                    linearLayout.setVisibility(View.VISIBLE);
+//                } else if (type.contains("Hide")) {
+//                    if (editText != null) {
+//                        editText.setText("");
+//                    }
+//                    linearLayout.setVisibility(View.GONE);
+//                }
+//            } else if (viewHashMap.get(changeListBean.getId()) instanceof TextView) {
+//                TextView textView = (TextView) viewHashMap.get(changeListBean.getId());
+//                String type = changeListBean.getType();
+//
+//                if (type.contains("HasData")) {
+//                    if (textView != null) {
+//                        textView.setText(changeListBean.getVal());
+//                    }
+//                }
+//
+//                if (type.contains("Enable") || type.contains("DisEnable")) {
+//                    if (textView != null) {
+//                        if (type.contains("Enable")) {
+//                            textView.setClickable(true);
+//                        } else {
+//                            textView.setText("");
+//                            textView.setClickable(false);
+//                        }
+//                    }
+//                }
+//
+//                if (type.contains("Show")) {
+//                    linearLayout.setVisibility(View.VISIBLE);
+//                } else if (type.contains("Hide")) {
+//                    if (textView != null) {
+//                        textView.setText("");
+//                    }
+//                    linearLayout.setVisibility(View.GONE);
+//                }
+//            }
+//        } else {
+//            //控制一组元素
+//            List<String> childElementIdList = pcViewHashMap.get(changeListBean.getId());
+//            if (childElementIdList != null && childElementIdList.size() > 0) {
+//                for (int i2 = 0; i2 < childElementIdList.size(); i2++) {
+//                    if (viewHashMap.get(childElementIdList.get(i2)) instanceof CheckBox) {
+//                        CheckBox checkBox = (CheckBox) viewHashMap.get(childElementIdList.get(i2));
+//                        String type = changeListBean.getType();
+//
+//                        if (type.contains("Enable") || type.contains("DisEnable")) {
+//                            if (checkBox != null) {
+//                                checkBox.setClickable(type.contains("Enable"));
+//                            }
+//                        }
+//
+//                        LinearLayout linearLayoutChild = (LinearLayout) viewHashMap.get(childElementIdList.get(i2) + "_ll");
+//                        if (type.contains("Show")) {
+//                            if (linearLayoutChild != null) {
+//                                linearLayoutChild.setVisibility(View.VISIBLE);
+//                            }
+//                        } else if (type.contains("Hide")) {
+//                            if (checkBox != null) {
+//                                checkBox.setChecked(false);
+//                            }
+//                            if (linearLayoutChild != null) {
+//                                linearLayoutChild.setVisibility(View.GONE);
+//                            }
+//                        }
+//                    } else if (viewHashMap.get(childElementIdList.get(i2)) instanceof EditText) {
+//                        EditText editTextChild = (EditText) viewHashMap.get(childElementIdList.get(i2));
+//                        String type = changeListBean.getType();
+//
+//                        if (type.contains("Enable") || type.contains("DisEnable")) {
+//                            if (editTextChild != null) {
+//                                if (type.contains("Enable")) {
+//                                    editTextChild.setEnabled(true);
+//                                } else {
+//                                    editTextChild.setText("");
+//                                    editTextChild.setEnabled(false);
+//                                }
+//                            }
+//                        }
+//                        LinearLayout linearLayoutChild = (LinearLayout) viewHashMap.get(childElementIdList.get(i2) + "_ll");
+//                        if (type.contains("Show")) {
+//                            if (linearLayoutChild != null) {
+//                                linearLayoutChild.setVisibility(View.VISIBLE);
+//                            }
+//                        } else if (type.contains("Hide")) {
+//                            if (editTextChild != null) {
+//                                editTextChild.setText("");
+//                            }
+//                            if (linearLayoutChild != null) {
+//                                linearLayoutChild.setVisibility(View.GONE);
+//                            }
+//                        }
+//                    } else if (viewHashMap.get(childElementIdList.get(i2)) instanceof TextView) {
+//                        TextView textViewChild = (TextView) viewHashMap.get(childElementIdList.get(i2));
+//                        String type = changeListBean.getType();
+//
+//                        if (type.contains("Enable") || type.contains("DisEnable")) {
+//                            if (textViewChild != null) {
+//                                if (type.contains("Enable")) {
+//                                    textViewChild.setClickable(true);
+//                                } else {
+//                                    textViewChild.setText("");
+//                                    textViewChild.setClickable(false);
+//                                }
+//                            }
+//                        }
+//
+//                        LinearLayout linearLayoutChild = (LinearLayout) viewHashMap.get(childElementIdList.get(i2) + "_ll");
+//                        if (type.contains("Show")) {
+//                            if (linearLayoutChild != null) {
+//                                linearLayoutChild.setVisibility(View.VISIBLE);
+//                            }
+//                        } else if (type.contains("Hide")) {
+//                            if (textViewChild != null) {
+//                                textViewChild.setText("");
+//                            }
+//                            if (linearLayoutChild != null) {
+//                                linearLayoutChild.setVisibility(View.GONE);
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
+
+    /**
      * 分数控制view选中 赋值
      *
      * @param changeListBeans
      */
-    public void ValSetView(List<ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean> changeListBeans) {
+    public void ValSetView(List<ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean> changeListBeans) {
         for (int i1 = 0; i1 < changeListBeans.size(); i1++) {
-            ElementDataBean.DataBean.InputBean.ElementSetsBean.ChangeListBean changeListBean = changeListBeans.get(i1);
+            ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean changeListBean = changeListBeans.get(i1);
             CheckBox checkBox = (CheckBox) viewHashMap.get("RadioElement_" + changeListBean.getId() + "^" + changeListBean.getItems());
             if (checkBox != null) {
                 if (changeListBean.getType().contains("HasData")) {

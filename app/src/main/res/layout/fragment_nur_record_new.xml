@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.dhcc.nursepro.workarea.nurrecordnew.NoScrollFocusScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context=".workarea.nurrecordold.NurRecordNewFragment">
+    tools:context=".workarea.nurrecordnew.NurRecordNewFragment">
 
     <LinearLayout
         android:id="@+id/ll_nurrecord"
@@ -13,5 +13,4 @@
         android:layout_height="wrap_content"
         android:orientation="vertical" />
 
-
-</ScrollView>
+</com.dhcc.nursepro.workarea.nurrecordnew.NoScrollFocusScrollView>

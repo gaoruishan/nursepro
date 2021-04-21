@@ -51,7 +51,7 @@ public class BaseWebServiceUtils {
     // 门诊输液新接口
     public static String NUR_OPPDA_SERVICE = SPStaticUtils.getString(SharedPreference.OPPDA_SERVICE, NUR_MOES_SERVICE);
     // 护士站接口
-    public static String NUR_PDA_SERVICE = SPStaticUtils.getString(SharedPreference.PDA_SERVICE, NUR_MNIS_SERVICE);;
+    public static String NUR_PDA_SERVICE = SPStaticUtils.getString(SharedPreference.PDA_SERVICE, NUR_MNIS_SERVICE);
     public static String userNamestr = SPStaticUtils.getString(SharedPreference.WEB_SERVICE_USERNAME, "dhwebservice");
     public static String passWordstr = SPStaticUtils.getString(SharedPreference.WEB_SERVICE_PASSWORD, "dhwebservice");
 

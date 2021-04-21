@@ -85,7 +85,7 @@ public class NurRecordNewApiService extends NurseAPI {
     }
 
     //(guId, episodeId, recordId, parr, groupDesc, locId, wardId, userId)
-    public static void saveNewEmrData(String guId, String episodeId, String recordId, String parr, final ServiceCallBack callback) {
+    public static void saveNewEmrData(String guId, String episodeId, String recordId, String parr, String printTemplateEmrCode, final ServiceCallBack callback) {
         SPUtils spUtils = SPUtils.getInstance();
         HashMap<String, String> properties = new HashMap<>();
         properties.put("guId", guId);
@@ -96,6 +96,7 @@ public class NurRecordNewApiService extends NurseAPI {
         properties.put("locId", spUtils.getString(SharedPreference.LOCID));
         properties.put("wardId", spUtils.getString(SharedPreference.WARDID));
         properties.put("userId", spUtils.getString(SharedPreference.USERID));
+        properties.put("printTemplateEmrCode", printTemplateEmrCode);
 
         WebServiceUtils.callWebService(saveNewEmrData, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
@@ -120,7 +121,7 @@ public class NurRecordNewApiService extends NurseAPI {
     }
 
 
-    public static void getKnowledgeContent(String knowledgeId,final ServiceCallBack callback) {
+    public static void getKnowledgeContent(String knowledgeId, final ServiceCallBack callback) {
         HashMap<String, String> properties = new HashMap<>();
         properties.put("knowledgeId", knowledgeId);
 
@@ -131,7 +132,6 @@ public class NurRecordNewApiService extends NurseAPI {
             }
         });
     }
-
 
 
     public interface ServiceCallBack {
