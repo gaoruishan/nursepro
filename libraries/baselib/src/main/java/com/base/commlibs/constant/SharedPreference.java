@@ -2,6 +2,7 @@ package com.base.commlibs.constant;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
+import com.base.commlibs.bean.NurseConfig;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,16 +15,12 @@ import java.util.List;
  * @author DevLix126
  * created at 2018/8/24 9:11
  */
-public class SharedPreference {
+public class SharedPreference extends NurseConfig {
 
-    public static final String WEB_SERVICE_USERNAME = "webServiceUserName";
-    public static final String WEB_SERVICE_PASSWORD = "webServicePassword";
-    public static final String OPPDA_SERVICE = "oppdaService";
-    public static final String PDA_SERVICE = "pdaService";
 
-    public static final String WEBIP = "WEBIP";
+//    public static final String WEBIP = "WEBIP";
     public static final String WEBIPS = "WEBIPS";
-    public static final String WEBPATH = "WEBPATH";
+//    public static final String WEBPATH = "WEBPATH";
     public static final String LOGONLOCTYPE = "LOGONLOCTYPE";
     public static final String WINDOWNAME = "WINDOWNAME";
     public static final String REMEM = "REMEM";
@@ -117,8 +114,9 @@ public class SharedPreference {
     public static final String WEBSOCKET_FLAG = "WEBSOCKET_FLAG";
     //显示弹框时间 毫秒
     public static final String IS_SHOW_DIALOG_TIME = "IS_SHOW_DIALOG_TIME";
-    //统一后台接口
-    public static final String API_JSON= "API_JSON";
+    //扫码界面-提示语
+    public static final String SCAN_LABEL_PAT_HAND= "SCAN_LABEL_PAT_HAND";
+    public static final String SCAN_LABEL_PAT_HAND_INFO= "SCAN_LABEL_PAT_HAND_INFO";
 
     //判断是否显示底部菜单栏
 

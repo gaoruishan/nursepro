@@ -1,6 +1,7 @@
 package com.base.commlibs.http;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.base.commlibs.NurseAPI;
 import com.base.commlibs.bean.BroadcastListBean;
@@ -11,10 +12,12 @@ import com.base.commlibs.utils.HttpUtil;
 import com.base.commlibs.utils.SimpleCallBack;
 import com.base.commlibs.utils.TransBroadcastUtil;
 import com.base.commlibs.wsutils.BaseWebServiceUtils;
-import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.SPStaticUtils;
 import com.blankj.utilcode.util.SPUtils;
 
+import org.json.JSONObject;
+
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
 
@@ -28,34 +31,37 @@ public class CommHttp {
 
     private static final String TAG = "CommHttp";
 
+    /**
+     * 获取PDA在Web目录下配置
+     */
     public static void getNurseConfig() {
         HttpUtil.get(BaseWebServiceUtils.getServiceUrl(BaseWebServiceUtils.NUR_CONFIG), new SimpleCallBack<String>() {
             @Override
             public void call(String result, int type) {
-                NurseConfig config = GsonUtils.fromJson(result, NurseConfig.class);
-                if (config != null) {
-                    if(!TextUtils.isEmpty(config.getDefaultIP())){
-                        SPStaticUtils.put(SharedPreference.WEBIP,config.getDefaultIP());
-                    }
-                    if(!TextUtils.isEmpty(config.getDefaultPath())){
-                        SPStaticUtils.put(SharedPreference.WEBPATH,config.getDefaultPath());
-                    }
-                    if(!TextUtils.isEmpty(config.getWebServicePassword())){
-                        SPStaticUtils.put(SharedPreference.WEB_SERVICE_PASSWORD,config.getWebServicePassword());
-                    }
-                    if(!TextUtils.isEmpty(config.getWebServiceUserName())){
-                        SPStaticUtils.put(SharedPreference.WEB_SERVICE_USERNAME,config.getWebServiceUserName());
-                    }
-                    if(!TextUtils.isEmpty(config.getOppdaService())){
-                        SPStaticUtils.put(SharedPreference.OPPDA_SERVICE,config.getOppdaService());
-                    }
-                    if(!TextUtils.isEmpty(config.getPdaService())){
-                        SPStaticUtils.put(SharedPreference.PDA_SERVICE,config.getPdaService());
-                    }
+                if (TextUtils.isEmpty(result)) {
+                    return;
                 }
+                Field[] fields = NurseConfig.class.getDeclaredFields();
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    for (Field field : fields) {
+                        //包含配置
+                        if (result.contains(field.getName() + "")) {
+                            String value = jsonObject.getString(field.getName() + "");
+                            if (!TextUtils.isEmpty(value)) {
+                                SPStaticUtils.put(field.getName(), value);
+                            }
+                        }
+                    }
+
+                } catch (Exception e) {
+                    Log.e(TAG, "(LocalTestManager.java:151) " + e.toString());
+                }
+
             }
         });
     }
+
     /**
      * 检查用户/密码
      * @param userCode
@@ -90,11 +96,11 @@ public class CommHttp {
                 TransBroadcastUtil.setScanActionList(bean.broadcastList);
             }
         };
-        CommWebService.call(NurseAPI.getBroadcastConfig, new HashMap<String, String> (), new ServiceCallBack() {
+        CommWebService.call(NurseAPI.getBroadcastConfig, new HashMap<String, String>(), new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<ScanCodeBean> parserUtil = new ParserUtil<>();
-                ScanCodeBean bean = parserUtil.parserResult(jsonStr, callBack, ScanCodeBean.class,"");
+                ScanCodeBean bean = parserUtil.parserResult(jsonStr, callBack, ScanCodeBean.class, "");
                 if (bean == null) return;
                 parserUtil.parserStatus(bean, callBack);
             }

@@ -16,70 +16,13 @@ public class NurseConfig {
      * pdaService : /Nur.MNIS.Service.WebService.cls
      */
 
-    private String webServiceUserName;
-    private String webServicePassword;
-    private String defaultIP;
-    private String defaultPath;
-    private String oppdaService;
-    private String pdaService;
+    public static String WEBIP="WEBIP";
+    public static String WEBPATH="WEBPATH";
 
-    public String getWebServiceUserName() {
-        return webServiceUserName;
-    }
+    public static String webServiceUserName="webServiceUserName";
+    public static String webServicePassword="webServicePassword";
+    public static String oppdaService="oppdaService";
+    public static String pdaService="pdaService";
 
-    public void setWebServiceUserName(String webServiceUserName) {
-        this.webServiceUserName = webServiceUserName;
-    }
 
-    public String getWebServicePassword() {
-        return webServicePassword;
-    }
-
-    public void setWebServicePassword(String webServicePassword) {
-        this.webServicePassword = webServicePassword;
-    }
-
-    public String getDefaultIP() {
-        return defaultIP;
-    }
-
-    public void setDefaultIP(String defaultIP) {
-        this.defaultIP = defaultIP;
-    }
-
-    public String getDefaultPath() {
-        return defaultPath;
-    }
-
-    public void setDefaultPath(String defaultPath) {
-        this.defaultPath = defaultPath;
-    }
-
-    public String getOppdaService() {
-        return oppdaService;
-    }
-
-    public void setOppdaService(String oppdaService) {
-        this.oppdaService = oppdaService;
-    }
-
-    public String getPdaService() {
-        return pdaService;
-    }
-
-    public void setPdaService(String pdaService) {
-        this.pdaService = pdaService;
-    }
-
-    @Override
-    public String toString() {
-        return "NurseConfig{" +
-                "webServiceUserName='" + webServiceUserName + '\'' +
-                ", webServicePassword='" + webServicePassword + '\'' +
-                ", defaultIP='" + defaultIP + '\'' +
-                ", defaultPath='" + defaultPath + '\'' +
-                ", oppdaService='" + oppdaService + '\'' +
-                ", pdaService='" + pdaService + '\'' +
-                '}';
-    }
 }

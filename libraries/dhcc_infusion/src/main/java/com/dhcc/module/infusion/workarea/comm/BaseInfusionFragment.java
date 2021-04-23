@@ -59,8 +59,9 @@ public abstract class BaseInfusionFragment extends BaseFragment {
     public static  String SCAN_LABEL = "请扫描贴签";
     public static  String SCAN_DRUG_LABEL = "请您使用扫码设备，扫描药品贴签";
 
-    public static  String SCAN_LABEL_CARD = "请扫描贴签/信息卡";
-    public static  String SCAN_LABEL_CARD_INFO = "请您使用扫码设备，扫描药品贴签/信息卡";
+    public static  String SCAN_LABEL_PAT_HAND = "请扫描贴签/腕带";
+    public static  String SCAN_LABEL_PAT_HAND_INFO = "请您使用扫码设备，扫描药品贴签/腕带";
+
     public static final String PAT = "PAT";
     public static final String ORD = "ORD";
     protected static final String PROMPT_NO_ORD = "本次接单任务无此贴签 ,请核对!";
@@ -182,7 +183,7 @@ public abstract class BaseInfusionFragment extends BaseFragment {
     protected void showScanLabelOrCard() {
         CustomScanView scanView = f(R.id.custom_scan, CustomScanView.class);
         if (scanView != null) {
-            scanView.setTitle(SCAN_LABEL_CARD).setWarning(SCAN_LABEL_CARD_INFO);
+            scanView.setTitle(SCAN_LABEL_PAT_HAND).setWarning(SCAN_LABEL_PAT_HAND_INFO);
         }
     }
 

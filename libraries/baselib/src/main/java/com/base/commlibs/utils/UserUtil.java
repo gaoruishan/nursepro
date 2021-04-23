@@ -253,7 +253,6 @@ public class UserUtil {
      * @param loginBean
      */
     public static void setUserConfig(ConfigBean loginBean) {
-        SPStaticUtils.put(SharedPreference.API_JSON, loginBean.getApiJson());
         SPStaticUtils.put(SharedPreference.IS_SHOW_DIALOG_TIME, loginBean.getShowDialogTime());
         SPStaticUtils.put(SharedPreference.WEBSOCKET_FLAG, loginBean.getWebSocketFlag());
         SPStaticUtils.put(SharedPreference.NET_LOG, loginBean.getIsNetLog());
@@ -268,6 +267,7 @@ public class UserUtil {
         SPStaticUtils.put(SharedPreference.MSG_SKIN_FLAG, loginBean.getMsgSkinFlag());
         SPStaticUtils.put(SharedPreference.ORD_STATE_FLAG, loginBean.getOrdStateFlag());
         SPStaticUtils.put(SharedPreference.BLOOD_CHECK_FLAG, loginBean.getBloodCheckFlag());
+        SPStaticUtils.put(SharedPreference.SKIN_DATE_OFFSET, loginBean.getSkinDateOffset());
         SPStaticUtils.put(SharedPreference.SKIN_DATE_OFFSET, loginBean.getSkinDateOffset());
     }
 

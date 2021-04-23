@@ -32,7 +32,7 @@ public class InfusionAPI {
      * 兼容老版本
      */
     public static boolean isNew() {
-        return BaseWebServiceUtils.NUR_MOES_SERVICE.equals(SPStaticUtils.getString(SharedPreference.OPPDA_SERVICE));
+        return BaseWebServiceUtils.NUR_MOES_SERVICE.equals(SPStaticUtils.getString(SharedPreference.oppdaService));
     }
 
     //获取医嘱列表

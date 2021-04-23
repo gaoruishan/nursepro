@@ -49,11 +49,11 @@ public class BaseWebServiceUtils {
     public static final String NUR_MOES_SERVICE = "/Nur.MOES.Service.WebService.cls";
 
     // 门诊输液新接口
-    public static String NUR_OPPDA_SERVICE = SPStaticUtils.getString(SharedPreference.OPPDA_SERVICE, "/Nur.OPPDA.WebService.cls");
+    public static String NUR_OPPDA_SERVICE = SPStaticUtils.getString(SharedPreference.oppdaService, "/Nur.OPPDA.WebService.cls");
     // 护士站接口
-    public static String NUR_PDA_SERVICE = SPStaticUtils.getString(SharedPreference.PDA_SERVICE, NUR_MNIS_SERVICE);
-    public static String userNamestr = SPStaticUtils.getString(SharedPreference.WEB_SERVICE_USERNAME, "dhwebservice");
-    public static String passWordstr = SPStaticUtils.getString(SharedPreference.WEB_SERVICE_PASSWORD, "dhwebservice");
+    public static String NUR_PDA_SERVICE = SPStaticUtils.getString(SharedPreference.pdaService, NUR_MNIS_SERVICE);
+    public static String userNamestr = SPStaticUtils.getString(SharedPreference.webServiceUserName, "dhwebservice");
+    public static String passWordstr = SPStaticUtils.getString(SharedPreference.webServicePassword, "dhwebservice");
 
     // 含有3个线程的线程池
     private static final ExecutorService executorService = Executors.newFixedThreadPool(5);
