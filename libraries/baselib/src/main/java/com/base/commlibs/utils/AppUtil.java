@@ -77,6 +77,14 @@ public class AppUtil {
         }
         return "";
     }
+    public static String getCurActivityFragmentSimpleName() {
+        //获取当前Activity的Fragment
+        Fragment fragment = getCurActivityFragment();
+        if (fragment != null) {
+            return fragment.getClass().getSimpleName();
+        }
+        return "";
+    }
 
     /**
      * 获取当前Fragment

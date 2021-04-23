@@ -20,10 +20,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.base.commlibs.BaseActivity;
+import com.base.commlibs.bean.BroadcastListBean;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommHttp;
 import com.base.commlibs.utils.SchDateTimeUtil;
+import com.base.commlibs.utils.TransBroadcastUtil;
 import com.base.commlibs.utils.UserUtil;
 import com.base.commlibs.view.WebActivity;
 import com.base.commlibs.wsutils.BaseWebServiceUtils;
@@ -39,7 +41,6 @@ import com.dhcc.nursepro.login.api.LoginApiManager;
 import com.dhcc.nursepro.login.bean.BroadCastListBean;
 import com.dhcc.nursepro.login.bean.LoginBean;
 import com.dhcc.nursepro.login.bean.NurseInfo;
-import com.dhcc.nursepro.utils.TransBroadcastUtil;
 import com.dhcc.nursepro.workarea.workareautils.WorkareaMainConfig;
 import com.google.gson.Gson;
 
@@ -210,7 +211,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         LoginApiManager.getBroadcastConfig(new LoginApiManager.GetBroadCastConfigCallback() {
             @Override
             public void onSuccess(BroadCastListBean broadCastListBean) {
-                List<BroadCastListBean.BroadcastListBean> broadcastList = broadCastListBean.getBroadcastList();
+                List<BroadcastListBean> broadcastList = broadCastListBean.getBroadcastList();
                 if (broadcastList != null && broadcastList.size() > 0) {
                     TransBroadcastUtil.setScanActionList(broadcastList);
                     hasBroadCastConfig = true;
@@ -514,14 +515,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             }
             //本地数据库已保存用户信息且用户的登录病区存在于登陆成功返回的可登录病区列表，
             if (k < nurseInfoList.size() && l < loginBean.getLocs().size()) {
-                saveUserInfo();
-                spUtils.put(SharedPreference.ORDERSEARCHE_BEDSELECTED,"");
-                if (spUtils.getString(SharedPreference.SINGLEMODEL,"0").equals("1")){
-                    startSingleActivity();
-                }else {
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                    finish();
-                }
+                saveStartActivity();
 
             }
 
@@ -529,29 +523,29 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             if (k >= nurseInfoList.size()) {
                 //                            Toast.makeText(LoginActivity.this, "login----不存在，插入新数据", Toast.LENGTH_SHORT).show();
                 daoSession.getNurseInfoDao().insert(loginNurseInfo);
-                saveUserInfo();
-                spUtils.put(SharedPreference.ORDERSEARCHE_BEDSELECTED,"");
-                if (spUtils.getString(SharedPreference.SINGLEMODEL,"0").equals("1")){
-                    startSingleActivity();
-                }else {
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                    finish();
-                }
+                saveStartActivity();
 
             }
         } else {
             //本地数据库未存储用户登录数据，数据库添加用户数据，SP设置用户数据，跳转页面
             //                        Toast.makeText(LoginActivity.this, "login----不存在，插入新数据", Toast.LENGTH_SHORT).show();
             daoSession.getNurseInfoDao().insert(loginNurseInfo);
-            saveUserInfo();
-            spUtils.put(SharedPreference.ORDERSEARCHE_BEDSELECTED,"");
-            if (spUtils.getString(SharedPreference.SINGLEMODEL,"0").equals("1")){
-                startSingleActivity();
-            }else {
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                finish();
-            }
+            saveStartActivity();
 
+        }
+    }
+
+    /**
+     * 保存并进主页
+     */
+    private void saveStartActivity() {
+        saveUserInfo();
+        spUtils.put(SharedPreference.ORDERSEARCHE_BEDSELECTED, "");
+        if (spUtils.getString(SharedPreference.SINGLEMODEL, "0").equals("1")) {
+            startSingleActivity();
+        } else {
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            finish();
         }
     }
 

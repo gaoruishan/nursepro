@@ -46,6 +46,7 @@ import com.base.commlibs.comm.BaseCommActivity;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.utils.AppUtil;
+import com.base.commlibs.utils.UserUtil;
 import com.blankj.utilcode.constant.PermissionConstants;
 import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.SPUtils;
@@ -122,6 +123,9 @@ public class MainActivity extends BaseCommActivity implements RadioButton.OnChec
         EventBus.getDefault().register(this);
         //请求SD卡权限
         PermissionUtils.permission(PermissionConstants.STORAGE).request();
+
+        UserUtil.createMainActivity();
+
     }
 
     @Override

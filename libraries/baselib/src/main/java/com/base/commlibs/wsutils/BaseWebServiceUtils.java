@@ -141,6 +141,7 @@ public class BaseWebServiceUtils {
         CommWebService.addLocId(properties);
         CommWebService.addUserId(properties);
         CommWebService.addWardId(properties);
+        CommWebService.curFragment(properties);
     }
 
     /**
@@ -185,7 +186,7 @@ public class BaseWebServiceUtils {
     public synchronized static void callWebService(String url, final String methodName, HashMap<String, String> properties, final WebServiceCallBack webServiceCallBack) {
         // 添加本地json测试
         String methodNameTest = getMethodName(methodName, properties);
-        if (LocalTestManager.isTest(methodNameTest, properties)) {
+        if (LocalTestManager.isTest(methodNameTest)) {
             if (properties != null) {
                 LogUtils.e(methodNameTest + " 测试= " + properties.toString());
             }

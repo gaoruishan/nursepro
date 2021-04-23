@@ -21,6 +21,7 @@ public class CommFile {
     public static final String IP = "ip";
     public static final String TAG = "CommFile";
     public static final String ROOT_PATH = PathUtils.getExternalStoragePath() + "/dhc/";
+    public static final int SIZE_100 = 100;
 
     /**
      * 写入文件 例如:CommFile.write("ip")
@@ -138,5 +139,47 @@ public class CommFile {
     public static void delete(String path) {
         Log.e(TAG, "(CommFile.java:103) delete");
         FileUtils.delete(path);
+    }
+
+    /**
+     * 检查并删除
+     */
+    private static void checkAndDelete() {
+
+        String dirSize = FileUtils.getDirSize(ROOT_PATH);
+        double size = 0;
+        if (dirSize.contains("MB")) {
+            dirSize = dirSize.replace("MB", "");
+            try {
+                 size = Double.valueOf(dirSize);
+                 //超过100M
+                if (size >= SIZE_100) {
+                    CommFile.delete(ROOT_PATH);
+                }
+            } catch (Exception e) {
+                Log.e(TAG,"(CommFile.java:160) "+e.toString());
+            }
+        }
+        if (dirSize.contains("GB")) {
+            CommFile.delete(ROOT_PATH);
+        }
+
+    }
+    /**
+     * 检查日志过大
+     */
+    public static void checkLogSize() {
+        ThreadUtil.execute(new ThreadUtil.Task<String>() {
+            @Override
+            public String doInBackground() throws Throwable {
+                checkAndDelete();
+                return null;
+            }
+
+            @Override
+            public void onSuccess(String result) {
+
+            }
+        });
     }
 }

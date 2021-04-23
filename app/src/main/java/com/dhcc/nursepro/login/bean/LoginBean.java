@@ -1,5 +1,6 @@
 package com.dhcc.nursepro.login.bean;
 
+import com.base.commlibs.bean.BroadcastListBean;
 import com.base.commlibs.bean.ConfigBean;
 
 import java.util.List;
@@ -117,41 +118,6 @@ public class LoginBean extends ConfigBean {
         this.checkTime = checkTime;
     }
 
-    public static class BroadcastListBean {
-        /**
-         * Action : com.scanner.broadcast
-         * Decode : data
-         * Name : 成为
-         */
-
-        private String Action;
-        private String Decode;
-        private String Name;
-
-        public String getAction() {
-            return Action;
-        }
-
-        public void setAction(String Action) {
-            this.Action = Action;
-        }
-
-        public String getDecode() {
-            return Decode;
-        }
-
-        public void setDecode(String Decode) {
-            this.Decode = Decode;
-        }
-
-        public String getName() {
-            return Name;
-        }
-
-        public void setName(String Name) {
-            this.Name = Name;
-        }
-    }
 
     public static class LocsBean {
         /**

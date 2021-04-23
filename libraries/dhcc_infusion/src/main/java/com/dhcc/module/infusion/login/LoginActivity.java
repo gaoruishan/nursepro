@@ -9,6 +9,7 @@ import android.support.v4.app.ActivityCompat;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -101,7 +102,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         //版本号
         ((TextView) findViewById(R.id.tv_version)).setText(UserUtil.getVersion());
         //版本处理
-        if (PermissionUtils.isGranted(PermissionConstants.STORAGE)) {
+        Log.e(TAG,"(LoginActivity.java:105) "+PermissionUtils.isGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE));
+
+        if (PermissionUtils.isGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             UserUtil.checkLogVersion();
         }
     }

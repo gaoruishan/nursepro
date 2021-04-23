@@ -107,10 +107,12 @@ public class UserUtil {
         return ipstr;
     }
 
+
     /**
      * 检查日志版本
      */
     public static void checkLogVersion() {
+
         String code = SPStaticUtils.getString(SharedPreference.APP_VERSION_CODE);
         if (!TextUtils.isEmpty(code)) {
             CommFile.deleteLog(code);
@@ -259,7 +261,6 @@ public class UserUtil {
         SPStaticUtils.put(SharedPreference.IS_SHOW_LOGCAT, loginBean.getGlobalLogcatFlag());
         SPStaticUtils.put(SharedPreference.IS_HTTP, loginBean.getHttpUpdateFlag());
         SPStaticUtils.put(SharedPreference.IS_HAND_INPUT, loginBean.getHandInputFlag());
-        SPStaticUtils.put(SharedPreference.LOCAL_TEST_FLAG, loginBean.getLocalTestFlag());
         SPStaticUtils.put(SharedPreference.UPDATE_URL, loginBean.getUpdateUrl());
         SPStaticUtils.put(SharedPreference.LOG_FLAG, loginBean.getLogFlag());
         SPStaticUtils.put(SharedPreference.GLOBAL_VIEW_FLAG, loginBean.getGlobalViewFlag());
@@ -276,14 +277,7 @@ public class UserUtil {
         }
         return 1500;
     }
-    /**
-     * 是否本地json测试
-     * @return
-     * @param methodName
-     */
-    public static boolean isLocalTest(String methodName) {
-        return SPStaticUtils.getString(SharedPreference.LOCAL_TEST_FLAG).equals(methodName);
-    }
+
     /**
      * 是否采血复核多次扫码
      * @return
@@ -362,7 +356,22 @@ public class UserUtil {
         return isEmpty(SharedPreference.IS_SHOW_CUR_USER_WORKLOAD);
     }
 
+    /**
+     * 判断Sp中是否为空
+     * @param key
+     * @return
+     */
     public static boolean isEmpty(String key) {
         return !TextUtils.isEmpty(SPStaticUtils.getString(key,""));
+    }
+
+    /**
+     * 主Activity 创建时--进行公共处理
+     */
+    public static void createMainActivity() {
+        //检查日志
+        CommFile.checkLogSize();
+        //保存sp
+        LocalTestManager.saveSpUtils();
     }
 }

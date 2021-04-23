@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.base.commlibs.bean.BroadcastListBean;
@@ -82,30 +83,33 @@ public class TransBroadcastUtil {
                     if (Objects.requireNonNull(intent.getAction()).equals(broadcastList.get(i).getAction())) {
                         scanAction = broadcastList.get(i).getAction();
                         scanKey = broadcastList.get(i).getDecode();
-                        Bundle bundle = intent.getExtras();
-                        if (bundle != null) {
-                            String scanInfo = bundle.getString(scanKey);
-                            bundle.putString("data", scanInfo);
-                            Intent tbIntent = new Intent();
-                            tbIntent.setAction(Action.DEVICE_SCAN_CODE);
-                            tbIntent.putExtras(bundle);
-                            mContext.sendBroadcast(tbIntent);
-                        }
+                        sendBroadcastIntent(intent);
 
                         break;
                     }
                 }
 
             } else {
-                Bundle bundle = intent.getExtras();
-                if (bundle != null) {
-                    String scanInfo = bundle.getString(scanKey);
-                    bundle.putString("data", scanInfo);
-                    Intent tbIntent = new Intent();
-                    tbIntent.setAction(Action.DEVICE_SCAN_CODE);
-                    tbIntent.putExtras(bundle);
-                    mContext.sendBroadcast(tbIntent);
-                }
+                sendBroadcastIntent(intent);
+            }
+        }
+    }
+
+    /**
+     * 发送广播数据
+     * @param intent
+     */
+    protected static void sendBroadcastIntent(Intent intent) {
+        Bundle bundle = intent.getExtras();
+        if (bundle != null) {
+            String scanInfo = bundle.getString(scanKey);
+            //判空
+            if(!TextUtils.isEmpty(scanInfo)){
+                bundle.putString("data", scanInfo);
+                Intent tbIntent = new Intent();
+                tbIntent.setAction(Action.DEVICE_SCAN_CODE);
+                tbIntent.putExtras(bundle);
+                mContext.sendBroadcast(tbIntent);
             }
         }
     }

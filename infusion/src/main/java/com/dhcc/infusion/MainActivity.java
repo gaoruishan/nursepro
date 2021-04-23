@@ -99,6 +99,8 @@ public class MainActivity extends WeSocketActivity implements RadioButton.OnChec
         EventBus.getDefault().register(this);
         AppUtil.initPlay(this, 0, R.raw.notice_message);
         UpdateAppUtil.initCanUpdate();
+
+        UserUtil.createMainActivity();
     }
 
     @Override

@@ -100,8 +100,6 @@ public class SharedPreference {
     public static final String ORDERSEARCHE_BEDSELECTED = "ORDERSEARCHE_BEDSELECTED";
     //更新
     public static final String UPDATE_URL = "UPDATE_URL";
-    //是否本地json测试
-    public static final String LOCAL_TEST_FLAG = "LOCAL_TEST_FLAG";
     //模块名称
     public static final String MODULE_TITLE = "MODULE_TITLE";
     public static final String MODULE_ID = "MODULE_ID";

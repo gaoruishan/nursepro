@@ -2,6 +2,7 @@ package com.base.commlibs.utils;
 
 import android.os.Build;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.base.commlibs.BuildConfig;
 import com.base.commlibs.constant.SharedPreference;
@@ -9,7 +10,10 @@ import com.base.commlibs.wsutils.BaseWebServiceUtils;
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.NetworkUtils;
 import com.blankj.utilcode.util.ObjectUtils;
+import com.blankj.utilcode.util.SPStaticUtils;
 import com.blankj.utilcode.util.SPUtils;
+
+import org.json.JSONObject;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
@@ -38,6 +42,8 @@ public class LocalTestManager {
     private static final int APP_VERSION_CODE = AppUtils.getAppVersionCode();
     private static final String APP_VERSION_NAME = AppUtils.getAppVersionName();
     private static final String APP_PACKAGE_NAME = AppUtils.getAppPackageName();
+    public static final String CUR_DATE_TIME = "curDateTime";
+    private static final String TAG = "LocalTestManager";
 
     private static List<String> l = new ArrayList<>();
     private static Map<String, Integer> errNum = new WeakHashMap<>();
@@ -106,11 +112,7 @@ public class LocalTestManager {
      * @param methodName
      * @return
      */
-    public static boolean isTest(String methodName, HashMap<String, String> properties) {
-        //配置后台开启
-//        if (UserUtil.isLocalTest(methodName)) {
-//            return true;
-//        }
+    public static boolean isTest(String methodName) {
         if (TEST) {
             return l.contains(methodName);
         }
@@ -126,6 +128,7 @@ public class LocalTestManager {
         errNum.clear();//清空
     }
 
+
     /**
      * 判断是否再次请求
      * @param methodName
@@ -136,6 +139,8 @@ public class LocalTestManager {
 
         //有数据直接返回
         if (!ObjectUtils.isEmpty(obj)) {
+            //处理公共数据
+            saveCommResult((String) obj);
             //保存数据不为null
             saveLog(methodName + "_data", properties + "\n\n" + obj);
             return false;
@@ -157,19 +162,41 @@ public class LocalTestManager {
     }
 
     /**
+     * 处理公共数据
+     * @param res
+     */
+    protected static void saveCommResult(String res) {
+        if (res.contains(CUR_DATE_TIME)) {
+            try {
+                JSONObject jsonObject = new JSONObject(res);
+                String curTime = jsonObject.getString(CUR_DATE_TIME);
+                if(!TextUtils.isEmpty(curTime)){
+                    SPStaticUtils.put(SharedPreference.CURDATETIME,curTime);
+                }
+            } catch (Exception e) {
+                Log.e(TAG,"(LocalTestManager.java:151) "+e.toString());
+            }
+        }
+    }
+
+    /**
      * 保存json-日志
      * @param methodName
      * @param obj
      */
     public static void saveLog(String methodName, String obj) {
         if (isLogFlag()) {
-            String[] split = APP_PACKAGE_NAME.split("\\.");
-            String packName = split[split.length - 1];
+            String packName = getSimplePackageName();
             String date = FORMAT.format(new Date(System.currentTimeMillis()));
-            String dir = packName + "/" + date + "/v" + APP_VERSION_CODE + "_" + methodName + "/";
+            String dir = packName + "/" + date + "/" + SPStaticUtils.getString(SharedPreference.USERCODE) +  "/v" + APP_VERSION_CODE + "_" + methodName + "/";
             String dhc = dir + methodName + "_" + System.currentTimeMillis() + ".log";
             CommFile.write(dhc, getCommLog() + obj);
         }
+    }
+
+    protected static String getSimplePackageName() {
+        String[] split = APP_PACKAGE_NAME.split("\\.");
+        return split[split.length - 1];
     }
 
     /**
@@ -216,7 +243,7 @@ public class LocalTestManager {
      */
     public static void saveSpUtils() {
         if (isLogFlag()) {
-            CommFile.write("spUtils", SPUtils.getInstance().getAll().toString());
+            CommFile.write("spUtils_"+getSimplePackageName(), SPUtils.getInstance().getAll().toString());
         }
     }
 }

@@ -4,6 +4,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.base.commlibs.constant.SharedPreference;
+import com.base.commlibs.utils.AppUtil;
 import com.base.commlibs.wsutils.BaseWebServiceUtils;
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.SPUtils;
@@ -214,6 +215,19 @@ public class CommWebService {
             properties = new HashMap<String, String>();
         }
         properties.put("groupId", SPUtils.getInstance().getString(SharedPreference.GROUPID));
+        return properties;
+    }
+
+    /**
+     * 添加当前Fragment
+     * @param properties
+     * @return
+     */
+    public static HashMap<String, String> curFragment(HashMap<String, String> properties) {
+        if (properties == null) {
+            properties = new HashMap<String, String>();
+        }
+        properties.put("fragment", AppUtil.getCurActivityFragmentSimpleName());
         return properties;
     }
 
