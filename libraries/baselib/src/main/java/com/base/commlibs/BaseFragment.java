@@ -17,6 +17,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -38,6 +39,7 @@ import com.base.commlibs.base.BasePushDialog;
 import com.base.commlibs.base.BaseTopLoadingView;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
+import com.base.commlibs.utils.SystemTTS;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.SPUtils;
 
@@ -90,6 +92,7 @@ public class BaseFragment extends Fragment {
 
     //判断患者信息是扫码获得还是点击获得
     public Boolean isGetPatByScan = false;
+    public FragmentActivity mActivity;
 
     /**
      * 判断是否大于等于LOLLIPOP
@@ -116,6 +119,8 @@ public class BaseFragment extends Fragment {
         mfilter.addAction(Action.TOUR_DOSINGID);
         mfilter.addAction(Action.DRUG_RLREG);
         mfilter.addAction(Action.NUR_RECORD_XML_VIEW);
+        //初始化语音
+        SystemTTS.getInstance(mActivity);
     }
 
     /**
@@ -517,6 +522,7 @@ public class BaseFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         mRequestTag = getClass().getName() + "@" + UUID.randomUUID();
+        mActivity = getActivity();
         mContainer = new FrameLayout(getActivity());
         linearLayoutTitle = (LinearLayout) View.inflate(getActivity(), R.layout.activity_base_linelayout, null);
         llTitTop = linearLayoutTitle.findViewById(R.id.ll_title_top);
@@ -538,6 +544,7 @@ public class BaseFragment extends Fragment {
     public void onDestroyView() {
         //取消注册
         EventBus.getDefault().unregister(this);
+        SystemTTS.getInstance(mActivity).destroy();
         super.onDestroyView();
     }
 

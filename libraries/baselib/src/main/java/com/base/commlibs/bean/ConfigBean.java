@@ -26,8 +26,6 @@ public class ConfigBean extends CommResult {
     private String skinDateOffset;
     //更新APP的URL
     private String updateUrl;
-    //是否本地json测试
-    private String localTestFlag;
     //是否http更新
     private String httpUpdateFlag;
     //是否手动输入
@@ -42,12 +40,7 @@ public class ConfigBean extends CommResult {
     private String webSocketFlag;
     //显示弹框时间 毫秒
     private String showDialogTime;
-    //统一接口
-    private String apiJson;
 
-    public String getApiJson() {
-        return apiJson == null ? "" : apiJson;
-    }
 
     public String getShowDialogTime() {
         return showDialogTime == null ? "" : showDialogTime;
@@ -56,7 +49,6 @@ public class ConfigBean extends CommResult {
     public String getWebSocketFlag() {
         return webSocketFlag == null ? "" : webSocketFlag;
     }
-
 
     public String getIsNetLog() {
         return isNetLog == null ? "" : isNetLog;
@@ -77,10 +69,6 @@ public class ConfigBean extends CommResult {
 
     public String getHttpUpdateFlag() {
         return httpUpdateFlag == null ? "" : httpUpdateFlag;
-    }
-
-    public String getLocalTestFlag() {
-        return localTestFlag == null ? "" : localTestFlag;
     }
 
     public String getUpdateUrl() {

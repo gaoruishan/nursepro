@@ -42,7 +42,7 @@ public class InjectDosingFragment extends InjectFragment {
         InjectApiManager.injectDespensing(scanInfo, mBean.getBtnType(), "", "", new CommonCallBack<CommResult>() {
             @Override
             public void onFail(String code, String msg) {
-                onFailThings();
+                onFailThings(msg);
             }
 
             @Override
@@ -75,7 +75,7 @@ public class InjectDosingFragment extends InjectFragment {
         InjectApiManager.getInjectOrdList("", customDate.getStartDateTimeText(), customDate.getEndDateTimeText(), exeFlag, scanInfo, new CommonCallBack<InjectListBean>() {
             @Override
             public void onFail(String code, String msg) {
-                onFailThings();
+                onFailThings(msg);
             }
 
             @Override

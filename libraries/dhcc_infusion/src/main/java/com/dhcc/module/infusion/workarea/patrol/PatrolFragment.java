@@ -98,7 +98,7 @@ public class PatrolFragment extends BaseInfusionFragment implements View.OnClick
 
             @Override
             public void onFail(String code, String msg) {
-                onFailThings();
+                onFailThings(msg);
             }
 
             @Override
@@ -211,7 +211,7 @@ public class PatrolFragment extends BaseInfusionFragment implements View.OnClick
         PatrolApiManager.tourOrd(oeoreId, distantTime, speed + "", "", tourContent, new CommonCallBack<CommResult>() {
             @Override
             public void onFail(String code, String msg) {
-                onFailThings();
+                onFailThings(msg);
             }
 
             @Override

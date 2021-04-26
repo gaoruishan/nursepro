@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,9 @@ import com.base.commlibs.utils.BaseHelper;
 import com.base.commlibs.utils.CommDialog;
 import com.base.commlibs.utils.DataCache;
 import com.base.commlibs.utils.SimpleCallBack;
+import com.base.commlibs.utils.SystemTTS;
 import com.base.commlibs.utils.UserUtil;
+import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.utils.DialogFactory;
@@ -342,7 +345,6 @@ public abstract class BaseInfusionFragment extends BaseFragment {
         if (!isContain) {
             if (!TextUtils.isEmpty(s)) {
                 ToastUtils.showShort(s);
-                onFailThings();
             }
             //隐藏"确定"按钮
             if (tvOk != null) {
@@ -352,8 +354,22 @@ public abstract class BaseInfusionFragment extends BaseFragment {
         return isContain;
     }
 
-    protected void onFailThings() {
-        AppUtil.playSound(mContext, 0);
+    protected void onFailThings(String msg) {
+        if(!TextUtils.isEmpty(msg)){
+            //包含字母
+            boolean isAlpha = msg.matches(".*[a-zA-Z]+.*");
+            if (isAlpha) {
+                AppUtil.playSound(mContext, 0);
+                return;
+            }
+            boolean canPlay = SystemTTS.getInstance(mContext).play(msg);
+            if (!canPlay) {
+                AppUtil.playSound(mContext, 0);
+            }
+        }else {
+            AppUtil.playSound(mContext, 0);
+        }
+
     }
 
     /**

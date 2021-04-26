@@ -40,7 +40,7 @@ public class BloodCollectionCheckFragment extends BloodCollectionFragment {
         BloodCollectApiManager.auditOrd(barCode, user, psw, new CommonCallBack<CommResult>() {
             @Override
             public void onFail(String code, String msg) {
-                onFailThings();
+                onFailThings(msg);
             }
 
             @Override

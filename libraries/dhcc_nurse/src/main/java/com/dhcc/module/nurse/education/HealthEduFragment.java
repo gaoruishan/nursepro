@@ -85,7 +85,7 @@ public class HealthEduFragment extends BaseNurseFragment {
             @Override
             public void onFail(String code, String msg) {
                 hideLoadingTip();
-                onFailThings();
+                onFailThings(msg);
             }
 
             @Override
@@ -109,7 +109,7 @@ public class HealthEduFragment extends BaseNurseFragment {
         HealthEduApiManager.getEducationList(episodeId, customDate.getStartDateTimeText(), customDate.getEndDateTimeText(), new CommonCallBack<HealthEduBean>() {
             @Override
             public void onFail(String code, String msg) {
-                onFailThings();
+                onFailThings(msg);
             }
 
             @Override

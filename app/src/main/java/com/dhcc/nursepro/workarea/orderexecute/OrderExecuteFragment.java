@@ -28,6 +28,7 @@ import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.SchDateTimeUtil;
+import com.base.commlibs.utils.SystemTTS;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
@@ -425,7 +426,10 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 //                if (episodeId == ""){
                 //                    msg = "请先扫描病人腕带";
                 //                }
-                playSound(1, 0);
+                boolean play = SystemTTS.getInstance(mActivity).play(msg);
+                if (!play) {
+                    playSound(1, 0);
+                }
                 if (execResultDialog != null && execResultDialog.isShowing()) {
                     execResultDialog.dismiss();
                 }

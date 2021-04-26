@@ -108,7 +108,10 @@ public class NurPlanAdapter extends BaseQuickAdapter<QuestionListBean, BaseViewH
             customSkinTagView.setTextColor(stColor);
         }
         //未停止->评价
-        boolean isStop = "未停止".equals(item.getStatus()) && "未评价".equals(item.getCStatus());
+        boolean isStop = "未评价".equals(item.getCStatus());
+        if(!TextUtils.isEmpty(item.getStatus())){
+            isStop = "未停止".equals(item.getStatus()) && isStop;
+        }
         helper.setGone(R.id.ll_select, isStop);
         customSkinTagView.setVisibility(isStop ? View.GONE : View.VISIBLE);
         helper.getView(R.id.ll_select).setSelected(item.isSelect());

@@ -68,7 +68,7 @@ public class HealthEduDrugFragment extends BaseNurseFragment {
             @Override
             public void onFail(String code, String msg) {
                 hideLoadingTip();
-                onFailThings();
+                onFailThings(msg);
             }
 
             @Override

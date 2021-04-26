@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import com.base.commlibs.http.CommResult;
 import com.base.commlibs.utils.AppUtil;
 import com.base.commlibs.utils.BaseHelper;
 import com.base.commlibs.utils.CommDialog;
+import com.base.commlibs.utils.SystemTTS;
 import com.blankj.utilcode.util.ActivityUtils;
 
 import java.util.List;
@@ -49,6 +51,7 @@ public abstract class BaseCommFragment extends BaseFragment implements View.OnCl
         initConfig();
         initDatas();
     }
+
     @Override
     public void onDetach() {
         super.onDetach();
@@ -56,6 +59,7 @@ public abstract class BaseCommFragment extends BaseFragment implements View.OnCl
             helper.removeView();
         }
     }
+
     /**
      * 初始化配置-子类重写方法 添加额外方法;
      * 例如: initPlay()提示音
@@ -109,7 +113,7 @@ public abstract class BaseCommFragment extends BaseFragment implements View.OnCl
         setToolbarBackground(new ColorDrawable(0xff4C95EF));
         setToolbarBottomLineVisibility(true);
         showToolbarNavigationIcon(R.drawable.icon_back_white);
-        setToolbarCenterTitle("",0xffffffff,17);
+        setToolbarCenterTitle("", 0xffffffff, 17);
         //设置底部背景
         mContainer.setBackgroundResource(R.color.color_base_content);
     }
@@ -117,16 +121,15 @@ public abstract class BaseCommFragment extends BaseFragment implements View.OnCl
     /**
      * 操作成功提示音
      */
-    protected void onSuccessThings(CommResult... bean) {
+    protected void onSuccessThings(CommResult bean) {
         AppUtil.playSound(mContext, R.raw.operate_success);
-        if (bean != null && bean.length > 0) {
-            showToast(bean[0].getMsg());
-        }
+        showToast(bean.getMsg());
     }
 
     protected void showToast(String msg) {
         CommDialog.showCommDialog(ActivityUtils.getTopActivity(), msg, null, 0, null, true);
     }
+
     @Override
     public void getScanMsg(Intent intent) {
         super.getScanMsg(intent);
@@ -163,8 +166,22 @@ public abstract class BaseCommFragment extends BaseFragment implements View.OnCl
     /**
      * 错误提示音
      */
-    protected void onFailThings() {
-        AppUtil.playSound(mContext, 0);
+    protected void onFailThings(String msg) {
+        if(!TextUtils.isEmpty(msg)){
+            //包含字母
+            boolean isAlpha = msg.matches(".*[a-zA-Z]+.*");
+            if (isAlpha) {
+                AppUtil.playSound(mContext, 0);
+                return;
+            }
+            boolean canPlay = SystemTTS.getInstance(mContext).play(msg);
+            if (!canPlay) {
+                AppUtil.playSound(mContext, 0);
+            }
+        }else {
+            AppUtil.playSound(mContext, 0);
+        }
+
     }
 
     /**

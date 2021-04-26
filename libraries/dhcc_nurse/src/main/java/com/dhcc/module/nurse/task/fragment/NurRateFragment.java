@@ -115,7 +115,7 @@ public class NurRateFragment extends BaseNurseFragment {
         TaskViewApiManager.getNeedEmr(bedStr, customDate.getStartDateText(), new CommonCallBack<NurRateTaskBean>() {
             @Override
             public void onFail(String code, String msg) {
-                onFailThings();
+                onFailThings(msg);
                 hideLoadingTip();
             }
 

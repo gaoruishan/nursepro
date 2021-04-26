@@ -117,7 +117,7 @@ public class NurPlanFragment extends BaseNurseFragment {
         NurPlanApiManager.saveQuestionComments(episodeId, questionSub, statusId, new CommonCallBack<CommResult>() {
             @Override
             public void onFail(String code, String msg) {
-                onFailThings();
+                onFailThings(msg);
             }
 
             @Override
@@ -155,7 +155,7 @@ public class NurPlanFragment extends BaseNurseFragment {
         NurPlanApiManager.getQuestionRecord(episodeId, customDate.getStartDateTimeText(), customDate.getEndDateTimeText(), status, new CommonCallBack<NurPlanBean>() {
             @Override
             public void onFail(String code, String msg) {
-                onFailThings();
+                onFailThings(msg);
             }
 
             @Override
@@ -257,8 +257,10 @@ public class NurPlanFragment extends BaseNurseFragment {
                 }
                 //跳转
                 if (view.getId() == R.id.ll_content) {
+                   boolean canSave = "未停止".equals(nurPlanAdapter.getItem(position).getStatus());
                     PlanBundleData bundle = new PlanBundleData()
                             .setQuestionList(mBean.getQuestionList())
+                            .setCanSave(canSave)
                             .setPosition(position + "");
                     startFragment(NurPlanGoalInterveFragment.class, bundle.build());
                 }
@@ -277,7 +279,7 @@ public class NurPlanFragment extends BaseNurseFragment {
                 NurPlanApiManager.cancelStopQuestion(method, episodeId, reason, recordId, new CommonCallBack<CommResult>() {
                     @Override
                     public void onFail(String code, String msg) {
-                        onFailThings();
+                        onFailThings(msg);
                     }
 
                     @Override

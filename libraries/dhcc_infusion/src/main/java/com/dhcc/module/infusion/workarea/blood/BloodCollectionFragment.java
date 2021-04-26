@@ -97,7 +97,7 @@ public class BloodCollectionFragment extends BaseInfusionFragment {
         InjectApiManager.getScanInfo(regNo, scanInfo, new CommonCallBack<ScanInfoBean>() {
             @Override
             public void onFail(String code, String msg) {
-                onFailThings();
+                onFailThings(msg);
             }
 
             @Override
@@ -163,7 +163,7 @@ public class BloodCollectionFragment extends BaseInfusionFragment {
         BloodCollectApiManager.exeLabOrd(labNo, new CommonCallBack<CommResult>() {
             @Override
             public void onFail(String code, String msg) {
-                onFailThings();
+                onFailThings(msg);
             }
 
             @Override
@@ -194,7 +194,7 @@ public class BloodCollectionFragment extends BaseInfusionFragment {
         BloodCollectApiManager.getLabOrdList(regNo, customDate.getStartDateTimeText(), customDate.getEndDateTimeText(), exeFlag, new CommonCallBack<BloodCollectBean>() {
             @Override
             public void onFail(String code, String msg) {
-                onFailThings();
+                onFailThings(msg);
             }
 
             @Override

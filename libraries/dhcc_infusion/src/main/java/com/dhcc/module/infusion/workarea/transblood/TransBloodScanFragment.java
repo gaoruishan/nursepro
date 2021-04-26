@@ -27,7 +27,7 @@ public class TransBloodScanFragment extends BaseTransBloodFragment {
         TransBloodApiManager.getTransBloodList(params, new CommonCallBack<TransBloodListBean>() {
             @Override
             public void onFail(String code, String msg) {
-                onFailThings();
+                onFailThings(msg);
             }
 
             @Override

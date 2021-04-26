@@ -23,6 +23,7 @@ public class PlanBundleData extends BaseBundleData {
     public String planId;
     public String questSub;
     public String title;
+    public boolean canSave;
 
     public PlanBundleData() {
         super();
@@ -86,6 +87,14 @@ public class PlanBundleData extends BaseBundleData {
 
     public PlanBundleData setQuestSub(String questSub) {
         this.questSub = questSub;
+        return this;
+    }
+
+    public boolean getCanSave() {
+        return getBoolean("canSave");
+    }
+    public PlanBundleData setCanSave(boolean canSave) {
+        this.canSave = canSave;
         return this;
     }
 

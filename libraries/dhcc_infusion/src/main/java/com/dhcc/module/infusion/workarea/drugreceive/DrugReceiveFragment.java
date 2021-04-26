@@ -39,7 +39,7 @@ public class DrugReceiveFragment extends BaseInfusionFragment {
         DrugReceiveApiManager.getIFOrdListByBarCode(customDateTime.getStartDateTimeText(), customDateTime.getEndDateTimeText(), new CommonCallBack<IfOrdListBean>() {
             @Override
             public void onFail(String code, String msg) {
-                onFailThings();
+                onFailThings(msg);
                 hideLoadingTip();
             }
 
@@ -70,7 +70,7 @@ public class DrugReceiveFragment extends BaseInfusionFragment {
         DrugReceiveApiManager.BatchIFSave(scanInfo, new CommonCallBack<CommResult>() {
             @Override
             public void onFail(String code, String msg) {
-                onFailThings();
+                onFailThings(msg);
             }
 
             @Override

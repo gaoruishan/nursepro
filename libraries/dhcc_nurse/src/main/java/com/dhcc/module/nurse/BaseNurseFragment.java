@@ -368,7 +368,7 @@ public abstract class BaseNurseFragment extends BaseCommFragment {
             @Override
             public void onFail(String code, String msg) {
                 hideLoadingTip();
-                onFailThings();
+                onFailThings(msg);
             }
 
             @Override

@@ -38,6 +38,13 @@ public class BaseBundleData {
         return "";
     }
 
+    protected boolean getBoolean(String key) {
+        if (bundle != null) {
+            return bundle.getBoolean(key);
+        }
+        return false;
+    }
+
     /**
      * 注意返回是List包含的map,需要调用getJsonMapToBean
      * @param key

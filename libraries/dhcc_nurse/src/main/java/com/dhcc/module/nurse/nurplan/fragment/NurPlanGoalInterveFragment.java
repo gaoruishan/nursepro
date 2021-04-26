@@ -72,6 +72,7 @@ public class NurPlanGoalInterveFragment extends BaseNurseFragment {
         super.initViews();
         questionList = new PlanBundleData(bundle).getQuestionList();
         String pst = new PlanBundleData(bundle).getPosition();
+        boolean canSave = new PlanBundleData(bundle).getCanSave();
 
         addToolBarRightImageView(0, R.drawable.dhcc_icon_add);
         position = Integer.valueOf(pst);
@@ -79,6 +80,11 @@ public class NurPlanGoalInterveFragment extends BaseNurseFragment {
         tvGoal.setOnClickListener(this);
         tvInterve = f(R.id.tv_interve, TextView.class);
         tvInterve.setOnClickListener(this);
+        //设置保存按钮
+        f(R.id.tv_bottom_save).setEnabled(canSave);
+        f(R.id.tv_bottom_save).setClickable(canSave);
+        f(R.id.tv_bottom_save).setBackgroundResource(canSave ? R.color.blue_dark : R.color.dhcc_lightgrey);
+
         f(R.id.tv_bottom_save).setOnClickListener(this);
         f(R.id.tv_bottom_plan_pre).setOnClickListener(this);
         f(R.id.tv_bottom_plan_next).setOnClickListener(this);
@@ -160,7 +166,7 @@ public class NurPlanGoalInterveFragment extends BaseNurseFragment {
         NurPlanApiManager.cancelInterventions(intRecordIds, cancelReason, new CommonCallBack<CommResult>() {
             @Override
             public void onFail(String code, String msg) {
-                onFailThings();
+                onFailThings(msg);
             }
 
             @Override
@@ -175,7 +181,7 @@ public class NurPlanGoalInterveFragment extends BaseNurseFragment {
         NurPlanApiManager.stopInterventions(intRecordIds, stopDate, stopTime, new CommonCallBack<CommResult>() {
             @Override
             public void onFail(String code, String msg) {
-                onFailThings();
+                onFailThings(msg);
             }
 
             @Override
@@ -209,7 +215,7 @@ public class NurPlanGoalInterveFragment extends BaseNurseFragment {
         NurPlanApiManager.getGoalByQestId(planId, questSub, new CommonCallBack<NurPlanGoalBean>() {
             @Override
             public void onFail(String code, String msg) {
-                onFailThings();
+                onFailThings(msg);
             }
 
             @Override
@@ -223,7 +229,7 @@ public class NurPlanGoalInterveFragment extends BaseNurseFragment {
         NurPlanApiManager.getInterventionByQestId(planId, questSub, new CommonCallBack<NurPlanInterveBean>() {
             @Override
             public void onFail(String code, String msg) {
-                onFailThings();
+                onFailThings(msg);
                 hideLoadingTip();
             }
 
@@ -301,7 +307,7 @@ public class NurPlanGoalInterveFragment extends BaseNurseFragment {
         NurPlanApiManager.saveGoalIntervRecord(method, planId, questSub, dataArr, new CommonCallBack<CommResult>() {
             @Override
             public void onFail(String code, String msg) {
-                onFailThings();
+                onFailThings(msg);
             }
 
             @Override

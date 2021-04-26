@@ -86,7 +86,7 @@ public class NurPlanAddFragment extends BaseNurseFragment {
         NurPlanApiManager.getQuestionList(episodeId, qustionName, qustionTypes, new CommonCallBack<NurPlanAddBean>() {
             @Override
             public void onFail(String code, String msg) {
-                onFailThings();
+                onFailThings(msg);
             }
 
             @Override
@@ -115,7 +115,7 @@ public class NurPlanAddFragment extends BaseNurseFragment {
         NurPlanApiManager.saveQuestionRecord(episodeId, dataArr, new CommonCallBack<CommResult>() {
             @Override
             public void onFail(String code, String msg) {
-                onFailThings();
+                onFailThings(msg);
             }
 
             @Override

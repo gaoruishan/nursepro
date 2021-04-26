@@ -60,7 +60,7 @@ public class SkinDosingFragment extends BaseInfusionFragment {
         SkinApiManager.skinDespensingOrd(scanInfo, mBean.getBtnType(), "", "", new CommonCallBack<CommResult>() {
             @Override
             public void onFail(String code, String msg) {
-                onFailThings();
+                onFailThings(msg);
             }
 
             @Override
@@ -98,7 +98,7 @@ public class SkinDosingFragment extends BaseInfusionFragment {
         SkinApiManager.getSkinList("", customDate.getStartDateTimeText(), customDate.getEndDateTimeText(),scanInfo, new CommonCallBack<SkinListBean>() {
             @Override
             public void onFail(String code, String msg) {
-                onFailThings();
+                onFailThings(msg);
             }
 
             @Override

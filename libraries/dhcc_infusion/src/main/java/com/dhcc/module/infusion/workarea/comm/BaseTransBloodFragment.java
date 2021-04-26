@@ -150,7 +150,7 @@ public abstract class BaseTransBloodFragment extends BaseInfusionFragment implem
         TransBloodApiManager.getTransBloodList(params, new CommonCallBack<TransBloodListBean>() {
             @Override
             public void onFail(String code, String msg) {
-                onFailThings();
+                onFailThings(msg);
             }
 
             @Override
@@ -218,7 +218,6 @@ public abstract class BaseTransBloodFragment extends BaseInfusionFragment implem
         }
         if (!isContain) {
             ToastUtils.showShort(tips);
-            onFailThings();
             helper.setVisible(R.id.tv_ok, false);
         } else {
             helper.setOnClickListener(R.id.tv_ok, this);
@@ -234,7 +233,7 @@ public abstract class BaseTransBloodFragment extends BaseInfusionFragment implem
         return new CommonCallBack<CommResult>() {
             @Override
             public void onFail(String code, String msg) {
-                onFailThings();
+                onFailThings(msg);
             }
 
             @Override

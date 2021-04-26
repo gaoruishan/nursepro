@@ -23,6 +23,9 @@ public class NurseConfig {
     public static String webServicePassword="webServicePassword";
     public static String oppdaService="oppdaService";
     public static String pdaService="pdaService";
-
+    //指纹识别
+    public static String fingerFlag="fingerFlag";
+    //语音播报
+    public static String voiceFlag="voiceFlag";
 
 }

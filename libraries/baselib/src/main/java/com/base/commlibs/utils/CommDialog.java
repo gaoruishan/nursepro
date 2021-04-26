@@ -294,6 +294,7 @@ public class CommDialog {
     public static void cancel(Dialog dialog) {
         if (dialog != null) {
             dialog.cancel();
+            commDialog = null;
         }
     }
 

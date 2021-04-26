@@ -73,7 +73,7 @@ public class ContinueFragment extends BaseInfusionFragment implements View.OnCli
         ContinueApiManager.getChangeOrdList(regNo, curOeoreId, scanInfo, new CommonCallBack<ContinueBean>() {
             @Override
             public void onFail(String code, String msg) {
-                onFailThings();
+                onFailThings(msg);
             }
 
             @Override
@@ -146,7 +146,7 @@ public class ContinueFragment extends BaseInfusionFragment implements View.OnCli
         ContinueApiManager.changeOrd(oeoreId, distantTime, csvSpeed.getSpeed() + "", "", wayNo, newWayFlag, new CommonCallBack<CommResult>() {
             @Override
             public void onFail(String code, String msg) {
-                onFailThings();
+                onFailThings(msg);
             }
 
             @Override

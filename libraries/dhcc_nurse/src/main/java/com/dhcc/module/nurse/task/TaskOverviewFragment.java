@@ -208,7 +208,7 @@ public class TaskOverviewFragment extends BaseNurseFragment {
             public void onFail(String code, String msg) {
                 askCount = 0;
                 hideLoadingTip();
-                onFailThings();
+                onFailThings(msg);
             }
             @Override
             public void onSuccess(TaskBean bean, String type) {

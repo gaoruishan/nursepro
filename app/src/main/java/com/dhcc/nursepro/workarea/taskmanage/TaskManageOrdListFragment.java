@@ -290,7 +290,7 @@ public class TaskManageOrdListFragment extends BaseCommFragment {
 
             @Override
             public void onFail(String code, String msg) {
-                onFailThings();
+                onFailThings(msg);
                 DialogFactory.showCommDialog(mContext, msg+"", "确定",R.drawable.icon_popup_error_patient, null);
             }
         });

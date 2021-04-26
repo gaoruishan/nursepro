@@ -68,7 +68,7 @@ public class NurPlanAddIntervFragment extends BaseNurseFragment {
         NurPlanApiManager.saveNewInterventionList(planId, questSub, inRowId, freqDr, weekStr, customSelectDate.getSelectDate(), customSelectDate.getSelectTime(), new CommonCallBack<CommResult>() {
             @Override
             public void onFail(String code, String msg) {
-                onFailThings();
+                onFailThings(msg);
             }
 
             @Override
@@ -119,7 +119,7 @@ public class NurPlanAddIntervFragment extends BaseNurseFragment {
         NurPlanApiManager.getInterventionList(planId, questSub, searchName, new CommonCallBack<NurPlanAddInterveBean>() {
             @Override
             public void onFail(String code, String msg) {
-                onFailThings();
+                onFailThings(msg);
             }
 
             @Override

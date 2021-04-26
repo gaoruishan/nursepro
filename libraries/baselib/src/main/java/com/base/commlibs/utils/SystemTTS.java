@@ -3,7 +3,10 @@ package com.base.commlibs.utils;
 import android.content.Context;
 import android.os.Build;
 import android.speech.tts.TextToSpeech;
-import android.widget.Toast;
+import android.text.TextUtils;
+
+import com.base.commlibs.constant.SharedPreference;
+import com.blankj.utilcode.util.SPStaticUtils;
 
 import java.util.Locale;
 
@@ -59,16 +62,22 @@ public class SystemTTS {
     }
 
 
-    public void play(String text) {
-        if (!isSupport) {
-            Toast.makeText(mContext, "暂不支持", Toast.LENGTH_SHORT).show();
-            return;
+    public boolean play(String text) {
+        if (!isSupport || TextUtils.isEmpty(text)) {
+//            Toast.makeText(mContext, "暂不支持", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        //语音开关
+        String voiceFlag = SPStaticUtils.getString(SharedPreference.voiceFlag);
+        if(TextUtils.isEmpty(voiceFlag)){
+            return false;
         }
         if (textToSpeech != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 textToSpeech.speak(text, TextToSpeech.QUEUE_ADD, null, null);
             }
         }
+        return true;
     }
 
 

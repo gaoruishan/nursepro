@@ -53,7 +53,7 @@ public class TransBloodDetailFragment extends BaseTransBloodFragment {
         TransBloodApiManager.getTransBloodDetail(params, new CommonCallBack<TransBloodDetailBean>() {
             @Override
             public void onFail(String code, String msg) {
-                onFailThings();
+                onFailThings(msg);
             }
 
             @Override

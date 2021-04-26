@@ -52,7 +52,7 @@ public class HealthEduContentFragment extends BaseNurseFragment {
         HealthEduApiManager.getEduContents(subjectIds, new CommonCallBack<HealthEduContentBean>() {
             @Override
             public void onFail(String code, String msg) {
-                onFailThings();
+                onFailThings(msg);
             }
 
             @Override

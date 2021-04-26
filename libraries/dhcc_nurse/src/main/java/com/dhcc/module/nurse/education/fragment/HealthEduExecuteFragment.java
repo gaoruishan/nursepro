@@ -146,7 +146,7 @@ public class HealthEduExecuteFragment extends BaseNurseFragment {
         HealthEduApiManager.saveEdu(SaveEduParams.getInstance(), new CommonCallBack<CommResult>() {
             @Override
             public void onFail(String code, String msg) {
-                onFailThings();
+                onFailThings(msg);
             }
 
             @Override

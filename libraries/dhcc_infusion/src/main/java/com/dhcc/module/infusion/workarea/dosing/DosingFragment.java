@@ -68,7 +68,7 @@ public class DosingFragment extends BaseInfusionFragment implements View.OnClick
         DosingApiManager.getOrdList("", oeoreId, new CommonCallBack<DosingBean>() {
             @Override
             public void onFail(String code, String msg) {
-                onFailThings();
+                onFailThings(msg);
             }
 
             @Override
@@ -168,7 +168,7 @@ public class DosingFragment extends BaseInfusionFragment implements View.OnClick
             public void onFail(String code, String msg) {
                 if (!isOnce[0]) {
                     isOnce[0] = true;
-                    onFailThings();
+                    onFailThings(msg);
                 }
             }
 
@@ -197,7 +197,7 @@ public class DosingFragment extends BaseInfusionFragment implements View.OnClick
         DosingApiManager.despensingOrd(scanInfo, reqType, "", "", new CommonCallBack<CommResult>() {
             @Override
             public void onFail(String code, String msg) {
-                onFailThings();
+                onFailThings(msg);
             }
 
             @Override

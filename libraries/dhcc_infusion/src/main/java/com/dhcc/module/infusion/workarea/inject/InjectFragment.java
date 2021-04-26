@@ -87,7 +87,7 @@ public class InjectFragment extends BaseInfusionFragment implements View.OnClick
         InjectApiManager.getScanInfo(regNo, scanInfo, new CommonCallBack<ScanInfoBean>() {
             @Override
             public void onFail(String code, String msg) {
-                onFailThings();
+                onFailThings(msg);
             }
 
             @Override
@@ -133,7 +133,7 @@ public class InjectFragment extends BaseInfusionFragment implements View.OnClick
         InjectApiManager.exeInjectOrd(injectOrdId, new CommonCallBack<CommResult>() {
             @Override
             public void onFail(String code, String msg) {
-                onFailThings();
+                onFailThings(msg);
             }
 
             @Override
@@ -150,7 +150,7 @@ public class InjectFragment extends BaseInfusionFragment implements View.OnClick
         InjectApiManager.getInjectOrdList(regNo, customDate.getStartDateTimeText(), customDate.getEndDateTimeText(), exeFlag, scanInfo, new CommonCallBack<InjectListBean>() {
             @Override
             public void onFail(String code, String msg) {
-                onFailThings();
+                onFailThings(msg);
             }
 
             @Override
