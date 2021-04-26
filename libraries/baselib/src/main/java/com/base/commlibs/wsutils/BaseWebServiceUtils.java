@@ -38,7 +38,7 @@ public class BaseWebServiceUtils {
 
     //测试库
     public static final String DEFAULT_IP = "10.1.21.123";
-//    public static final String DEFAULT_IP = "172.100.100.60";
+    //    public static final String DEFAULT_IP = "172.100.100.60";
     public static final String DTHEALTH_WEB = "/imedical/web";
     public static final String PATH_IMEDICAL = "/imedical/web";
     public static final String PATH_DTHEALTH = "/dthealth/web";
@@ -111,6 +111,8 @@ public class BaseWebServiceUtils {
         HashMap<String, String> propertiesTest = new HashMap<>();
         //解决=的乱码问题
         Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+        //当前Fragment
+        CommWebService.curFragment(properties);
         //统一添加公共参数
         addCommProperties(properties);
         //添加logonInfo对象
@@ -141,7 +143,6 @@ public class BaseWebServiceUtils {
         CommWebService.addLocId(properties);
         CommWebService.addUserId(properties);
         CommWebService.addWardId(properties);
-        CommWebService.curFragment(properties);
     }
 
     /**
@@ -190,7 +191,7 @@ public class BaseWebServiceUtils {
             if (properties != null) {
                 LogUtils.e(methodNameTest + " 测试= " + properties.toString());
             }
-            LocalTestManager.callLocalJson(methodNameTest,webServiceCallBack);
+            LocalTestManager.callLocalJson(methodNameTest, webServiceCallBack);
             return;
         }
 
@@ -220,7 +221,7 @@ public class BaseWebServiceUtils {
         final SoapSerializationEnvelope soapEnvelope = new SoapSerializationEnvelope(
                 SoapEnvelope.VER11);
         soapEnvelope.bodyOut = soapObject;
-        LogUtils.e(url);
+        LogUtils.e(url + "\n请求方法: " + methodNameTest);
         LogUtils.e(soapObject.toString());
 
 

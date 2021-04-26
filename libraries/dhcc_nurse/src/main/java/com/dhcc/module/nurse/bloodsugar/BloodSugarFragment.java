@@ -2,7 +2,6 @@ package com.dhcc.module.nurse.bloodsugar;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.BundleCompat;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,25 +49,26 @@ public class BloodSugarFragment extends BaseNurseFragment {
     private BloodSugarPatsBean bloodSugarPatsBean;
     private List<SheetListBean> mSheetListBeanList = new ArrayList<>();
     private BloodSugarPatAdapter bloodSugarPatAdapter;
-    private String topFilterCode="";
+    private String topFilterCode = "";
     private List<TextView> textViewList = new ArrayList<>();
+    private String sheetCode;
 
     @Override
     protected void initViews() {
         super.initViews();
-        llTopFilter = f(R.id.ll_top_filter,LinearLayout.class);
+        llTopFilter = f(R.id.ll_top_filter, LinearLayout.class);
         customSheet = f(R.id.custom_sheet_list, CustomSheetListView.class);
         customSheet.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
+                sheetCode = mSheetListBeanList.get(position).getCode();
             }
         });
         customDate = f(R.id.custom_date, CustomDateTimeView.class);
         String curDate = SPStaticUtils.getString(SharedPreference.CURDATETIME);
         customDate.setShowTime(false);
         customDate.showOnlyOne();
-        customDate.setStartDateTime(TimeUtils.string2Millis(curDate.substring(0,10), YYYY_MM_DD));
+        customDate.setStartDateTime(TimeUtils.string2Millis(curDate.substring(0, 10), YYYY_MM_DD));
         customDate.setOnDateSetListener(new OnDateSetListener() {
             @Override
             public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
@@ -85,18 +85,19 @@ public class BloodSugarFragment extends BaseNurseFragment {
         RecyclerViewHelper.get(mContext, R.id.rv_list_ord).setAdapter(bloodSugarPatAdapter);
         bloodSugarPatAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) { Bundle bundle = new Bundle();
-                bundle.putString("episodeId",bloodSugarPatAdapter.getItem(position).getEpisodeId());
-                bundle.putString("patInfo",bloodSugarPatAdapter.getItem(position).getBedCode()+" "+bloodSugarPatAdapter.getItem(position).getName());
-
-                if (view.getId()==R.id.tv_sugar_record){
-                    startFragment(BloodSugarRecordFragment.class,bundle);
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                Bundle bundle = new Bundle();
+                bundle.putString("episodeId", bloodSugarPatAdapter.getItem(position).getEpisodeId());
+                bundle.putString("patInfo", bloodSugarPatAdapter.getItem(position).getBedCode() + " " + bloodSugarPatAdapter.getItem(position).getName());
+                bundle.putString("sheetCode",sheetCode);
+                if (view.getId() == R.id.tv_sugar_record) {
+                    startFragment(BloodSugarRecordFragment.class, bundle);
                 }
-                if (view.getId()==R.id.tv_sugar_list){
-                    startFragment(BloodSugarNoteListFragment.class,bundle);
+                if (view.getId() == R.id.tv_sugar_list) {
+                    startFragment(BloodSugarNoteListFragment.class, bundle);
                 }
-                if (view.getId()==R.id.tv_sugar_preview){
-                    startFragment(BloodSugarValueMapFragment.class,bundle);
+                if (view.getId() == R.id.tv_sugar_preview) {
+                    startFragment(BloodSugarValueMapFragment.class, bundle);
                 }
             }
         });
@@ -115,7 +116,7 @@ public class BloodSugarFragment extends BaseNurseFragment {
     }
 
 
-    private void getBloodSugarPats(){
+    private void getBloodSugarPats() {
         showLoadingTip(BaseActivity.LoadingType.FULL);
         BloodSugarApiManager.getBloodSugarPatsList(customDate.getStartDateTimeText(), new CommonCallBack<BloodSugarPatsBean>() {
             @Override
@@ -128,17 +129,20 @@ public class BloodSugarFragment extends BaseNurseFragment {
                 hideLoadingTip();
                 bloodSugarPatsBean = bean;
                 mSheetListBeanList = new ArrayList<>();
-                for (int i = 0; i < bean.getLeftFilter().size(); i++) {
-                    mSheetListBeanList.add(new SheetListBean(bean.getLeftFilter().get(i).getCode(),bean.getLeftFilter().get(i).getDesc()));
+                if (bean.getLeftFilter() != null && bean.getLeftFilter().size() > 0) {
+                    for (int i = 0; i < bean.getLeftFilter().size(); i++) {
+                        mSheetListBeanList.add(new SheetListBean(bean.getLeftFilter().get(i).getCode(), bean.getLeftFilter().get(i).getDesc()));
+                    }
+                    sheetCode = mSheetListBeanList.get(0).getCode();
+                    customSheet.setDatas(mSheetListBeanList);
                 }
-                customSheet.setDatas(mSheetListBeanList);
                 bloodSugarPatAdapter.setNewData(bean.getPatInfoList());
 
                 llTopFilter.removeAllViews();
                 textViewList = new ArrayList<>();
 
                 for (int i = 0; i < bean.getTopFilter().size(); i++) {
-                    if (getContext() == null){
+                    if (getContext() == null) {
                         return;
                     }
                     TextView tvButton = new TextView(getContext());
@@ -149,14 +153,14 @@ public class BloodSugarFragment extends BaseNurseFragment {
                     titleParams.weight = 1;
                     tvButton.setLayoutParams(titleParams);
                     tvButton.setTextColor(Color.parseColor("#000000"));
-                    if (topFilterCode.equals("")){
+                    if (topFilterCode.equals("")) {
                         tvButton.setTextColor(Color.parseColor("#4A90E2"));
                         topFilterCode = bean.getTopFilter().get(0).getCode();
-                    }else if (topFilterCode.equals(bean.getTopFilter().get(i).getCode())){
+                    } else if (topFilterCode.equals(bean.getTopFilter().get(i).getCode())) {
                         tvButton.setTextColor(Color.parseColor("#4A90E2"));
                     }
                     tvButton.setTextSize(15);
-                    tvButton.setTag(R.string.key_vis_toptext,bean.getTopFilter().get(i).getCode());
+                    tvButton.setTag(R.string.key_vis_toptext, bean.getTopFilter().get(i).getCode());
                     tvButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -176,11 +180,11 @@ public class BloodSugarFragment extends BaseNurseFragment {
         });
     }
 
-    private void topFilter(){
+    private void topFilter() {
         ArrayList<BloodSugarPatsBean.PatInfoListBean> listBeans = new ArrayList<>();
         for (int i = 0; i < bloodSugarPatsBean.getPatInfoList().size(); i++) {
             Map map = GsonUtils.fromJson(GsonUtils.toJson(bloodSugarPatsBean.getPatInfoList().get(i)), HashMap.class);
-            if (map != null && map.get(topFilterCode)!=null &&"1".equals(map.get(topFilterCode))){
+            if (map != null && map.get(topFilterCode) != null && "1".equals(map.get(topFilterCode))) {
                 listBeans.add(bloodSugarPatsBean.getPatInfoList().get(i));
             }
         }
@@ -195,12 +199,14 @@ public class BloodSugarFragment extends BaseNurseFragment {
             @Override
             public void onFail(String code, String msg) {
             }
+
             @Override
             public void onSuccess(ScanResultBean bean, String type) {
 
             }
         });
     }
+
     @Override
     protected int setLayout() {
         return R.layout.fragment_blood_sugar;

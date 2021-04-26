@@ -8,7 +8,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,34 +16,24 @@ import com.base.commlibs.BaseActivity;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
-import com.base.commlibs.utils.RecyclerViewHelper;
 import com.base.commlibs.utils.SchDateTimeUtil;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.GsonUtils;
-import com.blankj.utilcode.util.JsonUtils;
-import com.blankj.utilcode.util.SPStaticUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.dhcc.module.nurse.AdapterFactory;
 import com.dhcc.module.nurse.BaseNurseFragment;
 import com.dhcc.module.nurse.R;
-import com.dhcc.module.nurse.bloodsugar.adapter.BloodSugarPatAdapter;
-import com.dhcc.module.nurse.bloodsugar.bean.BloodSugarPatsBean;
 import com.dhcc.module.nurse.bloodsugar.bean.BloodSugarValueAndItemBean;
 import com.dhcc.module.nurse.task.TaskViewApiManager;
 import com.dhcc.module.nurse.task.bean.ScanResultBean;
 import com.dhcc.res.infusion.CustomDateTimeView;
-import com.dhcc.res.infusion.CustomSheetListView;
-import com.dhcc.res.infusion.bean.SheetListBean;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 import com.nex3z.flowlayout.FlowLayout;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import cn.qqtheme.framework.picker.OptionPicker;
@@ -66,6 +55,8 @@ public class BloodSugarRecordFragment extends BaseNurseFragment {
     private String episodeId = "",rowId="",sugarRowId="";
     private ArrayList<TextView> tvList = new ArrayList<>();
     private BloodSugarValueAndItemBean itemBean;
+    private String sheetCode;
+    private String mSelectItem;
 
     @Override
     protected void initViews() {
@@ -140,7 +131,6 @@ public class BloodSugarRecordFragment extends BaseNurseFragment {
         etNote = f(R.id.et_note, EditText.class);
         tvState.setOnClickListener(this);
         customDate = f(R.id.custom_date, CustomDateTimeView.class);
-        String curDate = SPStaticUtils.getString(SharedPreference.CURDATETIME);
         customDate.setShowTime(true);
         customDate.showOnlyOne();
         customDate.setStartDateTime(SchDateTimeUtil.getCurDateTime());
@@ -165,6 +155,7 @@ public class BloodSugarRecordFragment extends BaseNurseFragment {
         if (bundle!=null){
             setToolbarCenterTitle(bundle.getString("patInfo"));
             episodeId = bundle.getString("episodeId");
+            sheetCode = bundle.getString("sheetCode");
         }
         getBloodSugarRecord();
     }
@@ -189,11 +180,23 @@ public class BloodSugarRecordFragment extends BaseNurseFragment {
 
                 }
                 itemBean = bean;
-                tvState.setText(bean.getSugarList().get(0).getDesc());
-                etValue.setText(bean.getSugarList().get(0).getValue());
-                rowId = bean.getSugarList().get(0).getRowId();
-                sugarRowId = bean.getSugarList().get(0).getSugarRowId();
-                setOptions(0);
+                int mPst = 0;
+                BloodSugarValueAndItemBean.SugarListBean sugarBean = bean.getSugarList().get(mPst);
+                if(!TextUtils.isEmpty(sheetCode)){
+                    for (int i = 0; i < bean.getSugarList().size(); i++) {
+                        BloodSugarValueAndItemBean.SugarListBean sugarListBean = bean.getSugarList().get(i);
+                        if (sheetCode.equalsIgnoreCase(sugarListBean.getCode())) {
+                            sugarBean = sugarListBean;
+                            mPst = i;
+                        }
+                    }
+                }
+                mSelectItem = sugarBean.getDesc();
+                tvState.setText(mSelectItem);
+                etValue.setText(sugarBean.getValue());
+                rowId = sugarBean.getRowId();
+                sugarRowId = sugarBean.getSugarRowId();
+                setOptions(mPst);
             }
         });
     }
@@ -258,9 +261,13 @@ public class BloodSugarRecordFragment extends BaseNurseFragment {
                 picker.setSelectedIndex(0);
                 picker.setCycleDisable(true);
                 picker.setTextSize(20);
+                if(!TextUtils.isEmpty(mSelectItem)){
+                    picker.setSelectedItem(mSelectItem);
+                }
                 picker.setOnOptionPickListener(new OptionPicker.OnOptionPickListener() {
                     @Override
                     public void onOptionPicked(int index, String item) {
+                        mSelectItem = item;
                         tvState.setText(item);
                         etValue.setText(itemBean.getSugarList().get(index).getValue());
                         rowId = itemBean.getSugarList().get(index).getRowId();
