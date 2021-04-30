@@ -22,6 +22,7 @@ import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
+import org.ksoap2.transport.HttpsTransportSE;
 import org.kxml2.kdom.Element;
 import org.kxml2.kdom.Node;
 
@@ -113,6 +114,8 @@ public class BaseWebServiceUtils {
         Gson gson = new GsonBuilder().disableHtmlEscaping().create();
         //当前Fragment
         CommWebService.curFragment(properties);
+        //设备ID
+        CommWebService.curDevice(properties);
         //统一添加公共参数
         addCommProperties(properties);
         //添加logonInfo对象
@@ -196,8 +199,24 @@ public class BaseWebServiceUtils {
         }
 
         SharedPreference.MethodName = methodNameTest;
+        //支持https
+        String httpsFlag = SPStaticUtils.getString(SharedPreference.httpsFlag);
+        HttpTransportSE httpTransportSE;
+        if(!TextUtils.isEmpty(httpsFlag)){
+            String path = SPStaticUtils.getString(SharedPreference.WEBPATH);
+            String host = SPStaticUtils.getString(SharedPreference.WEBIP);
+            int port = 443;
+            if (host.contains(":")) {
+                host = host.split(":")[0];
+            }
+            String webService = url.split(path)[1];
+            String file = path + webService;
 
-        final HttpTransportSE httpTransportSE = new HttpTransportSE(url, TIME_OUT);
+            httpTransportSE = new HttpsTransportSE(host, port, file, TIME_OUT);
+            LogUtils.e(host, port, file);
+        }else {
+            httpTransportSE = new HttpTransportSE(url, TIME_OUT);
+        }
 
 
         // 创建SoapObject对象

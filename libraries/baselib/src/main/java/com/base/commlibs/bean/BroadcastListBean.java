@@ -11,7 +11,13 @@ public class BroadcastListBean {
         private String Decode;
         private String Name;
 
-        public String getAction() {
+    public BroadcastListBean(String action, String decode, String name) {
+        Action = action;
+        Decode = decode;
+        Name = name;
+    }
+
+    public String getAction() {
             return Action;
         }
 

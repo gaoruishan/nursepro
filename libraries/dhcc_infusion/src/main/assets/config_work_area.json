@@ -29,36 +29,6 @@
       "id": "104",
       "image": "infusion_main_bz",
       "name": "拔针"
-    },
-    {
-      "fragment": "com.dhcc.module.infusion.workarea.transblood.TransBloodReceiveFragment",
-      "id": "105",
-      "image": "infusion_main_bz",
-      "name": "输血签收"
-    },
-    {
-      "fragment": "com.dhcc.module.infusion.workarea.transblood.TransBloodCheckFragment",
-      "id": "107",
-      "image": "infusion_main_bz",
-      "name": "输血复核"
-    },
-    {
-      "fragment": "com.dhcc.module.infusion.workarea.transblood.TransBloodInfusionFragment",
-      "id": "106",
-      "image": "infusion_main_bz",
-      "name": "输血输注"
-    },
-    {
-      "fragment": "com.dhcc.module.infusion.workarea.transblood.TransBloodTourFragment",
-      "id": "108",
-      "image": "infusion_main_bz",
-      "name": "输血巡视"
-    },
-    {
-      "fragment": "com.dhcc.module.infusion.workarea.transblood.TransBloodRecycleFragment",
-      "id": "104",
-      "image": "infusion_main_bz",
-      "name": "输血回收"
     }
   ],
   "homePic": "app_icon.jpeg",

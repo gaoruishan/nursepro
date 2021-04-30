@@ -1,8 +1,10 @@
 package com.dhcc.module.infusion.workarea;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -131,6 +133,12 @@ public class WorkAreaFragment extends BaseFragment {
 
         @Override
         protected void convert(BaseViewHolder helper, ConfigBean item) {
+            Log.e(TAG,"(WorkAreaAdapter.java:136) "+item.getBgColor());
+            if(!TextUtils.isEmpty(item.getBgColor())){
+                helper.setBackgroundColor(R.id.ll_item, Color.parseColor(item.getBgColor()));
+            }else {
+                helper.setBackgroundColor(R.id.ll_item, ContextCompat.getColor(mContext,R.color.white));
+            }
             TextView tvItem = helper.getView(R.id.tv_workarea);
             ImageView imageView = helper.getView(R.id.icon_workarea);
             tvItem.setText(item.getName());

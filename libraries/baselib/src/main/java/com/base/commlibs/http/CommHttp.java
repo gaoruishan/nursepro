@@ -48,9 +48,7 @@ public class CommHttp {
                         //包含配置
                         if (result.contains(field.getName() + "")) {
                             String value = jsonObject.getString(field.getName() + "");
-                            if (!TextUtils.isEmpty(value)) {
-                                SPStaticUtils.put(field.getName(), value);
-                            }
+                            SPStaticUtils.put(field.getName(), value);
                         }
                     }
 

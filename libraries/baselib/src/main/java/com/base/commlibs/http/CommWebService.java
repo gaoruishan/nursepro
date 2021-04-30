@@ -7,6 +7,7 @@ import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.utils.AppUtil;
 import com.base.commlibs.wsutils.BaseWebServiceUtils;
 import com.blankj.utilcode.util.AppUtils;
+import com.blankj.utilcode.util.DeviceUtils;
 import com.blankj.utilcode.util.SPUtils;
 
 import java.util.HashMap;
@@ -228,6 +229,19 @@ public class CommWebService {
             properties = new HashMap<String, String>();
         }
         properties.put("fragment", AppUtil.getCurActivityFragmentSimpleName());
+        return properties;
+    }
+
+    /**
+     * 添加当前设备ID
+     * @param properties
+     * @return
+     */
+    public static HashMap<String, String> curDevice(HashMap<String, String> properties) {
+        if (properties == null) {
+            properties = new HashMap<String, String>();
+        }
+        properties.put("deviceId", DeviceUtils.getAndroidID());
         return properties;
     }
 

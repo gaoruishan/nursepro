@@ -27,5 +27,7 @@ public class NurseConfig {
     public static String fingerFlag="fingerFlag";
     //语音播报
     public static String voiceFlag="voiceFlag";
+    //https
+    public static String httpsFlag="httpsFlag";
 
 }
