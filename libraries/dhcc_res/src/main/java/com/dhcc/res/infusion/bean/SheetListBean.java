@@ -36,7 +36,7 @@ public class SheetListBean implements Serializable {
     }
 
     public String getNum() {
-        return num;
+        return num == null ? "" : num;
     }
 
     public void setNum(String num) {

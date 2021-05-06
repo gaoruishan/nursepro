@@ -59,6 +59,7 @@ public class NurPlanGoalInterveFragment extends BaseNurseFragment {
 
     private NurPlanGoalAdapter goalAdapter;
     private NurPlanInterveAdapter interveAdapter;
+    private boolean canSave;
 
     @Override
     protected void initDatas() {
@@ -72,7 +73,7 @@ public class NurPlanGoalInterveFragment extends BaseNurseFragment {
         super.initViews();
         questionList = new PlanBundleData(bundle).getQuestionList();
         String pst = new PlanBundleData(bundle).getPosition();
-        boolean canSave = new PlanBundleData(bundle).getCanSave();
+        canSave = new PlanBundleData(bundle).getCanSave();
 
         addToolBarRightImageView(0, R.drawable.dhcc_icon_add);
         position = Integer.valueOf(pst);
@@ -80,10 +81,8 @@ public class NurPlanGoalInterveFragment extends BaseNurseFragment {
         tvGoal.setOnClickListener(this);
         tvInterve = f(R.id.tv_interve, TextView.class);
         tvInterve.setOnClickListener(this);
-        //设置保存按钮
-        f(R.id.tv_bottom_save).setEnabled(canSave);
-        f(R.id.tv_bottom_save).setClickable(canSave);
-        f(R.id.tv_bottom_save).setBackgroundResource(canSave ? R.color.blue_dark : R.color.dhcc_lightgrey);
+
+        setCanSave();
 
         f(R.id.tv_bottom_save).setOnClickListener(this);
         f(R.id.tv_bottom_plan_pre).setOnClickListener(this);
@@ -162,6 +161,13 @@ public class NurPlanGoalInterveFragment extends BaseNurseFragment {
         });
     }
 
+    //设置保存按钮
+    private void setCanSave() {
+        f(R.id.tv_bottom_save).setEnabled(canSave);
+        f(R.id.tv_bottom_save).setClickable(canSave);
+        f(R.id.tv_bottom_save).setBackgroundResource(canSave ? R.color.blue_dark : R.color.dhcc_lightgrey);
+    }
+
     private void cancelInterventions() {
         NurPlanApiManager.cancelInterventions(intRecordIds, cancelReason, new CommonCallBack<CommResult>() {
             @Override
@@ -220,6 +226,8 @@ public class NurPlanGoalInterveFragment extends BaseNurseFragment {
 
             @Override
             public void onSuccess(NurPlanGoalBean bean, String type) {
+                canSave = "0".equalsIgnoreCase(bean.getQueStatus());
+                setCanSave();
                 goalAdapter.setNewData(bean.getGoalList());
             }
         });
@@ -252,6 +260,7 @@ public class NurPlanGoalInterveFragment extends BaseNurseFragment {
             tvGoal.setTextColor(ContextCompat.getColor(mContext, color ? R.color.blue : R.color.color_4a));
             tvInterve.setTextColor(ContextCompat.getColor(mContext, !color ? R.color.blue : R.color.color_4a));
         }
+        //上一个
         if (v.getId() == R.id.tv_bottom_plan_pre) {
             if (position <= 0) {
                 ToastUtils.showShort("已经是第一个问题!");
@@ -260,6 +269,7 @@ public class NurPlanGoalInterveFragment extends BaseNurseFragment {
             position--;
             initGoalInterveData();
         }
+        //下一个
         if (v.getId() == R.id.tv_bottom_plan_next) {
             if (questionList == null) return;
             if (position >= questionList.size() - 1) {

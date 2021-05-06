@@ -15,6 +15,15 @@ import java.util.List;
 public class NurPlanGoalBean extends CommResult {
 
     private List<GoalListBean> goalList;
+    private String queStatus;
+
+    public String getQueStatus() {
+        return queStatus == null ? "" : queStatus;
+    }
+
+    public void setQueStatus(String queStatus) {
+        this.queStatus = queStatus;
+    }
 
     /**
      * 获取勾选

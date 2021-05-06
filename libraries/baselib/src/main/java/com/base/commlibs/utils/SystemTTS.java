@@ -95,6 +95,7 @@ public class SystemTTS {
         if (textToSpeech != null) {
             textToSpeech.shutdown();
         }
+        singleton = null;
     }
 
 

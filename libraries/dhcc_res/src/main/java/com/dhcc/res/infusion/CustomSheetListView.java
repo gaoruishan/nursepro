@@ -17,6 +17,8 @@ import com.dhcc.res.infusion.bean.SheetListBean;
 import com.grs.dhcc_res.R;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 封装左侧选择栏
@@ -92,7 +94,14 @@ public class CustomSheetListView extends LinearLayout {
         }
     }
 
-
+    public static boolean checkChinese(String sequence) {
+        final String format = "[\\u4E00-\\u9FA5\\uF900-\\uFA2D]";
+        boolean result = false;
+        Pattern pattern = Pattern.compile(format);
+        Matcher matcher = pattern.matcher(sequence);
+        result = matcher.find();
+        return result;
+    }
     public class SheetListAdapter extends BaseQuickAdapter<SheetListBean, BaseViewHolder> {
         private String selectedCode;
 
@@ -115,7 +124,11 @@ public class CustomSheetListView extends LinearLayout {
             View viewOrderType = helper.getView(R.id.view_ordersearch_ordertype);
             TextView tvOrderType = helper.getView(R.id.tv_ordersearch_ordertype);
             helper.setGone(R.id.tv_sheet_num, !TextUtils.isEmpty(item.getNum()));
-            helper.setText(R.id.tv_sheet_num,"项目数:"+item.getNum());
+            if (checkChinese(item.getNum())) {
+                helper.setText(R.id.tv_sheet_num,""+item.getNum());
+            }else {
+                helper.setText(R.id.tv_sheet_num,"项目数:"+item.getNum());
+            }
 
             int normalColor = R.color.dhcc_ordersearch_left_text_normal_color;
             int selectedColor = R.color.dhcc_ordersearch_left_text_selected_color;
