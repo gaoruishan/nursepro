@@ -17,8 +17,9 @@ import com.base.commlibs.BaseFragment;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.utils.DataCache;
-import com.base.commlibs.utils.LocalTestManager;
 import com.base.commlibs.utils.SchDateTimeUtil;
+import com.base.commlibs.view.WebActivity;
+import com.base.commlibs.wsutils.BaseWebServiceUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -28,6 +29,7 @@ import com.dhcc.nursepro.workarea.workareaapi.WorkareaApiManager;
 import com.dhcc.nursepro.workarea.workareabean.MainConfigBean;
 import com.dhcc.nursepro.workarea.workareautils.WorkareaMainConfig;
 import com.dhcc.nursepro.workarea.workareautils.WorkareaOrdExeUtil;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -78,6 +80,11 @@ public class WorkareaFragment extends BaseFragment {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 try {
                     Map map = (Map) adapter.getData().get(position);
+                    //兼容web
+                    if (map.get("fragUrl").toString().contains(".html")) {
+                        WebActivity.start(mActivity, BaseWebServiceUtils.getServiceUrl(map.get("fragUrl").toString()));
+                        return;
+                    }
                     if (map.get("fragName")==null){
                         showToast("该功能暂未开发");
                     }else {

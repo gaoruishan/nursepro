@@ -85,12 +85,14 @@ public class WorkareaMainConfig {
             mainList.add(new MainConfigBean.MainListBean("NurPlanFragment","护理计划"));
             mainList.add(new MainConfigBean.MainListBean("PatHandover","患者交接"));
             mainList.add(new MainConfigBean.MainListBean("InfusionSituation","输液信息"));
+            mainList.add(new MainConfigBean.MainListBean("web","web测试","/hello.html"));
         }
     }
 
     private Map getMainConfigItem(MainConfigBean.MainListBean item){
 
         Map map = new HashMap();
+        map.put("fragUrl", item.getModuleUrl());
         map.put("fragicon",R.drawable.icon_orderexcute);
         switch (item.getModuleCode()) {
             case "BEDMAP":

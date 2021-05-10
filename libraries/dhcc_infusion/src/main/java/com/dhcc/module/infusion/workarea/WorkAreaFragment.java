@@ -22,6 +22,8 @@ import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.CommRes;
 import com.base.commlibs.utils.DataCache;
+import com.base.commlibs.view.WebActivity;
+import com.base.commlibs.wsutils.BaseWebServiceUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -100,8 +102,13 @@ public class WorkAreaFragment extends BaseFragment {
                 try {
                     //fragment 不为空, 且必须继承BaseFragment
                     if (item != null && !TextUtils.isEmpty(item.getFragment())) {
-                        Class<? extends BaseFragment> aClass = (Class<? extends BaseFragment>) Class.forName(item.getFragment());
-                        startFragment(aClass);
+                        //兼容web
+                        if (item.getFragment().contains(".html")) {
+                            WebActivity.start(mActivity, BaseWebServiceUtils.getServiceUrl(item.getFragment()));
+                        }else {
+                            Class<? extends BaseFragment> aClass = (Class<? extends BaseFragment>) Class.forName(item.getFragment());
+                            startFragment(aClass);
+                        }
                     }
                 } catch (Exception e) {
                     Log.e(TAG,e.toString());

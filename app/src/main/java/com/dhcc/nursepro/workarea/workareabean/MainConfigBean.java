@@ -121,6 +121,15 @@ public class MainConfigBean {
 
         private String moduleCode;
         private String moduleDesc;
+        private String moduleUrl;
+
+        public String getModuleUrl() {
+            return moduleUrl == null ? "" : moduleUrl;
+        }
+
+        public void setModuleUrl(String moduleUrl) {
+            this.moduleUrl = moduleUrl;
+        }
 
         public MainListBean() {
         }
@@ -128,6 +137,12 @@ public class MainConfigBean {
         public MainListBean(String moduleCode, String moduleDesc) {
             this.moduleCode = moduleCode;
             this.moduleDesc = moduleDesc;
+        }
+
+        public MainListBean(String moduleCode, String moduleDesc, String moduleUrl) {
+            this.moduleCode = moduleCode;
+            this.moduleDesc = moduleDesc;
+            this.moduleUrl = moduleUrl;
         }
 
         public String getModuleCode() {

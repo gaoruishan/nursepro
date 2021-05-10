@@ -50,14 +50,14 @@ public abstract class BaseWebActivity extends BaseActivity {
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
             Log.e(TAG, "(BaseWebActivity.java:55) onProgressChanged  " + newProgress);
-            onWebChromeProgressChanged(view,newProgress);
+            onWebChromeProgressChanged(view, newProgress);
         }
 
         @Override
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
             Log.e(TAG, "(BaseWebActivity.java:62) onReceivedTitle " + title);
-            onWebChromeReceivedTitle(view,title);
+            onWebChromeReceivedTitle(view, title);
         }
     };
 
@@ -77,7 +77,7 @@ public abstract class BaseWebActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        Log.e(TAG,"(BaseWebActivity.java:80) onDestroy");
+        Log.e(TAG, "(BaseWebActivity.java:80) onDestroy");
         if (mAgentWeb != null) {
             mAgentWeb.getWebLifeCycle().onDestroy();
         }
@@ -86,7 +86,7 @@ public abstract class BaseWebActivity extends BaseActivity {
 
     @Override
     protected void onPause() {
-        Log.e(TAG,"(BaseWebActivity.java:88) onPause");
+        Log.e(TAG, "(BaseWebActivity.java:88) onPause");
         if (mAgentWeb != null) {
             mAgentWeb.getWebLifeCycle().onPause();
         }
@@ -96,7 +96,7 @@ public abstract class BaseWebActivity extends BaseActivity {
 
     @Override
     protected void onResume() {
-        Log.e(TAG,"(BaseWebActivity.java:97) onResume");
+        Log.e(TAG, "(BaseWebActivity.java:97) onResume");
         if (mAgentWeb != null) {
             mAgentWeb.getWebLifeCycle().onResume();
         }
@@ -109,12 +109,14 @@ public abstract class BaseWebActivity extends BaseActivity {
      * @param url
      */
     protected void initWebView(LinearLayout linearLayout, String url) {
-        Log.e(TAG, "(BaseWebActivity.java:112) initWebView  "+url);
+        Log.e(TAG, "(BaseWebActivity.java:112) initWebView  " + url);
         mAgentWeb = AgentWeb.with(this)
                 //传入AgentWeb的父控件。
                 .setAgentWebParent(linearLayout, -1, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
                 //设置进度条颜色与高度，-1为默认值，高度为2，单位为dp。
-                .useDefaultIndicator(-1, 3)
+//                .useDefaultIndicator(-1, 2)
+                //关闭进度条
+                .closeIndicator()
                 .setWebChromeClient(mWebChromeClient)
                 .setWebViewClient(mWebViewClient)
                 //严格模式 Android 4.2.2 以下会放弃注入对象 ，使用AgentWebView没影响。
@@ -195,9 +197,9 @@ public abstract class BaseWebActivity extends BaseActivity {
      * 注入js
      */
     protected void addJavascriptInterfaceAgentWeb() {
-        Log.e(TAG,"(BaseWebActivity.java:199) 注入对象");
-        if(mAgentWeb!=null){
-            mAgentWeb.getJsInterfaceHolder().addJavaObject("android",new JsInterface());
+        Log.e(TAG, "(BaseWebActivity.java:199) 注入对象");
+        if (mAgentWeb != null) {
+            mAgentWeb.getJsInterfaceHolder().addJavaObject("android", new JsInterface());
         }
     }
 
@@ -209,13 +211,6 @@ public abstract class BaseWebActivity extends BaseActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
-
-    /**
-     * html源码
-     * @param html
-     * @param charactersets
-     */
-    protected abstract void onHtmlSource(String html, String charactersets);
 
     /**
      * 事件
@@ -238,18 +233,20 @@ public abstract class BaseWebActivity extends BaseActivity {
      */
     public class JsInterface {
 
+        public static final String REQUEST = "request";
+
         @JavascriptInterface
         public void callAndroid(String content, String type) {
-            LogUtils.e("(JsInterface.java:292)  type= "+ type+" ,content=  " + content);
+            LogUtils.e("(JsInterface.java:292)  type= " + type + " ,content=  " + content);
             String finalType = type.toUpperCase();
             deliver.post(new Runnable() {
                 @Override
                 public void run() {
-                    if (finalType.contains("GBK") || finalType.contains("UTF")) {
-                        onHtmlSource(content, finalType);
-                    }else if (finalType.equalsIgnoreCase("request")){
-                        onCallRequest(content,finalType);
+                    //请求
+                    if (finalType.equalsIgnoreCase(REQUEST)) {
+                        onCallRequest(content, finalType);
                     } else {
+                        //事件
                         onCallEvents(content, finalType);
                     }
                 }
