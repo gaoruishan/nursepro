@@ -19,6 +19,15 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 /**
  * HttpURLConnection网络请求工具类
@@ -57,7 +66,45 @@ public class HttpUtil {
             }
         });
     }
+    final static HostnameVerifier DO_NOT_VERIFY = new HostnameVerifier() {
 
+        public boolean verify(String hostname, SSLSession session) {
+            return true;
+        }	//将所有验证的结果都设为true
+    };
+    /**
+     * 不检查任何证书
+     */
+    private static void trustAllHosts() {
+        final String TAG = "trustAllHosts";
+        // 创建信任管理器
+        TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
+
+            @Override
+            public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                return new java.security.cert.X509Certificate[]{};
+            }
+
+            @Override
+            public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                Log.i(TAG, "checkClientTrusted");
+            }
+
+            @Override
+            public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                Log.i(TAG, "checkServerTrusted");
+            }
+        }};
+
+        // Install the all-trusting trust manager
+        try {
+            SSLContext sc = SSLContext.getInstance("TLS");
+            sc.init(null, trustAllCerts, new java.security.SecureRandom());
+            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     /**
      * Get请求
      */
@@ -66,11 +113,21 @@ public class HttpUtil {
         URL url;
         Log.e(TAG,"(HttpUtil.java:67) "+urlString);
         HttpURLConnection httpURLConnection = null;
+        HttpsURLConnection httpsURLConnection;
         try {
             // 根据URL地址创建URL对象
             url = new URL(urlString);
-            // 获取HttpURLConnection对象
-            httpURLConnection = (HttpURLConnection) url.openConnection();
+
+            trustAllHosts();
+            //判断是https请求还是http请求
+            if (url.getProtocol().toLowerCase().equals("https")) {
+                httpsURLConnection = (HttpsURLConnection) url.openConnection();
+                httpsURLConnection.setHostnameVerifier(DO_NOT_VERIFY);
+                httpURLConnection = httpsURLConnection;
+            } else {
+                // 获取HttpURLConnection对象
+                httpURLConnection = (HttpURLConnection) url.openConnection();
+            }
             // 设置请求方式，默认为GET
             httpURLConnection.setRequestMethod("GET");
             // 设置连接超时

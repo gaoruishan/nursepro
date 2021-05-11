@@ -39,7 +39,7 @@ public class BaseWebServiceUtils {
 
     //测试库
     public static final String DEFAULT_IP = "10.1.21.123";
-    //    public static final String DEFAULT_IP = "172.100.100.60";
+    //    public static final String DEFAULT_IP = "114.242.246.235";
     public static final String DTHEALTH_WEB = "/imedical/web";
     public static final String PATH_IMEDICAL = "/imedical/web";
     public static final String PATH_DTHEALTH = "/dthealth/web";
@@ -48,6 +48,8 @@ public class BaseWebServiceUtils {
     public static final String NUR_MNIS_SERVICE = "/Nur.MNIS.Service.WebService.cls";
     // 门诊
     public static final String NUR_MOES_SERVICE = "/Nur.MOES.Service.WebService.cls";
+    public static final String HTTP = "http";
+    public static final String HTTPS = "https";
 
     // 门诊输液新接口
     public static String NUR_OPPDA_SERVICE = SPStaticUtils.getString(SharedPreference.oppdaService, "/Nur.OPPDA.WebService.cls");
@@ -200,21 +202,24 @@ public class BaseWebServiceUtils {
 
         SharedPreference.MethodName = methodNameTest;
         //支持https
-        String httpsFlag = SPStaticUtils.getString(SharedPreference.httpsFlag);
         HttpTransportSE httpTransportSE;
-        if(!TextUtils.isEmpty(httpsFlag)){
+        if (url.contains(HTTPS)) {
             String path = SPStaticUtils.getString(SharedPreference.WEBPATH);
             String host = SPStaticUtils.getString(SharedPreference.WEBIP);
             int port = 443;
             if (host.contains(":")) {
-                host = host.split(":")[0];
+                String[] split = host.split(":");
+                host = split[0];
+                if ((split.length > 1) && !TextUtils.isEmpty(split[1])) {
+                    port = Integer.parseInt(split[1]);
+                }
             }
             String webService = url.split(path)[1];
             String file = path + webService;
 
             httpTransportSE = new HttpsTransportSE(host, port, file, TIME_OUT);
             LogUtils.e(host, port, file);
-        }else {
+        } else {
             httpTransportSE = new HttpTransportSE(url, TIME_OUT);
         }
 
@@ -240,7 +245,7 @@ public class BaseWebServiceUtils {
         final SoapSerializationEnvelope soapEnvelope = new SoapSerializationEnvelope(
                 SoapEnvelope.VER11);
         soapEnvelope.bodyOut = soapObject;
-        LogUtils.e(url + "\n请求方法: " + methodNameTest);
+        LogUtils.e(url + "\n请求方法: " + methodNameTest + "");
         LogUtils.e(soapObject.toString());
 
 
@@ -333,7 +338,8 @@ public class BaseWebServiceUtils {
         if (TextUtils.isEmpty(ip)) {
             ip = DEFAULT_IP;
         }
-        return "http://" + ip;
+        String http = SPStaticUtils.getString(SharedPreference.HTTP, "http");
+        return http + "://" + ip;
     }
 
 
@@ -353,6 +359,13 @@ public class BaseWebServiceUtils {
         List<String> spinnerItems = new ArrayList<>();
         spinnerItems.add(PATH_IMEDICAL);
         spinnerItems.add(PATH_DTHEALTH);
+        return spinnerItems;
+    }
+
+    public static List<String> getHttpList() {
+        List<String> spinnerItems = new ArrayList<>();
+        spinnerItems.add(HTTP);
+        spinnerItems.add(HTTPS);
         return spinnerItems;
     }
 

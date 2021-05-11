@@ -44,7 +44,8 @@ public class SetIPDialog extends Dialog {
     private onNoOnclickListener noOnclickListener;//取消按钮被点击了的监听器
     private onYesOnclickListener yesOnclickListener;//确定按钮被点击了的监听器
     private String messagePath;
-    private CustomSpinnerView customSpinnerPath,customSpinnerIP;
+    private CustomSpinnerView customSpinnerPath,customSpinnerIP,customSpinnerHttp;
+    private EditText messageHttp;
 
     public SetIPDialog(Context context) {
         super(context, R.style.MyDialog);
@@ -99,12 +100,18 @@ public class SetIPDialog extends Dialog {
         messageIP = findViewById(R.id.message);
         messagePort = findViewById(R.id.message2);
         messageRes = (EditText) findViewById(R.id.message3);
+        messageHttp = (EditText) findViewById(R.id.et_http);
         customSpinnerIP = findViewById(R.id.custom_spinner_ip);
         customSpinnerPath = findViewById(R.id.custom_spinner_path);
+        customSpinnerHttp = findViewById(R.id.custom_spinner_http);
 
         String ips = SPStaticUtils.getString(SharedPreference.WEBIPS, "");
         String ip = SPStaticUtils.getString(SharedPreference.WEBIP);
         List<String> spinnerIp = new ArrayList<>();
+        //去掉端口
+        if (ip.contains(":")) {
+            ip = ip.split(":")[0];
+        }
         spinnerIp.add(ip);
         if(!TextUtils.isEmpty(ips)){
             String[] split = ips.split(",");
@@ -141,6 +148,20 @@ public class SetIPDialog extends Dialog {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String s = spinnerItems.get(position);
                 messageRes.setText(s);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        List<String> spinnerItems2 = BaseWebServiceUtils.getHttpList();
+        customSpinnerHttp.initDataView(spinnerItems2, new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String s = spinnerItems2.get(position);
+                messageHttp.setText(s);
+                SPStaticUtils.put(SharedPreference.HTTP,s);
             }
 
             @Override
