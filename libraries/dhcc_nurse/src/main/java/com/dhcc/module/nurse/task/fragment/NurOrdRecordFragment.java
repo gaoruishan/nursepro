@@ -256,8 +256,8 @@ public class NurOrdRecordFragment  extends BaseNurseFragment {
                 if (bean.getData().getSubItemList().size() > 0) {
                     for (int j = 0; j < bean.getData().getSubItemList().size(); j++) {
                         Map map1 = new HashMap();
-                        map1.put("childId", bean.getData().getSubItemList().get(i).getSubItemId());
-                        map1.put("childValue", bean.getData().getSubItemList().get(i).getSubItemName());
+                        map1.put("childId", bean.getData().getSubItemList().get(j).getSubItemId());
+                        map1.put("childValue", bean.getData().getSubItemList().get(j).getSubItemName());
                         list2.add(map1);
                     }
                 }

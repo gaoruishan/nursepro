@@ -14,6 +14,7 @@ import com.base.commlibs.utils.TransBroadcastUtil;
 import com.base.commlibs.wsutils.BaseWebServiceUtils;
 import com.blankj.utilcode.util.SPStaticUtils;
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.ToastUtils;
 
 import org.json.JSONObject;
 
@@ -53,7 +54,8 @@ public class CommHttp {
                     }
 
                 } catch (Exception e) {
-                    Log.e(TAG, "(LocalTestManager.java:151) " + e.toString());
+                    Log.e(TAG,"(CommHttp.java:57) "+e.toString());
+                    ToastUtils.showShort("检查配置:"+e.toString());
                 }
 
             }

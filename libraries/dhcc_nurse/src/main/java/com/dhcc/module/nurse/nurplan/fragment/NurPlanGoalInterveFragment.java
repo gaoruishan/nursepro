@@ -116,8 +116,10 @@ public class NurPlanGoalInterveFragment extends BaseNurseFragment {
                             public void onOptionPicked(int index, String item) {
                                 //设置ID
                                 bean.setFreqDR(json.getFreqList().get(index).getId());
-                                //选中
-                                bean.setSelect(!bean.isSelect());
+                                //修改时 默认选择中
+                                if (!bean.isSelect()) {
+                                    bean.setSelect(!bean.isSelect());
+                                }
                                 interveAdapter.notifyItemChanged(position);
                             }
                         });

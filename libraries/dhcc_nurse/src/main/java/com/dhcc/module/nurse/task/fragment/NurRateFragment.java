@@ -103,7 +103,7 @@ public class NurRateFragment extends BaseNurseFragment {
                 bundle.putString("BedNo", recDataBean.getBedCode());
                 bundle.putString("PatName", recDataBean.getPatientName());
                 bundle.putString("EMRCode", emrCode);
-                bundle.putString("GUID", "");
+                bundle.putString("GUID", scoreBean.getGuId());
                 bundle.putString("RecID", "");
                 startFragment(strName, bundle);
             }

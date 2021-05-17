@@ -122,6 +122,15 @@ public class NurRateTaskBean extends CommResult {
             private String startDate;
             private String startTime;
             private String url;
+            private String guId;
+
+            public String getGuId() {
+                return guId == null ? "" : guId;
+            }
+
+            public void setGuId(String guId) {
+                this.guId = guId;
+            }
 
             public String getEmrCode() {
                 return EmrCode;
