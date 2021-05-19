@@ -10,7 +10,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +27,6 @@ import com.base.commlibs.utils.DataCache;
 import com.base.commlibs.utils.SimpleCallBack;
 import com.base.commlibs.utils.SystemTTS;
 import com.base.commlibs.utils.UserUtil;
-import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.utils.DialogFactory;
@@ -55,15 +53,16 @@ public abstract class BaseInfusionFragment extends BaseFragment {
 
     public static final String STR_ORD_ING = "当前输液中,不可穿刺";
     public static final String STR_WAY_NO = "通道";
+    public static final int INT_10 = 10;
 
     public static String SCAN_HAND = "请扫描腕带";
-    public static  String SCAN_PAT_HAND = "请您使用扫码设备，扫描病人腕带";
+    public static String SCAN_PAT_HAND = "请您使用扫码设备，扫描病人腕带";
 
-    public static  String SCAN_LABEL = "请扫描贴签";
-    public static  String SCAN_DRUG_LABEL = "请您使用扫码设备，扫描药品贴签";
+    public static String SCAN_LABEL = "请扫描贴签";
+    public static String SCAN_DRUG_LABEL = "请您使用扫码设备，扫描药品贴签";
 
-    public static  String SCAN_LABEL_PAT_HAND = "请扫描贴签/腕带";
-    public static  String SCAN_LABEL_PAT_HAND_INFO = "请您使用扫码设备，扫描药品贴签/腕带";
+    public static String SCAN_LABEL_PAT_HAND = "请扫描贴签/腕带";
+    public static String SCAN_LABEL_PAT_HAND_INFO = "请您使用扫码设备，扫描药品贴签/腕带";
 
     public static final String PAT = "PAT";
     public static final String ORD = "ORD";
@@ -74,7 +73,7 @@ public abstract class BaseInfusionFragment extends BaseFragment {
     protected String scanInfoTemp;
     protected String episodeId = "";
     protected String regNo = "";
-    protected String barCode="";
+    protected String barCode = "";
     //执行开关: 0 未执行; 1已执行
     protected String exeFlag = "0";
     protected Activity mContext;
@@ -183,6 +182,7 @@ public abstract class BaseInfusionFragment extends BaseFragment {
             scanView.setTitle(SCAN_HAND).setWarning(SCAN_PAT_HAND);
         }
     }
+
     protected void showScanLabelOrCard() {
         CustomScanView scanView = f(R.id.custom_scan, CustomScanView.class);
         if (scanView != null) {
@@ -221,7 +221,7 @@ public abstract class BaseInfusionFragment extends BaseFragment {
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (mContainer != null) {
-            mContainer.setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.white));
+            mContainer.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.white));
         }
         if (setLayout() != 0) {
             return inflater.inflate(setLayout(), container, false);
@@ -256,6 +256,7 @@ public abstract class BaseInfusionFragment extends BaseFragment {
     protected void showToast(String msg) {
         DialogFactory.showCommDialog(getActivity(), msg, null, 0, null, true);
     }
+
     /**
      * 两次验证
      * @param ordList
@@ -264,12 +265,12 @@ public abstract class BaseInfusionFragment extends BaseFragment {
      */
     protected boolean auditOrdInfo(List<OrdListBean> ordList, String curRegNo, String curOeoreId) {
         View view = f(R.id.tv_ok);
-        if (view!= null) {
+        if (view != null) {
             view.setVisibility(View.GONE);
             if (!TextUtils.isEmpty(curRegNo) && !TextUtils.isEmpty(curOeoreId)) {
                 view.setVisibility(View.VISIBLE);
                 //再次检查
-                if (!forIsContain(ordList,curOeoreId)) {
+                if (!forIsContain(ordList, curOeoreId)) {
                     view.setVisibility(View.GONE);
                 }
             }
@@ -300,7 +301,7 @@ public abstract class BaseInfusionFragment extends BaseFragment {
      * @param recyclerView
      * @param list
      */
-    protected void scrollToPosition(RecyclerView recyclerView,List<OrdListBean> list) {
+    protected void scrollToPosition(RecyclerView recyclerView, List<OrdListBean> list) {
         int pst = 0;
         for (int i = 0; i < list.size(); i++) {
             OrdListBean b = list.get(i);
@@ -310,6 +311,7 @@ public abstract class BaseInfusionFragment extends BaseFragment {
         }
         recyclerView.scrollToPosition(pst);
     }
+
     /**
      * 校验列表中的OeoreId
      * @param list
@@ -355,7 +357,7 @@ public abstract class BaseInfusionFragment extends BaseFragment {
     }
 
     protected void onFailThings(String msg) {
-        if(!TextUtils.isEmpty(msg)){
+        if (!TextUtils.isEmpty(msg)) {
             //包含字母
             boolean isAlpha = msg.matches(".*[a-zA-Z]+.*");
             if (isAlpha) {
@@ -366,7 +368,7 @@ public abstract class BaseInfusionFragment extends BaseFragment {
             if (!canPlay) {
                 AppUtil.playSound(mContext, 0);
             }
-        }else {
+        } else {
             AppUtil.playSound(mContext, 0);
         }
 
@@ -405,11 +407,19 @@ public abstract class BaseInfusionFragment extends BaseFragment {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFactory.showTest(mContext, new CommDialog.CommClickListener() {
+                DialogFactory.showTest(mContext, "手动输入",new CommDialog.CommClickListener() {
                     @Override
                     public void data(Object[] args) {
-                        if(!TextUtils.isEmpty((String) args[0])){
+                        if (!TextUtils.isEmpty((String) args[0])) {
                             scanInfo = (String) args[0];
+                            //自动补全
+                            if (scanInfo.length() < INT_10) {
+                                String scanInfoPre = "";
+                                for (int i = 0; i < (INT_10 - scanInfo.length()); i++) {
+                                    scanInfoPre += "0";
+                                }
+                                scanInfo = scanInfoPre + scanInfo;
+                            }
                             getScanOrdList();
                         }
                     }

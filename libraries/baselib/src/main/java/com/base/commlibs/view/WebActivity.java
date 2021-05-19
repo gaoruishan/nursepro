@@ -4,17 +4,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.base.commlibs.R;
 import com.base.commlibs.base.BaseWebActivity;
 import com.base.commlibs.bean.RequestParam;
+import com.base.commlibs.bean.WebConfigBean;
 import com.base.commlibs.http.CommWebService;
 import com.base.commlibs.http.ServiceCallBack;
 import com.base.commlibs.utils.CommDialog;
@@ -25,6 +31,7 @@ import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.just.agentweb.AgentWebConfig;
 
 /**
  * 对webView封装
@@ -47,14 +54,17 @@ public class WebActivity extends BaseWebActivity {
     public static final String URL_SCANLABEL = "scanlabel";
     public static final String URL_SCANPAT = "scanpat";
     public static final String URL_OFFLINE = "offline";
+    public static final String URL_CLEAR = "clear";
     private static String TAG = WebActivity.class.getSimpleName();
     private static boolean scanLabel;
     private static boolean scanPat;
     private static boolean offLine;
+    private static boolean clear;
 
     private ProgressBar loadingProgress;
     private LinearLayout linearLayout;
     private XScanView xScan;
+    private WebConfigBean configBean;
 
 
     private String getLocalUrl() {
@@ -85,6 +95,7 @@ public class WebActivity extends BaseWebActivity {
         scanLabel = url.contains(URL_SCANLABEL);
         scanPat = url.contains(URL_SCANPAT);
         offLine = url.contains(URL_OFFLINE);
+        clear = url.contains(URL_CLEAR);
         context.startActivity(intent);
     }
 
@@ -130,9 +141,6 @@ public class WebActivity extends BaseWebActivity {
         //初始化数据
         initData();
 
-        //清空缓存
-//        AgentWebConfig.clearDiskCache(this);
-
         url = getIntent().getStringExtra(URL);
         Log.e(TAG, "(WebActivity.java:160) url=" + url);
         if (!offLine) {
@@ -152,7 +160,65 @@ public class WebActivity extends BaseWebActivity {
                 downReload();
             }
         }
+    }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void callJsConfig() {
+        if (mAgentWeb != null) {
+            mAgentWeb.getJsAccessEntrace().quickCallJs("Config");
+        }
+    }
+
+    /**
+     * 初始化配置
+     * @param value
+     */
+    @Override
+    protected void initConfig(String value, String type) {
+        if (!TextUtils.isEmpty(value)) {
+            try {
+                configBean = GsonUtils.fromJson(value, WebConfigBean.class);
+                Log.e(TAG,"(WebActivity.java:181) "+configBean.toString());
+                setToolbarCenterTitle(configBean.title);
+                if ("1".equals(configBean.hideToolBar)) {
+                    getToolbar().setVisibility(View.GONE);
+                }
+                if (configBean.toolBar != null) {
+                    if ("text".equalsIgnoreCase(configBean.toolBar.type)) {
+                        setToolbarRightCustomView(getRightTextView(configBean.toolBar.text, configBean.toolBar.method));
+                    }
+                }
+            } catch (Exception e) {
+                Log.e(TAG, "(WebActivity.java:187) " + e.toString());
+            }
+
+        }
+    }
+
+    /**
+     * 添加筛选按钮
+     * @return
+     */
+    public View getRightTextView(String txt, String method) {
+        TextView textView = new TextView(mActivity);
+//        ImageView textView = new ImageView(mContext);
+//        textView.setImageResource(R.drawable.dhcc_filter_big_write);
+        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        textView.setLayoutParams(layoutParams);
+        textView.setTextColor(mActivity.getResources().getColor(R.color.white));
+        textView.setGravity(Gravity.CENTER_VERTICAL);
+        textView.setPadding(20, 0, 20, 0);
+        textView.setTextSize(15);
+        textView.setText(txt);
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mAgentWeb != null) {
+                    mAgentWeb.getJsAccessEntrace().quickCallJs(method);
+                }
+            }
+        });
+        return textView;
     }
 
     //下载后 重新加载
@@ -176,6 +242,11 @@ public class WebActivity extends BaseWebActivity {
         }
         if (scanPat) {
             xScan.setTitle("请扫描腕带").setWarning("请你使用扫码设备,扫码患者腕带");
+        }
+        //清空缓存
+        if (clear) {
+            Log.e(TAG, "(WebActivity.java:253) clear=" + clear);
+            AgentWebConfig.clearDiskCache(this);
         }
     }
 
@@ -206,6 +277,10 @@ public class WebActivity extends BaseWebActivity {
         Log.e(TAG, "(WebActivity.java:222) title=" + title);
         if (!TextUtils.isEmpty(title)) {
             setToolbarCenterTitle(title, 0xffffffff, 17);
+        }
+        //js回调获取配置
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            callJsConfig();
         }
     }
 

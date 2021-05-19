@@ -245,7 +245,7 @@ public class BaseWebServiceUtils {
         final SoapSerializationEnvelope soapEnvelope = new SoapSerializationEnvelope(
                 SoapEnvelope.VER11);
         soapEnvelope.bodyOut = soapObject;
-        LogUtils.e(url + "\n请求方法: " + methodNameTest + "");
+        LogUtils.e(url + "\n请求方法: " + methodNameTest + "    "+userNamestr+"    "+passWordstr);
         LogUtils.e(soapObject.toString());
 
 

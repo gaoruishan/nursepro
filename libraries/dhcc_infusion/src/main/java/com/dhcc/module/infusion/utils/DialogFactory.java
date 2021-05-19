@@ -308,10 +308,11 @@ public class DialogFactory extends CommDialog {
         return new Dialog(context, R.style.MyDialog);
     }
 
-    public static void showTest(Activity context, final CommClickListener okClick) {
+    public static void showTest(Activity context,String title, final CommClickListener okClick) {
         dialog = getDialog(context);
         dialog.setCanceledOnTouchOutside(true);
         final View view = LayoutInflater.from(context).inflate(R.layout.test_dialog_layout, null);
+        setText(title,view,R.id.tv_title);
         TextView btn = view.findViewById(R.id.btn_yes);
         btn.setVisibility(View.VISIBLE);
         btn.setOnClickListener(new View.OnClickListener() {

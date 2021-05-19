@@ -226,6 +226,13 @@ public abstract class BaseWebActivity extends BaseActivity {
      */
     protected abstract void onCallRequest(String content, String type);
 
+    /**
+     * 配置
+     * @param content
+     * @param type
+     */
+    protected abstract void initConfig(String content, String type);
+
     private Handler deliver = new Handler(Looper.getMainLooper());
 
     /**
@@ -234,6 +241,7 @@ public abstract class BaseWebActivity extends BaseActivity {
     public class JsInterface {
 
         public static final String REQUEST = "request";
+        public static final String CONFIG = "config";
 
         @JavascriptInterface
         public void callAndroid(String content, String type) {
@@ -245,10 +253,15 @@ public abstract class BaseWebActivity extends BaseActivity {
                     //请求
                     if (finalType.equalsIgnoreCase(REQUEST)) {
                         onCallRequest(content, finalType);
-                    } else {
-                        //事件
-                        onCallEvents(content, finalType);
+                        return;
                     }
+                    //配置
+                    if (finalType.equalsIgnoreCase(CONFIG)) {
+                        initConfig(content, finalType);
+                        return;
+                    }
+                    //事件
+                    onCallEvents(content, finalType);
                 }
             });
 
