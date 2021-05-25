@@ -52,6 +52,7 @@ import java.util.List;
 public abstract class BaseInfusionFragment extends BaseFragment {
 
     public static final String STR_ORD_ING = "当前输液中,不可穿刺";
+    public static final String STR_ORD_NO_END = "输液中的液体才能拔针!";
     public static final String STR_WAY_NO = "通道";
     public static final int INT_10 = 10;
 
@@ -254,7 +255,9 @@ public abstract class BaseInfusionFragment extends BaseFragment {
     }
 
     protected void showToast(String msg) {
-        DialogFactory.showCommDialog(getActivity(), msg, null, 0, null, true);
+        if(!TextUtils.isEmpty(msg)){
+            DialogFactory.showCommDialog(getActivity(), msg, null, 0, null, true);
+        }
     }
 
     /**

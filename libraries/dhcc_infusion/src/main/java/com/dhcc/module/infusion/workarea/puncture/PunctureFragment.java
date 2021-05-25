@@ -124,6 +124,7 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
                     //输液中不可穿刺
                     if (bean.getCurrentOrdState(OrdState.STATE_3)) {
                         CommDialog.showShort(STR_ORD_ING);
+                        onFailThings(STR_ORD_ING);
                         return;
                     }
                     //显示穿刺情况
@@ -219,7 +220,7 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
                     getOrdList(scanInfo,true);
                 }
                 setToolbarCenterTitle("穿刺");
-                DialogFactory.showCommDialog(getActivity(), "穿刺成功", "", 0, null, true);
+                DialogFactory.showCommDialog(getActivity(), bean.getMsg(), "", 0, null, true);
                 onSuccessThings();
             }
         });

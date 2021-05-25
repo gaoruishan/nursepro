@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
+import com.base.commlibs.utils.CommDialog;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.utils.AdapterFactory;
 import com.dhcc.module.infusion.utils.DialogFactory;
@@ -92,6 +93,12 @@ public class NeedlesFragment extends BaseInfusionFragment implements View.OnClic
                         // 扫码执行,刷新列表不再执行
                         return;
                     }
+                    //不是输液中
+                    if (!bean.getCurrentOrdState(OrdState.STATE_3)) {
+                        CommDialog.showShort(STR_ORD_NO_END);
+                        onFailThings(STR_ORD_NO_END);
+                        return;
+                    }
                     if (CommInfusionBean.SCAN_EXE.equals(bean.getScanFlag())) {
                         clickExtractOrd();
                     }
@@ -151,7 +158,7 @@ public class NeedlesFragment extends BaseInfusionFragment implements View.OnClic
                 if (scanInfo != null) {
                     getOrdList(scanInfo,true);
                 }
-                DialogFactory.showCommDialog(getActivity(), "拔针成功", "", 0, null, true);
+                DialogFactory.showCommDialog(getActivity(), bean.getMsg(), "", 0, null, true);
                 onSuccessThings();
             }
         });

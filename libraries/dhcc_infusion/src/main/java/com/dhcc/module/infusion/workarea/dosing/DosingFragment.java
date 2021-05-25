@@ -178,22 +178,13 @@ public class DosingFragment extends BaseInfusionFragment implements View.OnClick
                 if (temp.size() == size) {
                     getOrdList(scanInfo, true);
                     onSuccessThings();
-                    DialogFactory.showCommDialog(getActivity(), "操作成功", "", 0, null, true);
+                    DialogFactory.showCommDialog(getActivity(), bean.getMsg(), "", 0, null, true);
                 }
             }
         });
     }
 
     private void despensingOrd() {
-        /*
-        String passWord = ((EditText) mContainerChild.findViewById(R.id.pass_word)).getText().toString();
-        String userCode = ((EditText) mContainerChild.findViewById(R.id.user_code)).getText().toString();
-        // 复核
-        if (DosingApiManager.Audit.equals(reqType) && TextUtils.isEmpty(passWord) && TextUtils.isEmpty(userCode)) {
-            DialogFactory.showCommDialog(getActivity(), "未输入复核信息，请复核", "确定", R.drawable.icon_popup_error_repeat, null);
-            return;
-        }
-        */
         DosingApiManager.despensingOrd(scanInfo, reqType, "", "", new CommonCallBack<CommResult>() {
             @Override
             public void onFail(String code, String msg) {
@@ -205,9 +196,6 @@ public class DosingFragment extends BaseInfusionFragment implements View.OnClick
                 String successInfo = "配液成功";
                 if (DosingBean.Audit.equals(reqType)) {
                     successInfo = "复核成功";
-//                    f(R.id.pass_word, EditText.class).setText("");
-//                    f(R.id.user_code, EditText.class).setText("");
-//                    f(R.id.csv).setVisibility(View.VISIBLE);
                 }
                 // 刷新
                 getOrdList(scanInfo, true);

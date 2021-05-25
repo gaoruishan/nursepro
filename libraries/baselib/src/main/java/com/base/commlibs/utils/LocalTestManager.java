@@ -59,7 +59,7 @@ public class LocalTestManager {
 //        l.add("getTourOrdList");//巡视
 //        l.add("tourOrd");//巡视
 //        l.add("getChangeOrdList");//续液
-//        l.add("getFinishOrdList");//拔针
+        l.add("getFinishOrdList");//拔针
 //        l.add("extractOrd");//拔针
 
 //        l.add("getInjectOrdList");//注射

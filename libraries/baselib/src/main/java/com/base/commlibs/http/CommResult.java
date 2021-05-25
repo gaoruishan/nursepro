@@ -28,7 +28,7 @@ public class CommResult {
     }
 
     public String getMsg() {
-        return msg;
+        return msg == null ? "" : msg;
     }
 
     public void setMsg(String msg) {
@@ -36,16 +36,17 @@ public class CommResult {
     }
 
     public String getMsgcode() {
-        return msgcode;
+        return msgcode == null ? "" : msgcode;
+    }
+
+    public String getStatus() {
+        return status == null ? "" : status;
     }
 
     public void setMsgcode(String msgcode) {
         this.msgcode = msgcode;
     }
 
-    public String getStatus() {
-        return status;
-    }
 
     public void setStatus(String status) {
         this.status = status;

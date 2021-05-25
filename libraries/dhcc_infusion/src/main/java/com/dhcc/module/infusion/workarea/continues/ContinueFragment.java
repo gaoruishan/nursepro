@@ -155,7 +155,7 @@ public class ContinueFragment extends BaseInfusionFragment implements View.OnCli
                 if (scanInfo != null) {
                     getOrdList(scanInfo,true);
                 }
-                DialogFactory.showCommDialog(getActivity(), "续液成功", "", 0, null, true);
+                DialogFactory.showCommDialog(getActivity(), bean.getMsg(), "", 0, null, true);
                 onSuccessThings();
             }
         });

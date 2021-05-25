@@ -77,6 +77,7 @@ public class CommInfusionBean extends CommResult {
     public boolean getCurrentOrdState(String state) {
         if (ordList != null) {
             for (OrdListBean ordListBean : ordList) {
+                //匹配当前OeoreId
                 if (ordListBean.getOeoreId().equals(CurOeoreId)) {
                     return ordListBean.getOrdState().equals(state);
                 }
