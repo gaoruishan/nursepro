@@ -53,7 +53,7 @@ public class LocalTestManager {
 //        l.add("getInfusionMessage");//消息-输液
 //        l.add("getSkinTestMessage");//消息-皮试
 //        l.add("GetDispensingOrdList");//配液
-//        l.add("getSkinOrdList");
+        l.add("getSkinOrdList");
 //        l.add("GetPunctureOrdList");//穿刺
 //        l.add("punctureOrd");//穿刺
 //        l.add("getTourOrdList");//巡视

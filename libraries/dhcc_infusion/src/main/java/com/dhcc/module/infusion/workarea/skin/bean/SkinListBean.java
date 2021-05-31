@@ -30,6 +30,16 @@ public class SkinListBean extends CommResult {
     private String curOeoreId;
     //是否皮试(腕带 瓶贴 双验证)  1:是
     private String skinFlag;
+    //只能扫码选中  1:是
+    private String onlyScanFlag;
+
+    public String getOnlyScanFlag() {
+        return onlyScanFlag == null ? "" : onlyScanFlag;
+    }
+
+    public void setOnlyScanFlag(String onlyScanFlag) {
+        this.onlyScanFlag = onlyScanFlag;
+    }
 
     public String getSkinFlag() {
         return skinFlag == null ? "" : skinFlag;

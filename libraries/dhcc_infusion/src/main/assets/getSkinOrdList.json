@@ -1,6 +1,8 @@
 {
   "msg": "成功",
   "msgcode": "",
+  "skinFlag": "1",
+  "onlyScanFlag": "1",
   "ordList": [
     {
       "ArcimDescList":[

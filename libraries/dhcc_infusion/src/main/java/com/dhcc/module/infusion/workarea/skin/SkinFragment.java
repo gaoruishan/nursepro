@@ -41,6 +41,7 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
     private SkinAdapter skinAdapter;
     private CustomPatView customPat;
     private SkinListBean mBean;
+    private boolean onlyScanFlag;
 
     @Override
     protected void initViews() {
@@ -195,7 +196,7 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
         SkinListBean.OrdListBean selectBean = skinAdapter.getSelectBean();
         bottomView.setNoSelectVisibility(selectBean == null);
         if (selectBean != null) {
-            skinAdapter.setHideSelectButton(false);
+            skinAdapter.setHideSelectButton(onlyScanFlag);
             bottomView.setVisibility(View.VISIBLE);
             bottomView.setSelectText("已选择1个");
         }
@@ -216,10 +217,10 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
                 hideScanView();
                 skinAdapter.setNewData(bean.getOrdList());
                 setCustomPatViewData(customPat, bean.getPatInfo());
-                if ("1".equals(bean.getSkinFlag())) {
-                    skinAdapter.setHideSelectButton(true);
-                    bottomView.setVisibility(View.GONE);
-                }
+                onlyScanFlag = "1".equals(bean.getOnlyScanFlag());
+                boolean hideSelectButton = "1".equals(bean.getSkinFlag());
+                skinAdapter.setHideSelectButton(hideSelectButton);
+                bottomView.setVisibility(hideSelectButton?View.GONE:View.VISIBLE);
                 refreshBottomView();
             }
         });
