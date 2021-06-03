@@ -55,57 +55,6 @@ public class NurRecordNewViewHelper extends BaseFragment {
         return false;
     }
 
-
-    /**
-     * 下拉多选弹窗
-     *
-     * @param dcSelectStrList
-     * @param context
-     * @param textView
-     */
-    public void ShowDropCheck(List<String> dcSelectStrList, Context context, final TextView textView) {
-        CharSequence[] dcmItems = new CharSequence[dcSelectStrList.size()];
-        dcTempStatus = new boolean[dcSelectStrList.size()];
-        for (int i = 0; i < dcSelectStrList.size(); i++) {
-            dcmItems[i] = dcSelectStrList.get(i);
-            String[] dcText = textView.getText().toString().split(",");
-            dcTempStatus[i] = false;
-            for (String s : dcText) {
-                if (s.equals(dcSelectStrList.get(i))) {
-                    dcTempStatus[i] = true;
-                    break;
-                }
-            }
-        }
-
-        AlertDialog ad = new AlertDialog.Builder(context)
-                .setTitle("选择")
-                .setMultiChoiceItems(dcmItems, dcTempStatus, (dialog, which, isChecked) -> {
-                    if (which == (dcmItems.length - 1)) {
-                        for (int i = 0; i < dcmItems.length; i++) {
-                            lv.setItemChecked(i, isChecked);
-                            dcTempStatus[i] = isChecked;
-                        }
-                    }
-                })
-                .setPositiveButton("确定", (dialog, which) -> {
-
-                    StringBuilder itmtxt = new StringBuilder();
-                    for (int i = 0; i < (dcmItems.length - 1); i++) {
-                        if (lv.getCheckedItemPositions().get(i)) {
-                            itmtxt.append(dcSelectStrList.get(i)).append(",");
-                        }
-                    }
-                    if (itmtxt.toString().endsWith(",")) {
-                        itmtxt = new StringBuilder(itmtxt.substring(0, itmtxt.length() - 1));
-                    }
-                    textView.setText(itmtxt.toString());
-                }).setNegativeButton("取消", null).create();
-        lv = ad.getListView();
-        ad.show();
-        ad.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-    }
-
     /**
      * 虚线分隔
      *

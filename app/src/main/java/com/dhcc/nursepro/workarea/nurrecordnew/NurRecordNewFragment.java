@@ -103,6 +103,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
     private int mSingleChoiceID = -1;
     private int itemScore = 0;
     private List<String> dcSelectStrList = new ArrayList<>();
+    private List<Integer> dcSelectScoreList = new ArrayList<>();
     private List<ElementDataBean.DataBean.InputBean.ElementBasesBean> elements;
     private List<ElementDataBean.DataBean.InputBean.ElementSetsBean> elementSetsBeans;
     private List<ElementDataBean.DataBean.InputBean.StatisticsListBean> statisticsListBeans;
@@ -907,8 +908,10 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                 tvdropCheck.setOnClickListener(v -> {
                     tvdropCheck.setBackgroundResource(R.drawable.nur_record_btn_bg);
                     dcSelectStrList = new ArrayList<>();
+                    dcSelectScoreList = new ArrayList<>();
                     for (int i1 = 0; element.getOprationItemList() != null && i1 < element.getOprationItemList().size(); i1++) {
                         dcSelectStrList.add(element.getOprationItemList().get(i1).getText());
+                        dcSelectScoreList.add(Integer.parseInt(element.getOprationItemList().get(i1).getNumberValue()));
                     }
                     dcSelectStrList.add("全选/取消全选");
 
@@ -1238,6 +1241,19 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                     }
                 }
                 dropValue.put(element.getElementId(), new Integer[]{0, defaultScore});
+            } else if ("DropCheckboxElement".equals(element.getElementType())) {
+                int defaultScore = 0;
+                for (int i = 0; element.getOprationItemList() != null && i < element.getOprationItemList().size(); i++) {
+                    ElementDataBean.DataBean.InputBean.ElementBasesBean.OprationItemListBean oprationItemListBean = element.getOprationItemList().get(i);
+                    String[] valueStr = element.getDefaultValue().split(",");
+                    for (String s : valueStr) {
+                        if (s.equals(oprationItemListBean.getText())) {
+                            defaultScore = defaultScore + Integer.parseInt(oprationItemListBean.getNumberValue());
+                            break;
+                        }
+                    }
+                }
+                dropValue.put(element.getElementId(), new Integer[]{0, defaultScore});
             }
         } else {
             if ("DropRadioElement".equals(element.getElementType()) || "DropListElement".equals(element.getElementType())) {
@@ -1251,6 +1267,23 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                         break;
                     }
                 }
+                dropValue.put(element.getElementId(), new Integer[]{0, defaultScore});
+            } else if ("DropCheckboxElement".equals(element.getElementType())) {
+                int defaultScore = 0;
+                StringBuilder textStr = new StringBuilder();
+
+                for (int i = 0; element.getOprationItemList() != null && i < element.getOprationItemList().size(); i++) {
+                    ElementDataBean.DataBean.InputBean.ElementBasesBean.OprationItemListBean oprationItemListBean = element.getOprationItemList().get(i);
+
+                    if ("true".equals(oprationItemListBean.getIsSelect())) {
+                        if (textStr.length() > 0) {
+                            textStr.append(",");
+                        }
+                        textStr.append(oprationItemListBean.getText());
+                        defaultScore = defaultScore + Integer.parseInt(oprationItemListBean.getNumberValue());
+                    }
+                }
+                textView.setText(textStr.toString());
                 dropValue.put(element.getElementId(), new Integer[]{0, defaultScore});
             }
         }
@@ -1643,6 +1676,66 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
         localAlertDialog.show();
 
         localAlertDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+    }
+
+    /**
+     * 下拉多选弹窗
+     *
+     * @param dcSelectStrList
+     * @param context
+     * @param textView
+     */
+    public void ShowDropCheck(List<String> dcSelectStrList, Context context, final TextView textView) {
+        itemScore = 0;
+
+        CharSequence[] dcmItems = new CharSequence[dcSelectStrList.size()];
+        dcTempStatus = new boolean[dcSelectStrList.size()];
+        for (int i = 0; i < dcSelectStrList.size(); i++) {
+            dcmItems[i] = dcSelectStrList.get(i);
+            String[] dcText = textView.getText().toString().split(",");
+            dcTempStatus[i] = false;
+            for (String s : dcText) {
+                if (s.equals(dcSelectStrList.get(i))) {
+                    dcTempStatus[i] = true;
+                    itemScore = itemScore + dcSelectScoreList.get(i);
+                    break;
+                }
+            }
+        }
+
+        dropValue.put(textView.getTag().toString(), new Integer[]{dropValue.get(textView.getTag().toString()) == null ? 0 : dropValue.get(textView.getTag().toString())[1], itemScore});
+
+
+        AlertDialog ad = new AlertDialog.Builder(context)
+                .setTitle("选择")
+                .setMultiChoiceItems(dcmItems, dcTempStatus, (dialog, which, isChecked) -> {
+                    if (which == (dcmItems.length - 1)) {
+                        for (int i = 0; i < dcmItems.length; i++) {
+                            lv.setItemChecked(i, isChecked);
+                            dcTempStatus[i] = isChecked;
+                        }
+                    }
+                })
+                .setPositiveButton("确定", (dialog, which) -> {
+                    itemScore = 0;
+                    StringBuilder itmtxt = new StringBuilder();
+                    for (int i = 0; i < (dcmItems.length - 1); i++) {
+                        if (lv.getCheckedItemPositions().get(i)) {
+                            if (itmtxt.length() > 0) {
+                                itmtxt.append(",");
+                            }
+                            itmtxt.append(dcSelectStrList.get(i));
+                            itemScore = itemScore + dcSelectScoreList.get(i);
+                        }
+                    }
+                    textView.setText(itmtxt.toString());
+                    dropValue.put(textView.getTag().toString(), new Integer[]{dropValue.get(textView.getTag().toString()) == null ? 0 : dropValue.get(textView.getTag().toString())[1], itemScore});
+                    initViewSet(textView.getTag().toString(), "drop");
+
+                }).setNegativeButton("取消", null).create();
+        lv = ad.getListView();
+        ad.show();
+        ad.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
     }
 
     /**
@@ -2566,7 +2659,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
             ElementDataBean.DataBean.InputBean.StatisticsListBean statisticsListBean = statisticsListBeans.get(i);
             String[] idStr = statisticsListBean.getEffects().split(",");
             etPointList.clear();
-            if ("".equals(status)) {
+            if ("".equals(status) || "drop".equals(status)) {
                 for (String s : idStr) {
                     if (viewHashMap.get(s) instanceof CheckBox) {
                         //不做操作
