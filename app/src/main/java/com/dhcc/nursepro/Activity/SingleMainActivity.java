@@ -180,6 +180,8 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
     private List<Map<String, String>> locsList = new ArrayList<>();
     //所有患者信息
     private List<Map<String, String>> patInfoMapList =new ArrayList<>();
+
+    private String epiFromBedMap="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -189,6 +191,13 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
         //此处为暂时调用，应该在登录成功后初始化tabviews
         initTabView();
 
+        Intent intent = getIntent();
+        if (intent!=null){
+            if (intent.getStringExtra("epi")!=null){
+                epiFromBedMap=intent.getStringExtra("epi");
+                SPUtils.getInstance().put(SharedPreference.SINGLEMODEL,"1");
+            }
+        }
         Intent i = new Intent(this, MServiceNewOrd.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startService(i);
@@ -215,6 +224,9 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
         }
         if (mainReceiver != null) {
             unregisterReceiver(mainReceiver);
+        }
+        if (!epiFromBedMap.isEmpty()){
+            SPUtils.getInstance().put(SharedPreference.SINGLEMODEL,"0");
         }
     }
 
@@ -244,9 +256,16 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
                 if (bedMapPatientAdapter!=null){
                     bedMapPatientAdapter.setNewData(bedBean.getPatInfoList());
                 }
-                episodeId = bedMapBean.getPatInfoList().get(0).getEpisodeId();
-                regNo = bedMapBean.getPatInfoList().get(0).getRegNo();
-                patInfo = bedMapBean.getPatInfoList().get(0).getBedCode()+" "+bedMapBean.getPatInfoList().get(0).getName();
+                int epiNo=0;
+                for (int i = 0; i < bedMapBean.getPatInfoList().size(); i++) {
+                    if (epiFromBedMap.equals(bedMapBean.getPatInfoList().get(i).getEpisodeId())){
+                        epiNo=i;
+                        break;
+                    }
+                }
+                episodeId = bedMapBean.getPatInfoList().get(epiNo).getEpisodeId();
+                regNo = bedMapBean.getPatInfoList().get(epiNo).getRegNo();
+                patInfo = bedMapBean.getPatInfoList().get(epiNo).getBedCode()+" "+bedMapBean.getPatInfoList().get(0).getName();
                 showPatInfo();
                 addToolBarRightPopWindow();
                 addToolBarLeftPopWindow();

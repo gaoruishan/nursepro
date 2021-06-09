@@ -20,8 +20,11 @@ import android.widget.TextView;
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
 import com.base.commlibs.constant.Action;
+import com.base.commlibs.constant.SharedPreference;
+import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.SizeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.dhcc.nursepro.Activity.SingleMainActivity;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.view.DhcHeadRefreshView;
 import com.dhcc.nursepro.view.ReFreshParent;
@@ -219,7 +222,11 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
                 bundle.putSerializable("patinfo", patInfoListBean);
                 bundle.putString("jsonmap",jsonMap);
 
-                startFragment(BedMapPatFragment.class, bundle);
+//                startFragment(BedMapPatFragment.class, bundle);
+                Intent intent = new Intent(getActivity(), SingleMainActivity.class);
+                intent.putExtra("epi",patInfoListBean.getEpisodeId());
+                startActivity(intent);
+
             }
         });
 

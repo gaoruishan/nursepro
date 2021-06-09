@@ -94,6 +94,7 @@
                         android:orientation="vertical">
 
                         <LinearLayout
+                            android:id="@+id/ll_patinfo"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/dp_40"
                             android:gravity="center_vertical">
@@ -130,6 +131,17 @@
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/sp_15"
                                 tools:text="15岁" />
+                            <TextView
+                                android:visibility="gone"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="@dimen/dp_8"
+                                android:ellipsize="end"
+                                android:maxEms="6"
+                                android:singleLine="true"
+                                android:textColor="@color/text_color_gray"
+                                android:textSize="@dimen/sp_15"
+                                android:text="详情>>" />
 
                             <View
                                 android:layout_width="@dimen/dp_0"
