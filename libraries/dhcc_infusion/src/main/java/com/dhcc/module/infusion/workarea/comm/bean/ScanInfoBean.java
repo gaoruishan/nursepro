@@ -21,12 +21,22 @@ public class ScanInfoBean extends CommResult {
      */
 
     private String canExeFlag;
+    // 1 扫码执行
+    private String scanFlag;
     private String diagFlag;
     // 是否采血复核 默认""不开启; "1"开启
     private String bloodCheckFlag;
     private String flag;
     private PatInfoBean patInfo;
     private List<PatOrdersBean> orders;
+
+    public String getScanFlag() {
+        return scanFlag == null ? "" : scanFlag;
+    }
+
+    public void setScanFlag(String scanFlag) {
+        this.scanFlag = scanFlag;
+    }
 
     public String getBloodCheckFlag() {
         return bloodCheckFlag == null ? "" : bloodCheckFlag;

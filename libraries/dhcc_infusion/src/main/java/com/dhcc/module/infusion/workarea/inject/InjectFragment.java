@@ -9,6 +9,7 @@ import com.base.commlibs.utils.SimpleCallBack;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.utils.AdapterFactory;
+import com.dhcc.module.infusion.utils.DialogFactory;
 import com.dhcc.module.infusion.utils.RecyclerViewHelper;
 import com.dhcc.module.infusion.workarea.blood.bean.BloodOrdListBean;
 import com.dhcc.module.infusion.workarea.comm.BaseInfusionFragment;
@@ -99,26 +100,29 @@ public class InjectFragment extends BaseInfusionFragment implements View.OnClick
                 }
                 //ORD 扫医嘱条码返回医嘱信息
                 if (ORD.equals(bean.getFlag())) {
-                    //选中扫码的
-                    for (BloodOrdListBean bean1 : injectAdapter.getData()) {
-                        if (scanInfo.equals(bean1.getOeoriId()) ) {
-                            f(R.id.tv_inject_sure).setVisibility(View.VISIBLE);
-                        }
-                        bean1.setSelect(scanInfo.equals(bean1.getOeoriId()) ? "1" : "0");
-                    }
+
                     injectAdapter.notifyDataSetChanged();
                     //弹框
-//                    if ("1".equals(bean.getDiagFlag())) {
-//                        DialogFactory.showPatInfo(mContext, bean, new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View v) {
-//                                exeInjectOrd();
-//                            }
-//                        });
-//                    }else {
-//                        exeInjectOrd();
-//                    }
-//                    Toast.makeText(getContext(),"执行注射操作请点击确定执行",Toast.LENGTH_LONG).show();
+                    if ("1".equals(bean.getDiagFlag())) {
+                        DialogFactory.showPatInfo(mContext, bean, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                exeInjectOrd(scanInfo);
+                            }
+                        });
+                    }else if ("1".equals(bean.getScanFlag())){
+                        exeInjectOrd(scanInfo);
+                    } else{
+                        //选中扫码的
+                        for (BloodOrdListBean bean1 : injectAdapter.getData()) {
+                            if (scanInfo.equals(bean1.getOeoriId()) ) {
+                                f(R.id.tv_inject_sure).setVisibility(View.VISIBLE);
+                            }
+                            bean1.setSelect(scanInfo.equals(bean1.getOeoriId()) ? "1" : "0");
+                        }
+
+
+                    }
                 }
             }
         });
