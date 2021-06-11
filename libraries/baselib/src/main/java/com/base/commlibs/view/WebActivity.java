@@ -27,6 +27,7 @@ import com.base.commlibs.utils.CommDialog;
 import com.base.commlibs.utils.CommFile;
 import com.base.commlibs.utils.HttpUtil;
 import com.base.commlibs.utils.SimpleCallBack;
+import com.base.commlibs.wsutils.BaseWebServiceUtils;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.GsonUtils;
@@ -142,7 +143,12 @@ public class WebActivity extends BaseWebActivity {
         initData();
 
         url = getIntent().getStringExtra(URL);
-        Log.e(TAG, "(WebActivity.java:160) url=" + url);
+        //兼容带http的
+        String[] split = url.split(BaseWebServiceUtils.getServiceUrl(""));
+        String s =split[1];
+        if (s.startsWith(HTTP)) {
+            url = s;
+        }
         if (!offLine) {
             if (url.startsWith(HTTP) || url.startsWith(FILE)) {
                 initWebView(linearLayout, url);
@@ -179,7 +185,7 @@ public class WebActivity extends BaseWebActivity {
             try {
                 configBean = GsonUtils.fromJson(value, WebConfigBean.class);
                 Log.e(TAG,"(WebActivity.java:181) "+configBean.toString());
-                setToolbarCenterTitle(configBean.title);
+                setToolbarCenterTitle(configBean.title, 0xffffffff, 17);
                 if ("1".equals(configBean.hideToolBar)) {
                     getToolbar().setVisibility(View.GONE);
                 }

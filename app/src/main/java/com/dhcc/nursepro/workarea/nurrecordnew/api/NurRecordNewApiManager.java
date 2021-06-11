@@ -151,25 +151,26 @@ public class NurRecordNewApiManager {
                 if (jsonStr.isEmpty()) {
                     callback.onFail("-1", "网络错误，请求数据为空");
                 } else {
+                    ElementDataBean elementDataBean = null;
                     try {
-                        ElementDataBean elementDataBean = gson.fromJson(jsonStr, ElementDataBean.class);
-                        if (ObjectUtils.isEmpty(elementDataBean)) {
-                            callback.onFail("-3", "网络错误，数据解析为空");
-                        } else {
-                            if ("0".equals(elementDataBean.getStatus())) {
-                                if (callback != null) {
-                                    callback.onSuccess(elementDataBean);
-                                }
-                            } else {
-                                if (callback != null) {
-                                    callback.onFail(elementDataBean.getMsg(), elementDataBean.getMsg());
-                                }
-                            }
-                        }
+                         elementDataBean = gson.fromJson(jsonStr, ElementDataBean.class);
+
                     } catch (Exception e) {
                         callback.onFail("-2", "网络错误，数据解析失败");
                     }
-
+                    if (ObjectUtils.isEmpty(elementDataBean)) {
+                        callback.onFail("-3", "网络错误，数据解析为空");
+                    } else {
+                        if ("0".equals(elementDataBean.getStatus())) {
+                            if (callback != null) {
+                                callback.onSuccess(elementDataBean);
+                            }
+                        } else {
+                            if (callback != null) {
+                                callback.onFail(elementDataBean.getMsg(), elementDataBean.getMsg());
+                            }
+                        }
+                    }
                 }
             }
         });

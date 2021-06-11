@@ -1,0 +1,389 @@
+{
+  "StrictCodeList": [],
+  "data": {
+    "Input": {
+      "ElementBases": [
+        {
+          "ElementType": "CheckElement",
+          "NameText": "诊断：",
+          "RadioElementList": [
+            {
+              "BindingTemplateID": "",
+              "CallBackEffects": "",
+              "CallBackReturnMapEffects": "",
+              "DataSourceRef": "",
+              "DataSourceRefInfo": "",
+              "DefaultValue": "",
+              "Disable": "",
+              "ElementId": "1055",
+              "ElementType": "CheckElement",
+              "FormName": "CheckElement_1055",
+              "GatherEffects": "",
+              "GatherImportMapEffects": "",
+              "IsHide": "",
+              "MEName": "",
+              "NameText": "基础评估 Basic Assessment",
+              "OprationItemList": [
+                {
+                  "NumberValue": "1",
+                  "Text": "基础评估 Basic Assessment",
+                  "Value": "1"
+                }
+              ],
+              "ParentId": "",
+              "Required": "",
+              "SaveField": "Item10",
+              "Signature": "",
+              "SignatureAuto": "",
+              "ToolTipText": "",
+              "containerFlag": ""
+            }
+          ],
+          "SaveField": "Item10"
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "outside,$CC4EA704CA434C9A8F5B2F000C2D0917,$CC4EA704CA434C9A8F5B2F000C2D0917!9850B2EA099243C8AF7F0A15CB845048",
+          "DataSourceRefInfo": "",
+          "DefaultValue": "18",
+          "Disable": "",
+          "ElementId": "1298",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_1298",
+          "GatherEffects": "",
+          "GatherImportMapEffects": "",
+          "IsHide": "true",
+          "MEName": "",
+          "NameText": "基础评估 Basic Assessment",
+          "OprationItemList": [],
+          "ParentId": "",
+          "Required": "",
+          "SaveField": "Item66",
+          "Signature": "",
+          "SignatureAuto": "",
+          "ToolTipText": "",
+          "containerFlag": ""
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DataSourceRefInfo": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "742",
+          "ElementType": "ContainerElement",
+          "FormName": "",
+          "GatherEffects": "",
+          "GatherImportMapEffects": "",
+          "IsHide": "",
+          "MEName": "",
+          "NameText": "容器",
+          "OprationItemList": [],
+          "ParentId": "",
+          "Required": "",
+          "SaveField": "",
+          "Signature": "",
+          "SignatureAuto": "",
+          "ToolTipText": "",
+          "containerFlag": "1"
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DataSourceRefInfo": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "745",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_745",
+          "GatherEffects": "",
+          "GatherImportMapEffects": "",
+          "IsHide": "",
+          "MEName": "",
+          "NameText": "体温：",
+          "OprationItemList": [],
+          "ParentId": "743",
+          "Required": "",
+          "SaveField": "Item11",
+          "Signature": "",
+          "SignatureAuto": "",
+          "ToolTipText": "",
+          "containerFlag": "",
+          "containerId": "742"
+        },
+        {
+          "BindingTemplateID": "",
+          "CallBackEffects": "",
+          "CallBackReturnMapEffects": "",
+          "DataSourceRef": "",
+          "DataSourceRefInfo": "",
+          "DefaultValue": "",
+          "Disable": "",
+          "ElementId": "748",
+          "ElementType": "TextElement",
+          "FormName": "TextElement_748",
+          "GatherEffects": "",
+          "GatherImportMapEffects": "",
+          "IsHide": "",
+          "MEName": "",
+          "NameText": "脉搏：",
+          "OprationItemList": [],
+          "ParentId": "743",
+          "Required": "",
+          "SaveField": "Item12",
+          "Signature": "",
+          "SignatureAuto": "",
+          "ToolTipText": "",
+          "containerFlag": "",
+          "containerId": "742"
+        }
+
+      ],
+      "ElementSets": [
+        {
+          "FormName": "CheckElement_1055",
+          "SetDataList": [
+            {
+              "ChangeList": [
+                {
+                  "Id": "742",
+                  "Type": "Show"
+                }
+              ],
+              "FormName": "CheckElement_1055",
+              "Sign": "IsEqualArry",
+              "Val": "1"
+            },
+            {
+              "ChangeList": [
+                {
+                  "Id": "742",
+                  "Type": "Show"
+                }
+              ],
+              "FormName": "CheckElement_1055",
+              "Sign": "EqEmptyArray"
+            }
+          ]
+        },
+        {
+          "FormName": "TextElement_1298",
+          "SetDataList": [
+            {
+              "ChangeList": [
+                {
+                  "Id": "1296",
+                  "Items": "1,2,3,4,5,6",
+                  "SelectItems": "1",
+                  "Type": "HasData"
+                }
+              ],
+              "FormName": "TextElement_1298",
+              "Val": "2"
+            },
+            {
+              "ChangeList": [
+                {
+                  "Id": "1296",
+                  "Items": "1,2,3,4,5,6",
+                  "SelectItems": "2",
+                  "Type": "HasData"
+                }
+              ],
+              "FormName": "TextElement_1298",
+              "Val": "6"
+            },
+            {
+              "ChangeList": [
+                {
+                  "Id": "1296",
+                  "Items": "1,2,3,4,5,6",
+                  "SelectItems": "3",
+                  "Type": "HasData"
+                }
+              ],
+              "FormName": "TextElement_1298",
+              "Val": "10"
+            },
+            {
+              "ChangeList": [
+                {
+                  "Id": "1296",
+                  "Items": "1,2,3,4,5,6",
+                  "SelectItems": "4",
+                  "Type": "HasData"
+                }
+              ],
+              "FormName": "TextElement_1298",
+              "Val": "14"
+            },
+            {
+              "ChangeList": [
+                {
+                  "Id": "1296",
+                  "Items": "1,2,3,4,5,6",
+                  "SelectItems": "5",
+                  "Type": "HasData"
+                }
+              ],
+              "FormName": "TextElement_1298",
+              "Val": "18"
+            },
+            {
+              "ChangeList": [
+                {
+                  "Id": "1296",
+                  "Items": "1,2,3,4,5,6",
+                  "SelectItems": "6",
+                  "Type": "HasData"
+                }
+              ],
+              "FormName": "TextElement_1298",
+              "Val": "22"
+            }
+          ]
+        },
+        {
+          "FormName": "RadioElement_767",
+          "SetDataList": [
+            {
+              "ChangeList": [
+                {
+                  "Id": "769",
+                  "Type": "Show"
+                },
+                {
+                  "Id": "786",
+                  "Type": "Hide"
+                }
+              ],
+              "FormName": "RadioElement_767",
+              "Val": "1"
+            },
+            {
+              "ChangeList": [
+                {
+                  "Id": "786",
+                  "Type": "Show"
+                },
+                {
+                  "Id": "769",
+                  "Type": "Hide"
+                }
+              ],
+              "FormName": "RadioElement_767",
+              "Val": "2"
+            },
+            {
+              "ChangeList": [
+                {
+                  "Id": "769",
+                  "Type": "Hide"
+                },
+                {
+                  "Id": "786",
+                  "Type": "Hide"
+                }
+              ],
+              "FormName": "RadioElement_767",
+              "Sign": "EqEmptyArray"
+            }
+          ]
+        },
+        {
+          "FormName": "TextElement_1219",
+          "SetDataList": [
+            {
+              "ChangeList": [
+                {
+                  "Id": "1218",
+                  "Type": "Hide"
+                }
+              ],
+              "FormName": "TextElement_1219",
+              "Sign": "EqEmptyText"
+            },
+            {
+              "ChangeList": [
+                {
+                  "Id": "1218",
+                  "Type": "Show"
+                }
+              ],
+              "FormName": "TextElement_1219",
+              "Sign": "EqUnEmptyText"
+            }
+          ]
+        }
+      ],
+      "TemplateIndentity": "",
+      "statisticsList": []
+    },
+    "Table": []
+  },
+  "firstIdList": [
+    {
+      "EmrCode": "DHCNURrypgd1",
+      "GuId": "44FD94B1451B4DB6AB6FEA625329365A",
+      "RecId": ""
+    },
+    {
+      "EmrCode": "DHCNURhljldlrty",
+      "GuId": "2688E0E660C64DA690980667211DA26E",
+      "RecId": "655"
+    },
+    {
+      "EmrCode": "DHCNURADLPFBLR",
+      "GuId": "C203084C0DAE4C3481B6EE98FA2109B4",
+      "RecId": "650"
+    }
+  ],
+  "funList": [
+    {
+      "Content": "item1/(item2*item2)",
+      "DataType": "",
+      "DescriptionItems": {
+        "item1": "体重",
+        "item2": "身高"
+      },
+      "FormatFun": "",
+      "Id": "3",
+      "Name": "BMI(m)",
+      "RepId": "33884"
+    },
+    {
+      "Content": "parserDateTimeTextToDate(item1,item2)-parserDateTimeTextToDate(item3,item4);",
+      "DataType": "2",
+      "DescriptionItems": {
+        "item1": "结束日期",
+        "item2": "结束时间",
+        "item3": "开始日期",
+        "item4": "开始时间"
+      },
+      "FormatFun": "FormatDateCalToDayHourMinutes",
+      "Id": "8",
+      "Name": "时间差",
+      "RepId": "33884"
+    },
+    {
+      "Content": "(item1*10000)/(item2*item2)",
+      "DataType": "",
+      "DescriptionItems": {
+        "item1": "体重",
+        "item2": "身高"
+      },
+      "FormatFun": "",
+      "Id": "10",
+      "Name": "BMI新",
+      "RepId": "33884"
+    }
+  ],
+  "msg": "",
+  "status": "0"
+}

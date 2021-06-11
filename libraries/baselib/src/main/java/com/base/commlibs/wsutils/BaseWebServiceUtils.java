@@ -52,9 +52,15 @@ public class BaseWebServiceUtils {
     public static final String HTTPS = "https";
 
     // 门诊输液新接口
-    public static String NUR_OPPDA_SERVICE = SPStaticUtils.getString(SharedPreference.oppdaService, "/Nur.OPPDA.WebService.cls");
+//    public static String NUR_OPPDA_SERVICE = getOPPDAService();
+    public static String getOPPDAService() {
+        return SPStaticUtils.getString(SharedPreference.oppdaService, "/Nur.OPPDA.WebService.cls");
+    }
     // 护士站接口
-    public static String NUR_PDA_SERVICE = SPStaticUtils.getString(SharedPreference.pdaService, NUR_MNIS_SERVICE);
+//    public static String NUR_PDA_SERVICE = getPDAService();
+    public static String getPDAService() {
+        return SPStaticUtils.getString(SharedPreference.pdaService, NUR_MNIS_SERVICE);
+    }
     public static String userNamestr = SPStaticUtils.getString(SharedPreference.webServiceUserName, "dhwebservice");
     public static String passWordstr = SPStaticUtils.getString(SharedPreference.webServicePassword, "dhwebservice");
 
@@ -79,7 +85,7 @@ public class BaseWebServiceUtils {
         //替换双竖杆
         replaceProperties(properties);
         // 创建HttpTransportSE对象，传递WebService服务器地址,默认Nur.PDA.WebService.cls
-        String url = getServiceUrl(NUR_OPPDA_SERVICE);
+        String url = getServiceUrl(getOPPDAService());
         if (url.contains(NUR_MOES_SERVICE)) {
             properties = convertRequestData(methodName, properties);
             callWebService(url, REQUST_METHOD, properties, webServiceCallBack);
@@ -157,7 +163,7 @@ public class BaseWebServiceUtils {
                                          HashMap<String, String> properties,
                                          final WebServiceCallBack webServiceCallBack) {
         // 创建HttpTransportSE对象，传递WebService服务器地址,默认Nur.PDA.WebService.cls
-        String url = getServiceUrl(NUR_PDA_SERVICE);
+        String url = getServiceUrl(getPDAService());
         if (properties == null) {
             properties = new HashMap<>();
         }
@@ -349,7 +355,7 @@ public class BaseWebServiceUtils {
      */
     public static void openBrowser(Context context) {
         Intent intent = new Intent();
-        String url = getServiceUrl(NUR_OPPDA_SERVICE);
+        String url = getServiceUrl(getOPPDAService());
         intent.setData(Uri.parse(url));
         intent.setAction(Intent.ACTION_VIEW);
         context.startActivity(intent);
