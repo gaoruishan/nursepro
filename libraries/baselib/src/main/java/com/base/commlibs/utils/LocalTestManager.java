@@ -82,6 +82,7 @@ public class LocalTestManager {
 //        l.add("getIFOrdListByBarCode");
 //        l.add("GetBarcodeFlag");
 //        l.add("GetXmlValues");
+        l.add("getInfusionOrdList");
 
     }
 
@@ -119,12 +120,14 @@ public class LocalTestManager {
         }
         return false;
     }
+
     public static boolean isTest() {
         if (TEST) {
             return UserUtil.isExistUserId();
         }
         return false;
     }
+
     public static void clear() {
         errNum.clear();//清空
     }
@@ -171,11 +174,11 @@ public class LocalTestManager {
             try {
                 JSONObject jsonObject = new JSONObject(res);
                 String curTime = jsonObject.getString(CUR_DATE_TIME);
-                if(!TextUtils.isEmpty(curTime)){
-                    SPStaticUtils.put(SharedPreference.CURDATETIME,curTime);
+                if (!TextUtils.isEmpty(curTime)) {
+                    SPStaticUtils.put(SharedPreference.CURDATETIME, curTime);
                 }
             } catch (Exception e) {
-                Log.e(TAG,"(LocalTestManager.java:151) "+e.toString());
+                Log.e(TAG, "(LocalTestManager.java:151) " + e.toString());
             }
         }
     }
@@ -189,7 +192,7 @@ public class LocalTestManager {
         if (isLogFlag()) {
             String packName = getSimplePackageName();
             String date = FORMAT.format(new Date(System.currentTimeMillis()));
-            String dir = packName + "/" + date + "/" + SPStaticUtils.getString(SharedPreference.USERCODE) +  "/v" + APP_VERSION_CODE + "_" + methodName + "/";
+            String dir = packName + "/" + date + "/" + SPStaticUtils.getString(SharedPreference.USERCODE) + "/v" + APP_VERSION_CODE + "_" + methodName + "/";
             String dhc = dir + methodName + "_" + System.currentTimeMillis() + ".log";
             CommFile.write(dhc, getCommLog() + obj);
         }
@@ -244,7 +247,7 @@ public class LocalTestManager {
      */
     public static void saveSpUtils() {
         if (isLogFlag()) {
-            CommFile.write("spUtils_"+getSimplePackageName(), SPUtils.getInstance().getAll().toString());
+            CommFile.write("spUtils_" + getSimplePackageName(), SPUtils.getInstance().getAll().toString());
         }
     }
 }

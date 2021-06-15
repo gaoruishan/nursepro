@@ -32,6 +32,7 @@ import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -147,7 +148,6 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
                         orders.get(0).setIfPatRepeat("1");
                     }
                 }
-
                 if ("1".equals(pageNo)) {
                     patientAdapter.setNewData(orders);
                     if (orders.size() == 0) {
@@ -420,6 +420,8 @@ public class DosingReviewFragment extends BaseFragment implements View.OnClickLi
                         currentOrders.add(drordersBean);
 
                         setTopFilterSelect(tvDosingreviewCurrent);
+                        //反转
+                        Collections.reverse(currentOrders);
                         patientAdapter.setNewData(currentOrders);
                         if (currentOrders.size() < 1) {
                             llEmpty.setVisibility(View.VISIBLE);

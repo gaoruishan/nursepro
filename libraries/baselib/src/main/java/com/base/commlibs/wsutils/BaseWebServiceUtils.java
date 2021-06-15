@@ -59,7 +59,7 @@ public class BaseWebServiceUtils {
     // 护士站接口
 //    public static String NUR_PDA_SERVICE = getPDAService();
     public static String getPDAService() {
-        return SPStaticUtils.getString(SharedPreference.pdaService, NUR_MNIS_SERVICE);
+        return SPStaticUtils.getString(SharedPreference.pdaService, "/Nur.PDA.WebService.cls");
     }
     public static String userNamestr = SPStaticUtils.getString(SharedPreference.webServiceUserName, "dhwebservice");
     public static String passWordstr = SPStaticUtils.getString(SharedPreference.webServicePassword, "dhwebservice");

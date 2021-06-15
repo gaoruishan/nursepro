@@ -305,6 +305,17 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                         if (!isSingleModel) {
                             patInfoDialog.show();
                         }
+                        //自动销毁
+                        if ("1".equals(scanResultBean.getDismissFlag())) {
+                            getView().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (patInfoDialog != null) {
+                                        patInfoDialog.dismiss();
+                                    }
+                                }
+                            }, 1200);
+                        }
 
                     }
 

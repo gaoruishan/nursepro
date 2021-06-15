@@ -13,6 +13,7 @@ public class ScanResultBean {
      */
 
     private String flag;
+    private String dismissFlag;
     private String msg;
     private String msgcode;
     private PatInfoBean patInfo;
@@ -20,6 +21,14 @@ public class ScanResultBean {
     private String canExeFlag;
     private List<OrdersBean> orders;
     private String barCodeType;
+
+    public String getDismissFlag() {
+        return dismissFlag == null ? "" : dismissFlag;
+    }
+
+    public void setDismissFlag(String dismissFlag) {
+        this.dismissFlag = dismissFlag;
+    }
 
     public String getBarCodeType() {
         return barCodeType;
