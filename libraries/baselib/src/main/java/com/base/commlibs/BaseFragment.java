@@ -3,6 +3,7 @@ package com.base.commlibs;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -10,6 +11,8 @@ import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.MenuRes;
@@ -26,11 +29,15 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.base.commlibs.base.BaseBottomLoadingView;
@@ -40,13 +47,34 @@ import com.base.commlibs.base.BaseTopLoadingView;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.utils.SystemTTS;
+import com.base.commlibs.voiceUtils.AsrDialog;
+import com.base.commlibs.voiceUtils.VoiceUtil;
+import com.base.commlibs.voiceUtils.VoiceWebDataUtil;
+import com.base.commlibs.voiceUtils.bean.BedMapBean;
+import com.base.commlibs.voiceUtils.bean.VoiceBean;
+import com.base.commlibs.voiceUtils.bean.VoiceVisalBean;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.ToastUtils;
+import com.google.gson.Gson;
+import com.raisound.speech.AsrResult;
+import com.raisound.speech.SpeechError;
+import com.raisound.speech.SpeechRecognizerManager;
+import com.raisound.speech.http.callback.RequestCallback;
+import com.raisound.speech.http.response.Scene;
+import com.raisound.speech.listener.RecognizerListener;
+import com.raisound.speech.listener.SceneListResponse;
 
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -321,6 +349,8 @@ public class BaseFragment extends Fragment {
         if (activity != null && activity instanceof BaseActivity) {
             ((BaseActivity) activity).setToolbarCenterTitle(title, color, size);
         }
+
+        centerTitle = title.toString();
     }
 
     public void setlitener() {
@@ -516,6 +546,30 @@ public class BaseFragment extends Fragment {
         return null;
     }
 
+//    @Nullable
+//    @Override
+//    public View onCreateView(LayoutInflater inflater,
+//                             @Nullable ViewGroup container,
+//                             @Nullable Bundle savedInstanceState) {
+//        mRequestTag = getClass().getName() + "@" + UUID.randomUUID();
+//        mActivity = getActivity();
+//        mContainer = new FrameLayout(getActivity());
+//        linearLayoutTitle = (LinearLayout) View.inflate(getActivity(), R.layout.activity_base_linelayout, null);
+//        llTitTop = linearLayoutTitle.findViewById(R.id.ll_title_top);
+//        llTitRight = linearLayoutTitle.findViewById(R.id.ll_title_right);
+//        tvName = linearLayoutTitle.findViewById(R.id.tv_title_name);
+//
+//        mContainerChild = onCreateViewByYM(inflater, container, savedInstanceState);
+//        if (mContainerChild != null && mContainerChild.getParent() == null) {
+//            linearLayoutTitle.addView(mContainerChild,
+//                    new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
+//                            FrameLayout.LayoutParams.MATCH_PARENT));
+//            mContainer.addView(linearLayoutTitle);
+//        }
+//        Log.e(TAG,"("+this.getClass().getSimpleName()+".java:35) ");
+//        return mContainer;
+//    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -524,20 +578,39 @@ public class BaseFragment extends Fragment {
         mRequestTag = getClass().getName() + "@" + UUID.randomUUID();
         mActivity = getActivity();
         mContainer = new FrameLayout(getActivity());
-        linearLayoutTitle = (LinearLayout) View.inflate(getActivity(), R.layout.activity_base_linelayout, null);
-        llTitTop = linearLayoutTitle.findViewById(R.id.ll_title_top);
-        llTitRight = linearLayoutTitle.findViewById(R.id.ll_title_right);
-        tvName = linearLayoutTitle.findViewById(R.id.tv_title_name);
 
+        View  viewRl = View.inflate(getActivity(), R.layout.voice_view_rlcontainer, null);
+        RelativeLayout mRl = viewRl.findViewById(R.id.rl_containner);
+
+        llTitTop = viewRl.findViewById(R.id.ll_title_top);
+        llTitRight = viewRl.findViewById(R.id.ll_title_right);
+        tvName = viewRl.findViewById(R.id.tv_title_name);
         mContainerChild = onCreateViewByYM(inflater, container, savedInstanceState);
+
         if (mContainerChild != null && mContainerChild.getParent() == null) {
-            linearLayoutTitle.addView(mContainerChild,
+            mRl.addView(mContainerChild, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
+                    RelativeLayout.LayoutParams.MATCH_PARENT));
+            mContainer.addView(viewRl,
                     new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
                             FrameLayout.LayoutParams.MATCH_PARENT));
-            mContainer.addView(linearLayoutTitle);
         }
+
         Log.e(TAG,"("+this.getClass().getSimpleName()+".java:35) ");
+
+
+        btnVoice = viewRl.findViewById(R.id.btn_mov);
+        etTest = viewRl.findViewById(R.id.et_text);
+        if (SPUtils.getInstance().getBoolean(SharedPreference.BTN_VOICE_SHOW,true)){
+            btnVoice.setVisibility(View.VISIBLE);
+            initVoice();
+        }else {
+            btnVoice.setVisibility(View.GONE);
+        }
+//        btnMove.setOnTouchListener(shopCarSettleTouch);
+
+
         return mContainer;
+
     }
 
     @Override
@@ -1145,4 +1218,50 @@ public class BaseFragment extends Fragment {
             }
         }
     }
+
+
+
+
+    public Button btnVoice;
+    public EditText etTest;
+    //第一次点击不用计时
+    public String centerTitle = "";//通过标题或setScene判断当前场景
+    public String meetingId = "";//备忘录用，设置当前语音id
+
+    public String bedNoByVoice = "";
+
+    public void setMeetingId(String meetingId) {
+        this.meetingId = meetingId;
+    }
+
+    public VoiceUtil voiceUtil;
+    public void  initVoice(){
+        voiceUtil = new VoiceUtil(getActivity(),this,btnVoice,etTest);
+        voiceUtil.initVoice();
+        voiceUtil.setTemVoiceListener(new VoiceUtil.TempVoiceCallBack() {
+            @Override
+            public void getTempVoice(VoiceBean voiceBean) {
+                getVoiceResult(voiceBean);
+            }
+        });
+    }
+    public void setScene(String scene){
+        centerTitle = scene;
+        if (voiceUtil!=null){
+            voiceUtil.setScene(scene);
+        }
+    }
+    public void getVoiceResult(VoiceBean voiceBean){
+
+    }
+
+    @Override
+    public void onDestroy() {
+        //结束所有语音操作和识别
+        if (voiceUtil!=null){
+            voiceUtil.onFragmentDestroy();
+        }
+        super.onDestroy();
+    }
+
 }

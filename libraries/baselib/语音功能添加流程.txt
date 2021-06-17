@@ -1,0 +1,13 @@
+增加语音导航功能
+1.接口“logon"增加voiceFlag返回字段，1:打开语音2：关闭语音。前端默认为0
+2.app下导入so文件
+3.baselib下导入语音sdk
+4.app-gradle添加aaptOptions { noCompress "pcm" }
+5.baselib-gradle添加依赖
+6.app-mainfest添加语音相关权限，loginActivity添加动态请求语音权限
+7.sp增加语音相关存储
+8.baselib-添加语音资源文件，voice开头的
+9.baselib-添加voictUtils
+10.basefragment更换底层布局文件，添加对应代码，引用语音代码
+11.app-NApplication语音初始化
+12.loginActivity增加语音IP设置功能

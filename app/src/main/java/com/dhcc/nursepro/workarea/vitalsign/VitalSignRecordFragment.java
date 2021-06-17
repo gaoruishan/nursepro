@@ -15,6 +15,7 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,7 @@ import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
+import com.base.commlibs.voiceUtils.bean.VoiceBean;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
@@ -101,6 +103,8 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
     private int EDTEXT_ID = 10001;
 
     private Map<Integer, EditText> editTextMap = new HashMap<>();
+    private ArrayList<EditText> listView = new ArrayList<>();
+    private ArrayList<OptionView> listOptionView = new ArrayList<>();
 
     private boolean fromTask=false;
     private String patInfo="";
@@ -154,6 +158,76 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
             }
             saveTempValue(SAVE_TEMP_VALUE_SCAN);
         }
+    }
+
+    @Override
+    public void getVoiceResult(VoiceBean voiceBean) {
+        Log.i("onResult json4","jsonResult:"+voiceBean.getLast());
+        if (voiceBean!=null&&
+                voiceBean.getForm()!=null&&
+                voiceBean.getForm().getData()!=null&&
+                voiceBean.getForm().getData().size()>0){
+            for (int i = 0; i <listView.size() ; i++) {
+                String viewTag = listView.get(i).getTag().toString();
+                for (int j = 0; j < voiceBean.getForm().getData().size(); j++) {
+                    if (viewTag.contains(voiceBean.getForm().getData().get(j).getKey())){
+                        listView.get(i).setText(voiceBean.getForm().getData().get(j).getValue());
+                    }
+                }
+            }
+            for (int i = 0; i < listOptionView.size(); i++) {
+                String viewTag = listOptionView.get(i).getTag().toString();
+                for (int j = 0; j < voiceBean.getForm().getData().size(); j++) {
+                    if (viewTag.contains(voiceBean.getForm().getData().get(j).getKey())){
+                        listOptionView.get(i).setText(voiceBean.getForm().getData().get(j).getValue());
+                    }
+                }
+
+            }
+        }else if (voiceBean!=null&&voiceBean.getLast()){
+            String bedNoStr = "";
+            if (voiceBean.getCommand().getBedNo() != null){
+                bedNoStr = voiceBean.getCommand().getBedNo();
+            }
+            String actionStr = "";
+            if (voiceBean.getCommand().getAction() != null){
+                actionStr = voiceBean.getCommand().getAction();
+            }
+            int tempIndex = 0;
+            if (actionStr.equals("生命体征")&&(!bedNoStr.isEmpty())){
+                actionStr = "";
+            }
+            if (actionStr.isEmpty()&&(!bedNoStr.isEmpty())){
+                Boolean isBed = false;
+                for (int i = 0; i < patientList.size(); i++) {
+                    if (bedNoStr.equals(patientList.get(i).get("bedCode"))) {
+                        tempIndex = i;
+                        isBed = true;
+                        break;
+                    }
+                }
+                if (isBed){
+                    patientIndex = tempIndex;
+                    saveTempValue(SAVE_TEMP_VALUE_SCAN);
+                }else {
+                    showToast(bedNoStr+"床位不存在");
+                }
+
+            }else {
+                if (actionStr.equals("保存")){
+                    ifSave = true;
+                    saveTempValue(SAVE_TEMP_VALUE_NORMAL);
+                }else if (actionStr.equals("清屏")){
+                    for (int i = 0; i <listView.size() ; i++) {
+                        listView.get(i).setText("");
+                    }
+
+                }else {
+                    voiceUtil.startFragmentByVoice(bedNoStr,actionStr);
+                }
+            }
+        }
+
     }
 
     @Override
@@ -299,6 +373,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
         curEpisodeId = (String) patientInfo.get("episodeId");
         String title = patientInfo.get("bedCode") + " " + patientInfo.get("name");
         setToolbarCenterTitle(title, 0xffffffff, 17);
+        setScene("体征录入");
         recordContentView.removeAllViews();
         asyncGetVitalSignItems();
     }
@@ -614,6 +689,8 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
 
             layout.addView(edText);
 
+            edText.setTag(config.getDesc());
+            listView.add(edText);
             viewItemMap.put(config.getCode(), edText);
 
 
@@ -653,6 +730,8 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
             });
 
             layout.addView(optionView);
+            optionView.setTag(config.getDesc());
+            listOptionView.add(optionView);
             viewItemMap.put(config.getCode(), optionView);
 
         }

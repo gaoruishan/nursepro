@@ -3,6 +3,7 @@ package com.base.commlibs.constant;
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
 import com.base.commlibs.bean.NurseConfig;
+import com.raisound.speech.http.response.Scene;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -131,4 +132,17 @@ public class SharedPreference extends NurseConfig {
 
     //记录当前模式
     public static final String SINGLEMODEL = "SINGLEMODEL";
+
+    //语音相关
+    public static final String BTN_VOICE_SHOW = "BTN_VOICE_SHOW";//语音功能是否开启
+    public static List<Scene> SCENE_LIST = null;
+    public static final String  VOICE_DATETIME_POINT = "VOICE_DATETIME_POINT";
+    public static final String  VOICE_PAT_LIST = "VOICE_PAT_LIST";
+    public static final String  VOICE_VISAL_LIST = "VOICE_VISAL_LIST";
+    public static final String  VOICE_PATINFO_JSON = "VOICE_PATINFO_JSON";
+    public static final String  VOICE_IP = "VOICE_IP";
+    public static final String  VOICE_PORT = "VOICE_PORT";
+    public static final String  VOICE_GROUPID = "VOICE_GROUPID";
+    public static final String  VOICE_SCORE = "VOICE_SCORE";
+
 }

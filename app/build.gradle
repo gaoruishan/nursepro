@@ -12,6 +12,9 @@ android {
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+    aaptOptions {
+        noCompress "pcm" }
+
     signingConfigs {
         config {
         }

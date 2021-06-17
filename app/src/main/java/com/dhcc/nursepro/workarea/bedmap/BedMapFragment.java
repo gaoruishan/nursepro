@@ -219,7 +219,7 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
                 Map map = patInfoMapListShow.get(position);
                 String jsonMap = gson.toJson(map);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("patinfo", patInfoListBean);
+                bundle.putString("patInfo", gson.toJson(patInfoListBean));
                 bundle.putString("jsonmap",jsonMap);
 
 //                startFragment(BedMapPatFragment.class, bundle);

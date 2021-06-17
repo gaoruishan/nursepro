@@ -1,12 +1,17 @@
 package com.dhcc.nursepro.login;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -28,6 +33,7 @@ import com.base.commlibs.utils.SchDateTimeUtil;
 import com.base.commlibs.utils.TransBroadcastUtil;
 import com.base.commlibs.utils.UserUtil;
 import com.base.commlibs.view.WebActivity;
+import com.base.commlibs.voiceUtils.SetVoiceIPDialog;
 import com.base.commlibs.wsutils.BaseWebServiceUtils;
 import com.blankj.utilcode.constant.PermissionConstants;
 import com.blankj.utilcode.util.PermissionUtils;
@@ -102,12 +108,35 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         CommHttp.getNurseConfig();
         getBroadCastConfig();
         PermissionUtils.permission(PermissionConstants.STORAGE).request();
+
+        verifyAudioPermissions(this);
     }
 
     public void testWebView(View view) {
         WebActivity.start(this, BaseWebServiceUtils.getServiceUrl("/hello.html"));
     }
+    //申请录音权限
+    private static final int GET_RECODE_AUDIO = 1;
+    private static String[] PERMISSION_AUDIO = {
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
 
+    /*
+     * 申请录音权限*/
+    public static void verifyAudioPermissions(Activity activity) {
+        int permission = ActivityCompat.checkSelfPermission(activity,
+                Manifest.permission.RECORD_AUDIO);
+        int permission1 = ActivityCompat.checkSelfPermission(activity,
+                Manifest.permission.READ_EXTERNAL_STORAGE);
+        int permission2 = ActivityCompat.checkSelfPermission(activity,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (permission != PackageManager.PERMISSION_GRANTED||permission1 != PackageManager.PERMISSION_GRANTED||permission2 != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(activity, PERMISSION_AUDIO,
+                    GET_RECODE_AUDIO);
+        }
+    }
     private void initView() {
 
         etLoginUsercode = findViewById(R.id.et_login_usercode);
@@ -205,7 +234,46 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 }
             }
         });
+
+
+        findViewById(R.id.tv_voice_ip).setOnClickListener(v -> setVoiceIp());
     }
+
+    private void setVoiceIp(){
+
+        SetVoiceIPDialog voiceIpDialog = new SetVoiceIPDialog(this);
+        voiceIpDialog.setTitle("结果");
+        String voiceIp = spUtils.getString(SharedPreference.VOICE_IP);
+        String voicePort = spUtils.getString(SharedPreference.VOICE_PORT);
+        voiceIpDialog.setMessageIP(voiceIp);
+        voiceIpDialog.setMessagePort(voicePort);
+        voiceIpDialog.setYesOnclickListener("确定", new SetVoiceIPDialog.onYesOnclickListener() {
+            @Override
+            public void onYesClick() {
+                if (isIP(voiceIpDialog.getIp())) {
+                    if ( spUtils.getString(SharedPreference.VOICE_IP).equals(voiceIpDialog.getIp()) && spUtils.getString(SharedPreference.VOICE_PORT).equals(voiceIpDialog.getPort())){
+                        showToast("未修改，请重新设置");
+                    }else {
+                        spUtils.put(SharedPreference.VOICE_IP, voiceIpDialog.getIp());
+                        spUtils.put(SharedPreference.VOICE_PORT, voiceIpDialog.getPort());
+                        showToast("设置成功，请重新打开APP");
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                finishAll();
+                                System.exit(0);
+                            }
+                        }, 700);
+                    }
+                } else {
+                    showToast("IP格式不正确，请重新输入");
+                }
+            }
+        });
+        voiceIpDialog.show();
+
+    }
+
 
     private void getBroadCastConfig() {
         LoginApiManager.getBroadcastConfig(new LoginApiManager.GetBroadCastConfigCallback() {
@@ -422,6 +490,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         LoginApiManager.getLogin(userCode, password, logonWardId, new LoginApiManager.GetLoginCallback() {
             @Override
             public void onSuccess(final LoginBean loginBean) {
+
+                spUtils.put(SharedPreference.BTN_VOICE_SHOW,loginBean.getVoicFlag().equals("1")?true:false);
+
                 UserUtil.setUserConfig(loginBean);
                 spUtils.put(SharedPreference.CURDATETIME,loginBean.getCurDateTime());
                 //保存科室列表，设置界面更换病区会用到

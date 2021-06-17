@@ -32,6 +32,16 @@ public class LoginBean extends ConfigBean {
     private String userName;
     private List<BroadcastListBean> broadcastList;
     private List<LocsBean> locs;
+    private String voicFlag="0";
+
+    public String getVoicFlag() {
+        return voicFlag;
+    }
+
+    public void setVoicFlag(String voicFlag) {
+        this.voicFlag = voicFlag;
+    }
+
     /**
      * closeTime : 30000
      */

@@ -47,6 +47,7 @@ import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.utils.AppUtil;
 import com.base.commlibs.utils.UserUtil;
+import com.base.commlibs.voiceUtils.VoiceWebDataUtil;
 import com.blankj.utilcode.constant.PermissionConstants;
 import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.SPUtils;
@@ -155,6 +156,8 @@ public class MainActivity extends BaseCommActivity implements RadioButton.OnChec
         super.onResume(args);
         //清空查询所选床位
         SPUtils.getInstance().put(SharedPreference.ORDERSEARCHE_BEDSELECTED,"");
+        VoiceWebDataUtil.getBedMapData();
+        VoiceWebDataUtil.getVisData();
         if (hasRequest == 0) {
             getNewVersion();
         } else if (hasRequest == 1 && canUpdate == 1) {

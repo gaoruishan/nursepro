@@ -22,6 +22,7 @@ import com.dhcc.nursepro.workarea.labresult.LabResultListFragment;
 import com.dhcc.nursepro.workarea.orderexecute.OrderExecuteFragment;
 import com.dhcc.nursepro.workarea.ordersearch.OrderSearchFragment;
 import com.dhcc.nursepro.workarea.patevents.PatEventsFragment;
+import com.google.gson.Gson;
 
 /**
  * BedMapPatFragment
@@ -62,7 +63,8 @@ public class BedMapPatFragment extends BaseFragment implements View.OnClickListe
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Bundle bundle = getArguments();
-        patInfoListBean = (BedMapBean.PatInfoListBean) bundle.getSerializable("patinfo");
+        Gson gson = new Gson();
+        patInfoListBean = gson.fromJson(bundle.getString("patinfo"),BedMapBean.PatInfoListBean.class);
         jsonMap = bundle.getString("jsonmap");
 
         //状态栏 背景 默认蓝色

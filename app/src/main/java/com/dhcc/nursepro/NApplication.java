@@ -4,6 +4,7 @@ import android.os.Handler;
 
 import com.base.commlibs.BaseApplication;
 import com.base.commlibs.utils.TransBroadcastUtil;
+import com.base.commlibs.voiceUtils.VoiceInitUtil;
 import com.blankj.utilcode.util.Utils;
 import com.dhcc.nursepro.greendao.GreenDaoHelper;
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -40,6 +41,7 @@ public class NApplication extends BaseApplication {
 
         setDelegateApp(this);
 
+        VoiceInitUtil.initSound(getApplicationContext());
 
         screenPixelWidth = getApp().getResources().getDisplayMetrics().widthPixels;
         screenPixelHeight = getApp().getResources().getDisplayMetrics().heightPixels;

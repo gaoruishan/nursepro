@@ -17,6 +17,17 @@
             android:layout_width="@dimen/dp_60"
             android:layout_height="@dimen/dp_60"
             android:src="@drawable/login_logo" />
+        <TextView
+            android:id="@+id/tv_voice_ip"
+            android:layout_width="@dimen/dp_70"
+            android:layout_height="@dimen/dp_20"
+            android:text="语音IP"
+            android:gravity="center"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/dp_10"
+            android:textSize="@dimen/sp_12"
+            />
+
     </RelativeLayout>
 
     <LinearLayout

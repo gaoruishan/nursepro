@@ -49,6 +49,7 @@ public class NurseAPI {
     public static final String getWardPatList = "getWardPatList";
     public static final String getScanInfo = "getScanInfo";//医嘱执行
     public static final String getInfeeDetailByDate = "getInfeeDetailByDate";
+    public static final String getPatListToVoice = "GetPatListToVoice";
     /**
      * 生命体征
      */
