@@ -34,6 +34,7 @@ import com.base.commlibs.voiceUtils.bean.VoiceBean;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
+import com.dhcc.nursepro.Activity.SingleMainActivity;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.uiplugs.OptionView;
 import com.base.commlibs.utils.KeyBoardUtil;
@@ -223,7 +224,14 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
                     }
 
                 }else {
-                    voiceUtil.startFragmentByVoice(bedNoStr,actionStr);
+                    if (SPUtils.getInstance().getString(SharedPreference.SINGLEMODEL).equals("1")){
+                        if (basfrgmentToSingleActivityListner!=null){
+                            basfrgmentToSingleActivityListner.voiceMsg(bedNoStr,actionStr);
+                        }
+                    }else {
+                        voiceUtil.startFragmentByVoice(bedNoStr,actionStr);
+                    }
+
                 }
             }
         }

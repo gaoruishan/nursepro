@@ -1545,6 +1545,9 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
         this.listener = listener;
     }
+    public List getListMap(){
+        return listFragment;
+    }
     public interface Listener{
         public void changMap(String map);
     }

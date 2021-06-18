@@ -28,11 +28,13 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -53,6 +55,8 @@ import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.service.MServiceNewOrd;
 import com.base.commlibs.utils.BasePopWindow;
+import com.base.commlibs.voiceUtils.SingleVoiceUtil;
+import com.base.commlibs.voiceUtils.bean.VoiceBean;
 import com.blankj.utilcode.constant.PermissionConstants;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.GsonUtils;
@@ -129,7 +133,7 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
     private FragmentManager mFragmentManager;
     private FragmentTransaction ft;
     private Fragment[] mFragments;
-    private BaseFragment curFragment = new BaseFragment();
+    public BaseFragment curFragment = new BaseFragment();
     private FragmentTransaction fragmentTransaction;
     private ProgressDialog pd;
     private SharedPreferences sp;
@@ -182,6 +186,7 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
     private List<Map<String, String>> patInfoMapList =new ArrayList<>();
 
     private String epiFromBedMap="";
+    private String scanInfo="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -210,6 +215,8 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
         }
         //请求SD卡权限
         PermissionUtils.permission(PermissionConstants.STORAGE).request();
+
+        initVoice();
     }
     @Override
     protected void onDestroy() {
@@ -227,6 +234,10 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
         }
         if (!epiFromBedMap.isEmpty()){
             SPUtils.getInstance().put(SharedPreference.SINGLEMODEL,"0");
+        }
+        //结束所有语音操作和识别
+        if (voiceUtil!=null){
+            voiceUtil.onFragmentDestroy();
         }
     }
 
@@ -289,7 +300,8 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
     }
 
     private void showPatInfo(){
-        BedMapBean.PatInfoListBean patInfoListBean = null;        for (int i = 0; i < bedBean.getPatInfoList().size(); i++) {
+        BedMapBean.PatInfoListBean patInfoListBean = null;
+        for (int i = 0; i < bedBean.getPatInfoList().size(); i++) {
             if (bedBean.getPatInfoList().get(i).getEpisodeId().equals(episodeId)){
                 patInfoListBean = bedBean.getPatInfoList().get(i);
             }
@@ -510,7 +522,8 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
         findViewById(R.id.tv_patmap).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setMaskShow();
+//                setMaskShow();
+                refreshBedMap(2);
             }
         });
         asyncInitData();
@@ -556,6 +569,13 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
             curFragment = baseFragment;
             //并记录下本次点击“返回键”的时刻，以便下次进行判断
             mExitTime = System.currentTimeMillis();
+            Log.e(TAG, "startNewFragment: setscene"+ curFragment.centerTitle);
+            if (curFragment.getClass().getName().contains("VitalSignRecordFragment")){
+                setScene("体征录入");
+                curNormal();
+            }else {
+                setScene(curFragment.centerTitle);
+            }
         } else {
             isGetScanPat = false;
             showToast("操作过于频繁，请重试");
@@ -907,8 +927,11 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
                 }
             }
             if (Action.SETSINGLEMSG.equals(intent.getAction())) {
+                scanInfo = intent.getStringExtra("data");
+//                refreshBedMap(1);
                 for (int i = 0; i < bedBean.getPatInfoList().size(); i++) {
                     String msg = intent.getStringExtra("data");
+                    scanInfo = msg;
                     if (msg.equals(bedBean.getPatInfoList().get(i).getRegNo())){
                         episodeId = bedBean.getPatInfoList().get(i).getEpisodeId();
                         regNo = bedBean.getPatInfoList().get(i).getRegNo();
@@ -1083,4 +1106,165 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
         SharedPreference.FRAGMENTMAP.put(BloodSugarFragment.class.getName(), new BloodSugarFragment());
         SharedPreference.FRAGMENTMAP.put(OrderSearchAndExecuteFragment.class.getName(), new OrderSearchAndExecuteFragment());
     }
+
+
+
+    //刷新床位图，，切换患者的时候用到--1.扫码 2.点击右上角
+    private void refreshBedMap(int refreshType) {
+        hideLoadingTip();
+        showLoadingTip(BaseActivity.LoadingType.FULL);
+
+        BedMapApiManager.getBedMap(new BedMapApiManager.GetBedMapCallback() {
+            @Override
+            public void onSuccess(BedMapBean bedMapBean, Map bedMapMap) {
+                hideLoadingTip();
+                bedMap= bedMapMap;
+                for (int i = 0; i < bedMapBean.getPatInfoList().size(); i++) {
+                    Map map = GsonUtils.fromJson(GsonUtils.toJson(bedMapBean.getPatInfoList().get(i)), HashMap.class);
+                    bedMapBean.getPatInfoList().get(i).setPatMap(map);
+                }
+                patInfoMapList = (List<Map<String, String>>) bedMapMap.get("patInfoList");
+                bedBean = bedMapBean;
+                if (bedMapPatientAdapter!=null){
+                    bedMapPatientAdapter.setNewData(bedBean.getPatInfoList());
+                }
+                if (refreshType==1){
+                    for (int i = 0; i < bedBean.getPatInfoList().size(); i++) {
+                        if (scanInfo.equals(bedBean.getPatInfoList().get(i).getRegNo())){
+                            episodeId = bedBean.getPatInfoList().get(i).getEpisodeId();
+                            regNo = bedBean.getPatInfoList().get(i).getRegNo();
+                            patInfo = bedBean.getPatInfoList().get(i).getBedCode()+" "+bedBean.getPatInfoList().get(i).getName();
+                            isGetScanPat = true;
+                            showPatInfo();
+                        }
+                    }
+
+                }else {
+
+                    addToolBarRightPopWindow();
+                    addToolBarLeftPopWindow();
+                    notifyMessage();
+                    setMaskShow();
+                }
+
+//                int epiNo=0;
+//                for (int i = 0; i < bedMapBean.getPatInfoList().size(); i++) {
+//                    if (epiFromBedMap.equals(bedMapBean.getPatInfoList().get(i).getEpisodeId())){
+//                        epiNo=i;
+//                        break;
+//                    }
+//                }
+//                episodeId = bedMapBean.getPatInfoList().get(epiNo).getEpisodeId();
+//                regNo = bedMapBean.getPatInfoList().get(epiNo).getRegNo();
+//                patInfo = bedMapBean.getPatInfoList().get(epiNo).getBedCode()+" "+bedMapBean.getPatInfoList().get(0).getName();
+//                showPatInfo();
+
+
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+                hideLoadingTip();
+                if (patInfoMapList.size()<1){
+                    showToast("床位获取失败，请重试");
+                }else {
+                    showToast("error" + code + ":" + msg);
+                }
+
+                SPUtils.getInstance().put(SharedPreference.SINGLEMODEL,"0");
+                startActivity(new Intent(SingleMainActivity.this, LoginActivity.class));
+                finish();
+            }
+        });
+    }
+
+
+
+
+
+
+
+
+
+    private Button btnVoice;
+    private SingleVoiceUtil voiceUtil;
+    private void initVoice(){
+        btnVoice=findViewById(R.id.btn_voice);
+        if (SPUtils.getInstance().getBoolean(SharedPreference.BTN_VOICE_SHOW,true)){
+            btnVoice.setVisibility(View.VISIBLE);
+            voiceUtil=new SingleVoiceUtil(this,btnVoice);
+            voiceUtil.initVoice();
+            voiceUtil.setTemVoiceListener(new SingleVoiceUtil.TempVoiceCallBack() {
+                @Override
+                public void getTempVoice(VoiceBean voiceBean) {
+                    if (curFragment.getClass().getName().contains("VitalSignRecordFragment")){
+                        curFragment.getVoiceResult(voiceBean);
+                    }else {
+
+                    }
+                }
+            });
+            voiceUtil.setSingleVoiceListner(new SingleVoiceUtil.SingleVoiceListner() {
+                @Override
+                public void startFragmentByvoice(String className, Bundle bundle) {
+                    putNewFragment();
+                    String fragClassName=getSingleFragmentClassName(className);
+                    Boolean isSingleFragment=false;//判断单人模式下是否在底部导航栏
+                    for (int i = 0; i < getListMap().size(); i++) {
+                        Map map = (Map) getListMap().get(i);
+                        if (map.get("fragName").toString().equals(fragClassName)){
+                            isSingleFragment=true;
+                        }
+                    }
+                    if (isSingleFragment){
+                        startNewFragment(SharedPreference.FRAGMENTMAP.get(fragClassName));
+                    }else {
+//                    try {
+//                        Class<? extends BaseFragment> aClass = (Class<? extends BaseFragment>) Class.forName(className);
+//                        startFragment(aClass);
+//                    }catch (Exception e){
+//
+//                    }
+                        showToast("请到病区模式进行此操作");
+                    }
+
+                }
+            });
+        }else {
+            btnVoice.setVisibility(View.GONE);
+        }
+
+    }
+    public void setScene(String scene){
+        if (voiceUtil!=null){
+            voiceUtil.setScene(scene);
+        }
+    }
+    public void getVoiceResult(VoiceBean voiceBean){
+
+    }
+
+    //单人模式下跳转到模块直接定位到当前患者
+    private String getSingleFragmentClassName(String className){
+        String classStr=className;
+        if (className.equals(VitalSignFragment.class.getName())){
+            classStr=VitalSignRecordFragment.class.getName();
+        }else  if (className.equals(CheckPatsFragment.class.getName())){
+            classStr=CheckResultListFragment.class.getName();
+        }else  if (className.equals(LabPatsFragment.class.getName())){
+            classStr=LabResultListFragment.class.getName();
+        }
+        return classStr;
+    }
+
+    //录入界面调用通用场景功能
+    private void curNormal(){
+        curFragment.setBasfrgmentToSingleActivityListner(new BaseFragment.BasfrgmentToSingleActivityListner() {
+            @Override
+            public void voiceMsg(String bedNoStr, String actionStr) {
+                voiceUtil.startFragmentByVoice(bedNoStr,actionStr);
+            }
+        });
+    }
+
 }

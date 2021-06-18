@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:maxHeight="@dimen/dp_250"
-            android:textColor="@color/dhcc_red"
+            android:textColor="@color/red"
             android:background="@color/white"
             android:focusable="false"
             android:layout_marginRight="@dimen/dp_60"

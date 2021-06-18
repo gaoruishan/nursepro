@@ -600,7 +600,9 @@ public class BaseFragment extends Fragment {
 
         btnVoice = viewRl.findViewById(R.id.btn_mov);
         etTest = viewRl.findViewById(R.id.et_text);
-        if (SPUtils.getInstance().getBoolean(SharedPreference.BTN_VOICE_SHOW,true)){
+        //单人模式下从activity取按钮点击
+        if (SPUtils.getInstance().getBoolean(SharedPreference.BTN_VOICE_SHOW,true)&&
+            SPUtils.getInstance().getString(SharedPreference.SINGLEMODEL).equals("0")){
             btnVoice.setVisibility(View.VISIBLE);
             initVoice();
         }else {
@@ -1220,6 +1222,16 @@ public class BaseFragment extends Fragment {
     }
 
 
+
+
+    public BasfrgmentToSingleActivityListner basfrgmentToSingleActivityListner;
+
+    public void setBasfrgmentToSingleActivityListner(BasfrgmentToSingleActivityListner basfrgmentToSingleActivityListner) {
+        this.basfrgmentToSingleActivityListner = basfrgmentToSingleActivityListner;
+    }
+    public interface BasfrgmentToSingleActivityListner{
+        void voiceMsg(String bedNoStr,String actionStr);
+    }
 
 
     public Button btnVoice;

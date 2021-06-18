@@ -47,20 +47,16 @@ import java.util.Map;
  * Date: 2021/6/15
  * Time:16:27
  */
-public class VoiceUtil {
+public class SingleVoiceUtil {
 
     private Context mContext;
-    private BaseFragment baseFragment;
-    public VoiceUtil(Context context,BaseFragment baseFragment,Button btnVoice,EditText editText){
+    public SingleVoiceUtil(Context context, Button btnVoice){
         this.mContext = context;
-        this.baseFragment = baseFragment;
         this.btnVoice = btnVoice;
-        this.etTest= editText;
     }
 
     private String TAG="VoiceUtil.class";
     public Button btnVoice;
-    public EditText etTest;
     //第一次点击不用计时
     public Boolean firstClick=true;
     public Long curTime = System.currentTimeMillis();
@@ -217,7 +213,6 @@ public class VoiceUtil {
             switch (ea) {
                 case MotionEvent.ACTION_DOWN:
                     btnVoice.setSelected(true);
-                    etTest.setText("");
                     testInt = 1;
                     actionDown();
                 case MotionEvent.ACTION_MOVE:
@@ -416,13 +411,13 @@ public class VoiceUtil {
                             public void run() {
                                 getTempResultByVoice(bundle);
                                 testInt++;
-                                try {
-                                    etTest.setText(centerTitle+"--"+getScene()+etTest.getText().toString()+"\n"+testInt+"."+asrResult.results+".jsonResult:"
-                                            +new JSONObject(asrResult.jsonResult).toString()
-                                            +",isLast:"+isLast);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
+//                                try {
+//                                    etTest.setText(centerTitle+"--"+getScene()+etTest.getText().toString()+"\n"+testInt+"."+asrResult.results+".jsonResult:"
+//                                            +new JSONObject(asrResult.jsonResult).toString()
+//                                            +",isLast:"+isLast);
+//                                } catch (JSONException e) {
+//                                    e.printStackTrace();
+//                                }
                             }
                         });
                     }
@@ -538,7 +533,9 @@ public class VoiceUtil {
 
         //录入页面需要在本页面处理数据，
         if (centerTitle.equals("体征录入")){
-            tempVoiceCallBack.getTempVoice(voiceBean);
+            if (tempVoiceCallBack!=null){
+                tempVoiceCallBack.getTempVoice(voiceBean);
+            }
         }else {
             String bedNoStr = "";
             if (voiceBean.getCommand().getBedNo() != null){
@@ -555,7 +552,8 @@ public class VoiceUtil {
         Class<? extends BaseFragment> aClass = null;
         try {
             aClass = (Class<? extends BaseFragment>) Class.forName(className);
-            baseFragment.startFragment(aClass);
+//            baseFragment.startFragment(aClass);
+            singleVoiceStartFragment(className,null);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -666,7 +664,8 @@ public class VoiceUtil {
         bundle.putString("inHosDate",inHosDate);
         bundle.putString("patmsg", patInfo);
         if (isBedExist){
-            baseFragment.startFragment(aClass,bundle);
+//            baseFragment.startFragment(aClass,bundle);
+            singleVoiceStartFragment(aClass.getName(),bundle);
         }else {
             ToastUtils.showLong(bedNo.replaceAll("床","")+"床不存在，请确认床号");
 //            showToastByVoice(bedNo.replaceAll("床","")+"床不存在，请确认床号");
@@ -687,7 +686,8 @@ public class VoiceUtil {
                 if (!aClass.getName().contains("WorkareaFragment")){
                     String regNo = "";
                     if (bedNoByVoice.isEmpty()){
-                        baseFragment.startFragment(aClass);
+//                        baseFragment.startFragment(aClass);
+                        singleVoiceStartFragment(aClass.getName(),null);
                     }else {
                         Bundle bundle = new Bundle();
                         Gson gson = new Gson();
@@ -729,7 +729,8 @@ public class VoiceUtil {
                             ToastUtils.showLong(bedNoByVoice.replaceAll("床","")+"床不存在，请确认床号");
 //                            showToastByVoice(bedNoByVoice.replaceAll("床","")+"床不存在，请确认床号");
                         }else {
-                            baseFragment.startFragment(aClass,bundle);
+//                            baseFragment.startFragment(aClass,bundle);
+                            singleVoiceStartFragment(aClass.getName(),bundle);
                         }
                     }
 
@@ -737,7 +738,8 @@ public class VoiceUtil {
                     Class<? extends BaseActivity> activityClass = null;
                     try {
                         activityClass = (Class<? extends BaseActivity>) Class.forName("com.dhcc.nursepro.Activity.MainActivity");
-                        baseFragment.startActivity(new Intent(mContext, activityClass));
+//                        baseFragment.startActivity(new Intent(mContext, activityClass));
+                        singleVoiceStartFragment(aClass.getName(),null);
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();
                     }
@@ -937,13 +939,30 @@ public class VoiceUtil {
 
 
     public void finishCurFragment(){
-        baseFragment.finish();
+//        baseFragment.finish();
     }
+
+    public void singleVoiceStartFragment(String fragClassName,Bundle bundle){
+        if (singleVoiceListner!=null){
+            singleVoiceListner.startFragmentByvoice(fragClassName,bundle);
+        }
+    }
+
     TempVoiceCallBack tempVoiceCallBack;
     public void setTemVoiceListener(TempVoiceCallBack tempVoiceCallBack){
         this.tempVoiceCallBack = tempVoiceCallBack;
     }
     public interface TempVoiceCallBack{
        void getTempVoice(VoiceBean voiceBean);
+    }
+
+    SingleVoiceListner singleVoiceListner;
+
+    public void setSingleVoiceListner(SingleVoiceListner singleVoiceListner) {
+        this.singleVoiceListner = singleVoiceListner;
+    }
+
+    public interface SingleVoiceListner{
+        void startFragmentByvoice(String className,Bundle bundle);
     }
 }

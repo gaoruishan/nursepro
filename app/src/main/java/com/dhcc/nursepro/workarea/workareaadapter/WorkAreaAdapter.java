@@ -27,6 +27,11 @@ public class WorkAreaAdapter extends BaseQuickAdapter<MainConfigBean.MainListBea
     @Override
     protected void convert(BaseViewHolder helper, MainConfigBean.MainListBean item) {
         helper.setText(R.id.tv_workmenu, item.getMenuName());
+        if (item.getMenuName().equals("old")){
+            helper.setGone(R.id.tv_workmenu,false);
+        }else {
+            helper.setGone(R.id.tv_workmenu,true);
+        }
 
         RecyclerView recyclerView = helper.getView(R.id.recy_worksub);
         recyclerView.setHasFixedSize(true);

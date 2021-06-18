@@ -11,3 +11,9 @@
 10.basefragment更换底层布局文件，添加对应代码，引用语音代码
 11.app-NApplication语音初始化
 12.loginActivity增加语音IP设置功能
+
+单人模式下增加语音跳转和体征录入
+1.增加独立的singlevoicUtil类
+2.SingleMainActivity添加相关代码
+3.实现fragment和actvity之间的数据相互传递（体征录入)
+4.

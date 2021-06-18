@@ -4,10 +4,14 @@ import android.util.Log;
 
 import com.blankj.utilcode.util.ObjectUtils;
 import com.dhcc.nursepro.workarea.workareabean.MainConfigBean;
+import com.dhcc.nursepro.workarea.workareabean.MainConfigBeanOld;
 import com.dhcc.nursepro.workarea.workareabean.OperateResultBean;
 import com.dhcc.nursepro.workarea.workareabean.PreparedVerifyOrdBean;
 import com.dhcc.nursepro.workarea.workareabean.ScanResultBean;
 import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class WorkareaApiManager {
 
@@ -24,6 +28,27 @@ public class WorkareaApiManager {
                 } else {
                     try {
                         MainConfigBean mainConfigBean = gson.fromJson(jsonStr, MainConfigBean.class);
+
+                        //适配老版本主页模式
+                        if (mainConfigBean.getMainList().get(0).getMenuName()==null){
+                            MainConfigBeanOld mainConfigBeanOld = gson.fromJson(jsonStr, MainConfigBeanOld.class);
+                            List<MainConfigBean.MainListBean> mainList=new ArrayList<>();
+                            MainConfigBean.MainListBean mainListBean= new MainConfigBean.MainListBean();
+                            mainList.add(mainListBean);
+                            mainListBean.setMenuName("old");
+                            List<MainConfigBean.MainListBean.MainSubListBean> mainSubList=new ArrayList<>();
+                            mainListBean.setMainSubList(mainSubList);
+                            for (int i = 0; i < mainConfigBeanOld.getMainList().size(); i++) {
+                                MainConfigBean.MainListBean.MainSubListBean mainSubListBean = new MainConfigBean.MainListBean.MainSubListBean();
+                                mainSubListBean.setModuleDesc(mainConfigBeanOld.getMainList().get(i).getModuleDesc());
+                                mainSubListBean.setModuleCode(mainConfigBeanOld.getMainList().get(i).getModuleCode());
+                                mainSubList.add(mainSubListBean);
+                            }
+                            mainConfigBean.setMainList(mainList);
+
+
+
+                        }
                         if (ObjectUtils.isEmpty(mainConfigBean)) {
                             callback.onFail("-3", "网络错误，数据解析为空");
                         } else {
