@@ -2300,14 +2300,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                         if (StringUtils.isEmpty(setDataListBean.getSign())) {
                             CheckBox checkBox = (CheckBox) viewHashMap.get(setDataListBean.getFormName() + "^" + setDataListBean.getVal());
                             if (checkBox != null && checkBox.isChecked()) {
-                                for (int k = 0; setDataListBean.getChangeList() != null && k < setDataListBean.getChangeList().size(); k++) {
-                                    ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean changeListBean = setDataListBean.getChangeList().get(k);
-                                    LinearLayout llContainer = (LinearLayout) viewHashMap.get(changeListBean.getId() + "_containerll");
-                                    LinearLayout linearLayout = (LinearLayout) viewHashMap.get(changeListBean.getId() + "_ll");
-
-                                    setViewStatus(changeListBean, llContainer, linearLayout);
-                                    satisfySetCount++;
-                                }
+                                satisfySetCount = forChangeListSetViewStatus(satisfySetCount, setDataListBean);
                             }
 
                         } else {
@@ -2322,14 +2315,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                                     }
                                 }
                                 if (elementIdList!=null&& k >= elementIdList.size()) {
-                                    for (int l = 0; setDataListBean.getChangeList() != null && l < setDataListBean.getChangeList().size(); l++) {
-                                        ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean changeListBean = setDataListBean.getChangeList().get(l);
-                                        LinearLayout llContainer = (LinearLayout) viewHashMap.get(changeListBean.getId() + "_containerll");
-                                        LinearLayout linearLayout = (LinearLayout) viewHashMap.get(changeListBean.getId() + "_ll");
-
-                                        setViewStatus(changeListBean, llContainer, linearLayout);
-                                        satisfySetCount++;
-                                    }
+                                    satisfySetCount = forChangeListSetViewStatus(satisfySetCount, setDataListBean);
                                 }
                             }
                         }
@@ -2338,6 +2324,18 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                         if (StringUtils.isEmpty(setDataListBean.getSign())) {
 
                         } else {
+                            //sign-无选中项
+                            if ("IsEqualArry".equals(setDataListBean.getSign())) {
+                                List<String> elementIdList = formNametoElementId.get(elementSetsBean.getFormName());
+                                int k;
+                                for (k = 0; k < elementIdList.size(); k++) {
+                                    CheckBox checkBox2 = (CheckBox) viewHashMap.get(elementIdList.get(k));
+                                    if (checkBox2 != null && checkBox2.isChecked()) {
+                                        satisfySetCount = forChangeListSetViewStatus(satisfySetCount, setDataListBean);
+                                    }
+                                }
+                                //sign-有选中项
+                            }else
                             //sign-无选中项
                             if ("EqEmptyArray".equals(setDataListBean.getSign())) {
                                 List<String> elementIdList = formNametoElementId.get(elementSetsBean.getFormName());
@@ -2349,14 +2347,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                                     }
                                 }
                                 if (k >= elementIdList.size()) {
-                                    for (int l = 0; setDataListBean.getChangeList() != null && l < setDataListBean.getChangeList().size(); l++) {
-                                        ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean changeListBean = setDataListBean.getChangeList().get(l);
-                                        LinearLayout llContainer = (LinearLayout) viewHashMap.get(changeListBean.getId() + "_containerll");
-                                        LinearLayout linearLayout = (LinearLayout) viewHashMap.get(changeListBean.getId() + "_ll");
-
-                                        setViewStatus(changeListBean, llContainer, linearLayout);
-                                        satisfySetCount++;
-                                    }
+                                    satisfySetCount = forChangeListSetViewStatus(satisfySetCount, setDataListBean);
                                 }
                                 //sign-有选中项
                             } else if ("EqUnEmptyArray".equals(setDataListBean.getSign())) {
@@ -2369,14 +2360,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                                     }
                                 }
                                 if (k < elementIdList.size()) {
-                                    for (int l = 0; setDataListBean.getChangeList() != null && l < setDataListBean.getChangeList().size(); l++) {
-                                        ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean changeListBean = setDataListBean.getChangeList().get(l);
-                                        LinearLayout llContainer = (LinearLayout) viewHashMap.get(changeListBean.getId() + "_containerll");
-                                        LinearLayout linearLayout = (LinearLayout) viewHashMap.get(changeListBean.getId() + "_ll");
-
-                                        setViewStatus(changeListBean, llContainer, linearLayout);
-                                        satisfySetCount++;
-                                    }
+                                    satisfySetCount = forChangeListSetViewStatus(satisfySetCount, setDataListBean);
                                 }
                                 //sign-包含特定选中项
                             } else if ("ContainsAnyArry".equals(setDataListBean.getSign())) {
@@ -2384,14 +2368,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                                 for (int i1 = 0; i1 < valList.size(); i1++) {
                                     CheckBox checkBox = (CheckBox) viewHashMap.get(setDataListBean.getFormName() + "^" + valList.get(i1));
                                     if (checkBox != null && checkBox.isChecked()) {
-                                        for (int i2 = 0; setDataListBean.getChangeList() != null && i2 < setDataListBean.getChangeList().size(); i2++) {
-                                            ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean changeListBean = setDataListBean.getChangeList().get(i2);
-                                            LinearLayout llContainer = (LinearLayout) viewHashMap.get(changeListBean.getId() + "_containerll");
-                                            LinearLayout linearLayout = (LinearLayout) viewHashMap.get(changeListBean.getId() + "_ll");
-
-                                            setViewStatus(changeListBean, llContainer, linearLayout);
-                                            satisfySetCount++;
-                                        }
+                                        satisfySetCount = forChangeListSetViewStatus(satisfySetCount, setDataListBean);
                                     }
                                 }
                             }
@@ -2809,6 +2786,24 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
 
             }
         }
+    }
+
+    /**
+     * 遍历SetDataList中的ChangeList 来控制Show或Hide
+     * @param satisfySetCount
+     * @param setDataListBean
+     * @return
+     */
+    private int forChangeListSetViewStatus(int satisfySetCount, ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean setDataListBean) {
+        for (int l = 0; setDataListBean.getChangeList() != null && l < setDataListBean.getChangeList().size(); l++) {
+            ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean changeListBean = setDataListBean.getChangeList().get(l);
+            LinearLayout llContainer = (LinearLayout) viewHashMap.get(changeListBean.getId() + "_containerll");
+            LinearLayout linearLayout = (LinearLayout) viewHashMap.get(changeListBean.getId() + "_ll");
+
+            setViewStatus(changeListBean, llContainer, linearLayout);
+            satisfySetCount++;
+        }
+        return satisfySetCount;
     }
 
     /**
