@@ -276,7 +276,7 @@ public class BaseWebServiceUtils {
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 // 将返回值回调到callBack的参数中
-                LogUtils.json(LogUtils.E, msg.obj);
+                LogUtils.e(msg.obj);
                 SharedPreference.DHC_CALLBACK_JSON = SharedPreference.MethodName + "-" + msg.obj.toString();
                 //重试机制-数据空,1s后再请求
                 if (LocalTestManager.isRequest(finalMethodNameTest, properties, msg.obj)) {

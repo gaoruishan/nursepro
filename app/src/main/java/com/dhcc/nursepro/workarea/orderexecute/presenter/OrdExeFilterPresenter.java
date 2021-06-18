@@ -171,7 +171,7 @@ public class OrdExeFilterPresenter extends BaseHelper {
                     dataMap.put(bean.getKeyCode(), bean);
                 }
             }
-            if (bean.isCommonKey()) {
+            if ("true".equals(bean.getCommonKey())) {
                 dataMap.put(bean.getKeyCode(), bean);
             }
         }

@@ -2,36 +2,214 @@ package com.dhcc.nursepro.workarea.workareabean;
 
 import com.base.commlibs.bean.CommBean;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainConfigBean {
 
     /**
-     * curDateTime : 2020-03-02 11:04:20
-     * ifVoice : Y
-     * mainConfig : ["BEDMAP","ORDERSEARCH","ORDEREXECUTE","ALLOTBED","VITALSIGN","EVENTS","CHECK","DOCORDERLIST","OPERATION","LAB","LABOUT","BLOOD","DOSINGREVIEW","MODELDETAIL","NURTOUR"]
-     * mainList : [{"moduleCode":"ALLOTBED","moduleDesc":"入院分床"},{"moduleCode":"BEDMAP","moduleDesc":"床位图"},{"moduleCode":"VITALSIGN","moduleDesc":"生命体征"},{"moduleCode":"ORDERSEARCH","moduleDesc":"医嘱查询"},{"moduleCode":"ORDEREXECUTE","moduleDesc":"医嘱执行"},{"moduleCode":"EVENTS","moduleDesc":"事件管理"},{"moduleCode":"DOCORDERLIST","moduleDesc":"医嘱单"},{"moduleCode":"CHECK","moduleDesc":"检查报告"},{"moduleCode":"LAB","moduleDesc":"检验报告"},{"moduleCode":"LABOUT","moduleDesc":"检验打包"},{"moduleCode":"MODELDETAIL","moduleDesc":"护理病历"},{"moduleCode":"NURTOUR","moduleDesc":"护理巡视"},{"moduleCode":"DOSINGREVIEW","moduleDesc":"输液复核"},{"moduleCode":"OPERATION","moduleDesc":"手术申请"},{"moduleCode":"BLOOD","moduleDesc":"输血系统"},{"moduleCode":"PATRECREG","moduleDesc":"接诊登记"},{"moduleCode":"PATWARDREG","moduleDesc":"病区登记"}]
-     * msg :
-     * msgcode : 999999
-     * scantimes : 2
-     * schEnDateTime : 2020-03-03 23:59
-     * schStDateTime : 2020-03-02 00:00
-     * screenParts : [{"commonKey":"false","danjuStr":"DefaultSee!PSD!BLD","keyCode":"phcinDesc","keyDesc":"用法","keyType":"Multiple","keyValue":"注射!IV!DV"},{"commonKey":"false","danjuStr":"DefaultSee!PSD!BLD","keyCode":"ordType","keyDesc":"类型","keyType":"Multiple","keyValue":"药品!检验!其他"},{"commonKey":"false","danjuStr":"DefaultSee!PSD!BLD","keyCode":"oecprDesc","keyDesc":"优先级","keyType":"Single","keyValue":"长期!临时"},{"commonKey":"true","danjuStr":"DefaultSee!PSD!BLD","keyCode":"exeFlag","keyDesc":"执行状态","keyType":"Single","keyValue":"未执行!已执行"}]
-     * status : 0
+     * {
+     *     "curDateTime": "2021-06-16 14:52:49",
+     *     "ifVoice": "Y",
+     *     "mainList": [
+     *         {
+     *             "mainSubList": [
+     *                 {
+     *                     "moduleCode": "BEDMAP",
+     *                     "moduleDesc": "床位图"
+     *                 },
+     *                 {
+     *                     "moduleCode": "MODELDETAIL",
+     *                     "moduleDesc": "护理病历"
+     *                 },
+     *                 {
+     *                     "moduleCode": "NURTOUR",
+     *                     "moduleDesc": "护理巡视"
+     *                 },
+     *                 {
+     *                     "moduleCode": "BLOOD",
+     *                     "moduleDesc": "输血系统"
+     *                 },
+     *                 {
+     *                     "moduleCode": "MODELDETAIL",
+     *                     "moduleDesc": "护理病历"
+     *                 },
+     *                 {
+     *                     "moduleCode": "HealthEduFragment",
+     *                     "moduleDesc": "健康宣教"
+     *                 },
+     *                 {
+     *                     "moduleCode": "TaskOverviewFragment",
+     *                     "moduleDesc": "任务总览"
+     *                 },
+     *                 {
+     *                     "moduleCode": "NurPlanFragment",
+     *                     "moduleDesc": "护理计划"
+     *                 },
+     *                 {
+     *                     "moduleCode": "BloodSugarFragment",
+     *                     "moduleDesc": "血糖采集"
+     *                 }
+     *             ],
+     *             "menuName": "综合"
+     *         },
+     *         {
+     *             "mainSubList": [
+     *                 {
+     *                     "moduleCode": "DOSINGREVIEW",
+     *                     "moduleDesc": "输液复核"
+     *                 },
+     *                 {
+     *                     "moduleCode": "IFOrdRec",
+     *                     "moduleDesc": "静配接收"
+     *                 }
+     *             ],
+     *             "menuName": "输液"
+     *         },
+     *         {
+     *             "mainSubList": [
+     *                 {
+     *                     "moduleCode": "LABOUT",
+     *                     "moduleDesc": "检验打包"
+     *                 },
+     *                 {
+     *                     "moduleCode": "PLYOUT",
+     *                     "moduleDesc": "病理运送"
+     *                 }
+     *             ],
+     *             "menuName": "标本"
+     *         },
+     *         {
+     *             "mainSubList": [
+     *                 {
+     *                     "moduleCode": "EVENTS",
+     *                     "moduleDesc": "事件管理"
+     *                 },
+     *                 {
+     *                     "moduleCode": "DOCORDERLIST",
+     *                     "moduleDesc": "医嘱单"
+     *                 },
+     *                 {
+     *                     "moduleCode": "CHECK",
+     *                     "moduleDesc": "检查报告"
+     *                 },
+     *                 {
+     *                     "moduleCode": "LAB",
+     *                     "moduleDesc": "检验报告"
+     *                 },
+     *                 {
+     *                     "moduleCode": "OPERATION",
+     *                     "moduleDesc": "手术申请"
+     *                 },
+     *                 {
+     *                     "moduleCode": "MILK",
+     *                     "moduleDesc": "母乳闭环"
+     *                 },
+     *                 {
+     *                     "moduleCode": "MOTHERBABYLINK",
+     *                     "moduleDesc": "母婴关联"
+     *                 }
+     *             ],
+     *             "menuName": "数据查询"
+     *         },
+     *         {
+     *             "mainSubList": [
+     *                 {
+     *                     "moduleCode": "ORDERSEARCH",
+     *                     "moduleDesc": "医嘱查询"
+     *                 },
+     *                 {
+     *                     "moduleCode": "ORDEREXECUTE",
+     *                     "moduleDesc": "医嘱执行"
+     *                 },
+     *                 {
+     *                     "moduleCode": "ALLOTBED",
+     *                     "moduleDesc": "入院分床"
+     *                 },
+     *                 {
+     *                     "moduleCode": "VITALSIGN",
+     *                     "moduleDesc": "生命体征"
+     *                 }
+     *             ],
+     *             "menuName": "数据查询"
+     *         }
+     *     ],
+     *     "msg": "",
+     *     "msgcode": "999999",
+     *     "scantimes": "2",
+     *     "schEnDateTime": "2021-06-16 23:59",
+     *     "schStDateTime": "2021-06-16 00:00",
+     *     "screenParts": [
+     *         {
+     *             "commonKey": "false",
+     *             "danjuStr": "DefaultSee!PSD!BLD",
+     *             "keyCode": "execFlag",
+     *             "keyDesc": "执行类型",
+     *             "keyType": "Single",
+     *             "keyValue": "未执行!已执行"
+     *         },
+     *         {
+     *             "commonKey": "false",
+     *             "danjuStr": "DefaultSee!PSD!BLD",
+     *             "keyCode": "oecprDesc",
+     *             "keyDesc": "优先级",
+     *             "keyType": "Single",
+     *             "keyValue": "长期!临时"
+     *         },
+     *         {
+     *             "commonKey": "false",
+     *             "danjuStr": "DefaultSee!PSD!BLD",
+     *             "keyCode": "ordType",
+     *             "keyDesc": "类型",
+     *             "keyType": "Multiple",
+     *             "keyValue": "药品!检验!其他"
+     *         }
+     *     ],
+     *     "status": "0"
+     * }
      */
 
+    /**
+     * 当前时间
+     */
     private String curDateTime;
+    /**
+     * 是否开启语音
+     */
     private String ifVoice;
-    private String msg;
-    private String msgcode;
-    private String scantimes;
-    private String schEnDateTime;
-    private String schStDateTime;
-    private String status;
-    private List<String> mainConfig;
+    /**
+     * 功能列表
+     */
     private List<MainListBean> mainList;
+    /**
+     * msg
+     */
+    private String msg;
+    /**
+     * msgcode
+     */
+    private String msgcode;
+    /**
+     * 输血系统扫码次数 1或2
+     */
+    private String scantimes;
+    /**
+     * 全局查询结束时间
+     */
+    private String schEnDateTime;
+    /**
+     * 全局查询开始时间
+     */
+    private String schStDateTime;
+    /**
+     * 医嘱查询/执行 筛选项
+     */
     private List<ScreenPartsBean> screenParts;
+    /**
+     * status
+     */
+    private String status;
 
     public String getCurDateTime() {
         return curDateTime;
@@ -47,6 +225,14 @@ public class MainConfigBean {
 
     public void setIfVoice(String ifVoice) {
         this.ifVoice = ifVoice;
+    }
+
+    public List<MainListBean> getMainList() {
+        return mainList;
+    }
+
+    public void setMainList(List<MainListBean> mainList) {
+        this.mainList = mainList;
     }
 
     public String getMsg() {
@@ -89,22 +275,6 @@ public class MainConfigBean {
         this.schStDateTime = schStDateTime;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public List<MainListBean> getMainList() {
-        return mainList;
-    }
-
-    public void setMainList(List<MainListBean> mainList) {
-        this.mainList = mainList;
-    }
-
     public List<ScreenPartsBean> getScreenParts() {
         return screenParts;
     }
@@ -113,116 +283,189 @@ public class MainConfigBean {
         this.screenParts = screenParts;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public static class MainListBean {
         /**
-         * moduleCode : ALLOTBED
-         * moduleDesc : 入院分床
+         * 功能分类子列表
          */
+        private List<MainSubListBean> mainSubList;
+        /**
+         * 功能分类名称
+         */
+        private String menuName;
 
-        private String moduleCode;
-        private String moduleDesc;
-        private String moduleUrl;
-
-        public String getModuleUrl() {
-            return moduleUrl == null ? "" : moduleUrl;
+        public List<MainSubListBean> getMainSubList() {
+            return mainSubList;
         }
 
-        public void setModuleUrl(String moduleUrl) {
-            this.moduleUrl = moduleUrl;
+        public void setMainSubList(List<MainSubListBean> mainSubList) {
+            this.mainSubList = mainSubList;
         }
 
-        public MainListBean() {
+        public String getMenuName() {
+            return menuName;
         }
 
-        public MainListBean(String moduleCode, String moduleDesc) {
-            this.moduleCode = moduleCode;
-            this.moduleDesc = moduleDesc;
+        public void setMenuName(String menuName) {
+            this.menuName = menuName;
         }
 
-        public MainListBean(String moduleCode, String moduleDesc, String moduleUrl) {
-            this.moduleCode = moduleCode;
-            this.moduleDesc = moduleDesc;
-            this.moduleUrl = moduleUrl;
-        }
+        public static class MainSubListBean {
+            /**
+             * 功能Code
+             */
+            private String moduleCode;
+            /**
+             * 功能描述
+             */
+            private String moduleDesc;
 
-        public String getModuleCode() {
-            return moduleCode;
-        }
+            private int imgResouseId;
 
-        public void setModuleCode(String moduleCode) {
-            this.moduleCode = moduleCode;
-        }
+            private String moduleUrl;
 
-        public String getModuleDesc() {
-            return moduleDesc;
-        }
+            private String fragmentClassName;
 
-        public void setModuleDesc(String moduleDesc) {
-            this.moduleDesc = moduleDesc;
+            private String menuName;
+
+            public MainSubListBean() {
+            }
+
+            public MainSubListBean(String moduleCode, String moduleDesc) {
+                this.moduleCode = moduleCode;
+                this.moduleDesc = moduleDesc;
+            }
+
+            public MainSubListBean(String moduleCode, String moduleDesc, String moduleUrl) {
+                this.moduleCode = moduleCode;
+                this.moduleDesc = moduleDesc;
+                this.moduleUrl = moduleUrl;
+            }
+
+            /**
+             * map2.put("desc","检验结果");
+             * map2.put("fragName", LabResultListFragment.class.getName());
+             * map2.put("fragicon",R.drawable.icon_lab);
+             * map2.put("singleModel","2");
+             *
+             * @return
+             */
+            public Map toMap() {
+                Map<String, Object> map = new HashMap<>();
+                map.put("code", moduleCode);
+                map.put("desc", moduleDesc);
+                map.put("fragicon", imgResouseId);
+                map.put("moduleUrl", moduleUrl);
+                map.put("fragName", fragmentClassName);
+                map.put("menuName", menuName);
+
+                return map;
+            }
+
+            public String getModuleCode() {
+                return moduleCode;
+            }
+
+            public void setModuleCode(String moduleCode) {
+                this.moduleCode = moduleCode;
+            }
+
+            public String getModuleDesc() {
+                return moduleDesc;
+            }
+
+            public void setModuleDesc(String moduleDesc) {
+                this.moduleDesc = moduleDesc;
+            }
+
+            public int getImgResouseId() {
+                return imgResouseId;
+            }
+
+            public void setImgResouseId(int imgResouseId) {
+                this.imgResouseId = imgResouseId;
+            }
+
+            public String getModuleUrl() {
+                return moduleUrl;
+            }
+
+            public void setModuleUrl(String moduleUrl) {
+                this.moduleUrl = moduleUrl;
+            }
+
+            public String getFragmentClassName() {
+                return fragmentClassName;
+            }
+
+            public void setFragmentClassName(String fragmentClassName) {
+                this.fragmentClassName = fragmentClassName;
+            }
+
+            public String getMenuName() {
+                return menuName;
+            }
+
+            public void setMenuName(String menuName) {
+                this.menuName = menuName;
+            }
         }
     }
 
     public static class ScreenPartsBean {
-
         /**
-         * keyCode : oecprDesc|长期!临时|Single
-         * keyType :
-         * keyValue :
+         * commonKey
          */
-
-        private String keyCode;
-        private String keyType;
-        private String keyValue;
+        private String commonKey;
+        /**
+         * 筛选单据范围
+         */
         private String danjuStr;
+        /**
+         * keyCode
+         */
+        private String keyCode;
+        /**
+         * keyDesc
+         */
         private String keyDesc;
-        private boolean commonKey;
+        /**
+         * keyType
+         */
+        private String keyType;
+        /**
+         * keyValue
+         */
+        private String keyValue;
+
         private List<CommBean> listBean;
 
         @Override
         public String toString() {
-            return "ScreenPartsBean{" +
-                    "keyCode='" + keyCode + '\'' +
-                    ", keyType='" + keyType + '\'' +
-                    ", keyValue='" + keyValue + '\'' +
-                    ", danjuStr='" + danjuStr + '\'' +
-                    ", keyDesc='" + keyDesc + '\'' +
-                    ", commonKey=" + commonKey +
-                    '}';
+            return "ScreenPartsBean{" + "keyCode='" + keyCode + '\'' + ", keyType='" + keyType + '\'' + ", keyValue='" + keyValue + '\'' + ", danjuStr='" + danjuStr + '\'' + ", keyDesc='" + keyDesc + '\'' + ", commonKey=" + commonKey + '}';
         }
 
-        public boolean isCommonKey() {
+        public String getCommonKey() {
             return commonKey;
         }
 
-        public void setCommonKey(boolean commonKey) {
+        public void setCommonKey(String commonKey) {
             this.commonKey = commonKey;
         }
 
         public String getDanjuStr() {
-            return danjuStr == null ? "" : danjuStr;
+            return danjuStr;
         }
 
         public void setDanjuStr(String danjuStr) {
             this.danjuStr = danjuStr;
-        }
-
-        public String getKeyDesc() {
-            return keyDesc == null ? "" : keyDesc;
-        }
-
-        public void setKeyDesc(String keyDesc) {
-            this.keyDesc = keyDesc;
-        }
-
-        public List<CommBean> getListBean() {
-            if (listBean == null) {
-                return new ArrayList<>();
-            }
-            return listBean;
-        }
-
-        public void setListBean(List<CommBean> listBean) {
-            this.listBean = listBean;
         }
 
         public String getKeyCode() {
@@ -231,6 +474,14 @@ public class MainConfigBean {
 
         public void setKeyCode(String keyCode) {
             this.keyCode = keyCode;
+        }
+
+        public String getKeyDesc() {
+            return keyDesc;
+        }
+
+        public void setKeyDesc(String keyDesc) {
+            this.keyDesc = keyDesc;
         }
 
         public String getKeyType() {
@@ -247,6 +498,14 @@ public class MainConfigBean {
 
         public void setKeyValue(String keyValue) {
             this.keyValue = keyValue;
+        }
+
+        public List<CommBean> getListBean() {
+            return listBean;
+        }
+
+        public void setListBean(List<CommBean> listBean) {
+            this.listBean = listBean;
         }
     }
 }

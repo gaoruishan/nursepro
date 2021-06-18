@@ -15,15 +15,18 @@ public class MainConfigUtil {
 
     /**
      * 获取标题
+     *
      * @param cls
      * @return
      */
     public static String getToolBarTitle(Class<?> cls) {
         MainConfigBean json = DataCache.getJson(MainConfigBean.class, SharedPreference.DATA_MAIN_CONFIG);
         if (json != null && json.getMainList() != null) {
-            for (MainConfigBean.MainListBean bean : json.getMainList()) {
-                if (cls.getSimpleName().contains(bean.getModuleCode())) {
-                    return bean.getModuleDesc();
+            for (int i = 0; i < json.getMainList().size(); i++) {
+                for (MainConfigBean.MainListBean.MainSubListBean bean : json.getMainList().get(i).getMainSubList()) {
+                    if (cls.getSimpleName().contains(bean.getModuleCode())) {
+                        return bean.getModuleDesc();
+                    }
                 }
             }
         }

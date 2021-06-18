@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,11 +18,8 @@ import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.utils.DataCache;
 import com.base.commlibs.utils.SchDateTimeUtil;
-import com.base.commlibs.view.WebActivity;
-import com.base.commlibs.wsutils.BaseWebServiceUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.workareaadapter.WorkAreaAdapter;
 import com.dhcc.nursepro.workarea.workareaapi.WorkareaApiManager;
@@ -32,6 +29,7 @@ import com.dhcc.nursepro.workarea.workareautils.WorkareaOrdExeUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -40,10 +38,10 @@ import java.util.Objects;
  * 主页
  */
 public class WorkareaFragment extends BaseFragment {
-    private RecyclerView recConfig;
+    private RecyclerView recyWorkArea;
     private WorkAreaAdapter workAreaAdapter;
     private WorkareaMainConfig workareaMainConfig = new WorkareaMainConfig();
-    private ArrayList listMainConfig = new ArrayList();
+    private List<MainConfigBean.MainListBean> listMainConfig = new ArrayList();
     private WorkAreaReceiver workAreaReceiver = new WorkAreaReceiver();
     private IntentFilter workAreaFilter = new IntentFilter();
     private SPUtils spUtils = SPUtils.getInstance();
@@ -65,37 +63,43 @@ public class WorkareaFragment extends BaseFragment {
 
 
         initView(view);
+        initAdapter();
         initData();
         workareaOrdExeUtil = new WorkareaOrdExeUtil(getActivity());
     }
 
+    private void initAdapter() {
+        workAreaAdapter = new WorkAreaAdapter(new ArrayList<>());
+        recyWorkArea.setAdapter(workAreaAdapter);
+    }
+
     private void initView(View view) {
-        recConfig = view.findViewById(R.id.recy_workarea);
-        recConfig.setHasFixedSize(true);
-        recConfig.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-        workAreaAdapter = new WorkAreaAdapter(new ArrayList<HashMap>());
-        recConfig.setAdapter(workAreaAdapter);
-        workAreaAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                try {
-                    Map map = (Map) adapter.getData().get(position);
-                    //兼容web
-                    if (map.get("fragUrl").toString().contains(".html")) {
-                        WebActivity.start(mActivity, BaseWebServiceUtils.getServiceUrl(map.get("fragUrl").toString()));
-                        return;
-                    }
-                    if (map.get("fragName")==null){
-                        showToast("该功能暂未开发");
-                    }else {
-                        Class<? extends BaseFragment> OrderExecuteFragmentClass = (Class<? extends BaseFragment>) Class.forName(map.get("fragName").toString());
-                        startFragment(OrderExecuteFragmentClass);
-                    }
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        recyWorkArea = view.findViewById(R.id.recy_workarea);
+        recyWorkArea.setHasFixedSize(true);
+        recyWorkArea.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        workAreaAdapter = new WorkAreaAdapter(new ArrayList<HashMap>());
+//        recConfig.setAdapter(workAreaAdapter);
+//        workAreaAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+//                try {
+//                    Map map = (Map) adapter.getData().get(position);
+//                    //兼容web
+//                    if (map.get("fragUrl").toString().contains(".html")) {
+//                        WebActivity.start(mActivity, BaseWebServiceUtils.getServiceUrl(map.get("fragUrl").toString()));
+//                        return;
+//                    }
+//                    if (map.get("fragName")==null){
+//                        showToast("该功能暂未开发");
+//                    }else {
+//                        Class<? extends BaseFragment> OrderExecuteFragmentClass = (Class<? extends BaseFragment>) Class.forName(map.get("fragName").toString());
+//                        startFragment(OrderExecuteFragmentClass);
+//                    }
+//                } catch (ClassNotFoundException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
     }
 
     private void initData() {
@@ -113,7 +117,13 @@ public class WorkareaFragment extends BaseFragment {
                         spUtils.put(SharedPreference.CURDATETIME, mainConfigBean.getCurDateTime());
                     }
                 }
-                SharedPreference.FRAGMENTARY = new ArrayList();
+                if (SharedPreference.FRAGMENTARY == null) {
+                    SharedPreference.FRAGMENTARY = new ArrayList();
+                } else {
+                    SharedPreference.FRAGMENTARY.clear();
+                }
+                MainConfigBean.MainListBean.MainSubListBean mainSubListBean = new MainConfigBean.MainListBean.MainSubListBean();
+
                 Map map = new HashMap();
                 map.put("code","Main");
                 map.put("desc","主页");
