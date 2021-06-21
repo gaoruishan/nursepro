@@ -17,7 +17,7 @@
         android:layout_alignParentEnd="true"
         android:paddingStart="@dimen/dp_20"
         android:paddingBottom="@dimen/dp_5"
-        android:src="@drawable/dialog_cancle"></ImageView>
+        android:src="@drawable/dialog_cancle"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -60,7 +60,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="right"
                         android:textColor="#ff4a4a4a"
-                        android:textSize="@dimen/sp_15"
+                        android:textSize="15sp"
                         tools:text="06床-苏患者-男-62岁-02791538" />
                 </LinearLayout>
 
@@ -88,7 +88,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="right"
                         android:textColor="#ff4a4a4a"
-                        android:textSize="@dimen/sp_15"
+                        android:textSize="15sp"
                         tools:text="06床-苏患者-男-62岁-02791538" />
                 </LinearLayout>
 
@@ -126,7 +126,7 @@
                             android:hint="请输入"
                             android:inputType="numberDecimal"
                             android:textColor="#4A4A4A"
-                            android:textSize="@dimen/sp_15" />
+                            android:textSize="15sp" />
 
                         <Spinner
                             android:id="@+id/sp_speedunit"
@@ -147,19 +147,21 @@
                     android:background="#F5FAFF"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:paddingVertical="@dimen/dp_7"
-                    android:paddingHorizontal="@dimen/dp_6">
+                    android:paddingHorizontal="@dimen/dp_6"
+                    android:paddingVertical="@dimen/dp_7">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="通道" />
+                        android:text="通道"
+                        android:textColor="#9B9B9B"
+                        android:textSize="@dimen/sp_12" />
 
                     <com.nex3z.flowlayout.FlowLayout
                         android:id="@+id/fl_way"
-                        android:layout_marginStart="@dimen/dp_16"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_16">
 
                     </com.nex3z.flowlayout.FlowLayout>
                 </LinearLayout>
@@ -216,7 +218,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:textColor="#4A4A4A"
-                            android:textSize="@dimen/sp_15"
+                            android:textSize="15sp"
                             android:textStyle="bold"
                             tools:text="0.9%氯化钠注射液T(100ml*塑瓶)" />
 
@@ -225,7 +227,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="#4A4A4A"
-                            android:textSize="@dimen/sp_15"
+                            android:textSize="15sp"
                             android:textStyle="bold"
                             tools:text="100ml" />
 
@@ -247,7 +249,7 @@
                         android:layout_marginBottom="@dimen/dp_16"
                         android:gravity="center"
                         android:textColor="#9B9B9B"
-                        android:textSize="@dimen/sp_13"
+                        android:textSize="13sp"
                         tools:text="2015-10-20  08:00  静脉滴注  40mg  严医生\n配液  护士01  2019-8-16 09:50:46\n核查  护士02  2019-8-16 09:51:09" />
 
                 </LinearLayout>
@@ -275,7 +277,7 @@
                         android:gravity="center"
                         android:text="执行"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/sp_17" />
+                        android:textSize="17sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -292,7 +294,7 @@
                         android:gravity="center"
                         android:text="取消"
                         android:textColor="@color/blue_dark"
-                        android:textSize="@dimen/sp_17" />
+                        android:textSize="17sp" />
                 </LinearLayout>
 
 
@@ -319,7 +321,7 @@
                         android:gravity="center"
                         android:text="巡视"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/sp_17" />
+                        android:textSize="17sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -336,7 +338,7 @@
                         android:gravity="center"
                         android:text="暂停"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/sp_17" />
+                        android:textSize="17sp" />
                 </LinearLayout>
 
 
@@ -363,7 +365,7 @@
                         android:gravity="center"
                         android:text="停止"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/sp_17" />
+                        android:textSize="17sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -380,7 +382,7 @@
                         android:gravity="center"
                         android:text="结束"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/sp_17" />
+                        android:textSize="17sp" />
                 </LinearLayout>
 
 

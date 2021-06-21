@@ -51,6 +51,7 @@ import com.dhcc.nursepro.workarea.vitalsign.VitalSignFragment;
 import com.dhcc.nursepro.workarea.vitalsign.VitalSignRecordFragment;
 import com.dhcc.nursepro.workarea.workareaapi.WorkareaApiManager;
 import com.dhcc.nursepro.workarea.workareabean.MainConfigBean;
+import com.github.mikephil.charting.renderer.BarChartRenderer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -286,6 +287,11 @@ public class WorkareaMainConfig {
                         Map<String, String> map = mainSubListBean.toMap();
                         map.put("singleModel", "1");
                         SharedPreference.FRAGMENTARY.add(map);
+                        break;
+                    case "ORDEREXECLAB":
+                        mainSubListBean.setFragmentClassName(OrderExecuteFragment.class.getName());
+                        mainSubListBean.setImgResouseId(R.drawable.icon_orderexcute);
+                        SharedPreference.FRAGMENTARY.add(mainSubListBean.toMap());
                         break;
                     case "CHECK":
                         mainSubListBean.setFragmentClassName(CheckPatsFragment.class.getName());

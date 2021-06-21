@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".workarea.orderexecutelab.OrderExecLabFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/icon_time_bottom" />
+
+            <TextView
+                android:id="@+id/tv_orderexeclab_startdatetime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/ordersearch_text_color"
+                android:textSize="12sp"
+                tools:text="2018-08-23 10:00" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="8dp"
+                android:text="至"
+                android:textColor="#62abff"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tv_orderexeclab_enddatetime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/ordersearch_text_color"
+                android:textSize="12sp"
+                tools:text="2018-08-23 10:00" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="#f6f6f6" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recy_orderexeclab_patorder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#f6f6f6">
+
+        </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
+
+    <!--弹框面罩-->
+    <View
+        android:id="@+id/mask"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#88000000"
+        android:gravity="bottom"
+        android:visibility="invisible" />
+</RelativeLayout>

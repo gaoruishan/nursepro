@@ -843,8 +843,8 @@ public class VitalSignBean {
 
         private String code;
         private String desc;
-        private List<PatInfoListBean> patInfoList = new ArrayList<PatInfoListBean>();
-        private List<LeftFilterBean> leftFilter= new ArrayList<LeftFilterBean>();
+        private List<PatInfoListBean> patInfoList = new ArrayList<>();
+        private List<LeftFilterBean> leftFilter= new ArrayList<>();
 
         public List<LeftFilterBean> getLeftFilter() {
             return leftFilter;

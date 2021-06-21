@@ -1,9 +1,7 @@
 package com.dhcc.nursepro.workarea.vitalsign.adapter;
 
-import android.graphics.Typeface;
 import android.support.annotation.Nullable;
 import android.view.Gravity;
-import android.view.View;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -13,11 +11,11 @@ import com.dhcc.nursepro.workarea.vitalsign.bean.VitalSignBean;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class VitalSignTypeAdapter extends BaseQuickAdapter<VitalSignBean.LeftFilterBean, BaseViewHolder> {
 
     private List<Integer> filterList = new ArrayList<>();
+
     public VitalSignTypeAdapter(@Nullable List<VitalSignBean.LeftFilterBean> data) {
         super(R.layout.item_vitalsign_type, data);
     }
@@ -32,11 +30,11 @@ public class VitalSignTypeAdapter extends BaseQuickAdapter<VitalSignBean.LeftFil
 
     @Override
     protected void convert(BaseViewHolder helper, VitalSignBean.LeftFilterBean item) {
-        helper.setText(R.id.tv_num,item.getTemNum() !=0? item.getTemNum()+"":"0");
-        if (item.getTemNum()==0){
-            helper.setVisible(R.id.tv_num,false);
-        }else {
-            helper.setVisible(R.id.tv_num,true);
+        helper.setText(R.id.tv_num, item.getTemNum() != 0 ? item.getTemNum() + "" : "0");
+        if (item.getTemNum() == 0) {
+            helper.setVisible(R.id.tv_num, false);
+        } else {
+            helper.setVisible(R.id.tv_num, true);
         }
 
 
@@ -89,7 +87,7 @@ public class VitalSignTypeAdapter extends BaseQuickAdapter<VitalSignBean.LeftFil
         }
     }
 
-    public void removeClick(int position){
+    public void removeClick(int position) {
         filterList.remove(position);
     }
 

@@ -3,13 +3,12 @@ package com.dhcc.nursepro.workarea.vitalsign.api;
 import android.util.Log;
 
 import com.blankj.utilcode.util.ObjectUtils;
-import com.dhcc.nursepro.workarea.vitalsign.VitalSignFragment;
+import com.dhcc.nursepro.workarea.vitalsign.bean.GetTempByPatListBean;
 import com.dhcc.nursepro.workarea.vitalsign.bean.VitalSignBean;
 import com.dhcc.nursepro.workarea.vitalsign.bean.VitalSignRecordBean;
 import com.dhcc.nursepro.workarea.vitalsign.bean.VitalSignSaveBean;
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,8 +21,8 @@ public class VitalSignApiManager {
      * @param date     日期时间点
      * @param callback
      */
-    public static void getVitalSignList(String date,String time, final VitalSignApiManager.GetVitalSignListCallback callback) {
-        VitalSignApiService.getVitalSignList(date,time, new VitalSignApiService.ServiceCallBack() {
+    public static void getVitalSignList(String date, String time, final VitalSignApiManager.GetVitalSignListCallback callback) {
+        VitalSignApiService.getVitalSignList(date, time, new VitalSignApiService.ServiceCallBack() {
 
             @Override
             public void onResult(String jsonStr) {
@@ -44,20 +43,20 @@ public class VitalSignApiManager {
                                 map = (Map<String, Object>) gson.fromJson(jsonStr, map.getClass());
                                 vitalSignBean.setMapAll(map);
                                 List patList = (List) map.get("patInfoList");
-                                for (int i = 0; i <patList.size() ; i++) {
+                                for (int i = 0; i < patList.size(); i++) {
                                     Map map1 = (Map) patList.get(i);
                                     String patEpi = (String) map1.get("episodeId");
                                     List list = (List) map1.get("needMeasureInfo");
                                     for (int j = 0; j < vitalSignBean.getPatInfoList().size(); j++) {
-                                        if (vitalSignBean.getPatInfoList().get(j).getEpisodeId().equals(patEpi)){
+                                        if (vitalSignBean.getPatInfoList().get(j).getEpisodeId().equals(patEpi)) {
                                             vitalSignBean.getPatInfoList().get(j).setPatMap(map1);
                                         }
                                     }
 
-                                    if (list.size()>0){
+                                    if (list.size() > 0) {
                                         Map map2 = (Map) list.get(0);
                                         for (int j = 0; j < vitalSignBean.getPatInfoList().size(); j++) {
-                                            if (vitalSignBean.getPatInfoList().get(j).getEpisodeId().equals(patEpi)){
+                                            if (vitalSignBean.getPatInfoList().get(j).getEpisodeId().equals(patEpi)) {
                                                 vitalSignBean.getPatInfoList().get(j).setNeedMeasureInfoMap(map2);
                                             }
                                         }
@@ -76,8 +75,8 @@ public class VitalSignApiManager {
 
                                     for (int j = 0; j < vitalSignBean.getPatInfoList().size(); j++) {
                                         String strCode = vitalSignBean.getTopFilter().get(i).getCode();
-                                        Map map1=vitalSignBean.getPatInfoList().get(j).getPatMap();
-                                        if (map1!=null&&map1.size()>0&&map1.get(strCode).equals("1")){
+                                        Map map1 = vitalSignBean.getPatInfoList().get(j).getPatMap();
+                                        if (map1 != null && map1.size() > 0 && map1.get(strCode).equals("1")) {
                                             VitalSignBean.PatInfoListBean patInfoListBean = new VitalSignBean.PatInfoListBean();
                                             patInfoListBean = vitalSignBean.getPatInfoList().get(j);
                                             vitalSignBean.getTopFilter().get(i).getPatInfoList().add(patInfoListBean);
@@ -86,14 +85,14 @@ public class VitalSignApiManager {
                                 }
 
                                 for (int i = 0; i < vitalSignBean.getTopFilter().size(); i++) {
-                                    for (int j = 0; j <vitalSignBean.getTopFilter().get(i).getPatInfoList().size() ; j++) {
-                                        for (int k = 0; k <vitalSignBean.getTopFilter().get(i).getLeftFilter().size() ; k++) {
+                                    for (int j = 0; j < vitalSignBean.getTopFilter().get(i).getPatInfoList().size(); j++) {
+                                        for (int k = 0; k < vitalSignBean.getTopFilter().get(i).getLeftFilter().size(); k++) {
                                             String strCode = vitalSignBean.getTopFilter().get(i).getLeftFilter().get(k).getCode();
                                             Map map1 = vitalSignBean.getTopFilter().get(i).getPatInfoList().get(j).getNeedMeasureInfoMap();
-                                            if (map1!=null&&map1.size()>0){
+                                            if (map1 != null && map1.size() > 0) {
                                                 String strValue = vitalSignBean.getTopFilter().get(i).getPatInfoList().get(j).getNeedMeasureInfoMap().get(strCode).toString();
-                                                if (strValue.equals("1")){
-                                                    vitalSignBean.getTopFilter().get(i).getLeftFilter().get(k).setTemNum(vitalSignBean.getTopFilter().get(i).getLeftFilter().get(k).getTemNum()+1);
+                                                if (strValue.equals("1")) {
+                                                    vitalSignBean.getTopFilter().get(i).getLeftFilter().get(k).setTemNum(vitalSignBean.getTopFilter().get(i).getLeftFilter().get(k).getTemNum() + 1);
                                                 }
                                             }
                                         }
@@ -150,7 +149,7 @@ public class VitalSignApiManager {
                         }
                     } catch (Exception e) {
                         callback.onFail("-2", "网络错误，数据解析失败");
-                        Log.v("111111",e.toString());
+                        Log.v("111111", e.toString());
                     }
                 }
             }
@@ -236,6 +235,48 @@ public class VitalSignApiManager {
         });
     }
 
+    /**
+     * 获取生命体征多人录入病人列表及配置项
+     *
+     * @param date     日期时间点
+     * @param callback
+     */
+    public static void getTempByPatList(String date, String time, final VitalSignApiManager.GetTempByPatListCallback callback) {
+        VitalSignApiService.getTempByPatList(date, time, new VitalSignApiService.ServiceCallBack() {
+
+            @Override
+            public void onResult(String jsonStr) {
+                Gson gson = new Gson();
+
+                if (jsonStr.isEmpty()) {
+                    callback.onFail("-1", "网络错误，请求数据为空");
+                } else {
+                    try {
+                        GetTempByPatListBean getTempByPatListBean = gson.fromJson(jsonStr, GetTempByPatListBean.class);
+
+                        if (ObjectUtils.isEmpty(getTempByPatListBean)) {
+                            callback.onFail("-3", "网络错误，数据解析为空");
+                        } else {
+                            if ("0".equals(getTempByPatListBean.getStatus())) {
+                                if (callback != null) {
+                                    callback.onSuccess(getTempByPatListBean);
+                                }
+                            } else {
+                                if (callback != null) {
+                                    callback.onFail(getTempByPatListBean.getMsgcode(), getTempByPatListBean.getMsg());
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        callback.onFail("-2", "网络错误，数据解析失败");
+                    }
+                }
+
+
+            }
+        });
+    }
+
     public interface CommonCallBack {
         void onFail(String code, String msg);
     }
@@ -243,6 +284,10 @@ public class VitalSignApiManager {
     public interface GetVitalSignListCallback extends VitalSignApiManager.CommonCallBack {
         //void onSuccess(VitalSignBean vitalSignBean);
         void onSuccess(VitalSignBean vitalSignBean);
+    }
+
+    public interface GetTempByPatListCallback extends VitalSignApiManager.CommonCallBack {
+        void onSuccess(GetTempByPatListBean getTempByPatListBean);
     }
 
     public interface GetVitalSignItemCallback extends VitalSignApiManager.CommonCallBack {

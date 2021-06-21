@@ -16,6 +16,7 @@
     <!--生命体征-->
     <string name="title_vitalsign">生命体征</string>
     <string name="title_vitalsign_record">体征录入</string>
+    <string name="title_vitalsign_multirecord">多人体征录入</string>
     <string name="title_vitalsigndetail">体征记录</string>
     <string name="title_vitalsigntempimg">体温单预览</string>
     <string name="title_vitalsignchartsdetail">体征图表</string>
@@ -27,6 +28,8 @@
     <string name="title_ordersearchbedselect">选择床位</string>
     <!--医嘱执行-->
     <string name="title_orderexecute">医嘱执行</string>
+    <!--医嘱执行-->
+    <string name="title_orderexeclab">标本采集</string>
     <!--事件管理-->
     <string name="title_patevents">事件登记</string>
     <!--新建事件-->

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="@dimen/dp_320"
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/dp_20"
-    android:layout_marginEnd="@dimen/dp_20"
     android:layout_marginTop="@dimen/dp_50"
+    android:layout_marginEnd="@dimen/dp_20"
     android:layout_marginBottom="@dimen/dp_50"
     android:background="@drawable/bg_dialog"
     android:orientation="vertical"
@@ -14,13 +13,16 @@
     android:paddingTop="@dimen/dp_20"
     android:paddingEnd="@dimen/dp_15"
     android:paddingBottom="@dimen/dp_30">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -40,16 +42,18 @@
                     android:background="#F5FAFF"
                     android:gravity="center"
                     android:textColor="#4A4A4A"
-                    android:textSize="@dimen/sp_15"
+                    android:textSize="15sp"
                     android:textStyle="bold"
                     tools:text="06床-苏患者-男-62岁-02791538" />
+
                 <LinearLayout
                     android:id="@+id/ll_msg"
-                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_10"
                     android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:visibility="gone">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -64,7 +68,7 @@
                         android:background="#F5FAFF"
                         android:gravity="center"
                         android:textColor="#4A4A4A"
-                        android:textSize="@dimen/sp_15"
+                        android:textSize="15sp"
                         android:textStyle="bold"
                         tools:text="06床-苏患者-男-62岁-02791538" />
 
@@ -90,9 +94,10 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
+                        android:layout_marginTop="@dimen/dp_16"
                         android:gravity="center_vertical"
-                        android:layout_marginTop="@dimen/dp_16">
+                        android:visibility="gone">
+
                         <TextView
                             android:id="@+id/tv_popup_orderinfo"
                             android:layout_width="@dimen/dp_0"
@@ -160,7 +165,7 @@
                         android:paddingBottom="@dimen/dp_8"
                         android:text="执行"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/sp_17" />
+                        android:textSize="17sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -180,7 +185,7 @@
                         android:paddingBottom="@dimen/dp_8"
                         android:text="取消"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/sp_17" />
+                        android:textSize="17sp" />
                 </LinearLayout>
 
 

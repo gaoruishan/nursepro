@@ -2,7 +2,6 @@ package com.dhcc.nursepro.workarea.vitalsign;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,7 +23,6 @@ import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.utils.DateUtils;
 import com.dhcc.nursepro.workarea.allotbed.api.AllotBedApiManager;
 import com.dhcc.nursepro.workarea.allotbed.bean.GetScanPatsBean;
 import com.dhcc.nursepro.workarea.patevents.PatEventsFragment;
@@ -32,17 +30,17 @@ import com.dhcc.nursepro.workarea.vitalsign.adapter.VitalSignPatientAdapter;
 import com.dhcc.nursepro.workarea.vitalsign.adapter.VitalSignTypeAdapter;
 import com.dhcc.nursepro.workarea.vitalsign.api.VitalSignApiManager;
 import com.dhcc.nursepro.workarea.vitalsign.bean.VitalSignBean;
+import com.dhcc.nursepro.workarea.vitalsign.bean.VitalSignPatBean;
 import com.dhcc.nursepro.workarea.vitalsigndetail.VitalSignChartsDetailFragment;
 import com.dhcc.nursepro.workarea.vitalsigndetail.VitalSignDetailFragment;
-import com.facebook.drawee.backends.pipeline.Fresco;
-import com.facebook.imagepipeline.core.ImagePipeline;
 import com.google.gson.Gson;
 import com.jzxiang.pickerview.TimePickerDialog;
+import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
-import com.stfalcon.frescoimageviewer.ImageViewer;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,7 +52,7 @@ import java.util.Map;
  * Date: 2020/8/6
  * Time:14:02
  */
-public class VitalSignFragment extends BaseFragment implements View.OnClickListener {
+public class VitalSignFragment extends BaseFragment implements View.OnClickListener, OnDateSetListener {
 
     private TextView tvVitalSignChooseTime;
     private TextView tvResetting;
@@ -63,12 +61,14 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
     private LinearLayout llTopFilter;
 
     private VitalSignPatientAdapter patientAdapter;
-    private VitalSignTypeAdapter typeAdapter = new VitalSignTypeAdapter(new ArrayList<>());
+    private VitalSignTypeAdapter typeAdapter;
 
     private List<VitalSignBean.LeftFilterBean> listLeftFilter = new ArrayList();
     private List<VitalSignBean.PatInfoListBean> listPatInfo = new ArrayList<>();
     private List<TextView> textViewList = new ArrayList<>();
     private List timeFilterList = new ArrayList();
+
+    private List<Map> displayList = new ArrayList<>();
 
     private SPUtils spUtils = SPUtils.getInstance();
     private String timeFilterStr = "";
@@ -85,6 +85,24 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
         setToolbarType(BaseActivity.ToolbarType.TOP);
         setToolbarBottomLineVisibility(true);
         setToolbarCenterTitle(getString(R.string.title_vitalsign), 0xffffffff, 17);
+
+        View viewright = View.inflate(getActivity(), R.layout.view_fratoolbar_right, null);
+        TextView textView = viewright.findViewById(R.id.tv_fratoobar_right);
+        textView.setTextSize(15);
+        textView.setText("   多人录入   ");
+        textView.setTextColor(getResources().getColor(R.color.white));
+        viewright.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("time", timeFilterStr);
+                bundle.putString("date", dateFilterStr);
+                startFragment(VitalSignMultiRecordFragment.class, bundle);
+            }
+        });
+
+        setToolbarRightCustomView(viewright);
+
         initView(view);
         initAdapter();
     }
@@ -116,19 +134,34 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
 
-                Map patientInfo = patientAdapter.getData().get(position).getPatMap();
-                //将列表数据存储在sp，避免Intent传输数据过大报错
-                Gson gson = new Gson();
-                String displayListJsonStr = gson.toJson(patientAdapter.getData());
-                spUtils.put(SharedPreference.DISPLAYLIST, displayListJsonStr);
+                Map patientInfo = displayList.get(position);
+
+
                 if (view.getId() == R.id.tv_vitalsign_vitalsign_record) {
                     //体征录入
+
+                    List<VitalSignPatBean> patList = new ArrayList<>();
+                    for (int i = 0; i < displayList.size(); i++) {
+                        Map displayItem = displayList.get(i);
+                        VitalSignPatBean patBean = new VitalSignPatBean(
+                                displayItem.get("bedCode").toString(),
+                                displayItem.get("name").toString(),
+                                displayItem.get("regNo").toString(),
+                                displayItem.get("episodeId").toString());
+                        patList.add(patBean);
+                    }
+
+                    //将列表数据存储在sp，避免Intent传输数据过大报错
+                    Gson gson = new Gson();
+                    String patListJsonStr = gson.toJson(patList);
+                    spUtils.put(SharedPreference.DISPLAYLIST, patListJsonStr);
+
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable("info", (Serializable) patientInfo);
                     bundle.putString("time", timeFilterStr);
                     bundle.putString("date", dateFilterStr);
                     bundle.putInt("index", position);
                     bundle.putSerializable("timeList", (Serializable) timeFilterList);
+
                     startFragment(VitalSignRecordFragment.class, bundle);
 
                 } else if (view.getId() == R.id.tv_vitalsign_event_record) {
@@ -146,7 +179,6 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                     String episodeId = (String) patientInfo.get("episodeId");
                     Bundle bundle = new Bundle();
                     bundle.putString("episodeId", episodeId);
-                    bundle.putString("patInfo", patientAdapter.getItem(position).getBedCode() + " " + patientAdapter.getItem(position).getName());
                     bundle.putInt("index", position);
                     startFragment(VitalSignChartsDetailFragment.class, bundle);
 
@@ -155,7 +187,6 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                     String episodeId = (String) patientInfo.get("episodeId");
                     Bundle bundle = new Bundle();
                     bundle.putString("episodeId", episodeId);
-                    bundle.putString("patInfo", patientAdapter.getItem(position).getBedCode() + " " + patientAdapter.getItem(position).getName());
                     bundle.putInt("index", position);
                     startFragment(VitalSignDetailFragment.class, bundle);
 
@@ -163,6 +194,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
             }
         });
 
+        typeAdapter = new VitalSignTypeAdapter(new ArrayList<>());
         typeAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -320,6 +352,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
 
     //扫码直接进入
     private void initScanMsg(String regNo) {
+
         String wardId = spUtils.getString(SharedPreference.WARDID);
         HashMap<String, String> mapmsg = new HashMap<String, String>();
         mapmsg.put("regNo", regNo);
@@ -328,22 +361,33 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
         AllotBedApiManager.getUserMsg(mapmsg, NurseAPI.getPatWristInfo, new AllotBedApiManager.GetUserMsgCallBack() {
             @Override
             public void onSuccess(GetScanPatsBean getScanPatsBean) {
-                for (int i = 0; i < vitalSignBeanAll.getPatInfoList().size(); i++) {
-                    if ((getScanPatsBean.getPatInfo().getRegNo()).equals(vitalSignBeanAll.getPatInfoList().get(i).getRegNo())) {
 
-                        Map patientInfo = vitalSignBeanAll.getPatInfoList().get(i).getPatMap();
+                for (int i = 0; i < displayList.size(); i++) {
+                    if ((getScanPatsBean.getPatInfo().getRegNo()).equals(displayList.get(i).get("regNo"))) {
+
+                        List<VitalSignPatBean> patList = new ArrayList<>();
+                        for (int j = 0; j < displayList.size(); j++) {
+                            Map displayItem = displayList.get(j);
+                            VitalSignPatBean patBean = new VitalSignPatBean(
+                                    displayItem.get("bedCode").toString(),
+                                    displayItem.get("name").toString(),
+                                    displayItem.get("regNo").toString(),
+                                    displayItem.get("episodeId").toString());
+                            patList.add(patBean);
+                        }
+
                         //将列表数据存储在sp，避免Intent传输数据过大报错
                         Gson gson = new Gson();
-                        String displayListJsonStr = gson.toJson(vitalSignBeanAll.getPatInfoList());
-                        spUtils.put(SharedPreference.DISPLAYLIST, displayListJsonStr);
+                        String patListJsonStr = gson.toJson(patList);
+                        spUtils.put(SharedPreference.DISPLAYLIST, patListJsonStr);
 
                         //体征录入
                         Bundle bundle = new Bundle();
-                        bundle.putSerializable("info", (Serializable) patientInfo);
                         bundle.putString("time", timeFilterStr);
                         bundle.putString("date", dateFilterStr);
                         bundle.putInt("index", i);
                         bundle.putSerializable("timeList", (Serializable) timeFilterList);
+
                         startFragment(VitalSignRecordFragment.class, bundle);
                     }
                 }
@@ -364,30 +408,77 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                 topFilter();
                 break;
             case R.id.tv_vitalsign_time:
-                Long currentTimeMillis = TimeUtils.string2Millis(dateFilterStr + " " + timeFilterStr + ":00");
-                DateUtils.chooseDateTime(currentTimeMillis, getContext(), getFragmentManager(), new OnDateSetListener() {
-                    @Override
-                    public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
-                        String date = TimeUtils.millis2String(millseconds).substring(0, 10);
-                        String time = TimeUtils.millis2String(millseconds).substring(11, 16);
-
-                        if (!date.equals(dateFilterStr) || !time.equals(timeFilterStr)) {
-                            //日期发生改变，需重新请求数据
-                            Boolean b1 = !date.equals(dateFilterStr);
-                            Boolean b2 = !time.equals(timeFilterStr);
-                            dateFilterStr = date;
-                            timeFilterStr = time;
-                            ifLoading = true;
-                            asyncInitData();
-                        }
-
-                    }
-                });
-
+                chooseTime(TimeUtils.string2Millis(dateFilterStr + " " + timeFilterStr + ":00"));
                 break;
             default:
                 break;
         }
+    }
+
+    private void chooseTime(long currentTimeMillis) {
+        long tenYears = 10L * 365 * 1000 * 60 * 60 * 24L;
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+
+        TimePickerDialog mDialogAll = new TimePickerDialog.Builder()
+                .setCallBack(this)
+                .setCancelStringId("取消")
+                .setSureStringId("确认")
+                .setTitleStringId("时间")
+                .setYearText("年")
+                .setMonthText("月")
+                .setDayText("日")
+                .setHourText("时")
+                .setMinuteText("分")
+                .setCyclic(false)
+                .setMinMillseconds(currentTimeMillis - tenYears)
+                .setMaxMillseconds(currentTimeMillis + tenYears)
+                .setCurrentMillseconds(currentTimeMillis)
+                .setThemeColor(getResources().getColor(R.color.colorPrimary))
+                .setType(Type.ALL)
+                .setWheelItemTextNormalColor(getResources().getColor(R.color.timetimepicker_default_text_color))
+                .setWheelItemTextSelectorColor(getResources().getColor(R.color.colorPrimaryDark))
+                .setWheelItemTextSize(12)
+                .build();
+
+//        mDialogAll.settype(1);
+//        //取时间前两个字符转为int（02，06...）
+//
+//        List<String> timeList = new ArrayList();
+//        for (int i = 0; i < timeFilterList.size(); i++) {
+//            String str = (String) ((Map) timeFilterList.get(i)).get("time");
+//            timeList.add(str);
+//        }
+//        mDialogAll.setmHourMinute(timeList);
+
+        mDialogAll.show(getFragmentManager(), "ALL");
+
+    }
+
+    @Override
+    public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
+
+        String date = TimeUtils.millis2String(millseconds).substring(0, 10);
+        String time = TimeUtils.millis2String(millseconds).substring(11, 16);
+
+        if (!date.equals(dateFilterStr) || !time.equals(timeFilterStr)) {
+            //日期发生改变，需重新请求数据
+            Boolean b1 = !date.equals(dateFilterStr);
+            Boolean b2 = !time.equals(timeFilterStr);
+            dateFilterStr = date;
+            timeFilterStr = time;
+            ifLoading = true;
+            asyncInitData();
+        }
+
+        //        if (!time.equals(timeFilterStr)) {
+        //            timeFilterStr = time;
+        //            updatePatientData();
+        //        }
+
+        //        tvVitalSignChooseTime.setText(TimeUtils.millis2String(millseconds).substring(0, 16));
     }
 
     //体温单图片
