@@ -52,14 +52,14 @@ public class BaseWebServiceUtils {
     public static final String HTTPS = "https";
 
     // 门诊输液新接口
-//    public static String NUR_OPPDA_SERVICE = getOPPDAService();
+    public static final String NUR_OPPDA_SERVICE = "/Nur.OPPDA.WebService.cls";
     public static String getOPPDAService() {
-        return SPStaticUtils.getString(SharedPreference.oppdaService, "/Nur.OPPDA.WebService.cls");
+        return SPStaticUtils.getString(SharedPreference.oppdaService, NUR_OPPDA_SERVICE);
     }
     // 护士站接口
-//    public static String NUR_PDA_SERVICE = getPDAService();
+    public static final String NUR_PDA_SERVICE = "/Nur.PDA.WebService.cls";
     public static String getPDAService() {
-        return SPStaticUtils.getString(SharedPreference.pdaService, "/Nur.PDA.WebService.cls");
+        return SPStaticUtils.getString(SharedPreference.pdaService, NUR_PDA_SERVICE);
     }
     public static String userNamestr = SPStaticUtils.getString(SharedPreference.webServiceUserName, "dhwebservice");
     public static String passWordstr = SPStaticUtils.getString(SharedPreference.webServicePassword, "dhwebservice");
@@ -251,7 +251,7 @@ public class BaseWebServiceUtils {
         final SoapSerializationEnvelope soapEnvelope = new SoapSerializationEnvelope(
                 SoapEnvelope.VER11);
         soapEnvelope.bodyOut = soapObject;
-        LogUtils.e(url + "\n请求方法: " + methodNameTest + "    "+userNamestr+"    "+passWordstr);
+        LogUtils.e(url + "\n请求方法: " + methodNameTest + "    "+SPStaticUtils.getString(SharedPreference.USERID)+ "    "+userNamestr+"    "+passWordstr);
         LogUtils.e(soapObject.toString());
 
 

@@ -81,7 +81,7 @@ public class LocalTestManager {
 //
 //        l.add("getIFOrdListByBarCode");
 //        l.add("GetBarcodeFlag");
-//        l.add("GetXmlValues");
+        l.add("GetXmlValues");
         l.add("getInfusionOrdList");
 
     }

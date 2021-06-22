@@ -26,6 +26,7 @@ import java.util.List;
 public class OrderExecutePatientOrderAdapter extends BaseQuickAdapter<List<OrderExecuteBean.OrdersBean.PatOrdsBean>, BaseViewHolder> {
     private int size;
     private List<OrderExecuteBean.DetailColumsBean> detailColums;
+    private boolean hideSelect;
 
     public OrderExecutePatientOrderAdapter(@Nullable List<List<OrderExecuteBean.OrdersBean.PatOrdsBean>> data, int size, List<OrderExecuteBean.DetailColumsBean> detailColums) {
         super(R.layout.item_oepatient_order, data);
@@ -52,6 +53,9 @@ public class OrderExecutePatientOrderAdapter extends BaseQuickAdapter<List<Order
     public void setDetailColums(List<OrderExecuteBean.DetailColumsBean> detailColums) {
         this.detailColums = detailColums;
     }
+    public void setHideSelect(boolean hideSelect) {
+        this.hideSelect = hideSelect;
+    }
 
     @Override
     protected void convert(BaseViewHolder helper, List<OrderExecuteBean.OrdersBean.PatOrdsBean> item) {
@@ -62,6 +66,10 @@ public class OrderExecutePatientOrderAdapter extends BaseQuickAdapter<List<Order
             topview.setVisibility(View.GONE);
         }
         LinearLayout lloepatOrderSelect = helper.getView(R.id.ll_oepat_orderselect);
+        lloepatOrderSelect.setVisibility(View.VISIBLE);
+        if (hideSelect) {
+            lloepatOrderSelect.setVisibility(View.INVISIBLE);
+        }
         lloepatOrderSelect.setSelected(false);
         if (item.size() > 0) {
             OrderExecuteBean.OrdersBean.PatOrdsBean patOrdsBean = item.get(0);

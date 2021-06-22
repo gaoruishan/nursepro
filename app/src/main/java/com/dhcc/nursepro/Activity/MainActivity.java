@@ -29,6 +29,7 @@ import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -48,9 +49,12 @@ import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.utils.AppUtil;
 import com.base.commlibs.utils.UserUtil;
 import com.base.commlibs.voiceUtils.VoiceWebDataUtil;
+import com.base.commlibs.wsutils.BaseWebServiceUtils;
 import com.blankj.utilcode.constant.PermissionConstants;
 import com.blankj.utilcode.util.PermissionUtils;
+import com.blankj.utilcode.util.SPStaticUtils;
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.VibrateUtils;
 import com.dhcc.nursepro.Activity.update.BaseDialog;
 import com.dhcc.nursepro.Activity.update.api.UpdateApiManager;
@@ -128,7 +132,20 @@ public class MainActivity extends BaseCommActivity implements RadioButton.OnChec
         UserUtil.createMainActivity();
 
     }
-
+    /**
+     * 测试-切换服务器
+     * @param view
+     */
+    public void testServer(View view) {
+        String pdaService = BaseWebServiceUtils.getPDAService();
+        if (pdaService.contains(BaseWebServiceUtils.NUR_MNIS_SERVICE)) {
+            pdaService = BaseWebServiceUtils.NUR_PDA_SERVICE;
+        }else {
+            pdaService = BaseWebServiceUtils.NUR_MNIS_SERVICE;
+        }
+        SPStaticUtils.put(SharedPreference.pdaService,pdaService);
+        ToastUtils.showShort("切换服务器: "+pdaService);
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
