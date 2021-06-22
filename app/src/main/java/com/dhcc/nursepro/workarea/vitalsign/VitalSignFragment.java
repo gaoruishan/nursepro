@@ -68,7 +68,6 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
     private List<TextView> textViewList = new ArrayList<>();
     private List timeFilterList = new ArrayList();
 
-    private List<Map> displayList = new ArrayList<>();
 
     private SPUtils spUtils = SPUtils.getInstance();
     private String timeFilterStr = "";
@@ -134,20 +133,15 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
 
-                Map patientInfo = displayList.get(position);
-
+                Map patientInfo = ((VitalSignBean.PatInfoListBean) adapter.getItem(position)).getPatMap();
 
                 if (view.getId() == R.id.tv_vitalsign_vitalsign_record) {
                     //体征录入
 
                     List<VitalSignPatBean> patList = new ArrayList<>();
-                    for (int i = 0; i < displayList.size(); i++) {
-                        Map displayItem = displayList.get(i);
-                        VitalSignPatBean patBean = new VitalSignPatBean(
-                                displayItem.get("bedCode").toString(),
-                                displayItem.get("name").toString(),
-                                displayItem.get("regNo").toString(),
-                                displayItem.get("episodeId").toString());
+                    for (int i = 0; i < listPatInfo.size(); i++) {
+                        Map listPatItem = listPatInfo.get(i).getPatMap();
+                        VitalSignPatBean patBean = new VitalSignPatBean(listPatItem.get("bedCode").toString(), listPatItem.get("name").toString(), listPatItem.get("regNo").toString(), listPatItem.get("episodeId").toString());
                         patList.add(patBean);
                     }
 
@@ -362,17 +356,13 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
             @Override
             public void onSuccess(GetScanPatsBean getScanPatsBean) {
 
-                for (int i = 0; i < displayList.size(); i++) {
-                    if ((getScanPatsBean.getPatInfo().getRegNo()).equals(displayList.get(i).get("regNo"))) {
+                for (int i = 0; i < listPatInfo.size(); i++) {
+                    if ((getScanPatsBean.getPatInfo().getRegNo()).equals(listPatInfo.get(i).getPatMap().get("regNo"))) {
 
                         List<VitalSignPatBean> patList = new ArrayList<>();
-                        for (int j = 0; j < displayList.size(); j++) {
-                            Map displayItem = displayList.get(j);
-                            VitalSignPatBean patBean = new VitalSignPatBean(
-                                    displayItem.get("bedCode").toString(),
-                                    displayItem.get("name").toString(),
-                                    displayItem.get("regNo").toString(),
-                                    displayItem.get("episodeId").toString());
+                        for (int j = 0; j < listPatInfo.size(); j++) {
+                            Map listPatItem = listPatInfo.get(j).getPatMap();
+                            VitalSignPatBean patBean = new VitalSignPatBean(listPatItem.get("bedCode").toString(), listPatItem.get("name").toString(), listPatItem.get("regNo").toString(), listPatItem.get("episodeId").toString());
                             patList.add(patBean);
                         }
 
@@ -422,26 +412,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
 
-        TimePickerDialog mDialogAll = new TimePickerDialog.Builder()
-                .setCallBack(this)
-                .setCancelStringId("取消")
-                .setSureStringId("确认")
-                .setTitleStringId("时间")
-                .setYearText("年")
-                .setMonthText("月")
-                .setDayText("日")
-                .setHourText("时")
-                .setMinuteText("分")
-                .setCyclic(false)
-                .setMinMillseconds(currentTimeMillis - tenYears)
-                .setMaxMillseconds(currentTimeMillis + tenYears)
-                .setCurrentMillseconds(currentTimeMillis)
-                .setThemeColor(getResources().getColor(R.color.colorPrimary))
-                .setType(Type.ALL)
-                .setWheelItemTextNormalColor(getResources().getColor(R.color.timetimepicker_default_text_color))
-                .setWheelItemTextSelectorColor(getResources().getColor(R.color.colorPrimaryDark))
-                .setWheelItemTextSize(12)
-                .build();
+        TimePickerDialog mDialogAll = new TimePickerDialog.Builder().setCallBack(this).setCancelStringId("取消").setSureStringId("确认").setTitleStringId("时间").setYearText("年").setMonthText("月").setDayText("日").setHourText("时").setMinuteText("分").setCyclic(false).setMinMillseconds(currentTimeMillis - tenYears).setMaxMillseconds(currentTimeMillis + tenYears).setCurrentMillseconds(currentTimeMillis).setThemeColor(getResources().getColor(R.color.colorPrimary)).setType(Type.ALL).setWheelItemTextNormalColor(getResources().getColor(R.color.timetimepicker_default_text_color)).setWheelItemTextSelectorColor(getResources().getColor(R.color.colorPrimaryDark)).setWheelItemTextSize(12).build();
 
 //        mDialogAll.settype(1);
 //        //取时间前两个字符转为int（02，06...）

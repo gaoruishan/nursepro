@@ -1,8 +1,6 @@
 package com.dhcc.nursepro.workarea.vitalsign.adapter;
 
-import android.annotation.SuppressLint;
 import android.support.annotation.Nullable;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -36,7 +34,7 @@ public class VitalSignPatientAdapter extends BaseQuickAdapter<VitalSignBean.PatI
         helper.addOnClickListener(R.id.tv_vitalsign_vitalsign_record);
         TextView tvRecord = helper.getView(R.id.tv_vitalsign_vitalsign_record);
         tvRecord.setTextColor(mContext.getResources().getColor(R.color.text_color_gray));
-        for (int j = 0; j < ((List) item.getNeedMeasureInfo()).size(); j++) {
+        for (int j = 0; j < item.getNeedMeasureInfo().size(); j++) {
             Map measureInfo = (Map) ((List) item.getPatMap().get("needMeasureInfo")).get(j);
             for (Object key : measureInfo.keySet()) {
                 if ((measureInfo.get(key).toString()).equals("1")){
