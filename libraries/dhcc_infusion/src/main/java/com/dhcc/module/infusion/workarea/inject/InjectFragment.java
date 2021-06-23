@@ -101,7 +101,6 @@ public class InjectFragment extends BaseInfusionFragment implements View.OnClick
                 //ORD 扫医嘱条码返回医嘱信息
                 if (ORD.equals(bean.getFlag())) {
 
-                    injectAdapter.notifyDataSetChanged();
                     //弹框
                     if ("1".equals(bean.getDiagFlag())) {
                         DialogFactory.showPatInfo(mContext, bean, new View.OnClickListener() {
@@ -110,18 +109,9 @@ public class InjectFragment extends BaseInfusionFragment implements View.OnClick
                                 exeInjectOrd(scanInfo);
                             }
                         });
-                    }else if ("1".equals(bean.getScanFlag())){
+                    }
+                    if ("1".equals(bean.getScanFlag())){
                         exeInjectOrd(scanInfo);
-                    } else{
-                        //选中扫码的
-                        for (BloodOrdListBean bean1 : injectAdapter.getData()) {
-                            if (scanInfo.equals(bean1.getOeoriId()) ) {
-                                f(R.id.tv_inject_sure).setVisibility(View.VISIBLE);
-                            }
-                            bean1.setSelect(scanInfo.equals(bean1.getOeoriId()) ? "1" : "0");
-                        }
-
-
                     }
                 }
             }

@@ -120,7 +120,8 @@ public class BloodCollectionFragment extends BaseInfusionFragment {
                                 exeLabOrd();
                             }
                         });
-                    } else {
+                    }
+                    if ("1".equals(bean.getScanFlag())){
                         exeLabOrd();
                     }
                 }
