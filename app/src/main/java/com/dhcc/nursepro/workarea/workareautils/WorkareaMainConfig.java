@@ -44,6 +44,7 @@ import com.dhcc.nursepro.workarea.ordersearch.OrderSearchFragment;
 import com.dhcc.nursepro.workarea.patevents.PatEventsFragment;
 import com.dhcc.nursepro.workarea.pathandover.PatHandoverFragment;
 import com.dhcc.nursepro.workarea.plyout.PlyOutListFragment;
+import com.dhcc.nursepro.workarea.rfid.PatBindRfidFragment;
 import com.dhcc.nursepro.workarea.rjorder.RjOrderFragment;
 import com.dhcc.nursepro.workarea.shift.ShiftFragment;
 import com.dhcc.nursepro.workarea.taskmanage.TaskManageFragment;
@@ -449,6 +450,11 @@ public class WorkareaMainConfig {
                         break;
                     case "InfusionSituation":
                         mainSubListBean.setFragmentClassName(InfusionSituationFragment.class.getName());
+                        mainSubListBean.setImgResouseId(R.drawable.icon_blood);
+                        SharedPreference.FRAGMENTARY.add(mainSubListBean.toMap());
+                        break;
+                    case "PatBindRfid":
+                        mainSubListBean.setFragmentClassName(PatBindRfidFragment.class.getName());
                         mainSubListBean.setImgResouseId(R.drawable.icon_blood);
                         SharedPreference.FRAGMENTARY.add(mainSubListBean.toMap());
                         break;
