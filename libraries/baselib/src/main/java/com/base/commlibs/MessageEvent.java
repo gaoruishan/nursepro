@@ -137,6 +137,7 @@ public class MessageEvent {
         UPDATE_BOTTOM_UNREAD_NUM,
         NOTIFY_MESSAGE,
         HEALTH_EDU_ADD_SELECT,
-        HEALTH_EDU_SELECT_ORD
+        HEALTH_EDU_SELECT_ORD,
+        TOORBAR_CENTER_TITLE
     }
 }

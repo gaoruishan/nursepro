@@ -1090,6 +1090,12 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, size);
         tv.setText(title);
         tv.setGravity(Gravity.CENTER);
+        tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(new MessageEvent(MessageEvent.MessageType.TOORBAR_CENTER_TITLE));
+            }
+        });
         mToolbarCenterContainer.addView(tv);
     }
 

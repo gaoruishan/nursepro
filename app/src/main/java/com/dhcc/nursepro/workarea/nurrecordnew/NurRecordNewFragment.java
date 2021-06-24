@@ -1349,16 +1349,17 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
 
         if (StringUtils.isEmpty(containerId)) {
             llNurrecord.addView(linearlayout);
-            llNurrecord.addView(getDashLine());
+            if (linearlayout.getVisibility() == View.VISIBLE) {
+                llNurrecord.addView(getDashLine());
+            }
         } else {
             LinearLayout llContainer = (LinearLayout) viewHashMap.get(containerId + "_containerll");
 
-            if (llContainer == null) {
-//                llNurrecord.addView(linearlayout);
-//                llNurrecord.addView(getDashLine());
-            } else {
+            if (llContainer != null) {
                 llContainer.addView(linearlayout);
-                llContainer.addView(getDashLine());
+                if (linearlayout.getVisibility() == View.VISIBLE) {
+                    llContainer.addView(getDashLine());
+                }
             }
         }
     }

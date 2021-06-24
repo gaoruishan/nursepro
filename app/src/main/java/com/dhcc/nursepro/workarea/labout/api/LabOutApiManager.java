@@ -1,9 +1,14 @@
 package com.dhcc.nursepro.workarea.labout.api;
 
+import com.base.commlibs.NurseAPI;
+import com.base.commlibs.http.CommWebService;
+import com.base.commlibs.http.ParserUtil;
+import com.base.commlibs.http.ServiceCallBack;
 import com.blankj.utilcode.util.ObjectUtils;
 import com.dhcc.nursepro.workarea.labout.bean.DelOrderBean;
 import com.dhcc.nursepro.workarea.labout.bean.LabOutDetailBean;
 import com.dhcc.nursepro.workarea.labout.bean.LabOutListAllBean;
+import com.dhcc.nursepro.workarea.labout.bean.LabUnOutListBean;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
@@ -107,6 +112,35 @@ public class LabOutApiManager {
                         callback.onFail("-2", "网络错误，数据解析失败");
                     }
                 }
+            }
+        });
+    }
+    //	wardId,
+    //	userId,
+    //	hospitalId,
+    //	groupId,
+    //	startDate,
+    //	endDate,
+    //	locId,
+    //	pageNo
+    public static void GetUnOutLabData(String startDate, String endDate, String pageNo, com.base.commlibs.http.CommonCallBack<LabUnOutListBean> callBack) {
+        HashMap<String, String> properties = CommWebService.addUserId(null);
+        CommWebService.addWardId(properties);
+        CommWebService.addLocId(properties);
+        CommWebService.addGroupId(properties);
+        CommWebService.addHospitalId(properties);
+        properties.put("startDate", startDate);
+        properties.put("endDate", endDate);
+        properties.put("pageNo", pageNo);
+        CommWebService.call(NurseAPI.GetUnOutLabData,properties, new ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                ParserUtil<LabUnOutListBean> parserUtil = new ParserUtil<>();
+                LabUnOutListBean bean = parserUtil.parserResult(jsonStr, callBack, LabUnOutListBean.class);
+                if (bean == null) {
+                    return;
+                }
+                parserUtil.parserStatus(bean, callBack);
             }
         });
     }

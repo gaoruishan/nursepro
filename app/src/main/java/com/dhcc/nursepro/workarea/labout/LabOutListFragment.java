@@ -4,28 +4,39 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.base.commlibs.NurseAPI;
-import com.blankj.utilcode.util.SPUtils;
-import com.blankj.utilcode.util.TimeUtils;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
-import com.dhcc.nursepro.R;
+import com.base.commlibs.MessageEvent;
+import com.base.commlibs.NurseAPI;
 import com.base.commlibs.constant.SharedPreference;
+import com.base.commlibs.http.CommonCallBack;
+import com.base.commlibs.utils.BasePopWindow;
+import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.TimeUtils;
+import com.blankj.utilcode.util.ToastUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.utils.DateUtils;
+import com.dhcc.nursepro.utils.PopWindowUtil;
 import com.dhcc.nursepro.workarea.labout.adapter.LabOutAdapter;
 import com.dhcc.nursepro.workarea.labout.api.LabOutApiManager;
 import com.dhcc.nursepro.workarea.labout.bean.LabOutListAllBean;
+import com.dhcc.nursepro.workarea.labout.bean.LabUnOutListBean;
+import com.dhcc.nursepro.workarea.orderexecute.bean.OrderExecuteBean;
 import com.dhcc.nursepro.workarea.plyout.PlyOutListFragment;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,16 +47,20 @@ import java.util.List;
 public class LabOutListFragment extends BaseFragment implements View.OnClickListener, OnDateSetListener {
 
     private RecyclerView recLabOut;
-    private TextView tvType0,tvType1, tvType2, tvType3, tvType4, tvStartDate, tvEndDate,tvBl;
+    private TextView tvType0, tvType1, tvType2, tvType3, tvType4, tvStartDate, tvEndDate, tvBl;
     private LinearLayout llEmpty;
-    private View show0,show1, show2, show3, show4;
+    private View show0, show1, show2, show3, show4;
     private LabOutAdapter labOutAdapter;
-    private List<LabOutListAllBean.LabOutListBean> listLabAll =new ArrayList<>(), listLabNow =new ArrayList<>();
+    private List<LabOutListAllBean.LabOutListBean> listLabAll = new ArrayList<>(), listLabNow = new ArrayList<>();
     private String dateStr, CarrayCerate = "No", CarrayDel = "No", CarrayNo = "", TypeStr = "Type0";
-    private List<LabOutListAllBean.TypeListBean> listType =new ArrayList<>();
+    private List<LabOutListAllBean.TypeListBean> listType = new ArrayList<>();
 
     private SPUtils spUtils = SPUtils.getInstance();
     private Long timeNow = System.currentTimeMillis();
+    private String startDate, endDate, pageNo="1";
+    private List<OrderExecuteBean.OrdersBean> labList;
+    private boolean ifLoadMore;
+
 
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -68,15 +83,60 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
         viewright.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              startFragment(PlyOutListFragment.class);
-              finish();
+                startFragment(PlyOutListFragment.class);
+                finish();
             }
         });
         setToolbarRightCustomView(viewright);
         initview(view);
         initAdapter();
-        initData();
+        GetUnOutLabData();
+        //注册事件总线
+        EventBus.getDefault().register(this);
+    }
+    /**
+     * 接收事件- 更新数据
+     *
+     * @param event
+     */
+    @Subscribe
+    public void onTitleClick(MessageEvent event) {
+        Log.e(getClass().getSimpleName(), "updateText:" + event.getType());
+        if (event.getType() == MessageEvent.MessageType.TOORBAR_CENTER_TITLE) {
+            if (labList != null) {
+                LabUnOutListPresenter presenter = new LabUnOutListPresenter(mActivity);
+                presenter.openPopWindow(labList);
+//                presenter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+//                    @Override
+//                    public void onLoadMoreRequested() {
+//                        ifLoadMore = true;
+//                        Log.e(TAG,"(LabOutListFragment.java:111) ");
+//                        pageNo = Integer.valueOf(pageNo) + 1 + "";
+//                        GetUnOutLabData();
+//                    }
+//                });
+            }
+        }
+    }
+    private void GetUnOutLabData() {
+        startDate = tvStartDate.getText().toString();
+        endDate = tvEndDate.getText().toString();
+        LabOutApiManager.GetUnOutLabData(startDate, endDate, pageNo, new CommonCallBack<LabUnOutListBean>() {
+            @Override
+            public void onFail(String code, String msg) {
 
+            }
+
+            @Override
+            public void onSuccess(LabUnOutListBean bean, String type) {
+                setToolbarCenterTitle(getString(R.string.title_labout)+"("+ bean.getLabNum()+")", 0xffffffff, 17);
+                if ("1".equals(pageNo)) {
+                    labList = bean.getLabList();
+                }else {
+                    labList.addAll(bean.getLabList());
+                }
+            }
+        });
     }
 
     private void initData() {
@@ -88,7 +148,7 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
         map.put("locId", spUtils.getString(SharedPreference.LOCID));
         if (CarrayCerate.equals("Yes")) {
             map.put("userId", spUtils.getString(SharedPreference.USERID));
-            if (TypeStr.equals("Type0")){
+            if (TypeStr.equals("Type0")) {
                 map.put("preFlag", "1");
             }
             map.put("userId", spUtils.getString(SharedPreference.USERID));
@@ -203,7 +263,7 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
         tvEndDate = view.findViewById(R.id.tv_labout_enddate);
         tvEndDate.setOnClickListener(this);
 
-        tvStartDate.setText(DateUtils.getDateTimeAgo(spUtils.getString(SharedPreference.CURDATETIME),1).substring(0, 10));
+        tvStartDate.setText(DateUtils.getDateTimeAgo(spUtils.getString(SharedPreference.CURDATETIME), 1).substring(0, 10));
         tvEndDate.setText(spUtils.getString(SharedPreference.CURDATETIME).substring(0, 10));
         show0 = view.findViewById(R.id.view_labout_show0);
         show1 = view.findViewById(R.id.view_labout_show1);
@@ -243,13 +303,13 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
                     Bundle bundle = new Bundle();
                     bundle.putString("CarryNo", carryNodetail);
                     bundle.putString("saveType", "1");
-                    if (TypeStr.equals("Type0")){
+                    if (TypeStr.equals("Type0")) {
                         bundle.putString("ifHedui", "1");
-                    }else {
+                    } else {
                         bundle.putString("ifHedui", "0");
                     }
                     startFragment(LabOutDetailFragment.class, bundle);
-                }else if (view.getId() == R.id.tv_lapack_hedui){
+                } else if (view.getId() == R.id.tv_lapack_hedui) {
                     String carryNodetail = listLabNow.get(position).getCarryNo();
                     Bundle bundle = new Bundle();
                     bundle.putString("CarryNo", carryNodetail);
@@ -262,6 +322,7 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
         });
 
     }
+
     @Override
     public void onClick(View v) {
 
@@ -306,21 +367,21 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
                 break;
             case R.id.tv_bingli:
                 //                startFragment(PatEventsDetailFragment.class);
-                if (System.currentTimeMillis()-timeNow > 1500){
+                if (System.currentTimeMillis() - timeNow > 1500) {
                     CarrayCerate = "Yes";
-                    if (TypeStr.equals("Type0")){
+                    if (TypeStr.equals("Type0")) {
                         setTopFilterSelect(tvType0);
                         showgone(show0);
                         TypeStr = "Type0";
-                    }else {
+                    } else {
                         setTopFilterSelect(tvType1);
                         showgone(show1);
                         TypeStr = "Type1";
                     }
                     getLabOutList();
                     initData();
-                    timeNow =  System.currentTimeMillis();
-                }else {
+                    timeNow = System.currentTimeMillis();
+                } else {
                     showToast("不可频繁建单，请稍后建单");
                 }
 
@@ -348,8 +409,8 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
             tvEndDate.setText(time);
         }
         initData();
+        GetUnOutLabData();
     }
-
 
 
     private void chooseTime(long currentTimeMillis) {

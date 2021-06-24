@@ -88,6 +88,7 @@ public class NurseAPI {
     public static final String getLabOutList = "getLabOutList";
     public static final String getLabOutDetail = "getLabOutDetail";
     public static final String delOrExchange = "delOrExchange";
+    public static final String GetUnOutLabData = "GetUnOutLabData";
     /**
      * 配液复核
      */
