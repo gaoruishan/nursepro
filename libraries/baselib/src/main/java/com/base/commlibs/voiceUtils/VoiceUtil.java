@@ -613,6 +613,8 @@ public class VoiceUtil {
                         Map map = patInfoMapList.get(i);
                         if (bedNo.equals(map.get("bedCode"))){
                             jsonMap = gson.toJson(map);
+                            String jsonTrans = gson.toJson(bedMapBean.getPatInfoList().get(i));
+                            bundle.putString("jsonTrans",jsonTrans);
                             bundle.putString("jsonmap",jsonMap);
                         }
                         if (name.equals("床位图")){

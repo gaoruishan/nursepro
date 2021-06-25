@@ -5,25 +5,67 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:context=".workarea.bedmap.BedMapPatInfoFragment">
-   <LinearLayout
+   <android.support.v4.widget.NestedScrollView
        android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:orientation="vertical">
-
-      <View
-          android:layout_width="match_parent"
-          android:layout_height="@dimen/dp_10"
-          android:background="@color/bg_blue_light"
-          ></View>
-      <android.support.v7.widget.RecyclerView
-          android:id="@+id/recy_bedmap_patientdetail"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+       android:layout_height="match_parent">
       <LinearLayout
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_marginTop="@dimen/dp_3"
-          android:orientation="horizontal">
+          android:orientation="vertical">
+
+         <View
+             android:layout_width="match_parent"
+             android:layout_height="@dimen/dp_10"
+             android:background="@color/bg_blue_light"
+             ></View>
+         <android.support.v7.widget.RecyclerView
+             android:id="@+id/recy_bedmap_patientdetail"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+
+         <View
+             android:layout_width="match_parent"
+             android:layout_height="@dimen/dp_2"
+             android:background="@color/blue_dark2"></View>
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="@dimen/dp_3"
+             android:orientation="horizontal">
+            <RelativeLayout
+                android:layout_width="@dimen/dp_80"
+                android:layout_height="match_parent"
+                android:gravity="center">
+               <ImageView
+                   android:layout_width="@dimen/dp_10"
+                   android:layout_height="@dimen/dp_10"
+                   android:src="@drawable/point_circle"></ImageView>
+            </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="转科记录"></TextView>
+         </LinearLayout>
+         <RelativeLayout
+             android:layout_width="@dimen/dp_80"
+             android:layout_height="wrap_content"
+             android:gravity="center">
+            <View
+                android:layout_width="@dimen/dp_2"
+                android:layout_height="@dimen/dp_15"
+                android:background="@drawable/device_line_blue"
+                android:layout_marginTop="@dimen/dp_2"
+                android:layout_marginBottom="@dimen/dp_5"></View>
+
+         </RelativeLayout>
+
+
+         <android.support.v7.widget.RecyclerView
+             android:id="@+id/recy_bedmap_pat_trans"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+
          <RelativeLayout
              android:layout_width="@dimen/dp_80"
              android:layout_height="match_parent"
@@ -33,43 +75,11 @@
                 android:layout_height="@dimen/dp_10"
                 android:src="@drawable/point_circle"></ImageView>
          </RelativeLayout>
-         <TextView
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:textColor="@color/black"
-             android:text="转科记录"></TextView>
+
+
       </LinearLayout>
-      <RelativeLayout
-          android:layout_width="@dimen/dp_80"
-          android:layout_height="wrap_content"
-          android:gravity="center">
-         <View
-             android:layout_width="@dimen/dp_2"
-             android:layout_height="@dimen/dp_15"
-             android:background="@drawable/device_line_blue"
-             android:layout_marginTop="@dimen/dp_2"
-             android:layout_marginBottom="@dimen/dp_5"></View>
 
-      </RelativeLayout>
-
-
-      <android.support.v7.widget.RecyclerView
-          android:id="@+id/recy_bedmap_pat_trans"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
-
-      <RelativeLayout
-          android:layout_width="@dimen/dp_80"
-          android:layout_height="match_parent"
-          android:gravity="center">
-         <ImageView
-             android:layout_width="@dimen/dp_10"
-             android:layout_height="@dimen/dp_10"
-             android:src="@drawable/point_circle"></ImageView>
-      </RelativeLayout>
-
-
-   </LinearLayout>
+   </android.support.v4.widget.NestedScrollView>
    <RelativeLayout
        android:id="@+id/rl_hindpatinfo"
        android:layout_width="@dimen/dp_45"

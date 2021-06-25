@@ -32,14 +32,14 @@ public class LoginBean extends ConfigBean {
     private String userName;
     private List<BroadcastListBean> broadcastList;
     private List<LocsBean> locs;
-    private String voicFlag="0";
+    private String voiceFlag="0";
 
-    public String getVoicFlag() {
-        return voicFlag;
+    public String getVoiceFlag() {
+        return voiceFlag;
     }
 
-    public void setVoicFlag(String voicFlag) {
-        this.voicFlag = voicFlag;
+    public void setVoiceFlag(String voicFlag) {
+        this.voiceFlag = voicFlag;
     }
 
     /**

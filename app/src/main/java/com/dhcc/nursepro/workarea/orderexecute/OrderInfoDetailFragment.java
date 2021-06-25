@@ -4,19 +4,23 @@ package com.dhcc.nursepro.workarea.orderexecute;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.workarea.orderexecute.adapter.OrdLoopAdapter;
 import com.dhcc.nursepro.workarea.orderexecute.adapter.OrderInfoDetailAdapter;
 import com.dhcc.nursepro.workarea.orderexecute.bean.OrderExecuteBean;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,9 +33,11 @@ import java.util.Map;
  * created at 2018/8/27 16:55
  */
 public class OrderInfoDetailFragment extends BaseFragment {
-    private RecyclerView recyOrderinfodetail;
+    private RecyclerView recyOrderinfodetail,recLoop;
 
     private OrderInfoDetailAdapter orderInfoDetailAdapter;
+    private OrdLoopAdapter ordLoopAdapter;
+    private RelativeLayout rlHind;
 
 
     private OrderExecuteBean.OrdersBean.PatOrdsBean.OrderInfoBean orderInfoBean;
@@ -71,8 +77,26 @@ public class OrderInfoDetailFragment extends BaseFragment {
         //提高展示效率
         recyOrderinfodetail.setHasFixedSize(true);
         //设置的布局管理
-        recyOrderinfodetail.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyOrderinfodetail.setLayoutManager(new GridLayoutManager(getActivity(),2));
+        recLoop = view.findViewById(R.id.recy_ord_loop);
+        //提高展示效率
+        recLoop.setHasFixedSize(true);
+        //设置的布局管理
+        recLoop.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+
+
+        rlHind=view.findViewById(R.id.rl_hindpatinfo);
+        rlHind.setOnClickListener(v -> patInfoHind());
+    }
+    private void patInfoHind(){
+        if (recyOrderinfodetail.getVisibility()==View.VISIBLE){
+            rlHind.setSelected(true);
+            recyOrderinfodetail.setVisibility(View.GONE);
+        }else {
+            rlHind.setSelected(false);
+            recyOrderinfodetail.setVisibility(View.VISIBLE);
+        }
     }
 
     private void initAdapter() {
@@ -80,6 +104,10 @@ public class OrderInfoDetailFragment extends BaseFragment {
 //            orderInfoDetailAdapter = new OrderInfoDetailAdapter(detailColums, objectToMap(orderInfoBean));
             orderInfoDetailAdapter = new OrderInfoDetailAdapter(detailColums, infomap);
             recyOrderinfodetail.setAdapter(orderInfoDetailAdapter);
+
+            ordLoopAdapter = new OrdLoopAdapter(new ArrayList<>());
+            recLoop.setAdapter(ordLoopAdapter);
+            ordLoopAdapter.setNewData(orderInfoBean.getLoopInfo());
         } catch (Exception e) {
             e.printStackTrace();
         }

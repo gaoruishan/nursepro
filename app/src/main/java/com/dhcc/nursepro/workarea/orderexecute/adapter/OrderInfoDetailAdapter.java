@@ -31,8 +31,8 @@ public class OrderInfoDetailAdapter extends BaseQuickAdapter<OrderExecuteBean.De
         View topView = helper.getView(R.id.view_orderinfodetail_top);
         View lineView = helper.getView(R.id.view_orderinfodetail_line);
         if (helper.getLayoutPosition() % 4 == 0) {
-            topView.setVisibility(View.VISIBLE);
-            lineView.setVisibility(View.GONE);
+            topView.setVisibility(View.GONE);
+            lineView.setVisibility(View.VISIBLE);
         }else{
             topView.setVisibility(View.GONE);
             lineView.setVisibility(View.VISIBLE);
