@@ -211,22 +211,56 @@ public class BedMapFragment extends BaseFragment implements View.OnClickListener
 
 
         bedMapPatientAdapter = new BedMapPatientAdapter(new ArrayList<BedMapBean.PatInfoListBean>());
-        bedMapPatientAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+//        bedMapPatientAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+//                BedMapBean.PatInfoListBean patInfoListBean = (BedMapBean.PatInfoListBean) adapter.getItem(position);
+//                Gson gson = new Gson();
+//                Map map = patInfoMapListShow.get(position);
+//                String jsonMap = gson.toJson(map);
+//                Bundle bundle = new Bundle();
+//                bundle.putString("patInfo", gson.toJson(patInfoListBean));
+//                bundle.putString("jsonmap",jsonMap);
+//
+////                startFragment(BedMapPatFragment.class, bundle);
+//                Intent intent = new Intent(getActivity(), SingleMainActivity.class);
+//                intent.putExtra("epi",patInfoListBean.getEpisodeId());
+//                startActivity(intent);
+//
+//            }
+//        });
+
+        bedMapPatientAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                BedMapBean.PatInfoListBean patInfoListBean = (BedMapBean.PatInfoListBean) adapter.getItem(position);
-                Gson gson = new Gson();
-                Map map = patInfoMapListShow.get(position);
-                String jsonMap = gson.toJson(map);
-                Bundle bundle = new Bundle();
-                bundle.putString("patInfo", gson.toJson(patInfoListBean));
-                bundle.putString("jsonmap",jsonMap);
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                if (view.getId()==R.id.ll_pat_singlemodel){
+                    BedMapBean.PatInfoListBean patInfoListBean = (BedMapBean.PatInfoListBean) adapter.getItem(position);
+                    Gson gson = new Gson();
+                    Map map = patInfoMapListShow.get(position);
+                    String jsonMap = gson.toJson(map);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("patInfo", gson.toJson(patInfoListBean));
+                    bundle.putString("jsonmap",jsonMap);
 
 //                startFragment(BedMapPatFragment.class, bundle);
-                Intent intent = new Intent(getActivity(), SingleMainActivity.class);
-                intent.putExtra("epi",patInfoListBean.getEpisodeId());
-                startActivity(intent);
-
+                    Intent intent = new Intent(getActivity(), SingleMainActivity.class);
+                    intent.putExtra("epi",patInfoListBean.getEpisodeId());
+                    startActivity(intent);
+                }else if (view.getId()==R.id.tv_pat_detail){
+                    BedMapBean.PatInfoListBean patInfoListBean = (BedMapBean.PatInfoListBean) adapter.getItem(position);
+                    Gson gson = new Gson();
+                    Map map = patInfoMapListShow.get(position);
+                    String jsonMap = gson.toJson(map);
+                    String jsonTrans = gson.toJson(patInfoListBean);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("patInfo", gson.toJson(patInfoListBean));
+                    bundle.putString("jsonmap",jsonMap);
+                    bundle.putString("jsonTrans",jsonTrans);
+                    startFragment(BedMapPatInfoFragment.class, bundle);
+//                    Intent intent = new Intent(getActivity(), SingleMainActivity.class);
+//                    intent.putExtra("epi",patInfoListBean.getEpisodeId());
+//                    startActivity(intent);
+                }
             }
         });
 
