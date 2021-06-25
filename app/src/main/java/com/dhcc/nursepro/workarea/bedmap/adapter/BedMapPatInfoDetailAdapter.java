@@ -24,18 +24,18 @@ public class BedMapPatInfoDetailAdapter extends BaseQuickAdapter<HashMap<String,
 
     @Override
     protected void convert(BaseViewHolder helper, HashMap<String,String> item) {
-        helper.setText(R.id.patinfodetail_title, item.get("title"))
+        helper.setText(R.id.patinfodetail_title, item.get("title")+"：")
                 .setText(R.id.patinfodetail_content, item.get("content"));
         View view1 = helper.getView(R.id.view_patdetail_device);
         View view2 = helper.getView(R.id.view_patdetail_bluedevice);
-        int i = (helper.getAdapterPosition()+1)%4;
-        if (i == 0){
-            view1.setVisibility(View.GONE);
-            view2.setVisibility(View.VISIBLE);
-        }else {
-            view1.setVisibility(View.VISIBLE);
-            view2.setVisibility(View.GONE);
-        }
+//        int i = (helper.getAdapterPosition()+1)%4;
+//        if (i == 0){
+//            view1.setVisibility(View.GONE);
+//            view2.setVisibility(View.VISIBLE);
+//        }else {
+//            view1.setVisibility(View.VISIBLE);
+//            view2.setVisibility(View.GONE);
+//        }
 
     }
 }

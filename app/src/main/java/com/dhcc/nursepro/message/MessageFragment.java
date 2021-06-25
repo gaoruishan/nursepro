@@ -27,6 +27,7 @@ import com.dhcc.nursepro.message.adapter.MessageAbnormalAdapter;
 import com.dhcc.nursepro.message.adapter.MessageConsultationAdapter;
 import com.dhcc.nursepro.message.adapter.MessageNewOrderAdapter;
 import com.dhcc.nursepro.message.adapter.MessageSkinAdapter;
+import com.dhcc.nursepro.message.adapter.MessagestopAdapter;
 import com.dhcc.nursepro.message.api.MessageApiManager;
 import com.dhcc.nursepro.message.bean.MessageBean;
 import com.dhcc.nursepro.message.bean.ReadMessageBean;
@@ -45,6 +46,9 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
     private LinearLayout llMessageNeworderTitle;
     private TextView tvMessageNeworderCount;
     private RecyclerView recyMessageNeworder;
+    private LinearLayout llMessageStopTitle;
+    private TextView tvMessageStopCount;
+    private RecyclerView recyMessageStop;
     private LinearLayout llMessageAbnormalTitle;
     private TextView tvMessageAbnormalCount;
     private RecyclerView recyMessageAbnormal;
@@ -52,9 +56,11 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
     private TextView tvMessageConsultationCount;
     private RecyclerView recyMessageConsultation;
     private List<MessageBean.NewOrdPatListBean> newOrdPatList;
+    private List<MessageBean.StopListBean> stopOrdPatList;
     private List<MessageBean.AbnormalPatListBean> abnormalPatList;
     private List<MessageBean.ConPatListBean> conPatList;
     private MessageNewOrderAdapter newOrderAdapter = new MessageNewOrderAdapter(new ArrayList<>());
+    private MessagestopAdapter stopAdapter = new MessagestopAdapter(new ArrayList<>());
     private MessageAbnormalAdapter abnormalAdapter = new MessageAbnormalAdapter(new ArrayList<>());
     private MessageConsultationAdapter consultationAdapter = new MessageConsultationAdapter(new ArrayList<>());
     private MessageSkinAdapter messageSkinAdapter = new MessageSkinAdapter(new ArrayList<>());
@@ -75,6 +81,18 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
                     llMessageNeworderTitle.setSelected(false);
                     tvMessageNeworderCount.setVisibility(View.GONE);
                     recyMessageNeworder.setVisibility(View.VISIBLE);
+                }
+                break;
+            case R.id.ll_message_stop_title:
+                if (recyMessageStop.getVisibility() == View.VISIBLE) {
+                    llMessageStopTitle.setSelected(true);
+                    recyMessageStop.setVisibility(View.GONE);
+                    tvMessageStopCount.setVisibility(View.VISIBLE);
+                    tvMessageStopCount.setText(stopAdapter.getItemCount() + "");
+                } else {
+                    llMessageStopTitle.setSelected(false);
+                    tvMessageStopCount.setVisibility(View.GONE);
+                    recyMessageStop.setVisibility(View.VISIBLE);
                 }
                 break;
             case R.id.ll_message_abnormal_title:
@@ -144,6 +162,7 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
                 //请求皮试
                 //getSkinTestMessage();
                 newOrdPatList = msgs.getNewOrdPatList();
+                stopOrdPatList = msgs.getStopList();
                 abnormalPatList = msgs.getAbnormalPatList();
                 conPatList = msgs.getConPatList();
 
@@ -163,6 +182,24 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
                     tvMessageNeworderCount.setVisibility(View.GONE);
                     recyMessageNeworder.setVisibility(View.VISIBLE);
                 }
+
+                if (stopOrdPatList == null) {
+                    stopOrdPatList = new ArrayList<>();
+                    llMessageStopTitle.setVisibility(View.GONE);
+                    recyMessageStop.setVisibility(View.GONE);
+                } else if (stopOrdPatList.size() == 0) {
+                    llMessageStopTitle.setVisibility(View.VISIBLE);
+                    llMessageStopTitle.setSelected(true);
+                    recyMessageStop.setVisibility(View.GONE);
+                    tvMessageStopCount.setVisibility(View.VISIBLE);
+                    tvMessageStopCount.setText(stopAdapter.getItemCount() + "");
+                } else {
+                    llMessageStopTitle.setVisibility(View.VISIBLE);
+                    llMessageStopTitle.setSelected(false);
+                    tvMessageStopCount.setVisibility(View.GONE);
+                    recyMessageStop.setVisibility(View.VISIBLE);
+                }
+
 
                 if (abnormalPatList == null) {
                     abnormalPatList = new ArrayList<>();
@@ -200,9 +237,11 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
                 }
 
                 newOrderAdapter.setNewData(newOrdPatList);
+                stopAdapter.setNewData(stopOrdPatList);
                 abnormalAdapter.setNewData(abnormalPatList);
                 consultationAdapter.setNewData(conPatList);
                 tvMessageNeworderCount.setText(newOrderAdapter.getItemCount() + "");
+                tvMessageStopCount.setText(stopAdapter.getItemCount()+"");
                 tvMessageAbnormalCount.setText(abnormalAdapter.getItemCount() + "");
                 tvMessageConsultationCount.setText(consultationAdapter.getItemCount() + "");
 
@@ -218,7 +257,7 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
                     messageSkinAdapter.replaceData(msgs.getSkinTimeList());
                 }
 
-                int messageNum = newOrdPatList.size() + abnormalPatList.size() + conPatList.size();
+                int messageNum = newOrdPatList.size() + abnormalPatList.size() + conPatList.size()+stopOrdPatList.size();
                 if (msgs.getSkinTimeList()!=null && msgs.getSkinTimeList().size()>0){
                     for (int i = 0; i < msgs.getSkinTimeList().size(); i++) {
                         if (TextUtils.isEmpty(msgs.getSkinTimeList().get(i).getOverTime())){
@@ -299,6 +338,12 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
         llMessageNeworderTitle.setOnClickListener(this);
         tvMessageNeworderCount = view.findViewById(R.id.tv_message_neworder_count);
         recyMessageNeworder = view.findViewById(R.id.recy_message_neworder);
+
+        llMessageStopTitle = view.findViewById(R.id.ll_message_stop_title);
+        llMessageStopTitle.setOnClickListener(this);
+        tvMessageStopCount = view.findViewById(R.id.tv_message_stop_count);
+        recyMessageStop = view.findViewById(R.id.recy_message_stop);
+
         llMessageAbnormalTitle = view.findViewById(R.id.ll_message_abnormal_title);
         llMessageAbnormalTitle.setOnClickListener(this);
         tvMessageAbnormalCount = view.findViewById(R.id.tv_message_abnormal_count);
@@ -315,6 +360,14 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
         recyMessageNeworder.setLayoutManager(new LinearLayoutManager(getActivity()));
         //禁止滑动
         recyMessageNeworder.setNestedScrollingEnabled(false);
+
+
+        //提高展示效率
+        recyMessageStop.setHasFixedSize(true);
+        //设置的布局管理
+        recyMessageStop.setLayoutManager(new LinearLayoutManager(getActivity()));
+        //禁止滑动
+        recyMessageStop.setNestedScrollingEnabled(false);
 
         //提高展示效率
         recyMessageAbnormal.setHasFixedSize(true);
@@ -335,6 +388,7 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
 
     private void initAdapter() {
         newOrderAdapter = new MessageNewOrderAdapter(new ArrayList<MessageBean.NewOrdPatListBean>());
+        stopAdapter = new MessagestopAdapter(new ArrayList<MessageBean.StopListBean>());
 
         abnormalAdapter = new MessageAbnormalAdapter(new ArrayList<MessageBean.AbnormalPatListBean>());
         abnormalAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
@@ -364,6 +418,7 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
         consultationAdapter = new MessageConsultationAdapter(new ArrayList<MessageBean.ConPatListBean>());
 
         recyMessageNeworder.setAdapter(newOrderAdapter);
+        recyMessageStop.setAdapter(stopAdapter);
         recyMessageAbnormal.setAdapter(abnormalAdapter);
         recyMessageConsultation.setAdapter(consultationAdapter);
 
@@ -378,6 +433,7 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
                 @Override
                 public void onSuccess(MessageBean msgs) {
                     int messageNum = (msgs.getNewOrdPatList() != null ? msgs.getNewOrdPatList().size() : 0)
+                            + (msgs.getStopList() != null ? msgs.getStopList().size() : 0)
                             + (msgs.getAbnormalPatList() != null ? msgs.getAbnormalPatList().size() : 0)
                             + (msgs.getConPatList() != null ? msgs.getConPatList().size() : 0);
                     if (msgs.getSkinTimeList()!=null && msgs.getSkinTimeList().size()>0){

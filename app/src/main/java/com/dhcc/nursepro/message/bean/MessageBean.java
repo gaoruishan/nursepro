@@ -21,6 +21,7 @@ public class MessageBean {
     private List<AbnormalPatListBean> abnormalPatList;
     private List<ConPatListBean> conPatList;
     private List<NewOrdPatListBean> newOrdPatList;
+    private List<StopListBean> stopList;
     private String soundFlag;
     private String vibrateFlag;
     /**
@@ -35,6 +36,14 @@ public class MessageBean {
     private String curDateTime;
     private String schEnDateTime;
     private String schStDateTime;
+
+    public List<StopListBean> getStopList() {
+        return stopList;
+    }
+
+    public void setStopList(List<StopListBean> stopList) {
+        this.stopList = stopList;
+    }
 
     public String getSoundFlag() {
         return soundFlag;
@@ -126,6 +135,62 @@ public class MessageBean {
     }
 
     public static class AbnormalPatListBean {
+        /**
+         * bedCode : 03
+         * episodeId : 315
+         * patName : 马亭（演示勿动）
+         * regNo : 0000000290
+         * sex : M
+         */
+
+        private String bedCode;
+        private String episodeId;
+        private String patName;
+        private String regNo;
+        private String sex;
+
+        public String getBedCode() {
+            return bedCode;
+        }
+
+        public void setBedCode(String bedCode) {
+            this.bedCode = bedCode;
+        }
+
+        public String getEpisodeId() {
+            return episodeId;
+        }
+
+        public void setEpisodeId(String episodeId) {
+            this.episodeId = episodeId;
+        }
+
+        public String getPatName() {
+            return patName;
+        }
+
+        public void setPatName(String patName) {
+            this.patName = patName;
+        }
+
+        public String getRegNo() {
+            return regNo;
+        }
+
+        public void setRegNo(String regNo) {
+            this.regNo = regNo;
+        }
+
+        public String getSex() {
+            return sex;
+        }
+
+        public void setSex(String sex) {
+            this.sex = sex;
+        }
+    }
+
+    public static class StopListBean {
         /**
          * bedCode : 03
          * episodeId : 315

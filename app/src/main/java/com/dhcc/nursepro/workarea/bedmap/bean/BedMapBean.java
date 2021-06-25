@@ -155,6 +155,16 @@ public class BedMapBean implements Serializable {
         private String sex;
         private String tempOrd;
         private String todayOut;
+        private List<TransRecListBean> transRecList;
+
+        public List<TransRecListBean> getTransRecList() {
+            return transRecList;
+        }
+
+        public void setTransRecList(List<TransRecListBean> transRecList) {
+            this.transRecList = transRecList;
+        }
+
         private String wait;
         private List<SkinOrdBean> skinOrd;
         private String Diet;
@@ -847,4 +857,70 @@ public class BedMapBean implements Serializable {
             this.desc = desc;
         }
     }
+    public static class TransRecListBean {
+        private String transDate;
+        private String transFrom;
+        private String transTime;
+        private String transTo;
+        private String transType;
+        private String transUser;
+        private String transID;
+
+        public String getTransDate() {
+            return transDate;
+        }
+
+        public void setTransDate(String transDate) {
+            this.transDate = transDate;
+        }
+
+        public String getTransFrom() {
+            return transFrom;
+        }
+
+        public void setTransFrom(String transFrom) {
+            this.transFrom = transFrom;
+        }
+
+        public String getTransTime() {
+            return transTime;
+        }
+
+        public void setTransTime(String transTime) {
+            this.transTime = transTime;
+        }
+
+        public String getTransTo() {
+            return transTo;
+        }
+
+        public void setTransTo(String transTo) {
+            this.transTo = transTo;
+        }
+
+        public String getTransType() {
+            return transType;
+        }
+
+        public void setTransType(String transType) {
+            this.transType = transType;
+        }
+
+        public String getTransUser() {
+            return transUser;
+        }
+
+        public void setTransUser(String transUser) {
+            this.transUser = transUser;
+        }
+
+        public String getTransID() {
+            return transID;
+        }
+
+        public void setTransID(String transID) {
+            this.transID = transID;
+        }
+    }
+
 }

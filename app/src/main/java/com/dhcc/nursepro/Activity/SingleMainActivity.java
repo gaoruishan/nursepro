@@ -187,6 +187,7 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
 
     private String epiFromBedMap="";
     private String scanInfo="";
+    private Boolean isFfromBedMap=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -200,6 +201,7 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
         if (intent!=null){
             if (intent.getStringExtra("epi")!=null){
                 epiFromBedMap=intent.getStringExtra("epi");
+                isFfromBedMap=true;
                 SPUtils.getInstance().put(SharedPreference.SINGLEMODEL,"1");
             }
         }
@@ -495,9 +497,12 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
                         Gson gson = new Gson();
                         Map map = patInfoMapList.get(i);
                         String jsonMap = gson.toJson(map);
+                        String jsonTrans = gson.toJson(bedBean.getPatInfoList().get(i));
                         Bundle bundle = new Bundle();
                         bundle.putString("jsonmap",jsonMap);
+                        bundle.putString("jsonTrans",jsonTrans);
                         startFragment(BedMapPatInfoFragment.class,bundle);
+
                     }
                 }
             }
@@ -739,15 +744,19 @@ public class SingleMainActivity extends BaseActivity implements RadioButton.OnCh
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            //与上次点击返回键时刻作差
-            if ((System.currentTimeMillis() - mExitTime) > 2000) {
-                //大于2000ms则认为是误操作，使用Toast进行提示
-                Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
-                //并记录下本次点击“返回键”的时刻，以便下次进行判断
-                mExitTime = System.currentTimeMillis();
-            } else {
-                //小于2000ms则认为是用户确实希望退出程序
+            if (isFfromBedMap){
                 finish();
+            }else {
+                //与上次点击返回键时刻作差
+                if ((System.currentTimeMillis() - mExitTime) > 2000) {
+                    //大于2000ms则认为是误操作，使用Toast进行提示
+                    Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                    //并记录下本次点击“返回键”的时刻，以便下次进行判断
+                    mExitTime = System.currentTimeMillis();
+                } else {
+                    //小于2000ms则认为是用户确实希望退出程序
+                    finish();
+                }
             }
             return true;
         }

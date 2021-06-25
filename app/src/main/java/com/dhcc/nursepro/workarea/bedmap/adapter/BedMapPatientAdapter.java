@@ -36,7 +36,10 @@ public class BedMapPatientAdapter extends BaseQuickAdapter<BedMapBean.PatInfoLis
     protected void convert(BaseViewHolder helper, BedMapBean.PatInfoListBean item) {
         helper.setText(R.id.tv_bedmap_patient_bedno, "".equals(item.getBedCode()) ? "未分床" : item.getBedCode().replaceAll("床","")+"床")
                 .setText(R.id.tv_bedmap_patient_name, item.getName())
-                .setText(R.id.tv_bedmap_patient_carelevel,item.getCareLevel());
+                .setText(R.id.tv_bedmap_patient_carelevel,item.getCareLevel())
+                .addOnClickListener(R.id.ll_pat_singlemodel)
+                .addOnClickListener(R.id.tv_pat_detail)
+        ;
         View line = helper.getView(R.id.line_bedmap_patient);
         ImageView patientSex = helper.getView(R.id.img_bedmap_patient_sex);
 
