@@ -408,7 +408,8 @@ public class MainActivity extends BaseCommActivity implements RadioButton.OnChec
             public void onSuccess(MessageBean msgs) {
                 int messageNum = (msgs.getNewOrdPatList() != null ? msgs.getNewOrdPatList().size() : 0)
                         + (msgs.getAbnormalPatList() != null ? msgs.getAbnormalPatList().size() : 0)
-                        + (msgs.getConPatList() != null ? msgs.getConPatList().size() : 0);
+                        + (msgs.getConPatList() != null ? msgs.getConPatList().size() : 0)
+                        + (msgs.getStopList() != null ? msgs.getStopList().size() : 0);
                 if (msgs.getSkinTimeList()!=null && msgs.getSkinTimeList().size()>0){
                     for (int i = 0; i < msgs.getSkinTimeList().size(); i++) {
                         if (TextUtils.isEmpty(msgs.getSkinTimeList().get(i).getOverTime())){
