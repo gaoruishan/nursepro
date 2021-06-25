@@ -253,6 +253,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
             if (topFilterCode.equals(vitalSignBeanAll.getTopFilter().get(i).getCode())) {
                 listPatInfo = vitalSignBeanAll.getTopFilter().get(i).getPatInfoList();
                 patientAdapter.setNewData(listPatInfo);
+                break;
             }
         }
     }
