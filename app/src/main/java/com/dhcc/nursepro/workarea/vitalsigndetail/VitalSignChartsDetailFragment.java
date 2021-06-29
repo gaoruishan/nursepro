@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.view.MyMarkerView;
@@ -67,9 +66,9 @@ public class VitalSignChartsDetailFragment extends BaseFragment implements View.
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//        setToolbarType(BaseActivity.ToolbarType.TOP);
+        //        setToolbarType(BaseActivity.ToolbarType.TOP);
         setToolbarBottomLineVisibility(true);
-        if (isSingleModel){
+        if (isSingleModel) {
             hindMap();
         }
 
@@ -82,12 +81,10 @@ public class VitalSignChartsDetailFragment extends BaseFragment implements View.
         Bundle bundle = getArguments();
 
         if (bundle != null) {
-            episodeId = bundle.getString("episodeId");
-            if (bundle.getString("patInfo")!=null){
-                patInfo = bundle.getString("patInfo");
-            }
+            episodeId = bundle.getString("episodeId", "");
+            patInfo = bundle.getString("patInfo", "");
         }
-        setToolbarCenterTitle(getString(R.string.title_vitalsignchartsdetail)+"("+patInfo+")", 0xffffffff, 17);
+        setToolbarCenterTitle(getString(R.string.title_vitalsignchartsdetail) + "（" + patInfo + "）", 0xffffffff, 17);
 
         initView(view);
 
@@ -130,7 +127,7 @@ public class VitalSignChartsDetailFragment extends BaseFragment implements View.
         vitalsignChartsdetail.setPinchZoom(true);
 
         // set an alternative background color
-//        vitalsignChartsdetail.setBackgroundColor(Color.LTGRAY);
+        //        vitalsignChartsdetail.setBackgroundColor(Color.LTGRAY);
 
         vitalsignChartsdetail.animateX(1500);
 
@@ -152,11 +149,11 @@ public class VitalSignChartsDetailFragment extends BaseFragment implements View.
         //        l.setYOffset(11f);
 
         XAxis xAxis = vitalsignChartsdetail.getXAxis();
-//        xAxis.setTypeface(tfLight);
-//        xAxis.setTextSize(11f);
-//        xAxis.setTextColor(Color.WHITE);
-//        xAxis.setDrawGridLines(false);
-//        xAxis.setDrawAxisLine(false);
+        //        xAxis.setTypeface(tfLight);
+        //        xAxis.setTextSize(11f);
+        //        xAxis.setTextColor(Color.WHITE);
+        //        xAxis.setDrawGridLines(false);
+        //        xAxis.setDrawAxisLine(false);
         xAxis.setEnabled(false);
 
         YAxis leftAxis = vitalsignChartsdetail.getAxisLeft();
@@ -165,7 +162,7 @@ public class VitalSignChartsDetailFragment extends BaseFragment implements View.
         leftAxis.setTextSize(12f);
         leftAxis.setAxisMaximum(43f);
         leftAxis.setAxisMinimum(34f);
-        leftAxis.setLabelCount(10,false);
+        leftAxis.setLabelCount(10, false);
         leftAxis.setDrawGridLines(true);
         leftAxis.setGranularityEnabled(true);
 
@@ -175,7 +172,7 @@ public class VitalSignChartsDetailFragment extends BaseFragment implements View.
         rightAxis.setTextSize(12f);
         rightAxis.setAxisMaximum(180f);
         rightAxis.setAxisMinimum(0f);
-        rightAxis.setLabelCount(10,false);
+        rightAxis.setLabelCount(10, false);
         rightAxis.setDrawGridLines(false);
         rightAxis.setDrawZeroLine(false);
         rightAxis.setGranularityEnabled(false);
@@ -218,13 +215,13 @@ public class VitalSignChartsDetailFragment extends BaseFragment implements View.
 
             if ("".equals(map.get("temperature"))) {
                 temperature = -1f;
-            }else{
+            } else {
                 temperature = Float.parseFloat((String) map.get("temperature"));
             }
 
             if ("".equals(map.get("pulse"))) {
                 pulse = -1f;
-            }else{
+            } else {
                 pulse = Float.parseFloat((String) map.get("pulse"));
             }
 

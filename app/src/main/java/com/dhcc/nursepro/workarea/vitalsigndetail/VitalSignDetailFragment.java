@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
 import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.ConvertUtils;
@@ -47,29 +46,30 @@ public class VitalSignDetailFragment extends BaseFragment implements View.OnClic
     private List<VitalSignDetailBean.TempConfigBean> listBeansTitle = new ArrayList<>();
     private VitalSignDetailAdapter vitalSignDetailAdapter;
     private SPUtils spUtils = SPUtils.getInstance();
-    private String episodeId, stDate, enDate, datestr,patInfo="";
-    private Bundle mBundle;
+    private String episodeId, stDate, enDate, datestr, patInfo = "";
+    private Bundle mBundle = new Bundle();
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//        setToolbarType(BaseActivity.ToolbarType.TOP);
-        if (isSingleModel){
+        //        setToolbarType(BaseActivity.ToolbarType.TOP);
+        if (isSingleModel) {
             hindMap();
         }
         setToolbarBottomLineVisibility(true);
         setToolbarCenterTitle(getString(R.string.title_vitalsigndetail), 0xffffffff, 17);
 
         enDate = spUtils.getString(SharedPreference.CURDATETIME).substring(0, 10);
-        stDate = DateUtils.getDateTimeAgo(spUtils.getString(SharedPreference.CURDATETIME),1).substring(0, 10);
+        stDate = DateUtils.getDateTimeAgo(spUtils.getString(SharedPreference.CURDATETIME), 1).substring(0, 10);
         Bundle bundle = getArguments();
-        mBundle = bundle;
-        episodeId = bundle.getString("episodeId");
-        if (bundle.getString("patInfo")!=null){
-            patInfo = bundle.getString("patInfo");
+        if (bundle != null) {
+            episodeId = bundle.getString("episodeId", "");
+            patInfo = bundle.getString("patInfo", "");
+            mBundle = bundle;
         }
-        setToolbarCenterTitle(getString(R.string.title_vitalsigndetail)+"("+patInfo+")", 0xffffffff, 17);
+
+        setToolbarCenterTitle(getString(R.string.title_vitalsigndetail) + "（" + patInfo + "）", 0xffffffff, 17);
 
         initView(view);
         initData();
@@ -100,11 +100,11 @@ public class VitalSignDetailFragment extends BaseFragment implements View.OnClic
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Map bean = listMap.get(position);
-                if (isSingleModel){
+                if (isSingleModel) {
                     Bundle bundle = new Bundle();
-                    bundle.putString("datetime", bean.get("date").toString()+" "+bean.get("time").toString());
+                    bundle.putString("datetime", bean.get("date").toString() + " " + bean.get("time").toString());
                     finish(bundle);
-                }else {
+                } else {
                     mBundle.putString("time", bean.get("time").toString());
                     mBundle.putString("date", bean.get("date").toString());
                     startFragment(VitalSignRecordFragment.class, mBundle);

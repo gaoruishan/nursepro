@@ -65,6 +65,7 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
 
     private List<VitalSignBean.LeftFilterBean> listLeftFilter = new ArrayList();
     private List<VitalSignBean.PatInfoListBean> listPatInfo = new ArrayList<>();
+    private List<VitalSignBean.PatInfoListBean> displayList = new ArrayList<>();
     private List<TextView> textViewList = new ArrayList<>();
     private List timeFilterList = new ArrayList();
 
@@ -133,23 +134,27 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
 
-                Map patientInfo = ((VitalSignBean.PatInfoListBean) adapter.getItem(position)).getPatMap();
+                VitalSignBean.PatInfoListBean patInfoListBean = (VitalSignBean.PatInfoListBean) adapter.getItem(position);
+
+                if (patInfoListBean == null) {
+                    return;
+                }
+
+                List<VitalSignPatBean> patList = new ArrayList<>();
+                displayList = patientAdapter.getData();
+                for (int i = 0; i < displayList.size(); i++) {
+                    VitalSignBean.PatInfoListBean patInfoListBeanI = displayList.get(i);
+                    VitalSignPatBean patBean = new VitalSignPatBean(patInfoListBeanI.getBedCode(), patInfoListBeanI.getName(), patInfoListBeanI.getRegNo(), patInfoListBeanI.getEpisodeId());
+                    patList.add(patBean);
+                }
+
+                //将列表数据存储在sp，避免Intent传输数据过大报错
+                Gson gson = new Gson();
+                String patListJsonStr = gson.toJson(patList);
+                spUtils.put(SharedPreference.DISPLAYLIST, patListJsonStr);
 
                 if (view.getId() == R.id.tv_vitalsign_vitalsign_record) {
                     //体征录入
-
-                    List<VitalSignPatBean> patList = new ArrayList<>();
-                    for (int i = 0; i < listPatInfo.size(); i++) {
-                        Map listPatItem = listPatInfo.get(i).getPatMap();
-                        VitalSignPatBean patBean = new VitalSignPatBean(listPatItem.get("bedCode").toString(), listPatItem.get("name").toString(), listPatItem.get("regNo").toString(), listPatItem.get("episodeId").toString());
-                        patList.add(patBean);
-                    }
-
-                    //将列表数据存储在sp，避免Intent传输数据过大报错
-                    Gson gson = new Gson();
-                    String patListJsonStr = gson.toJson(patList);
-                    spUtils.put(SharedPreference.DISPLAYLIST, patListJsonStr);
-
                     Bundle bundle = new Bundle();
                     bundle.putString("time", timeFilterStr);
                     bundle.putString("date", dateFilterStr);
@@ -161,27 +166,29 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                 } else if (view.getId() == R.id.tv_vitalsign_event_record) {
                     //事件登记
                     Bundle bundle = new Bundle();
-                    bundle.putString("regNo", (String) patientInfo.get("regNo"));
+                    bundle.putString("regNo", patInfoListBean.getRegNo());
                     startFragment(PatEventsFragment.class, bundle);
 
                 } else if (view.getId() == R.id.tv_vitalsign_tmp_preview) {
                     //体温单预览
-//                    String episodeId = (String) patientInfo.get("episodeId");
-//                    viewPatientTempImages(episodeId);
+                    //                    String episodeId = (String) patientInfo.get("episodeId");
+                    //                    viewPatientTempImages(episodeId);
 
                     //体征曲线图
-                    String episodeId = (String) patientInfo.get("episodeId");
+                    String episodeId = patInfoListBean.getEpisodeId();
                     Bundle bundle = new Bundle();
                     bundle.putString("episodeId", episodeId);
                     bundle.putInt("index", position);
+                    bundle.putString("patInfo", patInfoListBean.getBedCode() + " " + patInfoListBean.getName());
                     startFragment(VitalSignChartsDetailFragment.class, bundle);
 
                 } else {
                     //普通点击
-                    String episodeId = (String) patientInfo.get("episodeId");
+                    String episodeId = patInfoListBean.getEpisodeId();
                     Bundle bundle = new Bundle();
                     bundle.putString("episodeId", episodeId);
                     bundle.putInt("index", position);
+                    bundle.putString("patInfo", patInfoListBean.getBedCode() + " " + patInfoListBean.getName());
                     startFragment(VitalSignDetailFragment.class, bundle);
 
                 }
@@ -356,14 +363,15 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
         AllotBedApiManager.getUserMsg(mapmsg, NurseAPI.getPatWristInfo, new AllotBedApiManager.GetUserMsgCallBack() {
             @Override
             public void onSuccess(GetScanPatsBean getScanPatsBean) {
-
-                for (int i = 0; i < listPatInfo.size(); i++) {
-                    if ((getScanPatsBean.getPatInfo().getRegNo()).equals(listPatInfo.get(i).getPatMap().get("regNo"))) {
+                displayList = patientAdapter.getData();
+                int i;
+                for (i = 0; i < displayList.size(); i++) {
+                    if ((getScanPatsBean.getPatInfo().getRegNo()).equals(displayList.get(i).getRegNo())) {
 
                         List<VitalSignPatBean> patList = new ArrayList<>();
-                        for (int j = 0; j < listPatInfo.size(); j++) {
-                            Map listPatItem = listPatInfo.get(j).getPatMap();
-                            VitalSignPatBean patBean = new VitalSignPatBean(listPatItem.get("bedCode").toString(), listPatItem.get("name").toString(), listPatItem.get("regNo").toString(), listPatItem.get("episodeId").toString());
+                        for (int j = 0; j < displayList.size(); j++) {
+                            VitalSignBean.PatInfoListBean patInfoListBeanI = displayList.get(j);
+                            VitalSignPatBean patBean = new VitalSignPatBean(patInfoListBeanI.getBedCode(), patInfoListBeanI.getName(), patInfoListBeanI.getRegNo(), patInfoListBeanI.getEpisodeId());
                             patList.add(patBean);
                         }
 
@@ -380,7 +388,12 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                         bundle.putSerializable("timeList", (Serializable) timeFilterList);
 
                         startFragment(VitalSignRecordFragment.class, bundle);
+                        break;
                     }
+                }
+
+                if (i >= displayList.size()) {
+                    showToast("当前列表未找到该患者，可重置筛选再次尝试");
                 }
             }
 
@@ -413,17 +426,36 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
 
-        TimePickerDialog mDialogAll = new TimePickerDialog.Builder().setCallBack(this).setCancelStringId("取消").setSureStringId("确认").setTitleStringId("时间").setYearText("年").setMonthText("月").setDayText("日").setHourText("时").setMinuteText("分").setCyclic(false).setMinMillseconds(currentTimeMillis - tenYears).setMaxMillseconds(currentTimeMillis + tenYears).setCurrentMillseconds(currentTimeMillis).setThemeColor(getResources().getColor(R.color.colorPrimary)).setType(Type.ALL).setWheelItemTextNormalColor(getResources().getColor(R.color.timetimepicker_default_text_color)).setWheelItemTextSelectorColor(getResources().getColor(R.color.colorPrimaryDark)).setWheelItemTextSize(12).build();
+        TimePickerDialog mDialogAll = new TimePickerDialog.Builder()
+                .setCallBack(this)
+                .setCancelStringId("取消")
+                .setSureStringId("确认")
+                .setTitleStringId("时间")
+                .setYearText("年")
+                .setMonthText("月")
+                .setDayText("日")
+                .setHourText("时")
+                .setMinuteText("分")
+                .setCyclic(false)
+                .setMinMillseconds(currentTimeMillis - tenYears)
+                .setMaxMillseconds(currentTimeMillis + tenYears)
+                .setCurrentMillseconds(currentTimeMillis)
+                .setThemeColor(getResources().getColor(R.color.colorPrimary))
+                .setType(Type.ALL)
+                .setWheelItemTextNormalColor(getResources().getColor(R.color.timetimepicker_default_text_color))
+                .setWheelItemTextSelectorColor(getResources().getColor(R.color.colorPrimaryDark))
+                .setWheelItemTextSize(12)
+                .build();
 
-//        mDialogAll.settype(1);
-//        //取时间前两个字符转为int（02，06...）
-//
-//        List<String> timeList = new ArrayList();
-//        for (int i = 0; i < timeFilterList.size(); i++) {
-//            String str = (String) ((Map) timeFilterList.get(i)).get("time");
-//            timeList.add(str);
-//        }
-//        mDialogAll.setmHourMinute(timeList);
+        //        mDialogAll.settype(1);
+        //        //取时间前两个字符转为int（02，06...）
+        //
+        //        List<String> timeList = new ArrayList();
+        //        for (int i = 0; i < timeFilterList.size(); i++) {
+        //            String str = (String) ((Map) timeFilterList.get(i)).get("time");
+        //            timeList.add(str);
+        //        }
+        //        mDialogAll.setmHourMinute(timeList);
 
         mDialogAll.show(getFragmentManager(), "ALL");
 
@@ -476,17 +508,17 @@ public class VitalSignFragment extends BaseFragment implements View.OnClickListe
                 bundle.putStringArrayList("IMGURLS", urls);
                 startFragment(VitalSignTempImgFragment.class, bundle);
 
-//                ImagePipeline imagePipeline = Fresco.getImagePipeline();
-//                ArrayList<String> urls = new ArrayList<>();
-//                for (int i = 0; i < sum; i++) {
-//                    Map item = (Map) ((ArrayList) map.get("urlList")).get(i);
-//                    urls.add((String) item.get("url"));
-//                    Uri uri = Uri.parse((String) item.get("url"));
-//                    imagePipeline.evictFromMemoryCache(uri);
-//                    imagePipeline.evictFromDiskCache(uri);
-//                    imagePipeline.evictFromCache(uri);
-//                }
-//                new ImageViewer.Builder(getContext(), urls).setStartPosition(0).show();
+                //                ImagePipeline imagePipeline = Fresco.getImagePipeline();
+                //                ArrayList<String> urls = new ArrayList<>();
+                //                for (int i = 0; i < sum; i++) {
+                //                    Map item = (Map) ((ArrayList) map.get("urlList")).get(i);
+                //                    urls.add((String) item.get("url"));
+                //                    Uri uri = Uri.parse((String) item.get("url"));
+                //                    imagePipeline.evictFromMemoryCache(uri);
+                //                    imagePipeline.evictFromDiskCache(uri);
+                //                    imagePipeline.evictFromCache(uri);
+                //                }
+                //                new ImageViewer.Builder(getContext(), urls).setStartPosition(0).show();
             }
 
             @Override

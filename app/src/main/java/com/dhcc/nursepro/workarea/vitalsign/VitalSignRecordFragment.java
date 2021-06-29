@@ -37,6 +37,7 @@ import com.blankj.utilcode.util.TimeUtils;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.uiplugs.OptionView;
 import com.dhcc.nursepro.workarea.vitalsign.api.VitalSignApiManager;
+import com.dhcc.nursepro.workarea.vitalsign.bean.VitalSignPatBean;
 import com.dhcc.nursepro.workarea.vitalsign.bean.VitalSignRecordBean;
 import com.dhcc.nursepro.workarea.vitalsign.bean.VitalSignSaveBean;
 import com.dhcc.nursepro.workarea.vitalsigndetail.VitalSignChartsDetailFragment;
@@ -58,7 +59,6 @@ import cn.qqtheme.framework.widget.WheelView;
 
 public class VitalSignRecordFragment extends BaseFragment implements View.OnClickListener, OnDateSetListener {
 
-    private Map patientInfo;
 
     private TextView et_time;
 
@@ -74,7 +74,8 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
 
     private VitalSignRecordBean recordInfo;
 
-    private List<Map<String, Object>> patientList;
+    private List<VitalSignPatBean> patList = new ArrayList<>();
+    private VitalSignPatBean patientInfo;
 
     private int patientIndex;
 
@@ -147,10 +148,13 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
         if (Action.DEVICE_SCAN_CODE.equals(intent.getAction())) {
             Bundle bundle = new Bundle();
             bundle = intent.getExtras();
-            String scanInfo = bundle.getString("data");
+            String scanInfo = null;
+            if (bundle != null) {
+                scanInfo = bundle.getString("data");
+            }
             //            patientIndex
-            for (int i = 0; i < patientList.size(); i++) {
-                if (scanInfo.equals(patientList.get(i).get("regNo"))) {
+            for (int i = 0; i < patList.size(); i++) {
+                if (scanInfo != null && scanInfo.equals(patList.get(i).getRegNo())) {
                     patientIndex = i;
                     break;
                 }
@@ -281,11 +285,11 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
             tv_pre.setEnabled(false);
             tv_pre.setBackgroundColor(getResources().getColor(R.color.vital_sign_record_index_null_color));
         }
-        if (patientIndex == patientList.size() - 1) {
+        if (patientIndex == patList.size() - 1) {
             tv_next.setEnabled(false);
             tv_next.setBackgroundColor(getResources().getColor(R.color.vital_sign_record_index_null_color));
         }
-        if (patientIndex > 0 && patientIndex < patientList.size() - 1) {
+        if (patientIndex > 0 && patientIndex < patList.size() - 1) {
             tv_next.setEnabled(true);
             tv_next.setBackgroundColor(getResources().getColor(R.color.vital_sign_record_next_color));
             tv_pre.setEnabled(true);
@@ -293,9 +297,9 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
         }
 
         waiting = true;
-        patientInfo = patientList.get(patientIndex);
-        curEpisodeId = (String) patientInfo.get("episodeId");
-        String title = patientInfo.get("bedCode") + " " + patientInfo.get("name");
+        patientInfo = patList.get(patientIndex);
+        curEpisodeId = patientInfo.getEpisodeId();
+        String title = patientInfo.getBedCode() + " " + patientInfo.getPatName();
         setToolbarCenterTitle(title, 0xffffffff, 17);
         setScene("体征录入");
         recordContentView.removeAllViews();
@@ -719,10 +723,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
     @Override
     public void getVoiceResult(VoiceBean voiceBean) {
         Log.i("onResult json4", "jsonResult:" + voiceBean.getLast());
-        if (voiceBean != null &&
-                voiceBean.getForm() != null &&
-                voiceBean.getForm().getData() != null &&
-                voiceBean.getForm().getData().size() > 0) {
+        if (voiceBean.getForm() != null && voiceBean.getForm().getData() != null && voiceBean.getForm().getData().size() > 0) {
             for (int i = 0; i < listView.size(); i++) {
                 String viewTag = listView.get(i).getTag().toString();
                 for (int j = 0; j < voiceBean.getForm().getData().size(); j++) {
@@ -740,7 +741,7 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
                 }
 
             }
-        } else if (voiceBean != null && voiceBean.getLast()) {
+        } else if (voiceBean.getLast()) {
             String bedNoStr = "";
             if (voiceBean.getCommand().getBedNo() != null) {
                 bedNoStr = voiceBean.getCommand().getBedNo();
@@ -754,9 +755,9 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
                 actionStr = "";
             }
             if (actionStr.isEmpty() && (!bedNoStr.isEmpty())) {
-                Boolean isBed = false;
-                for (int i = 0; i < patientList.size(); i++) {
-                    if (bedNoStr.equals(patientList.get(i).get("bedCode"))) {
+                boolean isBed = false;
+                for (int i = 0; i < patList.size(); i++) {
+                    if (bedNoStr.equals(patList.get(i).getBedCode())) {
                         tempIndex = i;
                         isBed = true;
                         break;
@@ -797,15 +798,15 @@ public class VitalSignRecordFragment extends BaseFragment implements View.OnClic
 
         //取出sp中的列表
         Gson gson = new Gson();
-        java.lang.reflect.Type type = new TypeToken<List<Map<String, Object>>>() {
+        java.lang.reflect.Type type = new TypeToken<List<VitalSignPatBean>>() {
         }.getType();
-        patientList = new ArrayList<>();
+        patList = new ArrayList<>();
         String displayListJsonStr = SPUtils.getInstance().getString(SharedPreference.DISPLAYLIST);
-        patientList = gson.fromJson(displayListJsonStr, type);
+        patList = gson.fromJson(displayListJsonStr, type);
 
         Bundle bundle = getArguments();
         if (bundle != null) {
-            if (bundle.getString("fromTask") != null && bundle.getString("fromTask").equals("Y")) {
+            if (bundle.getString("fromTask") != null && "Y".equals(bundle.getString("fromTask"))) {
                 curEpisodeId = bundle.getString("episodeId");
                 timepoint = bundle.getString("timekey");
                 patInfo = bundle.getString("patInfo");
