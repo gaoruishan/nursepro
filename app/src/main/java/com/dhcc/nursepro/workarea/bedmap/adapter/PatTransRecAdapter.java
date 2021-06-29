@@ -29,7 +29,7 @@ public class PatTransRecAdapter extends BaseQuickAdapter<BedMapBean.TransRecList
     @SuppressLint("ResourceAsColor")
     @Override
     protected void convert(BaseViewHolder helper, BedMapBean.TransRecListBean item) {
-        helper.setText(R.id.tv_title, item.getTransDate()+" "+item.getTransTime()+"|"+item.getTransUser())
+        helper.setText(R.id.tv_title, item.getTransDate()+" "+item.getTransTime()+" | "+item.getTransUser())
                 .setText(R.id.tv_from, "原:"+item.getTransFrom())
                 .setText(R.id.tv_to, "现:"+item.getTransTo())
                 .setText(R.id.tv_type, item.getTransType())

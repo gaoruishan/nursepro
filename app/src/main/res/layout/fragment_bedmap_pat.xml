@@ -92,6 +92,7 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/ll_bedmappat_info"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_50"

@@ -65,7 +65,10 @@ public class OrderSearchOrderTypeAdapter extends BaseQuickAdapter<OrderSearchBea
             }
         }
 
-        helper.setText(R.id.tv_ordersearch_ordertype, item.getDesc());
+        helper.setText(R.id.tv_ordersearch_ordertype, item.getDesc())
+                .setText(R.id.tv_num, item.getSheetOrdNum())
+                .setGone(R.id.tv_num,!item.getSheetOrdNum().isEmpty())
+        ;
 
     }
 }

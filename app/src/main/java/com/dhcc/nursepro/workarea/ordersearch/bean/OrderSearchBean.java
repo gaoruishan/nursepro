@@ -1,5 +1,7 @@
 package com.dhcc.nursepro.workarea.ordersearch.bean;
 
+import com.dhcc.nursepro.workarea.orderexecute.bean.OrderExecuteBean;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
@@ -375,6 +377,15 @@ public class OrderSearchBean implements Serializable {
                 private String xCtcpDesc;
                 private String xDateTime;
                 private String filteFlagExtend;
+                private List<LoopInfoBean> loopInfo;
+
+                public List<LoopInfoBean> getLoopInfo() {
+                    return loopInfo;
+                }
+
+                public void setLoopInfo(List<LoopInfoBean> loopInfo) {
+                    this.loopInfo = loopInfo;
+                }
 
                 public String getFilteFlagExtend() {
                     return filteFlagExtend;
@@ -910,6 +921,45 @@ public class OrderSearchBean implements Serializable {
                 public void setXDateTime(String xDateTime) {
                     this.xDateTime = xDateTime;
                 }
+                public static class LoopInfoBean implements Serializable {
+                    private String loopDate;
+                    private String loopTime;
+                    private String workType;
+                    private String workUser;
+
+                    public String getLoopDate() {
+                        return loopDate;
+                    }
+
+                    public void setLoopDate(String loopDate) {
+                        this.loopDate = loopDate;
+                    }
+
+                    public String getLoopTime() {
+                        return loopTime;
+                    }
+
+                    public void setLoopTime(String loopTime) {
+                        this.loopTime = loopTime;
+                    }
+
+                    public String getWorkType() {
+                        return workType;
+                    }
+
+                    public void setWorkType(String workType) {
+                        this.workType = workType;
+                    }
+
+                    public String getWorkUser() {
+                        return workUser;
+                    }
+
+                    public void setWorkUser(String workUser) {
+                        this.workUser = workUser;
+                    }
+                }
+
 
                 public static class ExamInfoBean implements Serializable {
 
@@ -926,6 +976,16 @@ public class OrderSearchBean implements Serializable {
 
         private String code;
         private String desc;
+        private String sheetOrdNum="";
+
+        public String getSheetOrdNum() {
+            return sheetOrdNum;
+        }
+
+        public void setSheetOrdNum(String sheetOrdNum) {
+            this.sheetOrdNum = sheetOrdNum;
+        }
+
 
         public String getCode() {
             return code;

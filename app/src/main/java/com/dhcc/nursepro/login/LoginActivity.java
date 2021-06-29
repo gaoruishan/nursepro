@@ -491,7 +491,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void onSuccess(final LoginBean loginBean) {
 
-                spUtils.put(SharedPreference.BTN_VOICE_SHOW,loginBean.getVoicFlag().equals("1")?true:false);
+                spUtils.put(SharedPreference.BTN_VOICE_SHOW,loginBean.getVoiceFlag().equals("1")?true:false);
 
                 UserUtil.setUserConfig(loginBean);
                 spUtils.put(SharedPreference.CURDATETIME,loginBean.getCurDateTime());
