@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
     tools:context=".workarea.docorderlist.DocOrderListFragment">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,7 +49,6 @@
                 android:textSize="@dimen/sp_16" />
 
             <TextView
-                android:visibility="gone"
                 android:id="@+id/tv_tour_blood"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
@@ -56,7 +56,8 @@
                 android:gravity="center"
                 android:text="输血巡视"
                 android:textColor="@drawable/textcolor_item_bedmap_selector"
-                android:textSize="@dimen/sp_16" />
+                android:textSize="@dimen/sp_16"
+                android:visibility="gone" />
 
 
         </LinearLayout>
@@ -64,7 +65,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_1"
-            android:background="@color/blue_light"></View>
+            android:background="@color/blue_light"/>
 
 
         <LinearLayout
@@ -81,10 +82,10 @@
                 <View
                     android:id="@+id/view_tour_show1"
                     android:layout_width="match_parent"
-                    android:layout_marginLeft="@dimen/dp_5"
-                    android:layout_marginRight="@dimen/dp_5"
                     android:layout_height="@dimen/dp_2"
                     android:layout_centerInParent="true"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:layout_marginRight="@dimen/dp_5"
                     android:background="@color/blue" />
             </RelativeLayout>
 
@@ -96,10 +97,10 @@
                 <View
                     android:id="@+id/view_tour_show2"
                     android:layout_width="match_parent"
-                    android:layout_marginLeft="@dimen/dp_5"
-                    android:layout_marginRight="@dimen/dp_5"
                     android:layout_height="@dimen/dp_2"
                     android:layout_centerInParent="true"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:layout_marginRight="@dimen/dp_5"
                     android:background="@color/blue" />
             </RelativeLayout>
 
@@ -111,31 +112,30 @@
                 <View
                     android:id="@+id/view_tour_show3"
                     android:layout_width="match_parent"
-                    android:layout_marginLeft="@dimen/dp_5"
-                    android:layout_marginRight="@dimen/dp_5"
                     android:layout_height="@dimen/dp_2"
                     android:layout_centerInParent="true"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:layout_marginRight="@dimen/dp_5"
                     android:background="@color/blue" />
             </RelativeLayout>
 
             <RelativeLayout
-                android:visibility="gone"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="@dimen/dp_1"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:visibility="gone">
 
                 <View
                     android:id="@+id/view_tour_show4"
                     android:layout_width="match_parent"
-                    android:layout_marginLeft="@dimen/dp_5"
-                    android:layout_marginRight="@dimen/dp_5"
                     android:layout_height="@dimen/dp_2"
                     android:layout_centerInParent="true"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:layout_marginRight="@dimen/dp_5"
                     android:background="@color/blue" />
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
-
 
 
     <LinearLayout
@@ -143,8 +143,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/dp_5"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
+
         <LinearLayout
             android:id="@+id/ll_alltype"
             android:layout_width="@dimen/dp_85"
@@ -158,10 +158,12 @@
                 android:layout_height="wrap_content">
 
             </android.support.v7.widget.RecyclerView>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_1"
-                android:background="@color/blue"></View>
+                android:background="@color/blue"/>
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recy_tour_patlist"
                 android:layout_width="match_parent"
@@ -176,14 +178,15 @@
             android:layout_width="@dimen/dp_0"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="vertical"
             android:background="@color/white"
-            >
+            android:orientation="vertical">
+
             <LinearLayout
                 android:id="@+id/ll_tour_main_all"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <LinearLayout
                     android:id="@+id/ll_alltour_toptip"
                     android:layout_width="match_parent"
@@ -216,14 +219,14 @@
                         android:textColor="@color/blue" />
 
                     <TextView
-                        android:visibility="gone"
                         android:id="@+id/tv_tour_main_level3"
                         android:layout_width="@dimen/dp_0"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
                         android:text="输血巡视"
-                        android:textColor="@color/lab_warning_red" />
+                        android:textColor="@color/lab_warning_red"
+                        android:visibility="gone" />
                 </LinearLayout>
 
                 <android.support.v7.widget.RecyclerView
@@ -237,7 +240,7 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-    <RelativeLayout
+    <com.dhcc.nursepro.view.TouchRelativeLayout
         android:id="@+id/ll_tour_send"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -245,7 +248,7 @@
         <LinearLayout
             android:id="@+id/ll_tourmain_save"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_50"
+            android:layout_height="50dp"
             android:orientation="horizontal"
             android:layout_alignParentBottom="true"
             android:background="@color/blue">
@@ -254,13 +257,13 @@
                 android:id="@+id/tv_tour_cancle"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:background="@color/white"
-                android:textColor="@color/black"
                 android:layout_margin="@dimen/dp_1"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:gravity="center"
+                android:text="取消"
 
-                android:text="取消" />
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/tv_tour_save"
@@ -268,119 +271,126 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textColor="@color/white"
-                android:text="确定" />
+                android:text="确定"
+                android:textColor="@color/white" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_above="@+id/ll_tourmain_save">
+            android:layout_above="@+id/ll_tourmain_save"
+            android:orientation="vertical">
+
             <LinearLayout
                 android:id="@+id/ll_tourmain_nur"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <LinearLayout
                     android:id="@+id/ll_tournurlist_detail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
+
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        >
+                        android:layout_height="wrap_content">
+
                         <TextView
                             android:id="@+id/tv_nurtour_patinfo"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="101床   啦啦啦"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/sp_15"
                             android:layout_marginLeft="@dimen/dp_5"
                             android:layout_marginTop="@dimen/dp_5"
                             android:layout_marginBottom="@dimen/dp_5"
-                            />
+                            android:text="101床   啦啦啦"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/sp_15" />
 
                         <TextView
-                            android:visibility="gone"
                             android:id="@+id/tv_nurtour_level"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/sp_15"
-                            android:text="一级护理 "
-                            android:background="@color/blue"
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
-                            />
+                            android:background="@color/blue"
+                            android:text="一级护理 "
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/sp_15"
+                            android:visibility="gone" />
 
                     </RelativeLayout>
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_1"
                         android:background="@drawable/bg_oval_blue"></View>
+
                     <LinearLayout
-                        android:visibility="gone"
                         android:id="@+id/messagecontentll"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
+                        android:layout_margin="@dimen/dp_5"
                         android:gravity="center_vertical"
-                        android:layout_margin="@dimen/dp_5">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <TextView
                             android:id="@+id/tv_tourall_type"
                             android:layout_width="@dimen/dp_50"
                             android:layout_height="match_parent"
-                            android:orientation="vertical"
                             android:background="#FFF5A623"
                             android:gravity="center"
+                            android:orientation="vertical"
                             android:text="护理等级"
                             android:textColor="@color/white"
                             android:textSize="@dimen/sp_12" />
+
                         <TextView
                             android:id="@+id/tv_tourall_date1"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/dp_5"
                             android:gravity="center"
                             android:text="2019-10-02"
                             android:textColor="#FF4A4A4A"
-                            android:layout_marginLeft="@dimen/dp_5"
-                            android:textSize="@dimen/sp_13"/>
+                            android:textSize="@dimen/sp_13" />
 
                         <TextView
                             android:id="@+id/tv_tourall_time1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
                             android:layout_alignParentTop="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginLeft="@dimen/dp_5"
                             android:text="07:37:57"
                             android:textColor="#FF4A4A4A"
-                            android:layout_marginLeft="@dimen/dp_5"
-                            android:textSize="@dimen/sp_13"/>
+                            android:textSize="@dimen/sp_13" />
+
                         <TextView
                             android:id="@+id/tv_tourall_nursedetail"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
                             android:layout_alignParentTop="true"
-                            android:text="hs01"
-                            android:textColor="#FF4A4A4A"
+                            android:layout_alignParentRight="true"
                             android:layout_marginRight="@dimen/dp_55"
                             android:gravity="end"
-                            android:textSize="@dimen/sp_13"/>
+                            android:text="hs01"
+                            android:textColor="#FF4A4A4A"
+                            android:textSize="@dimen/sp_13" />
                     </LinearLayout>
+
                     <LinearLayout
-                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/dp_80"
-                            android:text="在此显示巡视详情"/>
+                            android:text="在此显示巡视详情" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -388,85 +398,93 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_0"
                     android:layout_weight="1">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
+
                         <LinearLayout
                             android:id="@+id/ll_tourmodel_lasttour"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/dp_5"
                                 android:layout_marginBottom="@dimen/dp_5"
-                                android:orientation="horizontal"
-                                android:gravity="center_vertical">
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
 
                                 <TextView
                                     android:id="@+id/tv_tourall_type2"
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
-                                    android:orientation="vertical"
                                     android:layout_marginLeft="@dimen/dp_5"
                                     android:gravity="center"
+                                    android:orientation="vertical"
                                     android:text="最近巡视:"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/sp_13" />
+
                                 <TextView
                                     android:id="@+id/tv_moedellasttour_date"
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
+                                    android:layout_marginLeft="@dimen/dp_5"
                                     android:gravity="center"
                                     android:text="2019-10-02"
                                     android:textColor="#FF4A4A4A"
-                                    android:layout_marginLeft="@dimen/dp_5"
-                                    android:textSize="@dimen/sp_14"/>
+                                    android:textSize="@dimen/sp_14" />
 
                                 <TextView
                                     android:id="@+id/tv_moedellasttour_time"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_alignParentRight="true"
                                     android:layout_alignParentTop="true"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginLeft="@dimen/dp_5"
                                     android:text="07:37:57"
                                     android:textColor="#FF4A4A4A"
-                                    android:layout_marginLeft="@dimen/dp_5"
-                                    android:textSize="@dimen/sp_14"/>
+                                    android:textSize="@dimen/sp_14" />
+
                                 <TextView
                                     android:id="@+id/tv_moedellasttour_nurse"
                                     android:layout_width="@dimen/dp_0"
-                                    android:layout_weight="1"
                                     android:layout_height="wrap_content"
-                                    android:layout_alignParentRight="true"
                                     android:layout_alignParentTop="true"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="@dimen/dp_10"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
                                     android:text="hs01"
                                     android:textColor="#FF4A4A4A"
-                                    android:layout_marginRight="@dimen/dp_10"
-                                    android:gravity="end"
-                                    android:textSize="@dimen/sp_14"/>
+                                    android:textSize="@dimen/sp_14" />
                             </LinearLayout>
+
                             <com.nex3z.flowlayout.FlowLayout
                                 android:id="@+id/fl_lasttour"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/dp_10"
                                 app:flChildSpacing="@dimen/dp_5"
-                                app:flRowSpacing="@dimen/dp_8"
-                                android:layout_marginBottom="@dimen/dp_10"/>
+                                app:flRowSpacing="@dimen/dp_8" />
 
                         </LinearLayout>
+
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/dp_4"
                             android:background="#FFF6F6F6"></View>
+
                         <LinearLayout
                             android:id="@+id/ll_tour_sendorderlist"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            >
+                            android:orientation="vertical">
+
                             <android.support.v7.widget.RecyclerView
                                 android:id="@+id/rec_model_orderlist"
                                 android:layout_width="match_parent"
@@ -474,10 +492,12 @@
 
                             </android.support.v7.widget.RecyclerView>
                         </LinearLayout>
+
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/dp_4"
                             android:background="#FFF6F6F6"></View>
+
                         <LinearLayout
                             android:id="@+id/fl_modeldetail"
                             android:layout_width="match_parent"
@@ -487,13 +507,13 @@
 
                         </LinearLayout>
                     </LinearLayout>
-                 
+
 
                 </ScrollView>
             </LinearLayout>
 
         </LinearLayout>
 
-    </RelativeLayout>
+    </com.dhcc.nursepro.view.TouchRelativeLayout>
 
 </LinearLayout>

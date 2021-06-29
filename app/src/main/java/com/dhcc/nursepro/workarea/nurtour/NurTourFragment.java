@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,7 +21,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.base.commlibs.BaseActivity;
@@ -36,6 +36,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.uiplugs.OptionView;
 import com.dhcc.nursepro.utils.DateUtils;
+import com.dhcc.nursepro.view.TouchRelativeLayout;
 import com.dhcc.nursepro.workarea.nurrecord.FlowRadioGroup;
 import com.dhcc.nursepro.workarea.nurrecord.ItemValueDialog;
 import com.dhcc.nursepro.workarea.nurtour.adapter.InfusionTourListAdapter;
@@ -84,7 +85,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 
     private LinearLayout llType;
     private LinearLayout llTourlist;
-    private RelativeLayout llTourSend;
+    private TouchRelativeLayout llTourSend;
 
     private RecyclerView recPatlist;
     private RecyclerView recPatType;
@@ -164,12 +165,6 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 
     private View viewright;
 
-
-    @Override
-    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_nurtour, container, false);
-    }
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -201,6 +196,30 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         initDataGrade();
         initDataInfusion();
 
+    }
+
+    @Override
+    public void getScanMsg(Intent intent) {
+        super.getScanMsg(intent);
+        Bundle bundle = new Bundle();
+        if (Objects.requireNonNull(intent.getAction()).equals(Action.DEVICE_SCAN_CODE)) {
+            tempTopTypeSelected = topTypeSelected;
+            bundle = intent.getExtras();
+            modelFlag = "input";
+            initDataModel(bundle.getString("data"), "", 1);
+        }
+        if (Objects.requireNonNull(intent.getAction()).equals(Action.TOUR_DOSINGID)) {
+            tempTopTypeSelected = topTypeSelected;
+            bundle = intent.getExtras();
+            modelFlag = "update";
+            initDataModel(bundle.getString("data"), bundle.getString("type"));
+        }
+
+    }
+
+    @Override
+    public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_nurtour, container, false);
     }
 
     private void initView(View view) {
@@ -280,15 +299,15 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 
     private void initAdapter() {
 
-        tourAllAdapter = new TourAllAdapter(new ArrayList<AllTourListBean.TourDataListBeanX>(), getActivity());
-        patsAdapter = new TourPatslistAdapter(new ArrayList<AllTourListBean.PatInfoListBean>());
-        tourPatTypeAdapter = new TourPatTypeAdapter(new ArrayList<AllTourListBean.TopFilterBean>());
-        nurTourTypeAdapter = new NurTourTypeAdapter(new ArrayList<GradeTourListBean.LeftFilterBean>());
-        nurPatTypeAdapter = new NurPatTypeAdapter(new ArrayList<GradeTourListBean.TopFilterBean>());
-        nurTourListAdapter = new NurTourListAdapter(new ArrayList<GradeTourListBean.PatInfoListBean>(), getActivity());
-        infusionTourTypeAdapter = new InfusionTourTypeAdapter(new ArrayList<InfusionListBean.TopFilterBean>());
-        infusionTourListAdapter = new InfusionTourListAdapter(new ArrayList<InfusionListBean.PatInfoListBean>(), getActivity());
-        modelOrderListAdapter = new ModelOrderListAdapter(new ArrayList<ModelDataBean.InfusionOrdInfoBean>(), getActivity());
+        tourAllAdapter = new TourAllAdapter(new ArrayList<>(), getActivity());
+        patsAdapter = new TourPatslistAdapter(new ArrayList<>());
+        tourPatTypeAdapter = new TourPatTypeAdapter(new ArrayList<>());
+        nurTourTypeAdapter = new NurTourTypeAdapter(new ArrayList<>());
+        nurPatTypeAdapter = new NurPatTypeAdapter(new ArrayList<>());
+        nurTourListAdapter = new NurTourListAdapter(new ArrayList<>(), getActivity());
+        infusionTourTypeAdapter = new InfusionTourTypeAdapter(new ArrayList<>());
+        infusionTourListAdapter = new InfusionTourListAdapter(new ArrayList<>(), getActivity());
+        modelOrderListAdapter = new ModelOrderListAdapter(new ArrayList<>(), getActivity());
 
         recAll.setAdapter(nurTourListAdapter);
 
@@ -483,7 +502,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
     /**
      * 获取巡视模板，modelType为返回的模板类型，根据类型加载对应控件
      */
-    private void initDataModel(String barcode, String tourtype) {
+    private void initDataModel(String barcode, String tourtype, int... args) {
         showLoadingTip(BaseActivity.LoadingType.FULL);
         HashMap<String, String> map = new HashMap<>();
         map.put("locId", spUtils.getString(SharedPreference.LOCID));
@@ -505,6 +524,19 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         TourApiManager.getModelData(map, NurseAPI.getModelData, new TourApiManager.getModelDatacall() {
             @Override
             public void onSuccess(ModelDataBean modelDataBean) {
+                //自动保存
+                if ("Grade".equals(modelDataBean.getModelType()) &&
+                        args != null && args.length > 0 && args[0] == 1) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (!llTourSend.isTouched()) {
+                                saveTour();
+                            }
+                        }
+                    }, 3000);
+                }
+
                 if (modelFlag.equals("update")) {
                     viewright.setVisibility(View.VISIBLE);
                 }
@@ -621,7 +653,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 
             @Override
             public void onFail(String code, String msg) {
-                showToast("error"+code + "--" + msg);
+                showToast("error" + code + "--" + msg);
                 hideLoadFailTip();
             }
         });
@@ -671,7 +703,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 
             @Override
             public void onFail(String code, String msg) {
-                showToast("error"+code + "--" + msg);
+                showToast("error" + code + "--" + msg);
                 hideLoadFailTip();
             }
         });
@@ -715,6 +747,8 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                 setTopFilterSelect();
                 break;
             case R.id.tv_tour_cancle:
+                llTourSend.setTouched(false);
+
                 viewright.setVisibility(View.GONE);
                 topTypeSelected = tempTopTypeSelected;
                 seToptEnable(true);
@@ -725,35 +759,39 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                 llTourlist.setVisibility(View.VISIBLE);
                 break;
             case R.id.tv_tour_save:
-
-                String strSendHead = "DHCNurTourAdmDR|" + sendEdpisodeId + "^DHCNurTourCtlocDR|" + spUtils.getString(SharedPreference.LOCID) +
-                        "^DHCNurTourPatBed|^DHCNurTourCareDR|^DHCNurTourCareDesc|^DHCNurTourUser|" + spUtils.getString(SharedPreference.USERCODE) +
-                        "^DHCNurTourType|" + modelType;
-                if (modelType.equals("Infusion")) {
-                    strSendHead = strSendHead + "^DHCNurTourInspectDR|" + sendOrderId;
-                }
-                String strSend = "";
-                for (int i = 0; i < modelListBeans.size(); i++) {
-                    if (modelListBeans.get(i).getItemCode().startsWith("DHC")) {
-                        strSend = strSend + "^" + modelListBeans.get(i).getSendValue();
-                    }
-                    if ("1".equals(modelListBeans.get(i).getMustFill())) {
-                        if (StringUtils.isEmpty(modelListBeans.get(i).getSendValue())) {
-                            showToast(modelListBeans.get(i).getItemDesc() + "--未填写");
-                            return;
-                        }
-                    }
-                    if (i == modelListBeans.size() - 1) {
-
-                        Log.v("111send", strSend);
-                    }
-                }
-                llType.setVisibility(View.VISIBLE);
-                initTourSave(strSendHead + strSend);
+                llTourSend.setTouched(false);
+                saveTour();
                 break;
             default:
                 break;
         }
+    }
+
+    private void saveTour() {
+        String strSendHead = "DHCNurTourAdmDR|" + sendEdpisodeId + "^DHCNurTourCtlocDR|" + spUtils.getString(SharedPreference.LOCID) +
+                "^DHCNurTourPatBed|^DHCNurTourCareDR|^DHCNurTourCareDesc|^DHCNurTourUser|" + spUtils.getString(SharedPreference.USERCODE) +
+                "^DHCNurTourType|" + modelType;
+        if (modelType.equals("Infusion")) {
+            strSendHead = strSendHead + "^DHCNurTourInspectDR|" + sendOrderId;
+        }
+        String strSend = "";
+        for (int i = 0; i < modelListBeans.size(); i++) {
+            if (modelListBeans.get(i).getItemCode().startsWith("DHC")) {
+                strSend = strSend + "^" + modelListBeans.get(i).getSendValue();
+            }
+            if ("1".equals(modelListBeans.get(i).getMustFill())) {
+                if (StringUtils.isEmpty(modelListBeans.get(i).getSendValue())) {
+                    showToast(modelListBeans.get(i).getItemDesc() + "--未填写");
+                    return;
+                }
+            }
+            if (i == modelListBeans.size() - 1) {
+
+                Log.v("111send", strSend);
+            }
+        }
+        llType.setVisibility(View.VISIBLE);
+        initTourSave(strSendHead + strSend);
     }
 
     /**
@@ -857,7 +895,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         patsAdapter.setNewData(patsListBeanFilter);
         patsAdapter.setSelectItem(0);
         recPatlist.scrollToPosition(0);
-        if (patsListBeanFilter.size()>0){
+        if (patsListBeanFilter.size() > 0) {
             episodeId = patsListBeanFilter.get(0).getEpisodeId();
         }
         initDataAll();
@@ -965,35 +1003,15 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
         infusionTourListAdapter.notifyDataSetChanged();
     }
 
-    @Override
-    public void getScanMsg(Intent intent) {
-        super.getScanMsg(intent);
-        Bundle bundle = new Bundle();
-        if (Objects.requireNonNull(intent.getAction()).equals(Action.DEVICE_SCAN_CODE)) {
-            tempTopTypeSelected = topTypeSelected;
-            bundle = intent.getExtras();
-            modelFlag = "input";
-            initDataModel(bundle.getString("data"), "");
-        }
-        if (Objects.requireNonNull(intent.getAction()).equals(Action.TOUR_DOSINGID)) {
-            tempTopTypeSelected = topTypeSelected;
-            bundle = intent.getExtras();
-            modelFlag = "update";
-            initDataModel(bundle.getString("data"), bundle.getString("type"));
-        }
-
-    }
-
-
     /**
      * 画控件.
      */
     public void drawInputItems() {
         recordContentView.removeAllViews();
-//        for (int i = 0; i < modelListBeans.size(); i++) {
-//            ModelDataBean.ModelListBean config = modelListBeans.get(i);
-//            recordContentView.addView(drawItem(config));
-//        }
+        //        for (int i = 0; i < modelListBeans.size(); i++) {
+        //            ModelDataBean.ModelListBean config = modelListBeans.get(i);
+        //            recordContentView.addView(drawItem(config));
+        //        }
 
 
         LinearLayout layout = null;
@@ -1065,15 +1083,15 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 
         config.setSendValue(config.getItemCode() + "|");
 
-//        int height = ConvertUtils.dp2px(Float.parseFloat(config.getHeight()));
-//        int width = ConvertUtils.dp2px(Float.parseFloat(config.getWidth()));
-//
-//        LinearLayout layout = new LinearLayout(getContext());
-//        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, height);
-//
-//        layout.setLayoutParams(params);
-//        layout.setOrientation(LinearLayout.HORIZONTAL);
-//        layout.setBackgroundResource(R.drawable.vital_sign_border);
+        //        int height = ConvertUtils.dp2px(Float.parseFloat(config.getHeight()));
+        //        int width = ConvertUtils.dp2px(Float.parseFloat(config.getWidth()));
+        //
+        //        LinearLayout layout = new LinearLayout(getContext());
+        //        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, height);
+        //
+        //        layout.setLayoutParams(params);
+        //        layout.setOrientation(LinearLayout.HORIZONTAL);
+        //        layout.setBackgroundResource(R.drawable.vital_sign_border);
 
 
         LinearLayout layout = new LinearLayout(getContext());
@@ -1105,32 +1123,32 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
 
         layout.addView(titleTV);
 
-//        //统一名称textview
-//        TextView titleTV = new TextView(getContext());
-//        titleTV.setText(config.getItemDesc());
-//        titleTV.setTextSize(Float.parseFloat(config.getFontSize()));
-//
-//        //判断是否必填，必填的话字体变红
+        //        //统一名称textview
+        //        TextView titleTV = new TextView(getContext());
+        //        titleTV.setText(config.getItemDesc());
+        //        titleTV.setTextSize(Float.parseFloat(config.getFontSize()));
+        //
+        //        //判断是否必填，必填的话字体变红
         if ("1".equals(config.getMustFill())) {
             titleTV.setTextColor(ContextCompat.getColor(getActivity(), R.color.nurrecord_text_mustfill_color));
         } else {
             titleTV.setTextColor(ContextCompat.getColor(getActivity(), R.color.nurrecord_text_normal_color));
         }
-//
-//        LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//        titleParams.setMargins(ConvertUtils.dp2px(5), 0, 5, 0);
-//        titleTV.setLayoutParams(titleParams);
-//        titleTV.setGravity(Gravity.TOP);
-//
-//        titleTV.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (!"".equals(config.getToastStr())) {
-//                    showToast(config.getToastStr());
-//                }
-//            }
-//        });
-//        layout.addView(titleTV);
+        //
+        //        LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        //        titleParams.setMargins(ConvertUtils.dp2px(5), 0, 5, 0);
+        //        titleTV.setLayoutParams(titleParams);
+        //        titleTV.setGravity(Gravity.TOP);
+        //
+        //        titleTV.setOnClickListener(new View.OnClickListener() {
+        //            @Override
+        //            public void onClick(View v) {
+        //                if (!"".equals(config.getToastStr())) {
+        //                    showToast(config.getToastStr());
+        //                }
+        //            }
+        //        });
+        //        layout.addView(titleTV);
 
         if ("E".equals(config.getItemType())) {
             //输入框
@@ -1148,41 +1166,41 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
             layoutParams.setMargins(ConvertUtils.dp2px(10), ConvertUtils.dp2px(11), ConvertUtils.dp2px(10), 45);//4个参数按顺序分别是左上右下
             edText.setLayoutParams(layoutParams);
 
-//            int sw = ScreenUtils.getScreenWidth();
-//            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, ViewGroup.LayoutParams.MATCH_PARENT);
-//            edText.setLayoutParams(layoutParams);
-//            edText.setBackgroundResource(R.drawable.vital_sign_input_bg);
-//            edText.setPadding(ConvertUtils.dp2px(5), 0, ConvertUtils.dp2px(5), 0);
-//            edText.setTextSize(Float.parseFloat(config.getFontSize()));
+            //            int sw = ScreenUtils.getScreenWidth();
+            //            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, ViewGroup.LayoutParams.MATCH_PARENT);
+            //            edText.setLayoutParams(layoutParams);
+            //            edText.setBackgroundResource(R.drawable.vital_sign_input_bg);
+            //            edText.setPadding(ConvertUtils.dp2px(5), 0, ConvertUtils.dp2px(5), 0);
+            //            edText.setTextSize(Float.parseFloat(config.getFontSize()));
             edText.setSingleLine();
             viewItemMap.put(config.getItemCode(), edText);
-//            edText.setOnLongClickListener(new View.OnLongClickListener() {
-//                @Override
-//                public boolean onLongClick(View v) {
-//                    showDialog = new ItemValueDialog(getActivity(),edText.hasFocusable());
-//                    showDialog.setTitle(config.getItemDesc());
-//                    showDialog.setMessage(edText.getText()+"");
-//                    showDialog.setYesOnclickListener("确定", new ItemValueDialog.onYesOnclickListener() {
-//                        @Override
-//                        public void onYesClick() {
-//                            edText.setText(showDialog.getMessage());
-//                            edText.setSelection(edText.getText().length());
-//                            showDialog.dismiss();
-//                        }
-//                    });
-//                    showDialog.show();
-//                    return false;
-//                }
-//            });
+            //            edText.setOnLongClickListener(new View.OnLongClickListener() {
+            //                @Override
+            //                public boolean onLongClick(View v) {
+            //                    showDialog = new ItemValueDialog(getActivity(),edText.hasFocusable());
+            //                    showDialog.setTitle(config.getItemDesc());
+            //                    showDialog.setMessage(edText.getText()+"");
+            //                    showDialog.setYesOnclickListener("确定", new ItemValueDialog.onYesOnclickListener() {
+            //                        @Override
+            //                        public void onYesClick() {
+            //                            edText.setText(showDialog.getMessage());
+            //                            edText.setSelection(edText.getText().length());
+            //                            showDialog.dismiss();
+            //                        }
+            //                    });
+            //                    showDialog.show();
+            //                    return false;
+            //                }
+            //            });
             //是否可编辑
-//            if ("1".equals(config.getEditFlag())) {
-//                edText.setTextColor(getResources().getColor(R.color.nurrecord_edit_normal_color));
-//            } else {
-//                edText.setFocusable(false);
-//                edText.setTextColor(getResources().getColor(R.color.nurrecord_edit_defaultvalue_color));
-//                edText.setText(config.getPatInfo());
-//            }
-//            edText.setInputType(InputType.TYPE_CLASS_NUMBER);
+            //            if ("1".equals(config.getEditFlag())) {
+            //                edText.setTextColor(getResources().getColor(R.color.nurrecord_edit_normal_color));
+            //            } else {
+            //                edText.setFocusable(false);
+            //                edText.setTextColor(getResources().getColor(R.color.nurrecord_edit_defaultvalue_color));
+            //                edText.setText(config.getPatInfo());
+            //            }
+            //            edText.setInputType(InputType.TYPE_CLASS_NUMBER);
             //根据默认内容优先级填入默认值
             if (StringUtils.isEmpty(config.getPatInfo())) {
                 edText.setText(config.getItemdeValue());
@@ -1263,7 +1281,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                     listCk.add(mapCk);
                     if ("false".equals(config.getEditFlag())) {
                         cb.setEnabled(false);
-//                        config.setEditFlag("true");
+                        //                        config.setEditFlag("true");
                     } else {
                         cb.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -1277,7 +1295,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                                 config.setSendValue(getckvalue((ArrayList<HashMap>) listCk, config.getItemCode()) + "");
                                 showToast(getckvalue((ArrayList<HashMap>) listCk, config.getItemCode()));
                                 if (config.getLinkInfo().size() > 0) {
-//                                    linkView(config.getLinkInfo(), getckvalue((ArrayList<HashMap>) listCk,config.getItemCode()) + "",cb.isChecked(),"isC");
+                                    //                                    linkView(config.getLinkInfo(), getckvalue((ArrayList<HashMap>) listCk,config.getItemCode()) + "",cb.isChecked(),"isC");
                                 }
                             }
                         });
@@ -1322,7 +1340,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                                 showToast(config.getItemCode() + "|" + rb.getText() + "");
                                 config.setSendValue(config.getItemCode() + "|" + rb.getId() + "!" + rb.getText() + "");
                                 if (config.getLinkInfo().size() > 0) {
-//                                    linkView(config.getLinkInfo(), rb.getText() + "",rb.isChecked(),"isR");
+                                    //                                    linkView(config.getLinkInfo(), rb.getText() + "",rb.isChecked(),"isR");
                                 }
                             }
                         });
@@ -1372,10 +1390,10 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                     rb.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-//                            showToast(rb.getText() + "----");
+                            //                            showToast(rb.getText() + "----");
                             config.setSendValue(config.getItemCode() + "|" + rb.getText() + "");
                             if (config.getLinkInfo().size() > 0) {
-//                                linkView(config.getLinkInfo(), rb.getText() + "",rb.isChecked(),"isR");
+                                //                                linkView(config.getLinkInfo(), rb.getText() + "",rb.isChecked(),"isR");
                             }
                         }
                     });
@@ -1410,28 +1428,28 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                     titleTV.setLayoutParams(layoutParams);
                 }
             } else {
-//                TextView tvalue = new TextView(getContext());
-//                tvalue.setText(config.getItemdeValue() + "===");
-//                //        titleTV.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-//                tvalue.setTextSize(Float.parseFloat(config.getFontSize()));
-//                tvalue.setGravity(Gravity.CENTER_HORIZONTAL);
-//                layout.addView(tvalue);
+                //                TextView tvalue = new TextView(getContext());
+                //                tvalue.setText(config.getItemdeValue() + "===");
+                //                //        titleTV.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+                //                tvalue.setTextSize(Float.parseFloat(config.getFontSize()));
+                //                tvalue.setGravity(Gravity.CENTER_HORIZONTAL);
+                //                layout.addView(tvalue);
             }
         } else if ("TN".equals(config.getItemType())) {
             viewItemMap.put(config.getItemCode(), titleTV);
 
             //判断是否单行显示
             if ("0".equals(config.getTitleHiddeFlag())) {
-//                TextView tvalue = new TextView(getContext());
-//                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(height, ViewGroup.LayoutParams.MATCH_PARENT);
-//                titleTV.setLayoutParams(layoutParams);
+                //                TextView tvalue = new TextView(getContext());
+                //                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(height, ViewGroup.LayoutParams.MATCH_PARENT);
+                //                titleTV.setLayoutParams(layoutParams);
             } else {
-//                TextView tvalue = new TextView(getContext());
-//                tvalue.setText(config.getItemdeValue() + "===");
-//                //        titleTV.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-//                tvalue.setTextSize(Float.parseFloat(config.getFontSize()));
-//                tvalue.setGravity(Gravity.CENTER_HORIZONTAL);
-//                layout.addView(tvalue);
+                //                TextView tvalue = new TextView(getContext());
+                //                tvalue.setText(config.getItemdeValue() + "===");
+                //                //        titleTV.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+                //                tvalue.setTextSize(Float.parseFloat(config.getFontSize()));
+                //                tvalue.setGravity(Gravity.CENTER_HORIZONTAL);
+                //                layout.addView(tvalue);
             }
         } else if ("D".equals(config.getItemType())) {
             //日期选择
@@ -1441,8 +1459,8 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
             } else {
                 tvalue.setText(config.getItemdeValue());
             }
-//            tvalue.setTextSize(Float.parseFloat(config.getFontSize()));
-//            tvalue.setGravity(Gravity.CENTER_HORIZONTAL);
+            //            tvalue.setTextSize(Float.parseFloat(config.getFontSize()));
+            //            tvalue.setGravity(Gravity.CENTER_HORIZONTAL);
 
             tvalue.setTextSize(16);
             tvalue.setTextColor(getResources().getColor(R.color.vital_sign_record_next_color));
@@ -1500,15 +1518,15 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                 tvalue.setText(config.getItemdeValue());
             }
 
-//            if (StringUtils.isEmpty(config.getPatInfo())) {
-//                tvalue.setText(config.getItemdeValue());
-//                config.setSendValue(config.getItemCode()+"|"+config.getItemdeValue() + "");
-//            } else if (!StringUtils.isEmpty(patInfoMap.get(config.getPatInfo())+"")){
-//                tvalue.setText((patInfoMap.get(config.getPatInfo()) + ""));
-//                config.setSendValue(config.getItemCode()+"|"+(patInfoMap.get(config.getPatInfo()) + ""));
-//            }
-//            tvalue.setTextSize(Float.parseFloat(config.getFontSize()));
-//            tvalue.setGravity(Gravity.CENTER_HORIZONTAL);
+            //            if (StringUtils.isEmpty(config.getPatInfo())) {
+            //                tvalue.setText(config.getItemdeValue());
+            //                config.setSendValue(config.getItemCode()+"|"+config.getItemdeValue() + "");
+            //            } else if (!StringUtils.isEmpty(patInfoMap.get(config.getPatInfo())+"")){
+            //                tvalue.setText((patInfoMap.get(config.getPatInfo()) + ""));
+            //                config.setSendValue(config.getItemCode()+"|"+(patInfoMap.get(config.getPatInfo()) + ""));
+            //            }
+            //            tvalue.setTextSize(Float.parseFloat(config.getFontSize()));
+            //            tvalue.setGravity(Gravity.CENTER_HORIZONTAL);
             tvalue.setTextSize(16);
             tvalue.setTextColor(getResources().getColor(R.color.vital_sign_record_next_color));
             tvalue.setBackgroundResource(R.drawable.vital_sign_input_bg);
@@ -1599,40 +1617,40 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
             viewItemMap.put(config.getItemCode(), optionView);
 
 
-//
-////            showToast("出现未知类型控件，请联系后台进行数据修复或更新应用");
-//            //选择框
-//            List ll = new ArrayList();
-//            String[] split = config.getItemValue().split("!");
-//            for (String str:split){
-//                ll.add(str);
-//            }
-//
-//            final OptionView optionView = new OptionView(getActivity(), ll);
-//            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(100, 50);
-//            optionView.setLayoutParams(layoutParams);
-//            optionView.setTextSize(16);
-//            optionView.setBackgroundResource(R.drawable.vital_sign_input_bg);
-//            optionView.setGravity(Gravity.CENTER);
-//
-//            optionView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    optionView.picker.setOnOptionPickListener(new OptionPicker.OnOptionPickListener() {
-//                        @Override
-//                        public void onOptionPicked(int index, String item) {
-//                            config.setSendValue(config.getItemCode()+"|"+item);
-//                            optionView.setText(item);
-//                        }
-//                    });
-//                    optionView.showPicker();
-//                }
-//            });
-//
-//
-//            config.setSendValue(config.getItemCode()+"|"+optionView.getText().toString());
-//            layout.addView(optionView);
-//            viewItemMap.put(config.getItemCode(), optionView);
+            //
+            ////            showToast("出现未知类型控件，请联系后台进行数据修复或更新应用");
+            //            //选择框
+            //            List ll = new ArrayList();
+            //            String[] split = config.getItemValue().split("!");
+            //            for (String str:split){
+            //                ll.add(str);
+            //            }
+            //
+            //            final OptionView optionView = new OptionView(getActivity(), ll);
+            //            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(100, 50);
+            //            optionView.setLayoutParams(layoutParams);
+            //            optionView.setTextSize(16);
+            //            optionView.setBackgroundResource(R.drawable.vital_sign_input_bg);
+            //            optionView.setGravity(Gravity.CENTER);
+            //
+            //            optionView.setOnClickListener(new View.OnClickListener() {
+            //                @Override
+            //                public void onClick(View v) {
+            //                    optionView.picker.setOnOptionPickListener(new OptionPicker.OnOptionPickListener() {
+            //                        @Override
+            //                        public void onOptionPicked(int index, String item) {
+            //                            config.setSendValue(config.getItemCode()+"|"+item);
+            //                            optionView.setText(item);
+            //                        }
+            //                    });
+            //                    optionView.showPicker();
+            //                }
+            //            });
+            //
+            //
+            //            config.setSendValue(config.getItemCode()+"|"+optionView.getText().toString());
+            //            layout.addView(optionView);
+            //            viewItemMap.put(config.getItemCode(), optionView);
         }
 
         //判断是否有图片，有的话加载
@@ -1640,7 +1658,7 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
             LinearLayout.LayoutParams paramsimg = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             ImageView imageView = new ImageView(getContext());
             imageView.setLayoutParams(paramsimg);
-//            downImage(imageView,config.getImageName());
+            //            downImage(imageView,config.getImageName());
             downImage(imageView, "http://10.1.5.87/dhcmg/2229.gif");
             layout.addView(imageView);
         }

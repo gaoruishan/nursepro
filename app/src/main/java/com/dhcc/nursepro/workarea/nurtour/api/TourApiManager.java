@@ -269,55 +269,60 @@ public class TourApiManager {
     }
 
     //获取输血巡视列表
-//    public static void getBloodList(HashMap<String, String> map, String method, final getBloodcall callback) {
-//
-//        TourApiService.getTourListMsg(map, method, new TourApiService.ServiceCallBack() {
-//            @Override
-//            public void onResult(String jsonStr) {
-//                Gson gson = new Gson();
-//
-//                if (jsonStr.isEmpty()) {
-//                    callback.onFail("-1", "网络错误，请求数据为空");
-//                } else {
-//                    try {
-//                        BloodListBean bloodListBean = gson.fromJson(jsonStr, BloodListBean.class);
-//                        if (ObjectUtils.isEmpty(bloodListBean)) {
-//                            callback.onFail("-3", "网络错误，数据解析为空");
-//                        } else {
-//                            if ("0".equals(bloodListBean.getStatus())) {
-//                                if (callback != null) {
-//                                    callback.onSuccess(bloodListBean);
-//                                }
-//                            } else {
-//                                if (callback != null) {
-//                                    callback.onFail(bloodListBean.getMsgcode(), bloodListBean.getMsg());
-//                                }
-//                            }
-//                        }
-//                    } catch (Exception e) {
-//                        callback.onFail("-2", "网络错误，数据解析失败");
-//                    }
-//
-//                }
-//            }
-//        });
-//    }
+    //    public static void getBloodList(HashMap<String, String> map, String method, final getBloodcall callback) {
+    //
+    //        TourApiService.getTourListMsg(map, method, new TourApiService.ServiceCallBack() {
+    //            @Override
+    //            public void onResult(String jsonStr) {
+    //                Gson gson = new Gson();
+    //
+    //                if (jsonStr.isEmpty()) {
+    //                    callback.onFail("-1", "网络错误，请求数据为空");
+    //                } else {
+    //                    try {
+    //                        BloodListBean bloodListBean = gson.fromJson(jsonStr, BloodListBean.class);
+    //                        if (ObjectUtils.isEmpty(bloodListBean)) {
+    //                            callback.onFail("-3", "网络错误，数据解析为空");
+    //                        } else {
+    //                            if ("0".equals(bloodListBean.getStatus())) {
+    //                                if (callback != null) {
+    //                                    callback.onSuccess(bloodListBean);
+    //                                }
+    //                            } else {
+    //                                if (callback != null) {
+    //                                    callback.onFail(bloodListBean.getMsgcode(), bloodListBean.getMsg());
+    //                                }
+    //                            }
+    //                        }
+    //                    } catch (Exception e) {
+    //                        callback.onFail("-2", "网络错误，数据解析失败");
+    //                    }
+    //
+    //                }
+    //            }
+    //        });
+    //    }
 
     public interface getPatsListCallback extends CommonCallBack {
         void onSuccess(AllTourListBean allTourListBean);
     }
+
     public interface getGradeTourListcall extends CommonCallBack {
         void onSuccess(GradeTourListBean gradeTourListBean);
     }
+
     public interface getGradeModelcall extends CommonCallBack {
         void onSuccess(GradeModelBean gradeModelBean);
     }
+
     public interface getModelDatacall extends CommonCallBack {
         void onSuccess(ModelDataBean modelDataBean);
     }
+
     public interface getInfusionlcall extends CommonCallBack {
         void onSuccess(InfusionListBean infusionListBean);
     }
+
     public interface getBloodcall extends CommonCallBack {
         void onSuccess(BloodListBean bloodListBean);
     }
