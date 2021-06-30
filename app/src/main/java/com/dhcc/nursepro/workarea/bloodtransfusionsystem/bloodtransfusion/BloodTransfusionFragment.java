@@ -12,9 +12,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.base.commlibs.BaseActivity;
@@ -310,11 +308,12 @@ public class BloodTransfusionFragment extends BaseFragment {
                 String bloodId = bloodInfo.getBloodProductId().equals("") ? "" : bloodInfo.getBloodProductId() + "-";
                 String bloodDesc = bloodInfo.getProductDesc().equals("") ? "" : bloodInfo.getProductDesc() + "-";
                 String bloodGroup = bloodInfo.getBloodGroup().equals("") ? "" : bloodInfo.getBloodGroup();
+                String patbloodGroup = bloodInfo.getPatBldGroup().equals("") ? "" : bloodInfo.getPatBldGroup();
                 bloodInfoStr = bloodId + bloodDesc + bloodGroup;
                 bloodProductId = bloodId + bloodDesc + bloodGroup;
                 tvBloodInfo.setText(bloodInfoStr);
                 bloodRowId = bloodInfo.getBloodRowId();
-                patInfoStr = patInfoStr + "-" + bloodGroup;
+                patInfoStr = patInfoStr + "-" + patbloodGroup;
                 tvPatInfo.setText(patInfoStr);
             }
 

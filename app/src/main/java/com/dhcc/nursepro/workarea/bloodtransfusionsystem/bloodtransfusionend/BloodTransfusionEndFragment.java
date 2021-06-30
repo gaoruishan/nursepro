@@ -12,7 +12,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -262,11 +261,12 @@ public class BloodTransfusionEndFragment extends BaseFragment {
                 String bloodId = blooInfo.getBloodProductId().equals("") ? "" : blooInfo.getBloodProductId() + "-";
                 String bloodDesc = blooInfo.getProductDesc().equals("") ? "" : blooInfo.getProductDesc() + "-";
                 String bloodGroup = blooInfo.getBloodGroup().equals("") ? "" : blooInfo.getBloodGroup();
+                String patbloodGroup = blooInfo.getPatBldGroup().equals("") ? "" : blooInfo.getPatBldGroup();
                 bloodInfoStr = bloodId + bloodDesc + bloodGroup;
                 bloodProductId = bloodId + bloodDesc + bloodGroup;
                 tvBlood.setText(bloodInfoStr);
                 bloodRowId = blooInfo.getBloodRowId();
-                patInfoStr = patInfoStr + "-" + bloodGroup;
+                patInfoStr = patInfoStr + "-" + patbloodGroup;
                 tvPatinfo.setText(patInfoStr);
             }
 

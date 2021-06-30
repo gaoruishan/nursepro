@@ -181,7 +181,7 @@ public class BloodSignFragment extends BaseFragment {
 
                         bloodInfo = bloodInfoBean.getBlooInfo();
                         tvBloodsignBloodproductinfo.setText(bloodProductId + "-" + bloodInfo.getProductDesc() + "-" + bloodInfo.getBloodGroup());
-                        tvBloodsignBloodpatientinfo.setText(bloodInfo.getWardDesc() + "-" + bloodInfo.getBedCode() + "-" + bloodInfo.getPatName() + "-" + bloodInfo.getPatientId() + "-" + bloodInfo.getBloodGroup());
+                        tvBloodsignBloodpatientinfo.setText(bloodInfo.getWardDesc() + "-" + bloodInfo.getBedCode() + "-" + bloodInfo.getPatName() + "-" + bloodInfo.getPatientId() + "-" + bloodInfo.getPatBldGroup());
                         tvBloodscantip.setText("请点击确认签收血袋");
                         imgBloodproduct.setSelected(true);
                         lineBlood2.setSelected(true);
@@ -214,7 +214,7 @@ public class BloodSignFragment extends BaseFragment {
                         public void onSuccess(BloodInfoBean bloodInfoBean) {
                             bloodInfo = bloodInfoBean.getBlooInfo();
                             tvBloodsignBloodproductinfo.setText(bloodProductId + "-" + bloodInfo.getProductDesc() + "-" + bloodInfo.getBloodGroup());
-                            tvBloodsignBloodpatientinfo.setText(bloodInfo.getWardDesc() + "-" + bloodInfo.getBedCode() + "-" + bloodInfo.getPatName() + "-" + bloodInfo.getPatientId() + "-" + bloodInfo.getBloodGroup());
+                            tvBloodsignBloodpatientinfo.setText(bloodInfo.getWardDesc() + "-" + bloodInfo.getBedCode() + "-" + bloodInfo.getPatName() + "-" + bloodInfo.getPatientId() + "-" + bloodInfo.getPatBldGroup());
                             tvBloodscantip.setText("请点击确认签收血袋");
                             imgBloodproduct.setSelected(true);
                             lineBlood2.setSelected(true);

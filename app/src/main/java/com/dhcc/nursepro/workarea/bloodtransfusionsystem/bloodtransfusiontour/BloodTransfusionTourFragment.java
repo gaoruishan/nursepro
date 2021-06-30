@@ -425,7 +425,7 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
                 bloodInfo = bloodInfoBean.getBlooInfo();
                 bloodRowId = bloodInfo.getBloodRowId();
                 tvBloodtranstourBloodproductinfo.setText(bloodProductId + "-" + bloodInfo.getProductDesc() + "-" + bloodInfo.getBloodGroup());
-                tvBloodtranstourBloodpatientinfo.setText(bloodInfo.getWardDesc() + "-" + bloodInfo.getBedCode() + "-" + bloodInfo.getPatName() + "-" + bloodInfo.getPatientId() + "-" + bloodInfo.getBloodGroup());
+                tvBloodtranstourBloodpatientinfo.setText(bloodInfo.getWardDesc() + "-" + bloodInfo.getBedCode() + "-" + bloodInfo.getPatName() + "-" + bloodInfo.getPatientId() + "-" + bloodInfo.getPatBldGroup());
                 tvBloodscantip.setText("请填写输血巡视内容");
                 imgBloodproduct.setSelected(true);
                 lineBlood2.setSelected(true);

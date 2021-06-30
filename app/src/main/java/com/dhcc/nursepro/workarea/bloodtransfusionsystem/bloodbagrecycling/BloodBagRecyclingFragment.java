@@ -150,7 +150,7 @@ public class BloodBagRecyclingFragment extends BaseFragment {
                 public void onSuccess(BloodInfoBean bloodInfoBean) {
                     bloodInfo = bloodInfoBean.getBlooInfo();
                     tvBloodbagrecyclingBloodproductinfo.setText(bloodProductId + "-" + bloodInfo.getProductDesc() + "-" + bloodInfo.getBloodGroup());
-                    tvBloodbagrecyclingBloodpatientinfo.setText(bloodInfo.getWardDesc() + "-" + bloodInfo.getBedCode() + "-" + bloodInfo.getPatName() + "-" + bloodInfo.getPatientId() + "-" + bloodInfo.getBloodGroup());
+                    tvBloodbagrecyclingBloodpatientinfo.setText(bloodInfo.getWardDesc() + "-" + bloodInfo.getBedCode() + "-" + bloodInfo.getPatName() + "-" + bloodInfo.getPatientId() + "-" + bloodInfo.getPatBldGroup());
 
                     imgBloodproduct.setSelected(true);
                     lineBlood2.setSelected(true);
