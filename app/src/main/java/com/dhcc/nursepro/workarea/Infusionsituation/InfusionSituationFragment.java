@@ -1,5 +1,6 @@
 package com.dhcc.nursepro.workarea.Infusionsituation;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
 import com.base.commlibs.NurseAPI;
+import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -18,6 +20,7 @@ import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.Infusionsituation.adapter.InfusionSituationPatAdapter;
 import com.dhcc.nursepro.workarea.Infusionsituation.api.InfusionSituationApiManager;
 import com.dhcc.nursepro.workarea.Infusionsituation.bean.GetInfusionByWardBean;
+import com.dhcc.nursepro.workarea.Infusionsituation.infusionutils.InfusionOrdExeUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,6 +36,7 @@ public class InfusionSituationFragment extends BaseFragment {
     private RecyclerView recyInfusionsituation;
 
     private InfusionSituationPatAdapter patAdapter;
+    private InfusionOrdExeUtil infusionOrdExeUtil;
 
 
     @Override
@@ -57,6 +61,12 @@ public class InfusionSituationFragment extends BaseFragment {
 //        setToolbarRightCustomView(viewright);
         initView(view);
         initAdapter();
+        infusionOrdExeUtil = new InfusionOrdExeUtil(getActivity());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         initData();
     }
 
@@ -108,5 +118,16 @@ public class InfusionSituationFragment extends BaseFragment {
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_infusion_situation, container, false);
+    }
+
+    @Override
+    public void getScanMsg(Intent intent) {
+        super.getScanMsg(intent);
+        if (Action.DEVICE_SCAN_CODE.equals(intent.getAction())) {
+            Bundle bundle = new Bundle();
+            bundle = intent.getExtras();
+            infusionOrdExeUtil.setScanInfo(bundle.getString("data"));
+            infusionOrdExeUtil.getScanInfo();
+        }
     }
 }

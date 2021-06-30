@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/dp_6"
     android:background="@drawable/bg_bed_page_normal"
     android:orientation="vertical">
 
@@ -10,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -52,9 +54,9 @@
                 android:id="@+id/ll_pat_singlemodel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:paddingTop="@dimen/dp_6"
-                android:paddingBottom="@dimen/dp_4"
-                android:orientation="horizontal">
+                android:paddingBottom="@dimen/dp_4">
 
                 <TextView
                     android:id="@+id/tv_bedmap_patient_name"
@@ -81,8 +83,8 @@
                 <com.dhcc.nursepro.view.PatIconView
                     android:id="@+id/pacicon_bedmap"
                     android:layout_width="@dimen/dp_0"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"></com.dhcc.nursepro.view.PatIconView>
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
 
             </LinearLayout>
 
@@ -120,20 +122,11 @@
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/tv_pat_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center">
-        <TextView
-            android:id="@+id/tv_pat_detail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="患者详情>>"
-            android:padding="@dimen/dp_5"
-            ></TextView>
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_1"
-        android:background="#ECECEC" />
+        android:gravity="center"
+        android:padding="@dimen/dp_5"
+        android:text="患者详情>>" />
 </LinearLayout>

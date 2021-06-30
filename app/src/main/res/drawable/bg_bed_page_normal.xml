@@ -12,10 +12,10 @@
         android:endColor="#ffffff" />
     <!-- 设置四个角的角度 -->
     <corners
-        android:topLeftRadius="8dp"
+        android:topLeftRadius="0dp"
         android:topRightRadius="8dp"
-        android:bottomLeftRadius="@dimen/dp_10"
-        android:bottomRightRadius="@dimen/dp_10"
+        android:bottomLeftRadius="8dp"
+        android:bottomRightRadius="0dp"
         />
     <!-- 设置padding -->
     <!--<padding-->
