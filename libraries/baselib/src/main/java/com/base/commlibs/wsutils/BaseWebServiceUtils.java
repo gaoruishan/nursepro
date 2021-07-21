@@ -41,6 +41,7 @@ public class BaseWebServiceUtils {
     public static final String DEFAULT_IP = "10.1.21.123";
     //    public static final String DEFAULT_IP = "114.242.246.235";
     public static final String DTHEALTH_WEB = "/imedical/web";
+    public static final String PATH_IMEDICAL_WEB = "/imedical/webservice";
     public static final String PATH_IMEDICAL = "/imedical/web";
     public static final String PATH_DTHEALTH = "/dthealth/web";
     public static final String NUR_CONFIG = "/nursepdaconfig.html";
@@ -55,14 +56,23 @@ public class BaseWebServiceUtils {
     public static final String NUR_OPPDA_SERVICE = "/Nur.OPPDA.WebService.cls";
     public static String getOPPDAService() {
         return SPStaticUtils.getString(SharedPreference.oppdaService, NUR_OPPDA_SERVICE);
+//        return  NUR_MOES_SERVICE;
     }
     // 护士站接口
     public static final String NUR_PDA_SERVICE = "/Nur.PDA.WebService.cls";
     public static String getPDAService() {
         return SPStaticUtils.getString(SharedPreference.pdaService, NUR_PDA_SERVICE);
+//        return NUR_MNIS_SERVICE;
     }
-    public static String userNamestr = SPStaticUtils.getString(SharedPreference.webServiceUserName, "dhwebservice");
-    public static String passWordstr = SPStaticUtils.getString(SharedPreference.webServicePassword, "dhwebservice");
+    public static String userNamestr() {
+        return SPStaticUtils.getString(SharedPreference.webServiceUserName, "dhwebservice");
+//        return "dhsyslogin";
+    }
+
+    public static String passWordstr(){
+        return SPStaticUtils.getString(SharedPreference.webServicePassword, "dhwebservice");
+//        return "1q2w3e4r%T6y7u8i9o0p";
+    }
 
     // 含有3个线程的线程池
     private static final ExecutorService executorService = Executors.newFixedThreadPool(5);
@@ -205,7 +215,7 @@ public class BaseWebServiceUtils {
             LocalTestManager.callLocalJson(methodNameTest, webServiceCallBack);
             return;
         }
-
+        Log.e("TAG","(BaseWebServiceUtils.java:220) "+url);
         SharedPreference.MethodName = methodNameTest;
         //支持https
         HttpTransportSE httpTransportSE;
@@ -251,7 +261,7 @@ public class BaseWebServiceUtils {
         final SoapSerializationEnvelope soapEnvelope = new SoapSerializationEnvelope(
                 SoapEnvelope.VER11);
         soapEnvelope.bodyOut = soapObject;
-        LogUtils.e(url + "\n请求方法: " + methodNameTest + "    "+SPStaticUtils.getString(SharedPreference.USERID)+ "    "+userNamestr+"    "+passWordstr);
+        LogUtils.e(url + "\n请求方法: " + methodNameTest + "    "+SPStaticUtils.getString(SharedPreference.USERID)+ "    "+userNamestr()+"    "+passWordstr());
         LogUtils.e(soapObject.toString());
 
 
@@ -260,9 +270,9 @@ public class BaseWebServiceUtils {
         header[0].setAttribute("", "xmlns", "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd");
         Element UsernameToken = new Element().createElement("", "UsernameToken");
         Element userName = new Element().createElement("", "Username");
-        userName.addChild(Node.TEXT, userNamestr);
+        userName.addChild(Node.TEXT, userNamestr());
         Element passWord = new Element().createElement("", "Password");
-        passWord.addChild(Node.TEXT, passWordstr);
+        passWord.addChild(Node.TEXT, passWordstr());
         passWord.setAttribute("", "Type", "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText");
         UsernameToken.addChild(Node.ELEMENT, userName);
         UsernameToken.addChild(Node.ELEMENT, passWord);
@@ -344,7 +354,11 @@ public class BaseWebServiceUtils {
         if (TextUtils.isEmpty(ip)) {
             ip = DEFAULT_IP;
         }
-        String http = SPStaticUtils.getString(SharedPreference.HTTP, "http");
+        String http = "http";
+        String string = SPStaticUtils.getString(SharedPreference.HTTP);
+        if(!TextUtils.isEmpty(string)){
+            http = string;
+        }
         return http + "://" + ip;
     }
 
@@ -364,6 +378,7 @@ public class BaseWebServiceUtils {
     public static List<String> getPathList() {
         List<String> spinnerItems = new ArrayList<>();
         spinnerItems.add(PATH_IMEDICAL);
+        spinnerItems.add(PATH_IMEDICAL_WEB);
         spinnerItems.add(PATH_DTHEALTH);
         return spinnerItems;
     }

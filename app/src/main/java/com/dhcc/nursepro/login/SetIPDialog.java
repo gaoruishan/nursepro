@@ -11,6 +11,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.base.commlibs.constant.SharedPreference;
+import com.base.commlibs.wsutils.BaseWebServiceUtils;
+import com.blankj.utilcode.util.SPStaticUtils;
 import com.dhcc.nursepro.R;
 import com.dhcc.res.infusion.CustomSpinnerView;
 
@@ -38,6 +41,7 @@ public class SetIPDialog extends Dialog {
     private onNoOnclickListener noOnclickListener;//取消按钮被点击了的监听器
     private onYesOnclickListener yesOnclickListener;//确定按钮被点击了的监听器
     private String messagePath;
+    private EditText messageHttp;
 
     public SetIPDialog(Context context) {
         super(context, R.style.MyDialog);
@@ -94,8 +98,34 @@ public class SetIPDialog extends Dialog {
         messageIP = findViewById(R.id.message);
         messagePort = findViewById(R.id.message2);
         messageRes = (EditText) findViewById(R.id.message3);
+        messageHttp = (EditText) findViewById(R.id.et_http);
+        CustomSpinnerView customSpinnerHttp = findViewById(R.id.custom_spinner_http);
+        List<String> spinnerItems2 = BaseWebServiceUtils.getHttpList();
+        String http = SPStaticUtils.getString(SharedPreference.HTTP);
+        if(!TextUtils.isEmpty(http)){
+            spinnerItems2.remove(http);
+            spinnerItems2.add(0,http);
+        }
+        customSpinnerHttp.initDataView(spinnerItems2, new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String s = spinnerItems2.get(position);
+                messageHttp.setText(s);
+                SPStaticUtils.put(SharedPreference.HTTP,s);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         CustomSpinnerView customSpinnerPath = findViewById(R.id.custom_spinner_path);
         List<String> spinnerItems = com.base.commlibs.wsutils.BaseWebServiceUtils.getPathList();
+        String path = SPStaticUtils.getString(SharedPreference.WEBPATH);
+        if(!TextUtils.isEmpty(path)){
+            spinnerItems.remove(path);
+            spinnerItems.add(0,path);
+        }
         customSpinnerPath.initDataView(spinnerItems, new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

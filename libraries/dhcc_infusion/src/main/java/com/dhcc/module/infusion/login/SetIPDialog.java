@@ -143,6 +143,11 @@ public class SetIPDialog extends Dialog {
             }
         });
         List<String> spinnerItems = BaseWebServiceUtils.getPathList();
+        String path = SPStaticUtils.getString(SharedPreference.WEBPATH);
+        if(!TextUtils.isEmpty(path)){
+            spinnerItems.remove(path);
+            spinnerItems.add(0,path);
+        }
         customSpinnerPath.initDataView(spinnerItems, new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -156,6 +161,11 @@ public class SetIPDialog extends Dialog {
             }
         });
         List<String> spinnerItems2 = BaseWebServiceUtils.getHttpList();
+        String http = SPStaticUtils.getString(SharedPreference.HTTP);
+        if(!TextUtils.isEmpty(http)){
+            spinnerItems2.remove(http);
+            spinnerItems2.add(0,http);
+        }
         customSpinnerHttp.initDataView(spinnerItems2, new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

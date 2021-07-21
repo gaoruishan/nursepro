@@ -92,7 +92,7 @@ public class WorkAreaFragment extends BaseFragment {
     private void initView(View view) {
         recConfig = view.findViewById(R.id.recy_workarea);
         recConfig.setHasFixedSize(true);
-        recConfig.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        recConfig.setLayoutManager(new GridLayoutManager(getActivity(), 4));
         patEventsAdapter = new WorkAreaAdapter(null);
         recConfig.setAdapter(patEventsAdapter);
         patEventsAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {

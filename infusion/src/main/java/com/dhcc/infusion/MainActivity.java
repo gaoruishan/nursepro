@@ -22,7 +22,6 @@ import android.widget.Toast;
 
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.MessageEvent;
-import com.base.commlibs.WeSocketActivity;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
@@ -46,7 +45,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
-public class MainActivity extends WeSocketActivity implements RadioButton.OnCheckedChangeListener {
+public class MainActivity extends BaseActivity implements RadioButton.OnCheckedChangeListener {
 
     private static final int TAB_WORKAREA = 9001;
     private static final int TAB_MESSAGE = 9002;
@@ -112,7 +111,6 @@ public class MainActivity extends WeSocketActivity implements RadioButton.OnChec
         EventBus.getDefault().unregister(this);
     }
 
-    @Override
     public void onMessageReceive(String msg) {
         try {
             if (TextUtils.isEmpty(msg)) {

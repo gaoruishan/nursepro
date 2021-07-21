@@ -15,8 +15,6 @@ public class NurseConfig {
      * oppdaService : /Nur.MOES.Service.WebService.cls
      * pdaService : /Nur.MNIS.Service.WebService.cls
      */
-    //配置http或https
-    public static String HTTP="HTTP";
     public static String WEBIP="WEBIP";
     public static String WEBPATH="WEBPATH";
 

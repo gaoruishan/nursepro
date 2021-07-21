@@ -29,6 +29,7 @@ import com.base.commlibs.bean.BroadcastListBean;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommHttp;
+import com.base.commlibs.utils.AppUtil;
 import com.base.commlibs.utils.SchDateTimeUtil;
 import com.base.commlibs.utils.TransBroadcastUtil;
 import com.base.commlibs.utils.UserUtil;
@@ -54,8 +55,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import cn.qqtheme.framework.picker.OptionPicker;
 import cn.qqtheme.framework.widget.WheelView;
@@ -250,7 +249,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         voiceIpDialog.setYesOnclickListener("确定", new SetVoiceIPDialog.onYesOnclickListener() {
             @Override
             public void onYesClick() {
-                if (isIP(voiceIpDialog.getIp())) {
+                if (AppUtil.isIP(voiceIpDialog.getIp())) {
                     if ( spUtils.getString(SharedPreference.VOICE_IP).equals(voiceIpDialog.getIp()) && spUtils.getString(SharedPreference.VOICE_PORT).equals(voiceIpDialog.getPort())){
                         showToast("未修改，请重新设置");
                     }else {
@@ -338,61 +337,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         return n;
     }
 
-    public boolean isIP(String addr) {
-
-        //判断"."的个数，大于3个返回错误
-        int pointNum = search(addr, ".");
-        if (pointNum > 3) {
-            return false;
-        }
-
-        String ipStr = addr;
-        if (addr.contains(":")) {
-
-            //判断":"个数，大于1个返回错误
-            int containNum = search(addr, ":");
-            if (containNum > 1) {
-                return false;
-            }
-
-            //判断":"后面的内容，空的话返回错误，有数字外其他字符也返回错误
-            String lastStr = addr.substring(addr.indexOf(":") + 1);
-            if (lastStr.contains(".") || lastStr.length() < 1) {
-                return false;
-            }
-            ipStr = addr.substring(0, addr.indexOf(":"));
-        }
-
-        if (ipStr.length() < 7 || ipStr.length() > 15 || "".equals(ipStr)) {
-            return false;
-        }
-        // 判断IP格式是否规范
-        String rexp = "([1-9]|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])(\\.(\\d|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])){3}";
-        Pattern pat = Pattern.compile(rexp);
-        Matcher mat = pat.matcher(ipStr);
-        boolean ipAddress = mat.find();
-        //============对之前的ip判断的bug在进行判断
-        if (ipAddress) {
-            String[] ips = ipStr.split("\\.");
-            if (ips.length == 4) {
-                try {
-                    for (String ip : ips) {
-                        if (Integer.parseInt(ip) < 0 || Integer.parseInt(ip) > 255) {
-                            return false;
-                        }
-                    }
-                } catch (Exception e) {
-                    return false;
-                }
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -403,7 +347,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 showDialog.setYesOnclickListener("确定", new SetIPDialog.onYesOnclickListener() {
                     @Override
                     public void onYesClick() {
-                        if (isIP(showDialog.getIp())) {
+                        if (AppUtil.isIP(showDialog.getIp())) {
                             if (TextUtils.isEmpty(showDialog.getAddr())) {
                                 showToast("资源路径不能为空");
                             } else {
