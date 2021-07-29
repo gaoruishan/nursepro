@@ -3,7 +3,6 @@ package com.base.commlibs;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -11,8 +10,6 @@ import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.MenuRes;
@@ -29,7 +26,6 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -47,34 +43,15 @@ import com.base.commlibs.base.BaseTopLoadingView;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.utils.SystemTTS;
-import com.base.commlibs.voiceUtils.AsrDialog;
 import com.base.commlibs.voiceUtils.VoiceUtil;
-import com.base.commlibs.voiceUtils.VoiceWebDataUtil;
-import com.base.commlibs.voiceUtils.bean.BedMapBean;
 import com.base.commlibs.voiceUtils.bean.VoiceBean;
-import com.base.commlibs.voiceUtils.bean.VoiceVisalBean;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.SPUtils;
-import com.blankj.utilcode.util.ToastUtils;
-import com.google.gson.Gson;
-import com.raisound.speech.AsrResult;
-import com.raisound.speech.SpeechError;
-import com.raisound.speech.SpeechRecognizerManager;
-import com.raisound.speech.http.callback.RequestCallback;
-import com.raisound.speech.http.response.Scene;
-import com.raisound.speech.listener.RecognizerListener;
-import com.raisound.speech.listener.SceneListResponse;
 
 import org.greenrobot.eventbus.EventBus;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.File;
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -1190,6 +1167,7 @@ public class BaseFragment extends Fragment {
             boolean bRegNo = false;
             String strScan = "";
             if (Objects.requireNonNull(intent.getAction()).equals(Action.DEVICE_SCAN_CODE)) {
+//                ToastUtils.showShort(Action.DEVICE_SCAN_CODE);
                 Bundle bundle = new Bundle();
                 bundle = intent.getExtras();
                 String scanInfo = bundle.getString("data");
@@ -1199,24 +1177,24 @@ public class BaseFragment extends Fragment {
                         strScan = scanInfo;
                     }
                 }
-            }
-            //判断当前扫码是不是患者列表中的一个regNo
-            if (bRegNo){
-                //判断是否为执行页
-                if (isChangePat){
-                    setMsgToSingleActivity(strScan);
-                }else {
-                    //如果在执行页并且当前患者和扫码患者相同的情况下走执行操作
-                    if (singleRegNo.equals(intent.getExtras().getString("data"))){
-                        getScanMsg(intent);
-                    }else {
+                //判断当前扫码是不是患者列表中的一个regNo
+                if (bRegNo){
+                    //判断是否为执行页
+                    if (isChangePat){
                         setMsgToSingleActivity(strScan);
+                    }else {
+                        //如果在执行页并且当前患者和扫码患者相同的情况下走执行操作
+                        if (singleRegNo.equals(intent.getExtras().getString("data"))){
+                            getScanMsg(intent);
+                        }else {
+                            setMsgToSingleActivity(strScan);
+                        }
+
                     }
 
+                }else {
+                    getScanMsg(intent);
                 }
-
-            }else {
-                getScanMsg(intent);
             }
         }
     }

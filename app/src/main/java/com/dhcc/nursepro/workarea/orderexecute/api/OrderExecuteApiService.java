@@ -99,7 +99,7 @@ public class OrderExecuteApiService extends NurseAPI {
         properties.put("barcode", scanInfo);
         properties.put("wardId", spUtils.getString(SharedPreference.WARDID));
         properties.put("userId", spUtils.getString(SharedPreference.USERID));
-        properties.put("userDeptId", "");
+        properties.put("userDeptId", spUtils.getString(SharedPreference.LOCID));
 
         WebServiceUtils.callWebService(getScanInfo, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
