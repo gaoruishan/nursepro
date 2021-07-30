@@ -1,5 +1,6 @@
 package com.base.commlibs.http;
 
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -241,7 +242,7 @@ public class CommWebService {
         if (properties == null) {
             properties = new HashMap<String, String>();
         }
-        properties.put("deviceId", DeviceUtils.getAndroidID());
+        properties.put("deviceId", DeviceUtils.getAndroidID()+"^"+ Build.MODEL);
         return properties;
     }
 

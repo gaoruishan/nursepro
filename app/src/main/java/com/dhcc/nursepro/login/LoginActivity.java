@@ -327,15 +327,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         }
     }
 
-    public int search(String str, String strRes) {//查找字符串里与指定字符串相同的个数
-        int n = 0;
-        while (str.indexOf(strRes) != -1) {
-            int i = str.indexOf(strRes);
-            n++;
-            str = str.substring(i + 1);
-        }
-        return n;
-    }
 
     @Override
     public void onClick(View v) {

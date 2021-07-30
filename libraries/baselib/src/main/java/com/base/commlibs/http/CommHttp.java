@@ -36,7 +36,12 @@ public class CommHttp {
      * 获取PDA在Web目录下配置
      */
     public static void getNurseConfig() {
-        HttpUtil.get(BaseWebServiceUtils.getServiceUrl(BaseWebServiceUtils.NUR_CONFIG), new SimpleCallBack<String>() {
+        String serviceUrl = BaseWebServiceUtils.getServiceUrl(BaseWebServiceUtils.NUR_CONFIG);
+        //处理路径问题
+        if (serviceUrl.contains(BaseWebServiceUtils.PATH_IMEDICAL_WEB)) {
+            serviceUrl = serviceUrl.replace(BaseWebServiceUtils.PATH_IMEDICAL_WEB, BaseWebServiceUtils.PATH_IMEDICAL);
+        }
+        HttpUtil.get(serviceUrl, new SimpleCallBack<String>() {
             @Override
             public void call(String result, int type) {
                 if (TextUtils.isEmpty(result)) {

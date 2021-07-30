@@ -190,12 +190,16 @@ public class LocalTestManager {
      */
     public static void saveLog(String methodName, String obj) {
         if (isLogFlag()) {
-            String packName = getSimplePackageName();
-            String date = FORMAT.format(new Date(System.currentTimeMillis()));
-            String dir = packName + "/" + date + "/" + SPStaticUtils.getString(SharedPreference.USERCODE) + "/v" + APP_VERSION_CODE + "_" + methodName + "/";
-            String dhc = dir + methodName + "_" + System.currentTimeMillis() + ".log";
-            CommFile.write(dhc, getCommLog() + obj);
+            saveLogTest(methodName, obj);
         }
+    }
+
+    public static void saveLogTest(String methodName, String obj) {
+        String packName = getSimplePackageName();
+        String date = FORMAT.format(new Date(System.currentTimeMillis()));
+        String dir = packName + "/" + date + "/" + SPStaticUtils.getString(SharedPreference.USERCODE) + "/v" + APP_VERSION_CODE + "_" + methodName + "/";
+        String dhc = dir + methodName + "_" + System.currentTimeMillis() + ".log";
+        CommFile.write(dhc, getCommLog() + obj);
     }
 
     protected static String getSimplePackageName() {
