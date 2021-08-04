@@ -1,8 +1,12 @@
 package com.base.commlibs.service;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
+import android.os.PowerManager;
 import android.util.Log;
 
 import com.base.commlibs.constant.Action;
@@ -19,7 +23,10 @@ public class MServiceNewOrd extends AliveService {
     public void onCreate() {
         super.onCreate();
 
+    }
 
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
         mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
@@ -42,11 +49,25 @@ public class MServiceNewOrd extends AliveService {
         };
 
         mHandler.sendEmptyMessage(0);
+        acquireWakeLock();
+
+        return START_STICKY;
     }
 
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        return super.onStartCommand(intent, flags, startId);
+    public PowerManager.WakeLock wakeLock;//锁屏唤醒
+
+    //获取电源锁，保持该服务在屏幕熄灭时仍然获取CPU时，保持运行
+    @SuppressLint("InvalidWakeLockTag")
+    private void acquireWakeLock() {
+        if (null == wakeLock) {
+            PowerManager pm = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
+            if (pm != null) {
+                wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK | PowerManager.ON_AFTER_RELEASE, "PostLocationService");
+                if (null != wakeLock) {
+                    wakeLock.acquire();
+                }
+            }
+        }
     }
 
     @Override
@@ -55,4 +76,8 @@ public class MServiceNewOrd extends AliveService {
         isDestroy = true;
     }
 
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
 }

@@ -144,9 +144,23 @@ public class MessageFragment extends BaseFragment implements CustomTabView.OnTab
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
+        Log.e(TAG,"(MessageFragment.java:148) onHiddenChanged");
         if (!hidden) {
             initData();
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.e(TAG,"(MessageFragment.java:156) onResume");
+        initData();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.e(TAG,"(MessageFragment.java:156) onPause");
     }
 
     @Override

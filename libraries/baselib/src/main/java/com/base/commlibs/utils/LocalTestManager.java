@@ -53,13 +53,13 @@ public class LocalTestManager {
 //        l.add("getInfusionMessage");//消息-输液
 //        l.add("getSkinTestMessage");//消息-皮试
 //        l.add("GetDispensingOrdList");//配液
-        l.add("getSkinOrdList");
+//        l.add("getSkinOrdList");
 //        l.add("GetPunctureOrdList");//穿刺
 //        l.add("punctureOrd");//穿刺
 //        l.add("getTourOrdList");//巡视
 //        l.add("tourOrd");//巡视
 //        l.add("getChangeOrdList");//续液
-        l.add("getFinishOrdList");//拔针
+//        l.add("getFinishOrdList");//拔针
 //        l.add("extractOrd");//拔针
 
 //        l.add("getInjectOrdList");//注射
@@ -81,8 +81,8 @@ public class LocalTestManager {
 //
 //        l.add("getIFOrdListByBarCode");
 //        l.add("GetBarcodeFlag");
-        l.add("GetXmlValues");
-        l.add("getInfusionOrdList");
+//        l.add("GetXmlValues");
+//        l.add("getInfusionOrdList");
 
     }
 

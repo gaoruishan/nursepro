@@ -1,5 +1,7 @@
 package com.dhcc.infusion;
 
+import android.annotation.SuppressLint;
+import android.app.KeyguardManager;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -7,13 +9,16 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PowerManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.CompoundButton;
@@ -23,21 +28,22 @@ import android.widget.Toast;
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.MessageEvent;
 import com.base.commlibs.constant.Action;
-import com.base.commlibs.http.CommResult;
+import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.service.MServiceNewOrd;
 import com.base.commlibs.utils.AppUtil;
 import com.base.commlibs.utils.UserUtil;
+import com.blankj.utilcode.util.ObjectUtils;
+import com.blankj.utilcode.util.SPStaticUtils;
 import com.blankj.utilcode.util.SPUtils;
-import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.VibrateUtils;
 import com.dhcc.infusion.update.UpdateAppUtil;
 import com.dhcc.module.infusion.message.MessageFragment;
 import com.dhcc.module.infusion.message.api.MessageApiManager;
+import com.dhcc.module.infusion.message.bean.MessageSkinBean;
 import com.dhcc.module.infusion.message.bean.NotifyMessageBean;
 import com.dhcc.module.infusion.setting.SettingFragment;
 import com.dhcc.module.infusion.workarea.WorkAreaFragment;
-import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -78,6 +84,7 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
 
     private MainReceiver mainReceiver = new MainReceiver();
     private IntentFilter mainfilter = new IntentFilter();
+    private String warning="15";
 
 
     @Override
@@ -100,6 +107,9 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         UpdateAppUtil.initCanUpdate();
 
         UserUtil.createMainActivity();
+        //检查通知权限
+        AppUtil.checkNotification(this);
+        notifyMessage();
     }
 
     @Override
@@ -107,25 +117,12 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         super.onDestroy();
         Intent i = new Intent(this, MServiceNewOrd.class);
         stopService(i);
+
+        if (mainReceiver != null) {
+            unregisterReceiver(mainReceiver);
+        }
         //注册事件总线
         EventBus.getDefault().unregister(this);
-    }
-
-    public void onMessageReceive(String msg) {
-        try {
-            if (TextUtils.isEmpty(msg)) {
-                return;
-            }
-            if (msg.contains("{") && msg.contains("}")) {
-                CommResult result = new Gson().fromJson(msg, CommResult.class);
-                if (!"0".equals(result.getStatus())) {
-                    ToastUtils.showShort(result.getMsg());
-                }
-            }
-        } catch (Exception e) {
-
-        }
-
     }
 
     /**
@@ -182,9 +179,7 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
     @Override
     protected void onPause() {
         super.onPause();
-        if (mainReceiver != null && !UserUtil.isMsgNoticeFlag()) {
-            unregisterReceiver(mainReceiver);
-        }
+
     }
 
     @Override
@@ -210,7 +205,7 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         } else {
             drawable = getResources().getDrawable(R.drawable.tabbar_item_havemessage_selector);
             drawable.setBounds(8, 0, drawable.getIntrinsicWidth() + 8, drawable.getIntrinsicHeight());
-            AppUtil.showNotification(MainActivity.this, new Intent(MainActivity.this, MainActivity.class));
+//            AppUtil.showNotification(MainActivity.this, new Intent(MainActivity.this, MainActivity.class));
         }
         rbMessage.setCompoundDrawables(null, drawable, null, null);
     }
@@ -226,30 +221,20 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
     }
 
     private void onCheckedChanged(int checkedId) {
-        boolean tabWorkareaChecked = rbWorkarea.isChecked();
-        boolean tabMessageChecked = rbMessage.isChecked();
-        boolean tabSettingChecked = rbSetting.isChecked();
-
         setStatusBarBackgroundViewVisibility(false, 0xffffffff);
         setToolbarType(BaseActivity.ToolbarType.HIDE);
         switch (checkedId) {
             case R.id.rbWorkarea:
-                //                setStatusBarBackgroundViewVisibility(false, 0xffffffff);
-                //                setToolbarType(BaseActivity.ToolbarType.HIDE);
                 switchMainTab(TAB_WORKAREA);
                 setRbWorkareaTitle();
                 break;
 
             case R.id.rbMessage:
-                //                setStatusBarBackgroundViewVisibility(true, 0xffffffff);
-                //                setToolbarType(ToolbarType.TOP);
                 switchMainTab(TAB_MESSAGE);
                 setRbMessageTitle();
                 break;
 
             case R.id.rbSetting:
-                //                setStatusBarBackgroundViewVisibility(true, 0xffffffff);
-                ////                setToolbarType(ToolbarType.TOP);
                 switchMainTab(TAB_SETTING);
                 setRbSettingTitle();
                 break;
@@ -301,6 +286,8 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
      * 消息提醒
      */
     public void notifyMessage() {
+        warning = SPStaticUtils.getString(SharedPreference.WARNING_TIME, "15");
+
         MessageApiManager.getNotifyMessage(new CommonCallBack<NotifyMessageBean>() {
             @Override
             public void onFail(String code, String msg) {
@@ -319,8 +306,91 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
                 setmessage(messageNum, "1", "1");
             }
         });
+        MessageApiManager.getSkinTestMessage(new CommonCallBack<MessageSkinBean>() {
+            @Override
+            public void onFail(String code, String msg) {
+
+            }
+
+            @Override
+            public void onSuccess(MessageSkinBean bean, String type) {
+                List<MessageSkinBean.SkinTimeListBean> skinTimeList = bean.getSkinTimeList();
+
+                for (MessageSkinBean.SkinTimeListBean b : skinTimeList) {
+                    //预警
+                    if (!ObjectUtils.isEmpty(b.getOverTime())) {
+                        int off = 0;
+                        try {
+                            off = Integer.valueOf(b.getOverTime());
+                        } catch (Exception e) {
+
+                        }
+                        int integer = Integer.valueOf(warning);
+                        boolean isNotify = 0 < off && off <= integer;
+                        if (isNotify) {
+                            String s = "测试=" + warning + "," + b.getOverTime() + "," + isNotify;
+                            checkLockAndShowNotification(s);
+                        }
+                    }
+                }
+            }
+        });
+    }
+    /**
+     * 播放系统默认提示音
+     *
+     * @return MediaPlayer对象
+     *
+     * @throws Exception
+     */
+    public void defaultMediaPlayer(int type){
+        Ringtone r = null;
+        try {
+            Uri notification = RingtoneManager.getDefaultUri(type);
+            r = RingtoneManager.getRingtone(this, notification);
+            r.play();
+            Ringtone finalR = r;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (finalR != null) {
+                        finalR.stop();
+                    }
+                }
+            },3000);
+        }catch (Exception e){
+            if (r != null) {
+                r.stop();
+            }
+        }
     }
 
+    /**
+     * 检查锁屏状态，如果锁屏先点亮屏幕
+     * @param content
+     */
+    private void checkLockAndShowNotification(String content) {
+        //管理锁屏的一个服务
+        KeyguardManager km = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
+        //锁屏
+        if (km != null && km.inKeyguardRestrictedInputMode()) {
+            //获取电源管理器对象
+            PowerManager pm = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
+            if (pm != null && !pm.isScreenOn()) {
+                @SuppressLint("InvalidWakeLockTag")
+                PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "bright");
+                if (wl != null) {
+                    wl.acquire();  //点亮屏幕
+                    wl.release();  //任务结束后释放
+                }
+            }
+            Log.e(TAG,"(MainActivity.java:352) 亮屏"+content);
+            notification();
+        } else {
+            Log.e(TAG,"(MainActivity.java:352) "+content);
+            notification();
+        }
+    }
 
     /**
      * 接收事件- 更新数据
@@ -330,10 +400,17 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
     public void updateData(MessageEvent event) {
         if (event.getType() == MessageEvent.MessageType.NOTIFY_MESSAGE) {
             Log.e(getClass().getSimpleName(), "updateData:" + event.getType());
+            checkLockAndShowNotification("updateData:" + event.getType());
+        }
+    }
+
+    private void notification() {
+
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     AppUtil.showNotification(MainActivity.this, new Intent(MainActivity.this, MainActivity.class));
+                defaultMediaPlayer(RingtoneManager.TYPE_RINGTONE);
                 }
             }, 2000);
             try {
@@ -342,8 +419,6 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
 
             }
             VibrateUtils.vibrate(3000);
-
-        }
     }
 
     /**
@@ -380,6 +455,7 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         @Override
         public void onReceive(Context context, Intent intent) {
             if (Action.NEWMESSAGE_SERVICE.equals(intent.getAction())) {
+                Log.e(TAG,"(MainReceiver.java:379) "+intent.getAction());
                 notifyMessage();
             }
         }

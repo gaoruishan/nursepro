@@ -118,6 +118,8 @@ public class SharedPreference extends NurseConfig {
     //扫码界面-提示语
     public static final String SCAN_LABEL_PAT_HAND= "SCAN_LABEL_PAT_HAND";
     public static final String SCAN_LABEL_PAT_HAND_INFO= "SCAN_LABEL_PAT_HAND_INFO";
+    //皮试预警
+    public static final String WARNING_TIME = "WARNING_TIME";
 
     //判断是否显示底部菜单栏
 

@@ -40,7 +40,12 @@ public class ConfigBean extends CommResult {
     private String webSocketFlag;
     //显示弹框时间 毫秒
     private String showDialogTime;
+    //皮试预警
+    private String warningTime;
 
+    public String getWarningTime() {
+        return warningTime == null ? "15" : warningTime;
+    }
 
     public String getShowDialogTime() {
         return showDialogTime == null ? "" : showDialogTime;

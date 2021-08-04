@@ -5,7 +5,6 @@ import com.base.commlibs.http.CommWebService;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.http.ParserUtil;
 import com.base.commlibs.http.ServiceCallBack;
-import com.base.commlibs.utils.UserUtil;
 import com.dhcc.module.infusion.message.bean.MessageInfusionBean;
 import com.dhcc.module.infusion.message.bean.MessageSkinBean;
 import com.dhcc.module.infusion.message.bean.NotifyMessageBean;
@@ -70,9 +69,6 @@ public class MessageApiManager {
      * @param callBack
      */
     public static void getNotifyMessage( final CommonCallBack<NotifyMessageBean> callBack) {
-        if (!UserUtil.isMsgNoticeFlag()) {
-            return;
-        }
         MessageApiService.getNotifyMessage(new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {

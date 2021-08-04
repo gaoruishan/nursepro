@@ -6,6 +6,7 @@ import android.view.View;
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.CommDialog;
+import com.base.commlibs.utils.SimpleCallBack;
 import com.base.commlibs.utils.UserUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.module.infusion.R;
@@ -18,6 +19,7 @@ import com.dhcc.module.infusion.workarea.skin.adapter.SkinAdapter;
 import com.dhcc.module.infusion.workarea.skin.api.SkinApiManager;
 import com.dhcc.module.infusion.workarea.skin.bean.SkinListBean;
 import com.dhcc.res.infusion.CustomDateTimeView;
+import com.dhcc.res.infusion.CustomOnOffView;
 import com.dhcc.res.infusion.CustomOrdExeBottomView;
 import com.dhcc.res.infusion.CustomPatView;
 import com.dhcc.res.infusion.bean.ClickBean;
@@ -50,6 +52,14 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
         customDate = f(R.id.custom_date, CustomDateTimeView.class);
         bottomView = f(R.id.custom_bottom, CustomOrdExeBottomView.class);
         customPat = f(R.id.custom_pat, CustomPatView.class);
+        customOnOff = f(R.id.custom_on_off, CustomOnOffView.class);
+        customOnOff.setShowSelectText("未执行", "已执行")
+                .setOnSelectListener(new SimpleCallBack<Boolean>() {
+                    @Override
+                    public void call(Boolean result, int type) {
+                        getSkinList(scanInfo);
+                    }
+                });
         showScanPatHand();
         //皮试时间差值
         long startTime = System.currentTimeMillis() - UserUtil.getSkinTimeOffset();
@@ -203,7 +213,9 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
     }
 
     private void getSkinList(String regNo) {
-        SkinApiManager.getSkinList(regNo, customDate.getStartDateTimeText(), customDate.getEndDateTimeText(), "", new CommonCallBack<SkinListBean>() {
+        exeFlag = customOnOff.isSelect() ? "0" : "1";
+        bottomView.setVisibility(customOnOff.isSelect()?View.VISIBLE:View.GONE);
+        SkinApiManager.getSkinList(regNo, customDate.getStartDateTimeText(), customDate.getEndDateTimeText(), "",exeFlag, new CommonCallBack<SkinListBean>() {
             @Override
             public void onFail(String code, String msg) {
                 onFailThings(msg);

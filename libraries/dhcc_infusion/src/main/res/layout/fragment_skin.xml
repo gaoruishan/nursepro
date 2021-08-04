@@ -13,13 +13,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-        <com.dhcc.res.infusion.CustomDateTimeView
-            android:id="@+id/custom_date"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:gravity="center"
+            android:layout_height="wrap_content"
             android:background="@color/bg_blue_light"
-            android:layout_height="wrap_content"/>
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <com.dhcc.res.infusion.CustomOnOffView
+                android:id="@+id/custom_on_off"
+                android:layout_width="@dimen/dp_0"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+            <com.dhcc.res.infusion.CustomDateTimeView
+                android:id="@+id/custom_date"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center_vertical" />
 
+
+        </LinearLayout>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_list"
             android:layout_weight="1"

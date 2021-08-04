@@ -24,13 +24,14 @@ public class SkinApiManager extends InfusionAPI {
      * Input：       locId:科室Id
      * other:		 w ##class(Nur.OPPDA.SkinTest).getSkinOrdList("0000000020","1","2019-11-04",,"2019-11-05",0)
      */
-    public static void getSkinList(String regNo, String stDate, String enDate,String barCode, final CommonCallBack<SkinListBean> callBack) {
+    public static void getSkinList(String regNo, String stDate, String enDate,String barCode,String exeFlag, final CommonCallBack<SkinListBean> callBack) {
         HashMap<String, String> properties = CommWebService.addUserId(null);
         CommWebService.addHospitalId(properties);
         properties.put("regNo", regNo);
         properties.put("startDate", stDate);
         properties.put("endDate", enDate);
         properties.put("barCode", barCode);
+        properties.put("exeFlag", exeFlag);
         CommWebService.call(GetSkinTestOrdList, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
