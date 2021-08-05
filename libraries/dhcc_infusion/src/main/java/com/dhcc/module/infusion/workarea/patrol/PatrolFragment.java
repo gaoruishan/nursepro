@@ -128,7 +128,7 @@ public class PatrolFragment extends BaseInfusionFragment implements View.OnClick
                 mContainerChild.findViewById(R.id.ll_patrol_status).setVisibility(isShow ? View.GONE : View.VISIBLE);
                 tourAdapter.replaceData(bean.getInfusionTourList());
 
-                if (checkListOeoreId(bean.getOrdList(), PROMPT_NO_ORD)) {
+                if (checkListOeoreId(bean, PROMPT_NO_ORD)) {
                     if (refresh != null && refresh.length > 0 && refresh[0]) {
                         // 扫码执行,刷新列表不再执行
                         return;

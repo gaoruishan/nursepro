@@ -30,16 +30,26 @@ public class CommInfusionBean extends CommResult {
     protected String curTime;
     //总输液量
     protected String curSumDose;
+    //通道
     protected Map wayList;
-
+    //扫码执行
     private String scanFlag;
+    //是否接单
+    private String receiveOrdFlag;
+
+    public List<OrdListBean> getCommOrdList() {
+        if (ordList == null) {
+            return new ArrayList<>();
+        }
+        return ordList;
+    }
+
+    public String getReceiveOrdFlag() {
+        return receiveOrdFlag == null ? "" : receiveOrdFlag;
+    }
 
     public String getScanFlag() {
         return scanFlag == null ? "" : scanFlag;
-    }
-
-    public void setScanFlag(String scanFlag) {
-        this.scanFlag = scanFlag;
     }
 
     public String computeDoseTime(int speed) {

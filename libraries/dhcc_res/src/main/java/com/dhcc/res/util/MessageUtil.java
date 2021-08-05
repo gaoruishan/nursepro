@@ -3,6 +3,7 @@ package com.dhcc.res.util;
 import android.content.Context;
 import android.graphics.Color;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 
@@ -24,7 +25,7 @@ import java.util.TimeZone;
 public class MessageUtil {
     public static final String HH_MM_SS = "HH:mm:ss";
     public static final TimeZone GMT = TimeZone.getTimeZone("GMT");
-    public static boolean setCountTime(Context mContext, CountView cvCount, String testStartTime, String formatEndTime, boolean otherOk,CountView.OnCountViewStatusListener listener) {
+    public static boolean setCountTime(Context mContext, CountView cvCount, String testStartTime, String formatEndTime, boolean otherOk,CountView.OnCountViewStatusListener listener,String ... arg) {
 
         SimpleDateFormat formatter1 = new SimpleDateFormat(HH_MM_SS);
         String formatNowTime = formatter1.format(new Date(System.currentTimeMillis()));
@@ -35,23 +36,36 @@ public class MessageUtil {
 
         //没有复核/复核人 并且时间大于0
         boolean isOk = offTime >= 0 && offTime2 >= 0 && otherOk;
+
+        Log.e("TAG",isOk +"  开始时间: "+testStartTime+", 结束:"+formatEndTime+", "+formatNowTime+", offTime="+offTime+", offTime2="+offTime2);
         if (isOk) {
-            cvCount.getTitleName().setVisibility(View.GONE);
-            cvCount.getOneDay().setTextColor(Color.parseColor("#FFFF6EA4"));
-            cvCount.getOneDay().setTextSize(TypedValue.COMPLEX_UNIT_PX, mContext.getResources().getDimension(R.dimen.dp_22));
-            cvCount.start(offTime, CountView.ONE_DAY);
-            cvCount.setOnCountViewStatusListener(new CountView.OnCountViewStatusListener() {
-                @Override
-                public void onStop() {
-                    if (listener != null) {
-                        listener.onStop();
-                    }
-                    EventBus.getDefault().post(new MessageEvent(MessageEvent.MessageType.NOTIFY_MESSAGE));
-                    EventBus.getDefault().post(new MessageEvent(MessageEvent.MessageType.REQUEST_APP_MESSAGE_LIST));
-                }
-            });
+            startCountTime(mContext, cvCount, listener, offTime);
+        }
+        //优化一下
+        if (!isOk && arg.length > 0 && !TextUtils.isEmpty(arg[0])) {
+            long off = Long.parseLong(arg[0]);
+            Log.e("TAG","(MessageUtil.java:46) 优化一下="+off);
+            startCountTime(mContext, cvCount, listener, off);
+            return true;
         }
         return isOk;
+    }
+
+    public static void startCountTime(Context mContext, CountView cvCount, CountView.OnCountViewStatusListener listener, long offTime) {
+        cvCount.getTitleName().setVisibility(View.GONE);
+        cvCount.getOneDay().setTextColor(Color.parseColor("#FFFF6EA4"));
+        cvCount.getOneDay().setTextSize(TypedValue.COMPLEX_UNIT_PX, mContext.getResources().getDimension(R.dimen.dp_22));
+        cvCount.start(offTime, CountView.ONE_DAY);
+        cvCount.setOnCountViewStatusListener(new CountView.OnCountViewStatusListener() {
+            @Override
+            public void onStop() {
+                if (listener != null) {
+                    listener.onStop();
+                }
+                EventBus.getDefault().post(new MessageEvent(MessageEvent.MessageType.NOTIFY_MESSAGE));
+                EventBus.getDefault().post(new MessageEvent(MessageEvent.MessageType.REQUEST_APP_MESSAGE_LIST));
+            }
+        });
     }
 
     public static boolean setCountTime(Context mContext, CountView cvCount, String testStartTime, String formatEndTime, boolean otherOk) {

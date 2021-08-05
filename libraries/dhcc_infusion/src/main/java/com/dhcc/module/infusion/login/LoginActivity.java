@@ -240,9 +240,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 public void onYesClick() {
                     String ip = showDialog.getIp();
                     if (AppUtil.isIP(ip)) {
-                        CommHttp.getNurseConfig();
                         UserUtil.setWebIpAndPath(ip, showDialog.getAddr());
                         //重写请求
+                        CommHttp.getNurseConfig();
                         CommHttp.initBroadcastList();
                         showDialog.dismiss();
                     } else {

@@ -51,7 +51,7 @@ public class LocalTestManager {
     static {
         //对应的方法名
 //        l.add("getInfusionMessage");//消息-输液
-//        l.add("getSkinTestMessage");//消息-皮试
+        l.add("getSkinTestMessage");//消息-皮试
 //        l.add("GetDispensingOrdList");//配液
 //        l.add("getSkinOrdList");
 //        l.add("GetPunctureOrdList");//穿刺
@@ -139,14 +139,14 @@ public class LocalTestManager {
      * @param obj
      * @return
      */
-    public static boolean isRequest(String methodName, HashMap<String, String> properties, Object obj) {
+    public static boolean isRequest(String methodName, HashMap<String, String> properties, Object obj,String  url) {
 
         //有数据直接返回
         if (!ObjectUtils.isEmpty(obj)) {
             //处理公共数据
             saveCommResult((String) obj);
             //保存数据不为null
-            saveLog(methodName + "_data", properties + "\n\n" + obj);
+            saveLog(methodName + "_data", url+ "\n\n" +properties + "\n\n" + obj);
             return false;
         }
         Integer integer = errNum.get(methodName);
@@ -161,7 +161,7 @@ public class LocalTestManager {
         integer += 1;
         errNum.put(methodName, integer);
         //保存
-        saveLog(methodName + "_null", properties + "\n\n" + obj);
+        saveLog(methodName + "_null", url+ "\n\n" + properties + "\n\n" + obj);
         return true;
     }
 

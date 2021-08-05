@@ -36,26 +36,45 @@ public class InfusionAPI {
     }
 
     //获取医嘱列表
-    public static String GetOrdList = isNew() ? "getOrdList" : "getOrders";
+    public static String GetOrdList(){
+        return isNew() ? "getOrdList" : "getOrders";
+    }
     //配液列表
-    public static String GetDispensingOrdList = isNew() ? "getDispensingOrdList" : "getOrdList";
+    public static String GetDispensingOrdList() {
+        return  isNew() ? "getDispensingOrdList" : "getOrdList";
+    }
     //配液复核
-    public static String DispensingOrd = isNew() ? "dispensingOrd" : "despensingOrd";
+    public static String DispensingOrd(){
+        return isNew() ? "dispensingOrd" : "despensingOrd";
+    }
     //穿刺列表
-    public static String GetPunctureOrdList = isNew() ? "getPunctureOrdList" : "getPunctOrdList";
+    public static String GetPunctureOrdList(){
+        return isNew() ? "getPunctureOrdList" : "getPunctOrdList";
+    }
     //拔针列表
-    public static String GetExtractOrdList = isNew() ? "getExtractOrdList" : "getFinishOrdList";
+    public static String GetExtractOrdList(){
+       return isNew() ? "getExtractOrdList" : "getFinishOrdList";
+    }
     //皮试列表
-    public static String GetSkinTestOrdList = isNew() ? "getSkinTestOrdList" : "getSkinOrdList";
+    public static String GetSkinTestOrdList(){
+        return isNew() ? "getSkinTestOrdList" : "getSkinOrdList";
+    }
     //皮试计时
-    public static String SetSkinTestTime = isNew() ? "setSkinTestTime" : "skinTime";
+    public static String SetSkinTestTime(){
+       return isNew() ? "setSkinTestTime" : "skinTime";
+    }
     //皮试配液
-    public static String SkinTestDispensingOrd = isNew() ? "skinTestDispensingOrd" : "skinDespensingOrd";
+    public static String SkinTestDispensingOrd (){
+        return  isNew() ? "skinTestDispensingOrd" : "skinDespensingOrd";
+    }
     //注射执行
-    public static String InjectOrd = isNew() ? "injectOrd" : "exeInjectOrd";
+    public static String InjectOrd(){
+       return isNew() ? "injectOrd" : "exeInjectOrd";
+    }
     //采血执行
-    public static String LabOrd = isNew() ? "labOrd" : "exeLabOrd";
-
+    public static String LabOrd (){
+        return isNew() ? "labOrd" : "exeLabOrd";
+    }
 
     //登陆
     public static final String Logon = "Logon";

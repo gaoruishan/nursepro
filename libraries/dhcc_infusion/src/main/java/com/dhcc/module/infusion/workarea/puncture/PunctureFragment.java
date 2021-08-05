@@ -94,7 +94,7 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
             @Override
             public void onSuccess(PunctureBean bean, String type) {
                 //检查扫码不包含提示
-                checkListOeoreId(bean.getOrdList(), PROMPT_NO_ORD);
+                checkListOeoreId(bean, PROMPT_NO_ORD);
                 punctureAdapter.replaceData(bean.getOrdList());
                 punctureAdapter.setCurrentScanInfo(scanInfo);
                 scrollToPosition(rvPuncture,bean.getOrdList());
@@ -147,7 +147,7 @@ public class PunctureFragment extends BaseInfusionFragment implements View.OnCli
                     customSelectChannel.setSelectData(mContext, bean.getWayListString(), null);
                     customOnOff.setDisEnable(bean.getIsCurrentWayNo(), STR_ORD_ING);
 
-                    if (checkListOeoreId(bean.getOrdList(), PROMPT_NO_ORD)) {
+                    if (checkListOeoreId(bean, PROMPT_NO_ORD)) {
                         if (refresh != null && refresh.length > 0 && refresh[0]) {
                             // 扫码执行,刷新列表不再执行
                             return;

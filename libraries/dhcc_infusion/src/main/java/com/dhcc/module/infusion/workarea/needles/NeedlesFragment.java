@@ -77,7 +77,7 @@ public class NeedlesFragment extends BaseInfusionFragment implements View.OnClic
             @Override
             public void onSuccess(NeedlesBean bean, String type) {
                 //检查扫码不包含提示
-                checkListOeoreId(bean.getOrdList(), PROMPT_NO_ORD);
+                checkListOeoreId(bean, PROMPT_NO_ORD);
                 mBean = bean;
                 csvScan.setVisibility(View.GONE);
                 setCustomPatViewData(cpvPat, bean.getPatInfo());

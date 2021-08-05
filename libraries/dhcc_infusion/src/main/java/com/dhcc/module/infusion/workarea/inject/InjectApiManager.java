@@ -69,7 +69,7 @@ public class InjectApiManager extends BaseApiManager {
         HashMap<String, String> properties = CommWebService.addUserId(null);
         CommWebService.addLocId(properties);
         properties.put("oeoreId", oeoreId);
-        CommWebService.call(InjectOrd, properties, new ServiceCallBack() {
+        CommWebService.call(InjectOrd(), properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 CommWebService.parserCommResult(jsonStr, callBack);

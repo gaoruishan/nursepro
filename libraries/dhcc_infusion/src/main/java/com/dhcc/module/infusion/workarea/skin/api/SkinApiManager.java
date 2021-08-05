@@ -32,7 +32,7 @@ public class SkinApiManager extends InfusionAPI {
         properties.put("endDate", enDate);
         properties.put("barCode", barCode);
         properties.put("exeFlag", exeFlag);
-        CommWebService.call(GetSkinTestOrdList, properties, new ServiceCallBack() {
+        CommWebService.call(InfusionAPI.GetSkinTestOrdList(), properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<SkinListBean> parserUtil = new ParserUtil<>();
@@ -61,7 +61,7 @@ public class SkinApiManager extends InfusionAPI {
         if (!TextUtils.isEmpty(password)) {
             properties.put("password", password);
         }
-        CommWebService.callUserIdLocId(SkinTestDispensingOrd, properties, new ServiceCallBack() {
+        CommWebService.callUserIdLocId(InfusionAPI.SkinTestDispensingOrd(), properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 CommWebService.parserCommResult(jsonStr,callback);
@@ -79,7 +79,7 @@ public class SkinApiManager extends InfusionAPI {
         properties.put("oeoriId", oeoriId);
         properties.put("observeTime", observeTime);
         properties.put("note", note);
-        CommWebService.call(SetSkinTestTime, properties, new ServiceCallBack() {
+        CommWebService.call(SetSkinTestTime(), properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 ParserUtil<CommResult> parserUtil = new ParserUtil<>();

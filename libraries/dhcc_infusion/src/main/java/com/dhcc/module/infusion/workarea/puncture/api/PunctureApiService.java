@@ -36,7 +36,7 @@ public class PunctureApiService extends InfusionAPI {
         String windowName = UserUtil.getWindowName();
         properties.put("winCode", windowName);
 
-        CommWebService.callUserIdLocId(GetPunctureOrdList,properties,callBack);
+        CommWebService.callUserIdLocId(GetPunctureOrdList(),properties,callBack);
     }
 
 

@@ -84,7 +84,7 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
 
     private MainReceiver mainReceiver = new MainReceiver();
     private IntentFilter mainfilter = new IntentFilter();
-    private String warning="15";
+    private String warning = "15";
 
 
     @Override
@@ -109,7 +109,11 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         UserUtil.createMainActivity();
         //检查通知权限
         AppUtil.checkNotification(this);
-        notifyMessage();
+
+        if (mainReceiver != null) {
+            mainfilter.addAction(Action.NEWMESSAGE_SERVICE);
+            registerReceiver(mainReceiver, mainfilter);
+        }
     }
 
     @Override
@@ -187,10 +191,8 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         super.onResume(args);
         UpdateAppUtil.onResume(MainActivity.this);
 
-        if (mainReceiver != null) {
-            mainfilter.addAction(Action.NEWMESSAGE_SERVICE);
-            registerReceiver(mainReceiver, mainfilter);
-        }
+
+        notifyMessage();
     }
 
     @Override
@@ -336,14 +338,13 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
             }
         });
     }
+
     /**
      * 播放系统默认提示音
-     *
      * @return MediaPlayer对象
-     *
      * @throws Exception
      */
-    public void defaultMediaPlayer(int type){
+    public void defaultMediaPlayer(int type) {
         Ringtone r = null;
         try {
             Uri notification = RingtoneManager.getDefaultUri(type);
@@ -357,8 +358,8 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
                         finalR.stop();
                     }
                 }
-            },3000);
-        }catch (Exception e){
+            }, 3000);
+        } catch (Exception e) {
             if (r != null) {
                 r.stop();
             }
@@ -384,10 +385,10 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
                     wl.release();  //任务结束后释放
                 }
             }
-            Log.e(TAG,"(MainActivity.java:352) 亮屏"+content);
+            Log.e(TAG, "(MainActivity.java:352) 亮屏" + content);
             notification();
         } else {
-            Log.e(TAG,"(MainActivity.java:352) "+content);
+            Log.e(TAG, "(MainActivity.java:352) " + content);
             notification();
         }
     }
@@ -406,19 +407,29 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
 
     private void notification() {
 
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    AppUtil.showNotification(MainActivity.this, new Intent(MainActivity.this, MainActivity.class));
-                defaultMediaPlayer(RingtoneManager.TYPE_RINGTONE);
-                }
-            }, 2000);
+        Boolean bLight = SPUtils.getInstance().getBoolean(SharedPreference.LIGHT, true);
+        Boolean bSound = SPUtils.getInstance().getBoolean(SharedPreference.SOUND, true);
+        Boolean bVibrator = SPUtils.getInstance().getBoolean(SharedPreference.VIBRATOR, true);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                AppUtil.showNotification(MainActivity.this, new Intent(MainActivity.this, MainActivity.class));
+//                if (bSound) {
+//                    defaultMediaPlayer(RingtoneManager.TYPE_RINGTONE);
+//                }
+            }
+        }, 2000);
+        if (bSound) {
             try {
                 AppUtil.playSound(this, R.raw.notice_message);
             } catch (Exception e) {
 
             }
+        }
+        if (bVibrator) {
             VibrateUtils.vibrate(3000);
+        }
     }
 
     /**
@@ -455,7 +466,7 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         @Override
         public void onReceive(Context context, Intent intent) {
             if (Action.NEWMESSAGE_SERVICE.equals(intent.getAction())) {
-                Log.e(TAG,"(MainReceiver.java:379) "+intent.getAction());
+                Log.e(TAG, "(MainReceiver.java:379) " + intent.getAction());
                 notifyMessage();
             }
         }

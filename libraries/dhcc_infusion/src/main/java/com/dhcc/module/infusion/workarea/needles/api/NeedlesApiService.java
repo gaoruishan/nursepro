@@ -31,7 +31,7 @@ public class NeedlesApiService extends InfusionAPI {
         }
         properties.put("barCode", barCode);
 
-        CommWebService.callUserIdLocId(GetExtractOrdList, properties,callBack);
+        CommWebService.callUserIdLocId(GetExtractOrdList(), properties,callBack);
 
     }
 

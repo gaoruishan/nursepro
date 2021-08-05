@@ -157,7 +157,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         if (v.getId() == R.id.rl_setting_chooseway) {
             startFragment(SettingWayFragment.class);
         }
-        //提醒方式
+        //弹框版本号
         if (v.getId() == R.id.tv_setting_about) {
             showVersionDialog();
         }

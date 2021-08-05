@@ -79,7 +79,7 @@ public class ContinueFragment extends BaseInfusionFragment implements View.OnCli
             @Override
             public void onSuccess(final ContinueBean bean, String type) {
                 //检查扫码不包含提示
-                checkListOeoreId(bean.getOrdList(), PROMPT_NO_ORD);
+                checkListOeoreId(bean, PROMPT_NO_ORD);
                 // 第一次扫码
                 mBean = bean;
                 f(R.id.rl_way).setVisibility(bean.getWayListString().size() > 0 ? View.VISIBLE : View.GONE);

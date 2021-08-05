@@ -50,7 +50,7 @@ public class BloodCollectApiManager extends BaseApiManager {
         HashMap<String, String> properties = CommWebService.addUserId(null);
         CommWebService.addLocId(properties);
         properties.put("labNo", labNo);
-        CommWebService.call(LabOrd, properties, new ServiceCallBack() {
+        CommWebService.call(LabOrd(), properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
                 CommWebService.parserCommResult(jsonStr, callBack);

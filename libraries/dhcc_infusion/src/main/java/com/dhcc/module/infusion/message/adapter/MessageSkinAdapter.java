@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import com.base.commlibs.MessageEvent;
@@ -63,6 +64,7 @@ public class MessageSkinAdapter extends BaseQuickAdapter<MessageSkinBean.SkinTim
         helper.setText(R.id.tv_skin_time_start, testStartTime);
         //observeTime差值是固定的 单位s
         if (!TextUtils.isEmpty(observeTime)) {
+            Log.e(TAG,"(MessageSkinAdapter.java:67) observeTime="+observeTime);
             helper.setText(R.id.tv_skin_between, Integer.valueOf(observeTime) / 60 + "分钟");
             String formatEndTime = ViewUtil.getBetweenTime(observeTime, testStartTime, 1000);
             helper.setText(R.id.tv_skin_time_end, formatEndTime + "");
@@ -73,7 +75,8 @@ public class MessageSkinAdapter extends BaseQuickAdapter<MessageSkinBean.SkinTim
                     && TextUtils.isEmpty(item.getSkinTestCtcpDesc());
 
             CountView cvCount = helper.getView(R.id.cv_count);
-            boolean isOk = MessageUtil.setCountTime(mContext,cvCount, testStartTime, formatEndTime, otherOk);
+
+            boolean isOk = MessageUtil.setCountTime(mContext,cvCount, testStartTime, formatEndTime, otherOk,null,item.getOverTime());
             helper.setVisible(R.id.ll_count, isOk);
         }
         final SelectTextView stv1 = helper.getView(R.id.stv1);

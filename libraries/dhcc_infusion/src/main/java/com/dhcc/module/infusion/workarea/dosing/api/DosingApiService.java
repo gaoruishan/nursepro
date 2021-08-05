@@ -28,7 +28,7 @@ public class DosingApiService extends InfusionAPI {
         }
         properties.put("oeoreId", oeoreId);
 
-        CommWebService.callUserIdLocId(GetDispensingOrdList, properties, callBack);
+        CommWebService.callUserIdLocId(GetDispensingOrdList(), properties, callBack);
 
     }
 
@@ -47,7 +47,7 @@ public class DosingApiService extends InfusionAPI {
         if (!TextUtils.isEmpty(password)) {
             properties.put("password", password);
         }
-        CommWebService.callUserIdLocId(DispensingOrd, properties, callBack);
+        CommWebService.callUserIdLocId(DispensingOrd(), properties, callBack);
     }
 
 

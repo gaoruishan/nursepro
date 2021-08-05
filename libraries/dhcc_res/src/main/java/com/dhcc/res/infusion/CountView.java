@@ -190,7 +190,7 @@ public class CountView extends LinearLayout {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         Log.e(TAG, "(CountView.java:178) onDetachedFromWindow=  "+getContext().getClass().getSimpleName());
-        stop();// 停止
+//        stop();// 停止
     }
 
     /**

@@ -31,6 +31,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.utils.DialogFactory;
 import com.dhcc.module.infusion.utils.ViewGlobal;
+import com.dhcc.module.infusion.workarea.comm.bean.CommInfusionBean;
 import com.dhcc.module.infusion.workarea.comm.bean.MainConfigBean;
 import com.dhcc.module.infusion.workarea.comm.bean.PatInfoBean;
 import com.dhcc.module.infusion.workarea.dosing.bean.OrdListBean;
@@ -255,7 +256,7 @@ public abstract class BaseInfusionFragment extends BaseFragment {
     }
 
     protected void showToast(String msg) {
-        if(!TextUtils.isEmpty(msg)){
+        if (!TextUtils.isEmpty(msg)) {
             DialogFactory.showCommDialog(getActivity(), msg, null, 0, null, true);
         }
     }
@@ -317,11 +318,11 @@ public abstract class BaseInfusionFragment extends BaseFragment {
 
     /**
      * 校验列表中的OeoreId
-     * @param list
      * @param s
      * @return
      */
-    protected boolean checkListOeoreId(List<OrdListBean> list, String s) {
+    protected boolean checkListOeoreId(CommInfusionBean bean, String s) {
+        List<OrdListBean> list = bean.getCommOrdList();
         //对于空List
         if (list == null || list.size() == 0) {
             return false;
@@ -348,7 +349,10 @@ public abstract class BaseInfusionFragment extends BaseFragment {
             tvOk.setVisibility(View.VISIBLE);
         }
         if (!isContain) {
-            if (!TextUtils.isEmpty(s)) {
+            boolean b = !TextUtils.isEmpty(s);
+            boolean b1 = "1".equals(bean.getReceiveOrdFlag());
+            //是否提示
+            if (b && b1) {
                 ToastUtils.showShort(s);
             }
             //隐藏"确定"按钮
@@ -410,7 +414,7 @@ public abstract class BaseInfusionFragment extends BaseFragment {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFactory.showTest(mContext, "手动输入",new CommDialog.CommClickListener() {
+                DialogFactory.showTest(mContext, "手动输入", new CommDialog.CommClickListener() {
                     @Override
                     public void data(Object[] args) {
                         if (!TextUtils.isEmpty((String) args[0])) {

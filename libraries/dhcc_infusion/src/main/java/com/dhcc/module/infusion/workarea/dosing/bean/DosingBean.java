@@ -1,6 +1,6 @@
 package com.dhcc.module.infusion.workarea.dosing.bean;
 
-import com.base.commlibs.http.CommResult;
+import com.dhcc.module.infusion.workarea.comm.bean.CommInfusionBean;
 import com.dhcc.module.infusion.workarea.comm.bean.PatInfoBean;
 
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.List;
  * @date:202019-04-24/14:52
  * @email:grs0515@163.com
  */
-public class DosingBean extends CommResult {
+public class DosingBean extends CommInfusionBean {
 
     public final static String Single = "Single";
     public final static String All = "All";
@@ -28,10 +28,7 @@ public class DosingBean extends CommResult {
      * status : 0
      */
 
-    private PatInfoBean PatInfo;
     private String ordState;
-    private String scanFlag;
-    private List<OrdListBean> ordList;
 
     public PatInfoBean getPatInfo() {
         return PatInfo;
@@ -41,13 +38,6 @@ public class DosingBean extends CommResult {
         this.PatInfo = PatInfo;
     }
 
-    public String getScanFlag() {
-        return scanFlag == null ? "" : scanFlag;
-    }
-
-    public void setScanFlag(String scanFlag) {
-        this.scanFlag = scanFlag;
-    }
 
     public String getOrdState() {
         return ordState;

@@ -359,9 +359,9 @@ public class AppUtil {
      * @param intent
      */
     public static void showNotification(Context context,Intent intent,String title,String content) {
-        Boolean bLight = SPUtils.getInstance().getBoolean(SharedPreference.LIGHT, true);
-        Boolean bSound = SPUtils.getInstance().getBoolean(SharedPreference.SOUND, true);
-        Boolean bVibrator = SPUtils.getInstance().getBoolean(SharedPreference.VIBRATOR, true);
+        Boolean bLight = true; //SPUtils.getInstance().getBoolean(SharedPreference.LIGHT, true);
+        Boolean bSound = true; //SPUtils.getInstance().getBoolean(SharedPreference.SOUND, true);
+        Boolean bVibrator = true; //SPUtils.getInstance().getBoolean(SharedPreference.VIBRATOR, true);
         NotificationManager notificationManager = (NotificationManager) context.getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
         String NOTIFICATION_CHANNEL = context.getPackageName();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -404,11 +404,7 @@ public class AppUtil {
 //                .setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND | Notification.DEFAULT_LIGHTS)
                 .setContentIntent(pendingIntent)
                 .build();
-        //        if (LoginUser.SoundF == true)
-//        builder.setDefaults(Notification.DEFAULT_VIBRATE |Notification.DEFAULT_SOUND|Notification.DEFAULT_LIGHTS);
         Notification notification = builder.getNotification();
-//        notification.defaults |= Notification.DEFAULT_SOUND;
-//        //        if (LoginUser.VibrateF == true)
         if (bVibrator) {
             notification.defaults |= Notification.DEFAULT_VIBRATE;
         }
@@ -419,8 +415,6 @@ public class AppUtil {
             notification.defaults |= Notification.DEFAULT_LIGHTS;
         }
 
-//        //        if (LoginUser.LigthF == true)
-//        notification.flags |= Notification.FLAG_INSISTENT;
         /**发起通知**/
         notificationManager.notify(1, notification);
     }
