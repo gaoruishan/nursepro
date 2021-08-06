@@ -153,6 +153,7 @@ public class MessageSkinAdapter extends BaseQuickAdapter<MessageSkinBean.SkinTim
             @Override
             public void onSuccess(CommResult bean, String type) {
                 setSkinResult(v, stv2, stv1);
+                DialogFactory.showCommDialog(mContext, bean.getMsg(), null, 0, null, true);
                 EventBus.getDefault().post(new MessageEvent(MessageEvent.MessageType.REQUEST_APP_MESSAGE_LIST));
             }
         });
