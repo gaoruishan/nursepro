@@ -26,6 +26,8 @@ public class InjectAdapter extends BaseBloodQuickAdapter<BloodOrdListBean, BaseV
     public void setInitData(InjectListBean bean) {
         if (bean.getOrdList() != null) {
             setInitData(bean.getOrdList());
+        }else {
+            setNewData(null);
         }
     }
 

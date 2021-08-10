@@ -2,6 +2,7 @@ package com.dhcc.nursepro.workarea.labout.adapter;
 
 import android.graphics.Color;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.widget.LinearLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -42,6 +43,7 @@ public class LabOutAdapter extends BaseQuickAdapter<LabOutListAllBean.LabOutList
         }else{
             llAccount.setBackgroundColor(Color.parseColor("#16C295"));
         }
-
+        //加急
+        helper.setGone(R.id.tv_labout_urgent, !TextUtils.isEmpty(item.getUrgentFlag()));
     }
 }

@@ -38,6 +38,8 @@ public class DosingFragment extends BaseInfusionFragment implements View.OnClick
     private View tvOk;
     private String reqType;
     private CustomPatView cpvPat;
+    private String scanFlag;
+    private DosingBean mBean;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -73,6 +75,8 @@ public class DosingFragment extends BaseInfusionFragment implements View.OnClick
 
             @Override
             public void onSuccess(DosingBean bean, String type) {
+                scanFlag = bean.getScanFlag();
+                mBean = bean;
                 mContainerChild.findViewById(R.id.custom_scan).setVisibility(View.GONE);
                 setCustomPatViewData(cpvPat,bean.getPatInfo());
 //                tvOk.setVisibility(View.VISIBLE);
@@ -81,7 +85,7 @@ public class DosingFragment extends BaseInfusionFragment implements View.OnClick
                 commDosingAdapter.setCurrentScanInfo(scanInfo);
                 scrollToPosition(rvDosing,bean.getOrdList());
 
-//        rvMsgInfusion.scrollToPosition(i);
+//                rvMsgInfusion.scrollToPosition(i);
                 boolean equals = DosingBean.OrdState_1.equals(bean.getOrdState());
                 // 隐藏复核输入
 //                mContainerChild.findViewById(R.id.ll_review).setVisibility(equals ? View.GONE : View.VISIBLE);
@@ -112,7 +116,14 @@ public class DosingFragment extends BaseInfusionFragment implements View.OnClick
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.tv_ok) {
-            despensingOrd();
+            if (DosingBean.All.equals(scanFlag)) {
+                if (mBean != null) {
+                    despensingOrdAll(mBean);
+                }
+            }else {
+                despensingOrd();
+            }
+
         }
     }
 
