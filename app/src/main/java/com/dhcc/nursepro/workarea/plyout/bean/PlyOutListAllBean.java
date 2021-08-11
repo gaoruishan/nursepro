@@ -85,6 +85,11 @@ public class PlyOutListAllBean {
         private String transDate;
         private String transTime;
         private String transUser;
+        private String urgentFlag;
+
+        public String getUrgentFlag() {
+            return urgentFlag == null ? "" : urgentFlag;
+        }
 
         public String getCarryCount() {
             return carryCount;
