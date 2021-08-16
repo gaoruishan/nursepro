@@ -713,7 +713,7 @@ public class ScanResultBean {
         }
 
         public String getArcimDesc() {
-            return arcimDesc;
+            return arcimDesc==null?"":arcimDesc;
         }
 
         public void setArcimDesc(String arcimDesc) {
@@ -745,7 +745,7 @@ public class ScanResultBean {
         }
 
         public String getCtcpDesc() {
-            return ctcpDesc;
+            return ctcpDesc==null?"":ctcpDesc;
         }
 
         public void setCtcpDesc(String ctcpDesc) {
@@ -753,7 +753,7 @@ public class ScanResultBean {
         }
 
         public String getDoseQtyUnit() {
-            return doseQtyUnit;
+            return doseQtyUnit==null?"":doseQtyUnit;
         }
 
         public void setDoseQtyUnit(String doseQtyUnit) {
@@ -1057,7 +1057,7 @@ public class ScanResultBean {
         }
 
         public String getSttDateTime() {
-            return sttDateTime;
+            return sttDateTime==null?"":sttDateTime;
         }
 
         public void setSttDateTime(String sttDateTime) {

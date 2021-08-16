@@ -140,7 +140,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     //点击的按钮的名称
     private String exeButtonDesc = "";
 
-    private List scanList = new ArrayList<String>();
+    private List<String> scanList = new ArrayList<String>();
     //记录皮试执行按钮，如果未置结果，不显示
     private TextView btnSkinExe;
     private String pageNo = "1";

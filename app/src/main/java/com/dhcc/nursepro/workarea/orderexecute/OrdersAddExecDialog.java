@@ -6,14 +6,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.workarea.orderexecute.bean.ScanResultBean;
 import com.dhcc.nursepro.workarea.orderexecute.adapter.OrderAddDialogAdapter;
-import com.dhcc.nursepro.workarea.orderexecute.adapter.OrderExecuteOrderDialogAdapter;
+import com.dhcc.nursepro.workarea.orderexecute.bean.ScanResultBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +34,7 @@ public class OrdersAddExecDialog extends Dialog {
     private TextView tvAddNum;
     private RecyclerView recyPopupChildOrderInfo;
     private OrderAddDialogAdapter adapter;
-    private List addList = new ArrayList<ScanResultBean>();
+    private List<ScanResultBean> addList = new ArrayList<ScanResultBean>();
     public void setPatInfo(String patInfo) {
         this.patInfo = patInfo;
         if (tvPopupPatinfo != null) {
