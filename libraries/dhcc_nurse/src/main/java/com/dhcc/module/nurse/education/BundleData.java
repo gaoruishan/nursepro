@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.base.commlibs.comm.BaseBundleData;
+import com.dhcc.module.nurse.accompany.bean.AccompanyBean;
+import com.dhcc.module.nurse.accompany.bean.AccompanyConfigBean;
 import com.dhcc.module.nurse.education.bean.EduSubjectListBean;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -29,6 +31,14 @@ public class BundleData extends BaseBundleData {
     //已宣教-对应save中的id
     public String eduRecordId;
 
+    //陪护 rowId
+    public String nCPARRowIDs;
+    //List 需要转一下
+    public String configTEMPList;
+    public String accompanyList;
+    //位置
+    public String position;
+
 
     public BundleData(Bundle bundle) {
         super(bundle);
@@ -36,6 +46,24 @@ public class BundleData extends BaseBundleData {
 
     public BundleData() {
 
+    }
+
+    public String getPosition() {
+        return getString("position");
+    }
+
+    public BundleData setPosition(String position) {
+        this.position = position;
+        return this;
+    }
+
+    public String getNCPARRowIDs() {
+        return getString("nCPARRowIDs");
+    }
+
+    public BundleData setNCPARRowIDs(String nCPARRowIDs) {
+        this.nCPARRowIDs = nCPARRowIDs;
+        return this;
     }
 
     public String getEduRecordId() {
@@ -113,4 +141,42 @@ public class BundleData extends BaseBundleData {
         return this;
     }
 
+    /**
+     * 陪护配置
+     * @return
+     */
+    public List<AccompanyConfigBean> getConfigTEMPList() {
+        if (bundle != null) {
+            String configTEMPList = bundle.getString("configTEMPList");
+            Type type = new TypeToken<List<AccompanyConfigBean>>() {
+            }.getType();
+            return new Gson().fromJson(configTEMPList, type);
+        }
+        return new ArrayList<>();
+
+    }
+
+    public BundleData setConfigTEMPList(List<AccompanyConfigBean> configTEMPList) {
+        this.configTEMPList = new Gson().toJson(configTEMPList);
+        return this;
+    }
+
+    /**
+     * 陪护列表
+     * @return
+     */
+    public List<AccompanyBean.AccompanyListBean> getAccompanyList() {
+        if (bundle != null) {
+            String accompanyList = bundle.getString("accompanyList");
+            Type type = new TypeToken<List<AccompanyBean.AccompanyListBean>>() {
+            }.getType();
+            return new Gson().fromJson(accompanyList, type);
+        }
+        return new ArrayList<>();
+
+    }
+    public BundleData setAccompanyList(List<AccompanyBean.AccompanyListBean> accompanyList) {
+        this.accompanyList = new Gson().toJson(accompanyList);
+        return this;
+    }
 }

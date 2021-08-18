@@ -9,9 +9,11 @@ import com.base.commlibs.utils.SchDateTimeUtil;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.dhcc.module.nurse.accompany.AccompanyFragment;
 import com.dhcc.module.nurse.bloodsugar.BloodSugarFragment;
 import com.dhcc.module.nurse.education.HealthEduFragment;
 import com.dhcc.module.nurse.nurplan.NurPlanFragment;
+import com.dhcc.module.nurse.outmanage.OutManageFragment;
 import com.dhcc.module.nurse.task.TaskOverviewFragment;
 import com.dhcc.nursepro.Activity.MainActivity;
 import com.dhcc.nursepro.Activity.SingleMainActivity;
@@ -52,7 +54,6 @@ import com.dhcc.nursepro.workarea.vitalsign.VitalSignFragment;
 import com.dhcc.nursepro.workarea.vitalsign.VitalSignRecordFragment;
 import com.dhcc.nursepro.workarea.workareaapi.WorkareaApiManager;
 import com.dhcc.nursepro.workarea.workareabean.MainConfigBean;
-import com.github.mikephil.charting.renderer.BarChartRenderer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -73,11 +74,6 @@ public class WorkareaMainConfig {
         }
         //添加测试
         testModel(mainConfigBean.getMainList());
-
-//        ArrayList listConfig=new ArrayList();
-//        for (int i = 0; i <mainConfigBean.getMainList().size() ; i++) {
-//            listConfig.add(getMainConfigItem(mainConfigBean.getMainList().get(i)));
-//        }
 
         modifyMainList(mainConfigBean.getMainList());
         return mainConfigBean.getMainList();
@@ -130,120 +126,7 @@ public class WorkareaMainConfig {
      *                 }
      *             ],
      *             "menuName": "综合"
-     *         },
-     *         {
-     *             "mainSubList": [
-     *                 {
-     *                     "moduleCode": "DOSINGREVIEW",
-     *                     "moduleDesc": "输液复核"
-     *                 },
-     *                 {
-     *                     "moduleCode": "IFOrdRec",
-     *                     "moduleDesc": "静配接收"
-     *                 }
-     *             ],
-     *             "menuName": "输液"
-     *         },
-     *         {
-     *             "mainSubList": [
-     *                 {
-     *                     "moduleCode": "LABOUT",
-     *                     "moduleDesc": "检验打包"
-     *                 },
-     *                 {
-     *                     "moduleCode": "PLYOUT",
-     *                     "moduleDesc": "病理运送"
-     *                 }
-     *             ],
-     *             "menuName": "标本"
-     *         },
-     *         {
-     *             "mainSubList": [
-     *                 {
-     *                     "moduleCode": "EVENTS",
-     *                     "moduleDesc": "事件管理"
-     *                 },
-     *                 {
-     *                     "moduleCode": "DOCORDERLIST",
-     *                     "moduleDesc": "医嘱单"
-     *                 },
-     *                 {
-     *                     "moduleCode": "CHECK",
-     *                     "moduleDesc": "检查报告"
-     *                 },
-     *                 {
-     *                     "moduleCode": "LAB",
-     *                     "moduleDesc": "检验报告"
-     *                 },
-     *                 {
-     *                     "moduleCode": "OPERATION",
-     *                     "moduleDesc": "手术申请"
-     *                 },
-     *                 {
-     *                     "moduleCode": "MILK",
-     *                     "moduleDesc": "母乳闭环"
-     *                 },
-     *                 {
-     *                     "moduleCode": "MOTHERBABYLINK",
-     *                     "moduleDesc": "母婴关联"
-     *                 }
-     *             ],
-     *             "menuName": "数据查询"
-     *         },
-     *         {
-     *             "mainSubList": [
-     *                 {
-     *                     "moduleCode": "ORDERSEARCH",
-     *                     "moduleDesc": "医嘱查询"
-     *                 },
-     *                 {
-     *                     "moduleCode": "ORDEREXECUTE",
-     *                     "moduleDesc": "医嘱执行"
-     *                 },
-     *                 {
-     *                     "moduleCode": "ALLOTBED",
-     *                     "moduleDesc": "入院分床"
-     *                 },
-     *                 {
-     *                     "moduleCode": "VITALSIGN",
-     *                     "moduleDesc": "生命体征"
-     *                 }
-     *             ],
-     *             "menuName": "数据查询"
      *         }
-     *     ],
-     *     "msg": "",
-     *     "msgcode": "999999",
-     *     "scantimes": "2",
-     *     "schEnDateTime": "2021-06-16 23:59",
-     *     "schStDateTime": "2021-06-16 00:00",
-     *     "screenParts": [
-     *         {
-     *             "commonKey": "false",
-     *             "danjuStr": "DefaultSee!PSD!BLD",
-     *             "keyCode": "execFlag",
-     *             "keyDesc": "执行类型",
-     *             "keyType": "Single",
-     *             "keyValue": "未执行!已执行"
-     *         },
-     *         {
-     *             "commonKey": "false",
-     *             "danjuStr": "DefaultSee!PSD!BLD",
-     *             "keyCode": "oecprDesc",
-     *             "keyDesc": "优先级",
-     *             "keyType": "Single",
-     *             "keyValue": "长期!临时"
-     *         },
-     *         {
-     *             "commonKey": "false",
-     *             "danjuStr": "DefaultSee!PSD!BLD",
-     *             "keyCode": "ordType",
-     *             "keyDesc": "类型",
-     *             "keyType": "Multiple",
-     *             "keyValue": "药品!检验!其他"
-     *         }
-     *     ],
-     *     "status": "0"
      * }
      *
      * @param mainList
@@ -443,13 +326,24 @@ public class WorkareaMainConfig {
                         mainSubListBean.setImgResouseId(R.drawable.dhcc_main_nurse_blood_sugar);
                         SharedPreference.FRAGMENTARY.add(mainSubListBean.toMap());
                         break;
+                    case "AccompanyFragment":
+                        //w ##class(Nur.DHCNurPdaModule).Save("陪护人记录^AccompanyFragment^27^Y^")
+                        mainSubListBean.setFragmentClassName(AccompanyFragment.class.getName());
+                        mainSubListBean.setImgResouseId(R.drawable.dhcc_main_nurse_blood_sugar);
+                        SharedPreference.FRAGMENTARY.add(mainSubListBean.toMap());
+                        break;
+                    case "OutManageFragment":
+                        //w ##class(Nur.DHCNurPdaModule).Save("外出管理^OutManageFragment^28^Y^")
+                        mainSubListBean.setFragmentClassName(OutManageFragment.class.getName());
+                        mainSubListBean.setImgResouseId(R.drawable.dhcc_main_nurse_blood_sugar);
+                        SharedPreference.FRAGMENTARY.add(mainSubListBean.toMap());
+                        break;
                     case "ORDEXEANDSEARCH":
                         mainSubListBean.setFragmentClassName(OrderSearchAndExecuteFragment.class.getName());
                         mainSubListBean.setImgResouseId(R.drawable.dhcc_main_nurse_task_overview);
                         SharedPreference.FRAGMENTARY.add(mainSubListBean.toMap());
                         break;
                     case "PatHandover":
-                        //w ##class(Nur.DHCNurPdaModule).Save("护理计划^NurPlanFragment^24^Y^")
                         mainSubListBean.setFragmentClassName(PatHandoverFragment.class.getName());
                         mainSubListBean.setImgResouseId(R.drawable.icon_events);
                         SharedPreference.FRAGMENTARY.add(mainSubListBean.toMap());
@@ -484,6 +378,8 @@ public class WorkareaMainConfig {
             subList.add(new MainConfigBean.MainListBean.MainSubListBean("PatHandover","患者交接"));
             subList.add(new MainConfigBean.MainListBean.MainSubListBean("InfusionSituation","输液信息"));
             subList.add(new MainConfigBean.MainListBean.MainSubListBean("web","web测试","/hello.html"));
+            subList.add(new MainConfigBean.MainListBean.MainSubListBean("AccompanyFragment","陪护人记录"));
+            subList.add(new MainConfigBean.MainListBean.MainSubListBean("OutManageFragment","外出管理"));
 
             mainListTestBean.setMenuName("测试");
             mainListTestBean.setMainSubList(subList);
@@ -491,254 +387,6 @@ public class WorkareaMainConfig {
         }
     }
 
-//    private Map getMainConfigItem(MainConfigBean.MainListBean item){
-//
-//        Map map = new HashMap();
-//        map.put("fragUrl", item.getModuleUrl());
-//        map.put("fragicon",R.drawable.icon_orderexcute);
-//        switch (item.getModuleCode()) {
-//            case "BEDMAP":
-//                map.put("desc","床位图");
-//                map.put("fragName", BedMapFragment.class.getName());
-//                map.put("fragicon",R.drawable.icon_bedmap);
-//                SharedPreference.FRAGMENTARY.add(map);
-//                break;
-//            case "VITALSIGN":
-//                map.put("desc","生命体征");
-//                map.put("fragName", VitalSignFragment.class.getName());
-//                map.put("fragicon",R.drawable.icon_vitalsign);
-////                map.put("singleModel","1");
-//                SharedPreference.FRAGMENTARY.add(map);
-//
-//                Map mapVital = new HashMap();
-//                mapVital.put("desc","生命体征");
-//                mapVital.put("fragName", VitalSignRecordFragment.class.getName());
-//                mapVital.put("fragicon",R.drawable.icon_vitalsign);
-//                mapVital.put("singleModel","2");
-//                SharedPreference.FRAGMENTARY.add(mapVital);
-//                break;
-//            case "EVENTS":
-//                map.put("desc","事件登记");
-//                map.put("fragName", PatEventsFragment.class.getName());
-//                map.put("fragicon",R.drawable.icon_events);
-//                map.put("singleModel","1");
-//                SharedPreference.FRAGMENTARY.add(map);
-//                break;
-//            case "ORDERSEARCH":
-//                map.put("desc","医嘱查询");
-//                map.put("fragName", OrderSearchFragment.class.getName());
-//                map.put("fragicon",R.drawable.icon_orderserarch);
-//                SharedPreference.FRAGMENTARY.add(map);
-//                break;
-//            case "ORDEREXECUTE":
-//                map.put("desc","医嘱执行");
-//                map.put("fragName", OrderExecuteFragment.class.getName());
-//                map.put("fragicon",R.drawable.icon_orderexcute);
-//                map.put("singleModel","1");
-//                SharedPreference.FRAGMENTARY.add(map);
-//                break;
-//            case "CHECK":
-//                map.put("desc","检查结果");
-//                map.put("fragName", CheckPatsFragment.class.getName());
-//                map.put("fragicon",R.drawable.icon_check);
-//                SharedPreference.FRAGMENTARY.add(map);
-//
-//                Map map1 = new HashMap();
-//                map1.put("desc","检查报告");
-//                map1.put("fragName", CheckResultListFragment.class.getName());
-//                map1.put("fragicon",R.drawable.icon_check);
-//                map1.put("singleModel","2");
-//                SharedPreference.FRAGMENTARY.add(map1);
-//                break;
-//            case "LAB":
-//                map.put("desc","检验结果");
-//                map.put("fragName", LabPatsFragment.class.getName());
-//                map.put("fragicon",R.drawable.icon_lab);
-//                SharedPreference.FRAGMENTARY.add(map);
-//
-//                Map map2 = new HashMap();
-//                map2.put("desc","检验结果");
-//                map2.put("fragName", LabResultListFragment.class.getName());
-//                map2.put("fragicon",R.drawable.icon_lab);
-//                map2.put("singleModel","2");
-//                SharedPreference.FRAGMENTARY.add(map2);
-//                break;
-//            case "OPERATION":
-//                map.put("desc","手术查询");
-//                map.put("fragName", OperationFragment.class.getName());
-//                map.put("fragicon",R.drawable.icon_operation);
-//                SharedPreference.FRAGMENTARY.add(map);
-//                break;
-//            case "LABOUT":
-//                map.put("desc","检验打包");
-//                map.put("fragName", LabOutListFragment.class.getName());
-//                map.put("fragicon",R.drawable.icon_labout);
-//                SharedPreference.FRAGMENTARY.add(map);
-//                break;
-//            case "DOSINGREVIEW":
-//                map.put("desc","配液复核");
-//                map.put("fragName", DosingReviewFragment.class.getName());
-//                map.put("fragicon",R.drawable.icon_dosingreview);
-//                SharedPreference.FRAGMENTARY.add(map);
-//                break;
-//            case "ALLOTBED":
-//                map.put("desc","入院分床");
-//                map.put("fragName", AllotBedFragment.class.getName());
-//                map.put("fragicon",R.drawable.icon_allotbed);
-//                map.put("singleModel","1");
-//                SharedPreference.FRAGMENTARY.add(map);
-//                break;
-//            case "DOCORDERLIST":
-//                map.put("desc","医嘱单");
-//                map.put("fragName", DocOrderListFragment.class.getName());
-//                map.put("fragicon",R.drawable.icon_docorderlist);
-//                map.put("singleModel","1");
-//                SharedPreference.FRAGMENTARY.add(map);
-//                break;
-//            case "BLOOD":
-//                map.put("desc","输血系统");
-//                map.put("fragName", BloodTransfusionSystemFragment.class.getName());
-//                map.put("fragicon",R.drawable.icon_blood);
-//                SharedPreference.FRAGMENTARY.add(map);
-//                break;
-//            case "MILK":
-//                map.put("desc","母乳闭环");
-//                map.put("fragName", MilkLoopSystemFragment.class.getName());
-//                map.put("fragicon",R.drawable.icon_milk);
-//                SharedPreference.FRAGMENTARY.add(map);
-//                break;
-//            case "MOTHERBABYLINK":
-//                map.put("desc","母婴关联");
-//                map.put("fragName", MotherBabyLinkFragment.class.getName());
-//                map.put("fragicon",R.drawable.icon_motherbabylink);
-//                SharedPreference.FRAGMENTARY.add(map);
-//                break;
-//            case "MODELDETAIL":
-//                map.put("desc","护理病历");
-//                map.put("fragName", PatNurRecordFragment.class.getName());
-//                map.put("fragicon",R.drawable.icon_events);
-//                map.put("singleModel","1");
-//                SharedPreference.FRAGMENTARY.add(map);
-//                break;
-//            case "MODELDETAILOLD":
-//                map.put("desc","护理病历");
-//                map.put("fragName", com.dhcc.nursepro.workarea.nurrecordold.PatNurRecordFragment.class.getName());
-//                map.put("fragicon",R.drawable.icon_events);
-//                SharedPreference.FRAGMENTARY.add(map);
-//                break;
-//            case "NURTOUR":
-//                map.put("desc","巡视");
-//                map.put("fragName", NurTourFragment.class.getName());
-//                map.put("fragicon",R.drawable.icon_tour);
-//                SharedPreference.FRAGMENTARY.add(map);
-//                break;
-//            case "DRUGHANDOVER":
-//                map.put("desc","药品交接");
-//                map.put("fragName", DrugHandoverFragment.class.getName());
-//                map.put("fragicon",R.drawable.icon_drugpreparation);
-//                SharedPreference.FRAGMENTARY.add(map);
-//                break;
-//            case "DRUGPREPARATION":
-//                map.put("desc","药品交接");
-//                map.put("fragName",DrugHandoverFragment.class.getName());
-//                map.put("fragicon",R.drawable.icon_drugpreparation);
-//                SharedPreference.FRAGMENTARY.add(map);
-//                break;
-//            case "RLREG":
-//                map.put("desc","余液登记");
-//                map.put("fragName", RLRegFragment.class.getName());
-//                map.put("fragicon",R.drawable.icon_drugrlreg);
-//                SharedPreference.FRAGMENTARY.add(map);
-//                break;
-//            case "SHIFT":
-//                map.put("desc","交班本");
-//                map.put("fragName", ShiftFragment.class.getName());
-//                map.put("fragicon",R.drawable.icon_drugrlreg);
-//                SharedPreference.FRAGMENTARY.add(map);
-//                break;
-//            case "IFOrdRec":
-//                map.put("desc","静配接收");
-//                map.put("fragName", DrugReceiveFragment.class.getName());
-//                map.put("fragicon",R.drawable.icon_drugrlreg);
-//                SharedPreference.FRAGMENTARY.add(map);
-//                break;
-//            case "TaskManageFragment":
-//                //w ##class(Nur.DHCNurPdaModule).Save("任务管理^TaskManageFragment^26^Y^")
-//                map.put("desc","任务管理");
-//                map.put("fragName", TaskManageFragment.class.getName());
-//                map.put("fragicon",R.drawable.icon_task_manage);
-//                SharedPreference.FRAGMENTARY.add(map);
-//                break;
-//            case "PLYOUT":
-//                map.put("desc","病理运送");
-//                map.put("fragName", PlyOutListFragment.class.getName());
-//                map.put("fragicon",R.drawable.icon_events);
-//                SharedPreference.FRAGMENTARY.add(map);
-//                break;
-//            case "RJORD":
-//                map.put("desc","日间输液");
-//                map.put("fragName", RjOrderFragment.class.getName());
-//                map.put("fragicon",R.drawable.icon_events);
-//                SharedPreference.FRAGMENTARY.add(map);
-//                break;
-//            case "HealthEduFragment":
-//                //w ##class(Nur.DHCNurPdaModule).Save("健康宣教^HealthEduFragment^21^Y^")
-//                map.put("desc","健康宣教");
-//                map.put("fragName", HealthEduFragment.class.getName());
-//                map.put("fragicon",R.drawable.dhcc_main_nurse_education);
-//                SharedPreference.FRAGMENTARY.add(map);
-//                break;
-//            case "TaskOverviewFragment":
-//                map.put("desc","任务总览");
-//                map.put("fragName", TaskOverviewFragment.class.getName());
-//                map.put("fragicon",R.drawable.dhcc_main_nurse_task_overview);
-//                SharedPreference.FRAGMENTARY.add(map);
-//                break;
-//            case "NurPlanFragment":
-//                //w ##class(Nur.DHCNurPdaModule).Save("护理计划^NurPlanFragment^24^Y^")
-//                map.put("desc","护理计划");
-//                map.put("fragName", NurPlanFragment.class.getName());
-//                map.put("fragicon",R.drawable.dhcc_main_nurse_plan);
-//                SharedPreference.FRAGMENTARY.add(map);
-//                break;
-//            case "BloodSugarFragment":
-//                //w ##class(Nur.DHCNurPdaModule).Save("血糖采集^BloodSugarFragment^25^Y^")
-//                map.put("desc","血糖采集");
-//                map.put("fragName", BloodSugarFragment.class.getName());
-//                map.put("fragicon",R.drawable.dhcc_main_nurse_blood_sugar);
-//                SharedPreference.FRAGMENTARY.add(map);
-//                break;
-//            case "ORDEXEANDSEARCH":
-//                map.put("desc","医嘱");
-//                map.put("fragName", OrderSearchAndExecuteFragment.class.getName());
-//                map.put("fragicon",R.drawable.dhcc_main_nurse_task_overview);
-//                SharedPreference.FRAGMENTARY.add(map);
-//                break;
-//            case "PatHandover":
-//                //w ##class(Nur.DHCNurPdaModule).Save("护理计划^NurPlanFragment^24^Y^")
-//                map.put("desc","患者交接");
-//                map.put("fragName", PatHandoverFragment.class.getName());
-//                map.put("fragicon",R.drawable.icon_events);
-//                SharedPreference.FRAGMENTARY.add(map);
-//                break;
-//            case "InfusionSituation":
-//                map.put("desc","输液信息");
-//                map.put("fragName", InfusionSituationFragment.class.getName());
-//                map.put("fragicon",R.drawable.icon_blood);
-//                SharedPreference.FRAGMENTARY.add(map);
-//                break;
-//            default:
-//                break;
-//        }
-//
-//        if (item.getModuleCode()!=null){
-//            map.put("code",item.getModuleCode());
-//        }
-//        if (item.getModuleDesc()!=null){
-//            map.put("desc",item.getModuleDesc());
-//        }
-//        return map;
-//    }
 
     public void getMainConfigData(Activity activity) {
 //        locId = spUtils.getString(SharedPreference.LOCID);
@@ -756,13 +404,6 @@ public class WorkareaMainConfig {
                         SPUtils.getInstance().put(SharedPreference.CURDATETIME, mainConfigBean.getCurDateTime());
                     }
                 }
-//                SharedPreference.FRAGMENTARY = new ArrayList();
-//                Map map = new HashMap();
-//                map.put("code","Main");
-//                map.put("desc","主页");
-//                map.put("fragName", WorkareaFragment.class.getName());
-//                map.put("fragicon",R.drawable.icon_workarea);
-//                SharedPreference.FRAGMENTARY.add(map);
 
                 WorkareaMainConfig workareaMainConfig = new WorkareaMainConfig();
                 workareaMainConfig.getMainCoinfgList(mainConfigBean);

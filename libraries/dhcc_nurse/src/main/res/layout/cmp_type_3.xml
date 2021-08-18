@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:padding="@dimen/dp_10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_title"
+            android:text="体温 (℃)"
+            android:textColor="#FF4A4A4A"
+            android:textSize="@dimen/sp_15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:id="@+id/et_value"
+            android:background="@drawable/dhcc_skin_bg_selected"
+            android:layout_width="@dimen/dp_180"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_height="@dimen/dp_35"/>
+    </LinearLayout>
+</LinearLayout>

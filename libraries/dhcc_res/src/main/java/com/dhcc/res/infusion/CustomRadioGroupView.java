@@ -25,6 +25,7 @@ import java.util.List;
  */
 public class CustomRadioGroupView extends BaseView {
 
+    private RecyclerView recyclerView;
     private CheckGroupAdapter checkGroupAdapter;
 
     public CustomRadioGroupView(Context context) {
@@ -37,13 +38,18 @@ public class CustomRadioGroupView extends BaseView {
 
     public CustomRadioGroupView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        RecyclerView recyclerView = findViewById(R.id.rv_check_group);
+        recyclerView = findViewById(R.id.rv_check_group);
         RecyclerViewHelper.setDefaultRecyclerView(mContext, recyclerView, 0, LinearLayoutManager.VERTICAL);
         checkGroupAdapter = new CheckGroupAdapter(null);
         recyclerView.setAdapter(checkGroupAdapter);
     }
 
     public void setGroupData(List<? extends SheetListBean> data) {
+        checkGroupAdapter.setNewData((List<SheetListBean>) data);
+    }
+
+    public void setGroupData(List<? extends SheetListBean> data, @RecyclerView.Orientation int orientation) {
+        RecyclerViewHelper.setDefaultRecyclerView(mContext, recyclerView, 0, orientation);
         checkGroupAdapter.setNewData((List<SheetListBean>) data);
     }
 

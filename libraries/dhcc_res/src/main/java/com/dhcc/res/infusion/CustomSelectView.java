@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -206,7 +205,9 @@ public class CustomSelectView extends LinearLayout {
             }
         };
         rlItem.setOnClickListener(onClickListener);
-
+        if (time > 0) {
+            setDateSelect(time, Type.ALL);
+        }
         return this;
     }
 
@@ -217,15 +218,7 @@ public class CustomSelectView extends LinearLayout {
                 .setCallBack(new OnDateSetListener() {
                     @Override
                     public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
-                        String strFormat = "yyyy-MM-dd HH:mm:ss";
-                        if (Type.HOURS_MINS == type) {
-                            strFormat = "HH:mm:ss";
-                        }
-                        Date date = new Date(millseconds);
-                        SimpleDateFormat format = new SimpleDateFormat(strFormat);//精确到分钟
-                        String datetime = format.format(date);
-                        setSelect(datetime);
-                        Log.e(TAG, "(PunctureFragment.java:129) " + datetime);
+                        setDateSelect(millseconds, type);
                     }
                 })
                 .setCancelStringId("取消")
@@ -249,6 +242,17 @@ public class CustomSelectView extends LinearLayout {
 
         mDialogAll.show(manager, "ALL");
 
+    }
+
+    public void setDateSelect(long millseconds, Type type) {
+        String strFormat = "yyyy-MM-dd HH:mm:ss";
+        if (Type.HOURS_MINS == type) {
+            strFormat = "HH:mm:ss";
+        }
+        Date date = new Date(millseconds);
+        SimpleDateFormat format = new SimpleDateFormat(strFormat);//精确到分钟
+        String datetime = format.format(date);
+        setSelect(datetime);
     }
 
     /**

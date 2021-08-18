@@ -1,5 +1,8 @@
 package com.dhcc.module.nurse;
 
+import com.dhcc.module.nurse.accompany.adapter.AccompanyAdapter;
+import com.dhcc.module.nurse.accompany.adapter.AccompanySeeAdapter;
+import com.dhcc.module.nurse.accompany.adapter.AccompanySheetAdapter;
 import com.dhcc.module.nurse.bloodsugar.adapter.BloodSugarNotelistAdapter;
 import com.dhcc.module.nurse.bloodsugar.adapter.BloodSugarPatAdapter;
 import com.dhcc.module.nurse.education.adapter.HealthEduAddAdapter;
@@ -160,17 +163,38 @@ public class AdapterFactory {
         return new NurPlanInterveAdapter(R.layout.item_nur_plan_interv,null);
     }
     /**
-     * 护理计划-血糖采集患者列表
+     * 血糖-血糖采集患者列表
      * @return
      */
     public static BloodSugarPatAdapter getBloodSugarPatAdapter() {
         return new BloodSugarPatAdapter(R.layout.item_bloodsugar_patient,null);
     }
     /**
-     * 护理计划-血糖采集患者记录列表
+     * 血糖-血糖采集患者记录列表
      * @return
      */
     public static BloodSugarNotelistAdapter getBloodSugarNotelistAdapter() {
         return new BloodSugarNotelistAdapter(R.layout.item_bloodsugar_detail,null);
+    }
+    /**
+     * 陪护-列表
+     * @return
+     */
+    public static AccompanyAdapter getAccompanyAdapter() {
+        return new AccompanyAdapter(R.layout.item_accompany_pat,null);
+    }
+    /**
+     * 陪护-查看
+     * @return
+     */
+    public static AccompanySeeAdapter getAccompanySeeAdapter() {
+        return new AccompanySeeAdapter(R.layout.item_accompany_sub_list,null);
+    }
+    /**
+     * 陪护-查看sheet
+     * @return
+     */
+    public static AccompanySheetAdapter getAccompanySheetAdapter() {
+        return new AccompanySheetAdapter(R.layout.item_accompany_sub_sheet,null);
     }
 }

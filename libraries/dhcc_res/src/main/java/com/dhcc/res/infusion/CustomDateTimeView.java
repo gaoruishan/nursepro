@@ -105,6 +105,17 @@ public class CustomDateTimeView extends LinearLayout implements View.OnClickList
         }
         return "";
     }
+    public String getEndDateText() {
+        if (tvChooseDateEnd != null) {
+           String schDate = tvChooseDateEnd.getText().toString();
+            //去掉 "时间"
+            if (schDate.length() >= 10) {
+                schDate = schDate.substring(0, 10);
+            }
+            return schDate;
+        }
+        return "";
+    }
 
     private long getStartDateTime() {
         if (startDateTime == 0) {

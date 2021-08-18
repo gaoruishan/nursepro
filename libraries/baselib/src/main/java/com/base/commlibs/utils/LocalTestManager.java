@@ -84,6 +84,8 @@ public class LocalTestManager {
 //        l.add("GetXmlValues");
 //        l.add("getInfusionOrdList");
         l.add("getLabOutList");
+        l.add("GetNCPAccompanyList");
+        l.add("GetNCPAccompanySub");
 
     }
 

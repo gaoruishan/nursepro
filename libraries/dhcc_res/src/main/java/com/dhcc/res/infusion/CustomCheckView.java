@@ -57,6 +57,7 @@ public class CustomCheckView extends BaseView {
         };
         btn_change.setOnClickListener(onClickListener);
         tvChange.setOnClickListener(onClickListener);
+        setOnClickListener(onClickListener);
     }
 
     public void setOnSelectListener(SimpleCallBack<Boolean> callBack) {

@@ -122,7 +122,6 @@ public class WorkareaFragment extends BaseFragment {
                 } else {
                     SharedPreference.FRAGMENTARY.clear();
                 }
-                MainConfigBean.MainListBean.MainSubListBean mainSubListBean = new MainConfigBean.MainListBean.MainSubListBean();
 
                 Map map = new HashMap();
                 map.put("code","Main");

@@ -266,4 +266,10 @@ public class NurseAPI {
      */
     public static final String GetInfusionByWard = "GetInfusionByWard";
     public static final String GetInfusionDetailByWard = "GetInfusionDetailByWard";
+    /**
+     * 陪护
+     */
+    public static final String GetNCPAccompanyList = "GetNCPAccompanyList";
+    public static final String GetNCPAccompanySub = "GetNCPAccompanySub";
+    public static final String SaveNCPAccompany = "SaveNCPAccompany";
 }
