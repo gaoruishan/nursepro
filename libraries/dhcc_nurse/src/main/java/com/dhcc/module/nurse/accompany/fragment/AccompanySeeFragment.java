@@ -2,7 +2,6 @@ package com.dhcc.module.nurse.accompany.fragment;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.RecyclerViewHelper;
@@ -14,11 +13,13 @@ import com.dhcc.module.nurse.accompany.adapter.AccompanySeeAdapter;
 import com.dhcc.module.nurse.accompany.adapter.AccompanySheetAdapter;
 import com.dhcc.module.nurse.accompany.bean.AccompanyConfigBean;
 import com.dhcc.module.nurse.accompany.bean.AccompanyInputBean;
+import com.dhcc.module.nurse.accompany.bean.ConfigSheetBean;
 import com.dhcc.module.nurse.education.BundleData;
 import com.dhcc.res.infusion.CustomDateTimeView;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +30,7 @@ import java.util.Map;
  * @email:grs0515@163.com
  */
 public class AccompanySeeFragment extends BaseNurseFragment {
-    public static final String INT_No = "序号";
+    public static final String INT_No = "index";
     private String ncparRowIDs;
     private List<AccompanyConfigBean> configTEMPList;
     private CustomDateTimeView customDate;
@@ -47,7 +48,7 @@ public class AccompanySeeFragment extends BaseNurseFragment {
         configTEMPList = new BundleData(bundle).getConfigTEMPList();
         //修改为序号
         if (configTEMPList != null && configTEMPList.size() > 0) {
-            configTEMPList.get(0).setTitle(INT_No);
+            configTEMPList.get(0).setTitle("序号");
         }
         OnDateSetListener onDateSetListener = new OnDateSetListener() {
             @Override
@@ -69,10 +70,15 @@ public class AccompanySeeFragment extends BaseNurseFragment {
         AccompanySheetAdapter sheetAdapter = AdapterFactory.getAccompanySheetAdapter();
         RecyclerViewHelper.setDefaultRecyclerView(mContext, rvSheet, 0, LinearLayoutManager.HORIZONTAL);
         rvSheet.setAdapter(sheetAdapter);
-        sheetAdapter.setNewData(configTEMPList);
+        //父类 需要转一下
+        List<ConfigSheetBean> mConfigSheetBeanList = new ArrayList<>();
+        for (AccompanyConfigBean bean : configTEMPList) {
+            mConfigSheetBeanList.add(new ConfigSheetBean(bean.getField(), bean.getTitle()));
+        }
+        sheetAdapter.setNewData(mConfigSheetBeanList);
 
         seeAdapter = AdapterFactory.getAccompanySeeAdapter();
-        seeAdapter.setConfigTemp(configTEMPList);
+        seeAdapter.setConfigTemp(mConfigSheetBeanList);
         RecyclerViewHelper.setDefaultRecyclerView(mContext, rvList, 0, LinearLayoutManager.VERTICAL);
         rvList.setAdapter(seeAdapter);
 
@@ -95,7 +101,6 @@ public class AccompanySeeFragment extends BaseNurseFragment {
                 }
                 List<Map> accompanySub = bean.getAccompanySub();
                 for (int i = 0; i < accompanySub.size(); i++) {
-                    Log.e(TAG,"(AccompanySeeFragment.java:98) "+i);
                     accompanySub.get(i).put(INT_No, i + 1);
                 }
                 seeAdapter.setNewData(accompanySub);

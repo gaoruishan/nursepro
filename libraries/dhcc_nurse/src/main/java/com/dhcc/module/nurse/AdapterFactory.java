@@ -15,6 +15,7 @@ import com.dhcc.module.nurse.nurplan.adapter.NurPlanAdapter;
 import com.dhcc.module.nurse.nurplan.adapter.NurPlanAddListAdapter;
 import com.dhcc.module.nurse.nurplan.adapter.NurPlanGoalAdapter;
 import com.dhcc.module.nurse.nurplan.adapter.NurPlanInterveAdapter;
+import com.dhcc.module.nurse.outmanage.adapter.OutManageAdapter;
 import com.dhcc.module.nurse.task.adapter.StatusFilterAdapter;
 import com.dhcc.module.nurse.task.adapter.TaskListAdapter;
 import com.dhcc.module.nurse.task.adapter.TaskNormalOrdAdapter;
@@ -196,5 +197,12 @@ public class AdapterFactory {
      */
     public static AccompanySheetAdapter getAccompanySheetAdapter() {
         return new AccompanySheetAdapter(R.layout.item_accompany_sub_sheet,null);
+    }
+    /**
+     * 外出管理-列表
+     * @return
+     */
+    public static OutManageAdapter getOutManageAdapter() {
+        return new OutManageAdapter(R.layout.item_outmanage_pat,null);
     }
 }

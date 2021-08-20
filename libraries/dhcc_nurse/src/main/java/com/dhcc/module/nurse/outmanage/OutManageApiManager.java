@@ -1,6 +1,14 @@
 package com.dhcc.module.nurse.outmanage;
 
 import com.base.commlibs.NurseAPI;
+import com.base.commlibs.http.CommWebService;
+import com.base.commlibs.http.CommonCallBack;
+import com.base.commlibs.http.ParserUtil;
+import com.base.commlibs.http.ServiceCallBack;
+import com.dhcc.module.nurse.outmanage.bean.OutManageBean;
+import com.dhcc.module.nurse.outmanage.bean.OutManageSubBean;
+
+import java.util.HashMap;
 
 /**
  * @author:gaoruishan
@@ -8,4 +16,39 @@ import com.base.commlibs.NurseAPI;
  * @email:grs0515@163.com
  */
 public class OutManageApiManager extends NurseAPI {
+
+    //获取患者列表
+    public static void getOutManageList(CommonCallBack<OutManageBean> callBack) {
+        HashMap<String, String> hashMap = CommWebService.addWardId(null);
+        CommWebService.addLocId(hashMap);
+        CommWebService.addUserId(hashMap);
+        CommWebService.addHospitalId(hashMap);
+        CommWebService.call(GetOutManageList, hashMap, new ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                ParserUtil<OutManageBean> parserUtil = new ParserUtil<>();
+                OutManageBean bean = parserUtil.parserResult(jsonStr, callBack, OutManageBean.class);
+                if (bean==null) return;
+                parserUtil.parserStatus(bean,callBack);
+            }
+        });
+    }
+    //获取外出列表
+    public static void getOutManageListSub(String episodeID, String startDate, String endDate, CommonCallBack<OutManageSubBean> callBack) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("episodeID", episodeID);
+        hashMap.put("startDate", startDate);
+        hashMap.put("startTime", "00:00");
+        hashMap.put("endDate", endDate);
+        hashMap.put("endTime", "23:59");
+        CommWebService.call(GetOutManageListSub, hashMap, new ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                ParserUtil<OutManageSubBean> parserUtil = new ParserUtil<>();
+                OutManageSubBean bean = parserUtil.parserResult(jsonStr, callBack, OutManageSubBean.class);
+                if (bean==null) return;
+                parserUtil.parserStatus(bean,callBack);
+            }
+        });
+    }
 }

@@ -142,6 +142,26 @@ public class AccompanyBean extends CommResult {
         private String patAge;
         private String patName;
         private String regNo;
+        //全区
+        private String inBedAll;
+        //管辖
+        private String manageInBed;
+
+        public String getInBedAll() {
+            return inBedAll == null ? "" : inBedAll;
+        }
+
+        public void setInBedAll(String inBedAll) {
+            this.inBedAll = inBedAll;
+        }
+
+        public String getManageInBed() {
+            return manageInBed == null ? "" : manageInBed;
+        }
+
+        public void setManageInBed(String manageInBed) {
+            this.manageInBed = manageInBed;
+        }
 
         public String getInsertDateTime() {
             return InsertDateTime;

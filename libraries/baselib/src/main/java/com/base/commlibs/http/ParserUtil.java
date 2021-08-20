@@ -104,7 +104,7 @@ public class ParserUtil<T extends CommResult> {
                 }
             } catch (Exception e) {
                 Log.e("json", "Exception= "+e.toString());
-                LocalTestManager.saveLog(clz.getSimpleName(),"Exception= \n"+e.toString());
+                LocalTestManager.saveLogTest(clz.getSimpleName()+"_json_exception","Exception= \n"+e.toString());
                 showToast(callback, "网络错误，数据解析失败", ERR_CODE_2);
             }
 

@@ -5,7 +5,7 @@ import com.dhcc.res.infusion.bean.SheetListBean;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AccompanyConfigBean {
+public class AccompanyConfigBean extends ConfigSheetBean{
 
     public static final String TYPE_1 = "1";
     public static final String TYPE_4 = "4";
@@ -13,8 +13,6 @@ public class AccompanyConfigBean {
     public static final String TYPE_7 = "7";
 
     private String checkbox;
-    private String field;
-    private String title;
     // 1 单行文本; 2 多行文本; 3 下拉框 ; 4 单选框; 5 多选框; 6 时间; 7 日期;
     private String type;
     private String defaultValue;
@@ -77,22 +75,6 @@ public class AccompanyConfigBean {
 
     public void setCheckbox(String checkbox) {
         this.checkbox = checkbox;
-    }
-
-    public String getField() {
-        return field;
-    }
-
-    public void setField(String field) {
-        this.field = field;
-    }
-
-    public String getTitle() {
-        return title == null ? "" : title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
 

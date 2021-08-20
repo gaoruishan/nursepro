@@ -38,6 +38,9 @@ public class BundleData extends BaseBundleData {
     public String accompanyList;
     //位置
     public String position;
+    //类型
+    public String type;
+    public String user;
 
 
     public BundleData(Bundle bundle) {
@@ -48,12 +51,28 @@ public class BundleData extends BaseBundleData {
 
     }
 
+    public String getUser() {
+        return getString("user");
+    }
+
+    public BundleData setUser(String user) {
+        this.user = user;
+        return this;
+    }
     public String getPosition() {
         return getString("position");
     }
 
     public BundleData setPosition(String position) {
         this.position = position;
+        return this;
+    }
+    public String getType() {
+        return getString("type");
+    }
+
+    public BundleData setType(String type) {
+        this.type = type;
         return this;
     }
 
@@ -179,4 +198,6 @@ public class BundleData extends BaseBundleData {
         this.accompanyList = new Gson().toJson(accompanyList);
         return this;
     }
+
+
 }

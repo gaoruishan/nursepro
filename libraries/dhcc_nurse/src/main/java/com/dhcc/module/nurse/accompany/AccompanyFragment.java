@@ -34,6 +34,7 @@ public class AccompanyFragment extends BaseNurseFragment {
     private RecyclerView rvList;
     private AccompanyAdapter accompanyAdapter;
     private List<AccompanyConfigBean> configTEMP;
+    private List<AccompanyBean.AccompanyListBean> accompanyList;
 
     @Override
     protected int setLayout() {
@@ -62,6 +63,17 @@ public class AccompanyFragment extends BaseNurseFragment {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Log.e(TAG, "(AccompanyFragment.java:51) " + position);
+                if (position == 1) {
+                    List<AccompanyBean.AccompanyListBean> mList = new ArrayList<>();
+                    for (AccompanyBean.AccompanyListBean accompanyListBean : accompanyList) {
+                        if ("1".equals(accompanyListBean.getManageInBed())) {
+                            mList.add(accompanyListBean);
+                        }
+                    }
+                    accompanyAdapter.setNewData(mList);
+                } else {
+                    accompanyAdapter.setNewData(accompanyList);
+                }
             }
         });
         accompanyAdapter = AdapterFactory.getAccompanyAdapter();
@@ -99,7 +111,7 @@ public class AccompanyFragment extends BaseNurseFragment {
             @Override
             public void onSuccess(AccompanyBean bean, String type) {
                 configTEMP = bean.getConfigTEMP();
-                List<AccompanyBean.AccompanyListBean> accompanyList = bean.getAccompanyList();
+                accompanyList = bean.getAccompanyList();
                 //序号
                 for (int i = 0; i < accompanyList.size(); i++) {
                     String index = "" + (i + 1);

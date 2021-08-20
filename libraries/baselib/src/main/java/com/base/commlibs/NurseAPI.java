@@ -272,4 +272,10 @@ public class NurseAPI {
     public static final String GetNCPAccompanyList = "GetNCPAccompanyList";
     public static final String GetNCPAccompanySub = "GetNCPAccompanySub";
     public static final String SaveNCPAccompany = "SaveNCPAccompany";
+    /**
+     * 外出管理
+     */
+    public static final String GetOutManageList = "GetOutManageList";
+    public static final String GetOutManageListSub = "GetOutManageListSub";
+
 }

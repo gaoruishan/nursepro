@@ -48,6 +48,18 @@ public class AliveService extends Service {
     }
 
     @Override
+    public void onCreate() {
+        super.onCreate();
+        //两次调用
+        startForegroundSdkO();
+    }
+
+    @Override
+    public void onStart(Intent intent, int startId) {
+        super.onStart(intent, startId);
+    }
+
+    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 //        mHandler.postDelayed(heartBeatRunnable, HEART_BEAT_RATE);//开启心跳检测
 
@@ -70,7 +82,7 @@ public class AliveService extends Service {
         return START_STICKY;
     }
 
-    private void startForegroundSdkO() {
+    private  void startForegroundSdkO() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID_STRING, "护士站", NotificationManager.IMPORTANCE_HIGH);
@@ -159,7 +171,17 @@ public class AliveService extends Service {
 
         @Override
         public int onStartCommand(Intent intent, int flags, int startId) {
-            startForeground(GRAY_SERVICE_ID, new Notification());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID_STRING, "护士站", NotificationManager.IMPORTANCE_HIGH);
+                if (notificationManager != null) {
+                    notificationManager.createNotificationChannel(mChannel);
+                    Notification notification = new Notification.Builder(getApplicationContext(), CHANNEL_ID_STRING).build();
+                    startForeground(GRAY_SERVICE_ID, notification);
+                }
+            }else {
+                startForeground(GRAY_SERVICE_ID, new Notification());
+            }
             stopForeground(true);
             stopSelf();
             return super.onStartCommand(intent, flags, startId);
