@@ -277,5 +277,6 @@ public class NurseAPI {
      */
     public static final String GetOutManageList = "GetOutManageList";
     public static final String GetOutManageListSub = "GetOutManageListSub";
+    public static final String SaveOutManageInfo = "SaveOutManageInfo";
 
 }

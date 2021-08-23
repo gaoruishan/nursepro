@@ -137,6 +137,7 @@
             android:layout_height="wrap_content"/>
 
         <com.noober.background.view.BLEditText
+            android:id="@+id/et_remark"
             android:layout_marginLeft="@dimen/dp_20"
             app:bl_focused_drawable="@drawable/dhcc_skin_bg_selected"
             app:bl_unSelected_drawable="@drawable/dhcc_skin_bg_normal"

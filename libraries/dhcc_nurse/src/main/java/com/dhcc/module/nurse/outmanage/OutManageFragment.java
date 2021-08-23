@@ -119,6 +119,7 @@ public class OutManageFragment extends BaseNurseFragment {
     private void startOutManageInputFragment(String type, OutManageBean.PatInfoListBean bean) {
         BundleData bundle = new BundleData();
         bundle.setType(type)
+                .setEpisodeId(bean.getEpisodeId())
                 .setDesc(bean.getBedCode() + "    " + bean.getName())
                 .setDateTime(bean.getOutDateTime()+","+bean.getInDateTime());
         startFragment(OutManageInputFragment.class, bundle.build());

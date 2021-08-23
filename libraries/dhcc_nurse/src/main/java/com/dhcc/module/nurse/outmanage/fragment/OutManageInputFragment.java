@@ -12,9 +12,12 @@ import com.blankj.utilcode.util.SPStaticUtils;
 import com.dhcc.module.nurse.BaseNurseFragment;
 import com.dhcc.module.nurse.R;
 import com.dhcc.module.nurse.education.BundleData;
+import com.dhcc.module.nurse.outmanage.OutManageApiManager;
 import com.dhcc.module.nurse.outmanage.bean.ConfigTraceBean;
 import com.dhcc.module.nurse.outmanage.bean.OutManageBean;
+import com.dhcc.module.nurse.outmanage.bean.OutManageReqParams;
 import com.dhcc.res.util.SelectUtil;
+import com.google.gson.Gson;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 
@@ -41,21 +44,28 @@ public class OutManageInputFragment extends BaseNurseFragment {
     private String outDateTime;
     private String inDateTime;
     private String user;
+    private String id="";
+    private String episodeID="";
+    private String typeDR="";
+    private EditText etRemark;
 
     @Override
     protected void initViews() {
         super.initViews();
         tvTitle = f(R.id.tv_title, TextView.class);
         etUser = f(R.id.et_user, EditText.class);
+        etRemark = f(R.id.et_remark, EditText.class);
         tvDatetimeIn = f(R.id.tv_datetime_in, TextView.class);
         tvDatetimeIn.setOnClickListener(this);
         tvDatetimeOut = f(R.id.tv_datetime_out, TextView.class);
         tvDatetimeOut.setOnClickListener(this);
         tvType = f(R.id.tv_type, TextView.class);
         tvType.setOnClickListener(this);
+        f(R.id.tv_ok).setOnClickListener(this);
         type = new BundleData(bundle).getType();
         desc = new BundleData(bundle).getDesc();
-        user = new BundleData(bundle).getUser();
+        id = new BundleData(bundle).getId();
+        episodeID = new BundleData(bundle).getEpisodeId();
         String dateTime = new BundleData(bundle).getDateTime();
         String[] split = dateTime.split(",");
         if (split.length > 0) {
@@ -88,6 +98,7 @@ public class OutManageInputFragment extends BaseNurseFragment {
         }
         if (configTraceList != null && configTraceList.size() > 0) {
             tvType.setText("" + configTraceList.get(0).getType());
+            typeDR = configTraceList.get(0).getEvent();
         }
         if (!TextUtils.isEmpty(outDateTime)) {
             tvDatetimeOut.setText(outDateTime);
@@ -108,7 +119,21 @@ public class OutManageInputFragment extends BaseNurseFragment {
         if (v.getId() == R.id.tv_type) {
             selectText();
         }
+        //保存
+        if (v.getId() == R.id.tv_ok) {
+            OutManageReqParams params = new OutManageReqParams();
+            params.id = id;
+            params.episodeID = episodeID;
+            params.typeDR = typeDR;
+            params.outDateTime = tvDatetimeOut.getText().toString();
+            params.entourage = etUser.getText().toString();
+            params.returnDateTime = tvDatetimeIn.getText().toString();
+            params.remarks = etRemark.getText().toString();
+            String data = new Gson().toJson(params);
+            OutManageApiManager.SaveOutManageInfo(data, getCommCallBack());
+        }
     }
+
 
     private void selectDateTime(View v) {
         new SelectUtil().setSelectDateTime(getFragmentManager(), SchDateTimeUtil.getCurDateTime(), new OnDateSetListener() {
@@ -133,6 +158,7 @@ public class OutManageInputFragment extends BaseNurseFragment {
         new SelectUtil().setSelectData(mContext, mStringList, new OptionPicker.OnOptionPickListener() {
             @Override
             public void onOptionPicked(int index, String item) {
+                typeDR = configTraceList.get(index).getEvent();
                 tvType.setText("" + item);
             }
         });
