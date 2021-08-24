@@ -12,13 +12,13 @@
             android:text="体温 (℃)"
             android:textColor="#FF4A4A4A"
             android:textSize="@dimen/sp_15"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/dp_80"
             android:layout_height="wrap_content"/>
         <EditText
             android:id="@+id/et_value"
             android:background="@drawable/dhcc_skin_bg_selected"
             android:layout_width="@dimen/dp_180"
-            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginLeft="@dimen/dp_10"
             android:layout_height="@dimen/dp_35"/>
     </LinearLayout>
 </LinearLayout>

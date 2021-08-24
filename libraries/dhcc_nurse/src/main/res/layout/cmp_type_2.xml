@@ -18,7 +18,9 @@
             android:id="@+id/et_value"
             android:background="@drawable/dhcc_skin_bg_selected"
             android:layout_width="@dimen/dp_180"
-            android:layout_marginLeft="@dimen/dp_20"
-            android:layout_height="@dimen/dp_35"/>
+            android:lines="5"
+            android:gravity="left"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_height="@dimen/dp_120"/>
     </LinearLayout>
 </LinearLayout>
