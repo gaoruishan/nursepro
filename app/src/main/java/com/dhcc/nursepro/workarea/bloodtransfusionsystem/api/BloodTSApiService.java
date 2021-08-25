@@ -144,7 +144,7 @@ public class BloodTSApiService extends NurseAPI {
     public static void bloodTransEnd(String bloodRowId, String userId, String StopReasonDesc, String endType, String type,String pass, final ServiceCallBack callback) {
         HashMap<String, String> properties = new HashMap<>();
         properties.put("bloodRowId", bloodRowId);
-        properties.put("userId", userId);
+        properties.put("userId1", userId);
         properties.put("pass", pass.replace(" ",""));
         properties.put("StopReasonDesc", StopReasonDesc);
         properties.put("endType", endType);
