@@ -1,6 +1,7 @@
 package com.dhcc.module.nurse.accompany;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
@@ -35,6 +36,7 @@ public class AccompanyFragment extends BaseNurseFragment {
     private AccompanyAdapter accompanyAdapter;
     private List<AccompanyConfigBean> configTEMP;
     private List<AccompanyBean.AccompanyListBean> accompanyList;
+    private String scan;
 
     @Override
     protected int setLayout() {
@@ -46,8 +48,29 @@ public class AccompanyFragment extends BaseNurseFragment {
         super.initViews();
         customSheetTab = f(R.id.custom_sheet_tab, CustomSheetTabView.class);
         rvList = f(R.id.rv_list, RecyclerView.class);
+        if (getArguments() != null) {
+            scan = getArguments().getString("SCAN");
+        }
+    }
 
+    @Override
+    protected void getScanOrdList() {
+        super.getScanOrdList();
+        autoStartInputFragment(scanInfo);
+    }
 
+    private void autoStartInputFragment(String scanInfo) {
+        if (accompanyList == null) {
+            Log.e(TAG,"(AccompanyFragment.java:55) "+accompanyList);
+        }else {
+            for (int i = 0; i < accompanyList.size(); i++) {
+                AccompanyBean.AccompanyListBean bean = accompanyList.get(i);
+                if (scanInfo.contains(bean.getRegNo())) {
+                    startAccompanyInputFragment(i);
+                    return;
+                }
+            }
+        }
     }
 
     @Override
@@ -85,11 +108,7 @@ public class AccompanyFragment extends BaseNurseFragment {
                 AccompanyBean.AccompanyListBean bean = accompanyAdapter.getData().get(position);
                 //录入
                 if (view.getId() == R.id.tv_input) {
-                    BundleData bundle = new BundleData();
-                    bundle.setPosition(position + "")
-                            .setAccompanyList(accompanyAdapter.getData())
-                            .setConfigTEMPList(configTEMP);
-                    startFragment(AccompanyInputFragment.class, bundle.build());
+                    startAccompanyInputFragment(position);
                 }
                 //查看
                 if (view.getId() == R.id.tv_see) {
@@ -121,7 +140,20 @@ public class AccompanyFragment extends BaseNurseFragment {
                     accompanyList.get(i).setBedCode("" + index);
                 }
                 accompanyAdapter.setNewData(accompanyList);
+                //自动跳转录入
+                if(!TextUtils.isEmpty(scan)){
+                	autoStartInputFragment(scan);
+                    scan = "";
+                }
             }
         });
+    }
+
+    public void startAccompanyInputFragment(int position) {
+        BundleData bundle = new BundleData();
+        bundle.setPosition(position + "")
+                .setAccompanyList(accompanyAdapter.getData())
+                .setConfigTEMPList(configTEMP);
+        startFragment(AccompanyInputFragment.class, bundle.build());
     }
 }

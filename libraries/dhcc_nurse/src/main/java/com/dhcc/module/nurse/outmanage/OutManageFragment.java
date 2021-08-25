@@ -50,6 +50,13 @@ public class OutManageFragment extends BaseNurseFragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        //刷新
+        getOutManageList();
+    }
+
+    @Override
     protected void getScanOrdList() {
         super.getScanOrdList();
         if (mBean != null) {
@@ -113,12 +120,12 @@ public class OutManageFragment extends BaseNurseFragment {
             }
         });
 
-        getOutManageList();
     }
 
     private void startOutManageInputFragment(String type, OutManageBean.PatInfoListBean bean) {
         BundleData bundle = new BundleData();
         bundle.setType(type)
+                .setEpisodeId(bean.getEpisodeId())
                 .setDesc(bean.getBedCode() + "    " + bean.getName())
                 .setDateTime(bean.getOutDateTime()+","+bean.getInDateTime());
         startFragment(OutManageInputFragment.class, bundle.build());

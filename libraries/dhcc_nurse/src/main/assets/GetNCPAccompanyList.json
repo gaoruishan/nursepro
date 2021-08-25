@@ -40,7 +40,9 @@
       "episodeID": "73270017",
       "patAge": "87岁",
       "patName": "戴自英",
-      "regNo": "0000201916"
+      "regNo": "0000201916",
+      "inBedAll": "",
+      "manageInBed": "1"
     },
     {
       "InsertDateTime": "",
@@ -622,19 +624,29 @@
       "defaultValue": "",
       "field": "NCPARecInfo1",
       "title": "体温",
-      "type": "1"
+      "type": "1",
+      "inputType": "N"
+    },
+    {
+      "defaultValue": "",
+      "field": "NCPARecInfo6",
+      "title": "多行文本",
+      "type": "2",
+      "inputType": "T"
     },
     {
       "defaultValue": "有&无",
       "field": "NCPARecInfo2",
       "title": "呼吸道症状",
-      "type": "4"
+      "type": "4",
+      "initValue":"无"
     },
     {
       "defaultValue": "有&无",
       "field": "NCPARecInfo3",
       "title": "消化道症状",
-      "type": "4"
+      "type": "4",
+      "initValue":"无"
     }
   ],
   "msg": "",

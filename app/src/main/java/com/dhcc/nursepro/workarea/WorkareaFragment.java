@@ -20,6 +20,7 @@ import com.base.commlibs.utils.DataCache;
 import com.base.commlibs.utils.SchDateTimeUtil;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
+import com.dhcc.module.nurse.accompany.AccompanyFragment;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.workareaadapter.WorkAreaAdapter;
 import com.dhcc.nursepro.workarea.workareaapi.WorkareaApiManager;
@@ -175,6 +176,14 @@ public class WorkareaFragment extends BaseFragment {
             if (Action.DEVICE_SCAN_CODE.equals(intent.getAction())) {
                 Bundle bundle = new Bundle();
                 bundle = intent.getExtras();
+                String scanInfo = bundle.getString("data");
+                //跳转陪护
+                if (scanInfo!=null && scanInfo.contains("PH")) {
+                    Bundle b = new Bundle();
+                    b.putString("SCAN",scanInfo);
+                    startFragment(AccompanyFragment.class,b);
+                    return;
+                }
                 workareaOrdExeUtil.setScanInfo(bundle.getString("data"));
                 workareaOrdExeUtil.getScanInfo();
             }

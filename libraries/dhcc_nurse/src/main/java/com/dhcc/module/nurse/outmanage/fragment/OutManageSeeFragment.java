@@ -79,6 +79,8 @@ public class OutManageSeeFragment extends BaseNurseFragment {
                     bundle.setType(OutManageBean.TYPE_EDIT)
                             .setDesc(map.get("bedCode") + "    " +map.get("name") )
                             .setUser(map.get("entourage")+"")
+                            .setId(map.get("id")+"")
+                            .setEpisodeId(episodeId+"")
                             .setDateTime(map.get("outRecordDateTime")+","+map.get("returnRecordDateTime"));
                     startFragment(OutManageInputFragment.class, bundle.build());
                 }

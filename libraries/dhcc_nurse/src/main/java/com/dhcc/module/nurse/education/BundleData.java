@@ -41,6 +41,7 @@ public class BundleData extends BaseBundleData {
     //类型
     public String type;
     public String user;
+    public String id;
 
 
     public BundleData(Bundle bundle) {
@@ -57,6 +58,14 @@ public class BundleData extends BaseBundleData {
 
     public BundleData setUser(String user) {
         this.user = user;
+        return this;
+    }
+    public String getId() {
+        return getString("id");
+    }
+
+    public BundleData setId(String id) {
+        this.id = id;
         return this;
     }
     public String getPosition() {

@@ -18,6 +18,7 @@ import com.base.commlibs.MessageEvent;
 import com.base.commlibs.bean.PatientListBean;
 import com.base.commlibs.comm.BaseCommFragment;
 import com.base.commlibs.http.CommHttp;
+import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.BasePopWindow;
 import com.base.commlibs.utils.CommDialog;
@@ -393,5 +394,19 @@ public abstract class BaseNurseFragment extends BaseCommFragment {
                 finish();
             }
         }, CommDialog.DELAY_MILLIS);
+    }
+
+    public CommonCallBack<CommResult> getCommCallBack() {
+        return new CommonCallBack<CommResult>() {
+            @Override
+            public void onFail(String code, String msg) {
+                onFailThings(msg);
+            }
+
+            @Override
+            public void onSuccess(CommResult bean, String type) {
+                onSuccessThings(bean);
+            }
+        };
     }
 }

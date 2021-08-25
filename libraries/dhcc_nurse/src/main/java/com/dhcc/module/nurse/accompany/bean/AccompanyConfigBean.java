@@ -8,6 +8,7 @@ import java.util.List;
 public class AccompanyConfigBean extends ConfigSheetBean{
 
     public static final String TYPE_1 = "1";
+    public static final String TYPE_2 = "2";
     public static final String TYPE_4 = "4";
     public static final String TYPE_6 = "6";
     public static final String TYPE_7 = "7";
@@ -16,6 +17,10 @@ public class AccompanyConfigBean extends ConfigSheetBean{
     // 1 单行文本; 2 多行文本; 3 下拉框 ; 4 单选框; 5 多选框; 6 时间; 7 日期;
     private String type;
     private String defaultValue;
+    //默认初始值
+    private String initValue;
+    //输入法 N 数字 T 文本
+    private String inputType;
     //输入内容
     private String inputValue;
     //单选/多选
@@ -29,7 +34,9 @@ public class AccompanyConfigBean extends ConfigSheetBean{
         sheetList = new ArrayList<>();
         String[] split = defaultValue.split("&");
         for (String s : split) {
-            sheetList.add(new SheetListBean(field, s));
+            SheetListBean sheetListBean = new SheetListBean(field, s);
+            sheetListBean.setSelect(s.equals(initValue));
+            sheetList.add(sheetListBean);
         }
         return sheetList;
     }
@@ -39,6 +46,22 @@ public class AccompanyConfigBean extends ConfigSheetBean{
             return new ArrayList<>();
         }
         return sheetList;
+    }
+
+    public String getInputType() {
+        return inputType == null ? "" : inputType;
+    }
+
+    public void setInputType(String inputType) {
+        this.inputType = inputType;
+    }
+
+    public String getInitValue() {
+        return initValue == null ? "" : initValue;
+    }
+
+    public void setInitValue(String initValue) {
+        this.initValue = initValue;
     }
 
     public void setSheetList(List<SheetListBean> sheetList) {

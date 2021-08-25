@@ -1,6 +1,7 @@
 package com.dhcc.module.nurse.outmanage;
 
 import com.base.commlibs.NurseAPI;
+import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommWebService;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.http.ParserUtil;
@@ -28,11 +29,12 @@ public class OutManageApiManager extends NurseAPI {
             public void onResult(String jsonStr) {
                 ParserUtil<OutManageBean> parserUtil = new ParserUtil<>();
                 OutManageBean bean = parserUtil.parserResult(jsonStr, callBack, OutManageBean.class);
-                if (bean==null) return;
-                parserUtil.parserStatus(bean,callBack);
+                if (bean == null) return;
+                parserUtil.parserStatus(bean, callBack);
             }
         });
     }
+
     //获取外出列表
     public static void getOutManageListSub(String episodeID, String startDate, String endDate, CommonCallBack<OutManageSubBean> callBack) {
         HashMap<String, String> hashMap = new HashMap<>();
@@ -46,9 +48,30 @@ public class OutManageApiManager extends NurseAPI {
             public void onResult(String jsonStr) {
                 ParserUtil<OutManageSubBean> parserUtil = new ParserUtil<>();
                 OutManageSubBean bean = parserUtil.parserResult(jsonStr, callBack, OutManageSubBean.class);
-                if (bean==null) return;
-                parserUtil.parserStatus(bean,callBack);
+                if (bean == null) return;
+                parserUtil.parserStatus(bean, callBack);
             }
         });
     }
+
+
+//    Parameter GetOutManageList = "Nur.MNIS.Service.OutManage:GetOutManageList";
+//
+//    Parameter GetOutManageListSub = "Nur.MNIS.Service.OutManage:GetOutManageListSub";
+//
+//    Parameter SaveOutManageInfo = "Nur.MNIS.Service.OutManage:SaveOutManageInfo";
+
+    // "{""id"":"""",""episodeID"":""1624"",""typeDR"":""1"",""outDateTime"":""2021-08-23 14:51"",""entourage"":""sss"",""returnDateTime"":""2021-08-23 15:55"",""remarks"":""aaaa""}"
+    //"{""id"":""3"",""episodeID"":""1624"",""typeDR"":""1"",""outDateTime"":""2021-08-23 14:51"",""entourage"":""dddd"",""returnDateTime"":""2021-08-23 15:55"",""remarks"":""aaaa""}"
+//保存
+public static void SaveOutManageInfo(String data, CommonCallBack<CommResult> callBack) {
+    HashMap<String, String> hashMap = new HashMap<>();
+    hashMap.put("data", data);
+    CommWebService.call(SaveOutManageInfo, hashMap, new ServiceCallBack() {
+        @Override
+        public void onResult(String jsonStr) {
+            CommWebService.parserCommResult(jsonStr,callBack);
+        }
+    });
+}
 }

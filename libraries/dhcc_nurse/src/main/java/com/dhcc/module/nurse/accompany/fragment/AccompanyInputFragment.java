@@ -1,6 +1,7 @@
 package com.dhcc.module.nurse.accompany.fragment;
 
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -95,24 +96,18 @@ public class AccompanyInputFragment extends BaseNurseFragment {
                     View view = inflater.inflate(R.layout.cmp_type_1, null);
                     TextView tv = view.findViewById(R.id.tv_title);
                     EditText et = view.findViewById(R.id.et_value);
-                    et.addTextChangedListener(new TextWatcher() {
-                        @Override
-                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                        }
+                    setEditCommConfig(configBean, et);
+                    tv.setText(configBean.getTitle());
+                    llConfigList.addView(view);
+                }
+                //多行
+                if (AccompanyConfigBean.TYPE_2.equals(configBean.getType())) {
+                    View view = inflater.inflate(R.layout.cmp_type_2, null);
+                    TextView tv = view.findViewById(R.id.tv_title);
+                    EditText et = view.findViewById(R.id.et_value);
 
-                        @Override
-                        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                        }
-
-                        @Override
-                        public void afterTextChanged(Editable s) {
-                            if (!TextUtils.isEmpty(s.toString())) {
-                                configBean.setInputValue(s.toString());
-                            }
-                        }
-                    });
+                    setEditCommConfig(configBean, et);
                     tv.setText(configBean.getTitle());
                     llConfigList.addView(view);
                 }
@@ -130,6 +125,33 @@ public class AccompanyInputFragment extends BaseNurseFragment {
 
         //刷新
         refreshInfo();
+    }
+
+    private void setEditCommConfig(AccompanyConfigBean configBean, EditText et) {
+        if ("N".equals(configBean.getInputType())) {
+            et.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        }
+        if ("T".equals(configBean.getInputType())) {
+            et.setInputType(InputType.TYPE_CLASS_TEXT);
+        }
+        et.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!TextUtils.isEmpty(s.toString())) {
+                    configBean.setInputValue(s.toString());
+                }
+            }
+        });
     }
 
     private void refreshInfo() {
