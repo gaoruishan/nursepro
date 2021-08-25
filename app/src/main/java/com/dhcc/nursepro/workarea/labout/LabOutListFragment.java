@@ -17,14 +17,11 @@ import com.base.commlibs.MessageEvent;
 import com.base.commlibs.NurseAPI;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommonCallBack;
-import com.base.commlibs.utils.BasePopWindow;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
-import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.utils.DateUtils;
-import com.dhcc.nursepro.utils.PopWindowUtil;
 import com.dhcc.nursepro.workarea.labout.adapter.LabOutAdapter;
 import com.dhcc.nursepro.workarea.labout.api.LabOutApiManager;
 import com.dhcc.nursepro.workarea.labout.bean.LabOutListAllBean;
@@ -53,11 +50,12 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
     private LabOutAdapter labOutAdapter;
     private List<LabOutListAllBean.LabOutListBean> listLabAll = new ArrayList<>(), listLabNow = new ArrayList<>();
     private String dateStr, CarrayCerate = "No", CarrayDel = "No", CarrayNo = "", TypeStr = "Type0";
+    private String saveFlag = "";
     private List<LabOutListAllBean.TypeListBean> listType = new ArrayList<>();
 
     private SPUtils spUtils = SPUtils.getInstance();
     private Long timeNow = System.currentTimeMillis();
-    private String startDate, endDate, pageNo="1";
+    private String startDate, endDate, pageNo = "1";
     private List<OrderExecuteBean.OrdersBean> labList;
     private boolean ifLoadMore;
 
@@ -94,6 +92,7 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
         //注册事件总线
         EventBus.getDefault().register(this);
     }
+
     /**
      * 接收事件- 更新数据
      *
@@ -118,6 +117,7 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
             }
         }
     }
+
     private void GetUnOutLabData() {
         startDate = tvStartDate.getText().toString();
         endDate = tvEndDate.getText().toString();
@@ -129,10 +129,10 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
 
             @Override
             public void onSuccess(LabUnOutListBean bean, String type) {
-                setToolbarCenterTitle(getString(R.string.title_labout)+"("+ bean.getLabNum()+")", 0xffffffff, 17);
+                setToolbarCenterTitle(getString(R.string.title_labout) + "(" + bean.getLabNum() + ")", 0xffffffff, 17);
                 if ("1".equals(pageNo)) {
                     labList = bean.getLabList();
-                }else {
+                } else {
                     labList.addAll(bean.getLabList());
                 }
             }
@@ -146,6 +146,7 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
         map.put("stdate", tvStartDate.getText().toString());
         map.put("enddate", tvEndDate.getText().toString());
         map.put("locId", spUtils.getString(SharedPreference.LOCID));
+        map.put("saveFlag", saveFlag);
         if (CarrayCerate.equals("Yes")) {
             map.put("userId", spUtils.getString(SharedPreference.USERID));
             if (TypeStr.equals("Type0")) {
@@ -162,6 +163,7 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
                 hideLoadFailTip();
                 CarrayCerate = "No";
                 CarrayDel = "No";
+                saveFlag = "";
                 if (listType.size() == 0) {
                     listType = labOutListAllBean.getTypeList();
                     tvType0.setText(listType.get(0).getDesc());
@@ -180,6 +182,7 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
                 hideLoadFailTip();
                 CarrayCerate = "No";
                 CarrayDel = "No";
+                saveFlag = "";
                 showToast("error" + code + ":" + msg);
             }
         });
@@ -296,6 +299,7 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
                 if (view.getId() == R.id.tv_lapack_del) {
                     CarrayCerate = "Yes";
                     CarrayDel = "Yes";
+                    saveFlag = "0";
                     CarrayNo = listLabNow.get(position).getCarryNo();
                     initData();
                 } else if (view.getId() == R.id.messagecontentll) {
@@ -369,6 +373,7 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
                 //                startFragment(PatEventsDetailFragment.class);
                 if (System.currentTimeMillis() - timeNow > 1500) {
                     CarrayCerate = "Yes";
+                    saveFlag = "1";
                     if (TypeStr.equals("Type0")) {
                         setTopFilterSelect(tvType0);
                         showgone(show0);
