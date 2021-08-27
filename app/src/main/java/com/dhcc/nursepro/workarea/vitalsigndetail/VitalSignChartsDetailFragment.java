@@ -226,10 +226,10 @@ public class VitalSignChartsDetailFragment extends BaseFragment implements View.
             }
 
             if (temperature > 0) {
-                values1.add(new Entry(count, temperature));
+                values1.add(new Entry(count, temperature,map.get("date")+" "+map.get("time")));
             }
             if (pulse > 0) {
-                values2.add(new Entry(count, pulse));
+                values2.add(new Entry(count, pulse,map.get("date")+" "+map.get("time")));
             }
 
             if (temperature > 0 || pulse > 0) {

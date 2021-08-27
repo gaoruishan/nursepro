@@ -41,10 +41,10 @@ public class MyMarkerView extends MarkerView {
 
             CandleEntry ce = (CandleEntry) e;
 
-            tvContent.setText(ce.getHigh() + "");
+            tvContent.setText(ce.getHigh() + " 时间"+ce.getData());
         } else {
 
-            tvContent.setText(e.getY() + "");
+            tvContent.setText(e.getY() + " 时间"+e.getData());
         }
 
         super.refreshContent(e, highlight);
