@@ -578,8 +578,10 @@ public class BaseFragment extends Fragment {
         btnVoice = viewRl.findViewById(R.id.btn_mov);
         etTest = viewRl.findViewById(R.id.et_text);
         //单人模式下从activity取按钮点击
-        if (SPUtils.getInstance().getBoolean(SharedPreference.BTN_VOICE_SHOW,true)&&
-            SPUtils.getInstance().getString(SharedPreference.SINGLEMODEL).equals("0")){
+        Boolean voiceFlag = SPUtils.getInstance().getBoolean(SharedPreference.BTN_VOICE_SHOW,true);
+        String singleFlag = SPUtils.getInstance().getString(SharedPreference.SINGLEMODEL);
+        if (voiceFlag&&
+            singleFlag.equals("0")){
             btnVoice.setVisibility(View.VISIBLE);
             initVoice();
         }else {

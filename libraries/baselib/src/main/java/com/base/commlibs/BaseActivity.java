@@ -158,6 +158,7 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
     //是否支持多种扫描方法
     private boolean multiScanState = false;
     protected LinearLayout llGlobal;
+    private String fragTitle;
 
     // 登录成功，开始计时
     protected static void startTimer() {
@@ -968,6 +969,10 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
      * @param size  单位:DIP
      */
     public void setToolbarCenterTitle(CharSequence title, int color, int size) {
+        if(!TextUtils.isEmpty(fragTitle)){
+            Log.e(TAG,"(BaseActivity.java:973) 改变title"+fragTitle);
+            title = fragTitle;
+        }
         mUIHandler.setToolbarCenterTitle(title, color, size);
     }
 
@@ -1529,6 +1534,8 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
                             map.get("singleModel")!=null &&
                             ( "1".equals(map.get("singleModel"))|| "2".equals(map.get("singleModel")))){
                         listFragment.add(SharedPreference.FRAGMENTARY.get(i));
+                    }else {
+                        fragTitle = map.get("desc").toString();
                     }
                 }
                 fragMapAdapter.setNewData(listFragment);
@@ -1542,6 +1549,8 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
                         }else if (! "2".equals(map.get("singleModel"))){
                             listFragment.add(map);
                         }
+                    }else {
+                        fragTitle = map.get("desc").toString();
                     }
                 }
                 fragMapAdapter.setNewData(listFragment);

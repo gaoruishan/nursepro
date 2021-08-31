@@ -547,7 +547,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private void saveStartActivity() {
         saveUserInfo();
         spUtils.put(SharedPreference.ORDERSEARCHE_BEDSELECTED, "");
-        if (spUtils.getString(SharedPreference.SINGLEMODEL, "0").equals("1")) {
+        String singleFlag = spUtils.getString(SharedPreference.SINGLEMODEL, "0");
+        if (singleFlag.equals("0")){
+            spUtils.put(SharedPreference.SINGLEMODEL, "0");
+        }
+        if (singleFlag.equals("1")) {
             startSingleActivity();
         } else {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));

@@ -36,13 +36,14 @@ import java.util.List;
 public class PlyOutListFragment extends BaseFragment implements View.OnClickListener, OnDateSetListener {
 
     private RecyclerView recLabOut;
-    private TextView tvType1, tvType2, tvType3, tvType4, tvStartDate, tvEndDate,tvBl;
+    private TextView tvType1, tvType2, tvType3, tvType4, tvStartDate, tvEndDate, tvBl;
     private LinearLayout llEmpty;
     private View show1, show2, show3, show4;
     private PlyOutAdapter labOutAdapter;
-    private List<PlyOutListAllBean.LabOutListBean> listLabAll =new ArrayList<>(), listLabNow =new ArrayList<>();
+    private List<PlyOutListAllBean.LabOutListBean> listLabAll = new ArrayList<>(), listLabNow = new ArrayList<>();
     private String dateStr, CarrayCerate = "No", CarrayDel = "No", CarrayNo = "", TypeStr = "Type1";
-    private List<PlyOutListAllBean.TypeListBean> listType =new ArrayList<>();
+    private String saveFlag = "";
+    private List<PlyOutListAllBean.TypeListBean> listType = new ArrayList<>();
 
     private SPUtils spUtils = SPUtils.getInstance();
     private Long timeNow = System.currentTimeMillis();
@@ -86,6 +87,7 @@ public class PlyOutListFragment extends BaseFragment implements View.OnClickList
         map.put("stdate", tvStartDate.getText().toString());
         map.put("enddate", tvEndDate.getText().toString());
         map.put("locId", spUtils.getString(SharedPreference.LOCID));
+        map.put("saveFlag", saveFlag);
         if (CarrayCerate.equals("Yes")) {
             map.put("userId", spUtils.getString(SharedPreference.USERID));
             if (CarrayDel.equals("Yes")) {
@@ -98,6 +100,7 @@ public class PlyOutListFragment extends BaseFragment implements View.OnClickList
                 hideLoadFailTip();
                 CarrayCerate = "No";
                 CarrayDel = "No";
+                saveFlag = "";
                 if (listType.size() == 0) {
                     listType = labOutListAllBean.getTypeList();
                     tvType1.setText(listType.get(0).getDesc());
@@ -115,6 +118,7 @@ public class PlyOutListFragment extends BaseFragment implements View.OnClickList
                 hideLoadFailTip();
                 CarrayCerate = "No";
                 CarrayDel = "No";
+                saveFlag = "";
                 showToast("error" + code + ":" + msg);
             }
         });
@@ -189,7 +193,7 @@ public class PlyOutListFragment extends BaseFragment implements View.OnClickList
         tvEndDate = view.findViewById(R.id.tv_labout_enddate);
         tvEndDate.setOnClickListener(this);
 
-        tvStartDate.setText(DateUtils.getDateTimeAgo(spUtils.getString(SharedPreference.CURDATETIME),1).substring(0, 10));
+        tvStartDate.setText(DateUtils.getDateTimeAgo(spUtils.getString(SharedPreference.CURDATETIME), 1).substring(0, 10));
         tvEndDate.setText(spUtils.getString(SharedPreference.CURDATETIME).substring(0, 10));
 
         show1 = view.findViewById(R.id.view_labout_show1);
@@ -222,6 +226,7 @@ public class PlyOutListFragment extends BaseFragment implements View.OnClickList
                 if (view.getId() == R.id.tv_lapack_del) {
                     CarrayCerate = "Yes";
                     CarrayDel = "Yes";
+                    saveFlag = "0";
                     CarrayNo = listLabNow.get(position).getCarryNo();
                     initData();
                 } else if (view.getId() == R.id.messagecontentll) {
@@ -234,7 +239,9 @@ public class PlyOutListFragment extends BaseFragment implements View.OnClickList
             }
         });
 
-    }    @Override
+    }
+
+    @Override
     public void onClick(View v) {
 
         switch (v.getId()) {
@@ -272,15 +279,16 @@ public class PlyOutListFragment extends BaseFragment implements View.OnClickList
                 break;
             case R.id.tv_bingli:
                 //                startFragment(PatEventsDetailFragment.class);
-                if (System.currentTimeMillis()-timeNow > 1500){
+                if (System.currentTimeMillis() - timeNow > 1500) {
                     CarrayCerate = "Yes";
+                    saveFlag = "1";
                     initData();
                     setTopFilterSelect(tvType1);
                     showgone(show1);
                     TypeStr = "Type1";
                     getLabOutList();
-                    timeNow =  System.currentTimeMillis();
-                }else {
+                    timeNow = System.currentTimeMillis();
+                } else {
                     showToast("不可频繁建单，请稍后建单");
                 }
 
@@ -309,7 +317,6 @@ public class PlyOutListFragment extends BaseFragment implements View.OnClickList
         }
         initData();
     }
-
 
 
     private void chooseTime(long currentTimeMillis) {

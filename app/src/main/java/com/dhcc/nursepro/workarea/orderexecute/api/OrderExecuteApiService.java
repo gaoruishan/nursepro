@@ -71,8 +71,8 @@ public class OrderExecuteApiService extends NurseAPI {
         properties.put("speed", speed);
         properties.put("scanFlag", scanFlag);
         properties.put("batch", batch);
-        properties.put("auditUserCode ", auditUserCode);
-        properties.put("auditUserPass ", auditUserPass);
+        properties.put("auditUserCode", auditUserCode);
+        properties.put("auditUserPass", auditUserPass);
         properties.put("oeoreId", oeoreId);
         properties.put("execStatusCode", execStatusCode);
         properties.put("userId", spUtils.getString(SharedPreference.USERID));
