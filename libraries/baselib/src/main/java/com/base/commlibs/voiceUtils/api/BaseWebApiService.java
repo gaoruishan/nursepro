@@ -63,6 +63,31 @@ public class BaseWebApiService extends NurseAPI {
         });
 
     }
+    public static void GetSoundScore(final ServiceCallBack callback) {
+
+        HashMap<String, String> properties = new HashMap<String, String>();
+        //GetPatListToVoice: 获取患者列表 语音用
+        VoiceWebServiceUtils.callWebService("GetSoundScore", properties, new VoiceWebServiceUtils.WebServiceCallBack() {
+            @Override
+            public void callBack(String result) {
+                callback.onResult(result);
+            }
+        });
+
+    }
+    public static void getNursesByLoc(final ServiceCallBack callback) {
+
+        HashMap<String, String> properties = new HashMap<String, String>();
+        properties.put("locId", SPUtils.getInstance().getString(SharedPreference.LOCID));
+        //GetPatListToVoice: 获取患者列表 语音用
+        VoiceWebServiceUtils.callWebService("GetNursesByLoc", properties, new VoiceWebServiceUtils.WebServiceCallBack() {
+            @Override
+            public void callBack(String result) {
+                callback.onResult(result);
+            }
+        });
+
+    }
 
     public interface ServiceCallBack {
         void onResult(String jsonStr);

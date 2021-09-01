@@ -38,6 +38,9 @@
             android:name=".login.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name="com.base.commlibs.voiceUtils.voiceprint.VoiceprintManagerActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".Activity.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|locale|layoutDirection"
             android:launchMode="singleTask"

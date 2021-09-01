@@ -63,4 +63,18 @@ public class VoiceWebDataUtil {
         });
     }
 
+    public static void getVoicScore() {
+        BaseWebApiManager.getPatListToVoiceBean(new BaseWebApiManager.GetVoicePatListCallback() {
+            @Override
+            public void onSuccess(String bedMapJson) {
+                SPUtils.getInstance().put(SharedPreference.VOICE_PAT_LIST,bedMapJson);
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+                ToastUtils.showLong("error" + code + ":" + msg);
+            }
+        });
+    }
+
 }

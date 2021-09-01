@@ -11,6 +11,11 @@
 10.basefragment更换底层布局文件，添加对应代码，引用语音代码
 11.app-NApplication语音初始化
 12.loginActivity增加语音IP设置功能
+13.loginActivity增加声纹按钮设
+14.baselib-voictUtils增加voiceprint包，处理声纹数据
+15.baselib-res下增加声纹相关资源文件
+16.baselib-VoiceWebDataUtil增加GetNursesByLoc和GetSoundScore接口。
+17.setting页增加声纹管理模块
 
 单人模式下增加语音跳转和体征录入
 1.增加独立的singlevoicUtil类

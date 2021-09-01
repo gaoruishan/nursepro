@@ -1,15 +1,13 @@
 package com.base.commlibs.voiceUtils.api;
 
 import com.base.commlibs.constant.SharedPreference;
+import com.base.commlibs.voiceUtils.voiceprint.LocUsersBean;
+import com.base.commlibs.voiceUtils.voiceprint.ScoreBean;
 import com.base.commlibs.voiceUtils.bean.VoicePatListBean;
 import com.base.commlibs.voiceUtils.bean.VoiceVisalBean;
 import com.blankj.utilcode.util.ObjectUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.google.gson.Gson;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * com.base.commlibs.http
@@ -96,6 +94,74 @@ public class BaseWebApiManager {
         });
     }
 
+
+    public static void GetSoundScore(final BaseWebApiManager.GetSoundScoreCallBack callback) {
+        BaseWebApiService.GetSoundScore(new BaseWebApiService.ServiceCallBack() {
+
+            @Override
+            public void onResult(String jsonStr) {
+                Gson gson = new Gson();
+
+                if (jsonStr.isEmpty()) {
+                    callback.onFail("-1", "网络错误，请求数据为空");
+                } else {
+
+                    try {
+                        ScoreBean scoreBean = gson.fromJson(jsonStr, ScoreBean.class);
+
+                        SPUtils.getInstance().put(SharedPreference.VOICE_VISAL_LIST,jsonStr);
+                        if (ObjectUtils.isEmpty(scoreBean)) {
+                            callback.onFail("-3", "网络错误，数据解析为空");
+                        } else {
+                            if ("0".equals(scoreBean.getStatus())) {
+                                callback.onSuccess(scoreBean);
+                            } else {
+                                callback.onFail(scoreBean.getMsgcode(), scoreBean.getMsg());
+                            }
+                        }
+                    } catch (Exception e) {
+                        callback.onFail("-2", "网络错误，数据解析失败");
+                    }
+                }
+
+
+            }
+        });
+    }
+    public static void getNursesByLoc(final BaseWebApiManager.getNursesByLocCallBack callback) {
+        BaseWebApiService.getNursesByLoc(new BaseWebApiService.ServiceCallBack() {
+
+            @Override
+            public void onResult(String jsonStr) {
+                Gson gson = new Gson();
+
+                if (jsonStr.isEmpty()) {
+                    callback.onFail("-1", "网络错误，请求数据为空");
+                } else {
+
+                    try {
+                        LocUsersBean locUsersBean = gson.fromJson(jsonStr, LocUsersBean.class);
+
+                        SPUtils.getInstance().put(SharedPreference.VOICE_VISAL_LIST,jsonStr);
+                        if (ObjectUtils.isEmpty(locUsersBean)) {
+                            callback.onFail("-3", "网络错误，数据解析为空");
+                        } else {
+                            if ("0".equals(locUsersBean.getStatus())) {
+                                callback.onSuccess(locUsersBean);
+                            } else {
+                                callback.onFail(locUsersBean.getMsgcode(), locUsersBean.getMsg());
+                            }
+                        }
+                    } catch (Exception e) {
+                        callback.onFail("-2", "网络错误，数据解析失败");
+                    }
+                }
+
+
+            }
+        });
+    }
+
     public interface CommonCallBack {
         void onFail(String code, String msg);
     }
@@ -108,4 +174,13 @@ public class BaseWebApiManager {
     public interface GetVoicePatListCallback extends CommonCallBack {
         void onSuccess(String patListJson);
     }
+
+    public interface GetSoundScoreCallBack extends CommonCallBack {
+        void onSuccess(ScoreBean scoreBean);
+    }
+    public interface getNursesByLocCallBack extends CommonCallBack {
+        void onSuccess(LocUsersBean locUsersBean);
+    }
+
+
 }

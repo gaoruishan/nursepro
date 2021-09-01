@@ -16,6 +16,8 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -35,6 +37,7 @@ import com.base.commlibs.utils.TransBroadcastUtil;
 import com.base.commlibs.utils.UserUtil;
 import com.base.commlibs.view.WebActivity;
 import com.base.commlibs.voiceUtils.SetVoiceIPDialog;
+import com.base.commlibs.voiceUtils.voiceprint.VoicePrintUtil;
 import com.base.commlibs.wsutils.BaseWebServiceUtils;
 import com.blankj.utilcode.constant.PermissionConstants;
 import com.blankj.utilcode.util.PermissionUtils;
@@ -76,6 +79,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private String userCode = "";
     private String password = "";
     private String logonWardId = "";
+    private String loginByVoice="0";
 
     private boolean remem = false;
     private String rememUserCode;
@@ -85,6 +89,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private String LocJson = "";
 
     private TextView tvIp;
+    private TextView tvVoice;
+    private TextView tvVoiceIp;
     private String IpStr;
     private SetIPDialog showDialog;
     private OptionPicker picker;
@@ -109,6 +115,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         PermissionUtils.permission(PermissionConstants.STORAGE).request();
 
         verifyAudioPermissions(this);
+        initVoice();
     }
 
     public void testWebView(View view) {
@@ -235,11 +242,32 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         });
 
 
-        findViewById(R.id.tv_voice_ip).setOnClickListener(v -> setVoiceIp());
+
+
     }
+    private void initVoice(){
+        tvVoiceIp = findViewById(R.id.tv_voice_ip);
+        tvVoice = findViewById(R.id.tv_voice);
+        tvVoiceIp.setOnClickListener(v -> setVoiceIp());
+        VoicePrintUtil voicePrintUtil = new VoicePrintUtil(this,VoicePrintUtil.VOICE_TYPE_LOGIN,tvVoice);
+        voicePrintUtil.setVoicePrintResultCallBack(new VoicePrintUtil.VoicePrintResultCallBack() {
+            @Override
+            public void success(String code) {
 
+                etLoginUsercode.setText(userCode);
+                userCode = code;
+                loginByVoice="1";
+                initData("login", null);
+            }
+
+            @Override
+            public void fail() {
+                loginByVoice="0";
+            }
+        });
+
+    }
     private void setVoiceIp(){
-
         SetVoiceIPDialog voiceIpDialog = new SetVoiceIPDialog(this);
         voiceIpDialog.setTitle("结果");
         String voiceIp = spUtils.getString(SharedPreference.VOICE_IP);
@@ -415,7 +443,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private void initData(final String action, final NurseInfo nurseInfo) {
-
         //判断是否存在广播码信息，若无，再次请求广播码
         if (!hasBroadCastConfig) {
             getBroadCastConfig();
@@ -426,6 +453,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void onSuccess(final LoginBean loginBean) {
 
+                loginByVoice="0";
                 spUtils.put(SharedPreference.BTN_VOICE_SHOW,loginBean.getVoiceFlag().equals("1")?true:false);
 
                 UserUtil.setUserConfig(loginBean);
@@ -462,6 +490,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void onFail(String code, String msg) {
                 showToast("error" + code + ":" + msg);
+                loginByVoice="0";
                 if (msg.contains("无此用户")){
 //                    etLoginPassword.clearFocus();
                     etLoginUsercode.requestFocus();

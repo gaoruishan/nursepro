@@ -17,6 +17,7 @@ import com.base.commlibs.BaseFragment;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.dialog.SettingVersionDialog;
+import com.base.commlibs.voiceUtils.voiceprint.VoiceprintManagerActivity;
 import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.nursepro.Activity.SingleMainActivity;
 import com.dhcc.nursepro.R;
@@ -102,6 +103,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         rlSingle = view.findViewById(R.id.rl_setting_singlemodel);
         rlSingle.setOnClickListener(this);
 
+        view.findViewById(R.id.rl_setting_voiceprint_manager).setOnClickListener(v -> startActivity(new Intent(getActivity(), VoiceprintManagerActivity.class)));
     }
 
     @Override
