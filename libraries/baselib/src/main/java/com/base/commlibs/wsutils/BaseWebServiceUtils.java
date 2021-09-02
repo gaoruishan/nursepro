@@ -8,6 +8,7 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.base.commlibs.BuildConfig;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommWebService;
 import com.base.commlibs.utils.LocalTestManager;
@@ -36,7 +37,8 @@ import java.util.concurrent.Executors;
 
 
 public class BaseWebServiceUtils {
-
+    //外网测试+DEBUG模式
+    public static final boolean OUT_NET_TEST = false;
     //测试库
     public static final String DEFAULT_IP = "10.1.21.123";
     //    public static final String DEFAULT_IP = "114.242.246.235";
@@ -54,22 +56,26 @@ public class BaseWebServiceUtils {
 
     // 门诊输液新接口
     public static final String NUR_OPPDA_SERVICE = "/Nur.OPPDA.WebService.cls";
+
     public static String getOPPDAService() {
         return SPStaticUtils.getString(SharedPreference.oppdaService, NUR_OPPDA_SERVICE);
 //        return  NUR_MOES_SERVICE;
     }
+
     // 护士站接口
     public static final String NUR_PDA_SERVICE = "/Nur.PDA.WebService.cls";
+
     public static String getPDAService() {
         return SPStaticUtils.getString(SharedPreference.pdaService, NUR_PDA_SERVICE);
 //        return NUR_MNIS_SERVICE;
     }
+
     public static String userNamestr() {
         return SPStaticUtils.getString(SharedPreference.webServiceUserName, "dhwebservice");
 //        return "dhsyslogin";
     }
 
-    public static String passWordstr(){
+    public static String passWordstr() {
         return SPStaticUtils.getString(SharedPreference.webServicePassword, "dhwebservice");
 //        return "1q2w3e4r%T6y7u8i9o0p";
     }
@@ -215,7 +221,7 @@ public class BaseWebServiceUtils {
             LocalTestManager.callLocalJson(methodNameTest, webServiceCallBack);
             return;
         }
-        Log.e("TAG","(BaseWebServiceUtils.java:220) "+url);
+        Log.e("TAG", "(BaseWebServiceUtils.java:220) " + url);
         SharedPreference.MethodName = methodNameTest;
         //支持https
         HttpTransportSE httpTransportSE;
@@ -261,7 +267,7 @@ public class BaseWebServiceUtils {
         final SoapSerializationEnvelope soapEnvelope = new SoapSerializationEnvelope(
                 SoapEnvelope.VER11);
         soapEnvelope.bodyOut = soapObject;
-        LogUtils.e(url + "\n请求方法: " + methodNameTest + "    "+SPStaticUtils.getString(SharedPreference.USERID)+ "    "+userNamestr()+"    "+passWordstr());
+        LogUtils.e(url + "\n请求方法: " + methodNameTest + "    " + SPStaticUtils.getString(SharedPreference.USERID) + "    " + userNamestr() + "    " + passWordstr());
         LogUtils.e(soapObject.toString());
 
 
@@ -286,10 +292,10 @@ public class BaseWebServiceUtils {
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 // 将返回值回调到callBack的参数中
-                LogUtils.json(LogUtils.E,msg.obj);
+                LogUtils.json(LogUtils.E, msg.obj);
                 SharedPreference.DHC_CALLBACK_JSON = SharedPreference.MethodName + "-" + msg.obj.toString();
                 //重试机制-数据空,1s后再请求
-                if (LocalTestManager.isRequest(finalMethodNameTest, properties, msg.obj,url)) {
+                if (LocalTestManager.isRequest(finalMethodNameTest, properties, msg.obj, url)) {
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -322,7 +328,7 @@ public class BaseWebServiceUtils {
                 } catch (Exception e) {
                     //捕获异常 保存日志
                     Log.e("json", "Exception= " + jsonstr + e.toString());
-                    LocalTestManager.saveLogTest(finalMethodNameTest + "_err", url +"\n"+jsonstr + "\n Exception= \n" + e.toString());
+                    LocalTestManager.saveLogTest(finalMethodNameTest + "_err", url + "\n" + jsonstr + "\n Exception= \n" + e.toString());
                 } finally {
                     // 将获取的消息利用Handler发送到主线程
                     mHandler.sendMessage(mHandler.obtainMessage(0, jsonstr));
@@ -354,9 +360,13 @@ public class BaseWebServiceUtils {
         if (TextUtils.isEmpty(ip)) {
             ip = DEFAULT_IP;
         }
+        //替换外网域名
+        if (OUT_NET_TEST && BuildConfig.DEBUG) {
+            ip = "a248109a76.51vip.biz";
+        }
         String http = "http";
         String string = SPStaticUtils.getString(SharedPreference.HTTP);
-        if(!TextUtils.isEmpty(string)){
+        if (!TextUtils.isEmpty(string)) {
             http = string;
         }
         return http + "://" + ip;
