@@ -16,8 +16,6 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -62,6 +60,9 @@ import java.util.Map;
 import cn.qqtheme.framework.picker.OptionPicker;
 import cn.qqtheme.framework.widget.WheelView;
 
+/**
+ * LoginActivity
+ */
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
 
     DaoSession daoSession = GreenDaoHelper.getDaoSession();
