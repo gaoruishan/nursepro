@@ -537,7 +537,7 @@ public class VoiceUtil {
     public void getVoiceResult(VoiceBean voiceBean){
 
         //录入页面需要在本页面处理数据，
-        if (centerTitle.equals("体征录入")){
+        if (centerTitle.equals("体征录入")||centerTitle.equals("费用补录")){
             tempVoiceCallBack.getTempVoice(voiceBean);
         }else {
             String bedNoStr = "";

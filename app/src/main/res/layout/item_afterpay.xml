@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.guanaj.easyswipemenulibrary.EasySwipeMenuLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:contentView="@+id/ll_message_content"
+    app:rightMenuView="@+id/ll_message_rightmenu">
+
+    <LinearLayout
+        android:id="@+id/ll_message_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/ll_list"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_35"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tv_ord_no"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.6"
+                android:text="23"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dp_13"
+                android:background="@drawable/bg_afterpay_input"
+                android:gravity="center"></TextView>
+
+            <TextView
+                android:id="@+id/tv_ord_name"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:text="医嘱"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dp_13"
+                android:background="@drawable/bg_afterpay_input"
+                android:gravity="center"></TextView>
+            <TextView
+                android:id="@+id/tv_ord_num"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="1"
+                android:textSize="@dimen/dp_13"
+                android:textColor="@color/black"
+                android:background="@drawable/bg_afterpay_input"
+                android:gravity="center"></TextView>
+            <TextView
+                android:id="@+id/tv_ord_price"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.5"
+                android:text="0"
+                android:textSize="@dimen/dp_13"
+                android:textColor="@color/black"
+                android:background="@drawable/bg_afterpay_input"
+                android:gravity="center"></TextView>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_message_rightmenu"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:background="@android:color/holo_red_light">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:text="删除"/>
+
+    </LinearLayout>
+
+</com.guanaj.easyswipemenulibrary.EasySwipeMenuLayout>
+    
+

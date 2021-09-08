@@ -3,6 +3,8 @@ package com.dhcc.nursepro.workarea.bedmap.api;
 import com.blankj.utilcode.util.ObjectUtils;
 import com.dhcc.nursepro.workarea.bedmap.bean.BedMapBean;
 import com.dhcc.nursepro.workarea.bedmap.bean.DayPayListBean;
+import com.dhcc.nursepro.workarea.bedmap.bean.NurOrdListBean;
+import com.dhcc.nursepro.workarea.bedmap.bean.PdaArcListBean;
 import com.dhcc.nursepro.workarea.bedmap.bean.ScanResultBean;
 import com.google.gson.Gson;
 
@@ -115,6 +117,75 @@ public class BedMapApiManager {
         });
 
     }
+    public static void getArcList(HashMap<String, String> map, String method,final GetArcListCallback callback){
+        BedMapApiService.getAfterPayMsg(map, method, new BedMapApiService.ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                Gson gson = new Gson();
+
+                if (jsonStr.isEmpty()) {
+                    callback.onFail("-1", "网络错误，请求数据为空");
+                } else {
+                    try {
+                        PdaArcListBean pdaArcListBean = gson.fromJson(jsonStr, PdaArcListBean.class);
+
+                        if (ObjectUtils.isEmpty(pdaArcListBean)) {
+                            callback.onFail("-3", "网络错误，数据解析为空");
+                        } else {
+                            if ("0".equals(pdaArcListBean.getStatus())) {
+                                if (callback != null) {
+                                    callback.onSuccess(pdaArcListBean);
+                                }
+                            } else {
+                                if (callback != null) {
+                                    callback.onFail(pdaArcListBean.getMsgcode(), pdaArcListBean.getMsg());
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        callback.onFail("-2", "网络错误，数据解析失败");
+                    }
+
+                }
+            }
+        });
+
+    }
+
+    public static void getNurOrdList(HashMap<String, String> map, String method,final GetNurOrdListCallback callback){
+        BedMapApiService.getAfterPayMsg(map, method, new BedMapApiService.ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                Gson gson = new Gson();
+
+                if (jsonStr.isEmpty()) {
+                    callback.onFail("-1", "网络错误，请求数据为空");
+                } else {
+                    try {
+                        NurOrdListBean nurOrdListBean = gson.fromJson(jsonStr, NurOrdListBean.class);
+
+                        if (ObjectUtils.isEmpty(nurOrdListBean)) {
+                            callback.onFail("-3", "网络错误，数据解析为空");
+                        } else {
+                            if ("0".equals(nurOrdListBean.getStatus())) {
+                                if (callback != null) {
+                                    callback.onSuccess(nurOrdListBean);
+                                }
+                            } else {
+                                if (callback != null) {
+                                    callback.onFail(nurOrdListBean.getMsgcode(), nurOrdListBean.getMsg());
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        callback.onFail("-2", "网络错误，数据解析失败");
+                    }
+
+                }
+            }
+        });
+
+    }
 
     public interface CommonCallBack {
         void onFail(String code, String msg);
@@ -129,5 +200,11 @@ public class BedMapApiManager {
     }
     public interface GetDayPayListCallback extends CommonCallBack {
         void onSuccess(DayPayListBean dayPayListBean);
+    }
+    public interface GetArcListCallback extends CommonCallBack {
+        void onSuccess(PdaArcListBean pdaArcListBean);
+    }
+    public interface GetNurOrdListCallback extends CommonCallBack {
+        void onSuccess(NurOrdListBean nurOrdListBean);
     }
 }

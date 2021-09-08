@@ -36,35 +36,35 @@ public class CommHttp {
      * 获取PDA在Web目录下配置
      */
     public static void getNurseConfig() {
-        String serviceUrl = BaseWebServiceUtils.getServiceUrl(BaseWebServiceUtils.NUR_CONFIG);
-        //处理路径问题
-        if (serviceUrl.contains(BaseWebServiceUtils.PATH_IMEDICAL_WEB)) {
-            serviceUrl = serviceUrl.replace(BaseWebServiceUtils.PATH_IMEDICAL_WEB, BaseWebServiceUtils.PATH_IMEDICAL);
-        }
-        HttpUtil.get(serviceUrl, new SimpleCallBack<String>() {
-            @Override
-            public void call(String result, int type) {
-                if (TextUtils.isEmpty(result)) {
-                    return;
-                }
-                Field[] fields = NurseConfig.class.getDeclaredFields();
-                try {
-                    JSONObject jsonObject = new JSONObject(result);
-                    for (Field field : fields) {
-                        //包含配置
-                        if (result.contains(field.getName() + "")) {
-                            String value = jsonObject.getString(field.getName() + "");
-                            SPStaticUtils.put(field.getName(), value);
-                        }
-                    }
-
-                } catch (Exception e) {
-                    Log.e(TAG,"(CommHttp.java:57) "+e.toString());
-                    ToastUtils.showShort("检查配置:"+e.toString());
-                }
-
-            }
-        });
+//        String serviceUrl = BaseWebServiceUtils.getServiceUrl(BaseWebServiceUtils.NUR_CONFIG);
+//        //处理路径问题
+//        if (serviceUrl.contains(BaseWebServiceUtils.PATH_IMEDICAL_WEB)) {
+//            serviceUrl = serviceUrl.replace(BaseWebServiceUtils.PATH_IMEDICAL_WEB, BaseWebServiceUtils.PATH_IMEDICAL);
+//        }
+//        HttpUtil.get(serviceUrl, new SimpleCallBack<String>() {
+//            @Override
+//            public void call(String result, int type) {
+//                if (TextUtils.isEmpty(result)) {
+//                    return;
+//                }
+//                Field[] fields = NurseConfig.class.getDeclaredFields();
+//                try {
+//                    JSONObject jsonObject = new JSONObject(result);
+//                    for (Field field : fields) {
+//                        //包含配置
+//                        if (result.contains(field.getName() + "")) {
+//                            String value = jsonObject.getString(field.getName() + "");
+//                            SPStaticUtils.put(field.getName(), value);
+//                        }
+//                    }
+//
+//                } catch (Exception e) {
+//                    Log.e(TAG,"(CommHttp.java:57) "+e.toString());
+//                    ToastUtils.showShort("检查配置:"+e.toString());
+//                }
+//
+//            }
+//        });
     }
 
     /**
