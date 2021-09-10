@@ -118,6 +118,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
     private NurRecordTipDialog tipDialog;
     private NurRecordQuoteDialog quoteDialog;
     private NurRecordSaveErrorDialog errorDialog;
+    private final HashMap<String, String[]> editTextConvertMap = new HashMap<>();
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -637,6 +638,15 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                                 .append("\":\"")
                                 .append(userStr)
                                 .append("\"");
+                    } else if ("TextElement".equals(element.getElementType()) && "Common".equals(element.getSignature())) {
+                        String text = onEditTextSave(editText);
+                        stringBuilder.append("\"")
+                                .append(element.getElementType())
+                                .append("_")
+                                .append(element.getElementId())
+                                .append("\":\"")
+                                .append(text)
+                                .append("\"");
                     } else {
 
                         stringBuilder.append("\"")
@@ -963,6 +973,9 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                             edText.setText(spUtils.getString(SharedPreference.USERNAME));
                         }
                     }
+                } else if ("Common".equals(element.getSignature())) {
+                    onEditTextAdd(edText);
+                    onEditTextEnter(edText);
                 }
 
                 lledit.clearAnimation();
@@ -989,6 +1002,126 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
 
         initMELinkViewList();
     }
+
+    /// EH 2021-09-10 签名回车事件 start
+    private void onEditTextAdd(EditText editText) {
+        String text = editText.getText().toString();
+        if (text.equals("") || editTextConvertMap.containsKey(text)) {
+            return;
+        }
+        NurRecordNewApiManager.editTextConvert("user", text, "add", new NurRecordNewApiManager.EditTextConvertCallback() {
+            @Override
+            public void onSuccess(com.dhcc.nursepro.workarea.nurrecordnew.bean.EditTextConvertBean editTextConvertBean) {
+                String displayText = editTextConvertBean.getDisplayText();
+                String convertedValue = editTextConvertBean.getConvertedValue();
+                if (displayText != null) {
+                    editTextConvertMap.put(editTextConvertBean.getText(), new String[] { displayText,  convertedValue});
+                }
+            }
+            @Override
+            public void onFail(String code, String msg) {
+                onEditTextConvertFail(code, msg);
+            }
+        });
+    }
+
+    public void onEditTextConvertFail(String code, String msg) {
+        errorDialog = new NurRecordSaveErrorDialog(getActivity());
+        errorDialog.setExecresult(msg);
+        errorDialog.setImgId(R.drawable.icon_popup_error_patient);
+        errorDialog.setSureVisible(View.VISIBLE);
+        errorDialog.setCancleVisible(View.GONE);
+        errorDialog.setSureOnclickListener(() -> errorDialog.dismiss());
+        errorDialog.show();
+    }
+
+    private void onEditTextSet(EditText editText, String text, TextWatcher watcher) {
+        editText.removeTextChangedListener(watcher);
+        editText.setText(text);
+        editText.setSelection(text.length());
+        editText.addTextChangedListener(watcher);
+    }
+
+    private void onEditTextEnter(EditText editText) {
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+                TextWatcher watcher = this;
+                String text = editable.toString();
+                if ((text.indexOf("\r") > -1) || (text.indexOf("\n") > -1)) {
+                    text = text.replace("\r", "").replace("\n" ,"");
+                    if (text.equals("")) {
+                        onEditTextSet(editText,"", watcher);
+                        return;
+                    } else if (editTextConvertMap.containsKey(text)) {
+                        String displayText = editTextConvertMap.get(text)[0];
+                        displayText = !displayText.equals("") ? displayText : text;
+                        onEditTextSet(editText,displayText, watcher);
+                        return;
+                    } else {
+                        onEditTextSet(editText,text, watcher);
+                        if (ifEditTextConvert(text)) {
+                            return;
+                        }
+                    }
+                    NurRecordNewApiManager.editTextConvert("user", text, "change", new NurRecordNewApiManager.EditTextConvertCallback() {
+                        @Override
+                        public void onSuccess(com.dhcc.nursepro.workarea.nurrecordnew.bean.EditTextConvertBean editTextConvertBean) {
+                            String displayText = editTextConvertBean.getDisplayText();
+                            String convertedValue = editTextConvertBean.getConvertedValue();
+                            if (displayText != null) {
+                                if (!displayText.equals("") && !displayText.equals(editTextConvertBean.getText())) {
+                                    editText.setText(displayText);
+                                    editText.setSelection(displayText.length());
+                                    onEditTextSet(editText,displayText, watcher);
+                                }
+                                editTextConvertMap.put(editTextConvertBean.getText(), new String[] { displayText,  convertedValue});
+                            }
+                        }
+                        @Override
+                        public void onFail(String code, String msg) {
+                            onEditTextConvertFail(code, msg);
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    private boolean ifEditTextConvert(String text) {
+        if (text != "") {
+            if (editTextConvertMap.containsKey(text)) {
+                return true;
+            }
+            for(java.util.Map.Entry<String, String[]> entry : editTextConvertMap.entrySet()) {
+                if (text.equals(entry.getValue()[0])) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private String onEditTextSave(EditText editText) {
+        String text = editText.getText().toString();
+        text = text.replace("\r", "").replace("\n" ,"");
+        if (text != "") {
+            for(java.util.Map.Entry<String, String[]> entry : editTextConvertMap.entrySet()) {
+                if (text.equals(entry.getKey()) || text.equals(entry.getValue()[0])) {
+                    text = entry.getValue()[1];
+                    break;
+                }
+            }
+        }
+        return text;
+    }
+    /// end
 
     private void initMELinkViewList() {
         for (int i = 0; i < meViewLinkList.size(); i++) {

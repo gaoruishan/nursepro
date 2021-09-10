@@ -351,6 +351,40 @@ public class NurRecordNewApiManager {
         });
     }
 
+    public static void editTextConvert(String code, String text, String event, final EditTextConvertCallback callback) {
+        NurRecordNewApiService.editTextConvert(code, text, event, new NurRecordNewApiService.ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                Gson gson = new Gson();
+                if (jsonStr.isEmpty()) {
+                    callback.onFail("-1", "网络错误，请求数据为空");
+                } else {
+                    try {
+                        com.dhcc.nursepro.workarea.nurrecordnew.bean.EditTextConvertBean editTextConvertBean = gson.fromJson(jsonStr, com.dhcc.nursepro.workarea.nurrecordnew.bean.EditTextConvertBean.class);
+                        if (ObjectUtils.isEmpty(editTextConvertBean)) {
+                            callback.onFail("-3", "网络错误，数据解析为空");
+                        } else {
+                            if ("0".equals(editTextConvertBean.getStatus())) {
+                                if (callback != null) {
+                                    callback.onSuccess(editTextConvertBean);
+                                }
+                            } else {
+                                if (callback != null) {
+                                    callback.onFail(editTextConvertBean.getMsg(), editTextConvertBean.getMsg());
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        callback.onFail("-2", "网络错误，数据解析失败");
+                    }
+                }
+            }
+        });
+    }
+
+    public interface EditTextConvertCallback extends CommonCallBack {
+        void onSuccess(com.dhcc.nursepro.workarea.nurrecordnew.bean.EditTextConvertBean editTextConvertBean);
+    }
 
     public interface CommonCallBack {
         void onFail(String code, String msg);

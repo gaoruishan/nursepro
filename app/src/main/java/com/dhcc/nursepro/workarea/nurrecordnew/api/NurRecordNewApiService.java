@@ -133,6 +133,18 @@ public class NurRecordNewApiService extends NurseAPI {
         });
     }
 
+    public static void editTextConvert(String code, String text, String event, final ServiceCallBack callback) {
+        HashMap<String, String> properties = new HashMap<>();
+        properties.put("code", code);
+        properties.put("text", text);
+        properties.put("event", event);
+        WebServiceUtils.callWebService("editTextConvert", properties, new WebServiceUtils.WebServiceCallBack() {
+            @Override
+            public void callBack(String result) {
+                callback.onResult(result);
+            }
+        });
+    }
 
     public interface ServiceCallBack {
         void onResult(String jsonStr);
