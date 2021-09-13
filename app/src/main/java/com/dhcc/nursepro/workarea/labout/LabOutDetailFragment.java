@@ -60,6 +60,7 @@ public class LabOutDetailFragment extends BaseFragment {
     private String saveType="0";
     private Boolean ifHedui=false;
     private int heduiNum=0;
+    private String handOverFlag = "";
 
 
     @Override
@@ -161,6 +162,7 @@ public class LabOutDetailFragment extends BaseFragment {
                 etLaboutContainer.setText(labOutDetailBean.getTransContainer());
 
                 listBeans = labOutDetailBean.getDetailList();
+                handOverFlag = labOutDetailBean.getHandOverFlag();
                 heduiNum = 0;
                 for (int i = 0; i <listBeans.size() ; i++) {
                     if (listBeans.get(i).getAuditFlag().equals("1")){
@@ -192,6 +194,12 @@ public class LabOutDetailFragment extends BaseFragment {
     private void delOrExchange() {
         if (listBeans.size() == 0) {
             showToast("检验包为空，无法进行操作");
+            return;
+        }
+        if (handOverFlag.equals("0")) {
+            HGUserCode = "";
+            HGPW = "";
+            labOutSend();
             return;
         }
 

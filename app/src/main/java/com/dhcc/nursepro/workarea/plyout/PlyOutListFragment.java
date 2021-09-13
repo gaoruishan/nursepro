@@ -36,7 +36,7 @@ import java.util.List;
 public class PlyOutListFragment extends BaseFragment implements View.OnClickListener, OnDateSetListener {
 
     private RecyclerView recLabOut;
-    private TextView tvType1, tvType2, tvType3, tvType4, tvStartDate, tvEndDate, tvBl;
+    private TextView tvType0, tvType1, tvType2, tvType3, tvType4, tvStartDate, tvEndDate, tvBl;
     private LinearLayout llEmpty;
     private View show1, show2, show3, show4;
     private PlyOutAdapter labOutAdapter;
@@ -103,10 +103,20 @@ public class PlyOutListFragment extends BaseFragment implements View.OnClickList
                 saveFlag = "";
                 if (listType.size() == 0) {
                     listType = labOutListAllBean.getTypeList();
-                    tvType1.setText(listType.get(0).getDesc());
-                    tvType2.setText(listType.get(1).getDesc());
-                    tvType3.setText(listType.get(2).getDesc());
-                    tvType4.setText(listType.get(3).getDesc());
+                    if (listType.size() > 4) {
+                        tvType0.setText(listType.get(0).getDesc());
+                        tvType1.setText(listType.get(1).getDesc());
+                        tvType2.setText(listType.get(2).getDesc());
+                        tvType3.setText(listType.get(3).getDesc());
+                        tvType4.setText(listType.get(4).getDesc());
+                    }
+                    else {
+                        tvType0.setVisibility(View.GONE);
+                        tvType1.setText(listType.get(0).getDesc());
+                        tvType2.setText(listType.get(1).getDesc());
+                        tvType3.setText(listType.get(2).getDesc());
+                        tvType4.setText(listType.get(3).getDesc());
+                    }
                 }
 
                 listLabAll = labOutListAllBean.getLabOutList();
@@ -180,6 +190,8 @@ public class PlyOutListFragment extends BaseFragment implements View.OnClickList
     private void initview(View view) {
 
         llEmpty = view.findViewById(R.id.ll_laboout_empty);
+        tvType0 = view.findViewById(R.id.tv_labout_type0);
+        tvType0.setOnClickListener(this);
         tvType1 = view.findViewById(R.id.tv_labout_type1);
         tvType1.setOnClickListener(this);
         tvType2 = view.findViewById(R.id.tv_labout_type2);

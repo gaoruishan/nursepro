@@ -170,7 +170,8 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
                     tvType1.setText(listType.get(1).getDesc());
                     tvType2.setText(listType.get(2).getDesc());
                     tvType3.setText(listType.get(3).getDesc());
-                    tvType4.setText(listType.get(4).getDesc());
+                    if (listType.size() > 4) tvType4.setText(listType.get(4).getDesc());
+                    else tvType4.setVisibility(View.GONE);
                 }
 
                 listLabAll = labOutListAllBean.getLabOutList();

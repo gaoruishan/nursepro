@@ -17,6 +17,7 @@ public class LabOutDetailBean {
     private String status;
     private List<DetailListBean> detailList;
     private String transContainer;
+    private String handOverFlag;
 
     public String getCarryFlag() {
         return carryFlag;
@@ -57,6 +58,8 @@ public class LabOutDetailBean {
     public void setTransContainer(String transContainer) {
         this.transContainer = transContainer;
     }
+    public void setHandOverFlag(String handOverFlag){this.handOverFlag=handOverFlag;}
+    public String getHandOverFlag(){return handOverFlag!=null?handOverFlag:"";}
 
 
 
