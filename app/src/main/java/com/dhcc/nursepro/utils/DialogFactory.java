@@ -207,6 +207,7 @@ public class DialogFactory {
         dialog.setCanceledOnTouchOutside(true);
         View view = LayoutInflater.from(context).inflate(R.layout.count_time_dialog_layout, null);
         FlowLayout flLayout = view.findViewById(R.id.fl_layout);
+        EditText etSkinTime = view.findViewById(R.id.et_skin_time); // EH 住院增加时间输入框
         EditText etSkinNum = view.findViewById(R.id.et_skin_num);
         for (int i = 0; i < arr.length; i++) {
             View child = LayoutInflater.from(context).inflate(R.layout.count_time_dialog_item_tv, null);
@@ -242,6 +243,14 @@ public class DialogFactory {
                             txt= view1.getText().toString();
                             break;
                         }
+                    }
+                    String etSkinTimeText = etSkinTime.getText().toString();
+                    if (!etSkinTimeText.equals("")) {
+                        txt = etSkinTimeText;
+                    }
+                    if (txt == null) {
+                        ToastUtils.showShort("请输入时间");
+                        return;
                     }
                     okClick.data(new Object[]{txt,s});
                 } else {

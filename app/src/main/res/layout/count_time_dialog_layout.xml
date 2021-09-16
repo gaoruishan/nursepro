@@ -74,6 +74,19 @@
 
 
                     </com.nex3z.flowlayout.FlowLayout>
+                    <EditText
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:id="@+id/et_skin_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_40"
+                        android:background="#F5FAFF"
+                        android:inputType="number"
+                        android:digits="1234567890"
+                        android:gravity="center"
+                        android:hint="请输入自定义时间, 单位是分钟!"
+                        android:textColor="#4A4A4A"
+                        android:textSize="@dimen/sp_15"
+                        android:textStyle="bold"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
