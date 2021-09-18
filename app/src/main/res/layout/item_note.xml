@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.guanaj.easyswipemenulibrary.EasySwipeMenuLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:contentView="@+id/ll_message_content"
+    app:rightMenuView="@+id/ll_message_rightmenu">
+
+    <LinearLayout
+        android:id="@+id/ll_message_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/patevents_device_color"></View>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp">
+            <TextView
+                android:id="@+id/tv_datetime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_10"
+                tools:text="2010/10/11/11:11"
+                android:textColor="@color/black"></TextView>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/patinfodetail_title"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="字段名"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/dp_10"
+                android:textColor="#FF4A4A4A"
+                android:textSize="15sp"
+                />
+            <View
+                android:layout_width="0dp"
+                android:layout_weight="0.21"
+                android:layout_height="match_parent"></View>
+            <TextView
+                android:id="@+id/tv_playvoice"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="    播放   "
+                android:textColor="@color/blue"
+                android:textSize="14sp"
+                android:gravity="center|right"
+                android:layout_marginRight="10dp"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_message_rightmenu"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:background="@android:color/holo_red_light">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:text="删除"/>
+
+    </LinearLayout>
+
+</com.guanaj.easyswipemenulibrary.EasySwipeMenuLayout>
+    
+

@@ -1235,6 +1235,11 @@ public class BaseFragment extends Fragment {
             public void getTempVoice(VoiceBean voiceBean) {
                 getVoiceResult(voiceBean);
             }
+
+            @Override
+            public void getTempResult(Bundle bundle) {
+                getTempVoiceResult(bundle);
+            }
         });
     }
     public void setScene(String scene){
@@ -1244,6 +1249,10 @@ public class BaseFragment extends Fragment {
         }
     }
     public void getVoiceResult(VoiceBean voiceBean){
+
+    }
+
+    public void getTempVoiceResult(Bundle bundle){
 
     }
 

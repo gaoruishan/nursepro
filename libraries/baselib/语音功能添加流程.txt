@@ -16,6 +16,7 @@
 15.baselib-res下增加声纹相关资源文件
 16.baselib-VoiceWebDataUtil增加GetNursesByLoc和GetSoundScore接口。
 17.setting页增加声纹管理模块
+18.增加备忘录功能，voictUtils增加tempVoiceCallBack.getTempResult(bundle)，将语音数据实时传给activity;
 
 单人模式下增加语音跳转和体征录入
 1.增加独立的singlevoicUtil类

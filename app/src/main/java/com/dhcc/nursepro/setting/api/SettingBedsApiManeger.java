@@ -2,6 +2,7 @@ package com.dhcc.nursepro.setting.api;
 
 import com.blankj.utilcode.util.ObjectUtils;
 import com.dhcc.nursepro.setting.bean.LocalOrderExecResultBean;
+import com.dhcc.nursepro.setting.bean.NoteBean;
 import com.dhcc.nursepro.setting.bean.SettingBedListBean;
 import com.dhcc.nursepro.workarea.bedselect.api.BedListApiService;
 import com.google.gson.Gson;
@@ -26,6 +27,73 @@ public class SettingBedsApiManeger {
 
     public interface GetReqResultCallback extends CommonCallBack {
         void onSuccess(LocalOrderExecResultBean localOrderExecResultBean);
+    }
+
+    public interface getSoundCallBack extends CommonCallBack {
+        void onSuccess(NoteBean noteBean);
+    }
+
+
+    public static void getSoundList(final HashMap<String, String> properties, String MethodName, final getSoundCallBack callback) {
+        SettingBedsApiService.getBedList(properties, MethodName, new BedListApiService.ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                Gson gson = new Gson();
+                if (jsonStr.isEmpty()) {
+                    callback.onFail("-1", "网络错误，请求数据为空");
+                } else {
+                    try {
+                        NoteBean noteBean = gson.fromJson(jsonStr, NoteBean.class);
+                        if (ObjectUtils.isEmpty(noteBean)) {
+                            callback.onFail("-3", "网络错误，数据解析为空");
+                        } else {
+                            if ("0".equals(noteBean.getStatus())) {
+                                if (callback != null) {
+                                    callback.onSuccess(noteBean);
+                                }
+                            } else {
+                                if (callback != null) {
+                                    callback.onFail(noteBean.getMsgcode(), noteBean.getMsg());
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        callback.onFail("-2", "网络错误，数据解析失败");
+                    }
+                }
+            }
+        });
+    }
+
+    public static void getSaveSound(final HashMap<String, String> properties, String MethodName, final getSoundCallBack callback) {
+        SettingBedsApiService.getBedList(properties, MethodName, new BedListApiService.ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                Gson gson = new Gson();
+                if (jsonStr.isEmpty()) {
+                    callback.onFail("-1", "网络错误，请求数据为空");
+                } else {
+                    try {
+                        NoteBean noteBean = gson.fromJson(jsonStr, NoteBean.class);
+                        if (ObjectUtils.isEmpty(noteBean)) {
+                            callback.onFail("-3", "网络错误，数据解析为空");
+                        } else {
+                            if ("0".equals(noteBean.getStatus())) {
+                                if (callback != null) {
+                                    callback.onSuccess(noteBean);
+                                }
+                            } else {
+                                if (callback != null) {
+                                    callback.onFail(noteBean.getMsgcode(), noteBean.getMsg());
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        callback.onFail("-2", "网络错误，数据解析失败");
+                    }
+                }
+            }
+        });
     }
 
 

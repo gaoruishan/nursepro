@@ -104,6 +104,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         rlSingle.setOnClickListener(this);
 
         view.findViewById(R.id.rl_setting_voiceprint_manager).setOnClickListener(v -> startActivity(new Intent(getActivity(), VoiceprintManagerActivity.class)));
+        view.findViewById(R.id.rl_setting_voice_note).setOnClickListener(v -> startFragment(NoteBookFragment.class));
     }
 
     @Override

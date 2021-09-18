@@ -80,6 +80,13 @@ public class VoiceUtil {
     public String bedNoByVoice = "";
 
 
+    public String getFileId() {
+        return fileId;
+    }
+
+    public void setFileId(String fileId) {
+        this.fileId = fileId;
+    }
 
     public void setMeetingId(String meetingId) {
         this.meetingId = meetingId;
@@ -237,7 +244,7 @@ public class VoiceUtil {
     public RecognizerListener speechListener = new RecognizerListener() {
         @Override
         public void onRecordData(byte[] bytes) {
-            //fileList.add(bytes);//音频保存到本地
+            fileList.add(bytes);//音频保存到本地
         }
 
         @Override
@@ -515,7 +522,7 @@ public class VoiceUtil {
 
     // public Boolean called = false;
     public void getTempResultByVoice(Bundle bundle){
-
+        tempVoiceCallBack.getTempResult(bundle);
     }
     //判断当前场景下是否需要获取语音中间返回数据
     public Boolean needTempScene(){
@@ -947,5 +954,36 @@ public class VoiceUtil {
     }
     public interface TempVoiceCallBack{
        void getTempVoice(VoiceBean voiceBean);
+       void getTempResult(Bundle bundle);
     }
+
+    public void saveVoice(){
+        String video_savePath ="/sdcard/voiceRecord/"+SPUtils.getInstance().getString(SharedPreference.USERCODE)+"/";
+        Log.e(TAG, "saveVoice: " );
+        File files = new File(video_savePath);
+        // video文件夹不存在
+        if (!files.exists()) {
+            // 创建文件夹
+            files.mkdirs();
+        }
+
+        for (int i = 0; i < fileList.size(); i++) {
+            if (i==0){
+                bytesAll = fileList.get(i);
+            }else {
+                bytesAll = concat(bytesAll,fileList.get(i));
+            }
+            if (i == fileList.size()-1){
+                File file = new File( video_savePath+ fileId+".wav");
+
+                try {
+                    PcmToWavUtil.pcmToWavFile(file,bytesAll);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
+
 }
