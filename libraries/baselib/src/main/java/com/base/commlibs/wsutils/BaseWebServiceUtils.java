@@ -66,7 +66,7 @@ public class BaseWebServiceUtils {
     public static final String NUR_PDA_SERVICE = "/Nur.PDA.WebService.cls";
 
     public static String getPDAService() {
-        return SPStaticUtils.getString(SharedPreference.pdaService, NUR_PDA_SERVICE);
+        return SPStaticUtils.getString(SharedPreference.pdaService, NUR_MNIS_SERVICE);
 //        return NUR_MNIS_SERVICE;
     }
 
