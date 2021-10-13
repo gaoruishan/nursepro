@@ -39,6 +39,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 
 public class LabOutListFragment extends BaseFragment implements View.OnClickListener, OnDateSetListener {
@@ -58,6 +59,7 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
     private String startDate, endDate, pageNo = "1";
     private List<OrderExecuteBean.OrdersBean> labList;
     private boolean ifLoadMore;
+    private Hashtable typeIndex = new Hashtable(); // EH type索引
 
 
     @Override
@@ -157,6 +159,7 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
                 map.put("carryNo", CarrayNo);
             }
         }
+        tvType0.setVisibility(View.GONE);
         LabOutApiManager.getLabOutListMsg(map, NurseAPI.getLabOutList, new LabOutApiManager.getLabOutCallBack() {
             @Override
             public void onSuccess(LabOutListAllBean labOutListAllBean) {
@@ -166,12 +169,37 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
                 saveFlag = "";
                 if (listType.size() == 0) {
                     listType = labOutListAllBean.getTypeList();
-                    tvType0.setText(listType.get(0).getDesc());
-                    tvType1.setText(listType.get(1).getDesc());
-                    tvType2.setText(listType.get(2).getDesc());
-                    tvType3.setText(listType.get(3).getDesc());
-                    if (listType.size() > 4) tvType4.setText(listType.get(4).getDesc());
-                    else tvType4.setVisibility(View.GONE);
+                    if (listType.size() == 5) {
+                        tvType0.setText(listType.get(0).getDesc());
+                        tvType1.setText(listType.get(1).getDesc());
+                        tvType2.setText(listType.get(2).getDesc());
+                        tvType3.setText(listType.get(3).getDesc());
+                        tvType4.setText(listType.get(4).getDesc());
+                        typeIndex.put("Type0", 0);
+                        typeIndex.put("Type1", 1);
+                        typeIndex.put("Type2", 2);
+                        typeIndex.put("Type3", 3);
+                        typeIndex.put("Type4", 4);
+                    } else {
+                        tvType1.setVisibility(View.GONE);
+                        if ("P".equals(listType.get(0).getCode())) {
+                            tvType0.setText(listType.get(0).getDesc());
+                            tvType0.setVisibility(View.VISIBLE);
+                            typeIndex.put("Type0", 0);
+                        }
+                        if ("C".equals(listType.get(0).getCode())) {
+                            tvType1.setText(listType.get(0).getDesc());
+                            tvType1.setVisibility(View.VISIBLE);
+                            TypeStr = "Type1";
+                            typeIndex.put("Type1", 0);
+                        }
+                        tvType2.setText(listType.get(1).getDesc());
+                        tvType3.setText(listType.get(2).getDesc());
+                        tvType4.setText(listType.get(3).getDesc());
+                        typeIndex.put("Type2", 1);
+                        typeIndex.put("Type3", 2);
+                        typeIndex.put("Type4", 3);
+                    }
                 }
 
                 listLabAll = labOutListAllBean.getLabOutList();
@@ -209,35 +237,41 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
 
     private void getLabOutList() {
         listLabNow = new ArrayList<>();
+        if (!typeIndex.containsKey(TypeStr)) return;
+        int index = (int)(typeIndex.get(TypeStr));
+        String typeDesc = listType.get(index).getDesc();
         for (int i = 0; i < listLabAll.size(); i++) {
-            switch (TypeStr) {
-                case "Type0":
-                    if (listLabAll.get(i).getStatus().equals(listType.get(0).getDesc())) {
-                        listLabNow.add(listLabAll.get(i));
-                    }
-                    break;
-                case "Type1":
-                    if (listLabAll.get(i).getStatus().equals(listType.get(1).getDesc())) {
-                        listLabNow.add(listLabAll.get(i));
-                    }
-                    break;
-                case "Type2":
-                    if (listLabAll.get(i).getStatus().equals(listType.get(2).getDesc())) {
-                        listLabNow.add(listLabAll.get(i));
-                    }
-                    break;
-                case "Type3":
-                    if (listLabAll.get(i).getStatus().equals(listType.get(3).getDesc())) {
-                        listLabNow.add(listLabAll.get(i));
-                    }
-                    break;
-                case "Type4":
-                    if (listLabAll.get(i).getStatus().equals(listType.get(4).getDesc())) {
-                        listLabNow.add(listLabAll.get(i));
-                    }
-                    break;
-                default:
-                    break;
+//            switch (TypeStr) {
+//                case "Type0":
+//                    if (listLabAll.get(i).getStatus().equals(listType.get(0).getDesc())) {
+//                        listLabNow.add(listLabAll.get(i));
+//                    }
+//                    break;
+//                case "Type1":
+//                    if (listLabAll.get(i).getStatus().equals(listType.get(1).getDesc())) {
+//                        listLabNow.add(listLabAll.get(i));
+//                    }
+//                    break;
+//                case "Type2":
+//                    if (listLabAll.get(i).getStatus().equals(listType.get(2).getDesc())) {
+//                        listLabNow.add(listLabAll.get(i));
+//                    }
+//                    break;
+//                case "Type3":
+//                    if (listLabAll.get(i).getStatus().equals(listType.get(3).getDesc())) {
+//                        listLabNow.add(listLabAll.get(i));
+//                    }
+//                    break;
+//                case "Type4":
+//                    if (listLabAll.get(i).getStatus().equals(listType.get(4).getDesc())) {
+//                        listLabNow.add(listLabAll.get(i));
+//                    }
+//                    break;
+//                default:
+//                    break;
+//            }
+            if (listLabAll.get(i).getStatus().equals(typeDesc)) {
+                listLabNow.add(listLabAll.get(i));
             }
         }
         labOutAdapter.setNewData(listLabNow);
