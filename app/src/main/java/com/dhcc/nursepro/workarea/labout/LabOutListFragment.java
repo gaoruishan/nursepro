@@ -182,7 +182,7 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
                         typeIndex.put("Type4", 4);
                     } else {
                         tvType1.setVisibility(View.GONE);
-                        if ("P".equals(listType.get(0).getCode())) {
+                        if ("B".equals(listType.get(0).getCode())) {
                             tvType0.setText(listType.get(0).getDesc());
                             tvType0.setVisibility(View.VISIBLE);
                             typeIndex.put("Type0", 0);
