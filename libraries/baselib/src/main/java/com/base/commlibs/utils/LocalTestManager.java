@@ -86,6 +86,7 @@ public class LocalTestManager {
         l.add("getLabOutList");
         l.add("GetNCPAccompanyList");
         l.add("GetNCPAccompanySub");
+        l.add("GetRfidPatList");
 
     }
 

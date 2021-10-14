@@ -219,7 +219,7 @@ public class RfidPatBean {
         }
 
         public String getIfBind() {
-            return ifBind;
+            return ifBind==null?"":ifBind;
         }
 
         public void setIfBind(String ifBind) {

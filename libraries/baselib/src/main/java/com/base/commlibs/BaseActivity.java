@@ -702,7 +702,12 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         if (multiScanState) {
             scanHelper.dispatchEventListener(event.getKeyCode(),event.getAction());
         }
+        onDispatchKeyEvent(event);
         return super.dispatchKeyEvent(event);
+    }
+
+    public void onDispatchKeyEvent(KeyEvent event) {
+        //具体适配按键触发 uhf-- 参考 九江中医分支代码
     }
 
     /**
