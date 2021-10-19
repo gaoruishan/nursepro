@@ -59,7 +59,8 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
     private String startDate, endDate, pageNo = "1";
     private List<OrderExecuteBean.OrdersBean> labList;
     private boolean ifLoadMore;
-    private Hashtable typeIndex = new Hashtable(); // EH type索引
+    private Hashtable<String, TextView> typeView = new Hashtable<String, TextView>(); // EH view列表
+    private Hashtable<String, Integer> typeIndex = new Hashtable<String, Integer>(); // EH type索引
 
 
     @Override
@@ -159,7 +160,9 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
                 map.put("carryNo", CarrayNo);
             }
         }
-        tvType0.setVisibility(View.GONE);
+        if (listType.size() == 0) {
+            tvType0.setVisibility(View.GONE);
+        }
         LabOutApiManager.getLabOutListMsg(map, NurseAPI.getLabOutList, new LabOutApiManager.getLabOutCallBack() {
             @Override
             public void onSuccess(LabOutListAllBean labOutListAllBean) {
@@ -167,38 +170,40 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
                 CarrayCerate = "No";
                 CarrayDel = "No";
                 saveFlag = "";
-                if (listType.size() == 0) {
-                    listType = labOutListAllBean.getTypeList();
-                    if (listType.size() == 5) {
-                        tvType0.setText(listType.get(0).getDesc());
-                        tvType1.setText(listType.get(1).getDesc());
-                        tvType2.setText(listType.get(2).getDesc());
-                        tvType3.setText(listType.get(3).getDesc());
-                        tvType4.setText(listType.get(4).getDesc());
-                        typeIndex.put("Type0", 0);
-                        typeIndex.put("Type1", 1);
-                        typeIndex.put("Type2", 2);
-                        typeIndex.put("Type3", 3);
-                        typeIndex.put("Type4", 4);
-                    } else {
-                        tvType1.setVisibility(View.GONE);
-                        if ("B".equals(listType.get(0).getCode())) {
-                            tvType0.setText(listType.get(0).getDesc());
-                            tvType0.setVisibility(View.VISIBLE);
-                            typeIndex.put("Type0", 0);
+                List<LabOutListAllBean.TypeListBean> type = labOutListAllBean.getTypeList();
+                if (listType.size() == 0 && type != null && type.size() > 0) {
+                    listType = type;
+                    // EH 2021-10-15 预建单和建单位置固定，其余位置数量不定
+                    for (int i = 0; i < listType.size(); i++) {
+                        String listCode = listType.get(i).getCode();
+                        String listDesc = listType.get(i).getDesc();
+                        String listName = "";
+                        TextView listView = null;
+                        if ("B".equals(listCode)) {
+                            listView = tvType0;
+                            listName = "Type0";
+                        } else if ("C".equals(listCode)) {
+                            listView = tvType1;
+                            listName = "Type1";
+                        } else {
+                            for (java.util.Iterator<String> iterator = typeView.keySet().iterator(); iterator.hasNext(); ) {
+                                String listNameOption = iterator.next();
+                                int j = Integer.parseInt(listNameOption.replace("Type", ""));
+                                if (j > 1 && !typeIndex.containsKey(listNameOption)) {
+                                    listName = listNameOption;
+                                    listView = typeView.get(listName);
+                                }
+                            }
                         }
-                        if ("C".equals(listType.get(0).getCode())) {
-                            tvType1.setText(listType.get(0).getDesc());
-                            tvType1.setVisibility(View.VISIBLE);
-                            TypeStr = "Type1";
-                            typeIndex.put("Type1", 0);
+                        if (!"".equals(listName)) {
+                            listView.setText(listDesc);
+                            typeIndex.put(listName, i);
                         }
-                        tvType2.setText(listType.get(1).getDesc());
-                        tvType3.setText(listType.get(2).getDesc());
-                        tvType4.setText(listType.get(3).getDesc());
-                        typeIndex.put("Type2", 1);
-                        typeIndex.put("Type3", 2);
-                        typeIndex.put("Type4", 3);
+                    }
+                    for (java.util.Iterator<String> iterator = typeView.keySet().iterator(); iterator.hasNext(); ) {
+                        String listName = iterator.next();
+                        TextView listView = typeView.get(listName);
+                        listView.setVisibility(!typeIndex.containsKey(listName) ? View.GONE : View.VISIBLE);
                     }
                 }
 
@@ -238,38 +243,9 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
     private void getLabOutList() {
         listLabNow = new ArrayList<>();
         if (!typeIndex.containsKey(TypeStr)) return;
-        int index = (int)(typeIndex.get(TypeStr));
+        int index = typeIndex.get(TypeStr);
         String typeDesc = listType.get(index).getDesc();
         for (int i = 0; i < listLabAll.size(); i++) {
-//            switch (TypeStr) {
-//                case "Type0":
-//                    if (listLabAll.get(i).getStatus().equals(listType.get(0).getDesc())) {
-//                        listLabNow.add(listLabAll.get(i));
-//                    }
-//                    break;
-//                case "Type1":
-//                    if (listLabAll.get(i).getStatus().equals(listType.get(1).getDesc())) {
-//                        listLabNow.add(listLabAll.get(i));
-//                    }
-//                    break;
-//                case "Type2":
-//                    if (listLabAll.get(i).getStatus().equals(listType.get(2).getDesc())) {
-//                        listLabNow.add(listLabAll.get(i));
-//                    }
-//                    break;
-//                case "Type3":
-//                    if (listLabAll.get(i).getStatus().equals(listType.get(3).getDesc())) {
-//                        listLabNow.add(listLabAll.get(i));
-//                    }
-//                    break;
-//                case "Type4":
-//                    if (listLabAll.get(i).getStatus().equals(listType.get(4).getDesc())) {
-//                        listLabNow.add(listLabAll.get(i));
-//                    }
-//                    break;
-//                default:
-//                    break;
-//            }
             if (listLabAll.get(i).getStatus().equals(typeDesc)) {
                 listLabNow.add(listLabAll.get(i));
             }
@@ -296,6 +272,10 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
         tvType3.setOnClickListener(this);
         tvType4 = view.findViewById(R.id.tv_labout_type4);
         tvType4.setOnClickListener(this);
+        for (int j = 0; j <= 4; j++) {
+            int id = getResources().getIdentifier("tv_labout_type" + j, "id", "com.dhcc.nursepro");
+            typeView.put("Type" + j, view.findViewById(id));
+        }
         tvStartDate = view.findViewById(R.id.tv_labout_startdate);
         tvStartDate.setOnClickListener(this);
         tvEndDate = view.findViewById(R.id.tv_labout_enddate);
@@ -342,11 +322,7 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
                     Bundle bundle = new Bundle();
                     bundle.putString("CarryNo", carryNodetail);
                     bundle.putString("saveType", "1");
-                    if (TypeStr.equals("Type0")) {
-                        bundle.putString("ifHedui", "1");
-                    } else {
-                        bundle.putString("ifHedui", "0");
-                    }
+                    bundle.putString("ifHedui", typeIndex.containsKey("Type0") ? "1" : "0");
                     startFragment(LabOutDetailFragment.class, bundle);
                 } else if (view.getId() == R.id.tv_lapack_hedui) {
                     String carryNodetail = listLabNow.get(position).getCarryNo();

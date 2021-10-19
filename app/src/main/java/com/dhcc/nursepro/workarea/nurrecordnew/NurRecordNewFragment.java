@@ -2670,30 +2670,77 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                 if (s.equals(viewElementId)) {
                     EditText editText = (EditText) viewHashMap.get(statisticsListBean.getId());
                     if (editText != null) {
-                        int score = Integer.parseInt(StringUtils.isEmpty(editText.getText().toString()) ? "0" : editText.getText().toString());
+                        String calType = statisticsListBean.getCalType();
+                        if ("Sum".equals(calType)) {
+                            int score = Integer.parseInt(StringUtils.isEmpty(editText.getText().toString()) ? "0" : editText.getText().toString());
 
-                        if ("check".equals(status) || "uncheck".equals(status)) {
-                            int changeScore = Integer.parseInt(elementIdtoFormName.get(viewElementId).split("\\^")[1]);
-                            CheckBox checkBox = (CheckBox) viewHashMap.get(viewElementId);
-                            if (checkBox != null && checkBox.isChecked()) {
-                                score = score + changeScore;
+                            if ("check".equals(status) || "uncheck".equals(status)) {
+                                int changeScore = Integer.parseInt(elementIdtoFormName.get(viewElementId).split("\\^")[1]);
+                                CheckBox checkBox = (CheckBox) viewHashMap.get(viewElementId);
+                                if (checkBox != null && checkBox.isChecked()) {
+                                    score = score + changeScore;
+                                } else {
+                                    score = score - changeScore;
+                                }
+                            } else if ("drop".equals(status)) {
+                                Integer[] scoreInt = dropValue.get(viewElementId);
+                                if (scoreInt != null) {
+                                    score = score - scoreInt[0] + scoreInt[1];
+                                }
                             } else {
-                                score = score - changeScore;
-                            }
-                        } else if ("drop".equals(status)) {
-                            Integer[] scoreInt = dropValue.get(viewElementId);
-                            if (scoreInt != null) {
-                                score = score - scoreInt[0] + scoreInt[1];
-                            }
-                        } else {
-                            if (etPointList.size() > 0) {
-                                score = 0;
-                                for (int j = 0; j < etPointList.size(); j++) {
-                                    score = score + etPointList.get(j);
+                                if (etPointList.size() > 0) {
+                                    score = 0;
+                                    for (int j = 0; j < etPointList.size(); j++) {
+                                        score = score + etPointList.get(j);
+                                    }
                                 }
                             }
+                            editText.setText(String.valueOf(score));
+                            /// EH 2021-10-19 统分类型 start
+                        } else if ("Max".equals(calType)) {
+                            int score = 0;
+                            for (String s2 : idStr) {
+                                Object element = viewHashMap.get(s2);
+                                if (element instanceof  CheckBox) {
+                                    CheckBox checkBox = (CheckBox)element;
+                                    if (checkBox.isChecked()) {
+                                        int changeScore = Integer.parseInt(elementIdtoFormName.get(s2).split("\\^")[1]);
+                                        if (changeScore > score) {
+                                            score = changeScore;
+                                        }
+                                    }
+                                } else if (element instanceof  TextView || element instanceof  EditText) {
+                                    EditText textView = (EditText)element;
+                                    int changeScore = Integer.parseInt(StringUtils.isEmpty(textView.getText().toString()) ? "0" : textView.getText().toString());
+                                    if (changeScore > score) {
+                                        score = changeScore;
+                                    }
+                                }
+                            }
+                            editText.setText(String.valueOf(score));
+                        } else if ("Min".equals(calType)) {
+                            int score = 999;
+                            for (String s2 : idStr) {
+                                Object element = viewHashMap.get(s2);
+                                if (element instanceof  CheckBox) {
+                                    CheckBox checkBox = (CheckBox)element;
+                                    if (checkBox.isChecked()) {
+                                        int changeScore = Integer.parseInt(elementIdtoFormName.get(s2).split("\\^")[1]);
+                                        if (changeScore < score) {
+                                            score = changeScore;
+                                        }
+                                    }
+                                } else if (element instanceof  TextView || element instanceof  EditText) {
+                                    EditText textView = (EditText)element;
+                                    int changeScore = Integer.parseInt(StringUtils.isEmpty(textView.getText().toString()) ? "0" : textView.getText().toString());
+                                    if (changeScore < score) {
+                                        score = changeScore;
+                                    }
+                                }
+                            }
+                            editText.setText(String.valueOf(score));
                         }
-                        editText.setText(String.valueOf(score));
+                        /// EH 2021-10-19 统分类型 end
                     }
                 }
             }
@@ -3080,6 +3127,6 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
         }
         return text;
     }
-    /// end
+    /// EH 2021-09-10 签名回车事件 end
 
 }
