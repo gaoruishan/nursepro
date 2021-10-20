@@ -46,6 +46,7 @@ import com.dhcc.nursepro.workarea.ordersearch.OrderSearchFragment;
 import com.dhcc.nursepro.workarea.patevents.PatEventsFragment;
 import com.dhcc.nursepro.workarea.pathandover.PatHandoverFragment;
 import com.dhcc.nursepro.workarea.plyout.PlyOutListFragment;
+import com.dhcc.nursepro.workarea.rfid.PatBindInfusionFragment;
 import com.dhcc.nursepro.workarea.rfid.PatBindRfidFragment;
 import com.dhcc.nursepro.workarea.rjorder.RjOrderFragment;
 import com.dhcc.nursepro.workarea.shift.ShiftFragment;
@@ -358,6 +359,12 @@ public class WorkareaMainConfig {
                         mainSubListBean.setImgResouseId(R.drawable.icon_blood);
                         SharedPreference.FRAGMENTARY.add(mainSubListBean.toMap());
                         break;
+                   case "PatBindInfusionFragment":
+                       //w ##class(Nur.DHCNurPdaModule).Save("输液绑定^PatBindInfusionFragment^33^Y^")
+                        mainSubListBean.setFragmentClassName(PatBindInfusionFragment.class.getName());
+                        mainSubListBean.setImgResouseId(R.drawable.icon_blood);
+                        SharedPreference.FRAGMENTARY.add(mainSubListBean.toMap());
+                        break;
                     default:
                         break;
                 }
@@ -380,6 +387,8 @@ public class WorkareaMainConfig {
             subList.add(new MainConfigBean.MainListBean.MainSubListBean("web","web测试","/hello.html"));
             subList.add(new MainConfigBean.MainListBean.MainSubListBean("AccompanyFragment","陪护人记录"));
             subList.add(new MainConfigBean.MainListBean.MainSubListBean("OutManageFragment","外出管理"));
+            subList.add(new MainConfigBean.MainListBean.MainSubListBean("PatBindRfid","RFID绑定"));
+            subList.add(new MainConfigBean.MainListBean.MainSubListBean("PatBindInfusionFragment","输液绑定"));
 
             mainListTestBean.setMenuName("测试");
             mainListTestBean.setMainSubList(subList);

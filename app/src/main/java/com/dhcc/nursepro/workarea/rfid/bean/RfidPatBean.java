@@ -1,5 +1,6 @@
 package com.dhcc.nursepro.workarea.rfid.bean;
 
+import com.base.commlibs.http.CommResult;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -11,27 +12,8 @@ import java.util.List;
  * Date: 2021/6/23
  * Time:9:42
  */
-public class RfidPatBean {
-    private String msg;
-    private String msgcode;
+public class RfidPatBean extends CommResult {
     private List<PatInfoListBean> patInfoList;
-    private String status;
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-
-    public String getMsgcode() {
-        return msgcode;
-    }
-
-    public void setMsgcode(String msgcode) {
-        this.msgcode = msgcode;
-    }
 
     public List<PatInfoListBean> getPatInfoList() {
         return patInfoList;
@@ -39,14 +21,6 @@ public class RfidPatBean {
 
     public void setPatInfoList(List<PatInfoListBean> patInfoList) {
         this.patInfoList = patInfoList;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public static class PatInfoListBean {
@@ -219,7 +193,7 @@ public class RfidPatBean {
         }
 
         public String getIfBind() {
-            return ifBind==null?"":ifBind;
+            return ifBind == null ? "" : ifBind;
         }
 
         public void setIfBind(String ifBind) {
@@ -331,7 +305,7 @@ public class RfidPatBean {
         }
 
         public String getName() {
-            return name;
+            return name == null ? "" : name;
         }
 
         public void setName(String name) {
@@ -419,7 +393,7 @@ public class RfidPatBean {
         }
 
         public String getSex() {
-            return sex;
+            return sex == null ? "" : sex;
         }
 
         public void setSex(String sex) {

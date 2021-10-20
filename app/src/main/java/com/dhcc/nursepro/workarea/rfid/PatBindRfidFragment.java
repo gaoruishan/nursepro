@@ -18,6 +18,7 @@ import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
+import com.base.commlibs.http.CommonCallBack;
 import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.nursepro.R;
@@ -37,12 +38,12 @@ import java.util.HashMap;
  * Time:9:39
  */
 public class PatBindRfidFragment extends BaseFragment {
-    private RecyclerView recPat;
-    private RfidPatAdapter rfidPatAdapter;
-    private RfidBindDialog rfidBindDialog;
-    private String bindRegNo = "";
-    private Boolean isBind = false;
-    private Activity activity;
+    protected RecyclerView recPat;
+    protected RfidPatAdapter rfidPatAdapter;
+    protected RfidBindDialog rfidBindDialog;
+    protected String bindRegNo = "";
+    protected Boolean isBind = false;
+    protected Activity activity;
 
     @Override
     public View onCreateViewByYM(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -81,7 +82,7 @@ public class PatBindRfidFragment extends BaseFragment {
         activity = getActivity();
     }
 
-    private void initView(View view) {
+    public void initView(View view) {
 
         recPat = view.findViewById(R.id.recy_bind_rfid);
         //提高展示效率
@@ -90,63 +91,67 @@ public class PatBindRfidFragment extends BaseFragment {
         recPat.setLayoutManager(new GridLayoutManager(getActivity(), 3));
     }
 
-    private void initAdapter() {
+    public void initAdapter() {
         rfidPatAdapter = new RfidPatAdapter(new ArrayList<>());
         recPat.setAdapter(rfidPatAdapter);
         rfidPatAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                rfidBindDialog = new RfidBindDialog(getActivity());
-                rfidBindDialog.show();
-                bindRegNo = rfidPatAdapter.getItem(position).getRegNo();
-                isBind = rfidPatAdapter.getItem(position).getIfBind().equals("1");
-                if (isBind) {
-                    rfidBindDialog.setTvMsg("当前患者已绑定:" + rfidPatAdapter.getItem(position).getName());
-                    rfidBindDialog.setbtnShow(View.VISIBLE, View.VISIBLE);
-                    rfidBindDialog.setSureOnclickListener(new SettingExitDialog.onSureOnclickListener() {
-                        @Override
-                        public void onSureClick() {
-                            unbindRfid();
-                        }
-
-                        @Override
-                        public void onCancleClick() {
-                            rfidBindDialog.dismiss();
-                        }
-                    });
-                } else {
-                    rfidBindDialog.setTvMsg("请操作pda绑定当前患者:" + rfidPatAdapter.getItem(position).getName());
-                    rfidBindDialog.setbtnShow(View.GONE, View.GONE);
-                }
-                rfidBindDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        bindRegNo = "";
-                        isBind = false;
-                    }
-                });
-                //解决弹框时 按键触发不回调dispatchKeyEvent
-                rfidBindDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
-                    @Override
-                    public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-                        if (activity instanceof BaseActivity) {
-                            ((BaseActivity) activity).onDispatchKeyEvent(event);
-                        }
-                        return false;
-                    }
-                });
+                initRifdBindDialog(position);
             }
         });
     }
 
-    private void initData() {
+    public void initRifdBindDialog(int position) {
+        rfidBindDialog = new RfidBindDialog(getActivity());
+        rfidBindDialog.show();
+        bindRegNo = rfidPatAdapter.getItem(position).getRegNo();
+        isBind = rfidPatAdapter.getItem(position).getIfBind().equals("1");
+        if (isBind) {
+            rfidBindDialog.setTvMsg("当前患者已绑定:" + rfidPatAdapter.getItem(position).getName());
+            rfidBindDialog.setbtnShow(View.VISIBLE, View.VISIBLE);
+            rfidBindDialog.setSureOnclickListener(new SettingExitDialog.onSureOnclickListener() {
+                @Override
+                public void onSureClick() {
+                    unbindRfid();
+                }
+
+                @Override
+                public void onCancleClick() {
+                    rfidBindDialog.dismiss();
+                }
+            });
+        } else {
+            rfidBindDialog.setTvMsg("请操作pda绑定患者:" + rfidPatAdapter.getItem(position).getName());
+            rfidBindDialog.setbtnShow(View.GONE, View.GONE);
+        }
+        rfidBindDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                bindRegNo = "";
+                isBind = false;
+            }
+        });
+        //解决弹框时 按键触发不回调dispatchKeyEvent
+        rfidBindDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                if (activity instanceof BaseActivity) {
+                    ((BaseActivity) activity).onDispatchKeyEvent(event);
+                }
+                return false;
+            }
+        });
+    }
+
+    public void initData() {
 
         showLoadingTip(BaseActivity.LoadingType.FULL);
         HashMap map = new HashMap();
         map.put("wardId", SPUtils.getInstance().getString(SharedPreference.WARDID));
-        RfidBindApiManager.getRfidPatList(map, "GetRfidPatList", new RfidBindApiManager.getRfidPatListCallBack() {
+        RfidBindApiManager.getRfidPatList(map, "GetRfidPatList", new CommonCallBack<RfidPatBean>() {
             @Override
-            public void onSuccess(RfidPatBean rfidPatBean) {
+            public void onSuccess(RfidPatBean rfidPatBean, String type) {
                 hideLoadingTip();
                 rfidPatAdapter.setNewData(rfidPatBean.getPatInfoList());
             }
@@ -160,14 +165,14 @@ public class PatBindRfidFragment extends BaseFragment {
 
     }
 
-    private void bindRfid(String rfid) {
+    public void bindRfid(String rfid) {
 
         HashMap map = new HashMap();
         map.put("rfidId", rfid);
         map.put("regNo", bindRegNo);
-        RfidBindApiManager.getRfidPatList(map, "BindRegNo", new RfidBindApiManager.getRfidPatListCallBack() {
+        RfidBindApiManager.getRfidPatList(map, "BindRegNo", new CommonCallBack<RfidPatBean>() {
             @Override
-            public void onSuccess(RfidPatBean rfidPatBean) {
+            public void onSuccess(RfidPatBean rfidPatBean, String type) {
                 showToast("绑定成功");
                 if (rfidBindDialog != null && rfidBindDialog.isShowing()) {
                     rfidBindDialog.dismiss();
@@ -179,17 +184,18 @@ public class PatBindRfidFragment extends BaseFragment {
             public void onFail(String code, String msg) {
                 showToast(msg);
             }
+
         });
 
     }
 
-    private void unbindRfid() {
+    public void unbindRfid() {
 
         HashMap map = new HashMap();
         map.put("regNo", bindRegNo);
-        RfidBindApiManager.getRfidPatList(map, "UnBindRegNo", new RfidBindApiManager.getRfidPatListCallBack() {
+        RfidBindApiManager.getRfidPatList(map, "UnBindRegNo", new CommonCallBack<RfidPatBean>() {
             @Override
-            public void onSuccess(RfidPatBean rfidPatBean) {
+            public void onSuccess(RfidPatBean rfidPatBean, String type) {
                 showToast("解绑成功");
                 initData();
             }

@@ -40,8 +40,8 @@ public class BaseWebServiceUtils {
     //外网测试+DEBUG模式
     public static final boolean OUT_NET_TEST = false;
     //测试库
-    public static final String DEFAULT_IP = "10.1.21.123";
-    //    public static final String DEFAULT_IP = "114.242.246.235";
+//    public static final String DEFAULT_IP = "10.1.20.197";
+        public static final String DEFAULT_IP = "82.157.186.213";
     public static final String DTHEALTH_WEB = "/imedical/web";
     public static final String PATH_IMEDICAL_WEB = "/imedical/webservice";
     public static final String PATH_IMEDICAL = "/imedical/web";

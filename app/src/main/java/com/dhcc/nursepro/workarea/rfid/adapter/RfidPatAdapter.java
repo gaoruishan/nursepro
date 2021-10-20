@@ -1,13 +1,12 @@
 package com.dhcc.nursepro.workarea.rfid.adapter;
 
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.nursepro.R;
-import com.dhcc.nursepro.workarea.allotbed.bean.AllotBedInfoBean;
 import com.dhcc.nursepro.workarea.rfid.bean.RfidPatBean;
 
 import java.util.List;
@@ -27,10 +26,12 @@ public class RfidPatAdapter extends BaseQuickAdapter<RfidPatBean.PatInfoListBean
 
     @Override
     protected void convert(BaseViewHolder helper, RfidPatBean.PatInfoListBean item) {
+
+        int dra = item.getSex().equals("女") ? R.drawable.dhcc_sex_female : R.drawable.dhcc_sex_male;
         helper.setText(R.id.tv_pat,item.getName())
+                .setGone(R.id.img_rfid_sex, !TextUtils.isEmpty(item.getSex()))
                 .setText(R.id.tv_bed,item.getBedCode().replace("床","")+"床")
-                .setImageResource(R.id.img_rfid_sex,item.getSex().equals("男")||item.getSex().equals("女")?
-                        (item.getSex().equals("男")?R.drawable.dhcc_sex_male:R.drawable.dhcc_sex_female):null);
+                .setImageResource(R.id.img_rfid_sex,dra);
         LinearLayout llRfid = helper.getView(R.id.ll_rifd);
         llRfid.setSelected(item.getIfBind().equals("1"));
     }
