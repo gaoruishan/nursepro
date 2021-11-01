@@ -16,6 +16,7 @@ import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
 import com.base.commlibs.R;
 import com.base.commlibs.constant.SharedPreference;
+import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.voiceUtils.bean.BedMapBean;
 import com.base.commlibs.voiceUtils.bean.VoiceBean;
 import com.base.commlibs.voiceUtils.bean.VoiceVisalBean;
@@ -37,6 +38,7 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -79,6 +81,10 @@ public class VoiceUtil {
 
     public String bedNoByVoice = "";
 
+
+    public String getMeetingId() {
+        return meetingId;
+    }
 
     public String getFileId() {
         return fileId;
@@ -957,7 +963,65 @@ public class VoiceUtil {
        void getTempResult(Bundle bundle);
     }
 
-    public void saveVoice(){
+    FinishRecordCallBack finishRecordCallBack;
+    public void setFinishRecordListner(FinishRecordCallBack finishRecordCallBack){
+        this.finishRecordCallBack = finishRecordCallBack;
+    }
+    public interface FinishRecordCallBack{
+        void success(String urlStr);
+        void fail(String failStr);
+    }
+
+    int saveTime = 0;
+    public void saveVoice() {
+        if (saveTime==3){
+            return;
+        }else {
+            saveTime++;
+        }
+        actionUp();
+        SpeechRecognizerManager.finishRecord(fileId, new RequestCallback() {
+            @Override
+            public void onSuccess(int i, Object o) {
+                Log.e("mp3","finishRecord fileId:"+fileId);
+            }
+
+            @Override
+            public void onFailure(int i, String s) {
+                Log.e("mp3","finishRecord error:"+s);
+            }
+        });
+
+        SpeechRecognizerManager.getRecordFile(fileId, "wav", new RequestCallback() {
+            @Override
+            public void onSuccess(int i, Object o) {
+                Log.e(TAG, "onSuccessmp3:1 1111wav"+o);
+                if (finishRecordCallBack!=null){
+                    finishRecordCallBack.success(o.toString());
+                }
+            }
+
+            @Override
+            public void onFailure(int i, String s) {
+                Log.e(TAG, fileId+"onSuccess: 1111wav"+s);
+                handler2.sendEmptyMessageDelayed(0, 5000);
+            }
+        });
+    }
+    Handler handler2 = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 0:
+                    removeMessages(0);
+                    saveVoice();
+                    break;
+            }
+        }
+    };
+
+    public void saveVoiceToLocal(){
         String video_savePath ="/sdcard/voiceRecord/"+SPUtils.getInstance().getString(SharedPreference.USERCODE)+"/";
         Log.e(TAG, "saveVoice: " );
         File files = new File(video_savePath);

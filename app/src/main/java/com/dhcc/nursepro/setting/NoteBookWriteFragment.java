@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
 import com.base.commlibs.constant.SharedPreference;
+import com.base.commlibs.voiceUtils.VoiceUtil;
 import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.setting.api.SettingBedsApiManeger;
@@ -58,13 +59,25 @@ public class NoteBookWriteFragment extends BaseFragment {
                 if (voiceUtil.getFileId().isEmpty()){
                     voiceUtil.setFileId(meetingId);
                 }
+                voiceUtil.setFinishRecordListner(new VoiceUtil.FinishRecordCallBack() {
+                    @Override
+                    public void success(String urlStr) {
+
+                    }
+
+                    @Override
+                    public void fail(String failStr) {
+
+                    }
+                });
+
                 voiceUtil.saveVoice();
                 saveSound();
             }
         });
         setToolbarRightCustomViewSingleShow(viewright);
         initView(view);
-        setMeetingId(SPUtils.getInstance().getString(SharedPreference.USERID)+System.currentTimeMillis());
+        voiceUtil.setMeetingId(SPUtils.getInstance().getString(SharedPreference.USERID)+System.currentTimeMillis());
 //        initData();
     }
 
