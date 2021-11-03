@@ -42,6 +42,24 @@ public class ConfigBean extends CommResult {
     private String showDialogTime;
     //皮试预警
     private String warningTime;
+    //是否开启CA
+    private String caFlag;
+    //是否PIN登陆
+    private String pinFlag;
+    //ca厂商
+    private String venderCode;
+
+    public String getVenderCode() {
+        return venderCode == null ? "" : venderCode;
+    }
+
+    public String getPinFlag() {
+        return pinFlag == null ? "" : pinFlag;
+    }
+
+    public String getCaFlag() {
+        return caFlag == null ? "" : caFlag;
+    }
 
     public String getWarningTime() {
         return warningTime == null ? "15" : warningTime;

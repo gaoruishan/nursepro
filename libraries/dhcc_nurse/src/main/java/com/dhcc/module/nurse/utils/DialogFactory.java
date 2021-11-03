@@ -3,13 +3,17 @@ package com.dhcc.module.nurse.utils;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.base.commlibs.utils.AppUtil;
 import com.base.commlibs.utils.CommDialog;
@@ -31,9 +35,6 @@ import java.util.List;
  * @email:grs0515@163.com
  */
 public class DialogFactory extends CommDialog {
-
-
-    private static Dialog commDialog;
 
     /**
      * 护理问题-评价/停止/撤销
@@ -166,6 +167,31 @@ public class DialogFactory extends CommDialog {
                 }
             }
         }, view, com.base.commlibs.R.id.btn_yes);
+        showCenterWindow(commDialog, view);
+        return commDialog;
+    }
+
+    /**
+     * 弹框显示二维码
+     * @param context
+     * @param qrCode
+     * @param callBack
+     * @return
+     */
+    public static Dialog showCaLogin(Activity context,String qrCode,SimpleCallBack<String> callBack) {
+//        if (commDialog != null) {
+//            commDialog.cancel();
+//        }
+        View view = getView(context, R.layout.dialog_layout_ca_login_qrcode);
+        Dialog commDialog = getCommDialog(context, view);
+//        commDialog.setCanceledOnTouchOutside(true);// 可取消
+        ImageView imageView = view.findViewById(R.id.iv_qrcode);
+
+//        String base64 = "data:image/png;"+qrCode;
+        String base64 = qrCode;
+        byte[] decodedString = Base64.decode(base64, Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        imageView.setImageBitmap(decodedByte);
         showCenterWindow(commDialog, view);
         return commDialog;
     }

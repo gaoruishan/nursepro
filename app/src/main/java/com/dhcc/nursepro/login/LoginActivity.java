@@ -24,7 +24,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.base.commlibs.BaseActivity;
 import com.base.commlibs.bean.BroadcastListBean;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
@@ -37,10 +36,9 @@ import com.base.commlibs.view.WebActivity;
 import com.base.commlibs.voiceUtils.SetVoiceIPDialog;
 import com.base.commlibs.voiceUtils.voiceprint.VoicePrintUtil;
 import com.base.commlibs.wsutils.BaseWebServiceUtils;
-import com.blankj.utilcode.constant.PermissionConstants;
-import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
+import com.dhcc.module.nurse.ca.CaLoginActivity;
 import com.dhcc.nursepro.Activity.MainActivity;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.greendao.DaoSession;
@@ -63,7 +61,7 @@ import cn.qqtheme.framework.widget.WheelView;
 /**
  * LoginActivity
  */
-public class LoginActivity extends BaseActivity implements View.OnClickListener {
+public class LoginActivity extends CaLoginActivity implements View.OnClickListener {
 
     DaoSession daoSession = GreenDaoHelper.getDaoSession();
     private EditText etLoginUsercode;
@@ -105,7 +103,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
 
         hindMap();
-        setContentView(R.layout.activity_login);
+//        setContentView(R.layout.activity_login);
         setToolbarType(ToolbarType.HIDE);
         UserUtil.checkWebIp();
         UserUtil.checkWebPath();
@@ -113,7 +111,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         initView();
         CommHttp.getNurseConfig();
         getBroadCastConfig();
-        PermissionUtils.permission(PermissionConstants.STORAGE).request();
+//        PermissionUtils.permission(PermissionConstants.STORAGE).request();
 
         verifyAudioPermissions(this);
         initVoice();
@@ -448,12 +446,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         if (!hasBroadCastConfig) {
             getBroadCastConfig();
         }
-
+        if (checkCA()) {
+            return;
+        }
         nurseInfoList = daoSession.getNurseInfoDao().queryBuilder().list();
         LoginApiManager.getLogin(userCode, password, logonWardId, new LoginApiManager.GetLoginCallback() {
             @Override
             public void onSuccess(final LoginBean loginBean) {
-
+                //设置Pin标识
+                setPinFlag(loginBean.getCaFlag(),loginBean.getPinFlag());
                 loginByVoice="0";
                 spUtils.put(SharedPreference.BTN_VOICE_SHOW,loginBean.getVoiceFlag().equals("1")?true:false);
 
@@ -551,7 +552,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             }
             //本地数据库已保存用户信息且用户的登录病区存在于登陆成功返回的可登录病区列表，
             if (k < nurseInfoList.size() && l < loginBean.getLocs().size()) {
-                saveStartActivity();
+                saveStartActivity(loginBean);
 
             }
 
@@ -559,14 +560,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             if (k >= nurseInfoList.size()) {
                 //                            Toast.makeText(LoginActivity.this, "login----不存在，插入新数据", Toast.LENGTH_SHORT).show();
                 daoSession.getNurseInfoDao().insert(loginNurseInfo);
-                saveStartActivity();
+                saveStartActivity(loginBean);
 
             }
         } else {
             //本地数据库未存储用户登录数据，数据库添加用户数据，SP设置用户数据，跳转页面
             //                        Toast.makeText(LoginActivity.this, "login----不存在，插入新数据", Toast.LENGTH_SHORT).show();
             daoSession.getNurseInfoDao().insert(loginNurseInfo);
-            saveStartActivity();
+            saveStartActivity(loginBean);
 
         }
     }
@@ -574,18 +575,24 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     /**
      * 保存并进主页
      */
-    private void saveStartActivity() {
+    private void saveStartActivity(LoginBean loginBean) {
         saveUserInfo();
         spUtils.put(SharedPreference.ORDERSEARCHE_BEDSELECTED, "");
         String singleFlag = spUtils.getString(SharedPreference.SINGLEMODEL, "0");
         if (singleFlag.equals("0")){
             spUtils.put(SharedPreference.SINGLEMODEL, "0");
         }
-        if (singleFlag.equals("1")) {
-            startSingleActivity();
-        } else {
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            finish();
+        //是否开启CA
+        String caFlag = loginBean.getCaFlag();
+        if ("1".equals(caFlag)) {
+            startCa();
+        }else {
+            if (singleFlag.equals("1")) {
+                startSingleActivity();
+            } else {
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                finish();
+            }
         }
     }
 

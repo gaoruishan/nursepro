@@ -118,6 +118,9 @@ public class ParserUtil<T extends CommResult> {
      * @param callback
      */
     public void parserStatus(T bean, @NonNull CommonCallBack<T> callback) {
+        if (callback == null) {
+            return;
+        }
         if (CODE_OK.equals(bean.getStatus())) {
             Log.e(TAG,"(ParserUtil.java:102) onSuccess");
             callback.onSuccess(bean, bean.getClass().getSimpleName());

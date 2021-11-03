@@ -253,6 +253,7 @@ public class UserUtil {
      * @param loginBean
      */
     public static void setUserConfig(ConfigBean loginBean) {
+        SPStaticUtils.put(SharedPreference.CA_VenderCode, loginBean.getVenderCode());
         SPStaticUtils.put(SharedPreference.WARNING_TIME, loginBean.getWarningTime());
         SPStaticUtils.put(SharedPreference.IS_SHOW_DIALOG_TIME, loginBean.getShowDialogTime());
         SPStaticUtils.put(SharedPreference.WEBSOCKET_FLAG, loginBean.getWebSocketFlag());

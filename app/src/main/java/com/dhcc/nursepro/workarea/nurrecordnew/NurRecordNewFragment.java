@@ -33,6 +33,7 @@ import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.RegexUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
+import com.dhcc.module.nurse.ca.CaSignUtil;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.utils.InputDigitLengthFilter;
 import com.dhcc.nursepro.workarea.nurrecordnew.api.NurRecordNewApiManager;
@@ -273,6 +274,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
      * @param saveViewFormNameList
      */
     private void save(List<String> saveViewFormNameList) {
+        String auditUserCode = "";
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("{");
         for (int i = 0; elements != null && i < elements.size(); i++) {
@@ -629,7 +631,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                     }
 
                     if ("TextElement".equals(element.getElementType()) && "true".equals(element.getSignatureAuto())) {
-
+                        auditUserCode = ((EditText) viewHashMap.get(element.getElementId())).getText().toString();
                         String userStr = "CA" + ((EditText) viewHashMap.get(element.getElementId())).getText().toString() + "*" + spUtils.getString(SharedPreference.USERCODE);
                         stringBuilder.append("\"")
                                 .append(element.getElementType())
@@ -706,6 +708,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
         String printTemplateEmrCode = stringBuilder1.toString();
 
         showLoadingTip(BaseActivity.LoadingType.FULL);
+        String finalAuditUserCode = auditUserCode;
         NurRecordNewApiManager.saveNewEmrData(guid, episodeID, recId, parr, printTemplateEmrCode, new NurRecordNewApiManager.RecDataCallback() {
             @Override
             public void onSuccess(RecDataBean recDataBean) {
@@ -748,7 +751,10 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                         Objects.requireNonNull(getActivity()).finish();
                     }
                 }, 1000);
-
+                //Ca签名
+                if ("1".equals(recDataBean.getCaFlag())) {
+                    CaSignUtil.recordCaSign(getActivity(), episodeID,patName,emrCode,recDataBean.getRetData(), finalAuditUserCode);
+                }
             }
 
             @Override

@@ -127,6 +127,21 @@ public class CommWebService {
     }
 
     /**
+     * 统一(CA)
+     * @param methodName
+     * @param properties
+     * @param callBack
+     */
+    public static void callCa(String methodName, HashMap<String, String> properties, final ServiceCallBack callBack) {
+        BaseWebServiceUtils.callWebCAService(methodName, properties, new BaseWebServiceUtils.WebServiceCallBack() {
+            @Override
+            public void callBack(String result) {
+                callBack.onResult(result);
+            }
+        });
+    }
+
+    /**
      * 统一(康复)
      * @param methodName
      * @param properties

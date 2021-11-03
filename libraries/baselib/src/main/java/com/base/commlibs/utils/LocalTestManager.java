@@ -87,6 +87,8 @@ public class LocalTestManager {
         l.add("GetNCPAccompanyList");
         l.add("GetNCPAccompanySub");
         l.add("GetRfidPatList");
+//        l.add("GetLoginQR");
+//        l.add("GetLoginQRResult");
 
     }
 
@@ -126,9 +128,9 @@ public class LocalTestManager {
     }
 
     public static boolean isTest() {
-        if (TEST) {
-            return UserUtil.isExistUserId();
-        }
+//        if (TEST) {
+//            return UserUtil.isExistUserId();
+//        }
         return false;
     }
 

@@ -29,10 +29,10 @@ import com.blankj.utilcode.util.ActivityUtils;
  */
 public class CommDialog {
 
-    protected static final String TAG = CommDialog.class.getSimpleName();
+    public static final String TAG = CommDialog.class.getSimpleName();
     //配置时间
     public static  int DELAY_MILLIS = UserUtil.getShowDialogTime();
-    private static Dialog commDialog;
+    public static Dialog commDialog;
 
 
     /**
@@ -294,6 +294,16 @@ public class CommDialog {
     public static void cancel(Dialog dialog) {
         if (dialog != null) {
             dialog.cancel();
+            commDialog = null;
+        }
+    }
+
+    /**
+     * 销毁
+     */
+    public static void dismiss() {
+        if (commDialog != null) {
+            commDialog.cancel();
             commDialog = null;
         }
     }

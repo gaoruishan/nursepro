@@ -1,5 +1,7 @@
 package com.dhcc.nursepro.login.api;
 
+import android.util.Log;
+
 import com.blankj.utilcode.util.ObjectUtils;
 import com.dhcc.nursepro.login.bean.BroadCastListBean;
 import com.dhcc.nursepro.login.bean.LoginBean;
@@ -39,7 +41,8 @@ public class LoginApiManager {
                             }
                         }
                     } catch (Exception e) {
-                        callback.onFail("-2", "网络错误，数据解析失败");
+//                        callback.onFail("-2", "网络错误，数据解析失败");
+                        Log.e("TAG","(LoginApiManager.java:45) "+e.toString());
                     }
 
 

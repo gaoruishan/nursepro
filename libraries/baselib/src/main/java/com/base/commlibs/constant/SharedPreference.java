@@ -12,7 +12,6 @@ import java.util.List;
 /**
  * SharedPreference
  * 当前登录用户数据存储KEY
- *
  * @author DevLix126
  * created at 2018/8/24 9:11
  */
@@ -21,7 +20,7 @@ public class SharedPreference extends NurseConfig {
 
     public static final String HTTP = "HTTP";
     public static final String WEBIPS = "WEBIPS";
-//    public static final String WEBPATH = "WEBPATH";
+    //    public static final String WEBPATH = "WEBPATH";
     public static final String LOGONLOCTYPE = "LOGONLOCTYPE";
     public static final String WINDOWNAME = "WINDOWNAME";
     public static final String REMEM = "REMEM";
@@ -76,10 +75,10 @@ public class SharedPreference extends NurseConfig {
     public static String MethodName = "";
     public static String DHC_CALLBACK_JSON = "";
 
-    public static  final String BLOODSCANTIMES = "BLOODSCANTIMES";
+    public static final String BLOODSCANTIMES = "BLOODSCANTIMES";
 
-    public static  final String DATA_MAIN_CONFIG = "DATAMAINCONFIG";
-    public static  final String APP_VERSION_CODE = "APP_VERSION_CODE";
+    public static final String DATA_MAIN_CONFIG = "DATAMAINCONFIG";
+    public static final String APP_VERSION_CODE = "APP_VERSION_CODE";
     //皮试双签
     public static final String MSG_SKIN_FLAG = "MSG_SKIN_FLAG";
     //日志
@@ -116,8 +115,8 @@ public class SharedPreference extends NurseConfig {
     //显示弹框时间 毫秒
     public static final String IS_SHOW_DIALOG_TIME = "IS_SHOW_DIALOG_TIME";
     //扫码界面-提示语
-    public static final String SCAN_LABEL_PAT_HAND= "SCAN_LABEL_PAT_HAND";
-    public static final String SCAN_LABEL_PAT_HAND_INFO= "SCAN_LABEL_PAT_HAND_INFO";
+    public static final String SCAN_LABEL_PAT_HAND = "SCAN_LABEL_PAT_HAND";
+    public static final String SCAN_LABEL_PAT_HAND_INFO = "SCAN_LABEL_PAT_HAND_INFO";
     //皮试预警
     public static final String WARNING_TIME = "WARNING_TIME";
 
@@ -125,7 +124,7 @@ public class SharedPreference extends NurseConfig {
 
     public static List FRAGMENTARY = new ArrayList<HashMap>();
     //存放Fragment
-    public static HashMap<String,BaseFragment> FRAGMENTMAP = new HashMap<String,BaseFragment>();
+    public static HashMap<String, BaseFragment> FRAGMENTMAP = new HashMap<String, BaseFragment>();
     public static final String MAP_SHOW = "MAP_SHOW";
     //记录上一个fragment，可返回（挽回一次误操作跳转）
     public static BaseActivity LastActivity;
@@ -138,13 +137,27 @@ public class SharedPreference extends NurseConfig {
     //语音相关
     public static final String BTN_VOICE_SHOW = "BTN_VOICE_SHOW";//语音功能是否开启
     public static List<Scene> SCENE_LIST = null;
-    public static final String  VOICE_DATETIME_POINT = "VOICE_DATETIME_POINT";
-    public static final String  VOICE_PAT_LIST = "VOICE_PAT_LIST";
-    public static final String  VOICE_VISAL_LIST = "VOICE_VISAL_LIST";
-    public static final String  VOICE_PATINFO_JSON = "VOICE_PATINFO_JSON";
-    public static final String  VOICE_IP = "VOICE_IP";
-    public static final String  VOICE_PORT = "VOICE_PORT";
-    public static final String  VOICE_GROUPID = "VOICE_GROUPID";
-    public static final String  VOICE_SCORE = "VOICE_SCORE";
+    public static final String VOICE_DATETIME_POINT = "VOICE_DATETIME_POINT";
+    public static final String VOICE_PAT_LIST = "VOICE_PAT_LIST";
+    public static final String VOICE_VISAL_LIST = "VOICE_VISAL_LIST";
+    public static final String VOICE_PATINFO_JSON = "VOICE_PATINFO_JSON";
+    public static final String VOICE_IP = "VOICE_IP";
+    public static final String VOICE_PORT = "VOICE_PORT";
+    public static final String VOICE_GROUPID = "VOICE_GROUPID";
+    public static final String VOICE_SCORE = "VOICE_SCORE";
 
+    //CA相关
+    public static final String CA_VenderCode = "CA_VenderCode";
+    public static final String CA_SIGN_GUID = "CA_SIGN_GUID";
+    public static String CA_LOGIN_certCN = "CA_LOGIN_certCN";
+    public static String CA_LOGIN_certContainer = "CA_LOGIN_certContainer";
+    public static String CA_LOGIN_certDN = "CA_LOGIN_certDN";
+    public static String CA_LOGIN_certNo = "CA_LOGIN_certNo";
+    public static String CA_LOGIN_expireTime = "CA_LOGIN_expireTime";
+    public static String CA_LOGIN_signCert = "CA_LOGIN_signCert";
+    public static String CA_LOGIN_signStatus = "CA_LOGIN_signStatus";
+    public static String CA_LOGIN_signToken = "CA_LOGIN_signToken";
+    public static String CA_LOGIN_userCertCode = "CA_LOGIN_userCertCode";
+    public static String CA_hisUserID = "CA_hisUserID";
+    public static String CA_hisUserName = "CA_hisUserName";
 }

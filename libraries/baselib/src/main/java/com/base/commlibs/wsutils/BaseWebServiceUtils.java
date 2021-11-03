@@ -41,29 +41,43 @@ public class BaseWebServiceUtils {
     public static final boolean OUT_NET_TEST = false;
     //测试库
 //    public static final String DEFAULT_IP = "10.1.20.197";
-        public static final String DEFAULT_IP = "82.157.186.213";
+    public static final String DEFAULT_IP = "82.157.186.213";
     public static final String DTHEALTH_WEB = "/imedical/web";
     public static final String PATH_IMEDICAL_WEB = "/imedical/webservice";
     public static final String PATH_IMEDICAL = "/imedical/web";
     public static final String PATH_DTHEALTH = "/dthealth/web";
     public static final String NUR_CONFIG = "/nursepdaconfig.html";
-    // 住院
+    // 住院--新8.5
     public static final String NUR_MNIS_SERVICE = "/Nur.MNIS.Service.WebService.cls";
-    // 门诊
+    // 门诊--新8.5
     public static final String NUR_MOES_SERVICE = "/Nur.MOES.Service.WebService.cls";
+    // ca接口
+    public static final String CA_AJAX_SERVICE = "/CA.Ajax.Webservice.cls";
     public static final String HTTP = "http";
     public static final String HTTPS = "https";
 
-    // 门诊输液新接口
+    // 门诊输液
     public static final String NUR_OPPDA_SERVICE = "/Nur.OPPDA.WebService.cls";
+    // 护士站接口
+    public static final String NUR_PDA_SERVICE = "/Nur.PDA.WebService.cls";
+    // 含有3个线程的线程池
+    private static final ExecutorService executorService = Executors.newFixedThreadPool(5);
+    // 命名空间
+    private static final String NAMESPACE = "http://www.dhcc.com.cn";
+    private static final String NAMESPACE_CA = "http://www.dhcc.com.cn/emr/ca/webservice";
+    // 默认超时时间
+    private static final int TIME_OUT = 10 * 1000;
+    public static final String REQUST_METHOD = "RequestData";
+    public static final String PARAMS = "params";
+    public static final String VERSION = "version";
+    public static final String METHOD = "method";
+    public static final String LOGON_INFO = "logonInfo";
+
 
     public static String getOPPDAService() {
         return SPStaticUtils.getString(SharedPreference.oppdaService, NUR_OPPDA_SERVICE);
 //        return  NUR_MOES_SERVICE;
     }
-
-    // 护士站接口
-    public static final String NUR_PDA_SERVICE = "/Nur.PDA.WebService.cls";
 
     public static String getPDAService() {
         return SPStaticUtils.getString(SharedPreference.pdaService, NUR_MNIS_SERVICE);
@@ -79,18 +93,24 @@ public class BaseWebServiceUtils {
         return SPStaticUtils.getString(SharedPreference.webServicePassword, "dhwebservice");
 //        return "1q2w3e4r%T6y7u8i9o0p";
     }
-
-    // 含有3个线程的线程池
-    private static final ExecutorService executorService = Executors.newFixedThreadPool(5);
-    // 命名空间
-    private static final String NAMESPACE = "http://www.dhcc.com.cn";
-    // 默认超时时间
-    private static final int TIME_OUT = 10 * 1000;
-    public static final String REQUST_METHOD = "RequestData";
-    public static final String PARAMS = "params";
-    public static final String VERSION = "version";
-    public static final String METHOD = "method";
-    public static final String LOGON_INFO = "logonInfo";
+    /**
+     * PDA护士站服务器地址
+     */
+    public static void callWebPDAService(final String methodName,
+                                         HashMap<String, String> properties,
+                                         final WebServiceCallBack webServiceCallBack) {
+        // 创建HttpTransportSE对象，传递WebService服务器地址,默认Nur.PDA.WebService.cls
+        String url = getServiceUrl(getPDAService());
+        if (properties == null) {
+            properties = new HashMap<>();
+        }
+        if (url.contains(NUR_MNIS_SERVICE)) {
+            properties = convertRequestData(methodName, properties);
+            callWebService(url, REQUST_METHOD, properties, webServiceCallBack);
+        } else {
+            callWebService(url, methodName, properties, webServiceCallBack);
+        }
+    }
 
     /**
      * OPPDA门诊服务器地址
@@ -108,6 +128,16 @@ public class BaseWebServiceUtils {
         } else {
             callWebService(url, methodName, properties, webServiceCallBack);
         }
+    }
+
+    /**
+     * CA服务器地址
+     */
+    public static void callWebCAService(final String methodName,
+                                           HashMap<String, String> properties,
+                                           final WebServiceCallBack webServiceCallBack) {
+        String url = getServiceUrl(CA_AJAX_SERVICE);
+        callWebService(url, methodName, properties, webServiceCallBack);
     }
 
     /**
@@ -173,25 +203,6 @@ public class BaseWebServiceUtils {
     }
 
     /**
-     * PDA护士站服务器地址
-     */
-    public static void callWebPDAService(final String methodName,
-                                         HashMap<String, String> properties,
-                                         final WebServiceCallBack webServiceCallBack) {
-        // 创建HttpTransportSE对象，传递WebService服务器地址,默认Nur.PDA.WebService.cls
-        String url = getServiceUrl(getPDAService());
-        if (properties == null) {
-            properties = new HashMap<>();
-        }
-        if (url.contains(NUR_MNIS_SERVICE)) {
-            properties = convertRequestData(methodName, properties);
-            callWebService(url, REQUST_METHOD, properties, webServiceCallBack);
-        } else {
-            callWebService(url, methodName, properties, webServiceCallBack);
-        }
-    }
-
-    /**
      * 获取服务器URL
      * @param serviceCls
      * @return
@@ -245,9 +256,13 @@ public class BaseWebServiceUtils {
             httpTransportSE = new HttpTransportSE(url, TIME_OUT);
         }
 
-
+        //获取指定命名空间
+        String nameSpace = NAMESPACE;
+        if (url.contains(CA_AJAX_SERVICE)) {
+            nameSpace = NAMESPACE_CA;
+        }
         // 创建SoapObject对象
-        SoapObject soapObject = new SoapObject(NAMESPACE, methodName);
+        SoapObject soapObject = new SoapObject(nameSpace, methodName);
 
         // SoapObject添加参数
         if (properties != null) {
@@ -347,6 +362,10 @@ public class BaseWebServiceUtils {
         String methodNameTest = methodName;
         if (BaseWebServiceUtils.REQUST_METHOD.equalsIgnoreCase(methodName)) {
             methodNameTest = properties.get(BaseWebServiceUtils.METHOD);
+        }
+        //CA服务器
+        if ("GetData".equalsIgnoreCase(methodName)) {
+            methodNameTest = properties.get("Func");
         }
         return methodNameTest;
     }

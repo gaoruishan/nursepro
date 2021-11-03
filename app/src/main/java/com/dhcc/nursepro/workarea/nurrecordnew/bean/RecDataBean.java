@@ -13,6 +13,15 @@ public class RecDataBean {
     private String msg;
     private String msgcode;
     private String status;
+    private String caFlag;
+
+    public String getCaFlag() {
+        return caFlag == null ? "" : caFlag;
+    }
+
+    public void setCaFlag(String caFlag) {
+        this.caFlag = caFlag;
+    }
 
     public String getRetData() {
         return RetData;

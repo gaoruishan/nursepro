@@ -33,6 +33,7 @@ import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.dhcc.module.nurse.ca.CaSignUtil;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.utils.DateUtils;
 import com.dhcc.nursepro.utils.DialogFactory;
@@ -766,7 +767,11 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                         execResultDialog.dismiss();
                         asyncInitData();
                     }
-                }, 1000);
+                }, 200);
+                //CA签名
+                if ("1".equals(orderExecResultBean.getCaFlag())) {
+                    CaSignUtil.execCaSign(getActivity(),barCode,creattime,order,patSaveInfo,"1",oeoreIdScan,execStatusCode,"");
+                }
             }
 
             @Override
@@ -926,6 +931,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
         } else {
             execCode = execStatusCode;
         }
+        String finalExecCode = execCode;
         OrderExecuteApiManager.execOrSeeOrder("", "", timeSaveInfo, orderSaveInfo, patSaveInfo, "0", skinBatch, skinUserCode, skinUserPass, oeoreId, execCode, "", new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
             @Override
             public void onSuccess(OrderExecResultBean orderExecResultBean) {
@@ -963,7 +969,11 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                         execResultDialog.dismiss();
                         asyncInitData();
                     }
-                }, 1000);
+                }, 200);
+                //CA签名
+                if ("1".equals(orderExecResultBean.getCaFlag())) {
+                    CaSignUtil.execCaSign(getActivity(),"",timeSaveInfo,orderSaveInfo,patSaveInfo,"0",oeoreId, finalExecCode,skinUserCode);
+                }
             }
 
             @Override
