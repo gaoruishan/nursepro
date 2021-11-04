@@ -54,6 +54,9 @@ public class OrderExecOrderDialog extends Dialog {
     private String arcimDesc = "";
     private String orderId = "";
     private String bedCode = "";
+    private String CDSS; // EH 21-11-04 CDSS注意事项
+    private View llCDSS;
+    private TextView tvCDSS;
 
     public String getBedCode() {
         return bedCode;
@@ -155,6 +158,14 @@ public class OrderExecOrderDialog extends Dialog {
 
     }
 
+    public void setCDSS(String CDSS) {
+        this.CDSS = CDSS;
+        if (!TextUtils.isEmpty(CDSS) && llCDSS != null && tvCDSS != null) {
+            llCDSS.setVisibility(View.VISIBLE);
+            tvCDSS.setText(android.text.Html.fromHtml(CDSS));
+        }
+    }
+
     /**
      * 设置确定按钮的显示内容和监听
      */
@@ -203,6 +214,9 @@ public class OrderExecOrderDialog extends Dialog {
         recyPopupChildOrderInfo.setHasFixedSize(true);
         //设置的布局管理
         recyPopupChildOrderInfo.setLayoutManager(new LinearLayoutManager(context));
+        llCDSS = findViewById(R.id.ll_CDSS);
+        tvCDSS = findViewById(R.id.tv_CDSS);
+        tvCDSS.setMovementMethod(android.text.method.ScrollingMovementMethod.getInstance());
     }
 
     private void initAdapter() {
@@ -242,6 +256,10 @@ public class OrderExecOrderDialog extends Dialog {
             tvPopupOrderexec.setEnabled(false);
             tvPopupOrderexec.setClickable(false);
             tvPopupOrderexec.setBackgroundResource(R.drawable.bg_dialog_cancel);
+        }
+        if (!TextUtils.isEmpty(CDSS)) {
+            llCDSS.setVisibility(View.VISIBLE);
+            tvCDSS.setText(android.text.Html.fromHtml(CDSS));
         }
     }
 

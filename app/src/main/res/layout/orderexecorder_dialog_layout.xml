@@ -139,6 +139,30 @@
                         tools:text="2015-10-20  08:00  静脉滴注  40mg  严医生\n配液  护士01  2019-8-16 09:50:46\n核查  护士02  2019-8-16 09:51:09" />
 
                 </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_CDSS"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="注意事项"
+                        android:textColor="#9B9B9B" />
+
+                    <TextView
+                        android:id="@+id/tv_CDSS"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_75"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:background="#F5FAFF"
+                        android:textColor="#4A4A4A"
+                        tools:text="06床-苏患者-男-62岁-02791538" />
+
+                </LinearLayout>
 
             </LinearLayout>
 

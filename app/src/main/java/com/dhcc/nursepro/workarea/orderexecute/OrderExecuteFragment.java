@@ -166,6 +166,16 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
         } else if (!TextUtils.isEmpty(singleRegNo) && isGetPatByScan) {
             scanInfo = singleRegNo;
             getScanInfo();
+        } else if (com.dhcc.nursepro.BuildConfig.DEBUG) {
+            scanInfo = "0000000520";
+            getScanInfo();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    scanInfo = "5004-1-11";
+                    getScanInfo();
+                }
+            }, 1000);
         }
         startDate = SchDateTimeUtil.getStartDate();
         startTime = SchDateTimeUtil.getStartTime();
@@ -341,6 +351,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                         ScanResultBean.OrdersBean ordersBean = ordersBeanList.get(0);
                         execOrderDialog.setChildOrders(ordersBeanList);
                         execOrderDialog.setPopMsgInfo(msg);
+                        execOrderDialog.setCDSS(scanResultBean.getCDSS());
                         execOrderDialog.setCanExeFlag(scanResultBean.getCanExeFlag());
                         execOrderDialog.setOrderInfoEx(ordersBean.getSttDateTime() + " " + ordersBean.getPhcinDesc() + " " + ordersBean.getCtcpDesc() + "");
                         execOrderDialog.setSureOnclickListener(new OrderExecOrderDialog.onSureOnclickListener() {

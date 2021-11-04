@@ -21,6 +21,7 @@ public class ScanResultBean {
     private String canExeFlag;
     private List<OrdersBean> orders;
     private String barCodeType;
+    private String CDSS; // EH CDSS注意事项
 
     public String getDismissFlag() {
         return dismissFlag == null ? "" : dismissFlag;
@@ -107,6 +108,14 @@ public class ScanResultBean {
 
     public void setOrders(List<OrdersBean> orders) {
         this.orders = orders;
+    }
+
+    public String getCDSS() {
+        return CDSS != null ? CDSS : "";
+    }
+
+    public void setCDSS(String CDSS) {
+        this.CDSS = CDSS;
     }
 
     public static class PatInfoBean {
