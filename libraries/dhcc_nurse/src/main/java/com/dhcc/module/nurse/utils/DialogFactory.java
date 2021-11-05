@@ -9,21 +9,26 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.utils.AppUtil;
 import com.base.commlibs.utils.CommDialog;
 import com.base.commlibs.utils.RecyclerViewHelper;
 import com.base.commlibs.utils.SimpleCallBack;
+import com.blankj.utilcode.util.SPStaticUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.module.nurse.R;
+import com.dhcc.module.nurse.ca.CaSignUtil;
 import com.dhcc.module.nurse.nurplan.bean.StatusReasonListBean;
 import com.dhcc.res.infusion.CustomSelectView;
 
@@ -48,8 +53,8 @@ public class DialogFactory extends CommDialog {
      * @param listener
      * @return
      */
-    public static Dialog showPlanDialog(Context context, String txt, String cancel, String ok, @DrawableRes int iv, List<StatusReasonListBean> revokeReasonList, @Nullable final View.OnClickListener l,BaseQuickAdapter.OnItemClickListener listener) {
-        if (revokeReasonList == null||revokeReasonList.size()==0) {
+    public static Dialog showPlanDialog(Context context, String txt, String cancel, String ok, @DrawableRes int iv, List<StatusReasonListBean> revokeReasonList, @Nullable final View.OnClickListener l, BaseQuickAdapter.OnItemClickListener listener) {
+        if (revokeReasonList == null || revokeReasonList.size() == 0) {
             return null;
         }
         if (commDialog != null) {
@@ -78,7 +83,7 @@ public class DialogFactory extends CommDialog {
                 }
                 filterAdapter.notifyDataSetChanged();
                 if (listener != null) {
-                    listener.onItemClick(adapter,view,position);
+                    listener.onItemClick(adapter, view, position);
                 }
             }
         });
@@ -112,13 +117,13 @@ public class DialogFactory extends CommDialog {
      * @param callBack
      * @return
      */
-    public static Dialog showStopInterveDialog(Activity context, String curDateTime,SimpleCallBack<String> callBack) {
+    public static Dialog showStopInterveDialog(Activity context, String curDateTime, SimpleCallBack<String> callBack) {
         if (commDialog != null) {
             commDialog.cancel();
         }
         View view = getView(context, R.layout.dialog_layout_nur_plan_interve);
         commDialog = getCommDialog(context, view);
-        if(TextUtils.isEmpty(curDateTime)){
+        if (TextUtils.isEmpty(curDateTime)) {
             curDateTime = TimeUtils.getNowString();
         }
         String date = curDateTime.split(" ")[0];
@@ -135,15 +140,15 @@ public class DialogFactory extends CommDialog {
             @Override
             public void onClick(View v) {
                 if (callBack != null) {
-                    callBack.call(customSelectView.getSelect(),0);
+                    callBack.call(customSelectView.getSelect(), 0);
                 }
             }
-        }, commDialog, view,R.id.btn_yes);
+        }, commDialog, view, R.id.btn_yes);
         showCenterWindow(commDialog, view);
         return commDialog;
     }
 
-    public static Dialog showCancelInterveDialog(Activity context,SimpleCallBack<String> callBack) {
+    public static Dialog showCancelInterveDialog(Activity context, SimpleCallBack<String> callBack) {
         if (commDialog != null) {
             commDialog.cancel();
         }
@@ -157,13 +162,13 @@ public class DialogFactory extends CommDialog {
             @Override
             public void onClick(View v) {
                 String s = etInput.getText().toString();
-                if(TextUtils.isEmpty(s)){
+                if (TextUtils.isEmpty(s)) {
                     ToastUtils.showShort("请填写作废原因!");
                     return;
                 }
                 cancel(commDialog);
                 if (callBack != null) {
-                    callBack.call(s,0);
+                    callBack.call(s, 0);
                 }
             }
         }, view, com.base.commlibs.R.id.btn_yes);
@@ -178,16 +183,54 @@ public class DialogFactory extends CommDialog {
      * @param callBack
      * @return
      */
-    public static Dialog showCaLogin(Activity context,String qrCode,SimpleCallBack<String> callBack) {
+    public static Dialog showCaLogin(Activity context, String qrCode, String txt, SimpleCallBack<String[]> callBack) {
 //        if (commDialog != null) {
 //            commDialog.cancel();
 //        }
+
         View view = getView(context, R.layout.dialog_layout_ca_login_qrcode);
         Dialog commDialog = getCommDialog(context, view);
 //        commDialog.setCanceledOnTouchOutside(true);// 可取消
-        ImageView imageView = view.findViewById(R.id.iv_qrcode);
+        setText(txt, view, R.id.tv_title);
+        String pinFlag = SPStaticUtils.getString(SharedPreference.CA_LOGIN_PIN_FLAG);
+        //隐藏和显示输入框PIN
+        setVisible(view, R.id.ll_pin, "1".equals(pinFlag));
+        boolean user2Login = CaSignUtil.STR_DOUBLE_LOGIN.equals(txt);
+        setVisible(view, R.id.ll_user2, user2Login);
+        EditText etPin = view.findViewById(R.id.et_pin);
+        EditText etCode = view.findViewById(R.id.et_code);
+        ImageView showHide = view.findViewById(R.id.password_showhide);
+        showHide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (showHide.isSelected()) {
+                    showHide.setSelected(false);
+                    etPin.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                } else {
+                    showHide.setSelected(true);
+                    etPin.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                }
+            }
+        });
 
-//        String base64 = "data:image/png;"+qrCode;
+        Button btnYes = view.findViewById(R.id.btn_yes);
+        btnYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String pin = etPin.getText().toString();
+                String code = etCode.getText().toString();
+                if (!TextUtils.isEmpty(pin) && callBack != null) {
+                    if (TextUtils.isEmpty(pin) && user2Login) {
+                        ToastUtils.showShort("请输入第二用户工号!");
+                        return;
+                    }
+                    callBack.call(new String[]{pin, code}, 0);
+                } else {
+                    ToastUtils.showShort("请输入PIN码!");
+                }
+            }
+        });
+        ImageView imageView = view.findViewById(R.id.iv_qrcode);
         String base64 = qrCode;
         byte[] decodedString = Base64.decode(base64, Base64.DEFAULT);
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);

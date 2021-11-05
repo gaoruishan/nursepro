@@ -328,8 +328,9 @@ public class MainConfigBean {
             private String moduleDesc;
 
             private int imgResouseId;
-
+            //Web地址 图标
             private String moduleUrl;
+            private String moduleIcon;
 
             private String fragmentClassName;
 
@@ -367,6 +368,14 @@ public class MainConfigBean {
                 map.put("menuName", menuName);
 
                 return map;
+            }
+
+            public String getModuleIcon() {
+                return moduleIcon == null ? "" : moduleIcon;
+            }
+
+            public void setModuleIcon(String moduleIcon) {
+                this.moduleIcon = moduleIcon;
             }
 
             public String getModuleCode() {

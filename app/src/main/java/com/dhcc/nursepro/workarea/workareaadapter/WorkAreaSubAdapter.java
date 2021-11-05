@@ -1,7 +1,10 @@
 package com.dhcc.nursepro.workarea.workareaadapter;
 
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
+import android.widget.ImageView;
 
+import com.base.commlibs.utils.HttpUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.nursepro.R;
@@ -18,7 +21,14 @@ public class WorkAreaSubAdapter extends BaseQuickAdapter<MainConfigBean.MainList
 
     @Override
     protected void convert(BaseViewHolder helper, MainConfigBean.MainListBean.MainSubListBean item) {
-        helper.setText(R.id.tv_workarea, item.getModuleDesc())
-                .setImageResource(R.id.icon_workarea, item.getImgResouseId());
+
+        helper.setText(R.id.tv_workarea, item.getModuleDesc());
+        if (item.getImgResouseId() > 0) {
+            helper.setImageResource(R.id.icon_workarea, item.getImgResouseId());
+        }
+        if (!TextUtils.isEmpty(item.getModuleIcon())) {
+           ImageView imageView = helper.getView(R.id.icon_workarea);
+            HttpUtil.bindImageView(imageView, item.getModuleIcon());
+        }
     }
 }

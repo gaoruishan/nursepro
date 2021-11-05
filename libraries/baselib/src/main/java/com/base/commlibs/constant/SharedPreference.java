@@ -149,15 +149,16 @@ public class SharedPreference extends NurseConfig {
     //CA相关
     public static final String CA_VenderCode = "CA_VenderCode";
     public static final String CA_SIGN_GUID = "CA_SIGN_GUID";
-    public static String CA_LOGIN_certCN = "CA_LOGIN_certCN";
-    public static String CA_LOGIN_certContainer = "CA_LOGIN_certContainer";
-    public static String CA_LOGIN_certDN = "CA_LOGIN_certDN";
-    public static String CA_LOGIN_certNo = "CA_LOGIN_certNo";
-    public static String CA_LOGIN_expireTime = "CA_LOGIN_expireTime";
-    public static String CA_LOGIN_signCert = "CA_LOGIN_signCert";
-    public static String CA_LOGIN_signStatus = "CA_LOGIN_signStatus";
-    public static String CA_LOGIN_signToken = "CA_LOGIN_signToken";
-    public static String CA_LOGIN_userCertCode = "CA_LOGIN_userCertCode";
-    public static String CA_hisUserID = "CA_hisUserID";
-    public static String CA_hisUserName = "CA_hisUserName";
+    public static final String CA_LOGIN_certCN = "CA_LOGIN_certCN";
+    public static final String CA_LOGIN_certContainer = "CA_LOGIN_certContainer";
+    public static final String CA_LOGIN_certDN = "CA_LOGIN_certDN";
+    public static final String CA_LOGIN_certNo = "CA_LOGIN_certNo";
+    public static final String CA_LOGIN_expireTime = "CA_LOGIN_expireTime";
+    public static final String CA_LOGIN_signCert = "CA_LOGIN_signCert";
+    public static final String CA_LOGIN_signStatus = "CA_LOGIN_signStatus";
+    public static final String CA_LOGIN_signToken = "CA_LOGIN_signToken";
+    public static final String CA_LOGIN_userCertCode = "CA_LOGIN_userCertCode";
+    public static final String CA_hisUserID = "CA_hisUserID";
+    public static final String CA_hisUserName = "CA_hisUserName";
+    public static final String CA_LOGIN_PIN_FLAG = "CA_LOGIN_PIN_FLAG";
 }

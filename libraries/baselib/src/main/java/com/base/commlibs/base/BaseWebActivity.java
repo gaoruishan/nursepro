@@ -104,6 +104,14 @@ public abstract class BaseWebActivity extends BaseActivity {
     }
 
     /**
+     * 标题点击返回
+     */
+    @Override
+    protected void onToolbarBackPressed() {
+        goBack(KeyEvent.KEYCODE_BACK);
+    }
+
+    /**
      * 初始AgentWeb
      * @param linearLayout
      * @param url
@@ -177,20 +185,27 @@ public abstract class BaseWebActivity extends BaseActivity {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (event.getAction() == KeyEvent.ACTION_DOWN) {
                     // 表示按返回键时的操作
-                    if (keyCode == KeyEvent.KEYCODE_BACK && mAgentWeb.getWebCreator().getWebView().canGoBack()) {
-                        // 后退
-                        mAgentWeb.getWebCreator().getWebView().goBack();
-                        // webview.goForward();//前进
+                    if (goBack(keyCode)) {
                         return true;
-                    } else if (keyCode == KeyEvent.KEYCODE_BACK) {
-                        if (mActivity != null) {
-                            mActivity.finish();
-                        }
                     }
                 }
                 return false;
             }
         });
+    }
+
+    public boolean goBack(int keyCode) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && mAgentWeb.getWebCreator().getWebView().canGoBack()) {
+            // 后退
+            mAgentWeb.getWebCreator().getWebView().goBack();
+            // webview.goForward();//前进
+            return true;
+        } else if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (mActivity != null) {
+                mActivity.finish();
+            }
+        }
+        return false;
     }
 
     /**

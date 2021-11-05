@@ -34,6 +34,7 @@ import com.dhcc.module.nurse.utils.DialogFactory;
  * @email:grs0515@163.com
  */
 public class CaLoginActivity extends BaseActivity {
+    public static final int WHAT = 1;
     public boolean isCa = true;
     private GetLoginQRBean mLoginQRBean;
     protected Activity mContext;
@@ -72,6 +73,9 @@ public class CaLoginActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (handler != null) {
+            handler.removeMessages(WHAT);
+        }
     }
 
     public void setPinFlag(String caFlag, String pinFlag) {
@@ -120,7 +124,7 @@ public class CaLoginActivity extends BaseActivity {
             commDialog.cancel();
             commDialog = null;
         }
-        commDialog = DialogFactory.showCaLogin(this, mLoginQRBean.getQrCode(), null);
+        commDialog = DialogFactory.showCaLogin(this, mLoginQRBean.getQrCode(), "CA登陆",null);
     }
 
     /**
@@ -141,6 +145,8 @@ public class CaLoginActivity extends BaseActivity {
             @Override
             public void onSuccess(GetLoginQRResultBean bean, String type) {
                 bean.saveInfo();
+                //保存pin标志
+                SPStaticUtils.put(SharedPreference.CA_LOGIN_PIN_FLAG,"1");
                 caLoginSuccess();
             }
         });
@@ -162,7 +168,7 @@ public class CaLoginActivity extends BaseActivity {
                 mLoginQRBean = bean;
                 SPStaticUtils.put(SharedPreference.CA_SIGN_GUID, bean.getSignGUID());
                 //开启轮询
-                handler.sendEmptyMessageDelayed(1, CaSignUtil.DELAY_MILLIS);
+                handler.sendEmptyMessageDelayed(WHAT, CaSignUtil.DELAY_MILLIS);
                 if (openDialog) {
                     showCaLoginDialog();
                 }
@@ -174,7 +180,7 @@ public class CaLoginActivity extends BaseActivity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if (msg.what == 1) {
+            if (msg.what == WHAT) {
                 refreshLogin();
             }
         }
@@ -207,7 +213,7 @@ public class CaLoginActivity extends BaseActivity {
                 }
                 //每隔1.5s请求一次
                 if ("TOSIGN".equals(bean.getSignStatus())) {
-                    handler.sendEmptyMessageDelayed(1, CaSignUtil.DELAY_MILLIS);
+                    handler.sendEmptyMessageDelayed(WHAT, CaSignUtil.DELAY_MILLIS);
                 }
 
             }

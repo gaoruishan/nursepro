@@ -309,6 +309,19 @@ public class HttpUtil {
             }
         });
     }
+    public static void bindImageView(ImageView imageView, String url) {
+        if (TextUtils.isEmpty(url) || url == null) {
+            return;
+        }
+        HttpUtil.getImageBitmap(url, new SimpleCallBack<Bitmap>() {
+            @Override
+            public void call(Bitmap result, int type) {
+                if (result != null) {
+                    imageView.setImageBitmap(result);
+                }
+            }
+        });
+    }
 
     public static void getImageBitmap(String urlString, SimpleCallBack<Bitmap> callBack) {
         Log.e(TAG, "(HttpUtil.java:253) 000");

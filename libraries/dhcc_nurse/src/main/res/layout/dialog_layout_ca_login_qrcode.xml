@@ -10,7 +10,7 @@
 
     <RelativeLayout
         android:layout_width="@dimen/dp_360"
-        android:layout_height="@dimen/dp_360"
+        android:layout_height="wrap_content"
         android:background="@drawable/comm_shape_dialog"
         >
         <LinearLayout
@@ -37,7 +37,7 @@
                 android:background="@color/blue"/>
             <ImageView
                 android:id="@+id/iv_qrcode"
-                android:layout_marginTop="@dimen/dp_10"
+                android:layout_margin="@dimen/dp_10"
                 android:layout_gravity="center"
                 android:scaleType="fitXY"
                 android:layout_width="@dimen/dp_280"
@@ -45,40 +45,70 @@
         </LinearLayout>
 
         <LinearLayout
-            android:visibility="gone"
+            android:id="@+id/ll_pin"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:layout_below="@+id/ll_top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_25"
-            android:layout_marginLeft="@dimen/dp_25"
-            android:layout_marginRight="@dimen/dp_25"
+            android:layout_margin="@dimen/dp_20"
             android:gravity="center"
             android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btn_no"
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="@dimen/dp_45"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_weight="1"
-                android:background="@null"
-                android:gravity="center"
-                android:singleLine="true"
-                android:text="修改"
-                android:textColor="#FF62ABFF"
-                android:textSize="@dimen/sp_17"
-                app:bl_corners_radius="@dimen/dp_6"
-                app:bl_solid_color="#FFFFFF"
-                app:bl_stroke_color="#62ABFF"
-                app:bl_stroke_width="@dimen/dp_1"
-                tools:ignore="MissingPrefix"/>
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:id="@+id/ll_user2"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <EditText
+                        android:id="@+id/et_code"
+                        android:layout_weight="1"
+                        android:hint="请输入第二工号"
+                        android:layout_width="@dimen/dp_0"
+                        android:layout_height="@dimen/dp_45"/>
+                    <ImageView
+                        android:layout_width="@dimen/dp_30"
+                        android:visibility="invisible"
+                        android:layout_height="@dimen/dp_30"
+                        android:layout_marginStart="@dimen/dp_8"
+                        android:padding="@dimen/dp_4"
+                        android:src="@drawable/dhcc_icon_pwd_selector"/>
 
+                </LinearLayout>
+                <LinearLayout
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <EditText
+                        android:id="@+id/et_pin"
+                        android:layout_weight="1"
+                        android:hint="请输入PIN码"
+                        android:inputType="textPassword"
+                        android:layout_width="@dimen/dp_0"
+                        android:layout_height="@dimen/dp_45"/>
+                    <ImageView
+                        android:id="@+id/password_showhide"
+                        android:layout_width="@dimen/dp_30"
+                        android:layout_height="@dimen/dp_30"
+                        android:layout_marginStart="@dimen/dp_8"
+                        android:padding="@dimen/dp_4"
+                        android:src="@drawable/dhcc_icon_pwd_selector"/>
 
-            <Button
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <com.noober.background.view.BLButton
                 android:id="@+id/btn_yes"
-                android:layout_width="@dimen/dp_0"
+                android:layout_width="@dimen/dp_100"
                 android:layout_height="@dimen/dp_45"
-                android:layout_marginLeft="@dimen/dp_20"
-                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/dp_10"
                 android:gravity="center"
                 android:singleLine="true"
                 android:text="确定"

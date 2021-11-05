@@ -755,7 +755,9 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
      * 扫码执行
      */
     private void execOrSeeOrderScan(String creattime, String order, String oeoreIdScan, String execStatusCodeScan) {
-        OrderExecuteApiManager.execOrSeeOrder("", barCode, creattime, order, patSaveInfo, "1", "", "", "", oeoreIdScan, execStatusCodeScan, "", new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
+        String auditUserCode = "";
+        String auditUserPass = "";
+        OrderExecuteApiManager.execOrSeeOrder("", barCode, creattime, order, patSaveInfo, "1", "", auditUserCode, auditUserPass, oeoreIdScan, execStatusCodeScan, "", new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
             @Override
             public void onSuccess(OrderExecResultBean orderExecResultBean) {
 
@@ -781,7 +783,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 }, 200);
                 //CA签名
                 if ("1".equals(orderExecResultBean.getCaFlag())) {
-                    CaSignUtil.execCaSign(getActivity(),barCode,creattime,order,patSaveInfo,"1",oeoreIdScan,execStatusCode,"");
+                    CaSignUtil.execCaSign(getActivity(),barCode,creattime,order,patSaveInfo,"1",oeoreIdScan,execStatusCode,auditUserCode);
                 }
             }
 
@@ -949,9 +951,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 if (ordAddDialog != null && ordAddDialog.isShowing()) {
                     ordAddDialog.dismiss();
                 }
-                skinBatch = "";
-                skinUserCode = "";
-                skinUserPass = "";
+
                 /**
                  * 操作
                  * execStatusCode (F 执行，C 撤销执行，A 接受，S 完成，R 拒绝)F 执行Y 皮试阳性N 皮试阴性* C 撤销执行A 接受R 拒绝S 完成""撤销处理
@@ -985,6 +985,9 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 if ("1".equals(orderExecResultBean.getCaFlag())) {
                     CaSignUtil.execCaSign(getActivity(),"",timeSaveInfo,orderSaveInfo,patSaveInfo,"0",oeoreId, finalExecCode,skinUserCode);
                 }
+                skinBatch = "";
+                skinUserCode = "";
+                skinUserPass = "";
             }
 
             @Override

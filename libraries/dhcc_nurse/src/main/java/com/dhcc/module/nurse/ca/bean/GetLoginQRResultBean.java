@@ -65,8 +65,12 @@ public class GetLoginQRResultBean extends CaResult{
         SPStaticUtils.put(SharedPreference.CA_LOGIN_userCertCode,userCertCode);
     }
 
+    /**
+     * 进入登录-清空数据
+     */
     public static void clearInfo() {
         save("","","","","","","","","");
+        SPStaticUtils.put(SharedPreference.CA_LOGIN_PIN_FLAG,"");
     }
 
     public String getCertCN() {
