@@ -4,6 +4,7 @@ import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.ObjectUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.dhcc.nursepro.workarea.bedselect.bean.BedSelectListBean;
+import com.dhcc.nursepro.workarea.bedselect.bean.SetManageBedResultBean;
 import com.google.gson.Gson;
 
 /**
@@ -25,25 +26,25 @@ public class BedListApiManager {
                 } else {
                     try {
                         BedSelectListBean bedSelectListBean = gson.fromJson(jsonStr, BedSelectListBean.class);
-                        String bedsSelected = "";
-                        bedsSelected = SPUtils.getInstance().getString(SharedPreference.ORDERSEARCHE_BEDSELECTED) + "";
-                        String[] bedSelected = bedsSelected.split(";");
+//                        String bedsSelected = "";
+//                        bedsSelected = SPUtils.getInstance().getString(SharedPreference.ORDERSEARCHE_BEDSELECTED) + "";
+//                        String[] bedSelected = bedsSelected.split(";");
+//
+//                        for (int i = 0; i < bedSelectListBean.getBedList().size(); i++) {
+//                            bedSelectListBean.getBedList().get(i).setSelect("1");
+//                            for (int j = 0; j < bedSelectListBean.getBedList().get(i).getGroupList().size(); j++) {
+//                                bedSelectListBean.getBedList().get(i).getGroupList().get(j).setSelect("0");
+//                            }
+//                        }
 
                         for (int i = 0; i < bedSelectListBean.getBedList().size(); i++) {
                             bedSelectListBean.getBedList().get(i).setSelect("1");
                             for (int j = 0; j < bedSelectListBean.getBedList().get(i).getGroupList().size(); j++) {
-                                bedSelectListBean.getBedList().get(i).getGroupList().get(j).setSelect("0");
-                            }
-                        }
-
-                        for (int i = 0; i < bedSelectListBean.getBedList().size(); i++) {
-                            bedSelectListBean.getBedList().get(i).setSelect("1");
-                            for (int j = 0; j < bedSelectListBean.getBedList().get(i).getGroupList().size(); j++) {
-                                for (int k = 0; k < bedSelected.length; k++) {
-                                    if (bedSelectListBean.getBedList().get(i).getGroupList().get(j).getBedId().equals(bedSelected[k])) {
-                                        bedSelectListBean.getBedList().get(i).getGroupList().get(j).setSelect("1");
-                                    }
-                                }
+//                                for (int k = 0; k < bedSelected.length; k++) {
+//                                    if (bedSelectListBean.getBedList().get(i).getGroupList().get(j).getBedId().equals(bedSelected[k])) {
+//                                        bedSelectListBean.getBedList().get(i).getGroupList().get(j).setSelect("1");
+//                                    }
+//                                }
                                 if (bedSelectListBean.getBedList().get(i).getGroupList().get(j).getSelect().equals("0")){
                                     bedSelectListBean.getBedList().get(i).setSelect("0");
                                 }
@@ -72,11 +73,44 @@ public class BedListApiManager {
         });
     }
 
+    /**
+     * EH 2021-11-09 所管床设置
+     * @param bedIdStr
+     * @param statusStr
+     * @param callback
+     */
+    public static void setManagedBeds(String bedIdStr, String statusStr, final SetManagedBedsCallback callback) {
+        BedListApiService.setManagedBeds(bedIdStr, statusStr, new BedListApiService.ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                Gson gson = new Gson();
+                if (jsonStr.isEmpty()) {
+                    callback.onFail("-1", "网络错误，请求数据为空");
+                } else {
+                    try {
+                        SetManageBedResultBean setManageBedResultBean = gson.fromJson(jsonStr, SetManageBedResultBean.class);
+                        if ("0".equals(setManageBedResultBean.getStatus())) {
+                            callback.onSuccess(null);
+                        } else {
+                            callback.onFail(setManageBedResultBean.getMsgcode(), setManageBedResultBean.getMsg());
+                        }
+                    } catch (Exception e) {
+                        callback.onFail("-2", "网络错误，数据解析失败");
+                    }
+                }
+            }
+        });
+    }
+
     public interface CommonCallBack {
         void onFail(String code, String msg);
     }
 
     public interface GetBedListCallback extends CommonCallBack {
         void onSuccess(BedSelectListBean bedListItem);
+    }
+
+    public interface SetManagedBedsCallback extends CommonCallBack {
+        void onSuccess(String jsonStr);
     }
 }

@@ -885,7 +885,9 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
                         patientOrderAdapter.loadMoreComplete();
                     }
                 }
-
+                if (!"999999".equals(orderExecuteBean.getMsgcode())) {
+                    showToast(orderExecuteBean.getMsg());
+                }
 
             }
 

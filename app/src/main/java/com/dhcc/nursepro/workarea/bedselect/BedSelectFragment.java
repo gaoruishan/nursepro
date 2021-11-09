@@ -20,6 +20,7 @@ import com.base.commlibs.BaseFragment;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.bedselect.adapter.BedGroupListAdapter;
 import com.dhcc.nursepro.workarea.bedselect.api.BedListApiManager;
+import com.dhcc.nursepro.workarea.bedselect.api.BedListApiService;
 import com.dhcc.nursepro.workarea.bedselect.bean.BedSelectListBean;
 
 import java.util.ArrayList;
@@ -62,10 +63,21 @@ public class BedSelectFragment extends BaseFragment {
         viewright.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putString("bedselectinfoStr", getBedSelectInfoStr());
-                SPUtils.getInstance().put(SharedPreference.ORDERSEARCHE_BEDSELECTED,bedsSelectedSave);
-                finish(bundle);
+                String[] bedSelectedStr = getBedSelectedStr();
+                BedListApiManager.setManagedBeds(bedSelectedStr[0], bedSelectedStr[1], new BedListApiManager.SetManagedBedsCallback() {
+                    @Override
+                    public void onSuccess(String jsonStr) {
+                        Bundle bundle = new Bundle();
+                        bedsSelectedSave = "";
+                        bundle.putString("bedselectinfoStr", getBedSelectInfoStr());
+                        SPUtils.getInstance().put(SharedPreference.ORDERSEARCHE_BEDSELECTED,bedsSelectedSave);
+                        finish(bundle);
+                    }
+                    @Override
+                    public void onFail(String code, String msg) {
+                        showToast("error" + code + ":" + msg);
+                    }
+                });
             }
         });
         setToolbarRightCustomView(viewright);
@@ -182,6 +194,31 @@ public class BedSelectFragment extends BaseFragment {
         }
 
         return bedselectinfoStr.toString();
+    }
+
+    /**
+     * EH 2021-11-09
+     * @return ["36||1","1"]
+     */
+    private String[] getBedSelectedStr() {
+        StringBuffer bedIdStr = new StringBuffer();
+        StringBuffer statusStr = new StringBuffer();
+        int k = 0;
+        for (int i = 0; i < bedGroupListAdapter.getData().size(); i++) {
+            List<BedSelectListBean.BedListBean.GroupListBean> groupListBeanListLocal = bedGroupListAdapter.getData().get(i).getGroupList();
+            for (int j = 0; j < groupListBeanListLocal.size(); j++) {
+                BedSelectListBean.BedListBean.GroupListBean groupListBean = groupListBeanListLocal.get(j);
+                if (groupListBean.getSelect().equals("1")) {
+                    if (k++ > 0) {
+                        bedIdStr.append("^");
+                        statusStr.append("^");
+                    }
+                    bedIdStr.append(groupListBean.getBedId());
+                    statusStr.append("1");
+                }
+            }
+        }
+        return new String[]{bedIdStr.toString(), statusStr.toString()};
     }
 
 

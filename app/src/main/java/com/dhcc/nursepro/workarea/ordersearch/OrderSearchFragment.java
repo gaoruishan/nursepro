@@ -252,7 +252,9 @@ public class OrderSearchFragment extends BaseFragment implements View.OnClickLis
                 }
 
                 askCount = 0;
-
+                if (!"999999".equals(orderSearchBean.getMsgcode())) {
+                    showToast(orderSearchBean.getMsg());
+                }
             }
 
             @Override

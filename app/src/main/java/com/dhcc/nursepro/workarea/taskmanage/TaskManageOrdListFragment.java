@@ -105,6 +105,9 @@ public class TaskManageOrdListFragment extends BaseCommFragment {
                     EventBus.getDefault().post(messageEvent);
                     refresh = false;
                 }
+                if (!"999999".equals(orderExecuteBean.getMsgcode())) {
+                    showToast(orderExecuteBean.getMsg());
+                }
             }
 
             @Override

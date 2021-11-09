@@ -7,6 +7,8 @@ import com.dhcc.nursepro.utils.wsutils.WebServiceUtils;
 
 import java.util.HashMap;
 
+import static com.base.commlibs.NurseAPI.setManagedBeds;
+
 /**
  * BedListApiService
  *
@@ -23,6 +25,21 @@ public class BedListApiService extends NurseAPI {
 
 
         WebServiceUtils.callWebService(getBedListSelected, properties, new WebServiceUtils.WebServiceCallBack() {
+            @Override
+            public void callBack(String result) {
+                callback.onResult(result);
+            }
+        });
+    }
+
+    public static void setManagedBeds(String bedIdStr, String statusStr, final ServiceCallBack callback) {
+        SPUtils spUtils = SPUtils.getInstance();
+        HashMap<String, String> properties = new HashMap<>();
+        properties.put("bedIdStr", bedIdStr);
+        properties.put("statusStr", statusStr);
+        properties.put("wardId", spUtils.getString(SharedPreference.WARDID));
+        properties.put("userId", spUtils.getString(SharedPreference.USERID));
+        WebServiceUtils.callWebService(setManagedBeds, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
             public void callBack(String result) {
                 callback.onResult(result);

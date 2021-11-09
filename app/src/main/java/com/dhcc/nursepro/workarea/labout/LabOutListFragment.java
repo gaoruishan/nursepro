@@ -59,8 +59,8 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
     private String startDate, endDate, pageNo = "1";
     private List<OrderExecuteBean.OrdersBean> labList;
     private boolean ifLoadMore;
-    private Hashtable<String, TextView> typeView = new Hashtable<String, TextView>(); // EH view列表
-    private Hashtable<String, Integer> typeIndex = new Hashtable<String, Integer>(); // EH type索引
+    private HashMap<String, TextView> typeView = new HashMap<String, TextView>(); // EH view列表
+    private HashMap<String, Integer> typeIndex = new HashMap<String, Integer>(); // EH type索引
 
 
     @Override
@@ -182,9 +182,11 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
                         if ("B".equals(listCode)) {
                             listView = tvType0;
                             listName = "Type0";
+                            TypeStr = "Type0";
                         } else if ("C".equals(listCode)) {
                             listView = tvType1;
                             listName = "Type1";
+                            TypeStr = "Type1";
                         } else {
                             for (java.util.Iterator<String> iterator = typeView.keySet().iterator(); iterator.hasNext(); ) {
                                 String listNameOption = iterator.next();

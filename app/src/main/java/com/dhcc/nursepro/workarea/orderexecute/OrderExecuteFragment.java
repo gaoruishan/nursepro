@@ -739,6 +739,9 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                         patientOrderAdapter.loadMoreComplete();
                     }
                 }
+                if (!"999999".equals(orderExecuteBean.getMsgcode())) {
+                    showToast(orderExecuteBean.getMsg());
+                }
             }
 
             @Override

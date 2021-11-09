@@ -45,5 +45,6 @@ public class LabOutAdapter extends BaseQuickAdapter<LabOutListAllBean.LabOutList
         }
         //加急
         helper.setGone(R.id.tv_labout_urgent, !TextUtils.isEmpty(item.getUrgentFlag()));
+        helper.setGone(R.id.tv_lapack_hedui, item.getStatus().equals("预建单"));
     }
 }
