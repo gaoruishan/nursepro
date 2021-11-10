@@ -317,7 +317,11 @@ public class CaSignUtil {
 
     public static void dismissDialog() {
         if (commDialog != null) {
-            commDialog.cancel();
+            try {
+                commDialog.dismiss();
+            } catch (Exception e) {
+
+            }
             commDialog = null;
         }
     }
