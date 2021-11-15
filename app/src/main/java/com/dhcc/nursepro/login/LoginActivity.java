@@ -449,10 +449,14 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
         if (checkCA()) {
             return;
         }
+        if (nurseInfo != null) {
+            spUtils.put(SharedPreference.LOCID,nurseInfo.getLocId());
+        }
         nurseInfoList = daoSession.getNurseInfoDao().queryBuilder().list();
         LoginApiManager.getLogin(userCode, password, logonWardId, new LoginApiManager.GetLoginCallback() {
             @Override
             public void onSuccess(final LoginBean loginBean) {
+                spUtils.put(SharedPreference.USERID,loginBean.getUserId());
                 //设置Pin标识
                 setPinFlag(loginBean.getCaFlag(),loginBean.getPinFlag());
                 loginByVoice="0";
@@ -670,7 +674,6 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
             @Override
             public void onOptionPicked(int index, String item) {
                 LoginBean.LocsBean locsBean = locsBeanList.get(index);
-
                 if (nurseInfo == null) {
                     //loginNurseInfo为空，直接新建数据
                     loginNurseInfo = new NurseInfo(null, loginBean.getSchEnDateTime(), loginBean.getSchStDateTime(), loginBean.getStatus(), loginBean.getUserId(), userCode, loginBean.getUserName(), locsBean.getGroupDesc(), locsBean.getGroupId(), locsBean.getHospitalRowId(), locsBean.getLinkLoc(), locsBean.getLocDesc(), locsBean.getLocId(), locsBean.getWardId());

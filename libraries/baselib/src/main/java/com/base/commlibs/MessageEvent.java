@@ -138,6 +138,7 @@ public class MessageEvent {
         NOTIFY_MESSAGE,
         HEALTH_EDU_ADD_SELECT,
         HEALTH_EDU_SELECT_ORD,
-        TOORBAR_CENTER_TITLE
+        TOORBAR_CENTER_TITLE,
+        CA_CALL_BACK
     }
 }

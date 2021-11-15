@@ -13,6 +13,7 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.base.commlibs.BaseActivity;
+import com.base.commlibs.MessageEvent;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.constant.RegexConstants;
@@ -42,6 +44,10 @@ import com.dhcc.nursepro.workarea.nurrecordnew.bean.ElementDataBean;
 import com.dhcc.nursepro.workarea.nurrecordnew.bean.MEViewLink;
 import com.dhcc.nursepro.workarea.nurrecordnew.bean.NurRecordKnowledgeContentBean;
 import com.dhcc.nursepro.workarea.nurrecordnew.bean.RecDataBean;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -223,7 +229,8 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
         initview(view);
 
         initData();
-
+        //注册事件总线
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -745,15 +752,11 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                     intent.putExtra("CallBackReturnMapEffects", callBackReturnMapEffects);
                     Objects.requireNonNull(getActivity()).setResult(20002, intent);
                 }
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        Objects.requireNonNull(getActivity()).finish();
-                    }
-                }, 1000);
                 //Ca签名
                 if ("1".equals(recDataBean.getCaFlag())) {
                     CaSignUtil.recordCaSign(getActivity(), episodeID,patName,emrCode,recDataBean.getRetData(), finalAuditUserCode);
+                }else {
+                    delayFinish();
                 }
             }
 
@@ -773,6 +776,26 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
             }
         });
 
+    }
+    /**
+     * 接收事件- 更新数据
+     *
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void updateData(MessageEvent event) {
+        Log.e(getClass().getSimpleName(), "updateData:" + event.getType());
+        if (event.getType() == MessageEvent.MessageType.CA_CALL_BACK) {
+            delayFinish();
+        }
+    }
+    public void delayFinish() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Objects.requireNonNull(getActivity()).finish();
+            }
+        }, 1000);
     }
 
     private void initview(View view) {
