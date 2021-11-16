@@ -7,7 +7,9 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.base.commlibs.MessageEvent;
 import com.base.commlibs.constant.SharedPreference;
+import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.SimpleCallBack;
 import com.blankj.utilcode.util.ActivityUtils;
@@ -21,6 +23,8 @@ import com.dhcc.module.nurse.ca.bean.HashDataBean;
 import com.dhcc.module.nurse.ca.bean.Login2Bean;
 import com.dhcc.module.nurse.ca.bean.SignBean;
 import com.dhcc.module.nurse.utils.DialogFactory;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -47,14 +51,20 @@ public class CaSignUtil {
     private static Dialog commDialog;
     private static final String USERID2 = "USERID2";
     private static final String CA_LOGIN2_certCN = "CA_LOGIN2_certCN";
-    private static final String CA_LOGIN2_certContainer="CA_LOGIN2_certContainer";
-    private static final String CA_LOGIN2_certDN="CA_LOGIN2_certDN";
-    private static final String CA_LOGIN2_certNo="CA_LOGIN2_certNo";
-    private static final String CA_LOGIN2_expireTime="CA_LOGIN2_expireTime";
-    private static final String CA_LOGIN2_signCert="CA_LOGIN2_signCert";
-    private static final String CA_LOGIN2_signStatus="CA_LOGIN2_signStatus";
-    private static final String CA_LOGIN2_signToken="CA_LOGIN2_signToken";
-    private static final String CA_LOGIN2_userCertCode="CA_LOGIN2_userCertCode";
+    private static final String CA_LOGIN2_certContainer = "CA_LOGIN2_certContainer";
+    private static final String CA_LOGIN2_certDN = "CA_LOGIN2_certDN";
+    private static final String CA_LOGIN2_certNo = "CA_LOGIN2_certNo";
+    private static final String CA_LOGIN2_expireTime = "CA_LOGIN2_expireTime";
+    private static final String CA_LOGIN2_signCert = "CA_LOGIN2_signCert";
+    private static final String CA_LOGIN2_signStatus = "CA_LOGIN2_signStatus";
+    private static final String CA_LOGIN2_signToken = "CA_LOGIN2_signToken";
+    private static final String CA_LOGIN2_userCertCode = "CA_LOGIN2_userCertCode";
+    private static boolean doubleSign = false;
+
+    public static boolean isDoubleSign() {
+        return doubleSign;
+    }
+
     /**
      * 医嘱执行签名
      * @param activity
@@ -84,7 +94,7 @@ public class CaSignUtil {
             @Override
             public void call(String[] result, int type) {
                 String ordItemsHashVal = result[0];
-
+                doubleSign = !TextUtils.isEmpty(auditUserCode);
                 startExecAuthSignToHis(ordItemsHashVal, intData, certContainer, signToken, userCertCode, certNo, oeoreId, userId, mainSignCert);
                 //双签
                 if (!TextUtils.isEmpty(auditUserCode)) {
@@ -133,7 +143,8 @@ public class CaSignUtil {
             }
         });
     }
-   public static void startRecordAuthSignToHis(String ordItemsHashVal, String intData, String certContainer, String signToken, String userCertCode, String certNo, String episodeID, String userId, String mainSignCert,String recId) {
+
+    public static void startRecordAuthSignToHis(String ordItemsHashVal, String intData, String certContainer, String signToken, String userCertCode, String certNo, String episodeID, String userId, String mainSignCert, String recId) {
         startAuthSign(intData, ordItemsHashVal, certContainer, signToken, userCertCode, certNo, new SimpleCallBack<String[]>() {
             @Override
             public void call(String[] result, int type) {
@@ -141,7 +152,21 @@ public class CaSignUtil {
                 String mainSignValue = result[1];
                 String signID = result[2];
                 String mainSignTimeStamp = result[3];
-                CaAPIManager.RecordCaSignData(ordItemsHashVal, signID, mainSignTimeStamp, episodeID, recId, userId, mainSignCert, mainSignValue, null);
+                CaAPIManager.RecordCaSignData(ordItemsHashVal, signID, mainSignTimeStamp, episodeID, recId, userId, mainSignCert, mainSignValue, new CommonCallBack<CommResult>() {
+                    @Override
+                    public void onFail(String code, String msg) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(CommResult bean, String type) {
+                        if (doubleSign) {
+                            doubleSign = false;
+                        } else { //单签
+                            EventBus.getDefault().post(new MessageEvent(MessageEvent.MessageType.CA_CALL_BACK));
+                        }
+                    }
+                });
 
             }
         });
@@ -171,8 +196,8 @@ public class CaSignUtil {
             @Override
             public void call(String[] result, int type) {
                 String ordItemsHashVal = result[0];
-
-                startRecordAuthSignToHis(ordItemsHashVal, intData, certContainer, signToken, userCertCode, certNo, episodeID, userId, mainSignCert,recId);
+                doubleSign = !TextUtils.isEmpty(auditUserCode);
+                startRecordAuthSignToHis(ordItemsHashVal, intData, certContainer, signToken, userCertCode, certNo, episodeID, userId, mainSignCert, recId);
                 //双签
                 if (!TextUtils.isEmpty(auditUserCode)) {
                     GetLoginQR(true, false);
@@ -187,7 +212,7 @@ public class CaSignUtil {
                             String signToken2 = SPStaticUtils.getString(CA_LOGIN2_signToken);
                             String userCertCode2 = SPStaticUtils.getString(CA_LOGIN2_userCertCode);
                             String certNo2 = SPStaticUtils.getString(CA_LOGIN2_certNo);
-                            startRecordAuthSignToHis(ordItemsHashVal, intData, certContainer2, signToken2, userCertCode2, certNo2, episodeID, userId2, mainSignCert2,recId);
+                            startRecordAuthSignToHis(ordItemsHashVal, intData, certContainer2, signToken2, userCertCode2, certNo2, episodeID, userId2, mainSignCert2, recId);
                         }
                     });
 
@@ -207,6 +232,7 @@ public class CaSignUtil {
         });
         checkToken(intData, hashCallBack);
     }
+
     /**
      * 检查token
      * @param intData
@@ -214,6 +240,7 @@ public class CaSignUtil {
     public static void checkToken(String intData, SimpleCallBack<String[]> callBack) {
         //先验证token
         boolean curUser = true;
+        doubleSign = false; //初始化
         CaAPIManager.GetTokenIsValid(new CommonCallBack<GetTokenIsValidBean>() {
             @Override
             public void onFail(String code, String msg) {
@@ -252,13 +279,13 @@ public class CaSignUtil {
                 message.obj = curUser;
                 handler.sendMessageDelayed(message, DELAY_MILLIS);
                 if (openDialog) {
-                    showCaLoginDialog(bean.getQrCode(),curUser);
+                    showCaLoginDialog(bean.getQrCode(), curUser);
                 }
             }
         });
     }
 
-    public static void showCaLoginDialog(String qrCode,boolean curUser) {
+    public static void showCaLoginDialog(String qrCode, boolean curUser) {
         dismissDialog();
         String txt = STR_RE_LOGIN;
         String userCertCode = SPStaticUtils.getString(SharedPreference.USERCODE);
@@ -272,12 +299,12 @@ public class CaSignUtil {
                 if (!curUser) { //双签用户code
                     mUserCertCode = res[1];
                 }
-                PhonePinLogin(mUserCertCode,res[0]);
+                PhonePinLogin(mUserCertCode, res[0]);
             }
         });
     }
 
-    private static void PhonePinLogin(String userCertCode,String pin) {
+    private static void PhonePinLogin(String userCertCode, String pin) {
         CaAPIManager.PhonePinLogin(userCertCode, pin, new CommonCallBack<GetLoginQRResultBean>() {
             @Override
             public void onFail(String code, String msg) {
@@ -293,9 +320,9 @@ public class CaSignUtil {
                     ToastUtils.showLong("重新登录成功!");
                     //回调-重新登录
                     callBackMap.get(RE_LOGIN_TO_EXEC).call(RE_LOGIN_TO_EXEC, 0);
-                }else {
+                } else {
                     //特殊处理-工号^姓名
-                    SPStaticUtils.put(USERID2, userCertCode+"^"+bean.getCertCN());
+                    SPStaticUtils.put(USERID2, userCertCode + "^" + bean.getCertCN());
                     SPStaticUtils.put(CA_LOGIN2_certCN, bean.getCertCN());
                     SPStaticUtils.put(CA_LOGIN2_certContainer, bean.getCertContainer());
                     SPStaticUtils.put(CA_LOGIN2_certDN, bean.getCertDN());
@@ -322,16 +349,17 @@ public class CaSignUtil {
             } catch (Exception e) {
 
             }
-            commDialog = null;
         }
     }
 
     public static void destroy() {
         if (handler != null) {
             handler.removeMessages(WHAT);
+            commDialog = null;
         }
 
     }
+
     //不停刷新
     private static Handler handler = new Handler() {
         @Override
@@ -422,7 +450,7 @@ public class CaSignUtil {
                     ToastUtils.showLong("重新登录成功!");
                     //回调-重新登录
                     callBackMap.get(RE_LOGIN_TO_EXEC).call(RE_LOGIN_TO_EXEC, 0);
-                }else {
+                } else {
                     SPStaticUtils.put(USERID2, bean.getHisUserID());
                     //回调-第二签名
                     callBackMap.get(DOUBLE_USER_SIGN).call(DOUBLE_USER_SIGN, 0);

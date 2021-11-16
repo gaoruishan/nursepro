@@ -638,7 +638,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                     }
 
                     if ("TextElement".equals(element.getElementType()) && "true".equals(element.getSignatureAuto())) {
-                        auditUserCode = ((EditText) viewHashMap.get(element.getElementId())).getText().toString();
+//                        auditUserCode = ((EditText) viewHashMap.get(element.getElementId())).getText().toString();
                         String userStr = "CA" + ((EditText) viewHashMap.get(element.getElementId())).getText().toString() + "*" + spUtils.getString(SharedPreference.USERCODE);
                         stringBuilder.append("\"")
                                 .append(element.getElementType())
@@ -715,7 +715,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
         String printTemplateEmrCode = stringBuilder1.toString();
 
         showLoadingTip(BaseActivity.LoadingType.FULL);
-        String finalAuditUserCode = auditUserCode;
+
         NurRecordNewApiManager.saveNewEmrData(guid, episodeID, recId, parr, printTemplateEmrCode, new NurRecordNewApiManager.RecDataCallback() {
             @Override
             public void onSuccess(RecDataBean recDataBean) {
@@ -754,7 +754,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                 }
                 //Ca签名
                 if ("1".equals(recDataBean.getCaFlag())) {
-                    CaSignUtil.recordCaSign(getActivity(), episodeID,patName,emrCode,recDataBean.getRetData(), finalAuditUserCode);
+                    CaSignUtil.recordCaSign(getActivity(), episodeID,patName,emrCode,recDataBean.getRetData(), recDataBean.getCaAuditUserCode());
                 }else {
                     delayFinish();
                 }
@@ -793,6 +793,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                CaSignUtil.destroy();
                 Objects.requireNonNull(getActivity()).finish();
             }
         }, 1000);

@@ -13,7 +13,17 @@ public class RecDataBean {
     private String msg;
     private String msgcode;
     private String status;
+    //是否CA签名
     private String caFlag;
+    private String caAuditUserCode;
+
+    public String getCaAuditUserCode() {
+        return caAuditUserCode == null ? "" : caAuditUserCode;
+    }
+
+    public void setCaAuditUserCode(String caAuditUserCode) {
+        this.caAuditUserCode = caAuditUserCode;
+    }
 
     public String getCaFlag() {
         return caFlag == null ? "" : caFlag;

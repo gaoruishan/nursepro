@@ -3,7 +3,6 @@ package com.dhcc.module.nurse.ca;
 import android.text.TextUtils;
 import android.util.Base64;
 
-import com.base.commlibs.MessageEvent;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommWebService;
@@ -19,8 +18,6 @@ import com.dhcc.module.nurse.ca.bean.HashDataBean;
 import com.dhcc.module.nurse.ca.bean.Login2Bean;
 import com.dhcc.module.nurse.ca.bean.ScanLogonBean;
 import com.dhcc.module.nurse.ca.bean.SignBean;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
 
@@ -362,8 +359,11 @@ public class CaAPIManager {
         CommWebService.call("RecordCaSignData", properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
-                CommWebService.parserCommResult(jsonStr, null);
-                EventBus.getDefault().post(new MessageEvent(MessageEvent.MessageType.CA_CALL_BACK));
+                //不提示
+                CommResult commResult = CommWebService.parserCommResult(jsonStr, null);
+                if (callBack != null) {
+                    callBack.onSuccess(commResult,"0");
+                }
             }
         });
     }

@@ -161,14 +161,16 @@ public class CommWebService {
      * @param jsonStr
      * @param callback
      */
-    public static void parserCommResult(String jsonStr, CommonCallBack<CommResult> callback) {
+    public static CommResult parserCommResult(String jsonStr, CommonCallBack<CommResult> callback) {
         ParserUtil<CommResult> parserUtil = new ParserUtil<>();
         CommResult bean = parserUtil.parserResult(jsonStr, callback, CommResult.class);
         if (bean == null) {
-            return;
+            return bean;
         }
         parserUtil.parserStatus(bean, callback);
+        return bean;
     }
+
 
     /**
      * 添加科室ID
