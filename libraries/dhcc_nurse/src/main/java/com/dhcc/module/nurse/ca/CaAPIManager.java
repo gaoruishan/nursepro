@@ -336,8 +336,8 @@ public class CaAPIManager {
      * @param currOrderItemStr
      * @param callBack
      */
-    public static void ExecCaSignData(String ordItemsHashVal, String signID, String mainSignTimeStamp, String currOrderItemStr, String userId, String mainSignCert, String mainSignValue, CommonCallBack<CommResult> callBack) {
-        HashMap<String, String> properties = getSignProperties(signID, mainSignTimeStamp, userId, ordItemsHashVal, mainSignCert, mainSignValue);
+    public static void ExecCaSignData(String ordItemsHashVal, String signID, String mainSignTimeStamp, String currOrderItemStr, String userId, String mainSignCert, String mainSignValue, String operationType,CommonCallBack<CommResult> callBack) {
+        HashMap<String, String> properties = getSignProperties(signID, mainSignTimeStamp, userId, ordItemsHashVal, mainSignCert, mainSignValue,operationType);
         properties.put("currOrderItemStr", currOrderItemStr);
         CommWebService.call("ExecCaSignData", properties, new ServiceCallBack() {
             @Override
@@ -353,7 +353,7 @@ public class CaAPIManager {
      * @param callBack
      */
     public static void RecordCaSignData(String ordItemsHashVal, String signID, String mainSignTimeStamp, String EpisodeID, String recId, String userId, String mainSignCert, String mainSignValue, CommonCallBack<CommResult> callBack) {
-        HashMap<String, String> properties = getSignProperties(signID, mainSignTimeStamp, userId, ordItemsHashVal, mainSignCert, mainSignValue);
+        HashMap<String, String> properties = getSignProperties(signID, mainSignTimeStamp, userId, ordItemsHashVal, mainSignCert, mainSignValue,"PDA");
         properties.put("EpisodeID", EpisodeID);
         properties.put("recId", recId);
         CommWebService.call("RecordCaSignData", properties, new ServiceCallBack() {
@@ -368,11 +368,11 @@ public class CaAPIManager {
         });
     }
 
-    public static HashMap<String, String> getSignProperties(String signID, String mainSignTimeStamp, String userId, String ordItemsHashVal, String mainSignCert, String mainSignValue) {
+    public static HashMap<String, String> getSignProperties(String signID, String mainSignTimeStamp, String userId, String ordItemsHashVal, String mainSignCert, String mainSignValue,String operationType) {
         HashMap<String, String> properties = new HashMap<>();
         properties.put("signID", signID);
         properties.put("userId", userId); //会有特殊处理-工号^姓名
-        properties.put("operationType", "PDA");
+        properties.put("operationType", operationType);
         properties.put("ordItemsHashVal", ordItemsHashVal);
         properties.put("mainSignCert", mainSignCert);
         properties.put("mainSignValue", mainSignValue);

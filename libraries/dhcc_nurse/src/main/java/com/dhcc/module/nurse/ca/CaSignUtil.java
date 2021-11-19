@@ -95,7 +95,7 @@ public class CaSignUtil {
             public void call(String[] result, int type) {
                 String ordItemsHashVal = result[0];
                 doubleSign = !TextUtils.isEmpty(auditUserCode);
-                startExecAuthSignToHis(ordItemsHashVal, intData, certContainer, signToken, userCertCode, certNo, oeoreId, userId, mainSignCert);
+                startExecAuthSignToHis(ordItemsHashVal, intData, certContainer, signToken, userCertCode, certNo, oeoreId, userId, mainSignCert,execStatusCode);
                 //双签
                 if (!TextUtils.isEmpty(auditUserCode)) {
                     GetLoginQR(true, false);
@@ -110,7 +110,7 @@ public class CaSignUtil {
                             String signToken2 = SPStaticUtils.getString(CA_LOGIN2_signToken);
                             String userCertCode2 = SPStaticUtils.getString(CA_LOGIN2_userCertCode);
                             String certNo2 = SPStaticUtils.getString(CA_LOGIN2_certNo);
-                            startExecAuthSignToHis(ordItemsHashVal, intData, certContainer2, signToken2, userCertCode2, certNo2, oeoreId, userId2, mainSignCert2);
+                            startExecAuthSignToHis(ordItemsHashVal, intData, certContainer2, signToken2, userCertCode2, certNo2, oeoreId, userId2, mainSignCert2,execStatusCode);
                         }
                     });
 
@@ -131,7 +131,7 @@ public class CaSignUtil {
         checkToken(intData, hashCallBack);
     }
 
-    public static void startExecAuthSignToHis(String ordItemsHashVal, String intData, String certContainer, String signToken, String userCertCode, String certNo, String oeoreId, String userId, String mainSignCert) {
+    public static void startExecAuthSignToHis(String ordItemsHashVal, String intData, String certContainer, String signToken, String userCertCode, String certNo, String oeoreId, String userId, String mainSignCert,String operationType) {
         startAuthSign(intData, ordItemsHashVal, certContainer, signToken, userCertCode, certNo, new SimpleCallBack<String[]>() {
             @Override
             public void call(String[] result, int type) {
@@ -139,7 +139,7 @@ public class CaSignUtil {
                 String mainSignValue = result[1];
                 String signID = result[2];
                 String mainSignTimeStamp = result[3];
-                CaAPIManager.ExecCaSignData(ordItemsHashVal, signID, mainSignTimeStamp, oeoreId, userId, mainSignCert, mainSignValue, null);
+                CaAPIManager.ExecCaSignData(ordItemsHashVal, signID, mainSignTimeStamp, oeoreId, userId, mainSignCert, mainSignValue, operationType,null);
             }
         });
     }
