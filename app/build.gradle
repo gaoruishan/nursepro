@@ -130,6 +130,7 @@ dependencies {
     implementation project(':libraries:baselib')
     implementation project(':libraries:TimePickerDialog')
     implementation project(':libraries:dhcc_nurse')
+    implementation project(':libraries:dhcc_nurlink')
     // 资源库
     implementation project(':libraries:dhcc_res')
     testImplementation 'junit:junit:4.13.2'

@@ -37,7 +37,7 @@ dependencies {
     api files('libs/RaisoundSDK_V1.0.9.aar')
     api('com.zhouyou:rxeasyhttp:2.1.5'){
 //        exclude group: 'com.squareup.retrofit2'
-        exclude group: 'com.squareup.okhttp3'
+//        exclude group: 'com.squareup.okhttp3'
 //                module: 'logging-interceptor:3.1.2'
 //        exclude group: 'io.reactivex.rxjava2'
     }

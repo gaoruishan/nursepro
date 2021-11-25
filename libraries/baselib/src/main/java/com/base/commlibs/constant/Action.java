@@ -62,4 +62,11 @@ public class Action {
     public static final String SINGLEMAP = appName + ".siglemap.Action";
     public static final String SETSINGLEMSG = appName + ".siglemsg.Action";
 
+
+    //来电提醒
+    public static final String CALL_RING_SERVICE = appName + ".callring.Action";
+    //去电留言
+    public static final String CALL_RING_SENDMSG = appName + ".CALL_RING_SENDMSG.Action";
+
+
 }

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        android:gravity="center"
+        android:background="@color/blue_dark2"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tv_username"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_50"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:textColor="@color/black"
+            android:text="姓名"
+            android:textSize="@dimen/dp_20"
+            android:gravity="center"></TextView>
+        <TextView
+            android:id="@+id/tv_call_time"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="@dimen/dp_50"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:text="时间"
+            android:textSize="@dimen/dp_18"
+            android:gravity="center"></TextView>
+
+        <TextView
+            android:id="@+id/tv_tel_call"
+            android:layout_width="@dimen/dp_65"
+            android:layout_height="@dimen/dp_35"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:gravity="center"
+            android:textSize="@dimen/sp_20"
+            android:background="@drawable/nurlink_icon_callout"
+            android:textColor="@color/white"></TextView>
+
+    </LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <TextView
+            android:id="@+id/tv_msg_cotent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="@dimen/dp_20"
+            android:paddingStart="@dimen/dp_15"
+            android:text="在此显示消息内容"
+            android:textSize="@dimen/dp_19"
+            android:gravity="start"></TextView>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/ll_action"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_checke"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_60"
+            android:layout_weight="1"
+            android:background="@color/blue"
+            android:gravity="center"
+            android:text="审核"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dp_23"
+            android:visibility="gone"></TextView>
+
+        <TextView
+            android:id="@+id/tv_reject"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_60"
+            android:layout_weight="1"
+            android:background="@color/red"
+            android:gravity="center"
+            android:text="拒绝"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dp_23"
+            android:visibility="gone"></TextView>
+
+        <TextView
+            android:id="@+id/tv_checked"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_60"
+            android:layout_weight="1"
+            android:background="@color/text_color_gray_c"
+            android:gravity="center"
+            android:text="已审核"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dp_23"
+            android:visibility="gone"></TextView>
+    </LinearLayout>
+</LinearLayout>

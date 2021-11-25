@@ -27,6 +27,7 @@ import com.dhcc.nursepro.login.LoginActivity;
 import com.dhcc.nursepro.login.bean.NurseInfo;
 import com.dhcc.nursepro.message.api.MessageApiManager;
 import com.dhcc.nursepro.message.bean.MessageBean;
+import com.example.dhcc_nurlink.fragment.NurLinkFragment;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -105,6 +106,9 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 
         view.findViewById(R.id.rl_setting_voiceprint_manager).setOnClickListener(v -> startActivity(new Intent(getActivity(), VoiceprintManagerActivity.class)));
         view.findViewById(R.id.rl_setting_voice_note).setOnClickListener(v -> startFragment(NoteBookFragment.class));
+
+        view.findViewById(R.id.rl_setting_nurlink).setOnClickListener(v -> startFragment(NurLinkFragment.class));
+
     }
 
     @Override

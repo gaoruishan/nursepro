@@ -45,6 +45,7 @@
                 android:layout_marginTop="@dimen/dp_6">
 
                 <TextView
+                    android:onClick="lgtestServer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Hi ! "

@@ -322,6 +322,39 @@
                 </ImageView>
             </RelativeLayout>
             <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="@dimen/dp_15"
+                android:layout_marginRight="@dimen/dp_15"
+                android:background="#ECECEC" />
+
+            <RelativeLayout
+                android:background="@color/white"
+                android:id="@+id/rl_setting_nurlink"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_15"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:layout_marginBottom="@dimen/dp_20"
+                    android:text="医呼通"
+                    android:textColor="@color/text_view_text_color"
+                    android:textSize="@dimen/sp_15" />
+
+                <ImageView
+                    android:layout_width="@dimen/dp_8"
+                    android:layout_height="@dimen/dp_15"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/dp_20"
+                    android:src="@drawable/setting_arrow">
+
+                </ImageView>
+            </RelativeLayout>
+            <View
                 android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"

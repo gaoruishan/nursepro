@@ -64,6 +64,7 @@ import com.dhcc.nursepro.message.api.MessageApiManager;
 import com.dhcc.nursepro.message.bean.MessageBean;
 import com.dhcc.nursepro.setting.SettingFragment;
 import com.dhcc.nursepro.workarea.WorkareaFragment;
+import com.example.dhcc_nurlink.MLinkServiceNewOrd;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -130,6 +131,16 @@ public class MainActivity extends BaseCommActivity implements RadioButton.OnChec
         PermissionUtils.permission(PermissionConstants.STORAGE).request();
 
         UserUtil.createMainActivity();
+        if (getApplicationContext()!=null){
+            Intent i = new Intent(getApplicationContext(), MLinkServiceNewOrd.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                //android8.0以上通过startForegroundService启动service
+                startForegroundService(i);
+            } else {
+                startService(i);
+            }
+        }
 
     }
     /**

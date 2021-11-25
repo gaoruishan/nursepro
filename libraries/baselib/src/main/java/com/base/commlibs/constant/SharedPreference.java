@@ -161,4 +161,64 @@ public class SharedPreference extends NurseConfig {
     public static final String CA_hisUserID = "CA_hisUserID";
     public static final String CA_hisUserName = "CA_hisUserName";
     public static final String CA_LOGIN_PIN_FLAG = "CA_LOGIN_PIN_FLAG";
+
+
+
+    public static final String  USERPERMISSION_TYPE = "USERPERMISSION_TYPE";//用户权限，是否患者
+    public static final String  USERPERMISSION_PATCONTROL = "USERPERMISSION_PATCONTROL";//用户权限，是否可呼出
+
+
+    public static final String  NUR_LINK_PHONE_JSON = "NUR_LINK_PHONE_JSON";
+    public static final String  NUR_LINK_PDA_ID = "NUR_LINK_PDA_ID";
+    public static final String  VOIP_ID = "VOIP_ID";
+    public static final String  NUR_LINK_VOICE_IDENTIFY = "NUR_LINK_VOICE_IDENTIFY";
+    //一天只更新一次通讯录
+    public static final String  NUR_LINK_USERS_LIST = "NUR_LINK_USERS_LIST";
+    public static final String  NUR_LINK_VOICE_IFREG = "NUR_LINK_VOICE_IFREG";
+    public static final String  NUR_LINK_CALLING_HISTORY = "NUR_LINK_CALLING_HISTORY";
+    public static final String  NUR_LINK_USER_TYPE = "NUR_LINK_USER_TYPE";
+    //勿扰模式
+    public static final String  NUR_LINK_NOBOTHERMODEL = "NUR_LINK_NOBOTHERMODEL";
+
+    //医呼通-通用场景
+    public static final String  NUR_LINK_VOCETOVOIP_SCEN = "NUR_LINK_VOCETOVOIP_SCEN";
+    public static final String  M_CONTEXT = "M_CONTEXT";
+    public static final String  PATLISTJSON = "PATLISTJSON";
+    public static final String  VOICE_TO_VOIP_TEXTSHOW = "VOICE_TO_VOIP_TEXTSHOW";
+    public static final String  VOICE_TO_VOIP_WAKEUP = "VOICE_TO_VOIP_WAKEUP";//设置打开唤醒
+
+    //值班模式
+    public static final String  NUR_LINK_WORKTYPE = "NUR_LINK_WORKTYPE";
+
+
+    //    public static final String  VOIP_ADDRESS = "http://148.70.76.37:8095/voip-yy-api";//voip地址
+    public static final String  VOIP_ADDRESS = "http://linephone.raisound.com:8095/voip-yy-api";//voip地址
+    //    public static final String  VOIP_ADDRESS = "http://162.14.74.135:8095/voip-yy-api";//voip地址
+    public static final String  HIS_ADDRESS = "140.143.194.177";//his地址
+    public static final String  VOICEAPISERVE_IP = "http://111.230.139.145";//语音识别ip
+    public static final int  VOICEAPISERVE_PORT = 3392;//语音识别端口
+    public static final String  NOTIFY_IP = "114.242.246.246";//推送ip
+    public static final int  NOTIFY_PORT = 9001;//推送端口
+    public static final String NurLinkApkName = "公网shz";
+    public static final int VOICE_GROUPID_VALUE = 5;
+
+    //医呼通-ip设置相关
+    public static final String  NUR_LINK_IP_HIS = "NUR_LINK_IP_HIS";
+    public static final String  NUR_LINK_IP_VOIP = "NUR_LINK_IP_VOIP";
+    public static final String  NUR_LINK_IP_SOUND = "NUR_LINK_IP_SOUND";
+    public static final String  NUR_LINK_IP_SOUND_PORT = "NUR_LINK_IP_SOUND_PORT";
+    public static final String  NUR_LINK_IP_MSG = "NUR_LINK_IP_MSG";
+    //医呼通-HISip设置相关
+    public static final String  NUR_LINK_PORT_HIS = "NUR_LINK_PORT_HIS";
+    public static final String  NUR_LINK_PATH_HIS = "NUR_LINK_PATH_HIS";
+
+
+    //    public static final String  HIS_ADDRESS = "10.17.200.154";
+    public static final String HIS_PORT = "";
+
+//    public static final String  HIS_ADDRESS = "10.105.3.98";
+//    public static final String HIS_PORT = "10180";
+
+    public static final String HIS_PATH = "/imedical/web";
+
 }

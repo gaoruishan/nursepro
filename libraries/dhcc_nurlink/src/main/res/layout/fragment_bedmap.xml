@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:id="@+id/tv_bedmap_self"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/dp_16"
+            android:paddingBottom="@dimen/dp_16"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="本人"
+            android:textSize="@dimen/sp_15"
+            android:textColor="@drawable/textcolor_item_bedmap_selector" />
+
+        <TextView
+            android:id="@+id/tv_bedmap_group"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/dp_16"
+            android:paddingBottom="@dimen/dp_16"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="@dimen/sp_15"
+            android:text="本组"
+            android:textColor="@drawable/textcolor_item_bedmap_selector" />
+
+        <TextView
+            android:id="@+id/tv_bedmap_loc"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/dp_16"
+            android:paddingBottom="@dimen/dp_16"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="@dimen/sp_15"
+            android:text="本科"
+            android:textColor="@drawable/textcolor_item_bedmap_selector" />
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_5"
+        android:background="#ECF4FC" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recy_bedmap"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+</LinearLayout>
