@@ -72,6 +72,10 @@ public class SystemTTS {
         if(TextUtils.isEmpty(voiceFlag)){
             return false;
         }
+        //是否有字母
+        if (AppUtil.hasAlphabet(text)) {
+            return false;
+        }
         if (textToSpeech != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 textToSpeech.speak(text, TextToSpeech.QUEUE_ADD, null, null);
