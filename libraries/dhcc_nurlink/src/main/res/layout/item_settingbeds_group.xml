@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/ll_settingbeds_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:background="@drawable/bg_bedselect_group_selector">
+
+        <ImageView
+            android:layout_width="@dimen/dp_16"
+            android:layout_height="@dimen/dp_16"
+            android:layout_marginStart="@dimen/dp_12"
+            android:src="@drawable/icon_group_selector" />
+
+        <TextView
+            android:id="@+id/tv_settingbeds_group"
+            android:layout_width="@dimen/dp_0"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/dp_6"
+            android:paddingEnd="@dimen/dp_12"
+            android:paddingStart="@dimen/dp_12"
+            android:paddingTop="@dimen/dp_6"
+            android:textSize="@dimen/dp_28"
+            android:textColor="@color/white"
+            tools:text="A区" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+    <View
+        android:id="@+id/view_callrefresh"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></View>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recy_settingbeds_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f5faff">
+
+    </android.support.v7.widget.RecyclerView>
+
+
+</LinearLayout>

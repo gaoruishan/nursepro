@@ -40,7 +40,15 @@
         <!--是否模糊-->
         <item name="android:backgroundDimEnabled">true</item>
     </style>
+    <!--    全屏-->
+    <style name="MyDialog2" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <!--背景颜色及和透明程度-->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimAmount">0.85</item>
 
+    </style>
     <!-- 对话框样式-->
     <style name="BaseDialog" parent="Theme.AppCompat.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>

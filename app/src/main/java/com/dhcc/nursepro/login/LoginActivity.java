@@ -2,20 +2,25 @@ package com.dhcc.nursepro.login;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -36,8 +41,12 @@ import com.base.commlibs.view.WebActivity;
 import com.base.commlibs.voiceUtils.SetVoiceIPDialog;
 import com.base.commlibs.voiceUtils.voiceprint.VoicePrintUtil;
 import com.base.commlibs.wsutils.BaseWebServiceUtils;
+import com.blankj.utilcode.constant.PermissionConstants;
+import com.blankj.utilcode.util.PermissionUtils;
+import com.blankj.utilcode.util.SPStaticUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.dhcc.module.nurse.ca.CaLoginActivity;
 import com.dhcc.nursepro.Activity.MainActivity;
 import com.dhcc.nursepro.R;
@@ -48,6 +57,7 @@ import com.dhcc.nursepro.login.bean.BroadCastListBean;
 import com.dhcc.nursepro.login.bean.LoginBean;
 import com.dhcc.nursepro.login.bean.NurseInfo;
 import com.dhcc.nursepro.workarea.workareautils.WorkareaMainConfig;
+import com.example.dhcc_nurlink.MLinkServiceNewOrd;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -114,9 +124,46 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
 //        PermissionUtils.permission(PermissionConstants.STORAGE).request();
 
         verifyAudioPermissions(this);
+        requestAlertWindowPermission();
         initVoice();
-    }
+        if (getApplicationContext()!=null){
+            Intent i = new Intent(getApplicationContext(), MLinkServiceNewOrd.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                //android8.0以上通过startForegroundService启动service
+                startForegroundService(i);
+            } else {
+                startService(i);
+            }
+        }
 
+    }
+    private static final int REQUEST_CODE = 1;
+    private  void requestAlertWindowPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (Settings.canDrawOverlays(this)) {
+                Log.i("xqxinfo", "onActivityResult granted");
+            }else {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+                intent.setData(Uri.parse("package:" + getPackageName()));
+                startActivityForResult(intent, REQUEST_CODE);
+            }
+        }
+    }
+    /**
+     * 测试-切换服务器
+     * @param view
+     */
+    public void lgtestServer(View view) {
+        String pdaService = BaseWebServiceUtils.getPDAService();
+        if (pdaService.contains(BaseWebServiceUtils.NUR_MNIS_SERVICE)) {
+            pdaService = BaseWebServiceUtils.NUR_PDA_SERVICE;
+        }else {
+            pdaService = BaseWebServiceUtils.NUR_MNIS_SERVICE;
+        }
+        SPStaticUtils.put(SharedPreference.pdaService,pdaService);
+        ToastUtils.showShort("切换服务器: "+pdaService);
+    }
     public void testWebView(View view) {
         WebActivity.start(this, BaseWebServiceUtils.getServiceUrl("/hello.html"));
     }
@@ -352,6 +399,13 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
             loginFilter.addAction(Action.DEVICE_SCAN_CODE);
             registerReceiver(loginReceiver, loginFilter);
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
+                && !((NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE)).isNotificationPolicyAccessGranted()) {
+            Intent intent = new Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
+            startActivity(intent);
+        }
+
     }
 
 

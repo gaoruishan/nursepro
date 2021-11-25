@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#cc000000"
+    android:gravity="center"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:gravity="center"
+        android:text="提示"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_36"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="通话中"
+            android:textColor="@color/text_color_gray_e"
+            android:textSize="@dimen/sp_22"
+            android:textStyle="bold" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recy_meeting_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"></android.support.v7.widget.RecyclerView>
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_voice_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="谁在发言"
+            android:textColor="@color/blue"
+            android:textSize="@dimen/sp_22"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/ll_send_voice_msg"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_150"
+            android:orientation="horizontal">
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"></View>
+            <LinearLayout
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tv_send_voice_msg"
+                    android:layout_width="@dimen/dp_60"
+                    android:layout_height="@dimen/dp_60"
+                    android:background="@drawable/nurlink_img_send_voicemsg"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="留言"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_17"
+                    android:layout_margin="@dimen/dp_5" ></TextView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll_drugpre_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="@dimen/dp_75"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:id="@+id/ll_novoice"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_no_voice"
+                android:layout_width="@dimen/dp_60"
+                android:layout_height="@dimen/dp_60"
+                android:background="@drawable/nurlink_call_novoice_selector"
+               />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="静音"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_15"
+                android:layout_margin="@dimen/dp_5"
+                ></TextView>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_rejectcall"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_cancle"
+                android:layout_width="@dimen/dp_80"
+                android:layout_height="@dimen/dp_80"
+                android:background="@drawable/img_nurlink_call_reject"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+
+            android:id="@+id/ll_acceptcall"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_sure"
+                android:layout_width="@dimen/dp_80"
+                android:layout_height="@dimen/dp_80"
+                android:background="@drawable/img_nurlink_call_accept"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+
+            android:id="@+id/ll_outvoice"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_out_voice"
+                android:layout_width="@dimen/dp_60"
+                android:layout_height="@dimen/dp_60"
+                android:background="@drawable/nurlink_call_outvoice_selector" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="外放"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_17"
+                android:layout_margin="@dimen/dp_5" ></TextView>
+
+        </LinearLayout>
+
+        
+    </LinearLayout>
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/tv_destroy_meeting"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_70"
+        android:gravity="center"
+        android:text="结束会议"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_26"
+        android:background="#FFFF623D">
+
+    </TextView>
+</LinearLayout>
