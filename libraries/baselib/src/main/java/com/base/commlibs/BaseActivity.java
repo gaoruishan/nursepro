@@ -63,6 +63,7 @@ import com.base.commlibs.base.BaseTopLoadingView;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommWebService;
+import com.base.commlibs.utils.AppUtil;
 import com.base.commlibs.utils.EditTextScanHelper;
 import com.base.commlibs.utils.NetUtil;
 import com.blankj.utilcode.util.AppUtils;
@@ -120,10 +121,11 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
     protected RecyclerView tvMap;
     protected TextView tvHindMap;
     protected LinearLayout llMap;
-    protected Animation mShowAction ;
-    protected Animation mHiddenAction ;
+    protected Animation mShowAction;
+    protected Animation mHiddenAction;
     private FragMapAdapter fragMapAdapter;
-    private List listFragment = new ArrayList();;
+    private List listFragment = new ArrayList();
+    ;
     // 子类通过setContentView方法设置的View会添加到这个容器里面
     protected FrameLayout mContainer;
     // mContainer中子类的设置的View
@@ -179,7 +181,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 判断是否大于等于LOLLIPOP
-     *
      * @return true，表示大于等于LOLLIPOP
      */
     public static boolean isAboveLollipop() {
@@ -189,7 +190,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
     /**
      * 判断手机是否为小米5并且系统为6.0
      * 用于单独适配状态栏背景颜色
-     *
      * @return true:
      */
     public static boolean isXiaoMi5OS6() {
@@ -219,7 +219,7 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         BackgroundLibrary.inject(this);
         super.onCreate(savedInstanceState);
-        if (SPUtils.getInstance().getString(SharedPreference.SINGLEMODEL).equals("1")){
+        if (SPUtils.getInstance().getString(SharedPreference.SINGLEMODEL).equals("1")) {
             mToolbarType = ToolbarType.HIDE;
         }
         getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(this);
@@ -262,15 +262,15 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         tvHindMap = findViewById(R.id.tv_hindmap);
         llMap = findViewById(R.id.map_fragment);
         String appPackageName = AppUtils.getAppPackageName();
-        if (SPUtils.getInstance().getString(SharedPreference.MAP_SHOW,"0").equals("0")){
+        if (SPUtils.getInstance().getString(SharedPreference.MAP_SHOW, "0").equals("0")) {
             tvHindMap.setBackgroundResource(R.drawable.imgshow);
             llMap.setVisibility(View.GONE);
-        }else {
+        } else {
             tvHindMap.setBackgroundResource(R.drawable.imghind);
             llMap.setVisibility(View.VISIBLE);
         }
         //门急诊隐藏导航栏
-        if (appPackageName.equals(CommWebService.COM_DHCC_INFUSION)||appPackageName.equals(CommWebService.COM_DHCC_HEALTH)){
+        if (appPackageName.equals(CommWebService.COM_DHCC_INFUSION) || appPackageName.equals(CommWebService.COM_DHCC_HEALTH)) {
             llMap.setVisibility(View.GONE);
             tvHindMap.setVisibility(View.GONE);
         }
@@ -282,15 +282,15 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
             @Override
             public void onClick(View v) {
                 llMap.clearAnimation();
-                if (llMap.isShown()){
+                if (llMap.isShown()) {
                     llMap.setVisibility(View.GONE);
                     llMap.startAnimation(mHiddenAction);
                     tvHindMap.setBackgroundResource(R.drawable.imgshow);
-                    SPUtils.getInstance().put(SharedPreference.MAP_SHOW,"0");
-                }else {
+                    SPUtils.getInstance().put(SharedPreference.MAP_SHOW, "0");
+                } else {
                     llMap.setVisibility(View.VISIBLE);
                     tvHindMap.setBackgroundResource(R.drawable.imghind);
-                    SPUtils.getInstance().put(SharedPreference.MAP_SHOW,"1");
+                    SPUtils.getInstance().put(SharedPreference.MAP_SHOW, "1");
                 }
             }
         });
@@ -304,17 +304,17 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         fragMapAdapter = new FragMapAdapter(new ArrayList<>());
         tvMap.setAdapter(fragMapAdapter);
         listFragment = new ArrayList();
-        if (SharedPreference.FRAGMENTARY.size()>0){
+        if (SharedPreference.FRAGMENTARY.size() > 0) {
             listFragment.addAll(SharedPreference.FRAGMENTARY);
         }
         fragMapAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (listener!=null){
+                if (listener != null) {
                     HashMap map = (HashMap) listFragment.get(position);
-                    if (llMap.isShown()){
+                    if (llMap.isShown()) {
                         listener.changMap(map.get("fragName").toString());
-                    }else {
+                    } else {
                     }
                 }
             }
@@ -359,56 +359,60 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         //开启
         NetUtil.startTimer();
     }
+
     protected void addScanEditText() {
         scanHelper = new EditTextScanHelper();
         scanHelper.addEditTextInputListener(this, new EditTextScanHelper.OnScanListener() {
             @Override
             public void onResult(String code) {
-                    Log.e(TAG,"(BaseActivity.java:259) "+code);
-                    Intent intent = new Intent();
-                    intent.putExtra("data", code);
-                    intent.setAction(Action.DEVICE_SCAN_CODE);
-                    Bundle bundle = intent.getExtras();
-                    bundle.putString("data",code);
-                    sendBroadcast(intent);
+                Log.e(TAG, "(BaseActivity.java:259) " + code);
+                Intent intent = new Intent();
+                intent.putExtra("data", code);
+                intent.setAction(Action.DEVICE_SCAN_CODE);
+                Bundle bundle = intent.getExtras();
+                bundle.putString("data", code);
+                sendBroadcast(intent);
             }
         });
         if (mContainer != null) {
             mContainer.addView(scanHelper.getEditText());
         }
     }
+
     /**
      * 添加全局View
      * @return
      */
     public void addGlobalView(View view) {
-        llGlobal.setVisibility(view!=null?View.VISIBLE:View.GONE);
+        llGlobal.setVisibility(view != null ? View.VISIBLE : View.GONE);
         if (view != null) {
             llGlobal.removeAllViews();
             llGlobal.addView(view);
         }
     }
+
     /**
      * 设置隐藏按钮的bottom
-     *
      */
     public void setTvHindMapBottom(int bottom) {
-        if (tvHindMap!=null){
+        if (tvHindMap != null) {
             RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) tvHindMap.getLayoutParams();
-            layoutParams.bottomMargin=dp2px(bottom);
+            layoutParams.bottomMargin = dp2px(bottom);
             tvHindMap.setLayoutParams(layoutParams);
         }
     }
+
     /**
      * 隐藏导航栏
      * @return
      */
     public void hindMap() {
-        if (llMap!=null&&tvMap!=null){
+        if (llMap != null && tvMap != null) {
             llMap.setVisibility(View.GONE);
             tvHindMap.setVisibility(View.GONE);
         }
     }
+
     // 每当用户接触了屏幕，都会执行此方法
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
@@ -441,7 +445,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 设置StatusBarBackgroundView是否需要显示
-     *
      * @param show
      */
     protected void setStatusBarBackgroundViewVisibility(boolean show, int color) {
@@ -449,7 +452,7 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
                 mStatusBarBackgroundView.setBackgroundColor(color);
                 mStatusBarBackgroundView.setVisibility(show ? View.VISIBLE : View.GONE);
-            }else {
+            } else {
                 //sdk<19 隐藏
                 mStatusBarBackgroundView.setVisibility(View.GONE);
             }
@@ -470,7 +473,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 设置Toolbar的背景
-     *
      * @param background
      */
     public void setToolbarBackground(Drawable background) {
@@ -528,7 +530,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 设置5.0以下系统的状态栏背景颜色
-     *
      * @param color 状态栏背景颜色
      */
     private void setStatusBarColorLowLollipop(int color) {
@@ -576,7 +577,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 获得StatusBar的高度
-     *
      * @return
      */
     public int getStatusBarHeight() {
@@ -600,7 +600,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 会将设置进来的View添加到mContainer中
-     *
      * @param layoutResID
      */
     @Override
@@ -614,7 +613,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 会将设置进来的View添加到mContainer中
-     *
      * @param view
      */
     @Override
@@ -627,7 +625,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 会将设置进来的View添加到mContainer中
-     *
      * @param view
      * @param params
      */
@@ -675,7 +672,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 设置Toolbar的导航按钮
-     *
      * @param resId
      */
     public void showToolbarNavigationIcon(int resId) {
@@ -684,7 +680,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 设置返回按钮图标
-     *
      * @param resId
      */
     private void initBackAction(int resId) {
@@ -700,7 +695,7 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         if (multiScanState) {
-            scanHelper.dispatchEventListener(event.getKeyCode(),event.getAction());
+            scanHelper.dispatchEventListener(event.getKeyCode(), event.getAction());
         }
         onDispatchKeyEvent(event);
         return super.dispatchKeyEvent(event);
@@ -730,7 +725,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 启动登录页面,登录完成后会回调到callbackAfterLoginSuccess
-     *
      * @param callbackAfterLoginSuccess 登录成功之后回调到这里
      */
     public void startLogin(Runnable callbackAfterLoginSuccess) {
@@ -741,7 +735,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 使用UniversalActivity启动给定的Fragment
-     *
      * @param fragCls     待启动Fragment
      * @param requestCode -1表示不使用ForResult
      */
@@ -752,7 +745,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 使用UniversalActivity启动给定的Fragment
-     *
      * @param fragCls     待启动Fragment
      * @param args        传递给Fragment的参数,可空
      * @param requestCode -1表示不使用ForResult
@@ -771,7 +763,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 启动登录页面,登录完成后会回调到callbackAfterLoginSuccess
-     *
      * @param callbackAfterLoginSuccess 登录成功之后回调到这里
      * @param args                      启动登录界面的参数
      */
@@ -783,7 +774,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 使用UniversalActivity启动给定的Fragment
-     *
      * @param fragCls 待启动Fragment
      */
     public void startFragment(@NonNull Class<? extends BaseFragment> fragCls) {
@@ -792,7 +782,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 使用UniversalActivity启动给定的Fragment
-     *
      * @param fragCls 待启动Fragment
      * @param args    传递给Fragment的参数,可空
      */
@@ -803,7 +792,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 使用UniversalActivity及其子类启动给定的Fragment
-     *
      * @param containerCls UniversalActivity及其子类
      * @param fragCls      待启动Fragment
      */
@@ -814,7 +802,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 使用UniversalActivity及其子类启动给定的Fragment
-     *
      * @param containerCls UniversalActivity及其子类
      * @param fragCls      待启动Fragment
      * @param args         传递给Fragment的参数,可空
@@ -835,7 +822,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 使用UniversalActivity及其子类启动给定的Fragment
-     *
      * @param containerCls UniversalActivity及其子类
      * @param fragCls      待启动Fragment
      * @param args         传递给Fragment的参数,可空
@@ -920,7 +906,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 返回窗口的Toolbar
-     *
      * @return
      */
     public Toolbar getToolbar() {
@@ -929,7 +914,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 获得窗口Toolbar的显示类型
-     *
      * @return
      */
     public ToolbarType getToolbarType() {
@@ -938,7 +922,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 设置为给定的ToolbarType
-     *
      * @param type
      */
     public void setToolbarType(ToolbarType type) {
@@ -948,7 +931,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 设置Toolbar的右边操作动作按钮
-     *
      * @param menuId
      */
     public void setToolbarMenu(@MenuRes int menuId) {
@@ -959,7 +941,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 设置Toolbar居中的标题
-     *
      * @param title
      */
     public void setToolbarCenterTitle(CharSequence title) {
@@ -968,22 +949,26 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 设置Toolbar居中的标题
-     *
      * @param title
      * @param color 如:0xffcccccc
      * @param size  单位:DIP
      */
     public void setToolbarCenterTitle(CharSequence title, int color, int size) {
-        if(!TextUtils.isEmpty(fragTitle)){
-            Log.e(TAG,"(BaseActivity.java:973) 改变title"+fragTitle);
-            title = fragTitle;
+        if (!TextUtils.isEmpty(fragTitle)) {
+            //包含数字,字母 不改变
+            boolean b1 = AppUtil.hasNumber((String) title);
+            boolean b2 = AppUtil.hasAlphabet((String) title);
+
+            Log.e(TAG, "(BaseActivity.java:973) " + title + ",改变title" + fragTitle + ",b=" + (b1 || b2));
+            if (!(b1 || b2)) {
+                title = fragTitle;
+            }
         }
         mUIHandler.setToolbarCenterTitle(title, color, size);
     }
 
     /**
      * 设置Toolbar居中的自定义视图
-     *
      * @param view
      */
     public void setToolbarCenterCustomView(View view) {
@@ -992,7 +977,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 设置Toolbar左边的自定义视图
-     *
      * @param view
      */
     public void setToolbarLeftCustomView(View view) {
@@ -1001,7 +985,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 设置Toolbar右边的自定义视图
-     *
      * @param view
      */
     public void setToolbarRightCustomView(View view) {
@@ -1010,7 +993,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 获取UIHandler
-     *
      * @return
      */
     public Handler getUIHandler() {
@@ -1019,7 +1001,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 设置Toolbar-BottomLine是否显示
-     *
      * @param show true:显示BottomLine;false:不显示
      */
     public void setToolbarBottomLineVisibility(boolean show) {
@@ -1032,7 +1013,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 配置是否支持右滑退出手势
-     *
      * @return
      */
     protected boolean checkSldeable() {
@@ -1135,7 +1115,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * Toolbar右边动作按钮回调
-     *
      * @param item
      * @return
      */
@@ -1179,7 +1158,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 每当网络连接后,回调到这里
-     *
      * @param type 连接后的网络类型  one of {@link ConnectivityManager#TYPE_MOBILE}, {@link
      *             ConnectivityManager#TYPE_WIFI}, {@link ConnectivityManager#TYPE_WIMAX}, {@link
      *             ConnectivityManager#TYPE_ETHERNET},  {@link ConnectivityManager#TYPE_BLUETOOTH}, or other
@@ -1191,7 +1169,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 显示Toast提示框
-     *
      * @param iconId 图标资源ID,Drawable Resource ID
      * @param text   显示的文本
      */
@@ -1216,7 +1193,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 显示Toast提示框
-     *
      * @param text 显示的文本
      */
     public void showToast(final CharSequence text) {
@@ -1228,17 +1204,17 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
                 ImageView imageView = inflate.findViewById(R.id.icon);
                 imageView.setVisibility(View.GONE);
                 TextView textView = inflate.findViewById(R.id.text);
-                                if (text.toString().contains("error") || text.toString().contains("err")){
+                if (text.toString().contains("error") || text.toString().contains("err")) {
 //                                    textView.setText(text+"_"+SharedPreference.MethodName);
-                                    String[] strMsg = text.toString().split(":");
-                                    if (strMsg.length>1){
-                                        textView.setText(strMsg[1]);
-                                    }else {
-                                        textView.setText(text.toString().replace("error","").replace("err",""));
-                                    }
-                                }else {
-                                    textView.setText(text);
-                                }
+                    String[] strMsg = text.toString().split(":");
+                    if (strMsg.length > 1) {
+                        textView.setText(strMsg[1]);
+                    } else {
+                        textView.setText(text.toString().replace("error", "").replace("err", ""));
+                    }
+                } else {
+                    textView.setText(text);
+                }
 //                textView.setText(text);
                 Toast toast = new Toast(BaseActivity.this);
                 toast.setGravity(Gravity.CENTER, 0, 0);
@@ -1251,7 +1227,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 显示LoadingTip
-     *
      * @param type 显示加载提示框的样式类型
      */
     public void showLoadingTip(BaseActivity.LoadingType type) {
@@ -1260,7 +1235,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 显示LoadingTip
-     *
      * @param type       显示加载提示框的样式类型
      * @param cancelable 是否可以点击后隐藏;TOP类型时无效
      */
@@ -1392,7 +1366,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 创建一个FullLoadingView
-     *
      * @return 返回创建的FullLoadingView
      */
     protected BaseFullLoadingView onCreateFullLoadingView() {
@@ -1403,7 +1376,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 创建一个TopLoadingView
-     *
      * @return
      */
     protected BaseTopLoadingView onCreateTopLoadingView() {
@@ -1414,7 +1386,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 创建一个BottomLoadingView
-     *
      * @return
      */
     protected BaseBottomLoadingView onCreateBottomLoadingView() {
@@ -1425,7 +1396,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 显示一个从底部动画推上来的对话框
-     *
      * @param contentFragment 要显示的内容Fragment
      * @return
      */
@@ -1443,7 +1413,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 请求权限
-     *
      * @param permission 申请的权限名称
      */
     public final void requestPermission(final String permission) {
@@ -1462,7 +1431,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 请求权限
-     *
      * @param permission     申请的权限名称
      * @param requestMessage 申请权限提示框中提示文本
      */
@@ -1522,39 +1490,39 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 权限请求结果回调
-     *
      * @param permission 权限名称
      * @param granted    是否请求成功
      */
     public void onRequestPermissionsResult(String permission, boolean granted) {
         // nothing
     }
+
     public void setListener(Listener listener) {
         listFragment = new ArrayList();
-        if (SharedPreference.FRAGMENTARY.size()>0){
-            if ("1".equals(SPUtils.getInstance().getString(SharedPreference.SINGLEMODEL))){
-                for (int i = 0; i <SharedPreference.FRAGMENTARY.size() ; i++) {
+        if (SharedPreference.FRAGMENTARY.size() > 0) {
+            if ("1".equals(SPUtils.getInstance().getString(SharedPreference.SINGLEMODEL))) {
+                for (int i = 0; i < SharedPreference.FRAGMENTARY.size(); i++) {
                     Map map = (Map) SharedPreference.FRAGMENTARY.get(i);
                     if (!map.get("fragName").toString().contains(SharedPreference.Fragment_show) &&
-                            map.get("singleModel")!=null &&
-                            ( "1".equals(map.get("singleModel"))|| "2".equals(map.get("singleModel")))){
+                            map.get("singleModel") != null &&
+                            ("1".equals(map.get("singleModel")) || "2".equals(map.get("singleModel")))) {
                         listFragment.add(SharedPreference.FRAGMENTARY.get(i));
-                    }else {
+                    } else {
                         fragTitle = map.get("desc").toString();
                     }
                 }
                 fragMapAdapter.setNewData(listFragment);
-            }else {
+            } else {
 //                listFragment.addAll(SharedPreference.FRAGMENTARY);
-                for (int i = 0; i <SharedPreference.FRAGMENTARY.size() ; i++) {
+                for (int i = 0; i < SharedPreference.FRAGMENTARY.size(); i++) {
                     Map map = (Map) SharedPreference.FRAGMENTARY.get(i);
-                    if (!map.get("fragName").toString().contains(SharedPreference.Fragment_show)){
-                        if (map.get("singleModel")==null){
+                    if (!map.get("fragName").toString().contains(SharedPreference.Fragment_show)) {
+                        if (map.get("singleModel") == null) {
                             listFragment.add(map);
-                        }else if (! "2".equals(map.get("singleModel"))){
+                        } else if (!"2".equals(map.get("singleModel"))) {
                             listFragment.add(map);
                         }
-                    }else {
+                    } else {
                         fragTitle = map.get("desc").toString();
                     }
                 }
@@ -1565,10 +1533,12 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
         this.listener = listener;
     }
-    public List getListMap(){
+
+    public List getListMap() {
         return listFragment;
     }
-    public interface Listener{
+
+    public interface Listener {
         public void changMap(String map);
     }
 
@@ -1579,7 +1549,7 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         }
     }
 
-    public void setmessage(int messageNum,String soundFlag,String vibrateFlag) {
+    public void setmessage(int messageNum, String soundFlag, String vibrateFlag) {
     }
 
     @Override
@@ -1636,7 +1606,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 获得Toolbar的高度
-     *
      * @return
      */
     public int getToolbarHeight() {
@@ -1645,7 +1614,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 设置Toolbar的高度
-     *
      * @param toolbarHeight
      */
     public void setToolbarHeight(int toolbarHeight) {
@@ -1658,7 +1626,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 根据手机的分辨率dp单位转为px像素
-     *
      * @param dp
      * @return
      */
@@ -1697,7 +1664,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     /**
      * 处理扫描数据
-     *
      * @param intent
      * @return
      */
@@ -1762,7 +1728,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
         /**
          * 实例化广播接收器,并将其注册到activity上
-         *
          * @param activity
          */
         public NetworkStatusReceiver(BaseActivity activity) {
@@ -1827,7 +1792,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
         /**
          * 发起[设置Toolbar的背景]的操作
-         *
          * @param background
          */
         public void setToolbarBackground(Drawable background) {
@@ -1838,7 +1802,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
         /**
          * 发起[设置Toolbar中心标题]的操作
-         *
          * @param title
          * @param color
          * @param size
@@ -1853,7 +1816,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
         /**
          * 发起[设置Toolbar中心自定义View]的操作
-         *
          * @param view
          */
         public void setToolbarCenterCustomView(View view) {
@@ -1864,7 +1826,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
         /**
          * 发起[设置Toolbar左边自定义View]的操作
-         *
          * @param view
          */
         public void setToolbarLeftCustomView(View view) {
@@ -1875,7 +1836,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
         /**
          * 发起[设置Toolbar右边自定义View]的操作
-         *
          * @param view
          */
         public void setToolbarRightCustomView(View view) {
@@ -1886,7 +1846,6 @@ public class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
         /**
          * 发起[设置Toolbar-BottomLine是否显示]的操作
-         *
          * @param show
          */
         public void setToolbarBottomLineVisibility(boolean show) {

@@ -43,6 +43,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static java.util.regex.Pattern.*;
+
 /**
  * app配置工具类
  * @author:gaoruishan
@@ -54,6 +56,29 @@ public class AppUtil {
     private static SoundPool sSoundPool;
     private static String TAG = AppUtil.class.getSimpleName();
 
+    /**
+     * 判断一个字符串是否含有数字
+     * @param content
+     * @return
+     */
+    public static boolean hasNumber(String content) {
+        boolean flag = false;
+        Pattern p = compile(".*\\d+.*");
+        Matcher m = p.matcher(content);
+        if (m.matches()) {
+            flag = true;
+        }
+        return flag;
+    }
+
+    /**
+     * 判断一个字符串是否含有字母
+     * @param content
+     * @return
+     */
+    public static boolean hasAlphabet(String content) {
+        return compile("(?i)[a-z]").matcher(content).find();
+    }
     /**
      * 开启一个新Fragment
      * @param fragCls
@@ -235,7 +260,7 @@ public class AppUtil {
         }
         // 判断IP格式是否规范
         String rexp = "([1-9]|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])(\\.(\\d|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])){3}";
-        Pattern pat = Pattern.compile(rexp);
+        Pattern pat = compile(rexp);
         Matcher mat = pat.matcher(ipStr);
         boolean ipAddress = mat.find();
         //============对之前的ip判断的bug在进行判断
