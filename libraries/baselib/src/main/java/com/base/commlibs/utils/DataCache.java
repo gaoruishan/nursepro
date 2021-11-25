@@ -8,6 +8,8 @@ import com.google.gson.Gson;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 保存json数据
@@ -17,8 +19,24 @@ import java.util.List;
  */
 public class DataCache {
 
+    public static final String LOGBEAN = "logbean";
+    public static final String LOG_KEY = "LOG_KEY";
+    private static final String TAG = "DataCache";
+
     private static SPUtils SP(String spName) {
         return SPUtils.getInstance(spName);
+    }
+
+    public static void putLog(String value) {
+        SPUtils sp = SP(LOGBEAN);
+        if (!sp.contains(value)) {
+            sp.put(value, value);
+        }
+    }
+    public static  Set<String> getLog() {
+        Map<String, ?> all = SP(LOGBEAN).getAll();
+        Set<String> keySet = all.keySet();
+        return keySet;
     }
 
     /**

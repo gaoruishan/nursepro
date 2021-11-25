@@ -12,6 +12,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.dhcc.module.nurse.accompany.AccompanyFragment;
 import com.dhcc.module.nurse.bloodsugar.BloodSugarFragment;
 import com.dhcc.module.nurse.education.HealthEduFragment;
+import com.dhcc.module.nurse.log.NurLogFragment;
 import com.dhcc.module.nurse.nurplan.NurPlanFragment;
 import com.dhcc.module.nurse.outmanage.OutManageFragment;
 import com.dhcc.module.nurse.task.TaskOverviewFragment;
@@ -365,6 +366,12 @@ public class WorkareaMainConfig {
                         mainSubListBean.setImgResouseId(R.drawable.icon_blood);
                         SharedPreference.FRAGMENTARY.add(mainSubListBean.toMap());
                         break;
+                  case "NurLogFragment":
+                       //w ##class(Nur.DHCNurPdaModule).Save("日志^NurLogFragment^33^Y^")
+                        mainSubListBean.setFragmentClassName(NurLogFragment.class.getName());
+                        mainSubListBean.setImgResouseId(R.drawable.icon_blood);
+                        SharedPreference.FRAGMENTARY.add(mainSubListBean.toMap());
+                        break;
                     default:
                         break;
                 }
@@ -389,6 +396,7 @@ public class WorkareaMainConfig {
             subList.add(new MainConfigBean.MainListBean.MainSubListBean("OutManageFragment","外出管理"));
             subList.add(new MainConfigBean.MainListBean.MainSubListBean("PatBindRfid","RFID绑定"));
             subList.add(new MainConfigBean.MainListBean.MainSubListBean("PatBindInfusionFragment","输液绑定"));
+            subList.add(new MainConfigBean.MainListBean.MainSubListBean("NurLogFragment","日志"));
 
             mainListTestBean.setMenuName("测试");
             mainListTestBean.setMainSubList(subList);

@@ -2,7 +2,7 @@
 ext {
 
     isModule = false
-    isCloudShop = false
+    isNurLink = true
 
     android = [
             compileSdkVersion       : 28,

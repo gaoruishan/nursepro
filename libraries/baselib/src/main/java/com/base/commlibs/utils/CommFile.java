@@ -10,6 +10,9 @@ import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.ImageUtils;
 import com.blankj.utilcode.util.PathUtils;
 
+import java.io.File;
+import java.util.List;
+
 /**
  * 写入文件
  * @author:gaoruishan
@@ -71,21 +74,62 @@ public class CommFile {
         String dhc = ROOT_PATH + getURLNameString(url);
         return ImageUtils.getBitmap(dhc);
     }
+
+    /**
+     * 是否是文件夹
+     * @param path
+     * @return
+     */
+    public static boolean isDir(String path) {
+        String dhc = ROOT_PATH + path;
+        return FileUtils.isDir(dhc);
+    }
+    public static boolean isFileExists(String path) {
+        String dhc = ROOT_PATH + path;
+        return FileUtils.isFileExists(dhc);
+    }
     /**
      * 读取文件
      * @param name     文件名
      * @param callBack 回调
      */
     public static void read(String name, SimpleCallBack<String> callBack) {
+        readFile2String(ROOT_PATH + name, callBack);
+    }
+    public static void readFile2String(String path, SimpleCallBack<String> callBack) {
         ThreadUtil.execute(new ThreadUtil.Task<String>() {
             @Override
             public String doInBackground() throws Throwable {
-                String dhc = ROOT_PATH + name;
-                return FileIOUtils.readFile2String(dhc);
+                return FileIOUtils.readFile2String(path);
             }
 
             @Override
             public void onSuccess(String result) {
+                if (callBack != null) {
+                    callBack.call(result, 0);
+                }
+            }
+        });
+    }
+
+    /**
+     * 读取文件夹下的文件列表
+     * @param path
+     * @param callBack
+     */
+    public static void readFilesInDir(String path, SimpleCallBack<List<File>> callBack) {
+        listFilesInDir(ROOT_PATH + path, callBack);
+    }
+
+    public static void listFilesInDir(String rootPath, SimpleCallBack<List<File>> callBack) {
+        ThreadUtil.execute(new ThreadUtil.Task<List<File>>() {
+            @Override
+            public List<File> doInBackground() throws Throwable {
+                return FileUtils.listFilesInDir(rootPath);
+            }
+
+            @Override
+            public void onSuccess(List<File> result) {
                 if (callBack != null) {
                     callBack.call(result, 0);
                 }

@@ -228,6 +228,7 @@ public class NurOrdRecordFragment  extends BaseNurseFragment {
             public void onSuccess(NurTaskSchBean bean, String type) {
                 hideLoadingTip();
                 showToast(bean.getMsg());
+                finishDelayed();
             }
         });
     }

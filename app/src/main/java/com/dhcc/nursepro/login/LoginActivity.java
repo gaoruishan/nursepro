@@ -41,8 +41,6 @@ import com.base.commlibs.view.WebActivity;
 import com.base.commlibs.voiceUtils.SetVoiceIPDialog;
 import com.base.commlibs.voiceUtils.voiceprint.VoicePrintUtil;
 import com.base.commlibs.wsutils.BaseWebServiceUtils;
-import com.blankj.utilcode.constant.PermissionConstants;
-import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.SPStaticUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
@@ -56,8 +54,8 @@ import com.dhcc.nursepro.login.api.LoginApiManager;
 import com.dhcc.nursepro.login.bean.BroadCastListBean;
 import com.dhcc.nursepro.login.bean.LoginBean;
 import com.dhcc.nursepro.login.bean.NurseInfo;
+import com.dhcc.nursepro.utils.NurLinkUtil;
 import com.dhcc.nursepro.workarea.workareautils.WorkareaMainConfig;
-import com.example.dhcc_nurlink.MLinkServiceNewOrd;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -127,7 +125,10 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
         requestAlertWindowPermission();
         initVoice();
         if (getApplicationContext()!=null){
-            Intent i = new Intent(getApplicationContext(), MLinkServiceNewOrd.class);
+            Intent i = NurLinkUtil.getMLinkIntent();
+            if (i == null) {
+                return;
+            }
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 //android8.0以上通过startForegroundService启动service
@@ -138,6 +139,7 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
         }
 
     }
+
     private static final int REQUEST_CODE = 1;
     private  void requestAlertWindowPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

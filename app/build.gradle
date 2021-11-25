@@ -130,7 +130,9 @@ dependencies {
     implementation project(':libraries:baselib')
     implementation project(':libraries:TimePickerDialog')
     implementation project(':libraries:dhcc_nurse')
-    implementation project(':libraries:dhcc_nurlink')
+    // 不开启"医护通"--需要去NurLinkUtil 注释掉代码  clean代码--报错com.raisound.speech.voiceprint.callback.RequestCallback
+//    implementation project(':libraries:dhcc_nurlink')
+
     // 资源库
     implementation project(':libraries:dhcc_res')
     testImplementation 'junit:junit:4.13.2'

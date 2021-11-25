@@ -56,15 +56,17 @@ import com.blankj.utilcode.util.SPStaticUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.VibrateUtils;
+import com.dhcc.module.nurse.log.NurLogFragment;
 import com.dhcc.nursepro.Activity.update.BaseDialog;
 import com.dhcc.nursepro.Activity.update.api.UpdateApiManager;
+import com.dhcc.nursepro.BuildConfig;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.message.MessageFragment;
 import com.dhcc.nursepro.message.api.MessageApiManager;
 import com.dhcc.nursepro.message.bean.MessageBean;
 import com.dhcc.nursepro.setting.SettingFragment;
+import com.dhcc.nursepro.utils.NurLinkUtil;
 import com.dhcc.nursepro.workarea.WorkareaFragment;
-import com.example.dhcc_nurlink.MLinkServiceNewOrd;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -132,7 +134,10 @@ public class MainActivity extends BaseCommActivity implements RadioButton.OnChec
 
         UserUtil.createMainActivity();
         if (getApplicationContext()!=null){
-            Intent i = new Intent(getApplicationContext(), MLinkServiceNewOrd.class);
+            Intent i =  NurLinkUtil.getMLinkIntent();
+            if (i==null){
+               return;
+            }
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 //android8.0以上通过startForegroundService启动service
@@ -148,14 +153,18 @@ public class MainActivity extends BaseCommActivity implements RadioButton.OnChec
      * @param view
      */
     public void testServer(View view) {
-        String pdaService = BaseWebServiceUtils.getPDAService();
-        if (pdaService.contains(BaseWebServiceUtils.NUR_MNIS_SERVICE)) {
-            pdaService = BaseWebServiceUtils.NUR_PDA_SERVICE;
+        if (BuildConfig.DEBUG) {
+            String pdaService = BaseWebServiceUtils.getPDAService();
+            if (pdaService.contains(BaseWebServiceUtils.NUR_MNIS_SERVICE)) {
+                pdaService = BaseWebServiceUtils.NUR_PDA_SERVICE;
+            }else {
+                pdaService = BaseWebServiceUtils.NUR_MNIS_SERVICE;
+            }
+            SPStaticUtils.put(SharedPreference.pdaService,pdaService);
+            ToastUtils.showShort("切换服务器: "+pdaService);
         }else {
-            pdaService = BaseWebServiceUtils.NUR_MNIS_SERVICE;
+            startFragment(NurLogFragment.class);
         }
-        SPStaticUtils.put(SharedPreference.pdaService,pdaService);
-        ToastUtils.showShort("切换服务器: "+pdaService);
     }
     @Override
     protected void onDestroy() {

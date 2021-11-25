@@ -15,6 +15,7 @@ import com.blankj.utilcode.util.SPUtils;
 
 import org.json.JSONObject;
 
+import java.io.File;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -121,6 +122,7 @@ public class LocalTestManager {
      * @return
      */
     public static boolean isTest(String methodName) {
+        DataCache.putLog(methodName);
         if (TEST) {
             return l.contains(methodName);
         }
@@ -208,6 +210,7 @@ public class LocalTestManager {
         CommFile.write(dhc, getCommLog() + obj);
     }
 
+
     protected static String getSimplePackageName() {
         String[] split = APP_PACKAGE_NAME.split("\\.");
         return split[split.length - 1];
@@ -259,5 +262,20 @@ public class LocalTestManager {
         if (isLogFlag()) {
             CommFile.write("spUtils_" + getSimplePackageName(), SPUtils.getInstance().getAll().toString());
         }
+    }
+
+    /**
+     * 获取指定路线下文件列表
+     * @param callBack
+     */
+    public static void getLogFilesInDir(String dir,SimpleCallBack<List<File>> callBack) {
+        Log.e(TAG,"(LocalTestManager.java:272) "+dir);
+        CommFile.readFilesInDir(dir,callBack);
+    }
+
+    public static String getLogPath() {
+        String packName = getSimplePackageName();
+        String date = FORMAT.format(new Date(System.currentTimeMillis()));
+        return packName + "/" + date + "/" + SPStaticUtils.getString(SharedPreference.USERCODE);
     }
 }

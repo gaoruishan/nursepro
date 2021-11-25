@@ -144,6 +144,12 @@ public class NurOrdTaskFragment  extends BaseNurseFragment {
         getNurTaskSch();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getNurOrdTaskList();
+    }
+
     private void addToolBarRight(){
         addToolBarRightImageView(R.drawable.dhcc_filter_big_write, R.drawable.dhcc_icon_bed_select);
 
@@ -186,7 +192,7 @@ public class NurOrdTaskFragment  extends BaseNurseFragment {
                         }
                     }
                 }
-                getNurOrdTaskList();
+//                getNurOrdTaskList();
             }
         });
     }

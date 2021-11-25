@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/ll_parent"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45">
+        <TextView
+            android:id="@+id/tv_crash"
+            android:text="崩溃"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:drawableBottom="@drawable/dhcc_img_blueline"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dp_16"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:id="@+id/tv_data"
+            android:text="正常"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dp_16"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:id="@+id/tv_err"
+            android:text="错误"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dp_16"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:id="@+id/tv_null"
+            android:text="空数据"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dp_16"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_list"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
+    <TextView
+        android:id="@+id/tv_clear"
+        android:layout_width="match_parent"
+        android:background="@color/blue"
+        android:text="清空"
+        android:textSize="@dimen/dp_20"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:layout_height="@dimen/dp_45"/>
+</LinearLayout>

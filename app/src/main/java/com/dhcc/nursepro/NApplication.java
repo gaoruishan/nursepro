@@ -7,15 +7,10 @@ import com.base.commlibs.utils.TransBroadcastUtil;
 import com.base.commlibs.voiceUtils.VoiceInitUtil;
 import com.blankj.utilcode.util.Utils;
 import com.dhcc.nursepro.greendao.GreenDaoHelper;
-import com.example.dhcc_nurlink.voiceplayutil.download.DownloadConfiguration;
-import com.example.dhcc_nurlink.voiceplayutil.download.DownloadManager;
+import com.dhcc.nursepro.utils.NurLinkUtil;
 import com.facebook.drawee.backends.pipeline.Fresco;
 
-import org.apache.commons.lang3.concurrent.BasicThreadFactory;
-
 import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
 
 public class NApplication extends BaseApplication {
@@ -58,7 +53,6 @@ public class NApplication extends BaseApplication {
 
         //配置数据库
         GreenDaoHelper.initDatabase(this);
-        com.example.dhcc_nurlink.greendao.GreenDaoHelper.initDatabase(this);
 
         //工具类
         Utils.init(this);
@@ -67,19 +61,8 @@ public class NApplication extends BaseApplication {
 
         TransBroadcastUtil.init(this);
 
-        DownloadConfiguration downloadConfiguration = new DownloadConfiguration.Builder(getApplicationContext())
-                .setCacheDir(getExternalCacheDir())        //设置下载缓存目录，必须设置
-                .setTaskExecutor(executorService)    //同上传类似
-                .setThreadPriority(5)  //同上传类似
-                .setThreadPoolCoreSize(5)  //同上传类似
-                .build();
-        DownloadManager.getInstance(this).init(downloadConfiguration);
+        NurLinkUtil.init(this);
     }
-
-
-    public static ScheduledExecutorService executorService = new ScheduledThreadPoolExecutor(5,
-            new BasicThreadFactory.Builder().namingPattern("example-schedule-pool-%d")
-                    .daemon(true).build());
 
 
     //初始化全局线程池
