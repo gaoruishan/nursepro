@@ -391,7 +391,12 @@ public class WorkareaMainConfig {
             subList.add(new MainConfigBean.MainListBean.MainSubListBean("NurPlanFragment","护理计划"));
             subList.add(new MainConfigBean.MainListBean.MainSubListBean("PatHandover","患者交接"));
             subList.add(new MainConfigBean.MainListBean.MainSubListBean("InfusionSituation","输液信息"));
-            subList.add(new MainConfigBean.MainListBean.MainSubListBean("web","web测试","/hello.html"));
+            subList.add(new MainConfigBean.MainListBean.MainSubListBean("web","web请求扫码","/pda/hello.html"));
+            subList.add(new MainConfigBean.MainListBean.MainSubListBean("web","web扫码页面","/pda/test-scanpat.html"));
+            subList.add(new MainConfigBean.MainListBean.MainSubListBean("web","web测试Vue","/pda/test-vue.html"));
+            subList.add(new MainConfigBean.MainListBean.MainSubListBean("web","web组件Vue","/pda/fogbreath-scanpat.html"));
+            subList.add(new MainConfigBean.MainListBean.MainSubListBean("web","web测hisui","/pda/test-hisui-list.html"));
+            subList.add(new MainConfigBean.MainListBean.MainSubListBean("web","web接单列表","/pda/recieveOrderList-scanpat.html"));
             subList.add(new MainConfigBean.MainListBean.MainSubListBean("AccompanyFragment","陪护人记录"));
             subList.add(new MainConfigBean.MainListBean.MainSubListBean("OutManageFragment","外出管理"));
             subList.add(new MainConfigBean.MainListBean.MainSubListBean("PatBindRfid","RFID绑定"));

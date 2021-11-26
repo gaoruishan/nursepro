@@ -148,6 +148,8 @@ public class WebActivity extends BaseWebActivity {
         String s =split[1];
         if (s.startsWith(HTTP)) {
             url = s;
+        }else {
+            url = url.replace("webservice", "web");
         }
         if (!offLine) {
             if (url.startsWith(HTTP) || url.startsWith(FILE)) {

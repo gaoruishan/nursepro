@@ -2,6 +2,7 @@ package com.base.commlibs.base;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.net.http.SslError;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -11,6 +12,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
@@ -44,6 +46,21 @@ public abstract class BaseWebActivity extends BaseActivity {
             super.onPageFinished(view, url);
             Log.e(TAG, "(BaseWebActivity.java:47) onPageFinished");
             onWebViewPageFinished(view, url);
+        }
+
+        @Override
+        public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+            //super.onReceivedSslError(view, handler, error);
+            //handler.cancel(); 默认的处理方式，WebView变成空白页
+            handler.proceed();//接受证书
+        }
+
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+//            return super.shouldOverrideUrlLoading(view, url);
+            //返回false的话，onPageFinished会少执行一次，这样无法保证标识重定向flag的准确性
+            view.loadUrl(url);
+            return true;
         }
     };
     private com.just.agentweb.WebChromeClient mWebChromeClient = new com.just.agentweb.WebChromeClient() {

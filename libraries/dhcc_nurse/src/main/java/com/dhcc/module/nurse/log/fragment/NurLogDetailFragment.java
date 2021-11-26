@@ -1,5 +1,6 @@
 package com.dhcc.module.nurse.log.fragment;
 
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +13,7 @@ import com.base.commlibs.utils.CommFile;
 import com.base.commlibs.utils.CrashHandler;
 import com.base.commlibs.utils.LocalTestManager;
 import com.base.commlibs.utils.SimpleCallBack;
+import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.PathUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.dhcc.module.nurse.R;
@@ -37,7 +39,7 @@ public class NurLogDetailFragment extends BaseCommFragment {
         if (TextUtils.isEmpty(name)) {
             return;
         }
-        if (CrashHandler.DHC_CRASH.equals(nameDir)) {
+        if (name.contains(CrashHandler.DHC_CRASH)) {
             if (name.contains("/")) {
                 nameDir = name.split("/")[1];
             }
@@ -45,8 +47,9 @@ public class NurLogDetailFragment extends BaseCommFragment {
                 @Override
                 public void call(String result, int type) {
                     mResult = result;
-                    Log.e(TAG, "(NurLogDetailFragment.java:29) " + result);
-                    tvTxt.setText("" + result);
+                    String contentRed = "<font color='red'>"+ AppUtils.getAppPackageName()+"</font>";
+                    result = result.replaceAll(AppUtils.getAppPackageName() + "", contentRed);
+                    tvTxt.setText(Html.fromHtml("" + result));
                 }
             });
         }else {
