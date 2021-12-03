@@ -137,7 +137,11 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
                 startService(i);
             }
         }
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
+                && !((NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE)).isNotificationPolicyAccessGranted()) {
+            Intent intent = new Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
+            startActivity(intent);
+        }
     }
 
     private static final int REQUEST_CODE = 1;
@@ -400,12 +404,6 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
         if (loginReceiver != null) {
             loginFilter.addAction(Action.DEVICE_SCAN_CODE);
             registerReceiver(loginReceiver, loginFilter);
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
-                && !((NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE)).isNotificationPolicyAccessGranted()) {
-            Intent intent = new Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
-            startActivity(intent);
         }
 
     }
