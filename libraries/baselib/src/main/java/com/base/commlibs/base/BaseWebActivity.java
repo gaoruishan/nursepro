@@ -272,6 +272,7 @@ public abstract class BaseWebActivity extends BaseActivity {
      */
     public class JsInterface {
 
+        public static final String CALL = "call";
         public static final String REQUEST = "request";
         public static final String CONFIG = "config";
 
@@ -282,6 +283,11 @@ public abstract class BaseWebActivity extends BaseActivity {
             deliver.post(new Runnable() {
                 @Override
                 public void run() {
+                    //调用类
+                    if (finalType.equalsIgnoreCase(CALL)) {
+                        onCallClassMethod(content,finalType);
+                        return;
+                    }
                     //请求
                     if (finalType.equalsIgnoreCase(REQUEST)) {
                         onCallRequest(content, finalType);
@@ -299,5 +305,12 @@ public abstract class BaseWebActivity extends BaseActivity {
 
         }
     }
+
+    /**
+     * 调用类方法
+     * @param content
+     * @param finalType
+     */
+    protected abstract void onCallClassMethod(String content, String finalType);
 
 }

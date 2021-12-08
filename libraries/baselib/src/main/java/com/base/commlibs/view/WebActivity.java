@@ -34,6 +34,8 @@ import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.just.agentweb.AgentWebConfig;
 
+import java.lang.reflect.Method;
+
 /**
  * 对webView封装
  * https://github.com/Justson/AgentWeb
@@ -176,33 +178,6 @@ public class WebActivity extends BaseWebActivity {
             mAgentWeb.getJsAccessEntrace().quickCallJs("Config");
         }
     }
-
-    /**
-     * 初始化配置
-     * @param value
-     */
-    @Override
-    protected void initConfig(String value, String type) {
-        if (!TextUtils.isEmpty(value)) {
-            try {
-                configBean = GsonUtils.fromJson(value, WebConfigBean.class);
-                Log.e(TAG,"(WebActivity.java:181) "+configBean.toString());
-                setToolbarCenterTitle(configBean.title, 0xffffffff, 17);
-                if ("1".equals(configBean.hideToolBar)) {
-                    getToolbar().setVisibility(View.GONE);
-                }
-                if (configBean.toolBar != null) {
-                    if ("text".equalsIgnoreCase(configBean.toolBar.type)) {
-                        setToolbarRightCustomView(getRightTextView(configBean.toolBar.text, configBean.toolBar.method));
-                    }
-                }
-            } catch (Exception e) {
-                Log.e(TAG, "(WebActivity.java:187) " + e.toString());
-            }
-
-        }
-    }
-
     /**
      * 添加筛选按钮
      * @return
@@ -330,5 +305,64 @@ public class WebActivity extends BaseWebActivity {
         });
     }
 
+
+    /**
+     * 初始化配置
+     * @param value
+     */
+    @Override
+    protected void initConfig(String value, String type) {
+        if (!TextUtils.isEmpty(value)) {
+            try {
+                configBean = GsonUtils.fromJson(value, WebConfigBean.class);
+                Log.e(TAG,"(WebActivity.java:181) "+configBean.toString());
+                setToolbarCenterTitle(configBean.title, 0xffffffff, 17);
+                if ("1".equals(configBean.hideToolBar)) {
+                    getToolbar().setVisibility(View.GONE);
+                }
+                if (configBean.toolBar != null) {
+                    if ("text".equalsIgnoreCase(configBean.toolBar.type)) {
+                        setToolbarRightCustomView(getRightTextView(configBean.toolBar.text, configBean.toolBar.method));
+                    }
+                }
+            } catch (Exception e) {
+                Log.e(TAG, "(WebActivity.java:187) " + e.toString());
+            }
+
+        }
+    }
+
+    /**
+     * 调用类方法
+     * @param content
+     * @param finalType
+     */
+    @Override
+    protected void onCallClassMethod(String content, String finalType) {
+        Log.e(TAG,"(WebActivity.java:337) "+content);
+        String string = null;
+        String className = null;
+
+        String classMethod = "test";
+        try {
+            if (content.contains(":")) {
+                className = content.split(":")[0];
+                classMethod = content.split(":")[1];
+            }else {
+                ToastUtils.showShort("调用类为空"+content.contains(":"));
+            }
+            Class<?> aClass = Class.forName(className);
+            Method method = aClass.getMethod(classMethod);
+            method.setAccessible(true);
+            string = (String) method.invoke(aClass.newInstance());
+        } catch (Exception e) {
+            string = e.toString();
+            Log.e(TAG,"(JsInterface.java:298) "+e.toString());
+        }finally {
+            if (mAgentWeb != null) {
+                mAgentWeb.getJsAccessEntrace().quickCallJs(classMethod, ""+string);
+            }
+        }
+    }
 
 }

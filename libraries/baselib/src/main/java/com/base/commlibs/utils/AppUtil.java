@@ -31,6 +31,7 @@ import com.base.commlibs.BaseFragment;
 import com.base.commlibs.R;
 import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -43,7 +44,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static java.util.regex.Pattern.*;
+import static java.util.regex.Pattern.compile;
 
 /**
  * app配置工具类
@@ -56,6 +57,9 @@ public class AppUtil {
     private static SoundPool sSoundPool;
     private static String TAG = AppUtil.class.getSimpleName();
 
+    public static String getAppName() {
+        return AppUtils.getAppName();
+    }
     /**
      * 判断一个字符串是否含有数字
      * @param content

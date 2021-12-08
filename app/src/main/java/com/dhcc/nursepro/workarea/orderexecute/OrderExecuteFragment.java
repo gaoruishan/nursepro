@@ -166,16 +166,6 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
         } else if (!TextUtils.isEmpty(singleRegNo) && isGetPatByScan) {
             scanInfo = singleRegNo;
             getScanInfo();
-        } else if (com.dhcc.nursepro.BuildConfig.DEBUG) {
-            scanInfo = "0000000520";
-            getScanInfo();
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    scanInfo = "5004-1-11";
-                    getScanInfo();
-                }
-            }, 1000);
         }
         startDate = SchDateTimeUtil.getStartDate();
         startTime = SchDateTimeUtil.getStartTime();
