@@ -26,6 +26,7 @@ import com.base.commlibs.http.ServiceCallBack;
 import com.base.commlibs.utils.CommDialog;
 import com.base.commlibs.utils.CommFile;
 import com.base.commlibs.utils.HttpUtil;
+import com.base.commlibs.utils.LocalTestManager;
 import com.base.commlibs.utils.SimpleCallBack;
 import com.base.commlibs.wsutils.BaseWebServiceUtils;
 import com.blankj.utilcode.util.ActivityUtils;
@@ -34,7 +35,10 @@ import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.just.agentweb.AgentWebConfig;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 对webView封装
@@ -68,7 +72,7 @@ public class WebActivity extends BaseWebActivity {
     private LinearLayout linearLayout;
     private XScanView xScan;
     private WebConfigBean configBean;
-
+    private List<String> mStringList = new ArrayList<>();
 
     private String getLocalUrl() {
         return "file:///mnt/sdcard/dhc/" + getUrlName();
@@ -107,6 +111,7 @@ public class WebActivity extends BaseWebActivity {
         super.onResume();
         //注册扫码监听
         registerScanMsgReceiver();
+        mStringList.clear();
     }
 
     @Override
@@ -115,6 +120,11 @@ public class WebActivity extends BaseWebActivity {
         if (mReceiver != null) {
             unregisterReceiver(mReceiver);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     @Override
@@ -147,10 +157,10 @@ public class WebActivity extends BaseWebActivity {
         url = getIntent().getStringExtra(URL);
         //兼容带http的
         String[] split = url.split(BaseWebServiceUtils.getServiceUrl(""));
-        String s =split[1];
+        String s = split[1];
         if (s.startsWith(HTTP)) {
             url = s;
-        }else {
+        } else {
             url = url.replace("webservice", "web");
         }
         if (!offLine) {
@@ -178,6 +188,7 @@ public class WebActivity extends BaseWebActivity {
             mAgentWeb.getJsAccessEntrace().quickCallJs("Config");
         }
     }
+
     /**
      * 添加筛选按钮
      * @return
@@ -315,7 +326,7 @@ public class WebActivity extends BaseWebActivity {
         if (!TextUtils.isEmpty(value)) {
             try {
                 configBean = GsonUtils.fromJson(value, WebConfigBean.class);
-                Log.e(TAG,"(WebActivity.java:181) "+configBean.toString());
+                Log.e(TAG, "(WebActivity.java:181) " + configBean.toString());
                 setToolbarCenterTitle(configBean.title, 0xffffffff, 17);
                 if ("1".equals(configBean.hideToolBar)) {
                     getToolbar().setVisibility(View.GONE);
@@ -326,6 +337,7 @@ public class WebActivity extends BaseWebActivity {
                     }
                 }
             } catch (Exception e) {
+                LocalTestManager.saveLogTest("web-initConfig",e.toString()+"");
                 Log.e(TAG, "(WebActivity.java:187) " + e.toString());
             }
 
@@ -339,28 +351,63 @@ public class WebActivity extends BaseWebActivity {
      */
     @Override
     protected void onCallClassMethod(String content, String finalType) {
-        Log.e(TAG,"(WebActivity.java:337) "+content);
-        String string = null;
+        Log.e(TAG, "(WebActivity.java:337) " + content);
+        Object string = null;
         String className = null;
-
-        String classMethod = "test";
+        Object[] args = new Object[]{};
+        String classMethod = "err";
         try {
             if (content.contains(":")) {
                 className = content.split(":")[0];
                 classMethod = content.split(":")[1];
-            }else {
-                ToastUtils.showShort("调用类为空"+content.contains(":"));
+            } else {
+                ToastUtils.showShort("调用类为空" + content.contains(":"));
             }
-            Class<?> aClass = Class.forName(className);
-            Method method = aClass.getMethod(classMethod);
+            if (content.contains("(")) {
+                classMethod = classMethod.split("\\(")[0];
+                String paramSt = content.split("\\)")[0];
+                String param = paramSt.split("\\(")[1];
+                args = new Object[]{param+""};
+            }
+            Class<?> clz = Class.forName(className);
+
+            //私有构造问题
+            Constructor constructor = clz.getDeclaredConstructor();
+            constructor.setAccessible(true);
+            Object obj = constructor.newInstance();
+            //public方法
+            Method method;
+            if (args.length > 0) { //只有一个String参数
+                method = clz.getMethod(classMethod,String.class);
+            }else {
+                method = clz.getMethod(classMethod);
+            }
             method.setAccessible(true);
-            string = (String) method.invoke(aClass.newInstance());
+            //public构造函数-必须返回值
+            if (method.getReturnType() == String.class) {
+                if (args.length > 0) {
+                    string = (String) method.invoke(obj,args);
+                }else {
+                    string = (String) method.invoke(obj);
+                }
+            }
+            //没有返回值
+            if (method.getReturnType() == void.class) {
+                if (args.length > 0) {
+                    method.invoke(obj,args);
+                }else {
+                     method.invoke(obj);
+                }
+            }
+
         } catch (Exception e) {
             string = e.toString();
-            Log.e(TAG,"(JsInterface.java:298) "+e.toString());
-        }finally {
-            if (mAgentWeb != null) {
-                mAgentWeb.getJsAccessEntrace().quickCallJs(classMethod, ""+string);
+            classMethod = "err";
+            LocalTestManager.saveLogTest("web-onCallClassMethod",e.toString()+"");
+            Log.e(TAG,"(WebActivity.java:388) "+e.toString());
+        } finally {
+            if (mAgentWeb != null) { // js中function函数名千万不要回调方法一样!!! 会死循环!!
+                mAgentWeb.getJsAccessEntrace().quickCallJs(classMethod, "" + string);
             }
         }
     }

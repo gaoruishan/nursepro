@@ -19,7 +19,6 @@ import android.support.v4.app.ActivityCompat;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -33,19 +32,21 @@ import com.base.commlibs.bean.BroadcastListBean;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommHttp;
+import com.base.commlibs.listener.CustomTextWatcher;
 import com.base.commlibs.utils.AppUtil;
 import com.base.commlibs.utils.SchDateTimeUtil;
 import com.base.commlibs.utils.TransBroadcastUtil;
 import com.base.commlibs.utils.UserUtil;
-import com.base.commlibs.view.WebActivity;
 import com.base.commlibs.voiceUtils.SetVoiceIPDialog;
 import com.base.commlibs.voiceUtils.voiceprint.VoicePrintUtil;
 import com.base.commlibs.wsutils.BaseWebServiceUtils;
+import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.SPStaticUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.dhcc.module.nurse.ca.CaLoginActivity;
+import com.dhcc.module.nurse.log.NurLogFragment;
 import com.dhcc.nursepro.Activity.MainActivity;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.greendao.DaoSession;
@@ -111,6 +112,9 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
 
         hindMap();
+        /**
+         * 新版本 使用activity_login_nurse
+         */
 //        setContentView(R.layout.activity_login);
         setToolbarType(ToolbarType.HIDE);
         UserUtil.checkWebIp();
@@ -119,7 +123,6 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
         initView();
         CommHttp.getNurseConfig();
         getBroadCastConfig();
-//        PermissionUtils.permission(PermissionConstants.STORAGE).request();
 
         verifyAudioPermissions(this);
         requestAlertWindowPermission();
@@ -170,8 +173,20 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
         SPStaticUtils.put(SharedPreference.pdaService,pdaService);
         ToastUtils.showShort("切换服务器: "+pdaService);
     }
+
+    /**
+     * 打开浏览器测试
+     * @param view
+     */
     public void testWebView(View view) {
-        WebActivity.start(this, BaseWebServiceUtils.getServiceUrl("/hello.html"));
+        BaseWebServiceUtils.openBrowser(this,BaseWebServiceUtils.getPDAService());
+    }
+    /**
+     * 打开日志
+     * @param view
+     */
+    public void openLog(View view) {
+        startFragment(NurLogFragment.class);
     }
     //申请录音权限
     private static final int GET_RECODE_AUDIO = 1;
@@ -215,19 +230,7 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
 
         tvIp = findViewById(R.id.tv_login_setip);
         tvIp.setOnClickListener(this);
-
-
-        etLoginUsercode.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
+        etLoginUsercode.addTextChangedListener(new CustomTextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
                 //如果有输入内容长度大于0那么显示clear按钮
@@ -263,17 +266,7 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
             }
         });
 
-        etLoginPassword.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
+        etLoginPassword.addTextChangedListener(new CustomTextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
                 //如果有输入内容长度大于0那么显示clear按钮
@@ -293,13 +286,11 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
             }
         });
 
-
-
-
     }
     private void initVoice(){
         tvVoiceIp = findViewById(R.id.tv_voice_ip);
         tvVoice = findViewById(R.id.tv_voice);
+        tvVoiceIp.setText("语音IPv"+ AppUtils.getAppVersionCode());
         tvVoiceIp.setOnClickListener(v -> setVoiceIp());
         VoicePrintUtil voicePrintUtil = new VoicePrintUtil(this,VoicePrintUtil.VOICE_TYPE_LOGIN,tvVoice);
         voicePrintUtil.setVoicePrintResultCallBack(new VoicePrintUtil.VoicePrintResultCallBack() {
@@ -440,23 +431,13 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
                 showDialog.show();
                 break;
             case R.id.tv_login_ward:
-                if (TextUtils.isEmpty(userCode)) {
-                    Toast.makeText(this, "请输入护士工号", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (TextUtils.isEmpty(password)) {
-                    Toast.makeText(this, "请输入密码", Toast.LENGTH_SHORT).show();
+                if (checkUserPass()) {
                     return;
                 }
                 initData("ward", null);
                 break;
             case R.id.tv_login_login:
-                if (TextUtils.isEmpty(userCode)) {
-                    Toast.makeText(this, "请输入护士工号", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (TextUtils.isEmpty(password)) {
-                    Toast.makeText(this, "请输入密码", Toast.LENGTH_SHORT).show();
+                if (checkUserPass()) {
                     return;
                 }
                 if (tvLoginWard.getText().equals("请选择登录病区")) {
@@ -493,6 +474,18 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
             default:
                 break;
         }
+    }
+
+    public boolean checkUserPass() {
+        if (TextUtils.isEmpty(userCode)) {
+            Toast.makeText(this, "请输入护士工号", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        if (TextUtils.isEmpty(password)) {
+            Toast.makeText(this, "请输入密码", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        return false;
     }
 
     private void initData(final String action, final NurseInfo nurseInfo) {
@@ -666,21 +659,7 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
             spUtils.put(SharedPreference.REMEM, false);
             spUtils.put(SharedPreference.REMEM_USERCODE, "");
         }
-        /*
-          更新SP数据
-          userCode
-          userId : 3
-          userName : innurse
-          hospitalRowId : 2
-          groupId : 132
-          groupDesc : Inpatient Nurse
-          linkLoc : 110
-          locId : 197
-          locDesc : 内分泌科护理单元
-          wardId : 5
-          schEnDateTime : 13/08/2018,23:59:59
-          schStDateTime : 13/08/2018,00:00:00
-         */
+
         spUtils.put(SharedPreference.USERCODE, userCode);
         spUtils.put(SharedPreference.USERID, loginNurseInfo.getUserId());
         spUtils.put(SharedPreference.USERNAME, loginNurseInfo.getUserName());
@@ -751,7 +730,6 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
                         NurseInfo nurseInfo1 = nurseInfoList.get(j);
                         if (userCode.equals(nurseInfo1.getUserCode())) {
                             //本地数据库包含当前用户登录数据，设置id，更新数据库数据
-                            //                                        Toast.makeText(LoginActivity.this, "ward----已存在,更新数据", Toast.LENGTH_SHORT).show();
                             loginNurseInfo.setId(nurseInfo1.getId());
                             daoSession.getNurseInfoDao().update(loginNurseInfo);
                             initData("login", loginNurseInfo);
@@ -761,14 +739,12 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
 
                     if (j >= nurseInfoList.size()) {
                         //本地数据库不包含当前用户登录数据，新增数据库数据
-                        //                                    Toast.makeText(LoginActivity.this, "ward----不存在，插入新数据", Toast.LENGTH_SHORT).show();
                         daoSession.getNurseInfoDao().insert(loginNurseInfo);
                         initData("login", loginNurseInfo);
                     }
 
                 } else {
                     //本地数据库为空，直接新增数据库数据
-                    //                                Toast.makeText(LoginActivity.this, "ward----不存在，插入新数据", Toast.LENGTH_SHORT).show();
                     daoSession.getNurseInfoDao().insert(loginNurseInfo);
                     initData("login", loginNurseInfo);
                 }

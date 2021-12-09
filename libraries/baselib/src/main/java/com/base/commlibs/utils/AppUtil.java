@@ -33,6 +33,7 @@ import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -57,8 +58,33 @@ public class AppUtil {
     private static SoundPool sSoundPool;
     private static String TAG = AppUtil.class.getSimpleName();
 
+    private AppUtil() {
+    }
+
     public static String getAppName() {
         return AppUtils.getAppName();
+    }
+    public static void testno1() {
+        Log.e(TAG,"(AppUtil.java:68) testno1");
+        ToastUtils.showShort("没有返回,没参数");
+    }
+    public static void testno2(String s) {
+        Log.e(TAG,"(AppUtil.java:68) testno2");
+        ToastUtils.showShort("没有返回,有参数"+s);
+    }
+    public static String test1() {
+        Log.e(TAG,"(AppUtil.java:68) test1");
+        ToastUtils.showShort("固定test1");
+        return "固定test1";
+    }
+    public static String test2(String s) {
+        ToastUtils.showShort("传过来"+s);
+        Log.e(TAG,"(AppUtil.java:68) 传过来"+s);
+        return "传过来"+s;
+    }
+    public static String  test3(String s) {
+        ToastUtils.showShort("传过来"+s);
+        return "传过来s处理后" + s+System.currentTimeMillis();
     }
     /**
      * 判断一个字符串是否含有数字
@@ -112,7 +138,7 @@ public class AppUtil {
         if (fragment != null) {
             return fragment.getClass().getSimpleName();
         }
-        return "";
+        return ActivityUtils.getTopActivity().getClass().getSimpleName();
     }
 
     /**

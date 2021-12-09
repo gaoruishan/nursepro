@@ -45,6 +45,7 @@
                 android:layout_marginTop="@dimen/dp_6">
 
                 <TextView
+                    android:onClick="lgtestServer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Hi ! "
@@ -52,12 +53,14 @@
                     android:textSize="@dimen/sp_35" />
 
                 <TextView
+                    android:onClick="openLog"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_4"
                     android:text="欢迎使用移动护士站"
                     android:textColor="#62ABFF"
                     android:textSize="@dimen/sp_20" />
+
             </LinearLayout>
 
 

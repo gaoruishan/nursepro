@@ -426,8 +426,11 @@ public class BaseWebServiceUtils {
      * @param context
      */
     public static void openBrowser(Context context) {
+        openBrowser(context,getOPPDAService());
+    }
+    public static void openBrowser(Context context,String serviceClass) {
         Intent intent = new Intent();
-        String url = getServiceUrl(getOPPDAService());
+        String url = getServiceUrl(serviceClass);
         intent.setData(Uri.parse(url));
         intent.setAction(Intent.ACTION_VIEW);
         context.startActivity(intent);
