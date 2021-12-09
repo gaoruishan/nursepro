@@ -87,7 +87,7 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
     private String userCode = "";
     private String password = "";
     private String logonWardId = "";
-    private String loginByVoice="0";
+    private String loginByVoice = "0";
 
     private boolean remem = false;
     private String rememUserCode;
@@ -127,7 +127,7 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
         verifyAudioPermissions(this);
         requestAlertWindowPermission();
         initVoice();
-        if (getApplicationContext()!=null){
+        if (getApplicationContext() != null) {
             Intent i = NurLinkUtil.getMLinkIntent();
             if (i == null) {
                 return;
@@ -141,24 +141,26 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
             }
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
-                && !((NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE)).isNotificationPolicyAccessGranted()) {
+                && !((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).isNotificationPolicyAccessGranted()) {
             Intent intent = new Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
             startActivity(intent);
         }
     }
 
     private static final int REQUEST_CODE = 1;
-    private  void requestAlertWindowPermission() {
+
+    private void requestAlertWindowPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (Settings.canDrawOverlays(this)) {
                 Log.i("xqxinfo", "onActivityResult granted");
-            }else {
+            } else {
                 Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
                 intent.setData(Uri.parse("package:" + getPackageName()));
                 startActivityForResult(intent, REQUEST_CODE);
             }
         }
     }
+
     /**
      * 测试-切换服务器
      * @param view
@@ -167,11 +169,11 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
         String pdaService = BaseWebServiceUtils.getPDAService();
         if (pdaService.contains(BaseWebServiceUtils.NUR_MNIS_SERVICE)) {
             pdaService = BaseWebServiceUtils.NUR_PDA_SERVICE;
-        }else {
+        } else {
             pdaService = BaseWebServiceUtils.NUR_MNIS_SERVICE;
         }
-        SPStaticUtils.put(SharedPreference.pdaService,pdaService);
-        ToastUtils.showShort("切换服务器: "+pdaService);
+        SPStaticUtils.put(SharedPreference.pdaService, pdaService);
+        ToastUtils.showShort("切换服务器: " + pdaService);
     }
 
     /**
@@ -179,8 +181,9 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
      * @param view
      */
     public void testWebView(View view) {
-        BaseWebServiceUtils.openBrowser(this,BaseWebServiceUtils.getPDAService());
+        BaseWebServiceUtils.openBrowser(this, BaseWebServiceUtils.getPDAService());
     }
+
     /**
      * 打开日志
      * @param view
@@ -188,6 +191,7 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
     public void openLog(View view) {
         startFragment(NurLogFragment.class);
     }
+
     //申请录音权限
     private static final int GET_RECODE_AUDIO = 1;
     private static String[] PERMISSION_AUDIO = {
@@ -205,11 +209,12 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
                 Manifest.permission.READ_EXTERNAL_STORAGE);
         int permission2 = ActivityCompat.checkSelfPermission(activity,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        if (permission != PackageManager.PERMISSION_GRANTED||permission1 != PackageManager.PERMISSION_GRANTED||permission2 != PackageManager.PERMISSION_GRANTED) {
+        if (permission != PackageManager.PERMISSION_GRANTED || permission1 != PackageManager.PERMISSION_GRANTED || permission2 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(activity, PERMISSION_AUDIO,
                     GET_RECODE_AUDIO);
         }
     }
+
     private void initView() {
 
         etLoginUsercode = findViewById(R.id.et_login_usercode);
@@ -287,30 +292,32 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
         });
 
     }
-    private void initVoice(){
+
+    private void initVoice() {
         tvVoiceIp = findViewById(R.id.tv_voice_ip);
         tvVoice = findViewById(R.id.tv_voice);
-        tvVoiceIp.setText("语音IPv"+ AppUtils.getAppVersionCode());
+        tvVoiceIp.setText("语音IPv" + AppUtils.getAppVersionCode());
         tvVoiceIp.setOnClickListener(v -> setVoiceIp());
-        VoicePrintUtil voicePrintUtil = new VoicePrintUtil(this,VoicePrintUtil.VOICE_TYPE_LOGIN,tvVoice);
+        VoicePrintUtil voicePrintUtil = new VoicePrintUtil(this, VoicePrintUtil.VOICE_TYPE_LOGIN, tvVoice);
         voicePrintUtil.setVoicePrintResultCallBack(new VoicePrintUtil.VoicePrintResultCallBack() {
             @Override
             public void success(String code) {
 
                 etLoginUsercode.setText(userCode);
                 userCode = code;
-                loginByVoice="1";
+                loginByVoice = "1";
                 initData("login", null);
             }
 
             @Override
             public void fail() {
-                loginByVoice="0";
+                loginByVoice = "0";
             }
         });
 
     }
-    private void setVoiceIp(){
+
+    private void setVoiceIp() {
         SetVoiceIPDialog voiceIpDialog = new SetVoiceIPDialog(this);
         voiceIpDialog.setTitle("结果");
         String voiceIp = spUtils.getString(SharedPreference.VOICE_IP);
@@ -321,9 +328,9 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
             @Override
             public void onYesClick() {
                 if (AppUtil.isIP(voiceIpDialog.getIp())) {
-                    if ( spUtils.getString(SharedPreference.VOICE_IP).equals(voiceIpDialog.getIp()) && spUtils.getString(SharedPreference.VOICE_PORT).equals(voiceIpDialog.getPort())){
+                    if (spUtils.getString(SharedPreference.VOICE_IP).equals(voiceIpDialog.getIp()) && spUtils.getString(SharedPreference.VOICE_PORT).equals(voiceIpDialog.getPort())) {
                         showToast("未修改，请重新设置");
-                    }else {
+                    } else {
                         spUtils.put(SharedPreference.VOICE_IP, voiceIpDialog.getIp());
                         spUtils.put(SharedPreference.VOICE_PORT, voiceIpDialog.getPort());
                         showToast("设置成功，请重新打开APP");
@@ -350,10 +357,8 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
             @Override
             public void onSuccess(BroadCastListBean broadCastListBean) {
                 List<BroadcastListBean> broadcastList = broadCastListBean.getBroadcastList();
-                if (broadcastList != null && broadcastList.size() > 0) {
-                    TransBroadcastUtil.setScanActionList(broadcastList);
-                    hasBroadCastConfig = true;
-                }
+                TransBroadcastUtil.setScanActionList(broadcastList);
+                hasBroadCastConfig = true;
             }
 
             @Override
@@ -417,7 +422,8 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
                                 spUtils.put(SharedPreference.WEBIP, showDialog.getIp());
                                 spUtils.put(SharedPreference.WEBPATH, showDialog.getAddr());
                                 String ip = showDialog.getIp();
-                                UserUtil.setWebIpAndPath(ip,showDialog.getAddr());UserUtil.setWebIpAndPath(ip,showDialog.getAddr());
+                                UserUtil.setWebIpAndPath(ip, showDialog.getAddr());
+                                UserUtil.setWebIpAndPath(ip, showDialog.getAddr());
                                 showDialog.dismiss();
                                 CommHttp.getNurseConfig();
                                 getBroadCastConfig();
@@ -497,20 +503,20 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
             return;
         }
         if (nurseInfo != null) {
-            spUtils.put(SharedPreference.LOCID,nurseInfo.getLocId());
+            spUtils.put(SharedPreference.LOCID, nurseInfo.getLocId());
         }
         nurseInfoList = daoSession.getNurseInfoDao().queryBuilder().list();
         LoginApiManager.getLogin(userCode, password, logonWardId, new LoginApiManager.GetLoginCallback() {
             @Override
             public void onSuccess(final LoginBean loginBean) {
-                spUtils.put(SharedPreference.USERID,loginBean.getUserId());
+                spUtils.put(SharedPreference.USERID, loginBean.getUserId());
                 //设置Pin标识
-                setPinFlag(loginBean.getCaFlag(),loginBean.getPinFlag());
-                loginByVoice="0";
-                spUtils.put(SharedPreference.BTN_VOICE_SHOW,loginBean.getVoiceFlag().equals("1")?true:false);
+                setPinFlag(loginBean.getCaFlag(), loginBean.getPinFlag());
+                loginByVoice = "0";
+                spUtils.put(SharedPreference.BTN_VOICE_SHOW, loginBean.getVoiceFlag().equals("1") ? true : false);
 
                 UserUtil.setUserConfig(loginBean);
-                spUtils.put(SharedPreference.CURDATETIME,loginBean.getCurDateTime());
+                spUtils.put(SharedPreference.CURDATETIME, loginBean.getCurDateTime());
                 //保存科室列表，设置界面更换病区会用到
                 List<Map<String, String>> list = new ArrayList<>();
                 for (int i = 0; i < loginBean.getLocs().size(); i++) {
@@ -543,13 +549,15 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
             @Override
             public void onFail(String code, String msg) {
                 showToast("error" + code + ":" + msg);
-                loginByVoice="0";
-                if (msg.contains("无此用户")){
+                loginByVoice = "0";
+                if (msg.contains("无此用户")) {
 //                    etLoginPassword.clearFocus();
                     etLoginUsercode.requestFocus();
                     etLoginPassword.setText("");
-                    InputMethodManager manager = ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE));
-                    if (manager != null) {manager.showSoftInput(etLoginUsercode, 0);}
+                    InputMethodManager manager = ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
+                    if (manager != null) {
+                        manager.showSoftInput(etLoginUsercode, 0);
+                    }
                 }
             }
         });
@@ -630,14 +638,14 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
         saveUserInfo();
         spUtils.put(SharedPreference.ORDERSEARCHE_BEDSELECTED, "");
         String singleFlag = spUtils.getString(SharedPreference.SINGLEMODEL, "0");
-        if (singleFlag.equals("0")){
+        if (singleFlag.equals("0")) {
             spUtils.put(SharedPreference.SINGLEMODEL, "0");
         }
         //是否开启CA
         String caFlag = loginBean.getCaFlag();
         if ("1".equals(caFlag)) {
             startCa();
-        }else {
+        } else {
             if (singleFlag.equals("1")) {
                 startSingleActivity();
             } else {
@@ -670,12 +678,11 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
         spUtils.put(SharedPreference.LOCID, loginNurseInfo.getLocId());
         spUtils.put(SharedPreference.LOCDESC, loginNurseInfo.getLocDesc());
         spUtils.put(SharedPreference.WARDID, loginNurseInfo.getWardId());
-        SchDateTimeUtil.putSchStartEndDateTime(loginNurseInfo.getSchStDateTime(),loginNurseInfo.getSchEnDateTime());
+        SchDateTimeUtil.putSchStartEndDateTime(loginNurseInfo.getSchStDateTime(), loginNurseInfo.getSchEnDateTime());
     }
 
     /**
      * 选择病区弹窗
-     *
      * @param nurseInfo
      * @param loginBean
      */
@@ -692,13 +699,13 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
         picker.setCanceledOnTouchOutside(false);
         picker.setDividerRatio(WheelView.DividerConfig.FILL);
         Boolean ifLocRem = true;
-        for (int i = 0; i <locDesc.length ; i++) {
-            if (spUtils.getString(SharedPreference.LOCDESC).equals(locDesc[i])){
+        for (int i = 0; i < locDesc.length; i++) {
+            if (spUtils.getString(SharedPreference.LOCDESC).equals(locDesc[i])) {
                 picker.setSelectedIndex(i);
                 ifLocRem = false;
             }
         }
-        if (ifLocRem){
+        if (ifLocRem) {
             picker.setSelectedIndex(0);
         }
         picker.setCycleDisable(true);
@@ -770,7 +777,7 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
         }
     }
 
-    private void startSingleActivity(){
+    private void startSingleActivity() {
         WorkareaMainConfig workareaMainConfig = new WorkareaMainConfig();
         workareaMainConfig.getMainConfigData(LoginActivity.this);
     }

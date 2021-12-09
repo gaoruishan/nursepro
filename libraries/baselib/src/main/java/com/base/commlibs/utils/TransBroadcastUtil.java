@@ -54,7 +54,10 @@ public class TransBroadcastUtil {
         broadcastList.addAll(broadcastListBeans);
         IntentFilter filter = new IntentFilter();
         for (int i = 0; i < broadcastList.size(); i++) {
-            filter.addAction(broadcastList.get(i).getAction());
+            String action = broadcastList.get(i).getAction();
+            if(!TextUtils.isEmpty(action)){
+                filter.addAction(action);
+            }
         }
         mContext.registerReceiver(mReceiver, filter);
         Log.e("TAG","(TransBroadcastUtil.java:55) setScanActionList");
@@ -68,6 +71,7 @@ public class TransBroadcastUtil {
         mContext = context;
         //默认添加
         broadcastList.add(new BroadcastListBean("com.scanner.broadcast","data","成为"));
+        broadcastList.add(new BroadcastListBean("dhc","value","东华"));
     }
 
     /**

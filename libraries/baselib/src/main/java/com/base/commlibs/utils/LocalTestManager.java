@@ -12,6 +12,7 @@ import com.blankj.utilcode.util.NetworkUtils;
 import com.blankj.utilcode.util.ObjectUtils;
 import com.blankj.utilcode.util.SPStaticUtils;
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.ToastUtils;
 
 import org.json.JSONObject;
 
@@ -43,7 +44,10 @@ public class LocalTestManager {
     private static final int APP_VERSION_CODE = AppUtils.getAppVersionCode();
     private static final String APP_VERSION_NAME = AppUtils.getAppVersionName();
     private static final String APP_PACKAGE_NAME = AppUtils.getAppPackageName();
+    //当前时间
     public static final String CUR_DATE_TIME = "curDateTime";
+    //提示
+    public static final String TIP_FLAG = "tipFlag";
     private static final String TAG = "LocalTestManager";
 
     private static List<String> l = new ArrayList<>();
@@ -179,7 +183,7 @@ public class LocalTestManager {
      */
     protected static void saveCommResult(String res) {
         if (res.contains(CUR_DATE_TIME)) {
-            try {
+            try { //当前时间
                 JSONObject jsonObject = new JSONObject(res);
                 String curTime = jsonObject.getString(CUR_DATE_TIME);
                 if (!TextUtils.isEmpty(curTime)) {
@@ -187,6 +191,17 @@ public class LocalTestManager {
                 }
             } catch (Exception e) {
                 Log.e(TAG, "(LocalTestManager.java:151) " + e.toString());
+            }
+        }
+        if (res.contains(TIP_FLAG)) {
+            try { //toast 提示
+                JSONObject jsonObject = new JSONObject(res);
+                String tipFlag = jsonObject.getString(TIP_FLAG);
+                if (!TextUtils.isEmpty(tipFlag)) {
+                    ToastUtils.showShort(tipFlag+"");
+                }
+            } catch (Exception e) {
+                Log.e(TAG, "(LocalTestManager.java:205) " + e.toString());
             }
         }
     }
