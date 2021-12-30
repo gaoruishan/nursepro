@@ -65,7 +65,7 @@ public class OrderExecuteApiService extends NurseAPI {
 
     }
 
-    public static void execOrSeeOrder(String speed, String barCode, String scanFlag, String batch, String auditUserCode, String auditUserPass, String oeoreId, String execStatusCode, String wayNo, final ServiceCallBack callBack) {
+    public static void execOrSeeOrder(String speed, String barCode, String scanFlag, String batch, String auditUserCode, String auditUserPass, String oeoreId, String execStatusCode, String wayNo,String deviceNo, final ServiceCallBack callBack) {
         SPUtils spUtils = SPUtils.getInstance();
         HashMap<String, String> properties = new HashMap<>();
         properties.put("speed", speed);
@@ -80,6 +80,7 @@ public class OrderExecuteApiService extends NurseAPI {
         properties.put("wardId", spUtils.getString(SharedPreference.WARDID));
         properties.put("barCode", barCode);
         properties.put("wayNo", wayNo);
+        properties.put("deviceNo", deviceNo);
 
         WebServiceUtils.callWebService(execOrSeeOrder, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override

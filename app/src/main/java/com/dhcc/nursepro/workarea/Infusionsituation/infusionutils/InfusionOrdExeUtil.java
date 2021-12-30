@@ -114,6 +114,7 @@ public class InfusionOrdExeUtil {
                             operateDialog.setViewVisibility(View.GONE, View.VISIBLE, View.VISIBLE, true);
                             operateDialog.setSpeedUnit(scanResultBean.getFlowSpeedUnit() + "");
                             operateDialog.setSpeed(scanResultBean.getFlowSpeed() + "");
+                            operateDialog.setRemainder(scanResultBean.getRemainder() + "");
                             ordSpeed = scanResultBean.getFlowSpeed() + "";
                             List ls = new ArrayList<String>();
                             if (scanResultBean.getSpeedUnitList() != null) {
@@ -527,7 +528,7 @@ public class InfusionOrdExeUtil {
             return;
         }
 
-        OrderExecuteApiManager.execOrSeeOrder(ordSpeed, barCode, creattime, order, execpatInfo, "1", "", "", "", oeoreIdScan, execStatusCodeScan, wayNo, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
+        OrderExecuteApiManager.execOrSeeOrder(ordSpeed, barCode, creattime, order, execpatInfo, "1", "", "", "", oeoreIdScan, execStatusCodeScan, wayNo,"", new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
             @Override
             public void onSuccess(OrderExecResultBean orderExecResultBean) {
                 barCode = "";

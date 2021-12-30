@@ -93,6 +93,35 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/ll_device"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_45"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:background="#F5FAFF"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/dp_5"
+                    android:paddingEnd="@dimen/dp_5">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="监护仪"
+                        android:textColor="#9B9B9B"
+                        android:textSize="@dimen/sp_12" />
+
+                    <TextView
+                        android:id="@+id/tv_popup_device"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:textColor="#ff4a4a4a"
+                        android:textSize="15sp"
+                        tools:text="0-02791538" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/ll_speed"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_45"

@@ -44,8 +44,8 @@ public class OrderExecOrderDialog extends Dialog {
 
     private onSureOnclickListener sureOnclickListener;
     private onCancelOnclickListener cancelOnclickListener;
-    private View llMsg;
-    private TextView tvPopupMsg;
+    private View llMsg,llDevice;
+    private TextView tvPopupMsg,tvPopupDevice;
     private String msgInfo;
     private String canExeFlag;
 
@@ -57,6 +57,8 @@ public class OrderExecOrderDialog extends Dialog {
     private String CDSS; // EH 21-11-04 CDSS注意事项
     private View llCDSS;
     private TextView tvCDSS;
+    private boolean barCodeTypeInfusion;
+    private String devicNo;
 
     public String getBedCode() {
         return bedCode;
@@ -208,7 +210,9 @@ public class OrderExecOrderDialog extends Dialog {
         tvPopupOrderexec = findViewById(R.id.tv_popup_orderexec);
         tvPopupOrdercancel = findViewById(R.id.tv_popup_ordercancel);
         llMsg = findViewById(R.id.ll_msg);
+        llDevice = findViewById(R.id.ll_device);
         tvPopupMsg = findViewById(R.id.tv_popup_msg);
+        tvPopupDevice = findViewById(R.id.tv_popup_device);
 
         //提高展示效率
         recyPopupChildOrderInfo.setHasFixedSize(true);
@@ -225,6 +229,8 @@ public class OrderExecOrderDialog extends Dialog {
     }
 
     private void initData() {
+        //设备
+        setDeviceInfo(devicNo);
 
         if (patInfo != null) {
             tvPopupPatinfo.setText(patInfo);
@@ -261,6 +267,7 @@ public class OrderExecOrderDialog extends Dialog {
             llCDSS.setVisibility(View.VISIBLE);
             tvCDSS.setText(android.text.Html.fromHtml(CDSS));
         }
+        llDevice.setVisibility(barCodeTypeInfusion ? View.VISIBLE : View.GONE);
     }
 
     private void initEvent() {
@@ -282,6 +289,25 @@ public class OrderExecOrderDialog extends Dialog {
         });
     }
 
+    public void setBarCodeType(boolean barCodeTypeInfusion) {
+        this.barCodeTypeInfusion = barCodeTypeInfusion;
+    }
+
+    public void setDevicNo(String devicNo) {
+        this.devicNo = devicNo;
+        setDeviceInfo(devicNo);
+    }
+
+    public void setDeviceInfo(String devicNo) {
+        if(!TextUtils.isEmpty(devicNo)){
+            if (llDevice != null) {
+                llDevice.setVisibility(View.VISIBLE);
+            }
+            if (tvPopupDevice != null) {
+                tvPopupDevice.setText(devicNo + "");
+            }
+        }
+    }
 
     /**
      * 设置确定按钮被点击的接口

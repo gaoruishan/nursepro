@@ -5,10 +5,12 @@ import android.content.DialogInterface;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.orderexecute.api.OrderExecuteApiManager;
 import com.dhcc.nursepro.workarea.orderexecute.bean.OrderExecResultBean;
@@ -29,6 +31,7 @@ import java.util.List;
  * Time:16:58
  */
 public class WorkareaOrdExeUtil {
+    public static final int INT_8 = 8;
     private Context mContext;
     //功能扩展 医嘱执行相关数据
     private SPUtils spUtils = SPUtils.getInstance();
@@ -55,6 +58,7 @@ public class WorkareaOrdExeUtil {
     private String regNoByPat = "";
     private String regNoByOrd = "";
     private String wayNo = "";
+    private String deviceNo;
 
 
     public WorkareaOrdExeUtil(Context context) {
@@ -69,6 +73,19 @@ public class WorkareaOrdExeUtil {
     }
 
     public void getScanInfo() {
+        //判断8位监护仪
+        if (orderDialog != null && !TextUtils.isEmpty(scanInfo)) {
+            if (scanInfo.length() == INT_8 && !scanInfo.contains("-")) {
+                orderDialog.setDevicNo(scanInfo);
+                return;
+            } else {
+                boolean barCode = scanInfo.contains("REG") || scanInfo.contains("-");
+                if (!barCode) {
+                    ToastUtils.showShort("默认监护仪8位格式!");
+                    return;
+                }
+            }
+        }
         WorkareaApiManager.getScanMsgByMain(episodeId, curOeordId, scanInfo, new WorkareaApiManager.GetScanCallBack() {
             @Override
             public void onSuccess(ScanResultBean scanResultBeanFromWS) {
@@ -86,6 +103,7 @@ public class WorkareaOrdExeUtil {
                             if ("exe".equals(orderDialog.getBtnType())) {
                                 ordSpeed = orderDialog.getSpeed() + " " + orderDialog.getSpeedUnit();
                                 wayNo = orderDialog.getWayNo();
+                                deviceNo = orderDialog.getDeviceNo();
                                 execOrSeeOrderScan(patSaveInfo, orderDialog.getSttDateTime(), orderDialog.getArcimDesc(), orderDialog.getOrderId(), "F", orderDialog.getBedCode());
                                 orderDialog.dismiss();
                             } else {
@@ -222,6 +240,7 @@ public class WorkareaOrdExeUtil {
                             operateDialog.setOrderInfoEx(orderDialog.getOrderInfoEx());
                             operateDialog.setSpeedUnit(scanResultBean.getFlowSpeedUnit() + "");
                             operateDialog.setSpeed(scanResultBean.getFlowSpeed() + "");
+                            operateDialog.setRemainder(scanResultBean.getRemainder());
                             ordSpeed = scanResultBean.getFlowSpeed() + "";
                             List ls = new ArrayList<String>();
                             if (scanResultBean.getSpeedUnitList() != null) {
@@ -415,6 +434,15 @@ public class WorkareaOrdExeUtil {
                         orderDialog.setBedCode(ordersBean.getBedCode());
                         orderDialog.setSpeedUnit(scanResultBean.getFlowSpeedUnit() + "");
                         orderDialog.setSpeed(scanResultBean.getFlowSpeed() + "");
+                        //执行添加设备
+                        if ("exe".equals(scanResultBean.getBtnType())) {
+                            if (!TextUtils.isEmpty(scanResultBean.getDevicNo())) {
+                                orderDialog.setDevicNo(scanResultBean.getDevicNo() + "");
+                            } else {
+                                ToastUtils.showShort("请扫码绑定监护仪设备!");
+                            }
+                        }
+                        orderDialog.setRemainder(scanResultBean.getRemainder() + "");
                         ordSpeed = scanResultBean.getFlowSpeed() + "";
                         List ls = new ArrayList<String>();
                         if (scanResultBean.getSpeedUnitList() != null) {
@@ -527,7 +555,7 @@ public class WorkareaOrdExeUtil {
             return;
         }
 
-        OrderExecuteApiManager.execOrSeeOrder(ordSpeed, barCode, creattime, order, execpatInfo, "1", "", "", "", oeoreIdScan, execStatusCodeScan, wayNo, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
+        OrderExecuteApiManager.execOrSeeOrder(ordSpeed, barCode, creattime, order, execpatInfo, "1", "", "", "", oeoreIdScan, execStatusCodeScan, wayNo, deviceNo, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
             @Override
             public void onSuccess(OrderExecResultBean orderExecResultBean) {
                 barCode = "";

@@ -7,8 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -72,6 +71,7 @@ public class WorkareaOperateDialog extends Dialog {
     private String speedUnit = "";
     private String speed = "";
     private int ifJpShow = View.GONE;
+    private String remainder;
 
     public void setJp(int ifJpShow){
         this.ifJpShow = ifJpShow;
@@ -288,7 +288,9 @@ public class WorkareaOperateDialog extends Dialog {
         if (orderInfoEx != null) {
             tvPopupOrderinfoex.setText(orderInfoEx);
         }
-
+        if(!TextUtils.isEmpty(remainder)){
+        	edPopupRemainingliquid.setText(remainder+"");
+        }
         llRemainingliquid.setVisibility(ll1);
         llRemarkinfo.setVisibility(ll2);
         llSpiSpeed.setVisibility(llSpeed);
@@ -390,6 +392,10 @@ public class WorkareaOperateDialog extends Dialog {
                 }
             }
         });
+    }
+
+    public void setRemainder(String remainder) {
+        this.remainder = remainder;
     }
 
 

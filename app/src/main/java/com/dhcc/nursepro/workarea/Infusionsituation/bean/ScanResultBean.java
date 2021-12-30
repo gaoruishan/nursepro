@@ -37,6 +37,24 @@ public class ScanResultBean {
     private List<SuspendNoteListBean> SuspendNoteList;
     private List<TourNoteListBean> TourNoteList;
     private List<WayNoList> wayNoList;
+    private String devicNo;
+    private String remainder;
+
+    public String getDevicNo() {
+        return devicNo == null ? "" : devicNo;
+    }
+
+    public void setDevicNo(String devicNo) {
+        this.devicNo = devicNo;
+    }
+
+    public String getRemainder() {
+        return remainder == null ? "" : remainder;
+    }
+
+    public void setRemainder(String remainder) {
+        this.remainder = remainder;
+    }
 
     public List<WayNoList> getWayNoList() {
         return wayNoList;

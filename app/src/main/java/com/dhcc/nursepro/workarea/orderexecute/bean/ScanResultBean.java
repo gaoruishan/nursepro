@@ -11,7 +11,6 @@ public class ScanResultBean {
      * patInfo : {"admReason":"全自费","age":"30岁","balance":"92626.43","bedCode":"02","careLevel":"","ctLocDesc":"内分泌科","currWardID":"5","diagnosis":"食管裂孔疝,食管裂孔疝,肺占位性病变,咳嗽病,阳明实证","dischargeStatus":"","episodeID":"94","homeAddres":"","ifNewBaby":"N","illState":"普通","inDays":"158","inDeptDateTime":"2018-03-26 08:46","inHospDateTime":"2018-03-26 08:46:30","insuranceCard":"","mainDoctor":"医生01","mainDoctorID":["1"],"mainNurse":"","mainNurseID":[],"medicareNo":"100056","motherTransLoc":"","name":"王伟测试","nation":"汉族","operation":"颈部血管治疗性超声","orderID":"91","patLinkman":"","patientID":"129","personID":"37078419880819641X ","regDateTime":"2018-03-26 08:45:24","regNo":"0000000129","roomDesc":"1病室","sex":"男","telphone":"15336465257","totalCost":"17373.57","wardDesc":"内分泌科护理单元"}
      * status : 0
      */
-
     private String flag;
     private String dismissFlag;
     private String msg;
@@ -22,6 +21,26 @@ public class ScanResultBean {
     private List<OrdersBean> orders;
     private String barCodeType;
     private String CDSS; // EH CDSS注意事项
+
+    private String devicNo;
+    private String remainder;
+
+    public String getDevicNo() {
+        return devicNo == null ? "" : devicNo;
+    }
+
+    public void setDevicNo(String devicNo) {
+        this.devicNo = devicNo;
+    }
+
+    public String getRemainder() {
+        return remainder == null ? "" : remainder;
+    }
+
+    public void setRemainder(String remainder) {
+        this.remainder = remainder;
+    }
+
 
     public String getDismissFlag() {
         return dismissFlag == null ? "" : dismissFlag;

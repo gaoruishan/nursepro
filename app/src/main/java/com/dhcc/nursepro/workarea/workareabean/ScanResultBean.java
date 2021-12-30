@@ -33,10 +33,31 @@ public class ScanResultBean {
     private List<SpeedUnitListBean> speedUnitList;
     private String flowSpeed;
     private String flowSpeedUnit;
+
     private List<StopNoteListBean> StopNoteList;
     private List<SuspendNoteListBean> SuspendNoteList;
     private List<TourNoteListBean> TourNoteList;
     private List<WayNoList> wayNoList;
+
+    private String devicNo;
+    private String remainder;
+
+    public String getDevicNo() {
+//        return devicNo == null ? "" : devicNo;
+        return "";
+    }
+
+    public void setDevicNo(String devicNo) {
+        this.devicNo = devicNo;
+    }
+
+    public String getRemainder() {
+        return remainder == null ? "" : remainder;
+    }
+
+    public void setRemainder(String remainder) {
+        this.remainder = remainder;
+    }
 
     public List<WayNoList> getWayNoList() {
         return wayNoList;

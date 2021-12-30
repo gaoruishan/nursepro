@@ -101,7 +101,7 @@ public class OrderExecuteApiManager {
         });
     }
 
-    public static void execOrSeeOrder(String speed,String barCode,String starttime, String orderDesc, String patInfo, String scanFlag, String batch, String auditUserCode, String auditUserPass, String oeoreId, String execStatusCode, String wayNo, final ExecOrSeeOrderCallback callback) {
+    public static void execOrSeeOrder(String speed,String barCode,String starttime, String orderDesc, String patInfo, String scanFlag, String batch, String auditUserCode, String auditUserPass, String oeoreId, String execStatusCode, String wayNo, String deviceNo,final ExecOrSeeOrderCallback callback) {
 
         SPUtils spUtils = SPUtils.getInstance();
 
@@ -120,6 +120,7 @@ public class OrderExecuteApiManager {
         properties.put("wardId", spUtils.getString(SharedPreference.WARDID));
         properties.put("barCode",barCode);
         properties.put("wayNo",wayNo);
+        properties.put("deviceNo",deviceNo);
 
 
         Log.i("OrderExecute", "execOrSeeOrder: " + properties.toString());
@@ -138,11 +139,11 @@ public class OrderExecuteApiManager {
         properties.put("starttime", starttime);
 
 
-        execOrSeeOrder(speed, barCode, scanFlag, batch, auditUserCode, auditUserPass, oeoreId, execStatusCode, wayNo, callback, properties);
+        execOrSeeOrder(speed, barCode, scanFlag, batch, auditUserCode, auditUserPass, oeoreId, execStatusCode, wayNo,deviceNo, callback, properties);
     }
 
-    public static void execOrSeeOrder(String speed, String barCode, String scanFlag, String batch, String auditUserCode, String auditUserPass, String oeoreId, String execStatusCode, String wayNo, ExecOrSeeOrderCallback callback, HashMap<String, String> properties) {
-        OrderExecuteApiService.execOrSeeOrder(speed,barCode,scanFlag, batch, auditUserCode, auditUserPass, oeoreId, execStatusCode, wayNo, new OrderExecuteApiService.ServiceCallBack() {
+    public static void execOrSeeOrder(String speed, String barCode, String scanFlag, String batch, String auditUserCode, String auditUserPass, String oeoreId, String execStatusCode, String wayNo,String deviceNo, ExecOrSeeOrderCallback callback, HashMap<String, String> properties) {
+        OrderExecuteApiService.execOrSeeOrder(speed,barCode,scanFlag, batch, auditUserCode, auditUserPass, oeoreId, execStatusCode, wayNo,deviceNo, new OrderExecuteApiService.ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
 

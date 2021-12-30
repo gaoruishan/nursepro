@@ -73,6 +73,34 @@
                         tools:text="06床-苏患者-男-62岁-02791538" />
 
                 </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_device"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:orientation="vertical"
+                    >
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="监护仪"
+                        android:textColor="#9B9B9B" />
+
+                    <TextView
+                        android:id="@+id/tv_popup_device"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_45"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:background="#F5FAFF"
+                        android:gravity="center"
+                        android:textColor="#4A4A4A"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        tools:text="06床-苏患者-男-62岁-02791538" />
+
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="match_parent"

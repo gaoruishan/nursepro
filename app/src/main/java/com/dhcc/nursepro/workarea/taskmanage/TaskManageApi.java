@@ -56,6 +56,6 @@ public class TaskManageApi extends NurseAPI {
     public static void execOrSeeOrder(TaskManageRequest.ExecOrSeeOrder request, final OrderExecuteApiManager.ExecOrSeeOrderCallback callback) {
         request.speed = "";
         request.barCode = "";
-        OrderExecuteApiManager.execOrSeeOrder(request.speed, request.barCode, request.scanFlag, request.batch, request.auditUserCode, request.auditUserPass, request.oeoreId, request.execStatusCode, "", callback, request.getProperties());
+        OrderExecuteApiManager.execOrSeeOrder(request.speed, request.barCode, request.scanFlag, request.batch, request.auditUserCode, request.auditUserPass, request.oeoreId, request.execStatusCode, "","", callback, request.getProperties());
     }
 }
