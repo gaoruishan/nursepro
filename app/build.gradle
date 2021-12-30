@@ -32,7 +32,7 @@ android {
         variant ->
             variant.outputs.all {
                 if (buildType.name == 'release') {
-                    outputFileName = "MobileNurse_" + defaultConfig.versionCode + "_" + new Date().format("yyyy-MM-dd") + ".apk"
+                    outputFileName = "MobileNurse_" + defaultConfig.versionCode + "_" + new Date().format("yyyy-MM-dd") + "_v8.5.apk"
                 }
             }
     }
