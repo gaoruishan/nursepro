@@ -57,8 +57,7 @@ public class OrderExecOrderDialog extends Dialog {
     private String CDSS; // EH 21-11-04 CDSS注意事项
     private View llCDSS;
     private TextView tvCDSS;
-    private boolean barCodeTypeInfusion;
-    private String devicNo;
+    private String devicNo=null;
 
     public String getBedCode() {
         return bedCode;
@@ -267,7 +266,6 @@ public class OrderExecOrderDialog extends Dialog {
             llCDSS.setVisibility(View.VISIBLE);
             tvCDSS.setText(android.text.Html.fromHtml(CDSS));
         }
-        llDevice.setVisibility(barCodeTypeInfusion ? View.VISIBLE : View.GONE);
     }
 
     private void initEvent() {
@@ -289,17 +287,13 @@ public class OrderExecOrderDialog extends Dialog {
         });
     }
 
-    public void setBarCodeType(boolean barCodeTypeInfusion) {
-        this.barCodeTypeInfusion = barCodeTypeInfusion;
-    }
-
     public void setDevicNo(String devicNo) {
         this.devicNo = devicNo;
         setDeviceInfo(devicNo);
     }
 
     public void setDeviceInfo(String devicNo) {
-        if(!TextUtils.isEmpty(devicNo)){
+        if(devicNo!=null){
             if (llDevice != null) {
                 llDevice.setVisibility(View.VISIBLE);
             }
@@ -308,6 +302,7 @@ public class OrderExecOrderDialog extends Dialog {
             }
         }
     }
+
 
     /**
      * 设置确定按钮被点击的接口

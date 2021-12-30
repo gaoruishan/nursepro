@@ -30,14 +30,15 @@ import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.SchDateTimeUtil;
 import com.base.commlibs.utils.SystemTTS;
 import com.blankj.utilcode.util.ConvertUtils;
+import com.blankj.utilcode.util.SPStaticUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
-import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.module.nurse.ca.CaSignUtil;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.utils.DateUtils;
 import com.dhcc.nursepro.utils.DialogFactory;
+import com.dhcc.nursepro.utils.IfUtil;
 import com.dhcc.nursepro.workarea.orderexecute.adapter.OrderExecuteOrderTypeAdapter;
 import com.dhcc.nursepro.workarea.orderexecute.adapter.OrderExecutePatientOrderAdapter;
 import com.dhcc.nursepro.workarea.orderexecute.api.OrderExecuteApiManager;
@@ -57,7 +58,6 @@ import static com.dhcc.nursepro.workarea.workareautils.WorkareaOrdExeUtil.INT_8;
 /**
  * OrderExecuteFragment
  * 医嘱执行/处理
- *
  * @author DevLix126
  * created at 2018/8/31 10:21
  */
@@ -150,7 +150,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     private String pageNo = "1";
     private Boolean ifLoadMore = false;
     private boolean barCodeTypeInfusion;
-    private String deviceNo="";
+    private String deviceNo = "";
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -213,16 +213,10 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
             scanInfo = bundle.getString("data");
             barCode = bundle.getString("data");
             //判断8位监护仪
-            if (execOrderDialog != null && !TextUtils.isEmpty(scanInfo)) {
-                if (scanInfo.length() == INT_8 && !scanInfo.contains("-")) {
+            if (execOrderDialog != null) {
+                if (IfUtil.isDevice(scanInfo)) {
                     execOrderDialog.setDevicNo(scanInfo);
                     return;
-                } else {
-                    boolean barCode = scanInfo.contains("REG") || scanInfo.contains("-");
-                    if (!barCode) {
-                        ToastUtils.showShort("默认监护仪8位格式!");
-                        return;
-                    }
                 }
             }
             getScanInfo();
@@ -363,13 +357,8 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                         ScanResultBean.OrdersBean ordersBean = ordersBeanList.get(0);
                         execOrderDialog.setChildOrders(ordersBeanList);
                         execOrderDialog.setPopMsgInfo(msg);
-                        execOrderDialog.setBarCodeType(barCodeTypeInfusion);
-                        if (barCodeTypeInfusion) {//输液
-                            if (!TextUtils.isEmpty(scanResultBean.getDevicNo())) {
-                                execOrderDialog.setDevicNo(scanResultBean.getDevicNo() + "");
-                            } else {
-                                ToastUtils.showShort("请扫码绑定监护仪设备!");
-                            }
+                        if (IfUtil.isShow(barCodeTypeInfusion)) {//输液
+                            execOrderDialog.setDevicNo(scanResultBean.getDevicNo() + "");
                         }
                         execOrderDialog.setCDSS(scanResultBean.getCDSS());
                         execOrderDialog.setCanExeFlag(scanResultBean.getCanExeFlag());
@@ -781,7 +770,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     private void execOrSeeOrderScan(String creattime, String order, String oeoreIdScan, String execStatusCodeScan) {
         String auditUserCode = "";
         String auditUserPass = "";
-        OrderExecuteApiManager.execOrSeeOrder("", barCode, creattime, order, patSaveInfo, "1", "", auditUserCode, auditUserPass, oeoreIdScan, execStatusCodeScan, "", deviceNo,new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
+        OrderExecuteApiManager.execOrSeeOrder("", barCode, creattime, order, patSaveInfo, "1", "", auditUserCode, auditUserPass, oeoreIdScan, execStatusCodeScan, "", deviceNo, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
             @Override
             public void onSuccess(OrderExecResultBean orderExecResultBean) {
 
@@ -807,7 +796,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 }, 200);
                 //CA签名
                 if ("1".equals(orderExecResultBean.getCaFlag())) {
-                    CaSignUtil.execCaSign(getActivity(),barCode,creattime,order,patSaveInfo,"1",oeoreIdScan,execStatusCode,auditUserCode);
+                    CaSignUtil.execCaSign(getActivity(), barCode, creattime, order, patSaveInfo, "1", oeoreIdScan, execStatusCode, auditUserCode);
                 }
             }
 
@@ -969,7 +958,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
             execCode = execStatusCode;
         }
         String finalExecCode = execCode;
-        OrderExecuteApiManager.execOrSeeOrder("", "", timeSaveInfo, orderSaveInfo, patSaveInfo, "0", skinBatch, skinUserCode, skinUserPass, oeoreId, execCode, "",deviceNo, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
+        OrderExecuteApiManager.execOrSeeOrder("", "", timeSaveInfo, orderSaveInfo, patSaveInfo, "0", skinBatch, skinUserCode, skinUserPass, oeoreId, execCode, "", deviceNo, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
             @Override
             public void onSuccess(OrderExecResultBean orderExecResultBean) {
                 if (ordAddDialog != null && ordAddDialog.isShowing()) {
@@ -1007,7 +996,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 }, 200);
                 //CA签名
                 if ("1".equals(orderExecResultBean.getCaFlag())) {
-                    CaSignUtil.execCaSign(getActivity(),"",timeSaveInfo,orderSaveInfo,patSaveInfo,"0",oeoreId, finalExecCode,skinUserCode);
+                    CaSignUtil.execCaSign(getActivity(), "", timeSaveInfo, orderSaveInfo, patSaveInfo, "0", oeoreId, finalExecCode, skinUserCode);
                 }
                 skinBatch = "";
                 skinUserCode = "";

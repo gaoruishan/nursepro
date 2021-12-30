@@ -43,8 +43,7 @@ public class ScanResultBean {
     private String remainder;
 
     public String getDevicNo() {
-//        return devicNo == null ? "" : devicNo;
-        return "";
+        return devicNo == null ? "" : devicNo;
     }
 
     public void setDevicNo(String devicNo) {

@@ -12,6 +12,7 @@ import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.dhcc.nursepro.R;
+import com.dhcc.nursepro.utils.IfUtil;
 import com.dhcc.nursepro.workarea.orderexecute.api.OrderExecuteApiManager;
 import com.dhcc.nursepro.workarea.orderexecute.bean.OrderExecResultBean;
 import com.dhcc.nursepro.workarea.workareaapi.WorkareaApiManager;
@@ -74,16 +75,10 @@ public class WorkareaOrdExeUtil {
 
     public void getScanInfo() {
         //判断8位监护仪
-        if (orderDialog != null && !TextUtils.isEmpty(scanInfo)) {
-            if (scanInfo.length() == INT_8 && !scanInfo.contains("-")) {
+        if (orderDialog != null) {
+            if (IfUtil.isDevice(scanInfo)) {
                 orderDialog.setDevicNo(scanInfo);
                 return;
-            } else {
-                boolean barCode = scanInfo.contains("REG") || scanInfo.contains("-");
-                if (!barCode) {
-                    ToastUtils.showShort("默认监护仪8位格式!");
-                    return;
-                }
             }
         }
         WorkareaApiManager.getScanMsgByMain(episodeId, curOeordId, scanInfo, new WorkareaApiManager.GetScanCallBack() {
@@ -435,12 +430,8 @@ public class WorkareaOrdExeUtil {
                         orderDialog.setSpeedUnit(scanResultBean.getFlowSpeedUnit() + "");
                         orderDialog.setSpeed(scanResultBean.getFlowSpeed() + "");
                         //执行添加设备
-                        if ("exe".equals(scanResultBean.getBtnType())) {
-                            if (!TextUtils.isEmpty(scanResultBean.getDevicNo())) {
-                                orderDialog.setDevicNo(scanResultBean.getDevicNo() + "");
-                            } else {
-                                ToastUtils.showShort("请扫码绑定监护仪设备!");
-                            }
+                        if (IfUtil.isShow("exe".equals(scanResultBean.getBtnType()))) {
+                            orderDialog.setDevicNo(scanResultBean.getDevicNo() + "");
                         }
                         orderDialog.setRemainder(scanResultBean.getRemainder() + "");
                         ordSpeed = scanResultBean.getFlowSpeed() + "";

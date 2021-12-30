@@ -104,7 +104,8 @@ public class WorkareaOrderDialog extends Dialog {
     private onStopOnclickListener stopOnclickListener;
     private onEndOnclickListener endOnclickListener;
     private String jhyScanInfo;
-    private String devicNo,remainder;
+    private String devicNo=null,remainder;
+    private boolean showDeivce;
 
     public WorkareaOrderDialog(Context context) {
         super(context, R.style.MyDialog);
@@ -765,7 +766,7 @@ public class WorkareaOrderDialog extends Dialog {
     }
 
     public void setDeviceInfo(String devicNo) {
-        if(!TextUtils.isEmpty(devicNo)){
+        if(devicNo!=null){
             if (llDevice != null) {
                 llDevice.setVisibility(View.VISIBLE);
             }
@@ -778,6 +779,7 @@ public class WorkareaOrderDialog extends Dialog {
     public void setRemainder(String remainder) {
         this.remainder = remainder;
     }
+
 
     /**
      * 设置确定按钮被点击的接口
