@@ -1,5 +1,7 @@
 package com.base.commlibs;
 
+import static com.base.commlibs.BaseActivity.LoadingType.FULL;
+
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -54,8 +56,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-
-import static com.base.commlibs.BaseActivity.LoadingType.FULL;
 
 /**
  * Created by levis on 2018/6/5.
@@ -124,6 +124,7 @@ public class BaseFragment extends Fragment {
         mfilter.addAction(Action.TOUR_DOSINGID);
         mfilter.addAction(Action.DRUG_RLREG);
         mfilter.addAction(Action.NUR_RECORD_XML_VIEW);
+        mfilter.addAction(Action.NURRECORD_KONWLEDGETREEID);
         //初始化语音
         SystemTTS.getInstance(mActivity);
     }
@@ -1197,6 +1198,8 @@ public class BaseFragment extends Fragment {
                 }else {
                     getScanMsg(intent);
                 }
+            }else {
+                getScanMsg(intent);
             }
         }
     }

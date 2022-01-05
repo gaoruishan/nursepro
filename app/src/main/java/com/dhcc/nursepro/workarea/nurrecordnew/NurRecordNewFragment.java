@@ -54,6 +54,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -94,6 +95,10 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
 
     //跳转回传取值关联
     private final HashMap<String, String> elementIdtoDataSourceRef = new HashMap<>();
+
+    // view required 配置项
+    private final Map<String, Boolean> requiredViewIdMap = new HashMap<>();
+
     private final String emrCodeJump = "";
     private final String guidJump = "";
     private final String recIdJump = "";
@@ -236,10 +241,12 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
     @Override
     public void getScanMsg(Intent intent) {
         super.getScanMsg(intent);
-        if (intent.getAction().equals(Action.NURRECORD_KONWLEDGETREEID)) {
+        if (Action.NURRECORD_KONWLEDGETREEID.equals(intent.getAction())) {
             Bundle bundle = new Bundle();
             bundle = intent.getExtras();
-            getKnowledgeContent(bundle.getString("knowledgeTreeId"));
+            if (bundle != null) {
+                getKnowledgeContent(bundle.getString("knowledgeTreeId"));
+            }
         }
     }
 
@@ -255,7 +262,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
             public void onSuccess(NurRecordKnowledgeContentBean knowledgeContentBean) {
                 StringBuilder stringBuilder = new StringBuilder();
                 List<List<NurRecordKnowledgeContentBean.KnowledgeContentBean>> contentBean = knowledgeContentBean.getKnowledgeContent();
-                for (int i = 0; i < contentBean.size(); i++) {
+                for (int i = 0; contentBean!=null && i < contentBean.size(); i++) {
                     if (contentBean.get(i) != null) {
                         if (contentBean.get(i).size() > 0) {
                             if ("FreeText".equals(contentBean.get(i).get(0).getType())) {
@@ -347,14 +354,19 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                 }
 
                 if (radioElementListBeanList != null && j >= radioElementListBeanList.size()) {
-                    if ("true".equals(radioElementListBeanList.get(0).getRequired())) {
+                    if (("true".equals(radioElementListBeanList.get(0).getRequired()) && !requiredViewIdMap.containsKey(radioElementListBeanList.get(0).getElementId())) ||
+                            ("true".equals(radioElementListBeanList.get(0).getRequired()) && requiredViewIdMap.containsKey(radioElementListBeanList.get(0).getElementId()) && requiredViewIdMap.get(radioElementListBeanList.get(0).getElementId())) ||
+                            ("false".equals(radioElementListBeanList.get(0).getRequired()) && requiredViewIdMap.containsKey(radioElementListBeanList.get(0).getElementId()) && requiredViewIdMap.get(radioElementListBeanList.get(0).getElementId()))) {
+
+
+                        //if ("true".equals(radioElementListBeanList.get(0).getRequired()) || (requiredViewIdMap.containsKey(radioElementListBeanList.get(0).getElementId())) && requiredViewIdMap.get(radioElementListBeanList.get(0).getElementId())) {
 
                         if (!(radioElementListBeanList.size() == 1 && "其他".equals(radioElementListBeanList.get(0).getOprationItemList().get(0).getText()))) {
 
                             List<String> elementIdList = formNametoElementId.get(radioElementListBeanList.get(0).getFormName());
                             boolean oneSelected = false;
 
-                            for (int i1 = 0; i1 < elementIdList.size(); i1++) {
+                            for (int i1 = 0; elementIdList!=null && i1 < elementIdList.size(); i1++) {
                                 CheckBox checkBox = (CheckBox) viewHashMap.get(elementIdList.get(i1));
                                 if (checkBox != null && checkBox.isChecked()) {
                                     oneSelected = true;
@@ -362,14 +374,14 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                                 }
                             }
                             if (!oneSelected) {
-                                for (int i1 = 0; i1 < elementIdList.size(); i1++) {
+                                for (int i1 = 0; elementIdList!=null && i1 < elementIdList.size(); i1++) {
                                     CheckBox checkBox = (CheckBox) viewHashMap.get(elementIdList.get(i1));
                                     if (checkBox != null) {
                                         checkBox.setTextColor(Color.parseColor("#FFEA4300"));
 
                                     }
                                 }
-                                showToast("请填写必填项之后再保存");
+                                showToast("请填写必填项之后再保存---" + radioElementListBeanList.get(0).getFormName() + "---" + radioElementListBeanList.get(0).getNameText());
                                 return;
                             }
                         }
@@ -390,9 +402,12 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                 if (StringUtils.isTrimEmpty(dropRadioStr)) {
                     LinearLayout linearLayout = (LinearLayout) viewHashMap.get(element.getElementId() + "_ll");
                     TextView textView = (TextView) viewHashMap.get(element.getElementId());
-                    if ("true".equals(element.getRequired()) && linearLayout.getVisibility() == View.VISIBLE) {
+                    if ((("true".equals(element.getRequired()) && !requiredViewIdMap.containsKey(element.getElementId())) ||
+                            ("true".equals(element.getRequired()) && requiredViewIdMap.containsKey(element.getElementId()) && requiredViewIdMap.get(element.getElementId())) ||
+                            ("false".equals(element.getRequired()) && requiredViewIdMap.containsKey(element.getElementId()) && requiredViewIdMap.get(element.getElementId()))) &&
+                            (linearLayout != null && linearLayout.getVisibility() == View.VISIBLE && textView != null)) {
                         textView.setBackgroundResource(R.drawable.nur_record_btnerror_bg);
-                        showToast("请填写必填项之后再保存");
+                        showToast("请填写必填项之后再保存---" + element.getFormName() + "---" + element.getNameText());
                         return;
                     }
 
@@ -439,9 +454,12 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                 if (StringUtils.isTrimEmpty(dropRadioStr)) {
                     LinearLayout linearLayout = (LinearLayout) viewHashMap.get(element.getElementId() + "_ll");
                     TextView textView = (TextView) viewHashMap.get(element.getElementId());
-                    if ("true".equals(element.getRequired()) && linearLayout.getVisibility() == View.VISIBLE) {
+                    if ((("true".equals(element.getRequired()) && !requiredViewIdMap.containsKey(element.getElementId())) ||
+                            ("true".equals(element.getRequired()) && requiredViewIdMap.containsKey(element.getElementId()) && requiredViewIdMap.get(element.getElementId())) ||
+                            ("false".equals(element.getRequired()) && requiredViewIdMap.containsKey(element.getElementId()) && requiredViewIdMap.get(element.getElementId()))) &&
+                            (linearLayout != null && linearLayout.getVisibility() == View.VISIBLE && textView != null)) {
                         textView.setBackgroundResource(R.drawable.nur_record_btnerror_bg);
-                        showToast("请填写必填项之后再保存");
+                        showToast("请填写必填项之后再保存---" + element.getFormName() + "---" + element.getNameText());
                         return;
                     }
 
@@ -490,9 +508,12 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                 if (StringUtils.isTrimEmpty(dcText)) {
                     LinearLayout linearLayout = (LinearLayout) viewHashMap.get(element.getElementId() + "_ll");
                     TextView textView = (TextView) viewHashMap.get(element.getElementId());
-                    if ("true".equals(element.getRequired()) && linearLayout.getVisibility() == View.VISIBLE) {
+                    if ((("true".equals(element.getRequired()) && !requiredViewIdMap.containsKey(element.getElementId())) ||
+                            ("true".equals(element.getRequired()) && requiredViewIdMap.containsKey(element.getElementId()) && requiredViewIdMap.get(element.getElementId())) ||
+                            ("false".equals(element.getRequired()) && requiredViewIdMap.containsKey(element.getElementId()) && requiredViewIdMap.get(element.getElementId()))) &&
+                            (linearLayout != null && linearLayout.getVisibility() == View.VISIBLE && textView != null)) {
                         textView.setBackgroundResource(R.drawable.nur_record_btnerror_bg);
-                        showToast("请填写必填项之后再保存");
+                        showToast("请填写必填项之后再保存---" + element.getFormName() + "---" + element.getNameText());
                         return;
                     }
 
@@ -601,14 +622,18 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                     }
                 }
 
-                if (radioElementListBeanList != null && "true".equals(radioElementListBeanList.get(0).getRequired()) && checkedCount == 0) {
+                if (radioElementListBeanList != null
+                        && (("true".equals(element.getRequired()) && !requiredViewIdMap.containsKey(element.getElementId())) ||
+                        ("true".equals(element.getRequired()) && requiredViewIdMap.containsKey(element.getElementId()) && requiredViewIdMap.get(element.getElementId())) ||
+                        ("false".equals(element.getRequired()) && requiredViewIdMap.containsKey(element.getElementId()) && requiredViewIdMap.get(element.getElementId())))
+                        && checkedCount == 0) {
                     for (int i1 = 0; i1 < radioElementListBeanList.size(); i1++) {
                         CheckBox checkBox = (CheckBox) viewHashMap.get(radioElementListBeanList.get(i1).getElementId());
                         if (checkBox != null) {
                             checkBox.setTextColor(Color.parseColor("#FFEA4300"));
                         }
                     }
-                    showToast("请填写必填项之后再保存");
+                    showToast("请填写必填项之后再保存---" + radioElementListBeanList.get(0).getFormName() + "---" + radioElementListBeanList.get(0).getNameText());
                     return;
                 }
 
@@ -616,12 +641,16 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
 
                 EditText editText = (EditText) viewHashMap.get(element.getElementId());
                 if (editText != null) {
-                    //                        LinearLayout linearLayout = (LinearLayout) viewHashMap.get(element.getElementId() + "_ll");
-                    //                        if ("true".equals(element.getRequired()) && StringUtils.isTrimEmpty(editText.getText().toString()) && linearLayout.getVisibility() == View.VISIBLE) {
-                    //                            editText.setBackgroundResource(R.drawable.nur_record_inputerror_bg);
-                    //                            showToast("请填写必填项之后再保存");
-                    //                            return;
-                    //                        }
+                    LinearLayout linearLayout = (LinearLayout) viewHashMap.get(element.getElementId() + "_ll");
+                    if ((("true".equals(element.getRequired()) && !requiredViewIdMap.containsKey(element.getElementId())) ||
+                            ("true".equals(element.getRequired()) && requiredViewIdMap.containsKey(element.getElementId()) && requiredViewIdMap.get(element.getElementId())) ||
+                            ("false".equals(element.getRequired()) && requiredViewIdMap.containsKey(element.getElementId()) && requiredViewIdMap.get(element.getElementId())))
+                            && StringUtils.isTrimEmpty(editText.getText().toString())
+                            && (linearLayout != null && linearLayout.getVisibility() == View.VISIBLE)) {
+                        editText.setBackgroundResource(R.drawable.nur_record_inputerror_bg);
+                        showToast("请填写必填项之后再保存---" + element.getFormName() + "---" + element.getNameText());
+                        return;
+                    }
 
                     if ("NumberElement".equals(element.getElementType())) {
                         try {
@@ -673,12 +702,16 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                 if (viewHashMap.get(element.getElementId()) instanceof TextView) {
                     TextView textView = (TextView) viewHashMap.get(element.getElementId());
                     if (textView != null) {
-                        //                        LinearLayout linearLayout = (LinearLayout) viewHashMap.get(element.getElementId() + "_ll");
-                        //                        if ("true".equals(element.getRequired()) && StringUtils.isTrimEmpty(textView.getText().toString()) && linearLayout.getVisibility() == View.VISIBLE) {
-                        //                            textView.setBackgroundResource(R.drawable.nur_record_btnerror_bg);
-                        //                            showToast("请填写必填项之后再保存");
-                        //                            return;
-                        //                        }
+                        LinearLayout linearLayout = (LinearLayout) viewHashMap.get(element.getElementId() + "_ll");
+                        if ((("true".equals(element.getRequired()) && !requiredViewIdMap.containsKey(element.getElementId())) ||
+                                ("true".equals(element.getRequired()) && requiredViewIdMap.containsKey(element.getElementId()) && requiredViewIdMap.get(element.getElementId())) ||
+                                ("false".equals(element.getRequired()) && requiredViewIdMap.containsKey(element.getElementId()) && requiredViewIdMap.get(element.getElementId())))
+                                && StringUtils.isTrimEmpty(textView.getText().toString())
+                                && (linearLayout != null && linearLayout.getVisibility() == View.VISIBLE)) {
+                            textView.setBackgroundResource(R.drawable.nur_record_btnerror_bg);
+                            showToast("请填写必填项之后再保存---" + element.getFormName() + element.getNameText());
+                            return;
+                        }
 
                         stringBuilder.append("\"")
                                 .append(element.getElementType())
@@ -715,7 +748,6 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
         String printTemplateEmrCode = stringBuilder1.toString();
 
         showLoadingTip(BaseActivity.LoadingType.FULL);
-
         NurRecordNewApiManager.saveNewEmrData(guid, episodeID, recId, parr, printTemplateEmrCode, new NurRecordNewApiManager.RecDataCallback() {
             @Override
             public void onSuccess(RecDataBean recDataBean) {
@@ -754,8 +786,8 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                 }
                 //Ca签名
                 if ("1".equals(recDataBean.getCaFlag())) {
-                    CaSignUtil.recordCaSign(getActivity(), episodeID,patName,emrCode,recDataBean.getRetData(), recDataBean.getCaAuditUserCode());
-                }else {
+                    CaSignUtil.recordCaSign(getActivity(), episodeID, patName, emrCode, recDataBean.getRetData(), recDataBean.getCaAuditUserCode());
+                } else {
                     delayFinish();
                 }
             }
@@ -777,6 +809,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
         });
 
     }
+
     /**
      * 接收事件- 更新数据
      *
@@ -789,6 +822,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
             delayFinish();
         }
     }
+
     public void delayFinish() {
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -840,7 +874,11 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
             ElementDataBean.DataBean.InputBean.ElementBasesBean element = elements.get(i);
             if ("ContainerElement".equals(element.getElementType())) {
                 LinearLayout llContainer = getContainerView(element);
-                llNurrecord.addView(llContainer);
+                if (StringUtils.isEmpty(element.getContainerId())) {
+                    llNurrecord.addView(llContainer);
+                } else {
+                    addView(element, llContainer);
+                }
             } else if ("LableElement".equals(element.getElementType())) {
                 LinearLayout llLable = getLableView(element);
                 addView(element, llLable);
@@ -951,7 +989,11 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                     dcSelectScoreList = new ArrayList<>();
                     for (int i1 = 0; element.getOprationItemList() != null && i1 < element.getOprationItemList().size(); i1++) {
                         dcSelectStrList.add(element.getOprationItemList().get(i1).getText());
-                        dcSelectScoreList.add(Integer.parseInt(element.getOprationItemList().get(i1).getNumberValue()));
+                        try {
+                            dcSelectScoreList.add(Integer.parseInt(element.getOprationItemList().get(i1).getNumberValue()));
+                        } catch (NumberFormatException e) {
+                            dcSelectScoreList.add(0);
+                        }
                     }
                     dcSelectStrList.add("全选/取消全选");
 
@@ -967,6 +1009,16 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
 
                 llNumber.clearAnimation();
                 addView(element, llNumber);
+
+            } else if ("HiddenTextElement".equals(element.getElementType())) {
+                LinearLayout llHiddenText = getEditText(element, "HiddenTextElement");
+                TextView tvTitle = (TextView) viewHashMap.get(element.getElementId() + "_title");
+                EditText edText = (EditText) viewHashMap.get(element.getElementId());
+                edText.setBackground(getResources().getDrawable(R.drawable.nur_record_input_bg));
+//                llHiddenText.setVisibility(View.GONE);
+                llHiddenText.clearAnimation();
+                addView(element, llHiddenText);
+
             } else if ("TextElement".equals(element.getElementType())) {
                 LinearLayout lledit = getEditText(element, "TextElement");
                 TextView tvTitle = (TextView) viewHashMap.get(element.getElementId() + "_title");
@@ -1004,7 +1056,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                         }
                     }
                 } else if ("Common".equals(element.getSignature())) {
-                    onEditTextAdd(edText,edText.getText().toString(), "user");
+                    onEditTextAdd(edText, edText.getText().toString(), "user");
                     onEditTextEnter(edText, "user");
                 }
 
@@ -1031,6 +1083,15 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
         initViewMode();
 
         initMELinkViewList();
+
+        if (meViewLinkList.size() > 0) {
+            for (MEViewLink meViewLink : meViewLinkList) {
+                if (meViewLink.getMEHashMap().containsKey("item1")) {
+                    initViewSet(meViewLink.getMEHashMap().get("item1"), "");
+                }
+            }
+
+        }
     }
 
     private void initMELinkViewList() {
@@ -1883,7 +1944,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
         editText.setGravity(Gravity.CENTER);
         editText.setTextColor(Color.parseColor("#4a4a4a"));
         editText.setTextSize(14f);
-        editText.setBackground(getResources().getDrawable(R.drawable.nur_record_btn_bg));
+        editText.setBackground(getResources().getDrawable(R.drawable.nur_record_input_bg));
         if (!StringUtils.isEmpty(element.getDefaultValue())) {
             editText.setText(element.getDefaultValue());
         }
@@ -1901,6 +1962,9 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
 
             @Override
             public void afterTextChanged(Editable s) {
+                if (!StringUtils.isTrimEmpty(s.toString())) {
+                    editText.setBackground(getResources().getDrawable(R.drawable.nur_record_input_bg));
+                }
                 if (isNumber(s.toString())) {
                     double edDou = Double.parseDouble(s.toString());
                     for (int i = 0; i < elements.size(); i++) {
@@ -2352,13 +2416,13 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                             if ("EqEmptyArray".equals(setDataListBean.getSign())) {
                                 List<String> elementIdList = formNametoElementId.get(elementSetsBean.getFormName());
                                 int k;
-                                for (k = 0; elementIdList!=null&&k < elementIdList.size(); k++) {
+                                for (k = 0; elementIdList != null && k < elementIdList.size(); k++) {
                                     CheckBox checkBox2 = (CheckBox) viewHashMap.get(elementIdList.get(k));
                                     if (checkBox2 != null && checkBox2.isChecked()) {
                                         break;
                                     }
                                 }
-                                if (elementIdList!=null&& k >= elementIdList.size()) {
+                                if (elementIdList != null && k >= elementIdList.size()) {
                                     satisfySetCount = forChangeListSetViewStatus(satisfySetCount, setDataListBean);
                                 }
                             }
@@ -2372,50 +2436,54 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                             if ("IsEqualArry".equals(setDataListBean.getSign())) {
                                 List<String> elementIdList = formNametoElementId.get(elementSetsBean.getFormName());
                                 int k;
-                                for (k = 0; k < elementIdList.size(); k++) {
+                                for (k = 0; elementIdList != null && k < elementIdList.size(); k++) {
                                     CheckBox checkBox2 = (CheckBox) viewHashMap.get(elementIdList.get(k));
                                     if (checkBox2 != null && checkBox2.isChecked()) {
                                         satisfySetCount = forChangeListSetViewStatus(satisfySetCount, setDataListBean);
                                     }
                                 }
                                 //sign-有选中项
-                            }else
-                            //sign-无选中项
-                            if ("EqEmptyArray".equals(setDataListBean.getSign())) {
-                                List<String> elementIdList = formNametoElementId.get(elementSetsBean.getFormName());
-                                int k;
-                                for (k = 0; k < elementIdList.size(); k++) {
-                                    CheckBox checkBox2 = (CheckBox) viewHashMap.get(elementIdList.get(k));
-                                    if (checkBox2 != null && checkBox2.isChecked()) {
-                                        break;
+                            } else
+                                //sign-无选中项
+                                if ("EqEmptyArray".equals(setDataListBean.getSign())) {
+                                    List<String> elementIdList = formNametoElementId.get(elementSetsBean.getFormName());
+                                    if (elementIdList != null) {
+                                        int k;
+                                        for (k = 0; k < elementIdList.size(); k++) {
+                                            CheckBox checkBox2 = (CheckBox) viewHashMap.get(elementIdList.get(k));
+                                            if (checkBox2 != null && checkBox2.isChecked()) {
+                                                break;
+                                            }
+                                        }
+                                        if (k >= elementIdList.size()) {
+                                            satisfySetCount = forChangeListSetViewStatus(satisfySetCount, setDataListBean);
+                                        }
+                                    }
+                                    //sign-有选中项
+                                } else if ("EqUnEmptyArray".equals(setDataListBean.getSign())) {
+                                    List<String> elementIdList = formNametoElementId.get(elementSetsBean.getFormName());
+                                    if (elementIdList != null) {
+                                        int k;
+                                        for (k = 0; k < elementIdList.size(); k++) {
+                                            CheckBox checkBox2 = (CheckBox) viewHashMap.get(elementIdList.get(k));
+                                            if (checkBox2 != null && checkBox2.isChecked()) {
+                                                break;
+                                            }
+                                        }
+                                        if (k < elementIdList.size()) {
+                                            satisfySetCount = forChangeListSetViewStatus(satisfySetCount, setDataListBean);
+                                        }
+                                    }
+                                    //sign-包含特定选中项
+                                } else if ("ContainsAnyArry".equals(setDataListBean.getSign())) {
+                                    List<String> valList = Arrays.asList(setDataListBean.getVal().split(",").clone());
+                                    for (int i1 = 0; valList != null && i1 < valList.size(); i1++) {
+                                        CheckBox checkBox = (CheckBox) viewHashMap.get(setDataListBean.getFormName() + "^" + valList.get(i1));
+                                        if (checkBox != null && checkBox.isChecked()) {
+                                            satisfySetCount = forChangeListSetViewStatus(satisfySetCount, setDataListBean);
+                                        }
                                     }
                                 }
-                                if (k >= elementIdList.size()) {
-                                    satisfySetCount = forChangeListSetViewStatus(satisfySetCount, setDataListBean);
-                                }
-                                //sign-有选中项
-                            } else if ("EqUnEmptyArray".equals(setDataListBean.getSign())) {
-                                List<String> elementIdList = formNametoElementId.get(elementSetsBean.getFormName());
-                                int k;
-                                for (k = 0; k < elementIdList.size(); k++) {
-                                    CheckBox checkBox2 = (CheckBox) viewHashMap.get(elementIdList.get(k));
-                                    if (checkBox2 != null && checkBox2.isChecked()) {
-                                        break;
-                                    }
-                                }
-                                if (k < elementIdList.size()) {
-                                    satisfySetCount = forChangeListSetViewStatus(satisfySetCount, setDataListBean);
-                                }
-                                //sign-包含特定选中项
-                            } else if ("ContainsAnyArry".equals(setDataListBean.getSign())) {
-                                List<String> valList = Arrays.asList(setDataListBean.getVal().split(",").clone());
-                                for (int i1 = 0; i1 < valList.size(); i1++) {
-                                    CheckBox checkBox = (CheckBox) viewHashMap.get(setDataListBean.getFormName() + "^" + valList.get(i1));
-                                    if (checkBox != null && checkBox.isChecked()) {
-                                        satisfySetCount = forChangeListSetViewStatus(satisfySetCount, setDataListBean);
-                                    }
-                                }
-                            }
                         }
 
                     }
@@ -2731,16 +2799,16 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                             int score = 0;
                             for (String s2 : idStr) {
                                 Object element = viewHashMap.get(s2);
-                                if (element instanceof  CheckBox) {
-                                    CheckBox checkBox = (CheckBox)element;
+                                if (element instanceof CheckBox) {
+                                    CheckBox checkBox = (CheckBox) element;
                                     if (checkBox.isChecked()) {
                                         int changeScore = Integer.parseInt(elementIdtoFormName.get(s2).split("\\^")[1]);
                                         if (changeScore > score) {
                                             score = changeScore;
                                         }
                                     }
-                                } else if (element instanceof  TextView || element instanceof  EditText) {
-                                    EditText textView = (EditText)element;
+                                } else if (element instanceof TextView || element instanceof EditText) {
+                                    EditText textView = (EditText) element;
                                     int changeScore = Integer.parseInt(StringUtils.isEmpty(textView.getText().toString()) ? "0" : textView.getText().toString());
                                     if (changeScore > score) {
                                         score = changeScore;
@@ -2752,16 +2820,16 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                             int score = 999;
                             for (String s2 : idStr) {
                                 Object element = viewHashMap.get(s2);
-                                if (element instanceof  CheckBox) {
-                                    CheckBox checkBox = (CheckBox)element;
+                                if (element instanceof CheckBox) {
+                                    CheckBox checkBox = (CheckBox) element;
                                     if (checkBox.isChecked()) {
                                         int changeScore = Integer.parseInt(elementIdtoFormName.get(s2).split("\\^")[1]);
                                         if (changeScore < score) {
                                             score = changeScore;
                                         }
                                     }
-                                } else if (element instanceof  TextView || element instanceof  EditText) {
-                                    EditText textView = (EditText)element;
+                                } else if (element instanceof TextView || element instanceof EditText) {
+                                    EditText textView = (EditText) element;
                                     int changeScore = Integer.parseInt(StringUtils.isEmpty(textView.getText().toString()) ? "0" : textView.getText().toString());
                                     if (changeScore < score) {
                                         score = changeScore;
@@ -2881,6 +2949,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
 
     /**
      * 遍历SetDataList中的ChangeList 来控制Show或Hide
+     *
      * @param satisfySetCount
      * @param setDataListBean
      * @return
@@ -2891,7 +2960,9 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
             LinearLayout llContainer = (LinearLayout) viewHashMap.get(changeListBean.getId() + "_containerll");
             LinearLayout linearLayout = (LinearLayout) viewHashMap.get(changeListBean.getId() + "_ll");
 
-            setViewStatus(changeListBean, llContainer, linearLayout);
+            ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean[] setDataListBeans = {setDataListBean};
+
+            setViewStatus(changeListBean, llContainer, linearLayout, setDataListBeans);
             satisfySetCount++;
         }
         return satisfySetCount;
@@ -2905,19 +2976,29 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
      * @param llContainer
      * @param linearLayout
      */
-    private void setViewStatus(ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean changeListBean, LinearLayout llContainer, LinearLayout linearLayout) {
+    private void setViewStatus(ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean changeListBean, LinearLayout llContainer, LinearLayout linearLayout, ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean... setDataListBean) {
         String type = changeListBean.getType();
         if (llContainer != null) {
             //控制容器
             if (type.contains("Show")) {
                 llContainer.clearAnimation();
                 llContainer.setVisibility(View.VISIBLE);
+                setContainerChildRequired(llContainer, true);
             }
 
             if (type.contains("Hide")) {
                 llContainer.clearAnimation();
                 llContainer.setVisibility(View.GONE);
+                setContainerChildRequired(llContainer, false);
             }
+        }
+
+        if (type.contains("NotRequired")) {
+            requiredViewIdMap.put(changeListBean.getId(), false);
+//            showToast("remove" + changeListBean.getId());
+        } else if (type.contains("Required")) {
+            requiredViewIdMap.put(changeListBean.getId(), true);
+//            showToast("add" + changeListBean.getId());
         }
 
         if (linearLayout != null) {
@@ -2964,7 +3045,36 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                 EditText editText = (EditText) viewHashMap.get(changeListBean.getId());
 
                 if (type.contains("HasData")) {
-                    editText.setText(changeListBean.getVal());
+
+                    if ("GetCascadingNumberValue".equals(changeListBean.getVal())) {
+                        String formName = setDataListBean[0].getFormName();
+                        List<String> idStrList = formNametoElementId.get(formName);
+                        String checkNumberValue = "";
+                        for (int i = 1; i < idStrList.size() + 1; i++) {
+                            if (setDataListBean[0].getVal().contains(String.valueOf(i))) {
+                                CheckBox checkBoxx = (CheckBox) viewHashMap.get(formName + "^" + i);
+                                if (checkBoxx != null && checkBoxx.isChecked()) {
+                                    for (ElementDataBean.DataBean.InputBean.ElementBasesBean element : elements) {
+                                        if (element.getRadioElementList() != null && element.getRadioElementList().size() > (i - 1) && idStrList.get(i - 1).equals(element.getRadioElementList().get(i - 1).getElementId())) {
+                                            checkNumberValue = element.getRadioElementList().get(i - 1).getOprationItemList().get(0).getNumberValue();
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                            if (!StringUtils.isEmpty(checkNumberValue)) {
+                                if (StringUtils.isEmpty(editText.getText().toString())) {
+                                    editText.setText(checkNumberValue);
+                                } else if (!editText.getText().toString().contains(checkNumberValue)) {
+                                    editText.setText(editText.getText().toString() + "," + checkNumberValue);
+                                }
+                            }
+                        }
+
+
+                    } else {
+                        editText.setText(changeListBean.getVal());
+                    }
                 }
 
                 if (type.contains("Enable")) {
@@ -3012,6 +3122,33 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
     }
 
     /**
+     * 容器显示隐藏 控制其中元素必填值
+     *
+     * @param llContainer
+     * @param required
+     */
+    private void setContainerChildRequired(LinearLayout llContainer, boolean required) {
+        for (int i = 0; i < llContainer.getChildCount(); i++) {
+
+            if (llContainer.getChildAt(i) instanceof EditText) {
+                EditText editText = (EditText) llContainer.getChildAt(i);
+                requiredViewIdMap.put(editText.getTag().toString(), required);
+//                showToast(editText.getTag().toString() + "---" + required);
+            } else if (llContainer.getChildAt(i) instanceof CheckBox) {
+                CheckBox checkBox = (CheckBox) llContainer.getChildAt(i);
+                requiredViewIdMap.put(checkBox.getTag().toString(), required);
+//                showToast(checkBox.getTag().toString() + "---" + required);
+            }
+
+            if (llContainer.getChildAt(i) instanceof LinearLayout) {
+                setContainerChildRequired((LinearLayout) llContainer.getChildAt(i), required);
+            }
+
+        }
+
+    }
+
+    /**
      * 分数控制view选中 赋值
      *
      * @param changeListBeans
@@ -3019,14 +3156,58 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
     public void ValSetView(List<ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean> changeListBeans) {
         for (int i1 = 0; i1 < changeListBeans.size(); i1++) {
             ElementDataBean.DataBean.InputBean.ElementSetsBean.SetDataListBean.ChangeListBean changeListBean = changeListBeans.get(i1);
-            CheckBox checkBox = (CheckBox) viewHashMap.get("RadioElement_" + changeListBean.getId() + "^" + changeListBean.getItems());
-            if (checkBox != null) {
-                if (changeListBean.getType().contains("HasData")) {
-                    checkBox.setChecked(true);
-                }
+            String type = changeListBean.getType();
+
+            if (type.contains("NotRequired")) {
+                requiredViewIdMap.put(changeListBean.getId(), false);
+            } else if (type.contains("Required")) {
+                requiredViewIdMap.put(changeListBean.getId(), true);
             }
 
-            if (viewHashMap.get(changeListBean.getId()) instanceof EditText) {
+            if (viewHashMap.get(changeListBean.getId()) instanceof CheckBox) {
+                CheckBox checkBox = (CheckBox) viewHashMap.get(changeListBean.getId());
+                if (checkBox != null) {
+                    if (changeListBean.getType().contains("HasData")) {
+                        if (formNametoElementId.containsKey("CheckElement_" + changeListBean.getId())) {
+                            List<String> checkBoxIdList = formNametoElementId.get("CheckElement_" + changeListBean.getId());
+                            if (StringUtils.isEmpty(changeListBean.getItems())) {
+                                for (int i = 1; checkBoxIdList != null && i < checkBoxIdList.size() + 1; i++) {
+                                    CheckBox checkBoxx = (CheckBox) viewHashMap.get("CheckElement_" + changeListBean.getId() + "^" + i);
+                                    if (checkBoxx != null) {
+                                        checkBoxx.setChecked(false);
+                                    }
+                                }
+
+
+                            } else {
+                                List<String> itmStrList = Arrays.asList(changeListBean.getItems().split(","));
+                                for (int i = 1; checkBoxIdList != null && i < checkBoxIdList.size() + 1; i++) {
+                                    CheckBox checkBoxx = (CheckBox) viewHashMap.get("CheckElement_" + changeListBean.getId() + "^" + i);
+                                    if (checkBoxx != null) {
+                                        checkBoxx.setChecked(itmStrList.contains(String.valueOf(i)));
+                                    }
+                                }
+                            }
+                        } else if (formNametoElementId.containsKey("RadioElement_" + changeListBean.getId())) {
+                            List<String> radioIdList = formNametoElementId.get("RadioElement_" + changeListBean.getId());
+
+                            if (StringUtils.isEmpty(changeListBean.getItems())) {
+                                for (int i = 1; radioIdList != null && i < radioIdList.size() + 1; i++) {
+                                    CheckBox checkBoxx = (CheckBox) viewHashMap.get("RadioElement_" + changeListBean.getId() + "^" + i);
+                                    if (checkBoxx != null) {
+                                        checkBoxx.setChecked(false);
+                                    }
+                                }
+                            } else {
+                                CheckBox checkBoxx = (CheckBox) viewHashMap.get("RadioElement_" + changeListBean.getId() + "^" + changeListBean.getItems());
+                                if (checkBoxx != null) {
+                                    checkBoxx.setChecked(true);
+                                }
+                            }
+                        }
+                    }
+                }
+            } else if (viewHashMap.get(changeListBean.getId()) instanceof EditText) {
                 EditText editText1 = (EditText) viewHashMap.get(changeListBean.getId());
                 if (editText1 != null && !StringUtils.isTrimEmpty(changeListBean.getVal())) {
                     if (changeListBean.getType().contains("HasData")) {
@@ -3046,6 +3227,35 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                         }
                     }
                 }
+            } else {
+                CheckBox checkBox = (CheckBox) viewHashMap.get("RadioElement_" + changeListBean.getId() + "^" + changeListBean.getItems());
+                if (checkBox != null) {
+                    if (changeListBean.getType().contains("HasData")) {
+                        checkBox.setChecked(true);
+                    }
+                } else {
+                    if (changeListBean.getItems() == null) {
+                        String str = elementIdtoFormName.get(changeListBean.getId());
+                        if (!StringUtils.isEmpty(str)) {
+                            List<String> strList = formNametoElementId.get(str.split("\\^")[0]);
+                            if (strList != null && strList.size() > 0) {
+                                for (int j = 1; j < strList.size() + 1; j++) {
+                                    checkBox = (CheckBox) viewHashMap.get("RadioElement_" + changeListBean.getId() + "^" + j);
+                                    if (checkBox != null) {
+                                        if (changeListBean.getType().contains("HasData")) {
+                                            checkBox.setChecked(false);
+                                        }
+                                    }
+                                }
+
+                            }
+
+                        }
+
+
+                    }
+
+                }
             }
 
         }
@@ -3057,7 +3267,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
     }
 
     private void onEditTextConvert(EditText editText, String text, String code, String event, TextWatcher watcher) {
-        text = text.replace("\r", "").replace("\n" ,"");
+        text = text.replace("\r", "").replace("\n", "");
         if (text.equals("") || ifEditTextConvert(text)) {
             return;
         }
@@ -3067,7 +3277,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                 String displayText = editTextConvertBean.getDisplayText();
                 String convertedValue = editTextConvertBean.getConvertedValue();
                 if (displayText != null) {
-                    editTextConvertMap.put(editTextConvertBean.getText(), new String[] { displayText,  convertedValue});
+                    editTextConvertMap.put(editTextConvertBean.getText(), new String[]{displayText, convertedValue});
                     if (event.equals("change")) {
                         if (!displayText.equals("") && !displayText.equals(editTextConvertBean.getText())) {
                             onEditTextSet(editText, displayText, watcher);
@@ -3075,6 +3285,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                     }
                 }
             }
+
             @Override
             public void onFail(String code, String msg) {
                 onEditTextConvertFail(code, msg);
@@ -3104,27 +3315,29 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             }
+
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             }
+
             @Override
             public void afterTextChanged(Editable editable) {
                 TextWatcher watcher = this;
                 String text = editable.toString();
                 if ((text.indexOf("\r") > -1) || (text.indexOf("\n") > -1)) {
-                    text = text.replace("\r", "").replace("\n" ,"");
+                    text = text.replace("\r", "").replace("\n", "");
                     if (text.equals("")) {
-                        onEditTextSet(editText,"", watcher);
+                        onEditTextSet(editText, "", watcher);
                         return;
                     } else if (editTextConvertMap.containsKey(text)) {
                         String displayText = editTextConvertMap.get(text)[0];
                         displayText = !displayText.equals("") ? displayText : text;
-                        onEditTextSet(editText,displayText, watcher);
+                        onEditTextSet(editText, displayText, watcher);
                         return;
                     } else {
-                        onEditTextSet(editText,text, watcher);
+                        onEditTextSet(editText, text, watcher);
                     }
-                    onEditTextConvert(editText,text,code,"change",watcher);
+                    onEditTextConvert(editText, text, code, "change", watcher);
                 }
             }
         });
@@ -3135,7 +3348,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
             if (editTextConvertMap.containsKey(text)) {
                 return true;
             }
-            for(java.util.Map.Entry<String, String[]> entry : editTextConvertMap.entrySet()) {
+            for (java.util.Map.Entry<String, String[]> entry : editTextConvertMap.entrySet()) {
                 if (text.equals(entry.getValue()[0])) {
                     return true;
                 }
@@ -3146,9 +3359,9 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
 
     private String onEditTextSave(EditText editText) {
         String text = editText.getText().toString();
-        text = text.replace("\r", "").replace("\n" ,"");
+        text = text.replace("\r", "").replace("\n", "");
         if (!text.equals("")) {
-            for(java.util.Map.Entry<String, String[]> entry : editTextConvertMap.entrySet()) {
+            for (java.util.Map.Entry<String, String[]> entry : editTextConvertMap.entrySet()) {
                 if (text.equals(entry.getKey()) || text.equals(entry.getValue()[0])) {
                     text = entry.getValue()[1];
                     break;
