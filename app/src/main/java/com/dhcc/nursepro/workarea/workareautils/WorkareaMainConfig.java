@@ -9,6 +9,7 @@ import com.base.commlibs.utils.SchDateTimeUtil;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.dhcc.custom.ui.CustomFragment;
 import com.dhcc.module.nurse.accompany.AccompanyFragment;
 import com.dhcc.module.nurse.bloodsugar.BloodSugarFragment;
 import com.dhcc.module.nurse.education.HealthEduFragment;
@@ -372,6 +373,11 @@ public class WorkareaMainConfig {
                         mainSubListBean.setImgResouseId(R.drawable.icon_blood);
                         SharedPreference.FRAGMENTARY.add(mainSubListBean.toMap());
                         break;
+                 case "CustomFragment":
+                        mainSubListBean.setFragmentClassName(CustomFragment.class.getName());
+                        mainSubListBean.setImgResouseId(R.drawable.icon_blood);
+                        SharedPreference.FRAGMENTARY.add(mainSubListBean.toMap());
+                        break;
                     default:
                         break;
                 }
@@ -391,6 +397,7 @@ public class WorkareaMainConfig {
             subList.add(new MainConfigBean.MainListBean.MainSubListBean("NurPlanFragment","护理计划"));
             subList.add(new MainConfigBean.MainListBean.MainSubListBean("PatHandover","患者交接"));
             subList.add(new MainConfigBean.MainListBean.MainSubListBean("InfusionSituation","输液信息"));
+            subList.add(new MainConfigBean.MainListBean.MainSubListBean("CustomFragment","自定义界面"));
             subList.add(new MainConfigBean.MainListBean.MainSubListBean("web","web请求扫码","/pda/hello.html"));
             subList.add(new MainConfigBean.MainListBean.MainSubListBean("web","web扫码页面","/pda/test-scanpat.html"));
             subList.add(new MainConfigBean.MainListBean.MainSubListBean("web","web测试Vue","/pda/test-vue.html"));

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45">
+        <TextView
+            android:layout_weight="1"
+            android:id="@+id/tv_bottom1"
+            android:visibility="gone"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="#4a90e2"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_15"
+            android:text="目标达成天数" />
+        <TextView
+            android:layout_weight="1"
+            android:id="@+id/tv_bottom2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@color/blue_dark"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_15"
+            android:text="评价" />
+
+    </LinearLayout>
+
+</LinearLayout>

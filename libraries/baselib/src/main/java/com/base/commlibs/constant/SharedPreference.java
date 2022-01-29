@@ -70,6 +70,7 @@ public class SharedPreference extends NurseConfig {
 
     //生命体征列表
     public static final String DISPLAYLIST = "DISPLAYLIST";
+    public static final String CUR_MAINSUBLISTBEAN = "curMainSubListBean";
 
     //临时变量定位报错方法名
     public static String MethodName = "";

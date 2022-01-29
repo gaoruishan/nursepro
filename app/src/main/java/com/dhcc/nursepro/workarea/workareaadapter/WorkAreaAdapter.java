@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.base.commlibs.BaseFragment;
+import com.base.commlibs.constant.SharedPreference;
+import com.base.commlibs.utils.DataCache;
 import com.base.commlibs.view.WebActivity;
 import com.base.commlibs.wsutils.BaseWebServiceUtils;
 import com.blankj.utilcode.util.StringUtils;
@@ -56,6 +58,7 @@ public class WorkAreaAdapter extends BaseQuickAdapter<MainConfigBean.MainListBea
                     try {
                         OrderExecuteFragmentClass = (Class<? extends BaseFragment>) Class.forName(mainSubListBean.getFragmentClassName());
                         ((MainActivity) mContext).startFragment(OrderExecuteFragmentClass);
+                        DataCache.saveJson(mainSubListBean, SharedPreference.CUR_MAINSUBLISTBEAN);
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();
                     }

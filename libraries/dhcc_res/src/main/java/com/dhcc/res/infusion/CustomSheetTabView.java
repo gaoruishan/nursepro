@@ -74,6 +74,7 @@ public class CustomSheetTabView extends BaseView {
         if (list == null) {
             return;
         }
+        setVisibility(VISIBLE);
         if (list.size() <= 4) {
             RecyclerViewHelper.setGridRecyclerView(getContext(), rvSheet, list.size(), false);
         } else {

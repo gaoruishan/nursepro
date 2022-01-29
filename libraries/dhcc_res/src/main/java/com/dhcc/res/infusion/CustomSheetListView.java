@@ -70,6 +70,10 @@ public class CustomSheetListView extends LinearLayout {
     }
 
     public void setDatas(List <? extends SheetListBean> list) {
+        if (list == null) {
+            return;
+        }
+        setVisibility(VISIBLE);
         sheetListAdapter.setNewData((List<SheetListBean>) list);
     }
 

@@ -94,6 +94,7 @@ public class LocalTestManager {
         l.add("GetRfidPatList");
 //        l.add("GetLoginQR");
 //        l.add("GetLoginQRResult");
+        l.add("GetUIConfig");
 
     }
 

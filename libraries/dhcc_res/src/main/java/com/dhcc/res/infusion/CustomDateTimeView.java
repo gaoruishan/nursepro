@@ -138,6 +138,7 @@ public class CustomDateTimeView extends LinearLayout implements View.OnClickList
     }
 
     public CustomDateTimeView setStartDateTime(long startDateTime) {
+        setVisibility(VISIBLE);
         this.startDateTime = startDateTime;
         setChooseText(getStartDateTime(), tvChooseDateStart);
         return this;

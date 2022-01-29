@@ -67,6 +67,7 @@ public class CustomScanView extends LinearLayout {
      */
     public CustomScanView setTitle(String titleText) {
         if (!TextUtils.isEmpty(titleText)) {
+            setVisibility(VISIBLE);
             this.tvTitle.setVisibility(VISIBLE);
             this.tvTitle.setText(titleText);
         }

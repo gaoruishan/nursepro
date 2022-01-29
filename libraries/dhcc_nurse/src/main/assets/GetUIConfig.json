@@ -1,0 +1,114 @@
+{
+  "msg": "成功",
+  "msgcode": "999999",
+  "rules": "字段为空,则不显示UI,优先级高的,覆盖优先级低",
+  "actionBar": {
+    "title": "测试标题",
+    "rightText1": "刷新",
+    "rightText2": "保存",
+    "rightImage1": "",
+    "rightImage2": "",
+    "rightText1Action": "refresh",
+    "rightText2Action": "saveEdu",
+    "desc": "actionBar控制顶部标题栏,右侧文本或图片"
+  },
+  "scanView": {
+    "icon": "label",
+    "title": "扫腕带",
+    "content": "这是提示内容",
+    "desc": "scanView控制扫码页,icon图片默认腕带,标题和提示",
+    "param": "barcode",
+    "action": "getScanInfo"
+  },
+  "topTabView": {
+    "list": [
+      {
+        "title": "测试tab1",
+        "code": "tab1"
+      },
+      {
+        "title": "测试tab2",
+        "code": "tab2"
+      }
+    ],
+    "param": "tabCode",
+    "desc": "topTabView控制顶部Tab页,list列表,param参数名"
+  },
+  "leftSheetView": {
+    "list": [
+      {
+        "title": "测试sheet1",
+        "code": "sheet1"
+      },
+      {
+        "title": "测试sheet2",
+        "code": "sheet2"
+      },
+      {
+        "title": "测试sheet3",
+        "code": "sheet3"
+      }
+    ],
+    "param": "SheetCode",
+    "desc": "leftSheetView控制左侧Sheet页,list列表,param参数名"
+  },
+  "dateTimeView": {
+    "start": "2022-01-27 00:00",
+    "end": "2022-01-27 23:59",
+    "param": "dateTime",
+    "desc": "dateTimeView控制日期时间,start或end开始结束时间,param参数名"
+  },
+  "listView": {
+    "dateTimeView": {
+      "start": "2022-01-27 00:00",
+      "end": "2022-01-27 23:59",
+      "param": "dateTime",
+      "desc": "dateTimeView控制日期时间,start或end开始结束时间,param参数名;会覆盖掉上层dateTimeView"
+    },
+    "list": {
+      "header": {
+        "content": "这是头部"
+      },
+      "content": [
+        {
+          "type": "text",
+          "line1Content": {
+            "title": "测试list内容1111",
+            "style": {
+              "color": "#DEFECC",
+              "size": "20"
+            }
+          },
+          "line2Content": {
+            "title": "测试list内容1111"
+          },
+          "line3Content": {
+            "title": "日期时间:2022-01-27 12:12"
+          }
+        },
+        {
+          "type": "rich",
+          "richContent": "<h2 style=\"background-color:red;\">这是一个标题</h2>"
+        }
+      ],
+      "footer": {
+        "content": "这是尾部"
+      }
+    }
+  },
+  "bottomView": {
+    "type": "1",
+    "list": [
+      {
+        "title": "保存",
+        "code": "S"
+      },
+      {
+        "title": "取消",
+        "code": "C"
+      }
+    ],
+    "method": "saveEdu"
+  },
+  "status": "0"
+}
