@@ -18,7 +18,7 @@
     "content": "这是提示内容",
     "desc": "scanView控制扫码页,icon图片默认腕带,标题和提示",
     "param": "barcode",
-    "action": "getScanInfo"
+    "method": "getScanInfo"
   },
   "topTabView": {
     "list": [
@@ -52,14 +52,14 @@
     "param": "SheetCode",
     "desc": "leftSheetView控制左侧Sheet页,list列表,param参数名"
   },
-  "dateTimeView": {
+  "dateTimeView1": {
     "start": "2022-01-27 00:00",
     "end": "2022-01-27 23:59",
     "param": "dateTime",
     "desc": "dateTimeView控制日期时间,start或end开始结束时间,param参数名"
   },
   "listView": {
-    "dateTimeView": {
+    "dateTimeView2": {
       "start": "2022-01-27 00:00",
       "end": "2022-01-27 23:59",
       "param": "dateTime",
@@ -69,31 +69,25 @@
       "header": {
         "content": "这是头部"
       },
-      "content": [
-        {
-          "type": "text",
-          "line1Content": {
-            "title": "测试list内容1111",
-            "style": {
-              "color": "#DEFECC",
-              "size": "20"
-            }
-          },
-          "line2Content": {
-            "title": "测试list内容1111"
-          },
-          "line3Content": {
-            "title": "日期时间:2022-01-27 12:12"
+      "content": {
+        "type": "text",
+        "line1Content": {
+          "code": "DisposeStatDesc",
+          "style": {
+            "color": "#DEFECC",
+            "size": "20"
           }
         },
-        {
-          "type": "rich",
-          "richContent": "<h2 style=\"background-color:red;\">这是一个标题</h2>"
+        "line2Content": {
+          "code": "测试list内容1111"
         }
-      ],
+      },
+      "param": "barcode,tabCode,dateTime,SheetCode",
+      "method": "GetListData",
       "footer": {
         "content": "这是尾部"
-      }
+      },
+      "desc": "list数据列表配置,param参数,method方法;会覆盖掉上层dateTimeView"
     }
   },
   "bottomView": {

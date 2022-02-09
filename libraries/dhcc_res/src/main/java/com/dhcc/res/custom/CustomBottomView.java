@@ -43,14 +43,15 @@ public class CustomBottomView extends BaseView {
     }
 
     public void setDataBean(BottomViewBean bean) {
+        setVisibility(VISIBLE);
         if ("1".equals(bean.getType())) {
             for (int i = 0; i < bean.getList().size(); i++) {
                 BottomViewBean.ListBean listBean = bean.getList().get(i);
                 if (i == 0) {
-                    tv_bottom1.setText(listBean.getTitle());
+                    setText(tv_bottom1, listBean.getTitle());
                 }
                 if (i == 1) {
-                    tv_bottom2.setText(listBean.getTitle());
+                    setText(tv_bottom2, listBean.getTitle());
                 }
             }
         }

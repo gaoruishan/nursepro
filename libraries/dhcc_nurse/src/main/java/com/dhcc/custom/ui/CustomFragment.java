@@ -2,18 +2,25 @@ package com.dhcc.custom.ui;
 
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommonCallBack;
+import com.base.commlibs.utils.RecyclerViewHelper;
+import com.base.commlibs.utils.SimpleCallBack;
 import com.blankj.utilcode.util.SPStaticUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.custom.CustomApiManager;
+import com.dhcc.custom.CustomOrderAdapter;
 import com.dhcc.custom.base.BaseCustomFragment;
+import com.dhcc.custom.bean.CustomListData;
 import com.dhcc.custom.bean.CustomScanInfo;
 import com.dhcc.custom.bean.CustomUiConfigBean;
+import com.dhcc.module.nurse.R;
+import com.dhcc.res.custom.CustomBottomView;
 import com.dhcc.res.custom.bean.ActionBarBean;
 import com.dhcc.res.custom.bean.BottomViewBean;
 import com.dhcc.res.custom.bean.DateTimeViewBean;
@@ -21,13 +28,11 @@ import com.dhcc.res.custom.bean.LeftSheetViewBean;
 import com.dhcc.res.custom.bean.ListViewBean;
 import com.dhcc.res.custom.bean.ScanViewBean;
 import com.dhcc.res.custom.bean.TopTabViewBean;
-import com.dhcc.module.nurse.R;
 import com.dhcc.res.infusion.CustomDateTimeView;
 import com.dhcc.res.infusion.CustomScanView;
 import com.dhcc.res.infusion.CustomSheetListView;
 import com.dhcc.res.infusion.CustomSheetTabView;
 import com.dhcc.res.infusion.bean.SheetListBean;
-import com.dhcc.res.custom.CustomBottomView;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 
@@ -49,6 +54,8 @@ public class CustomFragment extends BaseCustomFragment {
     private CustomBottomView custom_bottom;
     private CustomScanView custom_scan;
     private CustomUiConfigBean mBean;
+    private HashMap<String,String> mTempParam = new HashMap<>();
+    private CustomOrderAdapter customOrderAdapter;
 
     @Override
     protected void initDatas() {
@@ -64,6 +71,9 @@ public class CustomFragment extends BaseCustomFragment {
         custom_bottom = f(R.id.custom_bottom, CustomBottomView.class);
         custom_scan = f(R.id.custom_scan, CustomScanView.class);
         rv_list = f(R.id.rv_list, RecyclerView.class);
+        RecyclerViewHelper.setDefaultRecyclerView(mContext,rv_list,0);
+        customOrderAdapter = new CustomOrderAdapter(null);
+        rv_list.setAdapter(customOrderAdapter);
     }
 
     @Override
@@ -81,10 +91,11 @@ public class CustomFragment extends BaseCustomFragment {
 
     private void requstScanInfo() {
         String param = mBean.getScanView().getParam();
-        String action = mBean.getScanView().getAction();
+        String method = mBean.getScanView().getMethod();
         HashMap<String, String> map = new HashMap<>();
         map.put(param, scanInfo);
-        CustomApiManager.getScanOrdList(action, map, new CommonCallBack<CustomScanInfo>() {
+        mTempParam.put(param, scanInfo);
+        CustomApiManager.getScanOrdList(method, map, new CommonCallBack<CustomScanInfo>() {
             @Override
             public void onFail(String code, String msg) {
 
@@ -94,6 +105,8 @@ public class CustomFragment extends BaseCustomFragment {
             public void onSuccess(CustomScanInfo bean, String type) {
                 custom_scan.setVisibility(View.GONE);
                 ToastUtils.showShort(bean.getMsg()+" barCodeType="+bean.getBarCodeType());
+                //请求list数据
+                getListData();
             }
         });
     }
@@ -104,10 +117,40 @@ public class CustomFragment extends BaseCustomFragment {
         doScanView(bean.getScanView());
         doActionBar(bean.getActionBar());
         doTopTabView(bean.getTopTabView());
-        doDateTimeView(bean.getDateTimeView());
+        doDateTimeView(custom_date1, bean.getDateTimeView1(), new SimpleCallBack<String>() {
+            @Override
+            public void call(String result, int type) {
+                Log.e(TAG,"(CustomFragment.java:112) "+result);
+            }
+        });
         doLeftSheetView(bean.getLeftSheetView());
         doListView(bean.getListView());
         doBottomView(bean.getBottomView());
+
+        if (custom_scan.getVisibility() == View.GONE) {
+            //请求list数据
+            getListData();
+        }
+    }
+
+    protected void getListData() {
+        String method = mBean.getListView().getList().getMethod();
+//        HashMap<String, String> map = new HashMap<>();
+//        map.put(param, scanInfo);
+        CustomApiManager.getListData(method, mTempParam, new CommonCallBack<CustomListData>() {
+            @Override
+            public void onFail(String code, String msg) {
+                onFailThings(msg);
+            }
+
+            @Override
+            public void onSuccess(CustomListData bean, String type) {
+                if (mBean != null) {
+                    customOrderAdapter.setListConfig(mBean.getListView().getList());
+                }
+                customOrderAdapter.setNewData(bean.getOrdList());
+            }
+        });
     }
 
     private void doBottomView(BottomViewBean bottomView) {
@@ -119,7 +162,15 @@ public class CustomFragment extends BaseCustomFragment {
 
 
     private void doListView(ListViewBean listView) {
-
+        custom_date2.setVisibility(View.GONE);
+        if (listView != null) {
+            doDateTimeView(custom_date2, listView.getDateTimeView2(), new SimpleCallBack<String>() {
+                @Override
+                public void call(String result, int type) {
+                    Log.e(TAG,"(CustomFragment.java:112) "+result);
+                }
+            });
+        }
     }
 
 
@@ -132,6 +183,7 @@ public class CustomFragment extends BaseCustomFragment {
                 @Override
                 public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                     String selectCode = list.get(position).getCode();
+                    mTempParam.put(leftSheetView.getParam(), selectCode);
                     ToastUtils.showShort(selectCode);
                 }
             });
@@ -139,23 +191,31 @@ public class CustomFragment extends BaseCustomFragment {
         }
     }
 
-    private void doDateTimeView(DateTimeViewBean dateTimeView) {
-        custom_date1.setVisibility(View.GONE);
+    private void doDateTimeView(CustomDateTimeView custom_date, DateTimeViewBean dateTimeView, SimpleCallBack<String> callBack) {
+        custom_date.setVisibility(View.GONE);
         if (dateTimeView != null) {
             String curDate = SPStaticUtils.getString(SharedPreference.CURDATETIME);
             boolean contains = dateTimeView.getStart().contains(" ");
-            custom_date1.setShowTime(contains);
+            custom_date.setShowTime(contains);
 //            custom_date1.showOnlyOne();
-            custom_date1.setStartDateTime(TimeUtils.string2Millis(dateTimeView.getStart(),contains? YYYY_MM_DD_HH_MM:YYYY_MM_DD));
-            custom_date1.setOnDateSetListener(new OnDateSetListener() {
+            custom_date.setStartDateTime(TimeUtils.string2Millis(dateTimeView.getStart(),contains? YYYY_MM_DD_HH_MM:YYYY_MM_DD));
+            mTempParam.put(dateTimeView.getParam(), custom_date.getStartDateTimeText() + "^" +custom_date.getEndDateTimeText());
+            custom_date.setOnDateSetListener(new OnDateSetListener() {
                 @Override
                 public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
-                    ToastUtils.showShort(custom_date1.getStartDateTimeText());
+                    ToastUtils.showShort(custom_date.getStartDateTimeText());
+                    mTempParam.put(dateTimeView.getParam(), custom_date.getStartDateTimeText() + "^" +custom_date.getEndDateTimeText());
+                    if (callBack != null) {
+                        callBack.call(custom_date.getStartDateTimeText(),1);
+                    }
                 }
             }, new OnDateSetListener() {
                 @Override
                 public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
-                    ToastUtils.showShort(custom_date1.getEndDateTimeText());
+                    ToastUtils.showShort(custom_date.getEndDateTimeText());
+                    if (callBack != null) {
+                        callBack.call(custom_date.getEndDateTimeText(),2);
+                    }
                 }
             });
         }
@@ -170,9 +230,8 @@ public class CustomFragment extends BaseCustomFragment {
                 @Override
                 public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                     String selectCode = list.get(position).getCode();
+                    mTempParam.put(topTabView.getParam(), selectCode);
                     ToastUtils.showShort(selectCode);
-//                    List<CustomOrdItem> ordItemList = getCustomOrdItems(userTypeListList);
-//                    CustomAdapterManager.setCustomOrdLayoutData(mContext, rv_list, ordItemList, null);
                 }
             });
         }

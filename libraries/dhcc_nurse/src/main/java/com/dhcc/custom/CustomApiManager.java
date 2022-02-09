@@ -6,6 +6,7 @@ import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.http.ParserUtil;
 import com.base.commlibs.http.ServiceCallBack;
 import com.base.commlibs.utils.ReflectUtil;
+import com.dhcc.custom.bean.CustomListData;
 import com.dhcc.custom.bean.CustomScanInfo;
 import com.dhcc.custom.bean.CustomUiConfigBean;
 import com.dhcc.custom.bean.MainSubListBean;
@@ -37,7 +38,21 @@ public class CustomApiManager extends NurseAPI {
         });
     }
 
-    public static void getScanOrdList(String method,HashMap<String, String> map, CommonCallBack<CustomScanInfo> callBack) {
+    public static void getListData(String method, HashMap<String, String> map, CommonCallBack<CustomListData> callBack) {
+        CommWebService.call(method, map, new ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                ParserUtil<CustomListData> parserUtil = new ParserUtil<>();
+                CustomListData bean = parserUtil.parserResult(jsonStr, callBack, CustomListData.class);
+                if (bean == null) {
+                    return;
+                }
+                parserUtil.parserStatus(bean, callBack);
+            }
+        });
+    }
+
+    public static void getScanOrdList(String method, HashMap<String, String> map, CommonCallBack<CustomScanInfo> callBack) {
         CommWebService.call(method, map, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {

@@ -108,7 +108,7 @@ public abstract class BaseCustomFragment extends BaseCommFragment {
         CustomApiManager.getUiConfig(json, new CommonCallBack<CustomUiConfigBean>() {
             @Override
             public void onFail(String code, String msg) {
-                onFail(code,msg);
+                onFailThings(msg);
             }
 
             @Override

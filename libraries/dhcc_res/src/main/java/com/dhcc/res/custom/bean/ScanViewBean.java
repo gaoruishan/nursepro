@@ -6,7 +6,7 @@ public class ScanViewBean {
     private String content;
     private String desc;
     private String param;
-    private String action;
+    private String method;
 
     public String getIcon() {
         return icon == null ? "" : icon;
@@ -48,11 +48,11 @@ public class ScanViewBean {
         this.param = param;
     }
 
-    public String getAction() {
-        return action == null ? "" : action;
+    public String getMethod() {
+        return method == null ? "" : method;
     }
 
-    public void setAction(String action) {
-        this.action = action;
+    public void setMethod(String action) {
+        this.method = action;
     }
 }

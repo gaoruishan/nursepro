@@ -69,7 +69,7 @@ public class CustomUiConfigBean extends CommResult {
      * desc : dateTimeView控制日期时间,start或end开始结束时间,param参数名
      */
 
-    private DateTimeViewBean dateTimeView;
+    private DateTimeViewBean dateTimeView1;
     /**
      * dateTimeView : {"start":"2022-01-27 00:00","end":"2022-01-27 23:59","param":"dateTime","desc":"dateTimeView控制日期时间,start或end开始结束时间,param参数名;会覆盖掉上层dateTimeView"}
      * list : {"header":{"content":"这是头部"},"content":[{"type":"text","line1Content":{"title":"测试list内容1111","style":{"color":"#DEFECC","size":"20"}},"line2Content":{"title":"测试list内容1111"},"line3Content":{"title":"日期时间:2022-01-27 12:12"}},{"type":"rich","richContent":"<h2 style=\"background-color:red;\">这是一个标题<\/h2>"}],"footer":{"content":"这是尾部"}}
@@ -124,12 +124,12 @@ public class CustomUiConfigBean extends CommResult {
         this.leftSheetView = leftSheetView;
     }
 
-    public DateTimeViewBean getDateTimeView() {
-        return dateTimeView;
+    public DateTimeViewBean getDateTimeView1() {
+        return dateTimeView1;
     }
 
-    public void setDateTimeView(DateTimeViewBean dateTimeView) {
-        this.dateTimeView = dateTimeView;
+    public void setDateTimeView1(DateTimeViewBean dateTimeView) {
+        this.dateTimeView1 = dateTimeView;
     }
 
     public ListViewBean getListView() {
