@@ -96,6 +96,7 @@ public class LocalTestManager {
 //        l.add("GetLoginQRResult");
 //        l.add("GetUIConfig");
         l.add("GetListData");
+        l.add("GetNormalOrdTask");
 
     }
 
