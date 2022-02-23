@@ -1,23 +1,25 @@
 package com.dhcc.nursepro.workarea.nurrecordnew;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.base.commlibs.BaseFragment;
 import com.blankj.utilcode.util.ConvertUtils;
+import com.blankj.utilcode.util.TimeUtils;
 import com.dhcc.nursepro.R;
+import com.jzxiang.pickerview.data.Type;
+import com.jzxiang.pickerview.listener.OnDateSetListener;
 
 import java.text.DecimalFormat;
 import java.util.Calendar;
-import java.util.List;
 
 /**
  * 优化NurRecordNewFragment到ViewHelper
@@ -121,20 +123,58 @@ public class NurRecordNewViewHelper extends BaseFragment {
                                 textView.setText(timeStr);
                             }, Integer.parseInt(DateTimeStr.split(":")[0]), Integer.parseInt(DateTimeStr.split(":")[1]),
                             false);
+                    dialog.show();
                 } else {
-                    dialog = new TimePickerDialog(context,
-                            (view, hourOfDay, minute) -> {
-                                DecimalFormat df = new DecimalFormat("00");
-                                String timeStr = df.format(hourOfDay) + ":" + df.format(minute);
+//                    dialog = new TimePickerDialog(context,
+//                            (view, hourOfDay, minute) -> {
+//                                DecimalFormat df = new DecimalFormat("00");
+//                                String timeStr = df.format(hourOfDay) + ":" + df.format(minute);
+//                                textView.setText(timeStr);
+//                            }, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE),
+//                            false);
+                    long millis = TimeUtils.string2Millis(DateTimeStr, "HH:mm");
+                    chooseTime(millis, new OnDateSetListener() {
+                        @Override
+                        public void onDateSet(com.jzxiang.pickerview.TimePickerDialog timePickerView, long millseconds) {
+                            String timeStr = TimeUtils.millis2String(millseconds);
+                            timeStr = timeStr.substring(10,16);
                                 textView.setText(timeStr);
-                            }, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE),
-                            false);
+                        }
+                    });
                 }
 
-                dialog.show();
+
                 break;
             default:
                 break;
+        }
+
+    }
+    private void chooseTime(long currentTimeMillis, OnDateSetListener listener) {
+        long tenYears = 10L * 365 * 1000 * 60 * 60 * 24L;
+        com.jzxiang.pickerview.TimePickerDialog.Builder builder = new com.jzxiang.pickerview.TimePickerDialog.Builder();
+        builder.setType(Type.HOURS_MINS);
+        com.jzxiang.pickerview.TimePickerDialog mDialogAll = builder.setCallBack(listener)
+                .setCancelStringId("取消")
+                .setSureStringId("确认")
+                .setTitleStringId("时间")
+//                .setYearText("年")
+//                .setMonthText("月")
+//                .setDayText("日")
+                .setHourText("时")
+                .setMinuteText("分")
+                .setCyclic(false)
+                .setMinMillseconds(currentTimeMillis - tenYears)
+                .setMaxMillseconds(currentTimeMillis + tenYears)
+                .setCurrentMillseconds(currentTimeMillis)
+                .setThemeColor(getResources().getColor(com.grs.dhcc_res.R.color.colorPrimary))
+                .setWheelItemTextNormalColor(getResources().getColor(com.grs.dhcc_res.R.color.timetimepicker_default_text_color))
+                .setWheelItemTextSelectorColor(getResources().getColor(com.grs.dhcc_res.R.color.colorPrimaryDark))
+                .setWheelItemTextSize(12)
+                .build();
+        if (getContext() instanceof FragmentActivity) {
+            FragmentManager fragmentManager = ((FragmentActivity) getContext()).getSupportFragmentManager();
+            mDialogAll.show(fragmentManager, "ALL");
         }
 
     }

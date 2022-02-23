@@ -146,10 +146,10 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                     if (!StringUtils.isEmpty(dataSourceRef)) {
                         setCallBackViewText(elementId, dataSourceRef, episodeID);
                     } else {
-                        if (!StringUtils.isEmpty(callbackElementFormName) && callbackElementFormName.split(",").length == callbackElementIds.length) {
+                        if (!StringUtils.isEmpty(callbackElementFormName) && callbackElementFormName.split(",").length >= callbackElementIds.length) {
                             String[] callbackElementFormNameStr = callbackElementFormName.split(",");
 
-                            if (callbackElementFormNameStr[i].split("\\^").length == 3) {
+                            if (callbackElementFormNameStr[i].split("\\^").length >= 3) {
                                 TextView textView = (TextView) viewHashMap.get(elementId);
                                 if (textView != null) {
                                     textView.setText(callbackElementFormNameStr[i].split("\\^")[2]);
@@ -1924,7 +1924,9 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                 editText.setInputType(InputType.TYPE_CLASS_NUMBER);
             } else {
                 editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-                editText.setFilters(new InputFilter[]{new InputDigitLengthFilter(Integer.parseInt(element.getPointLen()))});
+                if (!StringUtils.isEmpty(element.getPointLen())) {
+                    editText.setFilters(new InputFilter[]{new InputDigitLengthFilter(Integer.parseInt(element.getPointLen()))});
+                }
             }
 
             if (!StringUtils.isEmpty(element.getMEName())) {
@@ -2837,6 +2839,16 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                                 }
                             }
                             editText.setText(String.valueOf(score));
+                        }else if ("Merge".equals(calType)) {
+                            String txt = editText.getText().toString();
+                            CheckBox checkBox = (CheckBox) viewHashMap.get(viewElementId);
+                            String rep = checkBox.getText().toString();
+                            if ("check".equals(status)) {
+                                txt += rep + "-";
+                            }else {
+                                txt = txt.replace(rep + "-", "");
+                            }
+                            editText.setText(txt+"");
                         }
                         /// EH 2021-10-19 统分类型 end
                     }
