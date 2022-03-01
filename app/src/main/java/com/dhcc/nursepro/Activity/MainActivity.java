@@ -56,7 +56,7 @@ import com.blankj.utilcode.util.SPStaticUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.VibrateUtils;
-import com.dhcc.module.nurse.log.NurLogFragment;
+import com.base.commlibs.log.NurLogFragment;
 import com.dhcc.nursepro.Activity.update.BaseDialog;
 import com.dhcc.nursepro.Activity.update.api.UpdateApiManager;
 import com.dhcc.nursepro.BuildConfig;

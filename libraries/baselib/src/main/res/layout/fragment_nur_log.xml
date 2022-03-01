@@ -13,7 +13,7 @@
             android:text="崩溃"
             android:layout_weight="1"
             android:gravity="center"
-            android:drawableBottom="@drawable/dhcc_img_blueline"
+            android:drawableBottom="@drawable/base_img_blueline"
             android:textColor="@color/black"
             android:textSize="@dimen/dp_16"
             android:layout_width="@dimen/dp_0"

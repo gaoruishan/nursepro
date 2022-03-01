@@ -1,4 +1,4 @@
-package com.dhcc.module.nurse.log.fragment;
+package com.base.commlibs.log.fragment;
 
 import android.text.Html;
 import android.text.TextUtils;
@@ -6,9 +6,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.base.commlibs.R;
 import com.base.commlibs.comm.BaseCommFragment;
 import com.base.commlibs.http.CommWebService;
 import com.base.commlibs.http.ServiceCallBack;
+import com.base.commlibs.log.NurLogFragment;
 import com.base.commlibs.utils.CommFile;
 import com.base.commlibs.utils.CrashHandler;
 import com.base.commlibs.utils.LocalTestManager;
@@ -16,8 +18,6 @@ import com.base.commlibs.utils.SimpleCallBack;
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.PathUtils;
 import com.blankj.utilcode.util.ToastUtils;
-import com.dhcc.module.nurse.R;
-import com.dhcc.module.nurse.log.NurLogFragment;
 
 import java.util.HashMap;
 

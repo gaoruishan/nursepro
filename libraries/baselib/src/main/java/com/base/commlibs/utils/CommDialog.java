@@ -186,8 +186,13 @@ public class CommDialog {
                 attr.gravity = Gravity.CENTER;
             }
         }
-        dialog.setContentView(view);
-        dialog.show();
+        try {
+            dialog.setContentView(view);
+            dialog.show();
+        } catch (Exception e) {
+
+        }
+
     }
 
     protected static View getView(Context context, @LayoutRes int resource) {

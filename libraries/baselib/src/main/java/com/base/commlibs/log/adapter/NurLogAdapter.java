@@ -1,10 +1,10 @@
-package com.dhcc.module.nurse.log.adapter;
+package com.base.commlibs.log.adapter;
 
 import android.support.annotation.Nullable;
 
+import com.base.commlibs.R;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.dhcc.module.nurse.R;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.dhcc.module.nurse.log.fragment;
+package com.base.commlibs.log.fragment;
 
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -7,15 +7,15 @@ import android.util.Log;
 import android.view.View;
 
 import com.base.commlibs.BaseActivity;
+import com.base.commlibs.R;
 import com.base.commlibs.comm.BaseCommFragment;
+import com.base.commlibs.log.NurLogFragment;
+import com.base.commlibs.log.adapter.NurLogAdapter;
+import com.base.commlibs.log.adapter.NurLogBean;
 import com.base.commlibs.utils.LocalTestManager;
 import com.base.commlibs.utils.RecyclerViewHelper;
 import com.base.commlibs.utils.SimpleCallBack;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.dhcc.module.nurse.R;
-import com.dhcc.module.nurse.log.NurLogFragment;
-import com.dhcc.module.nurse.log.adapter.NurLogAdapter;
-import com.dhcc.module.nurse.log.adapter.NurLogBean;
 
 import java.io.File;
 import java.util.ArrayList;

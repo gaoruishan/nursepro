@@ -79,7 +79,7 @@ public class BaseWebServiceUtils {
 
     public static String getOPPDAService() {
         return SPStaticUtils.getString(SharedPreference.oppdaService, NUR_OPPDA_SERVICE);
-//        return  NUR_MOES_SERVICE;
+//        return  NUR_OPPDA_SERVICE;
     }
 
     public static String getPDAService() {
@@ -96,24 +96,31 @@ public class BaseWebServiceUtils {
         return SPStaticUtils.getString(SharedPreference.webServicePassword, "dhwebservice");
 //        return "1q2w3e4r%T6y7u8i9o0p";
     }
-//    /**
-//     * PDA护士站服务器地址
-//     */
-//    public static void callWebPDAService(final String methodName,
-//                                         HashMap<String, String> properties,
-//                                         final WebServiceCallBack webServiceCallBack) {
-//        // 创建HttpTransportSE对象，传递WebService服务器地址,默认Nur.PDA.WebService.cls
-//        String url = getServiceUrl(getPDAService());
-//        if (properties == null) {
-//            properties = new HashMap<>();
-//        }
-//        if (url.contains(NUR_MNIS_SERVICE)) {
-//            properties = convertRequestData(methodName, properties);
-//            callWebService(url, REQUST_METHOD, properties, webServiceCallBack);
-//        } else {
-//            callWebService(url, methodName, properties, webServiceCallBack);
-//        }
-//    }
+
+    /**
+     * PDA护士站服务器地址
+     */
+    public static void callWebPDAService(final String methodName,
+                                         HashMap<String, String> properties,
+                                         final WebServiceCallBack webServiceCallBack) {
+        // 创建HttpTransportSE对象，传递WebService服务器地址,默认Nur.PDA.WebService.cls
+        String url = getServiceUrl(getPDAService());
+        if (properties == null) {
+            properties = new HashMap<>();
+        }
+        if (methodName.contains("NURLINK")){
+            url = getServiceUrl(NUR_LINK_SERVICE);
+            callWebService(url, methodName.replaceAll("NURLINK",""), properties, webServiceCallBack);
+
+        }else {
+            if (url.contains(NUR_MNIS_SERVICE)) {
+                properties = convertRequestData(methodName, properties);
+                callWebService(url, REQUST_METHOD, properties, webServiceCallBack);
+            } else {
+                callWebService(url, methodName, properties, webServiceCallBack);
+            }
+        }
+    }
 
     /**
      * OPPDA门诊服务器地址
@@ -205,30 +212,6 @@ public class BaseWebServiceUtils {
         CommWebService.addWardId(properties);
     }
 
-    /**
-     * PDA护士站服务器地址
-     */
-    public static void callWebPDAService(final String methodName,
-                                         HashMap<String, String> properties,
-                                         final WebServiceCallBack webServiceCallBack) {
-        // 创建HttpTransportSE对象，传递WebService服务器地址,默认Nur.PDA.WebService.cls
-        String url = getServiceUrl(getPDAService());
-        if (properties == null) {
-            properties = new HashMap<>();
-        }
-        if (methodName.contains("NURLINK")){
-            url = getServiceUrl(NUR_LINK_SERVICE);
-            callWebService(url, methodName.replaceAll("NURLINK",""), properties, webServiceCallBack);
-
-        }else {
-            if (url.contains(NUR_MNIS_SERVICE)) {
-                properties = convertRequestData(methodName, properties);
-                callWebService(url, REQUST_METHOD, properties, webServiceCallBack);
-            } else {
-                callWebService(url, methodName, properties, webServiceCallBack);
-            }
-        }
-    }
 
     /**
      * 获取服务器URL

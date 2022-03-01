@@ -31,6 +31,7 @@ import com.base.commlibs.MessageEvent;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommonCallBack;
+import com.base.commlibs.log.NurLogFragment;
 import com.base.commlibs.service.MServiceNewOrd;
 import com.base.commlibs.utils.AppUtil;
 import com.base.commlibs.utils.UserUtil;
@@ -137,17 +138,18 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
      */
     public void testServer(View view) {
         if (BuildConfig.DEBUG) {
-            String pdaService = BaseWebServiceUtils.getPDAService();
+            String pdaService = BaseWebServiceUtils.getOPPDAService();
             if (pdaService.contains(BaseWebServiceUtils.NUR_MNIS_SERVICE)) {
                 pdaService = BaseWebServiceUtils.NUR_OPPDA_SERVICE;
             }else {
                 pdaService = BaseWebServiceUtils.NUR_MOES_SERVICE;
             }
-            SPStaticUtils.put(SharedPreference.pdaService,pdaService);
+            SPStaticUtils.put(SharedPreference.oppdaService,pdaService);
             ToastUtils.showShort("切换服务器: "+pdaService);
         }else {
-//            startFragment(NurLogFragment.class);
+            startFragment(NurLogFragment.class);
         }
+        startFragment(NurLogFragment.class);
     }
     /**
      * 初始化各模块界面

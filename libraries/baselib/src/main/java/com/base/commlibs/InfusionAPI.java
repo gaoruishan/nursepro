@@ -1,8 +1,6 @@
 package com.base.commlibs;
 
-import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.wsutils.BaseWebServiceUtils;
-import com.blankj.utilcode.util.SPStaticUtils;
 
 /**
  * API接口
@@ -32,7 +30,7 @@ public class InfusionAPI {
      * 兼容老版本
      */
     public static boolean isNew() {
-        return BaseWebServiceUtils.NUR_MOES_SERVICE.equals(SPStaticUtils.getString(SharedPreference.oppdaService));
+        return BaseWebServiceUtils.NUR_MOES_SERVICE.equals(BaseWebServiceUtils.getOPPDAService());
     }
 
     //获取医嘱列表

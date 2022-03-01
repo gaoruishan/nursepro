@@ -46,7 +46,7 @@ import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.dhcc.module.nurse.ca.CaLoginActivity;
-import com.dhcc.module.nurse.log.NurLogFragment;
+import com.base.commlibs.log.NurLogFragment;
 import com.dhcc.nursepro.Activity.MainActivity;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.greendao.DaoSession;

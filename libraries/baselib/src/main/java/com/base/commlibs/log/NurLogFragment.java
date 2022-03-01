@@ -1,4 +1,4 @@
-package com.dhcc.module.nurse.log;
+package com.base.commlibs.log;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -8,7 +8,12 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.base.commlibs.BaseActivity;
+import com.base.commlibs.R;
 import com.base.commlibs.comm.BaseCommFragment;
+import com.base.commlibs.log.adapter.NurLogAdapter;
+import com.base.commlibs.log.adapter.NurLogBean;
+import com.base.commlibs.log.fragment.NurLogDetailFragment;
+import com.base.commlibs.log.fragment.NurLogListFragment;
 import com.base.commlibs.utils.CommFile;
 import com.base.commlibs.utils.CrashHandler;
 import com.base.commlibs.utils.DataCache;
@@ -19,11 +24,6 @@ import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.PathUtils;
 import com.blankj.utilcode.util.ViewUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.dhcc.module.nurse.R;
-import com.dhcc.module.nurse.log.adapter.NurLogAdapter;
-import com.dhcc.module.nurse.log.adapter.NurLogBean;
-import com.dhcc.module.nurse.log.fragment.NurLogDetailFragment;
-import com.dhcc.module.nurse.log.fragment.NurLogListFragment;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -167,7 +167,7 @@ public class NurLogFragment extends BaseCommFragment {
         tvErr.setCompoundDrawables(null, null, null, null);
         tvNull.setCompoundDrawables(null, null, null, null);
         tvCrash.setCompoundDrawables(null, null, null, null);
-        Drawable drawable = getResources().getDrawable(R.drawable.dhcc_img_blueline);
+        Drawable drawable = getResources().getDrawable(R.drawable.base_img_blueline);
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
         if (v.getId() == R.id.tv_data) {
             tvData.setCompoundDrawables(null, null, null, drawable);

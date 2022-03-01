@@ -1,4 +1,4 @@
-package com.dhcc.module.nurse.log.adapter;
+package com.base.commlibs.log.adapter;
 
 /**
  * @author:gaoruishan

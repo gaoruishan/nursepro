@@ -13,7 +13,7 @@ import com.dhcc.custom.ui.CustomFragment;
 import com.dhcc.module.nurse.accompany.AccompanyFragment;
 import com.dhcc.module.nurse.bloodsugar.BloodSugarFragment;
 import com.dhcc.module.nurse.education.HealthEduFragment;
-import com.dhcc.module.nurse.log.NurLogFragment;
+import com.base.commlibs.log.NurLogFragment;
 import com.dhcc.module.nurse.nurplan.NurPlanFragment;
 import com.dhcc.module.nurse.outmanage.OutManageFragment;
 import com.dhcc.module.nurse.task.TaskOverviewFragment;
