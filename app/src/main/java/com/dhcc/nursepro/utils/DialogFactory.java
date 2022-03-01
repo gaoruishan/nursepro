@@ -316,6 +316,35 @@ public class DialogFactory {
         return dialog;
     }
 
+   public static Dialog showDoubleFlagDialog(Context context, @Nullable final CommClickListener clickListener) {
+        final Dialog dialog = new Dialog(context, R.style.MyDialog);
+        dialog.setCanceledOnTouchOutside(true);
+        View view = LayoutInflater.from(context).inflate(R.layout.double_dialog_layout, null);
+        TextView tvSure = view.findViewById(R.id.tv_skinresult_sure);
+
+        View.OnClickListener onClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String text = getText(view, R.id.et_skin_num);
+                String pwd = getText(view, R.id.et_skin_pwd);
+                if (clickListener != null) {
+
+                    if (text.length()<1 || pwd.length()<1){
+                        ((BaseActivity)context).showToast("请输入复核账号和密码");
+                    }else {
+                        clickListener.data(new Object[]{text,pwd});
+                        dialog.cancel();
+                    }
+
+                }
+            }
+        };
+       tvSure.setOnClickListener(onClickListener);
+       setCommTextView("取消", null, dialog, view,R.id.tv_skinresult_cancle);
+        showCenterWindow(dialog, view);
+        return dialog;
+    }
+
     private static void  setSelectState(SelectTextView stv, boolean select, boolean enable) {
         stv.setToggle(select);
         stv.setEnabled(enable);

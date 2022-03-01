@@ -145,14 +145,19 @@ public class CommRes {
         @Override
         public void run() {
             super.run();
-            String s = null;
-            if (type == ResType.Assets) {
-                s = ResourceUtils.readAssets2String(name);
+            String s = "";
+            try {
+                if (type == ResType.Assets) {
+                    s = ResourceUtils.readAssets2String(name);
+                }
+                if (type == ResType.Raw) {
+                    s = ResourceUtils.readRaw2String(resId);
+                }
+            } catch (Exception e) {
+                Log.e(TAG, "(ResThread:157) run:" + e.toString());
+            }finally {
+                callRes.call(s);
             }
-            if (type == ResType.Raw) {
-                s = ResourceUtils.readRaw2String(resId);
-            }
-            callRes.call(s);
         }
     }
 }

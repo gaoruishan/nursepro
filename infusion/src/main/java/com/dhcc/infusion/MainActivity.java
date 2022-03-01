@@ -21,6 +21,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.Toast;
@@ -33,9 +34,11 @@ import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.service.MServiceNewOrd;
 import com.base.commlibs.utils.AppUtil;
 import com.base.commlibs.utils.UserUtil;
+import com.base.commlibs.wsutils.BaseWebServiceUtils;
 import com.blankj.utilcode.util.ObjectUtils;
 import com.blankj.utilcode.util.SPStaticUtils;
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.VibrateUtils;
 import com.dhcc.infusion.update.UpdateAppUtil;
 import com.dhcc.module.infusion.message.MessageFragment;
@@ -128,7 +131,24 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         //注册事件总线
         EventBus.getDefault().unregister(this);
     }
-
+    /**
+     * 测试-切换服务器
+     * @param view
+     */
+    public void testServer(View view) {
+        if (BuildConfig.DEBUG) {
+            String pdaService = BaseWebServiceUtils.getPDAService();
+            if (pdaService.contains(BaseWebServiceUtils.NUR_MNIS_SERVICE)) {
+                pdaService = BaseWebServiceUtils.NUR_OPPDA_SERVICE;
+            }else {
+                pdaService = BaseWebServiceUtils.NUR_MOES_SERVICE;
+            }
+            SPStaticUtils.put(SharedPreference.pdaService,pdaService);
+            ToastUtils.showShort("切换服务器: "+pdaService);
+        }else {
+//            startFragment(NurLogFragment.class);
+        }
+    }
     /**
      * 初始化各模块界面
      */

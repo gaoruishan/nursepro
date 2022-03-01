@@ -30,7 +30,6 @@ import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.SchDateTimeUtil;
 import com.base.commlibs.utils.SystemTTS;
 import com.blankj.utilcode.util.ConvertUtils;
-import com.blankj.utilcode.util.SPStaticUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -52,8 +51,6 @@ import com.jzxiang.pickerview.listener.OnDateSetListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import static com.dhcc.nursepro.workarea.workareautils.WorkareaOrdExeUtil.INT_8;
 
 /**
  * OrderExecuteFragment
@@ -125,6 +122,8 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
      */
     private StringBuffer sbOeoreId;
     private String oeoreId = "";
+    private StringBuffer sbDoubleFlag;
+    private String doubleFlag = "";
     /**
      * 操作
      * execStatusCode F 执行，C 撤销执行，A 接受，S 完成，R 拒绝F 执行C 撤销执行A 接受R 拒绝S 完成N 阴性 Y 阳性""撤销处理 ST 皮试计时
@@ -362,11 +361,16 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                         }
                         execOrderDialog.setCDSS(scanResultBean.getCDSS());
                         execOrderDialog.setCanExeFlag(scanResultBean.getCanExeFlag());
+                        execOrderDialog.setDoubleFlag(ordersBean.getDoubleFlag());
                         execOrderDialog.setOrderInfoEx(ordersBean.getSttDateTime() + " " + ordersBean.getPhcinDesc() + " " + ordersBean.getCtcpDesc() + "");
                         execOrderDialog.setSureOnclickListener(new OrderExecOrderDialog.onSureOnclickListener() {
                             @Override
-                            public void onSureClick() {
+                            public void onSureClick(String [] args) {
                                 execOrderDialog.dismiss();
+                                if (args != null && args.length > 0) {
+                                    skinUserCode = args[0];
+                                    skinUserPass = args[1];
+                                }
                                 execOrSeeOrderScan(ordersBean.getSttDateTime(), ordersBean.getArcimDesc(), ordersBean.getID(), "F");
                             }
                         });
@@ -687,7 +691,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                                             }
                                         }
                                     } else {
-                                        execOrSeeOrder();
+                                        showExecOrSeeOrder();
                                     }
                                 }
                             }
@@ -764,13 +768,29 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
 
     }
 
+    private void showExecOrSeeOrder() {
+        if (doubleFlag != null && doubleFlag.contains("1")) {
+            DialogFactory.showDoubleFlagDialog(getActivity(), new DialogFactory.CommClickListener() {
+                @Override
+                public void data(Object[] args) {
+                    if (args != null) {
+                        skinUserCode = (String) args[0];
+                        skinUserPass = (String) args[1];
+                    }
+                    execOrSeeOrder();
+                }
+            });
+        }else {
+            execOrSeeOrder();
+        }
+    }
+
     /**
      * 扫码执行
      */
     private void execOrSeeOrderScan(String creattime, String order, String oeoreIdScan, String execStatusCodeScan) {
-        String auditUserCode = "";
-        String auditUserPass = "";
-        OrderExecuteApiManager.execOrSeeOrder("", barCode, creattime, order, patSaveInfo, "1", "", auditUserCode, auditUserPass, oeoreIdScan, execStatusCodeScan, "", deviceNo, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
+
+        OrderExecuteApiManager.execOrSeeOrder("", barCode, creattime, order, patSaveInfo, "1", "", skinUserCode, skinUserPass, oeoreIdScan, execStatusCodeScan, "", deviceNo, new OrderExecuteApiManager.ExecOrSeeOrderCallback() {
             @Override
             public void onSuccess(OrderExecResultBean orderExecResultBean) {
 
@@ -796,7 +816,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
                 }, 200);
                 //CA签名
                 if ("1".equals(orderExecResultBean.getCaFlag())) {
-                    CaSignUtil.execCaSign(getActivity(), barCode, creattime, order, patSaveInfo, "1", oeoreIdScan, execStatusCode, auditUserCode);
+                    CaSignUtil.execCaSign(getActivity(), barCode, creattime, order, patSaveInfo, "1", oeoreIdScan, execStatusCode, skinUserCode);
                 }
             }
 
@@ -846,6 +866,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
     public void refreshBottom() {
 
         sbOeoreId = new StringBuffer();
+        sbDoubleFlag = new StringBuffer();
         sbOrderSaveInfo = new StringBuffer();
         sbTimeSaveInfo = new StringBuffer();
         selectCount = 0;
@@ -872,12 +893,12 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
 
                 if (selectCount == 0) {
                     sbOeoreId.append(patientOrderAdapter.getData().get(i).get(0).getOrderInfo().getID());
-                    //                    sbOrderSaveInfo.append(patOrders.get(i).get(0).getOrderInfo().getArcimDesc());
+                    sbDoubleFlag.append(patientOrderAdapter.getData().get(i).get(0).getOrderInfo().getDoubleFlag());
                     sbOrderSaveInfo.append(orderDescs);
                     sbTimeSaveInfo.append(patientOrderAdapter.getData().get(i).get(0).getOrderInfo().getSttDateTime());
                 } else {
                     sbOeoreId.append("^" + patientOrderAdapter.getData().get(i).get(0).getOrderInfo().getID());
-                    //                    sbOrderSaveInfo.append("^" + patOrders.get(i).get(0).getOrderInfo().getArcimDesc());
+                    sbDoubleFlag.append("^" + patientOrderAdapter.getData().get(i).get(0).getOrderInfo().getDoubleFlag());
                     sbOrderSaveInfo.append("^" + orderDescs);
                     sbTimeSaveInfo.append("^" + patientOrderAdapter.getData().get(i).get(0).getOrderInfo().getSttDateTime());
                 }
@@ -885,6 +906,7 @@ public class OrderExecuteFragment extends BaseFragment implements View.OnClickLi
             }
         }
         oeoreId = sbOeoreId.toString();
+        doubleFlag = sbDoubleFlag.toString();
         orderSaveInfo = sbOrderSaveInfo.toString();
         timeSaveInfo = sbTimeSaveInfo.toString();
         if (selectCount == 0) {

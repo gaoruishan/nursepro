@@ -362,7 +362,7 @@ public class OrderSearchAndExecuteFragment extends BaseFragment implements View.
                         execOrderDialog.setOrderInfoEx(ordersBean.getSttDateTime() + " " + ordersBean.getPhcinDesc() + " " + ordersBean.getCtcpDesc() + "");
                         execOrderDialog.setSureOnclickListener(new OrderExecOrderDialog.onSureOnclickListener() {
                             @Override
-                            public void onSureClick() {
+                            public void onSureClick(String[] args) {
                                 execOrderDialog.dismiss();
                                 execOrSeeOrderScan(ordersBean.getSttDateTime(), ordersBean.getArcimDesc(), ordersBean.getID(), "F");
                             }

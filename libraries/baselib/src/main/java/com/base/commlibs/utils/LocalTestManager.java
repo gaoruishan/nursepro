@@ -52,6 +52,7 @@ public class LocalTestManager {
 
     private static List<String> l = new ArrayList<>();
     private static Map<String, Integer> errNum = new WeakHashMap<>();
+    private static String curMethodName;
 
     static {
         //对应的方法名
@@ -97,6 +98,9 @@ public class LocalTestManager {
 //        l.add("GetUIConfig");
         l.add("GetListData");
         l.add("GetNormalOrdTask");
+        l.add("getOrders");
+        l.add("getScanInfo");
+        l.add("getIFOrdListByBarCode");
 
     }
 
@@ -114,7 +118,11 @@ public class LocalTestManager {
      * @param webServiceCallBack
      */
     public static void callLocalJson(String methodName, BaseWebServiceUtils.WebServiceCallBack webServiceCallBack) {
-        CommRes.readJson(methodName + ".json", new CommRes.CallRes<String>() {
+        boolean exitMethod = isExitMethod(methodName);
+        if (!exitMethod) {
+            return;
+        }
+        CommRes.readJson(curMethodName + ".json", new CommRes.CallRes<String>() {
             @Override
             public void call(String s, String json) {
                 webServiceCallBack.callBack(json);
@@ -131,9 +139,22 @@ public class LocalTestManager {
     public static boolean isTest(String methodName) {
         DataCache.putLog(methodName);
         if (TEST) {
-            return l.contains(methodName);
+            //方法首字母大写
+            return isExitMethod(methodName);
         }
         return false;
+    }
+
+    private static boolean isExitMethod(String methodName) {
+        String methodNameU = methodName.substring(0, 1).toUpperCase() + methodName.substring(1);
+        String methodNameL = methodName.substring(0, 1).toLowerCase() + methodName.substring(1);
+        if (l.contains(methodNameU)){
+            curMethodName = methodNameU;
+        }
+        if (l.contains(methodNameL)){
+            curMethodName = methodNameL;
+        }
+        return l.contains(methodNameU) || l.contains(methodNameL);
     }
 
     public static boolean isTest() {
@@ -154,14 +175,14 @@ public class LocalTestManager {
      * @param obj
      * @return
      */
-    public static boolean isRequest(String methodName, HashMap<String, String> properties, Object obj,String  url) {
+    public static boolean isRequest(String methodName, HashMap<String, String> properties, Object obj, String url) {
 
         //有数据直接返回
         if (!ObjectUtils.isEmpty(obj)) {
             //处理公共数据
             saveCommResult((String) obj);
             //保存数据不为null
-            saveLog(methodName + "_data", url+ "\n\n" +properties + "\n\n" + obj);
+            saveLog(methodName + "_data", url + "\n\n" + properties + "\n\n" + obj);
             return false;
         }
         Integer integer = errNum.get(methodName);
@@ -176,7 +197,7 @@ public class LocalTestManager {
         integer += 1;
         errNum.put(methodName, integer);
         //保存
-        saveLog(methodName + "_null", url+ "\n\n" + properties + "\n\n" + obj);
+        saveLog(methodName + "_null", url + "\n\n" + properties + "\n\n" + obj);
         return true;
     }
 
@@ -201,7 +222,7 @@ public class LocalTestManager {
                 JSONObject jsonObject = new JSONObject(res);
                 String tipFlag = jsonObject.getString(TIP_FLAG);
                 if (!TextUtils.isEmpty(tipFlag)) {
-                    ToastUtils.showShort(tipFlag+"");
+                    ToastUtils.showShort(tipFlag + "");
                 }
             } catch (Exception e) {
                 Log.e(TAG, "(LocalTestManager.java:205) " + e.toString());
@@ -286,9 +307,9 @@ public class LocalTestManager {
      * 获取指定路线下文件列表
      * @param callBack
      */
-    public static void getLogFilesInDir(String dir,SimpleCallBack<List<File>> callBack) {
-        Log.e(TAG,"(LocalTestManager.java:272) "+dir);
-        CommFile.readFilesInDir(dir,callBack);
+    public static void getLogFilesInDir(String dir, SimpleCallBack<List<File>> callBack) {
+        Log.e(TAG, "(LocalTestManager.java:272) " + dir);
+        CommFile.readFilesInDir(dir, callBack);
     }
 
     public static String getLogPath() {

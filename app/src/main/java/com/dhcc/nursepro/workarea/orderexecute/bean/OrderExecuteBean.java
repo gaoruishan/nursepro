@@ -400,6 +400,15 @@ public class OrderExecuteBean implements Serializable {
                 private String execDateTime;
                 private String filteFlagExtend;
                 private List<LoopInfoBean> loopInfo;
+                private String doubleFlag;
+
+                public String getDoubleFlag() {
+                    return doubleFlag == null ? "" : doubleFlag;
+                }
+
+                public void setDoubleFlag(String doubleFlag) {
+                    this.doubleFlag = doubleFlag;
+                }
 
                 public List<LoopInfoBean> getLoopInfo() {
                     return loopInfo;

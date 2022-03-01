@@ -8,8 +8,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
+import com.base.commlibs.constant.SharedPreference;
+import com.blankj.utilcode.util.SPStaticUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.workarea.orderexecute.adapter.OrderExecuteOrderDialogAdapter;
 import com.dhcc.nursepro.workarea.orderexecute.bean.ScanResultBean;
@@ -58,6 +62,9 @@ public class OrderExecOrderDialog extends Dialog {
     private View llCDSS;
     private TextView tvCDSS;
     private String devicNo=null;
+    private String doubleFlag;
+    private View llAudit;
+    private EditText etUser,etPwd;
 
     public String getBedCode() {
         return bedCode;
@@ -212,7 +219,9 @@ public class OrderExecOrderDialog extends Dialog {
         llDevice = findViewById(R.id.ll_device);
         tvPopupMsg = findViewById(R.id.tv_popup_msg);
         tvPopupDevice = findViewById(R.id.tv_popup_device);
-
+        llAudit = findViewById(R.id.ll_audit);
+        etUser = findViewById(R.id.et_user);
+        etPwd = findViewById(R.id.et_pwd);
         //提高展示效率
         recyPopupChildOrderInfo.setHasFixedSize(true);
         //设置的布局管理
@@ -250,6 +259,8 @@ public class OrderExecOrderDialog extends Dialog {
         if (orderInfoEx != null) {
             tvPopupOrderinfoex.setText(orderInfoEx);
         }
+        boolean flag = "1".equalsIgnoreCase(doubleFlag);
+        llAudit.setVisibility(flag?View.VISIBLE:View.GONE);
 
         if (!TextUtils.isEmpty(msgInfo)) {
             llMsg.setVisibility(View.VISIBLE);
@@ -273,7 +284,21 @@ public class OrderExecOrderDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 if (sureOnclickListener != null) {
-                    sureOnclickListener.onSureClick();
+                    String user="",psw = "";
+                    if (llAudit.getVisibility() == View.VISIBLE) {
+                        user = etUser.getText().toString();
+                        psw = etPwd.getText().toString();
+                        if(TextUtils.isEmpty(user)||TextUtils.isEmpty(psw)){
+                            ToastUtils.showShort("请检查用户/密码");
+                            return;
+                        }
+                        if(user.equalsIgnoreCase(SPStaticUtils.getString(SharedPreference.USERCODE))){
+                            ToastUtils.showShort("复核用户不能是当前登录用户");
+                            return;
+                        }
+                    }
+                    String[] args = {user,psw};
+                    sureOnclickListener.onSureClick(args);
                 }
             }
         });
@@ -285,6 +310,9 @@ public class OrderExecOrderDialog extends Dialog {
                 }
             }
         });
+    }
+    public void setDoubleFlag(String doubleFlag) {
+        this.doubleFlag = doubleFlag;
     }
 
     public void setDevicNo(String devicNo) {
@@ -308,7 +336,7 @@ public class OrderExecOrderDialog extends Dialog {
      * 设置确定按钮被点击的接口
      */
     public interface onSureOnclickListener {
-        void onSureClick();
+        void onSureClick(String [] args);
     }
 
     /**

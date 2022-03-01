@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="@dimen/dp_320"
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/dp_20"
-    android:layout_marginTop="@dimen/dp_50"
     android:layout_marginEnd="@dimen/dp_20"
+    android:layout_marginTop="@dimen/dp_50"
     android:layout_marginBottom="@dimen/dp_50"
     android:background="@drawable/bg_dialog"
     android:orientation="vertical"
@@ -42,7 +43,7 @@
                     android:background="#F5FAFF"
                     android:gravity="center"
                     android:textColor="#4A4A4A"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/sp_15"
                     android:textStyle="bold"
                     tools:text="06床-苏患者-男-62岁-02791538" />
 
@@ -168,12 +169,81 @@
 
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/ll_audit"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/dp_10"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="@dimen/dp_5"
+                        android:layout_marginLeft="@dimen/dp_15"
+                        android:layout_marginRight="@dimen/dp_15"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="@dimen/dp_80"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="@dimen/dp_8"
+                            android:gravity="center"
+                            android:text="复核账户: "
+                            android:textColor="#FF4A4A4A"
+                            android:textSize="@dimen/sp_16"/>
+                        <EditText
+                            android:id="@+id/et_user"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp_40"
+                            android:background="#fff"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:hint="请输入复核账户"
+                            android:textColor="#4A4A4A"
+                            android:textSize="@dimen/sp_15"
+                            />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginLeft="@dimen/dp_15"
+                        android:layout_marginRight="@dimen/dp_15"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="@dimen/dp_80"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="@dimen/dp_8"
+                            android:gravity="center"
+                            android:text="复核密码: "
+                            android:textColor="#FF4A4A4A"
+                            android:textSize="@dimen/sp_16"/>
+                        <EditText
+                            android:id="@+id/et_pwd"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp_40"
+                            android:background="#fff"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:inputType="textPassword"
+                            android:hint="请输入复核密码"
+                            android:textColor="#4A4A4A"
+                            android:textSize="@dimen/sp_15"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/ll_CDSS"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_10"
                     android:orientation="vertical"
-                    android:visibility="gone">
+                  >
 
                     <TextView
                         android:layout_width="match_parent"
@@ -184,11 +254,12 @@
                     <TextView
                         android:id="@+id/tv_CDSS"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_75"
+                        android:minHeight="@dimen/dp_75"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp_10"
                         android:background="#F5FAFF"
                         android:textColor="#4A4A4A"
-                        tools:text="06床-苏患者-男-62岁-02791538" />
+                        tools:text="0者-男-62岁-02791538苏患者-男-6-02791538苏患者-男-62岁-0279153806床-53806床-苏患者-男-62岁-02791538" />
 
                 </LinearLayout>
 
@@ -197,7 +268,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_25">
+                android:layout_marginTop="@dimen/dp_15">
 
                 <LinearLayout
                     android:layout_width="@dimen/dp_0"
@@ -217,7 +288,7 @@
                         android:paddingBottom="@dimen/dp_8"
                         android:text="执行"
                         android:textColor="@color/white"
-                        android:textSize="17sp" />
+                        android:textSize="@dimen/sp_17" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -237,7 +308,7 @@
                         android:paddingBottom="@dimen/dp_8"
                         android:text="取消"
                         android:textColor="@color/white"
-                        android:textSize="17sp" />
+                        android:textSize="@dimen/sp_17" />
                 </LinearLayout>
 
 

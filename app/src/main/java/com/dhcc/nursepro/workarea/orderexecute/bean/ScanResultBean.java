@@ -635,6 +635,15 @@ public class ScanResultBean {
         private String xDateTime;
         private String exeStColor;
         private String exeStatus;
+        private String doubleFlag;
+
+        public String getDoubleFlag() {
+            return doubleFlag == null ? "" : doubleFlag;
+        }
+
+        public void setDoubleFlag(String doubleFlag) {
+            this.doubleFlag = doubleFlag;
+        }
 
         public String getxCtcpDesc() {
             return xCtcpDesc == null ? "" : xCtcpDesc;

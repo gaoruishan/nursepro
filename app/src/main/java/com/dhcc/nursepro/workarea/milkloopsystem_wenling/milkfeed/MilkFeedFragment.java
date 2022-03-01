@@ -153,7 +153,7 @@ public class MilkFeedFragment extends BaseFragment {
                             milkFeedStartDialog.show();
                             milkFeedStartDialog.setSureOnclickListener(new OrderExecOrderDialog.onSureOnclickListener() {
                                 @Override
-                                public void onSureClick() {
+                                public void onSureClick(String[] args) {
                                     milkFeedStartDialog.dismiss();
                                     exeOrderEnd(milkFeedStartDialog.getMotherMilk(),milkFeedStartDialog.getOtherMilk());
                                 }

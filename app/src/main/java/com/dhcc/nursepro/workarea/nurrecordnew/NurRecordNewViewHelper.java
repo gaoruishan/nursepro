@@ -116,31 +116,32 @@ public class NurRecordNewViewHelper extends BaseFragment {
                 break;
             case TIME_DIALOG:
                 if (DateTimeStr.split(":").length == 2) {
-                    dialog = new TimePickerDialog(context,
-                            (view, hourOfDay, minute) -> {
-                                DecimalFormat df = new DecimalFormat("00");
-                                String timeStr = df.format(hourOfDay) + ":" + df.format(minute);
-                                textView.setText(timeStr);
-                            }, Integer.parseInt(DateTimeStr.split(":")[0]), Integer.parseInt(DateTimeStr.split(":")[1]),
-                            false);
-                    dialog.show();
-                } else {
 //                    dialog = new TimePickerDialog(context,
 //                            (view, hourOfDay, minute) -> {
 //                                DecimalFormat df = new DecimalFormat("00");
 //                                String timeStr = df.format(hourOfDay) + ":" + df.format(minute);
 //                                textView.setText(timeStr);
-//                            }, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE),
+//                            }, Integer.parseInt(DateTimeStr.split(":")[0]), Integer.parseInt(DateTimeStr.split(":")[1]),
 //                            false);
+//                    dialog.show();
                     long millis = TimeUtils.string2Millis(DateTimeStr, "HH:mm");
                     chooseTime(millis, new OnDateSetListener() {
                         @Override
                         public void onDateSet(com.jzxiang.pickerview.TimePickerDialog timePickerView, long millseconds) {
                             String timeStr = TimeUtils.millis2String(millseconds);
-                            timeStr = timeStr.substring(10,16);
-                                textView.setText(timeStr);
+                            timeStr = timeStr.substring(11,16);
+                            textView.setText(timeStr);
                         }
                     });
+                } else {
+                    dialog = new TimePickerDialog(context,
+                            (view, hourOfDay, minute) -> {
+                                DecimalFormat df = new DecimalFormat("00");
+                                String timeStr = df.format(hourOfDay) + ":" + df.format(minute);
+                                textView.setText(timeStr);
+                            }, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE),
+                            false);
+                    dialog.show();
                 }
 
 
