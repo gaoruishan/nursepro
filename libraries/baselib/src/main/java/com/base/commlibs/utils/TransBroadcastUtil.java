@@ -113,6 +113,14 @@ public class TransBroadcastUtil {
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
             String scanInfo = bundle.getString(scanKey);
+            if (scanInfo == null || "".equals(trim(scanInfo))) { // EH 2022-03-07 11:55 优博讯型号DT50传的byte
+                try {
+                    byte[] barcode = intent.getByteArrayExtra(scanKey);
+                    String barcodeStr = new String(barcode);
+                    if (barcodeStr != null && !"".equals(barcodeStr)) scanInfo = barcodeStr;
+                    //Log.e("TAG","barcodeStr："+barcodeStr);
+                } catch (Exception e) {}
+            }
             //判空
             if(!TextUtils.isEmpty(scanInfo)){
                 bundle.putString("data", scanInfo);
@@ -124,4 +132,16 @@ public class TransBroadcastUtil {
         }
     }
 
+    /**
+     * EH 2022-03-08 03:04 去回车
+     * @param barcode
+     * @return
+     */
+    public static String trim(String barcode) {
+        if (barcode == null) barcode = "";
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile("\\s*|\t|\r|\n");
+        java.util.regex.Matcher m = p.matcher(barcode);
+        barcode = m.replaceAll("");
+        return barcode;
+    }
 }
