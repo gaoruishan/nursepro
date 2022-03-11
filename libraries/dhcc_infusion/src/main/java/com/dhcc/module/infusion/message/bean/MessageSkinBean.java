@@ -13,6 +13,11 @@ import java.util.List;
 public class MessageSkinBean extends CommResult {
 
     private List<SkinTimeListBean> SkinTimeList;
+    private String test;
+
+    public String getTest() {
+        return test == null ? "" : test;
+    }
 
     public List<SkinTimeListBean> getSkinTimeList() {
         return SkinTimeList;

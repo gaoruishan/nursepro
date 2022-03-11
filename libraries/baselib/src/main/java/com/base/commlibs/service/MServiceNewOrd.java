@@ -1,20 +1,21 @@
 package com.base.commlibs.service;
 
 import android.annotation.SuppressLint;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.PowerManager;
-import android.util.Log;
 
 import com.base.commlibs.constant.Action;
+import com.base.commlibs.http.CommWebService;
+import com.blankj.utilcode.util.AppUtils;
 
-public class MServiceNewOrd extends AliveService {
 
-    public static final int DELAY_MILLIS = 2 * 60 * 1000;
-//        public static final int DELAY_MILLIS = 2 * 1000;
+public class MServiceNewOrd extends Service {
+
     private Handler mHandler = new Handler();
     private Boolean isDestroy = false;
 
@@ -31,19 +32,23 @@ public class MServiceNewOrd extends AliveService {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
-                Log.e(TAG, "心跳包检测mHandler连接状态");
-//                ActivityUtils.isActivityAlive()
                 switch (msg.what) {
                     case 0:
                         Intent i = new Intent();
                         i.setAction(Action.NEWMESSAGE_SERVICE);
                         sendBroadcast(i);
                         removeMessages(0);
-                        if (!isDestroy) {
-                            //这里想2分钟s刷新消息列表
-                            sendEmptyMessageDelayed(0, DELAY_MILLIS);
-                            break;
+                        //这里想2分钟s刷新消息列表
+                        String appPackageName = AppUtils.getAppPackageName();
+
+                        if (CommWebService.COM_DHCC_INFUSION.equals(appPackageName)) {
+                            sendEmptyMessageDelayed(0, 50 * 1000);
                         }
+                        if (CommWebService.COM_DHCC_NURSEPRO.equals(appPackageName)) {
+                            sendEmptyMessageDelayed(0, 2 * 60 * 1000);
+                        }
+
+                        break;
                 }
             }
         };
@@ -73,7 +78,6 @@ public class MServiceNewOrd extends AliveService {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        isDestroy = true;
     }
 
     @Override

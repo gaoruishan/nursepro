@@ -39,13 +39,13 @@ import com.base.commlibs.wsutils.BaseWebServiceUtils;
 import com.blankj.utilcode.util.ObjectUtils;
 import com.blankj.utilcode.util.SPStaticUtils;
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.VibrateUtils;
 import com.dhcc.infusion.update.UpdateAppUtil;
 import com.dhcc.module.infusion.message.MessageFragment;
 import com.dhcc.module.infusion.message.api.MessageApiManager;
 import com.dhcc.module.infusion.message.bean.MessageSkinBean;
-import com.dhcc.module.infusion.message.bean.NotifyMessageBean;
 import com.dhcc.module.infusion.setting.SettingFragment;
 import com.dhcc.module.infusion.workarea.WorkAreaFragment;
 
@@ -132,6 +132,7 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         //注册事件总线
         EventBus.getDefault().unregister(this);
     }
+
     /**
      * 测试-切换服务器
      * @param view
@@ -141,16 +142,17 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
             String pdaService = BaseWebServiceUtils.getOPPDAService();
             if (pdaService.contains(BaseWebServiceUtils.NUR_MNIS_SERVICE)) {
                 pdaService = BaseWebServiceUtils.NUR_OPPDA_SERVICE;
-            }else {
+            } else {
                 pdaService = BaseWebServiceUtils.NUR_MOES_SERVICE;
             }
-            SPStaticUtils.put(SharedPreference.oppdaService,pdaService);
-            ToastUtils.showShort("切换服务器: "+pdaService);
-        }else {
+            SPStaticUtils.put(SharedPreference.oppdaService, pdaService);
+            ToastUtils.showShort("切换服务器: " + pdaService);
+        } else {
             startFragment(NurLogFragment.class);
         }
         startFragment(NurLogFragment.class);
     }
+
     /**
      * 初始化各模块界面
      */
@@ -306,30 +308,12 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
         setToolbarCenterTitle(getString(R.string.tabbar_setting));
     }
 
+
     /**
      * 消息提醒
      */
     public void notifyMessage() {
-        warning = SPStaticUtils.getString(SharedPreference.WARNING_TIME, "15");
-
-        MessageApiManager.getNotifyMessage(new CommonCallBack<NotifyMessageBean>() {
-            @Override
-            public void onFail(String code, String msg) {
-
-            }
-
-            @Override
-            public void onSuccess(NotifyMessageBean bean, String type) {
-                int messageNum = 0;
-                for (NotifyMessageBean.NotifyMessageListBean b : bean.getNotifyMessageList()) {
-                    try {
-                        messageNum += Integer.parseInt(b.getMNum());
-                    } catch (Exception e) {
-                    }
-                }
-                setmessage(messageNum, "1", "1");
-            }
-        });
+        warning = SPStaticUtils.getString(SharedPreference.WARNING_TIME, "60");
         MessageApiManager.getSkinTestMessage(new CommonCallBack<MessageSkinBean>() {
             @Override
             public void onFail(String code, String msg) {
@@ -351,8 +335,13 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
                         }
                         int integer = Integer.valueOf(warning);
                         boolean isNotify = 0 < off && off <= integer;
+                        String s = "测试=" + warning + "," + b.getOverTime() + "," + isNotify;
+                        if ("1".equals(bean.getTest())) {
+                            String t = SPStaticUtils.getString(SharedPreference.CURDATETIME) + ",now=" + TimeUtils.getNowString();
+                            ToastUtils.showShort(s + "-" + t);
+                        }
                         if (isNotify) {
-                            String s = "测试=" + warning + "," + b.getOverTime() + "," + isNotify;
+                            defaultMediaPlayer(RingtoneManager.TYPE_RINGTONE);
                             checkLockAndShowNotification(s);
                         }
                     }
@@ -437,9 +426,6 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
             @Override
             public void run() {
                 AppUtil.showNotification(MainActivity.this, new Intent(MainActivity.this, MainActivity.class));
-//                if (bSound) {
-//                    defaultMediaPlayer(RingtoneManager.TYPE_RINGTONE);
-//                }
             }
         }, 2000);
         if (bSound) {

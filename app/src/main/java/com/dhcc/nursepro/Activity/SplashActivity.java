@@ -9,7 +9,6 @@ import com.base.commlibs.http.CommHttp;
 import com.base.commlibs.utils.LocalTestManager;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.login.LoginActivity;
-import com.dhcc.nursepro.workarea.workareautils.WorkareaMainConfig;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -19,6 +18,7 @@ public class SplashActivity extends AppCompatActivity {
         getWindow().setBackgroundDrawable(null);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
