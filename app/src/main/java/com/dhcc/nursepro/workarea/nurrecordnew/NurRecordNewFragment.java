@@ -30,7 +30,6 @@ import com.base.commlibs.BaseActivity;
 import com.base.commlibs.MessageEvent;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
-import com.blankj.utilcode.constant.RegexConstants;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.RegexUtils;
 import com.blankj.utilcode.util.SPUtils;
@@ -2758,7 +2757,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                         // EditText、TextView 存分
                         TextView textView = (TextView) viewHashMap.get(s);
                         if (textView != null) {
-                            if (RegexUtils.isMatch(RegexConstants.REGEX_INTEGER, textView.getText().toString())) {
+                            if (RegexUtils.isMatch("^[0-9]*$", textView.getText().toString())) {
                                 etPointList.add(Integer.parseInt(textView.getText().toString()));
                             }
                         }
