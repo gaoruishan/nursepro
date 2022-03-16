@@ -57,7 +57,7 @@ public class LocalTestManager {
     static {
         //对应的方法名
 //        l.add("getInfusionMessage");//消息-输液
-        l.add("getSkinTestMessage");//消息-皮试
+//        l.add("getSkinTestMessage");//消息-皮试
 //        l.add("GetDispensingOrdList");//配液
 //        l.add("getSkinOrdList");
 //        l.add("GetPunctureOrdList");//穿刺
@@ -89,18 +89,18 @@ public class LocalTestManager {
 //        l.add("GetBarcodeFlag");
 //        l.add("GetXmlValues");
 //        l.add("getInfusionOrdList");
-        l.add("getLabOutList");
-        l.add("GetNCPAccompanyList");
-        l.add("GetNCPAccompanySub");
-        l.add("GetRfidPatList");
+//        l.add("getLabOutList");
+//        l.add("GetNCPAccompanyList");
+//        l.add("GetNCPAccompanySub");
+//        l.add("GetRfidPatList");
 //        l.add("GetLoginQR");
 //        l.add("GetLoginQRResult");
 //        l.add("GetUIConfig");
-        l.add("GetListData");
-        l.add("GetNormalOrdTask");
-        l.add("getOrders");
-        l.add("getScanInfo");
-        l.add("getIFOrdListByBarCode");
+//        l.add("GetListData");
+//        l.add("GetNormalOrdTask");
+//        l.add("getOrders");
+//        l.add("getScanInfo");
+//        l.add("getIFOrdListByBarCode");
 
     }
 

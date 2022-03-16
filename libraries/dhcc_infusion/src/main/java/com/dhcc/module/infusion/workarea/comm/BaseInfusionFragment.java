@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -209,6 +210,14 @@ public abstract class BaseInfusionFragment extends BaseFragment {
         //扫码Action
         if (Action.DEVICE_SCAN_CODE.equals(intent.getAction())
                 && !TextUtils.isEmpty(scanInfo)) {
+            //添加规则
+            if (scanInfo.contains("|") && scanInfo.contains("_")) {
+                int st = scanInfo.lastIndexOf("|");
+                int en = scanInfo.length();
+                String sub = scanInfo.substring((st + 1), en);
+                scanInfo = sub.replaceAll("_", "\\|\\|");
+            }
+            Log.e(TAG, "(BaseInfusionFragment:217) getScanMsg:" + scanInfo);
             this.scanInfo = scanInfo;
             //获取列表
             getScanOrdList();
