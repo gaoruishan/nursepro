@@ -1,0 +1,41 @@
+{
+  "msg": "成功",
+  "msgcode": "999999",
+  "status": "0",
+  "connectType": "手术:1^转科:2^分娩:3^治疗:4",
+  "connectAllList": [
+    {
+      "bedCode": "01",
+      "name": "刘新雨（演示勿动）",
+      "patRegNo": "0000000089",
+      "record": [
+        {
+          "firstUser": "12177",
+          "rigSubDate": "2021-01-14",
+          "rigSubTime": "09:10",
+          "rigSubType": "病房移交手术室"
+        },
+        {
+          "firstUser": "12177",
+          "rigSubDate": "2021-01-14",
+          "rigSubTime": "09:10",
+          "rigSubType": "手术室移交病房"
+        }
+      ],
+      "rigDate": "2021-01-14",
+      "rigTime": "09:08",
+      "rigType": "手术",
+      "rigUser": "12177"
+    },
+    {
+      "bedCode": "01",
+      "name": "刘新雨（演示勿动）",
+      "patRegNo": "0000000089",
+      "record": [],
+      "rigDate": "2021-01-14",
+      "rigTime": "09:09",
+      "rigType": "转科",
+      "rigUser": "12177"
+    }
+  ]
+}

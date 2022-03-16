@@ -34,13 +34,21 @@ public class HealthEduEndAdapter extends BaseQuickAdapter<EducationListBean.Data
         String eduSubject = item.getEduSubject();
         helper.setText(R.id.tv_lab_no, getEduSubject(eduSubject, 0))
                 .setGone(R.id.tv_lab_no, !TextUtils.isEmpty(getEduSubject(eduSubject, 0)))
-                .setText(R.id.tv_content, getEduSubject(eduSubject, 1))
-                .setGone(R.id.tv_content, !TextUtils.isEmpty(getEduSubject(eduSubject, 1)))
+                .setText(R.id.tv_content, getEduContent(eduSubject))
+                .setGone(R.id.tv_content, !TextUtils.isEmpty(getEduContent(eduSubject)))
                 .setText(R.id.tv_exetime, item.getEduDateTime())
                 .setText(R.id.tv_exeuser, item.getNurseSign())
                 .setGone(R.id.bl_tv_exe, true)
                 .setGone(R.id.ll_select, false);
 
+    }
+
+    private String getEduContent(String eduSubject) {
+        String s = getEduSubject(eduSubject, 1);
+        if(!TextUtils.isEmpty(s)){
+            return s;
+        }
+        return eduSubject;
     }
 
     private void setTextStatus(BaseViewHolder helper, EducationListBean.DataBean item) {

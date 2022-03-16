@@ -26,10 +26,32 @@ public class EduItemListBean implements MultiItemEntity {
     private String blankFlag;
     private String id;
     private String name;
-    private String options;
+    //    private String options;
+    private List<OptionsBean> options;
     private String type;
     private List<SheetListBean> sheetList;
     private String other;
+
+    public static class OptionsBean {
+        //            "optId":"5",
+//                "option":"本人",
+//                "trigger":""
+        private String optId;
+        private String option;
+        private String trigger;
+
+        public String getOptId() {
+            return optId == null ? "" : optId;
+        }
+
+        public String getOption() {
+            return option == null ? "" : option;
+        }
+
+        public String getTrigger() {
+            return trigger == null ? "" : trigger;
+        }
+    }
 
     public String getOther() {
         return other == null ? "" : other;
@@ -96,29 +118,39 @@ public class EduItemListBean implements MultiItemEntity {
      */
     public List<SheetListBean> getOptionListBeans() {
         List<SheetListBean> list = new ArrayList<>();
-        String options = getOptions();
-        if (options.contains("/")) {
-            String[] split = options.split("/");
-            for (String s : split) {
-                SheetListBean bean = new SheetListBean();
-                bean.setDesc(s);
-                list.add(bean);
-            }
-        } else {
+        List<OptionsBean> options = getOptions();
+        for (OptionsBean option : options) {
             SheetListBean bean = new SheetListBean();
-            bean.setDesc(options);
+            bean.setDesc(option.getOption());
+            bean.setCode(option.getOptId());
             list.add(bean);
         }
+//        if (options.contains("/")) {
+//            String[] split = options.split("/");
+//            for (String s : split) {
+//                SheetListBean bean = new SheetListBean();
+//                bean.setDesc(s);
+//                list.add(bean);
+//            }
+//        } else {
+//            SheetListBean bean = new SheetListBean();
+//            bean.setDesc(options);
+//            list.add(bean);
+//        }
         return list;
     }
 
-    public String getOptions() {
-        return options == null ? "" : options;
+    public List<OptionsBean> getOptions() {
+        if (options == null) {
+            return new ArrayList<>();
+        }
+        return options;
     }
+    //    public String getOptions() {
+//        return options == null ? "" : options;
+//    }
 
-    public void setOptions(String options) {
-        this.options = options;
-    }
+
 
     @Override
     public String toString() {
@@ -148,7 +180,7 @@ public class EduItemListBean implements MultiItemEntity {
                 eduTaskIdBean.option += bean.getDesc() + "/";
             }
         }
-        if(!TextUtils.isEmpty(eduTaskIdBean.option)){
+        if (!TextUtils.isEmpty(eduTaskIdBean.option)) {
             int length = eduTaskIdBean.option.length();
             eduTaskIdBean.option = eduTaskIdBean.option.substring(0, length - 1);
         }
@@ -160,7 +192,7 @@ public class EduItemListBean implements MultiItemEntity {
     }
 
     public boolean checkOtherData() {
-        if ( "1".equals(blankFlag)) {
+        if ("1".equals(blankFlag)) {
             for (SheetListBean bean : sheetList) {
                 if (bean.isSelect() && STR_OTHER.equals(bean.getDesc())) {
                     return TextUtils.isEmpty(other);

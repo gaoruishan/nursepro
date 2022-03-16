@@ -69,7 +69,7 @@ public class BaseWebServiceUtils {
     private static final String NAMESPACE = "http://www.dhcc.com.cn";
     private static final String NAMESPACE_CA = "http://www.dhcc.com.cn/emr/ca/webservice";
     // 默认超时时间
-    private static final int TIME_OUT = 10 * 1000;
+    private static final int TIME_OUT = 20 * 1000;
     public static final String REQUST_METHOD = "RequestData";
     public static final String PARAMS = "params";
     public static final String VERSION = "version";
