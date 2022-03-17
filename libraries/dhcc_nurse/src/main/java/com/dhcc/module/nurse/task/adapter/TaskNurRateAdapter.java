@@ -19,6 +19,8 @@ import java.util.List;
  */
 public class TaskNurRateAdapter extends BaseQuickAdapter<NurRateTaskBean.RecDataBean, BaseViewHolder> {
 
+    private String mEmrCode;
+
     public TaskNurRateAdapter(int layoutResId, @Nullable List<NurRateTaskBean.RecDataBean> data) {
         super(layoutResId, data);
     }
@@ -27,6 +29,11 @@ public class TaskNurRateAdapter extends BaseQuickAdapter<NurRateTaskBean.RecData
     protected void convert(BaseViewHolder helper, NurRateTaskBean.RecDataBean item) {
         if (item.getRecordScore() != null && item.getRecordScore().size() > 0) {
             NurRateTaskBean.RecDataBean.RecordScoreBean recordScore = item.getRecordScore().get(0);
+            for (NurRateTaskBean.RecDataBean.RecordScoreBean recordScoreBean : item.getRecordScore()) {
+                if (mEmrCode.equals(recordScoreBean.getLinkCode())) {
+                    recordScore = recordScoreBean;
+                }
+            }
             helper.setText(R.id.bl_tv_status, recordScore.getName())
                     .setText(R.id.tv_2, recordScore.getRecordName());
         }
@@ -42,15 +49,18 @@ public class TaskNurRateAdapter extends BaseQuickAdapter<NurRateTaskBean.RecData
      * @param emrCode
      */
     public void setInitData(List<NurRateTaskBean.RecDataBean> recData, String emrCode) {
+        mEmrCode = emrCode;
         List<NurRateTaskBean.RecDataBean> mRecData = new ArrayList<>();
         if (recData != null) {
             for (NurRateTaskBean.RecDataBean recDatum : recData) {
                 if (recDatum.getRecordScore() != null) {
-                    if (emrCode.equals(recDatum.getRecordScore().get(0).getLinkCode())) {
+                    for (NurRateTaskBean.RecDataBean.RecordScoreBean recordScoreBean : recDatum.getRecordScore()) {
+                        if (emrCode.equals(recordScoreBean.getLinkCode())) {
                         mRecData.add(recDatum);
                     }
                 }
             }
+        }
         }
         setNewData(mRecData);
     }

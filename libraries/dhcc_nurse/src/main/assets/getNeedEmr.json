@@ -1,6 +1,38 @@
 {
   "msg": "成功",
   "msgcode": "999999",
+  "tempCodeList": [
+    {
+      "code": "DHCNURVTEFXPGBLR",
+      "desc": "外科VTE风险评估单（Caprini评分）录入",
+      "num": "3",
+      "numDesc": "任务数"
+    },
+    {
+      "code": "DHCNURZYHZDDZCFX",
+      "desc": "住院患者跌倒（坠床）风险评估及预防措施记录单",
+      "num": "3",
+      "numDesc": "任务数"
+    },
+    {
+      "code": "DHCNURqxfxpglr",
+      "desc": "",
+      "num": "37",
+      "numDesc": "任务数"
+    },
+    {
+      "code": "DHCNURrcshnlpglr",
+      "desc": "",
+      "num": "9",
+      "numDesc": "任务数"
+    },
+    {
+      "code": "DHCNURrypgdgxs",
+      "desc": "",
+      "num": "3",
+      "numDesc": "任务数"
+    }
+  ],
   "recData": [
     {
       "bedCode": "07",
@@ -131,9 +163,9 @@
           "EmrCode": "3AE5726E60B84B76A2A2C5AE434F273F",
           "endDate": "65624",
           "endTime": "63000",
-          "linkCode": "DHCNURBRADENPFLR",
+          "linkCode": "DHCNURZYHZDDZCFX",
           "name": "白班",
-          "recordName": "Braden压力性损伤风险评估单",
+          "recordName": "住院患者跌倒（坠床）风险评估及预防措施记录单",
           "score": "true",
           "startDate": "65624",
           "startTime": "30600",

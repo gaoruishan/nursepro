@@ -26,6 +26,8 @@ import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 护理评估
@@ -97,17 +99,37 @@ public class NurRateFragment extends BaseNurseFragment {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 NurRateTaskBean.RecDataBean recDataBean = taskNurRateAdapter.getData().get(position);
                 NurRateTaskBean.RecDataBean.RecordScoreBean scoreBean = recDataBean.getRecordScore().get(0);
+                for (NurRateTaskBean.RecDataBean.RecordScoreBean recordScoreBean : recDataBean.getRecordScore()) {
+                    if (recordScoreBean.getLinkCode().equals(emrCode)) {
+                        scoreBean = recordScoreBean;
+                    }
+                }
                 String strName = "com.dhcc.nursepro.workarea.nurrecordnew.NurRecordNewFragment";
                 Bundle bundle = new Bundle();
                 bundle.putString("EpisodeID", recDataBean.getEpisodeID());
                 bundle.putString("BedNo", recDataBean.getBedCode());
                 bundle.putString("PatName", recDataBean.getPatientName());
+                if (TextUtils.isEmpty(emrCode) || hasDigit(emrCode)) {
+                    emrCode = scoreBean.getLinkCode();
+                }
+
                 bundle.putString("EMRCode", emrCode);
-                bundle.putString("GUID", scoreBean.getGuId());
+                bundle.putString("GUID", scoreBean.getEmrCode());
                 bundle.putString("RecID", "");
                 startFragment(strName, bundle);
             }
         });
+    }
+
+    // 判断一个字符串是否含有数字
+    public boolean hasDigit(String content) {
+        boolean flag = false;
+        Pattern p = Pattern.compile(".*\\d+.*");
+        Matcher m = p.matcher(content);
+        if (m.matches()) {
+            flag = true;
+        }
+        return flag;
     }
 
     private void getNurRateTaskList() {
@@ -122,8 +144,13 @@ public class NurRateFragment extends BaseNurseFragment {
             @Override
             public void onSuccess(NurRateTaskBean bean, String type) {
                 hideLoadingTip();
-                taskNurRateAdapter.setInitData(bean.getRecData(),emrCode);
+                //去掉""的对象
                 tempCodeList = bean.getTempCodeList();
+                if (TextUtils.isEmpty(emrCode)|| hasDigit(emrCode)) {
+                    emrCode = tempCodeList.get(0).getCode();
+                }
+                //emrCode的分类的 emrCode.equals(recDatum.getRecordScore().get(0).getLinkCode()
+                taskNurRateAdapter.setInitData(bean.getRecData(),emrCode);
                 customSheet.setDatas(tempCodeList);
                 customSheet.setSheetDefCode(emrCode);
             }
