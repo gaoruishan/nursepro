@@ -2,6 +2,7 @@ package com.dhcc.module.nurse.task.bean;
 
 import com.base.commlibs.http.CommResult;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,6 +17,9 @@ public class TempTaskBean extends CommResult {
     private List<TempDateListBean> tempDateList;
 
     public List<TempCodeListBean> getTempCodeList() {
+        if (tempCodeList == null) {
+            return new ArrayList<>();
+        }
         return tempCodeList;
     }
 

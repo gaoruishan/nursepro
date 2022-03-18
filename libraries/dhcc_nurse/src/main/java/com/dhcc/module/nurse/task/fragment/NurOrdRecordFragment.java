@@ -172,8 +172,8 @@ public class NurOrdRecordFragment  extends BaseNurseFragment {
     private void refreshRecordDesc(){
         String strDesc = "";
         recordDesc = recordTaskBean.getExecuteTemplate();
-        List<Integer> listFrom = findAllIndex(recordDesc,0,"[");
-        List<Integer> listTo = findAllIndex(recordDesc,0,"]");
+//        List<Integer> listFrom = findAllIndex(recordDesc,0,"[");
+//        List<Integer> listTo = findAllIndex(recordDesc,0,"]");
 
         for (int i = 0; i < taskNurOrdRecordAdapter.getData().size(); i++) {
 

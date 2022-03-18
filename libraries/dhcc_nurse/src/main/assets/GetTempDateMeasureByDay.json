@@ -1,0 +1,1915 @@
+{
+  "msg": "成功",
+  "msgcode": "999999",
+  "status": "0",
+  "tempDateList": [
+    {
+      "bedCode": "22",
+      "episodeId": "7393487",
+      "name": "林东凤",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.2"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "18"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "68"
+        }
+      ],
+      "sex": "女",
+      "timeKey": "06:00"
+    },
+    {
+      "bedCode": "46",
+      "episodeId": "7420208",
+      "name": "张晓冬",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.9"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "18"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "70"
+        }
+      ],
+      "sex": "男",
+      "timeKey": "06:00"
+    },
+    {
+      "bedCode": "37",
+      "episodeId": "7430143",
+      "name": "王跃秋",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.2"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "20"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "71"
+        }
+      ],
+      "sex": "女",
+      "timeKey": "06:00"
+    },
+    {
+      "bedCode": "34",
+      "episodeId": "7452711",
+      "name": "吴迪",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.4"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "18"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "62"
+        }
+      ],
+      "sex": "男",
+      "timeKey": "06:00"
+    },
+    {
+      "bedCode": "38",
+      "episodeId": "7458934",
+      "name": "韩笑",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.5"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "19"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "68"
+        }
+      ],
+      "sex": "女",
+      "timeKey": "06:00"
+    },
+    {
+      "bedCode": "45",
+      "episodeId": "7488710",
+      "name": "庞振军",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.7"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "18"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "72"
+        }
+      ],
+      "sex": "男",
+      "timeKey": "06:00"
+    },
+    {
+      "bedCode": "31",
+      "episodeId": "7497263",
+      "name": "李刘枪",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.5"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "19"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "68"
+        }
+      ],
+      "sex": "男",
+      "timeKey": "06:00"
+    },
+    {
+      "bedCode": "43",
+      "episodeId": "7499382",
+      "name": "钱时环",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.6"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "18"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "72"
+        }
+      ],
+      "sex": "女",
+      "timeKey": "06:00"
+    },
+    {
+      "bedCode": "27",
+      "episodeId": "7510321",
+      "name": "杜佩莹",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.5"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "18"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "70"
+        }
+      ],
+      "sex": "女",
+      "timeKey": "06:00"
+    },
+    {
+      "bedCode": "07",
+      "episodeId": "7517317",
+      "name": "黄运平",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.9"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "18"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "68"
+        }
+      ],
+      "sex": "女",
+      "timeKey": "06:00"
+    },
+    {
+      "bedCode": "20",
+      "episodeId": "7518327",
+      "name": "位光得",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.8"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "18"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "66"
+        }
+      ],
+      "sex": "男",
+      "timeKey": "06:00"
+    },
+    {
+      "bedCode": "41",
+      "episodeId": "7518887",
+      "name": "王桂侠",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.2"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "18"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "76"
+        }
+      ],
+      "sex": "女",
+      "timeKey": "06:00"
+    },
+    {
+      "bedCode": "29",
+      "episodeId": "7520503",
+      "name": "赵怀武",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.8"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "19"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "68"
+        }
+      ],
+      "sex": "男",
+      "timeKey": "06:00"
+    },
+    {
+      "bedCode": "23",
+      "episodeId": "7521629",
+      "name": "高桂芬",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "37.6"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "19"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "72"
+        }
+      ],
+      "sex": "女",
+      "timeKey": "06:00"
+    },
+    {
+      "bedCode": "21",
+      "episodeId": "7523648",
+      "name": "苏兰侠",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.5"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "18"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "70"
+        }
+      ],
+      "sex": "女",
+      "timeKey": "06:00"
+    },
+    {
+      "bedCode": "11",
+      "episodeId": "7523762",
+      "name": "刘翠红",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.2"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "18"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "70"
+        }
+      ],
+      "sex": "女",
+      "timeKey": "06:00"
+    },
+    {
+      "bedCode": "14",
+      "episodeId": "7524975",
+      "name": "胡和顺",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "37.0"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "18"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "72"
+        }
+      ],
+      "sex": "男",
+      "timeKey": "06:00"
+    },
+    {
+      "bedCode": "51",
+      "episodeId": "7532656",
+      "name": "王侠",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.5"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "18"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "66"
+        }
+      ],
+      "sex": "女",
+      "timeKey": "06:00"
+    },
+    {
+      "bedCode": "33",
+      "episodeId": "7540231",
+      "name": "张文勋",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.4"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "18"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "72"
+        }
+      ],
+      "sex": "男",
+      "timeKey": "06:00"
+    },
+    {
+      "bedCode": "25",
+      "episodeId": "7540989",
+      "name": "任寰",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "37.0"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "19"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "72"
+        }
+      ],
+      "sex": "女",
+      "timeKey": "06:00"
+    },
+    {
+      "bedCode": "28",
+      "episodeId": "7555812",
+      "name": "刘树堂",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.9"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "18"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "77"
+        }
+      ],
+      "sex": "男",
+      "timeKey": "06:00"
+    },
+    {
+      "bedCode": "08",
+      "episodeId": "7556386",
+      "name": "李双辉",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.2"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "18"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "72"
+        }
+      ],
+      "sex": "男",
+      "timeKey": "06:00"
+    },
+    {
+      "bedCode": "04",
+      "episodeId": "7557955",
+      "name": "范肃",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.2"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "18"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "70"
+        }
+      ],
+      "sex": "女",
+      "timeKey": "06:00"
+    },
+    {
+      "bedCode": "19",
+      "episodeId": "7560492",
+      "name": "王培兰",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.5"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "18"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "70"
+        }
+      ],
+      "sex": "女",
+      "timeKey": "06:00"
+    },
+    {
+      "bedCode": "47",
+      "episodeId": "7561425",
+      "name": "张彦广",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.7"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "18"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "72"
+        }
+      ],
+      "sex": "男",
+      "timeKey": "06:00"
+    },
+    {
+      "bedCode": "09",
+      "episodeId": "7563038",
+      "name": "闻合善",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.7"
+        },
+        {
+          "obsDesc": "疼痛",
+          "obsKey": "Item28",
+          "obsValue": "3"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "19"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "68"
+        }
+      ],
+      "sex": "男",
+      "timeKey": "06:00"
+    },
+    {
+      "bedCode": "35",
+      "episodeId": "7568053",
+      "name": "刘兴金",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.5"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "19"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "68"
+        }
+      ],
+      "sex": "女",
+      "timeKey": "06:00"
+    },
+    {
+      "bedCode": "03",
+      "episodeId": "7573424",
+      "name": "李柏林",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.4"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "19"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "68"
+        }
+      ],
+      "sex": "男",
+      "timeKey": "06:00"
+    },
+    {
+      "bedCode": "18",
+      "episodeId": "7575368",
+      "name": "于克兰",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.2"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "19"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "72"
+        }
+      ],
+      "sex": "女",
+      "timeKey": "06:00"
+    },
+    {
+      "bedCode": "16",
+      "episodeId": "7575688",
+      "name": "赵建国",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.4"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "18"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "68"
+        }
+      ],
+      "sex": "男",
+      "timeKey": "06:00"
+    },
+    {
+      "bedCode": "40",
+      "episodeId": "7579264",
+      "name": "夏春英",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.7"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "18"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "70"
+        }
+      ],
+      "sex": "女",
+      "timeKey": "06:00"
+    },
+    {
+      "bedCode": "32",
+      "episodeId": "7579333",
+      "name": "赵文山",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.2"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "18"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "70"
+        }
+      ],
+      "sex": "男",
+      "timeKey": "06:00"
+    },
+    {
+      "bedCode": "42",
+      "episodeId": "7579669",
+      "name": "苌圆",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "37.2"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "19"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "68"
+        }
+      ],
+      "sex": "女",
+      "timeKey": "06:00"
+    },
+    {
+      "bedCode": "44",
+      "episodeId": "7582919",
+      "name": "郭爱卿",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": ""
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": ""
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": ""
+        }
+      ],
+      "sex": "男",
+      "timeKey": "06:00"
+    },
+    {
+      "bedCode": "18",
+      "episodeId": "7575368",
+      "name": "于克兰",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": ""
+        }
+      ],
+      "sex": "女",
+      "timeKey": "07:30"
+    },
+    {
+      "bedCode": "46",
+      "episodeId": "7420208",
+      "name": "张晓冬",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.5"
+        }
+      ],
+      "sex": "男",
+      "timeKey": "10:00"
+    },
+    {
+      "bedCode": "20",
+      "episodeId": "7518327",
+      "name": "位光得",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.5"
+        }
+      ],
+      "sex": "男",
+      "timeKey": "10:00"
+    },
+    {
+      "bedCode": "29",
+      "episodeId": "7520503",
+      "name": "赵怀武",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.6"
+        }
+      ],
+      "sex": "男",
+      "timeKey": "10:00"
+    },
+    {
+      "bedCode": "23",
+      "episodeId": "7521629",
+      "name": "高桂芬",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "37.7"
+        }
+      ],
+      "sex": "女",
+      "timeKey": "10:00"
+    },
+    {
+      "bedCode": "25",
+      "episodeId": "7540989",
+      "name": "任寰",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.7"
+        }
+      ],
+      "sex": "女",
+      "timeKey": "10:00"
+    },
+    {
+      "bedCode": "28",
+      "episodeId": "7555812",
+      "name": "刘树堂",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.8"
+        }
+      ],
+      "sex": "男",
+      "timeKey": "10:00"
+    },
+    {
+      "bedCode": "19",
+      "episodeId": "7560492",
+      "name": "王培兰",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.3"
+        }
+      ],
+      "sex": "女",
+      "timeKey": "10:00"
+    },
+    {
+      "bedCode": "09",
+      "episodeId": "7563038",
+      "name": "闻合善",
+      "obsDataList": [
+        {
+          "obsDesc": "疼痛",
+          "obsKey": "Item28",
+          "obsValue": ""
+        }
+      ],
+      "sex": "男",
+      "timeKey": "10:00"
+    },
+    {
+      "bedCode": "44",
+      "episodeId": "7582919",
+      "name": "郭爱卿",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": ""
+        }
+      ],
+      "sex": "男",
+      "timeKey": "13:49"
+    },
+    {
+      "bedCode": "22",
+      "episodeId": "7393487",
+      "name": "林东凤",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.5"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "17"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "70"
+        }
+      ],
+      "sex": "女",
+      "timeKey": "14:00"
+    },
+    {
+      "bedCode": "46",
+      "episodeId": "7420208",
+      "name": "张晓冬",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.6"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "18"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "79"
+        }
+      ],
+      "sex": "男",
+      "timeKey": "14:00"
+    },
+    {
+      "bedCode": "37",
+      "episodeId": "7430143",
+      "name": "王跃秋",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.4"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "18"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "85"
+        }
+      ],
+      "sex": "女",
+      "timeKey": "14:00"
+    },
+    {
+      "bedCode": "34",
+      "episodeId": "7452711",
+      "name": "吴迪",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.5"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "20"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "76"
+        }
+      ],
+      "sex": "男",
+      "timeKey": "14:00"
+    },
+    {
+      "bedCode": "38",
+      "episodeId": "7458934",
+      "name": "韩笑",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.1"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "19"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "70"
+        }
+      ],
+      "sex": "女",
+      "timeKey": "14:00"
+    },
+    {
+      "bedCode": "45",
+      "episodeId": "7488710",
+      "name": "庞振军",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.6"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "18"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "77"
+        }
+      ],
+      "sex": "男",
+      "timeKey": "14:00"
+    },
+    {
+      "bedCode": "31",
+      "episodeId": "7497263",
+      "name": "李刘枪",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "38.0"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "18"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "80"
+        }
+      ],
+      "sex": "男",
+      "timeKey": "14:00"
+    },
+    {
+      "bedCode": "43",
+      "episodeId": "7499382",
+      "name": "钱时环",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.9"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "18"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "80"
+        }
+      ],
+      "sex": "女",
+      "timeKey": "14:00"
+    },
+    {
+      "bedCode": "27",
+      "episodeId": "7510321",
+      "name": "杜佩莹",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.5"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "18"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "60"
+        }
+      ],
+      "sex": "女",
+      "timeKey": "14:00"
+    },
+    {
+      "bedCode": "07",
+      "episodeId": "7517317",
+      "name": "黄运平",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.5"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "18"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "70"
+        }
+      ],
+      "sex": "女",
+      "timeKey": "14:00"
+    },
+    {
+      "bedCode": "20",
+      "episodeId": "7518327",
+      "name": "位光得",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.9"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "18"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "70"
+        }
+      ],
+      "sex": "男",
+      "timeKey": "14:00"
+    },
+    {
+      "bedCode": "41",
+      "episodeId": "7518887",
+      "name": "王桂侠",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.9"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "17"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "78"
+        }
+      ],
+      "sex": "女",
+      "timeKey": "14:00"
+    },
+    {
+      "bedCode": "29",
+      "episodeId": "7520503",
+      "name": "赵怀武",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.4"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "20"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "87"
+        }
+      ],
+      "sex": "男",
+      "timeKey": "14:00"
+    },
+    {
+      "bedCode": "23",
+      "episodeId": "7521629",
+      "name": "高桂芬",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "37.4"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "18"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "82"
+        }
+      ],
+      "sex": "女",
+      "timeKey": "14:00"
+    },
+    {
+      "bedCode": "21",
+      "episodeId": "7523648",
+      "name": "苏兰侠",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.5"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "19"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "71"
+        }
+      ],
+      "sex": "女",
+      "timeKey": "14:00"
+    },
+    {
+      "bedCode": "11",
+      "episodeId": "7523762",
+      "name": "刘翠红",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.8"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "18"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "70"
+        }
+      ],
+      "sex": "女",
+      "timeKey": "14:00"
+    },
+    {
+      "bedCode": "14",
+      "episodeId": "7524975",
+      "name": "胡和顺",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.1"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "18"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "72"
+        }
+      ],
+      "sex": "男",
+      "timeKey": "14:00"
+    },
+    {
+      "bedCode": "51",
+      "episodeId": "7532656",
+      "name": "王侠",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.8"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "18"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "71"
+        }
+      ],
+      "sex": "女",
+      "timeKey": "14:00"
+    },
+    {
+      "bedCode": "33",
+      "episodeId": "7540231",
+      "name": "张文勋",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.4"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "18"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "78"
+        }
+      ],
+      "sex": "男",
+      "timeKey": "14:00"
+    },
+    {
+      "bedCode": "25",
+      "episodeId": "7540989",
+      "name": "任寰",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "38.1"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "19"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "76"
+        }
+      ],
+      "sex": "女",
+      "timeKey": "14:00"
+    },
+    {
+      "bedCode": "28",
+      "episodeId": "7555812",
+      "name": "刘树堂",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "37.3"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "18"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "88"
+        }
+      ],
+      "sex": "男",
+      "timeKey": "14:00"
+    },
+    {
+      "bedCode": "08",
+      "episodeId": "7556386",
+      "name": "李双辉",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.1"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "18"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "70"
+        }
+      ],
+      "sex": "男",
+      "timeKey": "14:00"
+    },
+    {
+      "bedCode": "04",
+      "episodeId": "7557955",
+      "name": "范肃",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.3"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "17"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "77"
+        }
+      ],
+      "sex": "女",
+      "timeKey": "14:00"
+    },
+    {
+      "bedCode": "19",
+      "episodeId": "7560492",
+      "name": "王培兰",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.4"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "17"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "70"
+        }
+      ],
+      "sex": "女",
+      "timeKey": "14:00"
+    },
+    {
+      "bedCode": "47",
+      "episodeId": "7561425",
+      "name": "张彦广",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.5"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "20"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "84"
+        }
+      ],
+      "sex": "男",
+      "timeKey": "14:00"
+    },
+    {
+      "bedCode": "09",
+      "episodeId": "7563038",
+      "name": "闻合善",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.3"
+        },
+        {
+          "obsDesc": "疼痛",
+          "obsKey": "Item28",
+          "obsValue": ""
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "18"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "71"
+        }
+      ],
+      "sex": "男",
+      "timeKey": "14:00"
+    },
+    {
+      "bedCode": "35",
+      "episodeId": "7568053",
+      "name": "刘兴金",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.4"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "18"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "76"
+        }
+      ],
+      "sex": "女",
+      "timeKey": "14:00"
+    },
+    {
+      "bedCode": "03",
+      "episodeId": "7573424",
+      "name": "李柏林",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.3"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "18"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "89"
+        }
+      ],
+      "sex": "男",
+      "timeKey": "14:00"
+    },
+    {
+      "bedCode": "18",
+      "episodeId": "7575368",
+      "name": "于克兰",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.1"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "18"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "63"
+        }
+      ],
+      "sex": "女",
+      "timeKey": "14:00"
+    },
+    {
+      "bedCode": "16",
+      "episodeId": "7575688",
+      "name": "赵建国",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.7"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "18"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "70"
+        }
+      ],
+      "sex": "男",
+      "timeKey": "14:00"
+    },
+    {
+      "bedCode": "40",
+      "episodeId": "7579264",
+      "name": "夏春英",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.7"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "18"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "77"
+        }
+      ],
+      "sex": "女",
+      "timeKey": "14:00"
+    },
+    {
+      "bedCode": "32",
+      "episodeId": "7579333",
+      "name": "赵文山",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "36.2"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "19"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "87"
+        }
+      ],
+      "sex": "男",
+      "timeKey": "14:00"
+    },
+    {
+      "bedCode": "42",
+      "episodeId": "7579669",
+      "name": "苌圆",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": "37.2"
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": "19"
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": "80"
+        }
+      ],
+      "sex": "女",
+      "timeKey": "14:00"
+    },
+    {
+      "bedCode": "44",
+      "episodeId": "7582919",
+      "name": "郭爱卿",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": ""
+        },
+        {
+          "obsDesc": "呼吸",
+          "obsKey": "Item4",
+          "obsValue": ""
+        },
+        {
+          "obsDesc": "脉搏",
+          "obsKey": "Item7",
+          "obsValue": ""
+        }
+      ],
+      "sex": "男",
+      "timeKey": "14:00"
+    },
+    {
+      "bedCode": "46",
+      "episodeId": "7420208",
+      "name": "张晓冬",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": ""
+        }
+      ],
+      "sex": "男",
+      "timeKey": "18:00"
+    },
+    {
+      "bedCode": "31",
+      "episodeId": "7497263",
+      "name": "李刘枪",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": ""
+        }
+      ],
+      "sex": "男",
+      "timeKey": "18:00"
+    },
+    {
+      "bedCode": "20",
+      "episodeId": "7518327",
+      "name": "位光得",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": ""
+        }
+      ],
+      "sex": "男",
+      "timeKey": "18:00"
+    },
+    {
+      "bedCode": "29",
+      "episodeId": "7520503",
+      "name": "赵怀武",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": ""
+        }
+      ],
+      "sex": "男",
+      "timeKey": "18:00"
+    },
+    {
+      "bedCode": "23",
+      "episodeId": "7521629",
+      "name": "高桂芬",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": ""
+        }
+      ],
+      "sex": "女",
+      "timeKey": "18:00"
+    },
+    {
+      "bedCode": "25",
+      "episodeId": "7540989",
+      "name": "任寰",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": ""
+        }
+      ],
+      "sex": "女",
+      "timeKey": "18:00"
+    },
+    {
+      "bedCode": "28",
+      "episodeId": "7555812",
+      "name": "刘树堂",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": ""
+        }
+      ],
+      "sex": "男",
+      "timeKey": "18:00"
+    },
+    {
+      "bedCode": "19",
+      "episodeId": "7560492",
+      "name": "王培兰",
+      "obsDataList": [
+        {
+          "obsDesc": "体温",
+          "obsKey": "Item1",
+          "obsValue": ""
+        }
+      ],
+      "sex": "女",
+      "timeKey": "18:00"
+    },
+    {
+      "bedCode": "09",
+      "episodeId": "7563038",
+      "name": "闻合善",
+      "obsDataList": [
+        {
+          "obsDesc": "疼痛",
+          "obsKey": "Item28",
+          "obsValue": ""
+        }
+      ],
+      "sex": "男",
+      "timeKey": "18:00"
+    }
+  ]
+}

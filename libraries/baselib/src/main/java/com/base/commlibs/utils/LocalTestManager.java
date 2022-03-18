@@ -101,6 +101,7 @@ public class LocalTestManager {
 //        l.add("getOrders");
 //        l.add("getScanInfo");
 //        l.add("getIFOrdListByBarCode");
+//        l.add("GetTempDateMeasureByDay");
 
     }
 
