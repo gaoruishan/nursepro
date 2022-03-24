@@ -56,10 +56,10 @@ public class CommWebService {
         // 检查properties
         checkProperties(properties);
 
-        if (COM_DHCC_INFUSION.equals(appPackageName)) {
+        if (appPackageName.contains(COM_DHCC_INFUSION)) {
             callInfusion(methodName, properties, callBack);
         }
-        if (COM_DHCC_NURSEPRO.equals(appPackageName)) {
+        if (appPackageName.contains(COM_DHCC_NURSEPRO)) {
             callNurse(methodName, properties, callBack);
         }
         if (COM_DHCC_HEALTH.equals(appPackageName)) {

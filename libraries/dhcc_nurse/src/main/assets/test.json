@@ -1,6 +1,1599 @@
 {
-  "DigitalSignID": "686",
-  "TimeStamp": "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",
-  "retCode": "0",
-  "retMsg": "success"
+  "msg": "成功",
+  "msgcode": "999999",
+  "schList": [
+    {
+      "recList": {
+        "ID": "1",
+        "body": {
+          "all": [
+            {
+              "code": "DefaultSee",
+              "name": "需处理",
+              "value": "120"
+            },
+            {
+              "code": "CQSYD",
+              "name": "输液单*",
+              "value": "29"
+            },
+            {
+              "code": "CQZSD",
+              "name": "注射单*",
+              "value": "0"
+            },
+            {
+              "code": "CQKFYD",
+              "name": "口服药单*",
+              "value": "35"
+            },
+            {
+              "code": "PSD",
+              "name": "皮试单*",
+              "value": "0"
+            },
+            {
+              "code": "JYD",
+              "name": "检验单*",
+              "value": "0"
+            },
+            {
+              "code": "JCD",
+              "name": "检查单*",
+              "value": "0"
+            },
+            {
+              "code": "BLD",
+              "name": "病理单*",
+              "value": "0"
+            },
+            {
+              "code": "HLZLD",
+              "name": "处置治疗单*",
+              "value": "26"
+            },
+            {
+              "code": "YSHLD",
+              "name": "饮食护理单*",
+              "value": "3"
+            },
+            {
+              "code": "SXD",
+              "name": "输血单*",
+              "value": "0"
+            },
+            {
+              "code": "SQZBD",
+              "name": "术前准备单*",
+              "value": "0"
+            },
+            {
+              "code": "CUDY",
+              "name": "出院带药单*",
+              "value": "0"
+            },
+            {
+              "code": "Default",
+              "name": "全部医嘱",
+              "value": "104"
+            }
+          ],
+          "unexec": [
+            {
+              "code": "CQSYD",
+              "name": "输液单*",
+              "value": "29"
+            },
+            {
+              "code": "CQZSD",
+              "name": "注射单*",
+              "value": "0"
+            },
+            {
+              "code": "CQKFYD",
+              "name": "口服药单*",
+              "value": "35"
+            },
+            {
+              "code": "PSD",
+              "name": "皮试单*",
+              "value": "0"
+            },
+            {
+              "code": "JYD",
+              "name": "检验单*",
+              "value": "0"
+            },
+            {
+              "code": "JCD",
+              "name": "检查单*",
+              "value": "0"
+            },
+            {
+              "code": "BLD",
+              "name": "病理单*",
+              "value": "0"
+            },
+            {
+              "code": "HLZLD",
+              "name": "处置治疗单*",
+              "value": "26"
+            },
+            {
+              "code": "YSHLD",
+              "name": "饮食护理单*",
+              "value": "3"
+            },
+            {
+              "code": "SXD",
+              "name": "输血单*",
+              "value": "0"
+            },
+            {
+              "code": "SQZBD",
+              "name": "术前准备单*",
+              "value": "0"
+            },
+            {
+              "code": "CUDY",
+              "name": "出院带药单*",
+              "value": "0"
+            },
+            {
+              "code": "Default",
+              "name": "全部医嘱",
+              "value": "104"
+            }
+          ],
+          "unsee": [
+            {
+              "code": "DefaultSee",
+              "name": "需处理",
+              "value": "120"
+            }
+          ]
+        },
+        "head": [
+          {
+            "key": "all",
+            "name": "所有任务",
+            "value": "317"
+          },
+          {
+            "key": "unsee",
+            "name": "未处理",
+            "value": "120"
+          },
+          {
+            "key": "unexec",
+            "name": "未执行",
+            "value": "197"
+          }
+        ],
+        "name": "医嘱执行统计图"
+      },
+      "schCode": "ordTask"
+    },
+    {
+      "recList": {
+        "ID": "4",
+        "body": {
+          "all": [
+            {
+              "code": "Monitor",
+              "name": "监测",
+              "value": "3"
+            },
+            {
+              "code": "Assess",
+              "name": "评估观察",
+              "value": "5"
+            },
+            {
+              "code": "Refer",
+              "name": "处置",
+              "value": "0"
+            },
+            {
+              "code": "Do",
+              "name": "措施",
+              "value": "3"
+            },
+            {
+              "code": "Teach",
+              "name": "指导",
+              "value": "1"
+            },
+            {
+              "code": "Contact",
+              "name": "照会转介",
+              "value": "0"
+            },
+            {
+              "code": "Health",
+              "name": "健康",
+              "value": "1"
+            }
+          ],
+          "unexec": [
+            {
+              "code": "Monitor",
+              "name": "监测",
+              "value": "3"
+            },
+            {
+              "code": "Assess",
+              "name": "评估观察",
+              "value": "5"
+            },
+            {
+              "code": "Refer",
+              "name": "处置",
+              "value": "0"
+            },
+            {
+              "code": "Do",
+              "name": "措施",
+              "value": "3"
+            },
+            {
+              "code": "Teach",
+              "name": "指导",
+              "value": "1"
+            },
+            {
+              "code": "Contact",
+              "name": "照会转介",
+              "value": "0"
+            },
+            {
+              "code": "Health",
+              "name": "健康",
+              "value": "1"
+            }
+          ]
+        },
+        "head": [
+          {
+            "key": "all",
+            "name": "所有任务",
+            "value": "13"
+          },
+          {
+            "key": "unexec",
+            "name": "待执行",
+            "value": "13"
+          }
+        ],
+        "name": "护嘱执行统计图",
+        "taskStatus": "0"
+      },
+      "schCode": "nurOrdTask"
+    },
+    {
+      "recList": {
+        "ID": "5",
+        "body": {
+          "all": [
+            {
+              "code": "10497||1",
+              "emrCode": "10497||1",
+              "itemId": "10497||1",
+              "list": [],
+              "name": "动静脉置管护理",
+              "templateName": "",
+              "value": "0"
+            },
+            {
+              "code": "10744||1",
+              "emrCode": "10744||1",
+              "itemId": "10744||1",
+              "list": [
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "2887",
+                  "itemId": "10744||1",
+                  "taskId": "61",
+                  "templateName": "",
+                  "time": "28800",
+                  "timeStr": "08:00"
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "4113",
+                  "itemId": "10744||1",
+                  "taskId": "61",
+                  "templateName": "",
+                  "time": "28800",
+                  "timeStr": "08:00"
+                }
+              ],
+              "name": "大换药",
+              "templateName": "",
+              "value": "2"
+            },
+            {
+              "code": "1368||1",
+              "emrCode": "1368||1",
+              "itemId": "1368||1",
+              "list": [],
+              "name": "压力泵[上海微创]",
+              "templateName": "",
+              "value": "0"
+            },
+            {
+              "code": "1971||1",
+              "emrCode": "1971||1",
+              "itemId": "1971||1",
+              "list": [],
+              "name": "注射用头孢他啶[0.5g]",
+              "templateName": "",
+              "value": "0"
+            },
+            {
+              "code": "1985||1",
+              "emrCode": "1985||1",
+              "itemId": "1985||1",
+              "list": [],
+              "name": "重组促卵泡素β注射液(普丽康)[0.5ML:50IU]",
+              "templateName": "",
+              "value": "0"
+            },
+            {
+              "code": "2001||1",
+              "emrCode": "2001||1",
+              "itemId": "2001||1",
+              "list": [],
+              "name": "注射用生长抑素(14肽)(思他宁)[3mg]",
+              "templateName": "",
+              "value": "0"
+            },
+            {
+              "code": "2600||1",
+              "emrCode": "2600||1",
+              "itemId": "2600||1",
+              "list": [],
+              "name": "左腕关节平扫MRI(3.0T)",
+              "templateName": "",
+              "value": "0"
+            },
+            {
+              "code": "2897||1",
+              "emrCode": "2897||1",
+              "itemId": "2897||1",
+              "list": [],
+              "name": "注意足背动脉搏动",
+              "templateName": "",
+              "value": "0"
+            },
+            {
+              "code": "3105||1",
+              "emrCode": "3105||1",
+              "itemId": "3105||1",
+              "list": [],
+              "name": "直肠肛门冷冻治疗",
+              "templateName": "",
+              "value": "0"
+            },
+            {
+              "code": "3112||1",
+              "emrCode": "3112||1",
+              "itemId": "3112||1",
+              "list": [],
+              "name": "直肠癌扩大根治术",
+              "templateName": "",
+              "value": "0"
+            },
+            {
+              "code": "4867||1",
+              "emrCode": "4867||1",
+              "itemId": "4867||1",
+              "list": [],
+              "name": "四肢约束带固定",
+              "templateName": "",
+              "value": "0"
+            },
+            {
+              "code": "9499||1",
+              "emrCode": "9499||1",
+              "itemId": "9499||1",
+              "list": [],
+              "name": "红外线治疗",
+              "templateName": "",
+              "value": "0"
+            }
+          ],
+          "unexec": [
+            {
+              "code": "10497||1",
+              "emrCode": "10497||1",
+              "itemId": "10497||1",
+              "name": "动静脉置管护理",
+              "templateName": "",
+              "value": "0"
+            },
+            {
+              "code": "10744||1",
+              "emrCode": "10744||1",
+              "itemId": "10744||1",
+              "list": [
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "2887",
+                  "itemId": "10744||1",
+                  "taskId": "61",
+                  "templateName": "",
+                  "time": "28800",
+                  "timeStr": "08:00"
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "4113",
+                  "itemId": "10744||1",
+                  "taskId": "61",
+                  "templateName": "",
+                  "time": "28800",
+                  "timeStr": "08:00"
+                }
+              ],
+              "name": "大换药",
+              "templateName": "",
+              "value": "2"
+            },
+            {
+              "code": "1368||1",
+              "emrCode": "1368||1",
+              "itemId": "1368||1",
+              "name": "压力泵[上海微创]",
+              "templateName": "",
+              "value": "0"
+            },
+            {
+              "code": "1971||1",
+              "emrCode": "1971||1",
+              "itemId": "1971||1",
+              "name": "注射用头孢他啶[0.5g]",
+              "templateName": "",
+              "value": "0"
+            },
+            {
+              "code": "1985||1",
+              "emrCode": "1985||1",
+              "itemId": "1985||1",
+              "name": "重组促卵泡素β注射液(普丽康)[0.5ML:50IU]",
+              "templateName": "",
+              "value": "0"
+            },
+            {
+              "code": "2001||1",
+              "emrCode": "2001||1",
+              "itemId": "2001||1",
+              "name": "注射用生长抑素(14肽)(思他宁)[3mg]",
+              "templateName": "",
+              "value": "0"
+            },
+            {
+              "code": "2600||1",
+              "emrCode": "2600||1",
+              "itemId": "2600||1",
+              "name": "左腕关节平扫MRI(3.0T)",
+              "templateName": "",
+              "value": "0"
+            },
+            {
+              "code": "2897||1",
+              "emrCode": "2897||1",
+              "itemId": "2897||1",
+              "name": "注意足背动脉搏动",
+              "templateName": "",
+              "value": "0"
+            },
+            {
+              "code": "3105||1",
+              "emrCode": "3105||1",
+              "itemId": "3105||1",
+              "name": "直肠肛门冷冻治疗",
+              "templateName": "",
+              "value": "0"
+            },
+            {
+              "code": "3112||1",
+              "emrCode": "3112||1",
+              "itemId": "3112||1",
+              "name": "直肠癌扩大根治术",
+              "templateName": "",
+              "value": "0"
+            },
+            {
+              "code": "4867||1",
+              "emrCode": "4867||1",
+              "itemId": "4867||1",
+              "name": "四肢约束带固定",
+              "templateName": "",
+              "value": "0"
+            },
+            {
+              "code": "9499||1",
+              "emrCode": "9499||1",
+              "itemId": "9499||1",
+              "name": "红外线治疗",
+              "templateName": "",
+              "value": "0"
+            }
+          ]
+        },
+        "head": [
+          {
+            "key": "all",
+            "name": "所有任务",
+            "value": "2"
+          },
+          {
+            "key": "unexec",
+            "name": "未执行",
+            "value": "2"
+          }
+        ],
+        "name": "常规护理任务-处置治疗"
+      },
+      "schCode": "nurNormal"
+    },
+    {
+      "recList": {
+        "ID": "6",
+        "body": {
+          "all": [
+            {
+              "code": "132ca563e85447cbbfa57b91afc95f77",
+              "emrCode": "132CA563E85447CBBFA57B91AFC95F77",
+              "itemId": "132ca563e85447cbbfa57b91afc95f77",
+              "list": [
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "2887",
+                  "itemId": "132ca563e85447cbbfa57b91afc95f77",
+                  "taskId": "44",
+                  "templateName": "DHCNURzyhzvtefxpg",
+                  "time": "32400",
+                  "timeStr": "09:00"
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "4113",
+                  "itemId": "132ca563e85447cbbfa57b91afc95f77",
+                  "taskId": "44",
+                  "templateName": "DHCNURzyhzvtefxpg",
+                  "time": "32400",
+                  "timeStr": "09:00"
+                }
+              ],
+              "name": "住院患者VTE风险评估表录入",
+              "templateName": "DHCNURzyhzvtefxpg",
+              "value": "2"
+            },
+            {
+              "code": "3b27a80f87024611971c7c8647fee923",
+              "emrCode": "3B27A80F87024611971C7C8647FEE923",
+              "itemId": "3b27a80f87024611971c7c8647fee923",
+              "list": [],
+              "name": "危重患者风险评估及防范措施表",
+              "templateName": "DHCNURWZHZFXPGJFFCSB",
+              "value": "0"
+            },
+            {
+              "code": "6f86ed917b4547f98617e1297eb03450",
+              "emrCode": "6F86ED917B4547F98617E1297EB03450",
+              "itemId": "6f86ed917b4547f98617e1297eb03450",
+              "list": [
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "4113",
+                  "itemId": "6f86ed917b4547f98617e1297eb03450",
+                  "taskId": "48",
+                  "templateName": "DHCNURGLHTLR",
+                  "time": "32400",
+                  "timeStr": "09:00"
+                }
+              ],
+              "name": "界面模板_管路滑脱录入",
+              "templateName": "DHCNURGLHTLR",
+              "value": "1"
+            },
+            {
+              "code": "d7ced2438f044477a5c0fc09ed2bf68f",
+              "emrCode": "D7CED2438F044477A5C0FC09ED2BF68F",
+              "itemId": "d7ced2438f044477a5c0fc09ed2bf68f",
+              "list": [
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "4113",
+                  "itemId": "d7ced2438f044477a5c0fc09ed2bf68f",
+                  "taskId": "49",
+                  "templateName": "DHCNURMESBRDDPFLR",
+                  "time": "32400",
+                  "timeStr": "09:00"
+                }
+              ],
+              "name": "摩尔斯病人跌倒评分表录入",
+              "templateName": "DHCNURMESBRDDPFLR",
+              "value": "1"
+            },
+            {
+              "code": "e40cbc705daf418fa17db4c08854c96f",
+              "emrCode": "E40CBC705DAF418FA17DB4C08854C96F",
+              "itemId": "e40cbc705daf418fa17db4c08854c96f",
+              "list": [
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "44",
+                  "itemId": "e40cbc705daf418fa17db4c08854c96f",
+                  "taskId": "42",
+                  "templateName": "DHCNURNYCFXPGLB",
+                  "time": "14400",
+                  "timeStr": "04:00"
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "44",
+                  "itemId": "e40cbc705daf418fa17db4c08854c96f",
+                  "taskId": "42",
+                  "templateName": "DHCNURNYCFXPGLB",
+                  "time": "36000",
+                  "timeStr": "10:00"
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "44",
+                  "itemId": "e40cbc705daf418fa17db4c08854c96f",
+                  "taskId": "42",
+                  "templateName": "DHCNURNYCFXPGLB",
+                  "time": "61200",
+                  "timeStr": "17:00"
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "52",
+                  "itemId": "e40cbc705daf418fa17db4c08854c96f",
+                  "taskId": "42",
+                  "templateName": "DHCNURNYCFXPGLB",
+                  "time": "14400",
+                  "timeStr": "04:00"
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "52",
+                  "itemId": "e40cbc705daf418fa17db4c08854c96f",
+                  "taskId": "42",
+                  "templateName": "DHCNURNYCFXPGLB",
+                  "time": "36000",
+                  "timeStr": "10:00"
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "52",
+                  "itemId": "e40cbc705daf418fa17db4c08854c96f",
+                  "taskId": "42",
+                  "templateName": "DHCNURNYCFXPGLB",
+                  "time": "61200",
+                  "timeStr": "17:00"
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "73",
+                  "itemId": "e40cbc705daf418fa17db4c08854c96f",
+                  "taskId": "42",
+                  "templateName": "DHCNURNYCFXPGLB",
+                  "time": "14400",
+                  "timeStr": "04:00"
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "73",
+                  "itemId": "e40cbc705daf418fa17db4c08854c96f",
+                  "taskId": "42",
+                  "templateName": "DHCNURNYCFXPGLB",
+                  "time": "36000",
+                  "timeStr": "10:00"
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "73",
+                  "itemId": "e40cbc705daf418fa17db4c08854c96f",
+                  "taskId": "42",
+                  "templateName": "DHCNURNYCFXPGLB",
+                  "time": "61200",
+                  "timeStr": "17:00"
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "1859",
+                  "itemId": "e40cbc705daf418fa17db4c08854c96f",
+                  "taskId": "42",
+                  "templateName": "DHCNURNYCFXPGLB",
+                  "time": "14400",
+                  "timeStr": "04:00"
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "1859",
+                  "itemId": "e40cbc705daf418fa17db4c08854c96f",
+                  "taskId": "42",
+                  "templateName": "DHCNURNYCFXPGLB",
+                  "time": "36000",
+                  "timeStr": "10:00"
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "1859",
+                  "itemId": "e40cbc705daf418fa17db4c08854c96f",
+                  "taskId": "42",
+                  "templateName": "DHCNURNYCFXPGLB",
+                  "time": "61200",
+                  "timeStr": "17:00"
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "2887",
+                  "itemId": "e40cbc705daf418fa17db4c08854c96f",
+                  "taskId": "42",
+                  "templateName": "DHCNURNYCFXPGLB",
+                  "time": "14400",
+                  "timeStr": "04:00"
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "2887",
+                  "itemId": "e40cbc705daf418fa17db4c08854c96f",
+                  "taskId": "42",
+                  "templateName": "DHCNURNYCFXPGLB",
+                  "time": "36000",
+                  "timeStr": "10:00"
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "2887",
+                  "itemId": "e40cbc705daf418fa17db4c08854c96f",
+                  "taskId": "42",
+                  "templateName": "DHCNURNYCFXPGLB",
+                  "time": "61200",
+                  "timeStr": "17:00"
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "4113",
+                  "itemId": "e40cbc705daf418fa17db4c08854c96f",
+                  "taskId": "42",
+                  "templateName": "DHCNURNYCFXPGLB",
+                  "time": "14400",
+                  "timeStr": "04:00"
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "4113",
+                  "itemId": "e40cbc705daf418fa17db4c08854c96f",
+                  "taskId": "42",
+                  "templateName": "DHCNURNYCFXPGLB",
+                  "time": "36000",
+                  "timeStr": "10:00"
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "4113",
+                  "itemId": "e40cbc705daf418fa17db4c08854c96f",
+                  "taskId": "42",
+                  "templateName": "DHCNURNYCFXPGLB",
+                  "time": "61200",
+                  "timeStr": "17:00"
+                }
+              ],
+              "name": "成人压疮风险评估表录入",
+              "templateName": "DHCNURNYCFXPGLB",
+              "value": "18"
+            }
+          ],
+          "unexec": [
+            {
+              "code": "132ca563e85447cbbfa57b91afc95f77",
+              "emrCode": "132CA563E85447CBBFA57B91AFC95F77",
+              "itemId": "132ca563e85447cbbfa57b91afc95f77",
+              "list": [
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "2887",
+                  "itemId": "132ca563e85447cbbfa57b91afc95f77",
+                  "taskId": "44",
+                  "templateName": "DHCNURzyhzvtefxpg",
+                  "time": "32400",
+                  "timeStr": "09:00"
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "4113",
+                  "itemId": "132ca563e85447cbbfa57b91afc95f77",
+                  "taskId": "44",
+                  "templateName": "DHCNURzyhzvtefxpg",
+                  "time": "32400",
+                  "timeStr": "09:00"
+                }
+              ],
+              "name": "住院患者VTE风险评估表录入",
+              "templateName": "DHCNURzyhzvtefxpg",
+              "value": "2"
+            },
+            {
+              "code": "3b27a80f87024611971c7c8647fee923",
+              "emrCode": "3B27A80F87024611971C7C8647FEE923",
+              "itemId": "3b27a80f87024611971c7c8647fee923",
+              "name": "危重患者风险评估及防范措施表",
+              "templateName": "DHCNURWZHZFXPGJFFCSB",
+              "value": "0"
+            },
+            {
+              "code": "6f86ed917b4547f98617e1297eb03450",
+              "emrCode": "6F86ED917B4547F98617E1297EB03450",
+              "itemId": "6f86ed917b4547f98617e1297eb03450",
+              "list": [
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "4113",
+                  "itemId": "6f86ed917b4547f98617e1297eb03450",
+                  "taskId": "48",
+                  "templateName": "DHCNURGLHTLR",
+                  "time": "32400",
+                  "timeStr": "09:00"
+                }
+              ],
+              "name": "界面模板_管路滑脱录入",
+              "templateName": "DHCNURGLHTLR",
+              "value": "1"
+            },
+            {
+              "code": "d7ced2438f044477a5c0fc09ed2bf68f",
+              "emrCode": "D7CED2438F044477A5C0FC09ED2BF68F",
+              "itemId": "d7ced2438f044477a5c0fc09ed2bf68f",
+              "list": [
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "4113",
+                  "itemId": "d7ced2438f044477a5c0fc09ed2bf68f",
+                  "taskId": "49",
+                  "templateName": "DHCNURMESBRDDPFLR",
+                  "time": "32400",
+                  "timeStr": "09:00"
+                }
+              ],
+              "name": "摩尔斯病人跌倒评分表录入",
+              "templateName": "DHCNURMESBRDDPFLR",
+              "value": "1"
+            },
+            {
+              "code": "e40cbc705daf418fa17db4c08854c96f",
+              "emrCode": "E40CBC705DAF418FA17DB4C08854C96F",
+              "itemId": "e40cbc705daf418fa17db4c08854c96f",
+              "list": [
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "44",
+                  "itemId": "e40cbc705daf418fa17db4c08854c96f",
+                  "taskId": "42",
+                  "templateName": "DHCNURNYCFXPGLB",
+                  "time": "14400",
+                  "timeStr": "04:00"
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "44",
+                  "itemId": "e40cbc705daf418fa17db4c08854c96f",
+                  "taskId": "42",
+                  "templateName": "DHCNURNYCFXPGLB",
+                  "time": "36000",
+                  "timeStr": "10:00"
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "44",
+                  "itemId": "e40cbc705daf418fa17db4c08854c96f",
+                  "taskId": "42",
+                  "templateName": "DHCNURNYCFXPGLB",
+                  "time": "61200",
+                  "timeStr": "17:00"
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "52",
+                  "itemId": "e40cbc705daf418fa17db4c08854c96f",
+                  "taskId": "42",
+                  "templateName": "DHCNURNYCFXPGLB",
+                  "time": "14400",
+                  "timeStr": "04:00"
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "52",
+                  "itemId": "e40cbc705daf418fa17db4c08854c96f",
+                  "taskId": "42",
+                  "templateName": "DHCNURNYCFXPGLB",
+                  "time": "36000",
+                  "timeStr": "10:00"
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "52",
+                  "itemId": "e40cbc705daf418fa17db4c08854c96f",
+                  "taskId": "42",
+                  "templateName": "DHCNURNYCFXPGLB",
+                  "time": "61200",
+                  "timeStr": "17:00"
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "73",
+                  "itemId": "e40cbc705daf418fa17db4c08854c96f",
+                  "taskId": "42",
+                  "templateName": "DHCNURNYCFXPGLB",
+                  "time": "14400",
+                  "timeStr": "04:00"
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "73",
+                  "itemId": "e40cbc705daf418fa17db4c08854c96f",
+                  "taskId": "42",
+                  "templateName": "DHCNURNYCFXPGLB",
+                  "time": "36000",
+                  "timeStr": "10:00"
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "73",
+                  "itemId": "e40cbc705daf418fa17db4c08854c96f",
+                  "taskId": "42",
+                  "templateName": "DHCNURNYCFXPGLB",
+                  "time": "61200",
+                  "timeStr": "17:00"
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "1859",
+                  "itemId": "e40cbc705daf418fa17db4c08854c96f",
+                  "taskId": "42",
+                  "templateName": "DHCNURNYCFXPGLB",
+                  "time": "14400",
+                  "timeStr": "04:00"
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "1859",
+                  "itemId": "e40cbc705daf418fa17db4c08854c96f",
+                  "taskId": "42",
+                  "templateName": "DHCNURNYCFXPGLB",
+                  "time": "36000",
+                  "timeStr": "10:00"
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "1859",
+                  "itemId": "e40cbc705daf418fa17db4c08854c96f",
+                  "taskId": "42",
+                  "templateName": "DHCNURNYCFXPGLB",
+                  "time": "61200",
+                  "timeStr": "17:00"
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "2887",
+                  "itemId": "e40cbc705daf418fa17db4c08854c96f",
+                  "taskId": "42",
+                  "templateName": "DHCNURNYCFXPGLB",
+                  "time": "14400",
+                  "timeStr": "04:00"
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "2887",
+                  "itemId": "e40cbc705daf418fa17db4c08854c96f",
+                  "taskId": "42",
+                  "templateName": "DHCNURNYCFXPGLB",
+                  "time": "36000",
+                  "timeStr": "10:00"
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "2887",
+                  "itemId": "e40cbc705daf418fa17db4c08854c96f",
+                  "taskId": "42",
+                  "templateName": "DHCNURNYCFXPGLB",
+                  "time": "61200",
+                  "timeStr": "17:00"
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "4113",
+                  "itemId": "e40cbc705daf418fa17db4c08854c96f",
+                  "taskId": "42",
+                  "templateName": "DHCNURNYCFXPGLB",
+                  "time": "14400",
+                  "timeStr": "04:00"
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "4113",
+                  "itemId": "e40cbc705daf418fa17db4c08854c96f",
+                  "taskId": "42",
+                  "templateName": "DHCNURNYCFXPGLB",
+                  "time": "36000",
+                  "timeStr": "10:00"
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "4113",
+                  "itemId": "e40cbc705daf418fa17db4c08854c96f",
+                  "taskId": "42",
+                  "templateName": "DHCNURNYCFXPGLB",
+                  "time": "61200",
+                  "timeStr": "17:00"
+                }
+              ],
+              "name": "成人压疮风险评估表录入",
+              "templateName": "DHCNURNYCFXPGLB",
+              "value": "18"
+            }
+          ]
+        },
+        "head": [
+          {
+            "key": "all",
+            "name": "所有任务",
+            "value": "22"
+          },
+          {
+            "key": "unexec",
+            "name": "未执行",
+            "value": "22"
+          }
+        ],
+        "name": "常规护理任务-护理评估"
+      },
+      "schCode": "nurRate"
+    },
+    {
+      "recList": {
+        "ID": "7",
+        "body": {
+          "all": [
+            {
+              "code": "diaPressure",
+              "detail": {},
+              "groupCode": "diaPressure",
+              "itemId": "71",
+              "list": [],
+              "name": "舒张压(mmHg)",
+              "value": "0"
+            },
+            {
+              "code": "height",
+              "detail": {},
+              "groupCode": "height",
+              "itemId": "74",
+              "list": [],
+              "name": "身高（cm）",
+              "value": "0"
+            },
+            {
+              "code": "pulse",
+              "detail": {},
+              "groupCode": "pulse",
+              "itemId": "67",
+              "list": [],
+              "name": "脉搏（次/分）",
+              "value": "0"
+            },
+            {
+              "code": "sysPressure",
+              "detail": {},
+              "groupCode": "sysPressure",
+              "itemId": "70",
+              "list": [],
+              "name": "收缩压(mmHg)",
+              "value": "0"
+            },
+            {
+              "code": "temperature",
+              "detail": {
+                "\"2022-03-24 06": "00\":[\"03\",\"02\",\"04\",\"01\"]",
+                "\"2022-03-24 14": "00\":[\"06\",\"03\",\"05\",\"02\",\"04\",\"01\"]",
+                "\"2022-03-24 18": "00\":[\"03\",\"02\",\"04\",\"01\"]"
+              },
+              "groupCode": "temperature^breath^pulse^heartbeat",
+              "itemId": "69",
+              "list": [
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "44",
+                  "itemCode": "temperature",
+                  "itemId": "69",
+                  "taskId": "37",
+                  "time": "50400",
+                  "timeStr": "14:00",
+                  "value": ""
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "52",
+                  "itemCode": "temperature",
+                  "itemId": "69",
+                  "taskId": "41",
+                  "time": "21600",
+                  "timeStr": "06:00",
+                  "value": ""
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "52",
+                  "itemCode": "temperature",
+                  "itemId": "69",
+                  "taskId": "41",
+                  "time": "50400",
+                  "timeStr": "14:00",
+                  "value": ""
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "52",
+                  "itemCode": "temperature",
+                  "itemId": "69",
+                  "taskId": "41",
+                  "time": "64800",
+                  "timeStr": "18:00",
+                  "value": ""
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "73",
+                  "itemCode": "temperature",
+                  "itemId": "69",
+                  "taskId": "37",
+                  "time": "50400",
+                  "timeStr": "14:00",
+                  "value": ""
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "1859",
+                  "itemCode": "temperature",
+                  "itemId": "69",
+                  "taskId": "41",
+                  "time": "21600",
+                  "timeStr": "06:00",
+                  "value": ""
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "1859",
+                  "itemCode": "temperature",
+                  "itemId": "69",
+                  "taskId": "41",
+                  "time": "50400",
+                  "timeStr": "14:00",
+                  "value": ""
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "1859",
+                  "itemCode": "temperature",
+                  "itemId": "69",
+                  "taskId": "41",
+                  "time": "64800",
+                  "timeStr": "18:00",
+                  "value": ""
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "2887",
+                  "itemCode": "temperature",
+                  "itemId": "69",
+                  "taskId": "41",
+                  "time": "21600",
+                  "timeStr": "06:00",
+                  "value": ""
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "2887",
+                  "itemCode": "temperature",
+                  "itemId": "69",
+                  "taskId": "41",
+                  "time": "50400",
+                  "timeStr": "14:00",
+                  "value": ""
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "2887",
+                  "itemCode": "temperature",
+                  "itemId": "69",
+                  "taskId": "41",
+                  "time": "64800",
+                  "timeStr": "18:00",
+                  "value": ""
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "4113",
+                  "itemCode": "temperature",
+                  "itemId": "69",
+                  "taskId": "41",
+                  "time": "21600",
+                  "timeStr": "06:00",
+                  "value": ""
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "4113",
+                  "itemCode": "temperature",
+                  "itemId": "69",
+                  "taskId": "41",
+                  "time": "50400",
+                  "timeStr": "14:00",
+                  "value": ""
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "4113",
+                  "itemCode": "temperature",
+                  "itemId": "69",
+                  "taskId": "41",
+                  "time": "64800",
+                  "timeStr": "18:00",
+                  "value": ""
+                }
+              ],
+              "name": "腋温（℃）",
+              "value": "14"
+            },
+            {
+              "code": "weight",
+              "detail": {},
+              "groupCode": "weight",
+              "itemId": "73",
+              "list": [],
+              "name": "体重（KG）",
+              "value": "0"
+            }
+          ],
+          "unexec": [
+            {
+              "code": "diaPressure",
+              "detail": {},
+              "groupCode": "diaPressure",
+              "itemId": "71",
+              "list": [],
+              "name": "舒张压(mmHg)",
+              "value": "0"
+            },
+            {
+              "code": "height",
+              "detail": {},
+              "groupCode": "height",
+              "itemId": "74",
+              "list": [],
+              "name": "身高（cm）",
+              "value": "0"
+            },
+            {
+              "code": "pulse",
+              "detail": {},
+              "groupCode": "pulse",
+              "itemId": "67",
+              "list": [],
+              "name": "脉搏（次/分）",
+              "value": "0"
+            },
+            {
+              "code": "sysPressure",
+              "detail": {},
+              "groupCode": "sysPressure",
+              "itemId": "70",
+              "list": [],
+              "name": "收缩压(mmHg)",
+              "value": "0"
+            },
+            {
+              "code": "temperature",
+              "detail": {
+                "\"2022-03-24 06": "00\":[\"03\",\"02\",\"04\",\"01\"]",
+                "\"2022-03-24 14": "00\":[\"06\",\"03\",\"05\",\"02\",\"04\",\"01\"]",
+                "\"2022-03-24 18": "00\":[\"03\",\"02\",\"04\",\"01\"]"
+              },
+              "groupCode": "temperature^breath^pulse^heartbeat",
+              "itemId": "69",
+              "list": [
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "44",
+                  "itemCode": "temperature",
+                  "itemId": "69",
+                  "taskId": "37",
+                  "time": "50400",
+                  "timeStr": "14:00",
+                  "value": ""
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "52",
+                  "itemCode": "temperature",
+                  "itemId": "69",
+                  "taskId": "41",
+                  "time": "21600",
+                  "timeStr": "06:00",
+                  "value": ""
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "52",
+                  "itemCode": "temperature",
+                  "itemId": "69",
+                  "taskId": "41",
+                  "time": "50400",
+                  "timeStr": "14:00",
+                  "value": ""
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "52",
+                  "itemCode": "temperature",
+                  "itemId": "69",
+                  "taskId": "41",
+                  "time": "64800",
+                  "timeStr": "18:00",
+                  "value": ""
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "73",
+                  "itemCode": "temperature",
+                  "itemId": "69",
+                  "taskId": "37",
+                  "time": "50400",
+                  "timeStr": "14:00",
+                  "value": ""
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "1859",
+                  "itemCode": "temperature",
+                  "itemId": "69",
+                  "taskId": "41",
+                  "time": "21600",
+                  "timeStr": "06:00",
+                  "value": ""
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "1859",
+                  "itemCode": "temperature",
+                  "itemId": "69",
+                  "taskId": "41",
+                  "time": "50400",
+                  "timeStr": "14:00",
+                  "value": ""
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "1859",
+                  "itemCode": "temperature",
+                  "itemId": "69",
+                  "taskId": "41",
+                  "time": "64800",
+                  "timeStr": "18:00",
+                  "value": ""
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "2887",
+                  "itemCode": "temperature",
+                  "itemId": "69",
+                  "taskId": "41",
+                  "time": "21600",
+                  "timeStr": "06:00",
+                  "value": ""
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "2887",
+                  "itemCode": "temperature",
+                  "itemId": "69",
+                  "taskId": "41",
+                  "time": "50400",
+                  "timeStr": "14:00",
+                  "value": ""
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "2887",
+                  "itemCode": "temperature",
+                  "itemId": "69",
+                  "taskId": "41",
+                  "time": "64800",
+                  "timeStr": "18:00",
+                  "value": ""
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "4113",
+                  "itemCode": "temperature",
+                  "itemId": "69",
+                  "taskId": "41",
+                  "time": "21600",
+                  "timeStr": "06:00",
+                  "value": ""
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "4113",
+                  "itemCode": "temperature",
+                  "itemId": "69",
+                  "taskId": "41",
+                  "time": "50400",
+                  "timeStr": "14:00",
+                  "value": ""
+                },
+                {
+                  "date": "66192",
+                  "dateStr": "2022-03-24",
+                  "episodeID": "4113",
+                  "itemCode": "temperature",
+                  "itemId": "69",
+                  "taskId": "41",
+                  "time": "64800",
+                  "timeStr": "18:00",
+                  "value": ""
+                }
+              ],
+              "name": "腋温（℃）",
+              "value": "14"
+            },
+            {
+              "code": "weight",
+              "detail": {},
+              "groupCode": "weight",
+              "itemId": "73",
+              "list": [],
+              "name": "体重（KG）",
+              "value": "0"
+            }
+          ]
+        },
+        "head": [
+          {
+            "key": "all",
+            "name": "所有任务",
+            "value": "14"
+          },
+          {
+            "key": "unexec",
+            "name": "未执行",
+            "value": "14"
+          }
+        ],
+        "name": "常规护理任务-体征"
+      },
+      "schCode": "nurTemper"
+    }
+  ],
+  "schSheetList": [
+    {
+      "schCode": "ordTask",
+      "schDesc": "医嘱查询"
+    },
+    {
+      "schCode": "nurOrdTask",
+      "schDesc": "护嘱查询"
+    },
+    {
+      "schCode": "nurNormal",
+      "schDesc": "常规治疗"
+    },
+    {
+      "schCode": "nurRate",
+      "schDesc": "护理评估"
+    },
+    {
+      "schCode": "nurTemper",
+      "schDesc": "体征查询"
+    }
+  ],
+  "status": "0",
+  "timesList": [
+    {
+      "timeEnd": "2022-03-24 23:59",
+      "timeStt": "2022-03-24 00:00",
+      "timesDesc": "全天"
+    },
+    {
+      "timeEnd": "2022-03-24 17:30",
+      "timeStt": "2022-03-24 08:00",
+      "timesDesc": "白班"
+    },
+    {
+      "timeEnd": "2022-03-25 07:59",
+      "timeStt": "2022-03-24 17:31",
+      "timesDesc": "夜班"
+    }
+  ]
 }

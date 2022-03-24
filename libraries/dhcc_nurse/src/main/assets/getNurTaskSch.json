@@ -1,0 +1,84 @@
+{
+  "msg": "成功",
+  "msgcode": "999999",
+  "status": "0",
+  "statusList": [
+    {
+      "text": "未执行",
+      "value": "0"
+    },
+    {
+      "text": "已执行",
+      "value": "1"
+    },
+    {
+      "text": "已停止",
+      "value": "2"
+    },
+    {
+      "text": "已作废",
+      "value": "3"
+    }
+  ],
+  "timesList": [
+    {
+      "timeEnd": "2022-03-24 23:59",
+      "timeStt": "2022-03-24 00:00",
+      "timesDesc": "全天"
+    },
+    {
+      "timeEnd": "2022-03-24 17:30",
+      "timeStt": "2022-03-24 08:00",
+      "timesDesc": "白班"
+    },
+    {
+      "timeEnd": "2022-03-25 07:59",
+      "timeStt": "2022-03-24 17:31",
+      "timesDesc": "夜班"
+    }
+  ],
+  "typeList": [
+    {
+      "id": "1",
+      "longNameEN": "Monitor",
+      "shortNameCN": "监测",
+      "shortNameEN": "M"
+    },
+    {
+      "id": "2",
+      "longNameEN": "Assess",
+      "shortNameCN": "评估观察",
+      "shortNameEN": "A"
+    },
+    {
+      "id": "3",
+      "longNameEN": "Refer",
+      "shortNameCN": "处置",
+      "shortNameEN": "R"
+    },
+    {
+      "id": "4",
+      "longNameEN": "Do",
+      "shortNameCN": "措施",
+      "shortNameEN": "D"
+    },
+    {
+      "id": "5",
+      "longNameEN": "Teach",
+      "shortNameCN": "指导",
+      "shortNameEN": "T"
+    },
+    {
+      "id": "6",
+      "longNameEN": "Contact",
+      "shortNameCN": "照会转介",
+      "shortNameEN": "C"
+    },
+    {
+      "id": "7",
+      "longNameEN": "Health",
+      "shortNameCN": "健康",
+      "shortNameEN": "G"
+    }
+  ]
+}

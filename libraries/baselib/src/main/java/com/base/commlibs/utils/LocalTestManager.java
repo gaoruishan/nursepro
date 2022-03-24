@@ -74,6 +74,10 @@ public class LocalTestManager {
 //        l.add("GetMainConfig");//主页配置
 //        l.add("getOrderTasks");//主页配置
         //        l.add("getTransBloodList");
+        /*任务总览*/
+        l.add("getExecuteSummaryData");
+        l.add("getNeedEmr");
+        /*健康宣教*/
 //        l.add("getEducationList");
 //        l.add("getEduContents");
 //        l.add("getInterventionList");
