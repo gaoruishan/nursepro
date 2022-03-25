@@ -41,7 +41,7 @@ public class ParserUtil<T extends CommResult> {
                     return t;
                 }
             } catch (Exception e) {
-                showToast(null, "网络错误，数据解析失败", ERR_CODE_2);
+                showToast(null, "网络错误，数据解析失败"+e.toString(), ERR_CODE_2);
             }
         }
         return null;
@@ -79,7 +79,7 @@ public class ParserUtil<T extends CommResult> {
         }
         //如果为null不提示
         if (!TextUtils.isEmpty(msg)) {
-            CommDialog.showCommDialog(ActivityUtils.getTopActivity(), "error  " + code + ":" + msg + "_" + SharedPreference.MethodName, "", R.drawable.icon_popup_error_patient, null, true);
+            CommDialog.showCommDialog(ActivityUtils.getTopActivity(), "error  " + code + ":" + msg + " 请求方法:" + SharedPreference.MethodName, "", R.drawable.icon_popup_error_patient, null, true);
         }
     }
 
@@ -105,7 +105,7 @@ public class ParserUtil<T extends CommResult> {
             } catch (Exception e) {
                 Log.e("json", "Exception= "+e.toString());
                 LocalTestManager.saveLogTest(clz.getSimpleName()+"_json_exception","Exception= \n"+e.toString());
-                showToast(callback, "网络错误，数据解析失败", ERR_CODE_2);
+                showToast(callback, "网络错误，数据解析失败"+e.getMessage(), ERR_CODE_2);
             }
 
         }

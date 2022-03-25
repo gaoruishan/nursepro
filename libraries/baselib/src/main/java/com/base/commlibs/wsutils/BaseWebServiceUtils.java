@@ -16,6 +16,7 @@ import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.SPStaticUtils;
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -241,6 +242,7 @@ public class BaseWebServiceUtils {
             if (properties != null) {
                 LogUtils.e(methodNameTest + " 测试= " + properties.toString());
             }
+            ToastUtils.showShort("本地测试json:"+methodNameTest);
             LocalTestManager.callLocalJson(methodNameTest, webServiceCallBack);
             return;
         }

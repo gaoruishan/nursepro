@@ -84,7 +84,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             //已经人为处理了
             try {
                 //休眠一秒
-                Thread.sleep(1000);
+                Thread.sleep(1500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -106,13 +106,12 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         if (throwable == null) {
             return false;
         }
-
         //在子线程弹出Toast
         new Thread() {
             @Override
             public void run() {
                 Looper.prepare();
-                Toast.makeText(mContext, "程序崩溃了", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "程序崩溃了"+ throwable.getMessage(), Toast.LENGTH_SHORT).show();
                 Looper.loop();
             }
         }.start();

@@ -1,11 +1,15 @@
 package com.dhcc.module.nurse.education.bean;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.dhcc.module.nurse.params.SaveEduParams;
 import com.dhcc.res.infusion.bean.SheetListBean;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +31,7 @@ public class EduItemListBean implements MultiItemEntity {
     private String id;
     private String name;
     //    private String options;
-    private List<OptionsBean> options;
+    private Object options;
     private String type;
     private List<SheetListBean> sheetList;
     private String other;
@@ -118,38 +122,43 @@ public class EduItemListBean implements MultiItemEntity {
      */
     public List<SheetListBean> getOptionListBeans() {
         List<SheetListBean> list = new ArrayList<>();
-        List<OptionsBean> options = getOptions();
-        for (OptionsBean option : options) {
-            SheetListBean bean = new SheetListBean();
-            bean.setDesc(option.getOption());
-            bean.setCode(option.getOptId());
-            list.add(bean);
+        //兼容String
+        if (options instanceof String) {
+            String optionsStr = (String) options;
+            if (optionsStr.contains("/")) {
+                String[] split = optionsStr.split("/");
+                for (String s : split) {
+                    SheetListBean bean = new SheetListBean();
+                    bean.setDesc(s);
+                    list.add(bean);
+                }
+            } else {
+                SheetListBean bean = new SheetListBean();
+                bean.setDesc(optionsStr);
+                list.add(bean);
+            }
         }
-//        if (options.contains("/")) {
-//            String[] split = options.split("/");
-//            for (String s : split) {
-//                SheetListBean bean = new SheetListBean();
-//                bean.setDesc(s);
-//                list.add(bean);
-//            }
-//        } else {
-//            SheetListBean bean = new SheetListBean();
-//            bean.setDesc(options);
-//            list.add(bean);
-//        }
+        //兼容List
+        if (options instanceof List) {
+            try {
+                Gson gson = new Gson();
+                Type type = new TypeToken<List<OptionsBean>>() {}.getType();
+                List<OptionsBean> optionsList = gson.fromJson(gson.toJson(options), type);
+                for (OptionsBean option : optionsList) {
+                    SheetListBean bean = new SheetListBean();
+                    bean.setDesc(option.getOption());
+                    bean.setCode(option.getOptId());
+                    list.add(bean);
+                }
+            } catch (Exception e) {
+                Log.e("TAG", "(EduItemListBean:154) getOptionListBeans:" + e.toString());
+            }
+
+        }
+
+
         return list;
     }
-
-    public List<OptionsBean> getOptions() {
-        if (options == null) {
-            return new ArrayList<>();
-        }
-        return options;
-    }
-    //    public String getOptions() {
-//        return options == null ? "" : options;
-//    }
-
 
 
     @Override

@@ -77,6 +77,9 @@ public class LocalTestManager {
         /*任务总览*/
         l.add("getExecuteSummaryData");
         l.add("getNeedEmr");
+        l.add("GetNormalOrdTask");
+        l.add("GetNurPlanTaskList");
+        l.add("getNurTaskSch");
         /*健康宣教*/
 //        l.add("getEducationList");
 //        l.add("getEduContents");
