@@ -49,36 +49,42 @@
     },
     {
       "fragment": "com.dhcc.module.infusion.workarea.transblood.TransBloodReceiveFragment",
-      "id": "105",
-      "image": "infusion_main_bz",
+      "id": "13",
+      "image": "infusion_main_blood_receive",
       "name": "输血签收",
       "bgColor": "#FFE4E1"
     },
     {
       "fragment": "com.dhcc.module.infusion.workarea.transblood.TransBloodCheckFragment",
       "id": "107",
-      "image": "infusion_main_bz",
+      "image": "infusion_main_blood_check",
       "name": "输血复核",
       "bgColor": "#FFE4E1"
     },
     {
       "fragment": "com.dhcc.module.infusion.workarea.transblood.TransBloodInfusionFragment",
       "id": "106",
-      "image": "infusion_main_bz",
+      "image": "infusion_main_blood_transfuse",
       "name": "输血输注",
       "bgColor": "#FFE4E1"
     },
     {
       "fragment": "com.dhcc.module.infusion.workarea.transblood.TransBloodTourFragment",
       "id": "108",
-      "image": "infusion_main_bz",
+      "image": "infusion_main_blood_tour",
       "name": "输血巡视",
+      "bgColor": "#FFE4E1"
+    }, {
+      "fragment": "com.dhcc.module.infusion.workarea.transblood.TransBloodEndFragment",
+      "id": "108",
+      "image": "infusion_main_blood_end",
+      "name": "输血结束",
       "bgColor": "#FFE4E1"
     },
     {
       "fragment": "com.dhcc.module.infusion.workarea.transblood.TransBloodRecycleFragment",
       "id": "104",
-      "image": "infusion_main_bz",
+      "image": "infusion_main_blood_recycle",
       "name": "输血回收",
       "bgColor": "#FFE4E1"
     }

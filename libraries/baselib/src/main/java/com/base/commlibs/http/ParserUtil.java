@@ -29,10 +29,10 @@ public class ParserUtil<T extends CommResult> {
     public ParserUtil() {
     }
 
-    public  CommResult parserCommResult(String jsonStr) {
-        if (jsonStr == null||jsonStr.isEmpty()) {
+    public CommResult parserCommResult(String jsonStr) {
+        if (jsonStr == null || jsonStr.isEmpty()) {
             showToast(null, "网络错误，请求数据为空", ERR_CODE_1);
-        }else {
+        } else {
             try {
                 CommResult t = new Gson().fromJson(jsonStr, CommResult.class);
                 if (ObjectUtils.isEmpty(t)) {
@@ -41,7 +41,7 @@ public class ParserUtil<T extends CommResult> {
                     return t;
                 }
             } catch (Exception e) {
-                showToast(null, "网络错误，数据解析失败"+e.toString(), ERR_CODE_2);
+                showToast(null, "网络错误，数据解析失败" + e.toString(), ERR_CODE_2);
             }
         }
         return null;
@@ -96,16 +96,24 @@ public class ParserUtil<T extends CommResult> {
             showToast(callback, "网络错误，请求数据为空", ERR_CODE_1);
         } else {
             try {
-                T t = gson.fromJson(jsonStr, clz);
-                if (ObjectUtils.isEmpty(t)) {
-                    showToast(callback, "网络错误，数据解析为空", ERR_CODE_3);
+                CommResult bean = gson.fromJson(jsonStr, CommResult.class);
+                //判断 status
+                if (CODE_OK.equals(bean.getStatus())) {
+                    T t = gson.fromJson(jsonStr, clz);
+                    if (ObjectUtils.isEmpty(t)) {
+                        showToast(callback, "网络错误，数据解析为空", ERR_CODE_3);
+                    } else {
+                        return t;
+                    }
                 } else {
-                    return t;
+                    callback.onFail(bean.getMsgcode(), bean.getMsg());
+                    CommDialog.showCommDialog(ActivityUtils.getTopActivity(), bean.getMsg(), "", R.drawable.icon_popup_error_patient, null, true);
                 }
+
             } catch (Exception e) {
-                Log.e("json", "Exception= "+e.toString());
-                LocalTestManager.saveLogTest(clz.getSimpleName()+"_json_exception","Exception= \n"+e.toString());
-                showToast(callback, "网络错误，数据解析失败"+e.getMessage(), ERR_CODE_2);
+                Log.e("json", "Exception= " + e.toString());
+                LocalTestManager.saveLogTest(clz.getSimpleName() + "_json_exception", "Exception= \n" + e.toString());
+                showToast(callback, "网络错误，数据解析失败" + e.getMessage(), ERR_CODE_2);
             }
 
         }
@@ -122,10 +130,10 @@ public class ParserUtil<T extends CommResult> {
             return;
         }
         if (CODE_OK.equals(bean.getStatus())) {
-            Log.e(TAG,"(ParserUtil.java:102) onSuccess");
+            Log.e(TAG, "(ParserUtil.java:102) onSuccess");
             callback.onSuccess(bean, bean.getClass().getSimpleName());
         } else {
-            Log.e(TAG,"(ParserUtil.java:105) onFail");
+            Log.e(TAG, "(ParserUtil.java:105) onFail");
             callback.onFail(bean.getMsgcode(), bean.getMsg());
             CommDialog.showCommDialog(ActivityUtils.getTopActivity(), bean.getMsg(), "", R.drawable.icon_popup_error_patient, null, true);
         }
