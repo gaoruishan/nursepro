@@ -157,10 +157,6 @@ public class PatWristInfoBean {
             this.balance = balance;
         }
 
-        public String getBedCode() {
-            return bedCode;
-        }
-
         public void setBedCode(String bedCode) {
             this.bedCode = bedCode;
         }
@@ -173,9 +169,7 @@ public class PatWristInfoBean {
             this.careLevel = careLevel;
         }
 
-        public String getCtLocDesc() {
-            return ctLocDesc;
-        }
+
 
         public void setCtLocDesc(String ctLocDesc) {
             this.ctLocDesc = ctLocDesc;
@@ -301,8 +295,20 @@ public class PatWristInfoBean {
             this.motherTransLoc = motherTransLoc;
         }
 
+        public String getBedCode() {
+            return bedCode == null ? "" : bedCode;
+        }
+
+        public String getCtLocDesc() {
+            return ctLocDesc == null ? "" : ctLocDesc;
+        }
+
         public String getName() {
-            return name;
+            return name == null ? "" : name;
+        }
+
+        public String getRoomDesc() {
+            return roomDesc == null ? "" : roomDesc;
         }
 
         public void setName(String name) {
@@ -373,9 +379,6 @@ public class PatWristInfoBean {
             this.regNo = regNo;
         }
 
-        public String getRoomDesc() {
-            return roomDesc;
-        }
 
         public void setRoomDesc(String roomDesc) {
             this.roomDesc = roomDesc;

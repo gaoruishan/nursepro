@@ -394,7 +394,7 @@ public class WorkareaMainConfig {
             MainConfigBean.MainListBean mainListTestBean = new MainConfigBean.MainListBean();
             List<MainConfigBean.MainListBean.MainSubListBean> subList = new ArrayList<>();
 
-            subList.add(new MainConfigBean.MainListBean.MainSubListBean("NurPlanFragment","护理计划"));
+            subList.add(new MainConfigBean.MainListBean.MainSubListBean("BloodSugarFragment","血糖"));
             subList.add(new MainConfigBean.MainListBean.MainSubListBean("PatHandover","患者交接"));
             subList.add(new MainConfigBean.MainListBean.MainSubListBean("InfusionSituation","输液信息"));
             subList.add(new MainConfigBean.MainListBean.MainSubListBean("CustomFragment","自定义界面"));

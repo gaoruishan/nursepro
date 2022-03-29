@@ -1,0 +1,103 @@
+{
+  "filterList": [
+    {
+      "code": "FBS",
+      "desc": "空腹血糖"
+    },
+    {
+      "code": "BreakfastPBS",
+      "desc": "早餐后"
+    },
+    {
+      "code": "LunchFBS",
+      "desc": "午餐前"
+    },
+    {
+      "code": "LunchPBS",
+      "desc": "午餐后"
+    },
+    {
+      "code": "DinnerFBS",
+      "desc": "晚餐前"
+    },
+    {
+      "code": "DinnerPBS",
+      "desc": "晚餐后"
+    },
+    {
+      "code": "BedtimeFBS",
+      "desc": "睡前"
+    },
+    {
+      "code": "NightPBS",
+      "desc": "夜间"
+    },
+    {
+      "code": "NightPBS2",
+      "desc": "夜间3点"
+    },
+    {
+      "code": "RBS",
+      "desc": "随机"
+    }
+  ],
+  "msg": "成功",
+  "msgcode": "999999",
+  "status": "0",
+  "sugarInfoList": [
+    {
+      "color": "#4472C4",
+      "date": "2022-03-02",
+      "sugarData": [
+        {
+          "code": "空腹血糖",
+          "obsNote": "通知主管医生",
+          "sugar": "16.7",
+          "updateTime": "16:50",
+          "updateUser": "护士01"
+        },
+        {
+          "code": "早餐后",
+          "obsNote": "",
+          "sugar": "11.5",
+          "updateTime": "16:56",
+          "updateUser": "护士01"
+        },
+        {
+          "code": "午餐前",
+          "obsNote": "观察60分钟复测",
+          "sugar": "7.9",
+          "updateTime": "17:02",
+          "updateUser": "护士01"
+        },
+        {
+          "code": "午餐后",
+          "obsNote": "观察15分钟复测",
+          "sugar": "16.7",
+          "updateTime": "17:08",
+          "updateUser": "护士01"
+        }
+      ]
+    },
+    {
+      "color": "#4472C4",
+      "date": "2022-03-08",
+      "sugarData": [
+        {
+          "code": "空腹血糖",
+          "obsNote": "观察15分钟复测",
+          "sugar": "16.9",
+          "updateTime": "06:29",
+          "updateUser": "护士01"
+        },
+        {
+          "code": "早餐后",
+          "obsNote": "观察15分钟复测",
+          "sugar": "16.9",
+          "updateTime": "17:53",
+          "updateUser": "护士01"
+        }
+      ]
+    }
+  ]
+}

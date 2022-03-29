@@ -1,0 +1,250 @@
+{
+  "curDate": "2022-03-29",
+  "curDateTime": "2022-03-29 15:00",
+  "curTime": "15:00",
+  "msg": "成功",
+  "msgcode": "999999",
+  "status": "0",
+  "sugarList": [
+    {
+      "blank": "false",
+      "code": "FBS",
+      "desc": "空腹血糖",
+      "errorValueHightFrom": "20",
+      "errorValueLowTo": "0",
+      "normalValueRangFrom": "3.8",
+      "normalValueRangTo": "7.8",
+      "options": [
+        ""
+      ],
+      "rowId": "2",
+      "select": "false",
+      "sugarRowId": "",
+      "symbol": [
+        "请假",
+        "外出",
+        "拒试"
+      ],
+      "times": [],
+      "validate": "true",
+      "value": "",
+      "valueType": ""
+    },
+    {
+      "blank": "false",
+      "code": "BreakfastPBS",
+      "desc": "早餐后",
+      "errorValueHightFrom": "20",
+      "errorValueLowTo": "0",
+      "normalValueRangFrom": "3.8",
+      "normalValueRangTo": "7.8",
+      "options": [
+        ""
+      ],
+      "rowId": "2",
+      "select": "false",
+      "sugarRowId": "",
+      "symbol": [
+        "请假",
+        "外出",
+        "据试"
+      ],
+      "times": [],
+      "validate": "true",
+      "value": "",
+      "valueType": ""
+    },
+    {
+      "blank": "false",
+      "code": "LunchFBS",
+      "desc": "午餐前",
+      "errorValueHightFrom": "20",
+      "errorValueLowTo": "0",
+      "normalValueRangFrom": "3.8",
+      "normalValueRangTo": "7.8",
+      "options": [
+        ""
+      ],
+      "rowId": "2",
+      "select": "false",
+      "sugarRowId": "",
+      "symbol": [
+        "请假",
+        "外出",
+        "拒试"
+      ],
+      "times": [],
+      "validate": "true",
+      "value": "",
+      "valueType": ""
+    },
+    {
+      "blank": "false",
+      "code": "LunchPBS",
+      "desc": "午餐后",
+      "errorValueHightFrom": "20",
+      "errorValueLowTo": "0",
+      "normalValueRangFrom": "3.8",
+      "normalValueRangTo": "7.8",
+      "options": [
+        ""
+      ],
+      "rowId": "2",
+      "select": "false",
+      "sugarRowId": "",
+      "symbol": [
+        "请假",
+        "外出",
+        "拒试"
+      ],
+      "times": [],
+      "validate": "true",
+      "value": "",
+      "valueType": ""
+    },
+    {
+      "blank": "false",
+      "code": "DinnerFBS",
+      "desc": "晚餐前",
+      "errorValueHightFrom": "20",
+      "errorValueLowTo": "0",
+      "normalValueRangFrom": "3.8",
+      "normalValueRangTo": "7.8",
+      "options": [
+        ""
+      ],
+      "rowId": "2",
+      "select": "false",
+      "sugarRowId": "",
+      "symbol": [
+        "请假",
+        "外出",
+        "拒试"
+      ],
+      "times": [],
+      "validate": "true",
+      "value": "",
+      "valueType": ""
+    },
+    {
+      "blank": "false",
+      "code": "DinnerPBS",
+      "desc": "晚餐后",
+      "errorValueHightFrom": "20",
+      "errorValueLowTo": "0",
+      "normalValueRangFrom": "3.8",
+      "normalValueRangTo": "7.8",
+      "options": [
+        ""
+      ],
+      "rowId": "2",
+      "select": "false",
+      "sugarRowId": "",
+      "symbol": [
+        "请假",
+        "外出",
+        "拒试"
+      ],
+      "times": [],
+      "validate": "true",
+      "value": "",
+      "valueType": ""
+    },
+    {
+      "blank": "false",
+      "code": "BedtimeFBS",
+      "desc": "睡前",
+      "errorValueHightFrom": "20",
+      "errorValueLowTo": "0",
+      "normalValueRangFrom": "3.8",
+      "normalValueRangTo": "7.8",
+      "options": [
+        ""
+      ],
+      "rowId": "2",
+      "select": "false",
+      "sugarRowId": "",
+      "symbol": [
+        "请假",
+        "外出",
+        "拒试"
+      ],
+      "times": [],
+      "validate": "true",
+      "value": "",
+      "valueType": ""
+    },
+    {
+      "blank": "false",
+      "code": "NightPBS",
+      "desc": "夜间",
+      "errorValueHightFrom": "20",
+      "errorValueLowTo": "0",
+      "normalValueRangFrom": "3.8",
+      "normalValueRangTo": "7.8",
+      "options": [
+        ""
+      ],
+      "rowId": "2",
+      "select": "false",
+      "sugarRowId": "",
+      "symbol": [
+        "请假",
+        "外出",
+        "拒试"
+      ],
+      "times": [],
+      "validate": "true",
+      "value": "",
+      "valueType": ""
+    },
+    {
+      "blank": "false",
+      "code": "NightPBS2",
+      "desc": "夜间3点",
+      "errorValueHightFrom": "20",
+      "errorValueLowTo": "0",
+      "normalValueRangFrom": "3.8",
+      "normalValueRangTo": "7.8",
+      "options": [
+        ""
+      ],
+      "rowId": "2",
+      "select": "false",
+      "sugarRowId": "",
+      "symbol": [
+        "请假",
+        "外出",
+        "拒试"
+      ],
+      "times": [],
+      "validate": "true",
+      "value": "",
+      "valueType": ""
+    },
+    {
+      "blank": "false",
+      "code": "RBS",
+      "desc": "随机",
+      "errorValueHightFrom": "20",
+      "errorValueLowTo": "0",
+      "normalValueRangFrom": "3.8",
+      "normalValueRangTo": "7.8",
+      "options": [
+        ""
+      ],
+      "rowId": "2",
+      "select": "false",
+      "sugarRowId": "",
+      "symbol": [
+        "请假",
+        "外出",
+        "拒试"
+      ],
+      "times": [],
+      "validate": "true",
+      "value": "",
+      "valueType": ""
+    }
+  ]
+}

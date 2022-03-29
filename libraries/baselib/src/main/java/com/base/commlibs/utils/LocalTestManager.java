@@ -1,5 +1,6 @@
 package com.base.commlibs.utils;
 
+import android.content.res.AssetManager;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
@@ -13,10 +14,12 @@ import com.blankj.utilcode.util.ObjectUtils;
 import com.blankj.utilcode.util.SPStaticUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.blankj.utilcode.util.Utils;
 
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -57,7 +60,7 @@ public class LocalTestManager {
     static {
         //对应的方法名
 //        l.add("getInfusionMessage");//消息-输液
-//        l.add("getSkinTestMessage");//消息-皮试
+        l.add("getSkinTestMessage");//消息-皮试
 //        l.add("GetDispensingOrdList");//配液
 //        l.add("getSkinOrdList");
 //        l.add("GetPunctureOrdList");//穿刺
@@ -74,15 +77,26 @@ public class LocalTestManager {
 //        l.add("GetMainConfig");//主页配置
 //        l.add("getOrderTasks");//主页配置
         //        l.add("getTransBloodList");
+
         /*任务总览*/
-        l.add("getExecuteSummaryData");
-        l.add("getNeedEmr");
-        l.add("GetNormalOrdTask");
-        l.add("GetNurPlanTaskList");
-        l.add("getNurTaskSch");
+//        l.add("getExecuteSummaryData"); //1任务总览列表
+//        l.add("getNurPlanTaskList");//2护嘱任务列表
+//        l.add("getNormalOrdTask"); // 3常规治疗列表
+//        l.add("getNeedEmr"); //4评估任务列表
+//        l.add("getTempDateMeasureByDay");//5体征任务列表
+//        l.add("getNurTaskSch");//6护理任务筛选
+//        l.add("getExecuteTaskList");//7护理任务录入配置
+
         /*健康宣教*/
-//        l.add("getEducationList");
-//        l.add("getEduContents");
+//        l.add("getEducationList");//宣教列表
+//        l.add("getEduContents");//宣教ID获取宣教内容
+//        l.add("getEduOrdList");//获取宣教医嘱数据
+
+        /*血糖*/
+//        l.add("getSugarPatList");//患者列表
+//        l.add("GetSugarValueAndItem");//录入界面数据
+//        l.add("GetSugarValueByDate");//获取血糖(查询/曲线图)
+
 //        l.add("getInterventionList");
 //        l.add("getNeedEmr");
 //        l.add("getNotifyList");
@@ -126,9 +140,16 @@ public class LocalTestManager {
      * @param webServiceCallBack
      */
     public static void callLocalJson(String methodName, BaseWebServiceUtils.WebServiceCallBack webServiceCallBack) {
-        boolean exitMethod = isExitMethod(methodName);
-        if (!exitMethod) {
-            return;
+        boolean fileExists = isFileExists(curMethodName + ".json");
+        if (!fileExists) {
+            String methodNameU = methodName.substring(0, 1).toUpperCase() + methodName.substring(1);
+            String methodNameL = methodName.substring(0, 1).toLowerCase() + methodName.substring(1);
+            if (isFileExists(methodNameU+ ".json")) {
+                curMethodName = methodNameU;
+            }
+            if (isFileExists(methodNameL+ ".json")) {
+                curMethodName = methodNameL;
+            }
         }
         CommRes.readJson(curMethodName + ".json", new CommRes.CallRes<String>() {
             @Override
@@ -156,19 +177,19 @@ public class LocalTestManager {
     private static boolean isExitMethod(String methodName) {
         String methodNameU = methodName.substring(0, 1).toUpperCase() + methodName.substring(1);
         String methodNameL = methodName.substring(0, 1).toLowerCase() + methodName.substring(1);
-        if (l.contains(methodNameU)){
+        if (l.contains(methodNameU)) {
             curMethodName = methodNameU;
         }
-        if (l.contains(methodNameL)){
+        if (l.contains(methodNameL)) {
             curMethodName = methodNameL;
         }
         return l.contains(methodNameU) || l.contains(methodNameL);
     }
 
     public static boolean isTest() {
-//        if (TEST) {
-//            return UserUtil.isExistUserId();
-//        }
+        if (TEST) {
+            return UserUtil.isExistUserId();
+        }
         return false;
     }
 
@@ -324,5 +345,27 @@ public class LocalTestManager {
         String packName = getSimplePackageName();
         String date = FORMAT.format(new Date(System.currentTimeMillis()));
         return packName + "/" + date + "/" + SPStaticUtils.getString(SharedPreference.USERCODE);
+    }
+
+    /**
+     * 判断assets文件夹下的文件是否存在
+     * @return false 不存在 true 存在
+     */
+
+    public static boolean isFileExists(String filename) {
+        AssetManager assetManager = Utils.getApp().getAssets();
+        try {
+            String[] names = assetManager.list("");
+            for (int i = 0; i < names.length; i++) {
+                if (names[i].equals(filename.trim())) {
+                    Log.e("TAG", names[i] + ",存在!");
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            return false;
+        }
+        return false;
+
     }
 }
