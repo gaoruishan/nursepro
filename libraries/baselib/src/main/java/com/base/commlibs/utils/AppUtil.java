@@ -13,7 +13,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.net.Uri;
@@ -23,6 +22,7 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -417,22 +417,54 @@ public class AppUtil {
         Boolean bLight = true; //SPUtils.getInstance().getBoolean(SharedPreference.LIGHT, true);
         Boolean bSound = true; //SPUtils.getInstance().getBoolean(SharedPreference.SOUND, true);
         Boolean bVibrator = true; //SPUtils.getInstance().getBoolean(SharedPreference.VIBRATOR, true);
-        NotificationManager notificationManager = (NotificationManager) context.getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        String NOTIFICATION_CHANNEL = context.getPackageName();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel notifyChannel = new NotificationChannel(NOTIFICATION_CHANNEL, "infusion",
-                    NotificationManager.IMPORTANCE_DEFAULT);
-            notifyChannel.setLightColor(Color.GREEN);
-            notifyChannel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
-            notificationManager.createNotificationChannel(notifyChannel);
+//        NotificationManager notificationManager = (NotificationManager) context.getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+//        String NOTIFICATION_CHANNEL = context.getPackageName();
+//
+//        Notification.Builder builder;
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            if (notificationManager != null) {
+//                notificationManager.deleteNotificationChannel(NOTIFICATION_CHANNEL);
+//            }
+//            NotificationChannel notifyChannel = new NotificationChannel(NOTIFICATION_CHANNEL, "infusion", NotificationManager.IMPORTANCE_HIGH);
+//            notifyChannel.setLightColor(Color.GREEN);
+//            notifyChannel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
+//            notificationManager.createNotificationChannel(notifyChannel);
+//            builder = new Notification.Builder(context, NOTIFICATION_CHANNEL);
+//        } else {
+//            builder = new Notification.Builder(context);
+//        }
+        NotificationCompat.Builder builder = null;
+        NotificationChannel channel1, channel2;
+        NotificationManager notificationManager = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            notificationManager = (NotificationManager) context.getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
         }
 
-        Notification.Builder builder;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            builder = new Notification.Builder(context, NOTIFICATION_CHANNEL);
+        if (Build.VERSION.SDK_INT >= 26) {
+            if (notificationManager != null) {
+                notificationManager.deleteNotificationChannel("mobilenurse1");
+                notificationManager.deleteNotificationChannel("mobilenurse2");
+            }
+            channel1 = new NotificationChannel("mobilenurse1", "响铃消息", NotificationManager.IMPORTANCE_HIGH);
+            channel2 = new NotificationChannel("mobilenurse2", "静音消息", NotificationManager.IMPORTANCE_HIGH);
+
+
+            if (notificationManager != null) {
+                //Android8.0消息提示音是否响铃配置 还需处理
+                if (bSound) {
+                    channel1.getAudioAttributes();
+                    notificationManager.createNotificationChannel(channel1);
+                    builder = new NotificationCompat.Builder(context, "mobilenurse1");
+                } else {
+                    channel2.setSound(null, null);
+                    notificationManager.createNotificationChannel(channel2);
+                    builder = new NotificationCompat.Builder(context, "mobilenurse2");
+                }
+            }
         } else {
-            builder = new Notification.Builder(context);
+            builder = new NotificationCompat.Builder(context);
         }
+
         //Intent intent = new Intent(context, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);           //添加为栈顶Activity
         intent.putExtra("ClickPendingIntent", true);

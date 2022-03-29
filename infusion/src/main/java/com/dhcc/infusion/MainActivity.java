@@ -118,6 +118,22 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
             mainfilter.addAction(Action.NEWMESSAGE_SERVICE);
             registerReceiver(mainReceiver, mainfilter);
         }
+        //勿扰
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
+//                && !((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).isNotificationPolicyAccessGranted()) {
+//            Intent intent = new Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
+//            startActivity(intent);
+//        }
+        //应用上层悬浮
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            if (Settings.canDrawOverlays(this)) {
+//                Log.i("xqxinfo", "onActivityResult granted");
+//            } else {
+//                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+//                intent.setData(Uri.parse("package:" + getPackageName()));
+//                startActivityForResult(intent, 1);
+//            }
+//        }
     }
 
     @Override
@@ -429,11 +445,11 @@ public class MainActivity extends BaseActivity implements RadioButton.OnCheckedC
             }
         }, 2000);
         if (bSound) {
-            try {
-                AppUtil.playSound(this, R.raw.notice_message);
-            } catch (Exception e) {
-
-            }
+//            try {
+//                AppUtil.playSound(this, R.raw.notice_message);
+//            } catch (Exception e) {
+//
+//            }
         }
         if (bVibrator) {
             VibrateUtils.vibrate(3000);
