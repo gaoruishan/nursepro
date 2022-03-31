@@ -36,8 +36,6 @@ public class OrderExecutePatOrderAdapter extends BaseBloodQuickAdapter<BloodOrdL
             BloodOrdListBean bloodOrdListBean = ordList.get(i);
             if (position == i) { //勾选/取消勾选
                 bloodOrdListBean.setSelect("1".equals(bloodOrdListBean.getSelect()) ? "0" : "1");
-            } else {
-                bloodOrdListBean.setSelect("0");
             }
         }
         replaceData(ordList);

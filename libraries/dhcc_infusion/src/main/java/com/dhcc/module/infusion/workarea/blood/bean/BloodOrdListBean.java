@@ -194,6 +194,7 @@ public class BloodOrdListBean {
     public String getOeoriId() {
         return OeoriId;
     }
+
     public String getOrderId() {
         if(!TextUtils.isEmpty(LabNo)){
             return LabNo;

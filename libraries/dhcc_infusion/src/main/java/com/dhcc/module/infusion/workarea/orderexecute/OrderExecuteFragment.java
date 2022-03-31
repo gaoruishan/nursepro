@@ -84,9 +84,9 @@ public class OrderExecuteFragment extends BaseInfusionFragment {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 if (adapter instanceof OrderExecutePatOrderAdapter) {
-                    BloodOrdListBean patOrdsBean = (BloodOrdListBean) adapter.getData().get(position);
-                    patientOrderAdapter.refreshData(adapter.getData(), position);
-                    bottomView.setSelectText("已选 1 个");
+                    patientOrderAdapter.refreshData(patientOrderAdapter.getData(), position);
+                    List<BloodOrdListBean> listBeans = checkSelectItem();
+                    bottomView.setSelectText("已选 "+listBeans.size()+" 个");
                 }
             }
         });
@@ -98,8 +98,13 @@ public class OrderExecuteFragment extends BaseInfusionFragment {
                     ToastUtils.showShort("请选择医嘱");
                     return;
                 }
+                String oeoreIds = "";
+                for (BloodOrdListBean listBean : listBeans) {
+                    oeoreIds += listBean.getOrderId() + "^";
+                }
+                oeoreIds = oeoreIds.substring(0, oeoreIds.length() - 1);
                 OrdButtonsBean buttonsBean = buttons.get(position);
-                execOrder(listBeans.get(0).getOrderId(),buttonsBean.getExeCode());
+                execOrder(oeoreIds,buttonsBean.getExeCode());
             }
         });
     }
@@ -190,10 +195,10 @@ public class OrderExecuteFragment extends BaseInfusionFragment {
                 //ORD 扫医嘱条码返回医嘱信息
                 if (ORD.equals(bean.getFlag())) {
                     //选中扫码的
-                    for (BloodOrdListBean bean1 : patientOrderAdapter.getData()) {
-                        bean1.setSelect(scanInfo.equals(bean1.getOeoriId()) ? "1" : "0");
-                    }
-                    patientOrderAdapter.notifyDataSetChanged();
+//                    for (BloodOrdListBean bean1 : patientOrderAdapter.getData()) {
+//                        bean1.setSelect(scanInfo.equals(bean1.getOeoriId()) ? "1" : "0");
+//                    }
+//                    patientOrderAdapter.notifyDataSetChanged();
                     //弹框
                     if ("1".equals(bean.getDiagFlag())) {
                         DialogFactory.showPatInfo(mContext, bean, new View.OnClickListener() {

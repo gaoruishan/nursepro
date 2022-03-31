@@ -199,10 +199,9 @@ public class DialogFactory extends CommDialog {
         return dialog;
     }
 
-    public static Dialog showSkinYinYangDialog(Context context, String title, String cancel, String ok, @Nullable final View.OnClickListener cancelClick, @Nullable final CommClickListener okClick) {
+    public static Dialog showSkinYinYangDialog(Context context,View view, String title, String cancel, String ok, @Nullable final View.OnClickListener cancelClick, @Nullable final CommClickListener okClick) {
         dialog = getDialog(context);
         dialog.setCanceledOnTouchOutside(true);
-        final View view = LayoutInflater.from(context).inflate(R.layout.show_skin_dialog_layout, null);
         setText(title, view, R.id.tv_title);
         final View tvSkinYin = view.findViewById(R.id.tv_skin_yin);
         final View tvSkinYang = view.findViewById(R.id.tv_skin_yang);

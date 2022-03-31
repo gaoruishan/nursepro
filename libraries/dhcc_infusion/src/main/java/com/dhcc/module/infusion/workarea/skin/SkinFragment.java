@@ -1,7 +1,10 @@
 package com.dhcc.module.infusion.workarea.skin;
 
+import android.app.Dialog;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
 import com.base.commlibs.http.CommResult;
 import com.base.commlibs.http.CommonCallBack;
@@ -44,6 +47,10 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
     private CustomPatView customPat;
     private SkinListBean mBean;
     private boolean onlyScanFlag;
+    private boolean scanDoubleFlag;
+    private Dialog dialog;
+    private SkinListBean.OrdListBean selectBean;
+    private View dialogView;
 
     @Override
     protected void initViews() {
@@ -133,31 +140,50 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
     }
 
     private void exeOrderSkin() {
-        final SkinListBean.OrdListBean selectBean = skinAdapter.getSelectBean();
+        selectBean = skinAdapter.getSelectBean();
         if (selectBean == null) {
             return;
         }
-        DialogFactory.showSkinYinYangDialog(mContext, "置皮试结果", "", "", null, new CommDialog.CommClickListener() {
+        dialogView = LayoutInflater.from(mContext).inflate(R.layout.show_skin_dialog_layout, null);
+
+        dialog = DialogFactory.showSkinYinYangDialog(mContext, dialogView, "置皮试结果", "", "", null, new CommDialog.CommClickListener() {
             @Override
             public void data(Object[] args) {
-                MessageApiManager.setSkinTestResult(selectBean.getOeoriId(), (String) args[2], (String) args[0], (String) args[1], new CommonCallBack<CommResult>() {
-                    @Override
-                    public void onFail(String code, String msg) {
-                        onFailThings(msg);
-                    }
+                String user = (String) args[0];
+                String pwd = (String) args[1];
+                String testSkin = (String) args[2];
+                setSkinTestResult(user, pwd, testSkin, selectBean);
+            }
+        });
+    }
 
-                    @Override
-                    public void onSuccess(CommResult bean, String type) {
-                        onSuccessThings(bean);
-                        refreshSkinOrdList();
-                    }
-                });
+    private void setSkinTestResult(String user, String pwd, String testSkin, SkinListBean.OrdListBean selectBean) {
+        MessageApiManager.setSkinTestResult(selectBean.getOeoriId(), testSkin, user, pwd, new CommonCallBack<CommResult>() {
+            @Override
+            public void onFail(String code, String msg) {
+                onFailThings(msg);
+            }
+
+            @Override
+            public void onSuccess(CommResult bean, String type) {
+                onSuccessThings(bean);
+                refreshSkinOrdList();
             }
         });
     }
 
     @Override
     protected void getScanOrdList() {
+        //扫码双签
+        if (dialog != null && dialog.isShowing() ) {
+            if (dialogView != null&& scanDoubleFlag) {
+                TextView psw = dialogView.findViewById(R.id.et_skin_pwd);
+                TextView user = dialogView.findViewById(R.id.et_skin_num);
+                user.setText(scanInfo+"");
+                psw.setText("scan");
+                return;
+            }
+        }
         //第二次 扫瓶贴
         if (mBean != null) {
             checkScanInfo();
@@ -174,7 +200,7 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
                 recyclerView.scrollToPosition(skinAdapter.getSelectBeanPosition());
                 refreshBottomView();
             }
-        }else {
+        } else {
             showToast(SCAN_LABEL);
         }
     }
@@ -214,8 +240,8 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
 
     private void getSkinList(String regNo) {
         exeFlag = customOnOff.isSelect() ? "0" : "1";
-        bottomView.setVisibility(customOnOff.isSelect()?View.VISIBLE:View.GONE);
-        SkinApiManager.getSkinList(regNo, customDate.getStartDateTimeText(), customDate.getEndDateTimeText(), "",exeFlag, new CommonCallBack<SkinListBean>() {
+        bottomView.setVisibility(customOnOff.isSelect() ? View.VISIBLE : View.GONE);
+        SkinApiManager.getSkinList(regNo, customDate.getStartDateTimeText(), customDate.getEndDateTimeText(), "", exeFlag, new CommonCallBack<SkinListBean>() {
             @Override
             public void onFail(String code, String msg) {
                 onFailThings(msg);
@@ -230,9 +256,10 @@ public class SkinFragment extends BaseInfusionFragment implements BaseQuickAdapt
                 skinAdapter.setNewData(bean.getOrdList());
                 setCustomPatViewData(customPat, bean.getPatInfo());
                 onlyScanFlag = "1".equals(bean.getOnlyScanFlag());
+                scanDoubleFlag = "1".equals(bean.getScanDoubleFlag());
                 boolean hideSelectButton = "1".equals(bean.getSkinFlag());
                 skinAdapter.setHideSelectButton(hideSelectButton);
-                bottomView.setVisibility(hideSelectButton?View.GONE:View.VISIBLE);
+                bottomView.setVisibility(hideSelectButton ? View.GONE : View.VISIBLE);
                 refreshBottomView();
             }
         });
