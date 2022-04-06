@@ -127,6 +127,12 @@ public class BloodInfoBean {
         private String xmMinor;
         private String xmResult;
         private String xmUser;
+        //滴速是否必填 1:不必填
+        private String noSpeedFlag;
+
+        public String getNoSpeedFlag() {
+            return noSpeedFlag == null ? "" : noSpeedFlag;
+        }
 
         public String getBedCode() {
             return bedCode;

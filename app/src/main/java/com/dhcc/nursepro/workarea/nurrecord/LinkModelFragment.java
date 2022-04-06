@@ -20,15 +20,16 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.base.commlibs.BaseActivity;
+import com.base.commlibs.BaseFragment;
+import com.base.commlibs.constant.SharedPreference;
+import com.base.commlibs.utils.SchDateTimeUtil;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.TimeUtils;
-import com.base.commlibs.BaseActivity;
-import com.base.commlibs.BaseFragment;
 import com.dhcc.nursepro.R;
-import com.base.commlibs.constant.SharedPreference;
 import com.dhcc.nursepro.workarea.nurrecord.api.NurRecordManager;
 import com.dhcc.nursepro.workarea.nurrecord.bean.NurRecordBean;
 import com.google.gson.Gson;
@@ -744,8 +745,8 @@ public class LinkModelFragment extends BaseFragment implements OnDateSetListener
                 .setMonthText("月")
                 .setDayText("日")
                 .setCyclic(false)
-                .setMinMillseconds(System.currentTimeMillis() - tenYears)
-                .setCurrentMillseconds(calendar.getTimeInMillis())
+                .setMinMillseconds(SchDateTimeUtil.getCurDateTime() - tenYears)
+                .setCurrentMillseconds(SchDateTimeUtil.getCurDateTime())
                 .setThemeColor(getResources().getColor(R.color.colorPrimary))
                 .setType(Type.YEAR_MONTH_DAY)
                 .setWheelItemTextNormalColor(getResources().getColor(R.color.timetimepicker_default_text_color))

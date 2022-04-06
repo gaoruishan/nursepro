@@ -58,13 +58,13 @@ public class LocalTestManager {
     private static String curMethodName;
 
     static {
-        /*门诊*/
-          l.add("getOrdList");//医嘱执行
+        /******************门诊*********************/
+//          l.add("getOrdList");//医嘱执行
 //        l.add("getInfusionMessage");//消息-输液
 //        l.add("getSkinTestMessage");//消息-皮试
 //        l.add("GetDispensingOrdList");//配液
-        l.add("GetSkinTestOrdList");
-        l.add("getSkinOrdList");
+//        l.add("GetSkinTestOrdList");
+//        l.add("getSkinOrdList");
 //        l.add("GetPunctureOrdList");//穿刺
 //        l.add("punctureOrd");//穿刺
 //        l.add("getTourOrdList");//巡视
@@ -80,6 +80,7 @@ public class LocalTestManager {
 //        l.add("getOrderTasks");//主页配置
         //        l.add("getTransBloodList");
 
+        /******************住院*********************/
         /*任务总览*/
 //        l.add("getExecuteSummaryData"); //1任务总览列表
 //        l.add("getNurPlanTaskList");//2护嘱任务列表
@@ -98,16 +99,15 @@ public class LocalTestManager {
 //        l.add("getSugarPatList");//患者列表
 //        l.add("GetSugarValueAndItem");//录入界面数据
 //        l.add("GetSugarValueByDate");//获取血糖(查询/曲线图)
-
+        /*护理计划*/
 //        l.add("getInterventionList");
-//        l.add("getNeedEmr");
-//        l.add("getNotifyList");
 //        l.add("getQuestionRecord");
 //        l.add("getQuestionList");
 //        l.add("getInterventionFreq");
 //        l.add("getGoalByQestId");
 //        l.add("getInterventionByQestId");
 //
+//        l.add("getModelData"); //巡视模板
 //        l.add("getIFOrdListByBarCode");
 //        l.add("GetBarcodeFlag");
 //        l.add("GetXmlValues");

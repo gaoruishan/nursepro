@@ -1294,9 +1294,9 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                                 }
                                 config.setSendValue(getckvalue((ArrayList<HashMap>) listCk, config.getItemCode()) + "");
                                 showToast(getckvalue((ArrayList<HashMap>) listCk, config.getItemCode()));
-                                if (config.getLinkInfo().size() > 0) {
+//                                if (config.getLinkInfo().size() > 0) {
                                     //                                    linkView(config.getLinkInfo(), getckvalue((ArrayList<HashMap>) listCk,config.getItemCode()) + "",cb.isChecked(),"isC");
-                                }
+//                                }
                             }
                         });
                     }
@@ -1339,9 +1339,9 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                             public void onClick(View v) {
                                 showToast(config.getItemCode() + "|" + rb.getText() + "");
                                 config.setSendValue(config.getItemCode() + "|" + rb.getId() + "!" + rb.getText() + "");
-                                if (config.getLinkInfo().size() > 0) {
+//                                if (config.getLinkInfo().size() > 0) {
                                     //                                    linkView(config.getLinkInfo(), rb.getText() + "",rb.isChecked(),"isR");
-                                }
+//                                }
                             }
                         });
                     }
@@ -1392,9 +1392,9 @@ public class NurTourFragment extends BaseFragment implements View.OnClickListene
                         public void onClick(View v) {
                             //                            showToast(rb.getText() + "----");
                             config.setSendValue(config.getItemCode() + "|" + rb.getText() + "");
-                            if (config.getLinkInfo().size() > 0) {
+//                            if (config.getLinkInfo().size() > 0) {
                                 //                                linkView(config.getLinkInfo(), rb.getText() + "",rb.isChecked(),"isR");
-                            }
+//                            }
                         }
                     });
                 }

@@ -31,13 +31,13 @@ import com.base.commlibs.BaseActivity;
 import com.base.commlibs.BaseFragment;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
+import com.base.commlibs.utils.KeyBoardUtil;
+import com.base.commlibs.utils.SchDateTimeUtil;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.uiplugs.OptionView;
-import com.dhcc.nursepro.utils.DateUtils;
-import com.base.commlibs.utils.KeyBoardUtil;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.BloodOperationResultDialog;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.api.BloodTSApiManager;
 import com.dhcc.nursepro.workarea.bloodtransfusionsystem.bean.BloodInfoBean;
@@ -58,7 +58,6 @@ import cn.qqtheme.framework.widget.WheelView;
 /**
  * BloodTransfusionTourFragment
  * 输血巡视
- *
  * @author DevLix126
  * created at 2018/9/18 10:36
  */
@@ -157,7 +156,7 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
                         return;
                     }
 
-                    if (TextUtils.isEmpty(speed)) {
+                    if (TextUtils.isEmpty(speed) && bloodInfo != null && "".equals(bloodInfo.getNoSpeedFlag())) {
                         showToast("请输入输血速度");
                         return;
                     }
@@ -212,7 +211,7 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
                         result = gson.toJson(resList);
                     }
 
-                    BloodTSApiManager.bloodPatrol(bloodRowId, recdate, rectime, speed, effect, situation,result, new BloodTSApiManager.BloodOperationResultCallback() {
+                    BloodTSApiManager.bloodPatrol(bloodRowId, recdate, rectime, speed, effect, situation, result, new BloodTSApiManager.BloodOperationResultCallback() {
                         @Override
                         public void onSuccess(BloodOperationResultBean bloodOperationResult) {
 
@@ -223,7 +222,7 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
                             llBloodtranstourEdit.setVisibility(View.GONE);
                             llVitalsignRecord.removeAllViews();
                             viewItemMap.clear();
-                            if (mKeyboard != null){
+                            if (mKeyboard != null) {
                                 mKeyboard.setVisibility(View.GONE);
                             }
                         }
@@ -265,17 +264,21 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
             @Override
             public void onClick(View v) {
                 if ("请点击选择时间".equals(tvBloodtranstourTranstime.getText().toString())) {
-                    chooseTime(TimeUtils.string2Millis(SPUtils.getInstance().getString(SharedPreference.SCHSTDATETIME)+":00"));
+                    chooseTime(TimeUtils.string2Millis(SPUtils.getInstance().getString(SharedPreference.SCHSTDATETIME) + ":00"));
                 } else {
                     chooseTime(TimeUtils.string2Millis(tvBloodtranstourTranstime.getText().toString() + ":00"));
                 }
             }
         });
         tvBloodtranstourTranstime = view.findViewById(R.id.tv_bloodtranstour_transtime);
-        tvBloodtranstourTranstime.setText(DateUtils.getDateTimeFromSystem());
 
-        recdate = DateUtils.getDateTimeFromSystem().substring(0, 10);
-        rectime = DateUtils.getDateTimeFromSystem().substring(11, 16);
+//        recdate = DateUtils.getDateTimeFromSystem().substring(0, 10);
+//        rectime = DateUtils.getDateTimeFromSystem().substring(11, 16);
+
+        recdate = SchDateTimeUtil.getCurDateStr();
+        rectime = SchDateTimeUtil.getCurTimeStr();
+        tvBloodtranstourTranstime.setText(recdate + " " + rectime);
+
         tvBloodtranstourNursename = view.findViewById(R.id.tv_bloodtranstour_nursename);
         etBloodtranstourBloodtransrate = view.findViewById(R.id.et_bloodtranstour_bloodtransrate);
         tvBloodtranstourIsexist = view.findViewById(R.id.tv_bloodtranstour_isexist);
@@ -288,13 +291,13 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
         btnExist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (btnExist.isSelected()){
+                if (btnExist.isSelected()) {
                     btnExist.setSelected(false);
                     tvBloodtranstourIsexist.setText("无");
                     tvBloodtranstourIsexist.setSelected(false);
                     etBloodtranstourAdversereactions.setText("");
                     etBloodtranstourAdversereactions.setFocusable(false);
-                }else {
+                } else {
                     btnExist.setSelected(true);
                     tvBloodtranstourIsexist.setText("有");
                     tvBloodtranstourIsexist.setSelected(true);
@@ -618,7 +621,7 @@ public class BloodTransfusionTourFragment extends BaseFragment implements OnDate
                 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                 @Override
                 public void onClick(View v) {
-                    if (v.hasFocus()){
+                    if (v.hasFocus()) {
                         if (titleTV.getText().toString().contains("℃")) {
                             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                             imm.hideSoftInputFromWindow(edText.getWindowToken(), 0);
