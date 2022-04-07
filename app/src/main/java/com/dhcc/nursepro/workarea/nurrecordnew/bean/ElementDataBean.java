@@ -178,10 +178,13 @@ public class ElementDataBean extends CommResult {
                 private String DataSourceRefInfo;
                 private String DefaultValue;
                 private String Disable;
+                private String DoctorAdviceRule;
+                private String DoctorAdviceRuleLinkNo;
                 private String ElementId;
                 private String ElementType;
                 private String FormName;
                 private String FoundationJS;
+                private String GatherEffects;
                 private String GatherImportMapEffects;
                 private String IsHide;
                 private String MEName;
@@ -264,6 +267,22 @@ public class ElementDataBean extends CommResult {
                     this.Disable = Disable;
                 }
 
+                public String getDoctorAdviceRule() {
+                    return DoctorAdviceRule;
+                }
+
+                public void setDoctorAdviceRule(String doctorAdviceRule) {
+                    DoctorAdviceRule = doctorAdviceRule;
+                }
+
+                public String getDoctorAdviceRuleLinkNo() {
+                    return DoctorAdviceRuleLinkNo;
+                }
+
+                public void setDoctorAdviceRuleLinkNo(String doctorAdviceRuleLinkNo) {
+                    DoctorAdviceRuleLinkNo = doctorAdviceRuleLinkNo;
+                }
+
                 public String getElementId() {
                     return ElementId;
                 }
@@ -294,6 +313,14 @@ public class ElementDataBean extends CommResult {
 
                 public void setFormName(String FormName) {
                     this.FormName = FormName;
+                }
+
+                public String getGatherEffects() {
+                    return GatherEffects;
+                }
+
+                public void setGatherEffects(String gatherEffects) {
+                    GatherEffects = gatherEffects;
                 }
 
                 public String getGatherImportMapEffects() {

@@ -30,19 +30,23 @@ import com.base.commlibs.BaseActivity;
 import com.base.commlibs.MessageEvent;
 import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
+import com.blankj.utilcode.constant.TimeConstants;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.RegexUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
+import com.blankj.utilcode.util.TimeUtils;
 import com.dhcc.module.nurse.ca.CaSignUtil;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.utils.InputDigitLengthFilter;
 import com.dhcc.nursepro.workarea.nurrecordnew.api.NurRecordNewApiManager;
 import com.dhcc.nursepro.workarea.nurrecordnew.bean.DataSourceBean;
 import com.dhcc.nursepro.workarea.nurrecordnew.bean.ElementDataBean;
+import com.dhcc.nursepro.workarea.nurrecordnew.bean.GetOutSideDataBean;
 import com.dhcc.nursepro.workarea.nurrecordnew.bean.MEViewLink;
 import com.dhcc.nursepro.workarea.nurrecordnew.bean.NurRecordKnowledgeContentBean;
 import com.dhcc.nursepro.workarea.nurrecordnew.bean.RecDataBean;
+import com.dhcc.nursepro.workarea.nurrecordnew.bean.VitalSignDataBean;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -98,9 +102,14 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
     // view required 配置项
     private final Map<String, Boolean> requiredViewIdMap = new HashMap<>();
 
+    //导入生命体征 elementId关联DoctorAdviceRuleLinkNo
+    private final Map<String, String> vsLinkMap = new HashMap<>();
+    private final List<List<VitalSignDataBean>> vsData = new ArrayList<>();
+
     private final String emrCodeJump = "";
     private final String guidJump = "";
     private final String recIdJump = "";
+    private final HashMap<String, String[]> editTextConvertMap = new HashMap<>();
     private boolean addLine;
     private LinearLayout llNurrecord;
     private String episodeID = "";
@@ -125,11 +134,10 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
     private String userGroupId = "";
     private String callBackEffects = "";
     private String callBackReturnMapEffects = "";
-
     private NurRecordTipDialog tipDialog;
     private NurRecordQuoteDialog quoteDialog;
+    private NurRecordVSDialog vsDialog;
     private NurRecordSaveErrorDialog errorDialog;
-    private final HashMap<String, String[]> editTextConvertMap = new HashMap<>();
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -261,7 +269,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
             public void onSuccess(NurRecordKnowledgeContentBean knowledgeContentBean) {
                 StringBuilder stringBuilder = new StringBuilder();
                 List<List<NurRecordKnowledgeContentBean.KnowledgeContentBean>> contentBean = knowledgeContentBean.getKnowledgeContent();
-                for (int i = 0; contentBean!=null && i < contentBean.size(); i++) {
+                for (int i = 0; contentBean != null && i < contentBean.size(); i++) {
                     if (contentBean.get(i) != null) {
                         if (contentBean.get(i).size() > 0) {
                             if ("FreeText".equals(contentBean.get(i).get(0).getType())) {
@@ -365,7 +373,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                             List<String> elementIdList = formNametoElementId.get(radioElementListBeanList.get(0).getFormName());
                             boolean oneSelected = false;
 
-                            for (int i1 = 0; elementIdList!=null && i1 < elementIdList.size(); i1++) {
+                            for (int i1 = 0; elementIdList != null && i1 < elementIdList.size(); i1++) {
                                 CheckBox checkBox = (CheckBox) viewHashMap.get(elementIdList.get(i1));
                                 if (checkBox != null && checkBox.isChecked()) {
                                     oneSelected = true;
@@ -373,7 +381,7 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                                 }
                             }
                             if (!oneSelected) {
-                                for (int i1 = 0; elementIdList!=null && i1 < elementIdList.size(); i1++) {
+                                for (int i1 = 0; elementIdList != null && i1 < elementIdList.size(); i1++) {
                                     CheckBox checkBox = (CheckBox) viewHashMap.get(elementIdList.get(i1));
                                     if (checkBox != null) {
                                         checkBox.setTextColor(Color.parseColor("#FFEA4300"));
@@ -871,6 +879,11 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
     private void InputViews(List<ElementDataBean.DataBean.InputBean.ElementBasesBean> elements) {
         for (int i = 0; elements != null && i < elements.size(); i++) {
             ElementDataBean.DataBean.InputBean.ElementBasesBean element = elements.get(i);
+
+            if (!StringUtils.isEmpty(element.getDoctorAdviceRuleLinkNo()) && ("TextElement".equals(element.getElementType()) || "NumberElement".equals(element.getElementType()))) {
+                vsLinkMap.put(element.getDoctorAdviceRuleLinkNo(), element.getElementId());
+            }
+
             if ("ContainerElement".equals(element.getElementType())) {
                 LinearLayout llContainer = getContainerView(element);
                 if (StringUtils.isEmpty(element.getContainerId())) {
@@ -2259,6 +2272,11 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                     } else {
                         save(new ArrayList<>());
                     }
+
+                    //导入生命体征
+                } else if ("DHCNURTemRecData".equals(element.getBindingTemplateID())) {
+                    getOutSideData(element.getCallBackEffects());
+
                     //跳转单据
                 } else if (!StringUtils.isEmpty(element.getBindingTemplateID()) && !"true".equals(element.getIsHide())) {
                     String emrCode = element.getBindingTemplateID();
@@ -2334,6 +2352,85 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
 
 
         return linearLayout;
+    }
+
+    private void getOutSideData(String idListStr) {
+        List<String> idStr = Arrays.asList(idListStr.split(","));
+        String endDate = spUtils.getString(SharedPreference.CURDATETIME).substring(0, 10);
+        long endDateMillion = TimeUtils.string2Millis(endDate + "  00:00:00");
+        String stDate = TimeUtils.date2String(TimeUtils.getDate(endDateMillion, -7L, TimeConstants.DAY)).substring(0, 10);
+
+        showLoadingTip(BaseActivity.LoadingType.FULL);
+        NurRecordNewApiManager.GetOutSideData(episodeID, stDate, endDate, new NurRecordNewApiManager.GetOutSideDataCallback() {
+            @Override
+            public void onSuccess(GetOutSideDataBean getOutSideDataBean) {
+                hideLoadingTip();
+                vsData.clear();
+
+                Map<String, Map> getOutSideDataMap = getOutSideDataBean.getMap();
+                if (getOutSideDataMap != null) {
+                    Map<String, Map> tempListMap = getOutSideDataMap.get("tempList");
+                    if (tempListMap != null) {
+                        List<Map> valueList = (List<Map>) tempListMap.get("rows");
+                        for (int i = 0; i < valueList.size(); i++) {
+                            List<VitalSignDataBean> vsSubData = new ArrayList<>();
+                            Map<String, String> valueMap = valueList.get(i);
+                            for (Map.Entry<String, String> entry : valueMap.entrySet()) {
+                                for (GetOutSideDataBean.FieldListBean fieldListBean : getOutSideDataBean.getFieldList()) {
+                                    if (entry.getKey().equals(fieldListBean.getFieldLinkNo())) {
+                                        VitalSignDataBean vitalSignDataBean = new VitalSignDataBean();
+                                        vitalSignDataBean.setDesc(fieldListBean.getFieldDesc());
+                                        vitalSignDataBean.setValue(entry.getValue());
+                                        vitalSignDataBean.setLinkNo(entry.getKey());
+                                        if (idStr.contains(vsLinkMap.get(vitalSignDataBean.getLinkNo()))) {
+                                            vsSubData.add(vitalSignDataBean);
+                                        }
+                                        break;
+                                    }
+                                }
+                            }
+                            vsData.add(0, vsSubData);
+                        }
+                        showVSDataDialog();
+                        //setVSViewData(idListStr);
+                    }
+                }
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+                hideLoadingTip();
+                showToast("error" + code + ":" + msg);
+            }
+        });
+
+
+    }
+
+    private void showVSDataDialog() {
+        vsDialog = new NurRecordVSDialog(getActivity());
+        vsDialog.setVsDataList(vsData);
+        vsDialog.setSureOnclickListener(new NurRecordVSDialog.onSureOnclickListener() {
+            @Override
+            public void onSureClick() {
+                setVSViewData(vsDialog.getVsDataNum());
+                vsDialog.dismiss();
+            }
+        });
+        vsDialog.show();
+    }
+
+    private void setVSViewData(int vsDataNum) {
+
+
+        List<VitalSignDataBean> vsDatum = vsData.get(vsDataNum);
+        for (VitalSignDataBean vitalSignDataBean : vsDatum) {
+            if (viewHashMap.get(vsLinkMap.get(vitalSignDataBean.getLinkNo())) instanceof EditText) {
+                EditText editText = (EditText) viewHashMap.get(vsLinkMap.get(vitalSignDataBean.getLinkNo()));
+                editText.setText(vitalSignDataBean.getValue());
+            }
+        }
+
     }
 
     private void showQuoteDialog(EditText edQuote) {
@@ -2838,16 +2935,16 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                                 }
                             }
                             editText.setText(String.valueOf(score));
-                        }else if ("Merge".equals(calType)) {
+                        } else if ("Merge".equals(calType)) {
                             String txt = editText.getText().toString();
                             CheckBox checkBox = (CheckBox) viewHashMap.get(viewElementId);
                             String rep = checkBox.getText().toString();
                             if ("check".equals(status)) {
                                 txt += rep + "-";
-                            }else {
+                            } else {
                                 txt = txt.replace(rep + "-", "");
                             }
-                            editText.setText(txt+"");
+                            editText.setText(txt + "");
                         }
                         /// EH 2021-10-19 统分类型 end
                     }

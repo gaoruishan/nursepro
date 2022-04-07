@@ -146,6 +146,20 @@ public class NurRecordNewApiService extends NurseAPI {
         });
     }
 
+    public static void GetOutSideData(String episodeId, String stDate, String endDate, final ServiceCallBack callback) {
+        HashMap<String, String> properties = new HashMap<>();
+        properties.put("outCode", "DHCNURTemRecData");
+        properties.put("episodeId", episodeId);
+        properties.put("stDate", stDate);
+        properties.put("endDate", endDate);
+        WebServiceUtils.callWebService("GetOutSideData", properties, new WebServiceUtils.WebServiceCallBack() {
+            @Override
+            public void callBack(String result) {
+                callback.onResult(result);
+            }
+        });
+    }
+
     public interface ServiceCallBack {
         void onResult(String jsonStr);
     }
