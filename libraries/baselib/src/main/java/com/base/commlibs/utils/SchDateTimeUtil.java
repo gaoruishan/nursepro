@@ -31,6 +31,34 @@ public class SchDateTimeUtil {
         }
         return System.currentTimeMillis();
     }
+
+    public static String getCurDateTimeStr() {
+        return getCurDateStr()+" "+getCurTimeStr();
+    }
+
+    /**
+     * 当前日期
+     * @return
+     */
+    public static String getCurDateStr() {
+        String startDateTime = SPStaticUtils.getString(SharedPreference.CURDATETIME);
+        if(!TextUtils.isEmpty(startDateTime)){
+            return startDateTime.substring(0, 10);
+        }
+        return TimeUtils.getNowString().substring(0,10);
+    }
+
+    /**
+     * 当前时间
+     * @return
+     */
+    public static String getCurTimeStr() {
+        String startDateTime = SPStaticUtils.getString(SharedPreference.CURDATETIME);
+        if(!TextUtils.isEmpty(startDateTime)){
+            return startDateTime.substring(11, INT_16);
+        }
+        return TimeUtils.getNowString().substring(11,INT_16);
+    }
     /**
      * 开始时间(毫秒值)
      * @return

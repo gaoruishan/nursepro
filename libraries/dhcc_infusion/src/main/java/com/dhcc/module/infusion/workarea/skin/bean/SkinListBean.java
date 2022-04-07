@@ -32,6 +32,12 @@ public class SkinListBean extends CommResult {
     private String skinFlag;
     //只能扫码选中  1:是
     private String onlyScanFlag;
+    //扫码双签  1:是
+    private String scanDoubleFlag;
+
+    public String getScanDoubleFlag() {
+        return scanDoubleFlag == null ? "" : scanDoubleFlag;
+    }
 
     public String getOnlyScanFlag() {
         return onlyScanFlag == null ? "" : onlyScanFlag;

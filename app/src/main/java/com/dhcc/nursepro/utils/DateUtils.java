@@ -1,11 +1,9 @@
 package com.dhcc.nursepro.utils;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.view.View;
 
+import com.base.commlibs.utils.SchDateTimeUtil;
 import com.dhcc.nursepro.R;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.data.Type;
@@ -84,8 +82,8 @@ public class DateUtils {
      * @return the date from system
      */
     public static String getDateFromSystem() {
-
-        Date date = new Date(System.currentTimeMillis());
+        Date date = new Date(SchDateTimeUtil.getCurDateTime());
+//        Date date = new Date(System.currentTimeMillis());
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         String time = format.format(date);
         return time;
@@ -98,7 +96,7 @@ public class DateUtils {
      */
     public static String getTimeFromSystem() {
 
-        Date date = new Date(System.currentTimeMillis());
+        Date date = new Date(SchDateTimeUtil.getCurDateTime());
         SimpleDateFormat format = new SimpleDateFormat("HH:mm");
         String time = format.format(date);
         return time;
@@ -111,7 +109,7 @@ public class DateUtils {
      */
     public static String getDateTimeFromSystem() {
 
-        Date date = new Date(System.currentTimeMillis());
+        Date date = new Date(SchDateTimeUtil.getCurDateTime());
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String time = format.format(date);
         return time;
@@ -125,7 +123,7 @@ public class DateUtils {
      */
     public static Long getDifferenceSystemFromServe(String serveTimeMillis) {
 
-        return  Long.valueOf(serveTimeMillis) - System.currentTimeMillis();
+        return  Long.valueOf(serveTimeMillis) - SchDateTimeUtil.getCurDateTime();
     }
 
     /**
@@ -150,8 +148,8 @@ public class DateUtils {
                 .setMonthText("月")
                 .setDayText("日")
                 .setCyclic(false)
-                .setMinMillseconds(System.currentTimeMillis() - tenYears)
-                .setCurrentMillseconds(calendar.getTimeInMillis())
+                .setMinMillseconds(SchDateTimeUtil.getCurDateTime() - tenYears)
+                .setCurrentMillseconds(SchDateTimeUtil.getCurDateTime())
                 .setThemeColor(context.getResources().getColor(R.color.colorPrimary))
                 .setType(Type.YEAR_MONTH_DAY)
                 .setWheelItemTextNormalColor(context.getResources().getColor(R.color.timetimepicker_default_text_color))
@@ -185,7 +183,7 @@ public class DateUtils {
                 .setMonthText("月")
                 .setDayText("日")
                 .setCyclic(false)
-                .setMinMillseconds(System.currentTimeMillis() - tenYears)
+                .setMinMillseconds(SchDateTimeUtil.getCurDateTime() - tenYears)
                 .setCurrentMillseconds(currMills)
                 .setThemeColor(context.getResources().getColor(R.color.colorPrimary))
                 .setType(Type.YEAR_MONTH_DAY)
@@ -216,7 +214,7 @@ public class DateUtils {
                 .setHourText("时")
                 .setMinuteText("分")
                 .setCyclic(true)
-                .setCurrentMillseconds(calendar.getTimeInMillis())
+                .setCurrentMillseconds(SchDateTimeUtil.getCurDateTime())
                 .setThemeColor(context.getResources().getColor(R.color.colorPrimary))
                 .setType(Type.HOURS_MINS)
                 .setWheelItemTextNormalColor(context.getResources().getColor(R.color.timetimepicker_default_text_color))
@@ -313,9 +311,9 @@ public class DateUtils {
             long ts = date.getTime();
             return ts;
         } catch (Exception e) {
-            e.printStackTrace();
+
         }
-        return System.currentTimeMillis();
+        return SchDateTimeUtil.getCurDateTime();
     }
 
 
