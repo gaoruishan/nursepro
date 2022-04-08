@@ -1,8 +1,0 @@
-<ConfigSystems>
-  <Group Name="Argentina (POSGAR94)">
-    <System Name="beijing">
-      <Ellipsoid Name="xian" a="6378140.0" f="298.257"/>
-      <Projection FalseEast="500000.0" CuttingRadius="0.0" AxisDirection="0"/>
-    </System>
-  </Group>
-</ConfigSystems>
