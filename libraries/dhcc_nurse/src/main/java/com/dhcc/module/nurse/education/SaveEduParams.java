@@ -1,4 +1,4 @@
-package com.dhcc.module.nurse.params;
+package com.dhcc.module.nurse.education;
 
 import com.base.commlibs.http.CommRequest;
 

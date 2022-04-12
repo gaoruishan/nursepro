@@ -1,4 +1,4 @@
-package com.dhcc.custom.base;
+package com.dhcc.module.nurse.custom.base;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,9 +14,9 @@ import com.base.commlibs.comm.BaseCommFragment;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.DataCache;
-import com.dhcc.custom.CustomApiManager;
-import com.dhcc.custom.bean.CustomUiConfigBean;
-import com.dhcc.custom.bean.MainSubListBean;
+import com.dhcc.module.nurse.custom.CustomApiManager;
+import com.dhcc.module.nurse.custom.bean.CustomUiConfigBean;
+import com.dhcc.module.nurse.custom.bean.MainSubListBean;
 import com.dhcc.module.nurse.R;
 
 /**

@@ -32,20 +32,6 @@ public class MessageApiService extends NurseAPI {
             });
         }
     }
-    /**
-     * Description: 获取皮试列表  阳性:Y/+ 阴性:N/-
-     * Input： locId:科室ID
-     * other:	w ##class(Nur.OPPDA.Message).getSkinTestMessage("7")
-     */
-    public static void getSkinTestMessage(com.base.commlibs.http.ServiceCallBack callBack) {
-        HashMap<String, String> properties = CommWebService.addLocId(null);
-        WebServiceUtils.callWebService(getSkinTestMessage, properties, new WebServiceUtils.WebServiceCallBack(){
-            @Override
-            public void callBack(String result) {
-                callBack.onResult(result);
-            }
-        });
-    }
 
     public interface ServiceCallBack{
         void onResult(String jsonStr);

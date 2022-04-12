@@ -25,34 +25,6 @@ public class LoginApiService extends NurseAPI {
 
     }
 
-    public static void GetUserPwd(String userCode, final ServiceCallBack callback) {
-
-        HashMap<String, String> properties = new HashMap<String, String>();
-        properties.put("userCode", userCode);
-        WebServiceUtils.callWebService(GetUserPwd, properties, new WebServiceUtils.WebServiceCallBack() {
-            @Override
-            public void callBack(String result) {
-                callback.onResult(result);
-            }
-        });
-
-    }
-
-
-    public static void ScanLogon(String userCode, final ServiceCallBack callback) {
-
-        HashMap<String, String> properties = new HashMap<String, String>();
-        properties.put("userCode", userCode);
-        WebServiceUtils.callWebService(ScanLogon, properties, new WebServiceUtils.WebServiceCallBack() {
-            @Override
-            public void callBack(String result) {
-                callback.onResult(result);
-            }
-        });
-
-    }
-
-
     public static void getLogin(String userCode, String password, String logonWardId, final ServiceCallBack callback) {
 
         HashMap<String, String> properties = new HashMap<String, String>();

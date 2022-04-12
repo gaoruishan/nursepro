@@ -16,14 +16,11 @@ public class NurseAPI {
      * 登陆
      */
     public static final String getBroadcastConfig = "getBroadcastConfig";
-    public static final String GetUserPwd = "GetUserPwd";
-    public static final String ScanLogon = "ScanLogon";
     public static final String Logon = "Logon";
     /**
      * 消息
      */
     public static final String setSkinTestResult = "setSkinTestResult";
-    public static final String getSkinTestMessage = "getSkinTestMessage";
     public static final String getNotifyList = "getNotifyList";
     public static final String readMessage = "readMessage";
     /**

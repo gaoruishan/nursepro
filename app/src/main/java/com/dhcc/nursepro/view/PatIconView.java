@@ -120,15 +120,39 @@ public class PatIconView extends LinearLayout {
 
     public void setMap(Map item){
         BedMapBean.PatInfoListBean patInfoListBean = new BedMapBean.PatInfoListBean();
-        patInfoListBean.setOperation(item.get("operation").toString());
-        patInfoListBean.setIllState(item.get("illState").toString());
-        patInfoListBean.setArreag(item.get("arreag").toString());
-        patInfoListBean.setCriticalValue(item.get("criticalValue").toString());
-        patInfoListBean.setGotAllergy(item.get("gotAllergy").toString());
-        patInfoListBean.setFever(item.get("fever").toString());
-        patInfoListBean.setNewPatient(item.get("newPatient").toString());
-        patInfoListBean.setEpdReport(item.get("epdReport").toString());
-        patInfoListBean.setEpdNotReport(item.get("epdNotReport").toString());
+        if (item.get("operation") != null) {
+            patInfoListBean.setOperation(item.get("operation").toString());
+        }
+        if (item.get("illState") != null) {
+            patInfoListBean.setIllState(item.get("illState").toString());
+        }
+
+        if (item.get("arreag") != null) {
+            patInfoListBean.setArreag(item.get("arreag").toString());
+        }
+
+        if (item.get("criticalValue") != null) {
+            patInfoListBean.setCriticalValue(item.get("criticalValue").toString());
+        }
+
+        if (item.get("gotAllergy") != null) {
+            patInfoListBean.setGotAllergy(item.get("gotAllergy").toString());
+        }
+
+        if (item.get("fever") != null) {
+            patInfoListBean.setFever(item.get("fever").toString());
+        }
+
+        if (item.get("newPatient") != null) {
+            patInfoListBean.setNewPatient(item.get("newPatient").toString());
+        }
+
+        if (item.get("epdReport") != null) {
+            patInfoListBean.setEpdReport(item.get("epdReport").toString());
+        }
+        if (item.get("epdNotReport") != null) {
+            patInfoListBean.setEpdNotReport(item.get("epdNotReport").toString());
+        }
 
         setIconShow(patInfoListBean);
     }

@@ -142,6 +142,7 @@ public class LabOutDetailFragment extends BaseFragment {
         showLoadingTip(BaseActivity.LoadingType.FULL);
         HashMap<String, String> map = new HashMap<>();
         map.put("carryNo", carryNo);
+        map.put("transNo", carryNo);
         if (!saveFlag.equals("")) {
             map.put("labNo", carryLabNo);
             map.put("locDr", carryLocDr);
@@ -154,12 +155,12 @@ public class LabOutDetailFragment extends BaseFragment {
                 //                setToolbarCenterTitle("检验打包",0xffffffff,17);
                 saveFlag = "";
                 carryFlag = labOutDetailBean.getCarryFlag();
-                if (carryFlag.equals("1")) {
+                if ("1".equals(carryFlag)) {
                     tvLaboutSend.setText("  撤销发送  ");
                 } else {
                     tvLaboutSend.setText("  发送    ");
                 }
-                etLaboutContainer.setText(labOutDetailBean.getTransContainer());
+                etLaboutContainer.setText(labOutDetailBean.getTransContainer()+"");
 
                 listBeans = labOutDetailBean.getDetailList();
                 preWaybillFlag = labOutDetailBean.getPreWaybillFlag();

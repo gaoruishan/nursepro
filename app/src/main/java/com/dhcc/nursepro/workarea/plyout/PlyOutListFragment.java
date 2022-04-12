@@ -38,7 +38,7 @@ public class PlyOutListFragment extends BaseFragment implements View.OnClickList
     private RecyclerView recLabOut;
     private TextView tvType0, tvType1, tvType2, tvType3, tvType4, tvStartDate, tvEndDate, tvBl;
     private LinearLayout llEmpty;
-    private View show1, show2, show3, show4;
+    private View show0,show1, show2, show3, show4;
     private PlyOutAdapter labOutAdapter;
     private List<PlyOutListAllBean.LabOutListBean> listLabAll = new ArrayList<>(), listLabNow = new ArrayList<>();
     private String dateStr, CarrayCerate = "No", CarrayDel = "No", CarrayNo = "", TypeStr = "Type1";
@@ -112,6 +112,7 @@ public class PlyOutListFragment extends BaseFragment implements View.OnClickList
                     }
                     else {
                         tvType0.setVisibility(View.GONE);
+                        show0.setVisibility(View.GONE);
                         tvType1.setText(listType.get(0).getDesc());
                         tvType2.setText(listType.get(1).getDesc());
                         tvType3.setText(listType.get(2).getDesc());
@@ -208,6 +209,7 @@ public class PlyOutListFragment extends BaseFragment implements View.OnClickList
         tvStartDate.setText(DateUtils.getDateTimeAgo(spUtils.getString(SharedPreference.CURDATETIME), 1).substring(0, 10));
         tvEndDate.setText(spUtils.getString(SharedPreference.CURDATETIME).substring(0, 10));
 
+        show0 = view.findViewById(R.id.view_labout_show0);
         show1 = view.findViewById(R.id.view_labout_show1);
         show2 = view.findViewById(R.id.view_labout_show2);
         show3 = view.findViewById(R.id.view_labout_show3);

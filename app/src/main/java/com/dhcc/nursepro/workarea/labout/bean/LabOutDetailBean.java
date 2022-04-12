@@ -1,5 +1,6 @@
 package com.dhcc.nursepro.workarea.labout.bean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LabOutDetailBean {
@@ -20,55 +21,34 @@ public class LabOutDetailBean {
     private String preWaybillFlag;
 
     public String getCarryFlag() {
-        return carryFlag;
-    }
-
-    public void setCarryFlag(String carryFlag) {
-        this.carryFlag = carryFlag;
+        return carryFlag == null ? "" : carryFlag;
     }
 
     public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
+        return msg == null ? "" : msg;
     }
 
     public String getMsgcode() {
-        return msgcode;
-    }
-
-    public void setMsgcode(String msgcode) {
-        this.msgcode = msgcode;
+        return msgcode == null ? "" : msgcode;
     }
 
     public String getStatus() {
-        return status;
+        return status == null ? "" : status;
     }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getTransContainer() {
-        return transContainer;
-    }
-
-    public void setTransContainer(String transContainer) {
-        this.transContainer = transContainer;
-    }
-    public void setPreWaybillFlag(String preWaybillFlag){this.preWaybillFlag=preWaybillFlag;}
-    public String getPreWaybillFlag(){return preWaybillFlag!=null?preWaybillFlag:"";}
-
-
 
     public List<DetailListBean> getDetailList() {
+        if (detailList == null) {
+            return new ArrayList<>();
+        }
         return detailList;
     }
 
-    public void setDetailList(List<DetailListBean> detailList) {
-        this.detailList = detailList;
+    public String getTransContainer() {
+        return transContainer == null ? "" : transContainer;
+    }
+
+    public String getPreWaybillFlag() {
+        return preWaybillFlag == null ? "" : preWaybillFlag;
     }
 
     public static class DetailListBean {
@@ -104,123 +84,64 @@ public class LabOutDetailBean {
         private String statusDesc;
         private String auditFlag;
 
-        public String getAuditFlag() {
-            return auditFlag;
-        }
-
-        public void setAuditFlag(String auditFlag) {
-            this.auditFlag = auditFlag;
-        }
-
         public String getBedNo() {
-            return bedNo;
-        }
-
-        public void setBedNo(String bedNo) {
-            this.bedNo = bedNo;
+            return bedNo == null ? "" : bedNo;
         }
 
         public String getCarryLabDesc() {
-            return carryLabDesc;
-        }
-
-        public void setCarryLabDesc(String carryLabDesc) {
-            this.carryLabDesc = carryLabDesc;
+            return carryLabDesc == null ? "" : carryLabDesc;
         }
 
         public String getCarryLabNo() {
-            return carryLabNo;
-        }
-
-        public void setCarryLabNo(String carryLabNo) {
-            this.carryLabNo = carryLabNo;
+            return carryLabNo == null ? "" : carryLabNo;
         }
 
         public String getCarryLoc() {
-            return carryLoc;
-        }
-
-        public void setCarryLoc(String carryLoc) {
-            this.carryLoc = carryLoc;
+            return carryLoc == null ? "" : carryLoc;
         }
 
         public String getCarryNo() {
-            return carryNo;
-        }
-
-        public void setCarryNo(String carryNo) {
-            this.carryNo = carryNo;
+            return carryNo == null ? "" : carryNo;
         }
 
         public String getCarryStatus() {
-            return carryStatus;
-        }
-
-        public void setCarryStatus(String carryStatus) {
-            this.carryStatus = carryStatus;
+            return carryStatus == null ? "" : carryStatus;
         }
 
         public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
+            return id == null ? "" : id;
         }
 
         public String getPatName() {
-            return patName;
-        }
-
-        public void setPatName(String patName) {
-            this.patName = patName;
+            return patName == null ? "" : patName;
         }
 
         public String getRecDate() {
-            return recDate;
-        }
-
-        public void setRecDate(String recDate) {
-            this.recDate = recDate;
+            return recDate == null ? "" : recDate;
         }
 
         public String getRecTime() {
-            return recTime;
-        }
-
-        public void setRecTime(String recTime) {
-            this.recTime = recTime;
+            return recTime == null ? "" : recTime;
         }
 
         public String getRecUserName() {
-            return recUserName;
-        }
-
-        public void setRecUserName(String recUserName) {
-            this.recUserName = recUserName;
+            return recUserName == null ? "" : recUserName;
         }
 
         public String getSpecName() {
-            return specName;
-        }
-
-        public void setSpecName(String specName) {
-            this.specName = specName;
+            return specName == null ? "" : specName;
         }
 
         public String getTranStatus() {
-            return tranStatus;
+            return tranStatus == null ? "" : tranStatus;
         }
 
-        public void setTranStatus(String tranStatus) {
-            this.tranStatus = tranStatus;
-        }
         public String getStatusDesc() {
-            return statusDesc;
+            return statusDesc == null ? "" : statusDesc;
         }
 
-        public void setStatusDesc(String statusDesc) {
-            this.statusDesc = statusDesc;
+        public String getAuditFlag() {
+            return auditFlag == null ? "" : auditFlag;
         }
     }
 }

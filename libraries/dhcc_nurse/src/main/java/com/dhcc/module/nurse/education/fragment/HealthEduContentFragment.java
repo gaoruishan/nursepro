@@ -15,7 +15,7 @@ import com.dhcc.module.nurse.education.HealthEduApiManager;
 import com.dhcc.module.nurse.education.bean.EduSubjectListBean;
 import com.dhcc.module.nurse.education.bean.HealthEduBean;
 import com.dhcc.module.nurse.education.bean.HealthEduContentBean;
-import com.dhcc.module.nurse.params.SaveEduParams;
+import com.dhcc.module.nurse.education.SaveEduParams;
 import com.dhcc.res.infusion.CustomSelectView;
 
 import java.util.List;

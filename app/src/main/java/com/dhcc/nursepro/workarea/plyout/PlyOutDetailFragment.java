@@ -124,6 +124,7 @@ public class PlyOutDetailFragment extends BaseFragment {
 
         HashMap<String, String> map = new HashMap<>();
         map.put("carryNo", carryNo);
+        map.put("transNo", carryNo);
         if (!saveFlag.equals("")) {
             map.put("labNo", carryLabNo);
             map.put("locDr", carryLocDr);

@@ -1,0 +1,26 @@
+{
+  "carryFlag": "0",
+  "detailList": [
+    {
+      "bedNo": "01",
+      "carryLabDesc": "生化全套(大)",
+      "carryLabNo": "0000001762",
+      "carryLoc": "内分泌科护理单元",
+      "carryNo": "2022041210393612177",
+      "carryStatus": "C",
+      "id": "104",
+      "patName": "浦冰",
+      "recDate": "12/31/1840",
+      "recLocDesc": "",
+      "recTime": "",
+      "recUserName": "",
+      "specName": "血清",
+      "statusDesc": "建单",
+      "tranStatus": "未接收"
+    }
+  ],
+  "msg": "成功",
+  "msgcode": "999999",
+  "status": "0",
+  "transContainer": ""
+}

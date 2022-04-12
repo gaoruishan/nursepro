@@ -4,7 +4,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
-import com.dhcc.module.nurse.params.SaveEduParams;
+import com.dhcc.module.nurse.education.SaveEduParams;
 import com.dhcc.res.infusion.bean.SheetListBean;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

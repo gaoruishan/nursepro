@@ -21,7 +21,7 @@ import com.dhcc.module.nurse.education.HealthEduApiManager;
 import com.dhcc.module.nurse.education.adapter.HealthEduItemAdapter;
 import com.dhcc.module.nurse.education.bean.EduItemListBean;
 import com.dhcc.module.nurse.education.bean.HealthEduBean;
-import com.dhcc.module.nurse.params.SaveEduParams;
+import com.dhcc.module.nurse.education.SaveEduParams;
 import com.dhcc.res.infusion.CustomSelectView;
 import com.google.gson.Gson;
 

@@ -1,4 +1,4 @@
-package com.dhcc.custom.ui;
+package com.dhcc.module.nurse.custom.ui;
 
 import com.dhcc.res.custom.bean.LeftSheetViewBean;
 import com.dhcc.res.custom.bean.TopTabViewBean;

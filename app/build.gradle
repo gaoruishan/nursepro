@@ -8,7 +8,7 @@ android {
         minSdkVersion rootProject.android.minSdkVersion
         targetSdkVersion rootProject.android.targetSdkVersion
         versionCode 15
-        versionName "3.3"
+        versionName "3.3" //3.3请求Nur.PDA下 3.4请求Nur.MNIS
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }

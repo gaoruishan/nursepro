@@ -1,4 +1,4 @@
-package com.dhcc.custom;
+package com.dhcc.module.nurse.custom;
 
 import com.base.commlibs.NurseAPI;
 import com.base.commlibs.http.CommWebService;
@@ -6,10 +6,10 @@ import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.http.ParserUtil;
 import com.base.commlibs.http.ServiceCallBack;
 import com.base.commlibs.utils.ReflectUtil;
-import com.dhcc.custom.bean.CustomListData;
-import com.dhcc.custom.bean.CustomScanInfo;
-import com.dhcc.custom.bean.CustomUiConfigBean;
-import com.dhcc.custom.bean.MainSubListBean;
+import com.dhcc.module.nurse.custom.bean.CustomListData;
+import com.dhcc.module.nurse.custom.bean.CustomScanInfo;
+import com.dhcc.module.nurse.custom.bean.CustomUiConfigBean;
+import com.dhcc.module.nurse.custom.bean.MainSubListBean;
 
 import java.util.HashMap;
 

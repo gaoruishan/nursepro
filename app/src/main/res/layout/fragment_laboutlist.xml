@@ -90,68 +90,44 @@
             android:background="@color/blue_light"
             android:orientation="horizontal">
             <RelativeLayout
+                android:id="@+id/view_labout_show0"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="@dimen/dp_1"
                 android:layout_weight="1">
 
-                <View
-                    android:id="@+id/view_labout_show0"
-                    android:layout_width="@dimen/dp_45"
-                    android:layout_height="@dimen/dp_2"
-                    android:layout_centerInParent="true"
-                    android:background="@color/blue" />
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/view_labout_show1"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="@dimen/dp_1"
                 android:layout_weight="1">
 
-                <View
-                    android:id="@+id/view_labout_show1"
-                    android:layout_width="@dimen/dp_45"
-                    android:layout_height="@dimen/dp_2"
-                    android:layout_centerInParent="true"
-                    android:background="@color/blue" />
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/view_labout_show2"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="@dimen/dp_1"
                 android:layout_weight="1">
 
-                <View
-                    android:id="@+id/view_labout_show2"
-                    android:layout_width="@dimen/dp_45"
-                    android:layout_height="@dimen/dp_2"
-                    android:layout_centerInParent="true"
-                    android:background="@color/blue" />
+
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/view_labout_show3"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="@dimen/dp_1"
                 android:layout_weight="1">
 
-                <View
-                    android:id="@+id/view_labout_show3"
-                    android:layout_width="@dimen/dp_45"
-                    android:layout_height="@dimen/dp_2"
-                    android:layout_centerInParent="true"
-                    android:background="@color/blue" />
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/view_labout_show4"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="@dimen/dp_1"
                 android:layout_weight="1">
 
-                <View
-                    android:id="@+id/view_labout_show4"
-                    android:layout_width="@dimen/dp_45"
-                    android:layout_height="@dimen/dp_2"
-                    android:layout_centerInParent="true"
-                    android:background="@color/blue" />
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>

@@ -1,4 +1,4 @@
-package com.dhcc.custom.ui;
+package com.dhcc.module.nurse.custom.ui;
 
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -13,12 +13,12 @@ import com.blankj.utilcode.util.SPStaticUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.dhcc.custom.CustomApiManager;
-import com.dhcc.custom.CustomOrderAdapter;
-import com.dhcc.custom.base.BaseCustomFragment;
-import com.dhcc.custom.bean.CustomListData;
-import com.dhcc.custom.bean.CustomScanInfo;
-import com.dhcc.custom.bean.CustomUiConfigBean;
+import com.dhcc.module.nurse.custom.CustomApiManager;
+import com.dhcc.module.nurse.custom.CustomOrderAdapter;
+import com.dhcc.module.nurse.custom.base.BaseCustomFragment;
+import com.dhcc.module.nurse.custom.bean.CustomListData;
+import com.dhcc.module.nurse.custom.bean.CustomScanInfo;
+import com.dhcc.module.nurse.custom.bean.CustomUiConfigBean;
 import com.dhcc.module.nurse.R;
 import com.dhcc.res.custom.CustomBottomView;
 import com.dhcc.res.custom.bean.ActionBarBean;

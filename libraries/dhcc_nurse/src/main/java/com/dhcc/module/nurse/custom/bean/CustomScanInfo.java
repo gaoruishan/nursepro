@@ -1,4 +1,4 @@
-package com.dhcc.custom.bean;
+package com.dhcc.module.nurse.custom.bean;
 
 import com.base.commlibs.http.CommResult;
 

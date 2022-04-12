@@ -9,7 +9,7 @@ import com.base.commlibs.utils.SchDateTimeUtil;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ToastUtils;
-import com.dhcc.custom.ui.CustomFragment;
+import com.dhcc.module.nurse.custom.ui.CustomFragment;
 import com.dhcc.module.nurse.accompany.AccompanyFragment;
 import com.dhcc.module.nurse.bloodsugar.BloodSugarFragment;
 import com.dhcc.module.nurse.education.HealthEduFragment;

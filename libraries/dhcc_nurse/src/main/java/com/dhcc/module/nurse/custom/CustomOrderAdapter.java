@@ -1,11 +1,11 @@
-package com.dhcc.custom;
+package com.dhcc.module.nurse.custom;
 
 import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.dhcc.custom.bean.CustomListData;
+import com.dhcc.module.nurse.custom.bean.CustomListData;
 import com.dhcc.module.nurse.R;
 import com.dhcc.res.custom.bean.ListViewBean;
 

@@ -125,6 +125,7 @@ public class LocalTestManager {
 //        l.add("getScanInfo");
 //        l.add("getIFOrdListByBarCode");
 //        l.add("GetTempDateMeasureByDay");
+//        l.add("getLabOutDetail");
 
     }
 

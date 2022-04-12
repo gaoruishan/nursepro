@@ -9,7 +9,6 @@ import com.base.commlibs.http.ServiceCallBack;
 import com.dhcc.module.nurse.education.bean.EduOrdListBean;
 import com.dhcc.module.nurse.education.bean.HealthEduBean;
 import com.dhcc.module.nurse.education.bean.HealthEduContentBean;
-import com.dhcc.module.nurse.params.SaveEduParams;
 
 import java.util.HashMap;
 
