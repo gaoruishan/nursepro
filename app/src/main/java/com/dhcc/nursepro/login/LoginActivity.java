@@ -33,6 +33,7 @@ import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommHttp;
 import com.base.commlibs.listener.CustomTextWatcher;
+import com.base.commlibs.log.NurLogFragment;
 import com.base.commlibs.utils.AppUtil;
 import com.base.commlibs.utils.SchDateTimeUtil;
 import com.base.commlibs.utils.TransBroadcastUtil;
@@ -46,7 +47,6 @@ import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.dhcc.module.nurse.ca.CaLoginActivity;
-import com.base.commlibs.log.NurLogFragment;
 import com.dhcc.nursepro.Activity.MainActivity;
 import com.dhcc.nursepro.R;
 import com.dhcc.nursepro.greendao.DaoSession;
@@ -125,9 +125,10 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
         getBroadCastConfig();
 
         verifyAudioPermissions(this);
-        requestAlertWindowPermission();
+
         initVoice();
         if (getApplicationContext() != null) {
+            //Voip 判断
             Intent i = NurLinkUtil.getMLinkIntent();
             if (i == null) {
                 return;
@@ -139,16 +140,23 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
             } else {
                 startService(i);
             }
+            // 勿打扰权限-铃声
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
+                    && !((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).isNotificationPolicyAccessGranted()) {
+                Intent intent = new Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
+                startActivity(intent);
+            }
+            //悬浮窗
+            requestAlertWindowPermission();
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
-                && !((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).isNotificationPolicyAccessGranted()) {
-            Intent intent = new Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
-            startActivity(intent);
-        }
+
     }
 
     private static final int REQUEST_CODE = 1;
 
+    /**
+     * 悬浮窗-允许其他应用上
+     */
     private void requestAlertWindowPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (Settings.canDrawOverlays(this)) {

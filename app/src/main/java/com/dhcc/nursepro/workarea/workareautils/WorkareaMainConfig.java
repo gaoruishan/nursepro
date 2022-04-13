@@ -71,8 +71,8 @@ import java.util.Map;
  * Time:15:44
  */
 public class WorkareaMainConfig {
-    public List<MainConfigBean.MainListBean> getMainCoinfgList(MainConfigBean mainConfigBean){
-        if ("1".equals(SPUtils.getInstance().getString(SharedPreference.SINGLEMODEL))){
+    public List<MainConfigBean.MainListBean> getMainCoinfgList(MainConfigBean mainConfigBean) {
+        if ("1".equals(SPUtils.getInstance().getString(SharedPreference.SINGLEMODEL))) {
             SharedPreference.FRAGMENTARY = new ArrayList();
         }
         //添加测试
@@ -83,57 +83,6 @@ public class WorkareaMainConfig {
     }
 
 
-    /**
-     *
-     * {
-     *     "curDateTime": "2021-06-16 14:52:49",
-     *     "ifVoice": "Y",
-     *     "mainList": [
-     *         {
-     *             "mainSubList": [
-     *                 {
-     *                     "moduleCode": "BEDMAP",
-     *                     "moduleDesc": "床位图"
-     *                 },
-     *                 {
-     *                     "moduleCode": "MODELDETAIL",
-     *                     "moduleDesc": "护理病历"
-     *                 },
-     *                 {
-     *                     "moduleCode": "NURTOUR",
-     *                     "moduleDesc": "护理巡视"
-     *                 },
-     *                 {
-     *                     "moduleCode": "BLOOD",
-     *                     "moduleDesc": "输血系统"
-     *                 },
-     *                 {
-     *                     "moduleCode": "MODELDETAIL",
-     *                     "moduleDesc": "护理病历"
-     *                 },
-     *                 {
-     *                     "moduleCode": "HealthEduFragment",
-     *                     "moduleDesc": "健康宣教"
-     *                 },
-     *                 {
-     *                     "moduleCode": "TaskOverviewFragment",
-     *                     "moduleDesc": "任务总览"
-     *                 },
-     *                 {
-     *                     "moduleCode": "NurPlanFragment",
-     *                     "moduleDesc": "护理计划"
-     *                 },
-     *                 {
-     *                     "moduleCode": "BloodSugarFragment",
-     *                     "moduleDesc": "血糖采集"
-     *                 }
-     *             ],
-     *             "menuName": "综合"
-     *         }
-     * }
-     *
-     * @param mainList
-     */
     private void modifyMainList(List<MainConfigBean.MainListBean> mainList) {
         for (MainConfigBean.MainListBean mainListBean : mainList) {
             for (MainConfigBean.MainListBean.MainSubListBean mainSubListBean : mainListBean.getMainSubList()) {
@@ -150,10 +99,10 @@ public class WorkareaMainConfig {
                         SharedPreference.FRAGMENTARY.add(mainSubListBean.toMap());
 
                         Map mapVital = new HashMap();
-                        mapVital.put("desc","生命体征");
+                        mapVital.put("desc", "生命体征");
                         mapVital.put("fragName", VitalSignRecordFragment.class.getName());
-                        mapVital.put("fragicon",R.drawable.icon_vitalsign);
-                        mapVital.put("singleModel","2");
+                        mapVital.put("fragicon", R.drawable.icon_vitalsign);
+                        mapVital.put("singleModel", "2");
                         SharedPreference.FRAGMENTARY.add(mapVital);
                         break;
                     case "EVENTS":
@@ -186,10 +135,10 @@ public class WorkareaMainConfig {
                         SharedPreference.FRAGMENTARY.add(mainSubListBean.toMap());
 
                         Map mapCheck = new HashMap();
-                        mapCheck.put("desc","检查报告");
+                        mapCheck.put("desc", "检查报告");
                         mapCheck.put("fragName", CheckResultListFragment.class.getName());
-                        mapCheck.put("fragicon",R.drawable.icon_check);
-                        mapCheck.put("singleModel","2");
+                        mapCheck.put("fragicon", R.drawable.icon_check);
+                        mapCheck.put("singleModel", "2");
                         SharedPreference.FRAGMENTARY.add(mapCheck);
                         break;
                     case "LAB":
@@ -198,10 +147,10 @@ public class WorkareaMainConfig {
                         SharedPreference.FRAGMENTARY.add(mainSubListBean.toMap());
 
                         Map mapLab = new HashMap();
-                        mapLab.put("desc","检验结果");
+                        mapLab.put("desc", "检验结果");
                         mapLab.put("fragName", LabResultListFragment.class.getName());
-                        mapLab.put("fragicon",R.drawable.icon_lab);
-                        mapLab.put("singleModel","2");
+                        mapLab.put("fragicon", R.drawable.icon_lab);
+                        mapLab.put("singleModel", "2");
                         SharedPreference.FRAGMENTARY.add(mapLab);
                         break;
                     case "OPERATION":
@@ -361,19 +310,19 @@ public class WorkareaMainConfig {
                         mainSubListBean.setImgResouseId(R.drawable.icon_blood);
                         SharedPreference.FRAGMENTARY.add(mainSubListBean.toMap());
                         break;
-                   case "PatBindInfusionFragment":
-                       //w ##class(Nur.DHCNurPdaModule).Save("输液绑定^PatBindInfusionFragment^33^Y^")
+                    case "PatBindInfusionFragment":
+                        //w ##class(Nur.DHCNurPdaModule).Save("输液绑定^PatBindInfusionFragment^33^Y^")
                         mainSubListBean.setFragmentClassName(PatBindInfusionFragment.class.getName());
                         mainSubListBean.setImgResouseId(R.drawable.icon_blood);
                         SharedPreference.FRAGMENTARY.add(mainSubListBean.toMap());
                         break;
-                  case "NurLogFragment":
-                       //w ##class(Nur.DHCNurPdaModule).Save("日志^NurLogFragment^33^Y^")
+                    case "NurLogFragment":
+                        //w ##class(Nur.DHCNurPdaModule).Save("日志^NurLogFragment^33^Y^")
                         mainSubListBean.setFragmentClassName(NurLogFragment.class.getName());
                         mainSubListBean.setImgResouseId(R.drawable.icon_blood);
                         SharedPreference.FRAGMENTARY.add(mainSubListBean.toMap());
                         break;
-                 case "CustomFragment":
+                    case "CustomFragment":
                         mainSubListBean.setFragmentClassName(CustomFragment.class.getName());
                         mainSubListBean.setImgResouseId(R.drawable.icon_blood);
                         SharedPreference.FRAGMENTARY.add(mainSubListBean.toMap());
@@ -389,26 +338,26 @@ public class WorkareaMainConfig {
      * 添加测模块
      * @param mainList
      */
-    private void testModel(List<MainConfigBean.MainListBean> mainList ) {
+    private void testModel(List<MainConfigBean.MainListBean> mainList) {
         if (BuildConfig.DEBUG) {
             MainConfigBean.MainListBean mainListTestBean = new MainConfigBean.MainListBean();
             List<MainConfigBean.MainListBean.MainSubListBean> subList = new ArrayList<>();
 
-            subList.add(new MainConfigBean.MainListBean.MainSubListBean("BloodSugarFragment","血糖"));
-            subList.add(new MainConfigBean.MainListBean.MainSubListBean("PatHandover","患者交接"));
-            subList.add(new MainConfigBean.MainListBean.MainSubListBean("InfusionSituation","输液信息"));
-            subList.add(new MainConfigBean.MainListBean.MainSubListBean("CustomFragment","自定义界面"));
-            subList.add(new MainConfigBean.MainListBean.MainSubListBean("web","web请求扫码","/pda/hello.html"));
-            subList.add(new MainConfigBean.MainListBean.MainSubListBean("web","web扫码页面","/pda/test-scanpat.html"));
-            subList.add(new MainConfigBean.MainListBean.MainSubListBean("web","web测试Vue","/pda/test-vue.html"));
-            subList.add(new MainConfigBean.MainListBean.MainSubListBean("web","web组件Vue","/pda/fogbreath-scanpat.html"));
-            subList.add(new MainConfigBean.MainListBean.MainSubListBean("web","web测hisui","/pda/test-hisui-list.html"));
-            subList.add(new MainConfigBean.MainListBean.MainSubListBean("web","web接单列表","/pda/recieveOrderList-scanpat.html"));
-            subList.add(new MainConfigBean.MainListBean.MainSubListBean("AccompanyFragment","陪护人记录"));
-            subList.add(new MainConfigBean.MainListBean.MainSubListBean("OutManageFragment","外出管理"));
-            subList.add(new MainConfigBean.MainListBean.MainSubListBean("PatBindRfid","RFID绑定"));
-            subList.add(new MainConfigBean.MainListBean.MainSubListBean("PatBindInfusionFragment","输液绑定"));
-            subList.add(new MainConfigBean.MainListBean.MainSubListBean("NurLogFragment","日志"));
+            subList.add(new MainConfigBean.MainListBean.MainSubListBean("BloodSugarFragment", "血糖"));
+            subList.add(new MainConfigBean.MainListBean.MainSubListBean("PatHandover", "患者交接"));
+            subList.add(new MainConfigBean.MainListBean.MainSubListBean("InfusionSituation", "输液信息"));
+            subList.add(new MainConfigBean.MainListBean.MainSubListBean("CustomFragment", "自定义界面"));
+            subList.add(new MainConfigBean.MainListBean.MainSubListBean("web", "web请求扫码", "/pda/hello.html"));
+            subList.add(new MainConfigBean.MainListBean.MainSubListBean("web", "web扫码页面", "/pda/test-scanpat.html"));
+            subList.add(new MainConfigBean.MainListBean.MainSubListBean("web", "web测试Vue", "/pda/test-vue.html"));
+            subList.add(new MainConfigBean.MainListBean.MainSubListBean("web", "web组件Vue", "/pda/fogbreath-scanpat.html"));
+            subList.add(new MainConfigBean.MainListBean.MainSubListBean("web", "web测hisui", "/pda/test-hisui-list.html"));
+            subList.add(new MainConfigBean.MainListBean.MainSubListBean("web", "web接单列表", "/pda/recieveOrderList-scanpat.html"));
+            subList.add(new MainConfigBean.MainListBean.MainSubListBean("AccompanyFragment", "陪护人记录"));
+            subList.add(new MainConfigBean.MainListBean.MainSubListBean("OutManageFragment", "外出管理"));
+            subList.add(new MainConfigBean.MainListBean.MainSubListBean("PatBindRfid", "RFID绑定"));
+            subList.add(new MainConfigBean.MainListBean.MainSubListBean("PatBindInfusionFragment", "输液绑定"));
+            subList.add(new MainConfigBean.MainListBean.MainSubListBean("NurLogFragment", "日志"));
 
             mainListTestBean.setMenuName("测试");
             mainListTestBean.setMainSubList(subList);
@@ -425,7 +374,7 @@ public class WorkareaMainConfig {
             @Override
             public void onSuccess(MainConfigBean mainConfigBean) {
                 if (mainConfigBean.getSchStDateTime() != null && mainConfigBean.getSchEnDateTime() != null) {
-                    SchDateTimeUtil.putSchStartEndDateTime(mainConfigBean.getSchStDateTime(),mainConfigBean.getSchEnDateTime());
+                    SchDateTimeUtil.putSchStartEndDateTime(mainConfigBean.getSchStDateTime(), mainConfigBean.getSchEnDateTime());
 
                     if (StringUtils.isEmpty(mainConfigBean.getCurDateTime())) {
                         SPUtils.getInstance().put(SharedPreference.CURDATETIME, mainConfigBean.getSchEnDateTime());
@@ -439,13 +388,14 @@ public class WorkareaMainConfig {
 //                workAreaAdapter.setNewData(listMainConfig);
                 SPUtils.getInstance().put(SharedPreference.BLOODSCANTIMES, mainConfigBean.getScantimes());
                 DataCache.saveJson(mainConfigBean, SharedPreference.DATA_MAIN_CONFIG);
-                if (SPUtils.getInstance().getString(SharedPreference.SINGLEMODEL,"0").equals("0")){
+                if (SPUtils.getInstance().getString(SharedPreference.SINGLEMODEL, "0").equals("0")) {
                     activity.startActivity(new Intent(activity, MainActivity.class));
-                }else {
+                } else {
                     activity.startActivity(new Intent(activity, SingleMainActivity.class));
                 }
                 activity.finish();
             }
+
             @Override
             public void onFail(String code, String msg) {
 //                showToast("error" + code + ":" + msg);
