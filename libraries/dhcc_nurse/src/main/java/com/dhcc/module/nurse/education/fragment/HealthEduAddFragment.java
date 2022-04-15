@@ -50,15 +50,18 @@ public class HealthEduAddFragment extends BaseNurseFragment {
         if (eduSubjectList == null) {
             return;
         }
-        //添加排序
+        //分组
         Map<String, EduSubjectListBean> parMap = new HashMap<>();
+        //依次排序
+        List<String> mIdList = new ArrayList<>();
         for (EduSubjectListBean bean : eduSubjectList) {
             if ("0".equals(bean.getPid())) {
                 parMap.put(bean.getId(), bean);
+                mIdList.add(bean.getId());
             }
         }
         List<EduSubjectListBean> newEduSubjectList = new ArrayList<>();
-        for (String key : parMap.keySet()) {
+        for (String key : mIdList) {
             EduSubjectListBean eduSubjectListBean = parMap.get(key);
             //添加父
             newEduSubjectList.add(eduSubjectListBean);
@@ -66,6 +69,8 @@ public class HealthEduAddFragment extends BaseNurseFragment {
             for (EduSubjectListBean bean : eduSubjectList) {
                 if (key.equals(bean.getPid())) {
                     newEduSubjectList.add(bean);
+                    //默认收缩
+                    bean.setHide(hideFlag);
                 }
             }
         }

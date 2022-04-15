@@ -64,6 +64,11 @@ public abstract class BaseNurseFragment extends BaseCommFragment {
     public String eduRecordId;
 
     /**
+     * 配置
+     */
+    public boolean hideFlag = true; //隐藏目录
+
+    /**
      * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
      */
     public static int dip2px(Context context, float dpValue) {

@@ -115,6 +115,7 @@ public class HealthEduFragment extends BaseNurseFragment {
             @Override
             public void onSuccess(HealthEduBean bean, String type) {
                 mBean = bean;
+                hideFlag = "".equals(bean.getHideFlag());
                 healthEducationEndAdapter.setNewData(bean.getEducationList().getData());
                 healthEducationNeedAdapter.setCustomDatas(bean.getEduTaskList(),bean.getEduSubjectList());
                 DataCache.saveJson(bean, HealthEduBean.class.getName());

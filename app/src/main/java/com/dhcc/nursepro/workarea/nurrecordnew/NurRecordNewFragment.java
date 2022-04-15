@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
@@ -674,8 +675,11 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                     }
 
                     if ("TextElement".equals(element.getElementType()) && "true".equals(element.getSignatureAuto())) {
-//                        auditUserCode = ((EditText) viewHashMap.get(element.getElementId())).getText().toString();
-                        String userStr = "CA" + ((EditText) viewHashMap.get(element.getElementId())).getText().toString() + "*" + spUtils.getString(SharedPreference.USERCODE);
+                        String usrDesc= ((EditText) viewHashMap.get(element.getElementId())).getText().toString();
+                        if(TextUtils.isEmpty(usrDesc)){
+                            usrDesc = spUtils.getString(SharedPreference.USERNAME);
+                        }
+                        String userStr = "CA" + usrDesc + "*" + spUtils.getString(SharedPreference.USERCODE);
                         stringBuilder.append("\"")
                                 .append(element.getElementType())
                                 .append("_")

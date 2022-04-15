@@ -23,6 +23,8 @@ public class HealthEduBean extends CommResult {
      */
 
     private String curDate;
+    //隐藏子目录 默认"" 隐藏
+    private String hideFlag;
 
     private List<EduTaskListBean> eduTaskList;
     //已宣教
@@ -32,6 +34,9 @@ public class HealthEduBean extends CommResult {
     //添加宣教 主题勾选
     private List<EduSubjectListBean> eduSubjectList;
 
+    public String getHideFlag() {
+        return hideFlag == null ? "" : hideFlag;
+    }
 
     public List<EduTaskListBean> getEduTaskList() {
         if (eduTaskList == null) {
