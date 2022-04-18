@@ -24,6 +24,7 @@ public class MServiceNewOrd extends Service {
     public void onCreate() {
         super.onCreate();
 
+        startForegroundSdkO(); // EH 2022-04-08 解决android 8.0 退出崩溃
     }
 
     @Override
@@ -56,6 +57,7 @@ public class MServiceNewOrd extends Service {
         mHandler.sendEmptyMessage(0);
         acquireWakeLock();
 
+        startForegroundSdkO();
         return START_STICKY;
     }
 
@@ -83,5 +85,17 @@ public class MServiceNewOrd extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         return null;
+    }
+
+    private  void startForegroundSdkO() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            android.app.NotificationManager notificationManager = (android.app.NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            android.app.NotificationChannel mChannel = new android.app.NotificationChannel("10000", "护士站", android.app.NotificationManager.IMPORTANCE_HIGH);
+            if (notificationManager != null) {
+                notificationManager.createNotificationChannel(mChannel);
+                android.app.Notification notification = new android.app.Notification.Builder(getApplicationContext(), "10000").build();
+                startForeground(1001, notification);
+            }
+        }
     }
 }
