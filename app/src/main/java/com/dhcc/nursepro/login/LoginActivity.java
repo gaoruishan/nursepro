@@ -45,6 +45,7 @@ import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.SPStaticUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
+import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.dhcc.module.nurse.ca.CaLoginActivity;
 import com.dhcc.nursepro.Activity.MainActivity;
@@ -525,6 +526,13 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
 
                 UserUtil.setUserConfig(loginBean);
                 spUtils.put(SharedPreference.CURDATETIME, loginBean.getCurDateTime());
+                //校验系统时间
+                if (!TextUtils.isEmpty(loginBean.getCurDateTime())) {
+                    long offTime = TimeUtils.string2Millis(loginBean.getCurDateTime()) - System.currentTimeMillis();
+                    boolean isOk = (5*60*1000) > offTime && offTime > -(5*60*1000); //允许偏差5分钟
+                    Log.e(TAG, "(LoginActivity:372) offTime:" + offTime+","+isOk);
+                    if (!isOk) ToastUtils.showLong("系统时间偏差5分钟,请检查PDA!");
+                }
                 //保存科室列表，设置界面更换病区会用到
                 List<Map<String, String>> list = new ArrayList<>();
                 for (int i = 0; i < loginBean.getLocs().size(); i++) {

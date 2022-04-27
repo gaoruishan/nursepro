@@ -8,6 +8,7 @@ import android.util.TypedValue;
 import android.view.View;
 
 import com.base.commlibs.MessageEvent;
+import com.blankj.utilcode.util.TimeUtils;
 import com.dhcc.res.infusion.CountView;
 import com.grs.dhcc_res.R;
 
@@ -26,13 +27,26 @@ public class MessageUtil {
     public static final String HH_MM_SS = "HH:mm:ss";
     public static final TimeZone GMT = TimeZone.getTimeZone("GMT");
     public static boolean setCountTime(Context mContext, CountView cvCount, String testStartTime, String formatEndTime, boolean otherOk,CountView.OnCountViewStatusListener listener,String ... arg) {
-
-        SimpleDateFormat formatter1 = new SimpleDateFormat(HH_MM_SS);
+        SimpleDateFormat formatter1;
+        if (testStartTime.contains(" ")) {
+            formatter1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        } else {
+            formatter1 = new SimpleDateFormat(HH_MM_SS);
+        }
         String formatNowTime = formatter1.format(new Date(System.currentTimeMillis()));
+        Log.e("TAG", "(MessageUtil:36) formatNowTime:" + formatNowTime);
+        long offTime = 0, offTime2 = 0;
+        if (testStartTime.contains(" ")) {
+            //结束时间> 现在时间
+            offTime = getBetweenTime(formatEndTime, formatNowTime);
+            //现在时间> 开始时间
+            offTime2 = getBetweenTime(formatNowTime, testStartTime);
+        } else {
         //结束时间> 现在时间
-        long offTime = getFormatTime(formatEndTime) - getFormatTime(formatNowTime);
+            offTime = getFormatTime(formatEndTime) - getFormatTime(formatNowTime);
         //现在时间> 开始时间
-        long offTime2 = getFormatTime(formatNowTime) - getFormatTime(testStartTime);
+            offTime2 = getFormatTime(formatNowTime) - getFormatTime(testStartTime);
+        }
 
         //没有复核/复核人 并且时间大于0
         boolean isOk = offTime >= 0 && offTime2 >= 0 && otherOk;
@@ -87,4 +101,14 @@ public class MessageUtil {
         return 0;
     }
 
+    private static long getBetweenTime(String formatEndTime, String formatNowTime) {
+        if (!TextUtils.isEmpty(formatEndTime)) {
+            //获取日期时间毫秒值
+            long l = TimeUtils.string2Millis(formatEndTime)-TimeUtils.string2Millis(formatNowTime);
+            if (l > 0) {
+                return l / 1000;
+            }
+        }
+        return 0;
+    }
 }
