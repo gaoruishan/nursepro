@@ -1,108 +1,87 @@
 {
-  "msg": "成功",
-  "msgcode": "999999",
-  "rules": "字段为空,则不显示UI,优先级高的,覆盖优先级低",
   "actionBar": {
-    "title": "测试标题",
     "rightText1": "刷新",
-    "rightText2": "保存",
-    "rightImage1": "",
-    "rightImage2": "",
-    "rightText1Action": "refresh",
-    "rightText2Action": "saveEdu",
-    "desc": "actionBar控制顶部标题栏,右侧文本或图片"
+    "title": "测试标题"
   },
-  "scanView": {
-    "icon": "label",
-    "title": "扫腕带",
-    "content": "这是提示内容",
-    "desc": "scanView控制扫码页,icon图片默认腕带,标题和提示",
-    "param": "barcode",
-    "method": "getScanInfo"
-  },
-  "topTabView": {
+  "bottomView": {
     "list": [
       {
-        "title": "测试tab1",
-        "code": "tab1"
+        "code": "S",
+        "title": "保存"
       },
       {
-        "title": "测试tab2",
-        "code": "tab2"
+        "code": "C",
+        "title": "取消"
       }
     ],
-    "param": "tabCode",
-    "desc": "topTabView控制顶部Tab页,list列表,param参数名"
+    "method": "saveEdu",
+    "type": "1"
+  },
+  "dateTimeView1": {
+    "end": "2022-01-27 23:59",
+    "param": "dateTime",
+    "start": "2022-01-27 00:00"
   },
   "leftSheetView": {
     "list": [
       {
-        "title": "测试sheet1",
-        "code": "sheet1"
+        "code": "sheet1",
+        "title": "测试sheet1"
       },
       {
-        "title": "测试sheet2",
-        "code": "sheet2"
-      },
-      {
-        "title": "测试sheet3",
-        "code": "sheet3"
+        "code": "sheet2",
+        "title": "测试sheet2"
       }
     ],
-    "param": "SheetCode",
-    "desc": "leftSheetView控制左侧Sheet页,list列表,param参数名"
-  },
-  "dateTimeView1": {
-    "start": "2022-01-27 00:00",
-    "end": "2022-01-27 23:59",
-    "param": "dateTime",
-    "desc": "dateTimeView控制日期时间,start或end开始结束时间,param参数名"
+    "param": "SheetCode"
   },
   "listView": {
     "dateTimeView2": {
-      "start": "2022-01-27 00:00",
-      "end": "2022-01-27 23:59",
+      "end": "2022-01-29",
       "param": "dateTime",
-      "desc": "dateTimeView控制日期时间,start或end开始结束时间,param参数名;会覆盖掉上层dateTimeView"
+      "start": "2022-01-28"
     },
     "list": {
-      "header": {
-        "content": "这是头部"
-      },
       "content": {
-        "type": "text",
         "line1Content": {
-          "code": "DisposeStatDesc",
-          "style": {
-            "color": "#DEFECC",
-            "size": "20"
-          }
+          "code": "DisposeStatDesc"
         },
         "line2Content": {
-          "code": "测试list内容1111"
-        }
+          "code": "CreateDateTime"
+        },
+        "line3Content": {
+          "code": "CreateDateTime"
+        },
+        "type": "order"
       },
-      "param": "barcode,tabCode,dateTime,SheetCode",
+      "header": {
+        "content": "测试这是头部"
+      },
       "method": "GetListData",
-      "footer": {
-        "content": "这是尾部"
-      },
-      "desc": "list数据列表配置,param参数,method方法;会覆盖掉上层dateTimeView"
+      "param": "barcode,tabCode,dateTime,SheetCode"
     }
   },
-  "bottomView": {
-    "type": "1",
+  "msg": "",
+  "msgcode": "999999",
+  "scanView": {
+    "content": "这是提示内容",
+    "icon": "label",
+    "method": "getScanInfo",
+    "param": "barcode",
+    "title": "扫腕带"
+  },
+  "status": "0",
+  "topTabView": {
     "list": [
       {
-        "title": "保存",
-        "code": "S"
+        "code": "tab1",
+        "title": "测试tab1"
       },
       {
-        "title": "取消",
-        "code": "C"
+        "code": "tab2",
+        "title": "测试tab2"
       }
     ],
-    "method": "saveEdu"
-  },
-  "status": "0"
+    "param": "tabCode"
+  }
 }

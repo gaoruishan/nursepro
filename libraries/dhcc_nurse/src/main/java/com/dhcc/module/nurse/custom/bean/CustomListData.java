@@ -1,7 +1,6 @@
 package com.dhcc.module.nurse.custom.bean;
 
 import com.base.commlibs.http.CommResult;
-import com.base.commlibs.utils.ReflectUtil;
 
 import java.util.List;
 import java.util.Map;
@@ -49,7 +48,7 @@ public class CustomListData extends CommResult {
      * OrdState : 已执行
      */
 
-    private List<OrdListBean> ordList;
+    private List<Map<String,Object>> ordList;
 
 
     public Map getPatInfo() {
@@ -60,59 +59,12 @@ public class CustomListData extends CommResult {
         this.patInfo = patInfo;
     }
 
-    public List<OrdListBean> getOrdList() {
+    public List<Map<String,Object>> getOrdList() {
         return ordList;
     }
 
-    public void setOrdList(List<OrdListBean> ordList) {
+    public void setOrdList(List<Map<String,Object>> ordList) {
         this.ordList = ordList;
     }
 
-
-    public static class OrdListBean {
-        public String CreateDateTime;
-        public String DisposeStatDesc;
-        public String DoseQtyUnit;
-        public String EpisodeID;
-        public String Notes;
-        public String OeoriId;
-        public String PhOrdQtyUnit;
-        public String PhcinDesc;
-        public String auditDateTime;
-        public String auditUser;
-        public String desDateTime;
-        public String desUser;
-        public String OrdState;
-        /**
-         * ArcimDesc : 地西泮注射液(安定)[10mg:2ml]
-         * DoseQtyUnit : 1 支
-         * PhOrdQtyUnit : 12 支
-         */
-
-        private List<ArcimDescListBean> ArcimDescList;
-
-        private Map map;
-
-        public Map getMap() {
-            if (map != null) {
-                return map;
-            }
-            return ReflectUtil.getPublicFieldsToMap(this);
-        }
-
-        public List<ArcimDescListBean> getArcimDescList() {
-            return ArcimDescList;
-        }
-
-        public void setArcimDescList(List<ArcimDescListBean> ArcimDescList) {
-            this.ArcimDescList = ArcimDescList;
-        }
-
-        public static class ArcimDescListBean {
-            public String ArcimDesc;
-            public String DoseQtyUnit;
-            public String PhOrdQtyUnit;
-
-        }
-    }
 }

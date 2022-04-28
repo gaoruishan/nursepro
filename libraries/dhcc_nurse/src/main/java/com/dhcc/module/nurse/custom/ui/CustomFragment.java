@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommonCallBack;
+import com.base.commlibs.utils.CommDialog;
 import com.base.commlibs.utils.RecyclerViewHelper;
 import com.base.commlibs.utils.SimpleCallBack;
 import com.blankj.utilcode.util.SPStaticUtils;
@@ -104,7 +105,6 @@ public class CustomFragment extends BaseCustomFragment {
             @Override
             public void onSuccess(CustomScanInfo bean, String type) {
                 custom_scan.setVisibility(View.GONE);
-                ToastUtils.showShort(bean.getMsg()+" barCodeType="+bean.getBarCodeType());
                 //请求list数据
                 getListData();
             }
@@ -121,6 +121,7 @@ public class CustomFragment extends BaseCustomFragment {
             @Override
             public void call(String result, int type) {
                 Log.e(TAG,"(CustomFragment.java:112) "+result);
+                getListData();
             }
         });
         doLeftSheetView(bean.getLeftSheetView());
@@ -135,8 +136,7 @@ public class CustomFragment extends BaseCustomFragment {
 
     protected void getListData() {
         String method = mBean.getListView().getList().getMethod();
-//        HashMap<String, String> map = new HashMap<>();
-//        map.put(param, scanInfo);
+        CommDialog.showCommDialog(mContext, "请求参数:" + mTempParam.toString(), "", "", 0, null, true);
         CustomApiManager.getListData(method, mTempParam, new CommonCallBack<CustomListData>() {
             @Override
             public void onFail(String code, String msg) {
@@ -168,6 +168,7 @@ public class CustomFragment extends BaseCustomFragment {
                 @Override
                 public void call(String result, int type) {
                     Log.e(TAG,"(CustomFragment.java:112) "+result);
+                    getListData();
                 }
             });
         }
@@ -184,7 +185,7 @@ public class CustomFragment extends BaseCustomFragment {
                 public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                     String selectCode = list.get(position).getCode();
                     mTempParam.put(leftSheetView.getParam(), selectCode);
-                    ToastUtils.showShort(selectCode);
+                    getListData();
                 }
             });
 
@@ -231,7 +232,7 @@ public class CustomFragment extends BaseCustomFragment {
                 public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                     String selectCode = list.get(position).getCode();
                     mTempParam.put(topTabView.getParam(), selectCode);
-                    ToastUtils.showShort(selectCode);
+                    getListData();
                 }
             });
         }

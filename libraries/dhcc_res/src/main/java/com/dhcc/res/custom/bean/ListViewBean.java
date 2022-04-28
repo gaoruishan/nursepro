@@ -22,18 +22,9 @@ public class ListViewBean {
         return dateTimeView2;
     }
 
-    public void setDateTimeView2(DateTimeViewBean dateTimeView2) {
-        this.dateTimeView2 = dateTimeView2;
-    }
-
     public ListBean getList() {
         return list;
     }
-
-    public void setList(ListBean list) {
-        this.list = list;
-    }
-
 
     public static class ListBean {
         /**
@@ -55,72 +46,42 @@ public class ListViewBean {
             return content;
         }
 
-        public void setContent(ContentBean content) {
-            this.content = content;
-        }
-
         public HeaderBean getHeader() {
             return header;
-        }
-
-        public void setHeader(HeaderBean header) {
-            this.header = header;
         }
 
         public String getMethod() {
             return method;
         }
 
-        public void setMethod(String method) {
-            this.method = method;
-        }
-
         public String getParam() {
             return param;
         }
 
-        public void setParam(String param) {
-            this.param = param;
-        }
 
         public static class ContentBean {
-            /**
-             * code : DisposeStatDesc
-             */
-
-            private Line1ContentBean line1Content;
-            /**
-             * code : CreateDateTime
-             */
-
-            private Line2ContentBean line2Content;
+            private LineContentBean line1Content;
+            private LineContentBean line2Content;
+            private LineContentBean line3Content;
             private String type;
 
-            public Line1ContentBean getLine1Content() {
+            public LineContentBean getLine1Content() {
                 return line1Content;
             }
 
-            public void setLine1Content(Line1ContentBean line1Content) {
-                this.line1Content = line1Content;
-            }
-
-            public Line2ContentBean getLine2Content() {
+            public LineContentBean getLine2Content() {
                 return line2Content;
             }
 
-            public void setLine2Content(Line2ContentBean line2Content) {
-                this.line2Content = line2Content;
+            public LineContentBean getLine3Content() {
+                return line3Content;
             }
 
             public String getType() {
-                return type;
+                return type == null ? "" : type;
             }
 
-            public void setType(String type) {
-                this.type = type;
-            }
-
-            public static class Line1ContentBean {
+            public static class LineContentBean {
                 private String code;
 
                 public String getCode() {
@@ -132,17 +93,6 @@ public class ListViewBean {
                 }
             }
 
-            public static class Line2ContentBean {
-                private String code;
-
-                public String getCode() {
-                    return code;
-                }
-
-                public void setCode(String code) {
-                    this.code = code;
-                }
-            }
         }
 
         public static class HeaderBean {
@@ -152,9 +102,6 @@ public class ListViewBean {
                 return content;
             }
 
-            public void setContent(String content) {
-                this.content = content;
-            }
         }
     }
 }
