@@ -1,0 +1,152 @@
+{
+  "menuList": [
+    {
+      "ModelList": [
+        {
+          "getListMth": "",
+          "getValMth": "",
+          "guId": "dc863a50617045d09d7b9bd41223dde7",
+          "linkModel": "",
+          "modelCode": "DHCNURRYZKHLPGDCRHZLR",
+          "modelName": "入院/转科评估",
+          "modelNum": "",
+          "modelType": "3",
+          "saveMth": "",
+          "wStatus": "0"
+        },
+        {
+          "getListMth": "",
+          "getValMth": "",
+          "guId": "6dca2de8907646b7b621d24364200f1d",
+          "linkModel": "",
+          "modelCode": "DHCNURBarthelLR",
+          "modelName": "日常生活ADL评估",
+          "modelNum": "",
+          "modelType": "3",
+          "saveMth": "",
+          "wStatus": "0"
+        },
+        {
+          "getListMth": "",
+          "getValMth": "",
+          "guId": "704ffd85bcba43dd8550ec2fb961658b",
+          "linkModel": "",
+          "modelCode": "DHCNURYCFXPGJHLJLDCRHZLR",
+          "modelName": "压疮评估",
+          "modelNum": "",
+          "modelType": "3",
+          "saveMth": "",
+          "wStatus": "0"
+        },
+        {
+          "getListMth": "",
+          "getValMth": "",
+          "guId": "165a867cfbb94662ae844dad91a14835",
+          "linkModel": "",
+          "modelCode": "DHCNURDDFXPGJHLJLDLR",
+          "modelName": "跌倒评估",
+          "modelNum": "",
+          "modelType": "3",
+          "saveMth": "",
+          "wStatus": "0"
+        },
+        {
+          "getListMth": "",
+          "getValMth": "",
+          "guId": "09579d9fef1e4cf0b3fc4ae9b99e8768",
+          "linkModel": "",
+          "modelCode": "DHCNURGLHTFXYSPGJHLCSLR",
+          "modelName": "管道评估",
+          "modelNum": "",
+          "modelType": "3",
+          "saveMth": "",
+          "wStatus": "0"
+        },
+        {
+          "getListMth": "",
+          "getValMth": "",
+          "guId": "b0415883177f40c19640044d0b7dc509",
+          "linkModel": "",
+          "modelCode": "DHCNURFKPGDLR",
+          "modelName": "产科入院评估",
+          "modelNum": "",
+          "modelType": "3",
+          "saveMth": "",
+          "wStatus": "0"
+        },
+        {
+          "getListMth": "",
+          "getValMth": "",
+          "guId": "30ed6ca8f3e8427492ddd90df14464a1",
+          "linkModel": "",
+          "modelCode": "DHCNUREKHLPGDLR",
+          "modelName": "儿科入院评估",
+          "modelNum": "",
+          "modelType": "3",
+          "saveMth": "",
+          "wStatus": "0"
+        },
+        {
+          "getListMth": "",
+          "getValMth": "",
+          "guId": "588cc790d57a41a39a8e41cb4522f6f0",
+          "linkModel": "",
+          "modelCode": "DHCNUREKDDFXPGLBHDLR",
+          "modelName": "儿科跌倒评估",
+          "modelNum": "",
+          "modelType": "3",
+          "saveMth": "",
+          "wStatus": "0"
+        },
+        {
+          "getListMth": "",
+          "getValMth": "",
+          "guId": "c886511c4a7c4010bc089c4a56b3b3a6",
+          "linkModel": "",
+          "modelCode": "DHCNUREKYCHLJL",
+          "modelName": "儿科压疮评估",
+          "modelNum": "",
+          "modelType": "3",
+          "saveMth": "",
+          "wStatus": "0"
+        },
+        {
+          "getListMth": "",
+          "getValMth": "",
+          "guId": "65b771f844144daa8bc35a42c03d1f22",
+          "linkModel": "",
+          "modelCode": "DHCNUREKRCSHNLADLLBBZSLR",
+          "modelName": "儿科日常生活ADL评估",
+          "modelNum": "",
+          "modelType": "3",
+          "saveMth": "",
+          "wStatus": "0"
+        }
+      ],
+      "menuCode": "PGD",
+      "menuName": "评估单"
+    },
+    {
+      "ModelList": [
+        {
+          "getListMth": "",
+          "getValMth": "",
+          "guId": "2e173fe7fc19410093dc2ee1d5cc64c4",
+          "linkModel": "",
+          "modelCode": "DHCNURHLJLDLR",
+          "modelName": "护理记录单",
+          "modelNum": "",
+          "modelType": "3",
+          "saveMth": "",
+          "wStatus": "0"
+        }
+      ],
+      "menuCode": "JLD",
+      "menuName": "记录单"
+    }
+  ],
+  "msg": "成功",
+  "msgcode": "999999",
+  "status": "0"
+}
+               

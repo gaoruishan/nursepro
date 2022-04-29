@@ -2297,6 +2297,7 @@
           "SaveField": "Item63"
         },
         {
+          "FoundationJS": "RefMeasure",
           "BindingTemplateID": "",
           "CallBackEffects": "",
           "CallBackReturnMapEffects": "",
@@ -2343,7 +2344,7 @@
           "PointLen": "",
           "Required": "",
           "SaveField": "Item47",
-          "Signature": "CommonNOReplace",
+          "Signature": "Common",
           "SignatureAuto": "true",
           "ToolTipText": "",
           "containerFlag": ""
@@ -2401,7 +2402,7 @@
           "containerFlag": ""
         },
         {
-          "BindingTemplateID": "",
+          "BindingTemplateID": "DHCNURTemRecData",
           "CallBackEffects": "",
           "CallBackReturnMapEffects": "",
           "DataSourceRef": "",
@@ -2415,7 +2416,7 @@
           "GatherImportMapEffects": "",
           "IsHide": "",
           "MEName": "",
-          "NameText": "生成",
+          "NameText": "生命体征",
           "OprationItemList": [],
           "ParentId": "",
           "PointLen": "",

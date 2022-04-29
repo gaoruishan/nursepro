@@ -106,7 +106,17 @@ public class LocalTestManager {
 //        l.add("getInterventionFreq");
 //        l.add("getGoalByQestId");
 //        l.add("getInterventionByQestId");
-//
+        /*护理病历*/
+        l.add("getInWardPatList");
+        l.add("getModelList");
+        l.add("getNewEmrList");
+        l.add("GetXmlValues");
+        l.add("getKnowledgeTree");
+        l.add("getKnowledgeContent");
+        l.add("editTextConvert");
+        l.add("GetOutSideData");
+
+
 //        l.add("getModelData"); //巡视模板
 //        l.add("getIFOrdListByBarCode");
 //        l.add("GetBarcodeFlag");

@@ -149,6 +149,8 @@ public class NurseAPI {
     public static final String saveNewEmrData = "saveNewEmrData";
     public static final String getKnowledgeTree = "getKnowledgeTree";
     public static final String getKnowledgeContent = "getKnowledgeContent";
+    public static final String editTextConvert = "editTextConvert";
+    public static final String GetOutSideData = "GetOutSideData";
     //老版
     public static final String getPGDId = "getPGDId";
     public static final String getEmrXml = "getEmrXml";
