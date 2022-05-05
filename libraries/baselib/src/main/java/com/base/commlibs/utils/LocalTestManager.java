@@ -115,6 +115,10 @@ public class LocalTestManager {
         l.add("getKnowledgeContent");
         l.add("editTextConvert");
         l.add("GetOutSideData");
+        /*检验打包*/
+        l.add("getLabOutList");
+        l.add("getLabOutDetail");
+        l.add("delOrExchange");
 
 
 //        l.add("getModelData"); //巡视模板
@@ -122,7 +126,6 @@ public class LocalTestManager {
 //        l.add("GetBarcodeFlag");
 //        l.add("GetXmlValues");
 //        l.add("getInfusionOrdList");
-//        l.add("getLabOutList");
 //        l.add("GetNCPAccompanyList");
 //        l.add("GetNCPAccompanySub");
 //        l.add("GetRfidPatList");

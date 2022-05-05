@@ -69,6 +69,13 @@
                     android:layout_marginTop="@dimen/dp_5"
                     android:text="7床   刘患者"
                     android:textSize="@dimen/sp_12" />
+                <TextView
+                    android:id="@+id/tv_labout_receiver"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5.00dp"
+                    android:text="刘明"
+                    android:textSize="12.00dp"/>
             </LinearLayout>
 
             <RelativeLayout
