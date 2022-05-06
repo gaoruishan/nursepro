@@ -116,9 +116,9 @@ public class LocalTestManager {
         l.add("editTextConvert");
         l.add("GetOutSideData");
         /*检验打包*/
-        l.add("getLabOutList");
-        l.add("getLabOutDetail");
-        l.add("delOrExchange");
+//        l.add("getLabOutList");
+//        l.add("getLabOutDetail");
+//        l.add("delOrExchange");
 
 
 //        l.add("getModelData"); //巡视模板

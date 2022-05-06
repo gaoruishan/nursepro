@@ -29,6 +29,7 @@ import com.dhcc.nursepro.workarea.plyout.bean.DelOrderBean;
 import com.dhcc.nursepro.workarea.plyout.bean.PlyOutDetailBean;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -145,6 +146,8 @@ public class PlyOutDetailFragment extends BaseFragment {
 
                 listBeans = labOutDetailBean.getDetailList();
                 tvLaboutScan.setText("已扫描 " + listBeans.size() + " 个");
+                //倒序
+                Collections.reverse(listBeans);
                 labOutDetailAdapter.setNewData(listBeans);
             }
 

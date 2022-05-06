@@ -39,7 +39,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
 
 public class LabOutListFragment extends BaseFragment implements View.OnClickListener, OnDateSetListener {
@@ -150,6 +149,7 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
         map.put("enddate", tvEndDate.getText().toString());
         map.put("locId", spUtils.getString(SharedPreference.LOCID));
         map.put("saveFlag", saveFlag);
+        //userId不为空创建, carryNo不为空删除
         if (CarrayCerate.equals("Yes")) {
             map.put("userId", spUtils.getString(SharedPreference.USERID));
             if (TypeStr.equals("Type0")) {
@@ -323,14 +323,14 @@ public class LabOutListFragment extends BaseFragment implements View.OnClickList
                     String carryNodetail = listLabNow.get(position).getCarryNo();
                     Bundle bundle = new Bundle();
                     bundle.putString("CarryNo", carryNodetail);
-                    bundle.putString("saveType", "1");
-                    bundle.putString("ifHedui", typeIndex.containsKey("Type0") ? "1" : "0");
+                    bundle.putString("saveType", "1");//扫码保存
+                    bundle.putString("ifHedui", typeIndex.containsKey("Type0") ? "1" : "0");//预建单才核对
                     startFragment(LabOutDetailFragment.class, bundle);
                 } else if (view.getId() == R.id.tv_lapack_hedui) {
                     String carryNodetail = listLabNow.get(position).getCarryNo();
                     Bundle bundle = new Bundle();
                     bundle.putString("CarryNo", carryNodetail);
-                    bundle.putString("saveType", "2");
+                    bundle.putString("saveType", "2");//核对
                     bundle.putString("ifHedui", "1");
                     startFragment(LabOutDetailFragment.class, bundle);
                 }

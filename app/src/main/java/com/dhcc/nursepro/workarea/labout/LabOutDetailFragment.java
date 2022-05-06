@@ -33,6 +33,7 @@ import com.dhcc.nursepro.workarea.labout.bean.DelOrderBean;
 import com.dhcc.nursepro.workarea.labout.bean.LabOutDetailBean;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -96,6 +97,8 @@ public class LabOutDetailFragment extends BaseFragment {
         tvLaboutSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //ifHedui 点击侧滑核对 预检单
+                //heduiNum 计算后台auditFlag个数
                 if (listBeans.size()>heduiNum){
                     showToast("未全部核对，无法发送");
                 }else {
@@ -154,6 +157,7 @@ public class LabOutDetailFragment extends BaseFragment {
                 hideLoadingTip();
                 //                setToolbarCenterTitle("检验打包",0xffffffff,17);
                 saveFlag = "";
+                //0 未接收的 进行发送(运送人+复核人)
                 carryFlag = labOutDetailBean.getCarryFlag();
                 if ("1".equals(carryFlag)) {
                     tvLaboutSend.setText("  撤销发送  ");
@@ -163,6 +167,7 @@ public class LabOutDetailFragment extends BaseFragment {
                 etLaboutContainer.setText(labOutDetailBean.getTransContainer()+"");
 
                 listBeans = labOutDetailBean.getDetailList();
+                //预建单Flag=0 不弹框复核
                 preWaybillFlag = labOutDetailBean.getPreWaybillFlag();
                 heduiNum = 0;
                 for (int i = 0; i <listBeans.size() ; i++) {
@@ -180,6 +185,8 @@ public class LabOutDetailFragment extends BaseFragment {
                 style.setSpan(new AbsoluteSizeSpan(50),5,labNum.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
                 style.setSpan(new ForegroundColorSpan(getActivity().getResources().getColor(R.color.blue)),deviceNu+1,labNum.length(),Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
                 tvLaboutScan.setText(style);
+                //倒序
+                Collections.reverse(listBeans);
                 labOutDetailAdapter.setNewData(listBeans);
             }
 
