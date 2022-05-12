@@ -221,5 +221,6 @@ public class SharedPreference extends NurseConfig {
 //    public static final String HIS_PORT = "10180";
 
     public static final String HIS_PATH = "/imedical/web";
-
+    // 配置是否debug
+    public static String Debug="Debug";
 }

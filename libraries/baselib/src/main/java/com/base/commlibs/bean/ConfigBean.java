@@ -48,6 +48,12 @@ public class ConfigBean extends CommResult {
     private String pinFlag;
     //ca厂商
     private String venderCode;
+    //是否debug
+    private String debug;
+
+    public String getDebug() {
+        return debug == null ? "" : debug;
+    }
 
     public String getVenderCode() {
         return venderCode == null ? "" : venderCode;

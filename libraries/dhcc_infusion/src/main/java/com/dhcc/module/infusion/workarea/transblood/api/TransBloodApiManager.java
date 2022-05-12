@@ -58,7 +58,7 @@ public class TransBloodApiManager extends InfusionAPI {
      * 输血签收
      */
     public static void bloodReceive(@NonNull BaseRequestParams params, final CommonCallBack<CommResult> callBack) {
-        HashMap<String, String> properties = BaseRequestParams.getProperties(params);
+        HashMap<String, String> properties = BaseRequestParams.getCommProperties(params);
         CommWebService.call(bloodReceive, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
@@ -70,7 +70,7 @@ public class TransBloodApiManager extends InfusionAPI {
      * 输血复核
      */
     public static void bloodCheck(@NonNull BaseRequestParams params, final CommonCallBack<CommResult> callBack) {
-        HashMap<String, String> properties = BaseRequestParams.getProperties(params);
+        HashMap<String, String> properties = BaseRequestParams.getCommProperties(params);
         CommWebService.call(bloodCheck, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
@@ -83,7 +83,7 @@ public class TransBloodApiManager extends InfusionAPI {
      * 输注开始
      */
     public static void startTransfusion(@NonNull BaseRequestParams params, final CommonCallBack<CommResult> callBack) {
-        HashMap<String, String> properties = BaseRequestParams.getProperties(params);
+        HashMap<String, String> properties = BaseRequestParams.getCommProperties(params);
         CommWebService.call(startTransfusion, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
@@ -96,7 +96,7 @@ public class TransBloodApiManager extends InfusionAPI {
      * 输血巡视
      */
     public static void bloodPatrol(@NonNull BaseRequestParams params, final CommonCallBack<CommResult> callBack) {
-        HashMap<String, String> properties = BaseRequestParams.getProperties(params);
+        HashMap<String, String> properties = BaseRequestParams.getCommProperties(params);
         CommWebService.call(bloodPatrol, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {
@@ -108,7 +108,7 @@ public class TransBloodApiManager extends InfusionAPI {
      * 输血结束
      */
     public static void endTransfusion(@NonNull BaseRequestParams params, final CommonCallBack<CommResult> callBack) {
-        HashMap<String, String> properties = BaseRequestParams.getProperties(params);
+        HashMap<String, String> properties = BaseRequestParams.getCommProperties(params);
         CommWebService.call(endTransfusion, properties, new ServiceCallBack() {
             @Override
             public void onResult(String jsonStr) {

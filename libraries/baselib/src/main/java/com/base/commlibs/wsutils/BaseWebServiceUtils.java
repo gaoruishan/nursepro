@@ -357,7 +357,10 @@ public class BaseWebServiceUtils {
                 } catch (Exception e) {
                     //捕获异常 保存日志
                     Log.e("json", "Exception= " + jsonstr + e.toString());
-                    LocalTestManager.saveLogTest(finalMethodNameTest + "_err", url + "\n" + jsonstr + "\n Exception= \n" + e.toString());
+                    LocalTestManager.saveLogTest(finalMethodNameTest + "_err", url  +"\n\n" + properties + "\n" + jsonstr + "\n Exception= \n" + e.toString());
+                    if ("1".equals(SPStaticUtils.getString(SharedPreference.Debug))) {
+                        ToastUtils.showLong(finalMethodNameTest+"\n\n" + properties + "\n" + jsonstr + "\n Exception= \n" + e.toString());
+                    }
                 } finally {
                     // 将获取的消息利用Handler发送到主线程
                     mHandler.sendMessage(mHandler.obtainMessage(0, jsonstr));
