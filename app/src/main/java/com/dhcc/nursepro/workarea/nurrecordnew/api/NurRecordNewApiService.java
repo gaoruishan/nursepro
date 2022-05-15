@@ -20,7 +20,7 @@ public class NurRecordNewApiService extends NurseAPI {
         HashMap<String, String> properties = new HashMap<>();
         properties.put("wardId", spUtils.getString(SharedPreference.WARDID));
         properties.put("userId", spUtils.getString(SharedPreference.USERID));
-
+        properties.put("module", "MODELDETAIL");
 
         WebServiceUtils.callWebService(getInWardPatList, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override
@@ -62,6 +62,7 @@ public class NurRecordNewApiService extends NurseAPI {
         properties.put("episodeId", episodeId);
         properties.put("emrCode", emrCode);
         properties.put("id", id);
+        properties.put("simplification", "1"); // EH 节省的json
 
         WebServiceUtils.callWebService(GetXmlValues, properties, new WebServiceUtils.WebServiceCallBack() {
             @Override

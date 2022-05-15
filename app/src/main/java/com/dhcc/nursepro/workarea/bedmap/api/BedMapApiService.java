@@ -61,6 +61,18 @@ public class BedMapApiService extends NurseAPI {
         });
 
     }
+    public static void getPatInfoDetail(String regNo, final ServiceCallBack callBack) {
+        SPUtils spUtils = SPUtils.getInstance();
+        HashMap<String, String> properties = new HashMap<>();
+        properties.put("regNo", regNo);
+
+        WebServiceUtils.callWebService(getPatInfoDetail, properties, new WebServiceUtils.WebServiceCallBack() {
+            @Override
+            public void callBack(String result) {
+                callBack.onResult(result);
+            }
+        });
+    }
     public interface ServiceCallBack {
         void onResult(String jsonStr);
     }

@@ -219,6 +219,7 @@ public class DocOrderListFragment extends BaseFragment {
         HashMap<String,String> map = new HashMap<>();
         map.put("wardId",spUtils.getString(SharedPreference.WARDID));
         map.put("userId",spUtils.getString(SharedPreference.USERID));
+        map.put("module", "DOCORDERLIST");
         DocOrderListApiManager.getPatsList(map, NurseAPI.getInWardPatList, new DocOrderListApiManager.getPatsListCallback() {
             @Override
             public void onSuccess(DocOrdersPatsListBean docOrdersPatsListBean) {

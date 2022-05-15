@@ -44,6 +44,14 @@ import java.util.Map;
  * created at 2020/2/19 16:51
  */
 public class VitalSignChartsDetailFragment extends BaseFragment implements View.OnClickListener, OnDateSetListener {
+    /**
+     * 维护四个itemCode
+     */
+    public static String TEMPERATURE = "temperature";
+    public static String PULSE = "pulse";
+    public static String BREATH = "breath";
+    public static String DATE_TIME = "dateTime";
+
     private TextView tvStdate;
     private TextView tvEndate;
     private LineChart vitalsignChartsdetail;
@@ -66,9 +74,9 @@ public class VitalSignChartsDetailFragment extends BaseFragment implements View.
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //        setToolbarType(BaseActivity.ToolbarType.TOP);
+//        setToolbarType(BaseActivity.ToolbarType.TOP);
         setToolbarBottomLineVisibility(true);
-        if (isSingleModel) {
+        if (isSingleModel){
             hindMap();
         }
 
@@ -81,10 +89,12 @@ public class VitalSignChartsDetailFragment extends BaseFragment implements View.
         Bundle bundle = getArguments();
 
         if (bundle != null) {
-            episodeId = bundle.getString("episodeId", "");
-            patInfo = bundle.getString("patInfo", "");
+            episodeId = bundle.getString("episodeId");
+            if (bundle.getString("patInfo")!=null){
+                patInfo = bundle.getString("patInfo");
+            }
         }
-        setToolbarCenterTitle(getString(R.string.title_vitalsignchartsdetail) + "（" + patInfo + "）", 0xffffffff, 17);
+        setToolbarCenterTitle(getString(R.string.title_vitalsignchartsdetail)+"("+patInfo+")", 0xffffffff, 17);
 
         initView(view);
 
@@ -127,7 +137,7 @@ public class VitalSignChartsDetailFragment extends BaseFragment implements View.
         vitalsignChartsdetail.setPinchZoom(true);
 
         // set an alternative background color
-        //        vitalsignChartsdetail.setBackgroundColor(Color.LTGRAY);
+//        vitalsignChartsdetail.setBackgroundColor(Color.LTGRAY);
 
         vitalsignChartsdetail.animateX(1500);
 
@@ -149,11 +159,11 @@ public class VitalSignChartsDetailFragment extends BaseFragment implements View.
         //        l.setYOffset(11f);
 
         XAxis xAxis = vitalsignChartsdetail.getXAxis();
-        //        xAxis.setTypeface(tfLight);
-        //        xAxis.setTextSize(11f);
-        //        xAxis.setTextColor(Color.WHITE);
-        //        xAxis.setDrawGridLines(false);
-        //        xAxis.setDrawAxisLine(false);
+//        xAxis.setTypeface(tfLight);
+//        xAxis.setTextSize(11f);
+//        xAxis.setTextColor(Color.WHITE);
+//        xAxis.setDrawGridLines(false);
+//        xAxis.setDrawAxisLine(false);
         xAxis.setEnabled(false);
 
         YAxis leftAxis = vitalsignChartsdetail.getAxisLeft();
@@ -162,7 +172,7 @@ public class VitalSignChartsDetailFragment extends BaseFragment implements View.
         leftAxis.setTextSize(12f);
         leftAxis.setAxisMaximum(43f);
         leftAxis.setAxisMinimum(34f);
-        leftAxis.setLabelCount(10, false);
+        leftAxis.setLabelCount(10,false);
         leftAxis.setDrawGridLines(true);
         leftAxis.setGranularityEnabled(true);
 
@@ -172,7 +182,7 @@ public class VitalSignChartsDetailFragment extends BaseFragment implements View.
         rightAxis.setTextSize(12f);
         rightAxis.setAxisMaximum(180f);
         rightAxis.setAxisMinimum(0f);
-        rightAxis.setLabelCount(10, false);
+        rightAxis.setLabelCount(10,false);
         rightAxis.setDrawGridLines(false);
         rightAxis.setDrawZeroLine(false);
         rightAxis.setGranularityEnabled(false);
@@ -188,7 +198,7 @@ public class VitalSignChartsDetailFragment extends BaseFragment implements View.
             public void onSuccess(VitalSignDetailBean vitalSignDetailBean) {
 
                 listMap = (List) vitalSignDetailBean.getMap().get("tempDataList");
-
+                getStandardization(vitalSignDetailBean.getTempConfig());
                 setData(listMap);
 
                 // redraw
@@ -202,34 +212,58 @@ public class VitalSignChartsDetailFragment extends BaseFragment implements View.
         });
     }
 
+    private void getStandardization(List<VitalSignDetailBean.TempConfigBean> tempConfig) {
+        for (int i = 0; i < tempConfig.size(); i++) {
+            VitalSignDetailBean.TempConfigBean tempConfigBean = tempConfig.get(i);
+            String standardization = tempConfigBean.getStandardization();
+            if ("MRC_Temperature".equals(standardization)) {
+                TEMPERATURE = tempConfigBean.getCode();
+            } else if ("MRC_Pulse".equals(standardization)) {
+                PULSE = tempConfigBean.getCode();
+            } else if ("MRC_Breath".equals(standardization)) {
+                BREATH = tempConfigBean.getCode();
+            }
+        }
+    }
+
     private void setData(List<Map> listMap) {
         ArrayList<Entry> values1 = new ArrayList<>();
         ArrayList<Entry> values2 = new ArrayList<>();
-        LineDataSet set1, set2;
+        ArrayList<Entry> values3 = new ArrayList<>();
+        LineDataSet set1, set2,set3;
         int count = 0;
 
         for (int i = 0; i < listMap.size(); i++) {
             Map map = listMap.get(i);
             float temperature;
             float pulse;
+            float breath;
 
-            if ("".equals(map.get("temperature"))) {
+            if (!isNumeric(map.get(TEMPERATURE))) {
                 temperature = -1f;
-            } else {
-                temperature = Float.parseFloat((String) map.get("temperature"));
+            }else{
+                temperature = Float.parseFloat((String) map.get(TEMPERATURE));
             }
 
-            if ("".equals(map.get("pulse"))) {
+            if (!isNumeric(map.get(PULSE))) {
                 pulse = -1f;
-            } else {
-                pulse = Float.parseFloat((String) map.get("pulse"));
+            }else{
+                pulse = Float.parseFloat((String) map.get(PULSE));
+            }
+            if (!isNumeric(map.get(BREATH))) {
+                breath = -1f;
+            }else{
+                breath = Float.parseFloat((String) map.get(BREATH));
             }
 
             if (temperature > 0) {
-                values1.add(new Entry(count, temperature,map.get("date")+" "+map.get("time")));
+                values1.add(new Entry(count, temperature,map.get(DATE_TIME)));
             }
             if (pulse > 0) {
-                values2.add(new Entry(count, pulse,map.get("date")+" "+map.get("time")));
+                values2.add(new Entry(count, pulse,map.get(DATE_TIME)));
+            }
+            if (breath > 0) {
+                values3.add(new Entry(count, breath,map.get(DATE_TIME)));
             }
 
             if (temperature > 0 || pulse > 0) {
@@ -241,10 +275,13 @@ public class VitalSignChartsDetailFragment extends BaseFragment implements View.
                 vitalsignChartsdetail.getData().getDataSetCount() > 0) {
             set1 = (LineDataSet) vitalsignChartsdetail.getData().getDataSetByIndex(0);
             set2 = (LineDataSet) vitalsignChartsdetail.getData().getDataSetByIndex(1);
+            set3 = (LineDataSet) vitalsignChartsdetail.getData().getDataSetByIndex(2);
             set1.setValues(values1);
             set2.setValues(values2);
+            set3.setValues(values3);
             set1.setDrawValues(false);
             set2.setDrawValues(false);
+            set3.setDrawValues(false);
             vitalsignChartsdetail.getData().notifyDataChanged();
             vitalsignChartsdetail.notifyDataSetChanged();
         } else {
@@ -267,6 +304,7 @@ public class VitalSignChartsDetailFragment extends BaseFragment implements View.
 
 
             // create a dataset and give it a type
+
             set2 = new LineDataSet(values2, "脉搏/次");
             set2.setAxisDependency(YAxis.AxisDependency.RIGHT);
             set2.setColor(Color.RED);
@@ -280,9 +318,22 @@ public class VitalSignChartsDetailFragment extends BaseFragment implements View.
             //set2.setFillFormatter(new MyFillFormatter(900f));
 
             // create a data object with the data sets
+
+            set3 = new LineDataSet(values3, "呼吸/次");
+            set3.setAxisDependency(YAxis.AxisDependency.RIGHT);
+            set3.setColor(Color.GREEN);
+            set3.setCircleColor(Color.GREEN);
+            set3.setLineWidth(2f);
+            set3.setCircleRadius(3f);
+            set3.setFillAlpha(65);
+            set3.setFillColor(Color.GREEN);
+            set3.setDrawCircleHole(false);
+            set3.setHighLightColor(Color.rgb(244, 117, 117));
+
             set1.setDrawValues(false);
             set2.setDrawValues(false);
-            LineData data = new LineData(set1, set2);
+            set3.setDrawValues(false);
+            LineData data = new LineData(set1, set2,set3);
             data.setValueTextColor(Color.BLACK);
             data.setValueTextSize(10f);
 
@@ -352,4 +403,24 @@ public class VitalSignChartsDetailFragment extends BaseFragment implements View.
 
         mDialogAll.show(getActivity().getSupportFragmentManager(), "ALL");
     }
+
+    /// EH 2022-05-14 15:40 数字判断
+    private boolean isNumeric(Object obj) {
+        boolean flag = false;
+        String str = obj != null ? obj.toString() : null;
+        if (str != null && str.length() != 0 && str.matches("[+-]?[0-9]+(.[0-9])?")) {
+            try {
+                Integer.parseInt(str);
+                flag = true;
+            } catch (NumberFormatException e1) {
+                try {
+                    Float.parseFloat(str);
+                    flag = true;
+                } catch (NumberFormatException e2) {
+                }
+            }
+        }
+        return flag;
+    }
+
 }

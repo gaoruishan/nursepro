@@ -2376,20 +2376,38 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
                     Map<String, Map> tempListMap = getOutSideDataMap.get("tempList");
                     if (tempListMap != null) {
                         List<Map> valueList = (List<Map>) tempListMap.get("rows");
+                        // EH 2022-04-22 优化了体征引用：列排序，日期显示，血压合并
                         for (int i = 0; i < valueList.size(); i++) {
                             List<VitalSignDataBean> vsSubData = new ArrayList<>();
                             Map<String, String> valueMap = valueList.get(i);
-                            for (Map.Entry<String, String> entry : valueMap.entrySet()) {
-                                for (GetOutSideDataBean.FieldListBean fieldListBean : getOutSideDataBean.getFieldList()) {
-                                    if (entry.getKey().equals(fieldListBean.getFieldLinkNo())) {
-                                        VitalSignDataBean vitalSignDataBean = new VitalSignDataBean();
-                                        vitalSignDataBean.setDesc(fieldListBean.getFieldDesc());
-                                        vitalSignDataBean.setValue(entry.getValue());
-                                        vitalSignDataBean.setLinkNo(entry.getKey());
-                                        if (idStr.contains(vsLinkMap.get(vitalSignDataBean.getLinkNo()))) {
-                                            vsSubData.add(vitalSignDataBean);
+                            for (GetOutSideDataBean.FieldListBean fieldListBean : getOutSideDataBean.getFieldList()) {
+                                if (valueMap.containsKey(fieldListBean.getFieldLinkNo())) {
+                                    VitalSignDataBean vitalSignDataBean = new VitalSignDataBean();
+                                    vitalSignDataBean.setDesc(fieldListBean.getFieldDesc());
+                                    vitalSignDataBean.setValue(valueMap.get(fieldListBean.getFieldLinkNo()));
+                                    vitalSignDataBean.setLinkNo(fieldListBean.getFieldLinkNo());
+                                    String linkNo = vitalSignDataBean.getLinkNo();
+                                    String linkId = "";
+                                    if (vsLinkMap.containsKey(linkNo))
+                                        linkId = vsLinkMap.get(linkNo);
+                                    else {
+                                        for (java.util.Iterator vsLinkIterator = vsLinkMap.keySet().iterator(); vsLinkIterator.hasNext(); ) {
+                                            String vsLinkKey = vsLinkIterator.next().toString();
+                                            if (vsLinkKey.contains(",/,")) {
+                                                String[] vsLinkKeyArray = vsLinkKey.split(",/,");
+                                                for (int vsLinkKeyIndex = 0; vsLinkKeyIndex < vsLinkKeyArray.length; vsLinkKeyIndex++) {
+                                                    if (vsLinkKeyArray[vsLinkKeyIndex].equals(linkNo)) {
+                                                        linkId = vsLinkMap.get(vsLinkKey);
+                                                        break;
+                                                    }
+                                                }
+                                            }
                                         }
-                                        break;
+                                    }
+                                    if (idStr.contains(linkId)
+                                            || fieldListBean.getFieldDesc().equals("日期")
+                                            || fieldListBean.getFieldDesc().equals("时间")) {
+                                        vsSubData.add(vitalSignDataBean);
                                     }
                                 }
                             }
@@ -2432,6 +2450,29 @@ public class NurRecordNewFragment extends NurRecordNewViewHelper implements Comp
             if (viewHashMap.get(vsLinkMap.get(vitalSignDataBean.getLinkNo())) instanceof EditText) {
                 EditText editText = (EditText) viewHashMap.get(vsLinkMap.get(vitalSignDataBean.getLinkNo()));
                 editText.setText(vitalSignDataBean.getValue());
+            }
+        }
+        for (java.util.Iterator vsLinkIterator = vsLinkMap.keySet().iterator(); vsLinkIterator.hasNext(); ) {
+            String vsLinkKey = vsLinkIterator.next().toString();
+            if (vsLinkKey.contains(",/,")) {
+                String editValue = "";
+                String[] vsLinkKeyArray = vsLinkKey.split(",/,");
+                for (int vsLinkKeyIndex = 0; vsLinkKeyIndex < vsLinkKeyArray.length; vsLinkKeyIndex++) {
+                    for (int vsDataIndex = 0; vsDataIndex < vsDatum.size(); vsDataIndex++) {
+                        VitalSignDataBean vsDataItem = vsDatum.get(vsDataIndex);
+                        if (vsLinkKeyArray[vsLinkKeyIndex].equals(vsDataItem.getLinkNo())) {
+                            String vsDataValue = vsDataItem.getValue();
+                            if (!"".equals(vsDataValue)) {
+                                if (!"".equals(editValue)) editValue += "/";
+                                editValue += vsDataValue;
+                            }
+                        }
+                    }
+                }
+                if (viewHashMap.get(vsLinkMap.get(vsLinkKey)) instanceof EditText) {
+                    EditText editText = (EditText) viewHashMap.get(vsLinkMap.get(vsLinkKey));
+                    editText.setText(editValue);
+                }
             }
         }
 

@@ -96,6 +96,7 @@ public class VitalSignDetailBean {
 
         private String code;
         private String desc;
+        private String standardization; // EH
 
         public String getCode() {
             return code;
@@ -111,6 +112,14 @@ public class VitalSignDetailBean {
 
         public void setDesc(String desc) {
             this.desc = desc;
+        }
+
+        public String getStandardization() {
+            return standardization;
+        }
+
+        public void setStandardization(String standardization) {
+            this.standardization = standardization;
         }
     }
 

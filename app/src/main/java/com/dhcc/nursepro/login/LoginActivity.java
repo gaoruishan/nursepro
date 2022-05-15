@@ -55,6 +55,7 @@ import com.dhcc.nursepro.greendao.GreenDaoHelper;
 import com.dhcc.nursepro.login.api.LoginApiManager;
 import com.dhcc.nursepro.login.bean.BroadCastListBean;
 import com.dhcc.nursepro.login.bean.LoginBean;
+import com.dhcc.nursepro.login.bean.LoginConfigBean;
 import com.dhcc.nursepro.login.bean.NurseInfo;
 import com.dhcc.nursepro.utils.NurLinkUtil;
 import com.dhcc.nursepro.workarea.workareautils.WorkareaMainConfig;
@@ -107,6 +108,7 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
     private boolean hasBroadCastConfig = false;
     private LoginReceiver loginReceiver = new LoginReceiver();
     private IntentFilter loginFilter = new IntentFilter();
+    private VoicePrintUtil voicePrintUtil; // EH 2022-04-26 关闭语音提示
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,11 +125,12 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
         nurseInfoList = daoSession.getNurseInfoDao().queryBuilder().list();
         initView();
         CommHttp.getNurseConfig();
-        getBroadCastConfig();
+        //getBroadCastConfig();
+        getLoginConfig();
 
         verifyAudioPermissions(this);
 
-        initVoice();
+        //initVoice();
         if (getApplicationContext() != null) {
             //Voip 判断
             Intent i = NurLinkUtil.getMLinkIntent();
@@ -302,7 +305,19 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
 
     }
 
+    private void hideVoice(LoginConfigBean bean) {
+        if ("0".equals(bean.getLoginFlag("voiceFlag"))) {
+            findViewById(R.id.tv_voice_ip).setVisibility(View.GONE);
+            findViewById(R.id.tv_voice).setVisibility(View.GONE);
+        } else {
+            findViewById(R.id.tv_voice_ip).setVisibility(View.VISIBLE);
+            findViewById(R.id.tv_voice).setVisibility(View.VISIBLE);
+            initVoice();
+        }
+    }
+
     private void initVoice() {
+        if (voicePrintUtil !=null ) return;
         tvVoiceIp = findViewById(R.id.tv_voice_ip);
         tvVoice = findViewById(R.id.tv_voice);
         tvVoiceIp.setText("语音IPv" + AppUtils.getAppVersionCode());
@@ -379,6 +394,25 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
 
     }
 
+    private void getLoginConfig() {
+        LoginApiManager.getLoginConfig(new LoginApiManager.GetLoginConfigCallback() {
+            @Override
+            public void onSuccess(LoginConfigBean loginConfigBean) {
+                List<BroadcastListBean> broadcastList = loginConfigBean.getBroadcastList();
+                TransBroadcastUtil.setScanActionList(broadcastList);
+                hasBroadCastConfig = true;
+                hideVoice(loginConfigBean);
+            }
+
+            @Override
+            public void onFail(String code, String msg) {
+                showToast("error" + code + ":" + msg);
+            }
+        });
+
+
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -435,7 +469,8 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
                                 UserUtil.setWebIpAndPath(ip, showDialog.getAddr());
                                 showDialog.dismiss();
                                 CommHttp.getNurseConfig();
-                                getBroadCastConfig();
+                                //getBroadCastConfig();
+                                getLoginConfig();
                             }
 
                         } else {
@@ -506,7 +541,8 @@ public class LoginActivity extends CaLoginActivity implements View.OnClickListen
     private void initData(final String action, final NurseInfo nurseInfo) {
         //判断是否存在广播码信息，若无，再次请求广播码
         if (!hasBroadCastConfig) {
-            getBroadCastConfig();
+            //getBroadCastConfig();
+            getLoginConfig();
         }
         if (checkCA()) {
             return;

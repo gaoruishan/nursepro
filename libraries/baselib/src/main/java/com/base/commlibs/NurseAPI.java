@@ -16,6 +16,7 @@ public class NurseAPI {
      * 登陆
      */
     public static final String getBroadcastConfig = "getBroadcastConfig";
+    public static final String getLogonConfig = "getLogonConfig";
     public static final String Logon = "Logon";
     /**
      * 消息
@@ -45,6 +46,7 @@ public class NurseAPI {
      */
     public static final String getWardPatList = "getWardPatList";
     public static final String getScanInfo = "getScanInfo";//医嘱执行
+    public static final String getPatInfoDetail = "getPatInfoDetail";
     public static final String getInfeeDetailByDate = "getInfeeDetailByDate";
     public static final String getPatListToVoice = "GetPatListToVoice";
     /**

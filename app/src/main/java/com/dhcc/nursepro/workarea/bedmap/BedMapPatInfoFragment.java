@@ -133,6 +133,27 @@ public class BedMapPatInfoFragment extends BaseFragment {
 
     private void initData() {
         Map<String,Object> map1 =(Map<String,Object>) jsonMap.get("patInfoDetail");
+        if (map1 == null) {
+            Gson gson = new Gson();
+            jsonMap= gson.fromJson(jsonStr,Map.class);
+            String regNo = jsonMap.get("regNo").toString();
+            com.dhcc.nursepro.workarea.bedmap.api.BedMapApiManager.getPatInfoDetail(regNo, new com.dhcc.nursepro.workarea.bedmap.api.BedMapApiManager.GetPatDetailCallback() {
+                @Override
+                public void onSuccess(com.dhcc.nursepro.workarea.bedmap.bean.PatInfoDetailBean patInfoDetailBean) {
+                    initPatMap(patInfoDetailBean.getPatInfoDetail());
+                }
+                @Override
+                public void onFail(String code, String msg) {
+                    hideLoadingTip();
+                    showToast("error" + code + ":" + msg);
+                }
+            });
+        } else {
+            initPatMap(map1);
+        }
+    }
+
+    private void initPatMap(Map<String,Object> map1) {
         for(String key : map1.keySet()){
             String value = map1.get(key).toString();
             paMap = new HashMap<>();

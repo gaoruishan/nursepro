@@ -9,6 +9,7 @@ import com.base.commlibs.http.ServiceCallBack;
 import com.dhcc.module.nurse.bloodsugar.bean.BloodSugarNotelistBean;
 import com.dhcc.module.nurse.bloodsugar.bean.BloodSugarPatsBean;
 import com.dhcc.module.nurse.bloodsugar.bean.BloodSugarValueAndItemBean;
+import com.dhcc.module.nurse.bloodsugar.bean.GetScanPatsBean;
 
 import java.util.HashMap;
 
@@ -101,6 +102,26 @@ public class BloodSugarApiManager extends NurseAPI {
             public void onResult(String jsonStr) {
                 ParserUtil<BloodSugarNotelistBean> parserUtil = new ParserUtil<>();
                 BloodSugarNotelistBean bean = parserUtil.parserResult(jsonStr, callBack, BloodSugarNotelistBean.class);
+                if (bean == null) {
+                    return;
+                }
+                parserUtil.parserStatus(bean, callBack);
+            }
+        });
+    }
+
+    /**
+     * 取腕带信息
+     */
+    public static void getPatWristInfo(String regNo, final CommonCallBack<GetScanPatsBean> callBack) {
+        HashMap<String, String> properties = new HashMap<>();
+        properties.put("regNo", regNo);
+
+        CommWebService.call(getPatWristInfo, properties, new ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                ParserUtil<GetScanPatsBean> parserUtil = new ParserUtil<>();
+                GetScanPatsBean bean = parserUtil.parserResult(jsonStr, callBack, GetScanPatsBean.class);
                 if (bean == null) {
                     return;
                 }

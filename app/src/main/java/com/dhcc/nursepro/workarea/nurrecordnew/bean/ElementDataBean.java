@@ -2,6 +2,7 @@ package com.dhcc.nursepro.workarea.nurrecordnew.bean;
 
 import com.base.commlibs.http.CommResult;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ElementDataBean extends CommResult {
@@ -42,7 +43,7 @@ public class ElementDataBean extends CommResult {
 
 
     public DataBean getData() {
-        return data;
+        return data!=null?data:new DataBean(); // EH 2022-04-26 后台json不再返回空类型，所有类型null判断
     }
 
     public void setData(DataBean data) {
@@ -50,7 +51,7 @@ public class ElementDataBean extends CommResult {
     }
 
     public List<FirstIdListBean> getFirstIdList() {
-        return firstIdList;
+        return firstIdList!=null?firstIdList:new ArrayList<FirstIdListBean>();
     }
 
     public void setFirstIdList(List<FirstIdListBean> firstIdList) {
@@ -58,7 +59,7 @@ public class ElementDataBean extends CommResult {
     }
 
     public List<StrictCodeListBean> getStrictCodeList() {
-        return StrictCodeList;
+        return StrictCodeList!=null?StrictCodeList:new ArrayList<StrictCodeListBean>();
     }
 
     public void setStrictCodeList(List<StrictCodeListBean> StrictCodeList) {
@@ -66,7 +67,7 @@ public class ElementDataBean extends CommResult {
     }
 
     public List<FunListBean> getFunList() {
-        return funList;
+        return funList!=null?funList:new ArrayList<FunListBean>();
     }
 
     public void setFunList(List<FunListBean> funList) {
@@ -86,7 +87,7 @@ public class ElementDataBean extends CommResult {
         private List<?> Table;
 
         public InputBean getInput() {
-            return Input;
+            return Input!=null?Input:new InputBean();
         }
 
         public void setInput(InputBean Input) {
@@ -94,7 +95,7 @@ public class ElementDataBean extends CommResult {
         }
 
         public List<?> getTable() {
-            return Table;
+            return Table!=null?Table:new ArrayList<>();
         }
 
         public void setTable(List<?> Table) {
@@ -139,7 +140,7 @@ public class ElementDataBean extends CommResult {
             private List<StatisticsListBean> statisticsList;
 
             public String getTemplateIndentity() {
-                return TemplateIndentity;
+                return TemplateIndentity!=null?TemplateIndentity:"";
             }
 
             public void setTemplateIndentity(String TemplateIndentity) {
@@ -147,7 +148,7 @@ public class ElementDataBean extends CommResult {
             }
 
             public List<ElementBasesBean> getElementBases() {
-                return ElementBases;
+                return ElementBases!=null?ElementBases:new ArrayList<ElementBasesBean>();
             }
 
             public void setElementBases(List<ElementBasesBean> ElementBases) {
@@ -155,7 +156,7 @@ public class ElementDataBean extends CommResult {
             }
 
             public List<ElementSetsBean> getElementSets() {
-                return ElementSets;
+                return ElementSets!=null?ElementSets:new ArrayList<ElementSetsBean>();
             }
 
             public void setElementSets(List<ElementSetsBean> ElementSets) {
@@ -163,7 +164,7 @@ public class ElementDataBean extends CommResult {
             }
 
             public List<StatisticsListBean> getStatisticsList() {
-                return statisticsList;
+                return statisticsList!=null?statisticsList:new ArrayList<StatisticsListBean>();
             }
 
             public void setStatisticsList(List<StatisticsListBean> statisticsList) {
@@ -212,7 +213,7 @@ public class ElementDataBean extends CommResult {
                 private List<RadioElementListBean> RadioElementList;
 
                 public String getBindingTemplateID() {
-                    return BindingTemplateID;
+                    return BindingTemplateID!=null?BindingTemplateID:"";
                 }
 
                 public void setBindingTemplateID(String BindingTemplateID) {
@@ -220,7 +221,7 @@ public class ElementDataBean extends CommResult {
                 }
 
                 public String getCallBackEffects() {
-                    return CallBackEffects;
+                    return CallBackEffects!=null?CallBackEffects:"";
                 }
 
                 public void setCallBackEffects(String CallBackEffects) {
@@ -228,7 +229,7 @@ public class ElementDataBean extends CommResult {
                 }
 
                 public String getCallBackReturnMapEffects() {
-                    return CallBackReturnMapEffects;
+                    return CallBackReturnMapEffects!=null?CallBackReturnMapEffects:"";
                 }
 
                 public void setCallBackReturnMapEffects(String CallBackReturnMapEffects) {
@@ -236,7 +237,7 @@ public class ElementDataBean extends CommResult {
                 }
 
                 public String getDataSourceRef() {
-                    return DataSourceRef;
+                    return DataSourceRef!=null?DataSourceRef:"";
                 }
 
                 public void setDataSourceRef(String DataSourceRef) {
@@ -244,7 +245,7 @@ public class ElementDataBean extends CommResult {
                 }
 
                 public String getDataSourceRefInfo() {
-                    return DataSourceRefInfo;
+                    return DataSourceRefInfo!=null?DataSourceRefInfo:"";
                 }
 
                 public void setDataSourceRefInfo(String DataSourceRefInfo) {
@@ -252,7 +253,7 @@ public class ElementDataBean extends CommResult {
                 }
 
                 public String getDefaultValue() {
-                    return DefaultValue;
+                    return DefaultValue!=null?DefaultValue:"";
                 }
 
                 public void setDefaultValue(String DefaultValue) {
@@ -260,7 +261,7 @@ public class ElementDataBean extends CommResult {
                 }
 
                 public String getDisable() {
-                    return Disable;
+                    return Disable!=null?Disable:"";
                 }
 
                 public void setDisable(String Disable) {
@@ -268,7 +269,7 @@ public class ElementDataBean extends CommResult {
                 }
 
                 public String getDoctorAdviceRule() {
-                    return DoctorAdviceRule;
+                    return DoctorAdviceRule!=null?DoctorAdviceRule:"";
                 }
 
                 public void setDoctorAdviceRule(String doctorAdviceRule) {
@@ -276,7 +277,7 @@ public class ElementDataBean extends CommResult {
                 }
 
                 public String getDoctorAdviceRuleLinkNo() {
-                    return DoctorAdviceRuleLinkNo;
+                    return DoctorAdviceRuleLinkNo!=null?DoctorAdviceRuleLinkNo:"";
                 }
 
                 public void setDoctorAdviceRuleLinkNo(String doctorAdviceRuleLinkNo) {
@@ -284,7 +285,7 @@ public class ElementDataBean extends CommResult {
                 }
 
                 public String getElementId() {
-                    return ElementId;
+                    return ElementId!=null?ElementId:"";
                 }
 
                 public void setElementId(String ElementId) {
@@ -292,7 +293,7 @@ public class ElementDataBean extends CommResult {
                 }
 
                 public String getElementType() {
-                    return ElementType;
+                    return ElementType!=null?ElementType:"";
                 }
 
                 public void setElementType(String ElementType) {
@@ -300,7 +301,7 @@ public class ElementDataBean extends CommResult {
                 }
 
                 public String getFoundationJS() {
-                    return FoundationJS;
+                    return FoundationJS!=null?FoundationJS:"";
                 }
 
                 public void setFoundationJS(String foundationJS) {
@@ -308,7 +309,7 @@ public class ElementDataBean extends CommResult {
                 }
 
                 public String getFormName() {
-                    return FormName;
+                    return FormName!=null?FormName:"";
                 }
 
                 public void setFormName(String FormName) {
@@ -316,7 +317,7 @@ public class ElementDataBean extends CommResult {
                 }
 
                 public String getGatherEffects() {
-                    return GatherEffects;
+                    return GatherEffects!=null?GatherEffects:"";
                 }
 
                 public void setGatherEffects(String gatherEffects) {
@@ -324,7 +325,7 @@ public class ElementDataBean extends CommResult {
                 }
 
                 public String getGatherImportMapEffects() {
-                    return GatherImportMapEffects;
+                    return GatherImportMapEffects!=null?GatherImportMapEffects:"";
                 }
 
                 public void setGatherImportMapEffects(String GatherImportMapEffects) {
@@ -332,7 +333,7 @@ public class ElementDataBean extends CommResult {
                 }
 
                 public String getIsHide() {
-                    return IsHide;
+                    return IsHide!=null?IsHide:"";
                 }
 
                 public void setIsHide(String IsHide) {
@@ -340,7 +341,7 @@ public class ElementDataBean extends CommResult {
                 }
 
                 public String getMEName() {
-                    return MEName;
+                    return MEName!=null?MEName:"";
                 }
 
                 public void setMEName(String MEName) {
@@ -348,7 +349,7 @@ public class ElementDataBean extends CommResult {
                 }
 
                 public String getMaxError() {
-                    return MaxError;
+                    return MaxError!=null?MaxError:"";
                 }
 
                 public void setMaxError(String MaxError) {
@@ -356,7 +357,7 @@ public class ElementDataBean extends CommResult {
                 }
 
                 public String getMaxWarning() {
-                    return MaxWarning;
+                    return MaxWarning!=null?MaxWarning:"";
                 }
 
                 public void setMaxWarning(String MaxWarning) {
@@ -364,7 +365,7 @@ public class ElementDataBean extends CommResult {
                 }
 
                 public String getMinError() {
-                    return MinError;
+                    return MinError!=null?MinError:"";
                 }
 
                 public void setMinError(String MinError) {
@@ -372,7 +373,7 @@ public class ElementDataBean extends CommResult {
                 }
 
                 public String getMinWarning() {
-                    return MinWarning;
+                    return MinWarning!=null?MinWarning:"";
                 }
 
                 public void setMinWarning(String MinWarning) {
@@ -380,7 +381,7 @@ public class ElementDataBean extends CommResult {
                 }
 
                 public String getNameText() {
-                    return NameText;
+                    return NameText!=null?NameText:"";
                 }
 
                 public void setNameText(String NameText) {
@@ -388,7 +389,7 @@ public class ElementDataBean extends CommResult {
                 }
 
                 public String getParentId() {
-                    return ParentId;
+                    return ParentId!=null?ParentId:"";
                 }
 
                 public void setParentId(String ParentId) {
@@ -396,7 +397,7 @@ public class ElementDataBean extends CommResult {
                 }
 
                 public String getPointLen() {
-                    return PointLen;
+                    return PointLen!=null?PointLen:"";
                 }
 
                 public void setPointLen(String PointLen) {
@@ -404,7 +405,7 @@ public class ElementDataBean extends CommResult {
                 }
 
                 public String getRequired() {
-                    return Required;
+                    return Required!=null?Required:"";
                 }
 
                 public void setRequired(String Required) {
@@ -412,7 +413,7 @@ public class ElementDataBean extends CommResult {
                 }
 
                 public String getSaveField() {
-                    return SaveField;
+                    return SaveField!=null?SaveField:"";
                 }
 
                 public void setSaveField(String SaveField) {
@@ -420,7 +421,7 @@ public class ElementDataBean extends CommResult {
                 }
 
                 public String getSignature() {
-                    return Signature;
+                    return Signature!=null?Signature:"";
                 }
 
                 public void setSignature(String Signature) {
@@ -428,7 +429,7 @@ public class ElementDataBean extends CommResult {
                 }
 
                 public String getSignatureAuto() {
-                    return SignatureAuto;
+                    return SignatureAuto!=null?SignatureAuto:"";
                 }
 
                 public void setSignatureAuto(String SignatureAuto) {
@@ -436,7 +437,7 @@ public class ElementDataBean extends CommResult {
                 }
 
                 public String getToolTipText() {
-                    return ToolTipText;
+                    return ToolTipText!=null?ToolTipText:"";
                 }
 
                 public void setToolTipText(String ToolTipText) {
@@ -444,7 +445,7 @@ public class ElementDataBean extends CommResult {
                 }
 
                 public String getContainerId() {
-                    return containerId;
+                    return containerId!=null?containerId:"";
                 }
 
                 public void setContainerId(String containerId) {
@@ -452,7 +453,7 @@ public class ElementDataBean extends CommResult {
                 }
 
                 public String getContainerFlag() {
-                    return containerFlag;
+                    return containerFlag!=null?containerFlag:"";
                 }
 
                 public void setContainerFlag(String containerFlag) {
@@ -460,7 +461,7 @@ public class ElementDataBean extends CommResult {
                 }
 
                 public List<OprationItemListBean> getOprationItemList() {
-                    return OprationItemList;
+                    return OprationItemList!=null?OprationItemList:new ArrayList<OprationItemListBean>();
                 }
 
                 public void setOprationItemList(List<OprationItemListBean> OprationItemList) {
@@ -468,7 +469,7 @@ public class ElementDataBean extends CommResult {
                 }
 
                 public List<RadioElementListBean> getRadioElementList() {
-                    return RadioElementList;
+                    return RadioElementList!=null?RadioElementList:new ArrayList<RadioElementListBean>();
                 }
 
                 public void setRadioElementList(List<RadioElementListBean> RadioElementList) {
@@ -488,7 +489,7 @@ public class ElementDataBean extends CommResult {
                     private String Value;
 
                     public String getIsSelect() {
-                        return IsSelect;
+                        return IsSelect!=null?IsSelect:"";
                     }
 
                     public void setIsSelect(String isSelect) {
@@ -496,7 +497,7 @@ public class ElementDataBean extends CommResult {
                     }
 
                     public String getNumberValue() {
-                        return NumberValue;
+                        return NumberValue!=null?NumberValue:"";
                     }
 
                     public void setNumberValue(String NumberValue) {
@@ -504,7 +505,7 @@ public class ElementDataBean extends CommResult {
                     }
 
                     public String getText() {
-                        return Text;
+                        return Text!=null?Text:"";
                     }
 
                     public void setText(String Text) {
@@ -512,7 +513,7 @@ public class ElementDataBean extends CommResult {
                     }
 
                     public String getValue() {
-                        return Value;
+                        return Value!=null?Value:"";
                     }
 
                     public void setValue(String Value) {
@@ -561,7 +562,7 @@ public class ElementDataBean extends CommResult {
                     private List<OprationItemListBean> OprationItemList;
 
                     public String getBindingTemplateID() {
-                        return BindingTemplateID;
+                        return BindingTemplateID!=null?BindingTemplateID:"";
                     }
 
                     public void setBindingTemplateID(String BindingTemplateID) {
@@ -569,7 +570,7 @@ public class ElementDataBean extends CommResult {
                     }
 
                     public String getCallBackEffects() {
-                        return CallBackEffects;
+                        return CallBackEffects!=null?CallBackEffects:"";
                     }
 
                     public void setCallBackEffects(String CallBackEffects) {
@@ -577,7 +578,7 @@ public class ElementDataBean extends CommResult {
                     }
 
                     public String getCallBackReturnMapEffects() {
-                        return CallBackReturnMapEffects;
+                        return CallBackReturnMapEffects!=null?CallBackReturnMapEffects:"";
                     }
 
                     public void setCallBackReturnMapEffects(String CallBackReturnMapEffects) {
@@ -585,7 +586,7 @@ public class ElementDataBean extends CommResult {
                     }
 
                     public String getDataSourceRef() {
-                        return DataSourceRef;
+                        return DataSourceRef!=null?DataSourceRef:"";
                     }
 
                     public void setDataSourceRef(String DataSourceRef) {
@@ -593,7 +594,7 @@ public class ElementDataBean extends CommResult {
                     }
 
                     public String getDefaultValue() {
-                        return DefaultValue;
+                        return DefaultValue!=null?DefaultValue:"";
                     }
 
                     public void setDefaultValue(String DefaultValue) {
@@ -601,7 +602,7 @@ public class ElementDataBean extends CommResult {
                     }
 
                     public String getDisable() {
-                        return Disable;
+                        return Disable!=null?Disable:"";
                     }
 
                     public void setDisable(String Disable) {
@@ -609,7 +610,7 @@ public class ElementDataBean extends CommResult {
                     }
 
                     public String getElementId() {
-                        return ElementId;
+                        return ElementId!=null?ElementId:"";
                     }
 
                     public void setElementId(String ElementId) {
@@ -617,7 +618,7 @@ public class ElementDataBean extends CommResult {
                     }
 
                     public String getElementType() {
-                        return ElementType;
+                        return ElementType!=null?ElementType:"";
                     }
 
                     public void setElementType(String ElementType) {
@@ -625,7 +626,7 @@ public class ElementDataBean extends CommResult {
                     }
 
                     public String getFormName() {
-                        return FormName;
+                        return FormName!=null?FormName:"";
                     }
 
                     public void setFormName(String FormName) {
@@ -633,7 +634,7 @@ public class ElementDataBean extends CommResult {
                     }
 
                     public String getIsHide() {
-                        return IsHide;
+                        return IsHide!=null?IsHide:"";
                     }
 
                     public void setIsHide(String IsHide) {
@@ -641,7 +642,7 @@ public class ElementDataBean extends CommResult {
                     }
 
                     public String getNameText() {
-                        return NameText;
+                        return NameText!=null?NameText:"";
                     }
 
                     public void setNameText(String NameText) {
@@ -649,7 +650,7 @@ public class ElementDataBean extends CommResult {
                     }
 
                     public String getParentId() {
-                        return ParentId;
+                        return ParentId!=null?ParentId:"";
                     }
 
                     public void setParentId(String ParentId) {
@@ -657,7 +658,7 @@ public class ElementDataBean extends CommResult {
                     }
 
                     public String getContainerId() {
-                        return containerId;
+                        return containerId!=null?containerId:"";
                     }
 
                     public void setContainerId(String containerId) {
@@ -665,7 +666,7 @@ public class ElementDataBean extends CommResult {
                     }
 
                     public String getContainerFlag() {
-                        return containerFlag;
+                        return containerFlag!=null?containerFlag:"";
                     }
 
                     public void setContainerFlag(String containerFlag) {
@@ -673,7 +674,7 @@ public class ElementDataBean extends CommResult {
                     }
 
                     public String getIsSelect() {
-                        return IsSelect;
+                        return IsSelect!=null?IsSelect:"";
                     }
 
                     public void setIsSelect(String isSelect) {
@@ -681,7 +682,7 @@ public class ElementDataBean extends CommResult {
                     }
 
                     public String getRequired() {
-                        return Required;
+                        return Required!=null?Required:"";
                     }
 
                     public void setRequired(String Required) {
@@ -689,7 +690,7 @@ public class ElementDataBean extends CommResult {
                     }
 
                     public String getSaveField() {
-                        return SaveField;
+                        return SaveField!=null?SaveField:"";
                     }
 
                     public void setSaveField(String SaveField) {
@@ -697,7 +698,7 @@ public class ElementDataBean extends CommResult {
                     }
 
                     public String getToolTipText() {
-                        return ToolTipText;
+                        return ToolTipText!=null?ToolTipText:"";
                     }
 
                     public void setToolTipText(String ToolTipText) {
@@ -705,7 +706,7 @@ public class ElementDataBean extends CommResult {
                     }
 
                     public List<OprationItemListBean> getOprationItemList() {
-                        return OprationItemList;
+                        return OprationItemList!=null?OprationItemList:new ArrayList<OprationItemListBean>();
                     }
 
                     public void setOprationItemList(List<OprationItemListBean> OprationItemList) {
@@ -724,7 +725,7 @@ public class ElementDataBean extends CommResult {
                         private String Value;
 
                         public String getNumberValue() {
-                            return NumberValue;
+                            return NumberValue!=null?NumberValue:"";
                         }
 
                         public void setNumberValue(String NumberValue) {
@@ -732,7 +733,7 @@ public class ElementDataBean extends CommResult {
                         }
 
                         public String getText() {
-                            return Text;
+                            return Text!=null?Text:"";
                         }
 
                         public void setText(String Text) {
@@ -740,7 +741,7 @@ public class ElementDataBean extends CommResult {
                         }
 
                         public String getValue() {
-                            return Value;
+                            return Value!=null?Value:"";
                         }
 
                         public void setValue(String Value) {
@@ -763,7 +764,7 @@ public class ElementDataBean extends CommResult {
                 private List<SetDataListBean> SetDataList;
 
                 public String getAllSatisfyFire() {
-                    return AllSatisfyFire;
+                    return AllSatisfyFire!=null?AllSatisfyFire:"";
                 }
 
                 public void setAllSatisfyFire(String AllSatisfyFire) {
@@ -771,7 +772,7 @@ public class ElementDataBean extends CommResult {
                 }
 
                 public String getFormName() {
-                    return FormName;
+                    return FormName!=null?FormName:"";
                 }
 
                 public void setFormName(String FormName) {
@@ -779,7 +780,7 @@ public class ElementDataBean extends CommResult {
                 }
 
                 public String getOnlySatisfyFire() {
-                    return OnlySatisfyFire;
+                    return OnlySatisfyFire!=null?OnlySatisfyFire:"";
                 }
 
                 public void setOnlySatisfyFire(String OnlySatisfyFire) {
@@ -787,7 +788,7 @@ public class ElementDataBean extends CommResult {
                 }
 
                 public List<SetDataListBean> getSetDataList() {
-                    return SetDataList;
+                    return SetDataList!=null?SetDataList:new ArrayList<SetDataListBean>();
                 }
 
                 public void setSetDataList(List<SetDataListBean> SetDataList) {
@@ -807,7 +808,7 @@ public class ElementDataBean extends CommResult {
                     private List<ChangeListBean> ChangeList;
 
                     public String getFormName() {
-                        return FormName;
+                        return FormName!=null?FormName:"";
                     }
 
                     public void setFormName(String FormName) {
@@ -815,7 +816,7 @@ public class ElementDataBean extends CommResult {
                     }
 
                     public String getSign() {
-                        return Sign;
+                        return Sign!=null?Sign:"";
                     }
 
                     public void setSign(String sign) {
@@ -823,7 +824,7 @@ public class ElementDataBean extends CommResult {
                     }
 
                     public String getVal() {
-                        return Val;
+                        return Val!=null?Val:"";
                     }
 
                     public void setVal(String Val) {
@@ -831,7 +832,7 @@ public class ElementDataBean extends CommResult {
                     }
 
                     public String getVal2() {
-                        return Val2;
+                        return Val2!=null?Val2:"";
                     }
 
                     public void setVal2(String val2) {
@@ -839,7 +840,7 @@ public class ElementDataBean extends CommResult {
                     }
 
                     public List<ChangeListBean> getChangeList() {
-                        return ChangeList;
+                        return ChangeList!=null?ChangeList:new ArrayList<ChangeListBean>();
                     }
 
                     public void setChangeList(List<ChangeListBean> ChangeList) {
@@ -854,7 +855,7 @@ public class ElementDataBean extends CommResult {
                         private String Val;
 
                         public String getId() {
-                            return Id;
+                            return Id!=null?Id:"";
                         }
 
                         public void setId(String Id) {
@@ -862,7 +863,7 @@ public class ElementDataBean extends CommResult {
                         }
 
                         public String getItems() {
-                            return Items;
+                            return Items!=null?Items:"";
                         }
 
                         public void setItems(String Items) {
@@ -870,7 +871,7 @@ public class ElementDataBean extends CommResult {
                         }
 
                         public String getSelectItems() {
-                            return SelectItems;
+                            return SelectItems!=null?SelectItems:"";
                         }
 
                         public void setSelectItems(String selectItems) {
@@ -878,7 +879,7 @@ public class ElementDataBean extends CommResult {
                         }
 
                         public String getType() {
-                            return Type;
+                            return Type!=null?Type:"";
                         }
 
                         public void setType(String Type) {
@@ -886,7 +887,7 @@ public class ElementDataBean extends CommResult {
                         }
 
                         public String getVal() {
-                            return Val;
+                            return Val!=null?Val:"";
                         }
 
                         public void setVal(String val) {
@@ -908,7 +909,7 @@ public class ElementDataBean extends CommResult {
                 private String Id;
 
                 public String getCalType() {
-                    return CalType;
+                    return CalType!=null?CalType:"";
                 }
 
                 public void setCalType(String CalType) {
@@ -916,7 +917,7 @@ public class ElementDataBean extends CommResult {
                 }
 
                 public String getEffects() {
-                    return Effects;
+                    return Effects!=null?Effects:"";
                 }
 
                 public void setEffects(String Effects) {
@@ -924,7 +925,7 @@ public class ElementDataBean extends CommResult {
                 }
 
                 public String getId() {
-                    return Id;
+                    return Id!=null?Id:"";
                 }
 
                 public void setId(String Id) {
@@ -940,7 +941,7 @@ public class ElementDataBean extends CommResult {
         private String RecId;
 
         public String getEmrCode() {
-            return EmrCode;
+            return EmrCode!=null?EmrCode:"";
         }
 
         public void setEmrCode(String EmrCode) {
@@ -948,7 +949,7 @@ public class ElementDataBean extends CommResult {
         }
 
         public String getGuId() {
-            return GuId;
+            return GuId!=null?GuId:"";
         }
 
         public void setGuId(String GuId) {
@@ -956,7 +957,7 @@ public class ElementDataBean extends CommResult {
         }
 
         public String getRecId() {
-            return RecId;
+            return RecId!=null?RecId:"";
         }
 
         public void setRecId(String RecId) {
@@ -977,7 +978,7 @@ public class ElementDataBean extends CommResult {
         private List<RoseListBean> RoseList;
 
         public List<InputsListBean> getInputsList() {
-            return InputsList;
+            return InputsList!=null?InputsList:new ArrayList<InputsListBean>();
         }
 
         public void setInputsList(List<InputsListBean> InputsList) {
@@ -985,7 +986,7 @@ public class ElementDataBean extends CommResult {
         }
 
         public List<RoseListBean> getRoseList() {
-            return RoseList;
+            return RoseList!=null?RoseList:new ArrayList<RoseListBean>();
         }
 
         public void setRoseList(List<RoseListBean> RoseList) {
@@ -996,7 +997,7 @@ public class ElementDataBean extends CommResult {
             private String Code;
 
             public String getCode() {
-                return Code;
+                return Code!=null?Code:"";
             }
 
             public void setCode(String Code) {
@@ -1017,7 +1018,7 @@ public class ElementDataBean extends CommResult {
             private String Code;
 
             public String getCode() {
-                return Code;
+                return Code!=null?Code:"";
             }
 
             public void setCode(String Code) {
@@ -1051,7 +1052,7 @@ public class ElementDataBean extends CommResult {
         private String RepId;
 
         public String getContent() {
-            return Content;
+            return Content!=null?Content:"";
         }
 
         public void setContent(String Content) {
@@ -1059,7 +1060,7 @@ public class ElementDataBean extends CommResult {
         }
 
         public String getDataType() {
-            return DataType;
+            return DataType!=null?DataType:"";
         }
 
         public void setDataType(String DataType) {
@@ -1075,7 +1076,7 @@ public class ElementDataBean extends CommResult {
         }
 
         public String getFormatFun() {
-            return FormatFun;
+            return FormatFun!=null?FormatFun:"";
         }
 
         public void setFormatFun(String FormatFun) {
@@ -1083,7 +1084,7 @@ public class ElementDataBean extends CommResult {
         }
 
         public String getId() {
-            return Id;
+            return Id!=null?Id:"";
         }
 
         public void setId(String Id) {
@@ -1091,7 +1092,7 @@ public class ElementDataBean extends CommResult {
         }
 
         public String getName() {
-            return Name;
+            return Name!=null?Name:"";
         }
 
         public void setName(String Name) {
@@ -1099,7 +1100,7 @@ public class ElementDataBean extends CommResult {
         }
 
         public String getRepId() {
-            return RepId;
+            return RepId!=null?RepId:"";
         }
 
         public void setRepId(String RepId) {
@@ -1111,7 +1112,7 @@ public class ElementDataBean extends CommResult {
             private String item2;
 
             public String getItem1() {
-                return item1;
+                return item1!=null?item1:"";
             }
 
             public void setItem1(String item1) {
@@ -1119,7 +1120,7 @@ public class ElementDataBean extends CommResult {
             }
 
             public String getItem2() {
-                return item2;
+                return item2!=null?item2:"";
             }
 
             public void setItem2(String item2) {

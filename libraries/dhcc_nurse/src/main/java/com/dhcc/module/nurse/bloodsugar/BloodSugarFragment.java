@@ -1,5 +1,6 @@
 package com.dhcc.module.nurse.bloodsugar;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -9,6 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.base.commlibs.BaseActivity;
+import com.base.commlibs.NurseAPI;
+import com.base.commlibs.constant.Action;
 import com.base.commlibs.constant.SharedPreference;
 import com.base.commlibs.http.CommonCallBack;
 import com.base.commlibs.utils.RecyclerViewHelper;
@@ -22,14 +25,17 @@ import com.dhcc.module.nurse.BaseNurseFragment;
 import com.dhcc.module.nurse.R;
 import com.dhcc.module.nurse.bloodsugar.adapter.BloodSugarPatAdapter;
 import com.dhcc.module.nurse.bloodsugar.bean.BloodSugarPatsBean;
+import com.dhcc.module.nurse.bloodsugar.bean.GetScanPatsBean;
 import com.dhcc.module.nurse.task.TaskViewApiManager;
 import com.dhcc.module.nurse.task.bean.ScanResultBean;
 import com.dhcc.res.infusion.CustomDateTimeView;
 import com.dhcc.res.infusion.CustomSheetListView;
 import com.dhcc.res.infusion.bean.SheetListBean;
+import com.google.gson.Gson;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -211,4 +217,42 @@ public class BloodSugarFragment extends BaseNurseFragment {
     protected int setLayout() {
         return R.layout.fragment_blood_sugar;
     }
+
+    //扫码获取信息
+    @Override
+    public void getScanMsg(Intent intent) {
+        super.getScanMsg(intent);
+        if (intent.getAction().equals(Action.DEVICE_SCAN_CODE)) {
+            Bundle bundle = new Bundle();
+            bundle = intent.getExtras();
+            initScanMsg(bundle.getString("data"));
+        }
+    }
+
+    //扫码直接进入
+    private void initScanMsg(String regNo) {
+        showLoadingTip(BaseActivity.LoadingType.FULL);
+        BloodSugarApiManager.getPatWristInfo(regNo, new CommonCallBack<GetScanPatsBean>() {
+            @Override
+            public void onFail(String code, String msg) {
+                hideLoadingTip();
+            }
+
+            @Override
+            public void onSuccess(GetScanPatsBean bean, String type) {
+                hideLoadingTip();
+                for (int position = 0; position < bloodSugarPatAdapter.getItemCount(); position++) {
+                    if (bloodSugarPatAdapter.getItem(position).getRegNo().equals(bean.getPatInfo().getRegNo())) {
+                        //体征录入
+                        bloodSugarPatAdapter.getOnItemChildClickListener().onItemChildClick(bloodSugarPatAdapter, f(R.id.tv_sugar_record), position);
+                        break;
+                    }
+                    if (position >= bloodSugarPatAdapter.getItemCount() - 1) {
+                        showToast("当前列表未找到该患者");
+                    }
+                }
+            }
+        });
+    }
+
 }

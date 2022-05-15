@@ -194,6 +194,7 @@ public class BloodSugarRecordFragment extends BaseNurseFragment {
                 mSelectItem = sugarBean.getDesc();
                 tvState.setText(mSelectItem);
                 etValue.setText(sugarBean.getValue());
+                etNote.setText(sugarBean.getSugarNotes()); // EH
                 rowId = sugarBean.getRowId();
                 sugarRowId = sugarBean.getSugarRowId();
                 setOptions(mPst);
@@ -270,6 +271,7 @@ public class BloodSugarRecordFragment extends BaseNurseFragment {
                         mSelectItem = item;
                         tvState.setText(item);
                         etValue.setText(itemBean.getSugarList().get(index).getValue());
+                        etNote.setText(itemBean.getSugarList().get(index).getSugarNotes()); // EH
                         rowId = itemBean.getSugarList().get(index).getRowId();
                         sugarRowId = itemBean.getSugarList().get(index).getSugarRowId();
                         setOptions(index);
@@ -284,6 +286,7 @@ public class BloodSugarRecordFragment extends BaseNurseFragment {
         tvList = new ArrayList<>();
         flOp.removeAllViews();
         for (int i = 0; i < itemBean.getSugarList().get(index).getOptions().size(); i++) {
+            if ("".equals(itemBean.getSugarList().get(index).getOptions().get(i))) continue; // EH
             TextView tvButton = new TextView(getContext());
             tvButton.setText(itemBean.getSugarList().get(index).getOptions().get(i));
             tvButton.setGravity(Gravity.CENTER);
@@ -309,6 +312,7 @@ public class BloodSugarRecordFragment extends BaseNurseFragment {
             flOp.addView(tvButton);
             tvList.add(tvButton);
         }
+        flOp.setVisibility(tvList.size() > 0 ? View.VISIBLE : View.GONE); // EH 2022-04-11 不设选项隐藏
 
     }
     public boolean isNumber(Object obj) {

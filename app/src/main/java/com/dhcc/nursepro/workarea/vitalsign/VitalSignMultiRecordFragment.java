@@ -265,8 +265,10 @@ public class VitalSignMultiRecordFragment extends BaseFragment implements OnDate
                     time = getTempByPatListBean.getCurTime();
                     tvDatetime.setText(date + " " + time);
                 }
+                boolean ifChange = ifChangeTitle(getTempByPatListBean.getTempConfig());
                 tempConfigList = getTempByPatListBean.getTempConfig();
-                if (tempConfigList != null && titleNum == 0) {
+                //if (tempConfigList != null && titleNum == 0) {
+                if (ifChange) {
                     patAdapter.setTempConfigBeanList(tempConfigList);
                     patAdapter.setmKeyboard(mKeyboard);
                     initTitle();
@@ -275,6 +277,9 @@ public class VitalSignMultiRecordFragment extends BaseFragment implements OnDate
                 patList = getTempByPatListBean.getPatList();
                 if (patList != null) {
                     checkDisplayPatList(patList);
+                }
+                if (!"999999".equals(getTempByPatListBean.getMsgcode())) {
+                    showToast(getTempByPatListBean.getMsg());
                 }
 
             }
@@ -415,6 +420,7 @@ public class VitalSignMultiRecordFragment extends BaseFragment implements OnDate
     }
 
     private void initTitle() {
+        llVsitem.removeAllViews(); // EH
         for (int i = 0; i < tempConfigList.size(); i++) {
             TextView textView = new TextView(getActivity());
             textView.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1));
@@ -488,6 +494,24 @@ public class VitalSignMultiRecordFragment extends BaseFragment implements OnDate
         }
 
         tvDatetime.setText(TimeUtils.millis2String(millseconds).substring(0, 16));
+    }
+
+    /// EH 2022-05-15 14:30 不同时间项目不同
+    private boolean ifChangeTitle(List<com.dhcc.nursepro.workarea.vitalsign.bean.GetTempByPatListBean.TempConfigBean> list) {
+        boolean ifChange = false;
+        if (list != null) {
+            if (tempConfigList == null) ifChange = true;
+            else if (list.size() != tempConfigList.size()) ifChange = true;
+            else {
+                for (int i = 0; i < tempConfigList.size(); i++) {
+                    if (!tempConfigList.get(i).getCode().equals(list.get(i).getCode())) {
+                        ifChange = true;
+                        break;
+                    }
+                }
+            }
+        }
+        return ifChange;
     }
 
 }

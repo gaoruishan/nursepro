@@ -118,6 +118,7 @@ public class VitalSignDetailFragment extends BaseFragment implements View.OnClic
         map.put("episodeId", episodeId);
         map.put("stDate", stDate);
         map.put("endDate", enDate);
+        map.put("listFlag", "1");
         VitalSignDetailApiManager.getVitalSignDetail(map, new VitalSignDetailApiManager.GetEventsResultMsgCallBack() {
             @Override
             public void onSuccess(VitalSignDetailBean vitalSignDetailBean) {

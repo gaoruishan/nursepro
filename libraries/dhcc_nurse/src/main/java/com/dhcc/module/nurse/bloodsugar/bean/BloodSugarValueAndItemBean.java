@@ -60,6 +60,7 @@ public class BloodSugarValueAndItemBean  extends CommResult {
         private String normalValueRangTo;
         private String rowId;
         private String sugarRowId;
+        private String sugarNotes;
         private String select;
         private String validate;
         private String value;
@@ -74,6 +75,14 @@ public class BloodSugarValueAndItemBean  extends CommResult {
 
         public void setSugarRowId(String sugarRowId) {
             this.sugarRowId = sugarRowId;
+        }
+
+        public String getSugarNotes() {
+            return sugarNotes!=null?sugarNotes:"";
+        }
+
+        public void setSugarNotes(String sugarNotes) {
+            this.sugarNotes = sugarNotes;
         }
 
         public String getBlank() {
