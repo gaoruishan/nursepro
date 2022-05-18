@@ -1,6 +1,0 @@
-<resources>
-    <string name="app_name">dhcc_nurse</string>
-
-    <!-- 生命体征topTextview.settag-key值-->
-    <string name="key_vis_toptext">key_toptext</string>
-</resources>

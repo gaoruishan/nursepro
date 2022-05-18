@@ -1,9 +1,0 @@
-<resources>
-    <string name="app_name">TestMyJarApplication</string>
-    <string name="str_tab_phone">通话</string>
-    <string name="str_tab_tellist">通讯录</string>
-    <string name="str_tab_tellist_group">群组</string>
-    <string name="str_tab_message">消息列表</string>
-    <string name="str_tab_notebook">备忘录</string>
-    <string name="str_tab_messagedetail">消息详情</string>
-</resources>

@@ -1,8 +1,0 @@
-{
-  "webServiceUserName": "dhwebservice",
-  "webServicePassword": "dhwebservice",
-  "defaultIP": "10.1.21.123",
-  "defaultPath": "/imedical/web",
-  "oppdaService": "/Nur.MOES.Service.WebService.cls",
-  "pdaService": "/Nur.MNIS.Service.WebService.cls"
-}

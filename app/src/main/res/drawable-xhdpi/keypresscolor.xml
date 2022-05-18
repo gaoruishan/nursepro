@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android"><!--按钮点击state_pressed之后颜色-->
-    <item android:state_focused="true" android:color="@color/lab_warning_red"></item>
-    <item android:state_checked="true" android:color="@color/blue"></item>
-    <item android:state_pressed="true" android:color="@color/black"></item>
-    <item android:color="@color/black"/>
-</selector>

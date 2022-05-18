@@ -1,5 +1,0 @@
-<resources>
-    <string name="app_name">baselib</string>
-    <string name="load_fail_label">加载失败，请点击屏幕重新加载</string>
-    <string name="str_base_network_fail_tip">网络不给力，请检查网络设置</string>
-</resources>
