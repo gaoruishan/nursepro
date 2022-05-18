@@ -27,10 +27,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/blue_dark"
+            android:background="@color/dhcc_blue_dark"
             android:gravity="center"
             android:text="确定"
-            android:textColor="@color/white"
+            android:textColor="@color/dhcc_white"
             android:textSize="@dimen/sp_16"/>
     </LinearLayout>
 

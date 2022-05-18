@@ -1,10 +1,12 @@
-include ':app'
-include ':infusion'
+//include ':app'
+//include ':infusion'
+include ':commlibs'
+include ':test'
 
 include ':libraries',
-        ':libraries:baselib',
-        ':libraries:dhcc_res',
-        ':libraries:dhcc_infusion',
-        ":libraries:dhcc_nurse",
-        ":libraries:dhcc_nurlink"
-include ':commlibs'
+//        ':libraries:baselib',
+//        ':libraries:dhcc_infusion',
+//        ":libraries:dhcc_nurse",
+//        ':libraries:TimePickerDialog',
+//        ":libraries:dhcc_nurlink",
+        ':libraries:dhcc_res'

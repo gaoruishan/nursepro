@@ -5,7 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/dp_10"
-    android:background="@color/white"
+    android:background="@color/dhcc_white"
     android:orientation="vertical">
     <com.noober.background.view.BLTextView
         android:id="@+id/dhcc_tv"
@@ -13,14 +13,14 @@
         android:layout_height="@dimen/dp_30"
         android:gravity="center"
         android:text="测试"
-        app:bl_selected_textColor="@color/blue_dark"
-        app:bl_unSelected_textColor="@color/text_color_black"
+        app:bl_selected_textColor="@color/dhcc_blue_dark"
+        app:bl_unSelected_textColor="@color/dhcc_text_color_black"
         app:bl_corners_radius="@dimen/dp_4"
-        app:bl_selected_stroke_color="@color/blue_dark"
+        app:bl_selected_stroke_color="@color/dhcc_blue_dark"
         app:bl_stroke_width="@dimen/dp_1"
-        app:bl_unSelected_drawable="@color/text_color_gray_e"
-        app:bl_selected_drawable="@color/blue_dark2"
-        app:bl_unSelected_stroke_color="@color/text_black_light"/>
+        app:bl_unSelected_drawable="@color/dhcc_text_color_gray_e"
+        app:bl_selected_drawable="@color/dhcc_blue_dark2"
+        app:bl_unSelected_stroke_color="@color/dhcc_text_black_light"/>
 
 
 </LinearLayout>

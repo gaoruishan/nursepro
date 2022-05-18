@@ -24,7 +24,7 @@
                 android:gravity="center"
                 android:layout_marginTop="@dimen/dp_3"
                 android:text="  消息"
-                android:textColor="@color/white"
+                android:textColor="@color/dhcc_white"
                 android:textSize="@dimen/sp_14" />
             <View
                 android:visibility="gone"
@@ -39,53 +39,53 @@
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_marginLeft="@dimen/dp_10"
-            android:background="@color/text_color_gray_c"></View>
+            android:background="@color/dhcc_text_color_gray_c"></View>
         <TextView
             android:id="@+id/tv_single_bed"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_35"
             android:gravity="center"
             android:text="所管床"
-            android:textColor="@color/white"
+            android:textColor="@color/dhcc_white"
             android:textSize="@dimen/sp_14" />
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_marginLeft="@dimen/dp_10"
-            android:background="@color/text_color_gray_c"></View>
+            android:background="@color/dhcc_text_color_gray_c"></View>
         <TextView
             android:id="@+id/tv_single_notice"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_35"
             android:gravity="center"
             android:text="提醒"
-            android:textColor="@color/white"
+            android:textColor="@color/dhcc_white"
             android:textSize="@dimen/sp_14" />
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_marginLeft="@dimen/dp_10"
-            android:background="@color/text_color_gray_c"></View>
+            android:background="@color/dhcc_text_color_gray_c"></View>
         <TextView
             android:id="@+id/tv_single_areamodel"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_35"
             android:gravity="center"
             android:text="病区模式"
-            android:textColor="@color/white"
+            android:textColor="@color/dhcc_white"
             android:textSize="@dimen/sp_14" />
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_marginLeft="@dimen/dp_10"
-            android:background="@color/text_color_gray_c"></View>
+            android:background="@color/dhcc_text_color_gray_c"></View>
         <TextView
             android:id="@+id/tv_single_relogin"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_35"
             android:gravity="center"
             android:text="重登"
-            android:textColor="@color/white"
+            android:textColor="@color/dhcc_white"
             android:textSize="@dimen/sp_14" />
 
     </LinearLayout>

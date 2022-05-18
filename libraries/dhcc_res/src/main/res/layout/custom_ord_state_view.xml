@@ -13,7 +13,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_54"
-        android:background="@color/white"
+        android:background="@color/dhcc_white"
         android:paddingLeft="@dimen/dp_25"
         android:paddingRight="@dimen/dp_25"
         android:gravity="center">

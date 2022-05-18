@@ -14,10 +14,10 @@
         <com.noober.background.view.BLTextView
             android:id="@+id/tv_status"
             android:text="停止"
-            android:textColor="@color/white"
+            android:textColor="@color/dhcc_white"
             android:layout_width="wrap_content"
             app:bl_corners_radius="@dimen/dp_5"
-            app:bl_solid_color="@color/blue_dark"
+            app:bl_solid_color="@color/dhcc_blue_dark"
             android:textSize="@dimen/sp_10"
             android:paddingRight="@dimen/dp_3"
             android:paddingLeft="@dimen/dp_3"

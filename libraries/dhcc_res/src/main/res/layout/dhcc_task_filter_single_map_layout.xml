@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/dhcc_white"
     android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,7 +14,7 @@
         android:orientation="horizontal"
         android:paddingLeft="@dimen/dp_10"
         android:paddingRight="@dimen/dp_10"
-        android:background="@color/blue">
+        android:background="@color/dhcc_blue">
 
         <TextView
             android:layout_width="wrap_content"
@@ -23,7 +23,7 @@
             android:drawablePadding="@dimen/dp_5"
             android:gravity="center_vertical"
             android:text="选择患者"
-            android:textColor="@color/white"
+            android:textColor="@color/dhcc_white"
             android:textSize="@dimen/sp_14" />
         <TextView
             android:id="@+id/tv_patarea_select"
@@ -33,7 +33,7 @@
             android:gravity="center_vertical"
             android:text="全区"
             android:drawableEnd="@drawable/dhcc_arrow_down_whitw"
-            android:textColor="@color/white"
+            android:textColor="@color/dhcc_white"
             android:textSize="@dimen/sp_14" />
 
     </LinearLayout>
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/dp_2"
-            android:background="@color/blue"
+            android:background="@color/dhcc_blue"
             android:orientation="vertical"></LinearLayout>
     </RelativeLayout>
     <LinearLayout
@@ -66,8 +66,8 @@
             android:layout_width="@dimen/dp_0"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/blue"
-            android:textColor="@color/white"
+            android:background="@color/dhcc_blue"
+            android:textColor="@color/dhcc_white"
             android:text="上一位"
             android:gravity="center"
             android:textSize="18sp"
@@ -75,14 +75,14 @@
         <View
             android:layout_width="@dimen/dp_1"
             android:layout_height="match_parent"
-            android:background="@color/white"></View>
+            android:background="@color/dhcc_white"></View>
         <TextView
             android:id="@+id/tv_pat_next"
             android:layout_width="@dimen/dp_0"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/blue"
-            android:textColor="@color/white"
+            android:background="@color/dhcc_blue"
+            android:textColor="@color/dhcc_white"
             android:text="下一位"
             android:gravity="center"
             android:textSize="18sp"

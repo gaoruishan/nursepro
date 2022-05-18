@@ -61,4 +61,13 @@
         <item name="android:windowEnterAnimation">@anim/dhcc_pop_top_in</item>
         <item name="android:windowExitAnimation">@anim/dhcc_pop_top_out</item>
     </style>
+    <!-- icon下文字样式 -->
+    <style name="dhcc_iconTextStyle" parent="@android:style/TextAppearance">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#FF000000</item>
+        <item name="android:textSize">@dimen/sp_16</item>
+        <item name="android:layout_marginTop">@dimen/dp_12</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>

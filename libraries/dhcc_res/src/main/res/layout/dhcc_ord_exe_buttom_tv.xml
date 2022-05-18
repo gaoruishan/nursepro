@@ -6,6 +6,6 @@
     android:layout_height="match_parent"
     android:background="#4a90e2"
     android:gravity="center"
-    android:textColor="@color/white"
+    android:textColor="@color/dhcc_white"
     android:textSize="@dimen/sp_15"
     tools:text="撤销执行" />

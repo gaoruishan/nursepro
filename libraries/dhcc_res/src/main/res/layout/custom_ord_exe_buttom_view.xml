@@ -19,7 +19,7 @@
             android:id="@+id/tv_no_select_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
+            android:textColor="@color/dhcc_white"
             android:text="请您选择需执行的"/>
     </LinearLayout>
 
@@ -42,7 +42,7 @@
                 android:id="@+id/tv_select_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
+                android:textColor="@color/dhcc_white"
                 tools:text="已选择2个"/>
 
             <LinearLayout
@@ -57,7 +57,7 @@
                     android:layout_height="@dimen/dp_16"
                     android:layout_marginStart="@dimen/dp_6"
                     android:layout_marginEnd="@dimen/dp_6"
-                    android:background="@color/white"/>
+                    android:background="@color/dhcc_white"/>
 
                 <TextView
                     android:id="@+id/tv_type"
@@ -65,7 +65,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     tools:text="接受"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/dhcc_white"/>
 
                 <ImageView
                     android:id="@+id/img_sure"

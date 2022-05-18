@@ -9,7 +9,7 @@
     android:paddingBottom="@dimen/dp_5"
     android:paddingLeft="@dimen/dp_10"
     android:paddingRight="@dimen/dp_10"
-    android:background="@color/white"
+    android:background="@color/dhcc_white"
     >
     <com.noober.background.view.BLTextView
         android:id="@+id/tv_tag"
@@ -24,7 +24,7 @@
         android:gravity="center|left"
         android:textColor="@color/black"
         app:bl_corners_radius="@dimen/dp_15"
-        app:bl_solid_color="@color/blue_dark2"
+        app:bl_solid_color="@color/dhcc_blue_dark2"
         android:textSize="@dimen/sp_13"
         />
     <android.support.v7.widget.RecyclerView

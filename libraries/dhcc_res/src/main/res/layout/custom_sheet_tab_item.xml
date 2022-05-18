@@ -19,7 +19,7 @@
 
     <View
         android:id="@+id/v_line"
-        android:background="@color/blue_dark"
+        android:background="@color/dhcc_blue_dark"
         android:layout_width="@dimen/dp_35"
         android:layout_height="@dimen/dp_2"/>
 

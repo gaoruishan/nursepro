@@ -16,10 +16,10 @@
         android:textSize="@dimen/dp_13"
         app:bl_corners_radius="@dimen/dp_3"
         app:bl_stroke_width="@dimen/dp_1"
-        app:bl_selected_stroke_color="@color/blue"
-        app:bl_selected_textColor="@color/blue"
-        app:bl_unSelected_stroke_color="@color/text_color_gray_6"
-        app:bl_unSelected_textColor="@color/text_color_gray_6"
+        app:bl_selected_stroke_color="@color/dhcc_blue"
+        app:bl_selected_textColor="@color/dhcc_blue"
+        app:bl_unSelected_stroke_color="@color/dhcc_text_color_gray_6"
+        app:bl_unSelected_textColor="@color/dhcc_text_color_gray_6"
         tools:ignore="MissingPrefix"
         tools:text="全部" />
 

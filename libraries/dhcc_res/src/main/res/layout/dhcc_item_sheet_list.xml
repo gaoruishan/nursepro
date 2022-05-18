@@ -42,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textColor="@color/text_color_gray_5"
+                android:textColor="@color/dhcc_text_color_gray_5"
                 android:textSize="@dimen/sp_12"
                 tools:text="项目数:" />
 

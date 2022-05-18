@@ -33,7 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_50"
                 android:layout_marginTop="@dimen/dp_20"
-                android:background="@color/bg_blue_light"
+                android:background="@color/dhcc_bg_blue_light"
                 android:orientation="horizontal">
                 <EditText
                     android:id="@+id/message"
@@ -44,7 +44,7 @@
                     android:hint="输入IP"
                     android:digits="0123456789."
                     android:textColor="@color/black"
-                    android:background="@color/bg_blue_light"
+                    android:background="@color/dhcc_bg_blue_light"
                     />
                 <TextView
                     android:layout_width="@dimen/dp_10"
@@ -62,7 +62,7 @@
                     android:hint="输入端口号"
                     android:digits="0123456789"
                     android:textColor="@color/black"
-                    android:background="@color/bg_blue_light"
+                    android:background="@color/dhcc_bg_blue_light"
                 />
             </LinearLayout>
 
@@ -75,7 +75,7 @@
                 android:hint="资源路径"
                 android:digits="/AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
                 android:textColor="@color/black"
-                android:background="@color/bg_blue_light"
+                android:background="@color/dhcc_bg_blue_light"
             />
 
         </LinearLayout>
@@ -114,7 +114,7 @@
                 android:gravity="center"
                 android:singleLine="true"
                 android:text="确定"
-                android:textColor="@color/white"
+                android:textColor="@color/dhcc_white"
                 android:textSize="@dimen/sp_17" />
         </LinearLayout>
     </RelativeLayout>

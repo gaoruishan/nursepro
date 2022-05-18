@@ -24,7 +24,7 @@
         android:overlapAnchor="false"
         android:spinnerMode="dropdown"
         android:background="@drawable/shape_spinner_drop_down"
-        android:popupBackground="@color/bg_blue_light"
+        android:popupBackground="@color/dhcc_bg_blue_light"
         />
 
 </LinearLayout>

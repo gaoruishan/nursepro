@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:background="@color/dhcc_white"
     android:gravity="center_horizontal"
     android:orientation="vertical">
     <TextView
@@ -39,7 +39,7 @@
                 <View
                     android:layout_width="12.5dp"
                     android:layout_height="2.5dp"
-                    android:background="@color/blue_dark"
+                    android:background="@color/dhcc_blue_dark"
                 />
             </LinearLayout>
 
@@ -70,13 +70,13 @@
                         android:layout_width="12.5dp"
                         android:layout_height="2.5dp"
                         android:layout_centerInParent="true"
-                        android:background="@color/blue_dark"
+                        android:background="@color/dhcc_blue_dark"
                     />
                     <View
                         android:layout_width="2.5dp"
                         android:layout_height="12.5dp"
                         android:layout_centerInParent="true"
-                        android:background="@color/blue_dark"
+                        android:background="@color/dhcc_blue_dark"
                     />
                 </RelativeLayout>
             </LinearLayout>

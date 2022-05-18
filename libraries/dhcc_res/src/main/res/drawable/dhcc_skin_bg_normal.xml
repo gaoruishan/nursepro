@@ -5,11 +5,11 @@
     <!-- 边缘线的宽度和颜色 -->
     <stroke
         android:width="@dimen/dp_1"
-        android:color="@color/text_color_gray_c" />
+        android:color="@color/dhcc_text_color_gray_c" />
     <!-- 中间渐变，角度0从左往右，正值为逆时针，270度为从上到下 -->
     <gradient
-        android:startColor="@color/white"
-        android:endColor="@color/white" />
+        android:startColor="@color/dhcc_white"
+        android:endColor="@color/dhcc_white" />
     <!-- 设置四个角的角度 -->
     <corners
         android:radius="@dimen/dp_3" />

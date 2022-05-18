@@ -3,7 +3,7 @@
     <!-- 边框颜色值 -->
     <item>
         <shape>
-            <solid android:color="@color/blue_dark"/>
+            <solid android:color="@color/dhcc_blue_dark"/>
         </shape>
     </item>
     <!-- 主体背景颜色值 -->

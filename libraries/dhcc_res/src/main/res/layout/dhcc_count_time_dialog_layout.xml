@@ -33,12 +33,12 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_1"
-                android:background="@color/blue_light"/>
+                android:background="@color/dhcc_blue_light"/>
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scrollbarSize="@dimen/dp_2"
-                android:scrollbarThumbVertical="@color/blue">
+                android:scrollbarThumbVertical="@color/dhcc_blue">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_marginLeft="@dimen/dp_20"
@@ -168,7 +168,7 @@
                 android:gravity="center"
                 android:singleLine="true"
                 android:text="确定"
-                android:textColor="@color/white"
+                android:textColor="@color/dhcc_white"
                 android:textSize="@dimen/sp_17"
                 app:bl_corners_radius="@dimen/dp_6"
                 app:bl_solid_color="#FF62ABFF"
