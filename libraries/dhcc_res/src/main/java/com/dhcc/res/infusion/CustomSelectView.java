@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.base.commlibs.constant.SharedPreference;
 import com.blankj.utilcode.util.SPStaticUtils;
 import com.grs.dhcc_res.R;
 import com.jzxiang.pickerview.TimePickerDialog;
@@ -59,7 +58,7 @@ public class CustomSelectView extends LinearLayout {
         view = LayoutInflater.from(context).inflate(R.layout.custom_select_view, this, false);
         addView(view);
         setOrientation(VERTICAL);
-        setBackgroundColor(ContextCompat.getColor(context, R.color.white));
+        setBackgroundColor(ContextCompat.getColor(context, R.color.dhcc_white));
     }
 
     @Override
@@ -72,7 +71,7 @@ public class CustomSelectView extends LinearLayout {
     }
 
     public CustomSelectView setSelectTime(final FragmentManager manager, OptionPicker.OnOptionPickListener listener) {
-        String cur = SPStaticUtils.getString(SharedPreference.CURDATETIME);
+        String cur = SPStaticUtils.getString("CURDATETIME");
         if (!TextUtils.isEmpty(cur)) {
             String endDate = cur.substring(0, 10);
             String endTime = cur.substring(11, 16);
@@ -233,10 +232,10 @@ public class CustomSelectView extends LinearLayout {
                 .setMinMillseconds(currentTimeMillis - tenYears)
                 .setMaxMillseconds(currentTimeMillis + tenYears)
                 .setCurrentMillseconds(currentTimeMillis)
-                .setThemeColor(getResources().getColor(R.color.blue))
+                .setThemeColor(getResources().getColor(R.color.dhcc_blue))
                 .setType(type)
-                .setWheelItemTextNormalColor(getResources().getColor(R.color.timetimepicker_default_text_color))
-                .setWheelItemTextSelectorColor(getResources().getColor(R.color.blue))
+                .setWheelItemTextNormalColor(getResources().getColor(R.color.dhcc_timetimepicker_default_text_color))
+                .setWheelItemTextSelectorColor(getResources().getColor(R.color.dhcc_blue))
                 .setWheelItemTextSize(12)
                 .build();
 

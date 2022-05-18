@@ -61,7 +61,7 @@ public abstract class BaseView extends LinearLayout {
             addView(view);
         }
         setOrientation(VERTICAL);
-        setBackgroundColor(ContextCompat.getColor(context, R.color.white));
+        setBackgroundColor(ContextCompat.getColor(context, R.color.dhcc_white));
     }
     /**
      * PatName : lh041101

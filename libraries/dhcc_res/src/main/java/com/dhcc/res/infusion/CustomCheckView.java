@@ -38,7 +38,7 @@ public class CustomCheckView extends BaseView {
 
     public CustomCheckView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        setBackgroundColor(ContextCompat.getColor(context, R.color.transparency));
+        setBackgroundColor(ContextCompat.getColor(context, R.color.dhcc_transparency));
         tvChange = findViewById(R.id.tv_change);
         btn_change = findViewById(R.id.btn_change);
         btn_change.setSelected(false);

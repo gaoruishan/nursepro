@@ -102,12 +102,12 @@ public class CustomTabView extends LinearLayout implements View.OnClickListener 
     @Override
     public void onClick(View v) {
         for (int i = 0; i < tv_tabs.length; i++) {
-            selected(tv_tabs[i], R.color.black, Typeface.NORMAL);
+            selected(tv_tabs[i], R.color.dhcc_black, Typeface.NORMAL);
             view_pats_shows[i].setVisibility(INVISIBLE);
         }
         for (int i = 0; i < rls.length; i++) {
             if (v.getId() == rls[i].getId()) {
-                selected(tv_tabs[i], R.color.blue_dark, Typeface.BOLD);
+                selected(tv_tabs[i], R.color.dhcc_blue_dark, Typeface.BOLD);
                 view_pats_shows[i].setVisibility(VISIBLE);
                 if (lisenter != null) {
                     lisenter.onTabClick(i, tv_tabs[i]);

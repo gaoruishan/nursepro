@@ -9,18 +9,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.base.commlibs.InfusionAPI;
-import com.base.commlibs.http.BaseRequestParams;
-import com.base.commlibs.http.CommWebService;
-import com.base.commlibs.http.CommonCallBack;
-import com.base.commlibs.http.ParserUtil;
-import com.base.commlibs.http.ServiceCallBack;
 import com.blankj.utilcode.util.ToastUtils;
 import com.dhcc.res.BaseView;
 import com.dhcc.res.infusion.bean.ScanBarCodeBean;
 import com.grs.dhcc_res.R;
-
-import java.util.HashMap;
 
 /**
  * 输血扫码页
@@ -40,7 +32,7 @@ public class CustomScanBloodView extends BaseView {
     private View lineBlood1, lineBlood2;
     private ImageView imgBloodbag, imgBloodproduct, imgPatient;
     private TextView tvTip;
-    private boolean isAddPat;
+    public static boolean isAddPat;
 
     public CustomScanBloodView(Context context) {
         this(context, null);
@@ -53,7 +45,7 @@ public class CustomScanBloodView extends BaseView {
     public CustomScanBloodView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        setBackgroundColor(ContextCompat.getColor(context, R.color.white));
+        setBackgroundColor(ContextCompat.getColor(context, R.color.dhcc_white));
         //设置统一的id
         setId(R.id.custom_scan_blood);
 
@@ -107,33 +99,33 @@ public class CustomScanBloodView extends BaseView {
      * 通过服务器判断
      * @param scanInfo
      */
-    public void setScanInfoWithServer(String scanInfo, final CommonCallBack<ScanBarCodeBean> callBack) {
-        //都赋值为一个
-        if (isAddPat) {
-            TIP_BAG = TIP_BAG_PRODUCT_PAT;
-            TIP_PRODUCT = TIP_BAG_PRODUCT_PAT;
-            TIP_PAT = TIP_BAG_PRODUCT_PAT;
-        } else {
-            TIP_BAG = TIP_BAG_PRODUCT;
-            TIP_PRODUCT = TIP_BAG_PRODUCT;
-        }
-        BaseRequestParams params = new BaseRequestParams();
-        params.bloodbagId = getBloodBagCode();
-        params.bloodProductId = getBloodProductCode();
-        params.regNo = getBloodPatCode();
-        HashMap<String, String> properties =  BaseRequestParams.getProperties(params);
-        properties.put("barCode", scanInfo);
-        properties.put("isPat", isAddPat+"");
-        CommWebService.call(InfusionAPI.getBarcodeFlag, properties, new ServiceCallBack() {
-            @Override
-            public void onResult(String jsonStr) {
-                ParserUtil<ScanBarCodeBean> parserUtil = new ParserUtil<>();
-                ScanBarCodeBean bean = parserUtil.parserResult(jsonStr, callBack, ScanBarCodeBean.class);
-                if (bean == null) return;
-                parserUtil.parserStatus(bean, callBack);
-            }
-        });
-    }
+//    public void setScanInfoWithServer(String scanInfo, final CommonCallBack<ScanBarCodeBean> callBack) {
+//        //都赋值为一个
+//        if (isAddPat) {
+//            TIP_BAG = TIP_BAG_PRODUCT_PAT;
+//            TIP_PRODUCT = TIP_BAG_PRODUCT_PAT;
+//            TIP_PAT = TIP_BAG_PRODUCT_PAT;
+//        } else {
+//            TIP_BAG = TIP_BAG_PRODUCT;
+//            TIP_PRODUCT = TIP_BAG_PRODUCT;
+//        }
+//        BaseRequestParams params = new BaseRequestParams();
+//        params.bloodbagId = getBloodBagCode();
+//        params.bloodProductId = getBloodProductCode();
+//        params.regNo = getBloodPatCode();
+//        HashMap<String, String> properties =  BaseRequestParams.getProperties(params);
+//        properties.put("barCode", scanInfo);
+//        properties.put("isPat", isAddPat+"");
+//        CommWebService.call("GetBarcodeFlag", properties, new ServiceCallBack() {
+//            @Override
+//            public void onResult(String jsonStr) {
+//                ParserUtil<ScanBarCodeBean> parserUtil = new ParserUtil<>();
+//                ScanBarCodeBean bean = parserUtil.parserResult(jsonStr, callBack, ScanBarCodeBean.class);
+//                if (bean == null) return;
+//                parserUtil.parserStatus(bean, callBack);
+//            }
+//        });
+//    }
 
     public void setScanInfo(String scanInfo) {
         String s = tvBloodbaginfo.getText().toString();
@@ -153,7 +145,9 @@ public class CustomScanBloodView extends BaseView {
     private void setPatInfo(String scanInfo, String s) {
         String s1 = tvProductinfo.getText().toString();
         if (!TextUtils.isEmpty(s1)) {
-            if (checkScanInfo(scanInfo, s1)) return;
+            if (checkScanInfo(scanInfo, s1)) {
+                return;
+            }
             setText(tvPatientinfo, scanInfo);
         } else {
             setProductInfo(scanInfo, s);
@@ -168,7 +162,9 @@ public class CustomScanBloodView extends BaseView {
     }
 
     private void setProductInfo(String scanInfo, String s) {
-        if (checkScanInfo(scanInfo, s)) return;
+        if (checkScanInfo(scanInfo, s)) {
+            return;
+        }
         setText(tvProductinfo, scanInfo);
         imgBloodproduct.setSelected(true);
         lineBlood2.setSelected(true);

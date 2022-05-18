@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
 
-import com.base.commlibs.utils.RecyclerViewHelper;
+import com.dhcc.res.util.RecyclerViewHelper;
 import com.base.commlibs.utils.SimpleCallBack;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;

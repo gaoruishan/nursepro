@@ -47,8 +47,8 @@ public class CustomVitalView extends BaseView {
         TextView[] views = {etTemp, etPulse, etDia, etSys};
 
         for (TextView textView : views) {
-            setTextColor(textView, R.color.text_color_black);
-            setBackGroundColor(textView, enable ? R.color.transparency : R.color.bg_blue_light);
+            setTextColor(textView, R.color.dhcc_text_color_black);
+            setBackGroundColor(textView, enable ? R.color.dhcc_transparency : R.color.dhcc_bg_blue_light);
             textView.setEnabled(enable);
             textView.setClickable(enable);
             textView.setFocusable(enable);

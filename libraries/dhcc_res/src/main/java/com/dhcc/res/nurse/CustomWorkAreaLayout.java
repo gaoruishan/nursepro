@@ -2,22 +2,21 @@ package com.dhcc.res.nurse;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.base.commlibs.BaseFragment;
-import com.base.commlibs.utils.CommRes;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.res.nurse.bean.ConfigWorkArea;
+import com.dhcc.res.util.CommRes;
+import com.base.commlibs.utils.SimpleCallBack;
 import com.grs.dhcc_res.R;
 
 import java.util.List;
@@ -53,7 +52,7 @@ public class CustomWorkAreaLayout extends LinearLayout {
         rvWorkArea.setHasFixedSize(true);
     }
 
-    public void initData(final BaseFragment context, List<ConfigWorkArea.ListBean> list) {
+    public void initData(final Fragment context, List<ConfigWorkArea.ListBean> list, SimpleCallBack<ConfigWorkArea.ListBean> callBack) {
 
         rvWorkArea.setLayoutManager(new GridLayoutManager(context.getActivity(), 3));
         patEventsAdapter = new WorkAreaAdapter(list);
@@ -62,14 +61,8 @@ public class CustomWorkAreaLayout extends LinearLayout {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 ConfigWorkArea.ListBean item = patEventsAdapter.getItem(position);
-                try {
-                    //fragment 不为空, 且必须继承BaseFragment
-                    if (item != null && !TextUtils.isEmpty(item.getFragment())) {
-                        Class<? extends BaseFragment> aClass = (Class<? extends BaseFragment>) Class.forName(item.getFragment());
-                        context.startFragment(aClass);
-                    }
-                } catch (Exception e) {
-                    Log.e(TAG,e.toString());
+                if (callBack != null) {
+                    callBack.call(item,0);
                 }
             }
         });

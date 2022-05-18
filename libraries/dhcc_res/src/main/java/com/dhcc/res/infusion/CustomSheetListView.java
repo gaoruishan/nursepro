@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.base.commlibs.utils.RecyclerViewHelper;
+import com.dhcc.res.util.RecyclerViewHelper;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dhcc.res.infusion.bean.SheetListBean;

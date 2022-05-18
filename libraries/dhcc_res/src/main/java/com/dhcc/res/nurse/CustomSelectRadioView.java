@@ -10,10 +10,10 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.base.commlibs.utils.SimpleCallBack;
 import com.dhcc.res.BaseView;
 import com.dhcc.res.infusion.CustomCheckView;
 import com.dhcc.res.nurse.bean.RadioBean;
+import com.base.commlibs.utils.SimpleCallBack;
 import com.grs.dhcc_res.R;
 
 import java.util.List;

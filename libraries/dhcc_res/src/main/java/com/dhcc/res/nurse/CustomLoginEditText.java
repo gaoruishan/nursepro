@@ -46,7 +46,7 @@ public class CustomLoginEditText extends LinearLayout implements View.OnClickLis
         View view = View.inflate(context, R.layout.custom_login_edit_text, null);
         addView(view);
         setOrientation(VERTICAL);
-        setBackgroundColor(ContextCompat.getColor(context, R.color.white));
+        setBackgroundColor(ContextCompat.getColor(context, R.color.dhcc_white));
     }
 
     @Override

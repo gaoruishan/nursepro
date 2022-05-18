@@ -14,7 +14,7 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 
-import com.base.commlibs.utils.ViewUtil;
+import com.dhcc.res.util.ViewUtil;
 import com.blankj.utilcode.util.FragmentUtils;
 import com.grs.dhcc_res.R;
 

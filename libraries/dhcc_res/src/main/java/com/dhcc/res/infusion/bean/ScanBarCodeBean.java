@@ -1,5 +1,6 @@
 package com.dhcc.res.infusion.bean;
 
+
 import com.base.commlibs.http.CommResult;
 
 /**

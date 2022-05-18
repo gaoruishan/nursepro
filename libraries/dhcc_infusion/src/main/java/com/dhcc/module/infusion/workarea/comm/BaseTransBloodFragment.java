@@ -6,7 +6,10 @@ import android.view.View;
 
 import com.base.commlibs.http.BaseRequestParams;
 import com.base.commlibs.http.CommResult;
+import com.base.commlibs.http.CommWebService;
 import com.base.commlibs.http.CommonCallBack;
+import com.base.commlibs.http.ParserUtil;
+import com.base.commlibs.http.ServiceCallBack;
 import com.blankj.utilcode.util.ToastUtils;
 import com.dhcc.module.infusion.R;
 import com.dhcc.module.infusion.utils.AdapterFactory;
@@ -24,7 +27,11 @@ import com.dhcc.res.infusion.CustomSpeedView;
 import com.dhcc.res.infusion.CustomVitalView;
 import com.dhcc.res.infusion.bean.ScanBarCodeBean;
 
+import java.util.HashMap;
 import java.util.List;
+
+import static com.dhcc.res.infusion.CustomScanBloodView.TIP_BAG_PRODUCT;
+import static com.dhcc.res.infusion.CustomScanBloodView.TIP_BAG_PRODUCT_PAT;
 
 /**
  * 输血-各个模块的父类
@@ -114,7 +121,7 @@ public abstract class BaseTransBloodFragment extends BaseInfusionFragment implem
     @Override
     protected void getScanOrdList() {
         if (scanView != null) {
-            scanView.setScanInfoWithServer(scanInfo,new CommonCallBack<ScanBarCodeBean>() {
+            setScanInfoWithServer(scanInfo,new CommonCallBack<ScanBarCodeBean>() {
                 @Override
                 public void onFail(String code, String msg) {
 
@@ -129,6 +136,38 @@ public abstract class BaseTransBloodFragment extends BaseInfusionFragment implem
         }
         //所有扫码-清参数
         params.clearAll();
+    }
+
+    /**
+     * 通过服务器判断
+     * @param scanInfo
+     */
+    public void setScanInfoWithServer(String scanInfo, final CommonCallBack<ScanBarCodeBean> callBack) {
+        //都赋值为一个
+        if (CustomScanBloodView.isAddPat) {
+            CustomScanBloodView.TIP_BAG = TIP_BAG_PRODUCT_PAT;
+            CustomScanBloodView.TIP_PRODUCT = TIP_BAG_PRODUCT_PAT;
+            CustomScanBloodView.TIP_PAT = TIP_BAG_PRODUCT_PAT;
+        } else {
+            CustomScanBloodView.TIP_BAG = TIP_BAG_PRODUCT;
+            CustomScanBloodView.TIP_PRODUCT = TIP_BAG_PRODUCT;
+        }
+        BaseRequestParams params = new BaseRequestParams();
+        params.bloodbagId = scanView.getBloodBagCode();
+        params.bloodProductId = scanView.getBloodProductCode();
+        params.regNo = scanView.getBloodPatCode();
+        HashMap<String, String> properties =  BaseRequestParams.getProperties(params);
+        properties.put("barCode", scanInfo);
+        properties.put("isPat", CustomScanBloodView.isAddPat+"");
+        CommWebService.call("GetBarcodeFlag", properties, new ServiceCallBack() {
+            @Override
+            public void onResult(String jsonStr) {
+                ParserUtil<ScanBarCodeBean> parserUtil = new ParserUtil<>();
+                ScanBarCodeBean bean = parserUtil.parserResult(jsonStr, callBack, ScanBarCodeBean.class);
+                if (bean == null) return;
+                parserUtil.parserStatus(bean, callBack);
+            }
+        });
     }
 
     /**

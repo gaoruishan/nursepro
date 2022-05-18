@@ -7,12 +7,9 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 
-import com.base.commlibs.MessageEvent;
 import com.blankj.utilcode.util.TimeUtils;
 import com.dhcc.res.infusion.CountView;
 import com.grs.dhcc_res.R;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -76,8 +73,9 @@ public class MessageUtil {
                 if (listener != null) {
                     listener.onStop();
                 }
-                EventBus.getDefault().post(new MessageEvent(MessageEvent.MessageType.NOTIFY_MESSAGE));
-                EventBus.getDefault().post(new MessageEvent(MessageEvent.MessageType.REQUEST_APP_MESSAGE_LIST));
+                //添加监听
+//                EventBus.getDefault().post(new MessageEvent(MessageEvent.MessageType.NOTIFY_MESSAGE));
+//                EventBus.getDefault().post(new MessageEvent(MessageEvent.MessageType.REQUEST_APP_MESSAGE_LIST));
             }
         });
     }

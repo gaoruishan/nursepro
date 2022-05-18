@@ -71,7 +71,7 @@ public class LogCatLayout extends LinearLayout implements View.OnClickListener {
         mContext = context;
         TAG = this.getClass().getSimpleName();
         setOrientation(VERTICAL);
-        setBackgroundColor(ContextCompat.getColor(context, R.color.black_half_transprent));
+        setBackgroundColor(ContextCompat.getColor(context, R.color.dhcc_black_half_transprent));
 
         View view = LayoutInflater.from(context).inflate(R.layout.logcat_layout, this, false);
         addView(view);

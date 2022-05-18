@@ -5,7 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.base.commlibs.utils.RecyclerViewHelper;
+import com.dhcc.res.util.RecyclerViewHelper;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.dhcc.res.item.adapter.CustomOrdAdapter;
 import com.dhcc.res.item.adapter.CustomPatAdapter;

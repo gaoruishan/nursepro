@@ -81,10 +81,10 @@ public class SelectUtil {
                 .setMinMillseconds(currentTimeMillis - tenYears)
                 .setMaxMillseconds(currentTimeMillis + tenYears)
                 .setCurrentMillseconds(currentTimeMillis)
-                .setThemeColor(ActivityUtils.getTopActivity().getResources().getColor(R.color.blue))
+                .setThemeColor(ActivityUtils.getTopActivity().getResources().getColor(R.color.dhcc_blue))
                 .setType(type)
                 .setWheelItemTextNormalColor(ActivityUtils.getTopActivity().getResources().getColor(R.color.timetimepicker_default_text_color))
-                .setWheelItemTextSelectorColor(ActivityUtils.getTopActivity().getResources().getColor(R.color.blue))
+                .setWheelItemTextSelectorColor(ActivityUtils.getTopActivity().getResources().getColor(R.color.dhcc_blue))
                 .setWheelItemTextSize(12)
                 .build();
 

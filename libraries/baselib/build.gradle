@@ -111,7 +111,8 @@ dependencies {
     }
 
     //依赖库
-    api project(':libraries:TimePickerDialog')
+//    api project(':libraries:TimePickerDialog')
+    api project(':libraries:dhcc_res')
     //下拉刷新
     api ('com.ufo:DWRefreshLayout:0.9.6')
 

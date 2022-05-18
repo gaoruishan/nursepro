@@ -43,7 +43,7 @@ public class CustomPopLayout extends BaseView  {
 
 	public CustomPopLayout(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
-		setBackgroundColor(ContextCompat.getColor(context, R.color.transparency));
+		setBackgroundColor(ContextCompat.getColor(context, R.color.dhcc_transparency));
 		tvName = findViewById(R.id.tv_name);
 		llTypes = findViewById(R.id.ll_types);
 	}

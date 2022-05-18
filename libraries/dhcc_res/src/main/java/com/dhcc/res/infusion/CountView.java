@@ -15,7 +15,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.base.commlibs.utils.ViewUtil;
+import com.dhcc.res.util.ViewUtil;
 import com.grs.dhcc_res.R;
 
 import java.text.DecimalFormat;

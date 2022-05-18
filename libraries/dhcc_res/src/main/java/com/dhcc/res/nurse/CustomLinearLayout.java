@@ -11,10 +11,10 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.base.commlibs.utils.RecyclerViewHelper;
-import com.base.commlibs.utils.ViewUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.dhcc.res.util.RecyclerViewHelper;
+import com.dhcc.res.util.ViewUtil;
 import com.grs.dhcc_res.R;
 
 import java.util.List;

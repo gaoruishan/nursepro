@@ -74,9 +74,9 @@ public class CustomOrdExeBottomView extends BaseView {
                     }
                 });
                 if (i % 2 == 0) {
-                    setBackGroundColor(tv, R.color.blue_dark);
+                    setBackGroundColor(tv, R.color.dhcc_blue_dark);
                 } else {
-                    setBackGroundColor(tv, R.color.blue);
+                    setBackGroundColor(tv, R.color.dhcc_blue);
                 }
                 llBottom.addView(tv);
             }

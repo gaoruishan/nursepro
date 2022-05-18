@@ -30,7 +30,7 @@ public class CustomStatusView extends BaseView {
 
     public CustomStatusView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        setBackgroundColor(ContextCompat.getColor(context, R.color.transparency));
+        setBackgroundColor(ContextCompat.getColor(context, R.color.dhcc_transparency));
         tv_status = findViewById(R.id.tv_status);
         tv_user = findViewById(R.id.tv_user);
         tv_time = findViewById(R.id.tv_time);

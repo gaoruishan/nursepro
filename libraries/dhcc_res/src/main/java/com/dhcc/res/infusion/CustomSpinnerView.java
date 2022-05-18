@@ -38,7 +38,7 @@ public class CustomSpinnerView extends BaseView {
 
     public CustomSpinnerView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        setBackgroundColor(ContextCompat.getColor(context, R.color.transparency));
+        setBackgroundColor(ContextCompat.getColor(context, R.color.dhcc_transparency));
         spinner = findViewById(R.id.spinner);
     }
 

@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
-import com.base.commlibs.constant.Action;
+import com.blankj.utilcode.util.AppUtils;
 import com.grs.dhcc_res.R;
 
 /**
@@ -22,7 +22,7 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
                 //清单中 加入Action: com.dhcc.intent.action.login
-                startActivity(new Intent(Action.LoginActivity));
+                startActivity(new Intent(AppUtils.getAppPackageName() + ".login"));
                 finish();
             }
         },2000);

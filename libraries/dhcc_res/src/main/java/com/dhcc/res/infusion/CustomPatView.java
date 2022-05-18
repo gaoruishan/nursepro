@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.base.commlibs.UniversalActivity;
+import com.blankj.utilcode.util.AppUtils;
 import com.grs.dhcc_res.R;
 
 /**
@@ -81,16 +81,18 @@ public class CustomPatView extends LinearLayout {
             }
         });
     }
-
+    public static final String RootFragmentClassName = "__RootFragmentClassName__";
+    public static final String RootFragmentArgs = "__Args__";
     /**
      * 使用UniversalActivity启动给定的Fragment
      * @param name 待启动Fragment
      * @param args    传递给Fragment的参数,可空
      */
     public static void startPatInfoFragment(Context context, @NonNull String name, @Nullable Bundle args) {
-        Intent intent = new Intent(context, UniversalActivity.class);
-        intent.putExtra(UniversalActivity.RootFragmentClassName, name);
-        intent.putExtra(UniversalActivity.RootFragmentArgs, args);
+        //清单中 加入Action: com.dhcc.intent.action.universal
+        Intent intent = new Intent(AppUtils.getAppPackageName() + ".universal");
+        intent.putExtra(RootFragmentClassName, name);
+        intent.putExtra(RootFragmentArgs, args);
         context.startActivity(intent);
     }
 

@@ -193,9 +193,9 @@ public class CustomDateTimeView extends LinearLayout implements View.OnClickList
                 .setMinMillseconds(currentTimeMillis - tenYears)
                 .setMaxMillseconds(currentTimeMillis + tenYears)
                 .setCurrentMillseconds(currentTimeMillis)
-                .setThemeColor(getResources().getColor(R.color.colorPrimary))
-                .setWheelItemTextNormalColor(getResources().getColor(R.color.timetimepicker_default_text_color))
-                .setWheelItemTextSelectorColor(getResources().getColor(R.color.colorPrimaryDark))
+                .setThemeColor(getResources().getColor(R.color.dhcc_colorPrimary))
+                .setWheelItemTextNormalColor(getResources().getColor(R.color.dhcc_timetimepicker_default_text_color))
+                .setWheelItemTextSelectorColor(getResources().getColor(R.color.dhcc_colorPrimaryDark))
                 .setWheelItemTextSize(12)
                 .build();
         if (getContext() instanceof FragmentActivity) {

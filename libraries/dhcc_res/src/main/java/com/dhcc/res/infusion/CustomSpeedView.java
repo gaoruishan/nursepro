@@ -43,7 +43,7 @@ public class CustomSpeedView extends LinearLayout implements View.OnClickListene
         view = LayoutInflater.from(context).inflate(R.layout.custom_speed_view, this, false);
         addView(view);
         setOrientation(VERTICAL);
-        setBackgroundColor(ContextCompat.getColor(context, R.color.white));
+        setBackgroundColor(ContextCompat.getColor(context, R.color.dhcc_white));
     }
 
     @Override

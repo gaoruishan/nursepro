@@ -2,9 +2,10 @@ package com.dhcc.res.infusion;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 
-import com.base.commlibs.utils.UserUtil;
+import com.blankj.utilcode.util.SPStaticUtils;
 import com.dhcc.res.BaseView;
 import com.grs.dhcc_res.R;
 
@@ -37,7 +38,7 @@ public class CustomGlobalBlock extends BaseView {
     protected void onFinishInflate() {
         super.onFinishInflate();
         //判断是否开启
-        boolean showGlobalView = UserUtil.isShowGlobalView();
+        boolean showGlobalView = !TextUtils.isEmpty(SPStaticUtils.getString("GLOBAL_VIEW_FLAG",""));;
         setVisibility(showGlobalView ? INVISIBLE : GONE);
     }
 }
