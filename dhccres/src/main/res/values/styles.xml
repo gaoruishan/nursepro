@@ -15,12 +15,7 @@
         <item name="android:backgroundDimEnabled">true</item>
     </style>
     <!--    全屏-->
-    <style name="DHCCFullTheme" parent="AppTheme">
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:windowBackground">@drawable/dhcc_loading_splash</item>
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
-    </style>
+
     <!-- 对话框样式-->
     <style name="dhcc_BaseDialog" parent="Theme.AppCompat.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
