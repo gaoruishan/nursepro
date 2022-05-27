@@ -22,7 +22,7 @@
         android:paddingRight="@dimen/dp_15"
         android:paddingBottom="@dimen/dp_3"
         android:gravity="center|left"
-        android:textColor="@color/black"
+        android:textColor="@color/dhcc_black"
         app:bl_corners_radius="@dimen/dp_15"
         app:bl_solid_color="@color/dhcc_blue_dark2"
         android:textSize="@dimen/sp_13"

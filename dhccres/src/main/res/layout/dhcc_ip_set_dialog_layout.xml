@@ -43,7 +43,7 @@
                     android:gravity="center"
                     android:hint="输入IP"
                     android:digits="0123456789."
-                    android:textColor="@color/black"
+                    android:textColor="@color/dhcc_black"
                     android:background="@color/dhcc_bg_blue_light"
                     />
                 <TextView
@@ -51,7 +51,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text=":"
-                    android:textColor="@color/black"
+                    android:textColor="@color/dhcc_black"
                     />
                 <EditText
                     android:id="@+id/message2"
@@ -61,7 +61,7 @@
                     android:gravity="center"
                     android:hint="输入端口号"
                     android:digits="0123456789"
-                    android:textColor="@color/black"
+                    android:textColor="@color/dhcc_black"
                     android:background="@color/dhcc_bg_blue_light"
                 />
             </LinearLayout>
@@ -74,7 +74,7 @@
                 android:gravity="center"
                 android:hint="资源路径"
                 android:digits="/AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
-                android:textColor="@color/black"
+                android:textColor="@color/dhcc_black"
                 android:background="@color/dhcc_bg_blue_light"
             />
 

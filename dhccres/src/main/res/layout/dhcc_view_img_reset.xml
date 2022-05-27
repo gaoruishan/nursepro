@@ -17,7 +17,7 @@
             android:layout_height="@dimen/dp_42"
             android:background="@color/dhcc_white"
             android:gravity="center"
-            android:textColor="@color/black"
+            android:textColor="@color/dhcc_black"
             android:text="全部患者"/>
         <ImageView
             android:id="@+id/img_resetview"

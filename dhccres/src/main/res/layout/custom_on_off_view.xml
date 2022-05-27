@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/dp_5"
         android:text="未执行"
-        android:textColor="@color/black" />
+        android:textColor="@color/dhcc_black" />
 
     <com.noober.background.view.BLButton
         android:id="@+id/btn_change"
