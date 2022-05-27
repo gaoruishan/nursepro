@@ -52,7 +52,7 @@ dependencies {
     implementation "com.google.code.gson:gson:2.8.5"
     implementation "com.noober.background:core:1.6.1"
     implementation "com.blankj:utilcode:1.25.0"
-    implementation "com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.42"
+    implementation "com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.44"
 
     implementation('cn.qqtheme.framework:WheelPicker:1.5.6') {
         exclude group: 'com.android.support'
