@@ -1,8 +1,8 @@
 # 总结一些常用组件
 
-## 与工程项目注意事项:
+# 与工程项目注意事项:
 
-# 1,将TimePickerDialog抽离,原项目可settings.gradle 中去掉 include ':libraries:TimePickerDialog'
+1,将TimePickerDialog抽离,原项目可settings.gradle 中去掉 include ':libraries:TimePickerDialog'
 
 
 2,dhcc_res 不同地方
