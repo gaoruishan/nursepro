@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <LinearLayout
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:gravity="center"
+    >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_10"
+            android:src="@drawable/dhcc_icon_time_bottom"
+        />
+        <TextView
+            android:id="@+id/tv_choose_date_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2019-1-20   "
+            android:textColor="#FF4A4A4A"
+            android:textSize="@dimen/sp_12"
+        />
+        <TextView
+            android:id="@+id/tv_zhi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
+            android:text="至"
+            android:textColor="#FF62ABFF"
+            android:textSize="@dimen/sp_14"
+        />
+        <TextView
+            android:id="@+id/tv_choose_date_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2019-1-22   "
+            android:textColor="#FF4A4A4A"
+            android:textSize="@dimen/sp_12"
+        />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/dp_67"
+    android:layout_height="@dimen/dp_165"
+    android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/ll_patarea"
+        android:layout_width="@dimen/dp_65"
+        android:layout_height="wrap_content"
+        android:background="@drawable/img_setting"
+        android:layout_marginLeft="@dimen/dp_3"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="@dimen/dp_65"
+            android:layout_height="@dimen/dp_35"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/tv_single_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dp_35"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/dp_3"
+                android:text="  消息"
+                android:textColor="@color/dhcc_white"
+                android:textSize="@dimen/sp_14" />
+            <View
+                android:visibility="gone"
+                android:id="@+id/view_point_red"
+                android:layout_width="@dimen/dp_6"
+                android:layout_height="@dimen/dp_6"
+                android:layout_marginLeft="@dimen/dp_2"
+                android:layout_marginTop="@dimen/dp_2"
+                android:background="@drawable/bg_circle_red"></View>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:background="@color/dhcc_text_color_gray_c"></View>
+        <TextView
+            android:id="@+id/tv_single_bed"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_35"
+            android:gravity="center"
+            android:text="所管床"
+            android:textColor="@color/dhcc_white"
+            android:textSize="@dimen/sp_14" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:background="@color/dhcc_text_color_gray_c"></View>
+        <TextView
+            android:id="@+id/tv_single_notice"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_35"
+            android:gravity="center"
+            android:text="提醒"
+            android:textColor="@color/dhcc_white"
+            android:textSize="@dimen/sp_14" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:background="@color/dhcc_text_color_gray_c"></View>
+        <TextView
+            android:id="@+id/tv_single_areamodel"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_35"
+            android:gravity="center"
+            android:text="病区模式"
+            android:textColor="@color/dhcc_white"
+            android:textSize="@dimen/sp_14" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:background="@color/dhcc_text_color_gray_c"></View>
+        <TextView
+            android:id="@+id/tv_single_relogin"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_35"
+            android:gravity="center"
+            android:text="重登"
+            android:textColor="@color/dhcc_white"
+            android:textSize="@dimen/sp_14" />
+
+    </LinearLayout>
+
+</RelativeLayout>

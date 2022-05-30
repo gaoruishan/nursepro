@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_height="@dimen/dp_44"
+        android:layout_width="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:layout_marginRight="@dimen/dp_10"
+            android:gravity="center"
+            android:text="hs01"
+            android:textStyle="bold" />
+        <View
+            android:layout_width="@dimen/dp_7"
+            android:layout_height="@dimen/dp_7"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
+            android:background="@drawable/dhcc_point_circle"
+            />
+
+        <TextView
+            android:id="@+id/tv_setting_loc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="选择科室选择科室选择科室选择科室"
+            android:singleLine="true"
+            android:maxWidth="@dimen/dp_200"
+            android:layout_marginRight="@dimen/dp_8"
+            android:textColor="@color/dhcc_text_view_text_color"
+            android:textSize="@dimen/sp_13"
+        />
+        <View
+            android:layout_width="@dimen/dp_1"
+            android:layout_height="@dimen/dp_15"
+            android:layout_marginTop="@dimen/dp_8"
+            android:layout_marginBottom="@dimen/dp_8"
+            android:background="#62ABFF"/>
+
+        <TextView
+            android:id="@+id/tv_setting_window"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:singleLine="true"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_8"
+            android:text="选择窗口"
+            android:textColor="@color/dhcc_text_view_text_color"
+            android:textSize="@dimen/sp_13"
+        />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/dhcc_blue_dark2" />
+</LinearLayout>

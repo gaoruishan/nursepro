@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tv_bottom"
+    android:layout_width="@dimen/dp_80"
+    android:layout_height="match_parent"
+    android:background="#4a90e2"
+    android:gravity="center"
+    android:textColor="@color/dhcc_white"
+    android:textSize="@dimen/sp_15"
+    tools:text="撤销执行" />

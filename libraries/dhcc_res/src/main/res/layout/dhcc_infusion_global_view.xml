@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.noober.background.view.BLTextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/tv_name"
+    app:bl_corners_bottomLeftRadius="@dimen/dp_25"
+    app:bl_corners_topLeftRadius="@dimen/dp_25"
+    app:bl_selected_solid_color="@color/dhcc_red"
+    app:bl_unSelected_solid_color="@color/dhcc_black_half_transprent"
+    android:layout_width="@dimen/dp_45"
+    android:layout_height="@dimen/dp_45"
+    android:layout_marginTop="@dimen/dp_5"
+    android:gravity="center"
+    android:tag="com.dhcc.module.infusion.workarea.needles.NeedlesFragment"
+    android:text="拔针"
+    android:textColor="@color/dhcc_blue"
+    android:textSize="@dimen/sp_16"
+    android:textStyle="bold" />

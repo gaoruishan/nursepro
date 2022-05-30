@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/dhcc_white"
+              android:orientation="vertical"
+>
+    <com.dhcc.res.infusion.CustomScanView
+        android:id="@+id/custom_scan"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <com.dhcc.res.infusion.CustomSheetListView
+                android:id="@+id/custom_sheet_list"
+                android:layout_width="@dimen/dp_85"
+                android:layout_height="match_parent"
+                android:background="@color/dhcc_orderexecute_left_bgcolor"
+                android:orientation="vertical"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_orderexecute_patinfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_32"
+                    android:background="@color/dhcc_white"
+                    android:gravity="center"
+                    android:textColor="@color/dhcc_orderexecute_text_color"
+                    tools:text="01床 张患者"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_2"
+                    android:background="#f6f6f6"/>
+
+                <com.dhcc.res.infusion.CustomDateTimeView
+                    android:id="@+id/custom_cdtv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/dhcc_white"
+                    android:orientation="vertical"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_2"
+                    android:background="#f6f6f6"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recy_orderexecute_patorder"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/dhcc_white"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <com.dhcc.res.infusion.CustomOrdExeBottomView
+            android:id="@+id/custom_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50"
+            android:orientation="vertical"/>
+    </LinearLayout>
+</LinearLayout>
