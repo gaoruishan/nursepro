@@ -6,6 +6,18 @@ plugins {
 //apply plugin: 'com.github.dcendents.android-maven'
 group = 'com.github.gaoruishan'//xxx 为 你的github 账户名
 
+task generateSourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier 'sources'
+}
+
+group = "com.github.gaoruishan"//this
+version = "1.0.0"//this
+
+java {
+    //    withSourcesJar()//this ps:这两行加不加好像没什么区别?
+    //     withJavadocJar()//this
+}
 
 android {
     compileSdkVersion 28
@@ -34,8 +46,9 @@ android {
         publishing {
             publications {
                 release(MavenPublication) {
-                    groupId = 'com.gitee.gaoruishan'
-                    artifactId = 'banner'
+                    from components.release
+                    groupId = 'com.github.gaoruishan'
+                    artifactId = 'nursepro'
                     version = '1.0.0'
                 }
             }
